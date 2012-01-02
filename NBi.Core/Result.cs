@@ -62,5 +62,9 @@ namespace NBi.Core
             return res;
         }
 
+        public bool ToBoolean()
+        {
+            return (Value == ValueType.Success);
+        }
     }
 }

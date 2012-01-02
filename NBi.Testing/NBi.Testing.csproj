@@ -52,15 +52,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Database\DataSetComparerContentTest.cs" />
-    <Compile Include="Database\DataSetComparerStructureTest.cs" />
-    <Compile Include="Database\QueryParserTest.cs" />
-    <Compile Include="Database\QueryPerformanceTest.cs" />
+    <Compile Include="Core\Database\DataSetComparerContentTest.cs" />
+    <Compile Include="Core\Database\DataSetComparerStructureTest.cs" />
+    <Compile Include="Core\Database\QueryParserTest.cs" />
+    <Compile Include="Core\Database\QueryPerformanceTest.cs" />
+    <Compile Include="NUnit\Database\DataSetConstraintTest.cs" />
+    <Compile Include="NUnit\Database\QueryPerformanceConstraintTest.cs" />
+    <Compile Include="NUnit\Database\QueryParserConstraintTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Analysis\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
@@ -68,6 +69,10 @@
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
       <Project>{3F730647-FE31-4907-8A6E-A0C4A0C970EA}</Project>
       <Name>NBi.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NBi.NUnit\NBi.NUnit.csproj">
+      <Project>{66314704-AA76-4153-80D8-CA2C5FF06976}</Project>
+      <Name>NBi.NUnit</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

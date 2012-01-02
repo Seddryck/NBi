@@ -3,18 +3,18 @@ using System.Data.SqlClient;
 
 namespace NBi.Core.Database
 {
-    public class QueryPerformance
+    public class QueryPerformance : IQueryPerformance
     {
         protected string _connectionString;
-        protected string _sqlQuery;
+        protected int _maxTimeMilliSeconds;
 
-        public QueryPerformance(string connectionString, string sqlQuery)
+        public QueryPerformance(string connectionString, int maxTimeMilliSeconds)
         {
             _connectionString = connectionString;
-            _sqlQuery = sqlQuery;
+            _maxTimeMilliSeconds= maxTimeMilliSeconds;
         }
 
-        public Result Validate(int maxTimeMilliSeconds)
+        public Result Validate(string sqlQuery)
         {
             DateTime tsStart, tsStop; 
 
@@ -32,7 +32,7 @@ namespace NBi.Core.Database
                     }
                 }
                 
-                using (SqlCommand cmd = new SqlCommand(_sqlQuery, conn))
+                using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                 {
                     tsStart = DateTime.Now;
                     cmd.ExecuteNonQuery();
@@ -45,8 +45,8 @@ namespace NBi.Core.Database
 
             double ms = tsStop.Subtract(tsStart).TotalMilliseconds;
 
-            if (ms > maxTimeMilliSeconds)
-                return Result.Failed(String.Format("Maximum time specified was {0} but execution had token {1}", maxTimeMilliSeconds, ms));
+            if (ms > _maxTimeMilliSeconds)
+                return Result.Failed(String.Format("Maximum time specified was {0} but execution had token {1}", _maxTimeMilliSeconds, ms));
             else
                 return Result.Success();
         }

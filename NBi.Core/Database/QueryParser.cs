@@ -2,24 +2,22 @@
 
 namespace NBi.Core.Database
 {
-    public class QueryParser
+    public class QueryParser : IQueryParser
     {
         protected string _connectionString;
-        protected string _sqlQuery;
 
-        public QueryParser(string connectionString, string sqlQuery)
+        public QueryParser(string connectionString)
         {
             _connectionString = connectionString;
-            _sqlQuery = sqlQuery;
         }
 
-        public Result ValidateFormat()
+        public Result ValidateFormat(string sqlQuery)
         {
             Result res=null;
             
             using(SqlConnection conn = new SqlConnection(_connectionString))
             {
-                var fullSql = string.Format(@"SET FMTONLY ON {0} SET FMTONLY OFF", _sqlQuery);
+                var fullSql = string.Format(@"SET FMTONLY ON {0} SET FMTONLY OFF", sqlQuery);
                 
                 conn.Open();
 

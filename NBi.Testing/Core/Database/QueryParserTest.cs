@@ -3,7 +3,7 @@ using NBi.Core;
 using NBi.Core.Database;
 using NUnit.Framework;
 
-namespace NBi.Testing.Database
+namespace NBi.Testing.Core.Database
 {
     [TestFixture]
     public class QueryParserTest 
@@ -31,8 +31,8 @@ namespace NBi.Testing.Database
         {
             var sql = "SELECT * FROM Product;";
 
-            var qp = new QueryParser(_connectionString, sql);
-            var res = qp.ValidateFormat();
+            var qp = new QueryParser(_connectionString);
+            var res = qp.ValidateFormat(sql);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Success));
             
@@ -43,8 +43,8 @@ namespace NBi.Testing.Database
         {
             var sql = "SELECT * FROM WrongTableName;";
 
-            var qp = new QueryParser(_connectionString, sql);
-            var res = qp.ValidateFormat();
+            var qp = new QueryParser(_connectionString);
+            var res = qp.ValidateFormat(sql);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
             Assert.That(res.Failures[0], Is.EqualTo("Invalid object name 'WrongTableName'."));
@@ -55,8 +55,8 @@ namespace NBi.Testing.Database
         {
             var sql = "SELECT ProductSKU, [Description] FROM Product;";
 
-            var qp = new QueryParser(_connectionString, sql);
-            var res = qp.ValidateFormat();
+            var qp = new QueryParser(_connectionString);
+            var res = qp.ValidateFormat(sql);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Success));
 
@@ -67,8 +67,8 @@ namespace NBi.Testing.Database
         {
             var sql = "SELECT ProductSKU, [Description], WrongField FROM Product;";
 
-            var qp = new QueryParser(_connectionString, sql);
-            var res = qp.ValidateFormat();
+            var qp = new QueryParser(_connectionString);
+            var res = qp.ValidateFormat(sql);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
             Assert.That(res.Failures[0], Is.EqualTo("Invalid column name 'WrongField'."));
@@ -79,8 +79,8 @@ namespace NBi.Testing.Database
         {
             var sql = "SELECT ProductSKU, [Description], WrongField1, WrongField2 FROM Product;";
 
-            var qp = new QueryParser(_connectionString, sql);
-            var res = qp.ValidateFormat();
+            var qp = new QueryParser(_connectionString);
+            var res = qp.ValidateFormat(sql);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
             Assert.That(res.Failures[0], Is.EqualTo("Invalid column name 'WrongField1'."));
@@ -92,8 +92,8 @@ namespace NBi.Testing.Database
         {
             var sql = "SELECTION ProductSKU, [Description], WrongField1, WrongField2 FROM Product;";
 
-            var qp = new QueryParser(_connectionString, sql);
-            var res = qp.ValidateFormat();
+            var qp = new QueryParser(_connectionString);
+            var res = qp.ValidateFormat(sql);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
             Assert.That(res.Failures[0], Is.EqualTo("Incorrect syntax near 'SELECTION'."));
@@ -110,8 +110,8 @@ namespace NBi.Testing.Database
             if (countBefore == 0) //If nothing was present we cannot assert
                 Assert.Inconclusive();
 
-            var qp = new QueryParser(_connectionString, sql);
-            var res = qp.ValidateFormat();
+            var qp = new QueryParser(_connectionString);
+            var res = qp.ValidateFormat(sql);
 
             if (res.Value != Result.ValueType.Success) //If syntax is incorrect we cannot assert
                 Assert.Inconclusive();

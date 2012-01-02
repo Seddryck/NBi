@@ -41,6 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\DataSetComparer.cs" />
+    <Compile Include="Database\IDataSetComparer.cs" />
+    <Compile Include="Database\IQueryParser.cs" />
+    <Compile Include="Database\IQueryPerformance.cs" />
     <Compile Include="Database\QueryParser.cs" />
     <Compile Include="Database\QueryPerformance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

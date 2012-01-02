@@ -2,7 +2,7 @@
 using NBi.Core.Database;
 using NUnit.Framework;
 
-namespace NBi.Testing.Database
+namespace NBi.Testing.Core.Database
 {
     [TestFixture]
     public class DataSetComparerContentTest
@@ -30,8 +30,8 @@ namespace NBi.Testing.Database
         {
             var sql = "SELECT ProductID, ProductSKU, Label FROM Product;";
 
-            var ds = new DataSetComparer(_connectionString, sql, _connectionString);
-            var res = ds.ValidateContent();
+            var ds = new DataSetComparer(_connectionString, _connectionString);
+            var res = ds.ValidateContent(sql);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Success));
             
@@ -43,8 +43,8 @@ namespace NBi.Testing.Database
             var sql = "SELECT ProductID, ProductSKU, Label FROM Product;";
             var sql2 = "SELECT ProductID, ProductSKU, Label FROM Product WHERE ProductID=1;";
 
-            var ds = new DataSetComparer(_connectionString, sql, _connectionString, sql2);
-            var res = ds.ValidateContent();
+            var ds = new DataSetComparer(_connectionString, sql, _connectionString);
+            var res = ds.ValidateContent(sql2);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
             Assert.That(res.Failures[0], Is.EqualTo("Different number of rows, 2 expected and was 1"));
@@ -56,8 +56,8 @@ namespace NBi.Testing.Database
             var sql = "SELECT ProductID, ProductSKU, Label FROM Product WHERE ProductID=2;";
             var sql2 = "SELECT ProductID, ProductSKU, Label FROM Product WHERE ProductID=1;";
 
-            var ds = new DataSetComparer(_connectionString, sql, _connectionString, sql2);
-            var res = ds.ValidateContent();
+            var ds = new DataSetComparer(_connectionString, sql, _connectionString);
+            var res = ds.ValidateContent(sql2);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
             Assert.That(res.Failures[0], Is.EqualTo("At row 1, numeric value of column \"ProductID\" are different in both datasets, expected was \"2\" and actual was \"1\"."));
@@ -69,8 +69,8 @@ namespace NBi.Testing.Database
             var sql = "SELECT 1, ProductSKU, Label FROM Product WHERE ProductID=2;";
             var sql2 = "SELECT ProductID, ProductSKU, Label FROM Product WHERE ProductID=1;";
 
-            var ds = new DataSetComparer(_connectionString, sql, _connectionString, sql2);
-            var res = ds.ValidateContent();
+            var ds = new DataSetComparer(_connectionString, sql, _connectionString);
+            var res = ds.ValidateContent(sql2);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
             Assert.That(res.Failures[0], Is.EqualTo("At row 1, value of column \"ProductSKU\" are different in both datasets, expected was \"SED125\" and actual was \"PRD001\"."));

@@ -5,7 +5,7 @@ namespace NBi.Core
 {
     public class Result
     {
-        protected List<string> _reasons;
+        protected List<string> _failures;
 
         public enum ValueType
         {
@@ -14,28 +14,28 @@ namespace NBi.Core
         }
 
         public ValueType Value { get; protected set; }
-        public string[] Reasons { get { return _reasons.ToArray(); } }
+        public string[] Failures { get { return _failures.ToArray(); } }
 
         public Result(ValueType value)
         {
             Value = value;
-            _reasons = new List<String>();
+            _failures = new List<String>();
         }
 
         public Result(ValueType value, string reason) : this(value)
         {
-            _reasons.Add(reason);
+            _failures.Add(reason);
         }
 
-        public Result(ValueType value, string[] reasons)
+        public Result(ValueType value, string[] failures)
             : this(value)
         {
-            _reasons.AddRange(reasons);
+            _failures.AddRange(failures);
         }
 
-        public void AddReason(string reason)
+        public void AddFailure(string failure)
         {
-            _reasons.Add(reason);
+            _failures.Add(failure);
         }
 
         public static Result Success()
@@ -50,15 +50,15 @@ namespace NBi.Core
             return res;
         }
 
-        public static Result Failed(string reason)
+        public static Result Failed(string failure)
         {
-            var res = new Result(ValueType.Failed, reason);
+            var res = new Result(ValueType.Failed, failure);
             return res;
         }
 
-        public static Result Failed(string[] reasons)
+        public static Result Failed(string[] failures)
         {
-            var res = new Result(ValueType.Failed, reasons);
+            var res = new Result(ValueType.Failed, failures);
             return res;
         }
 

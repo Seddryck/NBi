@@ -47,7 +47,7 @@ namespace NBi.Testing.Database
             var res = qp.ValidateFormat();
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
-            Assert.That(res.Reasons[0], Is.EqualTo("Invalid object name 'WrongTableName'."));
+            Assert.That(res.Failures[0], Is.EqualTo("Invalid object name 'WrongTableName'."));
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace NBi.Testing.Database
             var res = qp.ValidateFormat();
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
-            Assert.That(res.Reasons[0], Is.EqualTo("Invalid column name 'WrongField'."));
+            Assert.That(res.Failures[0], Is.EqualTo("Invalid column name 'WrongField'."));
         }
 
         [Test]
@@ -83,8 +83,8 @@ namespace NBi.Testing.Database
             var res = qp.ValidateFormat();
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
-            Assert.That(res.Reasons[0], Is.EqualTo("Invalid column name 'WrongField1'."));
-            Assert.That(res.Reasons[1], Is.EqualTo("Invalid column name 'WrongField2'."));
+            Assert.That(res.Failures[0], Is.EqualTo("Invalid column name 'WrongField1'."));
+            Assert.That(res.Failures[1], Is.EqualTo("Invalid column name 'WrongField2'."));
         }
 
         [Test]
@@ -96,7 +96,7 @@ namespace NBi.Testing.Database
             var res = qp.ValidateFormat();
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
-            Assert.That(res.Reasons[0], Is.EqualTo("Incorrect syntax near 'SELECTION'."));
+            Assert.That(res.Failures[0], Is.EqualTo("Incorrect syntax near 'SELECTION'."));
         }
 
 

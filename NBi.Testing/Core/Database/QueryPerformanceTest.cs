@@ -1,9 +1,8 @@
-﻿using System.Xml.Schema;
-using NBi.Core;
+﻿using NBi.Core;
 using NBi.Core.Database;
 using NUnit.Framework;
 
-namespace NBi.Testing.Database
+namespace NBi.Testing.Core.Database
 {
     [TestFixture]
     public class QueryPerformanceTest
@@ -31,8 +30,8 @@ namespace NBi.Testing.Database
         {
             var sql = "SELECT * FROM Product;";
 
-            var qp = new QueryPerformance(_connectionString, sql);
-            var res = qp.Validate(5000);
+            var qp = new QueryPerformance(_connectionString,5000);
+            var res = qp.Validate(sql);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Success));
         }
@@ -42,8 +41,8 @@ namespace NBi.Testing.Database
         {
             var sql = "SELECT * FROM Product;";
 
-            var qp = new QueryPerformance(_connectionString, sql);
-            var res = qp.Validate(0);
+            var qp = new QueryPerformance(_connectionString, 0);
+            var res = qp.Validate(sql);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
             Assert.That(res.Failures[0], Is.StringStarting("Maximum time specified was 0"));

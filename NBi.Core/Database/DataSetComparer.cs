@@ -5,23 +5,22 @@ using System.Data.SqlClient;
 
 namespace NBi.Core.Database
 {
-    public class DataSetComparer
+    public class DataSetComparer : IDataSetComparer
     {
         protected string _expectedConnectionString;
         protected string _actualConnectionString;
         protected string _expectedSql;
-        protected string _actualSql;
 
-        public DataSetComparer(string expectedConnectionString, string sql, string actualConnectionString) : this(expectedConnectionString, sql, actualConnectionString, sql)
+        public DataSetComparer(string expectedConnectionString, string actualConnectionString)
+            : this(expectedConnectionString, null, actualConnectionString)
         {
         }
 
-        public DataSetComparer(string expectedConnectionString, string expectedSql, string actualConnectionString, string actualSql)
+        public DataSetComparer(string expectedConnectionString, string expectedSql, string actualConnectionString)
         {
             _expectedConnectionString = expectedConnectionString;
             _actualConnectionString = actualConnectionString;
             _expectedSql = expectedSql;
-            _actualSql = actualSql;
         }
 
         protected DataSet FillDataSet(string connectionString, string sql)
@@ -46,10 +45,10 @@ namespace NBi.Core.Database
             return dataset;
         }
 
-        public Result Validate()
+        public Result Validate(string actualSql)
         {
-            var expectedDs = FillDataSet(_expectedConnectionString, _expectedSql);
-            var actualDs = FillDataSet(_actualConnectionString, _actualSql);
+            var expectedDs = FillDataSet(_expectedConnectionString,String.IsNullOrEmpty(_expectedSql)?actualSql:_expectedSql);
+            var actualDs = FillDataSet(_actualConnectionString, actualSql);
 
             var resStructure = ValidateStructure(expectedDs, actualDs);
             if (resStructure.Value == Result.ValueType.Success)
@@ -74,10 +73,10 @@ namespace NBi.Core.Database
             return res;
         }
 
-        public Result ValidateStructure()
+        public Result ValidateStructure(string actualSql)
         {
-            var expectedDs = FillDataSet(_expectedConnectionString, _expectedSql);
-            var actualDs = FillDataSet(_actualConnectionString, _actualSql);
+            var expectedDs = FillDataSet(_expectedConnectionString, String.IsNullOrEmpty(_expectedSql) ? actualSql : _expectedSql);
+            var actualDs = FillDataSet(_actualConnectionString, actualSql);
 
             return ValidateStructure(expectedDs, actualDs);
         }
@@ -137,10 +136,10 @@ namespace NBi.Core.Database
 
         #region Content
 
-        public Result ValidateContent()
+        public Result ValidateContent(string actualSql)
         {
-            var expectedDs = FillDataSet(_expectedConnectionString, _expectedSql);
-            var actualDs = FillDataSet(_actualConnectionString, _actualSql);
+            var expectedDs = FillDataSet(_expectedConnectionString, String.IsNullOrEmpty(_expectedSql) ? actualSql : _expectedSql);
+            var actualDs = FillDataSet(_actualConnectionString, actualSql);
 
             return ValidateContent(expectedDs, actualDs);
         }

@@ -46,7 +46,7 @@ namespace NBi.Testing.Database
             var res = qp.Validate(0);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
-            Assert.That(res.Reasons[0], Is.StringStarting("Maximum time specified was 0"));
+            Assert.That(res.Failures[0], Is.StringStarting("Maximum time specified was 0"));
         }
     }
 }

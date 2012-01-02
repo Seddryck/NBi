@@ -47,7 +47,7 @@ namespace NBi.Testing.Database
             var res = ds.ValidateContent();
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
-            Assert.That(res.Reasons[0], Is.EqualTo("Different number of rows, 2 expected and was 1"));
+            Assert.That(res.Failures[0], Is.EqualTo("Different number of rows, 2 expected and was 1"));
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace NBi.Testing.Database
             var res = ds.ValidateContent();
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
-            Assert.That(res.Reasons[0], Is.EqualTo("At row 1, numeric value of column \"ProductID\" are different in both datasets, expected was \"2\" and actual was \"1\"."));
+            Assert.That(res.Failures[0], Is.EqualTo("At row 1, numeric value of column \"ProductID\" are different in both datasets, expected was \"2\" and actual was \"1\"."));
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace NBi.Testing.Database
             var res = ds.ValidateContent();
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
-            Assert.That(res.Reasons[0], Is.EqualTo("At row 1, value of column \"ProductSKU\" are different in both datasets, expected was \"SED125\" and actual was \"PRD001\"."));
+            Assert.That(res.Failures[0], Is.EqualTo("At row 1, value of column \"ProductSKU\" are different in both datasets, expected was \"SED125\" and actual was \"PRD001\"."));
         }
         
        

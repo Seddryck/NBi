@@ -60,7 +60,7 @@ namespace NBi.Testing.Database
             var res = ds.ValidateStructure();
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
-            Assert.That(res.Reasons[0], Is.EqualTo("Object named \"ProductSKU\" was missing or not correctly positionned in actual result, \"Sku\" was found at its place."));
+            Assert.That(res.Failures[0], Is.EqualTo("Object named \"ProductSKU\" was missing or not correctly positionned in actual result, \"Sku\" was found at its place."));
 
         }
 
@@ -74,7 +74,7 @@ namespace NBi.Testing.Database
             var res = ds.ValidateStructure();
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
-            Assert.That(res.Reasons[0], Is.EqualTo("Object named \"ProductID\" was defined as \"int\" in expected result and \"string\" in actual result."));
+            Assert.That(res.Failures[0], Is.EqualTo("Object named \"ProductID\" was defined as \"int\" in expected result and \"string\" in actual result."));
 
         }
 
@@ -88,7 +88,7 @@ namespace NBi.Testing.Database
             var res = ds.ValidateStructure();
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
-            Assert.That(res.Reasons[0], Is.Not.Empty);
+            Assert.That(res.Failures[0], Is.Not.Empty);
 
         }
 
@@ -102,7 +102,7 @@ namespace NBi.Testing.Database
             var res = ds.ValidateStructure();
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
-            Assert.That(res.Reasons[0], Is.Not.Empty);
+            Assert.That(res.Failures[0], Is.Not.Empty);
 
         }
 

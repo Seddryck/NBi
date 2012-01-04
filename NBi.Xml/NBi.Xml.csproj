@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6AEEBCF9-90B3-4594-B015-8BBBE9E126EF}</ProjectGuid>
+    <ProjectGuid>{3A9822B3-CCE4-441B-9C3E-D52817A994CA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NBi.Testing</RootNamespace>
-    <AssemblyName>NBi.Testing</AssemblyName>
+    <RootNamespace>NBi.Xml</RootNamespace>
+    <AssemblyName>NBi.Xml</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Moq">
-      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -52,20 +49,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Database\DataSetComparerContentTest.cs" />
-    <Compile Include="Core\Database\DataSetComparerStructureTest.cs" />
-    <Compile Include="Core\Database\QueryParserTest.cs" />
-    <Compile Include="Core\Database\QueryPerformanceTest.cs" />
-    <Compile Include="NUnit\Database\DataSetConstraintTest.cs" />
-    <Compile Include="NUnit\Database\QueryPerformanceConstraintTest.cs" />
-    <Compile Include="NUnit\Database\QueryParserConstraintTest.cs" />
+    <Compile Include="AbstractConstraintXml.cs" />
+    <Compile Include="QueryParserXml.cs" />
+    <Compile Include="QueryPerformanceXml.cs" />
+    <Compile Include="TestXml.cs" />
+    <Compile Include="TestCaseXml.cs" />
+    <Compile Include="TestSuiteXml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Xml\DeserializeTest.cs" />
-    <Compile Include="Xml\InstantiateConstraintsTest.cs" />
-    <Compile Include="Xml\PlayConstraintTest.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <None Include="NBi-TestSuite.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -77,16 +72,6 @@
       <Project>{66314704-AA76-4153-80D8-CA2C5FF06976}</Project>
       <Name>NBi.NUnit</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
-      <Project>{3A9822B3-CCE4-441B-9C3E-D52817A994CA}</Project>
-      <Name>NBi.Xml</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="NBi.Testing.sql" />
-    <EmbeddedResource Include="Xml\TestSuiteSample.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

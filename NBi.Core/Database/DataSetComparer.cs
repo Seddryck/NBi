@@ -23,6 +23,12 @@ namespace NBi.Core.Database
             _expectedSql = expectedSql;
         }
 
+        /// <summary>
+        /// Fill the dataset with data
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="sql"></param>
+        /// <returns></returns>
         protected DataSet FillDataSet(string connectionString, string sql)
         {
             DataSet dataset = null;

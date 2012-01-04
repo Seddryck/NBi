@@ -66,6 +66,12 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="ConnectionString.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ConnectionString.user.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

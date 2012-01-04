@@ -17,7 +17,15 @@ namespace NBi.Testing.NUnit.Database
         [SetUp]
         public void SetUp()
         {
-            _connectionString = @"Data Source=.\SqlExpress;Initial Catalog=NBi.Testing;Integrated Security=True";
+            //If available use the user file
+            if (System.IO.File.Exists("ConnectionString.user.config"))
+            {
+                _connectionString = System.IO.File.ReadAllText("ConnectionString.user.config");
+            }
+            else if (System.IO.File.Exists("ConnectionString.config"))
+            {
+                _connectionString = System.IO.File.ReadAllText("ConnectionString.config");
+            }
         }
 
         [TearDown]
@@ -56,8 +64,7 @@ namespace NBi.Testing.NUnit.Database
             var mock = new Mock<IQueryPerformance>();
 
             mock.Setup(engine => engine.Validate(sql))
-                .Returns(Result.Success())
-                .AtMostOnce();
+                .Returns(Result.Success());
             IQueryPerformance qp = mock.Object;
 
             var qpc = new QueryPerformanceConstraint(qp);
@@ -66,7 +73,7 @@ namespace NBi.Testing.NUnit.Database
             Assert.That(sql, qpc);
 
             //Test conclusion            
-            mock.Verify(engine => engine.Validate(sql));
+            mock.Verify(engine => engine.Validate(sql), Times.AtMostOnce());
         }
 
     }

@@ -10,14 +10,12 @@ namespace NBi.Testing.Xml
     [TestFixture]
     public class InstantiateConstraintsTest
     {
-        protected string _connectionString;
-
         #region Setup & Teardown
 
         [SetUp]
         public void SetUp()
         {
-            _connectionString = "Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True";
+            
         }
 
         [TearDown]
@@ -37,7 +35,7 @@ namespace NBi.Testing.Xml
 
             var cs = t.Instantiate();
 
-            Assert.That(cs[0], Is.InstanceOfType<NBi.NUnit.QueryParserConstraint>());
+            Assert.That(cs[0], Is.InstanceOf<NBi.NUnit.QueryParserConstraint>());
         }
 
         [Test]
@@ -55,8 +53,8 @@ namespace NBi.Testing.Xml
 
             var cs = t.Instantiate();
 
-            Assert.That(cs[0], Is.InstanceOfType<NBi.NUnit.QueryParserConstraint>());
-            Assert.That(cs[1], Is.InstanceOfType<NBi.NUnit.QueryPerformanceConstraint>());
+            Assert.That(cs[0], Is.InstanceOf<NBi.NUnit.QueryParserConstraint>());
+            Assert.That(cs[1], Is.InstanceOf<NBi.NUnit.QueryPerformanceConstraint>());
         }
     }
 }

@@ -17,7 +17,15 @@ namespace NBi.Testing.NUnit.Database
         [SetUp]
         public void SetUp()
         {
-            _connectionString = @"Data Source=.\SqlExpress;Initial Catalog=NBi.Testing;Integrated Security=True";
+            //If available use the user file
+            if (System.IO.File.Exists("ConnectionString.user.config"))
+            {
+                _connectionString = System.IO.File.ReadAllText("ConnectionString.user.config");
+            }
+            else if (System.IO.File.Exists("ConnectionString.config"))
+            {
+                _connectionString = System.IO.File.ReadAllText("ConnectionString.config");
+            }
         }
 
         [TearDown]
@@ -56,8 +64,7 @@ namespace NBi.Testing.NUnit.Database
             var mock = new Mock<IDataSetComparer>();
 
             mock.Setup(engine => engine.Validate(sql))
-                .Returns(Result.Success())
-                .AtMostOnce();
+                .Returns(Result.Success());
             IDataSetComparer dsc = mock.Object;
 
             var dsConstraint = new DataSetConstraint(dsc);
@@ -66,7 +73,7 @@ namespace NBi.Testing.NUnit.Database
             Assert.That(sql, dsConstraint);
 
             //Test conclusion            
-            mock.Verify(engine => engine.Validate(sql));
+            mock.Verify(engine => engine.Validate(sql), Times.AtMostOnce());
         }
 
         [Test]
@@ -76,8 +83,7 @@ namespace NBi.Testing.NUnit.Database
             var mock = new Mock<IDataSetComparer>();
 
             mock.Setup(engine => engine.ValidateStructure(sql))
-                .Returns(Result.Success())
-                .AtMostOnce();
+                .Returns(Result.Success());
             IDataSetComparer dsc = mock.Object;
 
             var dsConstraint = new DataSetStructureConstraint(dsc);
@@ -86,7 +92,7 @@ namespace NBi.Testing.NUnit.Database
             Assert.That(sql, dsConstraint);
 
             //Test conclusion            
-            mock.Verify(engine => engine.ValidateStructure(sql));
+            mock.Verify(engine => engine.ValidateStructure(sql), Times.AtMostOnce());
         }
 
         [Test]
@@ -96,8 +102,7 @@ namespace NBi.Testing.NUnit.Database
             var mock = new Mock<IDataSetComparer>();
 
             mock.Setup(engine => engine.ValidateContent(sql))
-                .Returns(Result.Success())
-                .AtMostOnce();
+                .Returns(Result.Success());
             IDataSetComparer dsc = mock.Object;
 
             var dsConstraint = new DataSetContentConstraint(dsc);
@@ -106,7 +111,7 @@ namespace NBi.Testing.NUnit.Database
             Assert.That(sql, dsConstraint);
 
             //Test conclusion            
-            mock.Verify(engine => engine.ValidateContent(sql));
+            mock.Verify(engine => engine.ValidateContent(sql), Times.AtMostOnce());
         }
 
     }

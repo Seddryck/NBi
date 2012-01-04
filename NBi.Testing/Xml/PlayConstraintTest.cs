@@ -15,7 +15,15 @@ namespace NBi.Testing.Xml
         [SetUp]
         public void SetUp()
         {
-            _connectionString = "Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True";
+            //If available use the user file
+            if (System.IO.File.Exists("ConnectionString.user.config"))
+            {
+                _connectionString = System.IO.File.ReadAllText("ConnectionString.user.config");
+            }
+            else if (System.IO.File.Exists("ConnectionString.config"))
+            {
+                _connectionString = System.IO.File.ReadAllText("ConnectionString.config");
+            }
         }
 
         [TearDown]

@@ -1,23 +1,46 @@
-﻿using System.Data.SqlClient;
+﻿using NBi.Core;
 using NBi.Core.Database;
+using System.Data.SqlClient;
 using NUnit.Framework.Constraints;
 
 namespace NBi.NUnit
 {
     public class QueryParserConstraint : Constraint
     {
+        /// <summary>
+        /// Engine dedicated to query parsing
+        /// </summary>
         protected IQueryParser _engine;
         
+        
+        /// <summary>
+        /// Store for the result of the engine's execution
+        /// </summary>
+        protected Result _res;
+
+        /// <summary>
+        /// .ctor, define the default engine used by this constraint
+        /// </summary>
+        /// <param name="connectionString">Connection string used to connect to the server where the constraint will be tested</param>
         public QueryParserConstraint(string connectionString)
         {
             _engine = new QueryParser(connectionString);
         }
 
-        public QueryParserConstraint(IQueryParser engine)
+        /// <summary>
+        /// .ctor mainly used for mocking
+        /// </summary>
+        /// <param name="engine">The engine to use</param>
+        protected internal QueryParserConstraint(IQueryParser engine)
         {
             _engine = engine;
         }
 
+        /// <summary>
+        /// Handle a sql string or a sqlCommand and check it with the engine
+        /// </summary>
+        /// <param name="actual">SQL string or SQL Command</param>
+        /// <returns>true, if the query defined in parameter is syntatically correct else false</returns>
         public override bool Matches(object actual)
         {
             if (actual.GetType() == typeof(string))
@@ -28,17 +51,28 @@ namespace NBi.NUnit
                 return false;
                 
         }
-
+        
+        /// <summary>
+        /// Handle a sql string and check it with the engine
+        /// </summary>
+        /// <param name="actual">SQL string</param>
+        /// <returns>true, if the query defined in parameter is syntatically correct else false</returns>
         public bool Matches(string actual)
         {
-            var res= _engine.ValidateFormat(actual);
-            return res.ToBoolean();
+            _res= _engine.ValidateFormat(actual);
+            return _res.ToBoolean();
         }
 
         public override void WriteDescriptionTo(MessageWriter writer)
         {
-            writer.WritePredicate("Date is not null");
-            writer.WriteExpectedValue("");
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine("Parsing of the query failed");
+            foreach (var failure in _res.Failures)
+            {
+                sb.AppendLine(failure);    
+            }
+            writer.WritePredicate(sb.ToString());
+            //writer.WriteExpectedValue("");
         }
     }
 }

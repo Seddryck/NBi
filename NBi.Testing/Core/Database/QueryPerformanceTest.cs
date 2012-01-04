@@ -15,7 +15,15 @@ namespace NBi.Testing.Core.Database
         [SetUp]
         public void SetUp()
         {
-            _connectionString = @"Data Source=.\SqlExpress;Initial Catalog=NBi.Testing;Integrated Security=True";
+            //If available use the user file
+            if (System.IO.File.Exists("ConnectionString.user.config"))
+            {
+                _connectionString = System.IO.File.ReadAllText("ConnectionString.user.config");
+            }
+            else if (System.IO.File.Exists("ConnectionString.config"))
+            {
+                _connectionString = System.IO.File.ReadAllText("ConnectionString.config");
+            }
         }
 
         [TearDown]
@@ -41,11 +49,11 @@ namespace NBi.Testing.Core.Database
         {
             var sql = "SELECT * FROM Product;";
 
-            var qp = new QueryPerformance(_connectionString, 0);
+            var qp = new QueryPerformance(_connectionString, -1);
             var res = qp.Validate(sql);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
-            Assert.That(res.Failures[0], Is.StringStarting("Maximum time specified was 0"));
+            Assert.That(res.Failures[0], Is.StringStarting("Maximum time specified was"));
         }
     }
 }

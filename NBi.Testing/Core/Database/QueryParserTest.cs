@@ -16,7 +16,15 @@ namespace NBi.Testing.Core.Database
         [SetUp]
         public void SetUp()
         {
-            _connectionString = @"Data Source=.\SqlExpress;Initial Catalog=NBi.Testing;Integrated Security=True";
+            //If available use the user file
+            if (System.IO.File.Exists("ConnectionString.user.config"))
+            {
+                _connectionString = System.IO.File.ReadAllText("ConnectionString.user.config");
+            }
+            else if (System.IO.File.Exists("ConnectionString.config"))
+            {
+                _connectionString = System.IO.File.ReadAllText("ConnectionString.config");
+            }
         }
 
         [TearDown]

@@ -34,3 +34,4 @@ _ReSharper*/
 *.[Pp]ublish.xml
 [Ii]nspiration/
 [Pp]ackages/
+*.user.config

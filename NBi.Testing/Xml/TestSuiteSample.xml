@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TestSuite name="The TestSuite">
 	<Test name="My first test case" uid="0001">
-		<QueryParser connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True" />
+    <SyntacticallyCorrect connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True" />
 		<TestCase name="Select first product">
 			SELECT TOP 1 * FROM Product;
 		</TestCase>
 	</Test>
 	<Test name="My second test case">
-		<QueryParser connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True"/>
-		<QueryPerformance maxTimeMilliSeconds="5000" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True"/>
+    <SyntacticallyCorrect connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True"/>
+    <FasterThan maxTimeMilliSeconds="5000" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True"/>
 		<TestCase name="Select all products">
 			SELECT * FROM Product;
 		</TestCase>

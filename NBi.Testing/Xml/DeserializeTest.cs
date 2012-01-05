@@ -36,14 +36,14 @@ namespace NBi.Testing.Xml
 
             Assert.That(ts.Tests[0].Constraints.Count, Is.GreaterThanOrEqualTo(1));
 
-            Assert.That(ts.Tests[0].Constraints[0], Is.InstanceOf<QueryParserXml>());
-            Assert.That(((QueryParserXml)ts.Tests[0].Constraints[0]).ConnectionString, Is.Not.Null.And.Not.Empty);
+            Assert.That(ts.Tests[0].Constraints[0], Is.InstanceOf<SyntacticallyCorrectXml>());
+            Assert.That(((SyntacticallyCorrectXml)ts.Tests[0].Constraints[0]).ConnectionString, Is.Not.Null.And.Not.Empty);
 
-            Assert.That(ts.Tests[1].Constraints[0], Is.InstanceOf<QueryParserXml>());
-            Assert.That(((QueryParserXml)ts.Tests[1].Constraints[0]).ConnectionString, Is.Not.Null.And.Not.Empty);
-            Assert.That(ts.Tests[1].Constraints[1], Is.InstanceOf<QueryPerformanceXml>());
-            Assert.That(((QueryPerformanceXml)ts.Tests[1].Constraints[1]).ConnectionString, Is.Not.Empty);
-            Assert.That(((QueryPerformanceXml)ts.Tests[1].Constraints[1]).MaxTimeMilliSeconds, Is.EqualTo(5000));
+            Assert.That(ts.Tests[1].Constraints[0], Is.InstanceOf<SyntacticallyCorrectXml>());
+            Assert.That(((SyntacticallyCorrectXml)ts.Tests[1].Constraints[0]).ConnectionString, Is.Not.Null.And.Not.Empty);
+            Assert.That(ts.Tests[1].Constraints[1], Is.InstanceOf<FasterThanXml>());
+            Assert.That(((FasterThanXml)ts.Tests[1].Constraints[1]).ConnectionString, Is.Not.Empty);
+            Assert.That(((FasterThanXml)ts.Tests[1].Constraints[1]).MaxTimeMilliSeconds, Is.EqualTo(5000));
 
             Assert.That(ts.Tests[1].TestCases[0], Is.InstanceOf<TestCaseXml>());
             Assert.That(ts.Tests[1].TestCases[0].Sql, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));

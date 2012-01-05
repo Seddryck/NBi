@@ -13,8 +13,8 @@ namespace NBi.Xml
         [XmlAttribute("uid")]
         public string UniqueIdentifier { get; set; }
 
-        [XmlElement(Type = typeof(QueryParserXml), ElementName="QueryParser"),
-        XmlElement(Type = typeof(QueryPerformanceXml), ElementName = "QueryPerformance")]
+        [XmlElement(Type = typeof(SyntacticallyCorrectXml), ElementName = "SyntacticallyCorrect"),
+        XmlElement(Type = typeof(FasterThanXml), ElementName = "FasterThan")]
         public List<AbstractConstraintXml> Constraints;
 
         [XmlElement("TestCase")]

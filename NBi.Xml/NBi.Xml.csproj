@@ -50,8 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractConstraintXml.cs" />
-    <Compile Include="QueryParserXml.cs" />
-    <Compile Include="QueryPerformanceXml.cs" />
+    <Compile Include="SyntacticallyCorrectXml.cs" />
+    <Compile Include="FasterThanXml.cs" />
     <Compile Include="TestXml.cs" />
     <Compile Include="TestCaseXml.cs" />
     <Compile Include="TestSuiteXml.cs" />

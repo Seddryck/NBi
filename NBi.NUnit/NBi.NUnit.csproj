@@ -53,9 +53,9 @@
     <Compile Include="DataSetContentConstraint.cs" />
     <Compile Include="DataSetStructureConstraint.cs" />
     <Compile Include="Is.cs" />
-    <Compile Include="QueryParserConstraint.cs" />
+    <Compile Include="SyntacticallyCorrectConstraint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryPerformanceConstraint.cs" />
+    <Compile Include="FasterThanConstraint.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

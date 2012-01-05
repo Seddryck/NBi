@@ -36,7 +36,7 @@ namespace NBi.Testing.NUnit.Database
         #endregion
 
         [Test]
-        public void QueryParserRealImplementation_QueryParserConstraint_Success()
+        public void QueryParserRealImplementation_SyntacticallyCorrectConstraint_Success()
         {
             var sql = "SELECT * FROM Product;";
 

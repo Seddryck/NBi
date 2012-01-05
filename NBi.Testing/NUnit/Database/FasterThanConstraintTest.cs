@@ -36,7 +36,7 @@ namespace NBi.Testing.NUnit.Database
         #endregion
 
         [Test]
-        public void QueryPerformanceRealImplementation_QueryPerformanceConstraint_Success()
+        public void QueryPerformanceRealImplementation_FasterThanConstraint_Success()
         {
             var sql = "SELECT * FROM Product;";
 

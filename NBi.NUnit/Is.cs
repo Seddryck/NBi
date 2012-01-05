@@ -38,12 +38,12 @@ namespace NBi.NUnit
         
         public Constraint SyntacticallyCorrect()
         {
-            return new QueryParserConstraint(_connectionString);
+            return new SyntacticallyCorrectConstraint(_connectionString);
         }
 
         public Constraint FasterThan(int maxTimeMilliSeconds)
         {
-            return new QueryPerformanceConstraint(_connectionString, maxTimeMilliSeconds);
+            return new FasterThanConstraint(_connectionString, maxTimeMilliSeconds);
         }
 
         public Constraint SameThan(string expectedConnectionString, string expectedSql)

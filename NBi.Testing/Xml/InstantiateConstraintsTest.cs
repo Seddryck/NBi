@@ -30,12 +30,12 @@ namespace NBi.Testing.Xml
         {
             var t = new TestXml()
             {
-                Constraints = new List<AbstractConstraintXml>() { new QueryParserXml() }
+                Constraints = new List<AbstractConstraintXml>() { new SyntacticallyCorrectXml() }
             };
 
             var cs = t.Instantiate();
 
-            Assert.That(cs[0], Is.InstanceOf<NBi.NUnit.QueryParserConstraint>());
+            Assert.That(cs[0], Is.InstanceOf<NBi.NUnit.SyntacticallyCorrectConstraint>());
         }
 
         [Test]
@@ -45,16 +45,16 @@ namespace NBi.Testing.Xml
             {
                 Constraints = new List<AbstractConstraintXml>() 
                 { 
-                    new QueryParserXml(),
-                    new QueryPerformanceXml()
+                    new SyntacticallyCorrectXml(),
+                    new FasterThanXml()
                 },
             };
 
 
             var cs = t.Instantiate();
 
-            Assert.That(cs[0], Is.InstanceOf<NBi.NUnit.QueryParserConstraint>());
-            Assert.That(cs[1], Is.InstanceOf<NBi.NUnit.QueryPerformanceConstraint>());
+            Assert.That(cs[0], Is.InstanceOf<NBi.NUnit.SyntacticallyCorrectConstraint>());
+            Assert.That(cs[1], Is.InstanceOf<NBi.NUnit.FasterThanConstraint>());
         }
     }
 }

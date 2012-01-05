@@ -36,7 +36,7 @@ namespace NBi.Testing.Xml
         [Test]
         public void TestCase_Play_Success()
         {
-            var constraint = new QueryParserConstraint(_connectionString);
+            var constraint = new SyntacticallyCorrectConstraint(_connectionString);
             var testCase = new TestCaseXml() { Sql = "SELECT * FROM Product;" };
 
             testCase.Play(constraint);
@@ -48,7 +48,7 @@ namespace NBi.Testing.Xml
         {
             var t = new TestXml()
             {
-                Constraints = new List<AbstractConstraintXml>() { new QueryParserXml() { ConnectionString = _connectionString } },
+                Constraints = new List<AbstractConstraintXml>() { new SyntacticallyCorrectXml() { ConnectionString = _connectionString } },
                 TestCases = new List<TestCaseXml>() { new TestCaseXml() { Sql = "SELECT * FROM Product;" } }
             };
 

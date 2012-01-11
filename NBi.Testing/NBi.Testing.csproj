@@ -63,6 +63,7 @@
     <Compile Include="Xml\DeserializeTest.cs" />
     <Compile Include="Xml\InstantiateConstraintsTest.cs" />
     <Compile Include="Xml\PlayConstraintTest.cs" />
+    <Compile Include="Xml\XmlManagerTest.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

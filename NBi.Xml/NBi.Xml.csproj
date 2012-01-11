@@ -56,11 +56,13 @@
     <Compile Include="TestCaseXml.cs" />
     <Compile Include="TestSuiteXml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XmlManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="NBi-TestSuite.xsd">
+    <EmbeddedResource Include="NBi-TestSuite.xsd">
       <SubType>Designer</SubType>
-    </None>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

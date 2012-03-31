@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.SQLServer.ManagedDTS, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SQLServer.ManagedDTS.dll</HintPath>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
@@ -56,10 +60,15 @@
     <Compile Include="Core\Database\DataSetComparerStructureTest.cs" />
     <Compile Include="Core\Database\QueryParserTest.cs" />
     <Compile Include="Core\Database\QueryPerformanceTest.cs" />
+    <Compile Include="Core\Integration\PackageManagerTest.cs" />
     <Compile Include="NUnit\Database\DataSetConstraintTest.cs" />
     <Compile Include="NUnit\Database\QueryPerformanceConstraintTest.cs" />
     <Compile Include="NUnit\Database\QueryParserConstraintTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryGenerator\BatchManagerTest.cs" />
+    <Compile Include="QueryGenerator\MdxExecutorTest.cs" />
+    <Compile Include="QueryGenerator\MetadataExtractorTest.cs" />
+    <Compile Include="QueryGenerator\ResultSetWriterTest.cs" />
     <Compile Include="Xml\DeserializeTest.cs" />
     <Compile Include="Xml\InstantiateConstraintsTest.cs" />
     <Compile Include="Xml\PlayConstraintTest.cs" />
@@ -77,6 +86,10 @@
     <ProjectReference Include="..\NBi.NUnit\NBi.NUnit.csproj">
       <Project>{66314704-AA76-4153-80D8-CA2C5FF06976}</Project>
       <Name>NBi.NUnit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NBi.QueryGenerator\NBi.QueryGenerator.csproj">
+      <Project>{06F394FA-9B32-4F13-9254-50663655065E}</Project>
+      <Name>NBi.QueryGenerator</Name>
     </ProjectReference>
     <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
       <Project>{3A9822B3-CCE4-441B-9C3E-D52817A994CA}</Project>

@@ -18,7 +18,7 @@ namespace NBi.Xml
             XmlTextReader xmlTextReader = new XmlTextReader(filename);
 
             if (!this.Validate(xmlTextReader))
-                throw new ArgumentException("The test suite is not valid. Check against the XSD");
+                throw new ArgumentException("The test suite is not valid. Check with the XSD");
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             XmlSerializer serializer = new XmlSerializer(typeof(TestSuiteXml));

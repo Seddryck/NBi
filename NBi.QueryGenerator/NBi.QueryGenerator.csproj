@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3F730647-FE31-4907-8A6E-A0C4A0C970EA}</ProjectGuid>
+    <ProjectGuid>{06F394FA-9B32-4F13-9254-50663655065E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NBi.Core</RootNamespace>
-    <AssemblyName>NBi.Core</AssemblyName>
+    <RootNamespace>NBi.QueryGenerator</RootNamespace>
+    <AssemblyName>NBi.QueryGenerator</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,18 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.SqlServer.Dts.DtsClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\DTS\Binn\Microsoft.SqlServer.Dts.DtsClient.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SqlServer.DTSPipelineWrap.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SQLServer.ManagedDTS, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SQLServer.ManagedDTS.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft.NET\ADOMD.NET\100\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -53,19 +44,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Database\DataSetComparer.cs" />
-    <Compile Include="Database\IDataSetComparer.cs" />
-    <Compile Include="Database\IQueryParser.cs" />
-    <Compile Include="Database\IQueryPerformance.cs" />
-    <Compile Include="Database\QueryParser.cs" />
-    <Compile Include="Database\QueryPerformance.cs" />
-    <Compile Include="Integration\DataFlowTask.cs" />
-    <Compile Include="Integration\PackageManager.cs" />
+    <Compile Include="AbstractResultSetWriter.cs" />
+    <Compile Include="BatchManager.cs" />
+    <Compile Include="CsvDefinition.cs" />
+    <Compile Include="CsvResultSetWriter.cs.cs" />
+    <Compile Include="Dimension.cs" />
+    <Compile Include="Dimensions.cs" />
+    <Compile Include="Hierarchies.cs" />
+    <Compile Include="Hierarchy.cs" />
+    <Compile Include="MdxBuilder.cs" />
+    <Compile Include="MetadataExcelReader.cs" />
+    <Compile Include="OleDbExecutor.cs" />
+    <Compile Include="Measure.cs" />
+    <Compile Include="MeasureGroup.cs" />
+    <Compile Include="MeasureGroups.cs" />
+    <Compile Include="Measures.cs" />
+    <Compile Include="MetadataExtractor.cs" />
+    <Compile Include="ProgressStatusEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Result.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Analysis\" />
+    <Compile Include="XmlResultSetWriter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

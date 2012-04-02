@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System;
 
-namespace NBi.QueryGenerator
+namespace NBi.Core.Analysis.Metadata
 {
-    [Serializable]
+
     public class Dimensions : Dictionary<string, Dimension>
     {
         public void Add(string uniqueName, string caption, string defaultHierarchy)

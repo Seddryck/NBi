@@ -1,11 +1,10 @@
 ﻿using System.Data;
 using System.IO;
 
-namespace NBi.QueryGenerator
+namespace NBi.Core.Analysis.Query
 {
     public class XmlResultSetWriter : AbstractResultSetWriter
     {
-        public string PersistencePath { get; private set; }
 
         public XmlResultSetWriter(string persistancePath) :base(persistancePath) {}
 

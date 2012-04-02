@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace NBi.QueryGenerator
+namespace NBi.Core.Analysis.Query
 {
     public class CsvResultSetWriter : AbstractResultSetWriter
     {
@@ -27,8 +27,11 @@ namespace NBi.QueryGenerator
             {
                 for (int i = 0; i < row.ItemArray.Length; i++)
                 {
-                    var item = (string) row.ItemArray[i];
-                    item.Replace( Definition.TextQualifier.ToString(), Definition.TextQualifier.ToString() + Definition.TextQualifier.ToString()); 
+                    var item = row.ItemArray[i];
+
+                    if (item.GetType()==typeof(string))
+                        ((string)item).Replace( Definition.TextQualifier.ToString(), Definition.TextQualifier.ToString() + Definition.TextQualifier.ToString());
+ 
                     sb.AppendFormat("\"{0}\"{1}", item, Definition.FieldSeparator);
                 }
                 sb.AppendLine();

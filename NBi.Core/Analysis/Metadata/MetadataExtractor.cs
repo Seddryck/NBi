@@ -2,7 +2,7 @@
 using System.Xml.Serialization;
 using Microsoft.AnalysisServices.AdomdClient;
 
-namespace NBi.QueryGenerator
+namespace NBi.Core.Analysis.Metadata
 {
     public class MetadataExtractor
     {
@@ -46,7 +46,7 @@ namespace NBi.QueryGenerator
             GetMeasures();
         }
 
-        public void GetDimensions()
+        protected void GetDimensions()
         {
             using (var cmd = CreateCommand())
             {
@@ -56,20 +56,24 @@ namespace NBi.QueryGenerator
                 // Traverse the response and 
                 // read column 4, "DIMENSION_UNIQUE_NAME"
                 // read column 6, "DIMENSION_CAPTION"
+                // read column 8, "DIMENSION_TYPE"
                 // read column 10, "DEFAULT HIERARCHY"
                 while (rdr.Read())
                 {
-                    // Get the columns value
-                    string uniqueName = (string)rdr.GetValue(4);
-                    string caption = (string)rdr.GetValue(6);
-                    string defaultHierarchy = (string)rdr.GetValue(10);
-                    Dimensions.Add(uniqueName, caption, defaultHierarchy);
+                    if ((short)rdr.GetValue(8) != 2)
+                    {
+                        // Get the columns value
+                        string uniqueName = (string)rdr.GetValue(4);
+                        string caption = (string)rdr.GetValue(6);
+                        string defaultHierarchy = (string)rdr.GetValue(10);
+                        Dimensions.Add(uniqueName, caption, defaultHierarchy);
+                    }
                 }
             }
         }
-  
 
-        public void GetDimensionUsage()
+
+        protected void GetDimensionUsage()
         {
             using (var cmd = CreateCommand())
             {
@@ -98,7 +102,7 @@ namespace NBi.QueryGenerator
             }
         }
 
-        public void GetMeasures()
+        protected void GetMeasures()
         {
             using (var cmd = CreateCommand())
             {
@@ -125,7 +129,7 @@ namespace NBi.QueryGenerator
             }
         }
 
-        public void GetHierarchies(string dimensionUniqueName)
+        protected void GetHierarchies(string dimensionUniqueName)
         {
             using (var cmd = CreateCommand())
             {

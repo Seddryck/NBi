@@ -1,9 +1,9 @@
 ﻿using System;
 
 
-namespace NBi.QueryGenerator
+namespace NBi.Core.Analysis.Metadata
 {
-    [Serializable]
+
     public class Measure
     {
         public string UniqueName { get; private set; }

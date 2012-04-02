@@ -1,8 +1,8 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 
 
-namespace NBi.QueryGenerator
+namespace NBi.Core.Analysis.Metadata
 {
 
     public class Measures : Dictionary<string, Measure>

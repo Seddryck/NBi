@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>../../../../../../../Program%20Files/Microsoft.NET/ADOMD.NET/100/Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.SqlServer.Dts.DtsClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\DTS\Binn\Microsoft.SqlServer.Dts.DtsClient.dll</HintPath>
@@ -53,6 +56,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\Metadata\Dimension.cs" />
+    <Compile Include="Analysis\Metadata\Dimensions.cs" />
+    <Compile Include="Analysis\Metadata\Hierarchies.cs" />
+    <Compile Include="Analysis\Metadata\Hierarchy.cs" />
+    <Compile Include="Analysis\Metadata\Measure.cs" />
+    <Compile Include="Analysis\Metadata\MeasureGroup.cs" />
+    <Compile Include="Analysis\Metadata\MeasureGroups.cs" />
+    <Compile Include="Analysis\Metadata\Measures.cs" />
+    <Compile Include="Analysis\Metadata\MetadataExcelReader.cs" />
+    <Compile Include="Analysis\Metadata\MetadataExtractor.cs" />
+    <Compile Include="Analysis\Query\AbstractResultSetWriter.cs" />
+    <Compile Include="Analysis\Query\CsvDefinition.cs" />
+    <Compile Include="Analysis\Query\CsvResultSetWriter.cs.cs" />
+    <Compile Include="Analysis\Query\MdxBuilder.cs" />
+    <Compile Include="Analysis\Query\OleDbExecutor.cs" />
+    <Compile Include="Analysis\Query\XmlResultSetWriter.cs" />
     <Compile Include="Database\DataSetComparer.cs" />
     <Compile Include="Database\IDataSetComparer.cs" />
     <Compile Include="Database\IQueryParser.cs" />
@@ -61,12 +80,11 @@
     <Compile Include="Database\QueryPerformance.cs" />
     <Compile Include="Integration\DataFlowTask.cs" />
     <Compile Include="Integration\PackageManager.cs" />
+    <Compile Include="ProgressStatusEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Result.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Analysis\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

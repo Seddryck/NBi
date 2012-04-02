@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using NBi.Core.Analysis.Query;
 
 namespace NBi.QueryGenerator
 {

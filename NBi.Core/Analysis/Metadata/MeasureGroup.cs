@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace NBi.QueryGenerator
+﻿namespace NBi.Core.Analysis.Metadata
 {
-    [Serializable]
+
     public class MeasureGroup
     {
         public string Name { get; private set; }

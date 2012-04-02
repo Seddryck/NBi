@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using NBi.Core.Analysis.Metadata;
 
-namespace NBi.QueryGenerator
+namespace NBi.Core.Analysis.Query
 {
     public class MdxBuilder
     {

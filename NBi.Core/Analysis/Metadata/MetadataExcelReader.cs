@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
-using NBi.Core;
 
 namespace NBi.Core.Analysis.Metadata
 {

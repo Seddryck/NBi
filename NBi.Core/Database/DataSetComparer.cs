@@ -146,8 +146,6 @@ namespace NBi.Core.Database
 
         protected internal Result ValidateContent(DataSet expectedDs, DataSet actualDs)
         {
-            Result res = null;
-
 
             DataTable expectedTable = expectedDs.Tables[0];
             DataTable actualTable = actualDs.Tables[0];

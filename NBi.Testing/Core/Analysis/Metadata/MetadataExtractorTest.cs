@@ -1,5 +1,4 @@
 ﻿using NBi.Core.Analysis.Metadata;
-using NBi.Core.Analysis.Query;
 using NUnit.Framework;
 
 namespace NBi.Testing.Core.Analysis.Metadata

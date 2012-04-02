@@ -16,6 +16,12 @@ namespace NBi.Core.Analysis.Query
 
         public DataSet Execute(string mdx)
         {
+            int i;
+            return Execute(mdx, out i);
+        }
+
+        public DataSet Execute(string mdx, out int elapsedSec)
+        {
             // Open the connection
             using (var connection = new OleDbConnection(ConnectionString))
             {
@@ -33,7 +39,7 @@ namespace NBi.Core.Analysis.Query
                 long ticksAfter = DateTime.Now.Ticks;
 
                 // setting query runtime
-                int diffInSec = Convert.ToInt32((ticksAfter - ticksBefore) / 1000 / 1000);
+                elapsedSec = Convert.ToInt32((ticksAfter - ticksBefore) / 1000 / 1000);
 
                 return ds;
             }

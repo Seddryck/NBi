@@ -1,6 +1,4 @@
-﻿using System;
-
-
+﻿
 namespace NBi.Core.Analysis.Metadata
 {
 

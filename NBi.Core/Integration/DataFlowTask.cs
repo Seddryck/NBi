@@ -1,5 +1,4 @@
 ﻿using Microsoft.SqlServer.Dts.Runtime;
-using Microsoft.SqlServer.Dts.Pipeline;
 using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
 
 namespace NBi.Core.Integration

@@ -66,9 +66,9 @@
     <Compile Include="NUnit\Database\QueryParserConstraintTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryGenerator\BatchManagerTest.cs" />
-    <Compile Include="QueryGenerator\MdxExecutorTest.cs" />
-    <Compile Include="QueryGenerator\MetadataExtractorTest.cs" />
-    <Compile Include="QueryGenerator\ResultSetWriterTest.cs" />
+    <Compile Include="Core\Analysis\Query\OleDbExecutorTest.cs" />
+    <Compile Include="Core\Analysis\Metadata\MetadataExtractorTest.cs" />
+    <Compile Include="Core\Analysis\Query\ResultSetWriterTest.cs" />
     <Compile Include="Xml\DeserializeTest.cs" />
     <Compile Include="Xml\InstantiateConstraintsTest.cs" />
     <Compile Include="Xml\PlayConstraintTest.cs" />

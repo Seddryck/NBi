@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using NBi.Core;
 
-namespace NBi.QueryGenerator
+namespace NBi.Core.Analysis.Metadata
 {
     public class MetadataExcelReader
     {

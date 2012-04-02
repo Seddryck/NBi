@@ -1,4 +1,4 @@
-﻿namespace NBi.QueryGenerator
+﻿namespace NBi.Core.Analysis.Metadata
 {
     public class Hierarchy
     {

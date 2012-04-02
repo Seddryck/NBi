@@ -2,7 +2,7 @@
 using System.Data.OleDb;
 using System.Data;
 
-namespace NBi.QueryGenerator
+namespace NBi.Core.Analysis.Query
 {
     public class OleDbExecutor
     {

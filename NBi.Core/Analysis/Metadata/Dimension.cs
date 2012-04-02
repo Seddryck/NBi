@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace NBi.QueryGenerator
+namespace NBi.Core.Analysis.Metadata
 {
-    [Serializable]
+
     public class Dimension
     {
         public string UniqueName { get; private set; }

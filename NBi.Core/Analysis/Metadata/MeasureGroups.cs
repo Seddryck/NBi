@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System;
 
-namespace NBi.QueryGenerator
+
+namespace NBi.Core.Analysis.Metadata
 {
-    [Serializable]
     public class MeasureGroups : Dictionary<string, MeasureGroup>
     {
         public void Add(string name)

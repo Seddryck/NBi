@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using NBi.QueryGenerator;
+using NBi.Core.Analysis.Metadata;
+using NBi.Core.Analysis.Query;
+using NBi.Core;
 
 namespace NBi.UI
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         protected MetadataExtractor Metadata { get; set; }
         
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             metadataTreeview.Nodes.Clear();

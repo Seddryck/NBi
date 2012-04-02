@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.QueryGenerator
+namespace NBi.Core.Analysis.Metadata
 {
     public class Hierarchies : Dictionary<string, Hierarchy>
     {

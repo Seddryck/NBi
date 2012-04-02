@@ -2,7 +2,7 @@
 using System.Data;
 using System.IO;
 
-namespace NBi.QueryGenerator
+namespace NBi.Core.Analysis.Query
 {
     public abstract class AbstractResultSetWriter
     {

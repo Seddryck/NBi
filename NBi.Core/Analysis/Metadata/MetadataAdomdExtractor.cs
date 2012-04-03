@@ -4,7 +4,7 @@ using Microsoft.AnalysisServices.AdomdClient;
 
 namespace NBi.Core.Analysis.Metadata
 {
-    public class MetadataExtractor
+    public class MetadataAdomdExtractor
     {
         
         public string ConnectionString { get; private set; }
@@ -12,7 +12,7 @@ namespace NBi.Core.Analysis.Metadata
         public Dimensions Dimensions { get; private set; }
         public MeasureGroups MeasureGroups { get; private set; }
 
-        public MetadataExtractor(string connectionString, string perspective) 
+        public MetadataAdomdExtractor(string connectionString, string perspective) 
         {
             ConnectionString = connectionString;
             Perspective = perspective;
@@ -20,7 +20,7 @@ namespace NBi.Core.Analysis.Metadata
             MeasureGroups = new MeasureGroups();
         }
 
-        public MetadataExtractor(MeasureGroups measureGroups, Dimensions dimensions)
+        public MetadataAdomdExtractor(MeasureGroups measureGroups, Dimensions dimensions)
         {
             Dimensions = dimensions;
             MeasureGroups = measureGroups;

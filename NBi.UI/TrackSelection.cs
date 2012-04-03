@@ -7,7 +7,7 @@ namespace NBi.UI
 {
     public partial class TrackSelection : Form
     {
-        public MetadataExcelReader MetadataExcelReader { get; set; }
+        public MetadataExcelOleDbReader MetadataExcelReader { get; set; }
         public string Track  { get; protected set; }
                 
         public TrackSelection()

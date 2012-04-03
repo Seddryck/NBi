@@ -10,7 +10,7 @@ namespace NBi.UI
 {
     public partial class MainForm : Form
     {
-        protected MetadataExtractor Metadata { get; set; }
+        protected MetadataAdomdExtractor Metadata { get; set; }
         
         public MainForm()
         {
@@ -68,7 +68,7 @@ namespace NBi.UI
 
             try
             {
-                Metadata = new MetadataExtractor(connectionString.Text, perspective.Text);
+                Metadata = new MetadataAdomdExtractor(connectionString.Text, perspective.Text);
                 Metadata.GetMetadata();
 
                 UnregisterEvents(metadataTreeview);
@@ -319,7 +319,7 @@ namespace NBi.UI
             if (dialogResult.HasFlag(DialogResult.OK))
             {
                 
-                var mer = new MetadataExcelReader(openFileDialog.FileName);
+                var mer = new MetadataExcelOleDbReader(openFileDialog.FileName);
                 var trackForm = new TrackSelection();
                 trackForm.MetadataExcelReader = mer;
                 trackForm.ShowDialog();
@@ -331,9 +331,9 @@ namespace NBi.UI
 
                 var mgs = new MeasureGroups();
                 var dims = new Dimensions();
-                mer.ProgressStatusChanged += new MetadataExcelReader.ProgressStatusHandler(ProgressStatus);
+                mer.ProgressStatusChanged += new MetadataExcelOleDbReader.ProgressStatusHandler(ProgressStatus);
                 mer.Read(ref mgs, ref dims);
-                Metadata = new MetadataExtractor(mgs, dims);
+                Metadata = new MetadataAdomdExtractor(mgs, dims);
                 
                 metadataTreeview.Nodes.AddRange(MapTreeview(mgs));
                 RegisterEvents(metadataTreeview);
@@ -347,7 +347,7 @@ namespace NBi.UI
                     SelectMetadata(mgsTrack);
                 }
 
-                mer.ProgressStatusChanged -= new MetadataExcelReader.ProgressStatusHandler(ProgressStatus);
+                mer.ProgressStatusChanged -= new MetadataExcelOleDbReader.ProgressStatusHandler(ProgressStatus);
                 EndClick(null);
             }
                 

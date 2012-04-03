@@ -5,24 +5,10 @@ using System.Data.OleDb;
 
 namespace NBi.Core.Analysis.Metadata
 {
-    public class MetadataExcelReader
+    public class MetadataExcelOleDbReader : AbstractExcelOleDb
     {
         public event ProgressStatusHandler ProgressStatusChanged;
         public delegate void ProgressStatusHandler(Object sender, ProgressStatusEventArgs e);
-        
-        public string Filename { get; private set; }
-
-        protected string _sheetName;
-        public string SheetName 
-        { 
-            get {return _sheetName;}
-            set 
-            {
-                 if(value.EndsWith("$"))
-                     value = value.Remove(value.Length-1);
-                _sheetName= value;
-            }
-        }
 
         public string SheetRange { get; set; }
 
@@ -38,35 +24,17 @@ namespace NBi.Core.Analysis.Metadata
         }
 
         public IList<string> Tracks { get; private set; }
-        public IList<string> Sheets { get; private set; }
 
-        public MetadataExcelReader(string filename)
-        {
-            Filename = filename;
-        }
 
-        public MetadataExcelReader(string filename, string sheetname)
-        {
-            Filename = filename;
-            SheetName = sheetname;
-        }
+        public MetadataExcelOleDbReader(string filename) : base(filename) { }
+
+
+        public MetadataExcelOleDbReader(string filename, string sheetname) : base(filename, sheetname) { }
         
-        public MetadataExcelReader(string filename, string sheetname, string sheetRange)
+        
+        public MetadataExcelOleDbReader(string filename, string sheetname, string sheetRange) : base(filename,sheetname)
         {
-            Filename = filename;
-            SheetName = sheetname;
             SheetRange = sheetRange;
-        }
-
-        protected string GetConnectionString(string filename)
-        {
-            return
-               @"Provider=Microsoft.Jet.OLEDB.4.0;" +
-               @"Data Source=" + filename + ";" +
-               @"Extended Properties=" + Convert.ToChar(34).ToString() +
-               @"Excel 8.0;HDR=YES"//;Excel 12.0 Xml;IMEX=1;TypeGuessRows=0;ImportMixedTypes=Text" 
-               + Convert.ToChar(34).ToString()
-               ;
         }
 
         public void Read(string track, ref MeasureGroups measureGroups, ref Dimensions dimensions)
@@ -188,31 +156,6 @@ namespace NBi.Core.Analysis.Metadata
             return dt;
         }
 
-        public void GetSheets()
-        {
-            var dt = new DataTable("Track");
-
-            using (var conn = new OleDbConnection())
-            {
-                conn.ConnectionString = GetConnectionString(Filename);
-                conn.Open();
-
-                dt = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                String[] excelSheets = new String[dt.Rows.Count];
-                int i = 0;
-
-                // Add the sheet name to the string array.
-                foreach (DataRow row in dt.Rows)
-                {
-                    excelSheets[i] = row["TABLE_NAME"].ToString();
-                    i++;
-                }
-
-                Sheets = excelSheets;
-            }
-
-        }
-
         public void GetTracks()
         {
             var dt = new DataTable("Track");
@@ -273,9 +216,9 @@ namespace NBi.Core.Analysis.Metadata
                 xlsMetadata.measureUniqueName = "[" + (string)row["Measure"] + "]";
 
             if (row.Table.Columns.IndexOf("DimensionCaption") > 0)
-                xlsMetadata.measureUniqueName = (string)row["DimensionCaption"];
+                xlsMetadata.dimensionCaption = (string)row["DimensionCaption"];
             else
-                xlsMetadata.dimensionCaption = ((string)row[3]).Replace("[", "").Replace("]", "");
+                xlsMetadata.dimensionCaption = ((string)row["Dimension"]).Replace("[", "").Replace("]", "");
 
             if (row.Table.Columns.IndexOf("Dimension") > 0)
                 xlsMetadata.dimensionUniqueName = (string)row["Dimension"];

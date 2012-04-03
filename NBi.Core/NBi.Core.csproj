@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\Metadata\AbstractExcelOleDb.cs" />
     <Compile Include="Analysis\Metadata\Dimension.cs" />
     <Compile Include="Analysis\Metadata\Dimensions.cs" />
     <Compile Include="Analysis\Metadata\Hierarchies.cs" />
@@ -64,8 +65,9 @@
     <Compile Include="Analysis\Metadata\MeasureGroup.cs" />
     <Compile Include="Analysis\Metadata\MeasureGroups.cs" />
     <Compile Include="Analysis\Metadata\Measures.cs" />
-    <Compile Include="Analysis\Metadata\MetadataExcelReader.cs" />
-    <Compile Include="Analysis\Metadata\MetadataExtractor.cs" />
+    <Compile Include="Analysis\Metadata\MetadataExcelOleDbReader.cs" />
+    <Compile Include="Analysis\Metadata\MetadataExcelOleDbWriter.cs" />
+    <Compile Include="Analysis\Metadata\MetadataAdomdExtractor.cs" />
     <Compile Include="Analysis\Query\AbstractResultSetWriter.cs" />
     <Compile Include="Analysis\Query\CsvDefinition.cs" />
     <Compile Include="Analysis\Query\CsvResultSetWriter.cs.cs" />
@@ -84,7 +86,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Result.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

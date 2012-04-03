@@ -4,12 +4,12 @@ using NUnit.Framework;
 namespace NBi.Testing.Core.Analysis.Metadata
 {
     [TestFixture]
-    public class MetadataExtractorTest
+    public class MetadataAdomdExtractorTest
     {
         [Test]
         public void GetMetadata_ExistingCube_ListOfMetadata()
         {
-            var me = new MetadataExtractor("Data Source=localhost;Catalog='Finances Analysis';", "Finances");
+            var me = new MetadataAdomdExtractor("Data Source=localhost;Catalog='Finances Analysis';", "Finances");
             
             me.GetMetadata();
 

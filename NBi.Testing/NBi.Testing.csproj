@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.SQLServer.ManagedDTS, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
@@ -56,18 +58,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Analysis\Metadata\MetadataExcelOleDbReaderTest.cs" />
+    <Compile Include="Core\Analysis\Metadata\MetadataExcelOleDbWriterTest.cs" />
     <Compile Include="Core\Database\DataSetComparerContentTest.cs" />
     <Compile Include="Core\Database\DataSetComparerStructureTest.cs" />
     <Compile Include="Core\Database\QueryParserTest.cs" />
     <Compile Include="Core\Database\QueryPerformanceTest.cs" />
     <Compile Include="Core\Integration\PackageManagerTest.cs" />
+    <Compile Include="DiskOnFile.cs" />
     <Compile Include="NUnit\Database\DataSetConstraintTest.cs" />
     <Compile Include="NUnit\Database\QueryPerformanceConstraintTest.cs" />
     <Compile Include="NUnit\Database\QueryParserConstraintTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryGenerator\BatchManagerTest.cs" />
     <Compile Include="Core\Analysis\Query\OleDbExecutorTest.cs" />
-    <Compile Include="Core\Analysis\Metadata\MetadataExtractorTest.cs" />
+    <Compile Include="Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />
     <Compile Include="Core\Analysis\Query\ResultSetWriterTest.cs" />
     <Compile Include="Xml\DeserializeTest.cs" />
     <Compile Include="Xml\InstantiateConstraintsTest.cs" />
@@ -76,6 +81,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <EmbeddedResource Include="Core\Analysis\Metadata\MetadataExcelSample.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +105,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Core\Analysis\Query\ResultDataSet.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="NBi.Testing.sql" />
     <EmbeddedResource Include="Xml\TestSuiteSample.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

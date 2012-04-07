@@ -81,9 +81,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Core\Analysis\Metadata\MetadataExcelSample.xls">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="ConnectionString.user.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -108,6 +105,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+	<EmbeddedResource Include="Core\Analysis\Metadata\MetadataExcelSample.xls">
+		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</EmbeddedResource>  
     <EmbeddedResource Include="Core\Analysis\Query\ResultDataSet.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

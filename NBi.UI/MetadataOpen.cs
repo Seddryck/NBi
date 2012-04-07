@@ -5,12 +5,12 @@ using NBi.Core.Analysis.Metadata;
 
 namespace NBi.UI
 {
-    public partial class TrackSelection : Form
+    public partial class MetadataOpen : Form
     {
-        public MetadataExcelOleDbReader MetadataExcelReader { get; set; }
+        public MetadataExcelOleDbReader MetadataReader { get; set; }
         public string Track  { get; protected set; }
                 
-        public TrackSelection()
+        public MetadataOpen()
         {
             InitializeComponent();
         }
@@ -18,8 +18,8 @@ namespace NBi.UI
         private void TrackSelection_Load(object sender, EventArgs e)
         {
             sheetSelected.Items.Clear();
-            MetadataExcelReader.GetSheets();
-            sheetSelected.Items.AddRange(MetadataExcelReader.Sheets.ToArray());
+            MetadataReader.GetSheets();
+            sheetSelected.Items.AddRange(MetadataReader.Sheets.ToArray());
             sheetSelected.SelectedIndex = 0;       
         }
 
@@ -31,14 +31,20 @@ namespace NBi.UI
 
         private void sheetSelected_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MetadataExcelReader.SheetName = (string)sheetSelected.SelectedItem;
+            MetadataReader.SheetName = (string)sheetSelected.SelectedItem;
             
             trackSelected.Items.Clear();
             trackSelected.Items.Add("None");
-            MetadataExcelReader.GetTracks();
-            trackSelected.Items.AddRange(MetadataExcelReader.Tracks.ToArray());
+            MetadataReader.GetTracks();
+            trackSelected.Items.AddRange(MetadataReader.Tracks.ToArray());
             trackSelected.SelectedIndex = 0;
 
+        }
+
+        private void cancel_Click(object sender, EventArgs e)
+        {
+            Track = null;
+            this.Close();
         }
 
        

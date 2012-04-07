@@ -43,6 +43,23 @@ namespace NBi.Testing.Core.Analysis.Metadata
             Assert.Greater(new FileInfo(filename).Length, initLength);
         }
 
+        [Test]
+        public void Write_NotExistingFile_FileIsCreated()
+        {
+            var mgs = BuildFakeMetadata();
+
+            //Build the fullpath for the file to read
+            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"MetadataNotExistingFile.xls");
+
+            //set the object to test
+            var mew = new MetadataExcelOleDbWriter(filename);
+            mew.SheetName = "MySheet";
+            mew.Write("Test", mgs);
+
+            //Assertion
+            Assert.IsTrue(File.Exists(filename));
+        }
+
         private MeasureGroups BuildFakeMetadata()
         {
             var mg = new MeasureGroup("mg");

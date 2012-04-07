@@ -6,7 +6,7 @@ using System.Data.OleDb;
 
 namespace NBi.Core.Analysis.Metadata
 {
-    public abstract class AbstractExcelOleDb
+    public abstract class MetadataExcelOleDbAbstract
     {
 
 
@@ -26,12 +26,12 @@ namespace NBi.Core.Analysis.Metadata
 
         public IList<string> Sheets { get; private set; }
 
-        public AbstractExcelOleDb(string filename)
+        public MetadataExcelOleDbAbstract(string filename)
         {
             Filename = filename;
         }
 
-        public AbstractExcelOleDb(string filename, string sheetname) : this(filename)
+        public MetadataExcelOleDbAbstract(string filename, string sheetname) : this(filename)
         {
             SheetName = sheetname;
         }

@@ -319,10 +319,10 @@ namespace NBi.UI
             if (dialogResult.HasFlag(DialogResult.OK))
             {
                 
-                var mer = new MetadataExcelOleDbReader(openFileDialog.FileName);
-                var trackForm = new TrackSelection();
-                trackForm.MetadataExcelReader = mer;
-                trackForm.ShowDialog();
+                var mr = new MetadataExcelOleDbReader(openFileDialog.FileName);
+                var openForm = new MetadataOpen();
+                openForm.MetadataReader = mr;
+                openForm.ShowDialog();
                 
                 StartClick(null);
 
@@ -331,28 +331,53 @@ namespace NBi.UI
 
                 var mgs = new MeasureGroups();
                 var dims = new Dimensions();
-                mer.ProgressStatusChanged += new MetadataExcelOleDbReader.ProgressStatusHandler(ProgressStatus);
-                mer.Read(ref mgs, ref dims);
+                mr.ProgressStatusChanged += new MetadataExcelOleDbReader.ProgressStatusHandler(ProgressStatus);
+                mr.Read(ref mgs, ref dims);
                 Metadata = new MetadataAdomdExtractor(mgs, dims);
                 
                 metadataTreeview.Nodes.AddRange(MapTreeview(mgs));
                 RegisterEvents(metadataTreeview);
                 metadataTreeview.Refresh();
 
-                if (trackForm.Track != "None")
+                if (openForm.Track != "None")
                 {
                     var mgsTrack = new MeasureGroups();
                     var dimsTrack = new Dimensions();
-                    mer.Read(trackForm.Track, ref mgsTrack, ref dimsTrack);
+                    mr.Read(openForm.Track, ref mgsTrack, ref dimsTrack);
                     SelectMetadata(mgsTrack);
                 }
 
-                mer.ProgressStatusChanged -= new MetadataExcelOleDbReader.ProgressStatusHandler(ProgressStatus);
+                mr.ProgressStatusChanged -= new MetadataExcelOleDbReader.ProgressStatusHandler(ProgressStatus);
                 EndClick(null);
             }
                 
             
         }
+
+        private void saveAsMetadataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = saveFileDialog.ShowDialog();
+            if (dialogResult.HasFlag(DialogResult.OK))
+            {
+                var mw = new MetadataExcelOleDbWriter(saveFileDialog.FileName);
+                var saveForm = new MetadataSave();
+                saveForm.MetadataWriter = mw;
+
+                DialogResult dr = saveForm.ShowDialog();
+                if (dr.HasFlag(DialogResult.OK))
+                {
+                    StartClick(null);
+                    mw.ProgressStatusChanged += new MetadataExcelOleDbWriter.ProgressStatusHandler(ProgressStatus);
+                    mw.Write(perspective.Text, Metadata.MeasureGroups);
+                    mw.ProgressStatusChanged -= new MetadataExcelOleDbWriter.ProgressStatusHandler(ProgressStatus);
+                    EndClick(null);
+                }
+            }
+        }
+
+      
+        
+
 
 
        

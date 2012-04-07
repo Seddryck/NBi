@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NBi.Core.Analysis.Metadata
 {
-    public class MetadataExcelOleDbWriter : AbstractExcelOleDb
+    public class MetadataExcelOleDbWriter : MetadataExcelOleDbAbstract
     {
         public event ProgressStatusHandler ProgressStatusChanged;
         public delegate void ProgressStatusHandler(Object sender, ProgressStatusEventArgs e);
@@ -15,50 +15,50 @@ namespace NBi.Core.Analysis.Metadata
         public MetadataExcelOleDbWriter(string filename, string sheetname) : base(filename, sheetname) { }
         
 
-        public void Write(string perspective, MeasureGroups measureGroups)
-        {
-            if (measureGroups == null)
-                throw new ArgumentNullException();
+        //public void Write(string perspective, MeasureGroups measureGroups)
+        //{
+        //    if (measureGroups == null)
+        //        throw new ArgumentNullException();
 
-            GetSheets();
-            if (Sheets.IndexOf(SheetName) == -1)
-                CreateNewSheet(SheetName);
+        //    GetSheets();
+        //    if (Sheets.IndexOf(SheetName) == -1)
+        //        CreateNewSheet(SheetName);
 
-            if (ProgressStatusChanged != null)
-                ProgressStatusChanged(this, new ProgressStatusEventArgs(string.Format("Opening Xls file")));
+        //    if (ProgressStatusChanged != null)
+        //        ProgressStatusChanged(this, new ProgressStatusEventArgs(string.Format("Opening Xls file")));
 
-            DataTable dataTable = WriteInDataTable(perspective, measureGroups);
+        //    DataTable dataTable = WriteInDataTable(perspective, measureGroups);
 
-            int i = 0;
-            foreach (DataRow row in dataTable.Rows)
-            {
-                i++;
-                if (ProgressStatusChanged != null)
-                    ProgressStatusChanged(this, new ProgressStatusEventArgs(String.Format("Writing row {0} of {1}", i, dataTable.Rows.Count), i, dataTable.Rows.Count));
+        //    int i = 0;
+        //    foreach (DataRow row in dataTable.Rows)
+        //    {
+        //        i++;
+        //        if (ProgressStatusChanged != null)
+        //            ProgressStatusChanged(this, new ProgressStatusEventArgs(String.Format("Writing row {0} of {1}", i, dataTable.Rows.Count), i, dataTable.Rows.Count));
                 
-                InsertMetadata(row);
-            }
+        //        InsertMetadata(row);
+        //    }
 
-            if (ProgressStatusChanged != null)
-                ProgressStatusChanged(this, new ProgressStatusEventArgs("Xls file written"));
-        }
+        //    if (ProgressStatusChanged != null)
+        //        ProgressStatusChanged(this, new ProgressStatusEventArgs("Xls file written"));
+        //}
 
 
         protected void CreateNewSheet(string sheetName)
         {
             var dt = CreateDataTable(sheetName);
-
             CreateNewSheet(dt);
+            GetSheets();
         }
 
         protected void CreateNewSheet(DataTable dataTable)
         {
             var sb = new StringBuilder();
-            sb.AppendFormat("CREATE TABLE {0} (", dataTable.TableName);
+            sb.AppendFormat("CREATE TABLE [{0}] (", dataTable.TableName);
 
-            foreach (var col in dataTable.Columns)
+            foreach (DataColumn col in dataTable.Columns)
             {
-                sb.AppendFormat(" {0} char(255),", col.ToString());
+                sb.AppendFormat(" {0} char(255),", col.ColumnName);
             }
             sb.Remove(sb.Length - 1, 1);
             sb.Append(")");
@@ -81,19 +81,18 @@ namespace NBi.Core.Analysis.Metadata
                             var row = dt.NewRow();
                             row[0] = perspective;
                             row[1] = mg.Value.Name;
-                            row[2] = m.Value.UniqueName;
-                            row[3] = m.Value.Caption;
-                            row[4] = dim.Value.UniqueName;
-                            row[5] = dim.Value.Caption;
-                            row[6] = h.Value.UniqueName;
-                            row[7] = h.Value.Caption;
+                            row[2] = m.Value.Caption;
+                            row[3] = m.Value.UniqueName;
+                            row[4] = dim.Value.Caption;
+                            row[5] = dim.Value.UniqueName;
+                            row[6] = h.Value.Caption;
+                            row[7] = h.Value.UniqueName;
                             dt.Rows.Add(row);
                         }
                     }
                 }
                 
             }
-            dt.AcceptChanges();
             return dt;
         }
   
@@ -138,6 +137,48 @@ namespace NBi.Core.Analysis.Metadata
                     cmd.ExecuteNonQuery();
                 }
             }
+        }
+
+        public void Write(string perspective, MeasureGroups measureGroups)
+        {
+            if (measureGroups == null)
+                throw new ArgumentNullException();
+
+            GetSheets();
+            if (Sheets.IndexOf(SheetName + "$") == -1)
+                CreateNewSheet(SheetName);
+
+            if (ProgressStatusChanged != null)
+                ProgressStatusChanged(this, new ProgressStatusEventArgs(string.Format("Opening Xls file")));
+
+            DataTable dataTable = WriteInDataTable(perspective, measureGroups);
+            dataTable.TableName = SheetName + "$";
+            
+            using (var conn = new OleDbConnection(GetConnectionString(Filename)))
+	        {
+                using (var da = new OleDbDataAdapter())
+                {
+                    var sb = new StringBuilder();
+                    sb.AppendFormat("INSERT INTO [{0}$] (", SheetName);
+
+                    foreach (DataColumn col in dataTable.Columns)
+                        sb.AppendFormat(" {0},", col.ColumnName);               
+                    sb.Remove(sb.Length - 1, 1); //Remove the last comma
+                    sb.Append(") VALUES (");
+                    for (int i = 0; i < dataTable.Columns.Count; i++)
+                        sb.Append(" ?,");                   
+                    sb.Remove(sb.Length - 1, 1); //Remove the last comma
+                    sb.Append(")");
+                    da.InsertCommand = new OleDbCommand(sb.ToString(), conn);
+                    foreach (DataColumn col in dataTable.Columns)
+                        da.InsertCommand.Parameters.Add(string.Format("@{0}", col.ColumnName), OleDbType.VarChar, 255, col.ColumnName);
+
+                    conn.Open();
+                    da.Update(dataTable);
+                }
+            }
+            if (ProgressStatusChanged != null)
+                ProgressStatusChanged(this, new ProgressStatusEventArgs("Xls file written"));
         }
 
         

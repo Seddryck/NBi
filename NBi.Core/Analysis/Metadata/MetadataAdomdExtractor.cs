@@ -155,18 +155,5 @@ namespace NBi.Core.Analysis.Metadata
                 }
             }
         }
-
-        public void Perisist(string filename)
-        {
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            XmlSerializer serializer = new XmlSerializer(typeof(MeasureGroups));
-
-            using (StreamWriter writer = new StreamWriter(filename))
-            {
-                // Use the Serialize method to store the object's state.
-                serializer.Serialize(writer, MeasureGroups);
-            }
-        }
-
     }
 }

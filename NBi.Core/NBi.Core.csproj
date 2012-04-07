@@ -56,7 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analysis\Metadata\AbstractExcelOleDb.cs" />
+    <Compile Include="Analysis\Metadata\MetadataExcelOleDbAbstract.cs" />
     <Compile Include="Analysis\Metadata\Dimension.cs" />
     <Compile Include="Analysis\Metadata\Dimensions.cs" />
     <Compile Include="Analysis\Metadata\Hierarchies.cs" />

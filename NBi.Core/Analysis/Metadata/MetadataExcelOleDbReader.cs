@@ -5,7 +5,7 @@ using System.Data.OleDb;
 
 namespace NBi.Core.Analysis.Metadata
 {
-    public class MetadataExcelOleDbReader : AbstractExcelOleDb
+    public class MetadataExcelOleDbReader : MetadataExcelOleDbAbstract
     {
         public event ProgressStatusHandler ProgressStatusChanged;
         public delegate void ProgressStatusHandler(Object sender, ProgressStatusEventArgs e);

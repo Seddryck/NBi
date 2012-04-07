@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Xml
 {
     [TestFixture]
-    public class PlayConstraintTest
+    public class TestXmlTest
     {
         protected string _connectionString;
 
@@ -34,22 +34,12 @@ namespace NBi.Testing.Xml
         #endregion
         
         [Test]
-        public void TestCase_Play_Success()
-        {
-            var constraint = new SyntacticallyCorrectConstraint(_connectionString);
-            var testCase = new TestCaseXml() { Sql = "SELECT * FROM Product;" };
-
-            testCase.Play(constraint);
-            Assert.Pass();
-        }
-
-        [Test]
         public void Test_Play_Success()
         {
             var t = new TestXml()
             {
                 Constraints = new List<AbstractConstraintXml>() { new SyntacticallyCorrectXml() { ConnectionString = _connectionString } },
-                TestCases = new List<TestCaseXml>() { new TestCaseXml() { Sql = "SELECT * FROM Product;" } }
+                TestCases = new List<TestCaseXml>() { new TestCaseXml() { InlineQuery = "SELECT * FROM Product;" } }
             };
 
             t.Play();

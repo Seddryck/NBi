@@ -71,7 +71,8 @@
     <Compile Include="Core\Analysis\Query\ResultSetWriterTest.cs" />
     <Compile Include="Xml\DeserializeTest.cs" />
     <Compile Include="Xml\InstantiateConstraintsTest.cs" />
-    <Compile Include="Xml\PlayConstraintTest.cs" />
+    <Compile Include="Xml\TestCaseXmlTest.cs" />
+    <Compile Include="Xml\TestXmlTest.cs" />
     <Compile Include="Xml\XmlManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -102,6 +103,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Xml\QueryFile.sql" />
     <EmbeddedResource Include="Core\Analysis\Metadata\MetadataExcelSample.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

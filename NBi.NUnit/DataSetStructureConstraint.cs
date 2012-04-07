@@ -1,5 +1,4 @@
-﻿using System.Data.SqlClient;
-using NBi.Core.Database;
+﻿using NBi.Core.Database;
 
 namespace NBi.NUnit
 {

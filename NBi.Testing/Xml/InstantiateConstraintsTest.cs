@@ -23,7 +23,7 @@ namespace NBi.Testing.Xml
         #endregion
 
         [Test]
-        public void Instantiate_FirstTest_IsOfTypeQueryParser()
+        public void Instantiate_FirstTest_IsOfTypeSyntacticallyCorrect()
         {
             var t = new TestXml()
             {

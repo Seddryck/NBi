@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.IO;
+using System.Xml.Serialization;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 
@@ -17,8 +18,13 @@ namespace NBi.Xml
 
         protected internal string ReadSql()
         {
-            //TODO read file
-            return Sql;
+            //if Sql is specified then return it
+            if (!string.IsNullOrEmpty(Sql))
+                return Sql;
+
+            //Else read the file's content and 
+            var query = File.ReadAllText(Filename);
+            return query;
         }
 
         public void Play(Constraint constraint)

@@ -26,7 +26,7 @@ namespace NBi.Testing
         public static string CreatePhysicalFile(string filename, string resource)
         {
             //Build the fullpath for the file to read
-            var fullpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\" + filename;
+            var fullpath = GetDirectoryPath() + filename;
 
             //delete it if already existing
             if (File.Exists(fullpath))
@@ -43,6 +43,16 @@ namespace NBi.Testing
                 }
             }
             return fullpath;
+        }
+
+        /// <summary>
+        /// Returns the Directory into which the test are executed
+        /// </summary>
+        /// <returns>An existing temporary path to execute the tests</returns>
+        public static string GetDirectoryPath()
+        {
+            //Build the fullpath for the file to read
+            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\" ;
         }
     }
 }

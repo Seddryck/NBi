@@ -14,22 +14,25 @@ namespace NBi.Xml
         public string Filename { get; set; }
 
         [XmlText]
-        public string Sql { get; set; }
+        public string InlineQuery { get; set; }
 
-        protected internal string ReadSql()
+        public string Query
         {
-            //if Sql is specified then return it
-            if (!string.IsNullOrEmpty(Sql))
-                return Sql;
+            get
+            {
+                //if Sql is specified then return it
+                if (!string.IsNullOrEmpty(InlineQuery))
+                    return InlineQuery;
 
-            //Else read the file's content and 
-            var query = File.ReadAllText(Filename);
-            return query;
+                //Else read the file's content and 
+                var query = File.ReadAllText(Filename);
+                return query;
+            }
         }
 
         public void Play(Constraint constraint)
         {
-            Assert.That(ReadSql(), constraint);
+            Assert.That(Query, constraint);
         }
 
     }

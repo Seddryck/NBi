@@ -5,13 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3A9822B3-CCE4-441B-9C3E-D52817A994CA}</ProjectGuid>
+    <ProjectGuid>{5AA137A9-C158-4A4F-B07D-3DF787618C24}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NBi.Xml</RootNamespace>
-    <AssemblyName>NBi.Xml</AssemblyName>
+    <RootNamespace>NBi.NUnit.Runtime</RootNamespace>
+    <AssemblyName>NBi.NUnit.Runtime</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,46 +32,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.6.0.12051, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractConstraintXml.cs" />
-    <Compile Include="SyntacticallyCorrectXml.cs" />
-    <Compile Include="FasterThanXml.cs" />
-    <Compile Include="TestXml.cs" />
-    <Compile Include="TestCaseXml.cs" />
-    <Compile Include="TestSuiteXml.cs" />
+    <Compile Include="TestSuite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XmlManager.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="NBi-TestSuite.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
-      <Project>{3F730647-FE31-4907-8A6E-A0C4A0C970EA}</Project>
-      <Name>NBi.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.NUnit\NBi.NUnit.csproj">
-      <Project>{66314704-AA76-4153-80D8-CA2C5FF06976}</Project>
-      <Name>NBi.NUnit</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
+      <Project>{3A9822B3-CCE4-441B-9C3E-D52817A994CA}</Project>
+      <Name>NBi.Xml</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

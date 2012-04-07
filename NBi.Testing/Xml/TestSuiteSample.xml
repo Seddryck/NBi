@@ -7,6 +7,8 @@
 		</TestCase>
 	</Test>
 	<Test name="My second test case">
+	<Category>Category 1</Category>
+	<Category>Category 2</Category>
     <SyntacticallyCorrect connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True"/>
     <FasterThan maxTimeMilliSeconds="5000" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True"/>
 		<TestCase name="Select all products">

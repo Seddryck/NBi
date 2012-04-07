@@ -12,6 +12,12 @@ namespace NBi.Xml
         [XmlAttribute("uid")]
         public string UniqueIdentifier { get; set; }
 
+        [XmlAttribute("description")]
+        public string Description { get; set; }
+
+        [XmlElement("Category")]
+        public List<string> Categories;
+
         [XmlElement(Type = typeof(SyntacticallyCorrectXml), ElementName = "SyntacticallyCorrect"),
         XmlElement(Type = typeof(FasterThanXml), ElementName = "FasterThan")]
         public List<AbstractConstraintXml> Constraints;

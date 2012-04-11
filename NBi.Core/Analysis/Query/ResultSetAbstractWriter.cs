@@ -3,11 +3,11 @@ using System.Data;
 
 namespace NBi.Core.Analysis.Query
 {
-    public abstract class AbstractResultSetWriter
+    public abstract class ResultSetAbstractWriter
     {
         public string PersistencePath { get; private set; }
 
-        public AbstractResultSetWriter(string persistancePath)
+        public ResultSetAbstractWriter(string persistancePath)
         {
             PersistencePath = persistancePath;
         }

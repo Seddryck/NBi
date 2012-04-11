@@ -52,6 +52,12 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MetadataExtract.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MetadataExtract.Designer.cs">
+      <DependentUpon>MetadataExtract.cs</DependentUpon>
+    </Compile>
     <Compile Include="MetadataSave.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -66,8 +72,17 @@
     <Compile Include="MetadataOpen.Designer.cs">
       <DependentUpon>MetadataOpen.cs</DependentUpon>
     </Compile>
+    <Compile Include="ResultSetCreate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResultSetCreate.Designer.cs">
+      <DependentUpon>ResultSetCreate.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MetadataExtract.resx">
+      <DependentUpon>MetadataExtract.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MetadataSave.resx">
       <DependentUpon>MetadataSave.cs</DependentUpon>
@@ -83,6 +98,9 @@
     </Compile>
     <EmbeddedResource Include="MetadataOpen.resx">
       <DependentUpon>MetadataOpen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResultSetCreate.resx">
+      <DependentUpon>ResultSetCreate.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

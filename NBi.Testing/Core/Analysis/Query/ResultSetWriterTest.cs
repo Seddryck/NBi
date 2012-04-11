@@ -27,7 +27,7 @@ namespace NBi.Testing.Core.Analysis.Query
             }
 
             //Create the object to test
-            var xrsw = new XmlResultSetWriter(Path.GetDirectoryName(filename));
+            var xrsw = new ResultSetXmlWriter(Path.GetDirectoryName(filename));
             xrsw.Write(Path.GetFileName(filename), ds);
 
             //Assertion
@@ -53,7 +53,7 @@ namespace NBi.Testing.Core.Analysis.Query
             
 
             //Create the object to test
-            var crsw = new CsvResultSetWriter(Path.GetDirectoryName(filename));
+            var crsw = new ResultSetCsvWriter(Path.GetDirectoryName(filename));
             crsw.Write(Path.GetFileName(filename), ds);
 
             //Assertion

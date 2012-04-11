@@ -12,7 +12,7 @@ namespace NBi.UI
 {
     public partial class MetadataSave : Form
     {
-        public MetadataExcelOleDbWriter MetadataWriter { get; set; }
+        public IMetadataWriter MetadataWriter { get; set; }
 
         public MetadataSave()
         {

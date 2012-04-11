@@ -4,16 +4,16 @@ using System.Text;
 
 namespace NBi.Core.Analysis.Query
 {
-    public class CsvResultSetWriter : AbstractResultSetWriter
+    public class ResultSetCsvWriter : ResultSetAbstractWriter
     {
         public CsvDefinition Definition { get; private set; }
 
-        public CsvResultSetWriter(string persistancePath) :base(persistancePath)
+        public ResultSetCsvWriter(string persistancePath) :base(persistancePath)
         {
             Definition = CsvDefinition.SemiColumnDoubleQuote();
         }
 
-        public CsvResultSetWriter(string persistancePath, CsvDefinition definition) :base(persistancePath)
+        public ResultSetCsvWriter(string persistancePath, CsvDefinition definition) :base(persistancePath)
         {
             Definition = definition;
         }

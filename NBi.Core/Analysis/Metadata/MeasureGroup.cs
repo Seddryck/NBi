@@ -5,13 +5,13 @@
     {
         public string Name { get; private set; }
         public Measures Measures { get; private set; }
-        public Dimensions LinkedDimensions { get; private set; }
+        public DimensionCollection LinkedDimensions { get; private set; }
 
         public MeasureGroup(string name)
         {
             Name = name;
             Measures = new Measures();
-            LinkedDimensions = new Dimensions();
+            LinkedDimensions = new DimensionCollection();
         }
 
         public MeasureGroup Clone()

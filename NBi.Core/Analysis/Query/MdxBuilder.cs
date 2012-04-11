@@ -8,6 +8,8 @@ namespace NBi.Core.Analysis.Query
 {
     public class MdxBuilder
     {
+        public event ProgressStatusHandler ProgressStatusChanged;
+
         public string PersistancePath { get; private set; }
         
         public MdxBuilder()
@@ -20,52 +22,63 @@ namespace NBi.Core.Analysis.Query
             PersistancePath = persistancePath;
         }
 
-        public string[] Build(string perspective, MeasureGroups measureGroups)
+        public string[] Build(CubeMetadata metadata)
         {
-            return this.Build(perspective, measureGroups, "Children", "", false);
+            return this.Build(metadata, "Children", "", false);
         }
 
-        public string[] Build(string perspective, MeasureGroups measureGroups, string hierarchyFunction)
+        public string[] Build(CubeMetadata metadata, string hierarchyFunction)
         {
-            return this.Build(perspective, measureGroups, hierarchyFunction, "", false);
+            return this.Build(metadata, hierarchyFunction, "", false);
         }
 
-        public string[] Build(string perspective, MeasureGroups measureGroups, string hierarchyFunction, string slicer)
+        public string[] Build(CubeMetadata metadata, string hierarchyFunction, string slicer)
         {
-            return this.Build(perspective, measureGroups, hierarchyFunction, slicer, false);
+            return this.Build(metadata, hierarchyFunction, slicer, false);
         }
 
-        public string[] Build(string perspective, MeasureGroups measureGroups, bool notEmpty)
+        public string[] Build(CubeMetadata metadata, bool notEmpty)
         {
-            return this.Build(perspective, measureGroups, "Children", "", notEmpty);
+            return this.Build(metadata, "Children", "", notEmpty);
         }
 
-        public string[] Build(string perspective, MeasureGroups measureGroups, string hierarchyFunction, string slicer, bool notEmpty)
+        public string[] Build(CubeMetadata metadata, string hierarchyFunction, string slicer, bool notEmpty)
         {
+            var i = 0;
+            var total = metadata.GetCountMembers();
+
+            if (ProgressStatusChanged != null)
+                ProgressStatusChanged(this, new ProgressStatusEventArgs(string.Format("Creating query set")));
             var res = new List<string>();
-            
-            foreach (var mg in measureGroups)
+            foreach (var p in metadata.Perspectives)
             {
-                foreach (var dim in mg.Value.LinkedDimensions)
+                foreach (var mg in p.Value.MeasureGroups)
                 {
-                    foreach (var hierarchy in dim.Value.Hierarchies)
+                    foreach (var dim in mg.Value.LinkedDimensions)
                     {
-                        foreach (var m in mg.Value.Measures)
+                        foreach (var hierarchy in dim.Value.Hierarchies)
                         {
-                            var mdx = BuildMdx(perspective, m.Value.UniqueName, hierarchy.Value.UniqueName, hierarchyFunction, slicer, notEmpty);
-                            if (!string.IsNullOrEmpty(PersistancePath))
+                            foreach (var m in mg.Value.Measures)
                             {
-                                var filename = BuildFilename(perspective, mg.Value.Name, m.Value.Caption, dim.Value.Caption, hierarchy.Value.Caption);
-                                Persist(mdx, filename);
+                                var mdx = BuildMdx(p.Value.Name, m.Value.UniqueName, hierarchy.Value.UniqueName, hierarchyFunction, slicer, notEmpty);
+                                if (!string.IsNullOrEmpty(PersistancePath))
+                                {
+                                    i++;
+                                    var filename = BuildFilename(p.Value.Name, mg.Value.Name, m.Value.Caption, dim.Value.Caption, hierarchy.Value.Caption);
+                                    Persist(mdx, filename);
+                                    if (ProgressStatusChanged != null)
+                                        ProgressStatusChanged(this, new ProgressStatusEventArgs(String.Format("Persisting query set {0} of {1}", i, total), i, total));
+                                }
+                               res.Add(mdx);
                             }
-                           res.Add(mdx);
-                        }
 
+                        }
                     }
-                }
                 
+                }
             }
-            
+            if (ProgressStatusChanged != null)
+                ProgressStatusChanged(this, new ProgressStatusEventArgs(string.Format("Query set created")));
             return res.ToArray();
         }
 
@@ -75,7 +88,7 @@ namespace NBi.Core.Analysis.Query
             sb.AppendLine("SELECT");
             sb.AppendFormat("\t{0} ON 0,\r\n", measure);
             if (NotEmpty)
-                sb.AppendFormat("\tNOTEMPTY({0}.{1}) ON 1\r\n", hierarchy, hierarchyFunction);
+                sb.AppendFormat("\tNONEMPTY({0}.{1}) ON 1\r\n", hierarchy, hierarchyFunction);
             else
                 sb.AppendFormat("\t{0}.{1} ON 1\r\n", hierarchy, hierarchyFunction);
             sb.AppendLine("FROM");

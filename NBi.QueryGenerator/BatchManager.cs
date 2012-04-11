@@ -12,7 +12,7 @@ namespace NBi.QueryGenerator
             if(!Directory.Exists(resultSetDirectory))
                 Directory.CreateDirectory(resultSetDirectory);
 
-            var writer = new CsvResultSetWriter(resultSetDirectory);
+            var writer = new ResultSetCsvWriter(resultSetDirectory);
             var exec = new OleDbExecutor(connectionString);
 
             foreach (var queryFile in queryFiles)

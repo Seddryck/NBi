@@ -3,10 +3,10 @@ using System.IO;
 
 namespace NBi.Core.Analysis.Query
 {
-    public class XmlResultSetWriter : AbstractResultSetWriter
+    public class ResultSetXmlWriter : ResultSetAbstractWriter
     {
 
-        public XmlResultSetWriter(string persistancePath) :base(persistancePath) {}
+        public ResultSetXmlWriter(string persistancePath) :base(persistancePath) {}
 
     
         protected override void OnWrite(string filename, DataSet ds, string tableName)

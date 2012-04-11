@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Analysis\Metadata\MetadataCsvWriterTest.cs" />
     <Compile Include="Core\Analysis\Metadata\MetadataExcelOleDbReaderTest.cs" />
     <Compile Include="Core\Analysis\Metadata\MetadataExcelOleDbWriterTest.cs" />
     <Compile Include="Core\Database\DataSetComparerContentTest.cs" />
@@ -82,6 +83,7 @@
     <None Include="ConnectionString.user.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <EmbeddedResource Include="Core\Analysis\Metadata\MetadataCsvSample.csv" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

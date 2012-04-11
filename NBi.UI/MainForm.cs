@@ -10,108 +10,77 @@ namespace NBi.UI
 {
     public partial class MainForm : Form
     {
-        protected MetadataAdomdExtractor Metadata { get; set; }
-        
+        protected CubeMetadata Metadata { get; set; }
+
         public MainForm()
         {
             InitializeComponent();
             metadataTreeview.Nodes.Clear();
-            folderBrowserDialog.RootFolder= System.Environment.SpecialFolder.MyDocuments;
+            folderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyDocuments;
             folderBrowserDialog.SelectedPath = @"C:\Users\Seddryck\Documents\TestCCH\Queries\";
             openFileDialog.InitialDirectory = @"C:\Users\Seddryck\Documents\TestCCH\";
             openFileDialog.FileName = "MyMetadata.xlsx";
         }
 
-        private TreeNode[] MapTreeview(MeasureGroups mgs)
+        private TreeNode[] MapTreeview(CubeMetadata metadata)
         {
             var tnc = new List<TreeNode>();
-            
-            foreach (var mg in mgs)
-	        {
-                
-                var mgNode=new TreeNode(mg.Value.Name);
-                mgNode.Tag = mg.Key;
-                tnc.Add(mgNode);
+            foreach (var perspective in metadata.Perspectives)
+            {
+                var pNode = new TreeNode(perspective.Value.Name);
+                pNode.Tag = perspective.Key;
+                tnc.Add(pNode);
 
-                var dimsNode = new TreeNode("Linked dimensions");
-                mgNode.Nodes.Add(dimsNode);
-                foreach (var dim in mg.Value.LinkedDimensions)
+                foreach (var mg in perspective.Value.MeasureGroups)
                 {
-                    var dimNode = new TreeNode(dim.Value.Caption);
-                    dimNode.Tag = dim.Key;
-                    dimsNode.Nodes.Add(dimNode);
-                    foreach (var h in dim.Value.Hierarchies)
+                    var mgNode = new TreeNode(mg.Value.Name);
+                    mgNode.Tag = mg.Key;
+                    pNode.Nodes.Add(mgNode);
+
+                    var dimsNode = new TreeNode("Linked dimensions");
+                    mgNode.Nodes.Add(dimsNode);
+                    foreach (var dim in mg.Value.LinkedDimensions)
                     {
-                        var hNode = new TreeNode(h.Value.Caption);
-                        hNode.Tag = h.Key;
-                        dimNode.Nodes.Add(hNode);
+                        var dimNode = new TreeNode(dim.Value.Caption);
+                        dimNode.Tag = dim.Key;
+                        dimsNode.Nodes.Add(dimNode);
+                        foreach (var h in dim.Value.Hierarchies)
+                        {
+                            var hNode = new TreeNode(h.Value.Caption);
+                            hNode.Tag = h.Key;
+                            dimNode.Nodes.Add(hNode);
+                        }
+                    }
+
+                    var measuresNode = new TreeNode("Measures");
+                    mgNode.Nodes.Add(measuresNode);
+                    foreach (var measure in mg.Value.Measures)
+                    {
+                        var measureNode = new TreeNode(measure.Value.Caption);
+                        measureNode.Tag = measure.Key;
+                        measuresNode.Nodes.Add(measureNode);
                     }
                 }
-
-                var measuresNode = new TreeNode("Measures");
-                mgNode.Nodes.Add(measuresNode);
-                foreach (var measure in mg.Value.Measures)
-                {
-                    var measureNode = new TreeNode(measure.Value.Caption);
-                    measureNode.Tag = measure.Key;
-                    measuresNode.Nodes.Add(measureNode);
-                }
-                
-	        }
+            }
 
             return tnc.ToArray();
         }
 
-        private void ExtractMetadata_Click(object sender, System.EventArgs e)
-        {
-            StartClick((Button) sender);
-
-            try
-            {
-                Metadata = new MetadataAdomdExtractor(connectionString.Text, perspective.Text);
-                Metadata.GetMetadata();
-
-                UnregisterEvents(metadataTreeview);
-                metadataTreeview.Nodes.Clear();
-                metadataTreeview.Nodes.AddRange(MapTreeview(Metadata.MeasureGroups));
-                RegisterEvents(metadataTreeview);
-            }
-            finally
-            {
-                EndClick((Button)sender);
-            }
-        }
-
-        private void BuildMdxQueries_Click(object sender, System.EventArgs e)
-        {
-            if (!ConfirmBuildMdxQueries())
-                return; 
-            StartClick((Button)sender);
-
-            try
-            {
-                var mb = new MdxBuilder(folderBrowserDialog.SelectedPath);
-                mb.Build(perspective.Text, SelectedMetadata, (string)hierarchyFunction.SelectedItem, slicer.Text, notEmpty.Checked);
-            }
-            finally
-            {
-                EndClick((Button) sender);
-            }
-        }
-
+       
+       
         private bool ConfirmBuildMdxQueries()
         {
             if (!Directory.Exists(folderBrowserDialog.SelectedPath))
                 Directory.CreateDirectory(folderBrowserDialog.SelectedPath);
 
-            if (Directory.GetFiles(folderBrowserDialog.SelectedPath).Length==0)
+            if (Directory.GetFiles(folderBrowserDialog.SelectedPath).Length == 0)
                 return true;
 
             DialogResult dialogResult = MessageBox.Show(
                 string.Format("Target directory {0} is not empty.\nDo you want to clean it before generating the queries?", folderBrowserDialog.SelectedPath),
                 "Not empty directory",
                 MessageBoxButtons.YesNoCancel);
-            
+
             if (dialogResult == DialogResult.Yes)
             {
                 Directory.Delete(folderBrowserDialog.SelectedPath, true);
@@ -122,69 +91,83 @@ namespace NBi.UI
 
         }
 
-        private MeasureGroups SelectedMetadata
+        private CubeMetadata SelectedMetadata
         {
             get
             {
-                MeasureGroups sel = new MeasureGroups();
+                CubeMetadata sel = new CubeMetadata();
 
-                foreach (TreeNode mgNode in metadataTreeview.Nodes)
+                foreach (TreeNode perspNode in metadataTreeview.Nodes)
                 {
-                    if (mgNode.Checked)
+                    var selPersp = Metadata.Perspectives[(string)perspNode.Tag].Clone();
+                    sel.Perspectives.Add(selPersp);
+                    foreach (TreeNode mgNode in perspNode.Nodes)
                     {
-                        var selMg = Metadata.MeasureGroups[(string)mgNode.Tag].Clone();
-                        foreach (TreeNode dimNode in mgNode.FirstNode.Nodes)
+                        if (mgNode.Checked)
                         {
-                            if (dimNode.Checked)
+                            var selMg = selPersp.MeasureGroups[(string)mgNode.Tag];
+                            foreach (TreeNode dimNode in mgNode.FirstNode.Nodes)
                             {
-                                var cleanDim = Metadata.Dimensions[(string)dimNode.Tag].Clone(); //NOT A TRUE CLONE !!!!
-                                cleanDim.Hierarchies.Clear();
-
-                                selMg.LinkedDimensions.Add(cleanDim);
-                                foreach (TreeNode hierarchyNode in dimNode.Nodes)
+                                if (dimNode.Checked)
                                 {
-                                    if (hierarchyNode.Checked)
-                                        selMg.LinkedDimensions[(string)dimNode.Tag].Hierarchies.Add(Metadata.Dimensions[(string)dimNode.Tag].Hierarchies[(string)hierarchyNode.Tag].Clone());
+                                    var cleanDim = Metadata.Perspectives[(string)perspNode.Tag].Dimensions[(string)dimNode.Tag].Clone(); //NOT A TRUE CLONE !!!!
+                                    cleanDim.Hierarchies.Clear();
+
+                                    selMg.LinkedDimensions.Add(cleanDim);
+                                    foreach (TreeNode hierarchyNode in dimNode.Nodes)
+                                    {
+                                        if (hierarchyNode.Checked)
+                                            selMg.LinkedDimensions[(string)dimNode.Tag].Hierarchies.Add(Metadata.Perspectives[(string)perspNode.Tag].Dimensions[(string)dimNode.Tag].Hierarchies[(string)hierarchyNode.Tag].Clone());
+                                    }
                                 }
                             }
+                            foreach (TreeNode measureNode in mgNode.LastNode.Nodes)
+                            {
+                                if (measureNode.Checked)
+                                    selMg.Measures.Add(Metadata.Perspectives[(string)perspNode.Tag].MeasureGroups[(string)mgNode.Tag].Measures[(string)measureNode.Tag].Clone());
+                            }
+                            
                         }
-                        foreach (TreeNode measureNode in mgNode.LastNode.Nodes)
-                        {
-                            if (measureNode.Checked)
-                                selMg.Measures.Add(Metadata.MeasureGroups[(string)mgNode.Tag].Measures[(string)measureNode.Tag].Clone());
-                        }
-                        sel.Add(selMg);
+                        
                     }
                 }
                 return sel;
             }
         }
 
-        private void SelectMetadata(MeasureGroups measureGroups)
+        private void SelectMetadata(CubeMetadata metadata)
         {
-            foreach (TreeNode mgNode in metadataTreeview.Nodes)
+            foreach (TreeNode pNode in metadataTreeview.Nodes)
             {
-                mgNode.Checked = measureGroups.ContainsKey((string)mgNode.Tag);
-
-                if (mgNode.Checked)
+                pNode.Checked = metadata.Perspectives.ContainsKey((string)pNode.Tag);
+                if (pNode.Checked)
                 {
-                    foreach (TreeNode dimNode in mgNode.FirstNode.Nodes)
+                    var perspective = metadata.Perspectives[(string)pNode.Tag];
+                    foreach (TreeNode mgNode in pNode.Nodes)
                     {
-                        dimNode.Checked = measureGroups[(string)mgNode.Tag].LinkedDimensions.ContainsKey((string)dimNode.Tag);
-                        mgNode.FirstNode.Checked = dimNode.Checked || mgNode.FirstNode.Checked;
-                        if (dimNode.Checked)
+                        mgNode.Checked = perspective.MeasureGroups.ContainsKey((string)mgNode.Tag);
+
+                        if (mgNode.Checked)
                         {
-                            foreach (TreeNode hierarchyNode in dimNode.Nodes)
+                            foreach (TreeNode dimNode in mgNode.FirstNode.Nodes)
                             {
-                                hierarchyNode.Checked = measureGroups[(string)mgNode.Tag].LinkedDimensions[(string)dimNode.Tag].Hierarchies.ContainsKey((string)hierarchyNode.Tag);
+                                dimNode.Checked = perspective.MeasureGroups[(string)mgNode.Tag].LinkedDimensions.ContainsKey((string)dimNode.Tag);
+                                mgNode.FirstNode.Checked = dimNode.Checked || mgNode.FirstNode.Checked;
+                                if (dimNode.Checked)
+                                {
+                                    foreach (TreeNode hierarchyNode in dimNode.Nodes)
+                                    {
+                                        hierarchyNode.Checked = perspective.MeasureGroups[(string)mgNode.Tag].LinkedDimensions[(string)dimNode.Tag].Hierarchies.ContainsKey((string)hierarchyNode.Tag);
+                                    }
+                                }
+                            }
+
+                            foreach (TreeNode measureNode in mgNode.LastNode.Nodes)
+                            {
+                                measureNode.Checked = perspective.MeasureGroups[(string)mgNode.Tag].Measures.ContainsKey((string)measureNode.Tag);
+                                mgNode.LastNode.Checked = measureNode.Checked || mgNode.LastNode.Checked;
                             }
                         }
-                    }
-
-                    foreach (TreeNode measureNode in mgNode.LastNode.Nodes)
-                    {
-                        measureNode.Checked = measureGroups[(string)mgNode.Tag].Measures.ContainsKey((string)measureNode.Tag);
-                        mgNode.LastNode.Checked = measureNode.Checked || mgNode.LastNode.Checked;
                     }
                 }
             }
@@ -214,8 +197,8 @@ namespace NBi.UI
             toolStripStatus.Text = e.Status;
             toolStripStatus.Invalidate();
 
-            toolStripProgressBar.Maximum=e.Progress.Total;
-            toolStripProgressBar.Value=e.Progress.Current;
+            toolStripProgressBar.Maximum = e.Progress.Total;
+            toolStripProgressBar.Value = e.Progress.Current;
 
             if (DateTime.Now.Subtract(_statusTripLastRefresh).TotalMilliseconds > STATUS_TRIP_REFRESH_RATE)
             {
@@ -290,11 +273,6 @@ namespace NBi.UI
             hierarchyFunction.SelectedIndex = 3;
         }
 
-        private void openFolderBrowser_Click(object sender, System.EventArgs e)
-        {
-            folderBrowserDialog.ShowDialog();
-        }
-
         private void unselectAllMetadata_Click(object sender, System.EventArgs e)
         {
             foreach (TreeNode t in metadataTreeview.Nodes)
@@ -313,75 +291,141 @@ namespace NBi.UI
             }
         }
 
-        private void openMetadataToolStripMenuItem_Click(object sender, System.EventArgs e)
+        private void openToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
             DialogResult dialogResult = openFileDialog.ShowDialog();
             if (dialogResult.HasFlag(DialogResult.OK))
             {
-                
+
                 var mr = new MetadataExcelOleDbReader(openFileDialog.FileName);
                 var openForm = new MetadataOpen();
                 openForm.MetadataReader = mr;
                 openForm.ShowDialog();
-                
+
                 StartClick(null);
 
                 UnregisterEvents(metadataTreeview);
                 metadataTreeview.Nodes.Clear();
 
-                var mgs = new MeasureGroups();
-                var dims = new Dimensions();
-                mr.ProgressStatusChanged += new MetadataExcelOleDbReader.ProgressStatusHandler(ProgressStatus);
-                mr.Read(ref mgs, ref dims);
-                Metadata = new MetadataAdomdExtractor(mgs, dims);
-                
-                metadataTreeview.Nodes.AddRange(MapTreeview(mgs));
+                mr.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
+                Metadata = mr.Read();
+                mr.ProgressStatusChanged -= new ProgressStatusHandler(ProgressStatus);
+
+                metadataTreeview.Nodes.AddRange(MapTreeview(Metadata));
                 RegisterEvents(metadataTreeview);
                 metadataTreeview.Refresh();
 
                 if (openForm.Track != "None")
                 {
-                    var mgsTrack = new MeasureGroups();
-                    var dimsTrack = new Dimensions();
-                    mr.Read(openForm.Track, ref mgsTrack, ref dimsTrack);
-                    SelectMetadata(mgsTrack);
+                    var perspTrack = mr.Read(openForm.Track);
+                    SelectMetadata(perspTrack);
                 }
 
-                mr.ProgressStatusChanged -= new MetadataExcelOleDbReader.ProgressStatusHandler(ProgressStatus);
                 EndClick(null);
             }
-                
-            
+
+
         }
 
-        private void saveAsMetadataToolStripMenuItem_Click(object sender, EventArgs e)
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {   
+            StartClick(null);
+            if (saveFileDialog.ShowDialog()==DialogResult.OK)
+            {
+                IMetadataWriter mw = null;
+                switch(Path.GetExtension(saveFileDialog.FileName))
+	            {
+		            case ".csv":
+                        mw = new MetadataCsvWriter(saveFileDialog.FileName);
+                        break;
+                    case ".xls":
+                    case ".xlsx":
+                        mw = new MetadataExcelOleDbWriter(saveFileDialog.FileName);
+                        var saveForm = new MetadataSave();
+                        saveForm.MetadataWriter = mw;
+                        if (saveForm.ShowDialog() != DialogResult.OK)
+                        {
+                            EndClick(null);
+                            return;
+                        }
+                        break;
+                    default:
+                        throw new NotImplementedException();
+	            }
+                    
+                mw.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
+                mw.Write(Metadata);
+                mw.ProgressStatusChanged -= new ProgressStatusHandler(ProgressStatus);
+            }
+            EndClick(null);
+        }
+
+        private void createToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = saveFileDialog.ShowDialog();
+            var createForm = new ResultSetCreate();
+
+            DialogResult dialogResult = createForm.ShowDialog();
             if (dialogResult.HasFlag(DialogResult.OK))
             {
-                var mw = new MetadataExcelOleDbWriter(saveFileDialog.FileName);
-                var saveForm = new MetadataSave();
-                saveForm.MetadataWriter = mw;
+                StartClick(null);
+                var qsm = QuerySetManager.BuildDefault(createForm.QueriesDirectory, createForm.ResultsDirectory, createForm.ConnectionString);
+                qsm.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
+                qsm.PersistResultSets();
+                qsm.ProgressStatusChanged -= new ProgressStatusHandler(ProgressStatus);
+                EndClick(null);
+            }
+        }
 
-                DialogResult dr = saveForm.ShowDialog();
-                if (dr.HasFlag(DialogResult.OK))
+        private void extractToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var extractForm = new MetadataExtract();
+
+            if (extractForm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                StartClick(null);
+                try
                 {
-                    StartClick(null);
-                    mw.ProgressStatusChanged += new MetadataExcelOleDbWriter.ProgressStatusHandler(ProgressStatus);
-                    mw.Write(perspective.Text, Metadata.MeasureGroups);
-                    mw.ProgressStatusChanged -= new MetadataExcelOleDbWriter.ProgressStatusHandler(ProgressStatus);
+                    var metadataExtractor = extractForm.MetadataExtractor;
+                    metadataExtractor.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
+                    Metadata = metadataExtractor.GetMetadata();
+                    metadataExtractor.ProgressStatusChanged -= new ProgressStatusHandler(ProgressStatus);
+
+                    UnregisterEvents(metadataTreeview);
+                    metadataTreeview.Nodes.Clear();
+                    metadataTreeview.Nodes.AddRange(MapTreeview(Metadata));
+                    RegisterEvents(metadataTreeview);
+                }
+                finally
+                {
                     EndClick(null);
                 }
             }
         }
 
-      
+        private void createToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (!ConfirmBuildMdxQueries())
+                    return;
+                StartClick(null);
+
+                try
+                {
+                    var mb = new MdxBuilder(folderBrowserDialog.SelectedPath);
+                    mb.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
+                    mb.Build(SelectedMetadata, (string)hierarchyFunction.SelectedItem, slicer.Text, notEmpty.Checked);
+                    mb.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
+                }
+                finally
+                {
+                    EndClick(null);
+                }
+            }
+        }
+
+
         
 
-
-
-       
-
-        
     }
 }

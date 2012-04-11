@@ -7,8 +7,7 @@ namespace NBi.Core.Analysis.Metadata
 {
     public class MetadataExcelOleDbReader : MetadataExcelOleDbAbstract
     {
-        public event ProgressStatusHandler ProgressStatusChanged;
-        public delegate void ProgressStatusHandler(Object sender, ProgressStatusEventArgs e);
+        
 
         public string SheetRange { get; set; }
 
@@ -18,7 +17,7 @@ namespace NBi.Core.Analysis.Metadata
             get
             {
                 if (_dataTable == null)
-                    _dataTable = Read();
+                    _dataTable = LoadDataTable();
                 return _dataTable;
             }
         }
@@ -37,66 +36,64 @@ namespace NBi.Core.Analysis.Metadata
             SheetRange = sheetRange;
         }
 
-        public void Read(string track, ref MeasureGroups measureGroups, ref Dimensions dimensions)
+        public CubeMetadata Read(string track)
         {
-            if (measureGroups == null || dimensions == null)
-                throw new ArgumentNullException();
+            CubeMetadata metadata=new CubeMetadata();
 
-            if (ProgressStatusChanged != null)
-                ProgressStatusChanged(this, new ProgressStatusEventArgs(string.Format("Processing Xls file for track {0}", track)));
+            RaiseProgressStatus((string.Format("Processing Xls file for track {0}", track)));
 
             int i = 0;
             foreach (DataRow row in DataTable.Rows)
 	        {
                 i++;
-                if (ProgressStatusChanged != null)
-                    ProgressStatusChanged(this, new ProgressStatusEventArgs(String.Format("Loading row {0} of {1}", i, DataTable.Rows.Count), i, DataTable.Rows.Count));
+                RaiseProgressStatus("Loading row {0} of {1}", i, DataTable.Rows.Count);
                 var trackPos = Tracks.IndexOf(track) + 6;
                 var r = GetMetadata(row, trackPos);
-                
-                LoadMetadata(r, true, ref measureGroups, ref dimensions);
+
+                LoadMetadata(r, true, ref metadata);
             }
 
-            if (ProgressStatusChanged != null)
-                ProgressStatusChanged(this, new ProgressStatusEventArgs("Xls file processed"));
+            RaiseProgressStatus("Xls file processed");
+
+            return metadata;
         }
 
-        public void Read(ref MeasureGroups measureGroups, ref Dimensions dimensions)
+        public CubeMetadata Read()
         {
-            if (measureGroups == null || dimensions == null)
-                throw new ArgumentNullException();
+            CubeMetadata metadata = new CubeMetadata();
 
-            if (ProgressStatusChanged!=null)
-                ProgressStatusChanged(this, new ProgressStatusEventArgs(string.Format("Processing Xls file")));
+            RaiseProgressStatus("Processing Xls file");
             int i = 0;
             foreach (DataRow row in DataTable.Rows)
             {
                 i++;
-                if (ProgressStatusChanged != null)
-                    ProgressStatusChanged(this, new ProgressStatusEventArgs(String.Format("Loading row {0} of {1}", i, DataTable.Rows.Count), i, DataTable.Rows.Count));
+                RaiseProgressStatus("Loading row {0} of {1}", i, DataTable.Rows.Count);
                 var r = GetMetadata(row);
 
-                LoadMetadata(r, false, ref measureGroups, ref dimensions);
+                LoadMetadata(r, false, ref metadata);
             }
-            if (ProgressStatusChanged != null)
-                ProgressStatusChanged(this, new ProgressStatusEventArgs("Xls file processed"));
+            RaiseProgressStatus("Xls file processed");
+
+            return metadata;
         }
-  
-        private void LoadMetadata(XlsMetadata r, bool filter, ref MeasureGroups measureGroups, ref Dimensions dimensions)
+
+        private void LoadMetadata(XlsMetadata r, bool filter, ref CubeMetadata metadata)
         {
             MeasureGroup mg = null;
 
             if ((!filter) || r.isChecked)
             {
+                metadata.Perspectives.AddOrIgnore(r.perspectiveName);
+                var perspective = metadata.Perspectives[r.perspectiveName];
 
-                if (measureGroups.ContainsKey(r.measureGroupName))
+                if (perspective.MeasureGroups.ContainsKey(r.measureGroupName))
                 {
-                    mg = measureGroups[r.measureGroupName];
+                    mg = perspective.MeasureGroups[r.measureGroupName];
                 }
                 else
                 {
                     mg = new MeasureGroup(r.measureGroupName);
-                    measureGroups.Add(mg);
+                    perspective.MeasureGroups.Add(mg);
                 }
 
                 if (!mg.Measures.ContainsKey(r.measureUniqueName))
@@ -106,14 +103,14 @@ namespace NBi.Core.Analysis.Metadata
 
                 Dimension dim = null;
 
-                if (dimensions.ContainsKey(r.dimensionUniqueName))
+                if (perspective.Dimensions.ContainsKey(r.dimensionUniqueName))
                 {
-                    dim = dimensions[r.dimensionUniqueName];
+                    dim = perspective.Dimensions[r.dimensionUniqueName];
                 }
                 else
                 {
-                    dim = new Dimension(r.dimensionUniqueName, r.dimensionCaption, new Hierarchies());
-                    dimensions.Add(dim);
+                    dim = new Dimension(r.dimensionUniqueName, r.dimensionCaption, new HierarchyCollection());
+                    perspective.Dimensions.Add(dim);
                 }
 
                 if (!dim.Hierarchies.ContainsKey(r.hierarchyUniqueName))
@@ -127,10 +124,9 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        protected DataTable Read()
+        protected DataTable LoadDataTable()
         {
-            if (ProgressStatusChanged != null)
-                ProgressStatusChanged(this, new ProgressStatusEventArgs("Reading Xls file"));
+            RaiseProgressStatus("Reading Xls file");
             var dt = new DataTable("Metadata");
         
             using (var conn = new OleDbConnection())
@@ -203,6 +199,8 @@ namespace NBi.Core.Analysis.Metadata
         {
             var xlsMetadata = new XlsMetadata();
 
+            xlsMetadata.perspectiveName = (string)row[0];
+            
             xlsMetadata.measureGroupName = row.IsNull("MeasureGroup") ? string.Empty : (string)row["MeasureGroup"];
             
             if (row.Table.Columns.IndexOf("Measure") > 0)
@@ -240,6 +238,7 @@ namespace NBi.Core.Analysis.Metadata
 
         protected struct XlsMetadata
         {
+            public string perspectiveName;
             public string measureGroupName;
             public string measureCaption;
             public string measureUniqueName;

@@ -3,13 +3,13 @@
 
 namespace NBi.Core.Analysis.Metadata
 {
-    public class Hierarchies : Dictionary<string, Hierarchy>
+    public class HierarchyCollection : Dictionary<string, Hierarchy>
     {
         protected string defaultUniqueName;
 
         public Hierarchy Default { get { return this[defaultUniqueName]; } }
 
-        public void AddOrReplace(string uniqueName, string caption)
+        public void AddOrIgnore(string uniqueName, string caption)
         {
             if (this.ContainsKey(uniqueName))
                 this[uniqueName].Caption=caption;
@@ -28,9 +28,9 @@ namespace NBi.Core.Analysis.Metadata
             this.Add(hierarchy.UniqueName, hierarchy);
         }
 
-        public Hierarchies Clone()
+        public HierarchyCollection Clone()
         {
-            return new Hierarchies();
+            return new HierarchyCollection();
         }
 
     }

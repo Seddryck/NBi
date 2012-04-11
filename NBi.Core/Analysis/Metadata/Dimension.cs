@@ -5,18 +5,18 @@
     {
         public string UniqueName { get; private set; }
         public string Caption { get; set; }
-        public Hierarchies Hierarchies { get; set; }
+        public HierarchyCollection Hierarchies { get; set; }
 
         public Dimension(string uniqueName, string caption, string defaultHierarchyUniqueName)
         {
             UniqueName = uniqueName;
             Caption = caption;
-            Hierarchies = new Hierarchies();
+            Hierarchies = new HierarchyCollection();
             var defaultHierarchy = new Hierarchy(defaultHierarchyUniqueName, null);
             Hierarchies.AddDefault(defaultHierarchy);
         }
 
-        public Dimension(string uniqueName, string caption, Hierarchies hierarchies)
+        public Dimension(string uniqueName, string caption, HierarchyCollection hierarchies)
         {
             UniqueName = uniqueName;
             Caption = caption;

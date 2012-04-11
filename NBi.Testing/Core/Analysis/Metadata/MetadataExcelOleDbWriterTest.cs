@@ -15,11 +15,11 @@ namespace NBi.Testing.Core.Analysis.Metadata
             var initLength = new FileInfo(filename).Length;
 
             //set the object to test
-            var mgs = BuildFakeMetadata();
+            var persp = BuildFakeMetadata();
 
             var mew = new MetadataExcelOleDbWriter(filename);
             mew.SheetName = "Metadata";
-            mew.Write("Test", mgs);
+            mew.Write(persp);
             
             //Assertion
             Assert.Greater(new FileInfo(filename).Length, initLength);
@@ -28,7 +28,7 @@ namespace NBi.Testing.Core.Analysis.Metadata
         [Test]
         public void Write_NotExistingSheet_FileBiggerThanOriginal()
         {
-            var mgs = BuildFakeMetadata();
+            var persp = BuildFakeMetadata();
 
             //Build the fullpath for the file to read
             var filename = DiskOnFile.CreatePhysicalFile("MetadataNotExistingSheet.xls", "NBi.Testing.Core.Analysis.Metadata.MetadataExcelSample.xls");
@@ -37,7 +37,7 @@ namespace NBi.Testing.Core.Analysis.Metadata
             //set the object to test
             var mew = new MetadataExcelOleDbWriter(filename);
             mew.SheetName = "NotExistingMetadata";
-            mew.Write("Test", mgs);
+            mew.Write(persp);
 
             //Assertion
             Assert.Greater(new FileInfo(filename).Length, initLength);
@@ -46,7 +46,7 @@ namespace NBi.Testing.Core.Analysis.Metadata
         [Test]
         public void Write_NotExistingFile_FileIsCreated()
         {
-            var mgs = BuildFakeMetadata();
+            var persp = BuildFakeMetadata();
 
             //Build the fullpath for the file to read
             var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"MetadataNotExistingFile.xls");
@@ -54,20 +54,24 @@ namespace NBi.Testing.Core.Analysis.Metadata
             //set the object to test
             var mew = new MetadataExcelOleDbWriter(filename);
             mew.SheetName = "MySheet";
-            mew.Write("Test", mgs);
+            mew.Write(persp);
 
             //Assertion
             Assert.IsTrue(File.Exists(filename));
         }
 
-        private MeasureGroups BuildFakeMetadata()
+        private CubeMetadata BuildFakeMetadata()
         {
+            var metadata = new CubeMetadata();
+            
+            var p = new Perspective("p");
+            
             var mg = new MeasureGroup("mg");
 
             var h1 = new Hierarchy("[h1]", "h1");
             var h2 = new Hierarchy("[h2]", "h2");
 
-            var hs = new Hierarchies();
+            var hs = new HierarchyCollection();
             hs.Add(h1);
             hs.Add(h2);
 
@@ -79,9 +83,10 @@ namespace NBi.Testing.Core.Analysis.Metadata
             mg.Measures.Add(m1);
             mg.Measures.Add(m2);
 
-            var mgs = new MeasureGroups();
-            mgs.Add(mg);
-            return mgs;
+            p.MeasureGroups.Add(mg);
+
+            metadata.Perspectives.Add(p);
+            return metadata;
         }
     }
 }

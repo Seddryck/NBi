@@ -1,4 +1,4 @@
-﻿namespace NBi.Core.Analysis.Query
+﻿namespace NBi.Core
 {
     public class CsvDefinition
     {

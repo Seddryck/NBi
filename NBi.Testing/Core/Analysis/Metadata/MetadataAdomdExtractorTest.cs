@@ -9,22 +9,22 @@ namespace NBi.Testing.Core.Analysis.Metadata
         [Test]
         public void GetMetadata_ExistingCube_ListOfMetadata()
         {
-            var me = new MetadataAdomdExtractor("Data Source=localhost;Catalog='Finances Analysis';", "Finances");
+            var me = new MetadataAdomdExtractor("Data Source=localhost;Catalog='Finances Analysis';");
             
-            me.GetMetadata();
+            var metadata = me.GetMetadata();
 
-            Assert.That(me.Dimensions.ContainsKey("[Date]"));
-            Assert.That(!me.Dimensions.ContainsKey("[Measures]"));
+            Assert.That(metadata.Perspectives["Finances"].Dimensions.ContainsKey("[Date]"));
+            Assert.That(!metadata.Perspectives["Finances"].Dimensions.ContainsKey("[Measures]"));
 
-            Assert.That(me.Dimensions["[Date]"].Hierarchies.ContainsKey("[Date].[Calendar]"));
-       
-            Assert.That(me.MeasureGroups.ContainsKey("Fact Amount"));
-            Assert.That(!me.MeasureGroups.ContainsKey("[Date]"));
+            Assert.That(metadata.Perspectives["Finances"].Dimensions["[Date]"].Hierarchies.ContainsKey("[Date].[Calendar]"));
 
-            Assert.That(me.MeasureGroups["Fact Amount"].LinkedDimensions.ContainsKey("[Date]"));
-            Assert.That(!me.MeasureGroups["Fact Amount"].LinkedDimensions.ContainsKey("[Measures]"));
+            Assert.That(metadata.Perspectives["Finances"].MeasureGroups.ContainsKey("Fact Amount"));
+            Assert.That(!metadata.Perspectives["Finances"].MeasureGroups.ContainsKey("[Date]"));
 
-            Assert.That(me.MeasureGroups["Fact Amount"].Measures.ContainsKey("[Measures].[Amount]"));
+            Assert.That(metadata.Perspectives["Finances"].MeasureGroups["Fact Amount"].LinkedDimensions.ContainsKey("[Date]"));
+            Assert.That(!metadata.Perspectives["Finances"].MeasureGroups["Fact Amount"].LinkedDimensions.ContainsKey("[Measures]"));
+
+            Assert.That(metadata.Perspectives["Finances"].MeasureGroups["Fact Amount"].Measures.ContainsKey("[Measures].[Amount]"));
         }
 
         

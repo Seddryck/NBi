@@ -8,9 +8,11 @@ namespace NBi.Core.Analysis.Metadata
 {
     public abstract class MetadataExcelOleDbAbstract
     {
-
+        public event ProgressStatusHandler ProgressStatusChanged;
 
         public string Filename { get; private set; }
+
+        public bool SupportSheets { get { return false; } }
 
         private string _sheetName;
         public string SheetName
@@ -24,11 +26,16 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        public IList<string> Sheets { get; private set; }
+        protected readonly List<string> _sheets;
+        public IEnumerable<string> Sheets 
+        {
+            get { return _sheets; }
+        }
 
-        public MetadataExcelOleDbAbstract(string filename)
+        protected MetadataExcelOleDbAbstract(string filename)
         {
             Filename = filename;
+            _sheets = new List<string>();
         }
 
         public MetadataExcelOleDbAbstract(string filename, string sheetname) : this(filename)
@@ -67,9 +74,21 @@ namespace NBi.Core.Analysis.Metadata
                     i++;
                 }
 
-                Sheets = excelSheets;
+                _sheets.Clear();
+                _sheets.AddRange(excelSheets);
             }
+        }
 
+        public void RaiseProgressStatus(string status)
+        {
+            if (ProgressStatusChanged != null)
+                ProgressStatusChanged(this, new ProgressStatusEventArgs(status));
+        }
+
+        public void RaiseProgressStatus(string status, int current, int total)
+        {
+            if (ProgressStatusChanged != null)
+                ProgressStatusChanged(this, new ProgressStatusEventArgs(string.Format(status, current, total), current, total));
         }
     }
 }

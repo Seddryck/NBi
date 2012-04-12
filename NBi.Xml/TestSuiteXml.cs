@@ -11,5 +11,10 @@ namespace NBi.Xml
         
         [XmlElement("Test")]
         public List<TestXml> Tests { get; set; }
+
+        public TestSuiteXml()
+        {
+            Tests = new List<TestXml>();
+        }
     }
 }

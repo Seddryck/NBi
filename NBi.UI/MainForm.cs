@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using NBi.Core.Analysis.Metadata;
 using NBi.Core.Analysis.Query;
 using NBi.Core;
+using NBi.Xml;
 
 namespace NBi.UI
 {
@@ -362,7 +363,7 @@ namespace NBi.UI
 
         private void createToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var createForm = new ResultSetCreate();
+            var createForm = new TestSuiteCreate();
 
             DialogResult dialogResult = createForm.ShowDialog();
             if (dialogResult.HasFlag(DialogResult.OK))
@@ -420,6 +421,21 @@ namespace NBi.UI
                 finally
                 {
                     EndClick(null);
+                }
+            }
+        }
+
+        private void buildToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var tsCreate = new TestSuiteCreate();
+            if (tsCreate.ShowDialog() == DialogResult.OK)
+            {
+                var xm = new XmlManager();
+                var ts = xm.BuildTestSuite(tsCreate.QueriesDirectory, tsCreate.ResultsDirectory, tsCreate.ConnectionString);
+                saveFileDialog.Filter = "Xml|*.xml";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    xm.Persist(saveFileDialog.FileName, ts);
                 }
             }
         }

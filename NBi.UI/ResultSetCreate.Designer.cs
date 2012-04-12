@@ -26,7 +26,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        protected virtual void InitializeComponent()
         {
             this.cancel = new System.Windows.Forms.Button();
             this.ok = new System.Windows.Forms.Button();

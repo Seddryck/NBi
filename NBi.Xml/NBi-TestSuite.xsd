@@ -9,7 +9,7 @@
 							<xs:element name="EqualsTo" minOccurs="0">
 								<xs:complexType>
 									<xs:attribute name="connectionString" type="xs:string" use="required" />
-									<xs:attribute name="resultSet" type="xs:string" use="required" />
+									<xs:attribute name="resultSetPath" type="xs:string" use="required" />
 								</xs:complexType>
 							</xs:element>
 							<xs:element name="SyntacticallyCorrect" minOccurs="0">

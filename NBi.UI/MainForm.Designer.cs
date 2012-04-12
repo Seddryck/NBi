@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Linked dimensions");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Measures");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Measure group", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("MG2");
+            System.Windows.Forms.TreeNode treeNode37 = new System.Windows.Forms.TreeNode("Linked dimensions");
+            System.Windows.Forms.TreeNode treeNode38 = new System.Windows.Forms.TreeNode("Measures");
+            System.Windows.Forms.TreeNode treeNode39 = new System.Windows.Forms.TreeNode("Measure group", new System.Windows.Forms.TreeNode[] {
+            treeNode37,
+            treeNode38});
+            System.Windows.Forms.TreeNode treeNode40 = new System.Windows.Forms.TreeNode("MG2");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.metadataTreeview = new System.Windows.Forms.TreeView();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -84,6 +84,9 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.testsSuiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buildToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -96,17 +99,17 @@
             this.metadataTreeview.FullRowSelect = true;
             this.metadataTreeview.Location = new System.Drawing.Point(5, 27);
             this.metadataTreeview.Name = "metadataTreeview";
-            treeNode1.Name = "Node2";
-            treeNode1.Text = "Linked dimensions";
-            treeNode2.Name = "Node3";
-            treeNode2.Text = "Measures";
-            treeNode3.Name = "MG1";
-            treeNode3.Text = "Measure group";
-            treeNode4.Name = "Node1";
-            treeNode4.Text = "MG2";
+            treeNode37.Name = "Node2";
+            treeNode37.Text = "Linked dimensions";
+            treeNode38.Name = "Node3";
+            treeNode38.Text = "Measures";
+            treeNode39.Name = "MG1";
+            treeNode39.Text = "Measure group";
+            treeNode40.Name = "Node1";
+            treeNode40.Text = "MG2";
             this.metadataTreeview.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
+            treeNode39,
+            treeNode40});
             this.metadataTreeview.Size = new System.Drawing.Size(312, 352);
             this.metadataTreeview.TabIndex = 1;
             // 
@@ -196,6 +199,7 @@
             this.metadataToolStripMenuItem,
             this.queriesSetToolStripMenuItem,
             this.resultSetToolStripMenuItem,
+            this.testsSuiteToolStripMenuItem,
             this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
@@ -503,6 +507,28 @@
             this.saveFileDialog.Filter = "Excel 97-2003|*.xls|Excel 2007-2010|*xlsx|CSV|*.csv";
             this.saveFileDialog.OverwritePrompt = false;
             // 
+            // testsSuiteToolStripMenuItem
+            // 
+            this.testsSuiteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.buildToolStripMenuItem,
+            this.pToolStripMenuItem});
+            this.testsSuiteToolStripMenuItem.Name = "testsSuiteToolStripMenuItem";
+            this.testsSuiteToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
+            this.testsSuiteToolStripMenuItem.Text = "Tests Suite";
+            // 
+            // buildToolStripMenuItem
+            // 
+            this.buildToolStripMenuItem.Name = "buildToolStripMenuItem";
+            this.buildToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.buildToolStripMenuItem.Text = "Build ...";
+            this.buildToolStripMenuItem.Click += new System.EventHandler(this.buildToolStripMenuItem_Click);
+            // 
+            // pToolStripMenuItem
+            // 
+            this.pToolStripMenuItem.Name = "pToolStripMenuItem";
+            this.pToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.pToolStripMenuItem.Text = "Play with NUnit ...";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -580,6 +606,9 @@
         private System.Windows.Forms.ToolStripMenuItem createToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testsSuiteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem buildToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pToolStripMenuItem;
     }
 }
 

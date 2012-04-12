@@ -8,7 +8,7 @@ namespace NBi.UI
         public string QueriesDirectory { get; private set; }
         public string ResultsDirectory { get; private set; }
         public string ConnectionString { get; private set; }
-        
+
         public ResultSetCreate()
         {
             InitializeComponent();
@@ -35,7 +35,7 @@ namespace NBi.UI
             }
         }
 
-        private void ok_Click(object sender, EventArgs e)
+        protected virtual void ok_Click(object sender, EventArgs e)
         {
             QueriesDirectory = queriesDirectory.Text;
             ResultsDirectory = resultsDirectory.Text;

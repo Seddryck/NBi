@@ -46,8 +46,7 @@ namespace NBi.Testing.Xml
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-
-            Assert.That(ts.Tests.Count, Is.GreaterThanOrEqualTo(2));
+            Assert.That(ts.Tests.Count, Is.EqualTo(3));
         }
 
         [Test]
@@ -96,18 +95,34 @@ namespace NBi.Testing.Xml
             Assert.That(((FasterThanXml)ts.Tests[1].Constraints[1]).ConnectionString, Is.Not.Empty);
             Assert.That(((FasterThanXml)ts.Tests[1].Constraints[1]).MaxTimeMilliSeconds, Is.EqualTo(5000));
         }
+
+        [Test]
+        public void Deserialize_SampleFile_ConstraintEqualsToLoaded()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[2].Constraints[0], Is.InstanceOf<EqualsToXml>());
+            Assert.That(((EqualsToXml)ts.Tests[2].Constraints[0]).ConnectionString, Is.Not.Empty);
+            Assert.That(((EqualsToXml)ts.Tests[2].Constraints[0]).ResultSetPath, Is.Not.Empty);
+        }
         
         [Test]
         public void Deserialize_SampleFile_TestCaseMembersLoaded()
         {
+            //Create the queryfile to read
+            DiskOnFile.CreatePhysicalFile("Select all products.sql", "NBi.Testing.Xml.SelectAllProducts.sql");
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
             Assert.That(ts.Tests[1].TestCases[0], Is.InstanceOf<TestCaseXml>());
             Assert.That(ts.Tests[1].TestCases[0].Query, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
+            Assert.That(ts.Tests[1].TestCases[0].InlineQuery, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
             Assert.That(ts.Tests[1].TestCases[0].Filename, Is.Null);
-            Assert.That(ts.Tests[1].TestCases[1].Query, Is.Null);
+            Assert.That(ts.Tests[1].TestCases[1].Query, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
+            Assert.That(ts.Tests[1].TestCases[1].InlineQuery, Is.Null);
             Assert.That(ts.Tests[1].TestCases[1].Filename, Is.Not.Null.And.Not.Empty);
         }
 

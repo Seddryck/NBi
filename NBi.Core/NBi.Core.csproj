@@ -75,6 +75,9 @@
     <Compile Include="Analysis\Metadata\MetadataFileFormat.cs" />
     <Compile Include="Analysis\Metadata\Perspective.cs" />
     <Compile Include="Analysis\Metadata\PerspectiveCollection.cs" />
+    <Compile Include="Analysis\Query\ResultSetCsvReader.cs" />
+    <Compile Include="Analysis\Query\IResultSetComparer.cs" />
+    <Compile Include="Analysis\Query\ResultSetComparer.cs" />
     <Compile Include="CsvDefinition.cs" />
     <Compile Include="IProgressStatusAware.cs" />
     <Compile Include="ProgressStatusHandler.cs" />
@@ -95,10 +98,14 @@
     <Compile Include="ProgressStatusEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Result.cs" />
+    <Compile Include="Util\DiffFiles\LongestCommonSequence\DiffEngine.cs" />
+    <Compile Include="Util\DiffFiles\LongestCommonSequence\Structure.cs" />
+    <Compile Include="Util\DiffFiles\LongestCommonSequence\TextFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

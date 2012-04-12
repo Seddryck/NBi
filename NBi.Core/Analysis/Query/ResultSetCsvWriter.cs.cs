@@ -21,6 +21,17 @@ namespace NBi.Core.Analysis.Query
         protected override void OnWrite(string filename, DataSet ds, string tableName)
         {
             var table = ds.Tables[tableName];
+            var str = BuildContent(table);
+
+            var file = Path.Combine(Path.GetFullPath(PersistencePath), filename);
+            using (StreamWriter outfile = new StreamWriter(file, false, Encoding.UTF8))
+            {
+                outfile.Write(str);
+            }
+        }
+
+        public string BuildContent(DataTable table)
+        {
             var sb = new StringBuilder();
 
             foreach (DataRow row in table.Rows)
@@ -29,18 +40,14 @@ namespace NBi.Core.Analysis.Query
                 {
                     var item = row.ItemArray[i];
 
-                    if (item.GetType()==typeof(string))
-                        ((string)item).Replace( Definition.TextQualifier.ToString(), Definition.TextQualifier.ToString() + Definition.TextQualifier.ToString());
- 
+                    if (item.GetType() == typeof(string))
+                        ((string)item).Replace(Definition.TextQualifier.ToString(), Definition.TextQualifier.ToString() + Definition.TextQualifier.ToString());
+
                     sb.AppendFormat("\"{0}\"{1}", item, Definition.FieldSeparator);
                 }
                 sb.AppendLine();
             }
-            var file = Path.Combine(Path.GetFullPath(PersistencePath), filename);
-            using (StreamWriter outfile = new StreamWriter(file, false, Encoding.UTF8))
-            {
-                outfile.Write(sb);
-            }
+            return sb.ToString();
         }
     }
 }

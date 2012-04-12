@@ -19,11 +19,20 @@ namespace NBi.Xml
         public List<string> Categories;
 
         [XmlElement(Type = typeof(SyntacticallyCorrectXml), ElementName = "SyntacticallyCorrect"),
-        XmlElement(Type = typeof(FasterThanXml), ElementName = "FasterThan")]
+        XmlElement(Type = typeof(FasterThanXml), ElementName = "FasterThan"),
+        XmlElement(Type = typeof(EqualsToXml), ElementName = "EqualsTo")
+        ]
         public List<AbstractConstraintXml> Constraints;
 
         [XmlElement("TestCase")]
         public List<TestCaseXml> TestCases;
+
+        public TestXml()
+        {
+            Constraints = new List<AbstractConstraintXml>();
+            TestCases = new List<TestCaseXml>();
+            Categories = new List<string>();
+        }
 
         public IList<Constraint> Instantiate()
         {

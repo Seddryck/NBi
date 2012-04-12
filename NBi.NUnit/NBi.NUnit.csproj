@@ -47,7 +47,7 @@
     <Compile Include="DataSetConstraint.cs" />
     <Compile Include="DataSetContentConstraint.cs" />
     <Compile Include="DataSetStructureConstraint.cs" />
-    <Compile Include="EqualsToConstraint.cs" />
+    <Compile Include="EqualToConstraint.cs" />
     <Compile Include="OnDataSource.cs" />
     <Compile Include="SyntacticallyCorrectConstraint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -4,7 +4,7 @@ using NUnit.Framework.Constraints;
 
 namespace NBi.NUnit
 {
-    public class EqualsToConstraint : Constraint
+    public class EqualToConstraint : Constraint
     {
         /// <summary>
         /// Engine dedicated to result set comparaison
@@ -16,7 +16,7 @@ namespace NBi.NUnit
         /// </summary>
         protected Result _res;
 
-        public EqualsToConstraint(string connectionString, string expectedResultSetPath)
+        public EqualToConstraint(string connectionString, string expectedResultSetPath)
         {
             _engine = new ResultSetComparer(connectionString, expectedResultSetPath);
         }
@@ -25,7 +25,7 @@ namespace NBi.NUnit
         /// .ctor mainly used for mocking
         /// </summary>
         /// <param name="engine">The engine to use</param>
-        protected internal EqualsToConstraint(IResultSetComparer engine)
+        protected internal EqualToConstraint(IResultSetComparer engine)
         {
             _engine = engine;
         }

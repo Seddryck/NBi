@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace NBi.Testing.NUnit
 {
     [TestFixture]
-    public class EqualsToConstraintTest
+    public class EqualToConstraintTest
     {
         [Test]
         public void EqualsToConstraint_NUnitAssertThat_EngineCalledOnce()
@@ -20,7 +20,7 @@ namespace NBi.Testing.NUnit
                 .Returns(Result.Success());
             IResultSetComparer rsc = mock.Object;
 
-            var equalsToConstraint = new EqualsToConstraint(rsc);
+            var equalsToConstraint = new EqualToConstraint(rsc);
 
             //Method under test
             Assert.That(expectedPath, equalsToConstraint);

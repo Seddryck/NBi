@@ -14,7 +14,7 @@ namespace NBi.Xml
 
         public override Constraint Define()
         {
-            var ctr = new EqualsToConstraint(ConnectionString, ResultSetPath);
+            var ctr = new EqualToConstraint(ConnectionString, ResultSetPath);
             return ctr;
         }
     }

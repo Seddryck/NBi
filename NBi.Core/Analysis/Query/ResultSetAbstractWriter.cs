@@ -31,7 +31,6 @@ namespace NBi.Core.Analysis.Query
             OnWrite(filename, ds, ds.Tables[0].TableName);
         }
 
-
         protected abstract void OnWrite(string filename, DataSet ds, string tableName);
     }
 }

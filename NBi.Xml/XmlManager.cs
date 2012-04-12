@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using System.Collections.Generic;
 
 namespace NBi.Xml
 {
@@ -27,6 +29,18 @@ namespace NBi.Xml
             {
                 // Use the Deserialize method to restore the object's state.
                 TestSuite = (TestSuiteXml)serializer.Deserialize(reader);
+            }
+        }
+
+        public void Persist(string filename, TestSuiteXml testSuite)
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            var serializer = new XmlSerializer(typeof(TestSuiteXml));
+
+            using (var writer = new StreamWriter(filename))
+            {
+                // Use the Serialize method to store the object's state.
+                serializer.Serialize(writer, testSuite);
             }
         }
 
@@ -58,5 +72,34 @@ namespace NBi.Xml
             //This is only called on error
             _isValid = false; //Validation failed
         }
+
+        public TestSuiteXml BuildTestSuite(string queriesDirectory, string resultSetsDirectory, string connectionString)
+        {
+            var testSuite = new TestSuiteXml();
+
+            var queries = Directory.GetFiles(queriesDirectory);
+            foreach (var query in queries)
+            {
+                if (File.Exists(Path.Combine(resultSetsDirectory, Path.GetFileNameWithoutExtension(query) + ".csv")))
+                {
+                    var test = new TestXml();
+
+                    testSuite.Tests.Add(test);
+                    test.Name = Path.GetFileNameWithoutExtension(query);
+                    test.Categories.AddRange(Path.GetFileNameWithoutExtension(query).Split(new string[] { " - " }, StringSplitOptions.RemoveEmptyEntries));
+
+                    var ctr = new EqualsToXml();
+                    test.Constraints.Add(ctr);
+                    ctr.ConnectionString=connectionString;
+                    ctr.ResultSetPath=Path.Combine(resultSetsDirectory, Path.GetFileNameWithoutExtension(query) + ".csv");
+
+                    var tc = new TestCaseXml();
+                    test.TestCases.Add(tc);
+                    tc.Filename = query;
+                }
+            }
+            return testSuite;
+        }
+
     }
 }

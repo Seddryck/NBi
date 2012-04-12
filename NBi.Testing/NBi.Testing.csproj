@@ -61,10 +61,12 @@
     <Compile Include="Core\Database\QueryParserTest.cs" />
     <Compile Include="Core\Database\QueryPerformanceTest.cs" />
     <Compile Include="Core\Integration\PackageManagerTest.cs" />
+    <Compile Include="Core\Util\DiffFiles\LongestCommonSequence\DiffEngineTest.cs" />
     <Compile Include="DiskOnFile.cs" />
     <Compile Include="NUnit\Database\DataSetConstraintTest.cs" />
-    <Compile Include="NUnit\Database\FasterThanConstraintTest.cs" />
-    <Compile Include="NUnit\Database\SyntacticallyCorrectConstraintTest.cs" />
+    <Compile Include="NUnit\FasterThanConstraintTest.cs" />
+    <Compile Include="NUnit\SyntacticallyCorrectConstraintTest.cs" />
+    <Compile Include="NUnit\EqualsToConstraintTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryGenerator\BatchManagerTest.cs" />
     <Compile Include="Core\Analysis\Query\OleDbExecutorTest.cs" />
@@ -105,6 +107,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Xml\SelectAllProducts.sql" />
     <EmbeddedResource Include="Xml\QueryFile.sql" />
     <EmbeddedResource Include="Core\Analysis\Metadata\MetadataExcelSample.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

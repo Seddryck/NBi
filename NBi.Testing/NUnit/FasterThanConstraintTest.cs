@@ -4,7 +4,7 @@ using NBi.Core.Database;
 using NBi.NUnit;
 using NUnit.Framework;
 
-namespace NBi.Testing.NUnit.Database
+namespace NBi.Testing.NUnit
 {
     [TestFixture]
     public class FasterThanConstraintTest
@@ -58,22 +58,22 @@ namespace NBi.Testing.NUnit.Database
         }
 
         [Test]
-        public void QueryPerformanceMock_IsFasterThan_CalledOnce()
+        public void FasterThanConstraint_NUnitAssertThat_EngineCalledOnce()
         {
             var sql = "SELECT * FROM Product;";
             var mock = new Mock<IQueryPerformance>();
 
-            mock.Setup(engine => engine.Validate(sql))
+            mock.Setup(engine => engine.Validate(It.IsAny<string>()))
                 .Returns(Result.Success());
             IQueryPerformance qp = mock.Object;
 
-            var qpc = new FasterThanConstraint(qp);
+            var fasterThanConstraint = new FasterThanConstraint(qp);
 
             //Method under test
-            Assert.That(sql, qpc);
+            Assert.That(sql, fasterThanConstraint);
 
             //Test conclusion            
-            mock.Verify(engine => engine.Validate(sql), Times.AtMostOnce());
+            mock.Verify(engine => engine.Validate(sql), Times.Once());
         }
 
     }

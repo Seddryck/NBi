@@ -78,6 +78,9 @@
     <Compile Include="ResultSetCreate.Designer.cs">
       <DependentUpon>ResultSetCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="TestSuiteCreate.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -102,6 +105,9 @@
     <EmbeddedResource Include="ResultSetCreate.resx">
       <DependentUpon>ResultSetCreate.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TestSuiteCreate.resx">
+      <DependentUpon>TestSuiteCreate.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -120,6 +126,10 @@
     <ProjectReference Include="..\NBi.QueryGenerator\NBi.QueryGenerator.csproj">
       <Project>{06F394FA-9B32-4F13-9254-50663655065E}</Project>
       <Name>NBi.QueryGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
+      <Project>{3A9822B3-CCE4-441B-9C3E-D52817A994CA}</Project>
+      <Name>NBi.Xml</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

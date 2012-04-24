@@ -5,9 +5,8 @@ using System.Data.OleDb;
 
 namespace NBi.Core.Analysis.Metadata
 {
-    public class MetadataExcelOleDbReader : MetadataExcelOleDbAbstract
+    public class MetadataExcelOleDbReader : MetadataExcelOleDbAbstract, IMetadataReader
     {
-        
 
         public string SheetRange { get; set; }
 
@@ -22,7 +21,11 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        public IList<string> Tracks { get; private set; }
+        protected List<string> _tracks;
+        public IEnumerable<string> Tracks
+        {
+            get { return _tracks; }
+        }
 
 
         public MetadataExcelOleDbReader(string filename) : base(filename) { }
@@ -47,7 +50,7 @@ namespace NBi.Core.Analysis.Metadata
 	        {
                 i++;
                 RaiseProgressStatus("Loading row {0} of {1}", i, DataTable.Rows.Count);
-                var trackPos = Tracks.IndexOf(track) + 6;
+                var trackPos = _tracks.IndexOf(track) + 6;
                 var r = GetMetadata(row, trackPos);
 
                 LoadMetadata(r, true, ref metadata);
@@ -173,11 +176,11 @@ namespace NBi.Core.Analysis.Metadata
                 }
             }
 
-            Tracks = new List<string>();
+            _tracks = new List<string>();
             foreach (DataColumn col in dt.Columns)
             {
                 if (col.Ordinal>5)
-                    Tracks.Add(col.ColumnName);
+                    _tracks.Add(col.ColumnName);
             }
         }
 

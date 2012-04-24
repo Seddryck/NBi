@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using NBi.Xml;
 using NUnit.Framework;
+using System.Reflection;
+using System.IO;
+using System.Text;
 
 namespace NBi.NUnit.Runtime
 {
@@ -12,6 +15,8 @@ namespace NBi.NUnit.Runtime
     [TestFixture]
     public class TestSuite
     {
+        public const string DEFAULT_TESTSUITE = "TestSuite.xml";
+
         [Test, TestCaseSource("GetTestCases")]
         public void ExecuteTestCases(TestXml test)
         {
@@ -42,9 +47,19 @@ namespace NBi.NUnit.Runtime
             return testCasesNUnit;
         }
 
-        protected string GetTestSuiteConfig()
+        public string GetTestSuiteConfig()
         {
-            return "TestSuite.xml";
+            string configFile = Assembly.GetExecutingAssembly().Location + ".config";
+            string testSuiteFile = DEFAULT_TESTSUITE;
+            if (File.Exists(configFile))
+            {
+                using (var sr = new StreamReader(Path.GetFullPath(configFile)))
+                {
+                    testSuiteFile = sr.ReadToEnd();
+                }
+            }
+
+            return testSuiteFile;
         }
     }
 }

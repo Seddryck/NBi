@@ -29,6 +29,12 @@ namespace NBi.Core.Analysis.Metadata
             get { throw new NotSupportedException(); }
         }
 
+        protected readonly List<string> _tracks;
+        public IEnumerable<string> Tracks
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         protected MetadataCsvAbstract(string filename)
         {
             Filename = filename;
@@ -38,6 +44,11 @@ namespace NBi.Core.Analysis.Metadata
         public void GetSheets()
         {
             throw new NotSupportedException();
+        }
+
+        public void GetTracks()
+        {
+            throw new NotImplementedException();
         }
 
         public void RaiseProgressStatus(string status)

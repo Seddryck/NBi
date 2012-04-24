@@ -56,7 +56,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\Metadata\IMetadataReader.cs" />
     <Compile Include="Analysis\Metadata\MetadataCsvAbstract.cs" />
+    <Compile Include="Analysis\Metadata\MetadataCsvReader.cs" />
     <Compile Include="Analysis\Metadata\MetadataCsvWriter.cs" />
     <Compile Include="Analysis\Metadata\CubeMetadata.cs" />
     <Compile Include="Analysis\Metadata\IMetadataWriter.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="Analysis\Metadata\MetadataExcelOleDbReader.cs" />
     <Compile Include="Analysis\Metadata\MetadataExcelOleDbWriter.cs" />
     <Compile Include="Analysis\Metadata\MetadataAdomdExtractor.cs" />
+    <Compile Include="Analysis\Metadata\MetadataFactory.cs" />
     <Compile Include="Analysis\Metadata\MetadataFileFormat.cs" />
     <Compile Include="Analysis\Metadata\Perspective.cs" />
     <Compile Include="Analysis\Metadata\PerspectiveCollection.cs" />

@@ -46,6 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\ConnectionString.cs" />
+    <Compile Include="Configuration\ConnectionStringCollection.cs" />
+    <Compile Include="Configuration\DirectoryCollection.cs" />
+    <Compile Include="Configuration\Directory.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,7 +68,9 @@
     <Compile Include="MetadataSave.Designer.cs">
       <DependentUpon>MetadataSave.cs</DependentUpon>
     </Compile>
+    <Compile Include="NUnit\NUnitLauncher.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Configuration\Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MetadataOpen.cs">
       <SubType>Form</SubType>
@@ -108,6 +114,9 @@
     <EmbeddedResource Include="TestSuiteCreate.resx">
       <DependentUpon>TestSuiteCreate.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="MyProject.nbi">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -123,6 +132,10 @@
       <Project>{3F730647-FE31-4907-8A6E-A0C4A0C970EA}</Project>
       <Name>NBi.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NBi.NUnit.Runtime\NBi.NUnit.Runtime.csproj">
+      <Project>{5AA137A9-C158-4A4F-B07D-3DF787618C24}</Project>
+      <Name>NBi.NUnit.Runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NBi.QueryGenerator\NBi.QueryGenerator.csproj">
       <Project>{06F394FA-9B32-4F13-9254-50663655065E}</Project>
       <Name>NBi.QueryGenerator</Name>
@@ -133,6 +146,9 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /Y /S "$(ProjectDir)..\packages\NUnit.Runners.2.6.0.12051\tools" "$(TargetDir)NUnit.Runners"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

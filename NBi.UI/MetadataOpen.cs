@@ -7,7 +7,7 @@ namespace NBi.UI
 {
     public partial class MetadataOpen : Form
     {
-        public MetadataExcelOleDbReader MetadataReader { get; set; }
+        public IMetadataReader MetadataReader { get; set; }
         public string Track  { get; protected set; }
                 
         public MetadataOpen()

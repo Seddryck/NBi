@@ -12,7 +12,7 @@ namespace NBi.Core.Analysis.Metadata
 
         public string Filename { get; private set; }
 
-        public bool SupportSheets { get { return false; } }
+        public bool SupportSheets { get { return true; } }
 
         private string _sheetName;
         public string SheetName

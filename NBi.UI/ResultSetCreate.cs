@@ -5,9 +5,9 @@ namespace NBi.UI
 {
     public partial class ResultSetCreate : Form
     {
-        public string QueriesDirectory { get; private set; }
-        public string ResultsDirectory { get; private set; }
-        public string ConnectionString { get; private set; }
+        public string QueriesDirectory { get; internal set; }
+        public string ResultsDirectory { get; internal set; }
+        public string ConnectionString { get; internal set; }
 
         public ResultSetCreate()
         {

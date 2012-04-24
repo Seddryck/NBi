@@ -17,11 +17,17 @@ namespace NBi.UI
         {
             InitializeComponent();
             metadataTreeview.Nodes.Clear();
-            folderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyDocuments;
-            folderBrowserDialog.SelectedPath = @"C:\Users\Seddryck\Documents\TestCCH\Queries\";
+            //folderBrowserDialog.SelectedPath = @"C:\Users\Seddryck\Documents\TestCCH\Queries\";
             openFileDialog.InitialDirectory = @"C:\Users\Seddryck\Documents\TestCCH\";
             openFileDialog.FileName = "MyMetadata.xlsx";
         }
+        
+        private void MainForm_Load(object sender, System.EventArgs e)
+        {
+            hierarchyFunction.SelectedIndex = 3;
+        }
+
+#region Treeview
 
         private TreeNode[] MapTreeview(CubeMetadata metadata)
         {
@@ -67,8 +73,6 @@ namespace NBi.UI
             return tnc.ToArray();
         }
 
-       
-       
         private bool ConfirmBuildMdxQueries()
         {
             if (!Directory.Exists(folderBrowserDialog.SelectedPath))
@@ -174,40 +178,6 @@ namespace NBi.UI
             }
         }
 
-
-        private void StartClick(Button sender)
-        {
-            if (sender != null)
-                sender.Enabled = false;
-            this.Cursor = Cursors.WaitCursor;
-        }
-
-        private void EndClick(Button sender)
-        {
-            statusStrip.Refresh();
-            this.Cursor = Cursors.Default;
-            if (sender != null)
-                sender.Enabled = true;
-        }
-
-        private DateTime _statusTripLastRefresh;
-        private const int STATUS_TRIP_REFRESH_RATE = 200;
-
-        private void ProgressStatus(object sender, ProgressStatusEventArgs e)
-        {
-            toolStripStatus.Text = e.Status;
-            toolStripStatus.Invalidate();
-
-            toolStripProgressBar.Maximum = e.Progress.Total;
-            toolStripProgressBar.Value = e.Progress.Current;
-
-            if (DateTime.Now.Subtract(_statusTripLastRefresh).TotalMilliseconds > STATUS_TRIP_REFRESH_RATE)
-            {
-                statusStrip.Refresh();
-                _statusTripLastRefresh = DateTime.Now;
-            }
-        }
-
         // Updates all child tree nodes recursively.
         private void CheckAllChildNodes(TreeNode treeNode, bool nodeChecked)
         {
@@ -269,11 +239,72 @@ namespace NBi.UI
             tv.AfterCheck -= node_AfterCheck;
         }
 
-        private void Form1_Load(object sender, System.EventArgs e)
+
+#endregion
+
+#region Progress and Toolstrip
+        
+        private void StartClick(Button sender)
         {
-            hierarchyFunction.SelectedIndex = 3;
+            if (sender != null)
+                sender.Enabled = false;
+            this.Cursor = Cursors.WaitCursor;
         }
 
+        private void EndClick(Button sender)
+        {
+            statusStrip.Refresh();
+            this.Cursor = Cursors.Default;
+            if (sender != null)
+                sender.Enabled = true;
+        }
+
+        private DateTime _statusTripLastRefresh;
+        private const int STATUS_TRIP_REFRESH_RATE = 200;
+
+        private void ProgressStatus(object sender, ProgressStatusEventArgs e)
+        {
+            toolStripStatus.Text = e.Status;
+            toolStripStatus.Invalidate();
+
+            toolStripProgressBar.Maximum = e.Progress.Total;
+            toolStripProgressBar.Value = e.Progress.Current;
+
+            if (DateTime.Now.Subtract(_statusTripLastRefresh).TotalMilliseconds > STATUS_TRIP_REFRESH_RATE)
+            {
+                statusStrip.Refresh();
+                _statusTripLastRefresh = DateTime.Now;
+            }
+        }
+
+#endregion
+
+#region Toolstrip Menu
+
+    #region File
+
+        private void openProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog.InitialDirectory = Application.StartupPath;
+            openFileDialog.FileName = "MyProject.nbi";
+            openFileDialog.Filter="NBi|*.nbi";
+
+            DialogResult dialogResult = openFileDialog.ShowDialog();
+            if (dialogResult.HasFlag(DialogResult.OK))
+            {
+                Configuration.Project.Load(openFileDialog.FileName);
+                toolStripStatus.Text = "Directories and connectionStrings defined";
+            }
+        }
+        
+        private void saveAsProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        
+    #endregion
+
+    #region Edit
         private void unselectAllMetadata_Click(object sender, System.EventArgs e)
         {
             foreach (TreeNode t in metadataTreeview.Nodes)
@@ -291,17 +322,25 @@ namespace NBi.UI
                 node_AfterCheck(metadataTreeview, new TreeViewEventArgs(t, TreeViewAction.ByMouse));
             }
         }
+        #endregion
 
-        private void openToolStripMenuItem_Click(object sender, System.EventArgs e)
+    #region Metadata
+
+        private void openMetadataToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
+            openFileDialog.InitialDirectory = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Metadata].FullPath;
+            openFileDialog.FileName = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Metadata].File;
+            openFileDialog.Filter = "CSV|*.csv|Excel 97-2003|*.xls";
             DialogResult dialogResult = openFileDialog.ShowDialog();
             if (dialogResult.HasFlag(DialogResult.OK))
             {
-
-                var mr = new MetadataExcelOleDbReader(openFileDialog.FileName);
-                var openForm = new MetadataOpen();
-                openForm.MetadataReader = mr;
-                openForm.ShowDialog();
+                var mr = MetadataFactory.GetReader(openFileDialog.FileName);
+                var openMetadataDetailsForm = new MetadataOpen();
+                if (mr.SupportSheets)
+                {
+                    openMetadataDetailsForm.MetadataReader = mr;
+                    openMetadataDetailsForm.ShowDialog();
+                }
 
                 StartClick(null);
 
@@ -316,9 +355,9 @@ namespace NBi.UI
                 RegisterEvents(metadataTreeview);
                 metadataTreeview.Refresh();
 
-                if (openForm.Track != "None")
+                if (mr.SupportSheets && openMetadataDetailsForm.Track != "None")
                 {
-                    var perspTrack = mr.Read(openForm.Track);
+                    var perspTrack = mr.Read(openMetadataDetailsForm.Track);
                     SelectMetadata(perspTrack);
                 }
 
@@ -328,15 +367,18 @@ namespace NBi.UI
 
         }
 
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
-        {   
+        private void saveAsMetadataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             StartClick(null);
-            if (saveFileDialog.ShowDialog()==DialogResult.OK)
+            saveFileDialog.InitialDirectory = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Metadata].Path;
+            saveFileDialog.FileName = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Metadata].File;
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 IMetadataWriter mw = null;
-                switch(Path.GetExtension(saveFileDialog.FileName))
-	            {
-		            case ".csv":
+                switch (Path.GetExtension(saveFileDialog.FileName))
+                {
+                    case ".csv":
                         mw = new MetadataCsvWriter(saveFileDialog.FileName);
                         break;
                     case ".xls":
@@ -352,8 +394,8 @@ namespace NBi.UI
                         break;
                     default:
                         throw new NotImplementedException();
-	            }
-                    
+                }
+
                 mw.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
                 mw.Write(Metadata);
                 mw.ProgressStatusChanged -= new ProgressStatusHandler(ProgressStatus);
@@ -361,23 +403,7 @@ namespace NBi.UI
             EndClick(null);
         }
 
-        private void createToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var createForm = new TestSuiteCreate();
-
-            DialogResult dialogResult = createForm.ShowDialog();
-            if (dialogResult.HasFlag(DialogResult.OK))
-            {
-                StartClick(null);
-                var qsm = QuerySetManager.BuildDefault(createForm.QueriesDirectory, createForm.ResultsDirectory, createForm.ConnectionString);
-                qsm.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
-                qsm.PersistResultSets();
-                qsm.ProgressStatusChanged -= new ProgressStatusHandler(ProgressStatus);
-                EndClick(null);
-            }
-        }
-
-        private void extractToolStripMenuItem_Click(object sender, EventArgs e)
+        private void extractMetadataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var extractForm = new MetadataExtract();
 
@@ -403,8 +429,16 @@ namespace NBi.UI
             }
         }
 
-        private void createToolStripMenuItem1_Click(object sender, EventArgs e)
+    #endregion
+
+    #region Queries Set
+
+        private void createQueriesSetToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            folderBrowserDialog.Description = "Select a path to store the queries generated by NBi on base of your selection in the treeview.";
+            //folderBrowserDialog.RootFolder = Environment.SpecialFolder.MyDocuments;
+            folderBrowserDialog.SelectedPath = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Query].FullFileName;
+
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 if (!ConfirmBuildMdxQueries())
@@ -425,9 +459,46 @@ namespace NBi.UI
             }
         }
 
-        private void buildToolStripMenuItem_Click(object sender, EventArgs e)
+    #endregion
+
+    #region Results Set
+
+        private void createResultsSetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var createForm = new TestSuiteCreate();
+            createForm.QueriesDirectory = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Query].FullFileName;
+            createForm.ResultsDirectory = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Expect].FullFileName;
+            createForm.ConnectionString = Configuration.Project.ConnectionStrings[
+                Configuration.ConnectionStringCollection.ConnectionClass.Oledb,
+                Configuration.ConnectionStringCollection.ConnectionType.Expect
+                ].Value;
+
+            DialogResult dialogResult = createForm.ShowDialog();
+            if (dialogResult.HasFlag(DialogResult.OK))
+            {
+                StartClick(null);
+                var qsm = QuerySetManager.BuildDefault(createForm.QueriesDirectory, createForm.ResultsDirectory, createForm.ConnectionString);
+                qsm.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
+                qsm.PersistResultSets();
+                qsm.ProgressStatusChanged -= new ProgressStatusHandler(ProgressStatus);
+                EndClick(null);
+            }
+        }
+
+    #endregion
+
+    #region TestSuite
+
+        private void buildTestSuiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var tsCreate = new TestSuiteCreate();
+            tsCreate.QueriesDirectory = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Query].FullFileName;
+            tsCreate.ResultsDirectory = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Expect].FullFileName;
+            tsCreate.ConnectionString = Configuration.Project.ConnectionStrings[
+                Configuration.ConnectionStringCollection.ConnectionClass.Oledb,
+                Configuration.ConnectionStringCollection.ConnectionType.Actual
+                ].Value;
+
             if (tsCreate.ShowDialog() == DialogResult.OK)
             {
                 var xm = new XmlManager();
@@ -440,8 +511,14 @@ namespace NBi.UI
             }
         }
 
-
+        private void runWithNUnitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var launcher = new NUnit.NUnitLauncher();
+            launcher.Run();
+        }
+    #endregion
         
-
+#endregion
+        
     }
 }

@@ -39,10 +39,10 @@ namespace NBi.NUnit.Runtime
                 testCaseDataNUnit.SetName(test.Name);
                 testCaseDataNUnit.SetDescription(test.Description);
                 //TODO Add Categories into XmlConfiguration
-                //foreach (var category in test.Categories)
-                //{
-                //    testCaseDataNUnit.SetCategory(category);
-                //}
+                foreach (var category in test.Categories)
+                {
+                    testCaseDataNUnit.SetCategory(category);
+                }
                 testCasesNUnit.Add(testCaseDataNUnit);
             }
             return testCasesNUnit;

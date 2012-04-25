@@ -177,10 +177,13 @@ namespace NBi.Core.Analysis.Metadata
             }
 
             _tracks = new List<string>();
+            var nextIsTrack = false;
             foreach (DataColumn col in dt.Columns)
             {
-                if (col.Ordinal>5)
+                if (nextIsTrack)
                     _tracks.Add(col.ColumnName);
+                if (col.ColumnName == "HierarchyUniqueName" || col.ColumnName.StartsWith("DimensionAttribute("))
+                    nextIsTrack = true;
             }
         }
 

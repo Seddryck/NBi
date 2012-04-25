@@ -562,7 +562,13 @@ namespace NBi.UI
 
         private void runWithNUnitToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var cfg = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.TestSuite];
+            
             var launcher = new NUnit.NUnitLauncher();
+            if (!string.IsNullOrEmpty(cfg.FullFileName))
+                launcher.Configure(cfg.FullFileName);
+            else
+                launcher.CleanConfiguration();
             launcher.Run();
         }
     #endregion

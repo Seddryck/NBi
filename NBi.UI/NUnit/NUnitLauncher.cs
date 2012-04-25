@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.IO;
 
 namespace NBi.UI.NUnit
 {
@@ -9,6 +7,21 @@ namespace NBi.UI.NUnit
     {
         public string TestSuite { get; set; }
 
+        public void CleanConfiguration()
+        {
+            if (File.Exists("NBi.NUnit.Runtime.config"))
+                File.Delete("NBi.NUnit.Runtime.config");
+        }
+        
+        public void Configure(string fullpath)
+        {
+            CleanConfiguration();
+            using (var sw = new StreamWriter("NBi.NUnit.Runtime.config"))
+            {
+                sw.Write(fullpath);
+            }
+        }
+        
         public void Run()
         {
             Process.Start(@"NUnit.Runners\nunit.exe", "NBi.NUnit.Runtime.dll /run");

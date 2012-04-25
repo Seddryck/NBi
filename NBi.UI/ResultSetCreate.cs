@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace NBi.UI
@@ -39,7 +40,12 @@ namespace NBi.UI
             ResultsDirectory = resultsDirectory.Text;
             ConnectionString = connectionString.Text;
 
-            this.Close();
+            if (!Directory.Exists(QueriesDirectory))
+                MessageBox.Show(String.Format("Directory \"{0}\" doesn't exist!", QueriesDirectory), "Non existing directory", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else if (!Directory.Exists(ResultsDirectory))
+                MessageBox.Show(String.Format("Directory \"{0}\" doesn't exist!", ResultsDirectory), "Non existing directory", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+                DialogResult = DialogResult.OK;
         }
 
         private void ResultSetCreate_Load(object sender, EventArgs e)

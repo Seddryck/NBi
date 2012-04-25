@@ -24,7 +24,16 @@ namespace NBi.UI
             existingSheetSelected.Items.Clear();
             MetadataWriter.GetSheets();
             existingSheetSelected.Items.AddRange(MetadataWriter.Sheets.ToArray());
-            existingSheetSelected.SelectedIndex = 0;    
+            
+            if (existingSheetSelected.Items.Count == 0)
+            {
+                existingSheetSelected.Enabled = false;
+                useExistingSheet.Enabled = false;
+                createNewSheet.Checked = true;
+            }
+            else
+                existingSheetSelected.SelectedIndex = 0;
+
         }
 
         private void existingSheetSelected_SelectedIndexChanged(object sender, EventArgs e)

@@ -12,8 +12,6 @@ namespace NBi.UI
         public ResultSetCreate()
         {
             InitializeComponent();
-            queriesDirectory.Text = @"C:\Users\Seddryck\Documents\TestCCH\Queries\";
-            resultsDirectory.Text = @"C:\Users\Seddryck\Documents\TestCCH\Results\";
         }
 
         private void resultsDirectorySelect_Click(object sender, EventArgs e)
@@ -46,7 +44,9 @@ namespace NBi.UI
 
         private void ResultSetCreate_Load(object sender, EventArgs e)
         {
-
+            queriesDirectory.Text = QueriesDirectory;
+            resultsDirectory.Text = ResultsDirectory;
+            connectionString.Text = ConnectionString;
         }
 
     }

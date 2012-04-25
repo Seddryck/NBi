@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using NBi.Xml;
 using NUnit.Framework;
-using System.Reflection;
-using System.IO;
-using System.Text;
 
 namespace NBi.NUnit.Runtime
 {
@@ -20,6 +20,7 @@ namespace NBi.NUnit.Runtime
         [Test, TestCaseSource("GetTestCases")]
         public void ExecuteTestCases(TestXml test)
         {
+            Console.Out.WriteLine("Test suite defined in " + GetTestSuiteFileDefinition());
             test.Play();
             Assert.Pass();
         }
@@ -28,7 +29,7 @@ namespace NBi.NUnit.Runtime
         {
             var mgr = new XmlManager();
 
-            mgr.Load(GetTestSuiteConfig());
+            mgr.Load(GetTestSuiteFileDefinition());
 
             List<TestCaseData> testCasesNUnit = new List<TestCaseData>();
 
@@ -47,17 +48,22 @@ namespace NBi.NUnit.Runtime
             return testCasesNUnit;
         }
 
-        public string GetTestSuiteConfig()
+        protected string GetTestSuiteFileDefinition()
         {
-            string configFile = Assembly.GetExecutingAssembly().Location + ".config";
+            string assem = Path.GetFullPath((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath).Replace("%20"," ");
+            string configFile = Path.Combine(Path.GetDirectoryName(assem), Path.GetFileNameWithoutExtension(assem) + ".config");
+            Console.Out.WriteLine(configFile);
             string testSuiteFile = DEFAULT_TESTSUITE;
             if (File.Exists(configFile))
             {
-                using (var sr = new StreamReader(Path.GetFullPath(configFile)))
+                Console.Out.WriteLine("Existing Config File");
+                using (var sr = new StreamReader(configFile))
                 {
                     testSuiteFile = sr.ReadToEnd();
                 }
             }
+            else 
+                Console.Out.WriteLine("Non Existing Config File");
 
             return testSuiteFile;
         }

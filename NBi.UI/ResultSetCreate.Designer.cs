@@ -102,7 +102,7 @@
             // 
             // queriesDirectory
             // 
-            this.queriesDirectory.Location = new System.Drawing.Point(112, 9);
+            this.queriesDirectory.Location = new System.Drawing.Point(112, 7);
             this.queriesDirectory.Name = "queriesDirectory";
             this.queriesDirectory.ReadOnly = true;
             this.queriesDirectory.Size = new System.Drawing.Size(187, 20);
@@ -110,7 +110,7 @@
             // 
             // resultsDirectory
             // 
-            this.resultsDirectory.Location = new System.Drawing.Point(112, 35);
+            this.resultsDirectory.Location = new System.Drawing.Point(112, 32);
             this.resultsDirectory.Name = "resultsDirectory";
             this.resultsDirectory.ReadOnly = true;
             this.resultsDirectory.Size = new System.Drawing.Size(187, 20);
@@ -118,7 +118,7 @@
             // 
             // resultsDirectorySelect
             // 
-            this.resultsDirectorySelect.Location = new System.Drawing.Point(306, 9);
+            this.resultsDirectorySelect.Location = new System.Drawing.Point(306, 32);
             this.resultsDirectorySelect.Name = "resultsDirectorySelect";
             this.resultsDirectorySelect.Size = new System.Drawing.Size(37, 19);
             this.resultsDirectorySelect.TabIndex = 16;
@@ -128,7 +128,7 @@
             // 
             // queriesDirectorySelect
             // 
-            this.queriesDirectorySelect.Location = new System.Drawing.Point(305, 36);
+            this.queriesDirectorySelect.Location = new System.Drawing.Point(305, 7);
             this.queriesDirectorySelect.Name = "queriesDirectorySelect";
             this.queriesDirectorySelect.Size = new System.Drawing.Size(37, 19);
             this.queriesDirectorySelect.TabIndex = 17;

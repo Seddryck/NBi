@@ -17,9 +17,6 @@ namespace NBi.UI
         {
             InitializeComponent();
             metadataTreeview.Nodes.Clear();
-            //folderBrowserDialog.SelectedPath = @"C:\Users\Seddryck\Documents\TestCCH\Queries\";
-            openFileDialog.InitialDirectory = @"C:\Users\Seddryck\Documents\TestCCH\";
-            openFileDialog.FileName = "MyMetadata.xlsx";
         }
         
         private void MainForm_Load(object sender, System.EventArgs e)
@@ -73,27 +70,27 @@ namespace NBi.UI
             return tnc.ToArray();
         }
 
-        private bool ConfirmBuildMdxQueries()
+        private bool ConfirmBuildMdxQueries(string path)
         {
-            if (!Directory.Exists(folderBrowserDialog.SelectedPath))
-                Directory.CreateDirectory(folderBrowserDialog.SelectedPath);
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
 
-            if (Directory.GetFiles(folderBrowserDialog.SelectedPath).Length == 0)
+            if (Directory.GetFiles(path).Length == 0)
                 return true;
 
             DialogResult dialogResult = MessageBox.Show(
-                string.Format("Target directory {0} is not empty.\nDo you want to clean it before generating the queries?", folderBrowserDialog.SelectedPath),
+                string.Format("Target directory {0} is not empty.\nDo you want to clean it before generating the queries?", path),
                 "Not empty directory",
                 MessageBoxButtons.YesNoCancel);
 
             if (dialogResult == DialogResult.Yes)
             {
-                Directory.Delete(folderBrowserDialog.SelectedPath, true);
-                Directory.CreateDirectory(folderBrowserDialog.SelectedPath);
+                Directory.Delete(path, true);
+                Directory.CreateDirectory(path);
             }
 
             return (dialogResult != DialogResult.Cancel);
-
+            
         }
 
         private CubeMetadata SelectedMetadata
@@ -285,21 +282,33 @@ namespace NBi.UI
 
         private void openProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openFileDialog.InitialDirectory = Application.StartupPath;
-            openFileDialog.FileName = "MyProject.nbi";
-            openFileDialog.Filter="NBi|*.nbi";
-
-            DialogResult dialogResult = openFileDialog.ShowDialog();
-            if (dialogResult.HasFlag(DialogResult.OK))
+            using (var ofd = new OpenFileDialog())
             {
-                Configuration.Project.Load(openFileDialog.FileName);
-                toolStripStatus.Text = "Directories and connectionStrings defined";
+                ofd.InitialDirectory = Application.StartupPath;
+                ofd.FileName = "MyProject.nbi";
+                ofd.Filter = "NBi|*.nbi";
+
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    Configuration.Project.Load(ofd.FileName);
+                    toolStripStatus.Text = "Directories and connectionStrings defined";
+                }
             }
         }
         
         private void saveAsProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            using (var sfd = new SaveFileDialog())
+            {
+                sfd.FileName = "MyProject.nbi";
+                sfd.Filter = "NBi|*.nbi";
 
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    Configuration.Project.Save(sfd.FileName);
+                    toolStripStatus.Text = "Directories and connectionStrings saved";
+                }
+            }
         }
         
     #endregion
@@ -328,40 +337,48 @@ namespace NBi.UI
 
         private void openMetadataToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            openFileDialog.InitialDirectory = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Metadata].FullPath;
-            openFileDialog.FileName = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Metadata].File;
-            openFileDialog.Filter = "CSV|*.csv|Excel 97-2003|*.xls";
-            DialogResult dialogResult = openFileDialog.ShowDialog();
-            if (dialogResult.HasFlag(DialogResult.OK))
+            var cfg = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Metadata];
+            using (var ofd = new OpenFileDialog())
             {
-                var mr = MetadataFactory.GetReader(openFileDialog.FileName);
-                var openMetadataDetailsForm = new MetadataOpen();
-                if (mr.SupportSheets)
+                ofd.InitialDirectory = cfg.FullPath;
+                ofd.FileName = cfg.File;
+                ofd.Filter = "CSV|*.csv|Excel 97-2003|*.xls";
+                if (!string.IsNullOrEmpty(cfg.File))
+                    ofd.FilterIndex = cfg.File.EndsWith("csv") ? 1 : 2;
+
+                if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    openMetadataDetailsForm.MetadataReader = mr;
-                    openMetadataDetailsForm.ShowDialog();
+                    var mr = MetadataFactory.GetReader(ofd.FileName);
+                    var openMetadataDetailsForm = new MetadataOpen();
+                    if (mr.SupportSheets)
+                    {
+                        openMetadataDetailsForm.MetadataReader = mr;
+                        openMetadataDetailsForm.ShowDialog();
+                    }
+
+                    StartClick(null);
+
+                    UnregisterEvents(metadataTreeview);
+                    metadataTreeview.Nodes.Clear();
+
+                    mr.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
+                    Metadata = mr.Read();
+                    mr.ProgressStatusChanged -= new ProgressStatusHandler(ProgressStatus);
+
+                    metadataTreeview.Nodes.AddRange(MapTreeview(Metadata));
+                    RegisterEvents(metadataTreeview);
+                    metadataTreeview.Refresh();
+
+                    if (mr.SupportSheets && openMetadataDetailsForm.Track != "None")
+                    {
+                        var perspTrack = mr.Read(openMetadataDetailsForm.Track);
+                        SelectMetadata(perspTrack);
+                    }
+
+                    cfg.FullFileName = ofd.FileName;
+
+                    EndClick(null);
                 }
-
-                StartClick(null);
-
-                UnregisterEvents(metadataTreeview);
-                metadataTreeview.Nodes.Clear();
-
-                mr.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
-                Metadata = mr.Read();
-                mr.ProgressStatusChanged -= new ProgressStatusHandler(ProgressStatus);
-
-                metadataTreeview.Nodes.AddRange(MapTreeview(Metadata));
-                RegisterEvents(metadataTreeview);
-                metadataTreeview.Refresh();
-
-                if (mr.SupportSheets && openMetadataDetailsForm.Track != "None")
-                {
-                    var perspTrack = mr.Read(openMetadataDetailsForm.Track);
-                    SelectMetadata(perspTrack);
-                }
-
-                EndClick(null);
             }
 
 
@@ -370,35 +387,44 @@ namespace NBi.UI
         private void saveAsMetadataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             StartClick(null);
-            saveFileDialog.InitialDirectory = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Metadata].Path;
-            saveFileDialog.FileName = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Metadata].File;
-
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            var cfg = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Metadata];
+            using (var sfd = new SaveFileDialog())
             {
-                IMetadataWriter mw = null;
-                switch (Path.GetExtension(saveFileDialog.FileName))
-                {
-                    case ".csv":
-                        mw = new MetadataCsvWriter(saveFileDialog.FileName);
-                        break;
-                    case ".xls":
-                    case ".xlsx":
-                        mw = new MetadataExcelOleDbWriter(saveFileDialog.FileName);
-                        var saveForm = new MetadataSave();
-                        saveForm.MetadataWriter = mw;
-                        if (saveForm.ShowDialog() != DialogResult.OK)
-                        {
-                            EndClick(null);
-                            return;
-                        }
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
+                sfd.InitialDirectory =cfg.Path;
+                sfd.FileName = cfg.File;
+                sfd.Filter = "CSV|*.csv|Excel 97-2003|*.xls";
+                if(!string.IsNullOrEmpty(cfg.File))
+                    sfd.FilterIndex = cfg.File.EndsWith("csv") ? 1 : 2;
 
-                mw.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
-                mw.Write(Metadata);
-                mw.ProgressStatusChanged -= new ProgressStatusHandler(ProgressStatus);
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    IMetadataWriter mw = null;
+                    switch (Path.GetExtension(sfd.FileName))
+                    {
+                        case ".csv":
+                            mw = new MetadataCsvWriter(sfd.FileName);
+                            break;
+                        case ".xls":
+                        case ".xlsx":
+                            mw = new MetadataExcelOleDbWriter(sfd.FileName);
+                            var saveForm = new MetadataSave();
+                            saveForm.MetadataWriter = mw;
+                            if (saveForm.ShowDialog() != DialogResult.OK)
+                            {
+                                EndClick(null);
+                                return;
+                            }
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
+
+                    mw.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
+                    mw.Write(Metadata);
+                    mw.ProgressStatusChanged -= new ProgressStatusHandler(ProgressStatus);
+
+                    cfg.FullFileName = sfd.FileName;
+                }
             }
             EndClick(null);
         }
@@ -435,26 +461,29 @@ namespace NBi.UI
 
         private void createQueriesSetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            folderBrowserDialog.Description = "Select a path to store the queries generated by NBi on base of your selection in the treeview.";
-            //folderBrowserDialog.RootFolder = Environment.SpecialFolder.MyDocuments;
-            folderBrowserDialog.SelectedPath = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Query].FullFileName;
-
-            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            using (var fbd = new FolderBrowserDialog())
             {
-                if (!ConfirmBuildMdxQueries())
-                    return;
-                StartClick(null);
+                fbd.Description = "Select a path to store the queries generated by NBi on base of your selection in the treeview.";
+                fbd.SelectedPath = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Query].FullFileName;
 
-                try
+                if (fbd.ShowDialog() == DialogResult.OK)
                 {
-                    var mb = new MdxBuilder(folderBrowserDialog.SelectedPath);
-                    mb.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
-                    mb.Build(SelectedMetadata, (string)hierarchyFunction.SelectedItem, slicer.Text, notEmpty.Checked);
-                    mb.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
-                }
-                finally
-                {
-                    EndClick(null);
+                    if (!ConfirmBuildMdxQueries(fbd.SelectedPath))
+                        return;
+                    StartClick(null);
+
+                    try
+                    {
+                        var mb = new MdxBuilder(fbd.SelectedPath);
+                        mb.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
+                        mb.Build(SelectedMetadata, (string)hierarchyFunction.SelectedItem, slicer.Text, notEmpty.Checked);
+                        mb.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
+                    }
+                    finally
+                    {
+                        Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Query].FullFileName = fbd.SelectedPath;
+                        EndClick(null);
+                    }
                 }
             }
         }
@@ -481,6 +510,14 @@ namespace NBi.UI
                 qsm.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
                 qsm.PersistResultSets();
                 qsm.ProgressStatusChanged -= new ProgressStatusHandler(ProgressStatus);
+
+                Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Query].FullFileName=createForm.QueriesDirectory;
+                Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Expect].FullFileName=createForm.ResultsDirectory;
+                Configuration.Project.ConnectionStrings[
+                    Configuration.ConnectionStringCollection.ConnectionClass.Oledb,
+                    Configuration.ConnectionStringCollection.ConnectionType.Expect
+                    ].Value=createForm.ConnectionString;
+
                 EndClick(null);
             }
         }
@@ -503,10 +540,22 @@ namespace NBi.UI
             {
                 var xm = new XmlManager();
                 var ts = xm.BuildTestSuite(tsCreate.QueriesDirectory, tsCreate.ResultsDirectory, tsCreate.ConnectionString);
-                saveFileDialog.Filter = "Xml|*.xml";
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                using (var sfd = new SaveFileDialog())
                 {
-                    xm.Persist(saveFileDialog.FileName, ts);
+                    sfd.InitialDirectory = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.TestSuite].FullPath;
+                    sfd.FileName = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.TestSuite].FilenameWithoutExtension;
+                    sfd.Filter = "Xml|*.xml";
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+                        xm.Persist(sfd.FileName, ts);
+                        Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.TestSuite].FullFileName = sfd.FileName;
+                        Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Query].FullFileName = tsCreate.QueriesDirectory;
+                        Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Expect].FullFileName = tsCreate.ResultsDirectory;
+                        Configuration.Project.ConnectionStrings[
+                            Configuration.ConnectionStringCollection.ConnectionClass.Oledb,
+                            Configuration.ConnectionStringCollection.ConnectionType.Actual
+                            ].Value = tsCreate.ConnectionString;
+                    }
                 }
             }
         }

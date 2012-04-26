@@ -3,9 +3,9 @@ using System.Data;
 
 namespace NBi.Core.Analysis.Query
 {
-    public abstract class ResultSetAbstractWriter
+    public abstract class ResultSetAbstractWriter: IResultSetWriter
     {
-        public string PersistencePath { get; private set; }
+        public string PersistencePath { get; set; }
 
         public ResultSetAbstractWriter(string persistancePath)
         {

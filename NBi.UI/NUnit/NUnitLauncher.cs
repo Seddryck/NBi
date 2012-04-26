@@ -21,6 +21,11 @@ namespace NBi.UI.NUnit
                 sw.Write(fullpath);
             }
         }
+
+        public void Open()
+        {
+            Process.Start(@"NUnit.Runners\nunit.exe", "NBi.NUnit.Runtime.dll");
+        }
         
         public void Run()
         {

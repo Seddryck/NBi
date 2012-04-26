@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Linked dimensions");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Measures");
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Measure group", new System.Windows.Forms.TreeNode[] {
-            treeNode13,
-            treeNode14});
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("MG2");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Linked dimensions");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Measures");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Measure group", new System.Windows.Forms.TreeNode[] {
+            treeNode9,
+            treeNode10});
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("MG2");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.metadataTreeview = new System.Windows.Forms.TreeView();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -86,6 +86,7 @@
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openWithNUnitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -98,17 +99,17 @@
             this.metadataTreeview.FullRowSelect = true;
             this.metadataTreeview.Location = new System.Drawing.Point(5, 27);
             this.metadataTreeview.Name = "metadataTreeview";
-            treeNode13.Name = "Node2";
-            treeNode13.Text = "Linked dimensions";
-            treeNode14.Name = "Node3";
-            treeNode14.Text = "Measures";
-            treeNode15.Name = "MG1";
-            treeNode15.Text = "Measure group";
-            treeNode16.Name = "Node1";
-            treeNode16.Text = "MG2";
+            treeNode9.Name = "Node2";
+            treeNode9.Text = "Linked dimensions";
+            treeNode10.Name = "Node3";
+            treeNode10.Text = "Measures";
+            treeNode11.Name = "MG1";
+            treeNode11.Text = "Measure group";
+            treeNode12.Name = "Node1";
+            treeNode12.Text = "MG2";
             this.metadataTreeview.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode15,
-            treeNode16});
+            treeNode11,
+            treeNode12});
             this.metadataTreeview.Size = new System.Drawing.Size(312, 352);
             this.metadataTreeview.TabIndex = 1;
             // 
@@ -397,21 +398,21 @@
             this.openMetadataToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openMetadataToolStripMenuItem.Image")));
             this.openMetadataToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openMetadataToolStripMenuItem.Name = "openMetadataToolStripMenuItem";
-            this.openMetadataToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.openMetadataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openMetadataToolStripMenuItem.Text = "&Open ...";
             this.openMetadataToolStripMenuItem.Click += new System.EventHandler(this.openMetadataToolStripMenuItem_Click);
             // 
             // saveAsMetadataToolStripMenuItem
             // 
             this.saveAsMetadataToolStripMenuItem.Name = "saveAsMetadataToolStripMenuItem";
-            this.saveAsMetadataToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.saveAsMetadataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveAsMetadataToolStripMenuItem.Text = "Save &As ...";
             this.saveAsMetadataToolStripMenuItem.Click += new System.EventHandler(this.saveAsMetadataToolStripMenuItem_Click);
             // 
             // extractMetadataToolStripMenuItem
             // 
             this.extractMetadataToolStripMenuItem.Name = "extractMetadataToolStripMenuItem";
-            this.extractMetadataToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.extractMetadataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.extractMetadataToolStripMenuItem.Text = "E&xtract ...";
             this.extractMetadataToolStripMenuItem.Click += new System.EventHandler(this.extractMetadataToolStripMenuItem_Click);
             // 
@@ -426,7 +427,7 @@
             // createQueriesSetToolStripMenuItem
             // 
             this.createQueriesSetToolStripMenuItem.Name = "createQueriesSetToolStripMenuItem";
-            this.createQueriesSetToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.createQueriesSetToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.createQueriesSetToolStripMenuItem.Text = "Create ...";
             this.createQueriesSetToolStripMenuItem.Click += new System.EventHandler(this.createQueriesSetToolStripMenuItem_Click);
             // 
@@ -449,6 +450,7 @@
             // 
             this.testsSuiteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buildTestSuiteToolStripMenuItem,
+            this.openWithNUnitToolStripMenuItem,
             this.runWithNUnitToolStripMenuItem});
             this.testsSuiteToolStripMenuItem.Name = "testsSuiteToolStripMenuItem";
             this.testsSuiteToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
@@ -536,6 +538,13 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
             // 
+            // openWithNUnitToolStripMenuItem
+            // 
+            this.openWithNUnitToolStripMenuItem.Name = "openWithNUnitToolStripMenuItem";
+            this.openWithNUnitToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.openWithNUnitToolStripMenuItem.Text = "Open with NUnit ...";
+            this.openWithNUnitToolStripMenuItem.Click += new System.EventHandler(this.openWithNUnitToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -615,6 +624,7 @@
         private System.Windows.Forms.ToolStripMenuItem runWithNUnitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openProjectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsProjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openWithNUnitToolStripMenuItem;
     }
 }
 

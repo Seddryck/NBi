@@ -5,7 +5,11 @@ namespace NBi.Core
 {
     public class ConnectionException : System.Exception
     {
-
+        public ConnectionException(AdomdErrorResponseException ex)
+            : base(
+                ex.Message,
+                ex.InnerException
+                ) { }
 
         public ConnectionException(AdomdConnectionException ex)
             : base(

@@ -432,21 +432,20 @@ namespace NBi.UI
         private void extractMetadataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var extractForm = new MetadataExtract();
+            var cfg = Configuration.Project.ConnectionStrings[
+                Configuration.ConnectionStringCollection.ConnectionClass.Adomd,
+                Configuration.ConnectionStringCollection.ConnectionType.Expect
+                ];
+            extractForm.ConnectionString = cfg.Value;
 
             if (extractForm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 StartClick(null);
+                var metadataExtractor = extractForm.MetadataExtractor;
+                metadataExtractor.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
                 try
                 {
-                    var metadataExtractor = extractForm.MetadataExtractor;
-                    metadataExtractor.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
                     Metadata = metadataExtractor.GetMetadata();
-                    metadataExtractor.ProgressStatusChanged -= new ProgressStatusHandler(ProgressStatus);
-
-                    UnregisterEvents(metadataTreeview);
-                    metadataTreeview.Nodes.Clear();
-                    metadataTreeview.Nodes.AddRange(MapTreeview(Metadata));
-                    RegisterEvents(metadataTreeview);
                 }
                 catch (ConnectionException ex)
                 {
@@ -454,6 +453,16 @@ namespace NBi.UI
                 }
                 finally
                 {
+                    metadataExtractor.ProgressStatusChanged -= new ProgressStatusHandler(ProgressStatus);
+
+                    UnregisterEvents(metadataTreeview);
+                    metadataTreeview.Nodes.Clear();
+                    if (Metadata!=null)
+                        metadataTreeview.Nodes.AddRange(MapTreeview(Metadata));
+                    RegisterEvents(metadataTreeview);
+
+                    cfg.Value= extractForm.ConnectionString;
+
                     EndClick(null);
                 }
             }

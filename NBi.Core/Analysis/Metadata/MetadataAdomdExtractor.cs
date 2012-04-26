@@ -21,7 +21,16 @@ namespace NBi.Core.Analysis.Metadata
         {
             var conn = new AdomdConnection();
             conn.ConnectionString = ConnectionString;
-            conn.Open();
+            try
+            {
+                conn.Open();
+            }
+            catch (AdomdConnectionException ex)
+            {
+                
+                throw new ConnectionException(ex);
+            }
+            
 
             var cmd = new AdomdCommand();
             cmd.Connection = conn;
@@ -38,12 +47,14 @@ namespace NBi.Core.Analysis.Metadata
             }
             catch (AdomdConnectionException ex)
             { throw new ConnectionException(ex); }
+            catch (AdomdErrorResponseException ex)
+            { throw new ConnectionException(ex); }
         }
   
         public CubeMetadata GetMetadata()
         {
             if (ProgressStatusChanged != null)
-                ProgressStatusChanged(this, new ProgressStatusEventArgs("Starting investigating ..."));
+                ProgressStatusChanged(this, new ProgressStatusEventArgs("Starting investigation ..."));
 
             GetPerspectives();
             GetDimensions();

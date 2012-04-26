@@ -7,6 +7,18 @@ namespace NBi.UI
     public partial class MetadataExtract : Form
     {
         public MetadataAdomdExtractor MetadataExtractor { get; set; }
+
+        public string ConnectionString 
+        {
+            get
+            {
+                return connectionString.Text;
+            }
+            set
+            {
+                connectionString.Text = value;
+            }
+        }
         
         public MetadataExtract()
         {

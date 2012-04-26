@@ -81,6 +81,7 @@
     <Compile Include="Analysis\Query\ResultSetCsvReader.cs" />
     <Compile Include="Analysis\Query\IResultSetComparer.cs" />
     <Compile Include="Analysis\Query\ResultSetComparer.cs" />
+    <Compile Include="ConnectionException.cs" />
     <Compile Include="CsvDefinition.cs" />
     <Compile Include="IProgressStatusAware.cs" />
     <Compile Include="ProgressStatusHandler.cs" />

@@ -107,6 +107,7 @@ namespace NBi.Core.Analysis.Query
             var filename = String.Format("{0} - {1} - {2} - {3} - {4}.mdx", perspective, measureGroupName, measureName, dimensionName, hierarchyName);
             foreach (var inv in Path.GetInvalidFileNameChars())
                 filename.Replace(inv, '_');
+            filename.Replace("€", "EUR");
 
             return Path.Combine(Path.GetFullPath(PersistancePath), filename);
 

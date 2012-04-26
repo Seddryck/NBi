@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using NBi.Core;
 using NBi.Core.Analysis.Metadata;
 using NBi.Core.Analysis.Query;
-using NBi.Core;
 using NBi.Xml;
 
 namespace NBi.UI
@@ -448,6 +448,10 @@ namespace NBi.UI
                     metadataTreeview.Nodes.AddRange(MapTreeview(Metadata));
                     RegisterEvents(metadataTreeview);
                 }
+                catch (ConnectionException ex)
+                {
+                    MessageBox.Show(ex.Message, "Cannot connect with connectionString", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
                 finally
                 {
                     EndClick(null);
@@ -506,19 +510,37 @@ namespace NBi.UI
             if (dialogResult.HasFlag(DialogResult.OK))
             {
                 StartClick(null);
-                var qsm = QuerySetManager.BuildDefault(createForm.QueriesDirectory, createForm.ResultsDirectory, createForm.ConnectionString);
-                qsm.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
-                qsm.PersistResultSets();
-                qsm.ProgressStatusChanged -= new ProgressStatusHandler(ProgressStatus);
+                QuerySetManager qsm = null;
+                try
+                {
+                    qsm = QuerySetManager.BuildDefault(createForm.QueriesDirectory, createForm.ResultsDirectory, createForm.ConnectionString);
+                    qsm.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
+                    qsm.PersistResultSets();
+                }
+                catch (ConnectionException ex)
+                {
+                    MessageBox.Show(ex.Message, "Cannot connect with connectionString", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                finally
+                {
+                    qsm.ProgressStatusChanged -= new ProgressStatusHandler(ProgressStatus);
 
-                Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Query].FullFileName=createForm.QueriesDirectory;
-                Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Expect].FullFileName=createForm.ResultsDirectory;
-                Configuration.Project.ConnectionStrings[
-                    Configuration.ConnectionStringCollection.ConnectionClass.Oledb,
-                    Configuration.ConnectionStringCollection.ConnectionType.Expect
-                    ].Value=createForm.ConnectionString;
+                    Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Query].FullFileName = createForm.QueriesDirectory;
+                    Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Expect].FullFileName = createForm.ResultsDirectory;
+                    Configuration.Project.ConnectionStrings[
+                        Configuration.ConnectionStringCollection.ConnectionClass.Oledb,
+                        Configuration.ConnectionStringCollection.ConnectionType.Expect
+                        ].Value = createForm.ConnectionString;
 
-                EndClick(null);
+                    EndClick(null);
+                }
+                
+                
+                
+
+                
+
+                
             }
         }
 

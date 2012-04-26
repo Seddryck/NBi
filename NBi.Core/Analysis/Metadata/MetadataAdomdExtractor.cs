@@ -28,6 +28,18 @@ namespace NBi.Core.Analysis.Metadata
             return cmd;
         }
 
+        protected AdomdDataReader ExecuteReader(AdomdCommand cmd)
+        {
+            AdomdDataReader rdr = null;
+            try
+            {
+                rdr = cmd.ExecuteReader();
+                return rdr;
+            }
+            catch (AdomdConnectionException ex)
+            { throw new ConnectionException(ex); }
+        }
+  
         public CubeMetadata GetMetadata()
         {
             if (ProgressStatusChanged != null)
@@ -54,7 +66,7 @@ namespace NBi.Core.Analysis.Metadata
                 string whereClause = "";
                 //whereClause = string.Format(" and CUBE_NAME='{0}'", perspectiveName);
                 cmd.CommandText = string.Format("select * from $system.mdschema_dimensions{0}", whereClause);
-                AdomdDataReader rdr = cmd.ExecuteReader();
+                var rdr = ExecuteReader(cmd);
                 // Traverse the response and 
                 // read column 2, "CUBE_NAME"
                 while (rdr.Read())
@@ -79,7 +91,7 @@ namespace NBi.Core.Analysis.Metadata
                 string whereClause = "";
                 //whereClause = string.Format(" and CUBE_NAME='{0}'", perspectiveName);
                 cmd.CommandText = string.Format("select * from $system.mdschema_dimensions where DIMENSION_IS_VISIBLE{0}", whereClause);
-                AdomdDataReader rdr = cmd.ExecuteReader();
+                var rdr = ExecuteReader(cmd);
                 // Traverse the response and 
                 // read column 2, "CUBE_NAME"
                 // read column 4, "DIMENSION_UNIQUE_NAME"
@@ -110,7 +122,7 @@ namespace NBi.Core.Analysis.Metadata
             {
 
                 cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_hierarchies");
-                AdomdDataReader rdr = cmd.ExecuteReader();
+                var rdr = ExecuteReader(cmd);
 
                 // Traverse the response and 
                 // read column 2, "CUBE_NAME"
@@ -136,7 +148,7 @@ namespace NBi.Core.Analysis.Metadata
                 }
             }
         }
-
+  
         protected void GetDimensionUsage()
         {
             if (ProgressStatusChanged != null)
@@ -145,7 +157,7 @@ namespace NBi.Core.Analysis.Metadata
             using (var cmd = CreateCommand())
             {
                 cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_measuregroup_dimensions WHERE DIMENSION_IS_VISIBLE");
-                AdomdDataReader rdr = cmd.ExecuteReader();
+                var rdr = ExecuteReader(cmd);
 
                 // Traverse the response and 
                 // read column 2, "CUBE_NAME"
@@ -184,7 +196,7 @@ namespace NBi.Core.Analysis.Metadata
             {
 
                 cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_measures WHERE MEASURE_IS_VISIBLE and LEN(MEASUREGROUP_NAME)>0");
-                AdomdDataReader rdr = cmd.ExecuteReader();
+                var rdr = ExecuteReader(cmd);
 
                 // Traverse the response and 
                 // read column 2, "CUBE_NAME"

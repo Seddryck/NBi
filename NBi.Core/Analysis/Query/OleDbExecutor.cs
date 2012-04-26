@@ -25,15 +25,24 @@ namespace NBi.Core.Analysis.Query
             // Open the connection
             using (var connection = new OleDbConnection(ConnectionString))
             {
-                connection.Open();
-
+                try
+                {
+                    connection.Open();
+                }
+                catch (OleDbException ex)
+                {
+                    throw new ConnectionException(ex);
+                }
                 // capture time before execution
                 long ticksBefore = DateTime.Now.Ticks;
                 var adapter = new OleDbDataAdapter(mdx, connection);
                 var ds = new DataSet();
 
-                adapter.SelectCommand.CommandTimeout = 0;
-                adapter.Fill(ds);
+                
+                    adapter.SelectCommand.CommandTimeout = 0;
+                    adapter.Fill(ds);
+                
+                
 
                 // capture time after execution
                 long ticksAfter = DateTime.Now.Ticks;

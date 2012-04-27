@@ -7,7 +7,7 @@ namespace NBi.Core.Analysis.Metadata
     {
         protected string defaultUniqueName;
 
-        public Hierarchy Default { get { return this[defaultUniqueName]; } }
+        //public Hierarchy Default { get { return this[defaultUniqueName]; } }
 
         public void AddOrIgnore(string uniqueName, string caption)
         {
@@ -17,11 +17,11 @@ namespace NBi.Core.Analysis.Metadata
                 this.Add(uniqueName, new Hierarchy(uniqueName, caption));
         }
 
-        public void AddDefault(Hierarchy hierarchy)
-        {
-            this.Add(hierarchy);
-            defaultUniqueName= hierarchy.UniqueName;
-        }
+        //public void AddDefault(Hierarchy hierarchy)
+        //{
+        //    this.Add(hierarchy);
+        //    defaultUniqueName= hierarchy.UniqueName;
+        //}
 
         public void Add(Hierarchy hierarchy)
         {

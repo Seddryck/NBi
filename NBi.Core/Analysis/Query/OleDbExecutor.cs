@@ -23,16 +23,23 @@ namespace NBi.Core.Analysis.Query
         public DataSet Execute(string mdx, out int elapsedSec)
         {
             // Open the connection
-            using (var connection = new OleDbConnection(ConnectionString))
+            using (var connection = new OleDbConnection())
             {
                 try
                 {
+                    connection.ConnectionString = ConnectionString;
+                }
+                catch (ArgumentException ex)
+                    {throw new ConnectionException(ex);}
+
+
+                try
+                {
+                    
                     connection.Open();
                 }
                 catch (OleDbException ex)
-                {
-                    throw new ConnectionException(ex);
-                }
+                    {throw new ConnectionException(ex);}
                 // capture time before execution
                 long ticksBefore = DateTime.Now.Ticks;
                 var adapter = new OleDbDataAdapter(mdx, connection);

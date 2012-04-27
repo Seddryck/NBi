@@ -185,14 +185,11 @@ namespace NBi.Core.Analysis.Metadata
                         if (Metadata.Perspectives[perspectiveName].MeasureGroups.ContainsKey(name))
                             mg = Metadata.Perspectives[perspectiveName].MeasureGroups[name];
                         else
-                        {
-                            mg = new MeasureGroup(name);
-                            Metadata.Perspectives[perspectiveName].MeasureGroups.AddOrIgnore(name);
-                        }
-
+                              Metadata.Perspectives[perspectiveName].MeasureGroups.AddOrIgnore(name);
+  
                         string dimensionUniqueName = (string)rdr.GetValue(5);
                         if (Metadata.Perspectives[perspectiveName].Dimensions.ContainsKey(dimensionUniqueName)) //Needed to avoid dimension [Measure previously filtered]
-                            mg.LinkedDimensions.Add(Metadata.Perspectives[perspectiveName].Dimensions[dimensionUniqueName]);
+                            Metadata.Perspectives[perspectiveName].MeasureGroups[name].LinkedDimensions.Add(Metadata.Perspectives[perspectiveName].Dimensions[dimensionUniqueName]);
                     }
                 }
             }

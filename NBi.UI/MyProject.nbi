@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <project name="">
-	<directories root="C:\Users\Seddryck\Documents\TestCCH\">
+	<directories root="C:\Program Files (x86)\Elia\Project\EDW_Test\Hello\">
 		<directory key="Metadata" path="Metadata" file="metadata.xls"/>
 		<directory key="Query" path="Query"/>
 		<directory key="Expect" path="Expect"/>
@@ -8,8 +8,8 @@
 		<directory key="TestSuite" path="TestSuite"/> 
 	</directories>
 	<connectionStrings>
-		<adomd key="Expect">Data Source=localhost;Catalog="Finances Analysis";</adomd>
-		<oledb key="Expect">Provider=MSOLAP.4;Data Source=localhost;Catalog="Finances Analysis";</oledb>
-		<oledb key="Actual">Provider=MSOLAP.4;Data Source=localhost;Catalog="Finances Analysis";</oledb>
+		<adomd key="Expect">Data Source=isosql203;Catalog=EDW_DEV;</adomd>
+		<oledb key="Expect">Provider=MSOLAP.4;Data Source=isosql203;Catalog=EDW_DEV;</oledb>
+		<oledb key="Actual">Provider=MSOLAP.4;Data Source=isosql203;Catalog=EDW_DEV;</oledb>
 	</connectionStrings>
 </project>

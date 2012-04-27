@@ -69,7 +69,7 @@
     <Compile Include="NUnit\SyntacticallyCorrectConstraintTest.cs" />
     <Compile Include="NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryGenerator\BatchManagerTest.cs" />
+    <Compile Include="Core\ResultSetManagerTest.cs" />
     <Compile Include="Core\Analysis\Query\OleDbExecutorTest.cs" />
     <Compile Include="Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />
     <Compile Include="Core\Analysis\Query\ResultSetWriterTest.cs" />
@@ -102,10 +102,6 @@
     <ProjectReference Include="..\NBi.NUnit\NBi.NUnit.csproj">
       <Project>{66314704-AA76-4153-80D8-CA2C5FF06976}</Project>
       <Name>NBi.NUnit</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.QueryGenerator\NBi.QueryGenerator.csproj">
-      <Project>{06F394FA-9B32-4F13-9254-50663655065E}</Project>
-      <Name>NBi.QueryGenerator</Name>
     </ProjectReference>
     <ProjectReference Include="..\NBi.UI\NBi.UI.csproj">
       <Project>{18ED64E4-7D72-4A2C-9CD8-46F732D287ED}</Project>

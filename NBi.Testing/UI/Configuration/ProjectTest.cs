@@ -1,8 +1,7 @@
 ﻿#region Using directives
-
-using NUnit.Framework;
+using System.IO;
 using NBi.UI.Configuration;
-
+using NUnit.Framework;
 #endregion
 
 namespace NBi.Testing.UI.Configuration
@@ -35,6 +34,8 @@ namespace NBi.Testing.UI.Configuration
         [TearDown]
         public void TearDownTest()
         {
+            if (File.Exists(DiskOnFile.GetDirectoryPath() + @"\MyProject.nbi"))
+                File.Delete(DiskOnFile.GetDirectoryPath() + @"\MyProject.nbi");
         }
         #endregion
 
@@ -103,42 +104,138 @@ namespace NBi.Testing.UI.Configuration
         }
 
         [Test]
-        public void Save_CorrectFile_DirectoriesSaved()
+        public void Save_Root_CorrectFileContent()
         {
             //Buiding object used during test
-            var filename = DiskOnFile.CreatePhysicalFile("MyProject-Saved.nbi", "NBi.Testing.UI.Configuration.MyProject-Saved.nbi");
-            var filenameActual = filename.Replace("-Saved","-Created");
+            var filename = DiskOnFile.GetDirectoryPath() + @"\MyProject.nbi";
 
-            Project.Directories.Root = @"C:\Users\Seddryck\Documents\TestCCH\";
+            Project.Directories.Root = @"C:\Root\Root\";
+            Project.Directories[DirectoryCollection.DirectoryType.Metadata].Path = @"C:\MetadataPath\";
 
-            Project.Directories[DirectoryCollection.DirectoryType.Metadata].Path =@"Metadata";
-            Project.Directories[DirectoryCollection.DirectoryType.Metadata].File =@"Metadata.xls";
-            Project.Directories[DirectoryCollection.DirectoryType.Query].Path=@"Query";
-            Project.Directories[DirectoryCollection.DirectoryType.Expect].Path=@"Expect";
-            Project.Directories[DirectoryCollection.DirectoryType.Actual].Path=@"Actual";
-            Project.Directories[DirectoryCollection.DirectoryType.TestSuite].Path=@"TestSuite";
+            //Call the method to test
+            Project.Save(filename);
+
+            //Assertion
+            string content = null;
+            using (var sr = File.OpenText(filename))
+            {
+                content = sr.ReadToEnd();
+            }
+            Assert.That(content, Is.StringContaining("<directories root=\"C:\\Root\\Root\\\">"));
+            Assert.That(content, Is.StringContaining("</directories>"));
+        }
+
+        [Test]
+        public void Save_DirectoryPathAndFile_CorrectFileContent()
+        {
+            //Buiding object used during test
+            var filename = DiskOnFile.GetDirectoryPath() + @"\MyProject.nbi";
+
+            Project.Directories[DirectoryCollection.DirectoryType.Metadata].Path = @"C:\MetadataPath\";
+            Project.Directories[DirectoryCollection.DirectoryType.Metadata].File = @"MetadataFile.xls";
+
+
+            //Call the method to test
+            Project.Save(filename);
+
+            //Assertion
+            string content = null;
+            using (var sr = File.OpenText(filename))
+            {
+                content = sr.ReadToEnd();
+            }
+            Assert.That(content, Is.StringContaining("<directory key=\"Metadata\" path=\"C:\\MetadataPath\\\" file=\"MetadataFile.xls\" />"));
+        }
+
+        [Test]
+        public void Save_DirectoryPath_CorrectFileContent()
+        {
+            //Buiding object used during test
+            var filename = DiskOnFile.GetDirectoryPath() + @"\MyProject.nbi";
+
+            Project.Directories[DirectoryCollection.DirectoryType.Metadata].Path = @"C:\MetadataPath\";
+            Project.Directories[DirectoryCollection.DirectoryType.Metadata].File = @"";
+
+            //Call the method to test
+            Project.Save(filename);
+
+            //Assertion
+            string content = null;
+            using (var sr = File.OpenText(filename))
+            {
+                content = sr.ReadToEnd();
+            }
+            Assert.That(content, Is.StringContaining("<directory key=\"Metadata\" path=\"C:\\MetadataPath\\\" />"));
+        }
+
+        [Test]
+        public void Save_ConnectionStringOledbExpect_CorrectFileContent()
+        {
+            //Buiding object used during test
+            var filename = DiskOnFile.GetDirectoryPath() + @"\MyProject.nbi";
+
+            Project.ConnectionStrings[
+                ConnectionStringCollection.ConnectionClass.Oledb,
+                ConnectionStringCollection.ConnectionType.Expect
+                ].Value = "Oledb+Expect";
+
+
+            //Call the method to test
+            Project.Save(filename);
+
+            //Assertion
+            string content = null;
+            using (var sr = File.OpenText(filename))
+            {
+                content = sr.ReadToEnd();
+            }
+            Assert.That(content, Is.StringContaining("<oledb key=\"Expect\">Oledb+Expect</oledb>"));
+        }
+
+        [Test]
+        public void Save_ConnectionStringAdomdExpect_CorrectFileContent()
+        {
+            //Buiding object used during test
+            var filename = DiskOnFile.GetDirectoryPath() + @"\MyProject.nbi";
 
             Project.ConnectionStrings[
                 ConnectionStringCollection.ConnectionClass.Adomd,
                 ConnectionStringCollection.ConnectionType.Expect
-                ].Value = "Data Source=localhost;Catalog=\"Finances Analysis\";";
+                ].Value = "Adomd+Expect";
 
-            Project.ConnectionStrings[
-                ConnectionStringCollection.ConnectionClass.Oledb,
-                ConnectionStringCollection.ConnectionType.Expect
-                ].Value = "Provider=MSOLAP.4;Data Source=localhost;Catalog=\"Finances Analysis\";";
+            //Call the method to test
+            Project.Save(filename);
+
+            //Assertion
+            string content = null;
+            using (var sr = File.OpenText(filename))
+            {
+                content = sr.ReadToEnd();
+            }
+            Assert.That(content, Is.StringContaining("<adomd key=\"Expect\">Adomd+Expect</adomd>"));
+        }
+
+        [Test]
+        public void Save_ConnectionStringOledbActual_CorrectFileContent()
+        {
+            //Buiding object used during test
+            var filename = DiskOnFile.GetDirectoryPath() + @"\MyProject.nbi";          
 
             Project.ConnectionStrings[
                 ConnectionStringCollection.ConnectionClass.Oledb,
                 ConnectionStringCollection.ConnectionType.Actual
-                ].Value = "Provider=MSOLAP.4;Data Source=localhost;Catalog=\"Finances Analysis\";";
+                ].Value = "Oledb+Actual";
 
             //Call the method to test
-            Project.Save(filenameActual);
+            Project.Save(filename);
 
             //Assertion
-            FileAssert.AreEqual(filename, filenameActual); //Should be changed in something more usefull because failing for unknwon reason
+            string content = null;
+            using (var sr = File.OpenText(filename))
+            {
+                content = sr.ReadToEnd();
+            }
+            Assert.That(content, Is.StringContaining("<oledb key=\"Actual\">Oledb+Actual</oledb>"));
         }
-
     }
 }

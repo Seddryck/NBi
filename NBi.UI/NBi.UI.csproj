@@ -136,10 +136,6 @@
       <Project>{5AA137A9-C158-4A4F-B07D-3DF787618C24}</Project>
       <Name>NBi.NUnit.Runtime</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NBi.QueryGenerator\NBi.QueryGenerator.csproj">
-      <Project>{06F394FA-9B32-4F13-9254-50663655065E}</Project>
-      <Name>NBi.QueryGenerator</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
       <Project>{3A9822B3-CCE4-441B-9C3E-D52817A994CA}</Project>
       <Name>NBi.Xml</Name>

@@ -5,6 +5,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Core.Integration
 {
     [TestFixture]
+    [Ignore]
     public class PackageManagerTest
     {
         [Test]

@@ -49,5 +49,7 @@ namespace NBi.Core.Analysis.Query
             }
             return sb.ToString();
         }
+
+        
     }
 }

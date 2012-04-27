@@ -4,7 +4,7 @@ using System.Data;
 
 namespace NBi.Core.Analysis.Query
 {
-    public class OleDbExecutor
+    public class OleDbExecutor:IQueryExecutor
     {
         public string ConnectionString { get; private set; }
 

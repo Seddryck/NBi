@@ -3,7 +3,7 @@ using NBi.Core.Analysis.Query;
 
 namespace NBi.QueryGenerator
 {
-    public class BatchManager
+    public class QueryGeneratorManager
     {
         public void CreateResultSet(string queriesDirectory, string resultSetDirectory, string connectionString)
         {

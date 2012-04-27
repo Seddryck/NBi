@@ -78,6 +78,8 @@
     <Compile Include="Analysis\Metadata\MetadataFileFormat.cs" />
     <Compile Include="Analysis\Metadata\Perspective.cs" />
     <Compile Include="Analysis\Metadata\PerspectiveCollection.cs" />
+    <Compile Include="Analysis\Query\IQueryExecutor.cs" />
+    <Compile Include="Analysis\Query\IResultSetWriter.cs" />
     <Compile Include="Analysis\Query\ResultSetCsvReader.cs" />
     <Compile Include="Analysis\Query\IResultSetComparer.cs" />
     <Compile Include="Analysis\Query\ResultSetComparer.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="CsvDefinition.cs" />
     <Compile Include="IProgressStatusAware.cs" />
     <Compile Include="ProgressStatusHandler.cs" />
+    <Compile Include="ResultSetManager.cs" />
     <Compile Include="QuerySetManager.cs" />
     <Compile Include="Analysis\Query\ResultSetAbstractWriter.cs" />
     <Compile Include="Analysis\Query\ResultSetCsvWriter.cs.cs" />

@@ -10,7 +10,7 @@ namespace NBi.Testing.Core.Analysis.Metadata
         [Test]
         public void Write_NotExistingFile_FileIsCorrectlyBuilt()
         {
-            var expectedFilename = DiskOnFile.CreatePhysicalFile("ExpectedCSV.csv", "NBi.Testing.Core.Analysis.Metadata.MetadataCsvSample.csv");
+            var expectedFilename = DiskOnFile.CreatePhysicalFile("ExpectedCSV.csv", "NBi.Testing.Core.Analysis.Metadata.Resources.MetadataCsvSample.csv");
             var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV.csv");
             var persp = BuildFakeMetadata();
 

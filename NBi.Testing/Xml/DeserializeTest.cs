@@ -19,7 +19,7 @@ namespace NBi.Testing.Xml
 
             // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Xml.TestSuiteSample.xml"))
+                                           .GetManifestResourceStream("NBi.Testing.Xml.Resources.TestSuiteSample.xml"))
             using (StreamReader reader = new StreamReader(stream))
             {
                 // Use the Deserialize method to restore the object's state.
@@ -77,11 +77,8 @@ namespace NBi.Testing.Xml
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[0].Constraints[0], Is.InstanceOf<SyntacticallyCorrectXml>());
-            Assert.That(((SyntacticallyCorrectXml)ts.Tests[0].Constraints[0]).ConnectionString, Is.Not.Null.And.Not.Empty);
+            ts.Tests.GetRange(0,2).ForEach(t => Assert.That(t.Constraints[0], Is.InstanceOf<SyntacticallyCorrectXml>()));
 
-            Assert.That(ts.Tests[1].Constraints[0], Is.InstanceOf<SyntacticallyCorrectXml>());
-            Assert.That(((SyntacticallyCorrectXml)ts.Tests[1].Constraints[0]).ConnectionString, Is.Not.Null.And.Not.Empty);
         }
 
         [Test]
@@ -92,27 +89,25 @@ namespace NBi.Testing.Xml
 
             // Check the properties of the object.
             Assert.That(ts.Tests[1].Constraints[1], Is.InstanceOf<FasterThanXml>());
-            Assert.That(((FasterThanXml)ts.Tests[1].Constraints[1]).ConnectionString, Is.Not.Empty);
             Assert.That(((FasterThanXml)ts.Tests[1].Constraints[1]).MaxTimeMilliSeconds, Is.EqualTo(5000));
         }
 
         [Test]
-        public void Deserialize_SampleFile_ConstraintEqualsToLoaded()
+        public void Deserialize_SampleFile_ConstraintEqualToLoaded()
         {
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[2].Constraints[0], Is.InstanceOf<EqualsToXml>());
-            Assert.That(((EqualsToXml)ts.Tests[2].Constraints[0]).ConnectionString, Is.Not.Empty);
-            Assert.That(((EqualsToXml)ts.Tests[2].Constraints[0]).ResultSetPath, Is.Not.Empty);
+            Assert.That(ts.Tests[2].Constraints[0], Is.InstanceOf<EqualToXml>());
+            Assert.That(((EqualToXml)ts.Tests[2].Constraints[0]).ResultSetPath, Is.Not.Empty);
         }
         
         [Test]
         public void Deserialize_SampleFile_TestCaseMembersLoaded()
         {
             //Create the queryfile to read
-            DiskOnFile.CreatePhysicalFile("Select all products.sql", "NBi.Testing.Xml.SelectAllProducts.sql");
+            DiskOnFile.CreatePhysicalFile("Select all products.sql", "NBi.Testing.Xml.Resources.SelectAllProducts.sql");
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
@@ -124,6 +119,8 @@ namespace NBi.Testing.Xml
             Assert.That(ts.Tests[1].TestCases[1].Query, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
             Assert.That(ts.Tests[1].TestCases[1].InlineQuery, Is.Null);
             Assert.That(ts.Tests[1].TestCases[1].Filename, Is.Not.Null.And.Not.Empty);
+            
+            Assert.That(ts.Tests[2].TestCases[0].ConnectionString, Is.Not.Null.And.Not.Empty);
         }
 
         [Test]

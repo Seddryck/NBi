@@ -22,7 +22,7 @@ namespace NBi.NUnit
         {
             get
             {
-                return new Is(_connectionString);
+                return new Is();
             }
         }
     }
@@ -31,50 +31,20 @@ namespace NBi.NUnit
     {
         protected static string _connectionString;
 
-        public Is(string connectionString)
+        public Is()
         {
-            _connectionString = connectionString;
         }
         
         public Constraint SyntacticallyCorrect()
         {
-            return new SyntacticallyCorrectConstraint(_connectionString);
+            return new SyntacticallyCorrectConstraint();
         }
 
-        public Constraint FasterThan(int maxTimeMilliSeconds)
+        public Constraint FasterThan(int maxTimeMilliSeconds, bool cleanCache)
         {
-            return new FasterThanConstraint(_connectionString, maxTimeMilliSeconds);
+            return new FasterThanConstraint(maxTimeMilliSeconds, cleanCache);
         }
 
-        public Constraint SameThan(string expectedConnectionString, string expectedSql)
-        {
-            return new DataSetConstraint(expectedConnectionString, expectedSql, _connectionString);
-        }
-
-        public Constraint SameThan(string expectedConnectionString)
-        {
-            return new DataSetConstraint(expectedConnectionString, _connectionString);
-        }
-
-        public Constraint SameStructureThan(string expectedConnectionString, string expectedSql)
-        {
-            return new DataSetStructureConstraint(expectedConnectionString, expectedSql, _connectionString);
-        }
-
-        public Constraint SameStructureThan(string expectedConnectionString)
-        {
-            return new DataSetStructureConstraint(expectedConnectionString, _connectionString);
-        }
-
-
-        public Constraint SameContentThan(string expectedConnectionString, string expectedSql)
-        {
-            return new DataSetConstraint(expectedConnectionString, expectedSql, _connectionString);
-        }
-
-        public Constraint SameContentThan(string expectedConnectionString)
-        {
-            return new DataSetConstraint(expectedConnectionString, _connectionString);
-        }
+        
     }
 }

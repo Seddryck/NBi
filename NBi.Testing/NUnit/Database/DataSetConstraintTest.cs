@@ -47,15 +47,15 @@ namespace NBi.Testing.NUnit.Database
             Assert.Pass();
         }
 
-        [Test]
-        public void DataSetRealImplementation_IsSameStructureThan_Success()
-        {
-            var sql = "SELECT * FROM Product;";
+        //[Test]
+        //public void DataSetRealImplementation_IsSameStructureThan_Success()
+        //{
+        //    var sql = "SELECT * FROM Product;";
 
-            Assert.That(sql, OnDataSource.Localized(_connectionString).Is.SameStructureThan(_connectionString, sql));
+        //    Assert.That(sql, OnDataSource.Localized(_connectionString).Is.SameStructureThan(_connectionString, sql));
 
-            Assert.Pass();
-        }
+        //    Assert.Pass();
+        //}
 
         [Test]
         public void DataSetMock_IsSameThan_CalledOnce()

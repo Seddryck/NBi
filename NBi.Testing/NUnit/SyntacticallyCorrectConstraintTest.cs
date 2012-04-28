@@ -1,4 +1,6 @@
-﻿using Moq;
+﻿using System.Data;
+using System.Data.SqlClient;
+using Moq;
 using NBi.Core;
 using NBi.Core.Database;
 using NBi.NUnit;
@@ -39,9 +41,12 @@ namespace NBi.Testing.NUnit
         public void QueryParserRealImplementation_SyntacticallyCorrectConstraint_Success()
         {
             var sql = "SELECT * FROM Product;";
+            var conn = new SqlConnection(_connectionString);
+            var cmd = new SqlCommand(sql, conn);
+
 
             //Method under test
-            Assert.That(sql, new SyntacticallyCorrectConstraint(_connectionString));
+            Assert.That(cmd, new SyntacticallyCorrectConstraint());
 
             //Test conclusion            
             Assert.Pass();
@@ -51,8 +56,10 @@ namespace NBi.Testing.NUnit
         public void QueryParserRealImplementation_IsSyntacticallyCorrect_Success()
         {
             var sql = "SELECT * FROM Product;";
+            var conn = new SqlConnection(_connectionString);
+            var cmd = new SqlCommand(sql, conn);
 
-            Assert.That(sql, OnDataSource.Localized(_connectionString).Is.SyntacticallyCorrect());
+            Assert.That(cmd, OnDataSource.Localized(_connectionString).Is.SyntacticallyCorrect());
             
             Assert.Pass();
         }
@@ -60,20 +67,22 @@ namespace NBi.Testing.NUnit
         [Test]
         public void SyntacticallyCorrectConstraint_NUnitAssertThat_EngineCalledOnce()
         {
-            var sql = "SELECT * FROM Product;";
-            var mock = new Mock<IQueryParser>();
+            //var sql = "SELECT * FROM Product;";
+            //var conn = new SqlConnection(_connectionString);
+            //var cmd = new SqlCommand(sql, conn);
 
-            mock.Setup(engine => engine.ValidateFormat(It.IsAny<string>()))
+            var mock = new Mock<IQueryParser>();
+            mock.Setup(engine => engine.Validate(It.IsAny<IDbCommand>()))
                 .Returns(Result.Success());
             IQueryParser qp = mock.Object;
 
             var syntacticallyCorrectConstraint = new SyntacticallyCorrectConstraint(qp);
 
             //Method under test
-            Assert.That(sql, syntacticallyCorrectConstraint);
+            Assert.That(new SqlCommand(), syntacticallyCorrectConstraint);
 
             //Test conclusion            
-            mock.Verify(engine => engine.ValidateFormat(sql), Times.Once());
+            mock.Verify(engine => engine.Validate(It.IsAny<IDbCommand>()), Times.Once());
         }
 
     }

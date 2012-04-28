@@ -8,22 +8,29 @@ namespace NBi.Testing.Xml
     [TestFixture]
     public class TestXmlTest
     {
-        protected string _connectionString;
+        protected string ConnectionString
+        {
+            get
+            {
+                //If available use the user file
+                if (System.IO.File.Exists("ConnectionString.user.config"))
+                {
+                    return System.IO.File.ReadAllText("ConnectionString.user.config");
+                }
+                else if (System.IO.File.Exists("ConnectionString.config"))
+                {
+                    return System.IO.File.ReadAllText("ConnectionString.config");
+                }
+
+                return null;
+            }
+        }
 
         #region Setup & Teardown
 
         [SetUp]
         public void SetUp()
         {
-            //If available use the user file
-            if (System.IO.File.Exists("ConnectionString.user.config"))
-            {
-                _connectionString = System.IO.File.ReadAllText("ConnectionString.user.config");
-            }
-            else if (System.IO.File.Exists("ConnectionString.config"))
-            {
-                _connectionString = System.IO.File.ReadAllText("ConnectionString.config");
-            }
         }
 
         [TearDown]
@@ -38,8 +45,14 @@ namespace NBi.Testing.Xml
         {
             var t = new TestXml()
             {
-                Constraints = new List<AbstractConstraintXml>() { new SyntacticallyCorrectXml() { ConnectionString = _connectionString } },
-                TestCases = new List<TestCaseXml>() { new TestCaseXml() { InlineQuery = "SELECT * FROM Product;" } }
+                Constraints = new List<AbstractConstraintXml>() { new SyntacticallyCorrectXml() },
+                TestCases = new List<TestCaseXml>() 
+                { new TestCaseXml() 
+                    {
+                        InlineQuery = "SELECT * FROM Product;",  
+                        ConnectionString =  ConnectionString
+                    } 
+                }
             };
 
             t.Play();

@@ -88,14 +88,14 @@ namespace NBi.Xml
                     test.Name = Path.GetFileNameWithoutExtension(query);
                     test.Categories.AddRange(Path.GetFileNameWithoutExtension(query).Split(new string[] { " - " }, StringSplitOptions.RemoveEmptyEntries));
 
-                    var ctr = new EqualsToXml();
+                    var ctr = new EqualToXml();
                     test.Constraints.Add(ctr);
-                    ctr.ConnectionString=connectionString;
                     ctr.ResultSetPath=Path.Combine(resultSetsDirectory, Path.GetFileNameWithoutExtension(query) + ".csv");
 
                     var tc = new TestCaseXml();
                     test.TestCases.Add(tc);
                     tc.Filename = query;
+                    tc.ConnectionString = connectionString;
                 }
             }
             return testSuite;

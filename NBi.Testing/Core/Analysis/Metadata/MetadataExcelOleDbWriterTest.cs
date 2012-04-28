@@ -11,7 +11,7 @@ namespace NBi.Testing.Core.Analysis.Metadata
         public void Write_ExistingSheet_FileBiggerThanOriginal()
         {
             //Build the fullpath for the file to read
-            var filename = DiskOnFile.CreatePhysicalFile("MetadataExistingSheet.xls", "NBi.Testing.Core.Analysis.Metadata.MetadataExcelSample.xls");
+            var filename = DiskOnFile.CreatePhysicalFile("MetadataExistingSheet.xls", "NBi.Testing.Core.Analysis.Metadata.Resources.MetadataExcelSample.xls");
             var initLength = new FileInfo(filename).Length;
 
             //set the object to test
@@ -31,7 +31,7 @@ namespace NBi.Testing.Core.Analysis.Metadata
             var persp = BuildFakeMetadata();
 
             //Build the fullpath for the file to read
-            var filename = DiskOnFile.CreatePhysicalFile("MetadataNotExistingSheet.xls", "NBi.Testing.Core.Analysis.Metadata.MetadataExcelSample.xls");
+            var filename = DiskOnFile.CreatePhysicalFile("MetadataNotExistingSheet.xls", "NBi.Testing.Core.Analysis.Metadata.Resources.MetadataExcelSample.xls");
             var initLength = new FileInfo(filename).Length;
 
             //set the object to test

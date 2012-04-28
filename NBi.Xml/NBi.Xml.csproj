@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractConstraintXml.cs" />
-    <Compile Include="EqualsToXml.cs" />
+    <Compile Include="EqualToXml.cs" />
     <Compile Include="SyntacticallyCorrectXml.cs" />
     <Compile Include="FasterThanXml.cs" />
     <Compile Include="TestXml.cs" />

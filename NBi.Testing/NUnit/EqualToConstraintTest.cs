@@ -1,4 +1,5 @@
-﻿using System.Xml.Schema;
+﻿using System.Data;
+using System.Data.OleDb;
 using Moq;
 using NBi.Core;
 using NBi.Core.Analysis.Query;
@@ -11,22 +12,21 @@ namespace NBi.Testing.NUnit
     public class EqualToConstraintTest
     {
         [Test]
-        public void EqualsToConstraint_NUnitAssertThat_EngineCalledOnce()
+        public void EqualToConstraint_NUnitAssertThatOleDbCommand_EngineCalledOnce()
         {
-            var expectedPath = "C:\\ExpectedPath";
             var mock = new Mock<IResultSetComparer>();
-
-            mock.Setup(engine => engine.Validate(It.IsAny<string>()))
+            mock.Setup(engine => engine.Validate(It.IsAny<IDbCommand>()))
                 .Returns(Result.Success());
             IResultSetComparer rsc = mock.Object;
 
-            var equalsToConstraint = new EqualToConstraint(rsc);
+            var equalToConstraint = new EqualToConstraint(rsc);
+            var cmd = new OleDbCommand();
 
             //Method under test
-            Assert.That(expectedPath, equalsToConstraint);
+            Assert.That(cmd, equalToConstraint);
 
             //Test conclusion            
-            mock.Verify(engine => engine.Validate(expectedPath), Times.Once());
+            mock.Verify(engine => engine.Validate(cmd), Times.Once());
         }
     }
 }

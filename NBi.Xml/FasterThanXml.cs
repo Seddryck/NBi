@@ -6,15 +6,15 @@ namespace NBi.Xml
 {
     public class FasterThanXml : AbstractConstraintXml
     {
-        [XmlAttribute("connectionString")]
-        public string ConnectionString { get; set; }
-
         [XmlAttribute("maxTimeMilliSeconds")]
         public int MaxTimeMilliSeconds { get; set; }
 
+        [XmlAttribute("cleanCache")]
+        public bool CleanCache { get; set; }
+
         public override Constraint Define()
         {
-            var ctr = new FasterThanConstraint(ConnectionString, MaxTimeMilliSeconds);
+            var ctr = new FasterThanConstraint(MaxTimeMilliSeconds, CleanCache);
             return ctr;
         }
     }

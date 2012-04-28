@@ -10,22 +10,31 @@ namespace NBi.Testing.Xml
     [TestFixture]
     public class TestCaseXmlTest
     {
-        protected string _connectionString;
+
+        protected string ConnectionString
+        {
+            get
+            {
+                //If available use the user file
+                if (System.IO.File.Exists("ConnectionString.user.config"))
+                {
+                    return System.IO.File.ReadAllText("ConnectionString.user.config");
+                }
+                else if (System.IO.File.Exists("ConnectionString.config"))
+                {
+                    return System.IO.File.ReadAllText("ConnectionString.config");
+                }
+
+                return null;
+            }
+        }
 
         #region Setup & Teardown
 
         [SetUp]
         public void SetUp()
         {
-            //If available use the user file
-            if (System.IO.File.Exists("ConnectionString.user.config"))
-            {
-                _connectionString = System.IO.File.ReadAllText("ConnectionString.user.config");
-            }
-            else if (System.IO.File.Exists("ConnectionString.config"))
-            {
-                _connectionString = System.IO.File.ReadAllText("ConnectionString.config");
-            }
+           
         }
 
         [TearDown]
@@ -38,8 +47,11 @@ namespace NBi.Testing.Xml
         [Test]
         public void TestCase_Play_Success()
         {
-            var constraint = new SyntacticallyCorrectConstraint(_connectionString);
-            var testCase = new TestCaseXml() { InlineQuery = "SELECT * FROM Product;" };
+            var constraint = new SyntacticallyCorrectConstraint();
+            var testCase = new TestCaseXml() 
+                { InlineQuery = "SELECT * FROM Product;" ,
+                  ConnectionString =  ConnectionString 
+                };
 
             testCase.Play(constraint);
             Assert.Pass();
@@ -49,7 +61,7 @@ namespace NBi.Testing.Xml
         public void TestCase_sql_RetrieveContentOfFile()
         {
             //create a text file on disk
-            var filename = DiskOnFile.CreatePhysicalFile("QueryFile.sql", "NBi.Testing.Xml.QueryFile.sql");
+            var filename = DiskOnFile.CreatePhysicalFile("QueryFile.sql", "NBi.Testing.Xml.Resources.QueryFile.sql");
            
             //Instantiate a Test Case and specify to find the sql in the fie created above
             var testCase = new TestCaseXml() { Filename = filename };
@@ -57,7 +69,7 @@ namespace NBi.Testing.Xml
             // A Stream is needed to read the text file from the assembly.
             string expectedContent;
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Xml.QueryFile.sql"))
+                                           .GetManifestResourceStream("NBi.Testing.Xml.Resources.QueryFile.sql"))
                 using (StreamReader reader = new StreamReader(stream))
                    expectedContent = reader.ReadToEnd();
             

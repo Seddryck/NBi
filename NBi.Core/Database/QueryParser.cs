@@ -1,31 +1,30 @@
-﻿using System.Data.SqlClient;
+﻿using System.Data;
+using System.Data.SqlClient;
 
 namespace NBi.Core.Database
 {
     public class QueryParser : IQueryParser
     {
-        protected string _connectionString;
 
-        public QueryParser(string connectionString)
+        public QueryParser()
         {
-            _connectionString = connectionString;
         }
 
-        public Result ValidateFormat(string sqlQuery)
+        public Result Validate(IDbCommand cmd)
         {
             Result res=null;
             
-            using(SqlConnection conn = new SqlConnection(_connectionString))
+            using(SqlConnection conn = new SqlConnection(cmd.Connection.ConnectionString))
             {
-                var fullSql = string.Format(@"SET FMTONLY ON {0} SET FMTONLY OFF", sqlQuery);
+                var fullSql = string.Format(@"SET FMTONLY ON {0} SET FMTONLY OFF", cmd.CommandText);
                 
                 conn.Open();
 
-                using (SqlCommand cmd = new SqlCommand(fullSql, conn))
+                using (SqlCommand cmdIn = new SqlCommand(fullSql, conn))
                 {
                     try 
-	                {	        
-		                cmd.ExecuteNonQuery();
+	                {
+                        cmdIn.ExecuteNonQuery();
                         res = Result.Success();
 	                }
 	                catch (SqlException ex)

@@ -1,11 +1,14 @@
-﻿using NBi.Core;
+﻿using System.Data;
+using System.Data.OleDb;
 using System.Data.SqlClient;
+using Microsoft.AnalysisServices.AdomdClient;
+using NBi.Core;
 using NBi.Core.Database;
-using NUnit.Framework.Constraints;
+using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit
 {
-    public class FasterThanConstraint : Constraint
+    public class FasterThanConstraint : NUnitCtr.Constraint
     {
         /// <summary>
         /// Engine dedicated to query parsing
@@ -19,11 +22,11 @@ namespace NBi.NUnit
 
         /// .ctor, define the default engine used by this constraint
         /// </summary>
-        /// <param name="connectionString">Connection string used to connect to the server where the constraint will be tested</param>
         /// <param name="maxTimeMilliSeconds">The query should run faster than the maximum time specified here</param>
-        public FasterThanConstraint(string connectionString, int maxTimeMilliSeconds)
+        /// <param name="cleanCache">Specify if the cache needs to be cleant or not</param>
+        public FasterThanConstraint(int maxTimeMilliSeconds, bool cleanCache)
         {
-            _engine = new QueryPerformance(connectionString, maxTimeMilliSeconds);
+            _engine = new QueryPerformance(maxTimeMilliSeconds, cleanCache);
         }
 
         /// <summary>
@@ -42,13 +45,10 @@ namespace NBi.NUnit
         /// <returns>true, if the query defined in parameter is executed in less that expected else false</returns>
         public override bool Matches(object actual)
         {
-            if (actual.GetType() == typeof(string))
-                return Matches((string)actual);
-            else if (actual.GetType() == typeof(SqlCommand))
-                return Matches(((SqlCommand)actual).CommandText);
+            if (actual.GetType() == typeof(OleDbCommand) || actual.GetType() == typeof(SqlCommand) || actual.GetType() == typeof(AdomdCommand))
+                return Matches((IDbCommand)actual);
             else
                 return false;
-
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace NBi.NUnit
         /// </summary>
         /// <param name="actual">SQL string</param>
         /// <returns>true, if the query defined in parameter is executed in less that expected else false</returns>
-        public bool Matches(string actual)
+        public bool Matches(IDbCommand actual)
         {
             _res = _engine.Validate(actual);
             return _res.ToBoolean();
@@ -66,7 +66,7 @@ namespace NBi.NUnit
         /// 
         /// </summary>
         /// <param name="writer"></param>
-        public override void WriteDescriptionTo(MessageWriter writer)
+        public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
             var sb = new System.Text.StringBuilder();
             sb.AppendLine("Execution of the query is slower than expected");

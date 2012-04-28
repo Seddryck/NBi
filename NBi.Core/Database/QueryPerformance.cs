@@ -1,47 +1,51 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace NBi.Core.Database
 {
     public class QueryPerformance : IQueryPerformance
     {
-        protected string _connectionString;
+        protected bool _cleanCache;
         protected int _maxTimeMilliSeconds;
 
-        public QueryPerformance(string connectionString, int maxTimeMilliSeconds)
+        public QueryPerformance(int maxTimeMilliSeconds, bool cleanCache)
         {
-            _connectionString = connectionString;
             _maxTimeMilliSeconds= maxTimeMilliSeconds;
+            _cleanCache = cleanCache;
         }
 
-        public Result Validate(string sqlQuery)
+        public Result Validate(IDbCommand cmd)
         {
             DateTime tsStart, tsStop; 
 
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            if(_cleanCache)
             {
-                var clearSql = new string[] { "dbcc freeproccache", "dbcc dropcleanbuffers" };
-                
-                conn.Open();
-
-                foreach (var sql in clearSql)
+                using (var conn = new SqlConnection(cmd.Connection.ConnectionString))
                 {
-                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    var clearSql = new string[] { "dbcc freeproccache", "dbcc dropcleanbuffers" };
+
+                    conn.Open();
+
+                    foreach (var sql in clearSql)
                     {
-                        cmd.ExecuteNonQuery();
+                        using (SqlCommand cleanCmd = new SqlCommand(sql, conn))
+                        {
+                            cleanCmd.ExecuteNonQuery();
+                        }
                     }
                 }
-                
-                using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
-                {
-                    tsStart = DateTime.Now;
-                    cmd.ExecuteNonQuery();
-                    tsStop = DateTime.Now;
-                }
-
-                if (conn.State != System.Data.ConnectionState.Closed)
-                    conn.Close();
             }
+
+            if (cmd.Connection.State == ConnectionState.Closed)
+                cmd.Connection.Open();
+
+            tsStart = DateTime.Now;
+            cmd.ExecuteNonQuery();
+            tsStop = DateTime.Now;
+
+            if (cmd.Connection.State == ConnectionState.Open)
+                cmd.Connection.Close();
 
             double ms = tsStop.Subtract(tsStart).TotalMilliseconds;
 

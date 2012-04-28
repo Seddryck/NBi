@@ -29,18 +29,17 @@ namespace NBi.NUnit
 
     public class Is : NF.Is
     {
-        protected static string _connectionString;
 
         public Is()
         {
         }
         
-        public Constraint SyntacticallyCorrect()
+        public static Constraint SyntacticallyCorrect()
         {
             return new SyntacticallyCorrectConstraint();
         }
 
-        public Constraint FasterThan(int maxTimeMilliSeconds, bool cleanCache)
+        public static Constraint FasterThan(int maxTimeMilliSeconds, bool cleanCache)
         {
             return new FasterThanConstraint(maxTimeMilliSeconds, cleanCache);
         }

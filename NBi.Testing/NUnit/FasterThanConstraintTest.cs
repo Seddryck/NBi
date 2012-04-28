@@ -56,13 +56,14 @@ namespace NBi.Testing.NUnit
             var sql = "SELECT * FROM Product;";
             var cmd = new SqlCommand(sql, new SqlConnection(_connectionString));
 
-            Assert.That(cmd, OnDataSource.Localized(_connectionString).Is.FasterThan(5000, true));
+            //Method under test
+            Assert.That(cmd, NBi.NUnit.Is.FasterThan(5000, true));
             
             Assert.Pass();
         }
 
         [Test]
-        public void FasterThanConstraint_NUnitAssertThatOleDbCommand_EngineCalledOnce()
+        public void FasterThanConstraint_NUnitAssertThatIDbCommand_EngineCalledOnce()
         {
             var sql = "SELECT * FROM Product;";
             var cmd = new SqlCommand(sql, new SqlConnection(_connectionString));

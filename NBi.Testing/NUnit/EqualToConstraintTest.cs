@@ -12,7 +12,7 @@ namespace NBi.Testing.NUnit
     public class EqualToConstraintTest
     {
         [Test]
-        public void EqualToConstraint_NUnitAssertThatOleDbCommand_EngineCalledOnce()
+        public void EqualToConstraint_NUnitAssertThatIDbCommand_EngineCalledOnce()
         {
             var mock = new Mock<IResultSetComparer>();
             mock.Setup(engine => engine.Validate(It.IsAny<IDbCommand>()))

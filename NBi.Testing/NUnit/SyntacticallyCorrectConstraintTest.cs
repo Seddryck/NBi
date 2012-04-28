@@ -59,17 +59,14 @@ namespace NBi.Testing.NUnit
             var conn = new SqlConnection(_connectionString);
             var cmd = new SqlCommand(sql, conn);
 
-            Assert.That(cmd, OnDataSource.Localized(_connectionString).Is.SyntacticallyCorrect());
+            Assert.That(cmd, NBi.NUnit.Is.SyntacticallyCorrect());
             
             Assert.Pass();
         }
 
         [Test]
-        public void SyntacticallyCorrectConstraint_NUnitAssertThat_EngineCalledOnce()
+        public void SyntacticallyCorrectConstraint_NUnitAssertThatIDbCommand_EngineCalledOnce()
         {
-            //var sql = "SELECT * FROM Product;";
-            //var conn = new SqlConnection(_connectionString);
-            //var cmd = new SqlCommand(sql, conn);
 
             var mock = new Mock<IQueryParser>();
             mock.Setup(engine => engine.Validate(It.IsAny<IDbCommand>()))

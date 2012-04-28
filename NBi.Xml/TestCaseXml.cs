@@ -1,6 +1,6 @@
-﻿using System.Data.SqlClient;
-using System.IO;
+﻿using System.IO;
 using System.Xml.Serialization;
+using NBi.Core;
 using NUnit.Framework;
 using NUnitCtr = NUnit.Framework.Constraints;
 
@@ -39,7 +39,7 @@ namespace NBi.Xml
 
         public void Play(NUnitCtr.Constraint constraint)
         {
-            var conn = new SqlConnection(ConnectionString);
+            var conn = ConnectionFactory.Get(ConnectionString);
             var cmd = conn.CreateCommand();
             cmd.CommandText = Query;
             

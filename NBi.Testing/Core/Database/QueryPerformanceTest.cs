@@ -1,4 +1,5 @@
-﻿using NBi.Core;
+﻿using System.Data.SqlClient;
+using NBi.Core;
 using NBi.Core.Database;
 using NUnit.Framework;
 
@@ -37,9 +38,10 @@ namespace NBi.Testing.Core.Database
         public void TimeLimit_LessThan5000MilliSeconds_Success()
         {
             var sql = "SELECT * FROM Product;";
+            var cmd = new SqlCommand(sql, new SqlConnection(_connectionString));
 
-            var qp = new QueryPerformance(_connectionString,5000);
-            var res = qp.Validate(sql);
+            var qp = new QueryPerformance(5000, true);
+            var res = qp.Validate(cmd);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Success));
         }
@@ -48,9 +50,10 @@ namespace NBi.Testing.Core.Database
         public void TimeLimit_LessThan0MilliSeconds_Failed()
         {
             var sql = "SELECT * FROM Product;";
+            var cmd = new SqlCommand(sql, new SqlConnection(_connectionString));
 
-            var qp = new QueryPerformance(_connectionString, -1);
-            var res = qp.Validate(sql);
+            var qp = new QueryPerformance(-1, true);
+            var res = qp.Validate(cmd);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
             Assert.That(res.Failures[0], Is.StringStarting("Maximum time specified was"));

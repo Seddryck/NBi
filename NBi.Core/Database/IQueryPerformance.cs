@@ -1,10 +1,9 @@
-﻿namespace NBi.Core.Database
-{
+﻿using System.Data;
 
+namespace NBi.Core.Database
+{
     public interface IQueryPerformance
     {
-        Result Validate(string sqlQuery);
+        Result Validate(IDbCommand cmd);
     }
-
-
 }

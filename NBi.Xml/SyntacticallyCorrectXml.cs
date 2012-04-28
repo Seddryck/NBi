@@ -6,12 +6,9 @@ namespace NBi.Xml
 {
     public class SyntacticallyCorrectXml : AbstractConstraintXml
     {
-        [XmlAttribute("connectionString")]
-        public string ConnectionString { get; set; }
-
         public override Constraint Define()
         {
-            var ctr = new SyntacticallyCorrectConstraint(ConnectionString);
+            var ctr = new SyntacticallyCorrectConstraint();
             return ctr;
         }
     }

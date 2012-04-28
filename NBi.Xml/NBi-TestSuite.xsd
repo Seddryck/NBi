@@ -6,21 +6,20 @@
 				<xs:element name="Test" maxOccurs="unbounded">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="EqualsTo" minOccurs="0">
+							<xs:element name="EqualTo" minOccurs="0">
 								<xs:complexType>
-									<xs:attribute name="connectionString" type="xs:string" use="required" />
-									<xs:attribute name="resultSetPath" type="xs:string" use="required" />
+									<xs:attribute name="resultSet-File" type="xs:string" use="optional" />
+									<xs:attribute name="query-File" type="xs:string" use="optional" />
+									<xs:attribute name="connectionString" type="xs:string" use="optional" />
+									<xs:attribute name="connectionString-Ref" type="xs:string" use="optional" />
 								</xs:complexType>
 							</xs:element>
 							<xs:element name="SyntacticallyCorrect" minOccurs="0">
-								<xs:complexType>
-									<xs:attribute name="connectionString" type="xs:string" use="required" />
-								</xs:complexType>
 							</xs:element>
 							<xs:element name="FasterThan" minOccurs="0">
 								<xs:complexType>
-									<xs:attribute name="connectionString" type="xs:string" use="required" />
 									<xs:attribute name="maxTimeMilliSeconds" type="xs:unsignedShort" use="required" />
+									<xs:attribute name="cleanCache" type="xs:boolean" use="optional" />
 								</xs:complexType>
 							</xs:element>
 							<xs:element name="TestCase" maxOccurs="unbounded">
@@ -28,7 +27,9 @@
 									<xs:simpleContent>
 										<xs:extension base="xs:string">
 											<xs:attribute name="name" type="xs:string" use="optional" />
-											<xs:attribute name="file" type="xs:string" use="optional" />
+											<xs:attribute name="query-File" type="xs:string" use="optional" />
+											<xs:attribute name="connectionString" type="xs:string" use="optional" />
+											<xs:attribute name="connectionString-Ref" type="xs:string" use="optional" />
 										</xs:extension>
 									</xs:simpleContent>
 								</xs:complexType>

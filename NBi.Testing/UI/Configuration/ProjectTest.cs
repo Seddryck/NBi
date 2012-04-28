@@ -43,7 +43,7 @@ namespace NBi.Testing.UI.Configuration
         public void Load_CorrectFile_DirectoriesLoaded()
         {
             //Buiding object used during test
-            var filename = DiskOnFile.CreatePhysicalFile("MyProject.nbi", "NBi.Testing.UI.Configuration.MyProject.nbi");
+            var filename = DiskOnFile.CreatePhysicalFile("MyProject.nbi", "NBi.Testing.UI.Configuration.Resources.MyProject.nbi");
 
             //Call the method to test
             Project.Load(filename);
@@ -56,7 +56,7 @@ namespace NBi.Testing.UI.Configuration
         public void Load_CorrectFile_DirectoryLoaded()
         {
             //Buiding object used during test
-            var filename = DiskOnFile.CreatePhysicalFile("MyProject.nbi", "NBi.Testing.UI.Configuration.MyProject.nbi");
+            var filename = DiskOnFile.CreatePhysicalFile("MyProject.nbi", "NBi.Testing.UI.Configuration.Resources.MyProject.nbi");
 
             //Call the method to test
             Project.Load(filename);
@@ -78,7 +78,7 @@ namespace NBi.Testing.UI.Configuration
         public void Load_CorrectFile_ConnectionStringLoaded()
         {
             //Buiding object used during test
-            var filename = DiskOnFile.CreatePhysicalFile("MyProject.nbi", "NBi.Testing.UI.Configuration.MyProject.nbi");
+            var filename = DiskOnFile.CreatePhysicalFile("MyProject.nbi", "NBi.Testing.UI.Configuration.Resources.MyProject.nbi");
 
             //Call the method to test
             Project.Load(filename);

@@ -1,4 +1,6 @@
-﻿using Moq;
+﻿using System.Data;
+using System.Data.SqlClient;
+using Moq;
 using NBi.Core;
 using NBi.Core.Database;
 using NBi.NUnit;
@@ -39,9 +41,10 @@ namespace NBi.Testing.NUnit
         public void QueryPerformanceRealImplementation_FasterThanConstraint_Success()
         {
             var sql = "SELECT * FROM Product;";
+            var cmd = new SqlCommand(sql, new SqlConnection(_connectionString));
 
             //Method under test
-            Assert.That(sql, new FasterThanConstraint(_connectionString, 5000));
+            Assert.That(cmd, new FasterThanConstraint(5000, true));
 
             //Test conclusion            
             Assert.Pass();
@@ -51,29 +54,31 @@ namespace NBi.Testing.NUnit
         public void QueryPerformanceRealImplementation_IsFasterThan_Success()
         {
             var sql = "SELECT * FROM Product;";
+            var cmd = new SqlCommand(sql, new SqlConnection(_connectionString));
 
-            Assert.That(sql, OnDataSource.Localized(_connectionString).Is.FasterThan(5000));
+            Assert.That(cmd, OnDataSource.Localized(_connectionString).Is.FasterThan(5000, true));
             
             Assert.Pass();
         }
 
         [Test]
-        public void FasterThanConstraint_NUnitAssertThat_EngineCalledOnce()
+        public void FasterThanConstraint_NUnitAssertThatOleDbCommand_EngineCalledOnce()
         {
             var sql = "SELECT * FROM Product;";
-            var mock = new Mock<IQueryPerformance>();
+            var cmd = new SqlCommand(sql, new SqlConnection(_connectionString));
 
-            mock.Setup(engine => engine.Validate(It.IsAny<string>()))
+            var mock = new Mock<IQueryPerformance>();
+            mock.Setup(engine => engine.Validate(It.IsAny<IDbCommand>()))
                 .Returns(Result.Success());
             IQueryPerformance qp = mock.Object;
 
             var fasterThanConstraint = new FasterThanConstraint(qp);
 
             //Method under test
-            Assert.That(sql, fasterThanConstraint);
+            Assert.That(cmd, fasterThanConstraint);
 
             //Test conclusion            
-            mock.Verify(engine => engine.Validate(sql), Times.Once());
+            mock.Verify(engine => engine.Validate(It.IsAny<IDbCommand>()), Times.Once());
         }
 
     }

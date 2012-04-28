@@ -1,27 +1,25 @@
-﻿using System;
+﻿using System.Data;
 using System.IO;
 
 namespace NBi.Core.Analysis.Query
 {
     public class ResultSetComparer: IResultSetComparer
     {
-        protected string _connectionString;
         protected string _expectedResultSetPath;
 
-        public ResultSetComparer(string connectionString, string expectedResultSetPath)
+        public ResultSetComparer(string expectedResultSetPath)
         {
-            _connectionString = connectionString;
             _expectedResultSetPath = expectedResultSetPath;
         }
-        
-        public Result Validate(string mdxQuery)
+
+        public Result Validate(IDbCommand cmd)
         {
             string actual =null;
             string expected = null;
 
-            var exec = new OleDbExecutor(_connectionString);
+            var exec = new OleDbExecutor(cmd.Connection.ConnectionString);
             
-            var ds = exec.Execute(mdxQuery);
+            var ds = exec.Execute(cmd.CommandText);
             var csvWriter = new ResultSetCsvWriter("");
             actual = csvWriter.BuildContent(ds.Tables[0]);
 

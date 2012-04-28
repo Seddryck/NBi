@@ -1,7 +1,8 @@
-﻿using System.IO;
+﻿using System.Data.SqlClient;
+using System.IO;
 using System.Xml.Serialization;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
+using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.Xml
 {
@@ -10,8 +11,14 @@ namespace NBi.Xml
         [XmlAttribute("name")]
         public string Name { get; set; }
 
-        [XmlAttribute("file")]
+        [XmlAttribute("query-File")]
         public string Filename { get; set; }
+
+        [XmlAttribute("connectionString")]
+        public string ConnectionString { get; set; }
+
+        [XmlAttribute("connectionString-Ref")]
+        public string ConnectionStringReference { get; set; }
 
         [XmlText]
         public string InlineQuery { get; set; }
@@ -30,10 +37,15 @@ namespace NBi.Xml
             }
         }
 
-        public void Play(Constraint constraint)
+        public void Play(NUnitCtr.Constraint constraint)
         {
-            Assert.That(Query, constraint);
+            var conn = new SqlConnection(ConnectionString);
+            var cmd = conn.CreateCommand();
+            cmd.CommandText = Query;
+            
+            Assert.That(cmd, constraint);
         }
+
 
     }
 }

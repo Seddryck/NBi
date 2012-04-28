@@ -4,17 +4,14 @@ using NUnit.Framework.Constraints;
 
 namespace NBi.Xml
 {
-    public class EqualsToXml : AbstractConstraintXml
+    public class EqualToXml : AbstractConstraintXml
     {
-        [XmlAttribute("connectionString")]
-        public string ConnectionString { get; set; }
-
-        [XmlAttribute("resultSetPath")]
+        [XmlAttribute("resultSet-Path")]
         public string ResultSetPath { get; set; }
 
         public override Constraint Define()
         {
-            var ctr = new EqualToConstraint(ConnectionString, ResultSetPath);
+            var ctr = new EqualToConstraint(ResultSetPath);
             return ctr;
         }
     }

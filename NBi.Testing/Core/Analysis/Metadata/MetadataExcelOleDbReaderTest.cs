@@ -10,7 +10,7 @@ namespace NBi.Testing.Core.Analysis.Metadata
         public void Read_Format10_CorrectlyLoaded()
         {
             //Build the fullpath for the file to read
-            var filename = DiskOnFile.CreatePhysicalFile("MetadataFormat10.xls", "NBi.Testing.Core.Analysis.Metadata.MetadataExcelSample.xls");
+            var filename = DiskOnFile.CreatePhysicalFile("MetadataFormat10.xls", "NBi.Testing.Core.Analysis.Metadata.Resources.MetadataExcelSample.xls");
 
             //set the object to test
             var mer = new MetadataExcelOleDbReader(filename);
@@ -50,7 +50,7 @@ namespace NBi.Testing.Core.Analysis.Metadata
         public void Read_Format20_CorrectlyLoaded()
         {
             //Build the fullpath for the file to read
-            var filename = DiskOnFile.CreatePhysicalFile("MetadataFormat20.xls", "NBi.Testing.Core.Analysis.Metadata.MetadataExcelSample.xls");
+            var filename = DiskOnFile.CreatePhysicalFile("MetadataFormat20.xls", "NBi.Testing.Core.Analysis.Metadata.Resources.MetadataExcelSample.xls");
 
             //set the object to test
             var mer = new MetadataExcelOleDbReader(filename);

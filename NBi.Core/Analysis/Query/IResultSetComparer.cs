@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Data;
 
 namespace NBi.Core.Analysis.Query
 {
     public interface IResultSetComparer
     {
-        Result Validate(string path);
+        Result Validate(IDbCommand path);
     }
 }

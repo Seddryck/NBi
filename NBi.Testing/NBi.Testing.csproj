@@ -85,10 +85,10 @@
     <None Include="ConnectionString.user.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Core\Analysis\Metadata\MetadataCsvSample.csv" />
+    <EmbeddedResource Include="Core\Analysis\Metadata\Resources\MetadataCsvSample.csv" />
     <None Include="packages.config" />
-    <EmbeddedResource Include="UI\Configuration\MyProject.nbi" />
-    <EmbeddedResource Include="UI\Configuration\MyProject-Saved.nbi" />
+    <EmbeddedResource Include="UI\Configuration\Resources\MyProject.nbi" />
+    <EmbeddedResource Include="UI\Configuration\Resources\MyProject-Saved.nbi" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
@@ -113,16 +113,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Xml\SelectAllProducts.sql" />
-    <EmbeddedResource Include="Xml\QueryFile.sql" />
-    <EmbeddedResource Include="Core\Analysis\Metadata\MetadataExcelSample.xls">
+    <EmbeddedResource Include="Xml\Resources\SelectAllProducts.sql" />
+    <EmbeddedResource Include="Xml\Resources\QueryFile.sql" />
+    <EmbeddedResource Include="Core\Analysis\Metadata\Resources\MetadataExcelSample.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Core\Analysis\Query\ResultDataSet.xml">
+    <EmbeddedResource Include="Core\Analysis\Query\Resources\ResultDataSet.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="NBi.Testing.sql" />
-    <EmbeddedResource Include="Xml\TestSuiteSample.xml">
+    <EmbeddedResource Include="Xml\Resources\TestSuiteSample.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </EmbeddedResource>

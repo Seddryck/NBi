@@ -39,20 +39,26 @@ namespace NBi.Testing.Core.Database
         {
             var sql = "SELECT * FROM Product;";
 
-            var qp = new QueryParser(_connectionString);
-            var res = qp.ValidateFormat(sql);
+            var qp = new QueryParser();
+            var conn = new SqlConnection(_connectionString);
+            var cmd = new SqlCommand(sql, conn);
+
+            var res = qp.Validate(cmd);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Success));
             
         }
 
         [Test]
-        public void ValidateFormat_WrongTableName_Failed()
+        public void Validate_WrongTableName_Failed()
         {
             var sql = "SELECT * FROM WrongTableName;";
 
-            var qp = new QueryParser(_connectionString);
-            var res = qp.ValidateFormat(sql);
+            var qp = new QueryParser();
+            var conn = new SqlConnection(_connectionString);
+            var cmd = new SqlCommand(sql, conn);
+
+            var res = qp.Validate(cmd);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
             Assert.That(res.Failures[0], Is.EqualTo("Invalid object name 'WrongTableName'."));
@@ -63,8 +69,11 @@ namespace NBi.Testing.Core.Database
         {
             var sql = "SELECT ProductSKU, [Description] FROM Product;";
 
-            var qp = new QueryParser(_connectionString);
-            var res = qp.ValidateFormat(sql);
+            var qp = new QueryParser();
+            var conn = new SqlConnection(_connectionString);
+            var cmd = new SqlCommand(sql, conn);
+
+            var res = qp.Validate(cmd);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Success));
 
@@ -75,8 +84,11 @@ namespace NBi.Testing.Core.Database
         {
             var sql = "SELECT ProductSKU, [Description], WrongField FROM Product;";
 
-            var qp = new QueryParser(_connectionString);
-            var res = qp.ValidateFormat(sql);
+            var qp = new QueryParser();
+            var conn = new SqlConnection(_connectionString);
+            var cmd = new SqlCommand(sql, conn);
+            
+            var res = qp.Validate(cmd);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
             Assert.That(res.Failures[0], Is.EqualTo("Invalid column name 'WrongField'."));
@@ -87,8 +99,11 @@ namespace NBi.Testing.Core.Database
         {
             var sql = "SELECT ProductSKU, [Description], WrongField1, WrongField2 FROM Product;";
 
-            var qp = new QueryParser(_connectionString);
-            var res = qp.ValidateFormat(sql);
+            var qp = new QueryParser();
+            var conn = new SqlConnection(_connectionString);
+            var cmd = new SqlCommand(sql, conn);
+
+            var res = qp.Validate(cmd);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
             Assert.That(res.Failures[0], Is.EqualTo("Invalid column name 'WrongField1'."));
@@ -99,9 +114,11 @@ namespace NBi.Testing.Core.Database
         public void ValidateFormat_WrongSyntax_Failed()
         {
             var sql = "SELECTION ProductSKU, [Description], WrongField1, WrongField2 FROM Product;";
+            var qp = new QueryParser();
+            var conn = new SqlConnection(_connectionString);
+            var cmd = new SqlCommand(sql, conn);
 
-            var qp = new QueryParser(_connectionString);
-            var res = qp.ValidateFormat(sql);
+            var res = qp.Validate(cmd);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
             Assert.That(res.Failures[0], Is.EqualTo("Incorrect syntax near 'SELECTION'."));
@@ -118,8 +135,11 @@ namespace NBi.Testing.Core.Database
             if (countBefore == 0) //If nothing was present we cannot assert
                 Assert.Inconclusive();
 
-            var qp = new QueryParser(_connectionString);
-            var res = qp.ValidateFormat(sql);
+            var qp = new QueryParser();
+            var conn = new SqlConnection(_connectionString);
+            var cmd = new SqlCommand(sql, conn);
+
+            var res = qp.Validate(cmd);
 
             if (res.Value != Result.ValueType.Success) //If syntax is incorrect we cannot assert
                 Assert.Inconclusive();

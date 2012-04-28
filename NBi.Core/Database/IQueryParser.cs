@@ -1,7 +1,9 @@
-﻿namespace NBi.Core.Database
+﻿using System.Data;
+
+namespace NBi.Core.Database
 {
     public interface IQueryParser
     {
-        Result ValidateFormat(string sqlQuery);
+        Result Validate(IDbCommand cmd);
     }
 }

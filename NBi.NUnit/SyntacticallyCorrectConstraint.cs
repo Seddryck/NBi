@@ -1,11 +1,14 @@
-﻿using NBi.Core;
-using NBi.Core.Database;
+﻿using System.Data;
+using System.Data.OleDb;
 using System.Data.SqlClient;
-using NUnit.Framework.Constraints;
+using Microsoft.AnalysisServices.AdomdClient;
+using NBi.Core;
+using NBi.Core.Database;
+using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit
 {
-    public class SyntacticallyCorrectConstraint : Constraint
+    public class SyntacticallyCorrectConstraint : NUnitCtr.Constraint
     {
         /// <summary>
         /// Engine dedicated to query parsing
@@ -22,9 +25,9 @@ namespace NBi.NUnit
         /// .ctor, define the default engine used by this constraint
         /// </summary>
         /// <param name="connectionString">Connection string used to connect to the server where the constraint will be tested</param>
-        public SyntacticallyCorrectConstraint(string connectionString)
+        public SyntacticallyCorrectConstraint()
         {
-            _engine = new QueryParser(connectionString);
+            _engine = new QueryParser();
         }
 
         /// <summary>
@@ -43,13 +46,10 @@ namespace NBi.NUnit
         /// <returns>true, if the query defined in parameter is syntatically correct else false</returns>
         public override bool Matches(object actual)
         {
-            if (actual.GetType() == typeof(string))
-                return Matches((string)actual);
-            else if (actual.GetType() == typeof(SqlCommand))
-                return Matches(((SqlCommand)actual).CommandText);
+            if (actual.GetType() == typeof(SqlCommand) || actual.GetType() == typeof(OleDbCommand) || actual.GetType() == typeof(AdomdCommand) )
+                return Matches((IDbCommand)actual);
             else
-                return false;
-                
+                return false;               
         }
         
         /// <summary>
@@ -57,13 +57,13 @@ namespace NBi.NUnit
         /// </summary>
         /// <param name="actual">SQL string</param>
         /// <returns>true, if the query defined in parameter is syntatically correct else false</returns>
-        public bool Matches(string actual)
+        public bool Matches(IDbCommand actual)
         {
-            _res= _engine.ValidateFormat(actual);
+            _res= _engine.Validate(actual);
             return _res.ToBoolean();
         }
 
-        public override void WriteDescriptionTo(MessageWriter writer)
+        public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
             var sb = new System.Text.StringBuilder();
             sb.AppendLine("Parsing of the query failed");

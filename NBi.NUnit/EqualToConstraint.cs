@@ -1,10 +1,12 @@
-﻿using NBi.Core;
+﻿using System.Data;
+using System.Data.OleDb;
+using NBi.Core;
 using NBi.Core.Analysis.Query;
-using NUnit.Framework.Constraints;
+using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit
 {
-    public class EqualToConstraint : Constraint
+    public class EqualToConstraint : NUnitCtr.Constraint
     {
         /// <summary>
         /// Engine dedicated to result set comparaison
@@ -16,9 +18,9 @@ namespace NBi.NUnit
         /// </summary>
         protected Result _res;
 
-        public EqualToConstraint(string connectionString, string expectedResultSetPath)
+        public EqualToConstraint(string expectedResultSetPath)
         {
-            _engine = new ResultSetComparer(connectionString, expectedResultSetPath);
+            _engine = new ResultSetComparer(expectedResultSetPath);
         }
 
         /// <summary>
@@ -31,25 +33,25 @@ namespace NBi.NUnit
         }
 
         /// <summary>
-        /// Handle a sql string or a sqlCommand and check it with the engine
+        /// Handle an IDbCommand and compare it to a predefined resultset
         /// </summary>
-        /// <param name="actual">MDX Command</param>
+        /// <param name="actual">An OleDbCommand</param>
         /// <returns>true, if the result of query execution is exactly identical to the content of the resultset</returns>
         public override bool Matches(object actual)
         {
-            if (actual.GetType() == typeof(string))
-                return Matches((string)actual);
+            if (actual.GetType() == typeof(OleDbCommand))
+                return Matches((IDbCommand)actual);
             else
                 return false;
 
         }
 
         /// <summary>
-        /// Handle a sql string and check it with the engine
+        /// Handle an IDbCommand (Query and ConnectionString) and check it with the engine
         /// </summary>
-        /// <param name="actual">SQL string</param>
+        /// <param name="actual">IDbCommand</param>
         /// <returns>true, if the query defined in parameter is executed in less that expected else false</returns>
-        public bool Matches(string actual)
+        public bool Matches(IDbCommand actual)
         {
             _res = _engine.Validate(actual);
             return _res.ToBoolean();
@@ -59,7 +61,7 @@ namespace NBi.NUnit
         /// 
         /// </summary>
         /// <param name="writer"></param>
-        public override void WriteDescriptionTo(MessageWriter writer)
+        public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
             var sb = new System.Text.StringBuilder();
             sb.AppendLine("Execution of the query doesn't match the expected result");

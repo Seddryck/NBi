@@ -20,7 +20,7 @@ namespace NBi.Testing.Core.Analysis.Query
             //Acquire data to perform test
             var ds = new DataSet();
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Core.Analysis.Query.ResultDataSet.xml"))
+                                           .GetManifestResourceStream("NBi.Testing.Core.Analysis.Query.Resources.ResultDataSet.xml"))
             {
                 //Load the file content into the dataset
                 ds.ReadXml(stream);
@@ -45,7 +45,7 @@ namespace NBi.Testing.Core.Analysis.Query
             //Acquire data to perform test
             var ds = new DataSet();
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream( "NBi.Testing.Core.Analysis.Query.ResultDataSet.xml"))
+                                           .GetManifestResourceStream( "NBi.Testing.Core.Analysis.Query.Resources.ResultDataSet.xml"))
             {
                 //Load the file content into the dataset
                 ds.ReadXml(stream);

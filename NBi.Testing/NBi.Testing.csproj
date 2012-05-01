@@ -56,43 +56,44 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Analysis\Metadata\MetadataCsvWriterTest.cs" />
-    <Compile Include="Core\Analysis\Metadata\MetadataExcelOleDbReaderTest.cs" />
-    <Compile Include="Core\Analysis\Metadata\MetadataExcelOleDbWriterTest.cs" />
-    <Compile Include="Core\ConnectionFactoryTest.cs" />
-    <Compile Include="Core\Database\DataSetComparerContentTest.cs" />
-    <Compile Include="Core\Database\DataSetComparerStructureTest.cs" />
-    <Compile Include="Core\Database\QueryParserTest.cs" />
-    <Compile Include="Core\Database\QueryPerformanceTest.cs" />
-    <Compile Include="Core\Integration\PackageManagerTest.cs" />
-    <Compile Include="Core\Util\DiffFiles\LongestCommonSequence\DiffEngineTest.cs" />
     <Compile Include="DiskOnFile.cs" />
-    <Compile Include="NUnit\Database\DataSetConstraintTest.cs" />
-    <Compile Include="NUnit\FasterThanConstraintTest.cs" />
-    <Compile Include="NUnit\Runtime\TestSuiteTest.cs" />
-    <Compile Include="NUnit\SyntacticallyCorrectConstraintTest.cs" />
-    <Compile Include="NUnit\EqualToConstraintTest.cs" />
+    <Compile Include="Unit\Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />
+    <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvWriterTest.cs" />
+    <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbReaderTest.cs" />
+    <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbWriterTest.cs" />
+    <Compile Include="Unit\Core\Analysis\Query\OleDbExecutorTest.cs" />
+    <Compile Include="Unit\Core\Analysis\Query\ResultSetWriterTest.cs" />
+    <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
+    <Compile Include="Unit\Core\Database\DataSetComparerContentTest.cs" />
+    <Compile Include="Unit\Core\Database\DataSetComparerStructureTest.cs" />
+    <Compile Include="Unit\Core\Database\QueryParserTest.cs" />
+    <Compile Include="Unit\Core\Database\QueryPerformanceTest.cs" />
+    <Compile Include="Unit\Core\Integration\PackageManagerTest.cs" />
+    <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
+    <Compile Include="Unit\Core\Util\DiffFiles\LongestCommonSequence\DiffEngineTest.cs" />
+    <Compile Include="Unit\NUnit\Database\DataSetConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\FasterThanConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Runtime\TestSuiteTest.cs" />
+    <Compile Include="Unit\NUnit\SyntacticallyCorrectConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Core\ResultSetManagerTest.cs" />
-    <Compile Include="Core\Analysis\Query\OleDbExecutorTest.cs" />
-    <Compile Include="Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />
-    <Compile Include="Core\Analysis\Query\ResultSetWriterTest.cs" />
-    <Compile Include="UI\Configuration\ProjectTest.cs" />
-    <Compile Include="Xml\DeserializeTest.cs" />
-    <Compile Include="NUnit\ConstraintFactoryTest.cs" />
-    <Compile Include="Xml\TestCaseXmlTest.cs" />
-    <Compile Include="Xml\TestXmlTest.cs" />
-    <Compile Include="Xml\XmlManagerTest.cs" />
+    <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
+    <Compile Include="Unit\Xml\TestSuiteTest.cs" />
+    <Compile Include="Unit\NUnit\ConstraintFactoryTest.cs" />
+    <Compile Include="Unit\Xml\TestCaseXmlTest.cs" />
+    <Compile Include="Unit\Xml\TestXmlTest.cs" />
+    <Compile Include="Unit\Xml\XmlManagerTest.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <None Include="ConnectionString.user.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Core\Analysis\Metadata\Resources\MetadataCsvSample.csv" />
     <None Include="packages.config" />
-    <EmbeddedResource Include="UI\Configuration\Resources\MyProject.nbi" />
-    <EmbeddedResource Include="UI\Configuration\Resources\MyProject-Saved.nbi" />
+    <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataCsvSample.csv" />
+    <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataExcelSample.xls" />
+    <EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject-Saved.nbi" />
+    <EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject.nbi" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
@@ -117,16 +118,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Xml\Resources\SelectAllProducts.sql" />
-    <EmbeddedResource Include="Xml\Resources\QueryFile.sql" />
-    <EmbeddedResource Include="Core\Analysis\Metadata\Resources\MetadataExcelSample.xls">
+    <EmbeddedResource Include="Unit\Core\Analysis\Query\Resources\ResultDataSet.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteInvalidSyntax.xml">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Core\Analysis\Query\Resources\ResultDataSet.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Unit\Xml\Resources\SelectAllProducts.sql" />
+    <EmbeddedResource Include="Unit\Xml\Resources\QueryFile.sql" />
     <Content Include="NBi.Testing.sql" />
-    <EmbeddedResource Include="Xml\Resources\TestSuiteSample.xml">
+    <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteSample.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </EmbeddedResource>

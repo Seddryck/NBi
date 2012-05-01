@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<Test name="My first test case" uid="0001">
+		<SyntacticallyCorrect />
+		<TestCase name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+			SELECT TOP 1 * FROM Product;
+		</TestCase>
+	</Test>
+	<Test name="My second test case">
+		<Category>Category 1</Category>
+		<Category>Category 2</Category>
+		<SyntacticallyCorrect />
+		<FasterThan maxTimeMilliSeconds="5000" />
+		<TestCase name="Select all products" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+			SELECT * FROM Product;
+		</TestCase>
+		<TestCase query-File="Select all products.sql" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True" />
+	</Test>
+	<Test name="My Mdx test case">
+		<EqualTo 
+			resultSet-File="SimpleMdx.csv" 
+		/>
+		<TestCase query-File="SimpleMdx.Mdx" connectionString="Provider=MSOLAP.4;Data Source=localhost;Catalog=&quot;Finances Analysis&quot;;"/>
+	</Test>
+</TestSuite>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<Test name="My first test case" uid="0001">
+		<SyntacticallyCorrect />
+		<TestCase connection-String="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+			SELECT TOP 1 * FROM Product;
+		</TestCase>
+	</Test>
+</TestSuite>

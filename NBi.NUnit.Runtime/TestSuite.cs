@@ -4,6 +4,8 @@ using System.IO;
 using System.Reflection;
 using NBi.Xml;
 using NUnit.Framework;
+using NBi.NUnit;
+using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Runtime
 {
@@ -21,8 +23,14 @@ namespace NBi.NUnit.Runtime
         public void ExecuteTestCases(TestXml test)
         {
             Console.Out.WriteLine("Test suite defined in " + GetTestSuiteFileDefinition());
-            test.Play();
-            Assert.Pass();
+            foreach (var tc in test.TestCases)
+            {
+                foreach (var ctr in test.Constraints)
+                {
+                    var nUnitCtr = ConstraintFactory.Instantiate(ctr);
+                    Assert.That(tc.Instantiate(), nUnitCtr);
+                }
+            }
         }
 
         public IEnumerable<TestCaseData> GetTestCases()
@@ -38,7 +46,6 @@ namespace NBi.NUnit.Runtime
                 TestCaseData testCaseDataNUnit = new TestCaseData(test);
                 testCaseDataNUnit.SetName(test.Name);
                 testCaseDataNUnit.SetDescription(test.Description);
-                //TODO Add Categories into XmlConfiguration
                 foreach (var category in test.Categories)
                 {
                     testCaseDataNUnit.SetCategory(category);

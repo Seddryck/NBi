@@ -1,6 +1,4 @@
 ﻿using System.Xml.Serialization;
-using NBi.NUnit;
-using NUnit.Framework.Constraints;
 
 namespace NBi.Xml
 {
@@ -12,10 +10,5 @@ namespace NBi.Xml
         [XmlAttribute("cleanCache")]
         public bool CleanCache { get; set; }
 
-        public override Constraint Define()
-        {
-            var ctr = new FasterThanConstraint(MaxTimeMilliSeconds, CleanCache);
-            return ctr;
-        }
     }
 }

@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml
 {
-    [XmlRoot("TestSuite")]
+    [XmlRoot(ElementName = "TestSuite", Namespace = "http://NBi/TestSuite")]
     public class TestSuiteXml
     {
         [XmlAttribute("name")]

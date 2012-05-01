@@ -1,8 +1,7 @@
-﻿using System.IO;
+﻿using System.Data;
+using System.IO;
 using System.Xml.Serialization;
 using NBi.Core;
-using NUnit.Framework;
-using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.Xml
 {
@@ -37,13 +36,13 @@ namespace NBi.Xml
             }
         }
 
-        public void Play(NUnitCtr.Constraint constraint)
+        public IDbCommand Instantiate()
         {
             var conn = ConnectionFactory.Get(ConnectionString);
             var cmd = conn.CreateCommand();
             cmd.CommandText = Query;
-            
-            Assert.That(cmd, constraint);
+
+            return cmd;
         }
 
 

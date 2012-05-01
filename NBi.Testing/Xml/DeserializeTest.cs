@@ -100,7 +100,7 @@ namespace NBi.Testing.Xml
 
             // Check the properties of the object.
             Assert.That(ts.Tests[2].Constraints[0], Is.InstanceOf<EqualToXml>());
-            Assert.That(((EqualToXml)ts.Tests[2].Constraints[0]).ResultSetPath, Is.Not.Empty);
+            Assert.That(((EqualToXml)ts.Tests[2].Constraints[0]).ResultSetFile, Is.Not.Empty);
         }
         
         [Test]

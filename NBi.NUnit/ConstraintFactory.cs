@@ -1,0 +1,38 @@
+﻿using System;
+using NBi.Xml;
+using NUnit.Framework.Constraints;
+
+namespace NBi.NUnit
+{
+    public class ConstraintFactory
+    {
+        public static Constraint Instantiate(AbstractConstraintXml xml)
+        {
+            switch (xml.GetType().Name)
+            {
+                case "EqualToXml": return Instantiate((EqualToXml)xml);
+                case "FasterThanXml": return Instantiate((FasterThanXml)xml);
+                case "SyntacticallyCorrectXml": return Instantiate((SyntacticallyCorrectXml)xml);
+            }
+            throw new ArgumentException();
+        }
+        
+        protected static EqualToConstraint Instantiate(EqualToXml xml)
+        {
+            var ctr = new EqualToConstraint(xml.ResultSetFile);
+            return ctr;
+        }
+
+        protected static FasterThanConstraint Instantiate(FasterThanXml xml)
+        {
+            var ctr = new FasterThanConstraint(xml.MaxTimeMilliSeconds, xml.CleanCache);
+            return ctr;
+        }
+
+        protected static SyntacticallyCorrectConstraint Instantiate(SyntacticallyCorrectXml xml)
+        {
+            var ctr = new SyntacticallyCorrectConstraint();
+            return ctr;
+        }
+    }
+}

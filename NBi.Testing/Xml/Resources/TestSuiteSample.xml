@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TestSuite name="The TestSuite">
+<TestSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
 	<Test name="My first test case" uid="0001">
 		<SyntacticallyCorrect />
 		<TestCase name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
@@ -9,7 +9,7 @@
 	<Test name="My second test case">
 		<Category>Category 1</Category>
 		<Category>Category 2</Category>
-		<SyntacticallyCorrect connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True"/>
+		<SyntacticallyCorrect />
 		<FasterThan maxTimeMilliSeconds="5000" />
 		<TestCase name="Select all products" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
 			SELECT * FROM Product;
@@ -18,8 +18,8 @@
 	</Test>
 	<Test name="My Mdx test case">
 		<EqualTo 
-			resultSet-Path="SimpleMdx.csv" 
+			resultSet-File="SimpleMdx.csv" 
 		/>
-		<TestCase file="SimpleMdx.Mdx" connectionString="Provider=MSOLAP.4;Data Source=localhost;Catalog=&quot;Finances Analysis&quot;;"/>
+		<TestCase query-File="SimpleMdx.Mdx" connectionString="Provider=MSOLAP.4;Data Source=localhost;Catalog=&quot;Finances Analysis&quot;;"/>
 	</Test>
 </TestSuite>

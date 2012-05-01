@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConstraintFactory.cs" />
     <Compile Include="DataSetConstraint.cs" />
     <Compile Include="DataSetContentConstraint.cs" />
     <Compile Include="DataSetStructureConstraint.cs" />
@@ -61,6 +62,10 @@
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
       <Project>{3F730647-FE31-4907-8A6E-A0C4A0C970EA}</Project>
       <Name>NBi.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
+      <Project>{3A9822B3-CCE4-441B-9C3E-D52817A994CA}</Project>
+      <Name>NBi.Xml</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

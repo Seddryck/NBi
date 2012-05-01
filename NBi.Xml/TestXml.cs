@@ -34,27 +34,22 @@ namespace NBi.Xml
             Categories = new List<string>();
         }
 
-        public IList<Constraint> Instantiate()
-        {
-            var list = new List<Constraint>();
-            foreach (var constraint in Constraints)
-            {
-                var c = constraint.Define();
-                list.Add(c);
-            }
-            return list;
-        }
+        //public IList<Constraint> Instantiate()
+        //{
+        //    var list = new List<Constraint>();
+        //    return list;
+        //}
 
-        public void Play()
-        {
-            var ctrs = Instantiate();
-            foreach (var c in ctrs)
-            {
-                foreach (var tc in TestCases)
-                {
-                    tc.Play(c);
-                }
-            }
-        }
+        //public void Play()
+        //{
+        //    var ctrs = Instantiate();
+        //    foreach (var c in ctrs)
+        //    {
+        //        foreach (var tc in TestCases)
+        //        {
+        //            tc.Play(c);
+        //        }
+        //    }
+        //}
     }
 }

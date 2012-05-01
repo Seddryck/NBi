@@ -47,6 +47,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NBi.NUnit\NBi.NUnit.csproj">
+      <Project>{66314704-AA76-4153-80D8-CA2C5FF06976}</Project>
+      <Name>NBi.NUnit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
       <Project>{3A9822B3-CCE4-441B-9C3E-D52817A994CA}</Project>
       <Name>NBi.Xml</Name>

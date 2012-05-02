@@ -3,28 +3,17 @@ using NBi.Core;
 using NBi.Core.Database;
 using NUnit.Framework;
 
-namespace NBi.Testing.Core.Database
+namespace NBi.Testing.Acceptance.Core.Database
 {
     [TestFixture]
     public class QueryPerformanceTest
     {
-
-        protected string _connectionString;
 
         #region Setup & Teardown
 
         [SetUp]
         public void SetUp()
         {
-            //If available use the user file
-            if (System.IO.File.Exists("ConnectionString.user.config"))
-            {
-                _connectionString = System.IO.File.ReadAllText("ConnectionString.user.config");
-            }
-            else if (System.IO.File.Exists("ConnectionString.config"))
-            {
-                _connectionString = System.IO.File.ReadAllText("ConnectionString.config");
-            }
         }
 
         [TearDown]
@@ -35,10 +24,10 @@ namespace NBi.Testing.Core.Database
         #endregion
 
         [Test]
-        public void TimeLimit_LessThan5000MilliSeconds_Success()
+        public void Validate_LessThan5000MilliSeconds_Success()
         {
             var sql = "SELECT * FROM Product;";
-            var cmd = new SqlCommand(sql, new SqlConnection(_connectionString));
+            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.Get()));
 
             var qp = new QueryPerformance(5000, true);
             var res = qp.Validate(cmd);
@@ -47,10 +36,10 @@ namespace NBi.Testing.Core.Database
         }
 
         [Test]
-        public void TimeLimit_LessThan0MilliSeconds_Failed()
+        public void Validate_LessThan0MilliSeconds_Failed()
         {
             var sql = "SELECT * FROM Product;";
-            var cmd = new SqlCommand(sql, new SqlConnection(_connectionString));
+            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.Get()));
 
             var qp = new QueryPerformance(-1, true);
             var res = qp.Validate(cmd);

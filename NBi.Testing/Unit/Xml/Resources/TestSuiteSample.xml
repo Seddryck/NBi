@@ -22,4 +22,11 @@
 		/>
 		<TestCase query-File="SimpleMdx.Mdx" connectionString="Provider=MSOLAP.4;Data Source=localhost;Catalog=&quot;Finances Analysis&quot;;"/>
 	</Test>
+	<Test name="My Mdx against another Mdx">
+		<EqualTo
+			query-File="SimpleMdxTwo.mdx"
+			connectionString="Provider=MSOLAP.4;Data Source=RemoteServer;Catalog=Finances;"
+		/>
+		<TestCase query-File="SimpleMdx.Mdx" connectionString="Provider=MSOLAP.4;Data Source=localhost;Catalog=&quot;Finances Analysis&quot;;"/>
+	</Test>
 </TestSuite>

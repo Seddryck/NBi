@@ -42,7 +42,18 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_EqualToXml_IsOfTypeEqualToConstraint()
         {
-            var ctr = NBiNu.ConstraintFactory.Instantiate(new EqualToXml());
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new EqualToXml() { ResultSetFile="resultset.csv" } );
+
+            Assert.That(ctr, Is.InstanceOf<NBiNu.EqualToConstraint>());
+        }
+
+        [Test]
+        public void Instantiate_EqualToXmlWithResultSet_IsOfTypeEqualToConstraint()
+        {
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new EqualToXml() 
+                { InlineQuery = "SELECT * FROM Product;", 
+                    ConnectionString = "Data Source=.;Initial Catalog='NBi.Testing';Integrated Security=SSPI;" 
+                });
 
             Assert.That(ctr, Is.InstanceOf<NBiNu.EqualToConstraint>());
         }

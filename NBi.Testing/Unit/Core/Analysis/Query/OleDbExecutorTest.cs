@@ -9,7 +9,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Query
         [Test]
         public void Execute_ValidMdx_GetResult()
         {
-            var oe = new OleDbExecutor("Provider=MSOLAP.4;Data Source=localhost;Catalog=\"Finances Analysis\";");
+            var oe = new QueryOleDbExecutor("Provider=MSOLAP.4;Data Source=localhost;Catalog=\"Finances Analysis\";");
             var ds = oe.Execute("SELECT [Measures].[Amount] ON 0, [Date].[Calendar].Children ON 1 FROM [Finances]");
 
             Assert.IsInstanceOf<string>(ds.Tables[0].Rows[0][0]);

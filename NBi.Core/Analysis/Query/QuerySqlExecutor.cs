@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Data.OleDb;
 using System.Data;
+using System.Data.OleDb;
+using System.Data.SqlClient;
 
 namespace NBi.Core.Analysis.Query
 {
-    public class OleDbExecutor:IQueryExecutor
+    public class QuerySqlExecutor:IQueryExecutor
     {
         public string ConnectionString { get; private set; }
 
 
-        public OleDbExecutor(string connectionString)
+        public QuerySqlExecutor(string connectionString)
         {
             ConnectionString = connectionString;
         }
@@ -23,7 +24,7 @@ namespace NBi.Core.Analysis.Query
         public DataSet Execute(string mdx, out int elapsedSec)
         {
             // Open the connection
-            using (var connection = new OleDbConnection())
+            using (var connection = new SqlConnection())
             {
                 try
                     {connection.ConnectionString = ConnectionString;}
@@ -32,12 +33,12 @@ namespace NBi.Core.Analysis.Query
 
                 try
                     {connection.Open();}
-                catch (OleDbException ex)
+                catch (SqlException ex)
                     {throw new ConnectionException(ex);}
 
                 // capture time before execution
                 long ticksBefore = DateTime.Now.Ticks;
-                var adapter = new OleDbDataAdapter(mdx, connection);
+                var adapter = new SqlDataAdapter(mdx, connection);
                 var ds = new DataSet();
                 
                 adapter.SelectCommand.CommandTimeout = 0;

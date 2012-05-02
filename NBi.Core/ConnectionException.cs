@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.OleDb;
+using System.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
 
 namespace NBi.Core
@@ -25,6 +26,12 @@ namespace NBi.Core
                 ) { }
 
         public ConnectionException(OleDbException ex)
+            : base(
+                ex.Message,
+                ex.InnerException
+                ) { }
+
+        public ConnectionException(SqlException ex)
             : base(
                 ex.Message,
                 ex.InnerException

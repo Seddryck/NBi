@@ -16,10 +16,14 @@
 							</xs:element>
 							<xs:element name="EqualTo" minOccurs="0">
 								<xs:complexType>
-									<xs:attribute name="resultSet-File" type="xs:string" use="optional" />
-									<xs:attribute name="query-File" type="xs:string" use="optional" />
-									<xs:attribute name="connectionString" type="xs:string" use="optional" />
-									<xs:attribute name="connectionString-Ref" type="xs:string" use="optional" />
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="resultSet-File" type="xs:string" use="optional" />
+											<xs:attribute name="query-File" type="xs:string" use="optional" />
+											<xs:attribute name="connectionString" type="xs:string" use="optional" />
+											<xs:attribute name="connectionString-Ref" type="xs:string" use="optional" />
+										</xs:extension>
+									</xs:simpleContent>
 								</xs:complexType>
 							</xs:element>
 							<xs:element name="SyntacticallyCorrect" minOccurs="0">

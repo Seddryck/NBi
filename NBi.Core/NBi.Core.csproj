@@ -80,6 +80,8 @@
     <Compile Include="Analysis\Metadata\PerspectiveCollection.cs" />
     <Compile Include="Analysis\Query\IQueryExecutor.cs" />
     <Compile Include="Analysis\Query\IResultSetWriter.cs" />
+    <Compile Include="Analysis\Query\QueryExecutorFactory.cs" />
+    <Compile Include="Analysis\Query\QuerySqlExecutor.cs" />
     <Compile Include="Analysis\Query\ResultSetCsvReader.cs" />
     <Compile Include="Analysis\Query\IResultSetComparer.cs" />
     <Compile Include="Analysis\Query\ResultSetComparer.cs" />
@@ -93,7 +95,7 @@
     <Compile Include="Analysis\Query\ResultSetAbstractWriter.cs" />
     <Compile Include="Analysis\Query\ResultSetCsvWriter.cs.cs" />
     <Compile Include="Analysis\Query\MdxBuilder.cs" />
-    <Compile Include="Analysis\Query\OleDbExecutor.cs" />
+    <Compile Include="Analysis\Query\QueryOleDbExecutor.cs" />
     <Compile Include="Analysis\Query\ResultSetXmlWriter.cs" />
     <Compile Include="Database\DataSetComparer.cs" />
     <Compile Include="Database\IDataSetComparer.cs" />

@@ -21,7 +21,7 @@ namespace NBi.Testing
         /// <summary>
         /// Create a temporary file based on the embedded file
         /// </summary>
-        /// <param name="filename">Filename with extension to create</param>
+        /// <param name="filename">QueryFile with extension to create</param>
         /// <returns>The fullpath of the file created</returns>
         public static string CreatePhysicalFile(string filename, string resource)
         {

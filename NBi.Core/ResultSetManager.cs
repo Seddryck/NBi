@@ -18,7 +18,7 @@ namespace NBi.Core
         {
             return new ResultSetManager(
                 new ResultSetCsvWriter(resultSetDirectory),
-                new OleDbExecutor(connectionString));
+                new QueryOleDbExecutor(connectionString));
         }
         
         public void CreateResultSet(string queriesDirectory)

@@ -12,22 +12,12 @@ namespace NBi.Testing.Unit.NUnit
     public class SyntacticallyCorrectConstraintTest
     {
 
-        protected string _connectionString;
-
         #region Setup & Teardown
 
         [SetUp]
         public void SetUp()
         {
-            //If available use the user file
-            if (System.IO.File.Exists("ConnectionString.user.config"))
-            {
-                _connectionString = System.IO.File.ReadAllText("ConnectionString.user.config");
-            }
-            else if (System.IO.File.Exists("ConnectionString.config"))
-            {
-                _connectionString = System.IO.File.ReadAllText("ConnectionString.config");
-            }
+           
         }
 
         [TearDown]
@@ -37,34 +27,6 @@ namespace NBi.Testing.Unit.NUnit
 
         #endregion
 
-        //TODO Move to acceptance testing
-        [Test]
-        public void QueryParserRealImplementation_SyntacticallyCorrectConstraint_Success()
-        {
-            var sql = "SELECT * FROM Product;";
-            var conn = new SqlConnection(_connectionString);
-            var cmd = new SqlCommand(sql, conn);
-
-
-            //Method under test
-            Assert.That(cmd, new SyntacticallyCorrectConstraint());
-
-            //Test conclusion            
-            Assert.Pass();
-        }
-
-        //TODO Move to acceptance testing
-        [Test]
-        public void QueryParserRealImplementation_IsSyntacticallyCorrect_Success()
-        {
-            var sql = "SELECT * FROM Product;";
-            var conn = new SqlConnection(_connectionString);
-            var cmd = new SqlCommand(sql, conn);
-
-            Assert.That(cmd, NBi.NUnit.Is.SyntacticallyCorrect());
-            
-            Assert.Pass();
-        }
 
         [Test]
         public void SyntacticallyCorrectConstraint_NUnitAssertThatIDbCommand_EngineCalledOnce()

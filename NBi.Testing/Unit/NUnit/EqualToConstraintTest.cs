@@ -28,5 +28,7 @@ namespace NBi.Testing.Unit.NUnit
             //Test conclusion            
             mock.Verify(engine => engine.Validate(cmd), Times.Once());
         }
+
+       
     }
 }

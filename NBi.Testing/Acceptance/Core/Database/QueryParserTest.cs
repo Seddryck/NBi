@@ -1,37 +1,41 @@
-﻿using System.Data.SqlClient;
+﻿#region Using directives
+using System.Data.SqlClient;
 using NBi.Core;
 using NBi.Core.Database;
 using NUnit.Framework;
+#endregion
 
-namespace NBi.Testing.Unit.Core.Database
+namespace NBi.Testing.Acceptance.Core.Database
 {
     [TestFixture]
-    public class QueryParserTest 
+    public class QueryParserTest
     {
 
-        protected string _connectionString;
+        #region SetUp & TearDown
+        //Called only at instance creation
+        [TestFixtureSetUp]
+        public void SetupMethods()
+        {
 
-        #region Setup & Teardown
+        }
 
+        //Called only at instance destruction
+        [TestFixtureTearDown]
+        public void TearDownMethods()
+        {
+        }
+
+        //Called before each test
         [SetUp]
-        public void SetUp()
+        public void SetupTest()
         {
-            //If available use the user file
-            if (System.IO.File.Exists("ConnectionString.user.config"))
-            {
-                _connectionString = System.IO.File.ReadAllText("ConnectionString.user.config");
-            }
-            else if (System.IO.File.Exists("ConnectionString.config"))
-            {
-                _connectionString = System.IO.File.ReadAllText("ConnectionString.config");
-            }
         }
 
+        //Called after each test
         [TearDown]
-        public void TearDown()
+        public void TearDownTest()
         {
         }
-
         #endregion
 
         [Test]
@@ -40,13 +44,13 @@ namespace NBi.Testing.Unit.Core.Database
             var sql = "SELECT * FROM Product;";
 
             var qp = new QueryParser();
-            var conn = new SqlConnection(_connectionString);
+            var conn = new SqlConnection(ConnectionStringReader.Get());
             var cmd = new SqlCommand(sql, conn);
 
             var res = qp.Validate(cmd);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Success));
-            
+
         }
 
         [Test]
@@ -55,7 +59,7 @@ namespace NBi.Testing.Unit.Core.Database
             var sql = "SELECT * FROM WrongTableName;";
 
             var qp = new QueryParser();
-            var conn = new SqlConnection(_connectionString);
+            var conn = new SqlConnection(ConnectionStringReader.Get());
             var cmd = new SqlCommand(sql, conn);
 
             var res = qp.Validate(cmd);
@@ -70,7 +74,7 @@ namespace NBi.Testing.Unit.Core.Database
             var sql = "SELECT ProductSKU, [Description] FROM Product;";
 
             var qp = new QueryParser();
-            var conn = new SqlConnection(_connectionString);
+            var conn = new SqlConnection(ConnectionStringReader.Get());
             var cmd = new SqlCommand(sql, conn);
 
             var res = qp.Validate(cmd);
@@ -85,9 +89,9 @@ namespace NBi.Testing.Unit.Core.Database
             var sql = "SELECT ProductSKU, [Description], WrongField FROM Product;";
 
             var qp = new QueryParser();
-            var conn = new SqlConnection(_connectionString);
+            var conn = new SqlConnection(ConnectionStringReader.Get());
             var cmd = new SqlCommand(sql, conn);
-            
+
             var res = qp.Validate(cmd);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
@@ -100,7 +104,7 @@ namespace NBi.Testing.Unit.Core.Database
             var sql = "SELECT ProductSKU, [Description], WrongField1, WrongField2 FROM Product;";
 
             var qp = new QueryParser();
-            var conn = new SqlConnection(_connectionString);
+            var conn = new SqlConnection(ConnectionStringReader.Get());
             var cmd = new SqlCommand(sql, conn);
 
             var res = qp.Validate(cmd);
@@ -115,7 +119,7 @@ namespace NBi.Testing.Unit.Core.Database
         {
             var sql = "SELECTION ProductSKU, [Description], WrongField1, WrongField2 FROM Product;";
             var qp = new QueryParser();
-            var conn = new SqlConnection(_connectionString);
+            var conn = new SqlConnection(ConnectionStringReader.Get());
             var cmd = new SqlCommand(sql, conn);
 
             var res = qp.Validate(cmd);
@@ -136,7 +140,7 @@ namespace NBi.Testing.Unit.Core.Database
                 Assert.Inconclusive();
 
             var qp = new QueryParser();
-            var conn = new SqlConnection(_connectionString);
+            var conn = new SqlConnection(ConnectionStringReader.Get());
             var cmd = new SqlCommand(sql, conn);
 
             var res = qp.Validate(cmd);
@@ -144,16 +148,16 @@ namespace NBi.Testing.Unit.Core.Database
             if (res.Value != Result.ValueType.Success) //If syntax is incorrect we cannot assert
                 Assert.Inconclusive();
 
-            var countAfter=ExecuteCount(sqlCount);
+            var countAfter = ExecuteCount(sqlCount);
 
             Assert.That(countAfter, Is.EqualTo(countBefore));
         }
-  
+
         private int ExecuteCount(string sqlCount)
         {
             int count;
 
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            using (SqlConnection conn = new SqlConnection(ConnectionStringReader.Get()))
             {
                 conn.Open();
 
@@ -170,5 +174,6 @@ namespace NBi.Testing.Unit.Core.Database
         }
 
         
+
     }
 }

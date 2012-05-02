@@ -1,5 +1,7 @@
 ﻿using System.Data;
 using System.Data.OleDb;
+using System.Data.SqlClient;
+using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core;
 using NBi.Core.Analysis.Query;
 using NUnitCtr = NUnit.Framework.Constraints;
@@ -18,9 +20,24 @@ namespace NBi.NUnit
         /// </summary>
         protected Result _res;
 
+        /// <summary>
+        /// .ctor for a predefined ResultSet stored in a file
+        /// </summary>
+        /// <param name="expectedResultSetPath">Path and filename of the result set</param>
         public EqualToConstraint(string expectedResultSetPath)
         {
             _engine = new ResultSetComparer(expectedResultSetPath);
+        }
+
+        /// <summary>
+        /// .ctor for a ResultSet based on a query
+        /// </summary>
+        /// <param name="expectedResultSetCommand">Sql command to execute to get the expected Result Set</param>
+        /// <param name="persistenceExpectedResultSetPath">Path to store the expected ResultSet</param>
+        /// <param name="persistenceExpectedResultSetFilename">QueryFile to store the expected ResultSet. IF Empty the Result Set is not persisted</param>
+        public EqualToConstraint(IDbCommand expectedResultSetCommand, string persistenceExpectedResultSetPath, string persistenceExpectedResultSetFilename)
+        {
+            _engine = new ResultSetComparer(expectedResultSetCommand, persistenceExpectedResultSetPath, persistenceExpectedResultSetFilename);
         }
 
         /// <summary>
@@ -35,11 +52,11 @@ namespace NBi.NUnit
         /// <summary>
         /// Handle an IDbCommand and compare it to a predefined resultset
         /// </summary>
-        /// <param name="actual">An OleDbCommand</param>
+        /// <param name="actual">An OleDbCommand, SqlCommand or AdomdCommand</param>
         /// <returns>true, if the result of query execution is exactly identical to the content of the resultset</returns>
         public override bool Matches(object actual)
         {
-            if (actual.GetType() == typeof(OleDbCommand))
+            if (actual.GetType() == typeof(OleDbCommand) || actual.GetType() == typeof(SqlCommand) || actual.GetType() == typeof(AdomdCommand))
                 return Matches((IDbCommand)actual);
             else
                 return false;

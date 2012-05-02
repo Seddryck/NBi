@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
-using NUnit.Framework.Constraints;
 
 namespace NBi.Xml
 {
@@ -33,23 +32,5 @@ namespace NBi.Xml
             TestCases = new List<TestCaseXml>();
             Categories = new List<string>();
         }
-
-        //public IList<Constraint> Instantiate()
-        //{
-        //    var list = new List<Constraint>();
-        //    return list;
-        //}
-
-        //public void Play()
-        //{
-        //    var ctrs = Instantiate();
-        //    foreach (var c in ctrs)
-        //    {
-        //        foreach (var tc in TestCases)
-        //        {
-        //            tc.Play(c);
-        //        }
-        //    }
-        //}
     }
 }

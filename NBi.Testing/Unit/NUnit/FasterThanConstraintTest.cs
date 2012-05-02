@@ -12,22 +12,12 @@ namespace NBi.Testing.Unit.NUnit
     public class FasterThanConstraintTest
     {
 
-        protected string _connectionString;
-
         #region Setup & Teardown
 
         [SetUp]
         public void SetUp()
         {
-            //If available use the user file
-            if (System.IO.File.Exists("ConnectionString.user.config"))
-            {
-                _connectionString = System.IO.File.ReadAllText("ConnectionString.user.config");
-            }
-            else if (System.IO.File.Exists("ConnectionString.config"))
-            {
-                _connectionString = System.IO.File.ReadAllText("ConnectionString.config");
-            }
+           
         }
 
         [TearDown]
@@ -37,38 +27,13 @@ namespace NBi.Testing.Unit.NUnit
 
         #endregion
 
-        //TODO Move to acceptance testing
-        [Test]
-        public void QueryPerformanceRealImplementation_FasterThanConstraint_Success()
-        {
-            var sql = "SELECT * FROM Product;";
-            var cmd = new SqlCommand(sql, new SqlConnection(_connectionString));
-
-            //Method under test
-            Assert.That(cmd, new FasterThanConstraint(5000, true));
-
-            //Test conclusion            
-            Assert.Pass();
-        }
-
-        //TODO MOve to acceptance testing
-        [Test]
-        public void QueryPerformanceRealImplementation_IsFasterThan_Success()
-        {
-            var sql = "SELECT * FROM Product;";
-            var cmd = new SqlCommand(sql, new SqlConnection(_connectionString));
-
-            //Method under test
-            Assert.That(cmd, NBi.NUnit.Is.FasterThan(5000, true));
-            
-            Assert.Pass();
-        }
+        
 
         [Test]
         public void FasterThanConstraint_NUnitAssertThatIDbCommand_EngineCalledOnce()
         {
             var sql = "SELECT * FROM Product;";
-            var cmd = new SqlCommand(sql, new SqlConnection(_connectionString));
+            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.Get()));
 
             var mock = new Mock<IQueryPerformance>();
             mock.Setup(engine => engine.Validate(It.IsAny<IDbCommand>()))

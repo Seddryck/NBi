@@ -2,28 +2,18 @@
 using NBi.Core.Database;
 using NUnit.Framework;
 
-namespace NBi.Testing.Unit.Core.Database
+namespace NBi.Testing.Acceptance.Core.Database
 {
     [TestFixture]
     public class DataSetComparerStructureTest
     {
-
-        protected string _connectionString;
 
         #region Setup & Teardown
 
         [SetUp]
         public void SetUp()
         {
-            //If available use the user file
-            if (System.IO.File.Exists("ConnectionString.user.config"))
-            {
-                _connectionString = System.IO.File.ReadAllText("ConnectionString.user.config");
-            }
-            else if (System.IO.File.Exists("ConnectionString.config"))
-            {
-                _connectionString = System.IO.File.ReadAllText("ConnectionString.config");
-            }
+           
         }
 
         [TearDown]
@@ -38,7 +28,7 @@ namespace NBi.Testing.Unit.Core.Database
         {
             var sql = "SELECT ProductID, ProductSKU, Label FROM Product;";
 
-            var ds = new DataSetComparer(_connectionString, _connectionString);
+            var ds = new DataSetComparer(ConnectionStringReader.Get(), ConnectionStringReader.Get());
             var res = ds.ValidateStructure(sql);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Success));
@@ -51,7 +41,7 @@ namespace NBi.Testing.Unit.Core.Database
             var sql = "SELECT ProductID, ProductSKU, Label FROM Product;";
             var sql2 = "SELECT ProductID, ProductSKU, Label FROM Product Prd;";
 
-            var ds = new DataSetComparer(_connectionString, sql, _connectionString);
+            var ds = new DataSetComparer(ConnectionStringReader.Get(), sql, ConnectionStringReader.Get());
             var res = ds.ValidateStructure(sql2);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Success));
@@ -64,7 +54,7 @@ namespace NBi.Testing.Unit.Core.Database
             var sql = "SELECT ProductID, ProductSKU, Label FROM Product;";
             var sql2 = "SELECT ProductID, ProductSKU AS Sku, Label FROM Product;";
 
-            var ds = new DataSetComparer(_connectionString, sql, _connectionString);
+            var ds = new DataSetComparer(ConnectionStringReader.Get(), sql, ConnectionStringReader.Get());
             var res = ds.ValidateStructure(sql2);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
@@ -78,7 +68,7 @@ namespace NBi.Testing.Unit.Core.Database
             var sql = "SELECT ProductID, ProductSKU, Label FROM Product;";
             var sql2 = "SELECT CAST(ProductID AS VARCHAR(10)) AS ProductID, ProductSKU, Label FROM Product;";
 
-            var ds = new DataSetComparer(_connectionString, sql, _connectionString);
+            var ds = new DataSetComparer(ConnectionStringReader.Get(), sql, ConnectionStringReader.Get());
             var res = ds.ValidateStructure(sql2);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
@@ -92,7 +82,7 @@ namespace NBi.Testing.Unit.Core.Database
             var sql = "SELECT ProductID, ProductSKU, Label FROM Product;";
             var sql2 = "SELECT ProductID, ProductSKU FROM Product;";
 
-            var ds = new DataSetComparer(_connectionString, sql, _connectionString);
+            var ds = new DataSetComparer(ConnectionStringReader.Get(), sql, ConnectionStringReader.Get());
             var res = ds.ValidateStructure(sql2);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
@@ -106,7 +96,7 @@ namespace NBi.Testing.Unit.Core.Database
             var sql = "SELECT ProductID, ProductSKU FROM Product;";
             var sql2 = "SELECT ProductID, ProductSKU, Label FROM Product;";
 
-            var ds = new DataSetComparer(_connectionString, sql, _connectionString);
+            var ds = new DataSetComparer(ConnectionStringReader.Get(), sql, ConnectionStringReader.Get());
             var res = ds.ValidateStructure(sql2);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
@@ -120,7 +110,7 @@ namespace NBi.Testing.Unit.Core.Database
             var sql = "SELECT ProductID, ProductSKU AS k, Label FROM Product;";
             var sql2 = "SELECT CAST(RIGHT(ProductSKU,1) AS int) AS ProductID, CAST(ProductSKU AS VARCHAR(10)) AS k, LEFT(Label, 5) AS Label FROM Product;";
 
-            var ds = new DataSetComparer(_connectionString, sql, _connectionString);
+            var ds = new DataSetComparer(ConnectionStringReader.Get(), sql, ConnectionStringReader.Get());
             var res = ds.ValidateStructure(sql2);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Success));
@@ -132,7 +122,7 @@ namespace NBi.Testing.Unit.Core.Database
             var sql = "SELECT ProductID, ProductSKU, Label FROM Product;";
             var sql2 = "SELECT ProductID, ProductSKU, [Label] FROM Product;";
 
-            var ds = new DataSetComparer(_connectionString, sql, _connectionString);
+            var ds = new DataSetComparer(ConnectionStringReader.Get(), sql, ConnectionStringReader.Get());
             var res = ds.ValidateStructure(sql2);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Success));

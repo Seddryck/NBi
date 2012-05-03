@@ -507,7 +507,7 @@ namespace NBi.UI
 
         private void createResultsSetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var createForm = new TestSuiteCreate();
+            var createForm = new ResultSetCreate();
             createForm.QueriesDirectory = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Query].FullFileName;
             createForm.ResultsDirectory = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Expect].FullFileName;
             createForm.ConnectionString = Configuration.Project.ConnectionStrings[
@@ -526,6 +526,7 @@ namespace NBi.UI
                     qsm.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
                     qsm.PersistResultSets();
                 }
+
                 catch (ConnectionException ex)
                 {
                     MessageBox.Show(ex.Message, "Cannot connect with connectionString", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -560,33 +561,55 @@ namespace NBi.UI
         private void buildTestSuiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var tsCreate = new TestSuiteCreate();
-            tsCreate.QueriesDirectory = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Query].FullFileName;
-            tsCreate.ResultsDirectory = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Expect].FullFileName;
-            tsCreate.ConnectionString = Configuration.Project.ConnectionStrings[
+            tsCreate.Actual.QueriesDirectory = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Query].FullFileName;
+            tsCreate.Actual.ConnectionString = Configuration.Project.ConnectionStrings[
                 Configuration.ConnectionStringCollection.ConnectionClass.Oledb,
-                Configuration.ConnectionStringCollection.ConnectionType.Actual
+                Configuration.ConnectionStringCollection.ConnectionType.Expect
                 ].Value;
+            tsCreate.Expect.ResultSetsDirectory = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Expect].FullFileName;
 
-            if (tsCreate.ShowDialog() == DialogResult.OK)
+            DialogResult dialogResult = tsCreate.ShowDialog();
+            if (dialogResult.HasFlag(DialogResult.OK))
             {
-                var xm = new XmlManager();
-                var ts = xm.BuildTestSuite(tsCreate.QueriesDirectory, tsCreate.ResultsDirectory, tsCreate.ConnectionString);
-                using (var sfd = new SaveFileDialog())
+                StartClick(null);
+                try
                 {
-                    sfd.InitialDirectory = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.TestSuite].FullPath;
-                    sfd.FileName = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.TestSuite].FilenameWithoutExtension;
-                    sfd.Filter = "Xml|*.xml";
-                    if (sfd.ShowDialog() == DialogResult.OK)
+                    var tsb = new TestSuiteBuilder();
+                    TestSuiteXml ts = null;
+
+                    tsb.DefineActual(tsCreate.Actual.QueriesDirectory, tsCreate.Actual.ConnectionString);
+                    if (tsCreate.Expect.IsResultSetsBased)
+                        tsb.DefineExpect(tsCreate.Expect.ResultSetsDirectory);
+                    else
+                        tsb.DefineExpect(tsCreate.Expect.QueriesDirectory, tsCreate.Expect.ConnectionString);
+
+                    ts = tsb.Build();
+
+                    var xm = new XmlManager();
+
+                    using (var sfd = new SaveFileDialog())
                     {
-                        xm.Persist(sfd.FileName, ts);
-                        Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.TestSuite].FullFileName = sfd.FileName;
-                        Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Query].FullFileName = tsCreate.QueriesDirectory;
-                        Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Expect].FullFileName = tsCreate.ResultsDirectory;
-                        Configuration.Project.ConnectionStrings[
-                            Configuration.ConnectionStringCollection.ConnectionClass.Oledb,
-                            Configuration.ConnectionStringCollection.ConnectionType.Actual
-                            ].Value = tsCreate.ConnectionString;
+                        sfd.InitialDirectory = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.TestSuite].FullPath;
+                        sfd.FileName = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.TestSuite].FilenameWithoutExtension;
+                        sfd.Filter = "Xml|*.xml";
+                        if (sfd.ShowDialog() == DialogResult.OK)
+                        {
+                            Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.TestSuite].FullFileName = sfd.FileName;
+                            xm.Persist(sfd.FileName, ts);
+                        }
                     }
+                }
+                finally
+                {
+                    Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Query].FullFileName = tsCreate.Actual.QueriesDirectory;
+                    Configuration.Project.ConnectionStrings[
+                        Configuration.ConnectionStringCollection.ConnectionClass.Oledb,
+                        Configuration.ConnectionStringCollection.ConnectionType.Actual
+                        ].Value = tsCreate.Actual.ConnectionString;
+
+                    if (tsCreate.Expect.IsResultSetsBased)
+                        Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.Expect].FullFileName = tsCreate.Expect.ResultSetsDirectory;
+                    EndClick(null);
                 }
             }
         }

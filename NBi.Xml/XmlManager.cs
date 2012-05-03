@@ -84,33 +84,7 @@ namespace NBi.Xml
             _isValid = false; //Validation failed
         }
 
-        public TestSuiteXml BuildTestSuite(string queriesDirectory, string resultSetsDirectory, string connectionString)
-        {
-            var testSuite = new TestSuiteXml();
-
-            var queries = Directory.GetFiles(queriesDirectory);
-            foreach (var query in queries)
-            {
-                if (File.Exists(Path.Combine(resultSetsDirectory, Path.GetFileNameWithoutExtension(query) + ".csv")))
-                {
-                    var test = new TestXml();
-
-                    testSuite.Tests.Add(test);
-                    test.Name = Path.GetFileNameWithoutExtension(query);
-                    test.Categories.AddRange(Path.GetFileNameWithoutExtension(query).Split(new string[] { " - " }, StringSplitOptions.RemoveEmptyEntries));
-
-                    var ctr = new EqualToXml();
-                    test.Constraints.Add(ctr);
-                    ctr.ResultSetFile=Path.Combine(resultSetsDirectory, Path.GetFileNameWithoutExtension(query) + ".csv");
-
-                    var tc = new TestCaseXml();
-                    test.TestCases.Add(tc);
-                    tc.Filename = query;
-                    tc.ConnectionString = connectionString;
-                }
-            }
-            return testSuite;
-        }
+        
 
     }
 }

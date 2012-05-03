@@ -44,6 +44,7 @@
     <Compile Include="EqualToXml.cs" />
     <Compile Include="SyntacticallyCorrectXml.cs" />
     <Compile Include="FasterThanXml.cs" />
+    <Compile Include="TestSuiteBuilder.cs" />
     <Compile Include="TestXml.cs" />
     <Compile Include="TestCaseXml.cs" />
     <Compile Include="TestSuiteXml.cs" />

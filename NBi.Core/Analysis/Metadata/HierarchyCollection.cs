@@ -30,7 +30,10 @@ namespace NBi.Core.Analysis.Metadata
 
         public HierarchyCollection Clone()
         {
-            return new HierarchyCollection();
+            var hierarchies = new HierarchyCollection();
+            foreach (var hierarchy in this)
+                hierarchies.Add(hierarchy.Value.Clone());
+            return hierarchies;
         }
 
     }

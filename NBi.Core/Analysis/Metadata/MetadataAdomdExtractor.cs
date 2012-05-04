@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Xml.Serialization;
+﻿using System;
 using Microsoft.AnalysisServices.AdomdClient;
 
 namespace NBi.Core.Analysis.Metadata
@@ -59,6 +58,7 @@ namespace NBi.Core.Analysis.Metadata
             GetPerspectives();
             GetDimensions();
             GetHierarchies();
+            GetLevels();
             GetDimensionUsage();
             GetMeasures();
 
@@ -148,12 +148,56 @@ namespace NBi.Core.Analysis.Metadata
                     if (!perspectiveName.StartsWith("$") && (bool)rdr.GetValue(21))
                     {
                         string dimensionUniqueName = (string)rdr.GetValue(3);
-                        if (Metadata.Perspectives[perspectiveName].Dimensions.ContainsKey(dimensionUniqueName)) //Needed to avoid dimension [Measure previously filtered]
+                        if (Metadata.Perspectives[perspectiveName].Dimensions.ContainsKey(dimensionUniqueName)) //Needed to avoid dimension [Measure] previously filtered
                         {
                             var dim = Metadata.Perspectives[perspectiveName].Dimensions[dimensionUniqueName];
                             string uniqueName = (string)rdr.GetValue(5);
                             string caption = (string)rdr.GetValue(7);
                             dim.Hierarchies.AddOrIgnore(uniqueName, caption);
+                        }
+                    }
+                }
+            }
+        }
+
+        protected void GetLevels()
+        {
+            if (ProgressStatusChanged != null)
+                ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating levels"));
+
+            using (var cmd = CreateCommand())
+            {
+
+                cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_levels");
+                var rdr = ExecuteReader(cmd);
+
+                // Traverse the response and 
+                // read column 2, "CUBE_NAME"
+                // read column 3, "DIMENSION_UNIQUE_NAME"
+                // read column 4, "HIERARCHY_UNIQUE_NAME"
+                // read column 6, "LEVEL_UNIQUE_NAME"
+                // read column 8, "LEVEL_CAPTION"
+                // read column 9, "LEVEL_NUMBER"
+                // read column 15, "LEVEL_IS_VISIBLE"
+                while (rdr.Read())
+                {
+                    // Get the column value
+                    string perspectiveName = (string)rdr.GetValue(2);
+                    if (!perspectiveName.StartsWith("$") && (bool)rdr.GetValue(15))
+                    {
+                        string dimensionUniqueName = (string)rdr.GetValue(3);
+                        if (Metadata.Perspectives[perspectiveName].Dimensions.ContainsKey(dimensionUniqueName)) //Needed to avoid dimension [Measure] previously filtered
+                        {
+                            var dim = Metadata.Perspectives[perspectiveName].Dimensions[dimensionUniqueName];
+                            string hierarchyUniqueName = (string)rdr.GetValue(4);
+                            if (dim.Hierarchies.ContainsKey(hierarchyUniqueName))
+                            {
+                                var hierarchy = dim.Hierarchies[hierarchyUniqueName];
+                                string uniqueName = (string)rdr.GetValue(6);
+                                string caption = (string)rdr.GetValue(8);
+                                int number = Convert.ToInt32((uint)rdr.GetValue(9));
+                                hierarchy.Levels.InsertOrIgnore(number, uniqueName, caption);
+                            }
                         }
                     }
                 }

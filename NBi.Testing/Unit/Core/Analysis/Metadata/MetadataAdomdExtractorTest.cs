@@ -18,6 +18,8 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
 
             Assert.That(metadata.Perspectives["Finances"].Dimensions["[Date]"].Hierarchies.ContainsKey("[Date].[Calendar]"));
 
+            Assert.That("[Date].[Calendar].[Month]" ,Is.EqualTo(metadata.Perspectives["Finances"].Dimensions["[Date]"].Hierarchies["[Date].[Calendar]"].Levels[2].UniqueName));
+
             Assert.That(metadata.Perspectives["Finances"].MeasureGroups.ContainsKey("Fact Amount"));
             Assert.That(!metadata.Perspectives["Finances"].MeasureGroups.ContainsKey("[Date]"));
 

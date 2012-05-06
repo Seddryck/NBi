@@ -24,63 +24,6 @@ namespace NBi.UI
             hierarchyFunction.SelectedIndex = 3;
         }
 
-#region Treeview
-
-        private TreeNode[] MapTreeview(CubeMetadata metadata)
-        {
-            var tnc = new List<TreeNode>();
-            foreach (var perspective in metadata.Perspectives)
-            {
-                var pNode = new TreeNode(perspective.Value.Name);
-                pNode.Tag = perspective.Key;
-                tnc.Add(pNode);
-
-                foreach (var mg in perspective.Value.MeasureGroups)
-                {
-                    var mgNode = new TreeNode(mg.Value.Name);
-                    mgNode.Tag = mg.Key;
-                    pNode.Nodes.Add(mgNode);
-
-                    var dimsNode = new TreeNode("Linked dimensions");
-                    mgNode.Nodes.Add(dimsNode);
-                    foreach (var dim in mg.Value.LinkedDimensions)
-                    {
-                        var dimNode = new TreeNode(dim.Value.Caption);
-                        dimNode.Tag = dim.Key;
-                        dimsNode.Nodes.Add(dimNode);
-                        foreach (var h in dim.Value.Hierarchies)
-                        {
-                            var hNode = new TreeNode(h.Value.Caption);
-                            hNode.Tag = h.Key;
-                            dimNode.Nodes.Add(hNode);
-                            foreach (var l in h.Value.Levels)
-			                {
-                                var lNode = new TreeNode(l.Value.Caption);
-                                lNode.Tag = l.Key;
-                                hNode.Nodes.Add(lNode);
-                                foreach (var p in l.Value.Properties)
-                                {
-                                    var propNode = new TreeNode(p.Value.Caption);
-                                    propNode.Tag = p.Key;
-                                    lNode.Nodes.Add(propNode);
-                                }
-                            }
-                        }
-                    }
-
-                    var measuresNode = new TreeNode("Measures");
-                    mgNode.Nodes.Add(measuresNode);
-                    foreach (var measure in mg.Value.Measures)
-                    {
-                        var measureNode = new TreeNode(measure.Value.Caption);
-                        measureNode.Tag = measure.Key;
-                        measuresNode.Nodes.Add(measureNode);
-                    }
-                }
-            }
-
-            return tnc.ToArray();
-        }
 
         private bool ConfirmBuildMdxQueries(string path)
         {
@@ -102,181 +45,9 @@ namespace NBi.UI
             }
 
             return (dialogResult != DialogResult.Cancel);
-            
+
         }
 
-        private CubeMetadata SelectedMetadata
-        {
-            get
-            {
-                CubeMetadata sel = new CubeMetadata();
-
-                foreach (TreeNode perspNode in metadataTreeview.Nodes)
-                {
-                    var selPersp = Metadata.Perspectives[(string)perspNode.Tag].Clone();
-                    sel.Perspectives.Add(selPersp);
-                    foreach (TreeNode mgNode in perspNode.Nodes)
-                    {
-                        if (mgNode.Checked)
-                        {
-                            var selMg = selPersp.MeasureGroups[(string)mgNode.Tag];
-                            foreach (TreeNode dimNode in mgNode.FirstNode.Nodes)
-                            {
-                                if (dimNode.Checked)
-                                {
-                                    var cleanDim = Metadata.Perspectives[(string)perspNode.Tag].Dimensions[(string)dimNode.Tag].Clone(); //NOT A TRUE CLONE !!!!
-                                    cleanDim.Hierarchies.Clear();
-
-                                    selMg.LinkedDimensions.Add(cleanDim);
-                                    foreach (TreeNode hierarchyNode in dimNode.Nodes)
-                                    {
-                                        if (hierarchyNode.Checked)
-                                            selMg.LinkedDimensions[(string)dimNode.Tag].Hierarchies.Add(
-                                                Metadata.Perspectives[(string)perspNode.Tag]
-                                                .Dimensions[(string)dimNode.Tag]
-                                                .Hierarchies[(string)hierarchyNode.Tag].Clone());
-
-                                        foreach (TreeNode levelNode in hierarchyNode.Nodes)
-                                        {
-                                            if (levelNode.Checked)
-                                                selMg.LinkedDimensions[(string)dimNode.Tag]
-                                                    .Hierarchies[(string)hierarchyNode.Tag].Levels.Add((string)levelNode.Tag, 
-                                                    Metadata.Perspectives[(string)perspNode.Tag]
-                                                    .Dimensions[(string)dimNode.Tag]
-                                                    .Hierarchies[(string)hierarchyNode.Tag]
-                                                    .Levels[(string)levelNode.Tag]
-                                                    .Clone());
-                                        }
-                                    }
-                                }
-                            }
-                            foreach (TreeNode measureNode in mgNode.LastNode.Nodes)
-                            {
-                                if (measureNode.Checked)
-                                    selMg.Measures.Add(Metadata.Perspectives[(string)perspNode.Tag].MeasureGroups[(string)mgNode.Tag].Measures[(string)measureNode.Tag].Clone());
-                            }
-                            
-                        }
-                        
-                    }
-                }
-                return sel;
-            }
-        }
-
-        private void SelectMetadata(CubeMetadata metadata)
-        {
-            foreach (TreeNode pNode in metadataTreeview.Nodes)
-            {
-                pNode.Checked = metadata.Perspectives.ContainsKey((string)pNode.Tag);
-                if (pNode.Checked)
-                {
-                    var perspective = metadata.Perspectives[(string)pNode.Tag];
-                    foreach (TreeNode mgNode in pNode.Nodes)
-                    {
-                        mgNode.Checked = perspective.MeasureGroups.ContainsKey((string)mgNode.Tag);
-
-                        if (mgNode.Checked)
-                        {
-                            foreach (TreeNode dimNode in mgNode.FirstNode.Nodes)
-                            {
-                                dimNode.Checked = perspective.MeasureGroups[(string)mgNode.Tag].LinkedDimensions.ContainsKey((string)dimNode.Tag);
-                                mgNode.FirstNode.Checked = dimNode.Checked || mgNode.FirstNode.Checked;
-                                if (dimNode.Checked)
-                                {
-                                    foreach (TreeNode hierarchyNode in dimNode.Nodes)
-                                    {
-                                        hierarchyNode.Checked = perspective.MeasureGroups[(string)mgNode.Tag].
-                                            LinkedDimensions[(string)dimNode.Tag].
-                                            Hierarchies.ContainsKey((string)hierarchyNode.Tag);
-                                        if (hierarchyNode.Checked)
-                                        {
-                                            foreach (TreeNode levelNode in hierarchyNode.Nodes)
-                                            {
-                                                levelNode.Checked = perspective.MeasureGroups[(string)mgNode.Tag].
-                                                    LinkedDimensions[(string)dimNode.Tag].
-                                                    Hierarchies[(string)hierarchyNode.Tag].
-                                                    Levels.ContainsKey((string)levelNode.Tag);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            foreach (TreeNode measureNode in mgNode.LastNode.Nodes)
-                            {
-                                measureNode.Checked = perspective.MeasureGroups[(string)mgNode.Tag].Measures.ContainsKey((string)measureNode.Tag);
-                                mgNode.LastNode.Checked = measureNode.Checked || mgNode.LastNode.Checked;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // Updates all child tree nodes recursively.
-        private void CheckAllChildNodes(TreeNode treeNode, bool nodeChecked)
-        {
-            foreach (TreeNode node in treeNode.Nodes)
-            {
-                node.Checked = nodeChecked;
-                if (node.Nodes.Count > 0)
-                {
-                    // If the current node has child nodes, call the CheckAllChildsNodes method recursively.
-                    this.CheckAllChildNodes(node, nodeChecked);
-                }
-            }
-        }
-
-        private void CheckParentNode(TreeNode treeNode, bool nodeChecked)
-        {
-            if (treeNode == null) return;
-            if (treeNode.Parent == null) return;
-
-            if (!nodeChecked)
-                foreach (TreeNode cousinNode in treeNode.Parent.Nodes)
-                    if (cousinNode.Checked)
-                        return;
-
-            treeNode.Parent.Checked = nodeChecked;
-            CheckParentNode(treeNode.Parent, nodeChecked);
-        }
-
-        // NOTE   This code can be added to the BeforeCheck event handler instead of the AfterCheck event.
-        // After a tree node's Checked property is changed, all its child nodes are updated to the same value.
-        private void node_AfterCheck(object sender, TreeViewEventArgs e)
-        {
-            // The code only executes if the user caused the checked state to change.
-            if (e.Action != TreeViewAction.Unknown)
-            {
-                if (e.Node.Nodes.Count > 0)
-                {
-                    /* Calls the CheckAllChildNodes method, passing in the current 
-                    Checked value of the TreeNode whose checked state changed. */
-                    this.CheckAllChildNodes(e.Node, e.Node.Checked);
-                }
-
-                if (e.Node.Parent != null)
-                {
-                    /* Calls the CheckAllChildNodes method, passing in the current 
-                    Checked value of the TreeNode whose checked state changed. */
-                    this.CheckParentNode(e.Node, e.Node.Checked);
-                }
-            }
-        }
-
-        private void RegisterEvents(TreeView tv)
-        {
-            tv.AfterCheck += node_AfterCheck;
-        }
-
-        private void UnregisterEvents(TreeView tv)
-        {
-            tv.AfterCheck -= node_AfterCheck;
-        }
-
-
-#endregion
 
 #region Progress and Toolstrip
         
@@ -355,20 +126,12 @@ namespace NBi.UI
     #region Edit
         private void unselectAllMetadata_Click(object sender, System.EventArgs e)
         {
-            foreach (TreeNode t in metadataTreeview.Nodes)
-            {
-                t.Checked = false;
-                node_AfterCheck(metadataTreeview, new TreeViewEventArgs(t, TreeViewAction.ByMouse));
-            }
+            this.metadataTreeview.UncheckAll();
         }
 
         private void selectAllMetadata_Click(object sender, System.EventArgs e)
         {
-            foreach (TreeNode t in metadataTreeview.Nodes)
-            {
-                t.Checked = true;
-                node_AfterCheck(metadataTreeview, new TreeViewEventArgs(t, TreeViewAction.ByMouse));
-            }
+            this.metadataTreeview.CheckAll();
         }
         #endregion
 
@@ -397,21 +160,18 @@ namespace NBi.UI
 
                     StartClick(null);
 
-                    UnregisterEvents(metadataTreeview);
                     metadataTreeview.Nodes.Clear();
 
                     mr.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
                     Metadata = mr.Read();
                     mr.ProgressStatusChanged -= new ProgressStatusHandler(ProgressStatus);
 
-                    metadataTreeview.Nodes.AddRange(MapTreeview(Metadata));
-                    RegisterEvents(metadataTreeview);
-                    metadataTreeview.Refresh();
+                    metadataTreeview.Content=Metadata;
 
                     if (mr.SupportSheets && openMetadataDetailsForm.Track != "None")
                     {
                         var perspTrack = mr.Read(openMetadataDetailsForm.Track);
-                        SelectMetadata(perspTrack);
+                        metadataTreeview.Selection=perspTrack;
                     }
 
                     cfg.FullFileName = ofd.FileName;
@@ -494,11 +254,8 @@ namespace NBi.UI
                 {
                     metadataExtractor.ProgressStatusChanged -= new ProgressStatusHandler(ProgressStatus);
 
-                    UnregisterEvents(metadataTreeview);
-                    metadataTreeview.Nodes.Clear();
                     if (Metadata!=null)
-                        metadataTreeview.Nodes.AddRange(MapTreeview(Metadata));
-                    RegisterEvents(metadataTreeview);
+                        metadataTreeview.Content=Metadata;
 
                     cfg.Value= extractForm.ConnectionString;
 
@@ -528,7 +285,7 @@ namespace NBi.UI
                     {
                         var mb = new MdxBuilder(fbd.SelectedPath);
                         mb.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
-                        mb.Build(SelectedMetadata, (string)hierarchyFunction.SelectedItem, slicer.Text, notEmpty.Checked);
+                        mb.Build(metadataTreeview.Selection, (string)hierarchyFunction.SelectedItem, slicer.Text, notEmpty.Checked);
                         mb.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
                     }
                     finally

@@ -59,6 +59,7 @@ namespace NBi.Core.Analysis.Metadata
             GetDimensions();
             GetHierarchies();
             GetLevels();
+            GetProperties();
             GetDimensionUsage();
             GetMeasures();
 
@@ -118,7 +119,7 @@ namespace NBi.Core.Analysis.Metadata
                         string uniqueName = (string)rdr.GetValue(4);
                         string caption = (string)rdr.GetValue(6);
                         string defaultHierarchy = (string)rdr.GetValue(10);
-                        Metadata.Perspectives[perspectiveName].Dimensions.AddOrIgnore(uniqueName, caption, defaultHierarchy);
+                        Metadata.Perspectives[perspectiveName].Dimensions.AddOrIgnore(uniqueName, caption);
                     }
                 }
             }
@@ -196,7 +197,59 @@ namespace NBi.Core.Analysis.Metadata
                                 string uniqueName = (string)rdr.GetValue(6);
                                 string caption = (string)rdr.GetValue(8);
                                 int number = Convert.ToInt32((uint)rdr.GetValue(9));
-                                hierarchy.Levels.InsertOrIgnore(number, uniqueName, caption);
+                                hierarchy.Levels.AddOrIgnore(uniqueName, caption, number);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        protected void GetProperties()
+        {
+            if (ProgressStatusChanged != null)
+                ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating properties"));
+
+            using (var cmd = CreateCommand())
+            {
+
+                cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_properties");
+                var rdr = ExecuteReader(cmd);
+
+                // Traverse the response and 
+                // read column 2, "CUBE_NAME"
+                // read column 3, "DIMENSION_UNIQUE_NAME"
+                // read column 4, "HIERARCHY_UNIQUE_NAME"
+                // read column 5, "LEVEL_UNIQUE_NAME"
+                // read column 7, "PROPERTY_TYPE" (Must be 1)
+                // read column 8, "PROPERTY_NAME"
+                // read column 9, "PROPERTY_CAPTION"
+                // read column 10, "DATA_TYPE" (int value)
+                // read column 23, "PROPERTY_IS_VISIBLE"
+                while (rdr.Read())
+                {
+                    // Get the column value
+                    string perspectiveName = (string)rdr.GetValue(2);
+                    if (!perspectiveName.StartsWith("$") && (bool)rdr.GetValue(23) && ((short)rdr.GetValue(7))==1)
+                    {
+                        string dimensionUniqueName = (string)rdr.GetValue(3);
+                        if (Metadata.Perspectives[perspectiveName].Dimensions.ContainsKey(dimensionUniqueName)) //Needed to avoid dimension [Measure] previously filtered
+                        {
+                            var dim = Metadata.Perspectives[perspectiveName].Dimensions[dimensionUniqueName];
+                            string hierarchyUniqueName = (string)rdr.GetValue(4);
+                            if (dim.Hierarchies.ContainsKey(hierarchyUniqueName))
+                            {
+                                var hierarchy = dim.Hierarchies[hierarchyUniqueName];
+                                string levelUniqueName = (string)rdr.GetValue(5);
+                                if (hierarchy.Levels.ContainsKey(levelUniqueName))
+                                {
+                                    var level = hierarchy.Levels[levelUniqueName];
+                                    string name = (string)rdr.GetValue(8);
+                                    string uniqueName = string.Format("{0}.[{1}]", levelUniqueName, name);
+                                    string caption = (string)rdr.GetValue(9);
+                                    //TODO Add data type management
+                                    level.Properties.AddOrIgnore(uniqueName, caption);
+                                }
                             }
                         }
                     }

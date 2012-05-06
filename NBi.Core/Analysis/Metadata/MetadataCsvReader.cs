@@ -70,7 +70,11 @@ namespace NBi.Core.Analysis.Metadata
             csvMetadata.dimensionUniqueName = items[5];
             csvMetadata.hierarchyCaption = items[6];
             csvMetadata.hierarchyUniqueName = items[7];
-
+            csvMetadata.levelCaption = items[8];
+            csvMetadata.levelUniqueName = items[9];
+            csvMetadata.levelNumber = int.Parse(items[10]);
+            csvMetadata.propertyCaption = items[11];
+            csvMetadata.propertyUniqueName = items[12];
             return csvMetadata;
         }
 
@@ -84,6 +88,11 @@ namespace NBi.Core.Analysis.Metadata
             public string dimensionUniqueName;
             public string hierarchyCaption;
             public string hierarchyUniqueName;
+            public string levelCaption;
+            public string levelUniqueName;
+            public int levelNumber;
+            public string propertyCaption;
+            public string propertyUniqueName;
             public bool isChecked;
         }
 
@@ -119,7 +128,7 @@ namespace NBi.Core.Analysis.Metadata
                 }
                 else
                 {
-                    dim = new Dimension(r.dimensionUniqueName, r.dimensionCaption, new HierarchyCollection());
+                    dim = new Dimension(r.dimensionUniqueName, r.dimensionCaption);
                     perspective.Dimensions.Add(dim);
                 }
 
@@ -127,6 +136,21 @@ namespace NBi.Core.Analysis.Metadata
                 {
                     var hierarchy = new Hierarchy(r.hierarchyUniqueName, r.hierarchyCaption);
                     dim.Hierarchies.Add(r.hierarchyUniqueName, hierarchy);
+                }
+
+                if (!dim.Hierarchies[r.hierarchyUniqueName].Levels.ContainsKey(r.levelUniqueName))
+                {
+                    var level = new Level(r.levelUniqueName, r.levelCaption, r.levelNumber);
+                    dim.Hierarchies[r.hierarchyUniqueName].Levels.Add(r.levelUniqueName, level);
+                }
+
+                if (!string.IsNullOrEmpty(r.propertyUniqueName))
+                {
+                    if (!dim.Hierarchies[r.hierarchyUniqueName].Levels[r.levelUniqueName].Properties.ContainsKey(r.propertyUniqueName))
+                    {
+                        var prop = new Property(r.propertyUniqueName, r.propertyCaption);
+                        dim.Hierarchies[r.hierarchyUniqueName].Levels[r.levelUniqueName].Properties.Add(r.propertyUniqueName, prop);
+                    }
                 }
 
                 if (!mg.LinkedDimensions.ContainsKey(r.dimensionUniqueName))

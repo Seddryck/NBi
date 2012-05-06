@@ -18,7 +18,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             var persp = BuildFakeMetadata();
 
             var mew = new MetadataExcelOleDbWriter(filename);
-            mew.SheetName = "Metadata";
+            mew.SheetName = "Empty";
             mew.Write(persp);
             
             //Assertion

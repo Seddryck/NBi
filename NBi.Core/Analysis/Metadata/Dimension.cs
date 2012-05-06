@@ -7,13 +7,11 @@
         public string Caption { get; set; }
         public HierarchyCollection Hierarchies { get; set; }
 
-        public Dimension(string uniqueName, string caption, string defaultHierarchyUniqueName)
+        public Dimension(string uniqueName, string caption)
         {
             UniqueName = uniqueName;
             Caption = caption;
             Hierarchies = new HierarchyCollection();
-            //var defaultHierarchy = new Hierarchy(defaultHierarchyUniqueName, null);
-            //Hierarchies.AddDefault(defaultHierarchy);
         }
 
         public Dimension(string uniqueName, string caption, HierarchyCollection hierarchies)

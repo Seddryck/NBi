@@ -5,10 +5,10 @@ namespace NBi.Core.Analysis.Metadata
 
     public class DimensionCollection : Dictionary<string, Dimension>
     {
-        public void AddOrIgnore(string uniqueName, string caption, string defaultHierarchy)
+        public void AddOrIgnore(string uniqueName, string caption)
         {
             if (!this.ContainsKey(uniqueName))
-                this.Add(uniqueName, new Dimension(uniqueName, caption, defaultHierarchy));
+                this.Add(uniqueName, new Dimension(uniqueName, caption));
         }
 
         public void Add(Dimension dimension)
@@ -20,9 +20,7 @@ namespace NBi.Core.Analysis.Metadata
         {
             var dims = new DimensionCollection();
             foreach (var dim in this)
-            {
                 dims.Add(dim.Value.Clone());
-            }
             return dims;
         }
     }

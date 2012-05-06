@@ -80,6 +80,8 @@
     <Compile Include="Analysis\Metadata\MetadataFileFormat.cs" />
     <Compile Include="Analysis\Metadata\Perspective.cs" />
     <Compile Include="Analysis\Metadata\PerspectiveCollection.cs" />
+    <Compile Include="Analysis\Metadata\Property.cs" />
+    <Compile Include="Analysis\Metadata\PropertyCollection.cs" />
     <Compile Include="Analysis\Query\IQueryExecutor.cs" />
     <Compile Include="Analysis\Query\IResultSetWriter.cs" />
     <Compile Include="Analysis\Query\QueryExecutorFactory.cs" />

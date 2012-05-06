@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.Linq;
 
 namespace NBi.Core.Analysis.Metadata
 {
@@ -21,6 +21,7 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
+        protected int _reservedColumnsCount;
         protected List<string> _tracks;
         public IEnumerable<string> Tracks
         {
@@ -50,7 +51,7 @@ namespace NBi.Core.Analysis.Metadata
 	        {
                 i++;
                 RaiseProgressStatus("Loading row {0} of {1}", i, DataTable.Rows.Count);
-                var trackPos = _tracks.IndexOf(track) + 6;
+                var trackPos = _tracks.IndexOf(track) + _reservedColumnsCount;
                 var r = GetMetadata(row, trackPos);
 
                 LoadMetadata(r, true, ref metadata);
@@ -122,6 +123,23 @@ namespace NBi.Core.Analysis.Metadata
                     dim.Hierarchies.Add(r.hierarchyUniqueName, hierarchy);
                 }
 
+                if (r.levelUniqueName != null)
+                {
+                    if (!dim.Hierarchies[r.hierarchyUniqueName].Levels.ContainsKey(r.levelUniqueName))
+                    {
+                        var level = new Level(r.levelUniqueName, r.levelCaption, r.levelNumber);
+                        dim.Hierarchies[r.hierarchyUniqueName].Levels.Add(r.levelUniqueName, level);
+                    }
+
+                    if (!string.IsNullOrEmpty(r.propertyUniqueName))
+                    {
+                        if (!dim.Hierarchies[r.hierarchyUniqueName].Levels[r.levelUniqueName].Properties.ContainsKey(r.propertyUniqueName))
+                        {
+                            var prop = new Property(r.propertyUniqueName, r.propertyCaption);
+                            dim.Hierarchies[r.hierarchyUniqueName].Levels[r.levelUniqueName].Properties.Add(r.propertyUniqueName, prop);
+                        }
+                    }
+                }
                 if (!mg.LinkedDimensions.ContainsKey(r.dimensionUniqueName))
                     mg.LinkedDimensions.Add(dim);
             }
@@ -176,14 +194,14 @@ namespace NBi.Core.Analysis.Metadata
                 }
             }
 
+            _reservedColumnsCount = 0;
             _tracks = new List<string>();
-            var nextIsTrack = false;
             foreach (DataColumn col in dt.Columns)
             {
-                if (nextIsTrack)
+                if (!MetadataFileFormat.GetReservedColumnNames().Contains(col.ColumnName))
                     _tracks.Add(col.ColumnName);
-                if (col.ColumnName == "HierarchyUniqueName" || col.ColumnName.StartsWith("DimensionAttribute("))
-                    nextIsTrack = true;
+                else
+                    _reservedColumnsCount++;
             }
         }
 
@@ -239,6 +257,20 @@ namespace NBi.Core.Analysis.Metadata
             if (row.Table.Columns.IndexOf("HierarchyUniqueName") > 0)
                 xlsMetadata.hierarchyUniqueName = (string)row["HierarchyUniqueName"];
 
+            if (row.Table.Columns.IndexOf("LevelCaption") > 0)
+                xlsMetadata.levelCaption = (string)row["LevelCaption"];
+            if (row.Table.Columns.IndexOf("LevelUniqueName") > 0)
+                xlsMetadata.levelUniqueName = (string)row["LevelUniqueName"];
+            if (row.Table.Columns.IndexOf("LevelNumber") > 0)
+                xlsMetadata.levelNumber = int.Parse(row["LevelNumber"].ToString());
+
+            if (row.Table.Columns.IndexOf("PropertyCaption") > 0)
+                if (!row.IsNull("PropertyCaption"))
+                    xlsMetadata.propertyCaption = (string)row["PropertyCaption"];
+            if (row.Table.Columns.IndexOf("PropertyUniqueName") > 0)
+                if (!row.IsNull("PropertyUniqueName"))
+                    xlsMetadata.propertyUniqueName = (string)row["PropertyUniqueName"];
+
             return xlsMetadata;
         }
 
@@ -252,6 +284,11 @@ namespace NBi.Core.Analysis.Metadata
             public string dimensionUniqueName;
             public string hierarchyCaption;
             public string hierarchyUniqueName;
+            public string levelCaption;
+            public string levelUniqueName;
+            public int levelNumber;
+            public string propertyCaption;
+            public string propertyUniqueName;
             public bool isChecked;
         }
 

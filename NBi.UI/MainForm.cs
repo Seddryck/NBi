@@ -53,6 +53,18 @@ namespace NBi.UI
                             var hNode = new TreeNode(h.Value.Caption);
                             hNode.Tag = h.Key;
                             dimNode.Nodes.Add(hNode);
+                            foreach (var l in h.Value.Levels)
+			                {
+                                var lNode = new TreeNode(l.Value.Caption);
+                                lNode.Tag = l.Key;
+                                hNode.Nodes.Add(lNode);
+                                foreach (var p in l.Value.Properties)
+                                {
+                                    var propNode = new TreeNode(p.Value.Caption);
+                                    propNode.Tag = p.Key;
+                                    lNode.Nodes.Add(propNode);
+                                }
+                            }
                         }
                     }
 
@@ -119,7 +131,22 @@ namespace NBi.UI
                                     foreach (TreeNode hierarchyNode in dimNode.Nodes)
                                     {
                                         if (hierarchyNode.Checked)
-                                            selMg.LinkedDimensions[(string)dimNode.Tag].Hierarchies.Add(Metadata.Perspectives[(string)perspNode.Tag].Dimensions[(string)dimNode.Tag].Hierarchies[(string)hierarchyNode.Tag].Clone());
+                                            selMg.LinkedDimensions[(string)dimNode.Tag].Hierarchies.Add(
+                                                Metadata.Perspectives[(string)perspNode.Tag]
+                                                .Dimensions[(string)dimNode.Tag]
+                                                .Hierarchies[(string)hierarchyNode.Tag].Clone());
+
+                                        foreach (TreeNode levelNode in hierarchyNode.Nodes)
+                                        {
+                                            if (levelNode.Checked)
+                                                selMg.LinkedDimensions[(string)dimNode.Tag]
+                                                    .Hierarchies[(string)hierarchyNode.Tag].Levels.Add((string)levelNode.Tag, 
+                                                    Metadata.Perspectives[(string)perspNode.Tag]
+                                                    .Dimensions[(string)dimNode.Tag]
+                                                    .Hierarchies[(string)hierarchyNode.Tag]
+                                                    .Levels[(string)levelNode.Tag]
+                                                    .Clone());
+                                        }
                                     }
                                 }
                             }
@@ -159,7 +186,19 @@ namespace NBi.UI
                                 {
                                     foreach (TreeNode hierarchyNode in dimNode.Nodes)
                                     {
-                                        hierarchyNode.Checked = perspective.MeasureGroups[(string)mgNode.Tag].LinkedDimensions[(string)dimNode.Tag].Hierarchies.ContainsKey((string)hierarchyNode.Tag);
+                                        hierarchyNode.Checked = perspective.MeasureGroups[(string)mgNode.Tag].
+                                            LinkedDimensions[(string)dimNode.Tag].
+                                            Hierarchies.ContainsKey((string)hierarchyNode.Tag);
+                                        if (hierarchyNode.Checked)
+                                        {
+                                            foreach (TreeNode levelNode in hierarchyNode.Nodes)
+                                            {
+                                                levelNode.Checked = perspective.MeasureGroups[(string)mgNode.Tag].
+                                                    LinkedDimensions[(string)dimNode.Tag].
+                                                    Hierarchies[(string)hierarchyNode.Tag].
+                                                    Levels.ContainsKey((string)levelNode.Tag);
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -543,14 +582,7 @@ namespace NBi.UI
                         ].Value = createForm.ConnectionString;
 
                     EndClick(null);
-                }
-                
-                
-                
-
-                
-
-                
+                }               
             }
         }
 

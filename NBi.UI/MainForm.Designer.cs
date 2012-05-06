@@ -35,7 +35,7 @@
             treeNode10});
             System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("MG2");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.metadataTreeview = new System.Windows.Forms.TreeView();
+            this.metadataTreeview = new NBi.UI.MetadataTreeview();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatus = new System.Windows.Forms.ToolStripStatusLabel();
@@ -573,7 +573,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TreeView metadataTreeview;
+        private NBi.UI.MetadataTreeview metadataTreeview;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatus;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;

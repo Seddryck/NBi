@@ -34,7 +34,7 @@
 									<xs:attribute name="cleanCache" type="xs:boolean" use="optional" />
 								</xs:complexType>
 							</xs:element>
-							<xs:element name="TestCase" maxOccurs="unbounded">
+							<xs:element name="Query" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:simpleContent>
 										<xs:extension base="xs:string">

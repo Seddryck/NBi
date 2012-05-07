@@ -46,8 +46,8 @@ namespace NBi.Testing.Unit.Xml
             var t = new TestXml()
             {
                 Constraints = new List<AbstractConstraintXml>() { new SyntacticallyCorrectXml() },
-                TestCases = new List<TestCaseXml>() 
-                { new TestCaseXml() 
+                TestCases = new List<QueryXml>() 
+                { new QueryXml() 
                     {
                         InlineQuery = "SELECT * FROM Product;",  
                         ConnectionString =  ConnectionString

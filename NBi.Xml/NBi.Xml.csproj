@@ -41,12 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractConstraintXml.cs" />
+    <Compile Include="AbstractTestCaseXml.cs" />
     <Compile Include="EqualToXml.cs" />
     <Compile Include="SyntacticallyCorrectXml.cs" />
     <Compile Include="FasterThanXml.cs" />
     <Compile Include="TestSuiteBuilder.cs" />
     <Compile Include="TestXml.cs" />
-    <Compile Include="TestCaseXml.cs" />
+    <Compile Include="QueryXml.cs" />
     <Compile Include="TestSuiteXml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlManager.cs" />

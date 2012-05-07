@@ -23,13 +23,13 @@ namespace NBi.Xml
         ]
         public List<AbstractConstraintXml> Constraints;
 
-        [XmlElement("TestCase")]
-        public List<TestCaseXml> TestCases;
+        [XmlElement(Type = typeof(QueryXml), ElementName = "Query")]
+        public List<QueryXml> TestCases;
 
         public TestXml()
         {
             Constraints = new List<AbstractConstraintXml>();
-            TestCases = new List<TestCaseXml>();
+            TestCases = new List<QueryXml>();
             Categories = new List<string>();
         }
     }

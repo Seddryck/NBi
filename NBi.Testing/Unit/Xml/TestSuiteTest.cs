@@ -111,7 +111,7 @@ namespace NBi.Testing.Unit.Xml
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[1].TestCases[0], Is.InstanceOf<TestCaseXml>());
+            Assert.That(ts.Tests[1].TestCases[0], Is.InstanceOf<QueryXml>());
             Assert.That(ts.Tests[1].TestCases[0].Query, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
             Assert.That(ts.Tests[1].TestCases[0].InlineQuery, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
             Assert.That(ts.Tests[1].TestCases[0].Filename, Is.Null);

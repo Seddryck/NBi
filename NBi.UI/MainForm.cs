@@ -264,6 +264,40 @@ namespace NBi.UI
             }
         }
 
+        private void findMeasuresToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var findMeasuresForm = new FindMeasures(metadataTreeview.Content);
+
+            if (findMeasuresForm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                StartClick(null);
+                var settings = findMeasuresForm.Settings;
+                //findMeasuresForm.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
+                try
+                {
+                    switch (settings.Action)
+                    {
+                        case FindMeasures.SettingsFindMeasures.ActionFind.Select:
+                            metadataTreeview.ModifySelection(settings.Match,true);
+                            break;
+                        case FindMeasures.SettingsFindMeasures.ActionFind.Unselect:
+                            metadataTreeview.ModifySelection(settings.Match, false);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Unexpected error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                finally
+                {
+                    EndClick(null);
+                }
+            }
+        }
+
     #endregion
 
     #region Queries Set
@@ -428,6 +462,8 @@ namespace NBi.UI
         }
 
     #endregion
+
+       
 
        
         

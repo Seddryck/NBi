@@ -45,7 +45,7 @@ namespace NBi.Core.Analysis.Query
         public string[] Build(CubeMetadata metadata, string hierarchyFunction, string slicer, bool notEmpty)
         {
             var i = 0;
-            var total = metadata.GetCountMembers();
+            var total = metadata.GetItemsCount();
 
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs(string.Format("Creating query set")));

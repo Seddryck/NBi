@@ -51,6 +51,12 @@
     <Compile Include="Configuration\ConnectionStringCollection.cs" />
     <Compile Include="Configuration\DirectoryCollection.cs" />
     <Compile Include="Configuration\Directory.cs" />
+    <Compile Include="FindMeasures.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FindMeasures.Designer.cs">
+      <DependentUpon>FindMeasures.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,6 +101,9 @@
       <DependentUpon>TestSuiteCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="TreeviewStrcuture.cs" />
+    <EmbeddedResource Include="FindMeasures.resx">
+      <DependentUpon>FindMeasures.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

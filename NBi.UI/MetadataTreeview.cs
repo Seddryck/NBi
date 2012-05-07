@@ -11,15 +11,16 @@ namespace NBi.UI
         // constants used to hide a checkbox
         public const int TVIF_STATE = 0x8;
         public const int TVIS_STATEIMAGEMASK = 0xF000;
-        public const int TV_FIRST = 0x1100;
-        public const int TVM_SETITEM = TV_FIRST + 63;
+        public const int TV_FIRST = 0x1000;
+        public const int TVM_SETITEM = TV_FIRST + 76;
 
         [DllImport("user32.dll")]
         static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam,
         IntPtr lParam);
 
         // struct used to set node properties
-        public struct TVITEM
+        [StructLayout(LayoutKind.Sequential, Pack=8, CharSet=CharSet.Auto)]
+        private struct TVITEM
         {
             public int mask;
             public IntPtr hItem;
@@ -70,6 +71,11 @@ namespace NBi.UI
         internal TreeNode[] MapContent(CubeMetadata metadata)
         {
             var tnc = new List<TreeNode>();
+
+            if (metadata == null)
+                return tnc.ToArray();
+
+            
             foreach (var perspective in metadata.Perspectives)
             {
                 var pNode = new TreeNode(perspective.Value.Name);
@@ -222,6 +228,32 @@ namespace NBi.UI
                                 measureNode.Checked = perspective.MeasureGroups[(string)mgNode.Tag].Measures.ContainsKey((string)measureNode.Tag);
                                 mgNode.LastNode.Checked = measureNode.Checked || mgNode.LastNode.Checked;
                             }
+                        }
+                    }
+                }
+            }
+        }
+
+        internal void ModifySelection(CubeMetadata selectionModifier, bool add)
+        {
+            foreach (TreeNode pNode in this.Nodes)
+            {
+                if (selectionModifier.Perspectives.ContainsKey((string)pNode.Tag))
+                {
+                    var perspective = selectionModifier.Perspectives[(string)pNode.Tag];
+                    foreach (TreeNode mgNode in pNode.Nodes)
+                    {
+                        mgNode.Checked = perspective.MeasureGroups.ContainsKey((string)mgNode.Tag);
+
+                        if (perspective.MeasureGroups.ContainsKey((string)mgNode.Tag))
+                        {
+                            var measureGroup =  perspective.MeasureGroups[(string)mgNode.Tag];
+                            foreach (TreeNode measureNode in mgNode.LastNode.Nodes)
+                                if (measureGroup.Measures.ContainsKey((string)measureNode.Tag))
+                                {
+                                    measureNode.Checked = add;
+                                    CheckParentNode(measureNode, measureNode.Checked);
+                                }
                         }
                     }
                 }

@@ -63,6 +63,7 @@
     <Compile Include="Acceptance\NUnit\SyntacticallyCorrectConstraintTest.cs" />
     <Compile Include="ConnectionStringReader.cs" />
     <Compile Include="DiskOnFile.cs" />
+    <Compile Include="Unit\Core\Analysis\Metadata\CubeMetadataTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvReaderTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvWriterTest.cs" />

@@ -50,7 +50,7 @@ namespace NBi.Testing.Unit.Xml
         public void TestCase_Play_Success()
         {
             var constraint = new SyntacticallyCorrectConstraint();
-            var testCase = new TestCaseXml() 
+            var testCase = new QueryXml() 
                 { InlineQuery = "SELECT * FROM Product;" ,
                   ConnectionString =  ConnectionString 
                 };
@@ -67,7 +67,7 @@ namespace NBi.Testing.Unit.Xml
             var filename = DiskOnFile.CreatePhysicalFile("QueryFile.sql", "NBi.Testing.Unit.Xml.Resources.QueryFile.sql");
            
             //Instantiate a Test Case and specify to find the sql in the fie created above
-            var testCase = new TestCaseXml() { Filename = filename };
+            var testCase = new QueryXml() { Filename = filename };
 
             // A Stream is needed to read the text file from the assembly.
             string expectedContent;
@@ -83,7 +83,7 @@ namespace NBi.Testing.Unit.Xml
         public void Query_FilenameNotSpecified_RetrieveContentOfInlineQuery()
         {
             //Instantiate a Test Case
-            var testCase = new TestCaseXml() { InlineQuery = "SELECT * FROM Product" };
+            var testCase = new QueryXml() { InlineQuery = "SELECT * FROM Product" };
 
             Assert.AreEqual("SELECT * FROM Product", testCase.Query);
         }

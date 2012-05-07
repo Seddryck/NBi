@@ -5,7 +5,7 @@ using NBi.Core;
 
 namespace NBi.Xml
 {
-    public class TestCaseXml
+    public class QueryXml
     {
         [XmlAttribute("name")]
         public string Name { get; set; }

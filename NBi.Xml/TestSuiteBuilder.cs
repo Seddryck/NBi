@@ -68,7 +68,7 @@ namespace NBi.Xml
                     ctr.QueryFile = Path.Combine(Expect.Directory, Path.GetFileName(query));
                     ctr.ConnectionString = Expect.ConnectionString;
 
-                    var tc = new TestCaseXml();
+                    var tc = new QueryXml();
                     test.TestCases.Add(tc);
                     tc.Filename = query;
                     tc.ConnectionString = Actual.ConnectionString;
@@ -96,7 +96,7 @@ namespace NBi.Xml
                     test.Constraints.Add(ctr);
                     ctr.ResultSetFile = Path.Combine(Expect.Directory, Path.GetFileNameWithoutExtension(query) + ".csv");
 
-                    var tc = new TestCaseXml();
+                    var tc = new QueryXml();
                     test.TestCases.Add(tc);
                     tc.Filename = query;
                     tc.ConnectionString = Actual.ConnectionString;

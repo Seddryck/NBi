@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace NBi.Xml
+namespace NBi.Xml.Constraints
 {
     public class FasterThanXml : AbstractConstraintXml
     {

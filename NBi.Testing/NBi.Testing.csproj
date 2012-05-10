@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Acceptance\Core\Analysis\MemberAdomdExtractorTest.cs" />
     <Compile Include="Acceptance\Core\Database\QueryParserTest.cs" />
     <Compile Include="Acceptance\Core\Analysis\Query\ResultSetComparerTest.cs" />
     <Compile Include="Acceptance\NUnit\Database\DataSetConstraintTest.cs" />
@@ -65,7 +66,7 @@
     <Compile Include="DiskOnFile.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\CubeMetadataTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvReaderTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />
+    <Compile Include="Acceptance\Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvWriterTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbReaderTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbWriterTest.cs" />
@@ -76,9 +77,11 @@
     <Compile Include="Acceptance\Core\Database\DataSetComparerContentTest.cs" />
     <Compile Include="Acceptance\Core\Database\DataSetComparerStructureTest.cs" />
     <Compile Include="Acceptance\Core\Database\QueryPerformanceTest.cs" />
+    <Compile Include="Unit\Core\Database\CollectionEngineTest.cs" />
     <Compile Include="Unit\Core\Integration\PackageManagerTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
     <Compile Include="Unit\Core\Util\DiffFiles\LongestCommonSequence\DiffEngineTest.cs" />
+    <Compile Include="Unit\NUnit\CountConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Database\DataSetConstraintTest.cs" />
     <Compile Include="Unit\NUnit\FasterThanConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Runtime\TestSuiteTest.cs" />
@@ -86,16 +89,14 @@
     <Compile Include="Unit\NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
-    <Compile Include="Unit\Xml\EqualToXmlTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\EqualToXmlTest.cs" />
     <Compile Include="Unit\Xml\TestSuiteTest.cs" />
     <Compile Include="Unit\NUnit\ConstraintFactoryTest.cs" />
     <Compile Include="Unit\Xml\TestCaseXmlTest.cs" />
     <Compile Include="Unit\Xml\TestXmlTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerTest.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Unit\Core\Database\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="ConnectionString.user.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

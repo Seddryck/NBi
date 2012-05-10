@@ -461,13 +461,27 @@ namespace NBi.UI
             launcher.Run();
         }
 
+        private void openWithNotepadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var cfg = Configuration.Project.Directories[Configuration.DirectoryCollection.DirectoryType.TestSuite];
+            
+            System.Diagnostics.Process.Start("notepad.exe", cfg.FullFileName);
+        }
     #endregion
+
+         
 
        
 
        
         
 #endregion
+
+        private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+
+        }
         
     }
 }

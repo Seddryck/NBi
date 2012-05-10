@@ -1,10 +1,7 @@
-﻿using System.Data;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
-using Moq;
-using NBi.Core.Analysis.Query;
 using NBi.NUnit;
-using NBi.Xml;
+using NBi.Xml.TestCases;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Xml

@@ -29,4 +29,17 @@
 		/>
 		<Query query-File="SimpleMdx.Mdx" connectionString="Provider=MSOLAP.4;Data Source=localhost;Catalog=&quot;Finances Analysis&quot;;"/>
 	</Test>
+	<Test name="level counts exactly 10 members">
+		<Count
+			exactly="10"
+		/>
+		<Members level="[dimension].[hierarchy].[level]" perspective="Perspective" connectionString="ConnectionString"/>
+	</Test>
+	<Test name="hierarchy counts between 10 and 15 members">
+		<Count
+			more-Than="10"
+			less-Than="15"
+		/>
+		<Members hierarchy="[dimension].[hierarchy]" perspective="Perspective" connectionString="ConnectionString"/>
+	</Test>
 </TestSuite>

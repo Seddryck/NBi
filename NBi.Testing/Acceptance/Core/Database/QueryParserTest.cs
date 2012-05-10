@@ -44,7 +44,7 @@ namespace NBi.Testing.Acceptance.Core.Database
             var sql = "SELECT * FROM Product;";
 
             var qp = new QueryParser();
-            var conn = new SqlConnection(ConnectionStringReader.Get());
+            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var cmd = new SqlCommand(sql, conn);
 
             var res = qp.Validate(cmd);
@@ -59,7 +59,7 @@ namespace NBi.Testing.Acceptance.Core.Database
             var sql = "SELECT * FROM WrongTableName;";
 
             var qp = new QueryParser();
-            var conn = new SqlConnection(ConnectionStringReader.Get());
+            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var cmd = new SqlCommand(sql, conn);
 
             var res = qp.Validate(cmd);
@@ -74,7 +74,7 @@ namespace NBi.Testing.Acceptance.Core.Database
             var sql = "SELECT ProductSKU, [Description] FROM Product;";
 
             var qp = new QueryParser();
-            var conn = new SqlConnection(ConnectionStringReader.Get());
+            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var cmd = new SqlCommand(sql, conn);
 
             var res = qp.Validate(cmd);
@@ -89,7 +89,7 @@ namespace NBi.Testing.Acceptance.Core.Database
             var sql = "SELECT ProductSKU, [Description], WrongField FROM Product;";
 
             var qp = new QueryParser();
-            var conn = new SqlConnection(ConnectionStringReader.Get());
+            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var cmd = new SqlCommand(sql, conn);
 
             var res = qp.Validate(cmd);
@@ -104,7 +104,7 @@ namespace NBi.Testing.Acceptance.Core.Database
             var sql = "SELECT ProductSKU, [Description], WrongField1, WrongField2 FROM Product;";
 
             var qp = new QueryParser();
-            var conn = new SqlConnection(ConnectionStringReader.Get());
+            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var cmd = new SqlCommand(sql, conn);
 
             var res = qp.Validate(cmd);
@@ -119,7 +119,7 @@ namespace NBi.Testing.Acceptance.Core.Database
         {
             var sql = "SELECTION ProductSKU, [Description], WrongField1, WrongField2 FROM Product;";
             var qp = new QueryParser();
-            var conn = new SqlConnection(ConnectionStringReader.Get());
+            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var cmd = new SqlCommand(sql, conn);
 
             var res = qp.Validate(cmd);
@@ -140,7 +140,7 @@ namespace NBi.Testing.Acceptance.Core.Database
                 Assert.Inconclusive();
 
             var qp = new QueryParser();
-            var conn = new SqlConnection(ConnectionStringReader.Get());
+            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var cmd = new SqlCommand(sql, conn);
 
             var res = qp.Validate(cmd);
@@ -157,7 +157,7 @@ namespace NBi.Testing.Acceptance.Core.Database
         {
             int count;
 
-            using (SqlConnection conn = new SqlConnection(ConnectionStringReader.Get()))
+            using (SqlConnection conn = new SqlConnection(ConnectionStringReader.GetSqlClient()))
             {
                 conn.Open();
 

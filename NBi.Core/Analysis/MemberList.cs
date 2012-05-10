@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Testing.Unit.Xml
+namespace NBi.Core.Analysis
 {
-    public class EqualToXmlTest
+    public class MemberList : List<Member>
     {
 
     }

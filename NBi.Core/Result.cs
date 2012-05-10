@@ -66,5 +66,18 @@ namespace NBi.Core
         {
             return (Value == ValueType.Success);
         }
+
+        public void Append(Result newResult)
+        {          
+            if (this.Value == ValueType.Success)
+                if (newResult.Value == ValueType.Failed)
+                {
+                    this.Value = ValueType.Failed;
+                    this._failures.AddRange(newResult.Failures);
+                }
+            else
+                if (newResult.Value == ValueType.Failed)
+                    this._failures.AddRange(newResult.Failures);
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace NBi.Xml
+﻿namespace NBi.Xml.Constraints
 {
     public abstract class AbstractConstraintXml
     {

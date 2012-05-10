@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using NBi.Xml.Constraints;
+using NBi.Xml.TestCases;
 
 namespace NBi.Xml
 {

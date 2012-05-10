@@ -3,15 +3,15 @@ using System.IO;
 using System.Xml.Serialization;
 using NBi.Core;
 
-namespace NBi.Xml
+namespace NBi.Xml.Constraints
 {
-    public class QueryXml
+    public class EqualToXml : AbstractConstraintXml
     {
-        [XmlAttribute("name")]
-        public string Name { get; set; }
+        [XmlAttribute("resultSet-File")]
+        public string ResultSetFile { get; set; }
 
         [XmlAttribute("query-File")]
-        public string Filename { get; set; }
+        public string QueryFile { get; set; }
 
         [XmlAttribute("connectionString")]
         public string ConnectionString { get; set; }
@@ -31,20 +31,21 @@ namespace NBi.Xml
                     return InlineQuery;
 
                 //Else read the file's content and 
-                var query = File.ReadAllText(Filename);
+                var query = File.ReadAllText(QueryFile);
                 return query;
             }
         }
 
-        public IDbCommand Instantiate()
+        public IDbCommand Command
         {
-            var conn = ConnectionFactory.Get(ConnectionString);
-            var cmd = conn.CreateCommand();
-            cmd.CommandText = Query;
+            get
+            {
+                var conn = ConnectionFactory.Get(ConnectionString);
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = Query;
 
-            return cmd;
+                return cmd;
+            }
         }
-
-
     }
 }

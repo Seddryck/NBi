@@ -42,7 +42,7 @@ namespace NBi.Testing.Acceptance.NUnit
         public void QueryPerformanceRealImplementation_FasterThanConstraint_Success()
         {
             var sql = "SELECT * FROM Product;";
-            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.Get()));
+            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
             //Method under test
             Assert.That(cmd, new FasterThanConstraint(5000, true));
@@ -55,7 +55,7 @@ namespace NBi.Testing.Acceptance.NUnit
         public void QueryPerformanceRealImplementation_IsFasterThan_Success()
         {
             var sql = "SELECT * FROM Product;";
-            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.Get()));
+            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
             //Method under test
             Assert.That(cmd, NBi.NUnit.Is.FasterThan(5000, true));

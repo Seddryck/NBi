@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using NBi.NUnit;
 using NBi.Xml;
+using NBi.Xml.Constraints;
+using NBi.Xml.TestCases;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Xml
@@ -46,7 +47,7 @@ namespace NBi.Testing.Unit.Xml
             var t = new TestXml()
             {
                 Constraints = new List<AbstractConstraintXml>() { new SyntacticallyCorrectXml() },
-                TestCases = new List<QueryXml>() 
+                TestCases = new List<AbstractTestCaseXml>() 
                 { new QueryXml() 
                     {
                         InlineQuery = "SELECT * FROM Product;",  

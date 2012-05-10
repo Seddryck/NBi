@@ -34,7 +34,18 @@
 									<xs:attribute name="cleanCache" type="xs:boolean" use="optional" />
 								</xs:complexType>
 							</xs:element>
-							<xs:element name="Query" maxOccurs="unbounded">
+							<xs:element name="Count" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="exactly" type="xs:unsignedShort" use="optional" />
+											<xs:attribute name="more-Than" type="xs:unsignedShort" use="optional" />
+											<xs:attribute name="less-Than" type="xs:unsignedShort" use="optional" />
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Query" minOccurs="0" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:simpleContent>
 										<xs:extension base="xs:string">
@@ -42,6 +53,19 @@
 											<xs:attribute name="query-File" type="xs:string" use="optional" />
 											<xs:attribute name="connectionString" type="xs:string" use="optional" />
 											<xs:attribute name="connectionString-Ref" type="xs:string" use="optional" />
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Members" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="name" type="xs:string" use="optional" />
+											<xs:attribute name="perspective" type="xs:string" use="required" />
+											<xs:attribute name="hierarchy" type="xs:string" use="optional" />
+											<xs:attribute name="level" type="xs:string" use="optional" />
+											<xs:attribute name="connectionString" type="xs:string" use="optional" />
 										</xs:extension>
 									</xs:simpleContent>
 								</xs:complexType>

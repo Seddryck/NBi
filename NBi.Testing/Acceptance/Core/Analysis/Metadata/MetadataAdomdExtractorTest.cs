@@ -1,7 +1,7 @@
 ﻿using NBi.Core.Analysis.Metadata;
 using NUnit.Framework;
 
-namespace NBi.Testing.Unit.Core.Analysis.Metadata
+namespace NBi.Testing.Acceptance.Core.Analysis.Metadata
 {
     [TestFixture]
     public class MetadataAdomdExtractorTest
@@ -9,7 +9,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
         [Test]
         public void GetMetadata_ExistingCube_ListOfMetadata()
         {
-            var me = new MetadataAdomdExtractor("Data Source=localhost;Catalog='Finances Analysis';");
+            var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
             
             var metadata = me.GetMetadata();
 

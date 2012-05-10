@@ -37,10 +37,10 @@ namespace NBi.Testing.Acceptance.Core.Analysis.Query
         [Test, Category("Sql database")]
         public void Validate_SameQuerySameDatabase_ReturnSuccess()
         {
-            var connActual = new SqlConnection(ConnectionStringReader.Get());
+            var connActual = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var cmdActual = new SqlCommand("SELECT * FROM Product;", connActual);
 
-            var connExpect = new SqlConnection(ConnectionStringReader.Get());
+            var connExpect = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var cmdExpect = new SqlCommand("SELECT * FROM Product;", connExpect);
 
             var rsc = new ResultSetComparer(cmdExpect, string.Empty, string.Empty);
@@ -54,10 +54,10 @@ namespace NBi.Testing.Acceptance.Core.Analysis.Query
         [Test, Category("Sql database")]
         public void Validate_QueriesReturningDifferentResults_ReturnFailed()
         {
-            var connActual = new SqlConnection(ConnectionStringReader.Get());
+            var connActual = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var cmdActual = new SqlCommand("SELECT TOP 1 * FROM Product;", connActual);
 
-            var connExpect = new SqlConnection(ConnectionStringReader.Get());
+            var connExpect = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var cmdExpect = new SqlCommand("SELECT * FROM Product;", connExpect);
 
             var rsc = new ResultSetComparer(cmdExpect, string.Empty, string.Empty);

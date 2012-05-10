@@ -44,7 +44,7 @@ namespace NBi.Testing.Acceptance.NUnit.Database
             var sql = "SELECT * FROM Product;";
 
             //Method under test
-            Assert.That(sql, new DataSetConstraint(ConnectionStringReader.Get(), ConnectionStringReader.Get()));
+            Assert.That(sql, new DataSetConstraint(ConnectionStringReader.GetSqlClient(), ConnectionStringReader.GetSqlClient()));
 
             //Test conclusion            
             Assert.Pass();

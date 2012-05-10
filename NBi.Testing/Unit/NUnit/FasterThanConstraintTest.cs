@@ -33,7 +33,7 @@ namespace NBi.Testing.Unit.NUnit
         public void FasterThanConstraint_NUnitAssertThatIDbCommand_EngineCalledOnce()
         {
             var sql = "SELECT * FROM Product;";
-            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.Get()));
+            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
             var mock = new Mock<IQueryPerformance>();
             mock.Setup(engine => engine.Validate(It.IsAny<IDbCommand>()))

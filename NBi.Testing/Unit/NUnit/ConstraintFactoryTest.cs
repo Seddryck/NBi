@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using NBi.Xml;
-using NBiNu = NBi.NUnit;
+﻿using NBi.Xml.Constraints;
 using NUnit.Framework;
+using NBiNu = NBi.NUnit;
 
 namespace NBi.Testing.Unit.NUnit
 {
@@ -57,5 +56,14 @@ namespace NBi.Testing.Unit.NUnit
 
             Assert.That(ctr, Is.InstanceOf<NBiNu.EqualToConstraint>());
         }
+
+        [Test]
+        public void Instantiate_CountXml_IsOfTypeEqualToConstraint()
+        {
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new CountXml() {Exactly=10});
+
+            Assert.That(ctr, Is.InstanceOf<NBiNu.CountConstraint>());
+        }
+
     }
 }

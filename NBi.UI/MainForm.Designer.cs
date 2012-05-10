@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode137 = new System.Windows.Forms.TreeNode("Linked dimensions");
-            System.Windows.Forms.TreeNode treeNode138 = new System.Windows.Forms.TreeNode("Measures");
-            System.Windows.Forms.TreeNode treeNode139 = new System.Windows.Forms.TreeNode("Measure group", new System.Windows.Forms.TreeNode[] {
-            treeNode137,
-            treeNode138});
-            System.Windows.Forms.TreeNode treeNode140 = new System.Windows.Forms.TreeNode("MG2");
+            System.Windows.Forms.TreeNode treeNode165 = new System.Windows.Forms.TreeNode("Linked dimensions");
+            System.Windows.Forms.TreeNode treeNode166 = new System.Windows.Forms.TreeNode("Measures");
+            System.Windows.Forms.TreeNode treeNode167 = new System.Windows.Forms.TreeNode("Measure group", new System.Windows.Forms.TreeNode[] {
+            treeNode165,
+            treeNode166});
+            System.Windows.Forms.TreeNode treeNode168 = new System.Windows.Forms.TreeNode("MG2");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.metadataTreeview = new NBi.UI.MetadataTreeview();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -70,6 +70,8 @@
             this.openMetadataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsMetadataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extractMetadataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.findMeasuresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.queriesSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createQueriesSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resultSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -87,8 +89,8 @@
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.findMeasuresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.openWithNotepadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -103,17 +105,17 @@
             this.metadataTreeview.FullRowSelect = true;
             this.metadataTreeview.Location = new System.Drawing.Point(5, 27);
             this.metadataTreeview.Name = "metadataTreeview";
-            treeNode137.Name = "Node2";
-            treeNode137.Text = "Linked dimensions";
-            treeNode138.Name = "Node3";
-            treeNode138.Text = "Measures";
-            treeNode139.Name = "MG1";
-            treeNode139.Text = "Measure group";
-            treeNode140.Name = "Node1";
-            treeNode140.Text = "MG2";
+            treeNode165.Name = "Node2";
+            treeNode165.Text = "Linked dimensions";
+            treeNode166.Name = "Node3";
+            treeNode166.Text = "Measures";
+            treeNode167.Name = "MG1";
+            treeNode167.Text = "Measure group";
+            treeNode168.Name = "Node1";
+            treeNode168.Text = "MG2";
             this.metadataTreeview.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode139,
-            treeNode140});
+            treeNode167,
+            treeNode168});
             this.metadataTreeview.Size = new System.Drawing.Size(312, 352);
             this.metadataTreeview.TabIndex = 1;
             // 
@@ -404,23 +406,35 @@
             this.openMetadataToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openMetadataToolStripMenuItem.Image")));
             this.openMetadataToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openMetadataToolStripMenuItem.Name = "openMetadataToolStripMenuItem";
-            this.openMetadataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openMetadataToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.openMetadataToolStripMenuItem.Text = "&Open ...";
             this.openMetadataToolStripMenuItem.Click += new System.EventHandler(this.openMetadataToolStripMenuItem_Click);
             // 
             // saveAsMetadataToolStripMenuItem
             // 
             this.saveAsMetadataToolStripMenuItem.Name = "saveAsMetadataToolStripMenuItem";
-            this.saveAsMetadataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsMetadataToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.saveAsMetadataToolStripMenuItem.Text = "Save &As ...";
             this.saveAsMetadataToolStripMenuItem.Click += new System.EventHandler(this.saveAsMetadataToolStripMenuItem_Click);
             // 
             // extractMetadataToolStripMenuItem
             // 
             this.extractMetadataToolStripMenuItem.Name = "extractMetadataToolStripMenuItem";
-            this.extractMetadataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.extractMetadataToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.extractMetadataToolStripMenuItem.Text = "E&xtract ...";
             this.extractMetadataToolStripMenuItem.Click += new System.EventHandler(this.extractMetadataToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(159, 6);
+            // 
+            // findMeasuresToolStripMenuItem
+            // 
+            this.findMeasuresToolStripMenuItem.Name = "findMeasuresToolStripMenuItem";
+            this.findMeasuresToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.findMeasuresToolStripMenuItem.Text = "Find measures ...";
+            this.findMeasuresToolStripMenuItem.Click += new System.EventHandler(this.findMeasuresToolStripMenuItem_Click);
             // 
             // queriesSetToolStripMenuItem
             // 
@@ -457,7 +471,9 @@
             this.testsSuiteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buildTestSuiteToolStripMenuItem,
             this.openWithNUnitToolStripMenuItem,
-            this.runWithNUnitToolStripMenuItem});
+            this.runWithNUnitToolStripMenuItem,
+            this.toolStripSeparator7,
+            this.openWithNotepadToolStripMenuItem});
             this.testsSuiteToolStripMenuItem.Name = "testsSuiteToolStripMenuItem";
             this.testsSuiteToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
             this.testsSuiteToolStripMenuItem.Text = "Tests Suite";
@@ -496,14 +512,15 @@
             // 
             this.customizeToolStripMenuItem.Enabled = false;
             this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.customizeToolStripMenuItem.Text = "&Customize";
+            this.customizeToolStripMenuItem.Click += new System.EventHandler(this.customizeToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Enabled = false;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
             // 
             // helpToolStripMenuItem
@@ -551,17 +568,17 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
             // 
-            // findMeasuresToolStripMenuItem
+            // openWithNotepadToolStripMenuItem
             // 
-            this.findMeasuresToolStripMenuItem.Name = "findMeasuresToolStripMenuItem";
-            this.findMeasuresToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.findMeasuresToolStripMenuItem.Text = "Find measures ...";
-            this.findMeasuresToolStripMenuItem.Click += new System.EventHandler(this.findMeasuresToolStripMenuItem_Click);
+            this.openWithNotepadToolStripMenuItem.Name = "openWithNotepadToolStripMenuItem";
+            this.openWithNotepadToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.openWithNotepadToolStripMenuItem.Text = "Open with Notepad ...";
+            this.openWithNotepadToolStripMenuItem.Click += new System.EventHandler(this.openWithNotepadToolStripMenuItem_Click);
             // 
-            // toolStripSeparator6
+            // toolStripSeparator7
             // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(159, 6);
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 6);
             // 
             // MainForm
             // 
@@ -645,6 +662,8 @@
         private System.Windows.Forms.ToolStripMenuItem openWithNUnitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem findMeasuresToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem openWithNotepadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
     }
 }
 

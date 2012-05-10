@@ -32,7 +32,7 @@ namespace NBi.Testing.Acceptance.NUnit
         public void QueryParserRealImplementation_SyntacticallyCorrectConstraint_Success()
         {
             var sql = "SELECT * FROM Product;";
-            var conn = new SqlConnection(ConnectionStringReader.Get());
+            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var cmd = new SqlCommand(sql, conn);
 
 
@@ -48,7 +48,7 @@ namespace NBi.Testing.Acceptance.NUnit
         public void QueryParserRealImplementation_IsSyntacticallyCorrect_Success()
         {
             var sql = "SELECT * FROM Product;";
-            var conn = new SqlConnection(ConnectionStringReader.Get());
+            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var cmd = new SqlCommand(sql, conn);
 
             Assert.That(cmd, NBi.NUnit.Is.SyntacticallyCorrect());

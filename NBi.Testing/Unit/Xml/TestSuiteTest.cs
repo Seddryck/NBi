@@ -2,6 +2,8 @@
 using System.Reflection;
 using System.Xml.Serialization;
 using NBi.Xml;
+using NBi.Xml.Constraints;
+using NBi.Xml.TestCases;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Xml
@@ -46,7 +48,7 @@ namespace NBi.Testing.Unit.Xml
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests.Count, Is.EqualTo(4));
+            Assert.That(ts.Tests.Count, Is.GreaterThan(2));
         }
         [Test]
         public void Deserialize_SampleFile_TestMembersLoaded()
@@ -112,14 +114,14 @@ namespace NBi.Testing.Unit.Xml
 
             // Check the properties of the object.
             Assert.That(ts.Tests[1].TestCases[0], Is.InstanceOf<QueryXml>());
-            Assert.That(ts.Tests[1].TestCases[0].Query, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
-            Assert.That(ts.Tests[1].TestCases[0].InlineQuery, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
-            Assert.That(ts.Tests[1].TestCases[0].Filename, Is.Null);
-            Assert.That(ts.Tests[1].TestCases[1].Query, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
-            Assert.That(ts.Tests[1].TestCases[1].InlineQuery, Is.Null);
-            Assert.That(ts.Tests[1].TestCases[1].Filename, Is.Not.Null.And.Not.Empty);
+            Assert.That(((QueryXml)ts.Tests[1].TestCases[0]).Query, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
+            Assert.That(((QueryXml)ts.Tests[1].TestCases[0]).InlineQuery, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
+            Assert.That(((QueryXml)ts.Tests[1].TestCases[0]).Filename, Is.Null);
+            Assert.That(((QueryXml)ts.Tests[1].TestCases[1]).Query, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
+            Assert.That(((QueryXml)ts.Tests[1].TestCases[1]).InlineQuery, Is.Null);
+            Assert.That(((QueryXml)ts.Tests[1].TestCases[1]).Filename, Is.Not.Null.And.Not.Empty);
             
-            Assert.That(ts.Tests[2].TestCases[0].ConnectionString, Is.Not.Null.And.Not.Empty);
+            Assert.That(((QueryXml)ts.Tests[2].TestCases[0]).ConnectionString, Is.Not.Null.And.Not.Empty);
         }
 
         [Test]
@@ -144,6 +146,61 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(ts.Tests[3].Constraints[0], Is.TypeOf<EqualToXml>());
             Assert.That(((EqualToXml)ts.Tests[3].Constraints[0]).ConnectionString, Is.Not.Null.And.Not.Empty);
             Assert.That(((EqualToXml)ts.Tests[3].Constraints[0]).QueryFile, Is.Not.Null.And.Not.Empty);
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_CountExactly()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[4].Constraints[0], Is.TypeOf<CountXml>());
+            Assert.That(((CountXml)ts.Tests[4].Constraints[0]).Exactly, Is.EqualTo(10));
+            Assert.That(((CountXml)ts.Tests[4].Constraints[0]).Specification.IsExactlySpecified, Is.True);
+            Assert.That(((CountXml)ts.Tests[4].Constraints[0]).Specification.IsLessThanSpecified, Is.False);
+            Assert.That(((CountXml)ts.Tests[4].Constraints[0]).Specification.IsMoreThanSpecified, Is.False);
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_CountMoreAndLess()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[4].Constraints[0], Is.TypeOf<CountXml>());
+            Assert.That(((CountXml)ts.Tests[5].Constraints[0]).MoreThan, Is.EqualTo(10));
+            Assert.That(((CountXml)ts.Tests[5].Constraints[0]).LessThan, Is.EqualTo(15));
+            Assert.That(((CountXml)ts.Tests[5].Constraints[0]).Specification.IsExactlySpecified, Is.False);
+            Assert.That(((CountXml)ts.Tests[5].Constraints[0]).Specification.IsLessThanSpecified, Is.True);
+            Assert.That(((CountXml)ts.Tests[5].Constraints[0]).Specification.IsMoreThanSpecified, Is.True);
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_MembersWithLevel()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[4].TestCases[0], Is.TypeOf<MembersXml>());
+            Assert.That(((MembersXml)ts.Tests[4].TestCases[0]).Level, Is.EqualTo("[dimension].[hierarchy].[level]"));
+            Assert.That(((MembersXml)ts.Tests[4].TestCases[0]).Perspective, Is.EqualTo("Perspective"));
+            Assert.That(((MembersXml)ts.Tests[4].TestCases[0]).ConnectionString, Is.EqualTo("ConnectionString"));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_MembersWithHierarchyAndFunction()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[5].TestCases[0], Is.TypeOf<MembersXml>());
+            Assert.That(((MembersXml)ts.Tests[5].TestCases[0]).Hierarchy, Is.EqualTo("[dimension].[hierarchy]"));
+            Assert.That(((MembersXml)ts.Tests[5].TestCases[0]).Perspective, Is.EqualTo("Perspective"));
+            Assert.That(((MembersXml)ts.Tests[5].TestCases[0]).ConnectionString, Is.EqualTo("ConnectionString"));
         }
     }
 }

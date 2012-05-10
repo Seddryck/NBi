@@ -1,16 +1,29 @@
-﻿using System.IO;
+﻿using System;
 using System.Xml;
 
 namespace NBi.Testing
 {
     class ConnectionStringReader
     {
-        public static string Get()
-        {            
+        public static string Get(string name)
+        {
             var xmldoc = new XmlDocument();
             xmldoc.Load(GetFilename());
-            XmlNode node = xmldoc.GetElementsByTagName("add").Item(0);
-            return node.Attributes["connectionString"].Value;
+            XmlNodeList nodes = xmldoc.GetElementsByTagName("add");
+            foreach (XmlNode node in nodes)
+                if (node.Attributes["name"].Value == name)
+                    return node.Attributes["connectionString"].Value;
+            throw new Exception();
+        }
+
+        public static string GetAdomd()
+        {
+            return Get("Adomd");
+        }
+
+        public static string GetSqlClient()
+        {
+            return Get("SqlClient");
         }
 
         private static string GetFilename()

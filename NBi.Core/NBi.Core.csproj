@@ -56,6 +56,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\Member.cs" />
+    <Compile Include="Analysis\MemberAdomdExtractor.cs" />
     <Compile Include="Analysis\Metadata\IMetadataReader.cs" />
     <Compile Include="Analysis\Metadata\Level.cs" />
     <Compile Include="Analysis\Metadata\LevelCollection.cs" />
@@ -92,7 +94,10 @@
     <Compile Include="ConnectionException.cs" />
     <Compile Include="ConnectionFactory.cs" />
     <Compile Include="CsvDefinition.cs" />
+    <Compile Include="Database\CollectionEngine.cs" />
+    <Compile Include="Database\ICollectionEngine.cs" />
     <Compile Include="IProgressStatusAware.cs" />
+    <Compile Include="Analysis\MemberList.cs" />
     <Compile Include="ProgressStatusHandler.cs" />
     <Compile Include="ResultSetManager.cs" />
     <Compile Include="QuerySetManager.cs" />

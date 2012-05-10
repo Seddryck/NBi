@@ -28,7 +28,7 @@ namespace NBi.Testing.Acceptance.Core.Database
         {
             var sql = "SELECT ProductID, ProductSKU, Label FROM Product;";
 
-            var ds = new DataSetComparer(ConnectionStringReader.Get(), ConnectionStringReader.Get());
+            var ds = new DataSetComparer(ConnectionStringReader.GetSqlClient(), ConnectionStringReader.GetSqlClient());
             var res = ds.ValidateContent(sql);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Success));
@@ -41,7 +41,7 @@ namespace NBi.Testing.Acceptance.Core.Database
             var sql = "SELECT ProductID, ProductSKU, Label FROM Product;";
             var sql2 = "SELECT ProductID, ProductSKU, Label FROM Product WHERE ProductID=1;";
 
-            var ds = new DataSetComparer(ConnectionStringReader.Get(), sql, ConnectionStringReader.Get());
+            var ds = new DataSetComparer(ConnectionStringReader.GetSqlClient(), sql, ConnectionStringReader.GetSqlClient());
             var res = ds.ValidateContent(sql2);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
@@ -54,7 +54,7 @@ namespace NBi.Testing.Acceptance.Core.Database
             var sql = "SELECT ProductID, ProductSKU, Label FROM Product WHERE ProductID=2;";
             var sql2 = "SELECT ProductID, ProductSKU, Label FROM Product WHERE ProductID=1;";
 
-            var ds = new DataSetComparer(ConnectionStringReader.Get(), sql, ConnectionStringReader.Get());
+            var ds = new DataSetComparer(ConnectionStringReader.GetSqlClient(), sql, ConnectionStringReader.GetSqlClient());
             var res = ds.ValidateContent(sql2);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));
@@ -67,7 +67,7 @@ namespace NBi.Testing.Acceptance.Core.Database
             var sql = "SELECT 1, ProductSKU, Label FROM Product WHERE ProductID=2;";
             var sql2 = "SELECT ProductID, ProductSKU, Label FROM Product WHERE ProductID=1;";
 
-            var ds = new DataSetComparer(ConnectionStringReader.Get(), sql, ConnectionStringReader.Get());
+            var ds = new DataSetComparer(ConnectionStringReader.GetSqlClient(), sql, ConnectionStringReader.GetSqlClient());
             var res = ds.ValidateContent(sql2);
 
             Assert.That(res.Value, Is.EqualTo(Result.ValueType.Failed));

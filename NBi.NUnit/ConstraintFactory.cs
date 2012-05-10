@@ -1,5 +1,5 @@
 ﻿using System;
-using NBi.Xml;
+using NBi.Xml.Constraints;
 using NUnit.Framework.Constraints;
 
 namespace NBi.NUnit
@@ -13,6 +13,7 @@ namespace NBi.NUnit
                 case "EqualToXml": return Instantiate((EqualToXml)xml);
                 case "FasterThanXml": return Instantiate((FasterThanXml)xml);
                 case "SyntacticallyCorrectXml": return Instantiate((SyntacticallyCorrectXml)xml);
+                case "CountXml": return Instantiate((CountXml)xml);
             }
             throw new ArgumentException();
         }
@@ -36,6 +37,20 @@ namespace NBi.NUnit
         protected static SyntacticallyCorrectConstraint Instantiate(SyntacticallyCorrectXml xml)
         {
             var ctr = new SyntacticallyCorrectConstraint();
+            return ctr;
+        }
+
+        protected static CountConstraint Instantiate(CountXml xml)
+        {
+            var ctr = new NBi.NUnit.CountConstraint();
+            if (xml.Specification.IsExactlySpecified)
+                ctr = ctr.Exactly(xml.Exactly);
+
+            if (xml.Specification.IsMoreThanSpecified)
+                ctr = ctr.MoreThan(xml.MoreThan);
+
+            if (xml.Specification.IsLessThanSpecified)
+                ctr = ctr.LessThan(xml.LessThan);
             return ctr;
         }
     }

@@ -27,7 +27,7 @@ namespace NBi.Testing.Acceptance.Core.Database
         public void Validate_LessThan5000MilliSeconds_Success()
         {
             var sql = "SELECT * FROM Product;";
-            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.Get()));
+            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
             var qp = new QueryPerformance(5000, true);
             var res = qp.Validate(cmd);
@@ -39,7 +39,7 @@ namespace NBi.Testing.Acceptance.Core.Database
         public void Validate_LessThan0MilliSeconds_Failed()
         {
             var sql = "SELECT * FROM Product;";
-            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.Get()));
+            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
             var qp = new QueryPerformance(-1, true);
             var res = qp.Validate(cmd);

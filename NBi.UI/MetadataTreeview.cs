@@ -153,21 +153,25 @@ namespace NBi.UI
                                 foreach (TreeNode hierarchyNode in dimNode.Nodes)
                                 {
                                     if (hierarchyNode.Checked)
-                                        selMg.LinkedDimensions[(string)dimNode.Tag].Hierarchies.Add(
-                                            Content.Perspectives[(string)perspNode.Tag]
-                                            .Dimensions[(string)dimNode.Tag]
-                                            .Hierarchies[(string)hierarchyNode.Tag].Clone());
-
-                                    foreach (TreeNode levelNode in hierarchyNode.Nodes)
                                     {
-                                        if (levelNode.Checked)
-                                            selMg.LinkedDimensions[(string)dimNode.Tag]
-                                                .Hierarchies[(string)hierarchyNode.Tag].Levels.Add((string)levelNode.Tag,
-                                                Content.Perspectives[(string)perspNode.Tag]
-                                                .Dimensions[(string)dimNode.Tag]
-                                                .Hierarchies[(string)hierarchyNode.Tag]
-                                                .Levels[(string)levelNode.Tag]
-                                                .Clone());
+                                        var cleanHierarchy = Content.Perspectives[(string)perspNode.Tag]
+                                            .Dimensions[(string)dimNode.Tag]
+                                            .Hierarchies[(string)hierarchyNode.Tag].Clone();
+                                        cleanHierarchy.Levels.Clear();
+
+                                        selMg.LinkedDimensions[(string)dimNode.Tag].Hierarchies.Add(cleanHierarchy);
+
+                                        foreach (TreeNode levelNode in hierarchyNode.Nodes)
+                                        {
+                                            if (levelNode.Checked)
+                                                selMg.LinkedDimensions[(string)dimNode.Tag]
+                                                    .Hierarchies[(string)hierarchyNode.Tag].Levels.Add((string)levelNode.Tag,
+                                                    Content.Perspectives[(string)perspNode.Tag]
+                                                    .Dimensions[(string)dimNode.Tag]
+                                                    .Hierarchies[(string)hierarchyNode.Tag]
+                                                    .Levels[(string)levelNode.Tag]
+                                                    .Clone());
+                                        }
                                     }
                                 }
                             }

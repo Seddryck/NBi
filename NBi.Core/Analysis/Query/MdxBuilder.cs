@@ -105,9 +105,17 @@ namespace NBi.Core.Analysis.Query
         public string BuildFilename(string perspective, string measureGroupName, string measureName, string dimensionName, string hierarchyName)
         {
             var filename = String.Format("{0} - {1} - {2} - {3} - {4}.mdx", perspective, measureGroupName, measureName, dimensionName, hierarchyName);
+            filename = filename.Replace("€", "EUR");
+            filename = filename.Replace("$", "USD");
+            filename = filename.Replace("£", "GBP");
+            filename = filename.Replace("µ", "micro");
+            filename = filename.Replace("%", "percentage");
+            filename = filename.Replace("*", "star");
+            filename = filename.Replace("°", "degree");
+            
             foreach (var inv in Path.GetInvalidFileNameChars())
-                filename.Replace(inv, '_');
-            filename.Replace("€", "EUR");
+                filename=filename.Replace(inv, '_');
+            
 
             return Path.Combine(Path.GetFullPath(PersistancePath), filename);
 
@@ -120,7 +128,5 @@ namespace NBi.Core.Analysis.Query
                outfile.Write(mdx);
            }
         }
-
-
     }
 }

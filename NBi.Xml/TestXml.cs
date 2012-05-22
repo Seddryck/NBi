@@ -22,7 +22,8 @@ namespace NBi.Xml
         [XmlElement(Type = typeof(SyntacticallyCorrectXml), ElementName = "SyntacticallyCorrect"),
         XmlElement(Type = typeof(FasterThanXml), ElementName = "FasterThan"),
         XmlElement(Type = typeof(EqualToXml), ElementName = "EqualTo"),
-        XmlElement(Type = typeof(CountXml), ElementName = "Count")
+        XmlElement(Type = typeof(CountXml), ElementName = "Count"),
+        XmlElement(Type = typeof(ContainsXml), ElementName = "Contains"),
         ]
         public List<AbstractConstraintXml> Constraints;
 

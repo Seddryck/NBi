@@ -7,16 +7,16 @@ namespace NBi.Xml.Constraints
 {
     public class EqualToXml : AbstractConstraintXml
     {
-        [XmlAttribute("resultSet-File")]
+        [XmlAttribute("resultSet-file")]
         public string ResultSetFile { get; set; }
 
-        [XmlAttribute("query-File")]
+        [XmlAttribute("query-file")]
         public string QueryFile { get; set; }
 
         [XmlAttribute("connectionString")]
         public string ConnectionString { get; set; }
 
-        [XmlAttribute("connectionString-Ref")]
+        [XmlAttribute("connectionString-ref")]
         public string ConnectionStringReference { get; set; }
 
         [XmlText]

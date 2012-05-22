@@ -16,19 +16,21 @@ namespace NBi.Xml
         [XmlAttribute("description")]
         public string Description { get; set; }
 
-        [XmlElement("Category")]
+        [XmlElement("category")]
         public List<string> Categories;
 
-        [XmlElement(Type = typeof(SyntacticallyCorrectXml), ElementName = "SyntacticallyCorrect"),
-        XmlElement(Type = typeof(FasterThanXml), ElementName = "FasterThan"),
-        XmlElement(Type = typeof(EqualToXml), ElementName = "EqualTo"),
-        XmlElement(Type = typeof(CountXml), ElementName = "Count"),
-        XmlElement(Type = typeof(ContainsXml), ElementName = "Contains"),
+        [XmlArray("assert"),
+        XmlArrayItem(Type = typeof(SyntacticallyCorrectXml), ElementName = "syntacticallyCorrect"),
+        XmlArrayItem(Type = typeof(FasterThanXml), ElementName = "fasterThan"),
+        XmlArrayItem(Type = typeof(EqualToXml), ElementName = "equalTo"),
+        XmlArrayItem(Type = typeof(CountXml), ElementName = "count"),
+        XmlArrayItem(Type = typeof(ContainsXml), ElementName = "contains"),
         ]
         public List<AbstractConstraintXml> Constraints;
 
-        [XmlElement(Type = typeof(QueryXml), ElementName = "Query"),
-        XmlElement(Type = typeof(MembersXml), ElementName = "Members")
+        [XmlArray("system-under-test"),
+        XmlArrayItem(Type = typeof(QueryXml), ElementName = "query"),
+        XmlArrayItem(Type = typeof(MembersXml), ElementName = "members")
         ]
         public List<AbstractTestCaseXml> TestCases;
 

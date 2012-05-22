@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema id="NBi-TestSuite" xmlns="http://NBi/TestSuite" xmlns:mstns="http://NBi/TestSuite.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://NBi/TestSuite">
-	<xs:element name="TestSuite">
+	<xs:element name="testSuite">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="Test" maxOccurs="unbounded">
+				<xs:element name="test" maxOccurs="unbounded">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="Category" minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="category" minOccurs="0" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:simpleContent>
 										<xs:extension base="xs:string">
@@ -14,70 +14,82 @@
 									</xs:simpleContent>
 								</xs:complexType>
 							</xs:element>
-							<xs:element name="EqualTo" minOccurs="0">
+							<xs:element name="system-under-test" minOccurs="1" maxOccurs="unbounded">
 								<xs:complexType>
-									<xs:simpleContent>
-										<xs:extension base="xs:string">
-											<xs:attribute name="resultSet-File" type="xs:string" use="optional" />
-											<xs:attribute name="query-File" type="xs:string" use="optional" />
-											<xs:attribute name="connectionString" type="xs:string" use="optional" />
-											<xs:attribute name="connectionString-Ref" type="xs:string" use="optional" />
-										</xs:extension>
-									</xs:simpleContent>
+									<xs:sequence>
+										<xs:element name="query" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:string" use="optional" />
+														<xs:attribute name="query-file" type="xs:string" use="optional" />
+														<xs:attribute name="connectionString" type="xs:string" use="optional" />
+														<xs:attribute name="connectionString-ref" type="xs:string" use="optional" />
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="members" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:string" use="optional" />
+														<xs:attribute name="perspective" type="xs:string" use="required" />
+														<xs:attribute name="hierarchy" type="xs:string" use="optional" />
+														<xs:attribute name="level" type="xs:string" use="optional" />
+														<xs:attribute name="connectionString" type="xs:string" use="optional" />
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
-							<xs:element name="SyntacticallyCorrect" minOccurs="0">
-							</xs:element>
-							<xs:element name="FasterThan" minOccurs="0">
+							<xs:element name="assert" minOccurs="1" maxOccurs="unbounded">
 								<xs:complexType>
-									<xs:attribute name="maxTimeMilliSeconds" type="xs:unsignedShort" use="required" />
-									<xs:attribute name="cleanCache" type="xs:boolean" use="optional" />
-								</xs:complexType>
-							</xs:element>
-							<xs:element name="Count" minOccurs="0">
-								<xs:complexType>
-									<xs:simpleContent>
-										<xs:extension base="xs:string">
-											<xs:attribute name="exactly" type="xs:unsignedShort" use="optional" />
-											<xs:attribute name="more-Than" type="xs:unsignedShort" use="optional" />
-											<xs:attribute name="less-Than" type="xs:unsignedShort" use="optional" />
-										</xs:extension>
-									</xs:simpleContent>
-								</xs:complexType>
-							</xs:element>
-							<xs:element name="Contains" minOccurs="0">
-								<xs:complexType>
-									<xs:simpleContent>
-										<xs:extension base="xs:string">
-											<xs:attribute name="caption" type="xs:string" use="optional" />
-											<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
-										</xs:extension>
-									</xs:simpleContent>
-								</xs:complexType>
-							</xs:element>
-							<xs:element name="Query" minOccurs="0" maxOccurs="unbounded">
-								<xs:complexType>
-									<xs:simpleContent>
-										<xs:extension base="xs:string">
-											<xs:attribute name="name" type="xs:string" use="optional" />
-											<xs:attribute name="query-File" type="xs:string" use="optional" />
-											<xs:attribute name="connectionString" type="xs:string" use="optional" />
-											<xs:attribute name="connectionString-Ref" type="xs:string" use="optional" />
-										</xs:extension>
-									</xs:simpleContent>
-								</xs:complexType>
-							</xs:element>
-							<xs:element name="Members" minOccurs="0" maxOccurs="unbounded">
-								<xs:complexType>
-									<xs:simpleContent>
-										<xs:extension base="xs:string">
-											<xs:attribute name="name" type="xs:string" use="optional" />
-											<xs:attribute name="perspective" type="xs:string" use="required" />
-											<xs:attribute name="hierarchy" type="xs:string" use="optional" />
-											<xs:attribute name="level" type="xs:string" use="optional" />
-											<xs:attribute name="connectionString" type="xs:string" use="optional" />
-										</xs:extension>
-									</xs:simpleContent>
+									<xs:sequence>
+										<xs:element name="equalTo" minOccurs="0">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="resultSet-file" type="xs:string" use="optional" />
+														<xs:attribute name="query-file" type="xs:string" use="optional" />
+														<xs:attribute name="connectionString" type="xs:string" use="optional" />
+														<xs:attribute name="connectionString-ref" type="xs:string" use="optional" />
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="syntacticallyCorrect" minOccurs="0">
+										</xs:element>
+										<xs:element name="fasterThan" minOccurs="0">
+											<xs:complexType>
+												<xs:attribute name="max-time-milliSeconds" type="xs:unsignedShort" use="required" />
+												<xs:attribute name="clean-cache" type="xs:boolean" use="optional" />
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="count" minOccurs="0">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="exactly" type="xs:unsignedShort" use="optional" />
+														<xs:attribute name="more-than" type="xs:unsignedShort" use="optional" />
+														<xs:attribute name="less-than" type="xs:unsignedShort" use="optional" />
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="contains" minOccurs="0">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="caption" type="xs:string" use="optional" />
+														<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>

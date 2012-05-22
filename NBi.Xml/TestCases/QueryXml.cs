@@ -7,13 +7,13 @@ namespace NBi.Xml.TestCases
 {
     public class QueryXml : AbstractTestCaseXml
     {
-        [XmlAttribute("query-File")]
+        [XmlAttribute("query-file")]
         public string Filename { get; set; }
 
         [XmlAttribute("connectionString")]
         public string ConnectionString { get; set; }
 
-        [XmlAttribute("connectionString-Ref")]
+        [XmlAttribute("connectionString-ref")]
         public string ConnectionStringReference { get; set; }
 
         [XmlText]

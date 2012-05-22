@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Diagnostics;
 
 namespace NBi.Core.Analysis.Member
 {
@@ -21,10 +22,26 @@ namespace NBi.Core.Analysis.Member
 
         public class ComparerByCaption : IComparer
         {
+            readonly IComparer internalComparer;
+
+            public ComparerByCaption(bool caseSensitive)
+            {
+                internalComparer = caseSensitive ? StringComparer.CurrentCulture : StringComparer.CurrentCultureIgnoreCase;
+            }
+            
             // Calls CaseInsensitiveComparer.Compare with the parameters reversed.
             int IComparer.Compare(Object x, Object y)
             {
-                return ((new CaseInsensitiveComparer()).Compare(y, x));
+                if (x is Member && y is MemberCaption)
+                    return internalComparer.Compare(((MemberCaption)y).Value, ((Member)x).Caption);
+
+                if (y is Member && x is MemberCaption)
+                    return internalComparer.Compare(((Member)y).Caption, ((MemberCaption)x).Value);
+
+                if (x is Member && y is Member)
+                    return internalComparer.Compare(((Member)y).Caption, ((Member)x).Caption);
+
+                throw new Exception();
             }
         }
     }

@@ -2,7 +2,6 @@
 using System.Xml.Schema;
 using NBi.Core;
 using NBi.Core.Analysis;
-using NBi.Core.Query;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit

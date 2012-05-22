@@ -25,14 +25,9 @@ namespace NBi.Core
 
         public static string InterpretProviderName(string provider)
         {
-            switch (provider.ToLowerInvariant())
-            {
-                case "msolap": return "OleDb";
-                case "sqlncli": return "OleDb";
-                default:
-                    break;
-            }
-
+            if (provider.ToLowerInvariant().StartsWith("msolap")) return "OleDb";
+            if (provider.ToLowerInvariant().StartsWith("sqlncli")) return "OleDb";
+           
             if (provider.StartsWith("Driver={"))
                 return "Odbc";
 

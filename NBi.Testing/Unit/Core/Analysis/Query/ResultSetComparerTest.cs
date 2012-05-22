@@ -1,9 +1,8 @@
 ﻿#region Using directives
 using System.Data;
 using System.Data.OleDb;
-using System.Data.SqlClient;
 using Moq;
-using NBi.Core.Analysis.Query;
+using NBi.Core.ResultSet;
 using NUnit.Framework;
 
 #endregion

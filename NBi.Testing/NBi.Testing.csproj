@@ -57,9 +57,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Acceptance\Core\Analysis\MemberAdomdExtractorTest.cs" />
-    <Compile Include="Acceptance\Core\Database\QueryParserTest.cs" />
-    <Compile Include="Acceptance\Core\Analysis\Query\ResultSetComparerTest.cs" />
-    <Compile Include="Acceptance\NUnit\Database\DataSetConstraintTest.cs" />
+    <Compile Include="Acceptance\Core\Query\QueryParserTest.cs" />
+    <Compile Include="Acceptance\Core\Query\ResultSetComparerTest.cs" />
     <Compile Include="Acceptance\NUnit\FasterThanConstraintTest.cs" />
     <Compile Include="Acceptance\NUnit\SyntacticallyCorrectConstraintTest.cs" />
     <Compile Include="ConnectionStringReader.cs" />
@@ -74,15 +73,12 @@
     <Compile Include="Unit\Core\Analysis\Query\ResultSetComparerTest.cs" />
     <Compile Include="Unit\Core\Analysis\Query\ResultSetWriterTest.cs" />
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
-    <Compile Include="Acceptance\Core\Database\DataSetComparerContentTest.cs" />
-    <Compile Include="Acceptance\Core\Database\DataSetComparerStructureTest.cs" />
-    <Compile Include="Acceptance\Core\Database\QueryPerformanceTest.cs" />
+    <Compile Include="Acceptance\Core\Query\QueryPerformanceTest.cs" />
     <Compile Include="Unit\Core\Database\CollectionEngineTest.cs" />
     <Compile Include="Unit\Core\Integration\PackageManagerTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
     <Compile Include="Unit\Core\Util\DiffFiles\LongestCommonSequence\DiffEngineTest.cs" />
     <Compile Include="Unit\NUnit\CountConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\Database\DataSetConstraintTest.cs" />
     <Compile Include="Unit\NUnit\FasterThanConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Runtime\TestSuiteTest.cs" />
     <Compile Include="Unit\NUnit\SyntacticallyCorrectConstraintTest.cs" />

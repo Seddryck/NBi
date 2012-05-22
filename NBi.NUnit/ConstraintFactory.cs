@@ -21,9 +21,17 @@ namespace NBi.NUnit
         protected static EqualToConstraint Instantiate(EqualToXml xml)
         {
             if (!string.IsNullOrEmpty(xml.ResultSetFile))
-                return new EqualToConstraint(xml.ResultSetFile);
+            {
+                var ctr = new EqualToConstraint();
+                ctr = ctr.ExpectedResultSetPath(xml.ResultSetFile);
+                return ctr;
+            }
             else if (xml.Command != null)
-                return new EqualToConstraint(xml.Command, "", "");
+            {
+                var ctr = new EqualToConstraint();
+                ctr = ctr.ExpectedResultSetCommand(xml.Command);
+                return ctr;
+            }
 
             throw new ArgumentException();
         }

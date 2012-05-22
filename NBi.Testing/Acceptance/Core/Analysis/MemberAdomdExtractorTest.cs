@@ -1,5 +1,5 @@
 ﻿#region Using directives
-using NBi.Core.Analysis;
+using NBi.Core.Analysis.Member;
 using NUnit.Framework;
 
 #endregion
@@ -41,10 +41,14 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         public void GetMembersByLevel_CounterPartyAccountsStructureLabel_ReturnListMembersWithCorrectCaptions()
         {
             //Buiding object used during test
-            var mex = new MemberAdomdExtractor(ConnectionStringReader.GetAdomd());
+            var mae = new MemberAdomdEngine();
+            var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
+            amc.Perspective = "Easy Finances";
+            amc.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Level;
+            amc.PlaceHolderUniqueName="[Counter Party].[Accounts Structure].[Label]";
 
             //Call the method to test
-            var actual = mex.GetMembersByLevel("Easy Finances", "[Counter Party].[Accounts Structure].[Label]");
+            var actual = mae.Execute(amc);
 
             //Assertion
             Assert.That(List.Map(actual).Property("Caption"), Has.None.EqualTo("All"));
@@ -56,10 +60,14 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         public void GetMembersByLevel_CounterPartyAccountsStructureLabel_ReturnListMembersWithCorrectUniqueName()
         {
             //Buiding object used during test
-            var mex = new MemberAdomdExtractor(ConnectionStringReader.GetAdomd());
+            var mae = new MemberAdomdEngine();
+            var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
+            amc.Perspective = "Easy Finances";
+            amc.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Level;
+            amc.PlaceHolderUniqueName = "[Counter Party].[Accounts Structure].[Label]";
 
             //Call the method to test
-            var actual = mex.GetMembersByLevel("Easy Finances", "[Counter Party].[Accounts Structure].[Label]");
+            var actual = mae.Execute(amc);
 
             //Assertion
             Assert.That(List.Map(actual).Property("UniqueName"), Has.Member("[Counter Party].[Accounts Structure].[Label].&[]"));
@@ -70,10 +78,14 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         public void GetMembersByLevel_CounterPartyAccountsStructureLabel_ReturnListMembersWithCorrectOrdinal()
         {
             //Buiding object used during test
-            var mex = new MemberAdomdExtractor(ConnectionStringReader.GetAdomd());
+            var mae = new MemberAdomdEngine();
+            var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
+            amc.Perspective = "Easy Finances";
+            amc.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Level;
+            amc.PlaceHolderUniqueName = "[Counter Party].[Accounts Structure].[Label]";
 
             //Call the method to test
-            var actual = mex.GetMembersByLevel("Easy Finances", "[Counter Party].[Accounts Structure].[Label]");
+            var actual = mae.Execute(amc);
 
             //Assertion
             Assert.That(List.Map(actual).Property("Ordinal"), Is.Unique);
@@ -84,10 +96,14 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         public void GetMembersByLevel_CounterPartyAccountsStructureLabel_ReturnListMembersWithCorrectLevelNumber()
         {
             //Buiding object used during test
-            var mex = new MemberAdomdExtractor(ConnectionStringReader.GetAdomd());
+            var mae = new MemberAdomdEngine();
+            var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
+            amc.Perspective = "Easy Finances";
+            amc.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Level;
+            amc.PlaceHolderUniqueName = "[Counter Party].[Accounts Structure].[Label]";
 
             //Call the method to test
-            var actual = mex.GetMembersByLevel("Easy Finances", "[Counter Party].[Accounts Structure].[Label]");
+            var actual = mae.Execute(amc);
 
             //Assertion
             Assert.That(List.Map(actual).Property("LevelNumber"), Has.All.EqualTo(1));
@@ -97,10 +113,14 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         public void GetMembersByHierarchy_CounterPartyAccountsStructureLabel_ReturnListMembersWithCorrectCaptions()
         {
             //Buiding object used during test
-            var mex = new MemberAdomdExtractor(ConnectionStringReader.GetAdomd());
+            var mae = new MemberAdomdEngine();
+            var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
+            amc.Perspective = "Easy Finances";
+            amc.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Hierarchy;
+            amc.PlaceHolderUniqueName = "[Counter Party].[Accounts Structure]";
 
             //Call the method to test
-            var actual = mex.GetMembersByHierarchy("Easy Finances", "[Counter Party].[Accounts Structure]");
+            var actual = mae.Execute(amc);
 
             //Assertion
             Assert.That(List.Map(actual).Property("Caption"), Has.Member("All"));
@@ -112,10 +132,14 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         public void GetMembersByHierarchy_CounterPartyAccountsStructureLabel_ReturnListMembersWithCorrectUniqueName()
         {
             //Buiding object used during test
-            var mex = new MemberAdomdExtractor(ConnectionStringReader.GetAdomd());
+            var mae = new MemberAdomdEngine();
+            var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
+            amc.Perspective = "Easy Finances";
+            amc.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Hierarchy;
+            amc.PlaceHolderUniqueName = "[Counter Party].[Accounts Structure]";
 
             //Call the method to test
-            var actual = mex.GetMembersByHierarchy("Easy Finances", "[Counter Party].[Accounts Structure]");
+            var actual = mae.Execute(amc);
 
             //Assertion
             Assert.That(List.Map(actual).Property("UniqueName"), Has.Member("[Counter Party].[Accounts Structure].[Label].&[]"));
@@ -126,10 +150,14 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         public void GetMembersByHierarchy_CounterPartyAccountsStructureLabel_ReturnListMembersWithCorrectOrdinal()
         {
             //Buiding object used during test
-            var mex = new MemberAdomdExtractor(ConnectionStringReader.GetAdomd());
+            var mae = new MemberAdomdEngine();
+            var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
+            amc.Perspective = "Easy Finances";
+            amc.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Hierarchy;
+            amc.PlaceHolderUniqueName = "[Counter Party].[Accounts Structure]";
 
             //Call the method to test
-            var actual = mex.GetMembersByHierarchy("Easy Finances", "[Counter Party].[Accounts Structure]");
+            var actual = mae.Execute(amc);
 
             //Assertion
             Assert.That(actual, Has.Count.GreaterThan(0));
@@ -141,10 +169,14 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         public void GetMembersByHierarchy_CounterPartyAccountsStructureLabel_ReturnListMembersWithCorrectLevelNumber()
         {
             //Buiding object used during test
-            var mex = new MemberAdomdExtractor(ConnectionStringReader.GetAdomd());
+            var mae = new MemberAdomdEngine();
+            var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
+            amc.Perspective = "Easy Finances";
+            amc.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Hierarchy;
+            amc.PlaceHolderUniqueName = "[Counter Party].[Accounts Structure]";
 
             //Call the method to test
-            var actual = mex.GetMembersByHierarchy("Easy Finances", "[Counter Party].[Accounts Structure]");
+            var actual = mae.Execute(amc);
 
             //Assertion
             Assert.That(actual, Has.Count.GreaterThan(0));

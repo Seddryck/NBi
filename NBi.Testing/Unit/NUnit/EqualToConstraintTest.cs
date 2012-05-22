@@ -2,7 +2,7 @@
 using System.Data.OleDb;
 using Moq;
 using NBi.Core;
-using NBi.Core.Analysis.Query;
+using NBi.Core.ResultSet;
 using NBi.NUnit;
 using NUnit.Framework;
 

@@ -1,8 +1,4 @@
-﻿using System.Data;
-using System.Data.SqlClient;
-using Moq;
-using NBi.Core;
-using NBi.Core.Database;
+﻿using System.Data.SqlClient;
 using NBi.NUnit;
 using NUnit.Framework;
 

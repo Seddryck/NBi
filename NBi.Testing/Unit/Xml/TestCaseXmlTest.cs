@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 using NBi.NUnit;
-using NBi.Xml.TestCases;
+using NBi.Xml.Systems;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Xml
@@ -44,20 +44,6 @@ namespace NBi.Testing.Unit.Xml
         #endregion
 
         [Test]
-        public void TestCase_Play_Success()
-        {
-            var constraint = new SyntacticallyCorrectConstraint();
-            var testCase = new QueryXml() 
-                { InlineQuery = "SELECT * FROM Product;" ,
-                  ConnectionString =  ConnectionString 
-                };
-
-            //TODO REview TEST
-            //testCase.Play(constraint);
-            Assert.Pass();
-        }
-
-        [Test]
         public void Query_FilenameSpecified_RetrieveContentOfFile()
         {
             //create a text file on disk
@@ -79,10 +65,10 @@ namespace NBi.Testing.Unit.Xml
         [Test]
         public void Query_FilenameNotSpecified_RetrieveContentOfInlineQuery()
         {
-            //Instantiate a Test Case
-            var testCase = new QueryXml() { InlineQuery = "SELECT * FROM Product" };
+            //Instantiate a System Under Test
+            var systemUnderTest = new QueryXml() { InlineQuery = "SELECT * FROM Product" };
 
-            Assert.AreEqual("SELECT * FROM Product", testCase.Query);
+            Assert.AreEqual("SELECT * FROM Product", systemUnderTest.Query);
         }
        
     }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 using NBi.Xml.Constraints;
-using NBi.Xml.TestCases;
+using NBi.Xml.Systems;
 
 namespace NBi.Xml
 {
@@ -19,6 +19,12 @@ namespace NBi.Xml
         [XmlElement("category")]
         public List<string> Categories;
 
+        [XmlArray("system-under-test"),
+        XmlArrayItem(Type = typeof(QueryXml), ElementName = "query"),
+        XmlArrayItem(Type = typeof(MembersXml), ElementName = "members")
+        ]
+        public List<AbstractSystemUnderTestXml> Systems;
+
         [XmlArray("assert"),
         XmlArrayItem(Type = typeof(SyntacticallyCorrectXml), ElementName = "syntacticallyCorrect"),
         XmlArrayItem(Type = typeof(FasterThanXml), ElementName = "fasterThan"),
@@ -28,16 +34,10 @@ namespace NBi.Xml
         ]
         public List<AbstractConstraintXml> Constraints;
 
-        [XmlArray("system-under-test"),
-        XmlArrayItem(Type = typeof(QueryXml), ElementName = "query"),
-        XmlArrayItem(Type = typeof(MembersXml), ElementName = "members")
-        ]
-        public List<AbstractTestCaseXml> TestCases;
-
         public TestXml()
         {
             Constraints = new List<AbstractConstraintXml>();
-            TestCases = new List<AbstractTestCaseXml>();
+            Systems = new List<AbstractSystemUnderTestXml>();
             Categories = new List<string>();
         }
     }

@@ -202,5 +202,29 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(((MembersXml)ts.Tests[5].TestCases[0]).Perspective, Is.EqualTo("Perspective"));
             Assert.That(((MembersXml)ts.Tests[5].TestCases[0]).ConnectionString, Is.EqualTo("ConnectionString"));
         }
+
+        [Test]
+        public void Deserialize_SampleFile_ContainsCaptionNotIgnoringCasImplicitely()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[6].Constraints[0], Is.TypeOf<ContainsXml>());
+            Assert.That(((ContainsXml)ts.Tests[6].Constraints[0]).Caption, Is.EqualTo("xyz"));
+            Assert.That(((ContainsXml)ts.Tests[6].Constraints[0]).IgnoreCase, Is.False);
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ContainsCaptionIgnoringCaseExplicitely()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(((ContainsXml)ts.Tests[7].Constraints[0]).Caption.ToLower(), Is.EqualTo("xyz"));
+            Assert.That(((ContainsXml)ts.Tests[7].Constraints[0]).IgnoreCase, Is.True);
+        }
+
     }
 }

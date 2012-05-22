@@ -58,12 +58,21 @@ namespace NBi.Testing.Unit.NUnit
         }
 
         [Test]
-        public void Instantiate_CountXml_IsOfTypeEqualToConstraint()
+        public void Instantiate_CountXml_IsOfTypeCountConstraint()
         {
             var ctr = NBiNu.ConstraintFactory.Instantiate(new CountXml() {Exactly=10});
 
             Assert.That(ctr, Is.InstanceOf<NBiNu.CountConstraint>());
         }
+
+        [Test]
+        public void Instantiate_ContainsXml_IsOfTypeContainsConstraint()
+        {
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new ContainsXml() { Caption = "xYz" });
+
+            Assert.That(ctr, Is.InstanceOf<NBiNu.ContainsConstraint>());
+        }
+
 
     }
 }

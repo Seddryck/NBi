@@ -42,4 +42,17 @@
 		/>
 		<Members hierarchy="[dimension].[hierarchy]" perspective="Perspective" connectionString="ConnectionString"/>
 	</Test>
+	<Test name="hierarchy contains member with caption xyz (implicitely ignoring case)">
+		<Contains
+			caption="xyz"
+		/>
+		<Members hierarchy="[dimension].[hierarchy]" perspective="Perspective" connectionString="ConnectionString"/>
+	</Test>
+	<Test name="hierarchy contains member with caption xyz (explicitely ignoring case)">
+		<Contains
+			caption="xYz"
+			ignore-case="true"
+		/>
+		<Members hierarchy="[dimension].[hierarchy]" perspective="Perspective" connectionString="ConnectionString"/>
+	</Test>
 </TestSuite>

@@ -14,6 +14,7 @@ namespace NBi.NUnit
                 case "FasterThanXml": return Instantiate((FasterThanXml)xml);
                 case "SyntacticallyCorrectXml": return Instantiate((SyntacticallyCorrectXml)xml);
                 case "CountXml": return Instantiate((CountXml)xml);
+                case "ContainsXml": return Instantiate((ContainsXml)xml);
             }
             throw new ArgumentException();
         }
@@ -59,6 +60,17 @@ namespace NBi.NUnit
 
             if (xml.Specification.IsLessThanSpecified)
                 ctr = ctr.LessThan(xml.LessThan);
+            return ctr;
+        }
+
+        protected static ContainsConstraint Instantiate(ContainsXml xml)
+        {
+            var ctr = new NBi.NUnit.ContainsConstraint();
+            ctr = ctr.Caption(xml.Caption);
+
+            if (xml.IgnoreCase)
+                ctr = ctr.IgnoreCase;
+
             return ctr;
         }
     }

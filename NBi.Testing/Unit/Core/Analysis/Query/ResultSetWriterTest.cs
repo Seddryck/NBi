@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
-using NBi.Core.Analysis.Query;
+﻿using System.Data;
 using System.IO;
 using System.Reflection;
-using System.Data;
+using NBi.Core.ResultSet;
+using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Core.Analysis.Query
 {

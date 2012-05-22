@@ -1,5 +1,6 @@
 ﻿using System.IO;
-using NBi.Core.Analysis.Query;
+using NBi.Core.Query;
+using NBi.Core.ResultSet;
 
 namespace NBi.Core
 {
@@ -18,7 +19,7 @@ namespace NBi.Core
         {
             return new ResultSetManager(
                 new ResultSetCsvWriter(resultSetDirectory),
-                new QueryOleDbExecutor(connectionString));
+                new QueryOleDbEngine(connectionString));
         }
         
         public void CreateResultSet(string queriesDirectory)

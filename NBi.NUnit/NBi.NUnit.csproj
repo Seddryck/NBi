@@ -50,9 +50,6 @@
   <ItemGroup>
     <Compile Include="ConstraintFactory.cs" />
     <Compile Include="CountConstraint.cs" />
-    <Compile Include="DataSetConstraint.cs" />
-    <Compile Include="DataSetContentConstraint.cs" />
-    <Compile Include="DataSetStructureConstraint.cs" />
     <Compile Include="EqualToConstraint.cs" />
     <Compile Include="OnDataSource.cs" />
     <Compile Include="SyntacticallyCorrectConstraint.cs" />

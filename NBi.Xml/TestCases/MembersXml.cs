@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Xml.Serialization;
-using NBi.Core.Analysis;
+using NBi.Core.Analysis.Member;
 
 namespace NBi.Xml.TestCases
 {
@@ -20,16 +20,24 @@ namespace NBi.Xml.TestCases
 
         public override object Instantiate()
         {
-            var extractor = new MemberAdomdExtractor(ConnectionString);
-            MemberList list = null;
+            var cmd = new AdomdMemberCommand(ConnectionString);
+
             if (!string.IsNullOrEmpty(Level))
-                list = extractor.GetMembersByLevel(Perspective, Level);
+            {
+                cmd.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Level;
+                cmd.PlaceHolderUniqueName = Level;
+            }
             else if (!string.IsNullOrEmpty(Hierarchy))
-                list = extractor.GetMembersByHierarchy(Perspective, Hierarchy);
+            {
+                cmd.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Hierarchy;
+                cmd.PlaceHolderUniqueName = Hierarchy;
+            }
             else
                 throw new Exception();
 
-            return list;
+            cmd.Perspective = Perspective;
+
+            return cmd;
         }
     }
 }

@@ -2,8 +2,7 @@
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
-using NBi.Core;
-using NBi.Core.Database;
+using NBi.Core.Query;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit
@@ -19,15 +18,10 @@ namespace NBi.NUnit
         /// <summary>
         /// Store for the result of the engine's execution
         /// </summary>
-        protected Result _res;
+        protected ParserResult _res;
 
-        /// <summary>
-        /// .ctor, define the default engine used by this constraint
-        /// </summary>
-        /// <param name="connectionString">Connection string used to connect to the server where the constraint will be tested</param>
         public SyntacticallyCorrectConstraint()
         {
-            _engine = new QueryParser();
         }
 
         /// <summary>
@@ -37,6 +31,13 @@ namespace NBi.NUnit
         protected internal SyntacticallyCorrectConstraint(IQueryParser engine)
         {
             _engine = engine;
+        }
+
+        protected IQueryParser GetEngine(IDbCommand actual)
+        {
+            if (_engine == null)
+                _engine = (IQueryParser)(QueryEngineFactory.Get(actual));
+            return _engine;
         }
 
         /// <summary>
@@ -59,20 +60,19 @@ namespace NBi.NUnit
         /// <returns>true, if the query defined in parameter is syntatically correct else false</returns>
         public bool Matches(IDbCommand actual)
         {
-            _res= _engine.Validate(actual);
-            return _res.ToBoolean();
+            _res= GetEngine(actual).Parse(actual);
+            return _res.IsSuccesful;
         }
 
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
             var sb = new System.Text.StringBuilder();
-            sb.AppendLine("Parsing of the query failed");
-            foreach (var failure in _res.Failures)
+            sb.AppendLine("Query is not syntactically correct.");
+            foreach (var failure in _res.Errors)
             {
                 sb.AppendLine(failure);    
             }
             writer.WritePredicate(sb.ToString());
-            //writer.WriteExpectedValue("");
         }
     }
 }

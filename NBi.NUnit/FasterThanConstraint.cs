@@ -2,8 +2,7 @@
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
-using NBi.Core;
-using NBi.Core.Database;
+using NBi.Core.Query;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit
@@ -18,7 +17,10 @@ namespace NBi.NUnit
         /// <summary>
         /// Store for the result of the engine's execution
         /// </summary>
-        protected Result _res;
+        protected PerformanceResult _res;
+
+        protected int _maxTimeMilliSeconds;
+        protected bool _cleanCache;
 
         /// .ctor, define the default engine used by this constraint
         /// </summary>
@@ -26,7 +28,8 @@ namespace NBi.NUnit
         /// <param name="cleanCache">Specify if the cache needs to be cleant or not</param>
         public FasterThanConstraint(int maxTimeMilliSeconds, bool cleanCache)
         {
-            _engine = new QueryPerformance(maxTimeMilliSeconds, cleanCache);
+            _maxTimeMilliSeconds= maxTimeMilliSeconds;
+            _cleanCache = cleanCache;
         }
 
         /// <summary>
@@ -36,6 +39,19 @@ namespace NBi.NUnit
         protected internal FasterThanConstraint(IQueryPerformance engine)
         {
             _engine = engine;
+        }
+
+        public FasterThanConstraint MaxTimeMilliSeconds(int value)
+        {
+            this._maxTimeMilliSeconds = value;
+            return this;
+        }
+
+        protected IQueryPerformance GetEngine(IDbCommand actual)
+        {
+            if (_engine == null)
+                _engine = (IQueryPerformance)(QueryEngineFactory.Get(actual));
+            return _engine;
         }
 
         /// <summary>
@@ -58,8 +74,8 @@ namespace NBi.NUnit
         /// <returns>true, if the query defined in parameter is executed in less that expected else false</returns>
         public bool Matches(IDbCommand actual)
         {
-            _res = _engine.Validate(actual);
-            return _res.ToBoolean();
+            _res = GetEngine(actual).CheckPerformance(actual, _cleanCache);
+            return _res.TimeElapsed.TotalMilliseconds < _maxTimeMilliSeconds;
         }
 
         /// <summary>
@@ -70,12 +86,8 @@ namespace NBi.NUnit
         {
             var sb = new System.Text.StringBuilder();
             sb.AppendLine("Execution of the query is slower than expected");
-            foreach (var failure in _res.Failures)
-            {
-                sb.AppendLine(failure);
-            }
+            sb.AppendFormat("Maximum expected was {0}ms and query has been exectued in {1}ms\r\n", _maxTimeMilliSeconds, _res.TimeElapsed.TotalMilliseconds);
             writer.WritePredicate(sb.ToString());
-            //writer.WriteExpectedValue("");
         }
     }
 }

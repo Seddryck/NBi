@@ -1,55 +1,42 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using System.Xml.Schema;
 using NBi.Core;
-using NBi.Core.Database;
+using NBi.Core.Analysis;
+using NBi.Core.Query;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit
 {
     public class CountConstraint : NUnitCtr.Constraint
     {
-        /// <summary>
-        /// Engine dedicated to query parsing
-        /// </summary>
-        protected ICollectionEngine _engine;
+        int? exactly { get; set; }
+        int? moreThan { get; set; }
+        int? lessThan { get; set; }
 
-        /// <summary>
-        /// Store for the result of the engine's execution
-        /// </summary>
-        protected Result _res;
-
+        
         /// <summary>
         /// .ctor, define the default engine used by this constraint
         /// </summary>
         public CountConstraint()
         {
-            _engine = new CollectionEngine();
         }
 
-        /// <summary>
-        /// .ctor mainly used for mocking
-        /// </summary>
-        /// <param name="engine">The engine to use</param>
-        protected internal CountConstraint(ICollectionEngine engine)
-        {
-            _engine = engine;
-        }
 
         public CountConstraint Exactly(int value)
         {
-            _engine.Exactly = value; 
+            this.exactly = value; 
             return this;
         }
 
         public CountConstraint MoreThan(int value)
         {
-            _engine.MoreThan = value;
+            this.moreThan = value;
             return this;
         }
 
         public CountConstraint LessThan(int value)
         {
-            _engine.LessThan = value; 
+            this.lessThan = value; 
             return this;
         }
 
@@ -68,20 +55,53 @@ namespace NBi.NUnit
         /// <returns></returns>
         public bool Matches(ICollection actual)
         {
-            _res = _engine.Validate(actual);
-            return _res.ToBoolean();
+            if (!(moreThan.HasValue || lessThan.HasValue || exactly.HasValue))
+                return false;
+            if (moreThan.HasValue && actual.Count <= moreThan.Value)
+                return false;
+            if (lessThan.HasValue && actual.Count >= lessThan.Value)
+                return false;
+            if (exactly.HasValue && actual.Count != exactly.Value)
+                return false;
+
+            return true;
         }
 
+        /// <summary>
+        /// Write the constraint description to a MessageWriter
+        /// </summary>
+        /// <param name="writer">The writer on which the description is displayed</param>
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
-            var sb = new System.Text.StringBuilder();
-            sb.AppendLine("Failed!");
-            foreach (var failure in _res.Failures)
+            if (exactly.HasValue)
             {
-                sb.AppendLine(failure);
+                writer.WritePredicate("exactly");
+                writer.WriteExpectedValue(exactly.Value);
+                return;
             }
-            writer.WritePredicate(sb.ToString());
-            //writer.WriteExpectedValue("");
+
+            if (moreThan.HasValue && lessThan.HasValue)
+            {
+                writer.WritePredicate("between");
+                writer.WriteExpectedValue(lessThan.Value);
+                writer.WriteConnector("and");
+                writer.WriteExpectedValue(moreThan.Value);
+                return;
+            }
+
+            if (moreThan.HasValue)
+            {
+                writer.WritePredicate("more than");
+                writer.WriteExpectedValue(moreThan.Value);
+                return;
+            }
+
+            if (lessThan.HasValue)
+            {
+                writer.WritePredicate("less than");
+                writer.WriteExpectedValue(lessThan.Value);
+                return;
+            }  
         }
     }
 }

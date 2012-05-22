@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using Moq;
-using NBi.Core;
-using NBi.Core.Analysis.Query;
-using NBi.NUnit;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.NUnit
@@ -10,66 +6,141 @@ namespace NBi.Testing.Unit.NUnit
     public class CountConstraintTest
     {
         [Test]
-        public void CountConstraint_NUnitAssertThatICollection_EngineCalledOnce()
+        public void Matches_ExactlyCorrectlySpecified_Validated()
         {
-            var mock = new Mock<ICollectionEngine>();
-            mock.Setup(engine => engine.Validate(It.IsAny<ICollection>()))
-                .Returns(Result.Success());
-            ICollectionEngine collEngine = mock.Object;
+            var members = new List<string>();
+            members.Add("First member");
+            members.Add("Second member");
 
-            var countConstraint = new CountConstraint(collEngine).Exactly(2);
-            var coll = new ArrayList();
-
-            //Method under test
-            Assert.That(coll, countConstraint);
-
-            //Test conclusion            
-            mock.Verify(engine => engine.Validate(coll), Times.Once());
-        }
-
-        [Test]
-        public void Exactly_PositiveValue_ValueRegisteredInEngine()
-        {
-            var mock = new Mock<ICollectionEngine>();
-            ICollectionEngine collEngine = mock.Object;
-
-            var countConstraint = new CountConstraint(collEngine);
-            
-            //Method under test
+            var countConstraint = new NBi.NUnit.CountConstraint();
             countConstraint.Exactly(2);
 
+            //Method under test
+            var res = countConstraint.Matches(members);
+
             //Test conclusion            
-            mock.VerifySet(engine => engine.Exactly=2);
+            Assert.That(res, Is.True);
         }
 
         [Test]
-        public void MoreThan_PositiveValue_ValueRegisteredInEngine()
+        public void Matches_ExactlyWronglySpecified_Validated()
         {
-            var mock = new Mock<ICollectionEngine>();
-            ICollectionEngine collEngine = mock.Object;
+            var members = new List<string>();
+            members.Add("First member");
+            members.Add("Second member");
 
-            var countConstraint = new CountConstraint(collEngine);
+            var countConstraint = new NBi.NUnit.CountConstraint();
+            countConstraint.Exactly(1);
 
             //Method under test
+            var res = countConstraint.Matches(members);
+
+            //Test conclusion            
+            Assert.That(res, Is.False);
+        }
+
+        [Test]
+        public void Matches_MoreThanCorrectlySpecified_Validated()
+        {
+            var members = new List<string>();
+            members.Add("First member");
+            members.Add("Second member");
+
+            var countConstraint = new NBi.NUnit.CountConstraint();
+            countConstraint.MoreThan(1);
+
+            //Method under test
+            var res = countConstraint.Matches(members);
+
+            //Test conclusion            
+            Assert.That(res, Is.True);
+        }
+
+        [Test]
+        public void Matches_MoreThanWronglySpecified_Validated()
+        {
+            var members = new List<string>();
+            members.Add("First member");
+            members.Add("Second member");
+
+            var countConstraint = new NBi.NUnit.CountConstraint();
             countConstraint.MoreThan(2);
 
+            //Method under test
+            var res = countConstraint.Matches(members);
+
             //Test conclusion            
-            mock.VerifySet(engine => engine.MoreThan = 2);
+            Assert.That(res, Is.False);
         }
 
         [Test]
-        public void LessThan_PositiveValue_ValueRegisteredInEngine()
+        public void Matches_LessThanCorrectlySpecified_Validated()
         {
-            var mock = new Mock<ICollectionEngine>();
-            ICollectionEngine collEngine = mock.Object;
+            var members = new List<string>();
+            members.Add("First member");
+            members.Add("Second member");
 
-            var countConstraint = new CountConstraint(collEngine);
+            var countConstraint = new NBi.NUnit.CountConstraint();
+            countConstraint.LessThan(3);
 
             //Method under test
-            countConstraint.LessThan(2);
+            var res = countConstraint.Matches(members);
 
             //Test conclusion            
-            mock.VerifySet(engine => engine.LessThan = 2);
+            Assert.That(res, Is.True);
+        }
+
+        [Test]
+        public void Matches_LessThanWronglySpecified_Validated()
+        {
+            var members = new List<string>();
+            members.Add("First member");
+            members.Add("Second member");
+
+            var countConstraint = new NBi.NUnit.CountConstraint();
+            countConstraint.LessThan(2);
+
+            //Method under test
+            var res = countConstraint.Matches(members);
+
+            //Test conclusion            
+            Assert.That(res, Is.False);
+        }
+
+        [Test]
+        public void Matches_LessThanAndMoreThanCorrectlySpecified_Validated()
+        {
+            var members = new List<string>();
+            members.Add("First member");
+            members.Add("Second member");
+
+            var countConstraint = new NBi.NUnit.CountConstraint();
+            countConstraint.MoreThan(1);
+            countConstraint.LessThan(3);
+
+            //Method under test
+            var res = countConstraint.Matches(members);
+
+            //Test conclusion            
+            Assert.That(res, Is.True);
+        }
+
+        [Test]
+        public void Matches_LessThanAndMoreThanWronglySpecified_Validated()
+        {
+            var members = new List<string>();
+            members.Add("First member");
+            members.Add("Second member");
+
+            var countConstraint = new NBi.NUnit.CountConstraint();
+            countConstraint.MoreThan(1);
+            countConstraint.LessThan(2);
+
+            //Method under test
+            var res = countConstraint.Matches(members);
+
+            //Test conclusion            
+            Assert.That(res, Is.False);
         }
     }
 }

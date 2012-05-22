@@ -2,7 +2,8 @@
 using System.IO;
 using Moq;
 using NBi.Core;
-using NBi.Core.Analysis.Query;
+using NBi.Core.Query;
+using NBi.Core.ResultSet;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Core

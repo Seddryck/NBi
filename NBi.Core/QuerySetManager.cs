@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
-using NBi.Core.Analysis.Query;
+using NBi.Core.Query;
+using NBi.Core.ResultSet;
 
 namespace NBi.Core
 {
@@ -13,13 +14,13 @@ namespace NBi.Core
         public string ConnectionString { get; private set; }
         public string Pattern { get; private set; }
 
-        public QueryOleDbExecutor Executor { get; private set; }
+        public QueryOleDbEngine Executor { get; private set; }
         public ResultSetAbstractWriter ResultSetWriter { get; private set; }
 
         public static QuerySetManager BuildDefault(string directoryQueries, string directoryResultSets, string connectionString)
         {
             var qsm = new QuerySetManager(directoryQueries, "*.mdx", directoryResultSets, connectionString);
-            qsm.Executor = new QueryOleDbExecutor(connectionString);
+            qsm.Executor = new QueryOleDbEngine(connectionString);
             qsm.ResultSetWriter = new ResultSetCsvWriter(directoryResultSets);
             return qsm;
         }

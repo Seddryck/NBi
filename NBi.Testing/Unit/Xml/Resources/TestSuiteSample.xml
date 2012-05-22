@@ -1,58 +1,90 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TestSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
-	<Test name="My first test case" uid="0001">
-		<SyntacticallyCorrect />
-		<Query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
-			SELECT TOP 1 * FROM Product;
-		</Query>
-	</Test>
-	<Test name="My second test case">
-		<Category>Category 1</Category>
-		<Category>Category 2</Category>
-		<SyntacticallyCorrect />
-		<FasterThan maxTimeMilliSeconds="5000" />
-		<Query name="Select all products" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
-			SELECT * FROM Product;
-		</Query>
-		<Query query-File="Select all products.sql" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True" />
-	</Test>
-	<Test name="My Mdx test case">
-		<EqualTo 
-			resultSet-File="SimpleMdx.csv" 
-		/>
-		<Query query-File="SimpleMdx.Mdx" connectionString="Provider=MSOLAP.4;Data Source=localhost;Catalog=&quot;Finances Analysis&quot;;"/>
-	</Test>
-	<Test name="My Mdx against another Mdx">
-		<EqualTo
-			query-File="SimpleMdxTwo.mdx"
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="My first test case" uid="0001">
+		<system-under-test>
+			<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+				SELECT TOP 1 * FROM Product;
+			</query>
+		</system-under-test>
+		<assert>
+			<syntacticallyCorrect />
+		</assert>
+	</test>
+	<test name="My second test case">
+		<category>Category 1</category>
+		<category>Category 2</category>
+		<system-under-test>
+			<query name="Select all products" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+				SELECT * FROM Product;
+			</query>
+			<query query-file="Select all products.sql" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True" />
+		</system-under-test>
+		<assert>
+			<syntacticallyCorrect />
+			<fasterThan max-time-milliSeconds="5000" />
+		</assert>
+	</test>
+	<test name="My Mdx test case">
+		<system-under-test>
+			<query query-file="SimpleMdx.Mdx" connectionString="Provider=MSOLAP.4;Data Source=localhost;Catalog=&quot;Finances Analysis&quot;;"/>
+		</system-under-test>
+		<assert>
+			<equalTo
+				resultSet-file="SimpleMdx.csv"
+			/>
+		</assert>
+	</test>
+	<test name="My Mdx against another Mdx">
+		<system-under-test>
+			<query query-file="SimpleMdx.Mdx" connectionString="Provider=MSOLAP.4;Data Source=localhost;Catalog=&quot;Finances Analysis&quot;;"/>
+		</system-under-test>
+		<assert>
+			<equalTo
+			query-file="SimpleMdxTwo.mdx"
 			connectionString="Provider=MSOLAP.4;Data Source=RemoteServer;Catalog=Finances;"
 		/>
-		<Query query-File="SimpleMdx.Mdx" connectionString="Provider=MSOLAP.4;Data Source=localhost;Catalog=&quot;Finances Analysis&quot;;"/>
-	</Test>
-	<Test name="level counts exactly 10 members">
-		<Count
-			exactly="10"
+		</assert>
+	</test>
+	<test name="level counts exactly 10 members">
+		<system-under-test>
+			<members level="[dimension].[hierarchy].[level]" perspective="Perspective" connectionString="ConnectionString"/>
+		</system-under-test>
+		<assert>
+			<count
+				exactly="10"
 		/>
-		<Members level="[dimension].[hierarchy].[level]" perspective="Perspective" connectionString="ConnectionString"/>
-	</Test>
-	<Test name="hierarchy counts between 10 and 15 members">
-		<Count
-			more-Than="10"
-			less-Than="15"
-		/>
-		<Members hierarchy="[dimension].[hierarchy]" perspective="Perspective" connectionString="ConnectionString"/>
-	</Test>
-	<Test name="hierarchy contains member with caption xyz (implicitely ignoring case)">
-		<Contains
-			caption="xyz"
-		/>
-		<Members hierarchy="[dimension].[hierarchy]" perspective="Perspective" connectionString="ConnectionString"/>
-	</Test>
-	<Test name="hierarchy contains member with caption xyz (explicitely ignoring case)">
-		<Contains
-			caption="xYz"
-			ignore-case="true"
-		/>
-		<Members hierarchy="[dimension].[hierarchy]" perspective="Perspective" connectionString="ConnectionString"/>
-	</Test>
-</TestSuite>
+		</assert>
+	</test>
+	<test name="hierarchy counts between 10 and 15 members">
+		<system-under-test>
+			<members hierarchy="[dimension].[hierarchy]" perspective="Perspective" connectionString="ConnectionString"/>
+		</system-under-test>
+		<assert>
+			<count
+				more-than="10"
+				less-than="15"
+			/>
+		</assert>
+	</test>
+	<test name="hierarchy contains member with caption xyz (implicitely ignoring case)">
+		<system-under-test>
+			<members hierarchy="[dimension].[hierarchy]" perspective="Perspective" connectionString="ConnectionString"/>
+		</system-under-test>
+		<assert>
+			<contains
+				caption="xyz"
+			/>
+		</assert>
+	</test>
+	<test name="hierarchy contains member with caption xyz (explicitely ignoring case)">
+		<system-under-test>
+			<members hierarchy="[dimension].[hierarchy]" perspective="Perspective" connectionString="ConnectionString"/>
+		</system-under-test>
+		<assert>
+			<contains
+				caption="xYz"
+				ignore-case="true"
+			/>
+		</assert>
+	</test>
+</testSuite>

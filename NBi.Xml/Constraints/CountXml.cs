@@ -20,7 +20,7 @@ namespace NBi.Xml.Constraints
         }
 
         protected int _moreThan; 
-        [XmlAttribute("more-Than")]
+        [XmlAttribute("more-than")]
         public int MoreThan
         {
             get
@@ -34,7 +34,7 @@ namespace NBi.Xml.Constraints
         }
 
         protected int _lessThan;
-        [XmlAttribute("less-Than")]
+        [XmlAttribute("less-than")]
         public int LessThan
         {
             get

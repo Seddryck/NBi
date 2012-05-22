@@ -3,13 +3,13 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml
 {
-    [XmlRoot(ElementName = "TestSuite", Namespace = "http://NBi/TestSuite")]
+    [XmlRoot(ElementName = "testSuite", Namespace = "http://NBi/TestSuite")]
     public class TestSuiteXml
     {
         [XmlAttribute("name")]
         public string Name { get; set; }
         
-        [XmlElement("Test")]
+        [XmlElement("test")]
         public List<TestXml> Tests { get; set; }
 
         public TestSuiteXml()

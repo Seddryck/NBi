@@ -42,15 +42,15 @@
   <ItemGroup>
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
     <Compile Include="Constraints\ContainsXml.cs" />
-    <Compile Include="TestCases\AbstractTestCaseXml.cs" />
+    <Compile Include="Systems\AbstractSystemUnderTestXml.cs" />
     <Compile Include="Constraints\CountXml.cs" />
     <Compile Include="Constraints\EqualToXml.cs" />
-    <Compile Include="TestCases\MembersXml.cs" />
+    <Compile Include="Systems\MembersXml.cs" />
     <Compile Include="Constraints\SyntacticallyCorrectXml.cs" />
     <Compile Include="Constraints\FasterThanXml.cs" />
     <Compile Include="TestSuiteBuilder.cs" />
     <Compile Include="TestXml.cs" />
-    <Compile Include="TestCases\QueryXml.cs" />
+    <Compile Include="Systems\QueryXml.cs" />
     <Compile Include="TestSuiteXml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlManager.cs" />

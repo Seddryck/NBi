@@ -1,8 +1,8 @@
 ﻿using System.Xml.Serialization;
 
-namespace NBi.Xml.TestCases
+namespace NBi.Xml.Systems
 {
-    public abstract class AbstractTestCaseXml
+    public abstract class AbstractSystemUnderTestXml
     {
         [XmlAttribute("name")]
         public string Name { get; set; }

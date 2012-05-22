@@ -3,9 +3,9 @@ using System.IO;
 using System.Xml.Serialization;
 using NBi.Core;
 
-namespace NBi.Xml.TestCases
+namespace NBi.Xml.Systems
 {
-    public class QueryXml : AbstractTestCaseXml
+    public class QueryXml : AbstractSystemUnderTestXml
     {
         [XmlAttribute("query-file")]
         public string Filename { get; set; }

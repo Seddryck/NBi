@@ -2,9 +2,9 @@
 using System.Xml.Serialization;
 using NBi.Core.Analysis.Member;
 
-namespace NBi.Xml.TestCases
+namespace NBi.Xml.Systems
 {
-    public class MembersXml : AbstractTestCaseXml
+    public class MembersXml : AbstractSystemUnderTestXml
     {
         [XmlAttribute("perspective")]
         public string Perspective { get; set; }

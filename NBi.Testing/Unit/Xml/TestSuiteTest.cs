@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Xml.Serialization;
 using NBi.Xml;
 using NBi.Xml.Constraints;
-using NBi.Xml.TestCases;
+using NBi.Xml.Systems;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Xml
@@ -113,15 +113,15 @@ namespace NBi.Testing.Unit.Xml
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[1].TestCases[0], Is.InstanceOf<QueryXml>());
-            Assert.That(((QueryXml)ts.Tests[1].TestCases[0]).Query, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
-            Assert.That(((QueryXml)ts.Tests[1].TestCases[0]).InlineQuery, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
-            Assert.That(((QueryXml)ts.Tests[1].TestCases[0]).Filename, Is.Null);
-            Assert.That(((QueryXml)ts.Tests[1].TestCases[1]).Query, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
-            Assert.That(((QueryXml)ts.Tests[1].TestCases[1]).InlineQuery, Is.Null);
-            Assert.That(((QueryXml)ts.Tests[1].TestCases[1]).Filename, Is.Not.Null.And.Not.Empty);
+            Assert.That(ts.Tests[1].Systems[0], Is.InstanceOf<QueryXml>());
+            Assert.That(((QueryXml)ts.Tests[1].Systems[0]).Query, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
+            Assert.That(((QueryXml)ts.Tests[1].Systems[0]).InlineQuery, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
+            Assert.That(((QueryXml)ts.Tests[1].Systems[0]).Filename, Is.Null);
+            Assert.That(((QueryXml)ts.Tests[1].Systems[1]).Query, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
+            Assert.That(((QueryXml)ts.Tests[1].Systems[1]).InlineQuery, Is.Null);
+            Assert.That(((QueryXml)ts.Tests[1].Systems[1]).Filename, Is.Not.Null.And.Not.Empty);
             
-            Assert.That(((QueryXml)ts.Tests[2].TestCases[0]).ConnectionString, Is.Not.Null.And.Not.Empty);
+            Assert.That(((QueryXml)ts.Tests[2].Systems[0]).ConnectionString, Is.Not.Null.And.Not.Empty);
         }
 
         [Test]
@@ -184,10 +184,10 @@ namespace NBi.Testing.Unit.Xml
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[4].TestCases[0], Is.TypeOf<MembersXml>());
-            Assert.That(((MembersXml)ts.Tests[4].TestCases[0]).Level, Is.EqualTo("[dimension].[hierarchy].[level]"));
-            Assert.That(((MembersXml)ts.Tests[4].TestCases[0]).Perspective, Is.EqualTo("Perspective"));
-            Assert.That(((MembersXml)ts.Tests[4].TestCases[0]).ConnectionString, Is.EqualTo("ConnectionString"));
+            Assert.That(ts.Tests[4].Systems[0], Is.TypeOf<MembersXml>());
+            Assert.That(((MembersXml)ts.Tests[4].Systems[0]).Level, Is.EqualTo("[dimension].[hierarchy].[level]"));
+            Assert.That(((MembersXml)ts.Tests[4].Systems[0]).Perspective, Is.EqualTo("Perspective"));
+            Assert.That(((MembersXml)ts.Tests[4].Systems[0]).ConnectionString, Is.EqualTo("ConnectionString"));
         }
 
         [Test]
@@ -197,10 +197,10 @@ namespace NBi.Testing.Unit.Xml
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[5].TestCases[0], Is.TypeOf<MembersXml>());
-            Assert.That(((MembersXml)ts.Tests[5].TestCases[0]).Hierarchy, Is.EqualTo("[dimension].[hierarchy]"));
-            Assert.That(((MembersXml)ts.Tests[5].TestCases[0]).Perspective, Is.EqualTo("Perspective"));
-            Assert.That(((MembersXml)ts.Tests[5].TestCases[0]).ConnectionString, Is.EqualTo("ConnectionString"));
+            Assert.That(ts.Tests[5].Systems[0], Is.TypeOf<MembersXml>());
+            Assert.That(((MembersXml)ts.Tests[5].Systems[0]).Hierarchy, Is.EqualTo("[dimension].[hierarchy]"));
+            Assert.That(((MembersXml)ts.Tests[5].Systems[0]).Perspective, Is.EqualTo("Perspective"));
+            Assert.That(((MembersXml)ts.Tests[5].Systems[0]).ConnectionString, Is.EqualTo("ConnectionString"));
         }
 
         [Test]

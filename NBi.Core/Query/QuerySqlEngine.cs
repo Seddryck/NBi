@@ -6,57 +6,59 @@ namespace NBi.Core.Query
 {
     public class QuerySqlEngine:IQueryExecutor, IQueryPerformance, IQueryParser, IQueryEnginable
     {
-        public string ConnectionString { get; private set; }
+        protected readonly SqlCommand _command;
 
 
-        public QuerySqlEngine(string connectionString)
+        public QuerySqlEngine(SqlCommand cmd)
         {
-            ConnectionString = connectionString;
+            _command = cmd;
         }
 
-        public PerformanceResult CheckPerformance(IDbCommand cmd, bool cleanCache)
+        public void CleanCache()
         {
-            DateTime tsStart, tsStop;
-
-            if (cleanCache)
+            
+            using (var conn = new SqlConnection(_command.Connection.ConnectionString))
             {
-                using (var conn = new SqlConnection(cmd.Connection.ConnectionString))
+                var clearSql = new string[] { "dbcc freeproccache", "dbcc dropcleanbuffers" };
+
+                conn.Open();
+
+                foreach (var sql in clearSql)
                 {
-                    var clearSql = new string[] { "dbcc freeproccache", "dbcc dropcleanbuffers" };
-
-                    conn.Open();
-
-                    foreach (var sql in clearSql)
+                    using (SqlCommand cleanCmd = new SqlCommand(sql, conn))
                     {
-                        using (SqlCommand cleanCmd = new SqlCommand(sql, conn))
-                        {
-                            cleanCmd.ExecuteNonQuery();
-                        }
+                        cleanCmd.ExecuteNonQuery();
                     }
                 }
             }
+            
+        }
 
-            if (cmd.Connection.State == ConnectionState.Closed)
-                cmd.Connection.Open();
+        public PerformanceResult CheckPerformance()
+        {
+            DateTime tsStart, tsStop;
+
+            if (_command.Connection.State == ConnectionState.Closed)
+                _command.Connection.Open();
 
             tsStart = DateTime.Now;
-            cmd.ExecuteNonQuery();
+            _command.ExecuteNonQuery();
             tsStop = DateTime.Now;
 
-            if (cmd.Connection.State == ConnectionState.Open)
-                cmd.Connection.Close();
+            if (_command.Connection.State == ConnectionState.Open)
+                _command.Connection.Close();
 
             return new PerformanceResult(tsStop.Subtract(tsStart));
 
         }
 
-        public ParserResult Parse(IDbCommand cmd)
+        public ParserResult Parse()
         {
             ParserResult res = null;
 
-            using (var conn = new SqlConnection(cmd.Connection.ConnectionString))
+            using (var conn = new SqlConnection(_command.Connection.ConnectionString))
             {
-                var fullSql = string.Format(@"SET FMTONLY ON {0} SET FMTONLY OFF", cmd.CommandText);
+                var fullSql = string.Format(@"SET FMTONLY ON {0} SET FMTONLY OFF", _command.CommandText);
 
                 conn.Open();
 
@@ -81,19 +83,19 @@ namespace NBi.Core.Query
             return res;
         }
 
-        public DataSet Execute(string mdx)
+        public DataSet Execute()
         {
             int i;
-            return Execute(mdx, out i);
+            return Execute(out i);
         }
 
-        public DataSet Execute(string mdx, out int elapsedSec)
+        public DataSet Execute(out int elapsedSec)
         {
             // Open the connection
             using (var connection = new SqlConnection())
             {
                 try
-                    {connection.ConnectionString = ConnectionString;}
+                { connection.ConnectionString = _command.Connection.ConnectionString; }
                 catch (ArgumentException ex)
                     {throw new ConnectionException(ex);}
 
@@ -104,7 +106,7 @@ namespace NBi.Core.Query
 
                 // capture time before execution
                 long ticksBefore = DateTime.Now.Ticks;
-                var adapter = new SqlDataAdapter(mdx, connection);
+                var adapter = new SqlDataAdapter(_command.CommandText, connection);
                 var ds = new DataSet();
                 
                 adapter.SelectCommand.CommandTimeout = 0;

@@ -7,19 +7,18 @@ namespace NBi.Core
     public class ResultSetManager
     {
         protected IResultSetWriter _resultSetWriter;
-        protected IQueryExecutor _queryExecutor;
 
-        protected internal ResultSetManager(IResultSetWriter resultSetWriter, IQueryExecutor queryExecutor)
+        public string ConnectionString { get; private set; }
+
+        protected internal ResultSetManager(IResultSetWriter resultSetWriter, string connectionString)
         {
             _resultSetWriter = resultSetWriter;
-            _queryExecutor= queryExecutor;
+            ConnectionString = connectionString;
         }
 
         public static ResultSetManager Instantiate(string resultSetDirectory, string connectionString)
         {
-            return new ResultSetManager(
-                new ResultSetCsvWriter(resultSetDirectory),
-                new QueryOleDbEngine(connectionString));
+            return new ResultSetManager(new ResultSetCsvWriter(resultSetDirectory), connectionString);
         }
         
         public void CreateResultSet(string queriesDirectory)
@@ -37,7 +36,9 @@ namespace NBi.Core
                     query=infile.ReadToEnd();
                 }
 
-                var ds = _queryExecutor.Execute(query);
+                var qe = new QueryEngineFactory().GetExecutor(query, ConnectionString);
+
+                var ds = qe.Execute();
 
                 var resultFile = Path.GetFileName(Path.ChangeExtension(queryFile,"csv"));
                 _resultSetWriter.Write(resultFile, ds);

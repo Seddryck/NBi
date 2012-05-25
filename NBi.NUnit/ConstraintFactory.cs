@@ -23,14 +23,12 @@ namespace NBi.NUnit
         {
             if (!string.IsNullOrEmpty(xml.ResultSetFile))
             {
-                var ctr = new EqualToConstraint();
-                ctr = ctr.ExpectedResultSetPath(xml.ResultSetFile);
+                var ctr = new EqualToConstraint(xml.ResultSetFile);
                 return ctr;
             }
             else if (xml.Command != null)
             {
-                var ctr = new EqualToConstraint();
-                ctr = ctr.ExpectedResultSetCommand(xml.Command);
+                var ctr = new EqualToConstraint(xml.Command);
                 return ctr;
             }
 
@@ -39,7 +37,10 @@ namespace NBi.NUnit
 
         protected static FasterThanConstraint Instantiate(FasterThanXml xml)
         {
-            var ctr = new FasterThanConstraint(xml.MaxTimeMilliSeconds, xml.CleanCache);
+            var ctr = new FasterThanConstraint();
+            ctr = ctr.MaxTimeMilliSeconds(xml.MaxTimeMilliSeconds);
+            if (xml.CleanCache)
+                ctr = ctr.CleanCache();
             return ctr;
         }
 

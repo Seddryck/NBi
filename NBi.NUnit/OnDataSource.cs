@@ -33,15 +33,17 @@ namespace NBi.NUnit
         public Is()
         {
         }
-        
-        public static Constraint SyntacticallyCorrect()
+
+        public static SyntacticallyCorrectConstraint SyntacticallyCorrect()
         {
             return new SyntacticallyCorrectConstraint();
         }
 
-        public static Constraint FasterThan(int maxTimeMilliSeconds, bool cleanCache)
+        public static FasterThanConstraint FasterThan(int maxTimeMilliSeconds)
         {
-            return new FasterThanConstraint(maxTimeMilliSeconds, cleanCache);
+            var ctr = new FasterThanConstraint();
+            ctr.MaxTimeMilliSeconds(maxTimeMilliSeconds);
+            return ctr;
         }
 
         

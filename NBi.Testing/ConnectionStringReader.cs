@@ -16,6 +16,12 @@ namespace NBi.Testing
             throw new Exception();
         }
 
+
+        public static string GetOleDb()
+        {
+            return Get("OleDb");
+        }
+
         public static string GetAdomd()
         {
             return Get("Adomd");

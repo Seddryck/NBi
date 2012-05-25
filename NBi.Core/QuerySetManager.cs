@@ -14,13 +14,11 @@ namespace NBi.Core
         public string ConnectionString { get; private set; }
         public string Pattern { get; private set; }
 
-        public QueryOleDbEngine Executor { get; private set; }
         public ResultSetAbstractWriter ResultSetWriter { get; private set; }
 
         public static QuerySetManager BuildDefault(string directoryQueries, string directoryResultSets, string connectionString)
         {
             var qsm = new QuerySetManager(directoryQueries, "*.mdx", directoryResultSets, connectionString);
-            qsm.Executor = new QueryOleDbEngine(connectionString);
             qsm.ResultSetWriter = new ResultSetCsvWriter(directoryResultSets);
             return qsm;
         }
@@ -49,8 +47,9 @@ namespace NBi.Core
                     ProgressStatusChanged(this, new ProgressStatusEventArgs(String.Format("Executing query {0} of {1}", i, files.Length+1), i, files.Length+1));
                 
                 var query = File.ReadAllText(file);
-
-                var ds = Executor.Execute(query);
+                var qe = new QueryEngineFactory().GetExecutor(query, ConnectionString);
+                
+                var ds = qe.Execute();
 
                 if (ProgressStatusChanged != null)
                     ProgressStatusChanged(this, new ProgressStatusEventArgs(String.Format("Persisting results set for {0} of {1}", i, files.Length+1), i, files.Length+1));

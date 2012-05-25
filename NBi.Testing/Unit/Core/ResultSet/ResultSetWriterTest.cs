@@ -4,7 +4,7 @@ using System.Reflection;
 using NBi.Core.ResultSet;
 using NUnit.Framework;
 
-namespace NBi.Testing.Unit.Core.Analysis.Query
+namespace NBi.Testing.Unit.Core.ResultSet
 {
     [TestFixture]
     public class ResultSetWriterTest
@@ -20,7 +20,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Query
             //Acquire data to perform test
             var ds = new DataSet();
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Core.Analysis.Query.Resources.ResultDataSet.xml"))
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Core.ResultSet.Resources.ResultDataSet.xml"))
             {
                 //Load the file content into the dataset
                 ds.ReadXml(stream);
@@ -45,7 +45,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Query
             //Acquire data to perform test
             var ds = new DataSet();
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream( "NBi.Testing.Unit.Core.Analysis.Query.Resources.ResultDataSet.xml"))
+                                           .GetManifestResourceStream( "NBi.Testing.Unit.Core.ResultSet.Resources.ResultDataSet.xml"))
             {
                 //Load the file content into the dataset
                 ds.ReadXml(stream);

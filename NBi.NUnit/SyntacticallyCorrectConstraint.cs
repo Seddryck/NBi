@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
@@ -13,6 +14,18 @@ namespace NBi.NUnit
         /// Engine dedicated to query parsing
         /// </summary>
         protected IQueryParser _engine;
+        /// <summary>
+        /// Engine dedicated to ResultSet comparaison
+        /// </summary>
+        protected internal IQueryParser Engine
+        {
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException();
+                _engine = value;
+            }
+        }
         
         
         /// <summary>
@@ -24,19 +37,10 @@ namespace NBi.NUnit
         {
         }
 
-        /// <summary>
-        /// .ctor mainly used for mocking
-        /// </summary>
-        /// <param name="engine">The engine to use</param>
-        protected internal SyntacticallyCorrectConstraint(IQueryParser engine)
-        {
-            _engine = engine;
-        }
-
         protected IQueryParser GetEngine(IDbCommand actual)
         {
             if (_engine == null)
-                _engine = (IQueryParser)(QueryEngineFactory.Get(actual));
+                _engine = new QueryEngineFactory().GetParser(actual);
             return _engine;
         }
 
@@ -60,7 +64,7 @@ namespace NBi.NUnit
         /// <returns>true, if the query defined in parameter is syntatically correct else false</returns>
         public bool Matches(IDbCommand actual)
         {
-            _res= GetEngine(actual).Parse(actual);
+            _res= GetEngine(actual).Parse();
             return _res.IsSuccesful;
         }
 

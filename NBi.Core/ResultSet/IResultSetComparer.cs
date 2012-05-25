@@ -1,9 +1,8 @@
-﻿using System.Data;
+﻿using System.Collections;
 
 namespace NBi.Core.ResultSet
 {
-    public interface IResultSetComparer
+    public interface IResultSetComparer: IComparer
     {
-        Result Validate(IDbCommand path);
     }
 }

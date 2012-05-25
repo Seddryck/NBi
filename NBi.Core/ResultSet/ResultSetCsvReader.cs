@@ -21,7 +21,7 @@ namespace NBi.Core.ResultSet
             Definition = definition;
         }
   
-        public string Read(string filename)
+        public ResultSet Read(string filename)
         {
             string res = null;
 
@@ -31,7 +31,7 @@ namespace NBi.Core.ResultSet
                 res = infile.ReadToEnd();
             }
 
-            return res;
+            return new ResultSet(res);
         }
     }
 }

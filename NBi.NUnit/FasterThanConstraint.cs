@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
@@ -9,11 +10,20 @@ namespace NBi.NUnit
 {
     public class FasterThanConstraint : NUnitCtr.Constraint
     {
-        /// <summary>
-        /// Engine dedicated to query parsing
-        /// </summary>
         protected IQueryPerformance _engine;
-
+        /// <summary>
+        /// Engine dedicated to ResultSet comparaison
+        /// </summary>
+        protected internal IQueryPerformance Engine
+        {
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException();
+                _engine = value;
+            }
+        }
+        
         /// <summary>
         /// Store for the result of the engine's execution
         /// </summary>
@@ -22,23 +32,9 @@ namespace NBi.NUnit
         protected int _maxTimeMilliSeconds;
         protected bool _cleanCache;
 
-        /// .ctor, define the default engine used by this constraint
-        /// </summary>
-        /// <param name="maxTimeMilliSeconds">The query should run faster than the maximum time specified here</param>
-        /// <param name="cleanCache">Specify if the cache needs to be cleant or not</param>
-        public FasterThanConstraint(int maxTimeMilliSeconds, bool cleanCache)
+        public FasterThanConstraint()
         {
-            _maxTimeMilliSeconds= maxTimeMilliSeconds;
-            _cleanCache = cleanCache;
-        }
 
-        /// <summary>
-        /// .ctor mainly used for mocking
-        /// </summary>
-        /// <param name="engine">The engine to use</param>
-        protected internal FasterThanConstraint(IQueryPerformance engine)
-        {
-            _engine = engine;
         }
 
         public FasterThanConstraint MaxTimeMilliSeconds(int value)
@@ -47,10 +43,16 @@ namespace NBi.NUnit
             return this;
         }
 
+        public FasterThanConstraint CleanCache()
+        {
+            this._cleanCache = true;
+            return this;
+        }
+
         protected IQueryPerformance GetEngine(IDbCommand actual)
         {
             if (_engine == null)
-                _engine = (IQueryPerformance)(QueryEngineFactory.Get(actual));
+                _engine = new QueryEngineFactory().GetPerformance(actual);
             return _engine;
         }
 
@@ -74,7 +76,10 @@ namespace NBi.NUnit
         /// <returns>true, if the query defined in parameter is executed in less that expected else false</returns>
         public bool Matches(IDbCommand actual)
         {
-            _res = GetEngine(actual).CheckPerformance(actual, _cleanCache);
+            var engine = GetEngine(actual);
+            if (_cleanCache)
+                engine.CleanCache();
+            _res = engine.CheckPerformance();
             return _res.TimeElapsed.TotalMilliseconds < _maxTimeMilliSeconds;
         }
 

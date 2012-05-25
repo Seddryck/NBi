@@ -43,12 +43,10 @@ namespace NBi.Testing.Acceptance.Core.Query
         public void Parse_CorrectTableName_Success()
         {
             var sql = "SELECT * FROM Product;";
+            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var qp = new QueryEngineFactory().GetParser(cmd);
 
-            IQueryParser qp = new QuerySqlEngine(ConnectionStringReader.GetSqlClient());
-            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
-            var cmd = new SqlCommand(sql, conn);
-
-            var res = qp.Parse(cmd);
+            var res = qp.Parse();
 
             Assert.That(res.IsSuccesful, Is.True);
 
@@ -58,12 +56,10 @@ namespace NBi.Testing.Acceptance.Core.Query
         public void Parse_WrongTableName_Failed()
         {
             var sql = "SELECT * FROM WrongTableName;";
+            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var qp = new QueryEngineFactory().GetParser(cmd);
 
-            IQueryParser qp = new QuerySqlEngine(ConnectionStringReader.GetSqlClient());
-            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
-            var cmd = new SqlCommand(sql, conn);
-
-            var res = qp.Parse(cmd);
+            var res = qp.Parse();
 
             Assert.That(res.IsSuccesful, Is.False);
             Assert.That(res.Errors[0], Is.EqualTo("Invalid object name 'WrongTableName'."));
@@ -73,12 +69,10 @@ namespace NBi.Testing.Acceptance.Core.Query
         public void Parse_CorrectFields_Success()
         {
             var sql = "SELECT ProductSKU, [Description] FROM Product;";
+            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var qp = new QueryEngineFactory().GetParser(cmd);
 
-            IQueryParser qp = new QuerySqlEngine(ConnectionStringReader.GetSqlClient());
-            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
-            var cmd = new SqlCommand(sql, conn);
-
-            var res = qp.Parse(cmd);
+            var res = qp.Parse();
 
             Assert.That(res.IsSuccesful, Is.True);
 
@@ -88,12 +82,10 @@ namespace NBi.Testing.Acceptance.Core.Query
         public void Parse_WrongField_Failed()
         {
             var sql = "SELECT ProductSKU, [Description], WrongField FROM Product;";
+            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var qp = new QueryEngineFactory().GetParser(cmd);
 
-            IQueryParser qp = new QuerySqlEngine(ConnectionStringReader.GetSqlClient());
-            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
-            var cmd = new SqlCommand(sql, conn);
-
-            var res = qp.Parse(cmd);
+            var res = qp.Parse();
 
             Assert.That(res.IsSuccesful, Is.False);
             Assert.That(res.Errors[0], Is.EqualTo("Invalid column name 'WrongField'."));
@@ -103,12 +95,10 @@ namespace NBi.Testing.Acceptance.Core.Query
         public void Parse_WrongFields_Failed()
         {
             var sql = "SELECT ProductSKU, [Description], WrongField1, WrongField2 FROM Product;";
+            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var qp = new QueryEngineFactory().GetParser(cmd);
 
-            IQueryParser qp = new QuerySqlEngine(ConnectionStringReader.GetSqlClient());
-            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
-            var cmd = new SqlCommand(sql, conn);
-
-            var res = qp.Parse(cmd);
+            var res = qp.Parse();
 
             Assert.That(res.IsSuccesful, Is.False);
             Assert.That(res.Errors[0], Is.EqualTo("Invalid column name 'WrongField1'."));
@@ -119,11 +109,10 @@ namespace NBi.Testing.Acceptance.Core.Query
         public void Parse_WrongSyntax_Failed()
         {
             var sql = "SELECTION ProductSKU, [Description], WrongField1, WrongField2 FROM Product;";
-            IQueryParser qp = new QuerySqlEngine(ConnectionStringReader.GetSqlClient());
-            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
-            var cmd = new SqlCommand(sql, conn);
+            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var qp = new QueryEngineFactory().GetParser(cmd);
 
-            var res = qp.Parse(cmd);
+            var res = qp.Parse();
 
             Assert.That(res.IsSuccesful, Is.False);
             Assert.That(res.Errors[0], Is.EqualTo("Incorrect syntax near 'SELECTION'."));
@@ -140,11 +129,10 @@ namespace NBi.Testing.Acceptance.Core.Query
             if (countBefore == 0) //If nothing was present we cannot assert
                 Assert.Inconclusive();
 
-            IQueryParser qp = new QuerySqlEngine(ConnectionStringReader.GetSqlClient());
-            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
-            var cmd = new SqlCommand(sql, conn);
+            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var qp = new QueryEngineFactory().GetParser(cmd);
 
-            var res = qp.Parse(cmd);
+            var res = qp.Parse();
 
             if (!res.IsSuccesful)//If syntax is incorrect we cannot assert
                 Assert.Inconclusive();

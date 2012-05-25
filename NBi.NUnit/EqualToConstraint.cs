@@ -1,8 +1,9 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.OleDb;
 using System.Data.SqlClient;
+using System.IO;
 using Microsoft.AnalysisServices.AdomdClient;
-using NBi.Core;
 using NBi.Core.Query;
 using NBi.Core.ResultSet;
 using NUnitCtr = NUnit.Framework.Constraints;
@@ -11,60 +12,76 @@ namespace NBi.NUnit
 {
     public class EqualToConstraint : NUnitCtr.Constraint
     {
-        /// <summary>
-        /// Engine dedicated to result set comparaison
-        /// </summary>
+        protected Object expect;
+        protected string persistenceExpectedResultSetFullPath;
+        protected string persistenceActualResultSetFullPath;
+     
         protected IResultSetComparer _engine;
-
         /// <summary>
-        /// Store for the result of the engine's execution
+        /// Engine dedicated to ResultSet comparaison
         /// </summary>
-        protected Result _res;
-
-        protected string expectedResultSetPath;
-        protected IDbCommand expectedResultSetCommand;
-        protected string persistenceExpectedResultSetPath;
-        protected string persistenceExpectedResultSetFilename;
-
-        public EqualToConstraint()
+        protected internal IResultSetComparer Engine
         {
-
+            get
+            {
+                if(_engine==null)
+                    _engine = new BasicResultSetComparer();
+                return _engine;
+            }
+            set
+            {
+                if(value==null)
+                    throw new ArgumentNullException();
+                _engine = value;
+            }
         }
 
-        public EqualToConstraint(IResultSetComparer resultSetComparer)
+        protected IResultSetBuilder _resultSetBuilder;
+        /// <summary>
+        /// Engine dedicated to ResultSet acquisition
+        /// </summary>
+        protected internal IResultSetBuilder ResultSetBuilder
         {
-            _engine = resultSetComparer;
+            get
+            {
+                if(_resultSetBuilder==null)
+                    _resultSetBuilder = new ResultSetBuilder();
+                return _resultSetBuilder;
+            }
+            set
+            {
+                if(value==null)
+                    throw new ArgumentNullException();
+                _resultSetBuilder = value;
+            }
         }
 
-        public EqualToConstraint ExpectedResultSetPath(string value)
+        public EqualToConstraint (string value)
         {
-            this.expectedResultSetPath = value;
+            this.expect = value;
+        }
+
+        public EqualToConstraint (ResultSet value)
+        {
+            this.expect = value;
+        }
+
+        public EqualToConstraint (IDbCommand value)
+        {
+            this.expect = value;
+        }
+
+        public EqualToConstraint PersistExpectation(string path, string filename)
+        {
+            this.persistenceExpectedResultSetFullPath = Path.Combine(path, filename);
             return this;
         }
 
-        public EqualToConstraint ExpectedResultSetCommand(IDbCommand value)
-        {
-            this.expectedResultSetCommand = value;
-            return this;
-        }
 
-        public EqualToConstraint PersistenceExpectedResultSetPath(string value)
+        public EqualToConstraint PersistActual(string path, string filename)
         {
-            this.persistenceExpectedResultSetPath = value;
+            this.persistenceActualResultSetFullPath = Path.Combine(path, filename);
             return this;
-        }
-
-        public EqualToConstraint PersistenceExpectedResultSetFilename(string value)
-        {
-            this.persistenceExpectedResultSetFilename = value;
-            return this;
-        }
-
-        protected IResultSetComparer GetEngine(IDbCommand actual)
-        {
-            if (_engine == null)
-                _engine = (IResultSetComparer)(QueryEngineFactory.Get(actual));
-            return _engine;
         }
 
         /// <summary>
@@ -82,14 +99,21 @@ namespace NBi.NUnit
         }
 
         /// <summary>
-        /// Handle an IDbCommand (Query and ConnectionString) and check it with the engine
+        /// Handle an IDbCommand (Query and ConnectionString) and check it with the expectation (Another IDbCommand or a ResultSet)
         /// </summary>
         /// <param name="actual">IDbCommand</param>
         /// <returns>true, if the query defined in parameter is executed in less that expected else false</returns>
         public bool Matches(IDbCommand actual)
         {
-            _res = GetEngine(actual).Validate(actual);
-            return _res.ToBoolean();
+            var rsActual = GetResultSet(actual);
+            var rsExpect = GetResultSet(expect);
+
+            return Engine.Compare(rsActual, rsExpect) == 0;
+        }
+
+        protected ResultSet GetResultSet(Object obj)
+        {
+            return ResultSetBuilder.Build(obj);
         }
 
         /// <summary>
@@ -100,12 +124,7 @@ namespace NBi.NUnit
         {
             var sb = new System.Text.StringBuilder();
             sb.AppendLine("Execution of the query doesn't match the expected result");
-            foreach (var failure in _res.Failures)
-            {
-                sb.AppendLine(failure);
-            }
             writer.WritePredicate(sb.ToString());
-            //writer.WriteExpectedValue("");
         }
     }
 }

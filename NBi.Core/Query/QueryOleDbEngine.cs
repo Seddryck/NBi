@@ -6,21 +6,21 @@ namespace NBi.Core.Query
 {
     public class QueryOleDbEngine:IQueryExecutor, IQueryPerformance, IQueryParser, IQueryEnginable
     {
-        public string ConnectionString { get; private set; }
+        protected readonly OleDbCommand _command;
 
 
-        public QueryOleDbEngine(string connectionString)
+        public QueryOleDbEngine(OleDbCommand cmd)
         {
-            ConnectionString = connectionString;
+            _command = cmd;
         }
 
-        public ParserResult Parse(IDbCommand cmd)
+        public virtual ParserResult Parse()
         {
             ParserResult res=null;
             
-            using(var conn = new OleDbConnection(cmd.Connection.ConnectionString))
+            using(var conn = new OleDbConnection(_command.Connection.ConnectionString))
             {
-                var fullSql = string.Format(@"SET FMTONLY ON {0} SET FMTONLY OFF", cmd.CommandText);
+                var fullSql = string.Format(@"SET FMTONLY ON {0} SET FMTONLY OFF", _command.CommandText);
                 
                 conn.Open();
 
@@ -45,54 +45,54 @@ namespace NBi.Core.Query
             return res;
         }
 
-        public PerformanceResult CheckPerformance(IDbCommand cmd, bool cleanCache)
+        public virtual void CleanCache()
         {
-            DateTime tsStart, tsStop;
-
-            if (cleanCache)
+            using (var conn = new OleDbConnection(_command.Connection.ConnectionString))
             {
-                using (var conn = new OleDbConnection(cmd.Connection.ConnectionString))
+                var clearSql = new string[] { "dbcc freeproccache", "dbcc dropcleanbuffers" };
+
+                conn.Open();
+
+                foreach (var sql in clearSql)
                 {
-                    var clearSql = new string[] { "dbcc freeproccache", "dbcc dropcleanbuffers" };
-
-                    conn.Open();
-
-                    foreach (var sql in clearSql)
+                    using (var cleanCmd = new OleDbCommand(sql, conn))
                     {
-                        using (var cleanCmd = new OleDbCommand(sql, conn))
-                        {
-                            cleanCmd.ExecuteNonQuery();
-                        }
+                        cleanCmd.ExecuteNonQuery();
                     }
                 }
             }
+        }
 
-            if (cmd.Connection.State == ConnectionState.Closed)
-                cmd.Connection.Open();
+        public virtual PerformanceResult CheckPerformance()
+        {
+            DateTime tsStart, tsStop;
+
+            if (_command.Connection.State == ConnectionState.Closed)
+                _command.Connection.Open();
 
             tsStart = DateTime.Now;
-            cmd.ExecuteNonQuery();
+            _command.ExecuteNonQuery();
             tsStop = DateTime.Now;
 
-            if (cmd.Connection.State == ConnectionState.Open)
-                cmd.Connection.Close();
+            if (_command.Connection.State == ConnectionState.Open)
+                _command.Connection.Close();
 
             return new PerformanceResult(tsStop.Subtract(tsStart));
         }
 
-        public DataSet Execute(string mdx)
+        public virtual DataSet Execute()
         {
             int i;
-            return Execute(mdx, out i);
+            return Execute(out i);
         }
 
-        public DataSet Execute(string mdx, out int elapsedSec)
+        public virtual DataSet Execute(out int elapsedSec)
         {
             // Open the connection
             using (var connection = new OleDbConnection())
             {
                 try
-                    {connection.ConnectionString = ConnectionString;}
+                    { connection.ConnectionString = _command.Connection.ConnectionString; }
                 catch (ArgumentException ex)
                     {throw new ConnectionException(ex);}
 
@@ -103,7 +103,7 @@ namespace NBi.Core.Query
 
                 // capture time before execution
                 long ticksBefore = DateTime.Now.Ticks;
-                var adapter = new OleDbDataAdapter(mdx, connection);
+                var adapter = new OleDbDataAdapter(_command.CommandText, connection);
                 var ds = new DataSet();
                 
                 adapter.SelectCommand.CommandTimeout = 0;

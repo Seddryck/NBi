@@ -58,7 +58,7 @@
   <ItemGroup>
     <Compile Include="Acceptance\Core\Analysis\MemberAdomdExtractorTest.cs" />
     <Compile Include="Acceptance\Core\Query\QueryParserTest.cs" />
-    <Compile Include="Acceptance\Core\Query\ResultSetComparerTest.cs" />
+    <Compile Include="Acceptance\Core\ResultSet\BasicResultSetComparerTest.cs" />
     <Compile Include="Acceptance\NUnit\FasterThanConstraintTest.cs" />
     <Compile Include="Acceptance\NUnit\SyntacticallyCorrectConstraintTest.cs" />
     <Compile Include="ConnectionStringReader.cs" />
@@ -69,12 +69,11 @@
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvWriterTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbReaderTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbWriterTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Query\OleDbExecutorTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Query\ResultSetComparerTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Query\ResultSetWriterTest.cs" />
+    <Compile Include="Unit\Core\Query\QueryOleDbEngineTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\BasicResultSetComparerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\ResultSetWriterTest.cs" />
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
     <Compile Include="Acceptance\Core\Query\QueryPerformanceTest.cs" />
-    <Compile Include="Unit\Core\Database\CollectionEngineTest.cs" />
     <Compile Include="Unit\Core\Integration\PackageManagerTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
     <Compile Include="Unit\Core\Util\DiffFiles\LongestCommonSequence\DiffEngineTest.cs" />
@@ -127,7 +126,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Core\Analysis\Query\Resources\ResultDataSet.xml" />
+    <EmbeddedResource Include="Unit\Core\ResultSet\Resources\ResultDataSet.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteInvalidSyntax.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

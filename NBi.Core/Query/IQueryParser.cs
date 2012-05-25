@@ -4,6 +4,6 @@ namespace NBi.Core.Query
 {
     public interface IQueryParser : IQueryEnginable
     {
-        ParserResult Parse(IDbCommand cmd);
+        ParserResult Parse();
     }
 }

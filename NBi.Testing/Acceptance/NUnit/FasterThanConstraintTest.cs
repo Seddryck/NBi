@@ -37,15 +37,18 @@ namespace NBi.Testing.Acceptance.NUnit
         }
         #endregion
 
-        //TODO Move to acceptance testing
         [Test, Category("Sql database")]
         public void QueryPerformanceRealImplementation_FasterThanConstraint_Success()
         {
             var sql = "SELECT * FROM Product;";
             var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
+            var ctr = new FasterThanConstraint();
+            ctr = ctr.MaxTimeMilliSeconds(5000);
+            ctr = ctr.CleanCache();
+
             //Method under test
-            Assert.That(cmd, new FasterThanConstraint(5000, true));
+            Assert.That(cmd, ctr);
 
             //Test conclusion            
             Assert.Pass();
@@ -57,8 +60,12 @@ namespace NBi.Testing.Acceptance.NUnit
             var sql = "SELECT * FROM Product;";
             var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
+            var ctr = new FasterThanConstraint();
+            ctr = ctr.MaxTimeMilliSeconds(5000);
+            ctr = ctr.CleanCache();
+
             //Method under test
-            Assert.That(cmd, NBi.NUnit.Is.FasterThan(5000, true));
+            Assert.That(cmd, ctr);
 
             Assert.Pass();
         }

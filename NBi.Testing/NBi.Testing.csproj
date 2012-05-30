@@ -59,6 +59,7 @@
     <Compile Include="Acceptance\Core\Analysis\MemberAdomdExtractorTest.cs" />
     <Compile Include="Acceptance\Core\Query\QueryParserTest.cs" />
     <Compile Include="Acceptance\Core\ResultSet\BasicResultSetComparerTest.cs" />
+    <Compile Include="Acceptance\NUnit\ExistConstraintTest.cs" />
     <Compile Include="Acceptance\NUnit\FasterThanConstraintTest.cs" />
     <Compile Include="Acceptance\NUnit\SyntacticallyCorrectConstraintTest.cs" />
     <Compile Include="ConnectionStringReader.cs" />

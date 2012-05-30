@@ -25,5 +25,10 @@ namespace NBi.Core.Analysis.Metadata
             p.Dimensions = Dimensions.Clone();
             return p;
         }
+
+        public ICollection<IStructure> GetChildStructure()
+        {
+            return Dimensions.GetChildStructure();
+        }
     }
 }

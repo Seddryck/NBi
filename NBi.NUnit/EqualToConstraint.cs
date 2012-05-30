@@ -56,6 +56,7 @@ namespace NBi.NUnit
             }
         }
 
+
         public EqualToConstraint (string value)
         {
             this.expect = value;

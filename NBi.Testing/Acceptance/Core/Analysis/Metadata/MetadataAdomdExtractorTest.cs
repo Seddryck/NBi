@@ -35,6 +35,33 @@ namespace NBi.Testing.Acceptance.Core.Analysis.Metadata
             Assert.That(metadata.Perspectives["Finances"].MeasureGroups["Fact Amount"].Measures.ContainsKey("[Measures].[Amount]"));
         }
 
+        public void GetChildStructure_DateDimensionWithThreeHierarchies_ListStructureContainingThreeElements()
+        {
+            var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
+
+            var structs = me.GetChildStructure("[Date]", "Finances");
+
+            Assert.That(structs, Has.Count.EqualTo(3));
+        }
+
+        public void GetChildStructure_CalendarHierarchyWithFourLevels_ListStructureContainingFourElements()
+        {
+            var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
+
+            var structs = me.GetChildStructure("[Date].[Calendar]", "Finances");
+
+            Assert.That(structs, Has.Count.EqualTo(4));
+        }
+
+        public void GetChildStructure_MonthLevelWithTwoProperties_ListStructureContainingTwoElements()
+        {
+            var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
+
+            var structs = me.GetChildStructure("[Date].[Calendar].[Month]", "Finances");
+
+            Assert.That(structs, Has.Count.EqualTo(2));
+        }
+
         
 
     }

@@ -1,7 +1,4 @@
 ﻿using System.Collections;
-using System.Xml.Schema;
-using NBi.Core;
-using NBi.Core.Analysis;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit
@@ -48,7 +45,7 @@ namespace NBi.NUnit
         }
 
         /// <summary>
-        /// Handle a ICollection and check it with the engine
+        /// Handle a ICollection and check it directly
         /// </summary>
         /// <param name="actual">an ICollection</param>
         /// <returns></returns>

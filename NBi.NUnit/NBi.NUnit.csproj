@@ -52,6 +52,7 @@
     <Compile Include="ContainsConstraint.cs" />
     <Compile Include="CountConstraint.cs" />
     <Compile Include="EqualToConstraint.cs" />
+    <Compile Include="ExistConstraint.cs" />
     <Compile Include="OnDataSource.cs" />
     <Compile Include="SyntacticallyCorrectConstraint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

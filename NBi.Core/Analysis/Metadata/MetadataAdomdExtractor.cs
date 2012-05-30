@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AnalysisServices.AdomdClient;
+using System.Linq;
 
 namespace NBi.Core.Analysis.Metadata
 {
@@ -55,11 +57,11 @@ namespace NBi.Core.Analysis.Metadata
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Starting investigation ..."));
 
-            GetPerspectives();
-            GetDimensions();
-            GetHierarchies();
-            GetLevels();
-            GetProperties();
+            GetPerspectives(Filter.EmptyFilter());
+            GetDimensions(Filter.EmptyFilter());
+            GetHierarchies(Filter.EmptyFilter());
+            GetLevels(Filter.EmptyFilter());
+            GetProperties(Filter.EmptyFilter());
             GetDimensionUsage();
             GetMeasures();
 
@@ -69,15 +71,14 @@ namespace NBi.Core.Analysis.Metadata
             return Metadata;
         }
 
-        protected void GetPerspectives()
+        protected void GetPerspectives(Filter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating perspectives"));
             using (var cmd = CreateCommand())
             {
-                string whereClause = "";
-                //whereClause = string.Format(" and CUBE_NAME='{0}'", perspectiveName);
-                cmd.CommandText = string.Format("select * from $system.mdschema_dimensions{0}", whereClause);
+                var whereClause = string.IsNullOrEmpty(filter.Perspective) ? string.Empty : string.Format(" and CUBE_NAME='{0}'", filter.Perspective);
+                cmd.CommandText = string.Format("select * from $system.mdschema_dimensions where 1=1{0}", whereClause);
                 var rdr = ExecuteReader(cmd);
                 // Traverse the response and 
                 // read column 2, "CUBE_NAME"
@@ -93,15 +94,15 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        protected void GetDimensions()
+        protected void GetDimensions(Filter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating dimensions"));
 
             using (var cmd = CreateCommand())
             {
-                string whereClause = "";
-                //whereClause = string.Format(" and CUBE_NAME='{0}'", perspectiveName);
+                var whereClause = string.IsNullOrEmpty(filter.Perspective) ? string.Empty : string.Format(" and CUBE_NAME='{0}'", filter.Perspective);
+                whereClause += string.IsNullOrEmpty(filter.DimensionUniqueName) ? string.Empty : string.Format(" and [DIMENSION_UNIQUE_NAME]='{0}'", filter.DimensionUniqueName);
                 cmd.CommandText = string.Format("select * from $system.mdschema_dimensions where DIMENSION_IS_VISIBLE{0}", whereClause);
                 var rdr = ExecuteReader(cmd);
                 // Traverse the response and 
@@ -125,15 +126,17 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        protected void GetHierarchies()
+        protected void GetHierarchies(Filter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating hierarchies"));
 
             using (var cmd = CreateCommand())
             {
-
-                cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_hierarchies");
+                var whereClause = string.IsNullOrEmpty(filter.Perspective) ? string.Empty : string.Format(" and CUBE_NAME='{0}'", filter.Perspective);
+                whereClause += string.IsNullOrEmpty(filter.DimensionUniqueName) ? string.Empty : string.Format(" and [DIMENSION_UNIQUE_NAME]='{0}'", filter.DimensionUniqueName);
+                whereClause += string.IsNullOrEmpty(filter.HierarchyUniqueName) ? string.Empty : string.Format(" and [HIERARCHY_UNIQUE_NAME]='{0}'", filter.HierarchyUniqueName);
+                cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_hierarchies where 1=1 {0}", whereClause);
                 var rdr = ExecuteReader(cmd);
 
                 // Traverse the response and 
@@ -161,15 +164,18 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        protected void GetLevels()
+        protected void GetLevels(Filter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating levels"));
 
             using (var cmd = CreateCommand())
             {
-
-                cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_levels");
+                var whereClause = string.IsNullOrEmpty(filter.Perspective) ? string.Empty : string.Format(" and CUBE_NAME='{0}'", filter.Perspective);
+                whereClause += string.IsNullOrEmpty(filter.DimensionUniqueName) ? string.Empty : string.Format(" and [DIMENSION_UNIQUE_NAME]='{0}'", filter.DimensionUniqueName);
+                whereClause += string.IsNullOrEmpty(filter.HierarchyUniqueName) ? string.Empty : string.Format(" and [HIERARCHY_UNIQUE_NAME]='{0}'", filter.HierarchyUniqueName);
+                whereClause += string.IsNullOrEmpty(filter.LevelUniqueName) ? string.Empty : string.Format(" and [LEVEL_UNIQUE_NAME]='{0}'", filter.LevelUniqueName);
+                cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_levels where 1=1 {0}", whereClause);
                 var rdr = ExecuteReader(cmd);
 
                 // Traverse the response and 
@@ -205,15 +211,18 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        protected void GetProperties()
+        protected void GetProperties(Filter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating properties"));
 
             using (var cmd = CreateCommand())
             {
-
-                cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_properties");
+                var whereClause = string.IsNullOrEmpty(filter.Perspective) ? string.Empty : string.Format(" and CUBE_NAME='{0}'", filter.Perspective);
+                whereClause += string.IsNullOrEmpty(filter.DimensionUniqueName) ? string.Empty : string.Format(" and [DIMENSION_UNIQUE_NAME]='{0}'", filter.DimensionUniqueName);
+                whereClause += string.IsNullOrEmpty(filter.HierarchyUniqueName) ? string.Empty : string.Format(" and [HIERARCHY_UNIQUE_NAME]='{0}'", filter.HierarchyUniqueName);
+                whereClause += string.IsNullOrEmpty(filter.LevelUniqueName) ? string.Empty : string.Format(" and [LEVEL_UNIQUE_NAME]='{0}'", filter.LevelUniqueName);
+                cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_properties where 1=1 {0}", whereClause);
                 var rdr = ExecuteReader(cmd);
 
                 // Traverse the response and 
@@ -326,5 +335,68 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
+        public IEnumerable<IStructure> GetChildStructure(string path, string perspective)
+        {
+            var filter = GetFilter(perspective, path);
+            
+            GetPerspectives(filter);
+            GetDimensions(filter); 
+            GetHierarchies(filter);
+            GetLevels(filter);
+            GetProperties(filter);
+
+            if (string.IsNullOrEmpty(filter.DimensionUniqueName))
+                return Metadata.Perspectives[filter.Perspective]
+                    .Dimensions.Values.AsEnumerable<IStructure>();
+            else if (string.IsNullOrEmpty(filter.HierarchyUniqueName))
+                return Metadata.Perspectives[filter.Perspective]
+                    .Dimensions[filter.DimensionUniqueName]
+                    .Hierarchies.Values.AsEnumerable<IStructure>();
+            else if (string.IsNullOrEmpty(filter.LevelUniqueName))
+                return Metadata.Perspectives[filter.Perspective]
+                    .Dimensions[filter.DimensionUniqueName]
+                    .Hierarchies[filter.HierarchyUniqueName]
+                    .Levels.Values.AsEnumerable<IStructure>();
+            else 
+                return Metadata.Perspectives[filter.Perspective]
+                    .Dimensions[filter.DimensionUniqueName]
+                    .Hierarchies[filter.HierarchyUniqueName]
+                    .Levels[filter.LevelUniqueName]
+                    .Properties.Values.AsEnumerable<IStructure>();
+        }
+  
+        private Filter GetFilter(string perspective, string path)
+        {
+            if (string.IsNullOrEmpty(perspective))
+                throw new ArgumentNullException();
+            
+            var filter = new Filter();
+            filter.Perspective = perspective;
+              
+            var parts = path.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length > 0)
+                filter.DimensionUniqueName = parts[0];
+
+            if (parts.Length > 1)
+                filter.HierarchyUniqueName = string.Format("{0}.{1}", parts);
+
+            if (parts.Length > 2)
+                filter.LevelUniqueName = string.Format("{0}.{1}.{2}", parts);
+
+            return filter;
+        }
+
+        protected internal class Filter
+        {
+            public string Perspective { get; set; }
+            public string DimensionUniqueName { get; set; }
+            public string HierarchyUniqueName { get; set; }
+            public string LevelUniqueName { get; set; }
+
+            public static Filter EmptyFilter()
+            {
+                return new Filter();
+            }
+        }
     }
 }

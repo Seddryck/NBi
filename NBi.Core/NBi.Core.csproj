@@ -61,8 +61,11 @@
     <Compile Include="Analysis\Member\MemberAdomdEngine.cs" />
     <Compile Include="Analysis\Member\MemberCaption.cs" />
     <Compile Include="Analysis\Metadata\IMetadataReader.cs" />
+    <Compile Include="Analysis\Metadata\IStructure.cs" />
     <Compile Include="Analysis\Metadata\Level.cs" />
     <Compile Include="Analysis\Metadata\LevelCollection.cs" />
+    <Compile Include="Analysis\Metadata\MetadataQuery.cs" />
+    <Compile Include="Analysis\Metadata\Structure.cs" />
     <Compile Include="Analysis\Metadata\MetadataCsvAbstract.cs" />
     <Compile Include="Analysis\Metadata\MetadataCsvReader.cs" />
     <Compile Include="Analysis\Metadata\MetadataCsvWriter.cs" />

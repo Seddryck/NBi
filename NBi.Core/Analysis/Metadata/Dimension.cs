@@ -1,7 +1,7 @@
 ﻿namespace NBi.Core.Analysis.Metadata
 {
 
-    public class Dimension
+    public class Dimension : IStructure
     {
         public string UniqueName { get; private set; }
         public string Caption { get; set; }

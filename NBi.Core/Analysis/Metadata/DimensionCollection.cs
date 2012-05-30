@@ -1,10 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NBi.Core.Analysis.Metadata
 {
 
     public class DimensionCollection : Dictionary<string, Dimension>
     {
+        public ICollection<IStructure> GetChildStructure()
+        {
+            Dimension[] t = (Dimension[])Array.CreateInstance(typeof(Dimension), this.Count);
+            this.Values.CopyTo(t, 0);
+            return (ICollection<IStructure>)t;
+        }
+
         public void AddOrIgnore(string uniqueName, string caption)
         {
             if (!this.ContainsKey(uniqueName))
@@ -23,5 +31,6 @@ namespace NBi.Core.Analysis.Metadata
                 dims.Add(dim.Value.Clone());
             return dims;
         }
+
     }
 }

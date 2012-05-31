@@ -52,7 +52,7 @@ namespace NBi.Core.Analysis.Metadata
             { throw new ConnectionException(ex); }
         }
   
-        public CubeMetadata GetMetadata()
+        public CubeMetadata GetFullMetadata()
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Starting investigation ..."));
@@ -71,6 +71,36 @@ namespace NBi.Core.Analysis.Metadata
             return Metadata;
         }
 
+        public IEnumerable<IElement> GetPartialMetadata(string path, string perspective)
+        {
+            var filter = GetFilter(perspective, path);
+
+            GetPerspectives(filter);
+            GetDimensions(filter);
+            GetHierarchies(filter);
+            GetLevels(filter);
+            GetProperties(filter);
+
+            if (string.IsNullOrEmpty(filter.DimensionUniqueName))
+                return Metadata.Perspectives[filter.Perspective]
+                    .Dimensions.Values.AsEnumerable<IElement>();
+            else if (string.IsNullOrEmpty(filter.HierarchyUniqueName))
+                return Metadata.Perspectives[filter.Perspective]
+                    .Dimensions[filter.DimensionUniqueName]
+                    .Hierarchies.Values.AsEnumerable<IElement>();
+            else if (string.IsNullOrEmpty(filter.LevelUniqueName))
+                return Metadata.Perspectives[filter.Perspective]
+                    .Dimensions[filter.DimensionUniqueName]
+                    .Hierarchies[filter.HierarchyUniqueName]
+                    .Levels.Values.AsEnumerable<IElement>();
+            else
+                return Metadata.Perspectives[filter.Perspective]
+                    .Dimensions[filter.DimensionUniqueName]
+                    .Hierarchies[filter.HierarchyUniqueName]
+                    .Levels[filter.LevelUniqueName]
+                    .Properties.Values.AsEnumerable<IElement>();
+        }
+  
         protected void GetPerspectives(Filter filter)
         {
             if (ProgressStatusChanged != null)
@@ -335,37 +365,7 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        public IEnumerable<IStructure> GetChildStructure(string path, string perspective)
-        {
-            var filter = GetFilter(perspective, path);
-            
-            GetPerspectives(filter);
-            GetDimensions(filter); 
-            GetHierarchies(filter);
-            GetLevels(filter);
-            GetProperties(filter);
-
-            if (string.IsNullOrEmpty(filter.DimensionUniqueName))
-                return Metadata.Perspectives[filter.Perspective]
-                    .Dimensions.Values.AsEnumerable<IStructure>();
-            else if (string.IsNullOrEmpty(filter.HierarchyUniqueName))
-                return Metadata.Perspectives[filter.Perspective]
-                    .Dimensions[filter.DimensionUniqueName]
-                    .Hierarchies.Values.AsEnumerable<IStructure>();
-            else if (string.IsNullOrEmpty(filter.LevelUniqueName))
-                return Metadata.Perspectives[filter.Perspective]
-                    .Dimensions[filter.DimensionUniqueName]
-                    .Hierarchies[filter.HierarchyUniqueName]
-                    .Levels.Values.AsEnumerable<IStructure>();
-            else 
-                return Metadata.Perspectives[filter.Perspective]
-                    .Dimensions[filter.DimensionUniqueName]
-                    .Hierarchies[filter.HierarchyUniqueName]
-                    .Levels[filter.LevelUniqueName]
-                    .Properties.Values.AsEnumerable<IStructure>();
-        }
-  
-        private Filter GetFilter(string perspective, string path)
+        protected Filter GetFilter(string perspective, string path)
         {
             if (string.IsNullOrEmpty(perspective))
                 throw new ArgumentNullException();

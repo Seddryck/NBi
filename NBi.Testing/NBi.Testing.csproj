@@ -78,7 +78,7 @@
     <Compile Include="Unit\Core\Integration\PackageManagerTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
     <Compile Include="Unit\Core\Util\DiffFiles\LongestCommonSequence\DiffEngineTest.cs" />
-    <Compile Include="Unit\NUnit\ContainsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\MemberContainsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\CountConstraintTest.cs" />
     <Compile Include="Unit\NUnit\FasterThanConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Runtime\TestSuiteTest.cs" />

@@ -6,7 +6,7 @@ namespace NBi.NUnit
 {
     public class ConstraintFactory
     {
-        public static Constraint Instantiate(AbstractConstraintXml xml)
+        public static Constraint Instantiate(AbstractConstraintXml xml, Type systemType)
         {
             switch (xml.GetType().Name)
             {
@@ -14,7 +14,13 @@ namespace NBi.NUnit
                 case "FasterThanXml": return Instantiate((FasterThanXml)xml);
                 case "SyntacticallyCorrectXml": return Instantiate((SyntacticallyCorrectXml)xml);
                 case "CountXml": return Instantiate((CountXml)xml);
-                case "ContainsXml": return Instantiate((ContainsXml)xml);
+                case "ContainsXml":
+                    switch (systemType.Name)
+                    {
+                        case "MetadataQuery": return InstantiateForMetadata((ContainsXml)xml);
+                        case "AdomdMemberCommand": return InstantiateForMember((ContainsXml)xml);
+                    }
+                    break;
             }
             throw new ArgumentException();
         }
@@ -64,9 +70,20 @@ namespace NBi.NUnit
             return ctr;
         }
 
-        protected static ContainsConstraint Instantiate(ContainsXml xml)
+        protected static NBi.NUnit.Element.ContainsConstraint InstantiateForMetadata(ContainsXml xml)
         {
-            var ctr = new NBi.NUnit.ContainsConstraint();
+            var ctr = new NBi.NUnit.Element.ContainsConstraint();
+            ctr = ctr.Caption(xml.Caption);
+
+            if (xml.IgnoreCase)
+                ctr = ctr.IgnoreCase;
+
+            return ctr;
+        }
+
+        protected static NBi.NUnit.Member.ContainsConstraint InstantiateForMember(ContainsXml xml)
+        {
+            var ctr = new NBi.NUnit.Member.ContainsConstraint();
             ctr = ctr.Caption(xml.Caption);
 
             if (xml.IgnoreCase)

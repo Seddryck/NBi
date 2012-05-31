@@ -45,14 +45,12 @@ namespace NBi.Testing.Acceptance.NUnit
             mq.Perspective = "Finances";
             mq.ConnectionString = ConnectionStringReader.GetAdomd();
 
-            var ctr = new ExistConstraint();
+            var ctr = new NBi.NUnit.Element.ContainsConstraint();
             ctr = ctr.Caption("Calendar");
 
             //Method under test
             Assert.That(mq, ctr);
 
-            //Test conclusion            
-            Assert.Pass();
         }
 
     }

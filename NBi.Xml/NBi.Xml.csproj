@@ -48,6 +48,7 @@
     <Compile Include="Systems\MembersXml.cs" />
     <Compile Include="Constraints\SyntacticallyCorrectXml.cs" />
     <Compile Include="Constraints\FasterThanXml.cs" />
+    <Compile Include="Systems\StructureXml.cs" />
     <Compile Include="TestSuiteBuilder.cs" />
     <Compile Include="TestXml.cs" />
     <Compile Include="Systems\QueryXml.cs" />

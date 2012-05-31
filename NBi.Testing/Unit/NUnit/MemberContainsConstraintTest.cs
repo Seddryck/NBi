@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Unit.NUnit
 {
     [TestFixture]
-    public class ContainsConstraintTest
+    public class MemberContainsConstraintTest
     {
 
         #region SetUp & TearDown
@@ -45,7 +45,7 @@ namespace NBi.Testing.Unit.NUnit
             members.Add(new Member("[Hierarchy].[First member]","First member",1,0));
             members.Add(new Member("[Hierarchy].[Second member]","Second member",2,0));
 
-            var containsConstraint = new NBi.NUnit.ContainsConstraint();
+            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint();
             containsConstraint.Caption("First member");
             
             //Call the method to test
@@ -63,7 +63,7 @@ namespace NBi.Testing.Unit.NUnit
             members.Add(new Member("[Hierarchy].[First member]", "First member", 1, 0));
             members.Add(new Member("[Hierarchy].[Second member]", "Second member", 2, 0));
 
-            var containsConstraint = new NBi.NUnit.ContainsConstraint();
+            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint();
             containsConstraint.Caption("Third member");
 
             //Call the method to test
@@ -81,7 +81,7 @@ namespace NBi.Testing.Unit.NUnit
             members.Add(new Member("[Hierarchy].[First member]", "First member", 1, 0));
             members.Add(new Member("[Hierarchy].[Second member]", "Second member", 2, 0));
 
-            var containsConstraint = new NBi.NUnit.ContainsConstraint();
+            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint();
             containsConstraint.Caption("First member").Caption("Second member");
 
             //Call the method to test
@@ -99,7 +99,7 @@ namespace NBi.Testing.Unit.NUnit
             members.Add(new Member("[Hierarchy].[First member]", "First member", 1, 0));
             members.Add(new Member("[Hierarchy].[Second member]", "Second member", 2, 0));
 
-            var containsConstraint = new NBi.NUnit.ContainsConstraint();
+            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint();
             containsConstraint.Caption("Third member").Caption("Second member");
 
             //Call the method to test

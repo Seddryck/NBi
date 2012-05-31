@@ -42,6 +42,18 @@
 												</xs:simpleContent>
 											</xs:complexType>
 										</xs:element>
+										<xs:element name="structure" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:string" use="optional" />
+														<xs:attribute name="perspective" type="xs:string" use="required" />
+														<xs:attribute name="path" type="xs:string" use="optional" />
+														<xs:attribute name="connectionString" type="xs:string" use="optional" />
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>

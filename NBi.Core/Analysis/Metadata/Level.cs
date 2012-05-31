@@ -32,5 +32,10 @@ namespace NBi.Core.Analysis.Metadata
         {
             return new Level(UniqueName, Caption, Number, Properties.Clone());
         }
+
+        public override string ToString()
+        {
+            return Caption.ToString();
+        }
     }
 }

@@ -72,7 +72,7 @@ namespace NBi.Testing.Unit.NUnit
         {
             var ctr = NBiNu.ConstraintFactory.Instantiate(new ContainsXml() { Caption = "xYz" }, typeof(MetadataQuery));
 
-            Assert.That(ctr, Is.InstanceOf<NBiNu.Element.ContainsConstraint>());
+            Assert.That(ctr, Is.InstanceOf<NBiNu.Structure.ContainsConstraint>());
         }
 
         [Test]

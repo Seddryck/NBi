@@ -30,5 +30,10 @@ namespace NBi.Core.Analysis.Metadata
         {
             return Dimensions.GetChildStructure();
         }
+
+        public override string ToString()
+        {
+            return Name.ToString();
+        }
     }
 }

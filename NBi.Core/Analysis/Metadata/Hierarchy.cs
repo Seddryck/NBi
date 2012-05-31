@@ -25,5 +25,10 @@
             return new Hierarchy(UniqueName, Caption, Levels.Clone());
         }
 
+        public override string ToString()
+        {
+            return Caption.ToString();
+        }
+
     }
 }

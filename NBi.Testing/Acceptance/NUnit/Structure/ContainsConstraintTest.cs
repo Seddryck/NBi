@@ -1,13 +1,13 @@
 ﻿#region Using directives
 using NBi.Core.Analysis.Metadata;
-using NBi.NUnit;
+using NBi.NUnit.Structure;
 using NUnit.Framework;
 #endregion
 
-namespace NBi.Testing.Acceptance.NUnit
+namespace NBi.Testing.Acceptance.NUnit.Structure
 {
     [TestFixture]
-    public class ExistConstraintTest
+    public class ContainsConstraintTest
     {
 
         #region SetUp & TearDown
@@ -38,19 +38,32 @@ namespace NBi.Testing.Acceptance.NUnit
         #endregion
 
         [Test, Category("Olap cube")]
-        public void CubeStructureRealImplementation_ExistConstraint_Success()
+        public void ContainsConstraint_FindExistingHierarchyBellowSpecificDimension_Success()
         {
             var mq = new MetadataQuery();
             mq.Path = "[Date]";
             mq.Perspective = "Finances";
             mq.ConnectionString = ConnectionStringReader.GetAdomd();
 
-            var ctr = new NBi.NUnit.Element.ContainsConstraint();
-            ctr = ctr.Caption("Calendar");
+            var ctr = new ContainsConstraint("Calendar2");
 
             //Method under test
             Assert.That(mq, ctr);
 
+        }
+
+        [Test, Category("Olap cube")]
+        public void ContainsConstraint_FindNonExistingHierarchyBellowSpecificDimension_Failure()
+        {
+            var mq = new MetadataQuery();
+            mq.Path = "[Date]";
+            mq.Perspective = "Finances";
+            mq.ConnectionString = ConnectionStringReader.GetAdomd();
+
+            var ctr = new ContainsConstraint("Not existing");
+
+            //Method under test
+            Assert.That(ctr.Matches(mq), Is.False);
         }
 
     }

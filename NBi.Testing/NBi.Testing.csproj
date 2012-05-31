@@ -81,6 +81,7 @@
     <Compile Include="Unit\NUnit\MemberContainsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\CountConstraintTest.cs" />
     <Compile Include="Unit\NUnit\FasterThanConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Member\ContainsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Runtime\TestSuiteTest.cs" />
     <Compile Include="Unit\NUnit\Structure\ContainsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\SyntacticallyCorrectConstraintTest.cs" />

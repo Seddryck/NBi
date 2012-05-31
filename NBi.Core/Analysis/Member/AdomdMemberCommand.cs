@@ -16,6 +16,21 @@ namespace NBi.Core.Analysis.Member
         public string Perspective { get; set; }
         public string PlaceHolderUniqueName { get; set; }
         public PlaceHolderType PlaceHolder { get; set; }
+        public string PlaceHolderTypeDisplay
+        {
+            get
+            {
+                switch (PlaceHolder)
+                {
+                    case PlaceHolderType.Hierarchy:
+                        return "hierarchy";
+                    case PlaceHolderType.Level:
+                        return "level";
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
 
         public AdomdMemberCommand(string connectionString)
         {

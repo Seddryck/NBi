@@ -4,7 +4,7 @@ using NBi.Core.Analysis.Metadata;
 
 namespace NBi.Core.Analysis.Member
 {
-    public class MemberAdomdEngine
+    public class MemberAdomdEngine : IMemberEngine
     {
         public event ProgressStatusHandler ProgressStatusChanged;
         

@@ -1,24 +1,62 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using NBi.Core;
-using NUnit.Framework.Constraints;
-using NBiMember = NBi.Core.Analysis.Member;
+using NBi.Core.Analysis.Member;
+using NBi.Core.Analysis.Metadata;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
 {
-    public class ContainsConstraint : NUnitCtr.Constraint
+    public class ContainsConstraint : NUnitCtr.CollectionContainsConstraint
     {
+        protected IEnumerable<string> expectedCaptions;
         protected IComparer comparer;
-        protected List<string> captions;
-        
+        protected AdomdMemberCommand command;
+        protected IMemberEngine memberEngine;
+
         /// <summary>
-        /// .ctor, this class doesn't make usage of an engine
+        /// Engine dedicated to MetadataExtractor acquisition
         /// </summary>
-        public ContainsConstraint()
+        protected internal IMemberEngine MemberEngine
         {
-            captions = new List<string>();
-            comparer = new NBiMember.Member.ComparerByCaption(true);
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException();
+                memberEngine = value;
+            }
+        }
+
+        protected IMemberEngine GetEngine()
+        {
+            if (memberEngine == null)
+                memberEngine = new MemberAdomdEngine();
+            return memberEngine;
+        }
+
+        /// <summary>
+        /// Construct a CollectionContainsConstraint specific for Members
+        /// </summary>
+        /// <param name="expected"></param>
+        public ContainsConstraint(string expected)
+            : base(StringComparerHelper.Build(expected))
+        {
+            var list = new List<string>();
+            list.Add(expected);
+            expectedCaptions = list;
+            comparer = new NBi.Core.Analysis.Member.Member.ComparerByCaption(true);
+        }
+
+        /// <summary>
+        /// Construct a CollectionContainsConstraint specific for Members
+        /// </summary>
+        /// <param name="expected"></param>
+        public ContainsConstraint(IEnumerable<string> expected)
+            : base(expected)
+        {
+            expectedCaptions = expected;
+            comparer = new NBi.Core.Analysis.Member.Member.ComparerByCaption(true);
         }
         
         #region Modifiers
@@ -29,49 +67,35 @@ namespace NBi.NUnit.Member
         {
             get
             {
-                comparer = new NBiMember.Member.ComparerByCaption(false);
+                comparer = new NBi.Core.Analysis.Member.Member.ComparerByCaption(false);
                 return this;
             }
         }
-        
-        public ContainsConstraint Caption(string value)
-        {
-            this.captions.Add(value);
-            return this;
-        }
-
-        public ContainsConstraint Captions(ICollection<string> values)
-        {
-            this.captions.AddRange(values);
-            return this;
-        }
-
         #endregion
 
         public override bool Matches(object actual)
         {
-            if (actual is ICollection)
-                return Matches((ICollection)actual);
-
-            return false;
+            if (actual is AdomdMemberCommand)
+                return Process((AdomdMemberCommand)actual);
+            else
+            {
+                base.Using(comparer);
+                var res = base.Matches(actual);
+                return res;
+            }
         }
-        
-        /// <summary>
-        /// Handle a ICollection
-        /// </summary>
-        /// <param name="actual">an ICollection</param>
-        /// <returns></returns>
-        public bool Matches(ICollection actual)
-        {
-            bool res = (captions.Count>0);
-            
-            foreach (var member in captions)
-	        {
-                var ccc = new CollectionContainsConstraint(StringComparerHelper.Build(member));
-                res &= ccc.Using(comparer).Matches(actual);
-	        }
 
-            return res;
+        public bool doMatch(IEnumerable<IElement> actual)
+        {
+            return base.Using(comparer).Matches(actual);
+        }
+
+        protected bool Process(AdomdMemberCommand actual)
+        {
+            command = actual;
+            var extr = GetEngine();
+            MemberResult result = extr.Execute(command);
+            return this.Matches(result);
         }
 
         /// <summary>
@@ -80,12 +104,16 @@ namespace NBi.NUnit.Member
         /// <param name="writer">The writer on which the description is displayed</param>
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
-            writer.WritePredicate("contains");
-            
-            if (captions.Count==1)
-                writer.WriteExpectedValue(captions[0]);
+            if (command != null)
+            {
+                writer.WritePredicate(string.Format("On perspective \"{0}\", a {1} identified by \"{2}\" containing a member with caption"
+                                                            , command.Perspective
+                                                            , command.PlaceHolderTypeDisplay
+                                                            , command.PlaceHolderUniqueName));
+                writer.WriteExpectedValue(expectedCaptions);
+            }
             else
-                writer.WriteExpectedValue(captions);
+                base.WriteDescriptionTo(writer);
         }
 
        

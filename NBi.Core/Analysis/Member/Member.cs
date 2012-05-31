@@ -32,11 +32,11 @@ namespace NBi.Core.Analysis.Member
             // Calls CaseInsensitiveComparer.Compare with the parameters reversed.
             int IComparer.Compare(Object x, Object y)
             {
-                if (x is Member && y is MemberCaption)
-                    return internalComparer.Compare(((MemberCaption)y).Value, ((Member)x).Caption);
+                if (x is Member && y is StringComparerHelper)
+                    return internalComparer.Compare(((StringComparerHelper)y).Value, ((Member)x).Caption);
 
-                if (y is Member && x is MemberCaption)
-                    return internalComparer.Compare(((Member)y).Caption, ((MemberCaption)x).Value);
+                if (y is Member && x is StringComparerHelper)
+                    return internalComparer.Compare(((Member)y).Caption, ((StringComparerHelper)x).Value);
 
                 if (x is Member && y is Member)
                     return internalComparer.Compare(((Member)y).Caption, ((Member)x).Caption);

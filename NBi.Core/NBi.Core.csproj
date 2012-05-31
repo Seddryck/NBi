@@ -59,13 +59,11 @@
     <Compile Include="Analysis\Member\AdomdMemberCommand.cs" />
     <Compile Include="Analysis\Member\Member.cs" />
     <Compile Include="Analysis\Member\MemberAdomdEngine.cs" />
-    <Compile Include="Analysis\Member\MemberCaption.cs" />
     <Compile Include="Analysis\Metadata\IMetadataReader.cs" />
-    <Compile Include="Analysis\Metadata\IStructure.cs" />
+    <Compile Include="Analysis\Metadata\IElement.cs" />
     <Compile Include="Analysis\Metadata\Level.cs" />
     <Compile Include="Analysis\Metadata\LevelCollection.cs" />
     <Compile Include="Analysis\Metadata\MetadataQuery.cs" />
-    <Compile Include="Analysis\Metadata\Structure.cs" />
     <Compile Include="Analysis\Metadata\MetadataCsvAbstract.cs" />
     <Compile Include="Analysis\Metadata\MetadataCsvReader.cs" />
     <Compile Include="Analysis\Metadata\MetadataCsvWriter.cs" />
@@ -89,6 +87,7 @@
     <Compile Include="Analysis\Metadata\PerspectiveCollection.cs" />
     <Compile Include="Analysis\Metadata\Property.cs" />
     <Compile Include="Analysis\Metadata\PropertyCollection.cs" />
+    <Compile Include="Analysis\Metadata\Element.cs" />
     <Compile Include="Query\IQueryEnginable.cs" />
     <Compile Include="Query\IQueryExecutor.cs" />
     <Compile Include="ResultSet\IResultSetBuilder.cs" />
@@ -122,6 +121,7 @@
     <Compile Include="ProgressStatusEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Result.cs" />
+    <Compile Include="StringComparerHelper.cs" />
     <Compile Include="Util\DiffFiles\LongestCommonSequence\DiffEngine.cs" />
     <Compile Include="Util\DiffFiles\LongestCommonSequence\Structure.cs" />
     <Compile Include="Util\DiffFiles\LongestCommonSequence\TextFile.cs" />

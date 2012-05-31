@@ -1,6 +1,6 @@
 ﻿namespace NBi.Core.Analysis.Metadata
 {
-    public class Hierarchy : IStructure
+    public class Hierarchy : IElement
     {
         public string UniqueName { get; private set; }
         public string Caption { get; set; }

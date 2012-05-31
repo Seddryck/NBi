@@ -11,7 +11,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis.Metadata
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
             
-            var metadata = me.GetMetadata();
+            var metadata = me.GetFullMetadata();
 
             Assert.That(metadata.Perspectives["Finances"].Dimensions.ContainsKey("[Date]"));
             Assert.That(!metadata.Perspectives["Finances"].Dimensions.ContainsKey("[Measures]"));
@@ -39,7 +39,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis.Metadata
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
 
-            var structs = me.GetChildStructure("[Date]", "Finances");
+            var structs = me.GetPartialMetadata("[Date]", "Finances");
 
             Assert.That(structs, Has.Count.EqualTo(3));
         }
@@ -48,7 +48,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis.Metadata
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
 
-            var structs = me.GetChildStructure("[Date].[Calendar]", "Finances");
+            var structs = me.GetPartialMetadata("[Date].[Calendar]", "Finances");
 
             Assert.That(structs, Has.Count.EqualTo(4));
         }
@@ -57,7 +57,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis.Metadata
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
 
-            var structs = me.GetChildStructure("[Date].[Calendar].[Month]", "Finances");
+            var structs = me.GetPartialMetadata("[Date].[Calendar].[Month]", "Finances");
 
             Assert.That(structs, Has.Count.EqualTo(2));
         }

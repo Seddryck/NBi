@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NBi.Core.Analysis.Metadata
 {
-    public class Property : IStructure
+    public class Property : IElement
     {
         public string UniqueName { get; private set; }
         public string Caption { get; set; }

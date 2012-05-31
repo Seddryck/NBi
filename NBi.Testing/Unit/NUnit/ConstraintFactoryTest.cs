@@ -1,4 +1,6 @@
-﻿using NBi.Xml.Constraints;
+﻿using NBi.Core.Analysis.Member;
+using NBi.Core.Analysis.Metadata;
+using NBi.Xml.Constraints;
 using NUnit.Framework;
 using NBiNu = NBi.NUnit;
 
@@ -25,7 +27,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_SyntacticallyCorrectXml_IsOfTypeSyntacticallyCorrectConstraint()
         {
-            var ctr = NBiNu.ConstraintFactory.Instantiate(new SyntacticallyCorrectXml());
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new SyntacticallyCorrectXml(), null);
 
             Assert.That(ctr, Is.InstanceOf<NBiNu.SyntacticallyCorrectConstraint>());
         }
@@ -33,7 +35,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_FasterThanXml_IsOfTypeFasterThanConstraint()
         {
-            var ctr = NBiNu.ConstraintFactory.Instantiate(new FasterThanXml());
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new FasterThanXml(), null);
 
             Assert.That(ctr, Is.InstanceOf<NBiNu.FasterThanConstraint>());
         }
@@ -41,7 +43,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_EqualToXml_IsOfTypeEqualToConstraint()
         {
-            var ctr = NBiNu.ConstraintFactory.Instantiate(new EqualToXml() { ResultSetFile="resultset.csv" } );
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new EqualToXml() { ResultSetFile = "resultset.csv" }, null);
 
             Assert.That(ctr, Is.InstanceOf<NBiNu.EqualToConstraint>());
         }
@@ -51,8 +53,8 @@ namespace NBi.Testing.Unit.NUnit
         {
             var ctr = NBiNu.ConstraintFactory.Instantiate(new EqualToXml() 
                 { InlineQuery = "SELECT * FROM Product;", 
-                    ConnectionString = "Data Source=.;Initial Catalog='NBi.Testing';Integrated Security=SSPI;" 
-                });
+                    ConnectionString = "Data Source=.;Initial Catalog='NBi.Testing';Integrated Security=SSPI;"
+                }, null);
 
             Assert.That(ctr, Is.InstanceOf<NBiNu.EqualToConstraint>());
         }
@@ -60,19 +62,26 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_CountXml_IsOfTypeCountConstraint()
         {
-            var ctr = NBiNu.ConstraintFactory.Instantiate(new CountXml() {Exactly=10});
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new CountXml() { Exactly = 10 }, null);
 
             Assert.That(ctr, Is.InstanceOf<NBiNu.CountConstraint>());
         }
 
         [Test]
-        public void Instantiate_ContainsXml_IsOfTypeContainsConstraint()
+        public void Instantiate_ContainsXml_IsOfTypeElementContainsConstraint()
         {
-            var ctr = NBiNu.ConstraintFactory.Instantiate(new ContainsXml() { Caption = "xYz" });
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new ContainsXml() { Caption = "xYz" }, typeof(MetadataQuery));
 
-            Assert.That(ctr, Is.InstanceOf<NBiNu.ContainsConstraint>());
+            Assert.That(ctr, Is.InstanceOf<NBiNu.Element.ContainsConstraint>());
         }
 
+        [Test]
+        public void Instantiate_ContainsXml_IsOfTypeMemberContainsConstraint()
+        {
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new ContainsXml() { Caption = "xYz" }, typeof(AdomdMemberCommand));
+
+            Assert.That(ctr, Is.InstanceOf<NBiNu.Member.ContainsConstraint>());
+        }
 
     }
 }

@@ -21,7 +21,8 @@ namespace NBi.Xml
 
         [XmlArray("system-under-test"),
         XmlArrayItem(Type = typeof(QueryXml), ElementName = "query"),
-        XmlArrayItem(Type = typeof(MembersXml), ElementName = "members")
+        XmlArrayItem(Type = typeof(MembersXml), ElementName = "members"),
+        XmlArrayItem(Type = typeof(StructureXml), ElementName = "structure")
         ]
         public List<AbstractSystemUnderTestXml> Systems;
 

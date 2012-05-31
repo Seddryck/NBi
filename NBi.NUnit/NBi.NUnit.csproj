@@ -49,10 +49,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConstraintFactory.cs" />
-    <Compile Include="ContainsConstraint.cs" />
+    <Compile Include="Member\ContainsConstraint.cs" />
     <Compile Include="CountConstraint.cs" />
     <Compile Include="EqualToConstraint.cs" />
-    <Compile Include="ExistConstraint.cs" />
+    <Compile Include="Element\ExistConstraint.cs" />
     <Compile Include="OnDataSource.cs" />
     <Compile Include="SyntacticallyCorrectConstraint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,6 +71,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

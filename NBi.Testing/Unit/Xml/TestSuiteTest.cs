@@ -226,5 +226,18 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(((ContainsXml)ts.Tests[7].Constraints[0]).IgnoreCase, Is.True);
         }
 
+        [Test]
+        public void Deserialize_SampleFile_StructureContainsCaptionNotIgnoringCaseExplicitely()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[8].Systems[0], Is.TypeOf<StructureXml>());
+            Assert.That(((StructureXml)ts.Tests[8].Systems[0]).Path, Is.EqualTo("[dimension].[hierarchy]"));
+            Assert.That(((StructureXml)ts.Tests[8].Systems[0]).Perspective, Is.EqualTo("Perspective"));
+            Assert.That(((StructureXml)ts.Tests[8].Systems[0]).ConnectionString, Is.EqualTo("ConnectionString"));
+        }
+
+       
     }
 }

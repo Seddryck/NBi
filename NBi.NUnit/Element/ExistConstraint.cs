@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using NBi.Core;
 using NBi.Core.Analysis.Metadata;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
 
-namespace NBi.NUnit
+namespace NBi.NUnit.Element
 {
-    public class ExistConstraint : NUnitCtr.Constraint
+    public class ContainsConstraint : NUnitCtr.Constraint
     {
         protected string caption;
-        protected Structure.Comparer comparer;
+        protected IComparer comparer;
         protected MetadataAdomdExtractor _metadataExtractor;
         /// <summary>
         /// Engine dedicated to MetadataExtractor acquisition
@@ -31,22 +33,36 @@ namespace NBi.NUnit
             return _metadataExtractor;
         }
 
-        public ExistConstraint()
+        public ContainsConstraint()
         {
-
+            comparer = new NBi.Core.Analysis.Metadata.Element.ComparerByCaption(true);
         }
 
-        public ExistConstraint Caption(string value)
+        #region Modifiers
+        /// <summary>
+        /// Flag the constraint to ignore case and return self.
+        /// </summary>
+        public ContainsConstraint IgnoreCase
+        {
+            get
+            {
+                comparer = new NBi.Core.Analysis.Metadata.Element.ComparerByCaption(false);
+                return this;
+            }
+        }
+
+        public ContainsConstraint Caption(string value)
         {
             this.caption = value;
-            this.comparer = new Structure.ComparerByCaption(false);
             return this;
         }
 
+        #endregion
+
         public override bool Matches(object actual)
         {
-            if (actual is IEnumerable<IStructure>)
-                return Matches((IEnumerable<IStructure>)actual);
+            if (actual is IEnumerable<IElement>)
+                return Matches((IEnumerable<IElement>)actual);
             else if (actual is MetadataQuery)
                 return Matches((MetadataQuery)actual);
 
@@ -58,9 +74,9 @@ namespace NBi.NUnit
         /// </summary>
         /// <param name="actual">a caption/unique key to find in the structure</param>
         /// <returns></returns>
-        public bool Matches(IEnumerable<IStructure> actual)
+        public bool Matches(IEnumerable<IElement> actual)
         {
-           var ccc = new CollectionContainsConstraint(new Structure(caption));
+            var ccc = new CollectionContainsConstraint(StringComparerHelper.Build(caption));
            var res = ccc.Using(comparer).Matches(actual);
 
            return res;
@@ -74,7 +90,7 @@ namespace NBi.NUnit
         public bool Matches(MetadataQuery actual)
         {
             var extr = GetEngine(actual.ConnectionString);
-            IEnumerable<IStructure> structures = extr.GetChildStructure(actual.Path, actual.Perspective);
+            IEnumerable<IElement> structures = extr.GetPartialMetadata(actual.Path, actual.Perspective);
             return Matches(structures);
         }
 

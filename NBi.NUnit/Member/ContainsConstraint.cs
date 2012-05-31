@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using NBi.Core.Analysis.Member;
+using NBi.Core;
 using NUnit.Framework.Constraints;
+using NBiMember = NBi.Core.Analysis.Member;
 using NUnitCtr = NUnit.Framework.Constraints;
 
-namespace NBi.NUnit
+namespace NBi.NUnit.Member
 {
-    public class ContainsConstraint : NUnitCtr.Constraint 
+    public class ContainsConstraint : NUnitCtr.Constraint
     {
-        protected List<string> captions;
         protected IComparer comparer;
+        protected List<string> captions;
         
         /// <summary>
         /// .ctor, this class doesn't make usage of an engine
@@ -17,7 +18,7 @@ namespace NBi.NUnit
         public ContainsConstraint()
         {
             captions = new List<string>();
-            comparer = new Member.ComparerByCaption(true);
+            comparer = new NBiMember.Member.ComparerByCaption(true);
         }
         
         #region Modifiers
@@ -28,11 +29,11 @@ namespace NBi.NUnit
         {
             get
             {
-                comparer = new Member.ComparerByCaption(false);
+                comparer = new NBiMember.Member.ComparerByCaption(false);
                 return this;
             }
         }
-
+        
         public ContainsConstraint Caption(string value)
         {
             this.captions.Add(value);
@@ -66,7 +67,7 @@ namespace NBi.NUnit
             
             foreach (var member in captions)
 	        {
-                var ccc = new CollectionContainsConstraint(new MemberCaption(member));
+                var ccc = new CollectionContainsConstraint(StringComparerHelper.Build(member));
                 res &= ccc.Using(comparer).Matches(actual);
 	        }
 

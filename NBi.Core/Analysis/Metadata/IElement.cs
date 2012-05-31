@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Collections;
 
 namespace NBi.Core.Analysis.Metadata
 {
-    public interface IStructure
+    public interface IElement
     {
         string Caption {get; set;}
         string UniqueName {get;}

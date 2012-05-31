@@ -26,5 +26,10 @@
             return new Dimension(UniqueName, Caption, Hierarchies.Clone());
         }
 
+        public override string ToString()
+        {
+            return Caption.ToString();
+        }
+
     }
 }

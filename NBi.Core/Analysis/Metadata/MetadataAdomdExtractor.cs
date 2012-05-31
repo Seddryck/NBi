@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace NBi.Core.Analysis.Metadata
 {
-    public class MetadataAdomdExtractor
+    public class MetadataAdomdExtractor : IMetadataExtractor
     {
         public event ProgressStatusHandler ProgressStatusChanged;
         
@@ -57,11 +57,11 @@ namespace NBi.Core.Analysis.Metadata
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Starting investigation ..."));
 
-            GetPerspectives(Filter.EmptyFilter());
-            GetDimensions(Filter.EmptyFilter());
-            GetHierarchies(Filter.EmptyFilter());
-            GetLevels(Filter.EmptyFilter());
-            GetProperties(Filter.EmptyFilter());
+            GetPerspectives(PathParser.PathFilter.EmptyFilter());
+            GetDimensions(PathParser.PathFilter.EmptyFilter());
+            GetHierarchies(PathParser.PathFilter.EmptyFilter());
+            GetLevels(PathParser.PathFilter.EmptyFilter());
+            GetProperties(PathParser.PathFilter.EmptyFilter());
             GetDimensionUsage();
             GetMeasures();
 
@@ -73,7 +73,8 @@ namespace NBi.Core.Analysis.Metadata
 
         public IEnumerable<IElement> GetPartialMetadata(string path, string perspective)
         {
-            var filter = GetFilter(perspective, path);
+            var pathParser = PathParser.Build(perspective, path);
+            var filter = pathParser.Filter;
 
             GetPerspectives(filter);
             GetDimensions(filter);
@@ -100,8 +101,8 @@ namespace NBi.Core.Analysis.Metadata
                     .Levels[filter.LevelUniqueName]
                     .Properties.Values.AsEnumerable<IElement>();
         }
-  
-        protected void GetPerspectives(Filter filter)
+
+        protected internal void GetPerspectives(PathParser.PathFilter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating perspectives"));
@@ -124,7 +125,7 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        protected void GetDimensions(Filter filter)
+        protected internal void GetDimensions(PathParser.PathFilter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating dimensions"));
@@ -156,7 +157,7 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        protected void GetHierarchies(Filter filter)
+        protected internal void GetHierarchies(PathParser.PathFilter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating hierarchies"));
@@ -194,7 +195,7 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        protected void GetLevels(Filter filter)
+        protected internal void GetLevels(PathParser.PathFilter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating levels"));
@@ -241,7 +242,7 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        protected void GetProperties(Filter filter)
+        protected internal void GetProperties(PathParser.PathFilter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating properties"));
@@ -295,8 +296,8 @@ namespace NBi.Core.Analysis.Metadata
                 }
             }
         }
-  
-        protected void GetDimensionUsage()
+
+        protected internal void GetDimensionUsage()
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating measure groups and dimensions usage"));
@@ -331,7 +332,7 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        protected void GetMeasures()
+        protected internal void GetMeasures()
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating measures"));
@@ -362,40 +363,6 @@ namespace NBi.Core.Analysis.Metadata
                         mg.Measures.Add(uniqueName, caption);
                     }
                 }
-            }
-        }
-
-        protected Filter GetFilter(string perspective, string path)
-        {
-            if (string.IsNullOrEmpty(perspective))
-                throw new ArgumentNullException();
-            
-            var filter = new Filter();
-            filter.Perspective = perspective;
-              
-            var parts = path.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length > 0)
-                filter.DimensionUniqueName = parts[0];
-
-            if (parts.Length > 1)
-                filter.HierarchyUniqueName = string.Format("{0}.{1}", parts);
-
-            if (parts.Length > 2)
-                filter.LevelUniqueName = string.Format("{0}.{1}.{2}", parts);
-
-            return filter;
-        }
-
-        protected internal class Filter
-        {
-            public string Perspective { get; set; }
-            public string DimensionUniqueName { get; set; }
-            public string HierarchyUniqueName { get; set; }
-            public string LevelUniqueName { get; set; }
-
-            public static Filter EmptyFilter()
-            {
-                return new Filter();
             }
         }
     }

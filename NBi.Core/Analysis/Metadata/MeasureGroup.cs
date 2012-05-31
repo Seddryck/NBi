@@ -18,5 +18,10 @@
         {
             return new MeasureGroup(Name);
         }
+
+        public override string ToString()
+        {
+            return Name.ToString();
+        }
     }
 }

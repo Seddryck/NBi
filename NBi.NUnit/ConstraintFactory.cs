@@ -70,10 +70,9 @@ namespace NBi.NUnit
             return ctr;
         }
 
-        protected static NBi.NUnit.Element.ContainsConstraint InstantiateForMetadata(ContainsXml xml)
+        protected static NBi.NUnit.Structure.ContainsConstraint InstantiateForMetadata(ContainsXml xml)
         {
-            var ctr = new NBi.NUnit.Element.ContainsConstraint();
-            ctr = ctr.Caption(xml.Caption);
+            var ctr = new NBi.NUnit.Structure.ContainsConstraint(xml.Caption);
 
             if (xml.IgnoreCase)
                 ctr = ctr.IgnoreCase;

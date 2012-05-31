@@ -59,6 +59,7 @@
     <Compile Include="Analysis\Member\AdomdMemberCommand.cs" />
     <Compile Include="Analysis\Member\Member.cs" />
     <Compile Include="Analysis\Member\MemberAdomdEngine.cs" />
+    <Compile Include="Analysis\Metadata\IMetadataExtractor.cs" />
     <Compile Include="Analysis\Metadata\IMetadataReader.cs" />
     <Compile Include="Analysis\Metadata\IElement.cs" />
     <Compile Include="Analysis\Metadata\Level.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Analysis\Metadata\MetadataAdomdExtractor.cs" />
     <Compile Include="Analysis\Metadata\MetadataFactory.cs" />
     <Compile Include="Analysis\Metadata\MetadataFileFormat.cs" />
+    <Compile Include="Analysis\Metadata\PathParser.cs" />
     <Compile Include="Analysis\Metadata\Perspective.cs" />
     <Compile Include="Analysis\Metadata\PerspectiveCollection.cs" />
     <Compile Include="Analysis\Metadata\Property.cs" />

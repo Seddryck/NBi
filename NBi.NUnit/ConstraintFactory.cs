@@ -82,8 +82,7 @@ namespace NBi.NUnit
 
         protected static NBi.NUnit.Member.ContainsConstraint InstantiateForMember(ContainsXml xml)
         {
-            var ctr = new NBi.NUnit.Member.ContainsConstraint();
-            ctr = ctr.Caption(xml.Caption);
+            var ctr = new NBi.NUnit.Member.ContainsConstraint(xml.Caption);
 
             if (xml.IgnoreCase)
                 ctr = ctr.IgnoreCase;

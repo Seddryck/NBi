@@ -10,8 +10,11 @@ namespace NBi.Core.Analysis.Member
         public string Caption { get; set; }
         public int Ordinal { get; set; }
         public int LevelNumber { get; set; }
-        
 
+        public Member()
+        {
+
+        }
         public Member(string uniqueName, string caption, int ordinal, int levelNumber)
         {
             UniqueName=uniqueName;

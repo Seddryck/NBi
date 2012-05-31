@@ -11,9 +11,10 @@ namespace NBi.NUnit.Structure
     public class ContainsConstraint : NUnitCtr.CollectionContainsConstraint
     {
         protected string expectedCaption;
-        protected MetadataQuery metadataQuery;
         protected IComparer comparer;
+        protected MetadataQuery metadataQuery;
         protected IMetadataExtractor _metadataExtractor;
+        
         /// <summary>
         /// Engine dedicated to MetadataExtractor acquisition
         /// </summary>
@@ -72,11 +73,6 @@ namespace NBi.NUnit.Structure
             }
         }
 
-        /// <summary>
-        /// Handle a string and check it with directly
-        /// </summary>
-        /// <param name="actual">a caption/unique key to find in the structure</param>
-        /// <returns></returns>
         public bool doMatch(IEnumerable<IElement> actual)
         {
            return base.Using(comparer).Matches(actual);

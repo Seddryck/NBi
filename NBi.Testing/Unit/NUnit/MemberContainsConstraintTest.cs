@@ -42,11 +42,10 @@ namespace NBi.Testing.Unit.NUnit
         {
             //Buiding object used during test
             var members = new MemberResult();
-            members.Add(new Member("[Hierarchy].[First member]","First member",1,0));
-            members.Add(new Member("[Hierarchy].[Second member]","Second member",2,0));
+            members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[First member]", "First member", 1, 0));
+            members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[Second member]", "Second member", 2, 0));
 
-            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint();
-            containsConstraint.Caption("First member");
+            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint("First member");
             
             //Call the method to test
             var res = containsConstraint.Matches(members);
@@ -60,11 +59,10 @@ namespace NBi.Testing.Unit.NUnit
         {
             //Buiding object used during test
             var members = new MemberResult();
-            members.Add(new Member("[Hierarchy].[First member]", "First member", 1, 0));
-            members.Add(new Member("[Hierarchy].[Second member]", "Second member", 2, 0));
+            members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[First member]", "First member", 1, 0));
+            members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[Second member]", "Second member", 2, 0));
 
-            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint();
-            containsConstraint.Caption("Third member");
+            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint("Third member");
 
             //Call the method to test
             var res = containsConstraint.Matches(members);
@@ -78,11 +76,10 @@ namespace NBi.Testing.Unit.NUnit
         {
             //Buiding object used during test
             var members = new MemberResult();
-            members.Add(new Member("[Hierarchy].[First member]", "First member", 1, 0));
-            members.Add(new Member("[Hierarchy].[Second member]", "Second member", 2, 0));
+            members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[First member]", "First member", 1, 0));
+            members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[Second member]", "Second member", 2, 0));
 
-            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint();
-            containsConstraint.Caption("First member").Caption("Second member");
+            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint(new string[] {"First member", "Second member"});
 
             //Call the method to test
             var res = containsConstraint.Matches(members);
@@ -96,11 +93,10 @@ namespace NBi.Testing.Unit.NUnit
         {
             //Buiding object used during test
             var members = new MemberResult();
-            members.Add(new Member("[Hierarchy].[First member]", "First member", 1, 0));
-            members.Add(new Member("[Hierarchy].[Second member]", "Second member", 2, 0));
+            members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[First member]", "First member", 1, 0));
+            members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[Second member]", "Second member", 2, 0));
 
-            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint();
-            containsConstraint.Caption("Third member").Caption("Second member");
+            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint(new string[] {"Third member", "Second member"});
 
             //Call the method to test
             var res = containsConstraint.Matches(members);

@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysis\Member\AdomdMemberCommand.cs" />
+    <Compile Include="Analysis\Member\IMemberEngine.cs" />
     <Compile Include="Analysis\Member\Member.cs" />
     <Compile Include="Analysis\Member\MemberAdomdEngine.cs" />
     <Compile Include="Analysis\Metadata\IMetadataExtractor.cs" />

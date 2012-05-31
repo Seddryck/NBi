@@ -45,7 +45,7 @@ namespace NBi.Testing.Acceptance.NUnit.Structure
             mq.Perspective = "Finances";
             mq.ConnectionString = ConnectionStringReader.GetAdomd();
 
-            var ctr = new ContainsConstraint("Calendar2");
+            var ctr = new ContainsConstraint("Calendar");
 
             //Method under test
             Assert.That(mq, ctr);

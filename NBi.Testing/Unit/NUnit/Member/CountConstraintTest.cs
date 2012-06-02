@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using NBi.NUnit.Member;
 
-namespace NBi.Testing.Unit.NUnit
+namespace NBi.Testing.Unit.NUnit.Member
 {
     public class CountConstraintTest
     {
@@ -12,7 +13,7 @@ namespace NBi.Testing.Unit.NUnit
             members.Add("First member");
             members.Add("Second member");
 
-            var countConstraint = new NBi.NUnit.CountConstraint();
+            var countConstraint = new CountConstraint();
             countConstraint.Exactly(2);
 
             //Method under test
@@ -29,7 +30,7 @@ namespace NBi.Testing.Unit.NUnit
             members.Add("First member");
             members.Add("Second member");
 
-            var countConstraint = new NBi.NUnit.CountConstraint();
+            var countConstraint = new CountConstraint();
             countConstraint.Exactly(1);
 
             //Method under test
@@ -46,7 +47,7 @@ namespace NBi.Testing.Unit.NUnit
             members.Add("First member");
             members.Add("Second member");
 
-            var countConstraint = new NBi.NUnit.CountConstraint();
+            var countConstraint = new CountConstraint();
             countConstraint.MoreThan(1);
 
             //Method under test
@@ -63,7 +64,7 @@ namespace NBi.Testing.Unit.NUnit
             members.Add("First member");
             members.Add("Second member");
 
-            var countConstraint = new NBi.NUnit.CountConstraint();
+            var countConstraint = new CountConstraint();
             countConstraint.MoreThan(2);
 
             //Method under test
@@ -80,7 +81,7 @@ namespace NBi.Testing.Unit.NUnit
             members.Add("First member");
             members.Add("Second member");
 
-            var countConstraint = new NBi.NUnit.CountConstraint();
+            var countConstraint = new CountConstraint();
             countConstraint.LessThan(3);
 
             //Method under test
@@ -97,7 +98,7 @@ namespace NBi.Testing.Unit.NUnit
             members.Add("First member");
             members.Add("Second member");
 
-            var countConstraint = new NBi.NUnit.CountConstraint();
+            var countConstraint = new CountConstraint();
             countConstraint.LessThan(2);
 
             //Method under test
@@ -114,7 +115,7 @@ namespace NBi.Testing.Unit.NUnit
             members.Add("First member");
             members.Add("Second member");
 
-            var countConstraint = new NBi.NUnit.CountConstraint();
+            var countConstraint = new CountConstraint();
             countConstraint.MoreThan(1);
             countConstraint.LessThan(3);
 
@@ -132,7 +133,7 @@ namespace NBi.Testing.Unit.NUnit
             members.Add("First member");
             members.Add("Second member");
 
-            var countConstraint = new NBi.NUnit.CountConstraint();
+            var countConstraint = new CountConstraint();
             countConstraint.MoreThan(1);
             countConstraint.LessThan(2);
 

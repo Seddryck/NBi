@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using NBi.Core;
+using NBi.Core.Analysis;
 using NBi.Core.Analysis.Metadata;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;

@@ -185,7 +185,7 @@ namespace NBi.Testing.Unit.Xml
 
             // Check the properties of the object.
             Assert.That(ts.Tests[4].Systems[0], Is.TypeOf<MembersXml>());
-            Assert.That(((MembersXml)ts.Tests[4].Systems[0]).Level, Is.EqualTo("[dimension].[hierarchy].[level]"));
+            Assert.That(((MembersXml)ts.Tests[4].Systems[0]).Path, Is.EqualTo("[dimension].[hierarchy].[level]"));
             Assert.That(((MembersXml)ts.Tests[4].Systems[0]).Perspective, Is.EqualTo("Perspective"));
             Assert.That(((MembersXml)ts.Tests[4].Systems[0]).ConnectionString, Is.EqualTo("ConnectionString"));
         }
@@ -198,7 +198,7 @@ namespace NBi.Testing.Unit.Xml
 
             // Check the properties of the object.
             Assert.That(ts.Tests[5].Systems[0], Is.TypeOf<MembersXml>());
-            Assert.That(((MembersXml)ts.Tests[5].Systems[0]).Hierarchy, Is.EqualTo("[dimension].[hierarchy]"));
+            Assert.That(((MembersXml)ts.Tests[5].Systems[0]).Path, Is.EqualTo("[dimension].[hierarchy]"));
             Assert.That(((MembersXml)ts.Tests[5].Systems[0]).Perspective, Is.EqualTo("Perspective"));
             Assert.That(((MembersXml)ts.Tests[5].Systems[0]).ConnectionString, Is.EqualTo("ConnectionString"));
         }

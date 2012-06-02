@@ -1,4 +1,6 @@
 ﻿using System;
+using NBi.Core.Analysis.Member;
+using NBi.Core.Analysis.Metadata;
 using NBi.Xml.Constraints;
 using NUnit.Framework.Constraints;
 
@@ -8,21 +10,13 @@ namespace NBi.NUnit
     {
         public static Constraint Instantiate(AbstractConstraintXml xml, Type systemType)
         {
-            switch (xml.GetType().Name)
-            {
-                case "EqualToXml": return Instantiate((EqualToXml)xml);
-                case "FasterThanXml": return Instantiate((FasterThanXml)xml);
-                case "SyntacticallyCorrectXml": return Instantiate((SyntacticallyCorrectXml)xml);
-                case "CountXml": return Instantiate((CountXml)xml);
-                case "ContainsXml":
-                    switch (systemType.Name)
-                    {
-                        case "MetadataQuery": return InstantiateForMetadata((ContainsXml)xml);
-                        case "AdomdMemberCommand": return InstantiateForMember((ContainsXml)xml);
-                    }
-                    break;
-            }
-            throw new ArgumentException();
+            if (xml.GetType() == typeof(EqualToXml)) return Instantiate((EqualToXml)xml);
+            if (xml.GetType() == typeof(FasterThanXml)) return Instantiate((FasterThanXml)xml);
+            if (xml.GetType() == typeof(SyntacticallyCorrectXml)) return Instantiate((SyntacticallyCorrectXml)xml);
+            if (xml.GetType() == typeof(CountXml)) return Instantiate((CountXml)xml);
+            if (xml.GetType() == typeof(ContainsXml)) return Instantiate((ContainsXml)xml, systemType);
+
+            throw new ArgumentException(string.Format("{0} is not an expected type.",xml.GetType().Name));
         }
         
         protected static EqualToConstraint Instantiate(EqualToXml xml)
@@ -56,9 +50,9 @@ namespace NBi.NUnit
             return ctr;
         }
 
-        protected static CountConstraint Instantiate(CountXml xml)
+        protected static NBi.NUnit.Member.CountConstraint Instantiate(CountXml xml)
         {
-            var ctr = new NBi.NUnit.CountConstraint();
+            var ctr = new NBi.NUnit.Member.CountConstraint();
             if (xml.Specification.IsExactlySpecified)
                 ctr = ctr.Exactly(xml.Exactly);
 
@@ -70,7 +64,18 @@ namespace NBi.NUnit
             return ctr;
         }
 
-        protected static NBi.NUnit.Structure.ContainsConstraint InstantiateForMetadata(ContainsXml xml)
+        protected static Constraint Instantiate(ContainsXml xml, Type systemType)
+        {
+
+            if (systemType == typeof(MetadataQuery))
+                return InstantiateForStructure(xml);
+            if (systemType == typeof(AdomdMemberCommand))
+                return InstantiateForMember(xml);
+
+            throw new ArgumentException(string.Format("{0} is not an expected type.", systemType.Name));
+        }
+
+        private static NBi.NUnit.Structure.ContainsConstraint InstantiateForStructure(ContainsXml xml)
         {
             var ctr = new NBi.NUnit.Structure.ContainsConstraint(xml.Caption);
 
@@ -80,7 +85,7 @@ namespace NBi.NUnit
             return ctr;
         }
 
-        protected static NBi.NUnit.Member.ContainsConstraint InstantiateForMember(ContainsXml xml)
+        private static NBi.NUnit.Member.ContainsConstraint InstantiateForMember(ContainsXml xml)
         {
             var ctr = new NBi.NUnit.Member.ContainsConstraint(xml.Caption);
 

@@ -9,11 +9,8 @@ namespace NBi.Xml.Systems
         [XmlAttribute("perspective")]
         public string Perspective { get; set; }
 
-        [XmlAttribute("hierarchy")]
-        public string Hierarchy { get; set; }
-
-        [XmlAttribute("level")]
-        public string Level { get; set; }
+        [XmlAttribute("path")]
+        public string Path { get; set; }
 
         [XmlAttribute("connectionString")]
         public string ConnectionString { get; set; }
@@ -22,20 +19,8 @@ namespace NBi.Xml.Systems
         {
             var cmd = new AdomdMemberCommand(ConnectionString);
 
-            if (!string.IsNullOrEmpty(Level))
-            {
-                cmd.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Level;
-                cmd.PlaceHolderUniqueName = Level;
-            }
-            else if (!string.IsNullOrEmpty(Hierarchy))
-            {
-                cmd.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Hierarchy;
-                cmd.PlaceHolderUniqueName = Hierarchy;
-            }
-            else
-                throw new Exception();
-
             cmd.Perspective = Perspective;
+            cmd.Path = Path;
 
             return cmd;
         }

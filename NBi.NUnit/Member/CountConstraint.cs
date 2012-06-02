@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using NUnitCtr = NUnit.Framework.Constraints;
 
-namespace NBi.NUnit
+namespace NBi.NUnit.Member
 {
     public class CountConstraint : NUnitCtr.Constraint
     {

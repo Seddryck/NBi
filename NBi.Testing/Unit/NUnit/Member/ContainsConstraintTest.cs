@@ -14,8 +14,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         public void Matches_GivenMemberCommand_EngineCalledOnceWithParametersComingFromMemberCommand()
         {
             var exp = "Expected member";
-            var mc = new AdomdMemberCommand(string.Empty) { PlaceHolderUniqueName = "[dimension].[hierarchy]"
-                                                , PlaceHolder= AdomdMemberCommand.PlaceHolderType.Hierarchy
+            var mc = new AdomdMemberCommand(string.Empty) { Path = "[dimension].[hierarchy]"
                                                 , Perspective = "perspective" };
 
             var memberStub = new Mock<NBi.Core.Analysis.Member.Member>();
@@ -45,8 +44,7 @@ namespace NBi.Testing.Unit.NUnit.Member
             var exp = "Expected member";
             var mc = new AdomdMemberCommand(string.Empty)
                                 {
-                                    PlaceHolderUniqueName = "[dimension].[hierarchy]",
-                                    PlaceHolder = AdomdMemberCommand.PlaceHolderType.Hierarchy,
+                                    Path = "[dimension].[hierarchy]",
                                     Perspective = "perspective"
                                 };
 
@@ -78,7 +76,7 @@ namespace NBi.Testing.Unit.NUnit.Member
 
             //Test conclusion            
             Assert.That(assertionText, Is.StringContaining(mc.Perspective).And
-                                            .StringContaining(mc.PlaceHolderUniqueName).And
+                                            .StringContaining(mc.Path).And
                                             .StringContaining("hierarchy").And
                                             .StringContaining(exp));
         }

@@ -34,7 +34,7 @@ namespace NBi.Core.Analysis.Member
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Starting investigation ..."));
 
             if (ProgressStatusChanged != null)
-                ProgressStatusChanged(this, new ProgressStatusEventArgs(string.Format("Investigating {0} in {1}", cmd.PlaceHolderUniqueName, cmd.Perspective)));
+                ProgressStatusChanged(this, new ProgressStatusEventArgs(string.Format("Investigating {0} in {1}", cmd.Path, cmd.Perspective)));
 
             var rdr = ExecuteReader(cmd.BuildCommand());
             // Traverse the response and 

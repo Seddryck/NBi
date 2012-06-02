@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace NBi.Core.Analysis.Metadata
+namespace NBi.Core.Analysis
 {
     public class PathParser
     {

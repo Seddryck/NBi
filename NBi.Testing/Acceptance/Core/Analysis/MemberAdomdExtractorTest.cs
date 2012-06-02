@@ -44,8 +44,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis
             var mae = new MemberAdomdEngine();
             var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
-            amc.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Level;
-            amc.PlaceHolderUniqueName="[Counter Party].[Accounts Structure].[Label]";
+            amc.Path="[Counter Party].[Accounts Structure].[Label]";
 
             //Call the method to test
             var actual = mae.Execute(amc);
@@ -63,8 +62,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis
             var mae = new MemberAdomdEngine();
             var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
-            amc.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Level;
-            amc.PlaceHolderUniqueName = "[Counter Party].[Accounts Structure].[Label]";
+            amc.Path = "[Counter Party].[Accounts Structure].[Label]";
 
             //Call the method to test
             var actual = mae.Execute(amc);
@@ -81,8 +79,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis
             var mae = new MemberAdomdEngine();
             var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
-            amc.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Level;
-            amc.PlaceHolderUniqueName = "[Counter Party].[Accounts Structure].[Label]";
+            amc.Path = "[Counter Party].[Accounts Structure].[Label]";
 
             //Call the method to test
             var actual = mae.Execute(amc);
@@ -99,8 +96,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis
             var mae = new MemberAdomdEngine();
             var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
-            amc.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Level;
-            amc.PlaceHolderUniqueName = "[Counter Party].[Accounts Structure].[Label]";
+            amc.Path = "[Counter Party].[Accounts Structure].[Label]";
 
             //Call the method to test
             var actual = mae.Execute(amc);
@@ -116,8 +112,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis
             var mae = new MemberAdomdEngine();
             var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
-            amc.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Hierarchy;
-            amc.PlaceHolderUniqueName = "[Counter Party].[Accounts Structure]";
+            amc.Path = "[Counter Party].[Accounts Structure]";
 
             //Call the method to test
             var actual = mae.Execute(amc);
@@ -135,8 +130,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis
             var mae = new MemberAdomdEngine();
             var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
-            amc.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Hierarchy;
-            amc.PlaceHolderUniqueName = "[Counter Party].[Accounts Structure]";
+            amc.Path = "[Counter Party].[Accounts Structure]";
 
             //Call the method to test
             var actual = mae.Execute(amc);
@@ -153,8 +147,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis
             var mae = new MemberAdomdEngine();
             var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
-            amc.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Hierarchy;
-            amc.PlaceHolderUniqueName = "[Counter Party].[Accounts Structure]";
+            amc.Path = "[Counter Party].[Accounts Structure]";
 
             //Call the method to test
             var actual = mae.Execute(amc);
@@ -172,8 +165,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis
             var mae = new MemberAdomdEngine();
             var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
-            amc.PlaceHolder = AdomdMemberCommand.PlaceHolderType.Hierarchy;
-            amc.PlaceHolderUniqueName = "[Counter Party].[Accounts Structure]";
+            amc.Path = "[Counter Party].[Accounts Structure]";
 
             //Call the method to test
             var actual = mae.Execute(amc);

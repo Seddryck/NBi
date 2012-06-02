@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using NBi.Core;
+using NBi.Core.Analysis;
 using NBi.Core.Analysis.Member;
 using NBi.Core.Analysis.Metadata;
 using NUnitCtr = NUnit.Framework.Constraints;
@@ -106,10 +107,11 @@ namespace NBi.NUnit.Member
         {
             if (command != null)
             {
+                var pathParser = PathParser.Build(command.Path, command.Perspective);
                 writer.WritePredicate(string.Format("On perspective \"{0}\", a {1} identified by \"{2}\" containing a member with caption"
                                                             , command.Perspective
-                                                            , command.PlaceHolderTypeDisplay
-                                                            , command.PlaceHolderUniqueName));
+                                                            , pathParser.Position.Current
+                                                            , command.Path));
                 writer.WriteExpectedValue(expectedCaptions);
             }
             else

@@ -35,8 +35,7 @@
 													<xs:extension base="xs:string">
 														<xs:attribute name="name" type="xs:string" use="optional" />
 														<xs:attribute name="perspective" type="xs:string" use="required" />
-														<xs:attribute name="hierarchy" type="xs:string" use="optional" />
-														<xs:attribute name="level" type="xs:string" use="optional" />
+														<xs:attribute name="path" type="xs:string" use="required" />
 														<xs:attribute name="connectionString" type="xs:string" use="optional" />
 													</xs:extension>
 												</xs:simpleContent>
@@ -48,7 +47,7 @@
 													<xs:extension base="xs:string">
 														<xs:attribute name="name" type="xs:string" use="optional" />
 														<xs:attribute name="perspective" type="xs:string" use="required" />
-														<xs:attribute name="path" type="xs:string" use="optional" />
+														<xs:attribute name="path" type="xs:string" use="required" />
 														<xs:attribute name="connectionString" type="xs:string" use="optional" />
 													</xs:extension>
 												</xs:simpleContent>

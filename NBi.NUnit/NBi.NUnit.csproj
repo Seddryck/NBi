@@ -50,7 +50,7 @@
   <ItemGroup>
     <Compile Include="ConstraintFactory.cs" />
     <Compile Include="Member\ContainsConstraint.cs" />
-    <Compile Include="CountConstraint.cs" />
+    <Compile Include="Member\CountConstraint.cs" />
     <Compile Include="EqualToConstraint.cs" />
     <Compile Include="Structure\ContainsConstraint.cs" />
     <Compile Include="OnDataSource.cs" />

@@ -64,7 +64,7 @@ namespace NBi.Testing.Unit.NUnit
         {
             var ctr = NBiNu.ConstraintFactory.Instantiate(new CountXml() { Exactly = 10 }, null);
 
-            Assert.That(ctr, Is.InstanceOf<NBiNu.CountConstraint>());
+            Assert.That(ctr, Is.InstanceOf<NBiNu.Member.CountConstraint>());
         }
 
         [Test]

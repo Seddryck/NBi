@@ -32,7 +32,7 @@ namespace NBi.Testing.Acceptance.NUnit
             var cmd = new SqlCommand(sql, conn);
 
 
-            //Method under test
+            //Method under test 
             Assert.That(cmd, new SyntacticallyCorrectConstraint());
 
             //Test conclusion            

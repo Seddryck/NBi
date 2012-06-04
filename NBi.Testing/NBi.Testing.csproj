@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Acceptance\Core\Analysis\MemberAdomdExtractorTest.cs" />
+    <Compile Include="Acceptance\Core\Analysis\Member\DimensionCubeAdomdEngineTest.cs" />
     <Compile Include="Acceptance\Core\Query\QueryParserTest.cs" />
     <Compile Include="Acceptance\Core\ResultSet\BasicResultSetComparerTest.cs" />
     <Compile Include="Acceptance\NUnit\Structure\ContainsConstraintTest.cs" />

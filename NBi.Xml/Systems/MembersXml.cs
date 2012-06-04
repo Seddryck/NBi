@@ -17,7 +17,7 @@ namespace NBi.Xml.Systems
 
         public override object Instantiate()
         {
-            var cmd = new AdomdMemberCommand(ConnectionString);
+            var cmd = new DiscoverMemberCommand(ConnectionString);
 
             cmd.Perspective = Perspective;
             cmd.Path = Path;

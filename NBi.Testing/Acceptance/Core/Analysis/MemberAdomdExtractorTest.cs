@@ -41,8 +41,8 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         public void GetMembersByLevel_CounterPartyAccountsStructureLabel_ReturnListMembersWithCorrectCaptions()
         {
             //Buiding object used during test
-            var mae = new MemberAdomdEngine();
-            var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
+            var mae = new SchemaRowsetAdomdEngine();
+            var amc = new DiscoverMemberCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
             amc.Path="[Counter Party].[Accounts Structure].[Label]";
 
@@ -59,8 +59,8 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         public void GetMembersByLevel_CounterPartyAccountsStructureLabel_ReturnListMembersWithCorrectUniqueName()
         {
             //Buiding object used during test
-            var mae = new MemberAdomdEngine();
-            var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
+            var mae = new SchemaRowsetAdomdEngine();
+            var amc = new DiscoverMemberCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
             amc.Path = "[Counter Party].[Accounts Structure].[Label]";
 
@@ -76,8 +76,8 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         public void GetMembersByLevel_CounterPartyAccountsStructureLabel_ReturnListMembersWithCorrectOrdinal()
         {
             //Buiding object used during test
-            var mae = new MemberAdomdEngine();
-            var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
+            var mae = new SchemaRowsetAdomdEngine();
+            var amc = new DiscoverMemberCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
             amc.Path = "[Counter Party].[Accounts Structure].[Label]";
 
@@ -93,8 +93,8 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         public void GetMembersByLevel_CounterPartyAccountsStructureLabel_ReturnListMembersWithCorrectLevelNumber()
         {
             //Buiding object used during test
-            var mae = new MemberAdomdEngine();
-            var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
+            var mae = new SchemaRowsetAdomdEngine();
+            var amc = new DiscoverMemberCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
             amc.Path = "[Counter Party].[Accounts Structure].[Label]";
 
@@ -109,8 +109,8 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         public void GetMembersByHierarchy_CounterPartyAccountsStructureLabel_ReturnListMembersWithCorrectCaptions()
         {
             //Buiding object used during test
-            var mae = new MemberAdomdEngine();
-            var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
+            var mae = new SchemaRowsetAdomdEngine();
+            var amc = new DiscoverMemberCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
             amc.Path = "[Counter Party].[Accounts Structure]";
 
@@ -127,8 +127,8 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         public void GetMembersByHierarchy_CounterPartyAccountsStructureLabel_ReturnListMembersWithCorrectUniqueName()
         {
             //Buiding object used during test
-            var mae = new MemberAdomdEngine();
-            var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
+            var mae = new SchemaRowsetAdomdEngine();
+            var amc = new DiscoverMemberCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
             amc.Path = "[Counter Party].[Accounts Structure]";
 
@@ -144,8 +144,8 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         public void GetMembersByHierarchy_CounterPartyAccountsStructureLabel_ReturnListMembersWithCorrectOrdinal()
         {
             //Buiding object used during test
-            var mae = new MemberAdomdEngine();
-            var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
+            var mae = new SchemaRowsetAdomdEngine();
+            var amc = new DiscoverMemberCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
             amc.Path = "[Counter Party].[Accounts Structure]";
 
@@ -162,8 +162,8 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         public void GetMembersByHierarchy_CounterPartyAccountsStructureLabel_ReturnListMembersWithCorrectLevelNumber()
         {
             //Buiding object used during test
-            var mae = new MemberAdomdEngine();
-            var amc = new AdomdMemberCommand(ConnectionStringReader.GetAdomd());
+            var mae = new SchemaRowsetAdomdEngine();
+            var amc = new DiscoverMemberCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
             amc.Path = "[Counter Party].[Accounts Structure]";
 

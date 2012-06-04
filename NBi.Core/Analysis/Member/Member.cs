@@ -6,6 +6,7 @@ namespace NBi.Core.Analysis.Member
 {
     public class Member
     {
+        
         public string UniqueName { get; set; }
         public string Caption { get; set; }
         public int Ordinal { get; set; }
@@ -15,6 +16,12 @@ namespace NBi.Core.Analysis.Member
         {
 
         }
+
+        public Member(string caption)
+        {
+            Caption = caption;
+        }
+
         public Member(string uniqueName, string caption, int ordinal, int levelNumber)
         {
             UniqueName=uniqueName;

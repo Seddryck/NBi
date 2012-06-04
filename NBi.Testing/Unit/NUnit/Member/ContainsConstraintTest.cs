@@ -14,7 +14,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         public void Matches_GivenMemberCommand_EngineCalledOnceWithParametersComingFromMemberCommand()
         {
             var exp = "Expected member";
-            var mc = new AdomdMemberCommand(string.Empty) { Path = "[dimension].[hierarchy]"
+            var mc = new DiscoverMemberCommand(string.Empty) { Path = "[dimension].[hierarchy]"
                                                 , Perspective = "perspective" };
 
             var memberStub = new Mock<NBi.Core.Analysis.Member.Member>();
@@ -24,7 +24,7 @@ namespace NBi.Testing.Unit.NUnit.Member
             members.Add(member1);
             members.Add(member2);
 
-            var meMock = new Mock<IMemberEngine>();
+            var meMock = new Mock<IDiscoverMemberEngine>();
             meMock.Setup(engine => engine.Execute(mc))
                 .Returns(members);
             var me = meMock.Object;
@@ -42,7 +42,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         public void WriteTo_FailingAssertion_TextContainsFewKeyInfo()
         {
             var exp = "Expected member";
-            var mc = new AdomdMemberCommand(string.Empty)
+            var mc = new DiscoverMemberCommand(string.Empty)
                                 {
                                     Path = "[dimension].[hierarchy]",
                                     Perspective = "perspective"
@@ -56,7 +56,7 @@ namespace NBi.Testing.Unit.NUnit.Member
             members.Add(member1);
             members.Add(member2);
 
-            var meStub = new Mock<IMemberEngine>();
+            var meStub = new Mock<IDiscoverMemberEngine>();
             meStub.Setup(engine => engine.Execute(mc))
                 .Returns(members);
             var me = meStub.Object;

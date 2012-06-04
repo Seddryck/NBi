@@ -13,13 +13,13 @@ namespace NBi.NUnit.Member
     {
         protected IEnumerable<string> expectedCaptions;
         protected IComparer comparer;
-        protected AdomdMemberCommand command;
-        protected IMemberEngine memberEngine;
+        protected DiscoverMemberCommand command;
+        protected IDiscoverMemberEngine memberEngine;
 
         /// <summary>
         /// Engine dedicated to MetadataExtractor acquisition
         /// </summary>
-        protected internal IMemberEngine MemberEngine
+        protected internal IDiscoverMemberEngine MemberEngine
         {
             set
             {
@@ -29,10 +29,10 @@ namespace NBi.NUnit.Member
             }
         }
 
-        protected IMemberEngine GetEngine()
+        protected IDiscoverMemberEngine GetEngine()
         {
             if (memberEngine == null)
-                memberEngine = new MemberAdomdEngine();
+                memberEngine = new DimensionCubeAdomdEngine();
             return memberEngine;
         }
 
@@ -76,8 +76,8 @@ namespace NBi.NUnit.Member
 
         public override bool Matches(object actual)
         {
-            if (actual is AdomdMemberCommand)
-                return Process((AdomdMemberCommand)actual);
+            if (actual is DiscoverMemberCommand)
+                return Process((DiscoverMemberCommand)actual);
             else
             {
                 base.Using(comparer);
@@ -91,7 +91,7 @@ namespace NBi.NUnit.Member
             return base.Using(comparer).Matches(actual);
         }
 
-        protected bool Process(AdomdMemberCommand actual)
+        protected bool Process(DiscoverMemberCommand actual)
         {
             command = actual;
             var extr = GetEngine();
@@ -108,8 +108,9 @@ namespace NBi.NUnit.Member
             if (command != null)
             {
                 var pathParser = PathParser.Build(command.Path, command.Perspective);
-                writer.WritePredicate(string.Format("On perspective \"{0}\", a {1} identified by \"{2}\" containing a member with caption"
-                                                            , command.Perspective
+                var persp = string.IsNullOrEmpty(command.Perspective) ? string.Format("On perspective \"{0}\", a", command.Perspective) : "A";
+                writer.WritePredicate(string.Format("{0} {1} identified by \"{2}\" containing a member with caption"
+                                                            , persp
                                                             , pathParser.Position.Current
                                                             , command.Path));
                 writer.WriteExpectedValue(expectedCaptions);

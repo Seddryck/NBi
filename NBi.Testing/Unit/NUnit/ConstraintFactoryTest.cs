@@ -78,7 +78,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_ContainsXml_IsOfTypeMemberContainsConstraint()
         {
-            var ctr = NBiNu.ConstraintFactory.Instantiate(new ContainsXml() { Caption = "xYz" }, typeof(AdomdMemberCommand));
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new ContainsXml() { Caption = "xYz" }, typeof(DiscoverMemberCommand));
 
             Assert.That(ctr, Is.InstanceOf<NBiNu.Member.ContainsConstraint>());
         }

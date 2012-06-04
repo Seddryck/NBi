@@ -69,7 +69,7 @@ namespace NBi.NUnit
 
             if (systemType == typeof(MetadataQuery))
                 return InstantiateForStructure(xml);
-            if (systemType == typeof(AdomdMemberCommand))
+            if (systemType == typeof(DiscoverMemberCommand))
                 return InstantiateForMember(xml);
 
             throw new ArgumentException(string.Format("{0} is not an expected type.", systemType.Name));

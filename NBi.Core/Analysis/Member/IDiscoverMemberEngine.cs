@@ -4,8 +4,8 @@ using NBi.Core.Analysis.Metadata;
 
 namespace NBi.Core.Analysis.Member
 {
-    public interface IMemberEngine
+    public interface IDiscoverMemberEngine
     {
-        MemberResult Execute(AdomdMemberCommand cmd);
+        MemberResult Execute(DiscoverMemberCommand cmd);
     }
 }

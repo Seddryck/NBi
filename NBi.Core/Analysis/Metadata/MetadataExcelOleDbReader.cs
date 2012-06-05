@@ -102,7 +102,7 @@ namespace NBi.Core.Analysis.Metadata
 
                 if (!mg.Measures.ContainsKey(r.measureUniqueName))
                 {
-                    mg.Measures.Add(r.measureUniqueName, r.measureCaption);
+                    mg.Measures.Add(r.measureUniqueName, r.measureCaption, r.measureDisplayFolder);
                 }
 
                 Dimension dim = null;
@@ -237,6 +237,9 @@ namespace NBi.Core.Analysis.Metadata
             else
                 xlsMetadata.measureUniqueName = "[" + (string)row["Measure"] + "]";
 
+            if (row.Table.Columns.IndexOf("MeasureDisplayFolder") > 0)
+                xlsMetadata.measureUniqueName = (string)row["MeasureDisplayFolder"];
+
             if (row.Table.Columns.IndexOf("DimensionCaption") > 0)
                 xlsMetadata.dimensionCaption = (string)row["DimensionCaption"];
             else
@@ -280,6 +283,7 @@ namespace NBi.Core.Analysis.Metadata
             public string measureGroupName;
             public string measureCaption;
             public string measureUniqueName;
+            public string measureDisplayFolder;
             public string dimensionCaption;
             public string dimensionUniqueName;
             public string hierarchyCaption;

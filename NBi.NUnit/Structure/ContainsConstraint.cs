@@ -11,9 +11,11 @@ namespace NBi.NUnit.Structure
 {
     public class ContainsConstraint : NUnitCtr.CollectionContainsConstraint
     {
+        protected object _expected;
         protected string expectedCaption;
+        protected string expectedDisplayFolder;
         protected IComparer comparer;
-        protected MetadataQuery metadataQuery;
+        protected DiscoverCommand command;
         protected IMetadataExtractor _metadataExtractor;
         
         /// <summary>
@@ -43,19 +45,32 @@ namespace NBi.NUnit.Structure
         public ContainsConstraint(string expected)
             : base(StringComparerHelper.Build(expected))
         {
+            _expected = expected;
             expectedCaption = expected;
-            comparer = new NBi.Core.Analysis.Metadata.Element.ComparerByCaption(true);
+            comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(true);
+        }
+
+        /// <summary>
+        /// Construct a CollectionContainsConstraint
+        /// </summary>
+        /// <param name="expected"></param>
+        public ContainsConstraint(IFieldWithDisplayFolder expected)
+            : base(expected)
+        {
+            _expected = expected;
+            expectedCaption = expected.Caption;
+            comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaptionAndDisplayFolder(true);
         }
 
         #region Modifiers
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
-        public ContainsConstraint IgnoreCase
+        public new ContainsConstraint IgnoreCase
         {
             get
             {
-                comparer = new NBi.Core.Analysis.Metadata.Element.ComparerByCaption(false);
+                comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(false);
                 return this;
             }
         }
@@ -64,8 +79,8 @@ namespace NBi.NUnit.Structure
 
         public override bool Matches(object actual)
         {
-            if (actual is MetadataQuery)
-                return Process((MetadataQuery)actual);
+            if (actual is DiscoverCommand)
+                return Process((DiscoverCommand)actual);
             else
             {
                 base.Using(comparer);
@@ -74,33 +89,42 @@ namespace NBi.NUnit.Structure
             }
         }
 
-        public bool doMatch(IEnumerable<IElement> actual)
+        public bool doMatch(IEnumerable<IField> actual)
         {
            return base.Using(comparer).Matches(actual);
         }
 
         
-        protected bool Process(MetadataQuery actual)
+        protected bool Process(DiscoverCommand actual)
         {
-            metadataQuery = actual;
+            command = actual;
             var extr = GetEngine(actual.ConnectionString);
-            IEnumerable<IElement> structures = extr.GetPartialMetadata(actual.Path, actual.Perspective);
+            IEnumerable<IField> structures = extr.GetPartialMetadata(actual);
             return this.Matches(structures);
         }
 
         /// <summary>
-        /// Write a descripton of the constraint to a MessageWriter
+        /// Write a description of the constraint to a MessageWriter
         /// </summary>
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
-            if (metadataQuery != null)
+            if (command != null)
             {
-                var pathParser = PathParser.Build(metadataQuery.Path, metadataQuery.Perspective);
-                writer.WritePredicate(string.Format("On perspective \"{0}\", a {1} identified by \"{2}\" containing a {3} with caption"
-                                                            , metadataQuery.Perspective
+                var pathParser = PathParser.Build(command);
+                if (command.IsMeasureBased)
+                {
+                    var displayFolder = (_expected is IFieldWithDisplayFolder) ? string.Format(", in folder \"{0}\", ", ((IFieldWithDisplayFolder)_expected).DisplayFolder) : string.Empty;
+                    writer.WritePredicate(string.Format("On perspective \"{0}\", the measuregroup \"{1}\" containing{2}a measure with caption"
+                                                                               , pathParser.Filter.Perspective
+                                                                               , pathParser.Filter.MeasureGroupName
+                                                                               , displayFolder));
+                }
+                else
+                    writer.WritePredicate(string.Format("On perspective \"{0}\", a {1} identified by \"{2}\" containing a {3} with caption"
+                                                            , pathParser.Filter.Perspective
                                                             , pathParser.Position.Current
-                                                            , metadataQuery.Path
+                                                            , command.Path
                                                             , pathParser.Position.Next));
                 writer.WriteExpectedValue(expectedCaption);
             }

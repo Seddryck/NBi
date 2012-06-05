@@ -13,7 +13,7 @@ namespace NBi.NUnit.Member
     {
         protected IEnumerable<string> expectedCaptions;
         protected IComparer comparer;
-        protected DiscoverMemberCommand command;
+        protected DiscoverCommand command;
         protected IDiscoverMemberEngine memberEngine;
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace NBi.NUnit.Member
         protected IDiscoverMemberEngine GetEngine()
         {
             if (memberEngine == null)
-                memberEngine = new DimensionCubeAdomdEngine();
+                memberEngine = new CubeDimensionAdomdEngine();
             return memberEngine;
         }
 
@@ -64,7 +64,7 @@ namespace NBi.NUnit.Member
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
-        public ContainsConstraint IgnoreCase
+        public new ContainsConstraint IgnoreCase
         {
             get
             {
@@ -76,8 +76,8 @@ namespace NBi.NUnit.Member
 
         public override bool Matches(object actual)
         {
-            if (actual is DiscoverMemberCommand)
-                return Process((DiscoverMemberCommand)actual);
+            if (actual is DiscoverCommand)
+                return Process((DiscoverCommand)actual);
             else
             {
                 base.Using(comparer);
@@ -86,12 +86,12 @@ namespace NBi.NUnit.Member
             }
         }
 
-        public bool doMatch(IEnumerable<IElement> actual)
+        public bool doMatch(IEnumerable<IField> actual)
         {
             return base.Using(comparer).Matches(actual);
         }
 
-        protected bool Process(DiscoverMemberCommand actual)
+        protected bool Process(DiscoverCommand actual)
         {
             command = actual;
             var extr = GetEngine();
@@ -107,8 +107,8 @@ namespace NBi.NUnit.Member
         {
             if (command != null)
             {
-                var pathParser = PathParser.Build(command.Path, command.Perspective);
-                var persp = string.IsNullOrEmpty(command.Perspective) ? string.Format("On perspective \"{0}\", a", command.Perspective) : "A";
+                var pathParser = PathParser.Build(command);
+                var persp = !string.IsNullOrEmpty(command.Perspective) ? string.Format("On perspective \"{0}\", a", command.Perspective) : "A";
                 writer.WritePredicate(string.Format("{0} {1} identified by \"{2}\" containing a member with caption"
                                                             , persp
                                                             , pathParser.Position.Current

@@ -25,7 +25,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             metadata.Perspectives.Add(p);
             var mg = new MeasureGroup("mg");
             p.MeasureGroups.Add(mg);
-            var m1 = new Measure("[m1]", "m1");
+            var m1 = new Measure("[m1]", "m1", "df");
             mg.Measures.Add(m1);
             var d = new Dimension("[d]", "d");
             mg.LinkedDimensions.Add(d);
@@ -61,7 +61,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             metadata.Perspectives.Add(p);
             var mg = new MeasureGroup("mg");
             p.MeasureGroups.Add(mg);
-            var m1 = new Measure("[m1]", "m1");
+            var m1 = new Measure("[m1]", "m1", "df");
             mg.Measures.Add(m1);
             var d = new Dimension("[d]", "d");
             mg.LinkedDimensions.Add(d);
@@ -98,7 +98,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             metadata.Perspectives.Add(p);
             var mg = new MeasureGroup("mg");
             p.MeasureGroups.Add(mg);
-            var m1 = new Measure("[m1]", "m1");
+            var m1 = new Measure("[m1]", "m1", "df");
             mg.Measures.Add(m1);
             var d = new Dimension("[d]", "d");
             mg.LinkedDimensions.Add(d);
@@ -139,7 +139,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             metadata.Perspectives.Add(p);
             var mg = new MeasureGroup("mg");
             p.MeasureGroups.Add(mg);
-            var m1 = new Measure("[m1]", "m1");
+            var m1 = new Measure("[m1]", "m1", "df");
             mg.Measures.Add(m1);
             var d = new Dimension("[d]", "d");
             mg.LinkedDimensions.Add(d);
@@ -182,7 +182,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             metadata.Perspectives.Add(p);
             var mg = new MeasureGroup("mg");
             p.MeasureGroups.Add(mg);
-            var m1 = new Measure("[m1]", "m1");
+            var m1 = new Measure("[m1]", "m1", "df");
             mg.Measures.Add(m1);
             var d1 = new Dimension("[d1]", "d1");
             mg.LinkedDimensions.Add(d1);
@@ -227,9 +227,9 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             metadata.Perspectives.Add(p);
             var mg = new MeasureGroup("mg");
             p.MeasureGroups.Add(mg);
-            var m1 = new Measure("[m1]", "m1");
+            var m1 = new Measure("[m1]", "m1", "df");
             mg.Measures.Add(m1);
-            var m2 = new Measure("[m2]", "m2");
+            var m2 = new Measure("[m2]", "m2", "df");
             mg.Measures.Add(m2);
             var d1 = new Dimension("[d1]", "d1");
             mg.LinkedDimensions.Add(d1);
@@ -268,7 +268,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             metadata.Perspectives.Add(p);
             var mg = new MeasureGroup("mg");
             p.MeasureGroups.Add(mg);
-            var m1 = new Measure("[m1]", "m1");
+            var m1 = new Measure("[m1]", "m1", "df");
             mg.Measures.Add(m1);
             var d1 = new Dimension("[d1]", "d1");
             mg.LinkedDimensions.Add(d1);
@@ -315,7 +315,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             metadata.Perspectives.Add(p);
             var mg1 = new MeasureGroup("mg1");
             p.MeasureGroups.Add(mg1);
-            var m1 = new Measure("[m1]", "m1");
+            var m1 = new Measure("[m1]", "m1", "df");
             mg1.Measures.Add(m1);
             var d1 = new Dimension("[d1]", "d1");
             mg1.LinkedDimensions.Add(d1);
@@ -327,7 +327,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             l1.Properties.Add(p1);
             var mg2 = new MeasureGroup("mg2");
             p.MeasureGroups.Add(mg2);
-            var m2 = new Measure("[m2]", "m2");
+            var m2 = new Measure("[m2]", "m2", "df");
             mg2.Measures.Add(m2);
             var d2 = new Dimension("[d2]", "d2");
             mg2.LinkedDimensions.Add(d2);
@@ -366,7 +366,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             metadata.Perspectives.Add(p);
             var mg1 = new MeasureGroup("mg1");
             p.MeasureGroups.Add(mg1);
-            var m1 = new Measure("[m1]", "m1");
+            var m1 = new Measure("[m1]", "m1", "df");
             mg1.Measures.Add(m1);
             var d1 = new Dimension("[d1]", "d1");
             mg1.LinkedDimensions.Add(d1);
@@ -378,7 +378,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             l1.Properties.Add(p1);
             var mg2 = new MeasureGroup("mg2");
             p.MeasureGroups.Add(mg2);
-            var m2 = new Measure("[m2]", "m2");
+            var m2 = new Measure("[m2]", "m2", "df");
             mg2.Measures.Add(m2);
             mg2.LinkedDimensions.Add(d1);
 
@@ -410,7 +410,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             metadata.Perspectives.Add(pe1);
             var mg1 = new MeasureGroup("mg1");
             pe1.MeasureGroups.Add(mg1);
-            var m1 = new Measure("[m1]", "m1");
+            var m1 = new Measure("[m1]", "m1", "df");
             mg1.Measures.Add(m1);
             var d1 = new Dimension("[d1]", "d1");
             mg1.LinkedDimensions.Add(d1);
@@ -453,7 +453,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             metadata.Perspectives.Add(pe1);
             var mg1 = new MeasureGroup("mg1");
             pe1.MeasureGroups.Add(mg1);
-            var m1 = new Measure("[m1]", "m1");
+            var m1 = new Measure("[m1]", "m1", "df");
             mg1.Measures.Add(m1);
             var d1 = new Dimension("[d1]", "d1");
             mg1.LinkedDimensions.Add(d1);
@@ -468,7 +468,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             metadata.Perspectives.Add(pe2);
             var mg2 = new MeasureGroup("mg2");
             pe2.MeasureGroups.Add(mg2);
-            var m2 = new Measure("[m2]", "m2");
+            var m2 = new Measure("[m2]", "m2", "df");
             mg2.Measures.Add(m2);
             var d2 = new Dimension("[d2]", "d2");
             mg2.LinkedDimensions.Add(d2);

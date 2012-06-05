@@ -1,4 +1,5 @@
-﻿using NBi.Core.Analysis.Metadata;
+﻿using NBi.Core.Analysis;
+using NBi.Core.Analysis.Metadata;
 using NUnit.Framework;
 
 namespace NBi.Testing.Acceptance.Core.Analysis.Metadata
@@ -38,8 +39,11 @@ namespace NBi.Testing.Acceptance.Core.Analysis.Metadata
         public void GetChildStructure_DateDimensionWithThreeHierarchies_ListStructureContainingThreeElements()
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
+            var disco = new DiscoverCommand(ConnectionStringReader.GetAdomd());
+            disco.Perspective = "Finances";
+            disco.Path = "[Date]";
 
-            var structs = me.GetPartialMetadata("[Date]", "Finances");
+            var structs = me.GetPartialMetadata(disco);
 
             Assert.That(structs, Has.Count.EqualTo(3));
         }
@@ -47,8 +51,11 @@ namespace NBi.Testing.Acceptance.Core.Analysis.Metadata
         public void GetChildStructure_CalendarHierarchyWithFourLevels_ListStructureContainingFourElements()
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
+            var disco = new DiscoverCommand(ConnectionStringReader.GetAdomd());
+            disco.Perspective = "Finances";
+            disco.Path = "[Date].[Calendar]";
 
-            var structs = me.GetPartialMetadata("[Date].[Calendar]", "Finances");
+            var structs = me.GetPartialMetadata(disco);
 
             Assert.That(structs, Has.Count.EqualTo(4));
         }
@@ -56,10 +63,25 @@ namespace NBi.Testing.Acceptance.Core.Analysis.Metadata
         public void GetChildStructure_MonthLevelWithTwoProperties_ListStructureContainingTwoElements()
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
+            var disco = new DiscoverCommand(ConnectionStringReader.GetAdomd());
+            disco.Perspective = "Finances";
+            disco.Path = "[Date].[Calendar].[Month]";
 
-            var structs = me.GetPartialMetadata("[Date].[Calendar].[Month]", "Finances");
+            var structs = me.GetPartialMetadata(disco);
 
             Assert.That(structs, Has.Count.EqualTo(2));
+        }
+
+        public void GetMeasures_PerspectiveEasyFinances_ListMeasuresContainingTwoElements()
+        {
+            var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
+            var disco = new DiscoverCommand(ConnectionStringReader.GetAdomd());
+            disco.Perspective = "Easy finances";
+            disco.Path = "[Measures].[Fact Amount]";
+
+            var structs = me.GetPartialMetadata(disco);
+
+            Assert.That(structs, Has.Count.EqualTo(1));
         }
 
         

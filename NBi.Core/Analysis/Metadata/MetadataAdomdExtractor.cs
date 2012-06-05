@@ -62,8 +62,8 @@ namespace NBi.Core.Analysis.Metadata
             GetHierarchies(PathParser.PathFilter.EmptyFilter());
             GetLevels(PathParser.PathFilter.EmptyFilter());
             GetProperties(PathParser.PathFilter.EmptyFilter());
-            GetDimensionUsage();
-            GetMeasures();
+            GetDimensionUsage(PathParser.PathFilter.EmptyFilter());
+            GetMeasures(PathParser.PathFilter.EmptyFilter());
 
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Cube investigated"));
@@ -71,35 +71,53 @@ namespace NBi.Core.Analysis.Metadata
             return Metadata;
         }
 
-        public IEnumerable<IElement> GetPartialMetadata(string path, string perspective)
+        public IEnumerable<IField> GetPartialMetadata(DiscoverCommand command)
         {
-            var pathParser = PathParser.Build(perspective, path);
+            var pathParser = PathParser.Build(command);
+            
             var filter = pathParser.Filter;
+            Console.Out.WriteLine(filter.Type);
+            Console.Out.WriteLine(command.Path);
 
-            GetPerspectives(filter);
-            GetDimensions(filter);
-            GetHierarchies(filter);
-            GetLevels(filter);
-            GetProperties(filter);
+            if (filter.Type == PathParser.FilterType.Dimension)
+            {
+                GetPerspectives(filter);
+                GetDimensions(filter);
+                GetHierarchies(filter);
+                GetLevels(filter);
+                GetProperties(filter);
 
-            if (string.IsNullOrEmpty(filter.DimensionUniqueName))
-                return Metadata.Perspectives[filter.Perspective]
-                    .Dimensions.Values.AsEnumerable<IElement>();
-            else if (string.IsNullOrEmpty(filter.HierarchyUniqueName))
-                return Metadata.Perspectives[filter.Perspective]
-                    .Dimensions[filter.DimensionUniqueName]
-                    .Hierarchies.Values.AsEnumerable<IElement>();
-            else if (string.IsNullOrEmpty(filter.LevelUniqueName))
-                return Metadata.Perspectives[filter.Perspective]
-                    .Dimensions[filter.DimensionUniqueName]
-                    .Hierarchies[filter.HierarchyUniqueName]
-                    .Levels.Values.AsEnumerable<IElement>();
+                if (string.IsNullOrEmpty(filter.DimensionUniqueName))
+                    return Metadata.Perspectives[filter.Perspective]
+                        .Dimensions.Values.AsEnumerable<IField>();
+                else if (string.IsNullOrEmpty(filter.HierarchyUniqueName))
+                    return Metadata.Perspectives[filter.Perspective]
+                        .Dimensions[filter.DimensionUniqueName]
+                        .Hierarchies.Values.AsEnumerable<IField>();
+                else if (string.IsNullOrEmpty(filter.LevelUniqueName))
+                    return Metadata.Perspectives[filter.Perspective]
+                        .Dimensions[filter.DimensionUniqueName]
+                        .Hierarchies[filter.HierarchyUniqueName]
+                        .Levels.Values.AsEnumerable<IField>();
+                else
+                    return Metadata.Perspectives[filter.Perspective]
+                        .Dimensions[filter.DimensionUniqueName]
+                        .Hierarchies[filter.HierarchyUniqueName]
+                        .Levels[filter.LevelUniqueName]
+                        .Properties.Values.AsEnumerable<IField>();
+            }
             else
+            {
+                Console.Out.WriteLine(filter.MeasureGroupName);
+                
+                GetPerspectives(filter);
+                GetDimensionUsage(filter);
+                GetMeasures(filter);
+
                 return Metadata.Perspectives[filter.Perspective]
-                    .Dimensions[filter.DimensionUniqueName]
-                    .Hierarchies[filter.HierarchyUniqueName]
-                    .Levels[filter.LevelUniqueName]
-                    .Properties.Values.AsEnumerable<IElement>();
+                        .MeasureGroups[filter.MeasureGroupName]
+                        .Measures.Values.AsEnumerable<IField>();
+            }
         }
 
         protected internal void GetPerspectives(PathParser.PathFilter filter)
@@ -297,14 +315,18 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        protected internal void GetDimensionUsage()
+        protected internal void GetDimensionUsage(PathParser.PathFilter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating measure groups and dimensions usage"));
 
             using (var cmd = CreateCommand())
             {
-                cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_measuregroup_dimensions WHERE DIMENSION_IS_VISIBLE");
+                var whereClause = string.IsNullOrEmpty(filter.Perspective) ? string.Empty : string.Format(" and CUBE_NAME='{0}'", filter.Perspective);
+                whereClause += string.IsNullOrEmpty(filter.MeasureGroupName) ? string.Empty : string.Format(" and [MEASUREGROUP_NAME]='{0}'", filter.MeasureGroupName);
+                whereClause += string.IsNullOrEmpty(filter.DimensionUniqueName) ? string.Empty : string.Format(" and [DIMENSION_UNIQUE_NAME]='{0}'", filter.DimensionUniqueName);
+                cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_measuregroup_dimensions WHERE DIMENSION_IS_VISIBLE{0}", whereClause);
+                Console.Out.WriteLine(cmd.CommandText);
                 var rdr = ExecuteReader(cmd);
 
                 // Traverse the response and 
@@ -332,15 +354,17 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        protected internal void GetMeasures()
+        protected internal void GetMeasures(PathParser.PathFilter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating measures"));
 
             using (var cmd = CreateCommand())
             {
-
-                cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_measures WHERE MEASURE_IS_VISIBLE and LEN(MEASUREGROUP_NAME)>0");
+                var whereClause = string.IsNullOrEmpty(filter.Perspective) ? string.Empty : string.Format(" and CUBE_NAME='{0}'", filter.Perspective);
+                whereClause += string.IsNullOrEmpty(filter.MeasureGroupName) ? string.Empty : string.Format(" and [MEASUREGROUP_NAME]='{0}'", filter.MeasureGroupName);
+                cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_measures WHERE MEASURE_IS_VISIBLE and LEN(MEASUREGROUP_NAME)>0{0}", whereClause);
+                Console.Out.WriteLine(cmd.CommandText);
                 var rdr = ExecuteReader(cmd);
 
                 // Traverse the response and 
@@ -360,7 +384,8 @@ namespace NBi.Core.Analysis.Metadata
 
                         string uniqueName = (string)rdr.GetValue(4);
                         string caption = (string)rdr.GetValue(5);
-                        mg.Measures.Add(uniqueName, caption);
+                        string displayFolder = (string)rdr.GetValue(19);
+                        mg.Measures.Add(uniqueName, caption, displayFolder);
                     }
                 }
             }

@@ -1,5 +1,7 @@
-﻿using NBi.Core.Analysis.Member;
+﻿using NBi.Core.Analysis;
+using NBi.Core.Analysis.Member;
 using NBi.Core.Analysis.Metadata;
+using NBi.Xml.Systems;
 using NBi.Xml.Constraints;
 using NUnit.Framework;
 using NBiNu = NBi.NUnit;
@@ -70,7 +72,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_ContainsXml_IsOfTypeElementContainsConstraint()
         {
-            var ctr = NBiNu.ConstraintFactory.Instantiate(new ContainsXml() { Caption = "xYz" }, typeof(MetadataQuery));
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new ContainsXml() { Caption = "xYz" }, typeof(StructureXml));
 
             Assert.That(ctr, Is.InstanceOf<NBiNu.Structure.ContainsConstraint>());
         }
@@ -78,7 +80,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_ContainsXml_IsOfTypeMemberContainsConstraint()
         {
-            var ctr = NBiNu.ConstraintFactory.Instantiate(new ContainsXml() { Caption = "xYz" }, typeof(DiscoverMemberCommand));
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new ContainsXml() { Caption = "xYz" }, typeof(MembersXml));
 
             Assert.That(ctr, Is.InstanceOf<NBiNu.Member.ContainsConstraint>());
         }

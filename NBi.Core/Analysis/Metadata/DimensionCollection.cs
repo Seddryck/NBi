@@ -6,11 +6,11 @@ namespace NBi.Core.Analysis.Metadata
 
     public class DimensionCollection : Dictionary<string, Dimension>
     {
-        public ICollection<IElement> GetChildStructure()
+        public ICollection<IField> GetChildStructure()
         {
             Dimension[] t = (Dimension[])Array.CreateInstance(typeof(Dimension), this.Count);
             this.Values.CopyTo(t, 0);
-            return (ICollection<IElement>)t;
+            return (ICollection<IField>)t;
         }
 
         public void AddOrIgnore(string uniqueName, string caption)

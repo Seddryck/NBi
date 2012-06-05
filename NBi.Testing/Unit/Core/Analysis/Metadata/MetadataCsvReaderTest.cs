@@ -12,7 +12,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
         public void Read_SimpleLine_PerspectiveIsCorrectlyRead()
         {
             var header = GetHeader();
-            var testContent = header + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n";
+            var testContent = header + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n";
             var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ReadCSV.csv");
             if (File.Exists(testFilename))
                 File.Delete(testFilename);
@@ -32,8 +32,8 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
         {
             var header = GetHeader();
             var testContent = header
-                + "\"p1\";\"mg1\";\"m1\";\"[m1]\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
-                + "\"p2\";\"mg2\";\"m2\";\"[m2]\";\"d2\";\"[d2]\";\"h2\";\"[h2]\";\"l2\";\"[l2]\";\"0\";\"p2\";\"[p2]\"\r\n"
+                + "\"p1\";\"mg1\";\"m1\";\"[m1]\";\"df\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
+                + "\"p2\";\"mg2\";\"m2\";\"[m2]\";\"df\";\"d2\";\"[d2]\";\"h2\";\"[h2]\";\"l2\";\"[l2]\";\"0\";\"p2\";\"[p2]\"\r\n"
                 ;
             var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ReadCSV.csv");
             if (File.Exists(testFilename))
@@ -56,8 +56,8 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
         {
             var header = GetHeader();
             var testContent = header
-                + "\"p\";\"mg1\";\"m1\";\"[m1]\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
-                + "\"p\";\"mg2\";\"m2\";\"[m2]\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
+                + "\"p\";\"mg1\";\"m1\";\"[m1]\";\"df\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
+                + "\"p\";\"mg2\";\"m2\";\"[m2]\";\"df\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 ;
             var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ReadCSV.csv");
             if (File.Exists(testFilename))
@@ -80,8 +80,8 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
         {
             var header = GetHeader();
             var testContent = header
-                + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
-                + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d2\";\"[d2]\";\"h2\";\"[h2]\";\"l2\";\"[l2]\";\"1\";\"p2\";\"[p2]\"\r\n"
+                + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
+                + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d2\";\"[d2]\";\"h2\";\"[h2]\";\"l2\";\"[l2]\";\"1\";\"p2\";\"[p2]\"\r\n"
                 ;
             var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ReadCSV.csv");
             if (File.Exists(testFilename))
@@ -106,8 +106,8 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
         {
             var header = GetHeader();
             var testContent = header
-                + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
-                + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d1\";\"[d1]\";\"h2\";\"[h2]\";\"l2\";\"[l2]\";\"1\";\"p2\";\"[p2]\"\r\n"
+                + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
+                + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d1\";\"[d1]\";\"h2\";\"[h2]\";\"l2\";\"[l2]\";\"1\";\"p2\";\"[p2]\"\r\n"
                 ;
             var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ReadCSV.csv");
             if (File.Exists(testFilename))
@@ -133,8 +133,8 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
         {
             var header = GetHeader();
             var testContent = header
-                + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
-                + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l2\";\"[l2]\";\"1\";\"p2\";\"[p2]\"\r\n"
+                + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
+                + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l2\";\"[l2]\";\"1\";\"p2\";\"[p2]\"\r\n"
                 ;
             var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ReadCSV.csv");
             if (File.Exists(testFilename))
@@ -164,7 +164,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
         public void Read_NoPropertyForTheLevel_PropertyCountIsEqualToZero()
         {
             var header = GetHeader();
-            var testContent = header + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"\";\"\"\r\n";
+            var testContent = header + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"\";\"\"\r\n";
             var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ReadCSV.csv");
             if (File.Exists(testFilename))
                 File.Delete(testFilename);
@@ -186,9 +186,9 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
         public void Read_TwoPropertiesForTheSameLevel_PropertiesAreCorrectlyAssigned()
         {
             var header = GetHeader();
-            var testContent = header 
-                + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
-                + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p2\";\"[p2]\"\r\n"
+            var testContent = header
+                + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
+                + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p2\";\"[p2]\"\r\n"
                 ;
             var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ReadCSV.csv");
             if (File.Exists(testFilename))
@@ -214,8 +214,8 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
         {
             var header = GetHeader();
             var testContent = header
-                + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
-                + "\"p\";\"mg\";\"m2\";\"[m2]\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
+                + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
+                + "\"p\";\"mg\";\"m2\";\"[m2]\";\"df\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 ;
             var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ReadCSV.csv");
             if (File.Exists(testFilename))
@@ -238,7 +238,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
 
         private string GetHeader()
         {
-            return "\"Perspective\";\"MeasureGroup\";\"MeasureCaption\";\"MeasureUniqueName\";\"DimensionCaption\";\"DimensionUniqueName\";\"HierarchyCaption\";\"HierarchyUniqueName\";\"LevelCaption\";\"LevelUniqueName\";\"LevelNumber\";\"PropertyCaption\";\"PropertyUniqueName\"\r\n";
+            return "\"Perspective\";\"MeasureGroup\";\"MeasureCaption\";\"MeasureUniqueName\";\"MeasureDisplayFolder\";\"DimensionCaption\";\"DimensionUniqueName\";\"HierarchyCaption\";\"HierarchyUniqueName\";\"LevelCaption\";\"LevelUniqueName\";\"LevelNumber\";\"PropertyCaption\";\"PropertyUniqueName\"\r\n";
         }
 
         

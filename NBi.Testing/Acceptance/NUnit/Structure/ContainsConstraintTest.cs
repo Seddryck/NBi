@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using NBi.Core.Analysis;
 using NBi.Core.Analysis.Metadata;
 using NBi.NUnit.Structure;
 using NUnit.Framework;
@@ -40,11 +41,10 @@ namespace NBi.Testing.Acceptance.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainsConstraint_FindExistingHierarchyBellowSpecificDimension_Success()
         {
-            var mq = new MetadataQuery();
+            var mq = new DiscoverCommand(ConnectionStringReader.GetAdomd());
             mq.Path = "[Date]";
             mq.Perspective = "Finances";
-            mq.ConnectionString = ConnectionStringReader.GetAdomd();
-
+            
             var ctr = new ContainsConstraint("Calendar");
 
             //Method under test
@@ -55,10 +55,9 @@ namespace NBi.Testing.Acceptance.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainsConstraint_FindNonExistingHierarchyBellowSpecificDimension_Failure()
         {
-            var mq = new MetadataQuery();
+            var mq = new DiscoverCommand(ConnectionStringReader.GetAdomd());
             mq.Path = "[Date]";
             mq.Perspective = "Finances";
-            mq.ConnectionString = ConnectionStringReader.GetAdomd();
 
             var ctr = new ContainsConstraint("Not existing");
 

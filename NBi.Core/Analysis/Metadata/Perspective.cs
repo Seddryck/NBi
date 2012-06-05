@@ -26,7 +26,7 @@ namespace NBi.Core.Analysis.Metadata
             return p;
         }
 
-        public ICollection<IElement> GetChildStructure()
+        public ICollection<IField> GetChildStructure()
         {
             return Dimensions.GetChildStructure();
         }

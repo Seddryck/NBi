@@ -2,6 +2,7 @@
 using NBi.Core.Analysis.Member;
 using NBi.Core.Analysis.Metadata;
 using NBi.Xml.Constraints;
+using NBi.Xml.Systems;
 using NUnit.Framework.Constraints;
 
 namespace NBi.NUnit
@@ -16,7 +17,7 @@ namespace NBi.NUnit
             if (xml.GetType() == typeof(CountXml)) return Instantiate((CountXml)xml);
             if (xml.GetType() == typeof(ContainsXml)) return Instantiate((ContainsXml)xml, systemType);
 
-            throw new ArgumentException(string.Format("{0} is not an expected type.",xml.GetType().Name));
+            throw new ArgumentException(string.Format("{0} is not an expected type for a constraint.",xml.GetType().Name));
         }
         
         protected static EqualToConstraint Instantiate(EqualToXml xml)
@@ -67,17 +68,22 @@ namespace NBi.NUnit
         protected static Constraint Instantiate(ContainsXml xml, Type systemType)
         {
 
-            if (systemType == typeof(MetadataQuery))
+            if (systemType == typeof(StructureXml))
                 return InstantiateForStructure(xml);
-            if (systemType == typeof(DiscoverMemberCommand))
+            if (systemType == typeof(MembersXml))
                 return InstantiateForMember(xml);
 
-            throw new ArgumentException(string.Format("{0} is not an expected type.", systemType.Name));
+            throw new ArgumentException(string.Format("'{0}' is not an expected type for a system when instantiating a '{1}' constraint.", systemType.Name, xml.GetType().Name));
         }
 
         private static NBi.NUnit.Structure.ContainsConstraint InstantiateForStructure(ContainsXml xml)
         {
-            var ctr = new NBi.NUnit.Structure.ContainsConstraint(xml.Caption);
+            NBi.NUnit.Structure.ContainsConstraint ctr=null;
+
+            if (xml.Specification.IsDisplayFolderSpecified)
+                ctr = new NBi.NUnit.Structure.ContainsConstraint(new FieldWithDisplayFolder() { Caption = xml.Caption, DisplayFolder = xml.DisplayFolder });
+            else
+                ctr = new NBi.NUnit.Structure.ContainsConstraint(xml.Caption);
 
             if (xml.IgnoreCase)
                 ctr = ctr.IgnoreCase;

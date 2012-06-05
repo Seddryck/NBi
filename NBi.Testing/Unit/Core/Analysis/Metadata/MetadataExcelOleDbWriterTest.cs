@@ -78,8 +78,8 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             var d = new Dimension("[d]", "d", hs);
             mg.LinkedDimensions.Add(d);
 
-            var m1 = new Measure("[m1]", "m1");
-            var m2 = new Measure("[m2]", "m2");
+            var m1 = new Measure("[m1]", "m1", "df");
+            var m2 = new Measure("[m2]", "m2", "df");
             mg.Measures.Add(m1);
             mg.Measures.Add(m2);
 

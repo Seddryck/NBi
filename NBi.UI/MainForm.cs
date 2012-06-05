@@ -244,7 +244,7 @@ namespace NBi.UI
                 metadataExtractor.ProgressStatusChanged += new ProgressStatusHandler(ProgressStatus);
                 try
                 {
-                    Metadata = metadataExtractor.GetMetadata();
+                    Metadata = metadataExtractor.GetFullMetadata();
                 }
                 catch (ConnectionException ex)
                 {

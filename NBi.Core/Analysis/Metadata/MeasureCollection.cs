@@ -5,11 +5,11 @@ using System.Collections.Generic;
 namespace NBi.Core.Analysis.Metadata
 {
 
-    public class Measures : Dictionary<string, Measure>
+    public class MeasureCollection : Dictionary<string, Measure>
     {
-        public void Add(string uniqueName, string caption)
+        public void Add(string uniqueName, string caption, string displayFolder)
         {
-            this.Add(uniqueName, new Measure(uniqueName, caption));
+            this.Add(uniqueName, new Measure(uniqueName, caption, displayFolder));
         }
 
 

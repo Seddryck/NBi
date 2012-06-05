@@ -15,6 +15,9 @@ namespace NBi.Core.Analysis.Member
 
         public MemberResult Execute(DiscoverCommand cmd)
         {
+            if (!string.IsNullOrEmpty(cmd.Function))
+                throw new ArgumentException("SchemaRowsetAdomdEngine doesn't support usage of 'function' value");
+            
             var list = new MemberResult();
 
             if (ProgressStatusChanged != null)

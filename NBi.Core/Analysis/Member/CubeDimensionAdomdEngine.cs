@@ -83,8 +83,8 @@ namespace NBi.Core.Analysis.Member
         {
             var cmd = CreateCommand(disco.ConnectionString);
 
-            cmd.CommandText = string.Format("select {0} on 0, {1}.{2} on 1 from [{3}]", "{}" , disco.Path, "members", disco.Perspective);
-            //Console.Out.WriteLine(cmd.CommandText);
+            cmd.CommandText = string.Format("select {0} on 0, {1}.{2} on 1 from [{3}]", "{}" , disco.Path, disco.Function, disco.Perspective);
+            Console.Out.WriteLine(cmd.CommandText);
             return cmd;
         }
 

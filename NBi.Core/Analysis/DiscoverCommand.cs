@@ -5,6 +5,7 @@
         public string ConnectionString { get; set; }
         public string Perspective { get; set; }
         public string Path { get; set; }
+        public string Function { get; set; }
 
         public DiscoverCommand(string connectionString)
         {

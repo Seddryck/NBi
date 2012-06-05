@@ -13,6 +13,9 @@ namespace NBi.Xml.Systems
         [XmlAttribute("path")]
         public string Path { get; set; }
 
+        [XmlAttribute("children-of")]
+        public string ChildrenOf { get; set; }
+
         [XmlAttribute("connectionString")]
         public string ConnectionString { get; set; }
 
@@ -21,7 +24,8 @@ namespace NBi.Xml.Systems
             var cmd = new DiscoverCommand(ConnectionString);
 
             cmd.Perspective = Perspective;
-            cmd.Path = Path;
+            cmd.Path = string.IsNullOrEmpty(ChildrenOf) ? Path : string.Format("{0}.[{1}]",Path,ChildrenOf);
+            cmd.Function = string.IsNullOrEmpty(ChildrenOf) ? "members" : "children";
 
             return cmd;
         }

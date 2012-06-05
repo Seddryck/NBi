@@ -85,8 +85,8 @@ namespace NBi.Core.Analysis.Member
 
             string dimensionCube = GetDimensionCube(disco.Path);
 
-            cmd.CommandText = string.Format("select {0}.{1} on 0 from {2}", disco.Path, "members", dimensionCube);
-
+            cmd.CommandText = string.Format("select {0}.{1} on 0 from {2}", disco.Path, disco.Function, dimensionCube);
+            Console.Out.WriteLine(cmd.CommandText);
             return cmd;
         }
 

@@ -282,6 +282,15 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(((ContainsXml)ts.Tests[11].Constraints[0]).Specification.IsDisplayFolderSpecified, Is.True);
         }
 
-       
+        [Test]
+        public void Deserialize_SampleFile_MembersWithChildrenOf()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[12].Systems[0], Is.TypeOf<MembersXml>());
+            Assert.That(((MembersXml)ts.Tests[12].Systems[0]).Path, Is.EqualTo("[dimension].[hierarchy].[level]"));
+            Assert.That(((MembersXml)ts.Tests[12].Systems[0]).ChildrenOf, Is.EqualTo("aBc"));
+        }
     }
 }

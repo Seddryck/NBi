@@ -92,6 +92,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
     <Compile Include="Unit\Xml\Constraints\EqualToXmlTest.cs" />
+    <Compile Include="Unit\Xml\Systems\MembersXmlTest.cs" />
     <Compile Include="Unit\Xml\TestSuiteTest.cs" />
     <Compile Include="Unit\NUnit\ConstraintFactoryTest.cs" />
     <Compile Include="Unit\Xml\TestCaseXmlTest.cs" />

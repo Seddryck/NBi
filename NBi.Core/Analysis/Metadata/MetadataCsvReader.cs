@@ -66,15 +66,16 @@ namespace NBi.Core.Analysis.Metadata
             csvMetadata.measureGroupName = items[1];
             csvMetadata.measureCaption = items[2];
             csvMetadata.measureUniqueName = items[3];
-            csvMetadata.dimensionCaption = items[4];
-            csvMetadata.dimensionUniqueName = items[5];
-            csvMetadata.hierarchyCaption = items[6];
-            csvMetadata.hierarchyUniqueName = items[7];
-            csvMetadata.levelCaption = items[8];
-            csvMetadata.levelUniqueName = items[9];
-            csvMetadata.levelNumber = int.Parse(items[10]);
-            csvMetadata.propertyCaption = items[11];
-            csvMetadata.propertyUniqueName = items[12];
+            csvMetadata.measureDisplayFolder = items[4];
+            csvMetadata.dimensionCaption = items[5];
+            csvMetadata.dimensionUniqueName = items[6];
+            csvMetadata.hierarchyCaption = items[7];
+            csvMetadata.hierarchyUniqueName = items[8];
+            csvMetadata.levelCaption = items[9];
+            csvMetadata.levelUniqueName = items[10];
+            csvMetadata.levelNumber = int.Parse(items[11]);
+            csvMetadata.propertyCaption = items[12];
+            csvMetadata.propertyUniqueName = items[13];
             return csvMetadata;
         }
 
@@ -84,6 +85,7 @@ namespace NBi.Core.Analysis.Metadata
             public string measureGroupName;
             public string measureCaption;
             public string measureUniqueName;
+            public string measureDisplayFolder;
             public string dimensionCaption;
             public string dimensionUniqueName;
             public string hierarchyCaption;
@@ -117,7 +119,7 @@ namespace NBi.Core.Analysis.Metadata
 
                 if (!mg.Measures.ContainsKey(r.measureUniqueName))
                 {
-                    mg.Measures.Add(r.measureUniqueName, r.measureCaption);
+                    mg.Measures.Add(r.measureUniqueName, r.measureCaption, r.measureDisplayFolder);
                 }
 
                 Dimension dim = null;

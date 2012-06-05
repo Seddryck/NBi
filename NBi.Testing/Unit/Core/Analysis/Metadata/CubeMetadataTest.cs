@@ -44,10 +44,10 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             var cm = new CubeMetadata();
             cm.Perspectives.Add(new Perspective("p"));
             cm.Perspectives["p"].MeasureGroups.Add(new MeasureGroup("mg"));
-            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m1]","m1"));
-            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m2]","m2"));
-            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m3]","xm3x"));
-            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m4]", "4"));
+            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m1]","m1","df"));
+            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m2]", "m2", "df"));
+            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m3]", "xm3x", "df"));
+            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m4]", "4", "df"));
 
             //Call the method to test
             var res = cm.FindMeasures("m");
@@ -65,10 +65,10 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             var cm = new CubeMetadata();
             cm.Perspectives.Add(new Perspective("p"));
             cm.Perspectives["p"].MeasureGroups.Add(new MeasureGroup("mg"));
-            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m1]", "m1"));
-            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m2]", "m2"));
-            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m3]", "xm3x"));
-            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m4]", "4"));
+            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m1]", "m1", "df"));
+            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m2]", "m2", "df"));
+            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m3]", "xm3x", "df"));
+            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m4]", "4", "df"));
 
             //Call the method to test
             var res = cm.FindMeasures("z");
@@ -84,10 +84,10 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             var cm = new CubeMetadata();
             cm.Perspectives.Add(new Perspective("p"));
             cm.Perspectives["p"].MeasureGroups.Add(new MeasureGroup("mg"));
-            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m1]", "m1"));
-            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m2]", "m2"));
-            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m3]", "xm3x"));
-            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m4]", "4"));
+            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m1]", "m1", "df"));
+            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m2]", "m2", "df"));
+            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m3]", "xm3x", "df"));
+            cm.Perspectives["p"].MeasureGroups["mg"].Measures.Add(new Measure("[m4]", "4", "df"));
 
             //Call the method to test
             var res = cm.FindMeasures("m[0-9]$");

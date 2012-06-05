@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.AnalysisServices.AdomdClient;
+using NBi.Core.Analysis.Metadata;
+using NBi.Core.Analysis;
 
 namespace NBi.Core.Analysis.Member
 {
@@ -11,7 +13,7 @@ namespace NBi.Core.Analysis.Member
         {
         }
 
-        public MemberResult Execute(DiscoverMemberCommand cmd)
+        public MemberResult Execute(DiscoverCommand cmd)
         {
             var list = new MemberResult();
 
@@ -78,14 +80,14 @@ namespace NBi.Core.Analysis.Member
             return cmd;
         }
 
-        public AdomdCommand BuildCommand(DiscoverMemberCommand disco)
+        public AdomdCommand BuildCommand(DiscoverCommand disco)
         {
             var cmd = CreateCommand(disco.ConnectionString);
 
             string whereClause = "";
             whereClause += string.Format(" where CUBE_NAME='{0}'", disco.Perspective);
 
-            var pathParser = PathParser.Build(disco.Perspective, disco.Path);
+            var pathParser = PathParser.Build(disco);
             whereClause += string.Format(" and [{0}_UNIQUE_NAME]='{1}'", pathParser.Position.Current.ToUpper(), disco.Path);
 
             cmd.CommandText = string.Format("select * from $system.mdschema_members{0}", whereClause);

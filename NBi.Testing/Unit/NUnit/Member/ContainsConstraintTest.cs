@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Moq;
+using NBi.Core.Analysis;
 using NBi.Core.Analysis.Member;
 using NBi.Core.Analysis.Metadata;
 using NBi.NUnit.Member;
@@ -14,7 +15,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         public void Matches_GivenMemberCommand_EngineCalledOnceWithParametersComingFromMemberCommand()
         {
             var exp = "Expected member";
-            var mc = new DiscoverMemberCommand(string.Empty) { Path = "[dimension].[hierarchy]"
+            var mc = new DiscoverCommand(string.Empty) { Path = "[dimension].[hierarchy]"
                                                 , Perspective = "perspective" };
 
             var memberStub = new Mock<NBi.Core.Analysis.Member.Member>();
@@ -42,7 +43,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         public void WriteTo_FailingAssertion_TextContainsFewKeyInfo()
         {
             var exp = "Expected member";
-            var mc = new DiscoverMemberCommand(string.Empty)
+            var mc = new DiscoverCommand(string.Empty)
                                 {
                                     Path = "[dimension].[hierarchy]",
                                     Perspective = "perspective"

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NBi.Core.Analysis.Metadata;
 
 namespace NBi.Core.Analysis
 {
@@ -8,48 +9,71 @@ namespace NBi.Core.Analysis
         public PathFilter Filter { get; protected set; }
         public PathPosition Position { get; protected set; }
 
-        public static PathParser Build(string perspective, string path)
+        public static PathParser Build(DiscoverCommand command)
         {
             var pathParser = new PathParser();
-            pathParser.Filter = pathParser.GetFilter(perspective, path);
-            pathParser.Position = pathParser.GetPosition(path);
+            pathParser.Filter = pathParser.GetFilter(command);
+            pathParser.Position = pathParser.GetPosition(command);
             return pathParser;
         }
 
 
-        protected PathFilter GetFilter(string perspective, string path)
+        protected PathFilter GetFilter(DiscoverCommand command)
         {
-            if (string.IsNullOrEmpty(perspective))
+            if (string.IsNullOrEmpty(command.Perspective))
                 throw new ArgumentNullException();
 
             var filter = new PathFilter();
-            filter.Perspective = perspective;
+            filter.Perspective = command.Perspective;
+            var parts = command.Path.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
 
-            var parts = path.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length > 0)
-                filter.DimensionUniqueName = parts[0];
+            if (command.IsMeasureBased)
+            {
+                filter.Type = FilterType.Measure;
+                
+                if (parts.Length == 2)
+                    filter.MeasureGroupName = parts[1].Replace("[", "").Replace("]", "");
+                else
+                    throw new ArgumentException("Path for a measure must have two parts!");
+            }
+            else
+            {
+                filter.Type = FilterType.Dimension;
 
-            if (parts.Length > 1)
-                filter.HierarchyUniqueName = string.Format("{0}.{1}", parts);
+                if (parts.Length > 0)
+                    filter.DimensionUniqueName = parts[0];
 
-            if (parts.Length > 2)
-                filter.LevelUniqueName = string.Format("{0}.{1}.{2}", parts);
+                if (parts.Length > 1)
+                    filter.HierarchyUniqueName = string.Format("{0}.{1}", parts);
 
+                if (parts.Length > 2)
+                    filter.LevelUniqueName = string.Format("{0}.{1}.{2}", parts);
+            }
             return filter;
         }
 
-        protected PathPosition GetPosition(string path)
+        protected PathPosition GetPosition(DiscoverCommand command)
         {
-            var partsCount = path.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries).Count();
+            var partsCount = command.Path.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries).Count();
             return new PathPosition(partsCount);
         }
 
+        public enum FilterType
+        {
+            Measure = 1,
+            Dimension = 2
+        };
+
         public class PathFilter
         {
+            
+         
+            public FilterType Type { get; internal set; }
             public string Perspective { get; set; }
             public string DimensionUniqueName { get; set; }
             public string HierarchyUniqueName { get; set; }
             public string LevelUniqueName { get; set; }
+            public string MeasureGroupName { get; set; }
 
             public static PathFilter EmptyFilter()
             {

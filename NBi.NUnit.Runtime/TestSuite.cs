@@ -22,6 +22,7 @@ namespace NBi.NUnit.Runtime
         [Test, TestCaseSource("GetTestCases")]
         public void ExecuteTestCases(TestXml test)
         {
+            Console.Out.WriteLine("Loading TestSuite");
             Console.Out.WriteLine("Test suite defined in " + GetTestSuiteFileDefinition());
             foreach (var tc in test.Systems)
             {

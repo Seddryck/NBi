@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 using NBi.Core.Analysis.Member;
+using NBi.Core.Analysis;
 
 namespace NBi.Xml.Systems
 {
@@ -17,7 +18,7 @@ namespace NBi.Xml.Systems
 
         public override object Instantiate()
         {
-            var cmd = new DiscoverMemberCommand(ConnectionString);
+            var cmd = new DiscoverCommand(ConnectionString);
 
             cmd.Perspective = Perspective;
             cmd.Path = Path;

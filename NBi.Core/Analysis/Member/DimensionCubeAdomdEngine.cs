@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AnalysisServices.AdomdClient;
+using NBi.Core.Analysis;
 
 namespace NBi.Core.Analysis.Member
 {
@@ -27,7 +28,7 @@ namespace NBi.Core.Analysis.Member
             { throw new ConnectionException(ex); }
         }
 
-        public MemberResult Execute(DiscoverMemberCommand cmd)
+        public MemberResult Execute(DiscoverCommand cmd)
         {
             var list = new MemberResult();
 
@@ -78,7 +79,7 @@ namespace NBi.Core.Analysis.Member
             return cmd;
         }
 
-        public AdomdCommand BuildCommand(DiscoverMemberCommand disco)
+        public AdomdCommand BuildCommand(DiscoverCommand disco)
         {
             var cmd = CreateCommand(disco.ConnectionString);
 

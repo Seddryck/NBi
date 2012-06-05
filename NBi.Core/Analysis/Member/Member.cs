@@ -30,6 +30,11 @@ namespace NBi.Core.Analysis.Member
             LevelNumber = levelNumber;
         }
 
+        public override string ToString()
+        {
+            return string.Format("< {0} > - {1}", Caption, UniqueName);
+        }
+
         public class ComparerByCaption : IComparer
         {
             readonly IComparer internalComparer;

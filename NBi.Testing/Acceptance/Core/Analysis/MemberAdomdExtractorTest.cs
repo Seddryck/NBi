@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using NBi.Core.Analysis;
 using NBi.Core.Analysis.Member;
 using NUnit.Framework;
 
@@ -42,7 +43,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         {
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
-            var amc = new DiscoverMemberCommand(ConnectionStringReader.GetAdomd());
+            var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
             amc.Path="[Counter Party].[Accounts Structure].[Label]";
 
@@ -60,7 +61,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         {
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
-            var amc = new DiscoverMemberCommand(ConnectionStringReader.GetAdomd());
+            var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
             amc.Path = "[Counter Party].[Accounts Structure].[Label]";
 
@@ -77,7 +78,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         {
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
-            var amc = new DiscoverMemberCommand(ConnectionStringReader.GetAdomd());
+            var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
             amc.Path = "[Counter Party].[Accounts Structure].[Label]";
 
@@ -94,7 +95,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         {
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
-            var amc = new DiscoverMemberCommand(ConnectionStringReader.GetAdomd());
+            var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
             amc.Path = "[Counter Party].[Accounts Structure].[Label]";
 
@@ -110,7 +111,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         {
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
-            var amc = new DiscoverMemberCommand(ConnectionStringReader.GetAdomd());
+            var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
             amc.Path = "[Counter Party].[Accounts Structure]";
 
@@ -128,7 +129,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         {
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
-            var amc = new DiscoverMemberCommand(ConnectionStringReader.GetAdomd());
+            var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
             amc.Path = "[Counter Party].[Accounts Structure]";
 
@@ -145,7 +146,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         {
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
-            var amc = new DiscoverMemberCommand(ConnectionStringReader.GetAdomd());
+            var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
             amc.Path = "[Counter Party].[Accounts Structure]";
 
@@ -163,7 +164,7 @@ namespace NBi.Testing.Acceptance.Core.Analysis
         {
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
-            var amc = new DiscoverMemberCommand(ConnectionStringReader.GetAdomd());
+            var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
             amc.Perspective = "Easy Finances";
             amc.Path = "[Counter Party].[Accounts Structure]";
 

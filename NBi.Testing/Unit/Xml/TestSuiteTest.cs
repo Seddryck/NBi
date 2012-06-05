@@ -238,6 +238,50 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(((StructureXml)ts.Tests[8].Systems[0]).ConnectionString, Is.EqualTo("ConnectionString"));
         }
 
+        [Test]
+        public void Deserialize_SampleFile_StructureWithoutPathButWithMeasureGroup()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[9].Systems[0], Is.TypeOf<StructureXml>());
+            Assert.That(((StructureXml)ts.Tests[9].Systems[0]).MeasureGroup, Is.EqualTo("MeasureGroupName"));
+            Assert.That(((StructureXml)ts.Tests[9].Systems[0]).Perspective, Is.EqualTo("Perspective"));
+            Assert.That(((StructureXml)ts.Tests[9].Systems[0]).ConnectionString, Is.EqualTo("ConnectionString"));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ContainsConstraintWithoutDisplayFolder()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[9].Constraints[0], Is.TypeOf<ContainsXml>());
+            Assert.That(((ContainsXml)ts.Tests[9].Constraints[0]).Specification.IsDisplayFolderSpecified, Is.False);
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ContainsConstraintWithDisplayFolder()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[10].Constraints[0], Is.TypeOf<ContainsXml>());
+            Assert.That(((ContainsXml)ts.Tests[10].Constraints[0]).DisplayFolder, Is.EqualTo("aBc"));
+            Assert.That(((ContainsXml)ts.Tests[11].Constraints[0]).Specification.IsDisplayFolderSpecified, Is.True);
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ContainsConstraintWithDisplayFolderRoot()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[11].Constraints[0], Is.TypeOf<ContainsXml>());
+            Assert.That(((ContainsXml)ts.Tests[11].Constraints[0]).DisplayFolder, Is.EqualTo(""));
+            Assert.That(((ContainsXml)ts.Tests[11].Constraints[0]).Specification.IsDisplayFolderSpecified, Is.True);
+        }
+
        
     }
 }

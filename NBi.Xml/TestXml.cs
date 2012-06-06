@@ -32,6 +32,7 @@ namespace NBi.Xml
         XmlArrayItem(Type = typeof(EqualToXml), ElementName = "equalTo"),
         XmlArrayItem(Type = typeof(CountXml), ElementName = "count"),
         XmlArrayItem(Type = typeof(ContainsXml), ElementName = "contains"),
+        XmlArrayItem(Type = typeof(OrderedXml), ElementName = "ordered"),
         ]
         public List<AbstractConstraintXml> Constraints;
 

@@ -52,6 +52,7 @@
     <Compile Include="Member\ContainsConstraint.cs" />
     <Compile Include="Member\CountConstraint.cs" />
     <Compile Include="EqualToConstraint.cs" />
+    <Compile Include="Member\OrderedConstraint.cs" />
     <Compile Include="Structure\ContainsConstraint.cs" />
     <Compile Include="OnDataSource.cs" />
     <Compile Include="SyntacticallyCorrectConstraint.cs" />

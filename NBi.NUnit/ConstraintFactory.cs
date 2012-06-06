@@ -16,6 +16,7 @@ namespace NBi.NUnit
             if (xml.GetType() == typeof(SyntacticallyCorrectXml)) return Instantiate((SyntacticallyCorrectXml)xml);
             if (xml.GetType() == typeof(CountXml)) return Instantiate((CountXml)xml);
             if (xml.GetType() == typeof(ContainsXml)) return Instantiate((ContainsXml)xml, systemType);
+            if (xml.GetType() == typeof(OrderedXml)) return Instantiate((OrderedXml)xml);
 
             throw new ArgumentException(string.Format("{0} is not an expected type for a constraint.",xml.GetType().Name));
         }
@@ -62,6 +63,30 @@ namespace NBi.NUnit
 
             if (xml.Specification.IsLessThanSpecified)
                 ctr = ctr.LessThan(xml.LessThan);
+            return ctr;
+        }
+
+        protected static NBi.NUnit.Member.OrderedConstraint Instantiate(OrderedXml xml)
+        {
+            var ctr = new NBi.NUnit.Member.OrderedConstraint();
+            if (xml.Descending)
+                ctr = ctr.Descending;
+
+            switch (xml.Rule)
+            {
+                case OrderedXml.Order.Alphabetical:
+                    ctr = ctr.Alphabetical;
+                    break;
+                case OrderedXml.Order.Chronological:
+                    ctr = ctr.Chronological;
+                    break;
+                case OrderedXml.Order.Numerical:
+                    ctr = ctr.Numerical;
+                    break;
+                default:
+                    break;
+            }
+
             return ctr;
         }
 

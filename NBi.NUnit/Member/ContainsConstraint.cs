@@ -86,7 +86,7 @@ namespace NBi.NUnit.Member
             }
         }
 
-        public bool doMatch(IEnumerable<IField> actual)
+        protected bool doMatch(IEnumerable<IField> actual)
         {
             return base.Using(comparer).Matches(actual);
         }

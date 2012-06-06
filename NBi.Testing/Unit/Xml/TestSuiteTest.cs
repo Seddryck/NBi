@@ -292,5 +292,36 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(((MembersXml)ts.Tests[12].Systems[0]).Path, Is.EqualTo("[dimension].[hierarchy].[level]"));
             Assert.That(((MembersXml)ts.Tests[12].Systems[0]).ChildrenOf, Is.EqualTo("aBc"));
         }
+
+        [Test]
+        public void Deserialize_SampleFile_OrderedConstraintAlphabeticalNothingSpecified()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[13].Constraints[0], Is.TypeOf<OrderedXml>());
+            Assert.That(((OrderedXml)ts.Tests[13].Constraints[0]).Rule, Is.EqualTo(OrderedXml.Order.Alphabetical));
+            Assert.That(((OrderedXml)ts.Tests[13].Constraints[0]).Descending, Is.False);
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_OrderedConstraintAlphabeticalDescendingSpecified()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[14].Constraints[0], Is.TypeOf<OrderedXml>());
+            Assert.That(((OrderedXml)ts.Tests[14].Constraints[0]).Descending, Is.True);
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_OrderedConstraintAlphabeticalChronologicalSpecified()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[15].Constraints[0], Is.TypeOf<OrderedXml>());
+            Assert.That(((OrderedXml)ts.Tests[15].Constraints[0]).Rule, Is.EqualTo(OrderedXml.Order.Chronological));
+        }
     }
 }

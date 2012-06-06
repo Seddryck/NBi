@@ -85,5 +85,13 @@ namespace NBi.Testing.Unit.NUnit
             Assert.That(ctr, Is.InstanceOf<NBiNu.Member.ContainsConstraint>());
         }
 
+        [Test]
+        public void Instantiate_OrderedXml_IsOfTypeMemberOrderedConstraint()
+        {
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new OrderedXml(), typeof(MembersXml));
+
+            Assert.That(ctr, Is.InstanceOf<NBiNu.Member.OrderedConstraint>());
+        }
+
     }
 }

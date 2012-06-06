@@ -141,4 +141,33 @@
 			/>
 		</assert>
 	</test>
+	<test name="hierarchy's members are ordered alphabetically">
+		<system-under-test>
+			<members path="[dimension].[hierarchy]" perspective="Perspective" connectionString="ConnectionString"/>
+		</system-under-test>
+		<assert>
+			<ordered
+			/>
+		</assert>
+	</test>
+	<test name="hierarchy's members are ordered descending">
+		<system-under-test>
+			<members path="[dimension].[hierarchy]" perspective="Perspective" connectionString="ConnectionString"/>
+		</system-under-test>
+		<assert>
+			<ordered
+				descending="true"
+			/>
+		</assert>
+	</test>
+	<test name="hierarchy's members are ordered chronologically">
+		<system-under-test>
+			<members path="[dimension].[hierarchy]" perspective="Perspective" connectionString="ConnectionString"/>
+		</system-under-test>
+		<assert>
+			<ordered
+				rule="chronological"
+			/>
+		</assert>
+	</test>
 </testSuite>

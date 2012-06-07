@@ -141,18 +141,18 @@
 			/>
 		</assert>
 	</test>
-	<test name="hierarchy's members are ordered alphabetically">
+	<test name="level's members are ordered alphabetically">
 		<system-under-test>
-			<members path="[dimension].[hierarchy]" perspective="Perspective" connectionString="ConnectionString"/>
+			<members path="[dimension].[hierarchy].[level]" perspective="Perspective" connectionString="ConnectionString"/>
 		</system-under-test>
 		<assert>
 			<ordered
 			/>
 		</assert>
 	</test>
-	<test name="hierarchy's members are ordered descending">
+	<test name="level's members are ordered descending">
 		<system-under-test>
-			<members path="[dimension].[hierarchy]" perspective="Perspective" connectionString="ConnectionString"/>
+			<members path="[dimension].[hierarchy].[level]" perspective="Perspective" connectionString="ConnectionString"/>
 		</system-under-test>
 		<assert>
 			<ordered
@@ -160,14 +160,30 @@
 			/>
 		</assert>
 	</test>
-	<test name="hierarchy's members are ordered chronologically">
+	<test name="level's members are ordered chronologically">
 		<system-under-test>
-			<members path="[dimension].[hierarchy]" perspective="Perspective" connectionString="ConnectionString"/>
+			<members path="[dimension].[hierarchy].[level]" perspective="Perspective" connectionString="ConnectionString"/>
 		</system-under-test>
 		<assert>
 			<ordered
 				rule="chronological"
 			/>
+		</assert>
+	</test>
+	<test name="level's members are ordered specifically">
+		<system-under-test>
+			<members path="[dimension].[hierarchy].[level]" perspective="Perspective" connectionString="ConnectionString"/>
+		</system-under-test>
+		<assert>
+			<ordered
+				rule="specific"
+			>
+				<rule-definition>
+					<item>Leopold</item>
+					<item>Albert</item>
+					<item>Baudoin</item>
+				</rule-definition>
+			</ordered>
 		</assert>
 	</test>
 </testSuite>

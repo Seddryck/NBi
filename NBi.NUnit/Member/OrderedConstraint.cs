@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using NBi.Core.Analysis;
 using NBi.Core.Analysis.Member;
+using NBi.Core.Analysis.Metadata;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
@@ -9,6 +11,7 @@ namespace NBi.NUnit.Member
     public class OrderedConstraint : NUnitCtr.CollectionOrderedConstraint
     {
         private bool reversed;
+        private IList<Object> specific;
         protected IComparer comparer;
         protected DiscoverCommand command;
         protected IDiscoverMemberEngine memberEngine;
@@ -60,11 +63,11 @@ namespace NBi.NUnit.Member
         /// <summary>
         /// Flag the constraint to use StringComparaison.
         /// </summary>
-        public new OrderedConstraint Alphabetical
+        public OrderedConstraint Alphabetical
         {
             get
             {
-                IComparer comp = StringComparer.InvariantCultureIgnoreCase;
+                IComparer comp = new AlphabeticalComparer();
                 return (OrderedConstraint)base.Using(comp);
             }
         }
@@ -72,7 +75,7 @@ namespace NBi.NUnit.Member
         /// <summary>
         /// Flag the constraint to use DateTimeComparaison.
         /// </summary>
-        public new OrderedConstraint Chronological
+        public OrderedConstraint Chronological
         {
             get
             {
@@ -84,13 +87,22 @@ namespace NBi.NUnit.Member
         /// <summary>
         /// Flag the constraint to use DecimalComparaison.
         /// </summary>
-        public new OrderedConstraint Numerical
+        public OrderedConstraint Numerical
         {
             get
             {
                 IComparer comp = new NumericalComparer();
                 return (OrderedConstraint)base.Using(comp);
             }
+        }
+
+        /// <summary>
+        /// Flag the constraint to use DecimalComparaison.
+        /// </summary>
+        public OrderedConstraint Specific(IList<Object> definition)
+        {
+            specific = definition;
+            return this;
         }
 
 
@@ -101,7 +113,34 @@ namespace NBi.NUnit.Member
             if (actual is DiscoverCommand)
                 return Process((DiscoverCommand)actual);
             else
-                return base.Matches(actual);
+            {
+                if (specific == null)
+                    return base.Matches(actual);
+                else
+                    return this.doMatch(actual);
+            }
+        }
+
+        protected bool doMatch(object actual)
+        {
+            int index=0;
+            
+            foreach (var item in (IEnumerable<Object>)actual)
+	        {
+                var itemComparable = item is NBi.Core.Analysis.Member.Member ? ((NBi.Core.Analysis.Member.Member)item).Caption : item;
+
+                int i=0;
+                while (i != specific.Count && itemComparable != specific[i])
+	                i++;
+
+                if (i<specific.Count && i<index)
+                    return false;
+
+                if (i<specific.Count)
+                    index = i;
+	        }
+
+            return true;
         }
 
         protected bool Process(DiscoverCommand actual)
@@ -112,6 +151,24 @@ namespace NBi.NUnit.Member
             return this.Matches(result);
         }
 
+        protected class AlphabeticalComparer : IComparer
+        {
+            private readonly IComparer internalComparer;
+            
+            public AlphabeticalComparer()
+            {
+                internalComparer = StringComparer.InvariantCultureIgnoreCase;
+            }
+
+            int IComparer.Compare(Object x, Object y)
+            {
+                x = x is NBi.Core.Analysis.Member.Member ? ((NBi.Core.Analysis.Member.Member)x).Caption : x;
+                y = y is NBi.Core.Analysis.Member.Member ? ((NBi.Core.Analysis.Member.Member)y).Caption : y;
+
+                return internalComparer.Compare(x, y);
+            }
+        }
+
         protected class ChronologicalComparer : IComparer
         {
             public ChronologicalComparer()
@@ -120,6 +177,9 @@ namespace NBi.NUnit.Member
             
             int IComparer.Compare(Object x, Object y)
             {
+                x = x is NBi.Core.Analysis.Member.Member ? ((NBi.Core.Analysis.Member.Member)x).Caption : x;
+                y = y is NBi.Core.Analysis.Member.Member ? ((NBi.Core.Analysis.Member.Member)y).Caption : y;
+                
                 if (x is DateTime && y is DateTime)
                     return DateTime.Compare((DateTime)x,(DateTime)y);
                 if (x is DateTime && y is String)
@@ -128,7 +188,8 @@ namespace NBi.NUnit.Member
                     if (DateTime.TryParse((string)y, out newY))
                         return DateTime.Compare((DateTime)x, newY);
                     else
-                        throw new ArgumentException(string.Format("'{0}' cannot be converted to DateTime", y));
+                        return 0;
+                        //throw new ArgumentException(string.Format("'{0}' cannot be converted to DateTime", y));
                 }
                 if (x is String && y is DateTime)
                 {
@@ -136,7 +197,8 @@ namespace NBi.NUnit.Member
                     if (DateTime.TryParse((string)x, out newX))
                         return DateTime.Compare(newX, (DateTime)y);
                     else
-                        throw new ArgumentException(string.Format("'{0}' cannot be converted to DateTime", x));
+                        return 0;
+                        //throw new ArgumentException(string.Format("'{0}' cannot be converted to DateTime", x));
                 }
                 if (x is String && y is String)
                 {
@@ -144,8 +206,10 @@ namespace NBi.NUnit.Member
                     if (DateTime.TryParse((string)x, out newX) && DateTime.TryParse((string)y, out newY))
                         return DateTime.Compare(newX, newY);
                     else
-                        throw new ArgumentException(string.Format("'{0}' or '{1}' cannot be converted to DateTime", x, y));
+                        return 0;
+                        //throw new ArgumentException(string.Format("'{0}' of type '{1}' or '{2}' of type '{3}' cannot be converted to DateTime", x, x.GetType().Name, y, y.GetType().Name));
                 }
+                
 
                 throw new ArgumentException(string.Format("'{0}' or '{1}' cannot be compared chronologically", x.GetType().Name, y.GetType().Name));
             }
@@ -159,12 +223,17 @@ namespace NBi.NUnit.Member
 
             int IComparer.Compare(Object x, Object y)
             {
+                x = x is NBi.Core.Analysis.Member.Member ? ((NBi.Core.Analysis.Member.Member)x).Caption : x;
+                y = y is NBi.Core.Analysis.Member.Member ? ((NBi.Core.Analysis.Member.Member)y).Caption : y;
+
                 Decimal newX, newY;
                 if (Decimal.TryParse(x.ToString(), out newX) && Decimal.TryParse(y.ToString(), out newY))
                     return Decimal.Compare(newX, newY);
                 else
-                    throw new ArgumentException(string.Format("'{0}' or '{1}' cannot be converted to DateTime", x, y));
+                    return 0;
+                    //throw new ArgumentException(string.Format("'{0}' of type '{1}' or '{2}' of type '{3}' cannot be converted to Decimal", x, x.GetType().Name, y, y.GetType().Name));
             }
         }
+        
     }
 }

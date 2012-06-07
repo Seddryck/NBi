@@ -105,20 +105,32 @@
 										</xs:element>
 										<xs:element name="ordered" minOccurs="0">
 											<xs:complexType>
-												<xs:simpleContent>
-													<xs:extension base="xs:string">
-														<xs:attribute name="descending" type="xs:boolean" use="optional" />
-														<xs:attribute name="rule" use="optional" >
-															<xs:simpleType>
-																<xs:restriction base="xs:string">
-																	<xs:enumeration value="alphabetical"/>
-																	<xs:enumeration value="chronological"/>
-																	<xs:enumeration value="numerical"/>
-																</xs:restriction>
-															</xs:simpleType>
-														</xs:attribute>
-													</xs:extension>
-												</xs:simpleContent>
+												<xs:sequence>
+													<xs:element name="rule-definition" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+																	<xs:complexType>
+																		<xs:simpleContent>
+																			<xs:extension base="xs:string"/>
+																		</xs:simpleContent>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="descending" type="xs:boolean" use="optional" />
+												<xs:attribute name="rule" use="optional" >
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:enumeration value="alphabetical"/>
+															<xs:enumeration value="chronological"/>
+															<xs:enumeration value="numerical"/>
+															<xs:enumeration value="specific"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
 											</xs:complexType>
 										</xs:element>
 									</xs:sequence>

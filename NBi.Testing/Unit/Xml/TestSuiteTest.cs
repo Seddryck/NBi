@@ -315,13 +315,25 @@ namespace NBi.Testing.Unit.Xml
         }
 
         [Test]
-        public void Deserialize_SampleFile_OrderedConstraintAlphabeticalChronologicalSpecified()
+        public void Deserialize_SampleFile_OrderedConstraintChronologicalSpecified()
         {
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[15].Constraints[0], Is.TypeOf<OrderedXml>());
             Assert.That(((OrderedXml)ts.Tests[15].Constraints[0]).Rule, Is.EqualTo(OrderedXml.Order.Chronological));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_OrderedConstraintAlphabeticalSpecificSpecified()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[16].Constraints[0], Is.TypeOf<OrderedXml>());
+            Assert.That(((OrderedXml)ts.Tests[16].Constraints[0]).Rule, Is.EqualTo(OrderedXml.Order.Specific));
+            Assert.That(((OrderedXml)ts.Tests[16].Constraints[0]).Definition, Has.Count.EqualTo(3));
+            Assert.That(((OrderedXml)ts.Tests[16].Constraints[0]).Definition[0], Is.EqualTo("Leopold"));
         }
     }
 }

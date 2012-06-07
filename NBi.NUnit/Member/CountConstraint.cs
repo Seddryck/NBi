@@ -1,5 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Core.Analysis;
+using NBi.Core.Analysis.Member;
+using NBi.Core.Analysis.Metadata;
 
 namespace NBi.NUnit.Member
 {
@@ -9,7 +13,29 @@ namespace NBi.NUnit.Member
         int? moreThan { get; set; }
         int? lessThan { get; set; }
 
-        
+        protected DiscoverCommand command;
+        protected IDiscoverMemberEngine memberEngine;
+
+        /// <summary>
+        /// Engine dedicated to MetadataExtractor acquisition
+        /// </summary>
+        protected internal IDiscoverMemberEngine MemberEngine
+        {
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException();
+                memberEngine = value;
+            }
+        }
+
+        protected IDiscoverMemberEngine GetEngine()
+        {
+            if (memberEngine == null)
+                memberEngine = new CubeDimensionAdomdEngine();
+            return memberEngine;
+        }
+
         /// <summary>
         /// .ctor, define the default engine used by this constraint
         /// </summary>
@@ -38,10 +64,20 @@ namespace NBi.NUnit.Member
 
         public override bool Matches(object actual)
         {
+            if (actual is DiscoverCommand)
+                return Process((DiscoverCommand)actual);
             if (actual is ICollection)
                 return Matches((ICollection)actual);
 
             return false;
+        }
+
+        protected bool Process(DiscoverCommand actual)
+        {
+            command = actual;
+            var extr = GetEngine();
+            MemberResult result = extr.Execute(command);
+            return this.Matches(result);
         }
 
         /// <summary>

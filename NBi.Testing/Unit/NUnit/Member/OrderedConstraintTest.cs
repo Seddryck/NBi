@@ -185,6 +185,52 @@ namespace NBi.Testing.Unit.NUnit.Member
         }
 
         [Test]
+        public void Matches_SpecificCorrectlyOrdered_Succeed()
+        {
+            var members = new List<string>();
+            members.Add("Leopold");
+            members.Add("Albert");
+            members.Add("Baudoin");
+
+            var ordspec = new List<object>();
+            ordspec.Add("Leopold");
+            ordspec.Add("Albert");
+            ordspec.Add("Baudoin");
+
+            var orderedConstraint = new OrderedConstraint();
+            orderedConstraint = orderedConstraint.Specific(ordspec);
+
+            //Method under test
+            var res = orderedConstraint.Matches(members);
+
+            //Test conclusion            
+            Assert.That(res, Is.True);
+        }
+
+        [Test]
+        public void Matches_SpecificNotCorrectlyOrdered_Failed()
+        {
+            var members = new List<string>();
+            members.Add("Leopold");
+            members.Add("Baudoin");
+            members.Add("Albert");
+
+            var ordspec = new List<object>();
+            ordspec.Add("Leopold");
+            ordspec.Add("Albert");
+            ordspec.Add("Baudoin");
+
+            var orderedConstraint = new OrderedConstraint();
+            orderedConstraint = orderedConstraint.Specific(ordspec);
+
+            //Method under test
+            var res = orderedConstraint.Matches(members);
+
+            //Test conclusion            
+            Assert.That(res, Is.False);
+        }
+
+        [Test]
         public void Matches_GivenDiscoverCommand_EngineCalledOnceWithParametersComingFromDiscoverCommand()
         {
             var disco = new DiscoverCommand(string.Empty)

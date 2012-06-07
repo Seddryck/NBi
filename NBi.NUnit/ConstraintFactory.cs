@@ -1,5 +1,5 @@
 ﻿using System;
-using NBi.Core.Analysis.Member;
+using System.Linq;
 using NBi.Core.Analysis.Metadata;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
@@ -82,6 +82,9 @@ namespace NBi.NUnit
                     break;
                 case OrderedXml.Order.Numerical:
                     ctr = ctr.Numerical;
+                    break;
+                case OrderedXml.Order.Specific:
+                    ctr = ctr.Specific(xml.Definition);
                     break;
                 default:
                     break;

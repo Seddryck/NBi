@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace NBi.Xml.Constraints
 {
@@ -10,6 +11,16 @@ namespace NBi.Xml.Constraints
         [XmlAttribute("rule")]
         public Order Rule { get; set; }
 
+        [XmlArray("rule-definition"),
+        XmlArrayItem(Type = typeof(string), ElementName = "item")
+        ]
+        public List<object> Definition { get; set; }
+
+        public OrderedXml()
+        {
+            Definition = new List<object>();
+        }
+
         public enum Order
         {
             [XmlEnum(Name = "alphabetical")]
@@ -17,7 +28,9 @@ namespace NBi.Xml.Constraints
             [XmlEnum(Name = "chronological")]
             Chronological = 1,
             [XmlEnum(Name = "numerical")]
-            Numerical = 2
+            Numerical = 2,
+            [XmlEnum(Name = "specific")]
+            Specific = 3
         }
 
     }

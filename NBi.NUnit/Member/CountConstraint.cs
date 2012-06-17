@@ -13,6 +13,8 @@ namespace NBi.NUnit.Member
         int? moreThan { get; set; }
         int? lessThan { get; set; }
 
+        private NUnitCtr.Constraint internalConstraint;
+
         protected DiscoverCommand command;
         protected IDiscoverMemberEngine memberEngine;
 
@@ -46,21 +48,40 @@ namespace NBi.NUnit.Member
 
         public CountConstraint Exactly(int value)
         {
-            this.exactly = value; 
+            if (internalConstraint != null)
+                internalConstraint = internalConstraint.And.EqualTo(value);
+            else
+                internalConstraint = new NUnitCtr.EqualConstraint(value);
             return this;
         }
 
         public CountConstraint MoreThan(int value)
         {
-            this.moreThan = value;
+            if (internalConstraint != null)
+                internalConstraint = internalConstraint.And.GreaterThan(value);
+            else
+                internalConstraint = new NUnitCtr.GreaterThanConstraint(value);
             return this;
         }
 
         public CountConstraint LessThan(int value)
         {
-            this.lessThan = value; 
+            if (internalConstraint != null)
+                internalConstraint = internalConstraint.And.LessThan(value);
+            else
+                internalConstraint = new NUnitCtr.LessThanConstraint(value);
             return this;
         }
+
+
+        //public CountConstraint Approximatively(int value, int tolerance)
+        //{
+        //    if (internalConstraint != null)
+        //        internalConstraint = internalConstraint.And.T(value);
+        //    else
+        //        internalConstraint = new NUnitCtr.
+        //    return this;
+        //}
 
         public override bool Matches(object actual)
         {
@@ -87,16 +108,10 @@ namespace NBi.NUnit.Member
         /// <returns></returns>
         public bool Matches(ICollection actual)
         {
-            if (!(moreThan.HasValue || lessThan.HasValue || exactly.HasValue))
-                return false;
-            if (moreThan.HasValue && actual.Count <= moreThan.Value)
-                return false;
-            if (lessThan.HasValue && actual.Count >= lessThan.Value)
-                return false;
-            if (exactly.HasValue && actual.Count != exactly.Value)
+            if (internalConstraint == null)
                 return false;
 
-            return true;
+            return internalConstraint.Matches(actual.Count);
         }
 
         /// <summary>
@@ -133,7 +148,7 @@ namespace NBi.NUnit.Member
                 writer.WritePredicate("less than");
                 writer.WriteExpectedValue(lessThan.Value);
                 return;
-            }  
+            }
         }
     }
 }

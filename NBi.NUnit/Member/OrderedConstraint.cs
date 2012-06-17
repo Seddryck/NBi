@@ -123,21 +123,33 @@ namespace NBi.NUnit.Member
 
         protected bool doMatch(object actual)
         {
+            Console.Out.WriteLine("doMatch"); 
+            
             int index=0;
             
             foreach (var item in (IEnumerable<Object>)actual)
 	        {
                 var itemComparable = item is NBi.Core.Analysis.Member.Member ? ((NBi.Core.Analysis.Member.Member)item).Caption : item;
 
-                int i=0;
-                while (i != specific.Count && itemComparable != specific[i])
-	                i++;
+                int i = specific.IndexOf(itemComparable);
 
-                if (i<specific.Count && i<index)
-                    return false;
+                if (i > -1) //found
+                {
+                    if (i < index)
+                        return false;
+                    else
+                        index = i;
+                }
 
-                if (i<specific.Count)
-                    index = i;
+                //int i=0;
+                //while (i != specific.Count && itemComparable != specific[i])
+                //    i++;
+
+                //if (i<specific.Count && i<index)
+                //    return false;
+
+                //if (i<specific.Count)
+                //    index = i;
 	        }
 
             return true;

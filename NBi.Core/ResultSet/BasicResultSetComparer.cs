@@ -4,10 +4,15 @@ using System.Data;
 
 namespace NBi.Core.ResultSet
 {
-    public class BasicResultSetComparer: IResultSetComparer
+    public class BasicResultSetComparer: IResultSetComparer, IComparer
     {
         public BasicResultSetComparer()
         {
+        }
+
+        public int Compare(Object x, Object y)
+        {
+            return this.Compare(x, y);
         }
 
         int IComparer.Compare(Object x, Object y)
@@ -30,7 +35,7 @@ namespace NBi.Core.ResultSet
             if (x is ResultSet && y is ResultSet)
                 return StringComparer.InvariantCultureIgnoreCase.Compare(((ResultSet)y).RawValue, ((ResultSet)x).RawValue);
 
-            throw new ArgumentException(string.Format("first argument is of type '{0}' and second '{1}'. There is no implmentention of comparaison between these two types.",x.GetType().ToString(), y.GetType().ToString()));
+            throw new ArgumentException(string.Format("first argument is of type '{0}' and second '{1}'. There is no implementention of comparaison between these two types.",x.GetType().ToString(), y.GetType().ToString()));
         }
 
         protected internal virtual ResultSet BuildResultSet(DataSet ds)

@@ -2,7 +2,8 @@
 
 namespace NBi.Core.ResultSet
 {
-    public interface IResultSetComparer: IComparer
+    public interface IResultSetComparer
     {
+        int Compare(object x, object y);
     }
 }

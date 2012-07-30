@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 
 namespace NBi.Core.ResultSet
@@ -11,7 +12,6 @@ namespace NBi.Core.ResultSet
 
         public DataRowBasedResultSetComparer()
         {
-            Settings = new ResultSetComparaisonSettings(0);
         }
 
         public DataRowBasedResultSetComparer(ResultSetComparaisonSettings settings)
@@ -19,16 +19,22 @@ namespace NBi.Core.ResultSet
             Settings = settings;
         }
         
-        public int Compare(object x, object y)
+        public ResultSetCompareResult Compare(object x, object y)
         {
             if (x is DataTable && y is DataTable)
                 return doCompare((DataTable)y, (DataTable)x);
 
+            if (x is ResultSet && y is ResultSet)
+                return doCompare(((ResultSet)y).Table, ((ResultSet)x).Table);
+
             throw new ArgumentException();
         }
 
-        protected int doCompare(DataTable x, DataTable y)
+        protected ResultSetCompareResult doCompare(DataTable x, DataTable y)
         {
+            if (Settings == null)
+                BuildDefaultSettings(x.Columns);
+            
             var KeyComparer = new DataRowKeysComparer(Settings.KeyColumnIndexes);
 
             var missingRows = x.AsEnumerable().Except(y.AsEnumerable(), KeyComparer);
@@ -47,7 +53,9 @@ namespace NBi.Core.ResultSet
                     {
                         if (IsNumericColumn(i))
                         {
-                            if (!IsEqual(Convert.ToDouble(rx[i]), Convert.ToDouble(ry[i]), Convert.ToDouble(Settings.Tolerances(i))))
+                            if (!IsEqual(Convert.ToDouble(rx[i], NumberFormatInfo.InvariantInfo)
+                                , Convert.ToDouble(ry[i], NumberFormatInfo.InvariantInfo)
+                                , Convert.ToDouble(Settings.Tolerances(i), NumberFormatInfo.InvariantInfo)))
                                 nonMatchingValueRows.Add(ry);
                         }
                         else
@@ -59,7 +67,7 @@ namespace NBi.Core.ResultSet
                 }
 	        }
 
-            return Convert.ToInt32(!(missingRows.Count() == 0 && unexpectedRows.Count() == 0 && nonMatchingValueRows.Count()==0));
+            return ResultSetCompareResult.Build(missingRows, unexpectedRows, keyMatchingRows, nonMatchingValueRows);
         }
 
         private bool IsValueColumn(int index)
@@ -80,6 +88,11 @@ namespace NBi.Core.ResultSet
         private bool IsEqual(object x, object y)
         {
             return x.GetHashCode() == y.GetHashCode();
+        }
+
+        protected void BuildDefaultSettings(DataColumnCollection columns)
+        {
+            Settings = new ResultSetComparaisonSettings(columns.Count, 0, 0);
         }
 
     }

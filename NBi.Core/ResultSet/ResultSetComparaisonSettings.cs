@@ -51,5 +51,21 @@ namespace NBi.Core.ResultSet
                 throw new ArgumentException();
             _tolerances = tolerances;
         }
+
+        public ResultSetComparaisonSettings(int keyColumnCount, int valueColumnCount, decimal tolerance)
+        {
+            KeyColumnIndexes = new List<int>(keyColumnCount);
+            for (int i = 0; i < keyColumnCount; i++)
+                KeyColumnIndexes.Add(i);
+
+            ValueColumnIndexes = new List<int>(valueColumnCount);
+            _tolerances = new List<decimal>(valueColumnCount);
+            for (int i = 0; i < valueColumnCount; i++)
+            {
+                ValueColumnIndexes.Add(i + keyColumnCount);
+                _tolerances.Add(tolerance);
+            }
+
+        }
     }
 }

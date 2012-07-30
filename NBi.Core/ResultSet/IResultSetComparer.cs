@@ -4,6 +4,7 @@ namespace NBi.Core.ResultSet
 {
     public interface IResultSetComparer
     {
-        int Compare(object x, object y);
+        ResultSetCompareResult Compare(object x, object y);
+        ResultSetComparaisonSettings Settings { get; set; }
     }
 }

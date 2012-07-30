@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using NBi.Core.Analysis.Metadata;
+using NBi.Core.ResultSet;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
 using NUnit.Framework.Constraints;
@@ -23,18 +23,49 @@ namespace NBi.NUnit
         
         protected static EqualToConstraint Instantiate(EqualToXml xml)
         {
+            EqualToConstraint ctr = null;
+            
             if (!string.IsNullOrEmpty(xml.ResultSetFile))
             {
-                var ctr = new EqualToConstraint(xml.ResultSetFile);
-                return ctr;
+                ctr = new EqualToConstraint(xml.ResultSetFile);
             }
             else if (xml.Command != null)
             {
-                var ctr = new EqualToConstraint(xml.Command);
-                return ctr;
+                ctr = new EqualToConstraint(xml.Command);
+            }
+            else if (!string.IsNullOrEmpty(xml.ResultSet.File))
+            {
+                ctr = new EqualToConstraint(xml.ResultSet.File);
+            }
+            else if (xml.ResultSet != null && xml.ResultSet.Rows.Count>0)
+            {
+                ctr = new EqualToConstraint(xml.ResultSet.Rows);
+            }
+            else
+                throw new ArgumentException();
+
+            //Manage settings for comparaison
+            ResultSetComparaisonSettings settings = new ResultSetComparaisonSettings();
+
+            if (xml.Keys != null && xml.Keys.Count>0)
+            {
+                settings.KeyColumnIndexes.Clear();
+                foreach (var key in xml.Keys)
+                    settings.KeyColumnIndexes.Add(key.Index - 1);
             }
 
-            throw new ArgumentException();
+            if (xml.Values != null && xml.Values.Count > 0)
+            {
+                settings.ValueColumnIndexes.Clear();
+                foreach (var val in xml.Values)
+                    settings.ValueColumnIndexes.Add(val.Index - 1);
+            }
+
+            ctr.Using(settings);
+
+            return ctr;
+
+            
         }
 
         protected static FasterThanConstraint Instantiate(FasterThanXml xml)

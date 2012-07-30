@@ -74,7 +74,9 @@
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbReaderTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbWriterTest.cs" />
     <Compile Include="Unit\Core\Query\QueryOleDbEngineTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\BasicResultSetComparerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\DataRowBasedResultSetComparerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\ResultSetCsvReaderTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\ResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetWriterTest.cs" />
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
     <Compile Include="Acceptance\Core\Query\QueryPerformanceTest.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
     <Compile Include="Unit\Xml\Constraints\EqualToXmlTest.cs" />
     <Compile Include="Unit\Xml\Systems\MembersXmlTest.cs" />
+    <Compile Include="Unit\Xml\TestSuiteQueryTest.cs" />
     <Compile Include="Unit\Xml\TestSuiteTest.cs" />
     <Compile Include="Unit\NUnit\ConstraintFactoryTest.cs" />
     <Compile Include="Unit\Xml\TestCaseXmlTest.cs" />
@@ -102,6 +105,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="ConnectionString.config" />
     <None Include="ConnectionString.user.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -134,6 +138,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteQuery.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Unit\Core\ResultSet\Resources\ResultDataSet.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteInvalidSyntax.xml">
       <SubType>Designer</SubType>

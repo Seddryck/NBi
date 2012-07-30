@@ -1,38 +1,54 @@
 ﻿using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace NBi.Core.ResultSet
 {
     public class ResultSet
     {
-        public readonly string RawValue;
-        public readonly IList<ResultSetRow> Rows;
+        protected DataTable _table;
 
-        public ResultSet(string rawValue)
+        internal DataTable Table { get { return _table; } }
+        
+        public DataColumnCollection Columns
         {
-            RawValue = rawValue;
+            get { return _table.Columns; }
         }
 
-        public ResultSet(IList<ResultSetRow> rows)
+
+        public DataRowCollection Rows
         {
-            Rows = rows;
+            get { return _table.Rows; }
         }
 
-        public bool EqualTo(ResultSet other)
+        public ResultSet()
         {
-            if (this.Rows.Count != other.Rows.Count)
-                return false;
+        }
 
-            int i = 0;
-            IEnumerator<ResultSetRow> iterX = this.Rows.GetEnumerator();
-            IEnumerator<ResultSetRow> iterY = other.Rows.GetEnumerator();
+        public void Load(DataTable table)
+        {
+            _table = table;
+        }
+        
+        public void Load (IEnumerable<DataRow> rows)
+        {
+            _table = new DataTable();
+            rows.CopyToDataTable<DataRow>(_table, LoadOption.OverwriteChanges);
+        }
 
-            while (iterX.MoveNext() && iterY.MoveNext())
-            {
-                if (iterX.Current is ResultSetRow)
-                    //if (!(iterX.Current).EquivalentTo(iterY.Current))
-                        return false;
-            }
-            return true;
+        public void Load(IEnumerable<object[]> objects)
+        {
+            _table = new DataTable();
+            
+            //Build structure
+            for (int i = 0; i < objects.First().Length; i++)
+                Columns.Add(string.Format("Column{0}", i));
+
+            //load each row one by one
+            _table.BeginLoadData();
+            foreach (var obj in objects)
+                _table.LoadDataRow(obj, LoadOption.OverwriteChanges);
+            _table.EndLoadData();
         }
 
     }

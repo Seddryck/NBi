@@ -13,7 +13,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Matches_AnyResultSets_EngineCalledOnceResultSetBuilderTwice()
         {
-            var rs = new ResultSet("a;b;c");
+            var rs = new ResultSetCsvReader().Parse("a;b;c");
             var cmd = new SqlCommand();
 
             var rsbMock = new Mock<ResultSetBuilder>();
@@ -23,7 +23,7 @@ namespace NBi.Testing.Unit.NUnit
 
             var rscMock = new Mock<IResultSetComparer>();
             rscMock.Setup(engine => engine.Compare(It.IsAny<ResultSet>(), It.IsAny<ResultSet>()))
-                .Returns(0);
+                .Returns(new ResultSetCompareResult() { Difference = ResultSetDifferenceType.None });
             var rsc = rscMock.Object;
 
             var equalToConstraint = new NBi.NUnit.EqualToConstraint(rs) {Engine = rsc, ResultSetBuilder=rsb };
@@ -41,8 +41,8 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Matches_IDbCommandAsActualAndPathAsExpectation_ResulSetBuildersCreateResultSetsUsingActualAndExpectationProvided()
         {
-            var rsActual = new ResultSet("a;b;c");
-            var rsExpect = new ResultSet("x;y;z");
+            var rsActual = new ResultSetCsvReader().Parse("a;b;c");
+            var rsExpect = new ResultSetCsvReader().Parse("x;y;z");
             var cmd = new SqlCommand();
 
             var rsbMock = new Mock<IResultSetBuilder>();
@@ -53,7 +53,6 @@ namespace NBi.Testing.Unit.NUnit
             var rsb = rsbMock.Object;
 
             var equalToConstraint = new NBi.NUnit.EqualToConstraint("my path for expectation") {ResultSetBuilder = rsb };
-            equalToConstraint.ResultSetBuilder = rsb;
 
             //Method under test
             equalToConstraint.Matches(cmd);
@@ -68,20 +67,21 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Matches_AnyIDbCommandAsActualAndAnyPathAsExpectation_EngineCompareTheTwoResultSetsPreviouslyCreated()
         {
-            var rsActual = new ResultSet("a;b;c");
-            var rsExpect = new ResultSet("x;y;z");
+            var rsActual = new ResultSetCsvReader().Parse("a;b;c");
+            var rsExpect = new ResultSetCsvReader().Parse("x;y;z");
             var cmd = new SqlCommand();
 
             var rsbStub = new Mock<IResultSetBuilder>();
             rsbStub.Setup(engine => engine.Build(It.IsAny<IDbCommand>()))
                 .Returns(rsActual);
             rsbStub.Setup(engine => engine.Build(It.IsAny<string>()))
-                .Returns(rsExpect);
+                .Returns(rsExpect);                   
+
             var rsbFake = rsbStub.Object;
 
             var rscMock = new Mock<IResultSetComparer>();
             rscMock.Setup(engine => engine.Compare(rsActual, rsExpect))
-                .Returns(1);
+                .Returns(ResultSetCompareResult.NotMatching);
             var rsc = rscMock.Object;
 
             var equalToConstraint = new NBi.NUnit.EqualToConstraint("my path for expectation") {ResultSetBuilder = rsbFake, Engine = rsc };
@@ -96,7 +96,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Matches_TwoIdenticalResultSets_ReturnTrue()
         {
-            var rs = new ResultSet("a;b;c");
+            var rs = new ResultSetCsvReader().Parse("a;b;c");
 
             var cmd = new SqlCommand();
 
@@ -120,8 +120,8 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Matches_TwoDifferentResultSets_ReturnFalse()
         {
-            var rsActual = new ResultSet("a;b;c");
-            var rsExpect = new ResultSet("a;X;c");
+            var rsActual = new ResultSetCsvReader().Parse("a;b;c");
+            var rsExpect = new ResultSetCsvReader().Parse("a;X;c");
 
             var cmd = new SqlCommand();
 

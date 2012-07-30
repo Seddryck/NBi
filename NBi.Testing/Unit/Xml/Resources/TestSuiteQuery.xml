@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="My first test case" uid="0001">
+		<system-under-test>
+			<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+				SELECT TOP 2 * FROM Product;
+			</query>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>A</cell>
+						<cell>B</cell>
+						<cell>1</cell>
+					</row>
+					<row>
+						<cell>C</cell>
+						<cell>D</cell>
+						<cell>2</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="external resultSet file">
+		<system-under-test>
+			<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+				SELECT TOP 2 * FROM Product;
+			</query>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet file="Query.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="keys">
+		<system-under-test>
+			<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+				SELECT TOP 2 * FROM Product;
+			</query>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<key index="1"/>
+				<key index="2"/>
+				<resultSet file="Query.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="values">
+		<system-under-test>
+			<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+				SELECT TOP 2 * FROM Product;
+			</query>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<value index="3" type="numeric" tolerance="10"/>
+				<resultSet file="Query.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+</testSuite>

@@ -42,6 +42,11 @@
   <ItemGroup>
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
     <Compile Include="Constraints\ContainsXml.cs" />
+    <Compile Include="Constraints\EqualTo\CellXml.cs" />
+    <Compile Include="Constraints\EqualTo\KeyXml.cs" />
+    <Compile Include="Constraints\EqualTo\ResultSetXml.cs" />
+    <Compile Include="Constraints\EqualTo\RowXml.cs" />
+    <Compile Include="Constraints\EqualTo\ValueXml.cs" />
     <Compile Include="Constraints\OrderedXml.cs" />
     <Compile Include="Systems\AbstractSystemUnderTestXml.cs" />
     <Compile Include="Constraints\CountXml.cs" />
@@ -64,13 +69,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
       <Project>{3F730647-FE31-4907-8A6E-A0C4A0C970EA}</Project>
       <Name>NBi.Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,10 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Data.OleDb;
-using System.Data.SqlClient;
 using System.IO;
-using Microsoft.AnalysisServices.AdomdClient;
-using NBi.Core.Query;
 using NBi.Core.ResultSet;
 using NUnitCtr = NUnit.Framework.Constraints;
 
@@ -16,16 +13,16 @@ namespace NBi.NUnit
         protected string persistenceExpectedResultSetFullPath;
         protected string persistenceActualResultSetFullPath;
      
-        protected IResultSetComparer _engine;
         /// <summary>
         /// Engine dedicated to ResultSet comparaison
         /// </summary>
+        protected IResultSetComparer _engine;
         protected internal IResultSetComparer Engine
         {
             get
             {
                 if(_engine==null)
-                    _engine = new BasicResultSetComparer();
+                    _engine = new DataRowBasedResultSetComparer();
                 return _engine;
             }
             set
@@ -35,11 +32,11 @@ namespace NBi.NUnit
                 _engine = value;
             }
         }
-
-        protected IResultSetBuilder _resultSetBuilder;
+        
         /// <summary>
         /// Engine dedicated to ResultSet acquisition
         /// </summary>
+        protected IResultSetBuilder _resultSetBuilder;
         protected internal IResultSetBuilder ResultSetBuilder
         {
             get
@@ -55,8 +52,7 @@ namespace NBi.NUnit
                 _resultSetBuilder = value;
             }
         }
-
-
+        
         public EqualToConstraint (string value)
         {
             this.expect = value;
@@ -67,9 +63,20 @@ namespace NBi.NUnit
             this.expect = value;
         }
 
+        public EqualToConstraint(IEnumerable<IRow> value)
+        {
+            this.expect = value;
+        }
+
         public EqualToConstraint (IDbCommand value)
         {
             this.expect = value;
+        }
+
+        public EqualToConstraint Using(ResultSetComparaisonSettings settings)
+        {
+            this.Engine.Settings = settings;
+            return this;
         }
 
         public EqualToConstraint PersistExpectation(string path, string filename)
@@ -92,24 +99,30 @@ namespace NBi.NUnit
         /// <returns>true, if the result of query execution is exactly identical to the content of the resultset</returns>
         public override bool Matches(object actual)
         {
-            if (actual.GetType() == typeof(OleDbCommand) || actual.GetType() == typeof(SqlCommand) || actual.GetType() == typeof(AdomdCommand))
-                return Matches((IDbCommand)actual);
+            if (actual is IDbCommand)
+                return Process((IDbCommand)actual);
+            else if (actual is ResultSet)
+                return doMatch((ResultSet)actual);
             else
                 return false;
 
+        }
+
+        protected bool doMatch(ResultSet actual)
+        {
+            var rsExpect = GetResultSet(expect);
+            return Engine.Compare(actual, rsExpect).Difference == ResultSetDifferenceType.None;
         }
 
         /// <summary>
         /// Handle an IDbCommand (Query and ConnectionString) and check it with the expectation (Another IDbCommand or a ResultSet)
         /// </summary>
         /// <param name="actual">IDbCommand</param>
-        /// <returns>true, if the query defined in parameter is executed in less that expected else false</returns>
-        public bool Matches(IDbCommand actual)
+        /// <returns></returns>
+        public bool Process(IDbCommand actual)
         {
             var rsActual = GetResultSet(actual);
-            var rsExpect = GetResultSet(expect);
-
-            return Engine.Compare(rsActual, rsExpect) == 0;
+            return this.Matches(rsActual);
         }
 
         protected ResultSet GetResultSet(Object obj)

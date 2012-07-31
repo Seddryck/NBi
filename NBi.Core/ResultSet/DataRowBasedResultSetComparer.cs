@@ -34,14 +34,19 @@ namespace NBi.Core.ResultSet
         {
             if (Settings == null)
                 BuildDefaultSettings(x.Columns);
+
+            Settings.ConsoleDisplay();
             
             var KeyComparer = new DataRowKeysComparer(Settings.KeyColumnIndexes);
 
             var missingRows = x.AsEnumerable().Except(y.AsEnumerable(), KeyComparer);
+            //Console.WriteLine("Missing rows: {0}", missingRows.Count());
 
             var unexpectedRows = y.AsEnumerable().Except(x.AsEnumerable(),KeyComparer);
+            //Console.WriteLine("Unexpected rows: {0}", unexpectedRows.Count());
 
             var keyMatchingRows = x.AsEnumerable().Except(missingRows).Except(unexpectedRows);
+            Console.WriteLine("Rows with a key matching: {0}", keyMatchingRows.Count());
 
             var nonMatchingValueRows = new List<DataRow>(); 
             foreach (var rx in keyMatchingRows)
@@ -53,9 +58,9 @@ namespace NBi.Core.ResultSet
                     {
                         if (IsNumericColumn(i))
                         {
-                            if (!IsEqual(Convert.ToDouble(rx[i], NumberFormatInfo.InvariantInfo)
-                                , Convert.ToDouble(ry[i], NumberFormatInfo.InvariantInfo)
-                                , Convert.ToDouble(Settings.Tolerances(i), NumberFormatInfo.InvariantInfo)))
+                            if (!IsEqual(Convert.ToDecimal(rx[i], NumberFormatInfo.InvariantInfo)
+                                , Convert.ToDecimal(ry[i], NumberFormatInfo.InvariantInfo)
+                                , Convert.ToDecimal(Settings.Tolerances(i), NumberFormatInfo.InvariantInfo)))
                                 nonMatchingValueRows.Add(ry);
                         }
                         else
@@ -66,22 +71,25 @@ namespace NBi.Core.ResultSet
                     }
                 }
 	        }
+            Console.WriteLine("Rows with a key matching but without value matching: {0}", nonMatchingValueRows.Count());
 
             return ResultSetCompareResult.Build(missingRows, unexpectedRows, keyMatchingRows, nonMatchingValueRows);
         }
 
-        private bool IsValueColumn(int index)
+        protected bool IsValueColumn(int index)
         {
             return Settings.ValueColumnIndexes.Contains(index);
         }
 
-        private bool IsNumericColumn(int index)
+        protected bool IsNumericColumn(int index)
         {
             return (index >= 1);
         }
 
-        private bool IsEqual(double x, double y, double tolerance)
+        protected internal bool IsEqual(Decimal x, Decimal y, Decimal tolerance)
         {
+            Console.WriteLine("IsEqual: {0} {1} {2} {3} {4} {5}", x, y, tolerance, Math.Abs(x - y), x == y, Math.Abs(x - y) <= tolerance);
+            
             return (Math.Abs(x - y) <= tolerance);
         }
 

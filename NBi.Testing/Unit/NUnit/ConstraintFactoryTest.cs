@@ -1,8 +1,6 @@
-﻿using NBi.Core.Analysis;
-using NBi.Core.Analysis.Member;
-using NBi.Core.Analysis.Metadata;
+﻿using NBi.Xml.Constraints;
+using NBi.Xml.Constraints.EqualTo;
 using NBi.Xml.Systems;
-using NBi.Xml.Constraints;
 using NUnit.Framework;
 using NBiNu = NBi.NUnit;
 
@@ -51,12 +49,23 @@ namespace NBi.Testing.Unit.NUnit
         }
 
         [Test]
-        public void Instantiate_EqualToXmlWithResultSet_IsOfTypeEqualToConstraint()
+        public void Instantiate_EqualToXmlWithInlineQuery_IsOfTypeEqualToConstraint()
         {
             var ctr = NBiNu.ConstraintFactory.Instantiate(new EqualToXml() 
                 { InlineQuery = "SELECT * FROM Product;", 
                     ConnectionString = "Data Source=.;Initial Catalog='NBi.Testing';Integrated Security=SSPI;"
                 }, null);
+
+            Assert.That(ctr, Is.InstanceOf<NBiNu.EqualToConstraint>());
+        }
+
+        [Test]
+        public void Instantiate_EqualToXmlWithResultSet_IsOfTypeEqualToConstraint()
+        {
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new EqualToXml()
+            {
+                ResultSet = new ResultSetXml(),
+            }, null);
 
             Assert.That(ctr, Is.InstanceOf<NBiNu.EqualToConstraint>());
         }

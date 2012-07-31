@@ -62,6 +62,7 @@
     <Compile Include="Acceptance\Core\Analysis\Member\SchemaRowsetAdomdEngineTest.cs" />
     <Compile Include="Acceptance\Core\Query\QueryParserTest.cs" />
     <Compile Include="Acceptance\Core\ResultSet\BasicResultSetComparerTest.cs" />
+    <Compile Include="Acceptance\NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Acceptance\NUnit\Structure\ContainsConstraintTest.cs" />
     <Compile Include="Acceptance\NUnit\FasterThanConstraintTest.cs" />
     <Compile Include="Acceptance\NUnit\SyntacticallyCorrectConstraintTest.cs" />
@@ -73,7 +74,7 @@
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvWriterTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbReaderTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbWriterTest.cs" />
-    <Compile Include="Unit\Core\Query\QueryOleDbEngineTest.cs" />
+    <Compile Include="Acceptance\Core\Query\QueryAdomdEngineTest.cs" />
     <Compile Include="Unit\Core\ResultSet\DataRowBasedResultSetComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetCsvReaderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetTest.cs" />
@@ -103,7 +104,9 @@
     <Compile Include="Unit\Xml\TestXmlTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerTest.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Unit\Core\Query\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="ConnectionString.config" />
     <None Include="ConnectionString.user.config">

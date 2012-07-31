@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.OleDb;
 using System.Data.SqlClient;
+using Microsoft.AnalysisServices.AdomdClient;
 
 namespace NBi.Core.Query
 {
@@ -53,6 +54,8 @@ namespace NBi.Core.Query
                 return (IQueryEnginable)new QuerySqlEngine((SqlCommand)cmd);
             else if (cmd.GetType() == typeof(OleDbCommand))
                 return (IQueryEnginable)new QueryOleDbEngine((OleDbCommand)cmd);
+            else if (cmd.GetType() == typeof(AdomdCommand))
+                return (IQueryEnginable)new QueryAdomdEngine((AdomdCommand)cmd);
 
             throw new ArgumentException();
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 
 namespace NBi.Core.ResultSet
@@ -40,7 +41,16 @@ namespace NBi.Core.ResultSet
             int hash = 0;
             foreach (var value in values)
             {
-                hash = (hash * 397) ^ value.GetHashCode();
+                string v = null;
+                if (value is IConvertible)
+                    v = ((IConvertible)value).ToString(CultureInfo.InvariantCulture);
+                else
+                    v = value.ToString();
+
+                //Console.WriteLine("{0} {1} {2} {3}", value.ToString(), value.GetType(), v.ToString(), v.GetHashCode());
+
+                hash = (hash * 397) ^ v.GetHashCode();
+
             }
             return hash;
 

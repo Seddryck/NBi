@@ -37,7 +37,7 @@ namespace NBi.NUnit
             {
                 ctr = new EqualToConstraint(xml.ResultSet.File);
             }
-            else if (xml.ResultSet != null && xml.ResultSet.Rows.Count>0)
+            else if (xml.ResultSet != null)
             {
                 ctr = new EqualToConstraint(xml.ResultSet.Rows);
             }

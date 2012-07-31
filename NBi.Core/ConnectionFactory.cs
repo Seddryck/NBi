@@ -18,18 +18,16 @@ namespace NBi.Core
                 csb.ContainsKey("Provider") ? providerName = InterpretProviderName(csb["Provider"].ToString()) : providerName = "SqlClient";
 
             if (string.IsNullOrEmpty(providerName))
-                throw new ArgumentException(string.Format("No provider found forconnectionString '{0}'", connectionString));
+                throw new ArgumentException(string.Format("No provider found for connectionString '{0}'", connectionString));
                 
             return Get(providerName, connectionString);           
         }
 
         public static string InterpretProviderName(string provider)
         {
-            if (provider.ToLowerInvariant().StartsWith("msolap")) return "OleDb";
-            if (provider.ToLowerInvariant().StartsWith("sqlncli")) return "OleDb";
-           
-            if (provider.StartsWith("Driver={"))
-                return "Odbc";
+            if (provider.ToLowerInvariant().StartsWith("msolap")) return "Adomd";
+            if (provider.ToLowerInvariant().StartsWith("sqlncli")) return "OleDb";         
+            if (provider.StartsWith("Driver={")) return "Odbc";
 
             return null;
         }

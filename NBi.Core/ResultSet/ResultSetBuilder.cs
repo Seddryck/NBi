@@ -10,49 +10,39 @@ namespace NBi.Core.ResultSet
     {
         public virtual ResultSet Build(Object obj)
         {
-            if (obj is IDbCommand)
-                return this.Build((IDbCommand)obj);
-            else if (obj is DataSet)
-                return this.Build((DataSet)obj);
+            if (obj is ResultSet)
+                return Build((ResultSet)obj);
             else if (obj is IList<IRow>)
-                return this.Build((IList<IRow>) obj);
+                return Build((IList<IRow>)obj);
+            else if (obj is IDbCommand)
+                return Build((IDbCommand)obj);
             else if (obj is string)
-                return this.Build((string)obj);
-            else if (obj is ResultSet)
-                return (ResultSet)obj;
+                return Build((string)obj);
 
-            throw new ArgumentException();
+            throw new ArgumentOutOfRangeException(string.Format("Type '{0}' is not expected when building a ResultSet", obj.GetType()));
         }
-
         
-        public virtual ResultSet Build(IDbCommand cmd)
+        public virtual ResultSet Build(ResultSet resultSet)
         {
-            var ds = new QueryEngineFactory().GetExecutor(cmd).Execute();
-            return Build(ds);
-        }
-
-        public virtual ResultSet Build(DataSet ds)
-        {
-            var rs = new ResultSet();
-            rs.Load(ds.Tables[0]);
-            return rs;
+            return resultSet;
         }
 
         public virtual ResultSet Build(IList<IRow> rows)
         {
-            var objs = new List<object[]>();
-            
-            foreach (var row in rows)
-            {
-                var cells = row.Cells.ToArray<object>();
-                objs.Add(cells);
-            }
-
             var rs = new ResultSet();
-            rs.Load(objs);
+            rs.Load(rows);
             return rs;
         }
         
+        public virtual ResultSet Build(IDbCommand cmd)
+        {
+            var qe = new QueryEngineFactory().GetExecutor(cmd);
+            var ds = qe.Execute();
+            var rs = new ResultSet();
+            rs.Load(ds);
+            return rs;
+        }
+
         public virtual ResultSet Build(string path)
         {
             var reader = new ResultSetCsvReader();

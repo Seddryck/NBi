@@ -148,14 +148,14 @@ namespace NBi.Testing.Unit.Core
         }
 
         [Test]
-        public void Get_ConnectionStringMsOlapProvider_OledbConnection()
+        public void Get_ConnectionStringMsOlapProvider_AdomdConnection()
         {
             //Call the method to test
             var connStr = "Provider=MSOLAP;Data Source=ds;Initial Catalog=ic";
             var actual = ConnectionFactory.Get(connStr);
 
             //Assertion
-            Assert.That(actual, Is.InstanceOf<OleDbConnection>());
+            Assert.That(actual, Is.InstanceOf<AdomdConnection>());
             Assert.That(actual.ConnectionString, Is.EqualTo(connStr));
         }
 

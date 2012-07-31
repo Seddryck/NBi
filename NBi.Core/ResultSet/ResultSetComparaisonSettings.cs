@@ -67,5 +67,18 @@ namespace NBi.Core.ResultSet
             }
 
         }
+
+        public void ConsoleDisplay()
+        {
+            Console.Write("Indexes: |");
+            foreach (var kci in KeyColumnIndexes)
+                Console.Write("{0} | ", kci);
+            Console.WriteLine();
+
+            Console.Write("Values: |");
+            for (int i = 0; i < ValueColumnIndexes.Count; i++)
+                Console.Write("{0} (+/- {1}) |", ValueColumnIndexes[i], "?");
+            Console.WriteLine();
+        }
     }
 }

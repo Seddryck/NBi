@@ -28,6 +28,10 @@ namespace NBi.Xml.Constraints
         {
             get
             {
+                //if both are empty return null
+                if (string.IsNullOrEmpty(InlineQuery) && string.IsNullOrEmpty(QueryFile))
+                    return null;
+
                 //if Sql is specified then return it
                 if (!string.IsNullOrEmpty(InlineQuery))
                     return InlineQuery;
@@ -53,9 +57,13 @@ namespace NBi.Xml.Constraints
         {
             get
             {
+                var query = Query;
+                if (query == null)
+                    return null;
+
                 var conn = ConnectionFactory.Get(ConnectionString);
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = Query;
+                cmd.CommandText = query;
 
                 return cmd;
             }

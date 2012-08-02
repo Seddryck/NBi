@@ -43,7 +43,9 @@
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
     <Compile Include="Constraints\ContainsXml.cs" />
     <Compile Include="Constraints\EqualTo\CellXml.cs" />
+    <Compile Include="Constraints\EqualTo\ColumnXml.cs" />
     <Compile Include="Constraints\EqualTo\KeyXml.cs" />
+    <Compile Include="Constraints\EqualTo\QueryXml.cs" />
     <Compile Include="Constraints\EqualTo\ResultSetXml.cs" />
     <Compile Include="Constraints\EqualTo\RowXml.cs" />
     <Compile Include="Constraints\EqualTo\ValueXml.cs" />

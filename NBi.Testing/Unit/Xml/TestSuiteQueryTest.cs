@@ -6,6 +6,7 @@ using NBi.Xml;
 using System.Reflection;
 using NBi.Xml.Constraints;
 using NUnit.Framework;
+using NBi.Core.ResultSet;
 
 #endregion
 
@@ -96,9 +97,7 @@ namespace NBi.Testing.Unit.Xml
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Keys, Has.Count.EqualTo(2));
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Keys[0], Has.Property("Index").EqualTo(1));
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Keys[1], Has.Property("Index").EqualTo(2));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).KeysDef, Is.EqualTo(ResultSetComparaisonSettings.KeysChoice.First));
         }
 
         [Test]
@@ -110,10 +109,9 @@ namespace NBi.Testing.Unit.Xml
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Values, Has.Count.EqualTo(1));
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Values[0], Has.Property("Index").EqualTo(3));
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Values[0], Has.Property("Type").EqualTo(NBi.Xml.Constraints.EqualTo.ValueXml.TypeChoice.Numeric));
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Values[0], Has.Property("Tolerance").EqualTo(10));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef, Has.Count.EqualTo(1));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[0], Has.Property("Index").EqualTo(3));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[0], Has.Property("Tolerance").EqualTo(10));
         }
 
     }

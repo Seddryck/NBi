@@ -64,20 +64,20 @@
 										<xs:element name="equalTo" minOccurs="0">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element name="key" minOccurs="0" maxOccurs="unbounded">
+													<xs:element name="column" minOccurs="0" maxOccurs="unbounded">
 														<xs:complexType>
 															<xs:simpleContent>
 																<xs:extension base="xs:string">
 																	<xs:attribute name="index" type="xs:int" use="required" />
-																</xs:extension>
-															</xs:simpleContent>
-														</xs:complexType>
-													</xs:element>
-													<xs:element name="value" minOccurs="0" maxOccurs="unbounded">
-														<xs:complexType>
-															<xs:simpleContent>
-																<xs:extension base="xs:string">
-																	<xs:attribute name="index" type="xs:int" use="required" />
+																	<xs:attribute name="role" use="required" >
+																		<xs:simpleType>
+																			<xs:restriction base="xs:string">
+																				<xs:enumeration value="key"/>
+																				<xs:enumeration value="value"/>
+																				<xs:enumeration value="ignore"/>
+																			</xs:restriction>
+																		</xs:simpleType>
+																	</xs:attribute>
 																	<xs:attribute name="tolerance" type="xs:int" use="optional" />
 																	<xs:attribute name="type" use="optional">
 																		<xs:simpleType>
@@ -112,11 +112,41 @@
 															<xs:attribute name="file" type="xs:string" use="optional" />
 														</xs:complexType>
 													</xs:element>
+													<xs:element name="query" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:simpleContent>
+																<xs:extension base="xs:string">
+																	<xs:attribute name="name" type="xs:string" use="optional" />
+																	<xs:attribute name="file" type="xs:string" use="optional" />
+																	<xs:attribute name="connectionString" type="xs:string" use="optional" />
+																	<xs:attribute name="connectionString-ref" type="xs:string" use="optional" />
+																</xs:extension>
+															</xs:simpleContent>
+														</xs:complexType>
+													</xs:element>
 												</xs:sequence>
 												<xs:attribute name="resultSet-file" type="xs:string" use="optional" />
 												<xs:attribute name="query-file" type="xs:string" use="optional" />
 												<xs:attribute name="connectionString" type="xs:string" use="optional" />
 												<xs:attribute name="connectionString-ref" type="xs:string" use="optional" />
+												<xs:attribute name="keys" use="optional" >
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:enumeration value="first"/>
+															<xs:enumeration value="all-except-last"/>
+															<xs:enumeration value="all"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="values" use="optional" >
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:enumeration value="all-except-first"/>
+															<xs:enumeration value="last"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="tolerance" type="xs:decimal" use="optional" />
 											</xs:complexType>
 										</xs:element>
 										<xs:element name="syntacticallyCorrect" minOccurs="0">

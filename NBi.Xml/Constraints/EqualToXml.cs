@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Xml.Serialization;
 using NBi.Core;
+using NBi.Core.ResultSet;
 using NBi.Xml.Constraints.EqualTo;
 
 namespace NBi.Xml.Constraints
@@ -45,13 +47,32 @@ namespace NBi.Xml.Constraints
         [XmlElement("resultSet")]
         public ResultSetXml ResultSet { get; set; }
 
-        [XmlElement("key")]
-        public List<KeyXml> Keys { get; set; }
+        [XmlAttribute("keys")]
+        public ResultSetComparaisonSettings.KeysChoice KeysDef { get; set; }
 
-        [XmlElement("value")]
-        public List<ValueXml> Values { get; set; }
+        [XmlAttribute("values")]
+        public ResultSetComparaisonSettings.ValuesChoice ValuesDef { get; set; }
 
+        [XmlAttribute("tolerance")]
+        public decimal Tolerance { get; set; }
 
+        [XmlElement("column")]
+        public List<ColumnXml> _columnsDef { get; set; }
+
+        public IList<IColumn> ColumnsDef
+        {
+            get
+            {
+                if (_columnsDef == null)
+                    _columnsDef = new List<ColumnXml>();
+                return _columnsDef.Cast<IColumn>().ToList();
+            }
+        }
+
+        public ResultSetComparaisonSettings GetSettings()
+        {
+            return new ResultSetComparaisonSettings(KeysDef, ValuesDef, ColumnsDef);
+        }
 
         public IDbCommand Command
         {
@@ -68,5 +89,7 @@ namespace NBi.Xml.Constraints
                 return cmd;
             }
         }
+
+        
     }
 }

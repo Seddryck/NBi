@@ -96,9 +96,13 @@
     <Compile Include="Query\QueryAdomdEngine.cs" />
     <Compile Include="Query\IQueryEnginable.cs" />
     <Compile Include="Query\IQueryExecutor.cs" />
+    <Compile Include="ResultSet\Column.cs" />
+    <Compile Include="ResultSet\ColumnRole.cs" />
+    <Compile Include="ResultSet\ColumnType.cs" />
     <Compile Include="ResultSet\DataRowBasedResultSetComparer.cs" />
     <Compile Include="ResultSet\DataRowKeysComparer.cs" />
     <Compile Include="ResultSet\ICell.cs" />
+    <Compile Include="ResultSet\IColumn.cs" />
     <Compile Include="ResultSet\IResultSetBuilder.cs" />
     <Compile Include="ResultSet\IResultSetWriter.cs" />
     <Compile Include="Query\QueryEngineFactory.cs" />

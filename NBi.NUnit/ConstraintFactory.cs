@@ -45,21 +45,11 @@ namespace NBi.NUnit
                 throw new ArgumentException();
 
             //Manage settings for comparaison
-            ResultSetComparaisonSettings settings = new ResultSetComparaisonSettings();
-
-            if (xml.Keys != null && xml.Keys.Count>0)
-            {
-                settings.KeyColumnIndexes.Clear();
-                foreach (var key in xml.Keys)
-                    settings.KeyColumnIndexes.Add(key.Index - 1);
-            }
-
-            if (xml.Values != null && xml.Values.Count > 0)
-            {
-                settings.ValueColumnIndexes.Clear();
-                foreach (var val in xml.Values)
-                    settings.ValueColumnIndexes.Add(val.Index - 1);
-            }
+            ResultSetComparaisonSettings settings = new ResultSetComparaisonSettings(
+                xml.KeysDef,
+                xml.ValuesDef,
+                xml.ColumnsDef
+                );
 
             ctr.Using(settings);
 

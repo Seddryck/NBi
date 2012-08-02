@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.ResultSet;
@@ -101,7 +102,12 @@ namespace NBi.Testing.Acceptance.NUnit
             rs.Load(objs);
 
             var ctr = new NBiNu.EqualToConstraint(rs);
-            ctr.Using(new ResultSetComparaisonSettings(1,1,500));
+            ctr.Using(new ResultSetComparaisonSettings(
+                    ResultSetComparaisonSettings.KeysChoice.First,
+                    ResultSetComparaisonSettings.ValuesChoice.Last,
+                    500
+                )
+            );
 
             var query = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].Children ON 1 FROM [Finances]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
@@ -126,7 +132,11 @@ namespace NBi.Testing.Acceptance.NUnit
             rs.Load(objs);
 
             var ctr = new NBiNu.EqualToConstraint(rs);
-            ctr.Using(new ResultSetComparaisonSettings(1, 1, 0));
+            ctr.Using(new ResultSetComparaisonSettings(
+                ResultSetComparaisonSettings.KeysChoice.First,
+                ResultSetComparaisonSettings.ValuesChoice.Last,
+                null)
+            );
 
             var query = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].Children ON 1 FROM [Finances]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
@@ -146,7 +156,11 @@ namespace NBi.Testing.Acceptance.NUnit
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             var ctr = new NBiNu.EqualToConstraint(expectedCmd);
-            ctr.Using(new ResultSetComparaisonSettings(1, 1, 0));
+            ctr.Using(new ResultSetComparaisonSettings(
+                ResultSetComparaisonSettings.KeysChoice.First,
+                ResultSetComparaisonSettings.ValuesChoice.Last,
+                null)
+            );
 
             var query = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].Children ON 1 FROM [Finances]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
@@ -167,7 +181,11 @@ namespace NBi.Testing.Acceptance.NUnit
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             var ctr = new NBiNu.EqualToConstraint(expectedCmd);
-            ctr.Using(new ResultSetComparaisonSettings(1, 1, 0));
+            ctr.Using(new ResultSetComparaisonSettings(
+                ResultSetComparaisonSettings.KeysChoice.First,
+                ResultSetComparaisonSettings.ValuesChoice.Last,
+                null)
+            );
 
             var query = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].Children ON 1 FROM [Finances]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
@@ -188,7 +206,21 @@ namespace NBi.Testing.Acceptance.NUnit
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             var ctr = new NBiNu.EqualToConstraint(expectedCmd);
-            ctr.Using(new ResultSetComparaisonSettings(1, 1, 5));
+            ctr.Using(new ResultSetComparaisonSettings(
+                    ResultSetComparaisonSettings.KeysChoice.First,
+                    ResultSetComparaisonSettings.ValuesChoice.Last,
+                    new List<IColumn>()
+                    {
+                        new Column()
+                        {
+                            Index=1,
+                            Role= ColumnRole.Value,
+                            Type=ColumnType.Numeric,
+                            Tolerance= 10
+                        }
+                    }
+                )
+            );
 
             var query = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].Children ON 1 FROM [Finances]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
@@ -209,10 +241,26 @@ namespace NBi.Testing.Acceptance.NUnit
             expectedQuery += " SELECT '2011', 789.05 UNION ";
             expectedQuery += " SELECT '2012', -3795.83  ";
 
+
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
             var ctr = new NBiNu.EqualToConstraint(expectedCmd);
-            ctr.Using(new ResultSetComparaisonSettings(1, 1, 5));
+            ctr.Using(
+                    new ResultSetComparaisonSettings(
+                        ResultSetComparaisonSettings.KeysChoice.AllExpectLast,
+                        ResultSetComparaisonSettings.ValuesChoice.Last,
+                        new List<IColumn>()
+                        {
+                            new Column()
+                            {
+                                Index = 1,
+                                Role = ColumnRole.Value,
+                                Type = ColumnType.Numeric,
+                                Tolerance = 5
+                            }
+                        }
+                    )
+                );
 
             var query = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].Children ON 1 FROM [Finances]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));

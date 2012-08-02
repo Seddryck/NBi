@@ -43,7 +43,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
         public void Compare_SameRows_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new DataRowBasedResultSetComparer(BuildSettings(0,1));
+            var comparer = new DataRowBasedResultSetComparer(BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
             var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
 
@@ -58,7 +58,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
         public void Compare_DifferentRows_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new DataRowBasedResultSetComparer(BuildSettings(0, 1));
+            var comparer = new DataRowBasedResultSetComparer(BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
             var actual = BuildDataTable(new string[] { "Key10", "Key1" }, new double[] { 10, 11 });
 
@@ -73,7 +73,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
         public void Compare_UnexpectedRow_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new DataRowBasedResultSetComparer(BuildSettings(0, 1));
+            var comparer = new DataRowBasedResultSetComparer(BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
             var actual = BuildDataTable(new string[] { "Key0", "Key1", "Key2" }, new double[] { 0, 1, 2 });
 
@@ -88,7 +88,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
         public void Compare_MissingRow_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new DataRowBasedResultSetComparer(BuildSettings(0, 1));
+            var comparer = new DataRowBasedResultSetComparer(BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
             var actual = BuildDataTable(new string[] { "Key1" }, new double[] { 1 });
 
@@ -103,7 +103,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
         public void Compare_SameKeysButDifferentValues_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new DataRowBasedResultSetComparer(BuildSettings(0, 1));
+            var comparer = new DataRowBasedResultSetComparer(BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
             var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 10, 11 });
 
@@ -118,7 +118,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
         public void Compare_SameKeysDifferentValuesButWithinTolerance_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new DataRowBasedResultSetComparer(BuildSettings(0, 1, 1));
+            var comparer = new DataRowBasedResultSetComparer(BuildSettingsKeyValue(1));
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
             var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0.5, 1.5 });
 
@@ -133,7 +133,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
         public void Compare_SameKeysSameValuesUselessColumnNotMatching_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new DataRowBasedResultSetComparer(BuildSettings(0, 1));
+            var comparer = new DataRowBasedResultSetComparer(BuildSettingsKeyValueIgnore(0));
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 }, new string[] { "Useless0", "Useless1" });
             var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 }, new string[] { "0Useless0", "0Useless1" });
             
@@ -149,7 +149,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
         public void Compare_ObjectsVersusSameTyped_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new DataRowBasedResultSetComparer(BuildSettings(0, 1));
+            var comparer = new DataRowBasedResultSetComparer(BuildSettingsKeyValue());
             var reference = BuildDataTable(new object[] { "Key0", "Key1" }, new object[] { "0", "1" });
             var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
 
@@ -165,7 +165,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
         public void Compare_ObjectsVersusDifferentTyped_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new DataRowBasedResultSetComparer(BuildSettings(0, 1));
+            var comparer = new DataRowBasedResultSetComparer(BuildSettingsKeyValue());
             var reference = BuildDataTable(new object[] { "Key0", "Key1" }, new object[] { "0", "1" });
             var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 11 });
 
@@ -181,7 +181,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
         public void Compare_ObjectsVersusSameTypedButWithPrecision_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new DataRowBasedResultSetComparer(BuildSettings(0, 1));
+            var comparer = new DataRowBasedResultSetComparer(BuildSettingsKeyValue());
             var reference = BuildDataTable(new object[] { "Key0", "Key1" }, new object[] { "0", "1.0" });
             var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
 
@@ -239,20 +239,41 @@ namespace NBi.Testing.Unit.Core.ResultSet
             return dt;
         }
 
-        protected ResultSetComparaisonSettings BuildSettings(int key, int value)
+        protected ResultSetComparaisonSettings BuildSettingsKeyValue()
         {
-            return BuildSettings(key, value, 0);
+            return BuildSettingsKeyValue(0);
         }
 
-        protected ResultSetComparaisonSettings BuildSettings(int key, int value, decimal tolerance)
+        protected ResultSetComparaisonSettings BuildSettingsKeyValue(decimal tolerance)
         {
-            var settings = new ResultSetComparaisonSettings(
-                new List<int>() { key },
-                new List<int>() { value },
-                new List<decimal>() { tolerance }
-            );
+            var columnsDef = new List<IColumn>();
+            columnsDef.Add(
+                    new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance }
+                    );
 
-            return settings;
+            return new ResultSetComparaisonSettings(
+                ResultSetComparaisonSettings.KeysChoice.First,
+                ResultSetComparaisonSettings.ValuesChoice.Last,
+                columnsDef
+                );
+        }
+
+        protected ResultSetComparaisonSettings BuildSettingsKeyValueIgnore(decimal tolerance)
+        {
+            var columnsDef = new List<IColumn>();
+            columnsDef.Add(
+                    new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance }
+                    );
+
+            columnsDef.Add(
+                    new Column() { Index = 2, Role = ColumnRole.Ignore }
+                    );
+
+            return new ResultSetComparaisonSettings(
+                ResultSetComparaisonSettings.KeysChoice.First,
+                ResultSetComparaisonSettings.ValuesChoice.AllExpectFirst,
+                columnsDef
+                );
         }
     }
 }

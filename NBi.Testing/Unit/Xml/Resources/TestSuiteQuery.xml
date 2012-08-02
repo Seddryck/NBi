@@ -42,9 +42,7 @@
 			</query>
 		</system-under-test>
 		<assert>
-			<equalTo>
-				<key index="1"/>
-				<key index="2"/>
+			<equalTo keys="first">
 				<resultSet file="Query.csv"/>
 			</equalTo>
 		</assert>
@@ -57,8 +55,8 @@
 		</system-under-test>
 		<assert>
 			<equalTo>
-				<value index="3" type="numeric" tolerance="10"/>
-				<resultSet file="Query.csv"/>
+				<column role="value" index="3" type="numeric" tolerance="10"/>
+				<query file="Query.sql"/>
 			</equalTo>
 		</assert>
 	</test>

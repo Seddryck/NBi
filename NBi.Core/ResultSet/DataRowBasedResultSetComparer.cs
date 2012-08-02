@@ -37,10 +37,10 @@ namespace NBi.Core.ResultSet
 
             Settings.ConsoleDisplay();
             
-            var KeyComparer = new DataRowKeysComparer(Settings.KeyColumnIndexes);
+            var KeyComparer = new DataRowKeysComparer(Settings, x.Columns.Count);
 
             var missingRows = x.AsEnumerable().Except(y.AsEnumerable(), KeyComparer);
-            //Console.WriteLine("Missing rows: {0}", missingRows.Count());
+            Console.WriteLine("Missing rows: {0}", missingRows.Count());
 
             var unexpectedRows = y.AsEnumerable().Except(x.AsEnumerable(),KeyComparer);
             //Console.WriteLine("Unexpected rows: {0}", unexpectedRows.Count());
@@ -51,16 +51,16 @@ namespace NBi.Core.ResultSet
             var nonMatchingValueRows = new List<DataRow>(); 
             foreach (var rx in keyMatchingRows)
 	        {
-		        var ry = y.AsEnumerable().Single( r => (new DataRowKeysComparer()).GetHashCode(r) == (new DataRowKeysComparer()).GetHashCode(rx));
+                var ry = y.AsEnumerable().Single(r => KeyComparer.GetHashCode(r) == KeyComparer.GetHashCode(rx));
                 for (int i = 0; i < rx.Table.Columns.Count; i++)
                 {
-                    if (IsValueColumn(i))
+                    if (Settings.IsValue(i))
                     {
-                        if (IsNumericColumn(i))
+                        if (Settings.IsNumeric(i))
                         {
                             if (!IsEqual(Convert.ToDecimal(rx[i], NumberFormatInfo.InvariantInfo)
                                 , Convert.ToDecimal(ry[i], NumberFormatInfo.InvariantInfo)
-                                , Convert.ToDecimal(Settings.Tolerances(i), NumberFormatInfo.InvariantInfo)))
+                                , Convert.ToDecimal(Settings.GetTolerance(i), NumberFormatInfo.InvariantInfo)))
                                 nonMatchingValueRows.Add(ry);
                         }
                         else
@@ -74,16 +74,6 @@ namespace NBi.Core.ResultSet
             Console.WriteLine("Rows with a key matching but without value matching: {0}", nonMatchingValueRows.Count());
 
             return ResultSetCompareResult.Build(missingRows, unexpectedRows, keyMatchingRows, nonMatchingValueRows);
-        }
-
-        protected bool IsValueColumn(int index)
-        {
-            return Settings.ValueColumnIndexes.Contains(index);
-        }
-
-        protected bool IsNumericColumn(int index)
-        {
-            return (index >= 1);
         }
 
         protected internal bool IsEqual(Decimal x, Decimal y, Decimal tolerance)
@@ -100,7 +90,10 @@ namespace NBi.Core.ResultSet
 
         protected void BuildDefaultSettings(DataColumnCollection columns)
         {
-            Settings = new ResultSetComparaisonSettings(columns.Count, 0, 0);
+            Settings = new ResultSetComparaisonSettings(
+                ResultSetComparaisonSettings.KeysChoice.AllExpectLast, 
+                ResultSetComparaisonSettings.ValuesChoice.Last, 
+                null);
         }
 
     }

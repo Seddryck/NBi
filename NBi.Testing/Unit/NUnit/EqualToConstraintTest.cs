@@ -96,7 +96,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Matches_TwoIdenticalResultSets_ReturnTrue()
         {
-            var rs = new ResultSetCsvReader().Parse("a;b;c");
+            var rs = new ResultSetCsvReader().Parse("a;b;0");
 
             var cmd = new SqlCommand();
 

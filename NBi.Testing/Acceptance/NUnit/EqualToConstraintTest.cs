@@ -41,45 +41,22 @@ namespace NBi.Testing.Acceptance.NUnit
         }
         #endregion
 
-        [Test]
-        public void Matches_MdxQuery_Unknown()
-        {
-            //Buiding object used during test
-            var rs = new ResultSet();
-            var objs = new List<object[]>();
-            objs.Add(new object[] { "2009", "4242.79" });
-            objs.Add(new object[] { "2010", "3845.43" });
-            objs.Add(new object[] { "2011", "789.05" });
-            objs.Add(new object[] { "2012", "-3795.83" });
-            rs.Load(objs);
-
-            var ctr = new NBiNu.EqualToConstraint(rs);
-
-            var query = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].Children ON 1 FROM [Finances]";
-            var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-
-            //Call the method to test
-            var actual = ctr.Matches(cmd);
-
-            //Assertion
-            Assert.That(actual, Is.True);
-        }
-
+        
         [Test]
         public void Matches_MdxQueryAndResulSetWithoutKeyValuesInfo_Matching()
         {
             //Buiding object used during test
             var rs = new ResultSet();
             var objs = new List<object[]>();
-            objs.Add(new object[] { "2009", "4242.79" });
-            objs.Add(new object[] { "2010", "3845.43" });
-            objs.Add(new object[] { "2011", "789.05" });
-            objs.Add(new object[] { "2012", "-3795.83" });
+            objs.Add(new object[] { "CY 2001", "1874469.00" });
+            objs.Add(new object[] { "CY 2002", "4511243.0" });
+            objs.Add(new object[] { "CY 2003", "4709851" });
+            objs.Add(new object[] { "CY 2004", "1513940" });
             rs.Load(objs);
 
             var ctr = new NBiNu.EqualToConstraint(rs);
 
-            var query = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].Children ON 1 FROM [Finances]";
+            var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
@@ -95,10 +72,10 @@ namespace NBi.Testing.Acceptance.NUnit
             //Buiding object used during test
             var rs = new ResultSet();
             var objs = new List<object[]>();
-            objs.Add(new object[] { "2009", "4242.79" });
-            objs.Add(new object[] { "2010", "3845.43" });
-            objs.Add(new object[] { "2011", "1189.05" });
-            objs.Add(new object[] { "2012", "-3495.83" });
+            objs.Add(new object[] { "CY 2001", "1874469.00" });
+            objs.Add(new object[] { "CY 2002", "4511243.0" });
+            objs.Add(new object[] { "CY 2003", "4709851" });
+            objs.Add(new object[] { "CY 2004", "1513940" });
             rs.Load(objs);
 
             var ctr = new NBiNu.EqualToConstraint(rs);
@@ -109,7 +86,7 @@ namespace NBi.Testing.Acceptance.NUnit
                 )
             );
 
-            var query = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].Children ON 1 FROM [Finances]";
+            var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
@@ -125,10 +102,10 @@ namespace NBi.Testing.Acceptance.NUnit
             //Buiding object used during test
             var rs = new ResultSet();
             var objs = new List<object[]>();
-            objs.Add(new object[] { "2009", 4242.79 });
-            objs.Add(new object[] { "2010", 3845.43 });
-            objs.Add(new object[] { "2011", 789.05 });
-            objs.Add(new object[] { "2012", -3795.83 });
+            objs.Add(new object[] { "CY 2001", 1874469.00 });
+            objs.Add(new object[] { "CY 2002", 4511243.0 });
+            objs.Add(new object[] { "CY 2003", 4709851 });
+            objs.Add(new object[] { "CY 2004", 1513940 });
             rs.Load(objs);
 
             var ctr = new NBiNu.EqualToConstraint(rs);
@@ -138,7 +115,7 @@ namespace NBi.Testing.Acceptance.NUnit
                 null)
             );
 
-            var query = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].Children ON 1 FROM [Finances]";
+            var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
@@ -152,7 +129,7 @@ namespace NBi.Testing.Acceptance.NUnit
         public void Matches_MdxQueryAndSameQueryWithCorrectSettings_Matching()
         {
             //Buiding object used during test
-            var expectedQuery = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].Children ON 1 FROM [Finances]";
+            var expectedQuery = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             var ctr = new NBiNu.EqualToConstraint(expectedCmd);
@@ -162,7 +139,7 @@ namespace NBi.Testing.Acceptance.NUnit
                 null)
             );
 
-            var query = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].Children ON 1 FROM [Finances]";
+            var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1  FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
@@ -177,7 +154,7 @@ namespace NBi.Testing.Acceptance.NUnit
         {
             //Buiding object used during test
             var expectedQuery = "WITH MEMBER [Measures].NewAmount AS [Measures].[Amount]+1";
-            expectedQuery += " SELECT [Measures].NewAmount ON 0, [Date].[Calendar].Children ON 1 FROM [Finances]";
+            expectedQuery += " SELECT [Measures].NewAmount ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             var ctr = new NBiNu.EqualToConstraint(expectedCmd);
@@ -187,7 +164,7 @@ namespace NBi.Testing.Acceptance.NUnit
                 null)
             );
 
-            var query = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].Children ON 1 FROM [Finances]";
+            var query = "SELECT [Measures].[Amount] ON 0, ([Date].[Calendar].[Calendar Year]-[Date].[Calendar].[Calendar Year].&[2006]) ON 1  FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
@@ -202,7 +179,7 @@ namespace NBi.Testing.Acceptance.NUnit
         {
             //Buiding object used during test
             var expectedQuery = "WITH MEMBER [Measures].NewAmount AS [Measures].[Amount]+1";
-            expectedQuery += " SELECT [Measures].NewAmount ON 0, [Date].[Calendar].Children ON 1 FROM [Finances]";
+            expectedQuery += " SELECT [Measures].NewAmount ON 0, ([Date].[Calendar].[Calendar Year]-[Date].[Calendar].[Calendar Year].&[2006]) ON 1  FROM [Adventure Works]";
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             var ctr = new NBiNu.EqualToConstraint(expectedCmd);
@@ -222,7 +199,7 @@ namespace NBi.Testing.Acceptance.NUnit
                 )
             );
 
-            var query = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].Children ON 1 FROM [Finances]";
+            var query = "SELECT  [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
@@ -236,11 +213,10 @@ namespace NBi.Testing.Acceptance.NUnit
         public void Matches_MdxQueryAndSqlQueryWithCorrectSettings_Matching()
         {
             //Buiding object used during test
-            var expectedQuery = "SELECT '2009',  4242.79 UNION ";
-            expectedQuery += " SELECT '2010', 3845.43 UNION ";
-            expectedQuery += " SELECT '2011', 789.05 UNION ";
-            expectedQuery += " SELECT '2012', -3795.83  ";
-
+            var expectedQuery = "SELECT 'CY 2001',  1874469 UNION ";
+            expectedQuery += " SELECT 'CY 2002', 4511243 UNION ";
+            expectedQuery += " SELECT 'CY 2003', 4709851 UNION ";
+            expectedQuery += " SELECT 'CY 2004', 1513940  ";
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
@@ -262,7 +238,7 @@ namespace NBi.Testing.Acceptance.NUnit
                     )
                 );
 
-            var query = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].Children ON 1 FROM [Finances]";
+            var query = "SELECT  [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test

@@ -4,7 +4,7 @@ using Microsoft.AnalysisServices.AdomdClient;
 
 namespace NBi.Core.Query
 {
-    public class QueryAdomdEngine:IQueryExecutor, IQueryEnginable
+    public class QueryAdomdEngine:IQueryExecutor, IQueryEnginable, IQueryParser
     {
         protected readonly AdomdCommand _command;
 
@@ -69,6 +69,41 @@ namespace NBi.Core.Query
 
                 return ds;
             }
+        }
+
+        public virtual ParserResult Parse()
+        {
+            ParserResult res = null;
+
+            using (var connection = new AdomdConnection())
+            {
+                try
+                {
+                    connection.ConnectionString = _command.Connection.ConnectionString;
+                    connection.Open();
+                }
+                catch (ArgumentException ex)
+                { throw new ConnectionException(ex); }
+                
+                using (AdomdCommand cmdIn = new AdomdCommand(_command.CommandText, connection))
+                {
+                    try
+                    {
+                        AdomdDataReader dr = cmdIn.ExecuteReader(CommandBehavior.SchemaOnly);
+                        res = ParserResult.NoParsingError();
+                    }
+                    catch (AdomdException ex)
+                    {
+                        res = new ParserResult(ex.Message.Split(new string[] { "\r\n" }, System.StringSplitOptions.RemoveEmptyEntries));
+                    }
+
+                }
+
+                if (connection.State != System.Data.ConnectionState.Closed)
+                    connection.Close();
+            }
+
+            return res;
         }
     }
 }

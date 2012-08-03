@@ -56,17 +56,27 @@ namespace NBi.Core.ResultSet
                 {
                     if (Settings.IsValue(i))
                     {
-                        if (Settings.IsNumeric(i))
+                        //Null management
+                        if (rx.IsNull(i) || ry.IsNull(i))
                         {
-                            if (!IsEqual(Convert.ToDecimal(rx[i], NumberFormatInfo.InvariantInfo)
-                                , Convert.ToDecimal(ry[i], NumberFormatInfo.InvariantInfo)
-                                , Convert.ToDecimal(Settings.GetTolerance(i), NumberFormatInfo.InvariantInfo)))
-                                nonMatchingValueRows.Add(ry);
+                             if (!rx.IsNull(i) || !ry.IsNull(i))
+                                 nonMatchingValueRows.Add(ry);
                         }
                         else
                         {
-                            if (!IsEqual(rx[i], ry[i]))
-                                nonMatchingValueRows.Add(ry);
+                            //Not Null management
+                            if (Settings.IsNumeric(i))
+                            {
+                                if (!IsEqual(Convert.ToDecimal(rx[i], NumberFormatInfo.InvariantInfo)
+                                    , Convert.ToDecimal(ry[i], NumberFormatInfo.InvariantInfo)
+                                    , Convert.ToDecimal(Settings.GetTolerance(i), NumberFormatInfo.InvariantInfo)))
+                                    nonMatchingValueRows.Add(ry);
+                            }
+                            else
+                            {
+                                if (!IsEqual(rx[i], ry[i]))
+                                    nonMatchingValueRows.Add(ry);
+                            }
                         }
                     }
                 }

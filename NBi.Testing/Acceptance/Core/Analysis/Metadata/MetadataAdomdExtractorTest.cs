@@ -14,57 +14,57 @@ namespace NBi.Testing.Acceptance.Core.Analysis.Metadata
             
             var metadata = me.GetFullMetadata();
 
-            Assert.That(metadata.Perspectives["Finances"].Dimensions.ContainsKey("[Date]"));
-            Assert.That(!metadata.Perspectives["Finances"].Dimensions.ContainsKey("[Measures]"));
+            Assert.That(metadata.Perspectives["Adventure Works"].Dimensions.ContainsKey("[Date]"));
+            Assert.That(!metadata.Perspectives["Adventure Works"].Dimensions.ContainsKey("[Measures]"));
 
-            Assert.That(metadata.Perspectives["Finances"].Dimensions["[Date]"].Hierarchies.ContainsKey("[Date].[Calendar]"));
+            Assert.That(metadata.Perspectives["Adventure Works"].Dimensions["[Date]"].Hierarchies.ContainsKey("[Date].[Calendar]"));
 
-            Assert.That(metadata.Perspectives["Finances"].Dimensions["[Date]"].Hierarchies["[Date].[Calendar]"].Levels.ContainsKey("[Date].[Calendar].[Month]"));
+            Assert.That(metadata.Perspectives["Adventure Works"].Dimensions["[Date]"].Hierarchies["[Date].[Calendar]"].Levels.ContainsKey("[Date].[Calendar].[Month]"));
 
-            Assert.That(metadata.Perspectives["Finances"]
+            Assert.That(metadata.Perspectives["Adventure Works"]
                 .Dimensions["[Date]"]
                 .Hierarchies["[Date].[Calendar]"]
                 .Levels["[Date].[Calendar].[Month]"]
-                .Properties.ContainsKey("[Date].[Calendar].[Month].[Calendar Year]"));
+                .Properties.ContainsKey("[Date].[Calendar].[Month].[Calendar Quarter]"));
 
-            Assert.That(metadata.Perspectives["Finances"].MeasureGroups.ContainsKey("Fact Amount"));
-            Assert.That(!metadata.Perspectives["Finances"].MeasureGroups.ContainsKey("[Date]"));
+            Assert.That(metadata.Perspectives["Adventure Works"].MeasureGroups.ContainsKey("Financial Reporting"));
+            Assert.That(!metadata.Perspectives["Adventure Works"].MeasureGroups.ContainsKey("[Date]"));
 
-            Assert.That(metadata.Perspectives["Finances"].MeasureGroups["Fact Amount"].LinkedDimensions.ContainsKey("[Date]"));
-            Assert.That(!metadata.Perspectives["Finances"].MeasureGroups["Fact Amount"].LinkedDimensions.ContainsKey("[Measures]"));
+            Assert.That(metadata.Perspectives["Adventure Works"].MeasureGroups["Financial Reporting"].LinkedDimensions.ContainsKey("[Date]"));
+            Assert.That(!metadata.Perspectives["Adventure Works"].MeasureGroups["Financial Reporting"].LinkedDimensions.ContainsKey("[Measures]"));
 
-            Assert.That(metadata.Perspectives["Finances"].MeasureGroups["Fact Amount"].Measures.ContainsKey("[Measures].[Amount]"));
+            Assert.That(metadata.Perspectives["Adventure Works"].MeasureGroups["Financial Reporting"].Measures.ContainsKey("[Measures].[Amount]"));
         }
 
-        public void GetChildStructure_DateDimensionWithThreeHierarchies_ListStructureContainingThreeElements()
+        public void GetChildStructure_DateDimensionWithHeighTeenHierarchies_ListStructureContainingHeighTeenElements()
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
             var disco = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            disco.Perspective = "Finances";
+            disco.Perspective = "Adventure Works";
             disco.Path = "[Date]";
 
             var structs = me.GetPartialMetadata(disco);
 
-            Assert.That(structs, Has.Count.EqualTo(3));
+            Assert.That(structs, Has.Count.EqualTo(18));
         }
 
-        public void GetChildStructure_CalendarHierarchyWithFourLevels_ListStructureContainingFourElements()
+        public void GetChildStructure_CalendarHierarchyWithSixLevels_ListStructureContainingSixElements()
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
             var disco = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            disco.Perspective = "Finances";
+            disco.Perspective = "Adventure Works";
             disco.Path = "[Date].[Calendar]";
 
             var structs = me.GetPartialMetadata(disco);
 
-            Assert.That(structs, Has.Count.EqualTo(4));
+            Assert.That(structs, Has.Count.EqualTo(6));
         }
 
         public void GetChildStructure_MonthLevelWithTwoProperties_ListStructureContainingTwoElements()
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
             var disco = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            disco.Perspective = "Finances";
+            disco.Perspective = "Adventure Works";
             disco.Path = "[Date].[Calendar].[Month]";
 
             var structs = me.GetPartialMetadata(disco);
@@ -72,12 +72,12 @@ namespace NBi.Testing.Acceptance.Core.Analysis.Metadata
             Assert.That(structs, Has.Count.EqualTo(2));
         }
 
-        public void GetMeasures_PerspectiveEasyFinances_ListMeasuresContainingTwoElements()
+        public void GetMeasuresOfFolder_PerspectiveAdventureWorks_OneElement()
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
             var disco = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            disco.Perspective = "Easy finances";
-            disco.Path = "[Measures].[Fact Amount]";
+            disco.Perspective = "Finance";
+            disco.Path = "[Measures].[Financial Reporting]"; //Financial Reporting is the folder's name!
 
             var structs = me.GetPartialMetadata(disco);
 

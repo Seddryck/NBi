@@ -42,10 +42,10 @@ namespace NBi.Testing.Acceptance.NUnit.Structure
         public void ContainsConstraint_FindExistingHierarchyBellowSpecificDimension_Success()
         {
             var mq = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            mq.Path = "[Date]";
-            mq.Perspective = "Finances";
+            mq.Path = "[Product]";
+            mq.Perspective = "Adventure Works";
             
-            var ctr = new ContainsConstraint("Calendar");
+            var ctr = new ContainsConstraint("Product Model Lines");
 
             //Method under test
             Assert.That(mq, ctr);
@@ -56,8 +56,8 @@ namespace NBi.Testing.Acceptance.NUnit.Structure
         public void ContainsConstraint_FindNonExistingHierarchyBellowSpecificDimension_Failure()
         {
             var mq = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            mq.Path = "[Date]";
-            mq.Perspective = "Finances";
+            mq.Path = "[Product]";
+            mq.Perspective = "Adventure Works";
 
             var ctr = new ContainsConstraint("Not existing");
 

@@ -12,13 +12,13 @@ namespace NBi.Testing.Acceptance.Core.Analysis.Member
         {
             var connString = ConnectionStringReader.GetAdomd();
             var disco = new DiscoverCommand(connString);
-            disco.Path = "[Date].[Calendar].[Year]";
+            disco.Path = "[Date].[Calendar].[Calendar Year]";
             disco.Function = "members";
 
             var engine = new DimensionCubeAdomdEngine();
             var res = engine.Execute(disco);
 
-            Assert.That(res.Count, Is.EqualTo(4));
+            Assert.That(res.Count, Is.EqualTo(5));
         }
 
         [Test]
@@ -26,14 +26,14 @@ namespace NBi.Testing.Acceptance.Core.Analysis.Member
         {
             var connString = ConnectionStringReader.GetAdomd();
             var disco = new DiscoverCommand(connString);
-            disco.Path = "[Date].[Calendar].[Year].[2010]";
+            disco.Path = "[Date].[Calendar].[Calendar Year].[CY 2003]";
             disco.Function = "children";
-            disco.Perspective = "Finances";
+            disco.Perspective = "Adventure Works";
 
             var engine = new DimensionCubeAdomdEngine();
             var res = engine.Execute(disco);
 
-            Assert.That(res.Count, Is.EqualTo(12));
+            Assert.That(res.Count, Is.EqualTo(2));
         }
     }
 }

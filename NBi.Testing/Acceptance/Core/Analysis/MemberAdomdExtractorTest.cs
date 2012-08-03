@@ -44,16 +44,16 @@ namespace NBi.Testing.Acceptance.Core.Analysis
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
             var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            amc.Perspective = "Easy Finances";
-            amc.Path="[Counter Party].[Accounts Structure].[Label]";
+            amc.Perspective = "Adventure Works";
+            amc.Path = "[Geography].[Geography].[Country]";
 
             //Call the method to test
             var actual = mae.Execute(amc);
 
             //Assertion
             Assert.That(List.Map(actual).Property("Caption"), Has.None.EqualTo("All"));
-            Assert.That(List.Map(actual).Property("Caption"), Has.Member(""));
-            Assert.That(List.Map(actual).Property("Caption"), Has.Member("Aula Magna"));
+            Assert.That(List.Map(actual).Property("Caption"), Has.Member("Canada"));
+            Assert.That(List.Map(actual).Property("Caption"), Has.Member("France"));
         }
 
         [Test]
@@ -62,15 +62,15 @@ namespace NBi.Testing.Acceptance.Core.Analysis
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
             var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            amc.Perspective = "Easy Finances";
-            amc.Path = "[Counter Party].[Accounts Structure].[Label]";
+            amc.Perspective = "Adventure Works";
+            amc.Path = "[Geography].[Geography].[Country]";
 
             //Call the method to test
             var actual = mae.Execute(amc);
 
             //Assertion
-            Assert.That(List.Map(actual).Property("UniqueName"), Has.Member("[Counter Party].[Accounts Structure].[Label].&[]"));
-            Assert.That(List.Map(actual).Property("UniqueName"), Has.Member("[Counter Party].[Accounts Structure].[Label].&[Aula Magna]"));
+            Assert.That(List.Map(actual).Property("UniqueName"), Has.Member("[Geography].[Geography].[Country].&[Canada]"));
+            Assert.That(List.Map(actual).Property("UniqueName"), Has.Member("[Geography].[Geography].[Country].&[France]"));
         }
 
         [Test]
@@ -79,8 +79,8 @@ namespace NBi.Testing.Acceptance.Core.Analysis
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
             var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            amc.Perspective = "Easy Finances";
-            amc.Path = "[Counter Party].[Accounts Structure].[Label]";
+            amc.Perspective = "Adventure Works";
+            amc.Path = "[Geography].[Geography].[Country]";
 
             //Call the method to test
             var actual = mae.Execute(amc);
@@ -96,8 +96,8 @@ namespace NBi.Testing.Acceptance.Core.Analysis
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
             var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            amc.Perspective = "Easy Finances";
-            amc.Path = "[Counter Party].[Accounts Structure].[Label]";
+            amc.Perspective = "Adventure Works";
+            amc.Path = "[Geography].[Geography].[Country]";
 
             //Call the method to test
             var actual = mae.Execute(amc);
@@ -112,16 +112,16 @@ namespace NBi.Testing.Acceptance.Core.Analysis
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
             var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            amc.Perspective = "Easy Finances";
-            amc.Path = "[Counter Party].[Accounts Structure]";
+            amc.Perspective = "Adventure Works";
+            amc.Path = "[Geography].[Geography]";
 
             //Call the method to test
             var actual = mae.Execute(amc);
 
             //Assertion
-            Assert.That(List.Map(actual).Property("Caption"), Has.Member("All"));
-            Assert.That(List.Map(actual).Property("Caption"), Has.Member(""));
-            Assert.That(List.Map(actual).Property("Caption"), Has.Member("Aula Magna"));
+            Assert.That(List.Map(actual).Property("Caption"), Has.Member("All Geographies"));
+            Assert.That(List.Map(actual).Property("Caption"), Has.Member("Canada"));
+            Assert.That(List.Map(actual).Property("Caption"), Has.Member("France"));
         }
 
         [Test]
@@ -130,15 +130,15 @@ namespace NBi.Testing.Acceptance.Core.Analysis
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
             var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            amc.Perspective = "Easy Finances";
-            amc.Path = "[Counter Party].[Accounts Structure]";
+            amc.Perspective = "Adventure Works";
+            amc.Path = "[Geography].[Geography]";
 
             //Call the method to test
             var actual = mae.Execute(amc);
 
             //Assertion
-            Assert.That(List.Map(actual).Property("UniqueName"), Has.Member("[Counter Party].[Accounts Structure].[Label].&[]"));
-            Assert.That(List.Map(actual).Property("UniqueName"), Has.Member("[Counter Party].[Accounts Structure].[Label].&[Aula Magna]"));
+            Assert.That(List.Map(actual).Property("UniqueName"), Has.Member("[Geography].[Geography].[Country].&[Canada]"));
+            Assert.That(List.Map(actual).Property("UniqueName"), Has.Member("[Geography].[Geography].[City].&[Toronto]&[ON]"));
         }
 
         [Test]
@@ -147,8 +147,8 @@ namespace NBi.Testing.Acceptance.Core.Analysis
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
             var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            amc.Perspective = "Easy Finances";
-            amc.Path = "[Counter Party].[Accounts Structure]";
+            amc.Perspective = "Adventure Works";
+            amc.Path = "[Geography].[Geography]";
 
             //Call the method to test
             var actual = mae.Execute(amc);
@@ -165,15 +165,31 @@ namespace NBi.Testing.Acceptance.Core.Analysis
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
             var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            amc.Perspective = "Easy Finances";
-            amc.Path = "[Counter Party].[Accounts Structure]";
+            amc.Perspective = "Adventure Works";
+            amc.Path = "[Geography].[Geography]";
 
             //Call the method to test
             var actual = mae.Execute(amc);
 
             //Assertion
             Assert.That(actual, Has.Count.GreaterThan(0));
-            Assert.That(List.Map(actual).Property("LevelNumber"), Has.All.LessThanOrEqualTo(2));
+            //0 = All
+            Assert.That(List.Map(actual).Property("LevelNumber"), Has.Some.EqualTo(0));
+            //1 = Country
+            Assert.That(List.Map(actual).Property("LevelNumber"), Has.Some.EqualTo(1));
+            //2 = State/Province
+            Assert.That(List.Map(actual).Property("LevelNumber"), Has.Some.EqualTo(2));
+            //3 = Town
+            Assert.That(List.Map(actual).Property("LevelNumber"), Has.Some.EqualTo(3));
+            //4 = Zip code
+            Assert.That(List.Map(actual).Property("LevelNumber"), Has.Some.EqualTo(4));
+            //Nothing else 
+            Assert.That(List.Map(actual).Property("LevelNumber"), Has.All.LessThanOrEqualTo(4));
+            
+            
+            
+            
+            
         }
     }
 }

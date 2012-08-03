@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.ResultSet;
@@ -246,6 +245,78 @@ namespace NBi.Testing.Acceptance.NUnit
 
             //Assertion
             Assert.That(actual, Is.True);
+        }
+
+        [Test]
+        public void Matches_MdxQueryAndResulSetCsvFile_Matching()
+        {
+            //Buiding object used during test
+            var filename = DiskOnFile.CreatePhysicalFile("NonEmptyAmountByYear.csv", "NBi.Testing.Acceptance.NUnit.Resources.NonEmptyAmountByYear.csv");
+
+            var ctr = new NBiNu.EqualToConstraint(filename);
+
+            var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
+            var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
+
+            //Call the method to test
+            var actual = ctr.Matches(cmd);
+
+            //Assertion
+            Assert.That(actual, Is.True);
+        }
+
+        [Test]
+        public void Matches_MdxQueryWithNullComparedToSqlWithNull_Matching()
+        {
+            //Buiding object used during test
+            var expectedQuery = "SELECT 'CY 2006',  NULL ";
+
+            var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+
+            var ctr = new NBiNu.EqualToConstraint(expectedCmd);
+            ctr.Using(
+                    new ResultSetComparaisonSettings(
+                        ResultSetComparaisonSettings.KeysChoice.AllExpectLast,
+                        ResultSetComparaisonSettings.ValuesChoice.Last,
+                        null
+                    )
+                );
+
+            var query = "SELECT  [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2006] ON 1 FROM [Adventure Works]";
+            var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
+
+            //Call the method to test
+            var actual = ctr.Matches(cmd);
+
+            //Assertion
+            Assert.That(actual, Is.True);
+        }
+
+        [Test]
+        public void Matches_MdxQueryWithNullComparedToSqlWithValue_NonMatching()
+        {
+            //Buiding object used during test
+            var expectedQuery = "SELECT 'CY 2006',  0 ";
+
+            var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+
+            var ctr = new NBiNu.EqualToConstraint(expectedCmd);
+            ctr.Using(
+                    new ResultSetComparaisonSettings(
+                        ResultSetComparaisonSettings.KeysChoice.AllExpectLast,
+                        ResultSetComparaisonSettings.ValuesChoice.Last,
+                        null
+                    )
+                );
+
+            var query = "SELECT  [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2006] ON 1 FROM [Adventure Works]";
+            var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
+
+            //Call the method to test
+            var actual = ctr.Matches(cmd);
+
+            //Assertion
+            Assert.That(actual, Is.False);
         }
 
     }

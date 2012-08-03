@@ -104,7 +104,6 @@
     <Compile Include="Unit\Xml\XmlManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Acceptance\Core\ResultSet\" />
     <Folder Include="Unit\Core\Query\" />
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +150,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\Resources\SelectAllProducts.sql" />
     <EmbeddedResource Include="Unit\Xml\Resources\QueryFile.sql" />
+    <EmbeddedResource Include="Acceptance\NUnit\Resources\NonEmptyAmountByYear.csv" />
     <Content Include="NBi.Testing.sql" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteSample.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

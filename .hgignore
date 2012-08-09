@@ -36,3 +36,4 @@ _ReSharper*/
 [Pp]ackages/
 *.user.config
 NUnit.exe.lnk
+NBi.ncrunchsolution

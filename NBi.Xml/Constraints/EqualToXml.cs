@@ -1,11 +1,12 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core;
 using NBi.Core.ResultSet;
 using NBi.Xml.Constraints.EqualTo;
+using NBi.Xml.Systems;
 
 namespace NBi.Xml.Constraints
 {
@@ -26,26 +27,51 @@ namespace NBi.Xml.Constraints
         [XmlText]
         public string InlineQuery { get; set; }
 
-        public string Query
+        private string _query;
+
+        public string GetQuery()
         {
-            get
+            //if Sql is specified then return it
+            if (!string.IsNullOrEmpty(InlineQuery))
+                return InlineQuery;
+
+            //Else read the file's content (if local varaible not populated)
+            if (!string.IsNullOrEmpty(QueryFile))
             {
-                //if both are empty return null
-                if (string.IsNullOrEmpty(InlineQuery) && string.IsNullOrEmpty(QueryFile))
-                    return null;
-
-                //if Sql is specified then return it
-                if (!string.IsNullOrEmpty(InlineQuery))
-                    return InlineQuery;
-
-                //Else read the file's content and 
-                var query = File.ReadAllText(QueryFile);
-                return query;
+                if (string.IsNullOrEmpty(_query))
+                    _query = File.ReadAllText(QueryFile);
+                return _query;
             }
+
+            //Else use the QueryXml object
+            if (Query != null)
+            {
+                return Query.GetQuery();
+            }
+
+            return null;
+        }
+
+        public string GetConnectionString()
+        {
+            //if ConnectionString is specified then return it
+            if (!string.IsNullOrEmpty(ConnectionString))
+                return ConnectionString;
+
+            //Else use the QueryXml object
+            if (Query != null)
+            {
+                return Query.ConnectionString;
+            }
+
+            return null;
         }
 
         [XmlElement("resultSet")]
         public ResultSetXml ResultSet { get; set; }
+
+        [XmlElement("query")]
+        public QueryXml Query { get; set; }
 
         [XmlAttribute("keys")]
         public ResultSetComparaisonSettings.KeysChoice KeysDef { get; set; }
@@ -74,20 +100,16 @@ namespace NBi.Xml.Constraints
             return new ResultSetComparaisonSettings(KeysDef, ValuesDef, ColumnsDef);
         }
 
-        public IDbCommand Command
+        public IDbCommand GetCommand()
         {
-            get
-            {
-                var query = Query;
-                if (query == null)
-                    return null;
+            if (string.IsNullOrEmpty(GetQuery()))
+                return null;
 
-                var conn = ConnectionFactory.Get(ConnectionString);
-                var cmd = conn.CreateCommand();
-                cmd.CommandText = query;
+            var conn = ConnectionFactory.Get(GetConnectionString());
+            var cmd = conn.CreateCommand();
+            cmd.CommandText = GetQuery();
 
-                return cmd;
-            }
+            return cmd;
         }
 
         

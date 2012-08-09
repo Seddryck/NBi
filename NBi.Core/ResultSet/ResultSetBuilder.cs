@@ -10,6 +10,8 @@ namespace NBi.Core.ResultSet
     {
         public virtual ResultSet Build(Object obj)
         {
+            Console.WriteLine("Debug: {0} {1}", obj.GetType(), obj.ToString()); 
+            
             if (obj is ResultSet)
                 return Build((ResultSet)obj);
             else if (obj is IList<IRow>)

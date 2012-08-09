@@ -104,18 +104,20 @@
     <Compile Include="Unit\Xml\XmlManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Acceptance\" />
     <Folder Include="Integration\Core\Analysis\Query\" />
     <Folder Include="Integration\Core\Database\" />
     <Folder Include="Integration\NUnit\Database\" />
     <Folder Include="Unit\Core\Query\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Acceptance\Resources\ResellerOrderCountByYearBefore2006.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="ConnectionString.config" />
     <None Include="ConnectionString.user.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Integration\NUnit\Resources\NonEmptyAmountByYear.csv" />
+    <EmbeddedResource Include="Integration\NUnit\Resources\NonEmptyAmountByYear.csv" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataCsvSample.csv" />
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataExcelSample.xls" />
@@ -155,6 +157,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\Resources\SelectAllProducts.sql" />
     <EmbeddedResource Include="Unit\Xml\Resources\QueryFile.sql" />
+    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToResultSet.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToCsv.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToQuery.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="NBi.Testing.sql" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteSample.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

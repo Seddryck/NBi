@@ -62,16 +62,24 @@ namespace NBi.Core.ResultSet
                              if (!rx.IsNull(i) || !ry.IsNull(i))
                                  nonMatchingValueRows.Add(ry);
                         }
+                        //Not Null management
                         else
                         {
-                            //Not Null management
+                            //Numeric
                             if (Settings.IsNumeric(i))
                             {
-                                if (!IsEqual(Convert.ToDecimal(rx[i], NumberFormatInfo.InvariantInfo)
-                                    , Convert.ToDecimal(ry[i], NumberFormatInfo.InvariantInfo)
-                                    , Convert.ToDecimal(Settings.GetTolerance(i), NumberFormatInfo.InvariantInfo)))
+                                //Convert to decimal
+                                Console.WriteLine("Debug: {0} {1}", rx[i].ToString(), rx[i].GetType());
+                                var rxDecimal = Convert.ToDecimal(rx[i], NumberFormatInfo.InvariantInfo);
+                                var ryDecimal = Convert.ToDecimal(ry[i], NumberFormatInfo.InvariantInfo);
+                                var tolerance = Convert.ToDecimal(Settings.GetTolerance(i), NumberFormatInfo.InvariantInfo);
+                                
+                                //Compare decimals (with tolerance)
+                                if (!IsEqual(rxDecimal, ryDecimal, tolerance))
                                     nonMatchingValueRows.Add(ry);
+                                
                             }
+                            //Not Numeric
                             else
                             {
                                 if (!IsEqual(rx[i], ry[i]))

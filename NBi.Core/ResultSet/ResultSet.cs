@@ -72,8 +72,12 @@ namespace NBi.Core.ResultSet
 
             foreach (var row in rows)
             {
-                var cells = row.Cells.ToArray<object>();
-                objs.Add(cells);
+                var cells = row.Cells.ToArray<ICell>();
+                var contentCells = new List<Object>();
+                foreach (var cell in cells)
+                    contentCells.Add(cell.Value);
+
+                objs.Add(contentCells.ToArray());
             }
 
             this.Load(objs);

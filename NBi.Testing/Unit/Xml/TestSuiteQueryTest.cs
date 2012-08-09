@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using NBi.Xml;
 using System.Reflection;
 using NBi.Xml.Constraints;
+using NBi.Xml.Systems;
 using NUnit.Framework;
 using NBi.Core.ResultSet;
 
@@ -112,6 +113,26 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef, Has.Count.EqualTo(1));
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[0], Has.Property("Index").EqualTo(3));
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[0], Has.Property("Tolerance").EqualTo(10));
+        }
+
+        [Test]
+        public void DeserializeEqualToQuery_QueryFile4_List()
+        {
+            int testNr = 4;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Query, Is.TypeOf<QueryXml>());
+
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Query.ConnectionString, Is.Not.Empty);
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Query.ConnectionString, Contains.Substring("Reference"));
+
+            var query = ((EqualToXml)ts.Tests[testNr].Constraints[0]).Query.GetQuery();
+            Assert.That(query, Is.Not.Empty);
+            Assert.That(query, Contains.Substring("Top2Product"));
+            
         }
 
     }

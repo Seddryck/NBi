@@ -79,6 +79,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="NUnit\NUnitLauncher.cs" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <Compile Include="Program.cs" />
     <Compile Include="Configuration\Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -134,7 +137,6 @@
     <None Include="MyProject.nbi">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

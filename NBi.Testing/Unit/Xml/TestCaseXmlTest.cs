@@ -59,7 +59,7 @@ namespace NBi.Testing.Unit.Xml
                 using (StreamReader reader = new StreamReader(stream))
                    expectedContent = reader.ReadToEnd();
             
-            Assert.AreEqual(expectedContent, testCase.Query);
+            Assert.AreEqual(expectedContent, testCase.GetQuery());
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace NBi.Testing.Unit.Xml
             //Instantiate a System Under Test
             var systemUnderTest = new QueryXml() { InlineQuery = "SELECT * FROM Product" };
 
-            Assert.AreEqual("SELECT * FROM Product", systemUnderTest.Query);
+            Assert.AreEqual("SELECT * FROM Product", systemUnderTest.GetQuery());
         }
        
     }

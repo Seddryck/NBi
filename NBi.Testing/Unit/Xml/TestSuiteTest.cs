@@ -114,10 +114,10 @@ namespace NBi.Testing.Unit.Xml
 
             // Check the properties of the object.
             Assert.That(ts.Tests[1].Systems[0], Is.InstanceOf<QueryXml>());
-            Assert.That(((QueryXml)ts.Tests[1].Systems[0]).Query, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
+            Assert.That(((QueryXml)ts.Tests[1].Systems[0]).GetQuery(), Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
             Assert.That(((QueryXml)ts.Tests[1].Systems[0]).InlineQuery, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
             Assert.That(((QueryXml)ts.Tests[1].Systems[0]).Filename, Is.Null);
-            Assert.That(((QueryXml)ts.Tests[1].Systems[1]).Query, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
+            Assert.That(((QueryXml)ts.Tests[1].Systems[1]).GetQuery(), Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
             Assert.That(((QueryXml)ts.Tests[1].Systems[1]).InlineQuery, Is.Null);
             Assert.That(((QueryXml)ts.Tests[1].Systems[1]).Filename, Is.Not.Null.And.Not.Empty);
             

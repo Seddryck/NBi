@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
+	<test name="'Reseller Order Count' by year before 2006" uid="0001">
+		<system-under-test>
+			<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1049">
+				SELECT
+					[Measures].[Reseller Order Count] ON 0,
+					EXCEPT({[Date].[Calendar Year].Children},{[Date].[Calendar Year].[CY 2006]}) ON 1
+				FROM
+					[Adventure Works]
+			</query>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>CY 2001</cell>
+						<cell>366</cell>
+					</row>
+					<row>
+						<cell>CY 2002</cell>
+						<cell>1015</cell>
+					</row>
+					<row>
+						<cell>CY 2003</cell>
+						<cell>1521</cell>
+					</row>
+					<row>
+						<cell>CY 2004</cell>
+						<cell>894</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+</testSuite>

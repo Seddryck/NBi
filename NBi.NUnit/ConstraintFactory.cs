@@ -29,19 +29,26 @@ namespace NBi.NUnit
             {
                 ctr = new EqualToConstraint(xml.ResultSetFile);
             }
-            else if (xml.Command != null)
+            else if (xml.GetCommand() != null)
             {
-                ctr = new EqualToConstraint(xml.Command);
-            }
-            else if (!string.IsNullOrEmpty(xml.ResultSet.File))
-            {
-                ctr = new EqualToConstraint(xml.ResultSet.File);
+                ctr = new EqualToConstraint(xml.GetCommand());
             }
             else if (xml.ResultSet != null)
             {
-                ctr = new EqualToConstraint(xml.ResultSet.Rows);
+                Console.WriteLine("Debug: ResultSet defined!");
+                if (!string.IsNullOrEmpty(xml.ResultSet.File))
+                {
+                    Console.WriteLine("Debug: ResultSet.File defined!");
+                    ctr = new EqualToConstraint(xml.ResultSet.File);
+                }
+                else if (xml.ResultSet.Rows!=null)
+                {
+                    Console.WriteLine("Debug: ResultSet.Rows defined!");
+                    ctr = new EqualToConstraint(xml.ResultSet.Rows);
+                }
             }
-            else
+            
+            if (ctr==null)
                 throw new ArgumentException();
 
             //Manage settings for comparaison

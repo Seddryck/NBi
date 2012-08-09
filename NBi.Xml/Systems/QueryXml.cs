@@ -19,25 +19,22 @@ namespace NBi.Xml.Systems
         [XmlText]
         public string InlineQuery { get; set; }
 
-        public string Query
+        public string GetQuery()
         {
-            get
-            {
-                //if Sql is specified then return it
-                if (!string.IsNullOrEmpty(InlineQuery))
-                    return InlineQuery;
+            //if Sql is specified then return it
+            if (!string.IsNullOrEmpty(InlineQuery))
+                return InlineQuery;
 
-                //Else read the file's content and 
-                var query = File.ReadAllText(Filename);
-                return query;
-            }
+            //Else read the file's content and 
+            var query = File.ReadAllText(Filename);
+            return query;
         }
 
         public override object Instantiate()
         {
             var conn = ConnectionFactory.Get(ConnectionString);
             var cmd = conn.CreateCommand();
-            cmd.CommandText = Query;
+            cmd.CommandText = GetQuery();
 
             return cmd;
         }

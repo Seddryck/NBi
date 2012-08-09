@@ -60,4 +60,18 @@
 			</equalTo>
 		</assert>
 	</test>
+	<test name="values">
+		<system-under-test>
+			<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+				SELECT TOP 2 * FROM Product;
+			</query>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<query connectionString="Data Source=.;Initial Catalog=NBi.Reference;Integrated Security=True">
+					SELECT * FROM Top2Product
+				</query>
+			</equalTo>
+		</assert>
+	</test>
 </testSuite>

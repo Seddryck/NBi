@@ -56,30 +56,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Acceptance\Core\Analysis\MemberAdomdExtractorTest.cs" />
-    <Compile Include="Acceptance\Core\Analysis\Member\CubeDimensionAdomdEngineTest.cs" />
-    <Compile Include="Acceptance\Core\Analysis\Member\DimensionCubeAdomdEngineTest.cs" />
-    <Compile Include="Acceptance\Core\Analysis\Member\SchemaRowsetAdomdEngineTest.cs" />
-    <Compile Include="Acceptance\Core\Query\QueryParserTest.cs" />
-    <Compile Include="Acceptance\NUnit\EqualToConstraintTest.cs" />
-    <Compile Include="Acceptance\NUnit\Structure\ContainsConstraintTest.cs" />
-    <Compile Include="Acceptance\NUnit\FasterThanConstraintTest.cs" />
-    <Compile Include="Acceptance\NUnit\SyntacticallyCorrectConstraintTest.cs" />
     <Compile Include="ConnectionStringReader.cs" />
     <Compile Include="DiskOnFile.cs" />
+    <Compile Include="Integration\Core\Analysis\MemberAdomdExtractorTest.cs" />
+    <Compile Include="Integration\Core\Analysis\Member\CubeDimensionAdomdEngineTest.cs" />
+    <Compile Include="Integration\Core\Analysis\Member\DimensionCubeAdomdEngineTest.cs" />
+    <Compile Include="Integration\Core\Analysis\Member\SchemaRowsetAdomdEngineTest.cs" />
+    <Compile Include="Integration\Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />
+    <Compile Include="Integration\Core\Query\QueryAdomdEngineTest.cs" />
+    <Compile Include="Integration\Core\Query\QueryParserTest.cs" />
+    <Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
+    <Compile Include="Integration\NUnit\EqualToConstraintTest.cs" />
+    <Compile Include="Integration\NUnit\FasterThanConstraintTest.cs" />
+    <Compile Include="Integration\NUnit\Structure\ContainsConstraintTest.cs" />
+    <Compile Include="Integration\NUnit\SyntacticallyCorrectConstraintTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\CubeMetadataTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvReaderTest.cs" />
-    <Compile Include="Acceptance\Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvWriterTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbReaderTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbWriterTest.cs" />
-    <Compile Include="Acceptance\Core\Query\QueryAdomdEngineTest.cs" />
     <Compile Include="Unit\Core\ResultSet\DataRowBasedResultSetComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetCsvReaderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetWriterTest.cs" />
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
-    <Compile Include="Acceptance\Core\Query\QueryPerformanceTest.cs" />
     <Compile Include="Unit\Core\Integration\PackageManagerTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
     <Compile Include="Unit\Core\Util\DiffFiles\LongestCommonSequence\DiffEngineTest.cs" />
@@ -104,6 +104,10 @@
     <Compile Include="Unit\Xml\XmlManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Acceptance\" />
+    <Folder Include="Integration\Core\Analysis\Query\" />
+    <Folder Include="Integration\Core\Database\" />
+    <Folder Include="Integration\NUnit\Database\" />
     <Folder Include="Unit\Core\Query\" />
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +115,7 @@
     <None Include="ConnectionString.user.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Integration\NUnit\Resources\NonEmptyAmountByYear.csv" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataCsvSample.csv" />
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataExcelSample.xls" />
@@ -150,7 +155,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\Resources\SelectAllProducts.sql" />
     <EmbeddedResource Include="Unit\Xml\Resources\QueryFile.sql" />
-    <EmbeddedResource Include="Acceptance\NUnit\Resources\NonEmptyAmountByYear.csv" />
     <Content Include="NBi.Testing.sql" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteSample.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -176,7 +176,7 @@ namespace NBi.NUnit
             {
                 writer.WriteLine("  Unexpected rows:");
                 writer.WriteLine();
-                writer.WriteLine(FormatResultSet(compareResult.Unexpected));
+                writer.WriteLine(FormatResultSet(compareResult.Unexpected, false));
                 writer.WriteLine();
             }
 
@@ -184,7 +184,7 @@ namespace NBi.NUnit
             {
                 writer.WriteLine("  Missing rows:");
                 writer.WriteLine();
-                writer.WriteLine(FormatResultSet(compareResult.Missing));
+                writer.WriteLine(FormatResultSet(compareResult.Missing, false));
                 writer.WriteLine();
             }
 
@@ -192,7 +192,7 @@ namespace NBi.NUnit
             {
                 writer.WriteLine("  Non matching value rows:");
                 writer.WriteLine();
-                writer.WriteLine(FormatResultSet(compareResult.NonMatchingValue));
+                writer.WriteLine(FormatResultSet(compareResult.NonMatchingValue, true));
                 writer.WriteLine();
             }
         }
@@ -200,97 +200,11 @@ namespace NBi.NUnit
 
         protected const int MAX_ROWS_DISPLAYED = 10;
 
-        protected virtual string FormatResultSet(ResultSetCompareResult.Sample sample)
+        protected virtual string FormatResultSet(ResultSetCompareResult.Sample sample, bool compare)
         {
-            if (sample.References == null)
-                return FormatResultSet(sample.Rows, sample.Count);
-            else
-                return FormatResultSetComparaison(sample.Rows, sample.References, sample.Count);
+            return FormatResultSet(sample.Rows, sample.Count, compare);
         }
 
-        protected virtual string FormatResultSet(IEnumerable<DataRow> rows, int rowCount)
-        {
-            var sb = new System.Text.StringBuilder();
-
-            //calculate row count to diplay
-            int maxRows = (rowCount <= MAX_ROWS_DISPLAYED) ? rowCount : MAX_ROWS_DISPLAYED;
-            var subsetRows = rows.Take(maxRows);
-
-            IList<int> fieldLength = GetFieldsLength(subsetRows);
-
-            var sbTable = new System.Text.StringBuilder();
-
-            int maxRowLength = 0;
-            for (int i = 0; i < subsetRows.Count(); i++)
-            {
-                var sbRow = new System.Text.StringBuilder();
-                sbRow.Append(' ', 4);
-                for (int j = 0; j < subsetRows.ElementAt(i).ItemArray.Count(); j++)
-			    {
-                    var cell = subsetRows.ElementAt(i).ItemArray[j];
-                    sbRow.AppendFormat("| {0}", cell.ToString());
-                    sbRow.Append(' ', fieldLength[j]-cell.ToString().Length);
-			    }
-                sbRow.AppendLine("|");
-                if (sbRow.Length > maxRowLength)
-                    maxRowLength = sbRow.Length;
-                sbTable.Append(sbRow);
-            }
-            //information about #Rows and #Cols
-            sb.AppendFormat("ResultSet with {0} row", rowCount);
-            if (rowCount > 1)
-                sb.Append('s');               
-            sb.AppendLine();
-            sb.AppendLine();
-
-            //header
-            sb.Append(' ', 4);
-            sb.Append('-', fieldLength.Sum() + fieldLength.Count * 2 + 1);
-            sb.AppendLine();
-
-            //Table
-            sb.Append(sbTable);
-
-            //footer
-            sb.Append(' ', 4);
-            sb.Append('-', fieldLength.Sum() + fieldLength.Count * 2 + 1);
-            sb.AppendLine();
-
-            //If needed display # skipped rows
-            if (rowCount > MAX_ROWS_DISPLAYED)
-            {
-                sb.Append(' ', 4);
-                sb.Append(new string('.', 3));
-                sb.Append(new string(' ', 3));
-                sb.AppendFormat("{0} (of {1}) rows skipped for display purpose", rowCount - MAX_ROWS_DISPLAYED, rowCount);
-                sb.Append(new string(' ', 3));
-                sb.Append(new string('.', 3));
-                sb.AppendLine();
-            }
-
-            sb.AppendLine();
-
-            return sb.ToString();
-        }
-
-        //protected virtual IList<int> GetFieldsLength(IEnumerable<DataRow> rows)
-        //{
-        //    var fieldsLength = new List<int>();
-            
-        //    foreach (var r in rows)
-        //    {
-        //        if (fieldsLength.Count==0)
-        //            foreach (object cell in r.ItemArray)
-        //                fieldsLength.Add(Math.Max(10, cell.ToString().Length));
-        //        else
-        //        {
-        //            for (int i = 0; i < r.ItemArray.Count(); i++)
-        //                fieldsLength[i]= Math.Max(fieldsLength[i], r.ItemArray[i].ToString().Length);
-        //        }
-        //    }
-
-        //    return fieldsLength;
-        //}
 
         protected virtual IList<int> GetFieldsLength(IEnumerable<DataRow> rows)
         {
@@ -301,7 +215,8 @@ namespace NBi.NUnit
 			    var cells = new List<EqualToConstraintDisplay>();
                 //Header
                 var displayHeader = EqualToConstraintDisplay.BuildHeader(rows.ElementAt(0).Table, i);
-                cells.Add(displayHeader);
+                if (displayHeader != null)
+                    cells.Add(displayHeader);
 
                 //For each row
                 foreach (var r in rows)
@@ -320,7 +235,7 @@ namespace NBi.NUnit
             return (ColumnRole)rows.ElementAt(0).Table.Columns[columnIndex].ExtendedProperties["NBi::Role"];
         }
 
-        protected virtual string FormatResultSetComparaison(IEnumerable<DataRow> rows, IEnumerable<DataRow> refs, int rowCount)
+        protected virtual string FormatResultSet(IEnumerable<DataRow> rows, int rowCount, bool compare)
         {
             var sb = new System.Text.StringBuilder();
 
@@ -337,14 +252,18 @@ namespace NBi.NUnit
 
             //header
             sb.Append(' ', 4);
-            sb.Append('-', fieldLength.Sum() + fieldLength.Count + 1); //Cells'length + "|" for each cell + the ending "|"
+            sb.Append('-', fieldLength.Sum() + fieldLength.Count * 3 + 1); //Cells'length + "|" & 2 spaces for each cell + the ending "|"
             sb.AppendLine();
+            sb.Append(' ', 4);
             for (int i = 0; i < fieldLength.Count; i++)
             {
                 var displayHeader = EqualToConstraintDisplay.BuildHeader(rows.ElementAt(0).Table, i);
-                sb.AppendFormat("|{0}", displayHeader.GetText(fieldLength[i]));
+                sb.AppendFormat("| {0} ", displayHeader.GetText(fieldLength[i]));
             }
             sb.AppendLine("|");
+            sb.Append(' ', 4);
+            sb.Append('-', fieldLength.Sum() + fieldLength.Count * 3 + 1); //Cells'length + "|" & 2 spaces for each cell + the ending "|"
+            sb.AppendLine();
 
             //Content
             for (int i = 0; i < maxRows; i++)
@@ -354,16 +273,21 @@ namespace NBi.NUnit
                 sbRow.Append(' ', 4);
                 for (int j = 0; j < subsetRows.ElementAt(i).ItemArray.Count(); j++)
                 {
-                    var display = EqualToConstraintDisplay.Build(rows.ElementAt(i), j);
-                    sb.AppendFormat("|{0}", display.GetText(fieldLength[j]));
+                    EqualToConstraintDisplay display = null; 
+                    if (compare)
+                        display= EqualToConstraintDisplay.Build(rows.ElementAt(i), j);
+                    else
+                        display = EqualToConstraintDisplay.BuildValue(rows.ElementAt(i), j);
+                    sbRow.AppendFormat("| {0} ", display.GetText(fieldLength[j]));
                 }
                 sbRow.AppendLine("|");
                 sb.Append(sbRow);
             }
             //footer
             sb.Append(' ', 4);
-            sb.Append('-', fieldLength.Sum() + fieldLength.Count + 1); //Cells'length + "|" for each cell + the ending "|"
+            sb.Append('-', fieldLength.Sum() + fieldLength.Count * 3 + 1); //Cells'length + "|" for each cell + the ending "|"
             sb.AppendLine();
+            
 
             //If needed display # skipped rows
             if (rowCount > MAX_ROWS_DISPLAYED)
@@ -380,95 +304,11 @@ namespace NBi.NUnit
 
             return sb.ToString();
         }
-
-        //protected virtual string FormatResultSetComparaison(IEnumerable<DataRow> rows, IEnumerable<DataRow> refs, int rowCount)
-        //{
-        //    var sb = new System.Text.StringBuilder();
-
-        //    //calculate row count to diplay
-        //    int maxRows = (rowCount <= MAX_ROWS_DISPLAYED) ? rowCount : MAX_ROWS_DISPLAYED;
-        //    var subsetRows = rows.Take(maxRows);
-        //    IList<int> fieldLength = GetFieldsLength(subsetRows);
-
-        //    var sbTable = new System.Text.StringBuilder();
-
-        //    int maxRowLength = 0;
-        //    for (int i = 0; i < maxRows; i++)
-        //    {
-        //        var sbRow = new System.Text.StringBuilder();
-
-        //        sbRow.Append(' ', 4);
-        //        for (int j = 0; j < subsetRows.ElementAt(i).ItemArray.Count(); j++)
-        //        {
-        //            //Key Comparaison
-        //            if (GetColumnRole(subsetRows, j) == ColumnRole.Key)
-        //            {
-        //                sbRow.AppendFormat("| {0}", subsetRows.ElementAt(i).ItemArray[j].ToString());
-        //                sbRow.Append(' ', fieldLength[j] - subsetRows.ElementAt(i).ItemArray[j].ToString().Length);
-        //            }
-        //            //Value comparaison
-        //            else if (GetColumnRole(subsetRows, j) == ColumnRole.Value)
-        //            {
-        //                sbRow.AppendFormat("| {0}", subsetRows.ElementAt(i).ItemArray[j].ToString());
-        //                sbRow.Append(' ', fieldLength[j] - subsetRows.ElementAt(i).ItemArray[j].ToString().Length);
-
-        //                //Comparaison settings
-        //                if (String.IsNullOrEmpty(subsetRows.ElementAt(i).GetColumnError(j)))
-        //                    sbRow.AppendFormat(" == ");
-        //                else
-        //                    sbRow.AppendFormat(" <> ");
-
-        //                sbRow.AppendFormat("{0}", refs.ElementAt(i).ItemArray[j].ToString());
-        //                sbRow.Append(' ', fieldLength[j] - refs.ElementAt(i).ItemArray[j].ToString().Length);
-        //            }
-        //        }
-        //        sbRow.AppendLine("|");
-        //        if (sbRow.Length > maxRowLength)
-        //            maxRowLength = sbRow.Length;
-        //        sbTable.Append(sbRow);
-        //    }
-        //    //information about #Rows and #Cols
-        //    sb.AppendFormat("ResultSet with {0} row", rowCount);
-        //    if (rowCount > 1)
-        //        sb.Append('s');
-        //    sb.AppendLine();
-
-        //    //header
-        //    sb.Append(' ', 4);
-        //    sb.Append('-', fieldLength.Sum() + fieldLength.Count * 2 + 1);
-        //    sb.AppendLine();
-
-        //    //Table
-        //    sb.Append(sbTable);
-
-        //    //footer
-        //    sb.Append(' ', 4);
-        //    sb.Append('-', fieldLength.Sum() + fieldLength.Count * 2 + 1);
-        //    sb.AppendLine();
-
-        //    //If needed display # skipped rows
-        //    if (rowCount > MAX_ROWS_DISPLAYED)
-        //    {
-        //        sb.Append(new string('.', 3));
-        //        sb.Append(new string(' ', 3));
-        //        sb.AppendFormat("{0} (of {1}) rows skipped for display purpose", rowCount - MAX_ROWS_DISPLAYED, rowCount);
-        //        sb.Append(new string(' ', 3));
-        //        sb.Append(new string('.', 3));
-        //        sb.AppendLine();
-        //    }
-
-        //    sb.AppendLine();
-
-        //    return sb.ToString();
-
-
-        //}
-        
+      
         protected virtual string FormatResultSet(ResultSet resultSet)
         {
             var rows = resultSet.Rows.Cast<DataRow>().ToList();
-            var columnCount = resultSet.Columns.Count;
-            return FormatResultSet(rows, rows.Count);            
+            return FormatResultSet(rows, rows.Count(), false);            
         }
 
         private void doPersist(ResultSet resultSet, string path)

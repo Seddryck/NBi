@@ -37,6 +37,7 @@ namespace NBi.Core.ResultSet
 
             Settings.ConsoleDisplay();
             WriteSettingsToDataTableProperties(y, Settings);
+            WriteSettingsToDataTableProperties(x, Settings);
             
             var KeyComparer = new DataRowKeysComparer(Settings, x.Columns.Count);
 
@@ -62,7 +63,7 @@ namespace NBi.Core.ResultSet
                         {
                              if (!rx.IsNull(i) || !ry.IsNull(i))
                              {
-                                 ry.SetColumnError(i, "Null");
+                                 ry.SetColumnError(i, ry.IsNull(i) ? rx[i].ToString() : "(null)");
                                  if (!nonMatchingValueRows.Contains(ry))
                                      nonMatchingValueRows.Add(ry);
                              }
@@ -83,7 +84,7 @@ namespace NBi.Core.ResultSet
                                 //Compare decimals (with tolerance)
                                 if (!IsEqual(rxDecimal, ryDecimal, tolerance))
                                 {
-                                    ry.SetColumnError(i, "Numeric");
+                                    ry.SetColumnError(i, rxDecimal.ToString());
                                     if (!nonMatchingValueRows.Contains(ry))
                                         nonMatchingValueRows.Add(ry);
                                 }
@@ -94,7 +95,7 @@ namespace NBi.Core.ResultSet
                             {
                                 if (!IsEqual(rx[i], ry[i]))
                                 {
-                                    ry.SetColumnError(i, "Not Numeric");
+                                    ry.SetColumnError(i, rx[i].ToString());
                                     if (!nonMatchingValueRows.Contains(ry))
                                         nonMatchingValueRows.Add(ry);
                                 }

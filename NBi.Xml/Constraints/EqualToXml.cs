@@ -97,7 +97,7 @@ namespace NBi.Xml.Constraints
 
         public ResultSetComparaisonSettings GetSettings()
         {
-            return new ResultSetComparaisonSettings(KeysDef, ValuesDef, ColumnsDef);
+            return new ResultSetComparaisonSettings(KeysDef, ValuesDef, Tolerance, ColumnsDef);
         }
 
         public IDbCommand GetCommand()

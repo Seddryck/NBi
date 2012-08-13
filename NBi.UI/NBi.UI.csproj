@@ -163,7 +163,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /Y /S "$(ProjectDir)..\packages\NUnit.Runners.2.6.0.12051\tools" "$(TargetDir)NUnit.Runners"</PostBuildEvent>
+    <PostBuildEvent>xcopy /Y /S /I "$(ProjectDir)..\packages\NUnit.Runners.2.6.1\tools" "$(TargetDir)NUnit.Runners"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

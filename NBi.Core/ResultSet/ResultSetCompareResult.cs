@@ -15,6 +15,10 @@ namespace NBi.Core.ResultSet
     {
         public bool Value { get; set; }
         public ResultSetDifferenceType Difference { get; set; }
+        public Sample Missing { get; set; }
+        public Sample Unexpected { get; set; }
+        public Sample NonMatchingValue { get; set; }
+
 
         public static ResultSetCompareResult Matching
         {
@@ -42,10 +46,60 @@ namespace NBi.Core.ResultSet
 
         public static ResultSetCompareResult Build(IEnumerable<DataRow> missingRows, IEnumerable<DataRow> unexpectedRows, IEnumerable<DataRow> keyMatchingRows, IEnumerable<DataRow> nonMatchingValueRows)
         {
+            ResultSetCompareResult res = null;
+            
             if (missingRows.Count() == 0 && unexpectedRows.Count() == 0 && nonMatchingValueRows.Count() == 0)
-                return new ResultSetCompareResult() { Difference = ResultSetDifferenceType.None };
+                res = new ResultSetCompareResult() { Difference = ResultSetDifferenceType.None };
             else
-                return new ResultSetCompareResult() { Difference = ResultSetDifferenceType.Content };
+                res = new ResultSetCompareResult() { Difference = ResultSetDifferenceType.Content };
+
+            res.Missing=GetSubset(missingRows);
+            res.Unexpected = GetSubset(unexpectedRows);
+            res.NonMatchingValue = GetSubset(nonMatchingValueRows, keyMatchingRows);
+
+            return res;
+        }
+
+        private const int MAX_ROWS_RESULT = 10;
+        private const int COUNT_ROWS_SAMPLE_RESULT = 5;
+
+        private static Sample GetSubset(IEnumerable<DataRow> rows)
+        {
+            var subset = new List<DataRow>(MAX_ROWS_RESULT);
+            
+            if (rows.Count() > MAX_ROWS_RESULT)
+                subset = rows.Take(COUNT_ROWS_SAMPLE_RESULT).ToList();
+            else
+                subset = rows.ToList();
+
+            return new Sample(subset, null, rows.Count());
+        }
+
+        private static Sample GetSubset(IEnumerable<DataRow> rows, IEnumerable<DataRow> reference)
+        {
+            var subset = new List<DataRow>(MAX_ROWS_RESULT);
+
+            if (rows.Count() > MAX_ROWS_RESULT)
+                subset = rows.Take(COUNT_ROWS_SAMPLE_RESULT).ToList();
+            else
+                subset = rows.ToList();
+
+            return new Sample(subset, reference, rows.Count());
+        }
+
+        public class Sample
+        {
+            public IEnumerable<DataRow> Rows { get; set; }
+            public IEnumerable<DataRow> References { get; set; }
+            public int Count { get; set; }
+
+            public Sample(IEnumerable<DataRow> rows, IEnumerable<DataRow> refs, int count)
+            {
+                Rows = rows;
+                References = refs;
+                Count = count;
+            }
+
         }
 
         public override bool Equals(object obj)

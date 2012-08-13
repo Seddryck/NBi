@@ -78,7 +78,7 @@
 																			</xs:restriction>
 																		</xs:simpleType>
 																	</xs:attribute>
-																	<xs:attribute name="tolerance" type="xs:int" use="optional" />
+																	<xs:attribute name="tolerance" type="xs:decimal" use="optional" />
 																	<xs:attribute name="type" use="optional">
 																		<xs:simpleType>
 																			<xs:restriction base="xs:string">

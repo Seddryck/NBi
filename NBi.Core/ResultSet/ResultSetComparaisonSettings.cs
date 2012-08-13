@@ -69,6 +69,24 @@ namespace NBi.Core.ResultSet
             return false;
         }
 
+        public ColumnRole GetColumnRole(int index)
+        {
+            if (IsKey(index))
+                return ColumnRole.Key;
+            else if (IsValue(index))
+                return ColumnRole.Value;
+            else
+                return ColumnRole.Ignore;
+        }
+
+        public ColumnType GetColumnType(int index)
+        {
+            if (IsNumeric(index))
+                return ColumnType.Numeric;
+            else
+                return ColumnType.Text;
+        }
+
         public bool IsNumeric(int index)
         {
             if (ColumnsDef.Any(c => c.Index == index && c.Type != ColumnType.Numeric))

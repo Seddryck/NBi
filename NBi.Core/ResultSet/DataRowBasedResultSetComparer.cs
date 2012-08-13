@@ -33,9 +33,10 @@ namespace NBi.Core.ResultSet
         protected ResultSetCompareResult doCompare(DataTable x, DataTable y)
         {
             if (Settings == null)
-                BuildDefaultSettings(x.Columns);
+                BuildDefaultSettings();
 
             Settings.ConsoleDisplay();
+            WriteSettingsToDataTableProperties(y, Settings);
             
             var KeyComparer = new DataRowKeysComparer(Settings, x.Columns.Count);
 
@@ -43,7 +44,7 @@ namespace NBi.Core.ResultSet
             Console.WriteLine("Missing rows: {0}", missingRows.Count());
 
             var unexpectedRows = y.AsEnumerable().Except(x.AsEnumerable(),KeyComparer);
-            //Console.WriteLine("Unexpected rows: {0}", unexpectedRows.Count());
+            Console.WriteLine("Unexpected rows: {0}", unexpectedRows.Count());
 
             var keyMatchingRows = x.AsEnumerable().Except(missingRows).Except(unexpectedRows);
             Console.WriteLine("Rows with a key matching: {0}", keyMatchingRows.Count());
@@ -60,7 +61,11 @@ namespace NBi.Core.ResultSet
                         if (rx.IsNull(i) || ry.IsNull(i))
                         {
                              if (!rx.IsNull(i) || !ry.IsNull(i))
-                                 nonMatchingValueRows.Add(ry);
+                             {
+                                 ry.SetColumnError(i, "Null");
+                                 if (!nonMatchingValueRows.Contains(ry))
+                                     nonMatchingValueRows.Add(ry);
+                             }
                         }
                         //Not Null management
                         else
@@ -68,22 +73,31 @@ namespace NBi.Core.ResultSet
                             //Numeric
                             if (Settings.IsNumeric(i))
                             {
+                                //Console.WriteLine("Debug: {0} {1}", rx[i].ToString(), rx[i].GetType());
+
                                 //Convert to decimal
-                                Console.WriteLine("Debug: {0} {1}", rx[i].ToString(), rx[i].GetType());
                                 var rxDecimal = Convert.ToDecimal(rx[i], NumberFormatInfo.InvariantInfo);
                                 var ryDecimal = Convert.ToDecimal(ry[i], NumberFormatInfo.InvariantInfo);
                                 var tolerance = Convert.ToDecimal(Settings.GetTolerance(i), NumberFormatInfo.InvariantInfo);
                                 
                                 //Compare decimals (with tolerance)
                                 if (!IsEqual(rxDecimal, ryDecimal, tolerance))
-                                    nonMatchingValueRows.Add(ry);
+                                {
+                                    ry.SetColumnError(i, "Numeric");
+                                    if (!nonMatchingValueRows.Contains(ry))
+                                        nonMatchingValueRows.Add(ry);
+                                }
                                 
                             }
                             //Not Numeric
                             else
                             {
                                 if (!IsEqual(rx[i], ry[i]))
-                                    nonMatchingValueRows.Add(ry);
+                                {
+                                    ry.SetColumnError(i, "Not Numeric");
+                                    if (!nonMatchingValueRows.Contains(ry))
+                                        nonMatchingValueRows.Add(ry);
+                                }
                             }
                         }
                     }
@@ -94,10 +108,40 @@ namespace NBi.Core.ResultSet
             return ResultSetCompareResult.Build(missingRows, unexpectedRows, keyMatchingRows, nonMatchingValueRows);
         }
 
+        protected void WriteSettingsToDataTableProperties(DataTable dt, ResultSetComparaisonSettings settings)
+        {
+            foreach (DataColumn column in dt.Columns)
+            {
+                if (column.ExtendedProperties.ContainsKey("NBi::Role"))
+                    column.ExtendedProperties["NBi::Role"] = settings.GetColumnRole(column.Ordinal);
+                else
+                    column.ExtendedProperties.Add("NBi::Role", settings.GetColumnRole(column.Ordinal));
+
+                if (column.ExtendedProperties.ContainsKey("NBi::Type"))
+                    column.ExtendedProperties["NBi::Type"] = settings.GetColumnType(column.Ordinal);
+                else
+                    column.ExtendedProperties.Add("NBi::Type", settings.GetColumnType(column.Ordinal));
+
+                if (column.ExtendedProperties.ContainsKey("NBi::Tolerance"))
+                    column.ExtendedProperties["NBi::Tolerance"] = settings.GetTolerance(column.Ordinal);
+                else
+                    column.ExtendedProperties.Add("NBi::Tolerance", settings.GetTolerance(column.Ordinal));
+            }
+        }
+
         protected internal bool IsEqual(Decimal x, Decimal y, Decimal tolerance)
         {
-            Console.WriteLine("IsEqual: {0} {1} {2} {3} {4} {5}", x, y, tolerance, Math.Abs(x - y), x == y, Math.Abs(x - y) <= tolerance);
-            
+            //Console.WriteLine("IsEqual: {0} {1} {2} {3} {4} {5}", x, y, tolerance, Math.Abs(x - y), x == y, Math.Abs(x - y) <= tolerance);
+
+            //quick check
+            if (x == y)
+                return true;
+
+            //Stop checks if tolerance is set to 0
+            if (tolerance == 0)
+                return false;
+
+            //include some math[Time consumming] (Tolerance needed to validate)
             return (Math.Abs(x - y) <= tolerance);
         }
 
@@ -106,7 +150,7 @@ namespace NBi.Core.ResultSet
             return x.GetHashCode() == y.GetHashCode();
         }
 
-        protected void BuildDefaultSettings(DataColumnCollection columns)
+        protected void BuildDefaultSettings()
         {
             Settings = new ResultSetComparaisonSettings(
                 ResultSetComparaisonSettings.KeysChoice.AllExpectLast, 

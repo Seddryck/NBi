@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConstraintFactory.cs" />
+    <Compile Include="EqualToConstraintDisplay.cs" />
     <Compile Include="Member\ContainsConstraint.cs" />
     <Compile Include="Member\CountConstraint.cs" />
     <Compile Include="EqualToConstraint.cs" />

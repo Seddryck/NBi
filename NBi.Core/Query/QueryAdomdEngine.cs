@@ -59,7 +59,14 @@ namespace NBi.Core.Query
                 var ds = new DataSet();
                 
                 adapter.SelectCommand.CommandTimeout = 0;
-                adapter.Fill(ds);
+                try
+                {
+                    adapter.Fill(ds);
+                }
+                catch (AdomdConnectionException ex)
+                {
+                    throw new ConnectionException(ex);
+                }
 
                 // capture time after execution
                 long ticksAfter = DateTime.Now.Ticks;

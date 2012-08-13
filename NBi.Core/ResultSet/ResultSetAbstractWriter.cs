@@ -12,6 +12,14 @@ namespace NBi.Core.ResultSet
             PersistencePath = persistancePath;
         }
 
+        public void Write(string filename, ResultSet rs)
+        {          
+            if (rs.Table == null)
+                throw new Exception("The underlying Table of the ResultSet cannot be null");
+
+            OnWrite(filename, rs);
+        }
+
         public void Write(string filename, DataSet ds)
         {
             if (ds.Tables.Count == 0)
@@ -32,5 +40,6 @@ namespace NBi.Core.ResultSet
         }
 
         protected abstract void OnWrite(string filename, DataSet ds, string tableName);
+        protected abstract void OnWrite(string filename, ResultSet rs);
     }
 }

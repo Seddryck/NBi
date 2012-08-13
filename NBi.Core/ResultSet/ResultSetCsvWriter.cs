@@ -30,6 +30,17 @@ namespace NBi.Core.ResultSet
             }
         }
 
+        protected override void OnWrite(string filename, ResultSet rs)
+        {
+            var str = BuildContent(rs.Table);
+
+            var file = Path.Combine(Path.GetFullPath(PersistencePath), filename);
+            using (StreamWriter outfile = new StreamWriter(file, false, Encoding.UTF8))
+            {
+                outfile.Write(str);
+            }
+        }
+
         public string BuildContent(DataTable table)
         {
             var sb = new StringBuilder();

@@ -15,5 +15,12 @@ namespace NBi.Core.ResultSet
 
             table.WriteXml(Path.Combine(PersistencePath,filename), XmlWriteMode.WriteSchema, false);
         }
+
+        protected override void OnWrite(string filename, ResultSet rs)
+        {
+            var table = rs.Table;
+
+            table.WriteXml(Path.Combine(PersistencePath, filename), XmlWriteMode.WriteSchema, false);
+        }
     }
 }

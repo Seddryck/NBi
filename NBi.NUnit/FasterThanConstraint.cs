@@ -63,8 +63,8 @@ namespace NBi.NUnit
         /// <returns>true, if the query defined in parameter is executed in less that expected else false</returns>
         public override bool Matches(object actual)
         {
-            if (actual.GetType() == typeof(OleDbCommand) || actual.GetType() == typeof(SqlCommand) || actual.GetType() == typeof(AdomdCommand))
-                return Matches((IDbCommand)actual);
+            if (actual.GetType() is IDbCommand)
+                return doMatch((IDbCommand)actual);
             else
                 return false;
         }
@@ -74,7 +74,7 @@ namespace NBi.NUnit
         /// </summary>
         /// <param name="actual">SQL string</param>
         /// <returns>true, if the query defined in parameter is executed in less that expected else false</returns>
-        public bool Matches(IDbCommand actual)
+        public bool doMatch(IDbCommand actual)
         {
             var engine = GetEngine(actual);
             if (_cleanCache)

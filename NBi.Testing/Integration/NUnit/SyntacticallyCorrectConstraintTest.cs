@@ -47,7 +47,7 @@ namespace NBi.Testing.Integration.NUnit
             var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var cmd = new SqlCommand(sql, conn);
 
-            Assert.That(cmd, NBi.NUnit.Is.SyntacticallyCorrect());
+            Assert.That(cmd, NBi.NUnit.FluentInterface.Is.SyntacticallyCorrect());
             
             Assert.Pass();
         }

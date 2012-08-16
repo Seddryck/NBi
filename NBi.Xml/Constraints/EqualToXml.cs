@@ -64,6 +64,10 @@ namespace NBi.Xml.Constraints
                 return Query.ConnectionString;
             }
 
+            //Else use the default value
+            if (!string.IsNullOrEmpty(Default.ConnectionString))
+                return Default.ConnectionString;
+
             return null;
         }
 

@@ -27,6 +27,15 @@ namespace NBi.Xml
                 // Use the Deserialize method to restore the object's state.
                 TestSuite = (TestSuiteXml)serializer.Deserialize(reader);
             }
+
+            //Apply defaults
+            foreach (var test in TestSuite.Tests)
+            {
+                foreach (var sut in test.Systems)
+                    sut.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.SystemUnderTest);
+                foreach (var ctr in test.Constraints)
+                    ctr.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.Assert);
+            }
         }
 
         public void Persist(string filename, TestSuiteXml testSuite)
@@ -60,6 +69,10 @@ namespace NBi.Xml
             }
 
             _isValid = true;
+
+            //ensure the file is existing
+            if (!File.Exists(filename))
+                throw new ArgumentException(string.Format("Test suite '{0}' not found!", filename));
 
             // Create the XmlReader object.
             XmlReader reader = XmlReader.Create(filename, settings);

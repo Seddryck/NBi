@@ -21,7 +21,7 @@ namespace NBi.Xml.Systems
 
         public override object Instantiate()
         {
-            var cmd = new DiscoverCommand(ConnectionString);
+            var cmd = new DiscoverCommand(ConnectionString ?? Default.ConnectionString);
             cmd.Perspective = Perspective;
 
             if (!string.IsNullOrEmpty(Path) && !Path.StartsWith("[Measures]"))

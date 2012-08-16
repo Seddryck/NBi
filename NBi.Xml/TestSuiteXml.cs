@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
+using NBi.Xml.Settings;
 
 namespace NBi.Xml
 {
@@ -11,6 +12,9 @@ namespace NBi.Xml
         
         [XmlElement("test")]
         public List<TestXml> Tests { get; set; }
+
+        [XmlElement("settings")]
+        public SettingsXml Settings { get; set; }
 
         public TestSuiteXml()
         {

@@ -32,7 +32,7 @@ namespace NBi.Xml.Systems
 
         public override object Instantiate()
         {
-            var conn = ConnectionFactory.Get(ConnectionString);
+            var conn = ConnectionFactory.Get(ConnectionString ?? Default.ConnectionString);
             var cmd = conn.CreateCommand();
             cmd.CommandText = GetQuery();
 

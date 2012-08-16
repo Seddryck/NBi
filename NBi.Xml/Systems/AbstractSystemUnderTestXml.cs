@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using NBi.Xml.Settings;
 
 namespace NBi.Xml.Systems
 {
@@ -8,5 +9,8 @@ namespace NBi.Xml.Systems
         public string Name { get; set; }
 
         public abstract object Instantiate();
+
+        public DefaultXml Default { get; set; }
+        
     }
 }

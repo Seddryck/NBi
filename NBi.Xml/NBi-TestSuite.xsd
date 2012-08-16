@@ -3,7 +3,35 @@
 	<xs:element name="testSuite">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="test" maxOccurs="unbounded">
+        <xs:element name="settings" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="default" maxOccurs="1">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="connectionString" minOccurs="0" maxOccurs="1">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="apply-to" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:enumeration value="system-under-test"/>
+                        <xs:enumeration value="assert"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+				<xs:element name="test" minOccurs="1" maxOccurs="unbounded">
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="category" minOccurs="0" maxOccurs="unbounded">

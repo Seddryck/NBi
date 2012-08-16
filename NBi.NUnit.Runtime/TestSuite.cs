@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using NBi.Xml;
 using NUnit.Framework;
@@ -60,18 +61,39 @@ namespace NBi.NUnit.Runtime
         {
             string assem = Path.GetFullPath((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath).Replace("%20"," ");
             string configFile = Path.Combine(Path.GetDirectoryName(assem), Path.GetFileNameWithoutExtension(assem) + ".config");
-            Console.Out.WriteLine(configFile);
+            
+            //Set the default TestSuite
             string testSuiteFile = DEFAULT_TESTSUITE;
+            
+            //Try to find a config file, if existing take the path inside for the TestSuite
+            Console.Out.WriteLine("Looking after config file located at '{0}'", configFile);
             if (File.Exists(configFile))
             {
-                Console.Out.WriteLine("Existing Config File");
+                Console.Out.WriteLine("Config File found!");
                 using (var sr = new StreamReader(configFile))
                 {
                     testSuiteFile = sr.ReadToEnd();
                 }
             }
-            else 
-                Console.Out.WriteLine("Non Existing Config File");
+            else
+            {
+                // If no config file is registered then search the first "nbits" (NBi Test Suite) file
+                Console.Out.WriteLine("No config file found.");
+                Console.Out.WriteLine("Looking after 'nbits' files ...");
+                var files = System.IO.Directory.GetFiles(Path.GetDirectoryName(assem), "*.nbits");
+                if (files.Count() == 1)
+                {
+                    Console.Out.WriteLine("'{0}' found, using it!", files[0]);
+                    testSuiteFile = files[0];
+                }
+                else if (files.Count() > 1)
+                {
+                    Console.Out.WriteLine("{0} 'nbits' files found, using the first found: '{1}'!", files.Count(), files[0]);
+                    testSuiteFile = files[0];
+                }
+                else
+                    Console.Out.WriteLine("No 'nbits' file found");
+            }
 
             return testSuiteFile;
         }

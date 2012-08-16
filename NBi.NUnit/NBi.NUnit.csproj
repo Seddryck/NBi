@@ -50,12 +50,13 @@
   <ItemGroup>
     <Compile Include="ConstraintFactory.cs" />
     <Compile Include="EqualToConstraintDisplay.cs" />
+    <Compile Include="FluentInterface\Has.cs" />
     <Compile Include="Member\ContainsConstraint.cs" />
     <Compile Include="Member\CountConstraint.cs" />
     <Compile Include="EqualToConstraint.cs" />
     <Compile Include="Member\OrderedConstraint.cs" />
     <Compile Include="Structure\ContainsConstraint.cs" />
-    <Compile Include="OnDataSource.cs" />
+    <Compile Include="FluentInterface\Is.cs" />
     <Compile Include="SyntacticallyCorrectConstraint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FasterThanConstraint.cs" />

@@ -101,6 +101,7 @@
     <Compile Include="ResultSet\ColumnType.cs" />
     <Compile Include="ResultSet\DataRowBasedResultSetComparer.cs" />
     <Compile Include="ResultSet\DataRowKeysComparer.cs" />
+    <Compile Include="ResultSet\LineFormatter.cs" />
     <Compile Include="ResultSet\ICell.cs" />
     <Compile Include="ResultSet\IColumn.cs" />
     <Compile Include="ResultSet\IResultSetBuilder.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Analysis\MdxBuilder.cs" />
     <Compile Include="Query\QueryOleDbEngine.cs" />
     <Compile Include="ResultSet\ResultSetDifference.cs" />
+    <Compile Include="ResultSet\ResultSetTextWriter.cs" />
     <Compile Include="ResultSet\ResultSetXmlWriter.cs" />
     <Compile Include="Query\IQueryParser.cs" />
     <Compile Include="Query\IQueryPerformance.cs" />

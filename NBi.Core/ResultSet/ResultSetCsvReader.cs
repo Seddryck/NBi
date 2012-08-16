@@ -22,7 +22,7 @@ namespace NBi.Core.ResultSet
             string res = null;
 
             var file = Path.Combine(fullpath);
-            using (StreamReader infile = new StreamReader(file, Encoding.UTF8))
+            using (StreamReader infile = new StreamReader(file, Encoding.UTF7))
             {
                 res = infile.ReadToEnd();
             }

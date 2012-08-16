@@ -153,12 +153,12 @@ namespace NBi.NUnit
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
-            writer.WriteExpectedValue(FormatResultSet(expectedResultSet));
+            FormatResultSet(writer, expectedResultSet);
         }
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
         {
-            writer.WriteActualValue(FormatResultSet(actualResultSet));
+            FormatResultSet(writer, actualResultSet);
         }
 
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
@@ -176,7 +176,7 @@ namespace NBi.NUnit
             {
                 writer.WriteLine("  Unexpected rows:");
                 writer.WriteLine();
-                writer.WriteLine(FormatResultSet(compareResult.Unexpected, false));
+                FormatResultSet(writer, compareResult.Unexpected, false);
                 writer.WriteLine();
             }
 
@@ -184,7 +184,7 @@ namespace NBi.NUnit
             {
                 writer.WriteLine("  Missing rows:");
                 writer.WriteLine();
-                writer.WriteLine(FormatResultSet(compareResult.Missing, false));
+                FormatResultSet(writer, compareResult.Missing, false);
                 writer.WriteLine();
             }
 
@@ -192,123 +192,37 @@ namespace NBi.NUnit
             {
                 writer.WriteLine("  Non matching value rows:");
                 writer.WriteLine();
-                writer.WriteLine(FormatResultSet(compareResult.NonMatchingValue, true));
+                FormatResultSet(writer, compareResult.NonMatchingValue, true);
                 writer.WriteLine();
             }
         }
        
 
-        protected const int MAX_ROWS_DISPLAYED = 10;
+        
 
-        protected virtual string FormatResultSet(ResultSetCompareResult.Sample sample, bool compare)
+        protected virtual void FormatResultSet(NUnitCtr.MessageWriter writer, ResultSetCompareResult.Sample sample, bool compare)
         {
-            return FormatResultSet(sample.Rows, sample.Count, compare);
+            var textCreator = new ResultSetTextWriter();
+            var output = textCreator.BuildContent(sample.Rows, sample.Count, compare);
+            foreach (var line in output)
+                writer.WriteLine(line);                
         }
 
 
-        protected virtual IList<int> GetFieldsLength(IEnumerable<DataRow> rows)
-        {
-            var fieldsLength = new List<int>();
-
-            for (int i = 0; i < rows.ElementAt(0).ItemArray.Count(); i++)
-			{
-			    var cells = new List<EqualToConstraintDisplay>();
-                //Header
-                var displayHeader = EqualToConstraintDisplay.BuildHeader(rows.ElementAt(0).Table, i);
-                if (displayHeader != null)
-                    cells.Add(displayHeader);
-
-                //For each row
-                foreach (var r in rows)
-                {
-                    var display = EqualToConstraintDisplay.Build(r, i);
-                    cells.Add(display);
-                }
-                fieldsLength.Add(cells.Max(f => f.GetCellLength()));
-            }
-
-            return fieldsLength;
-        }
+        
 
         protected virtual ColumnRole GetColumnRole(IEnumerable<DataRow> rows, int columnIndex)
         {
             return (ColumnRole)rows.ElementAt(0).Table.Columns[columnIndex].ExtendedProperties["NBi::Role"];
         }
 
-        protected virtual string FormatResultSet(IEnumerable<DataRow> rows, int rowCount, bool compare)
-        {
-            var sb = new System.Text.StringBuilder();
-
-            //calculate row count to diplay
-            int maxRows = (rowCount <= MAX_ROWS_DISPLAYED) ? rowCount : MAX_ROWS_DISPLAYED;
-            var subsetRows = rows.Take(maxRows);
-            IList<int> fieldLength = GetFieldsLength(subsetRows);
-
-            //information about #Rows and #Cols
-            sb.AppendFormat("ResultSet with {0} row", rowCount);
-            if (rowCount > 1)
-                sb.Append('s');
-            sb.AppendLine();
-
-            //header
-            sb.Append(' ', 4);
-            sb.Append('-', fieldLength.Sum() + fieldLength.Count * 3 + 1); //Cells'length + "|" & 2 spaces for each cell + the ending "|"
-            sb.AppendLine();
-            sb.Append(' ', 4);
-            for (int i = 0; i < fieldLength.Count; i++)
-            {
-                var displayHeader = EqualToConstraintDisplay.BuildHeader(rows.ElementAt(0).Table, i);
-                sb.AppendFormat("| {0} ", displayHeader.GetText(fieldLength[i]));
-            }
-            sb.AppendLine("|");
-            sb.Append(' ', 4);
-            sb.Append('-', fieldLength.Sum() + fieldLength.Count * 3 + 1); //Cells'length + "|" & 2 spaces for each cell + the ending "|"
-            sb.AppendLine();
-
-            //Content
-            for (int i = 0; i < maxRows; i++)
-            {
-                var sbRow = new System.Text.StringBuilder();
-
-                sbRow.Append(' ', 4);
-                for (int j = 0; j < subsetRows.ElementAt(i).ItemArray.Count(); j++)
-                {
-                    EqualToConstraintDisplay display = null; 
-                    if (compare)
-                        display= EqualToConstraintDisplay.Build(rows.ElementAt(i), j);
-                    else
-                        display = EqualToConstraintDisplay.BuildValue(rows.ElementAt(i), j);
-                    sbRow.AppendFormat("| {0} ", display.GetText(fieldLength[j]));
-                }
-                sbRow.AppendLine("|");
-                sb.Append(sbRow);
-            }
-            //footer
-            sb.Append(' ', 4);
-            sb.Append('-', fieldLength.Sum() + fieldLength.Count * 3 + 1); //Cells'length + "|" for each cell + the ending "|"
-            sb.AppendLine();
-            
-
-            //If needed display # skipped rows
-            if (rowCount > MAX_ROWS_DISPLAYED)
-            {
-                sb.Append(new string('.', 3));
-                sb.Append(new string(' ', 3));
-                sb.AppendFormat("{0} (of {1}) rows skipped for display purpose", rowCount - MAX_ROWS_DISPLAYED, rowCount);
-                sb.Append(new string(' ', 3));
-                sb.Append(new string('.', 3));
-                sb.AppendLine();
-            }
-
-            sb.AppendLine();
-
-            return sb.ToString();
-        }
-      
-        protected virtual string FormatResultSet(ResultSet resultSet)
+        protected virtual void FormatResultSet(NUnitCtr.MessageWriter writer, ResultSet resultSet)
         {
             var rows = resultSet.Rows.Cast<DataRow>().ToList();
-            return FormatResultSet(rows, rows.Count(), false);            
+            var textCreator = new ResultSetTextWriter();
+            var output = textCreator.BuildContent(rows, rows.Count(), false);
+            foreach (var line in output)
+                writer.WriteLine(line);
         }
 
         private void doPersist(ResultSet resultSet, string path)

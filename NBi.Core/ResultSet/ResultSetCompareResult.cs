@@ -61,7 +61,7 @@ namespace NBi.Core.ResultSet
         }
 
         private const int MAX_ROWS_RESULT = 10;
-        private const int COUNT_ROWS_SAMPLE_RESULT = 5;
+        private const int COUNT_ROWS_SAMPLE_RESULT = 10;
 
         private static Sample GetSubset(IEnumerable<DataRow> rows)
         {

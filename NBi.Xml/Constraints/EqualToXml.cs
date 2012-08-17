@@ -112,14 +112,8 @@ namespace NBi.Xml.Constraints
         {
             get
             {
-                System.Console.WriteLine("Hello");
                 if (_columnsDef == null)
-                {
-                    System.Console.WriteLine("Create");
                     _columnsDef = new List<ColumnXml>();
-                }
-                else
-                    System.Console.WriteLine("Retrieve");
                 return _columnsDef.Cast<IColumn>().ToList();
             }
         }

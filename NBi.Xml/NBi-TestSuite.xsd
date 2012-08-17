@@ -3,7 +3,7 @@
 	<xs:element name="testSuite">
 		<xs:complexType>
 			<xs:sequence>
-        <xs:element name="settings" maxOccurs="1">
+        <xs:element name="settings" minOccurs="0" maxOccurs="1">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="default" maxOccurs="1">

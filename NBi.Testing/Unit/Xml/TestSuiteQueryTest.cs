@@ -98,7 +98,7 @@ namespace NBi.Testing.Unit.Xml
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).KeysDef, Is.EqualTo(ResultSetComparaisonSettings.KeysChoice.First));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).KeysDef, Is.EqualTo(ResultSetComparisonSettings.KeysChoice.First));
         }
 
         [Test]
@@ -138,6 +138,22 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(cmd, Is.Not.Null);
             Assert.That(cmd.Connection.ConnectionString, Contains.Substring("Reference"));
             Assert.That(cmd.CommandText, Contains.Substring("Top2Product"));
+            
+        }
+
+        [Test]
+        public void DeserializeEqualToQuery_QueryFile5_List()
+        {
+            int testNr = 5;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ValuesDef, Is.EqualTo(ResultSetComparisonSettings.ValuesChoice.Last));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Tolerance, Is.EqualTo(100));
+
             
         }
 

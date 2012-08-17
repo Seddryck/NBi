@@ -6,5 +6,6 @@
         ColumnRole Role {get; set;}
         ColumnType Type { get; set; }
         decimal Tolerance {get; set;}
+        bool IsToleranceSpecified { get; set; }
     }
 }

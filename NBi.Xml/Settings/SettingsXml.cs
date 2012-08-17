@@ -22,5 +22,9 @@ namespace NBi.Xml.Settings
             return Defaults.SingleOrDefault(d => d.ApplyTo == scope);
         }
 
+        public SettingsXml()
+        {
+            Defaults = new List<DefaultXml>();
+        }
     }
 }

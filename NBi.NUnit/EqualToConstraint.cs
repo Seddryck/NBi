@@ -79,7 +79,7 @@ namespace NBi.NUnit
             this.expect = value;
         }
 
-        public EqualToConstraint Using(ResultSetComparaisonSettings settings)
+        public EqualToConstraint Using(ResultSetComparisonSettings settings)
         {
             this.Engine.Settings = settings;
             return this;

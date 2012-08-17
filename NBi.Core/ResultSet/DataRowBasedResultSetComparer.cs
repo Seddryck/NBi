@@ -8,13 +8,13 @@ namespace NBi.Core.ResultSet
 {
     public class DataRowBasedResultSetComparer : IResultSetComparer
     {
-        public ResultSetComparaisonSettings Settings { get; set; }
+        public ResultSetComparisonSettings Settings { get; set; }
 
         public DataRowBasedResultSetComparer()
         {
         }
 
-        public DataRowBasedResultSetComparer(ResultSetComparaisonSettings settings)
+        public DataRowBasedResultSetComparer(ResultSetComparisonSettings settings)
         {
             Settings = settings;
         }
@@ -109,7 +109,7 @@ namespace NBi.Core.ResultSet
             return ResultSetCompareResult.Build(missingRows, unexpectedRows, keyMatchingRows, nonMatchingValueRows);
         }
 
-        protected void WriteSettingsToDataTableProperties(DataTable dt, ResultSetComparaisonSettings settings)
+        protected void WriteSettingsToDataTableProperties(DataTable dt, ResultSetComparisonSettings settings)
         {
             foreach (DataColumn column in dt.Columns)
             {
@@ -153,9 +153,9 @@ namespace NBi.Core.ResultSet
 
         protected void BuildDefaultSettings()
         {
-            Settings = new ResultSetComparaisonSettings(
-                ResultSetComparaisonSettings.KeysChoice.AllExpectLast, 
-                ResultSetComparaisonSettings.ValuesChoice.Last, 
+            Settings = new ResultSetComparisonSettings(
+                ResultSetComparisonSettings.KeysChoice.AllExpectLast, 
+                ResultSetComparisonSettings.ValuesChoice.Last, 
                 null);
         }
 

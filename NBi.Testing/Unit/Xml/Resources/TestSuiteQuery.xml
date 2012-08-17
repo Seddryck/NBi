@@ -74,4 +74,16 @@
 			</equalTo>
 		</assert>
 	</test>
+  <test name="equalTo values and tolerance">
+    <system-under-test>
+      <query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+        SELECT TOP 2 * FROM Product;
+      </query>
+    </system-under-test>
+    <assert>
+      <equalTo values="last" tolerance="100">
+        <query file="Query.sql"/>
+      </equalTo>
+    </assert>
+  </test>
 </testSuite>

@@ -19,6 +19,7 @@ namespace NBi.Xml
         public TestSuiteXml()
         {
             Tests = new List<TestXml>();
+            Settings = new SettingsXml();
         }
     }
 }

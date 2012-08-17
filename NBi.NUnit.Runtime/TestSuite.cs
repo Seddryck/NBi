@@ -57,7 +57,7 @@ namespace NBi.NUnit.Runtime
             return testCasesNUnit;
         }
 
-        protected string GetTestSuiteFileDefinition()
+        protected virtual string GetTestSuiteFileDefinition()
         {
             string assem = Path.GetFullPath((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath).Replace("%20"," ");
             string configFile = Path.Combine(Path.GetDirectoryName(assem), Path.GetFileNameWithoutExtension(assem) + ".config");

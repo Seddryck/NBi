@@ -78,9 +78,9 @@ namespace NBi.Testing.Integration.NUnit
             rs.Load(objs);
 
             var ctr = new NBiNu.EqualToConstraint(rs);
-            ctr.Using(new ResultSetComparaisonSettings(
-                    ResultSetComparaisonSettings.KeysChoice.First,
-                    ResultSetComparaisonSettings.ValuesChoice.Last,
+            ctr.Using(new ResultSetComparisonSettings(
+                    ResultSetComparisonSettings.KeysChoice.First,
+                    ResultSetComparisonSettings.ValuesChoice.Last,
                     500
                 )
             );
@@ -108,9 +108,9 @@ namespace NBi.Testing.Integration.NUnit
             rs.Load(objs);
 
             var ctr = new NBiNu.EqualToConstraint(rs);
-            ctr.Using(new ResultSetComparaisonSettings(
-                ResultSetComparaisonSettings.KeysChoice.First,
-                ResultSetComparaisonSettings.ValuesChoice.Last,
+            ctr.Using(new ResultSetComparisonSettings(
+                ResultSetComparisonSettings.KeysChoice.First,
+                ResultSetComparisonSettings.ValuesChoice.Last,
                 null)
             );
 
@@ -132,9 +132,9 @@ namespace NBi.Testing.Integration.NUnit
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             var ctr = new NBiNu.EqualToConstraint(expectedCmd);
-            ctr.Using(new ResultSetComparaisonSettings(
-                ResultSetComparaisonSettings.KeysChoice.First,
-                ResultSetComparaisonSettings.ValuesChoice.Last,
+            ctr.Using(new ResultSetComparisonSettings(
+                ResultSetComparisonSettings.KeysChoice.First,
+                ResultSetComparisonSettings.ValuesChoice.Last,
                 null)
             );
 
@@ -157,9 +157,9 @@ namespace NBi.Testing.Integration.NUnit
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             var ctr = new NBiNu.EqualToConstraint(expectedCmd);
-            ctr.Using(new ResultSetComparaisonSettings(
-                ResultSetComparaisonSettings.KeysChoice.First,
-                ResultSetComparaisonSettings.ValuesChoice.Last,
+            ctr.Using(new ResultSetComparisonSettings(
+                ResultSetComparisonSettings.KeysChoice.First,
+                ResultSetComparisonSettings.ValuesChoice.Last,
                 null)
             );
 
@@ -182,9 +182,9 @@ namespace NBi.Testing.Integration.NUnit
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             var ctr = new NBiNu.EqualToConstraint(expectedCmd);
-            ctr.Using(new ResultSetComparaisonSettings(
-                    ResultSetComparaisonSettings.KeysChoice.First,
-                    ResultSetComparaisonSettings.ValuesChoice.Last,
+            ctr.Using(new ResultSetComparisonSettings(
+                    ResultSetComparisonSettings.KeysChoice.First,
+                    ResultSetComparisonSettings.ValuesChoice.Last,
                     new List<IColumn>()
                     {
                         new Column()
@@ -221,9 +221,9 @@ namespace NBi.Testing.Integration.NUnit
 
             var ctr = new NBiNu.EqualToConstraint(expectedCmd);
             ctr.Using(
-                    new ResultSetComparaisonSettings(
-                        ResultSetComparaisonSettings.KeysChoice.AllExpectLast,
-                        ResultSetComparaisonSettings.ValuesChoice.Last,
+                    new ResultSetComparisonSettings(
+                        ResultSetComparisonSettings.KeysChoice.AllExpectLast,
+                        ResultSetComparisonSettings.ValuesChoice.Last,
                         new List<IColumn>()
                         {
                             new Column()
@@ -275,9 +275,9 @@ namespace NBi.Testing.Integration.NUnit
 
             var ctr = new NBiNu.EqualToConstraint(expectedCmd);
             ctr.Using(
-                    new ResultSetComparaisonSettings(
-                        ResultSetComparaisonSettings.KeysChoice.AllExpectLast,
-                        ResultSetComparaisonSettings.ValuesChoice.Last,
+                    new ResultSetComparisonSettings(
+                        ResultSetComparisonSettings.KeysChoice.AllExpectLast,
+                        ResultSetComparisonSettings.ValuesChoice.Last,
                         null
                     )
                 );
@@ -302,9 +302,9 @@ namespace NBi.Testing.Integration.NUnit
 
             var ctr = new NBiNu.EqualToConstraint(expectedCmd);
             ctr.Using(
-                    new ResultSetComparaisonSettings(
-                        ResultSetComparaisonSettings.KeysChoice.AllExpectLast,
-                        ResultSetComparaisonSettings.ValuesChoice.Last,
+                    new ResultSetComparisonSettings(
+                        ResultSetComparisonSettings.KeysChoice.AllExpectLast,
+                        ResultSetComparisonSettings.ValuesChoice.Last,
                         null
                     )
                 );

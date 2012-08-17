@@ -52,7 +52,7 @@ namespace NBi.NUnit
                 throw new ArgumentException();
 
             //Manage settings for comparaison
-            ResultSetComparaisonSettings settings = new ResultSetComparaisonSettings(
+            ResultSetComparisonSettings settings = new ResultSetComparisonSettings(
                 xml.KeysDef,
                 xml.ValuesDef,
                 xml.ColumnsDef

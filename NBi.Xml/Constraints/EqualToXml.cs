@@ -78,30 +78,57 @@ namespace NBi.Xml.Constraints
         public QueryXml Query { get; set; }
 
         [XmlAttribute("keys")]
-        public ResultSetComparaisonSettings.KeysChoice KeysDef { get; set; }
+        public ResultSetComparisonSettings.KeysChoice KeysDef { get; set; }
 
         [XmlAttribute("values")]
-        public ResultSetComparaisonSettings.ValuesChoice ValuesDef { get; set; }
+        public ResultSetComparisonSettings.ValuesChoice ValuesDef { get; set; }
 
+        protected bool _isToleranceSpecified;
+        [XmlIgnore()]
+        public bool IsToleranceSpecified
+        {
+            get { return _isToleranceSpecified; }
+            protected set { _isToleranceSpecified = value; }
+        }
+
+        protected decimal _tolerance;
         [XmlAttribute("tolerance")]
-        public decimal Tolerance { get; set; }
+        public decimal Tolerance
+        {
+            get
+            { return _tolerance; }
+
+            set
+            {
+                _tolerance = value;
+                _isToleranceSpecified = true;
+            }
+        }
 
         [XmlElement("column")]
-        public List<ColumnXml> _columnsDef { get; set; }
+        public List<ColumnXml> _columnsDef;
 
         public IList<IColumn> ColumnsDef
         {
             get
             {
+                System.Console.WriteLine("Hello");
                 if (_columnsDef == null)
+                {
+                    System.Console.WriteLine("Create");
                     _columnsDef = new List<ColumnXml>();
+                }
+                else
+                    System.Console.WriteLine("Retrieve");
                 return _columnsDef.Cast<IColumn>().ToList();
             }
         }
 
-        public ResultSetComparaisonSettings GetSettings()
+        public ResultSetComparisonSettings GetSettings()
         {
-            return new ResultSetComparaisonSettings(KeysDef, ValuesDef, Tolerance, ColumnsDef);
+            System.Console.WriteLine(ColumnsDef.Count);
+            System.Console.WriteLine(_columnsDef.Count);
+            return new ResultSetComparisonSettings(KeysDef, ValuesDef, Tolerance, ColumnsDef);
         }
 
         public IDbCommand GetCommand()

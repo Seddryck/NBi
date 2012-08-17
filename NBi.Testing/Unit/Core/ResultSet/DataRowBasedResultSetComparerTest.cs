@@ -239,26 +239,26 @@ namespace NBi.Testing.Unit.Core.ResultSet
             return dt;
         }
 
-        protected ResultSetComparaisonSettings BuildSettingsKeyValue()
+        protected ResultSetComparisonSettings BuildSettingsKeyValue()
         {
             return BuildSettingsKeyValue(0);
         }
 
-        protected ResultSetComparaisonSettings BuildSettingsKeyValue(decimal tolerance)
+        protected ResultSetComparisonSettings BuildSettingsKeyValue(decimal tolerance)
         {
             var columnsDef = new List<IColumn>();
             columnsDef.Add(
                     new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance }
                     );
 
-            return new ResultSetComparaisonSettings(
-                ResultSetComparaisonSettings.KeysChoice.First,
-                ResultSetComparaisonSettings.ValuesChoice.Last,
+            return new ResultSetComparisonSettings(
+                ResultSetComparisonSettings.KeysChoice.First,
+                ResultSetComparisonSettings.ValuesChoice.Last,
                 columnsDef
                 );
         }
 
-        protected ResultSetComparaisonSettings BuildSettingsKeyValueIgnore(decimal tolerance)
+        protected ResultSetComparisonSettings BuildSettingsKeyValueIgnore(decimal tolerance)
         {
             var columnsDef = new List<IColumn>();
             columnsDef.Add(
@@ -269,9 +269,9 @@ namespace NBi.Testing.Unit.Core.ResultSet
                     new Column() { Index = 2, Role = ColumnRole.Ignore }
                     );
 
-            return new ResultSetComparaisonSettings(
-                ResultSetComparaisonSettings.KeysChoice.First,
-                ResultSetComparaisonSettings.ValuesChoice.AllExpectFirst,
+            return new ResultSetComparisonSettings(
+                ResultSetComparisonSettings.KeysChoice.First,
+                ResultSetComparisonSettings.ValuesChoice.AllExpectFirst,
                 columnsDef
                 );
         }

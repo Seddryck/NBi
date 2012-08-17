@@ -112,7 +112,7 @@
     <Compile Include="ResultSet\NonMatchingValueRow.cs" />
     <Compile Include="ResultSet\ResultSet.cs" />
     <Compile Include="ResultSet\ResultSetBuilder.cs" />
-    <Compile Include="ResultSet\ResultSetComparaisonSettings.cs" />
+    <Compile Include="ResultSet\ResultSetComparisonSettings.cs" />
     <Compile Include="ResultSet\ResultSetCompareResult.cs" />
     <Compile Include="ResultSet\ResultSetCsvReader.cs" />
     <Compile Include="ResultSet\IResultSetComparer.cs" />

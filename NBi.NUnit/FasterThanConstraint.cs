@@ -63,7 +63,7 @@ namespace NBi.NUnit
         /// <returns>true, if the query defined in parameter is executed in less that expected else false</returns>
         public override bool Matches(object actual)
         {
-            if (actual.GetType() is IDbCommand)
+            if (actual is IDbCommand)
                 return doMatch((IDbCommand)actual);
             else
                 return false;

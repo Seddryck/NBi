@@ -11,7 +11,27 @@ namespace NBi.Xml.Constraints.EqualTo
         public ColumnRole Role{get; set;}
         [XmlAttribute("type")]
         public ColumnType Type{get; set;}
+
+        protected bool _isToleranceSpecified;
+        [XmlIgnore()]
+        public bool IsToleranceSpecified
+        {
+            get { return _isToleranceSpecified; }
+            set { _isToleranceSpecified = value; }
+        }
+
+        protected decimal _tolerance;
         [XmlAttribute("tolerance")]
-        public decimal Tolerance { get; set; }
+        public decimal Tolerance
+        {
+            get
+            { return _tolerance; }
+
+            set
+            {
+                _tolerance = value;
+                _isToleranceSpecified = true;
+            }
+        }
     }
 }

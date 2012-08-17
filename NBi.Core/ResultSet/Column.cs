@@ -10,7 +10,8 @@ namespace NBi.Core.ResultSet
         public int Index {get; set;} 
         public ColumnRole Role {get; set;} 
         public ColumnType Type {get; set;} 
-        public decimal Tolerance {get; set;} 
+        public decimal Tolerance {get; set;}
+        public bool IsToleranceSpecified { get; set; }
        
     }
 }

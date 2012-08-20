@@ -38,6 +38,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("QueryEqualToResultSetWithNull.xml")]
         [TestCase("Ordered.xml")]
         [TestCase("Count.xml")]
+        [TestCase("Contains.xml")]
         public void RunTestSuite(string filename)
         {
             var t = new TestSuiteOverrider(filename);

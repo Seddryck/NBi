@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+	<test name="A fast query">
+		<system-under-test>
+			<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033">
+				SELECT
+				[Measures].[Reseller Order Count] ON 0,
+				EXCEPT({[Date].[Calendar Year].Children},{[Date].[Calendar Year].[CY 2006]}) ON 1
+				FROM
+				[Adventure Works]
+			</query>
+		</system-under-test>
+		<assert>
+			<fasterThan max-time-milliSeconds="1000"/>
+		</assert>
+	</test>
+	<test name="A fast query">
+		<system-under-test>
+			<query name="MDX Except" connectionString="Data Source=.;Initial Catalog='NBi.Testing';Integrated Security=SSPI">
+				SELECT
+					NULL
+			</query>
+		</system-under-test>
+		<assert>
+			<fasterThan max-time-milliSeconds="100"/>
+		</assert>
+	</test>
+</testSuite>

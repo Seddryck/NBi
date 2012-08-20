@@ -4,7 +4,7 @@ using Microsoft.AnalysisServices.AdomdClient;
 
 namespace NBi.Core.Query
 {
-    public class QueryAdomdEngine:IQueryExecutor, IQueryEnginable, IQueryParser
+    public class QueryAdomdEngine:IQueryExecutor, IQueryEnginable, IQueryParser, IQueryPerformance
     {
         protected readonly AdomdCommand _command;
 
@@ -14,7 +14,11 @@ namespace NBi.Core.Query
             _command = cmd;
         }
 
-       
+        public void CleanCache()
+        {
+            throw new NotImplementedException("Hé man what's the goal to clean the cache for an MDX query?");
+        }
+
         public virtual PerformanceResult CheckPerformance()
         {
             DateTime tsStart, tsStop;
@@ -96,7 +100,7 @@ namespace NBi.Core.Query
                 {
                     try
                     {
-                        AdomdDataReader dr = cmdIn.ExecuteReader(CommandBehavior.SchemaOnly);
+                        cmdIn.ExecuteReader(CommandBehavior.SchemaOnly);
                         res = ParserResult.NoParsingError();
                     }
                     catch (AdomdException ex)

@@ -12,7 +12,7 @@
 		</system-under-test>
 		<assert>
 			<equalTo>
-				<resultSet file="C:\Users\Seddryck\Documents\Visual Studio 2010\Projects\NBi\NBi.Testing\Acceptance\Resources\ResellerOrderCountByYearBefore2006.csv"/>
+				<resultSet file="Acceptance\Resources\ResellerOrderCountByYearBefore2006.csv"/>
 			</equalTo>
 		</assert>
 	</test>

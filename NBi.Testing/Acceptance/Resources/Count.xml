@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033</connectionString>
+		</default>
+	</settings>
+	<test name="In dimension Customers State-Provinces around 65 members" uid="0001">
+		<system-under-test>
+			<members path="[Customer].[State-Province].[State-Province]" perspective="Adventure Works"/>
+		</system-under-test>
+		<assert>
+			<count more-than="50" less-than="100"/>
+		</assert>
+	</test>
+	<test name="In dimension Customers Countries are exactly 6" uid="0002">
+		<system-under-test>
+			<members path="[Customer].[Country]" children-of="All Customers" perspective="Adventure Works"/>
+		</system-under-test>
+		<assert>
+			<count exactly="6"/>
+		</assert>
+	</test>
+	<test name="Customers more than 100 members" uid="0003">
+		<system-under-test>
+			<members path="[Customer].[Customer].[Customer]" perspective="Adventure Works"/>
+		</system-under-test>
+		<assert>
+			<count more-than="100"/>
+		</assert>
+	</test>
+	<test name="Customers more than 100 members" uid="0003">
+		<system-under-test>
+			<members path="[Employee].[Department Name].[Department Name]" perspective="Adventure Works"/>
+		</system-under-test>
+		<assert>
+			<count less-than="30"/>
+		</assert>
+	</test>
+
+</testSuite>

@@ -35,6 +35,9 @@ namespace NBi.Testing.Acceptance
         [TestCase("QueryEqualToCsv.xml")]
         [TestCase("QueryEqualToQuery.xml")]
         [TestCase("QueryEqualToResultSet.xml")]
+        [TestCase("QueryEqualToResultSetWithNull.xml")]
+        [TestCase("Ordered.xml")]
+        [TestCase("Count.xml")]
         public void RunTestSuite(string filename)
         {
             var t = new TestSuiteOverrider(filename);

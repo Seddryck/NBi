@@ -9,9 +9,21 @@ namespace NBi.NUnit.Member
 {
     public class CountConstraint : NUnitCtr.Constraint
     {
-        int? exactly { get; set; }
-        int? moreThan { get; set; }
-        int? lessThan { get; set; }
+        private int? exactly { get; set; }
+        private int? moreThan { get; set; }
+        private int? lessThan { get; set; }
+        private ICollection actualCollection 
+        { 
+            get 
+            {
+                return (ICollection)actual;
+            }
+            set
+            {
+                actual = value;
+            }
+        }
+                
 
         private NUnitCtr.Constraint internalConstraint;
 
@@ -52,6 +64,8 @@ namespace NBi.NUnit.Member
                 internalConstraint = internalConstraint.And.EqualTo(value);
             else
                 internalConstraint = new NUnitCtr.EqualConstraint(value);
+
+            exactly = value;
             return this;
         }
 
@@ -61,6 +75,8 @@ namespace NBi.NUnit.Member
                 internalConstraint = internalConstraint.And.GreaterThan(value);
             else
                 internalConstraint = new NUnitCtr.GreaterThanConstraint(value);
+
+            moreThan = value;
             return this;
         }
 
@@ -70,6 +86,8 @@ namespace NBi.NUnit.Member
                 internalConstraint = internalConstraint.And.LessThan(value);
             else
                 internalConstraint = new NUnitCtr.LessThanConstraint(value);
+
+            lessThan = value;
             return this;
         }
 
@@ -108,6 +126,8 @@ namespace NBi.NUnit.Member
         /// <returns></returns>
         public bool Matches(ICollection actual)
         {
+            actualCollection = actual;
+            
             if (internalConstraint == null)
                 return false;
 
@@ -130,9 +150,9 @@ namespace NBi.NUnit.Member
             if (moreThan.HasValue && lessThan.HasValue)
             {
                 writer.WritePredicate("between");
-                writer.WriteExpectedValue(lessThan.Value);
-                writer.WriteConnector("and");
                 writer.WriteExpectedValue(moreThan.Value);
+                writer.WriteConnector("and");
+                writer.WriteExpectedValue(lessThan.Value); 
                 return;
             }
 
@@ -149,6 +169,8 @@ namespace NBi.NUnit.Member
                 writer.WriteExpectedValue(lessThan.Value);
                 return;
             }
+
+            writer.WriteActualValue(actualCollection.Count);
         }
     }
 }

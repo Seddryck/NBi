@@ -40,6 +40,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("Count.xml")]
         [TestCase("Contains.xml")]
         [TestCase("fasterThan.xml")]
+        [TestCase("SyntacticallyCorrect.xml")]
         public void RunTestSuite(string filename)
         {
             var t = new TestSuiteOverrider(filename);

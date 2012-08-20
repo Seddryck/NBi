@@ -91,8 +91,13 @@ namespace NBi.NUnit
         {
             var sb = new System.Text.StringBuilder();
             sb.AppendLine("Execution of the query is slower than expected");
-            sb.AppendFormat("Maximum expected was {0}ms and query has been exectued in {1}ms\r\n", _maxTimeMilliSeconds, _res.TimeElapsed.TotalMilliseconds);
-            writer.WritePredicate(sb.ToString());
+            sb.AppendFormat("Maximum expected was {0}ms", _maxTimeMilliSeconds);
+            writer.WritePredicate(sb.ToString());           
+        }
+
+        public override void  WriteActualValueTo(NUnitCtr.MessageWriter writer)
+        {
+            writer.WriteActualValue(string.Format("{0}ms", _res.TimeElapsed.TotalMilliseconds));
         }
     }
 }

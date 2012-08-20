@@ -190,6 +190,9 @@
     <EmbeddedResource Include="Acceptance\Resources\FasterThan.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\SyntacticallyCorrect.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="NBi.Testing.sql" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteSample.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -157,5 +157,18 @@ namespace NBi.Testing.Unit.Xml
             
         }
 
+        [Test]
+        public void DeserializeEqualToQuery_QueryFile6_PersistanceAttributeRead()
+        {
+            int testNr = 6;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Persistance, Is.EqualTo(PersistanceChoice.OnlyIfFailed));
+        }
+
     }
 }

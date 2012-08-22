@@ -25,25 +25,20 @@ namespace NBi.NUnit
         {
             EqualToConstraint ctr = null;
             
-            if (!string.IsNullOrEmpty(xml.ResultSetFile))
-            {
-                ctr = new EqualToConstraint(xml.ResultSetFile);
-            }
-            else if (xml.GetCommand() != null)
+            if (xml.GetCommand() != null)
             {
                 ctr = new EqualToConstraint(xml.GetCommand());
             }
             else if (xml.ResultSet != null)
             {
-                Console.WriteLine("Debug: ResultSet defined!");
                 if (!string.IsNullOrEmpty(xml.ResultSet.File))
                 {
-                    Console.WriteLine("Debug: ResultSet.File defined!");
+                    Console.WriteLine("Debug: ResultSet.File defined in external file!");
                     ctr = new EqualToConstraint(xml.ResultSet.File);
                 }
                 else if (xml.ResultSet.Rows!=null)
                 {
-                    Console.WriteLine("Debug: ResultSet.Rows defined!");
+                    Console.WriteLine("Debug: ResultSet defined in embedded resultSet!");
                     ctr = new EqualToConstraint(xml.ResultSet.Rows);
                 }
             }

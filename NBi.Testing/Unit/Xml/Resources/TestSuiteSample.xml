@@ -29,9 +29,9 @@
 			<query query-file="SimpleMdx.Mdx" connectionString="Provider=MSOLAP.4;Data Source=localhost;Catalog=&quot;Finances Analysis&quot;;"/>
 		</system-under-test>
 		<assert>
-			<equalTo
-				resultSet-file="SimpleMdx.csv"
-			/>
+			<equalTo>
+				<resultSet file="SimpleMdx.csv"></resultSet>
+			</equalTo>
 		</assert>
 	</test>
 	<test name="My Mdx against another Mdx">
@@ -39,10 +39,12 @@
 			<query query-file="SimpleMdx.Mdx" connectionString="Provider=MSOLAP.4;Data Source=localhost;Catalog=&quot;Finances Analysis&quot;;"/>
 		</system-under-test>
 		<assert>
-			<equalTo
-			query-file="SimpleMdxTwo.mdx"
-			connectionString="Provider=MSOLAP.4;Data Source=RemoteServer;Catalog=Finances;"
-		/>
+			<equalTo>
+				<query
+					file="SimpleMdxTwo.mdx"
+					connectionString="Provider=MSOLAP.4;Data Source=RemoteServer;Catalog=Finances;"
+					/>
+			</equalTo>
 		</assert>
 	</test>
 	<test name="level counts exactly 10 members">

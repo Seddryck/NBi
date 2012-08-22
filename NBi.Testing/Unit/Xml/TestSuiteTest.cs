@@ -101,7 +101,7 @@ namespace NBi.Testing.Unit.Xml
 
             // Check the properties of the object.
             Assert.That(ts.Tests[2].Constraints[0], Is.InstanceOf<EqualToXml>());
-            Assert.That(((EqualToXml)ts.Tests[2].Constraints[0]).ResultSetFile, Is.Not.Empty);
+            //Assert.That(((EqualToXml)ts.Tests[2].Constraints[0]).ResultSetFile, Is.Not.Empty);
         }
         
         [Test]
@@ -134,18 +134,6 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(ts.Tests[1].Categories.Count, Is.EqualTo(2));
             Assert.That(ts.Tests[1].Categories, Has.Member("Category 1"));
             Assert.That(ts.Tests[1].Categories, Has.Member("Category 2"));
-        }
-
-        [Test]
-        public void Deserialize_SampleFile_EqualToWithQuery()
-        {
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
-
-            // Check the properties of the object.
-            Assert.That(ts.Tests[3].Constraints[0], Is.TypeOf<EqualToXml>());
-            Assert.That(((EqualToXml)ts.Tests[3].Constraints[0]).ConnectionString, Is.Not.Null.And.Not.Empty);
-            Assert.That(((EqualToXml)ts.Tests[3].Constraints[0]).QueryFile, Is.Not.Null.And.Not.Empty);
         }
 
         [Test]

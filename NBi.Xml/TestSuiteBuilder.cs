@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using NBi.Xml.Constraints;
+using NBi.Xml.Constraints.EqualTo;
 using NBi.Xml.Systems;
 
 namespace NBi.Xml
@@ -67,7 +68,7 @@ namespace NBi.Xml
 
                     var ctr = new EqualToXml();
                     test.Constraints.Add(ctr);
-                    ctr.QueryFile = Path.Combine(Expect.Directory, Path.GetFileName(query));
+                    //ctr.QueryFile = Path.Combine(Expect.Directory, Path.GetFileName(query));
                     ctr.ConnectionString = Expect.ConnectionString;
 
                     var tc = new QueryXml();
@@ -96,7 +97,10 @@ namespace NBi.Xml
 
                     var ctr = new EqualToXml();
                     test.Constraints.Add(ctr);
-                    ctr.ResultSetFile = Path.Combine(Expect.Directory, Path.GetFileNameWithoutExtension(query) + ".csv");
+                    ctr.ResultSet = new ResultSetXml()
+                    {
+                        File = Path.Combine(Expect.Directory, Path.GetFileNameWithoutExtension(query) + ".csv")
+                    };
 
                     var tc = new QueryXml();
                     test.Systems.Add(tc);

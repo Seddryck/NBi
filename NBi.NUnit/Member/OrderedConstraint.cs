@@ -122,9 +122,7 @@ namespace NBi.NUnit.Member
         }
 
         protected bool doMatch(object actual)
-        {
-            Console.Out.WriteLine("doMatch"); 
-            
+        {          
             int index=0;
             
             foreach (var item in (IEnumerable<Object>)actual)
@@ -140,16 +138,6 @@ namespace NBi.NUnit.Member
                     else
                         index = i;
                 }
-
-                //int i=0;
-                //while (i != specific.Count && itemComparable != specific[i])
-                //    i++;
-
-                //if (i<specific.Count && i<index)
-                //    return false;
-
-                //if (i<specific.Count)
-                //    index = i;
 	        }
 
             return true;

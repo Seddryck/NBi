@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core;
@@ -12,12 +11,6 @@ namespace NBi.Xml.Constraints
 {
     public class EqualToXml : AbstractConstraintXml
     {
-        [XmlAttribute("resultSet-file")]
-        public string ResultSetFile { get; set; }
-
-        [XmlAttribute("query-file")]
-        public string QueryFile { get; set; }
-
         [XmlAttribute("connectionString")]
         public string ConnectionString { get; set; }
 
@@ -27,21 +20,11 @@ namespace NBi.Xml.Constraints
         [XmlText]
         public string InlineQuery { get; set; }
 
-        private string _query;
-
         public string GetQuery()
         {
             //if Sql is specified then return it
             if (!string.IsNullOrEmpty(InlineQuery))
                 return InlineQuery;
-
-            //Else read the file's content (if local varaible not populated)
-            if (!string.IsNullOrEmpty(QueryFile))
-            {
-                if (string.IsNullOrEmpty(_query))
-                    _query = File.ReadAllText(QueryFile);
-                return _query;
-            }
 
             //Else use the QueryXml object
             if (Query != null)
@@ -120,8 +103,6 @@ namespace NBi.Xml.Constraints
 
         public ResultSetComparisonSettings GetSettings()
         {
-            System.Console.WriteLine(ColumnsDef.Count);
-            System.Console.WriteLine(_columnsDef.Count);
             return new ResultSetComparisonSettings(KeysDef, ValuesDef, Tolerance, ColumnsDef);
         }
 

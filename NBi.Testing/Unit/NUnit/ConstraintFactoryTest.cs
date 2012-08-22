@@ -43,7 +43,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_EqualToXml_IsOfTypeEqualToConstraint()
         {
-            var ctr = NBiNu.ConstraintFactory.Instantiate(new EqualToXml() { ResultSetFile = "resultset.csv" }, null);
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new EqualToXml() { ResultSet = new ResultSetXml() }, null);
 
             Assert.That(ctr, Is.InstanceOf<NBiNu.EqualToConstraint>());
         }

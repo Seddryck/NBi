@@ -171,6 +171,15 @@
 													</xs:simpleType>
 												</xs:attribute>
 												<xs:attribute name="tolerance" type="xs:decimal" use="optional" />
+												<xs:attribute name="persistance" use="optional" >
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:enumeration value="never"/>
+															<xs:enumeration value="only-if-failed"/>
+															<xs:enumeration value="always"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
 											</xs:complexType>
 										</xs:element>
 										<xs:element name="syntacticallyCorrect" minOccurs="0">

@@ -58,6 +58,9 @@ namespace NBi.Xml.Constraints
             }
         }
 
+        [XmlAttribute("persistance")]
+        public PersistanceChoice Persistance;
+
         public ResultSetComparisonSettings GetSettings()
         {
             return new ResultSetComparisonSettings(KeysDef, ValuesDef, Tolerance, ColumnsDef);

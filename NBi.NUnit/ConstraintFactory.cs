@@ -11,7 +11,7 @@ namespace NBi.NUnit
     {
         public static Constraint Instantiate(AbstractConstraintXml xml, Type systemType)
         {
-            if (xml.GetType() == typeof(EqualToXml)) return Instantiate((EqualToXml)xml);
+            if (xml.GetType() == typeof(EqualToXml)) return Instantiate((EqualToXml)xml, systemType);
             if (xml.GetType() == typeof(FasterThanXml)) return Instantiate((FasterThanXml)xml);
             if (xml.GetType() == typeof(SyntacticallyCorrectXml)) return Instantiate((SyntacticallyCorrectXml)xml);
             if (xml.GetType() == typeof(CountXml)) return Instantiate((CountXml)xml);
@@ -21,7 +21,7 @@ namespace NBi.NUnit
             throw new ArgumentException(string.Format("{0} is not an expected type for a constraint.",xml.GetType().Name));
         }
         
-        protected static EqualToConstraint Instantiate(EqualToXml xml)
+        protected static EqualToConstraint Instantiate(EqualToXml xml, Type systemType)
         {
             EqualToConstraint ctr = null;
             
@@ -54,6 +54,15 @@ namespace NBi.NUnit
                 );
 
             ctr.Using(settings);
+
+            //Manage persistance
+            EqualToConstraint.PersistanceItems persi = 0;
+            if (xml.GetCommand() != null)
+                persi += (int)EqualToConstraint.PersistanceItems.actual;
+            if (systemType == typeof(QueryXml))
+                persi += (int)EqualToConstraint.PersistanceItems.expected;
+            if (!(persi==0 || xml.Query==null || string.IsNullOrEmpty(xml.Query.Name)))
+                ctr.Persist(xml.Persistance, persi, xml.Query.Name);
 
             return ctr;
 

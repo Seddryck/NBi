@@ -110,6 +110,7 @@
     <Compile Include="Query\QuerySqlEngine.cs" />
     <Compile Include="ResultSet\IRow.cs" />
     <Compile Include="ResultSet\NonMatchingValueRow.cs" />
+    <Compile Include="ResultSet\PersistanceChoice.cs" />
     <Compile Include="ResultSet\ResultSet.cs" />
     <Compile Include="ResultSet\ResultSetBuilder.cs" />
     <Compile Include="ResultSet\ResultSetComparisonSettings.cs" />

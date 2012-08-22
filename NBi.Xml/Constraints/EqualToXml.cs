@@ -11,49 +11,6 @@ namespace NBi.Xml.Constraints
 {
     public class EqualToXml : AbstractConstraintXml
     {
-        [XmlAttribute("connectionString")]
-        public string ConnectionString { get; set; }
-
-        [XmlAttribute("connectionString-ref")]
-        public string ConnectionStringReference { get; set; }
-
-        [XmlText]
-        public string InlineQuery { get; set; }
-
-        public string GetQuery()
-        {
-            //if Sql is specified then return it
-            if (!string.IsNullOrEmpty(InlineQuery))
-                return InlineQuery;
-
-            //Else use the QueryXml object
-            if (Query != null)
-            {
-                return Query.GetQuery();
-            }
-
-            return null;
-        }
-
-        public string GetConnectionString()
-        {
-            //if ConnectionString is specified then return it
-            if (!string.IsNullOrEmpty(ConnectionString))
-                return ConnectionString;
-
-            //Else use the QueryXml object
-            if (Query != null)
-            {
-                return Query.ConnectionString;
-            }
-
-            //Else use the default value
-            if (!string.IsNullOrEmpty(Default.ConnectionString))
-                return Default.ConnectionString;
-
-            return null;
-        }
-
         [XmlElement("resultSet")]
         public ResultSetXml ResultSet { get; set; }
 
@@ -108,12 +65,12 @@ namespace NBi.Xml.Constraints
 
         public IDbCommand GetCommand()
         {
-            if (string.IsNullOrEmpty(GetQuery()))
+            if (Query==null)
                 return null;
 
-            var conn = ConnectionFactory.Get(GetConnectionString());
+            var conn = ConnectionFactory.Get(Query.GetConnectionString());
             var cmd = conn.CreateCommand();
-            cmd.CommandText = GetQuery();
+            cmd.CommandText = Query.GetQuery();
 
             return cmd;
         }

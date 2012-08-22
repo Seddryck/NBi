@@ -68,13 +68,17 @@ namespace NBi.Xml
 
                     var ctr = new EqualToXml();
                     test.Constraints.Add(ctr);
-                    //ctr.QueryFile = Path.Combine(Expect.Directory, Path.GetFileName(query));
-                    ctr.ConnectionString = Expect.ConnectionString;
 
-                    var tc = new QueryXml();
-                    test.Systems.Add(tc);
-                    tc.Filename = query;
-                    tc.ConnectionString = Actual.ConnectionString;
+                    ctr.Query = new QueryXml()
+                    {
+                        Filename = Path.Combine(Expect.Directory, Path.GetFileName(query)),
+                        ConnectionString = Expect.ConnectionString
+                    };
+
+                    var sut = new Systems.QueryXml();
+                    test.Systems.Add(sut);
+                    sut.Filename = query;
+                    sut.ConnectionString = Actual.ConnectionString;
                 }
             }
             return testSuite;
@@ -102,10 +106,10 @@ namespace NBi.Xml
                         File = Path.Combine(Expect.Directory, Path.GetFileNameWithoutExtension(query) + ".csv")
                     };
 
-                    var tc = new QueryXml();
-                    test.Systems.Add(tc);
-                    tc.Filename = query;
-                    tc.ConnectionString = Actual.ConnectionString;
+                    var sut = new Systems.QueryXml();
+                    test.Systems.Add(sut);
+                    sut.Filename = query;
+                    sut.ConnectionString = Actual.ConnectionString;
                 }
             }
             return testSuite;

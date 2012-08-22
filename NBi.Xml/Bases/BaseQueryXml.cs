@@ -1,26 +1,11 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
-using NBi.Core;
 using NBi.Xml.Settings;
 
-namespace NBi.Xml.Systems
+namespace NBi.Xml.Bases
 {
-    public class QueryXml : AbstractSystemUnderTestXml
+    public class BaseQueryXml 
     {
-        [XmlAttribute("name")]
-        public string Name { get; set; }
-        
-        public override object Instantiate()
-        {
-            var conn = ConnectionFactory.Get(GetConnectionString());
-            var cmd = conn.CreateCommand();
-            cmd.CommandText = GetQuery();
-
-            return cmd;
-        }
-
-
-        //TODO should be removed in 1.1 and inheriting from BaseQueryXml ... (issue with desrialization of interface)
         public DefaultXml Default { get; set; }
 
         [XmlAttribute("query-file")]
@@ -54,9 +39,8 @@ namespace NBi.Xml.Systems
 
             //Else get the reference ConnectionString 
             if (!string.IsNullOrEmpty(Default.ConnectionString))
-                return Default.ConnectionString;
+                 return Default.ConnectionString;
             return null;
         }
-
     }
 }

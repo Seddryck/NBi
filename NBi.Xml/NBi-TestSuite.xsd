@@ -153,8 +153,6 @@
 														</xs:complexType>
 													</xs:element>
 												</xs:sequence>
-												<xs:attribute name="connectionString" type="xs:string" use="optional" />
-												<xs:attribute name="connectionString-ref" type="xs:string" use="optional" />
 												<xs:attribute name="keys" use="optional" >
 													<xs:simpleType>
 														<xs:restriction base="xs:string">

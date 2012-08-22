@@ -126,11 +126,11 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Query, Is.TypeOf<QueryXml>());
 
-            var connStr = ((EqualToXml)ts.Tests[testNr].Constraints[0]).GetConnectionString();
+            var connStr = ((EqualToXml)ts.Tests[testNr].Constraints[0]).Query.GetConnectionString();
             Assert.That(connStr, Is.Not.Empty);
             Assert.That(connStr, Contains.Substring("Reference"));
 
-            var query = ((EqualToXml)ts.Tests[testNr].Constraints[0]).GetQuery();
+            var query = ((EqualToXml)ts.Tests[testNr].Constraints[0]).Query.GetQuery();
             Assert.That(query, Is.Not.Empty);
             Assert.That(query, Contains.Substring("Top2Product"));
 

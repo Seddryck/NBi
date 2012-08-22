@@ -16,6 +16,5 @@ namespace NBi.Xml.Systems
         {
             Default = new DefaultXml();
         }
-        
     }
 }

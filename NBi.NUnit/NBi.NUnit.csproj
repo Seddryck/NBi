@@ -48,6 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="ConstraintFactory.cs" />
     <Compile Include="EqualToConstraintDisplay.cs" />
     <Compile Include="FluentInterface\Has.cs" />

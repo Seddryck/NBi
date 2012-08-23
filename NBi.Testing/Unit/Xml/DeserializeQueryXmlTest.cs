@@ -1,7 +1,7 @@
-﻿using System.IO;
+﻿
 #region Using directives
 
-using System.Xml.Serialization;
+using System.IO;
 using NBi.Xml;
 using System.Reflection;
 using NBi.Xml.Constraints;
@@ -14,7 +14,7 @@ using NBi.Core.ResultSet;
 namespace NBi.Testing.Unit.Xml
 {
     [TestFixture]
-    public class TestSuiteQueryTest
+    public class DeserializeQueryXmlTest
     {
 
         #region SetUp & TearDown
@@ -46,20 +46,17 @@ namespace NBi.Testing.Unit.Xml
 
         protected TestSuiteXml DeserializeSample()
         {
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            XmlSerializer serializer = new XmlSerializer(typeof(TestSuiteXml));
             // Declare an object variable of the type to be deserialized.
-            TestSuiteXml ts;
+            var manager = new XmlManager();
 
             // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
                                            .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.TestSuiteQuery.xml"))
             using (StreamReader reader = new StreamReader(stream))
             {
-                // Use the Deserialize method to restore the object's state.
-                ts = (TestSuiteXml)serializer.Deserialize(reader);
+                manager.Read(reader);
             }
-            return ts;
+            return manager.TestSuite;
         }
 
         [Test]

@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Reflection;
-using System.Xml.Serialization;
 using NBi.Xml;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
@@ -9,25 +8,22 @@ using NUnit.Framework;
 namespace NBi.Testing.Unit.Xml
 {
     [TestFixture]
-    public class TestSuiteTest
+    public class DeserializeTestsTest
     {
 
         protected TestSuiteXml DeserializeSample()
         {
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            XmlSerializer serializer = new XmlSerializer(typeof(TestSuiteXml));
             // Declare an object variable of the type to be deserialized.
-            TestSuiteXml ts;
+            var manager = new XmlManager();
 
             // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
                                            .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.TestSuiteSample.xml"))
             using (StreamReader reader = new StreamReader(stream))
             {
-                // Use the Deserialize method to restore the object's state.
-                ts = (TestSuiteXml)serializer.Deserialize(reader);
+                manager.Read(reader);
             }
-            return ts;
+            return manager.TestSuite;
         }
         
         [Test]

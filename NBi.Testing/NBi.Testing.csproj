@@ -104,12 +104,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
     <Compile Include="Unit\Xml\Constraints\EqualToXmlTest.cs" />
+    <Compile Include="Unit\Xml\DeserializeSettingsXmlTest.cs" />
     <Compile Include="Unit\Xml\Systems\MembersXmlTest.cs" />
-    <Compile Include="Unit\Xml\TestSuiteQueryTest.cs" />
-    <Compile Include="Unit\Xml\TestSuiteTest.cs" />
+    <Compile Include="Unit\Xml\DeserializeQueryXmlTest.cs" />
+    <Compile Include="Unit\Xml\DeserializeTestsTest.cs" />
     <Compile Include="Unit\NUnit\ConstraintFactoryTest.cs" />
-    <Compile Include="Unit\Xml\TestCaseXmlTest.cs" />
-    <Compile Include="Unit\Xml\TestXmlTest.cs" />
+    <Compile Include="Unit\Xml\QueryXmlTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +156,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\SettingsWithoutDefault.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Unit\Xml\Resources\SettingsWithDefault.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteQuery.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

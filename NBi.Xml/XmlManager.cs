@@ -19,10 +19,18 @@ namespace NBi.Xml
             if (!this.Validate(filename))
                 throw new ArgumentException("The test suite is not valid. Check with the XSD");
 
+            using (StreamReader reader = new StreamReader(filename))
+            {
+                Read(reader);
+            }
+        }
+
+        public void Read(StreamReader reader)
+        {
             // Create an instance of the XmlSerializer specifying type and namespace.
             XmlSerializer serializer = new XmlSerializer(typeof(TestSuiteXml));
-                        
-            using (StreamReader reader = new StreamReader(filename))
+
+            using (reader)
             {
                 // Use the Deserialize method to restore the object's state.
                 TestSuite = (TestSuiteXml)serializer.Deserialize(reader);

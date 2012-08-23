@@ -40,9 +40,14 @@ namespace NBi.Xml
             foreach (var test in TestSuite.Tests)
             {
                 foreach (var sut in test.Systems)
+                {
                     sut.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.SystemUnderTest);
+                    sut.Settings = TestSuite.Settings;
+                }
                 foreach (var ctr in test.Constraints)
+                {
                     ctr.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.Assert);
+                }
             }
         }
 

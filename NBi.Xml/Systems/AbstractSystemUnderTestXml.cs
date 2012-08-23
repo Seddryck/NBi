@@ -11,6 +11,7 @@ namespace NBi.Xml.Systems
         public abstract object Instantiate();
 
         public DefaultXml Default { get; set; }
+        public SettingsXml Settings { get; set; }
 
         public AbstractSystemUnderTestXml()
         {

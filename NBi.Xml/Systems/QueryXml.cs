@@ -21,7 +21,7 @@ namespace NBi.Xml.Systems
 
 
         //TODO should be removed in 1.1 and inheriting from BaseQueryXml ... (issue with desrialization of interface)
-        public DefaultXml Default { get; set; }
+        //public DefaultXml Default { get; set; }
 
         [XmlAttribute("query-file")]
         public string Filename { get; set; }

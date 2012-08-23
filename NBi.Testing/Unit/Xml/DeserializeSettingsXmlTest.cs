@@ -106,5 +106,65 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(((QueryXml)ts.Tests[testNr].Systems[0]).ConnectionString, Is.Null.Or.Empty);
         }
 
+        [Test]
+        public void DeserializeEqualToResultSet_SettingsWithoutDefault_DefaultEqualToNull()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("SettingsWithoutDefault");
+
+            Assert.That(ts.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest), Is.Null);
+        }
+
+        [Test]
+        public void DeserializeEqualToResultSet_SettingsWithReference_ReferenceLoaded()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("SettingsWithReference");
+
+            Assert.That(ts.Settings.References.Count, Is.EqualTo(2));
+            Assert.That(ts.Settings.GetReference("first-ref"), Is.Not.Null);
+            Assert.That(ts.Settings.GetReference("first-ref").ConnectionString, Is.EqualTo("My First Connection String"));
+            Assert.That(ts.Settings.GetReference("second-ref"), Is.Not.Null);
+            Assert.That(ts.Settings.GetReference("second-ref").ConnectionString, Is.EqualTo("My Second Connection String"));
+        }
+
+        [Test]
+        public void DeserializeEqualToResultSet_SettingsWithReferenceNotExisting_ThrowArgumentException()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("SettingsWithReference");
+
+            Assert.Throws<System.ArgumentOutOfRangeException>(delegate { ts.Settings.GetReference("not-existing"); });
+        }
+
+        [Test]
+        public void DeserializeEqualToResultSet_SettingsWithReference_ReferenceAppliedToTest()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("SettingsWithReference");
+
+            Assert.That(((QueryXml)ts.Tests[testNr].Systems[0]).ConnectionString, Is.Null.Or.Empty);
+            Assert.That(((QueryXml)ts.Tests[testNr].Systems[0]).GetConnectionString(), Is.Not.Null.And.Not.Empty);
+        }
+
+        [Test]
+        public void DeserializeEqualToResultSet_SettingsWithReferenceButMissingconnStrRef_NullAppliedToTest()
+        {
+            int testNr = 1;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("SettingsWithReference");
+            Assert.That(((QueryXml)ts.Tests[testNr].Systems[0]).ConnectionString, Is.Null.Or.Empty);
+            Assert.That(((QueryXml)ts.Tests[testNr].Systems[0]).GetConnectionString(), Is.Null);
+        }
+
     }
 }

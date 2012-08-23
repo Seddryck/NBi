@@ -32,7 +32,7 @@ namespace NBi.Testing.Unit.Xml
             var filename = DiskOnFile.CreatePhysicalFile("QueryFile.sql", "NBi.Testing.Unit.Xml.Resources.QueryFile.sql");
            
             //Instantiate a Test Case and specify to find the sql in the fie created above
-            var testCase = new QueryXml() { Filename = filename };
+            var testCase = new QueryXml() { File = filename };
 
             // A Stream is needed to read the text file from the assembly.
             string expectedContent;

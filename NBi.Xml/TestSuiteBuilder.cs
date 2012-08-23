@@ -71,13 +71,13 @@ namespace NBi.Xml
 
                     ctr.Query = new QueryXml()
                     {
-                        Filename = Path.Combine(Expect.Directory, Path.GetFileName(query)),
+                        File = Path.Combine(Expect.Directory, Path.GetFileName(query)),
                         ConnectionString = Expect.ConnectionString
                     };
 
                     var sut = new Systems.QueryXml();
                     test.Systems.Add(sut);
-                    sut.Filename = query;
+                    sut.File = query;
                     sut.ConnectionString = Actual.ConnectionString;
                 }
             }
@@ -108,7 +108,7 @@ namespace NBi.Xml
 
                     var sut = new Systems.QueryXml();
                     test.Systems.Add(sut);
-                    sut.Filename = query;
+                    sut.File = query;
                     sut.ConnectionString = Actual.ConnectionString;
                 }
             }

@@ -1,7 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 using NBi.Core;
-using NBi.Xml.Settings;
 
 namespace NBi.Xml.Systems
 {
@@ -23,8 +22,8 @@ namespace NBi.Xml.Systems
         //TODO should be removed in 1.1 and inheriting from BaseQueryXml ... (issue with desrialization of interface)
         //public DefaultXml Default { get; set; }
 
-        [XmlAttribute("query-file")]
-        public string Filename { get; set; }
+        [XmlAttribute("file")]
+        public string File { get; set; }
 
         [XmlAttribute("connectionString")]
         public string ConnectionString { get; set; }
@@ -42,7 +41,7 @@ namespace NBi.Xml.Systems
                 return InlineQuery;
 
             //Else read the file's content and 
-            var query = File.ReadAllText(Filename);
+            var query = System.IO.File.ReadAllText(File);
             return query;
         }
 
@@ -53,7 +52,11 @@ namespace NBi.Xml.Systems
                 return ConnectionString;
 
             //Else get the reference ConnectionString 
-            if (!string.IsNullOrEmpty(Default.ConnectionString))
+            if (!string.IsNullOrEmpty(ConnectionStringReference))
+                return Settings.GetReference(ConnectionStringReference).ConnectionString;
+
+            //Else get the default ConnectionString 
+            if (Default!=null && !string.IsNullOrEmpty(Default.ConnectionString))
                 return Default.ConnectionString;
             return null;
         }

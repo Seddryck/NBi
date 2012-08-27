@@ -166,8 +166,6 @@ namespace NBi.Testing.Unit.Core.ResultSet
             cols.Add(colIgnoreXml);
             xml._columnsDef = cols;
 
-            Console.WriteLine(xml._columnsDef.Count);
-
             //get settings
             var settings = xml.GetSettings();
 

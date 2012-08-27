@@ -7,26 +7,8 @@ using NUnit.Framework;
 namespace NBi.Testing.Unit.Xml
 {
     [TestFixture]
-    public class TestCaseXmlTest
+    public class QueryXmlTest
     {
-
-        protected string ConnectionString
-        {
-            get
-            {
-                //If available use the user file
-                if (System.IO.File.Exists("ConnectionString.user.config"))
-                {
-                    return System.IO.File.ReadAllText("ConnectionString.user.config");
-                }
-                else if (System.IO.File.Exists("ConnectionString.config"))
-                {
-                    return System.IO.File.ReadAllText("ConnectionString.config");
-                }
-
-                return null;
-            }
-        }
 
         #region Setup & Teardown
 
@@ -44,13 +26,13 @@ namespace NBi.Testing.Unit.Xml
         #endregion
 
         [Test]
-        public void Query_FilenameSpecified_RetrieveContentOfFile()
+        public void GetQuery_FilenameSpecified_RetrieveContentOfFile()
         {
             //create a text file on disk
             var filename = DiskOnFile.CreatePhysicalFile("QueryFile.sql", "NBi.Testing.Unit.Xml.Resources.QueryFile.sql");
            
             //Instantiate a Test Case and specify to find the sql in the fie created above
-            var testCase = new QueryXml() { Filename = filename };
+            var testCase = new QueryXml() { File = filename };
 
             // A Stream is needed to read the text file from the assembly.
             string expectedContent;
@@ -63,7 +45,7 @@ namespace NBi.Testing.Unit.Xml
         }
 
         [Test]
-        public void Query_FilenameNotSpecified_RetrieveContentOfInlineQuery()
+        public void GetQuery_FilenameNotSpecified_RetrieveContentOfInlineQuery()
         {
             //Instantiate a System Under Test
             var systemUnderTest = new QueryXml() { InlineQuery = "SELECT * FROM Product" };

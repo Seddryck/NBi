@@ -21,29 +21,34 @@ namespace NBi.Xml
 
             using (StreamReader reader = new StreamReader(filename))
             {
-                TestSuite = Read(reader);
+                Read(reader);
             }
-                
         }
 
-        public TestSuiteXml Read(StreamReader reader)
+        public void Read(StreamReader reader)
         {
             // Create an instance of the XmlSerializer specifying type and namespace.
             XmlSerializer serializer = new XmlSerializer(typeof(TestSuiteXml));
-            
-            // Use the Deserialize method to restore the object's state.
-            var ts = (TestSuiteXml)serializer.Deserialize(reader);
 
-            //Apply defaults
-            foreach (var test in ts.Tests)
+            using (reader)
             {
-                foreach (var sut in test.Systems)
-                    sut.Default = ts.Settings.GetDefault(Settings.SettingsXml.DefaultScope.SystemUnderTest);
-                foreach (var ctr in test.Constraints)
-                    ctr.Default = ts.Settings.GetDefault(Settings.SettingsXml.DefaultScope.Assert);
+                // Use the Deserialize method to restore the object's state.
+                TestSuite = (TestSuiteXml)serializer.Deserialize(reader);
             }
 
-            return ts;
+            //Apply defaults
+            foreach (var test in TestSuite.Tests)
+            {
+                foreach (var sut in test.Systems)
+                {
+                    sut.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.SystemUnderTest);
+                    sut.Settings = TestSuite.Settings;
+                }
+                foreach (var ctr in test.Constraints)
+                {
+                    ctr.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.Assert);
+                }
+            }
         }
 
         public void Persist(string filename, TestSuiteXml testSuite)

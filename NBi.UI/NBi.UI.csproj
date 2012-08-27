@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Configuration\ConnectionString.cs" />
     <Compile Include="Configuration\ConnectionStringCollection.cs" />
     <Compile Include="Configuration\DirectoryCollection.cs" />

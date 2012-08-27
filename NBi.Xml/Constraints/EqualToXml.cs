@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core;
@@ -12,65 +11,6 @@ namespace NBi.Xml.Constraints
 {
     public class EqualToXml : AbstractConstraintXml
     {
-        [XmlAttribute("resultSet-file")]
-        public string ResultSetFile { get; set; }
-
-        [XmlAttribute("query-file")]
-        public string QueryFile { get; set; }
-
-        [XmlAttribute("connectionString")]
-        public string ConnectionString { get; set; }
-
-        [XmlAttribute("connectionString-ref")]
-        public string ConnectionStringReference { get; set; }
-
-        [XmlText]
-        public string InlineQuery { get; set; }
-
-        private string _query;
-
-        public string GetQuery()
-        {
-            //if Sql is specified then return it
-            if (!string.IsNullOrEmpty(InlineQuery))
-                return InlineQuery;
-
-            //Else read the file's content (if local varaible not populated)
-            if (!string.IsNullOrEmpty(QueryFile))
-            {
-                if (string.IsNullOrEmpty(_query))
-                    _query = File.ReadAllText(QueryFile);
-                return _query;
-            }
-
-            //Else use the QueryXml object
-            if (Query != null)
-            {
-                return Query.GetQuery();
-            }
-
-            return null;
-        }
-
-        public string GetConnectionString()
-        {
-            //if ConnectionString is specified then return it
-            if (!string.IsNullOrEmpty(ConnectionString))
-                return ConnectionString;
-
-            //Else use the QueryXml object
-            if (Query != null)
-            {
-                return Query.ConnectionString;
-            }
-
-            //Else use the default value
-            if (!string.IsNullOrEmpty(Default.ConnectionString))
-                return Default.ConnectionString;
-
-            return null;
-        }
-
         [XmlElement("resultSet")]
         public ResultSetXml ResultSet { get; set; }
 
@@ -118,21 +58,22 @@ namespace NBi.Xml.Constraints
             }
         }
 
+        [XmlAttribute("persistance")]
+        public PersistanceChoice Persistance;
+
         public ResultSetComparisonSettings GetSettings()
         {
-            System.Console.WriteLine(ColumnsDef.Count);
-            System.Console.WriteLine(_columnsDef.Count);
             return new ResultSetComparisonSettings(KeysDef, ValuesDef, Tolerance, ColumnsDef);
         }
 
         public IDbCommand GetCommand()
         {
-            if (string.IsNullOrEmpty(GetQuery()))
+            if (Query==null)
                 return null;
 
-            var conn = ConnectionFactory.Get(GetConnectionString());
+            var conn = ConnectionFactory.Get(Query.GetConnectionString());
             var cmd = conn.CreateCommand();
-            cmd.CommandText = GetQuery();
+            cmd.CommandText = Query.GetQuery();
 
             return cmd;
         }

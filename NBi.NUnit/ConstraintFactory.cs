@@ -13,7 +13,7 @@ namespace NBi.NUnit
         {
             Constraint ctr = null;
             
-            if (xml.GetType() == typeof(EqualToXml)) ctr = Instantiate((EqualToXml)xml);
+            if (xml.GetType() == typeof(EqualToXml)) ctr = Instantiate((EqualToXml)xml, systemType);
             if (xml.GetType() == typeof(FasterThanXml)) ctr = Instantiate((FasterThanXml)xml);
             if (xml.GetType() == typeof(SyntacticallyCorrectXml)) ctr = Instantiate((SyntacticallyCorrectXml)xml);
             if (xml.GetType() == typeof(CountXml)) ctr = Instantiate((CountXml)xml);

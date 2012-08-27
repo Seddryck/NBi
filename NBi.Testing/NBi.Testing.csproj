@@ -83,6 +83,11 @@
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvWriterTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbReaderTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbWriterTest.cs" />
+    <Compile Include="Unit\Core\Assemblies\AssemblyManagerTest.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\StaticKlass.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\Enumeration.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\Klass.cs" />
+    <Compile Include="Unit\Core\Assemblies\TypeConverterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\DataRowBasedResultSetComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetComparisonSettingsTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetCsvReaderTest.cs" />

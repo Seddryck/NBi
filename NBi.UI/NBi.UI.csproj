@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{18ED64E4-7D72-4A2C-9CD8-46F732D287ED}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NBi.UI</RootNamespace>
+    <AssemblyName>NBi.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration\ConnectionString.cs" />
+    <Compile Include="Configuration\ConnectionStringCollection.cs" />
+    <Compile Include="Configuration\DirectoryCollection.cs" />
+    <Compile Include="Configuration\Directory.cs" />
+    <Compile Include="FindMeasures.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FindMeasures.Designer.cs">
+      <DependentUpon>FindMeasures.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MetadataExtract.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MetadataExtract.Designer.cs">
+      <DependentUpon>MetadataExtract.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MetadataSave.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MetadataSave.Designer.cs">
+      <DependentUpon>MetadataSave.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MetadataTreeview.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NUnit\NUnitLauncher.cs" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Compile Include="Program.cs" />
+    <Compile Include="Configuration\Project.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MetadataOpen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MetadataOpen.Designer.cs">
+      <DependentUpon>MetadataOpen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ResultSetCreate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResultSetCreate.Designer.cs">
+      <DependentUpon>ResultSetCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TestSuiteCreate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TestSuiteCreate.Designer.cs">
+      <DependentUpon>TestSuiteCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TreeviewStrcuture.cs" />
+    <EmbeddedResource Include="FindMeasures.resx">
+      <DependentUpon>FindMeasures.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MetadataExtract.resx">
+      <DependentUpon>MetadataExtract.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MetadataSave.resx">
+      <DependentUpon>MetadataSave.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="MetadataOpen.resx">
+      <DependentUpon>MetadataOpen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResultSetCreate.resx">
+      <DependentUpon>ResultSetCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TestSuiteCreate.resx">
+      <DependentUpon>TestSuiteCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="MyProject.nbi">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
+      <Project>{3F730647-FE31-4907-8A6E-A0C4A0C970EA}</Project>
+      <Name>NBi.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NBi.NUnit.Runtime\NBi.NUnit.Runtime.csproj">
+      <Project>{5AA137A9-C158-4A4F-B07D-3DF787618C24}</Project>
+      <Name>NBi.NUnit.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
+      <Project>{3A9822B3-CCE4-441B-9C3E-D52817A994CA}</Project>
+      <Name>NBi.Xml</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /Y /S /I "$(ProjectDir)..\packages\NUnit.Runners.2.6.1\tools" "$(TargetDir)NUnit.Runners"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

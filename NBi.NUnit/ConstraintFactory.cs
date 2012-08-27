@@ -11,14 +11,24 @@ namespace NBi.NUnit
     {
         public static Constraint Instantiate(AbstractConstraintXml xml, Type systemType)
         {
-            if (xml.GetType() == typeof(EqualToXml)) return Instantiate((EqualToXml)xml);
-            if (xml.GetType() == typeof(FasterThanXml)) return Instantiate((FasterThanXml)xml);
-            if (xml.GetType() == typeof(SyntacticallyCorrectXml)) return Instantiate((SyntacticallyCorrectXml)xml);
-            if (xml.GetType() == typeof(CountXml)) return Instantiate((CountXml)xml);
-            if (xml.GetType() == typeof(ContainsXml)) return Instantiate((ContainsXml)xml, systemType);
-            if (xml.GetType() == typeof(OrderedXml)) return Instantiate((OrderedXml)xml);
+            Constraint ctr = null;
+            
+            if (xml.GetType() == typeof(EqualToXml)) ctr = Instantiate((EqualToXml)xml);
+            if (xml.GetType() == typeof(FasterThanXml)) ctr = Instantiate((FasterThanXml)xml);
+            if (xml.GetType() == typeof(SyntacticallyCorrectXml)) ctr = Instantiate((SyntacticallyCorrectXml)xml);
+            if (xml.GetType() == typeof(CountXml)) ctr = Instantiate((CountXml)xml);
+            if (xml.GetType() == typeof(ContainsXml)) ctr = Instantiate((ContainsXml)xml, systemType);
+            if (xml.GetType() == typeof(OrderedXml)) ctr = Instantiate((OrderedXml)xml);
 
-            throw new ArgumentException(string.Format("{0} is not an expected type for a constraint.",xml.GetType().Name));
+            //If not handled by a constructore
+            if (ctr==null)
+                throw new ArgumentException(string.Format("{0} is not an expected type for a constraint.",xml.GetType().Name));
+
+            //Apply negation if needed
+            if (xml.Not)
+                ctr = new NotConstraint(ctr);
+
+            return ctr;
         }
         
         protected static EqualToConstraint Instantiate(EqualToXml xml)
@@ -123,34 +133,46 @@ namespace NBi.NUnit
 
         protected static Constraint Instantiate(ContainsXml xml, Type systemType)
         {
-
+            Constraint ctr = null;
             if (systemType == typeof(StructureXml))
-                return InstantiateForStructure(xml);
+                ctr = InstantiateForStructure(xml);
             if (systemType == typeof(MembersXml))
-                return InstantiateForMember(xml);
+                ctr = InstantiateForMember(xml);
 
-            throw new ArgumentException(string.Format("'{0}' is not an expected type for a system when instantiating a '{1}' constraint.", systemType.Name, xml.GetType().Name));
+            if (ctr==null)
+                throw new ArgumentException(string.Format("'{0}' is not an expected type for a system when instantiating a '{1}' constraint.", systemType.Name, xml.GetType().Name));
+
+            return ctr;
         }
 
-        private static NBi.NUnit.Structure.ContainsConstraint InstantiateForStructure(ContainsXml xml)
+        private static Constraint InstantiateForStructure(ContainsXml xml)
         {
             NBi.NUnit.Structure.ContainsConstraint ctr=null;
 
             if (xml.Specification.IsDisplayFolderSpecified)
-                ctr = new NBi.NUnit.Structure.ContainsConstraint(new FieldWithDisplayFolder() { Caption = xml.Caption, DisplayFolder = xml.DisplayFolder });
+            {
+                ctr = new NBi.NUnit.Structure.ContainsConstraint(
+                    new FieldWithDisplayFolder()
+                    {
+                        Caption = xml.Caption,
+                        DisplayFolder = xml.DisplayFolder
+                    });
+            }
             else
                 ctr = new NBi.NUnit.Structure.ContainsConstraint(xml.Caption);
 
+            //Ignore-case if requested
             if (xml.IgnoreCase)
                 ctr = ctr.IgnoreCase;
 
             return ctr;
         }
 
-        private static NBi.NUnit.Member.ContainsConstraint InstantiateForMember(ContainsXml xml)
+        private static Constraint InstantiateForMember(ContainsXml xml)
         {
             var ctr = new NBi.NUnit.Member.ContainsConstraint(xml.Caption);
 
+            //Ignore-case if requested
             if (xml.IgnoreCase)
                 ctr = ctr.IgnoreCase;
 

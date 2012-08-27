@@ -46,8 +46,6 @@ namespace NBi.Testing.Unit.Xml
 
         protected TestSuiteXml DeserializeSample()
         {
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            XmlSerializer serializer = new XmlSerializer(typeof(TestSuiteXml));
             // Declare an object variable of the type to be deserialized.
             TestSuiteXml ts;
 
@@ -56,8 +54,9 @@ namespace NBi.Testing.Unit.Xml
                                            .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.TestSuiteQuery.xml"))
             using (StreamReader reader = new StreamReader(stream))
             {
+                var manager = new XmlManager();
                 // Use the Deserialize method to restore the object's state.
-                ts = (TestSuiteXml)serializer.Deserialize(reader);
+                ts = manager.Read(reader);
             }
             return ts;
         }

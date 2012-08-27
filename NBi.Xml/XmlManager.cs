@@ -19,23 +19,31 @@ namespace NBi.Xml
             if (!this.Validate(filename))
                 throw new ArgumentException("The test suite is not valid. Check with the XSD");
 
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            XmlSerializer serializer = new XmlSerializer(typeof(TestSuiteXml));
-                        
             using (StreamReader reader = new StreamReader(filename))
             {
-                // Use the Deserialize method to restore the object's state.
-                TestSuite = (TestSuiteXml)serializer.Deserialize(reader);
+                TestSuite = Read(reader);
             }
+                
+        }
+
+        public TestSuiteXml Read(StreamReader reader)
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            XmlSerializer serializer = new XmlSerializer(typeof(TestSuiteXml));
+            
+            // Use the Deserialize method to restore the object's state.
+            var ts = (TestSuiteXml)serializer.Deserialize(reader);
 
             //Apply defaults
-            foreach (var test in TestSuite.Tests)
+            foreach (var test in ts.Tests)
             {
                 foreach (var sut in test.Systems)
-                    sut.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.SystemUnderTest);
+                    sut.Default = ts.Settings.GetDefault(Settings.SettingsXml.DefaultScope.SystemUnderTest);
                 foreach (var ctr in test.Constraints)
-                    ctr.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.Assert);
+                    ctr.Default = ts.Settings.GetDefault(Settings.SettingsXml.DefaultScope.Assert);
             }
+
+            return ts;
         }
 
         public void Persist(string filename, TestSuiteXml testSuite)

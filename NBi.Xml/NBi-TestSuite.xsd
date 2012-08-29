@@ -6,7 +6,7 @@
 				<xs:element name="settings" minOccurs="0" maxOccurs="1">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="default" maxOccurs="1">
+							<xs:element name="default" minOccurs="0" maxOccurs="2">
 								<xs:complexType>
 									<xs:sequence>
 										<xs:element name="connectionString" minOccurs="0" maxOccurs="1">
@@ -26,6 +26,21 @@
 											</xs:restriction>
 										</xs:simpleType>
 									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="reference" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="connectionString" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="name" type="xs:string" use="required"/>
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
@@ -131,10 +146,6 @@
 													</xs:element>
 													<xs:element name="query" type="query-type" minOccurs="0" maxOccurs="1"/>
 												</xs:sequence>
-												<xs:attribute name="resultSet-file" type="xs:string" use="optional" />
-												<xs:attribute name="query-file" type="xs:string" use="optional" />
-												<xs:attribute name="connectionString" type="xs:string" use="optional" />
-												<xs:attribute name="connectionString-ref" type="xs:string" use="optional" />
 												<xs:attribute name="keys" use="optional" >
 													<xs:simpleType>
 														<xs:restriction base="xs:string">
@@ -153,6 +164,15 @@
 													</xs:simpleType>
 												</xs:attribute>
 												<xs:attribute name="tolerance" type="xs:decimal" use="optional" />
+												<xs:attribute name="persistance" use="optional" >
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:enumeration value="never"/>
+															<xs:enumeration value="only-if-failed"/>
+															<xs:enumeration value="always"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
 											</xs:complexType>
 										</xs:element>
 										<xs:element name="syntacticallyCorrect" minOccurs="0">
@@ -249,7 +269,7 @@
 			<xs:element name="assembly" type="assembly-type" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="optional" />
-		<xs:attribute name="query-file" type="xs:string" use="optional" />
+		<xs:attribute name="file" type="xs:string" use="optional" />
 		<xs:attribute name="connectionString" type="xs:string" use="optional" />
 		<xs:attribute name="connectionString-ref" type="xs:string" use="optional" />
 	</xs:complexType>

@@ -37,3 +37,4 @@ _ReSharper*/
 *.user.config
 NUnit.exe.lnk
 NBi.ncrunchsolution
+[Dd]ocumentation*/

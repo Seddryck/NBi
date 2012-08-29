@@ -86,4 +86,16 @@
       </equalTo>
     </assert>
   </test>
+	<test name="equalTo Persistance">
+		<system-under-test>
+			<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+				SELECT TOP 2 * FROM Product;
+			</query>
+		</system-under-test>
+		<assert>
+			<equalTo persistance="only-if-failed">
+				<resultSet file="Query.csv"/>
+			</equalTo>
+		</assert>
+	</test>
 </testSuite>

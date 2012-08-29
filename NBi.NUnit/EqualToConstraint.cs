@@ -10,12 +10,22 @@ namespace NBi.NUnit
 {
     public class EqualToConstraint : NUnitCtr.Constraint
     {
+        
+        
         protected Object expect;
-        protected string persistenceExpectedResultSetFullPath;
-        protected string persistenceActualResultSetFullPath;
 
         protected ResultSet expectedResultSet;
         protected ResultSet actualResultSet;
+
+        [Flags]
+        public enum PersistanceItems
+        {
+            actual =1,
+            expected =2
+        }
+        protected PersistanceItems persistanceItems;
+        protected PersistanceChoice persistanceChoice;
+        protected string filename;
 
         protected ResultSetCompareResult result;
      
@@ -85,16 +95,11 @@ namespace NBi.NUnit
             return this;
         }
 
-        public EqualToConstraint PersistExpectation(string path, string filename)
+        public EqualToConstraint Persist(PersistanceChoice choice, PersistanceItems items, string filename)
         {
-            this.persistenceExpectedResultSetFullPath = Path.Combine(path, filename);
-            return this;
-        }
-
-
-        public EqualToConstraint PersistActual(string path, string filename)
-        {
-            this.persistenceActualResultSetFullPath = Path.Combine(path, filename);
+            this.persistanceChoice = choice;
+            this.filename=filename;
+            this.persistanceItems = items;
             return this;
         }
 
@@ -117,20 +122,28 @@ namespace NBi.NUnit
         protected bool doMatch(ResultSet actual)
         {
             actualResultSet = actual;
-            //Persist actual (if needed)
-            if (!string.IsNullOrEmpty(persistenceActualResultSetFullPath))
-                doPersist(actualResultSet, persistenceActualResultSetFullPath);
-            
+                       
             expectedResultSet = GetResultSet(expect);
-            //Persist expected (if requested)
-            if (!string.IsNullOrEmpty(persistenceExpectedResultSetFullPath))
-                doPersist(expectedResultSet, persistenceExpectedResultSetFullPath);
 
             result = Engine.Compare(actualResultSet, expectedResultSet);
+
+            //  Math.Min for result.Difference limits the value to 1 if we've two non matching resultsets
+            if ((int)persistanceChoice + Math.Min(1,(int)result.Difference) > 1)
+            {
+                if ((persistanceItems & PersistanceItems.expected) == PersistanceItems.expected)
+                    doPersist(expectedResultSet, GetPersistancePath("Expect"));
+                if ((persistanceItems & PersistanceItems.actual) == PersistanceItems.actual)
+                    doPersist(actualResultSet, GetPersistancePath("Actual"));
+            }
 
             return result.Difference == ResultSetDifferenceType.None;
         }
 
+
+        protected string GetPersistancePath(string folder)
+        {
+            return string.Format(@"{0}\{1}", folder, filename);
+        }
         /// <summary>
         /// Handle an IDbCommand (Query and ConnectionString) and check it with the expectation (Another IDbCommand or a ResultSet)
         /// </summary>

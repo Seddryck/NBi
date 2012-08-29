@@ -32,17 +32,12 @@ namespace NBi.Core.ResultSet
 
         public bool IsKey(int index)
         {
-            Console.Write(ColumnsDef.Count);
-            
+           
             if (ColumnsDef.Any( c => c.Index==index && c.Role!=ColumnRole.Key))
                 return false;
             
             if (ColumnsDef.Any( c => c.Index==index && c.Role==ColumnRole.Key))
                 return true;
-
-            Console.Write(KeysDef);
-            Console.Write(index);
-            Console.Write(GetLastColumnIndex());
 
             switch (KeysDef)
 	        {

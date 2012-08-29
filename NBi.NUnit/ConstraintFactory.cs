@@ -13,7 +13,7 @@ namespace NBi.NUnit
         {
             Constraint ctr = null;
             
-            if (xml.GetType() == typeof(EqualToXml)) ctr = Instantiate((EqualToXml)xml);
+            if (xml.GetType() == typeof(EqualToXml)) ctr = Instantiate((EqualToXml)xml, systemType);
             if (xml.GetType() == typeof(FasterThanXml)) ctr = Instantiate((FasterThanXml)xml);
             if (xml.GetType() == typeof(SyntacticallyCorrectXml)) ctr = Instantiate((SyntacticallyCorrectXml)xml);
             if (xml.GetType() == typeof(CountXml)) ctr = Instantiate((CountXml)xml);
@@ -31,29 +31,24 @@ namespace NBi.NUnit
             return ctr;
         }
         
-        protected static EqualToConstraint Instantiate(EqualToXml xml)
+        protected static EqualToConstraint Instantiate(EqualToXml xml, Type systemType)
         {
             EqualToConstraint ctr = null;
             
-            if (!string.IsNullOrEmpty(xml.ResultSetFile))
-            {
-                ctr = new EqualToConstraint(xml.ResultSetFile);
-            }
-            else if (xml.GetCommand() != null)
+            if (xml.GetCommand() != null)
             {
                 ctr = new EqualToConstraint(xml.GetCommand());
             }
             else if (xml.ResultSet != null)
             {
-                Console.WriteLine("Debug: ResultSet defined!");
                 if (!string.IsNullOrEmpty(xml.ResultSet.File))
                 {
-                    Console.WriteLine("Debug: ResultSet.File defined!");
+                    Console.WriteLine("Debug: ResultSet.File defined in external file!");
                     ctr = new EqualToConstraint(xml.ResultSet.File);
                 }
                 else if (xml.ResultSet.Rows!=null)
                 {
-                    Console.WriteLine("Debug: ResultSet.Rows defined!");
+                    Console.WriteLine("Debug: ResultSet defined in embedded resultSet!");
                     ctr = new EqualToConstraint(xml.ResultSet.Rows);
                 }
             }
@@ -69,6 +64,15 @@ namespace NBi.NUnit
                 );
 
             ctr.Using(settings);
+
+            //Manage persistance
+            EqualToConstraint.PersistanceItems persi = 0;
+            if (xml.GetCommand() != null)
+                persi += (int)EqualToConstraint.PersistanceItems.actual;
+            if (systemType == typeof(QueryXml))
+                persi += (int)EqualToConstraint.PersistanceItems.expected;
+            if (!(persi==0 || xml.Query==null || string.IsNullOrEmpty(xml.Query.Name)))
+                ctr.Persist(xml.Persistance, persi, xml.Query.Name);
 
             return ctr;
 

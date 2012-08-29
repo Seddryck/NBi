@@ -1,7 +1,7 @@
-﻿using System.IO;
+﻿
 #region Using directives
 
-using System.Xml.Serialization;
+using System.IO;
 using NBi.Xml;
 using System.Reflection;
 using NBi.Xml.Constraints;
@@ -14,7 +14,7 @@ using NBi.Core.ResultSet;
 namespace NBi.Testing.Unit.Xml
 {
     [TestFixture]
-    public class TestSuiteQueryTest
+    public class DeserializeQueryXmlTest
     {
 
         #region SetUp & TearDown
@@ -47,18 +47,16 @@ namespace NBi.Testing.Unit.Xml
         protected TestSuiteXml DeserializeSample()
         {
             // Declare an object variable of the type to be deserialized.
-            TestSuiteXml ts;
+            var manager = new XmlManager();
 
             // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
                                            .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.TestSuiteQuery.xml"))
             using (StreamReader reader = new StreamReader(stream))
             {
-                var manager = new XmlManager();
-                // Use the Deserialize method to restore the object's state.
-                ts = manager.Read(reader);
+                manager.Read(reader);
             }
-            return ts;
+            return manager.TestSuite;
         }
 
         [Test]
@@ -125,11 +123,11 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Query, Is.TypeOf<QueryXml>());
 
-            var connStr = ((EqualToXml)ts.Tests[testNr].Constraints[0]).GetConnectionString();
+            var connStr = ((EqualToXml)ts.Tests[testNr].Constraints[0]).Query.GetConnectionString();
             Assert.That(connStr, Is.Not.Empty);
             Assert.That(connStr, Contains.Substring("Reference"));
 
-            var query = ((EqualToXml)ts.Tests[testNr].Constraints[0]).GetQuery();
+            var query = ((EqualToXml)ts.Tests[testNr].Constraints[0]).Query.GetQuery();
             Assert.That(query, Is.Not.Empty);
             Assert.That(query, Contains.Substring("Top2Product"));
 
@@ -154,6 +152,19 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Tolerance, Is.EqualTo(100));
 
             
+        }
+
+        [Test]
+        public void DeserializeEqualToQuery_QueryFile6_PersistanceAttributeRead()
+        {
+            int testNr = 6;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Persistance, Is.EqualTo(PersistanceChoice.OnlyIfFailed));
         }
 
     }

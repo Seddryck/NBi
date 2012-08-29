@@ -40,6 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Bases\BaseQueryXml.cs" />
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
     <Compile Include="Constraints\ContainsXml.cs" />
     <Compile Include="Constraints\EqualTo\CellXml.cs" />
@@ -49,7 +53,9 @@
     <Compile Include="Constraints\EqualTo\RowXml.cs" />
     <Compile Include="Constraints\EqualTo\ValueXml.cs" />
     <Compile Include="Constraints\OrderedXml.cs" />
+    <Compile Include="Constraints\EqualTo\QueryXml.cs" />
     <Compile Include="Settings\DefaultXml.cs" />
+    <Compile Include="Settings\ReferenceXml.cs" />
     <Compile Include="Settings\SettingsXml.cs" />
     <Compile Include="Systems\AbstractSystemUnderTestXml.cs" />
     <Compile Include="Constraints\CountXml.cs" />

@@ -43,7 +43,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_EqualToXml_IsOfTypeEqualToConstraint()
         {
-            var ctr = NBiNu.ConstraintFactory.Instantiate(new EqualToXml() { ResultSetFile = "resultset.csv" }, null);
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new EqualToXml() { ResultSet = new ResultSetXml() }, null);
 
             Assert.That(ctr, Is.InstanceOf<NBiNu.EqualToConstraint>());
         }
@@ -51,9 +51,14 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_EqualToXmlWithInlineQuery_IsOfTypeEqualToConstraint()
         {
-            var ctr = NBiNu.ConstraintFactory.Instantiate(new EqualToXml() 
-                { InlineQuery = "SELECT * FROM Product;", 
-                    ConnectionString = "Data Source=.;Initial Catalog='NBi.Testing';Integrated Security=SSPI;"
+            var ctr = NBiNu.ConstraintFactory.Instantiate(
+                new EqualToXml()
+                {
+                    Query = new QueryXml()
+                    {
+                        InlineQuery = "SELECT * FROM Product;",
+                        ConnectionString = "Data Source=.;Initial Catalog='NBi.Testing';Integrated Security=SSPI;"
+                    }
                 }, null);
 
             Assert.That(ctr, Is.InstanceOf<NBiNu.EqualToConstraint>());

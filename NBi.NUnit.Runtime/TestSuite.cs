@@ -21,7 +21,7 @@ namespace NBi.NUnit.Runtime
         public const string DEFAULT_TESTSUITE = "TestSuite.xml";
 
         [Test, TestCaseSource("GetTestCases")]
-        public void ExecuteTestCases(TestXml test)
+        public virtual void ExecuteTestCases(TestXml test)
         {
             Console.Out.WriteLine("Loading TestSuite");
             Console.Out.WriteLine("Test suite defined in " + GetTestSuiteFileDefinition());

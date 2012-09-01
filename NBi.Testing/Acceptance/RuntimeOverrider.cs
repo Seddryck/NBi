@@ -28,6 +28,12 @@ namespace NBi.Testing.Acceptance
             {
                 return @"Acceptance\Resources\" + _filename;
             }
+
+            [Ignore]
+            public override void ExecuteTestCases(TestXml test)
+            {
+                base.ExecuteTestCases(test);
+            }
         }
         
         //By Acceptance Test Suite (file) create a Test Case

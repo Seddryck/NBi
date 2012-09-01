@@ -11,7 +11,7 @@ namespace NBi.Testing.Acceptance
         /// <remarks>Yes I know it's a bit tricky</remarks>
         /// </summary>
         [Test]
-        protected void Run()
+        public void RunAllAcceptanceTests()
         {
             //Define the name of itself
             var assemblyName = @"NBi.Testing.dll";

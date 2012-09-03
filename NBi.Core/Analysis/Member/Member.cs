@@ -56,7 +56,7 @@ namespace NBi.Core.Analysis.Member
                 if (x is Member && y is Member)
                     return internalComparer.Compare(((Member)y).Caption, ((Member)x).Caption);
 
-                throw new Exception();
+                throw new ArgumentException(string.Format("'{0}' and '{1}' cannot be compared with this comparer", x.GetType(), y.GetType()));
             }
         }
     }

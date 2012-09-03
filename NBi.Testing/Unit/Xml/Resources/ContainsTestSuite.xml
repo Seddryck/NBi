@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="hierarchy contains two specific members">
+		<system-under-test>
+			<members path="[dimension].[hierarchy].[level]" children-of="aBc" perspective="Perspective" connectionString="ConnectionString"/>
+		</system-under-test>
+		<assert>
+			<contains
+				ignore-case="true"
+			>
+				<item>alpha</item>
+				<item>beta</item>
+			</contains>
+		</assert>
+	</test>
+	<test name="hierarchy contains all items returned by the unique column of a query">
+		<system-under-test>
+			<members path="[dimension].[hierarchy].[level]" children-of="aBc" perspective="Perspective" connectionString="ConnectionString"/>
+		</system-under-test>
+		<assert>
+			<contains
+				ignore-case="true"
+			>
+				<one-column-query
+						connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True"
+						>
+					SELECT DISTINCT Label FROM Product
+				</one-column-query>
+			</contains>
+		</assert>
+	</test>
+	<test name="hierarchy contains two specific items and all items returned by the unique column of a query ">
+		<system-under-test>
+			<members path="[dimension].[hierarchy].[level]" children-of="aBc" perspective="Perspective" connectionString="ConnectionString"/>
+		</system-under-test>
+		<assert>
+			<contains
+				ignore-case="true"
+			>
+					<item>alpha</item>
+					<item>beta</item>
+					<one-column-query
+						connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True"
+						>
+						SELECT DISTINCT Label FROM Product
+					</one-column-query>
+			</contains>
+		</assert>
+	</test>
+</testSuite>

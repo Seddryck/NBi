@@ -25,12 +25,19 @@ namespace NBi.NUnit.Runtime
         {
             Console.Out.WriteLine("Loading TestSuite");
             Console.Out.WriteLine("Test suite defined in " + GetTestSuiteFileDefinition());
-            foreach (var tc in test.Systems)
+
+            //check if ignore is set to true
+            if (test.Ignore)
+                Assert.Ignore();
+            else
             {
-                foreach (var ctr in test.Constraints)
+                foreach (var tc in test.Systems)
                 {
-                    var nUnitCtr = ConstraintFactory.Instantiate(ctr, tc.GetType());
-                    Assert.That(tc.Instantiate(), nUnitCtr);
+                    foreach (var ctr in test.Constraints)
+                    {
+                        var nUnitCtr = ConstraintFactory.Instantiate(ctr, tc.GetType());
+                        Assert.That(tc.Instantiate(), nUnitCtr);
+                    }
                 }
             }
         }

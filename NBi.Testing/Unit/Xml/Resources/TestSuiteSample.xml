@@ -153,4 +153,13 @@
 			<contains not="true" caption="member"/>
 		</assert>
 	</test>
+	<test name="Ignore attribute" ignore="true">
+		<system-under-test>
+			<members path="[dimension].[hierarchy].[level]" perspective="Perspective" connectionString="ConnectionString"/>
+		</system-under-test>
+		<assert>
+			<contains not="true" caption="member"/>
+		</assert>
+	</test>
+	
 </testSuite>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using NBi.Core.Analysis.Metadata;
 
 namespace NBi.Core.Analysis
 {
@@ -13,53 +12,68 @@ namespace NBi.Core.Analysis
         {
             var pathParser = new PathParser();
             pathParser.Filter = pathParser.GetFilter(command);
-            pathParser.Position = pathParser.GetPosition(command);
+            if (!string.IsNullOrEmpty(command.Path) && command.Path != "[Measures]")
+                pathParser.Position = pathParser.GetPosition(command);
             return pathParser;
         }
 
 
         protected PathFilter GetFilter(DiscoverCommand command)
         {
-            if (string.IsNullOrEmpty(command.Perspective))
-                throw new ArgumentNullException();
-
             var filter = new PathFilter();
             filter.Perspective = command.Perspective;
-            var parts = command.Path.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (command.IsMeasureBased)
+            if (command.Target == DiscoverTarget.Perspectives)
+            {
+                filter.Type = FilterType.Cube;           
+            }
+            else if (command.Target == DiscoverTarget.Measures || command.Target == DiscoverTarget.MeasureGroups)
             {
                 filter.Type = FilterType.Measure;
-                
-                if (parts.Length == 2)
-                    filter.MeasureGroupName = parts[1].Replace("[", "").Replace("]", "");
-                else
-                    throw new ArgumentException("Path for a measure must have two parts!");
+                filter.MeasureGroupName = command.MeasureGroup;
             }
             else
             {
                 filter.Type = FilterType.Dimension;
 
-                if (parts.Length > 0)
-                    filter.DimensionUniqueName = parts[0];
+                string[] parts=null;
+                if (!string.IsNullOrEmpty(command.Path))
+                    parts = command.Path.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
 
-                if (parts.Length > 1)
-                    filter.HierarchyUniqueName = string.Format("{0}.{1}", parts);
-
-                if (parts.Length > 2)
-                    filter.LevelUniqueName = string.Format("{0}.{1}.{2}", parts);
+                switch (command.Target)
+                {
+                    case DiscoverTarget.Hierarchies:
+                        if (parts.Length != 1)
+                            throw new Exception(string.Format("Path '{0}' is not valid for a target 'hierarchies'", command.Path));
+                        filter.DimensionUniqueName = parts[0];
+                        break;
+                    case DiscoverTarget.Levels:
+                        if (parts.Length != 2)
+                            throw new Exception(string.Format("Path '{0}' is not valid for a target 'hierarchies'", command.Path));
+                        filter.DimensionUniqueName = parts[0];
+                        filter.HierarchyUniqueName = parts[0] + "." + parts[1];
+                        break;
+                    default:
+                        break;
+                }
             }
             return filter;
         }
 
         protected PathPosition GetPosition(DiscoverCommand command)
         {
-            var partsCount = command.Path.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries).Count();
+            int partsCount = 0;
+
+            if (string.IsNullOrEmpty(command.Path))
+                partsCount = 0;
+            else
+                partsCount = command.Path.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries).Count();
             return new PathPosition(partsCount);
         }
 
         public enum FilterType
         {
+            Cube = 0,
             Measure = 1,
             Dimension = 2
         };
@@ -84,10 +98,10 @@ namespace NBi.Core.Analysis
         public class PathPosition
         {
             private readonly int currentPos;
-            private string[] displays = new string[] {"dimension", "hierarchy", "level", "property"};
+            private readonly string[] displays = new string[] { "cube", "dimension", "hierarchy", "level", "property" };
             public PathPosition(int partsCount)
 	        {
-                currentPos = partsCount-1;
+                currentPos = partsCount;
 	        }
 
             public string Current { get { return displays[currentPos]; } }

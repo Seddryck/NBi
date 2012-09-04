@@ -112,7 +112,12 @@ namespace NBi.NUnit.Structure
             if (command != null)
             {
                 var pathParser = PathParser.Build(command);
-                if (command.IsMeasureBased)
+
+                if (command.Target == DiscoverTarget.Perspectives)
+                {
+                    writer.WritePredicate(string.Format("On current cube, a perspective with caption"));
+                }
+                else if (command.Target == DiscoverTarget.Measures || command.Target == DiscoverTarget.MeasureGroups)
                 {
                     var displayFolder = (_expected is IFieldWithDisplayFolder) ? string.Format(", in folder \"{0}\", ", ((IFieldWithDisplayFolder)_expected).DisplayFolder) : string.Empty;
                     writer.WritePredicate(string.Format("On perspective \"{0}\", the measuregroup \"{1}\" containing{2}a measure with caption"

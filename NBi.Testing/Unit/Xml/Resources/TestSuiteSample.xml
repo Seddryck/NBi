@@ -89,49 +89,6 @@
 			/>
 		</assert>
 	</test>
-	<test name="hierarchy contains level with caption xyz (explicitely not ignoring case)">
-		<system-under-test>
-			<structure path="[dimension].[hierarchy]" perspective="Perspective" connectionString="ConnectionString"/>
-		</system-under-test>
-		<assert>
-			<contains
-				caption="xYz"
-				ignore-case="true"
-			/>
-		</assert>
-	</test>
-	<test name="MeasureGroup contains a measure named xYz without display folder">
-		<system-under-test>
-			<structure measure-group="MeasureGroupName" perspective="Perspective" connectionString="ConnectionString"/>
-		</system-under-test>
-		<assert>
-			<contains
-				caption="xYz"
-			/>
-		</assert>
-	</test>
-	<test name="MeasureGroup contains a measure named xYz in displayFolder aBc">
-		<system-under-test>
-			<structure measure-group="MeasureGroupName" perspective="Perspective" connectionString="ConnectionString"/>
-		</system-under-test>
-		<assert>
-			<contains
-				caption="xYz"
-				display-folder="aBc"
-			/>
-		</assert>
-	</test>
-	<test name="MeasureGroup contains a measure named xYz in displayFolder root">
-		<system-under-test>
-			<structure measure-group="MeasureGroupName" perspective="Perspective" connectionString="ConnectionString"/>
-		</system-under-test>
-		<assert>
-			<contains
-				caption="xYz"
-				display-folder=""
-			/>
-		</assert>
-	</test>
 	<test name="hierarchy contains member with caption xyz under the element abc at level Level">
 		<system-under-test>
 			<members path="[dimension].[hierarchy].[level]" children-of="aBc" perspective="Perspective" connectionString="ConnectionString"/>

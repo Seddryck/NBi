@@ -15,7 +15,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         public void Matches_GivenMemberCommand_EngineCalledOnceWithParametersComingFromMemberCommand()
         {
             var exp = "Expected member";
-            var mc = new DiscoverCommand(string.Empty) { Path = "[dimension].[hierarchy]"
+            var mc = new DiscoverCommand("ConnectionString") { Path = "[dimension].[hierarchy]"
                                                 , Perspective = "perspective" };
 
             var memberStub = new Mock<NBi.Core.Analysis.Member.Member>();

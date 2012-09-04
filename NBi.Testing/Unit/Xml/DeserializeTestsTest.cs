@@ -210,61 +210,6 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(((ContainsXml)ts.Tests[7].Constraints[0]).IgnoreCase, Is.True);
         }
 
-        [Test]
-        public void Deserialize_SampleFile_StructureContainsCaptionNotIgnoringCaseExplicitely()
-        {
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
-
-            Assert.That(ts.Tests[8].Systems[0], Is.TypeOf<StructureXml>());
-            Assert.That(((StructureXml)ts.Tests[8].Systems[0]).Path, Is.EqualTo("[dimension].[hierarchy]"));
-            Assert.That(((StructureXml)ts.Tests[8].Systems[0]).Perspective, Is.EqualTo("Perspective"));
-            Assert.That(((StructureXml)ts.Tests[8].Systems[0]).ConnectionString, Is.EqualTo("ConnectionString"));
-        }
-
-        [Test]
-        public void Deserialize_SampleFile_StructureWithoutPathButWithMeasureGroup()
-        {
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
-
-            Assert.That(ts.Tests[9].Systems[0], Is.TypeOf<StructureXml>());
-            Assert.That(((StructureXml)ts.Tests[9].Systems[0]).MeasureGroup, Is.EqualTo("MeasureGroupName"));
-            Assert.That(((StructureXml)ts.Tests[9].Systems[0]).Perspective, Is.EqualTo("Perspective"));
-            Assert.That(((StructureXml)ts.Tests[9].Systems[0]).ConnectionString, Is.EqualTo("ConnectionString"));
-        }
-
-        [Test]
-        public void Deserialize_SampleFile_ContainsConstraintWithoutDisplayFolder()
-        {
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
-
-            Assert.That(ts.Tests[9].Constraints[0], Is.TypeOf<ContainsXml>());
-            Assert.That(((ContainsXml)ts.Tests[9].Constraints[0]).Specification.IsDisplayFolderSpecified, Is.False);
-        }
-
-        [Test]
-        public void Deserialize_SampleFile_ContainsConstraintWithDisplayFolder()
-        {
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
-
-            Assert.That(ts.Tests[10].Constraints[0], Is.TypeOf<ContainsXml>());
-            Assert.That(((ContainsXml)ts.Tests[10].Constraints[0]).DisplayFolder, Is.EqualTo("aBc"));
-            Assert.That(((ContainsXml)ts.Tests[11].Constraints[0]).Specification.IsDisplayFolderSpecified, Is.True);
-        }
-
-        [Test]
-        public void Deserialize_SampleFile_ContainsConstraintWithDisplayFolderRoot()
-        {
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
-
-            Assert.That(ts.Tests[11].Constraints[0], Is.TypeOf<ContainsXml>());
-            Assert.That(((ContainsXml)ts.Tests[11].Constraints[0]).DisplayFolder, Is.EqualTo(""));
-            Assert.That(((ContainsXml)ts.Tests[11].Constraints[0]).Specification.IsDisplayFolderSpecified, Is.True);
-        }
 
         [Test]
         public void Deserialize_SampleFile_MembersWithChildrenOf()
@@ -272,9 +217,9 @@ namespace NBi.Testing.Unit.Xml
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[12].Systems[0], Is.TypeOf<MembersXml>());
-            Assert.That(((MembersXml)ts.Tests[12].Systems[0]).Path, Is.EqualTo("[dimension].[hierarchy].[level]"));
-            Assert.That(((MembersXml)ts.Tests[12].Systems[0]).ChildrenOf, Is.EqualTo("aBc"));
+            Assert.That(ts.Tests[8].Systems[0], Is.TypeOf<MembersXml>());
+            Assert.That(((MembersXml)ts.Tests[8].Systems[0]).Path, Is.EqualTo("[dimension].[hierarchy].[level]"));
+            Assert.That(((MembersXml)ts.Tests[8].Systems[0]).ChildrenOf, Is.EqualTo("aBc"));
         }
 
         [Test]
@@ -283,9 +228,9 @@ namespace NBi.Testing.Unit.Xml
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[13].Constraints[0], Is.TypeOf<OrderedXml>());
-            Assert.That(((OrderedXml)ts.Tests[13].Constraints[0]).Rule, Is.EqualTo(OrderedXml.Order.Alphabetical));
-            Assert.That(((OrderedXml)ts.Tests[13].Constraints[0]).Descending, Is.False);
+            Assert.That(ts.Tests[9].Constraints[0], Is.TypeOf<OrderedXml>());
+            Assert.That(((OrderedXml)ts.Tests[9].Constraints[0]).Rule, Is.EqualTo(OrderedXml.Order.Alphabetical));
+            Assert.That(((OrderedXml)ts.Tests[9].Constraints[0]).Descending, Is.False);
         }
 
         [Test]
@@ -294,8 +239,8 @@ namespace NBi.Testing.Unit.Xml
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[14].Constraints[0], Is.TypeOf<OrderedXml>());
-            Assert.That(((OrderedXml)ts.Tests[14].Constraints[0]).Descending, Is.True);
+            Assert.That(ts.Tests[10].Constraints[0], Is.TypeOf<OrderedXml>());
+            Assert.That(((OrderedXml)ts.Tests[10].Constraints[0]).Descending, Is.True);
         }
 
         [Test]
@@ -304,8 +249,8 @@ namespace NBi.Testing.Unit.Xml
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[15].Constraints[0], Is.TypeOf<OrderedXml>());
-            Assert.That(((OrderedXml)ts.Tests[15].Constraints[0]).Rule, Is.EqualTo(OrderedXml.Order.Chronological));
+            Assert.That(ts.Tests[11].Constraints[0], Is.TypeOf<OrderedXml>());
+            Assert.That(((OrderedXml)ts.Tests[11].Constraints[0]).Rule, Is.EqualTo(OrderedXml.Order.Chronological));
         }
 
         [Test]
@@ -314,10 +259,10 @@ namespace NBi.Testing.Unit.Xml
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[16].Constraints[0], Is.TypeOf<OrderedXml>());
-            Assert.That(((OrderedXml)ts.Tests[16].Constraints[0]).Rule, Is.EqualTo(OrderedXml.Order.Specific));
-            Assert.That(((OrderedXml)ts.Tests[16].Constraints[0]).Definition, Has.Count.EqualTo(3));
-            Assert.That(((OrderedXml)ts.Tests[16].Constraints[0]).Definition[0], Is.EqualTo("Leopold"));
+            Assert.That(ts.Tests[12].Constraints[0], Is.TypeOf<OrderedXml>());
+            Assert.That(((OrderedXml)ts.Tests[12].Constraints[0]).Rule, Is.EqualTo(OrderedXml.Order.Specific));
+            Assert.That(((OrderedXml)ts.Tests[12].Constraints[0]).Definition, Has.Count.EqualTo(3));
+            Assert.That(((OrderedXml)ts.Tests[12].Constraints[0]).Definition[0], Is.EqualTo("Leopold"));
         }
 
         [Test]
@@ -326,8 +271,8 @@ namespace NBi.Testing.Unit.Xml
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[17].Constraints[0], Is.TypeOf<ContainsXml>());
-            Assert.That(((ContainsXml)ts.Tests[17].Constraints[0]).Not, Is.EqualTo(true));
+            Assert.That(ts.Tests[13].Constraints[0], Is.TypeOf<ContainsXml>());
+            Assert.That(((ContainsXml)ts.Tests[13].Constraints[0]).Not, Is.EqualTo(true));
         }
     }
 }

@@ -78,7 +78,18 @@
 											<xs:complexType>
 												<xs:simpleContent>
 													<xs:extension base="xs:string">
-														<xs:attribute name="name" type="xs:string" use="optional" />
+														<xs:attribute name="target" use="required" >
+															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:enumeration value="perspectives"/>
+																	<xs:enumeration value="measure-groups"/>
+																	<xs:enumeration value="measures"/>
+																	<xs:enumeration value="dimensions"/>
+																	<xs:enumeration value="hierarchies"/>
+																	<xs:enumeration value="levels"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:attribute>
 														<xs:attribute name="perspective" type="xs:string" use="optional" />
 														<xs:attribute name="path" type="xs:string" use="optional" />
 														<xs:attribute name="measure-group" type="xs:string" use="optional" />

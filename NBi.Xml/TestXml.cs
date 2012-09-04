@@ -13,6 +13,9 @@ namespace NBi.Xml
         [XmlAttribute("uid")]
         public string UniqueIdentifier { get; set; }
 
+        [XmlAttribute("ignore")]
+        public bool Ignore { get; set; }
+
         [XmlAttribute("description")]
         public string Description { get; set; }
 

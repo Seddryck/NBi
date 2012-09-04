@@ -274,5 +274,17 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(ts.Tests[13].Constraints[0], Is.TypeOf<ContainsXml>());
             Assert.That(((ContainsXml)ts.Tests[13].Constraints[0]).Not, Is.EqualTo(true));
         }
+
+        [Test]
+        public void Deserialize_SampleFile_IgnoreAttributeSetToTrue()
+        {
+            int testNr = 14;
+            
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr], Is.TypeOf<TestXml>());
+            Assert.That(ts.Tests[testNr].Ignore, Is.True);
+        }
     }
 }

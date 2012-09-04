@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NBi.Core.Analysis.Metadata
 {
-    public class Perspective
+    public class Perspective : IField
     {
         public string Name { get; private set; }
         public MeasureGroupCollection MeasureGroups { get; private set; }
@@ -34,6 +34,18 @@ namespace NBi.Core.Analysis.Metadata
         public override string ToString()
         {
             return Name.ToString();
+        }
+
+        public string Caption
+        {
+            get
+            {
+                return Name;
+            }
+            set
+            {
+                Name = value;
+            }
         }
     }
 }

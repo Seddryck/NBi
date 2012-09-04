@@ -71,6 +71,11 @@ namespace NBi.Core.Analysis.Metadata
             return Metadata;
         }
 
+        /// <summary>
+        /// Retrieve partial metadata from an Olap cube. The zone of the cube investigated is delimited by the DiscoverCommand parameter
+        /// </summary>
+        /// <param name="command">limit the scope of the metadata's investigation</param>
+        /// <returns>An enumration of fields</returns>
         public IEnumerable<IField> GetPartialMetadata(DiscoverCommand command)
         {
             var pathParser = PathParser.Build(command);
@@ -79,8 +84,14 @@ namespace NBi.Core.Analysis.Metadata
             Console.Out.WriteLine(filter.Type);
             Console.Out.WriteLine(command.Path);
 
-            if (filter.Type == PathParser.FilterType.Dimension)
+            if (filter.Type == PathParser.FilterType.Cube)
             {
+                GetPerspectives(filter);
+                return Metadata.Perspectives.Values.AsEnumerable<IField>();
+            }
+            else if (filter.Type == PathParser.FilterType.Dimension)
+            {
+                //TODO Should Not Apply all the GetMethods but only these which will be helpfull
                 GetPerspectives(filter);
                 GetDimensions(filter);
                 GetHierarchies(filter);
@@ -114,7 +125,11 @@ namespace NBi.Core.Analysis.Metadata
                 GetDimensionUsage(filter);
                 GetMeasures(filter);
 
-                return Metadata.Perspectives[filter.Perspective]
+                if (string.IsNullOrEmpty(filter.MeasureGroupName))
+                    return Metadata.Perspectives[filter.Perspective]
+                        .MeasureGroups.Values.AsEnumerable<IField>();
+                else
+                    return Metadata.Perspectives[filter.Perspective]
                         .MeasureGroups[filter.MeasureGroupName]
                         .Measures.Values.AsEnumerable<IField>();
             }

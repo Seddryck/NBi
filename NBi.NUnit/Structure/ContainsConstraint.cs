@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using NBi.Core;
 using NBi.Core.Analysis;
+using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Metadata;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
@@ -15,7 +16,7 @@ namespace NBi.NUnit.Structure
         protected string expectedCaption;
         protected string expectedDisplayFolder;
         protected IComparer comparer;
-        protected DiscoverCommand command;
+        protected DiscoveryCommand command;
         protected IMetadataExtractor _metadataExtractor;
         
         /// <summary>
@@ -79,8 +80,8 @@ namespace NBi.NUnit.Structure
 
         public override bool Matches(object actual)
         {
-            if (actual is DiscoverCommand)
-                return Process((DiscoverCommand)actual);
+            if (actual is DiscoveryCommand)
+                return Process((DiscoveryCommand)actual);
             else
             {
                 base.Using(comparer);
@@ -95,7 +96,7 @@ namespace NBi.NUnit.Structure
         }
 
         
-        protected bool Process(DiscoverCommand actual)
+        protected bool Process(DiscoveryCommand actual)
         {
             command = actual;
             var extr = GetEngine(actual.ConnectionString);
@@ -111,26 +112,24 @@ namespace NBi.NUnit.Structure
         {
             if (command != null)
             {
-                var pathParser = PathParser.Build(command);
-
-                if (command.Target == DiscoverTarget.Perspectives)
+                if (command.Target == DiscoveryTarget.Perspectives)
                 {
                     writer.WritePredicate(string.Format("On current cube, a perspective with caption"));
                 }
-                else if (command.Target == DiscoverTarget.Measures || command.Target == DiscoverTarget.MeasureGroups)
+                else if (command.Target == DiscoveryTarget.Measures)//TODO || command.Target == DiscoveryTarget.MeasureGroups)
                 {
                     var displayFolder = (_expected is IFieldWithDisplayFolder) ? string.Format(", in folder \"{0}\", ", ((IFieldWithDisplayFolder)_expected).DisplayFolder) : string.Empty;
                     writer.WritePredicate(string.Format("On perspective \"{0}\", the measuregroup \"{1}\" containing{2}a measure with caption"
-                                                                               , pathParser.Filter.Perspective
-                                                                               , pathParser.Filter.MeasureGroupName
+                                                                               , command.Filter.Perspective
+                                                                               , command.Filter.MeasureGroupName
                                                                                , displayFolder));
                 }
                 else
                     writer.WritePredicate(string.Format("On perspective \"{0}\", a {1} identified by \"{2}\" containing a {3} with caption"
-                                                            , pathParser.Filter.Perspective
-                                                            , pathParser.Position.Current
-                                                            , command.Path
-                                                            , pathParser.Position.Next));
+                                                            , ((PathDiscoveryCommand)command).Filter.Perspective
+                                                            , ((PathDiscoveryCommand)command).GetDepthName()
+                                                            , ((PathDiscoveryCommand)command).Path
+                                                            , ((PathDiscoveryCommand)command).GetNextDepthName()));
                 writer.WriteExpectedValue(expectedCaption);
             }
             else

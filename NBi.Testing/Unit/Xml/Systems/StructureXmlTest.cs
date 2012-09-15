@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using NBi.Core.Analysis;
+using NBi.Core.Analysis.Discovery;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 #endregion
@@ -45,38 +46,15 @@ namespace NBi.Testing.Unit.Xml.Systems
             //Buiding object used during test
             var xml = new StructureXml();
             xml.Target=DiscoverTarget.Perspectives;
+            xml.ConnectionString = "ConnectionString";
 
             //Call the method to test
             var actual = xml.Instantiate();
 
             //Assertion
-            Assert.That(actual, Is.InstanceOfType<DiscoverCommand>());
+            Assert.That(actual, Is.InstanceOfType<DiscoveryCommand>());
         }
-
-        [Test]
-        public void Instantiate_IncorrectPerspectiveTargetWithPerspectiveSpecified_ThrowException()
-        {
-            //Buiding object used during test
-            var xml = new StructureXml();
-            xml.Target = DiscoverTarget.Perspectives;
-            xml.Perspective = "Perspective";
-
-            //Assertion
-            Assert.Throws<Exception>(delegate {xml.Instantiate();});
-        }
-
-        [Test]
-        public void Instantiate_IncorrectPerspectiveTargetWithPathSpecified_ThrowException()
-        {
-            //Buiding object used during test
-            var xml = new StructureXml();
-            xml.Target = DiscoverTarget.Perspectives;
-            xml.Path = "Path";
-
-            //Assertion
-            Assert.Throws<Exception>(delegate { xml.Instantiate(); });
-        }
-
+        
         //**********************
         //       Measure-Group
         //**********************
@@ -88,49 +66,25 @@ namespace NBi.Testing.Unit.Xml.Systems
             var xml = new StructureXml();
             xml.Target = DiscoverTarget.MeasureGroups;
             xml.Perspective = "Perspective";
+            xml.ConnectionString = "ConnectionString";
 
             //Call the method to test
             var actual = xml.Instantiate();
 
             //Assertion
-            Assert.That(actual, Is.InstanceOfType<DiscoverCommand>());
+            Assert.That(actual, Is.InstanceOfType<DiscoveryCommand>());
         }
-
-        [Test]
-        public void Instantiate_IncorrectMeasureGroupTargetWithMeasureGroupSpecified_ThrowException()
-        {
-            //Buiding object used during test
-            var xml = new StructureXml();
-            xml.Target = DiscoverTarget.MeasureGroups;
-            xml.Perspective = "Perspective";
-            xml.MeasureGroup = "MeasureGroup";
-
-            //Assertion
-            Assert.Throws<Exception>(delegate { xml.Instantiate(); });
-        }
-
-        [Test]
-        public void Instantiate_IncorrectMeasureGroupTargetWithPathSpecified_ThrowException()
-        {
-            //Buiding object used during test
-            var xml = new StructureXml();
-            xml.Target = DiscoverTarget.MeasureGroups;
-            xml.Perspective = "Perspective";
-            xml.Path = "Path";
-
-            //Assertion
-            Assert.Throws<Exception>(delegate { xml.Instantiate(); });
-        }
-
+        
         [Test]
         public void Instantiate_IncorrectMeasureGroupTargetWithoutPerspective_ThrowException()
         {
             //Buiding object used during test
             var xml = new StructureXml();
             xml.Target = DiscoverTarget.MeasureGroups;
+            xml.ConnectionString = "ConnectionString";
 
             //Assertion
-            Assert.Throws<Exception>(delegate { xml.Instantiate(); });
+            Assert.Throws<DiscoveryFactoryException>(delegate { xml.Instantiate(); });
         }
 
         //**********************
@@ -143,6 +97,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             //Buiding object used during test
             var xml = new StructureXml();
             xml.Target = DiscoverTarget.Measures;
+            xml.ConnectionString = "ConnectionString";
             xml.Perspective = "Perspective";
             xml.MeasureGroup = "MeasureGroup";
 
@@ -150,36 +105,20 @@ namespace NBi.Testing.Unit.Xml.Systems
             var actual = xml.Instantiate();
 
             //Assertion
-            Assert.That(actual, Is.InstanceOfType<DiscoverCommand>());
+            Assert.That(actual, Is.InstanceOfType<DiscoveryCommand>());
         }
 
         [Test]
-        public void Instantiate_CorrectMeasureTargetWithoutMeasureGroup_Success()
+        public void Instantiate_CorrectMeasureTargetWithoutMeasureGroup_ThrowException()
         {
             //Buiding object used during test
             var xml = new StructureXml();
             xml.Target = DiscoverTarget.Measures;
+            xml.ConnectionString = "ConnectionString";
             xml.Perspective = "Perspective";
-
-            //Call the method to test
-            var actual = xml.Instantiate();
-
+            
             //Assertion
-            Assert.That(actual, Is.InstanceOfType<DiscoverCommand>());
-        }
-
-        
-        [Test]
-        public void Instantiate_IncorrectMeasureTargetWithPathSpecified_ThrowException()
-        {
-            //Buiding object used during test
-            var xml = new StructureXml();
-            xml.Target = DiscoverTarget.Measures;
-            xml.Perspective = "Perspective";
-            xml.Path = "Path";
-
-            //Assertion
-            Assert.Throws<Exception>(delegate { xml.Instantiate(); });
+            Assert.Throws<DiscoveryFactoryException>(delegate { xml.Instantiate(); });
         }
 
         [Test]
@@ -188,9 +127,11 @@ namespace NBi.Testing.Unit.Xml.Systems
             //Buiding object used during test
             var xml = new StructureXml();
             xml.Target = DiscoverTarget.Measures;
+            xml.ConnectionString = "ConnectionString";
+            xml.MeasureGroup = "measure-group";
 
             //Assertion
-            Assert.Throws<Exception>(delegate { xml.Instantiate(); });
+            Assert.Throws<DiscoveryFactoryException>(delegate { xml.Instantiate(); });
         }
 
         //**********************
@@ -202,6 +143,7 @@ namespace NBi.Testing.Unit.Xml.Systems
         {
             //Buiding object used during test
             var xml = new StructureXml();
+            xml.ConnectionString = "ConnectionString";
             xml.Target = DiscoverTarget.Dimensions;
             xml.Perspective = "Perspective";
 
@@ -209,21 +151,9 @@ namespace NBi.Testing.Unit.Xml.Systems
             var actual = xml.Instantiate();
 
             //Assertion
-            Assert.That(actual, Is.InstanceOfType<DiscoverCommand>());
+            Assert.That(actual, Is.InstanceOfType<DiscoveryCommand>());
         }
 
-        [Test]
-        public void Instantiate_IncorrectDimensionTargetWithPathSpecified_ThrowException()
-        {
-            //Buiding object used during test
-            var xml = new StructureXml();
-            xml.Target = DiscoverTarget.Dimensions;
-            xml.Perspective = "Perspective";
-            xml.Path = "Path";
-
-            //Assertion
-            Assert.Throws<Exception>(delegate { xml.Instantiate(); });
-        }
 
         [Test]
         public void Instantiate_IncorrectDimensionTargetWithoutPerspective_ThrowException()
@@ -231,9 +161,10 @@ namespace NBi.Testing.Unit.Xml.Systems
             //Buiding object used during test
             var xml = new StructureXml();
             xml.Target = DiscoverTarget.Dimensions;
+            xml.ConnectionString = "ConnectionString";
 
             //Assertion
-            Assert.Throws<Exception>(delegate { xml.Instantiate(); });
+            Assert.Throws<DiscoveryFactoryException>(delegate { xml.Instantiate(); });
         }
 
         //**********************
@@ -246,6 +177,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             //Buiding object used during test
             var xml = new StructureXml();
             xml.Target = DiscoverTarget.Hierarchies;
+            xml.ConnectionString = "ConnectionString";
             xml.Perspective = "Perspective";
             xml.Path = "[dimension]";
 
@@ -253,7 +185,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             var actual = xml.Instantiate();
 
             //Assertion
-            Assert.That(actual, Is.InstanceOfType<DiscoverCommand>());
+            Assert.That(actual, Is.InstanceOfType<DiscoveryCommand>());
         }
 
         [Test]
@@ -263,9 +195,10 @@ namespace NBi.Testing.Unit.Xml.Systems
             var xml = new StructureXml();
             xml.Target = DiscoverTarget.Hierarchies;
             xml.Perspective = "Perspective";
+            xml.ConnectionString = "ConnectionString";
 
             //Assertion
-            Assert.Throws<Exception>(delegate { xml.Instantiate(); });
+            Assert.Throws<DiscoveryFactoryException>(delegate { xml.Instantiate(); });
         }
 
         [Test]
@@ -274,10 +207,11 @@ namespace NBi.Testing.Unit.Xml.Systems
             //Buiding object used during test
             var xml = new StructureXml();
             xml.Target = DiscoverTarget.Hierarchies;
+            xml.ConnectionString = "ConnectionString";
             xml.Path = "[dimension]";
 
             //Assertion
-            Assert.Throws<Exception>(delegate { xml.Instantiate(); });
+            Assert.Throws<DiscoveryFactoryException>(delegate { xml.Instantiate(); });
         }
 
         //**********************
@@ -291,13 +225,14 @@ namespace NBi.Testing.Unit.Xml.Systems
             var xml = new StructureXml();
             xml.Target = DiscoverTarget.Levels;
             xml.Perspective = "Perspective";
+            xml.ConnectionString = "ConnectionString";
             xml.Path = "[dimension].[hierarchy]";
 
             //Call the method to test
             var actual = xml.Instantiate();
 
             //Assertion
-            Assert.That(actual, Is.InstanceOfType<DiscoverCommand>());
+            Assert.That(actual, Is.InstanceOfType<DiscoveryCommand>());
         }
 
         [Test]
@@ -307,9 +242,10 @@ namespace NBi.Testing.Unit.Xml.Systems
             var xml = new StructureXml();
             xml.Target = DiscoverTarget.Levels;
             xml.Perspective = "Perspective";
+            xml.ConnectionString = "ConnectionString";
 
             //Assertion
-            Assert.Throws<Exception>(delegate { xml.Instantiate(); });
+            Assert.Throws<DiscoveryFactoryException>(delegate { xml.Instantiate(); });
         }
 
         [Test]
@@ -319,9 +255,10 @@ namespace NBi.Testing.Unit.Xml.Systems
             var xml = new StructureXml();
             xml.Target = DiscoverTarget.Levels;
             xml.Path = "[dimension].[hierarchy]";
+            xml.ConnectionString = "ConnectionString";
 
             //Assertion
-            Assert.Throws<Exception>(delegate { xml.Instantiate(); });
+            Assert.Throws<DiscoveryFactoryException>(delegate { xml.Instantiate(); });
         }
 
     }

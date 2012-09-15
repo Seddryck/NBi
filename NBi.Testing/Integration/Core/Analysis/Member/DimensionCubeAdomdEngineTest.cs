@@ -1,4 +1,4 @@
-﻿using NBi.Core.Analysis;
+﻿using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Member;
 using NUnit.Framework;
 
@@ -10,30 +10,30 @@ namespace NBi.Testing.Integration.Core.Analysis.Member
         [Test]
         public void GetMembers_ExistingDimension_ListOfMembers()
         {
-            var connString = ConnectionStringReader.GetAdomd();
-            var disco = new DiscoverCommand(connString);
-            disco.Path = "[Date].[Calendar].[Calendar Year]";
-            disco.Function = "members";
+            var disco = DiscoveryFactory.BuildForMembers(
+                ConnectionStringReader.GetAdomd(),
+                "Adventure Works",
+                "[Date].[Calendar].[Calendar Year]");
 
             var engine = new DimensionCubeAdomdEngine();
             var res = engine.Execute(disco);
 
-            Assert.That(res.Count, Is.EqualTo(5));
+            Assert.That(res.Count, Is.EqualTo(5)); //years
         }
 
         [Test]
         public void GetMembers_ExistingLevelChildren_ListOfMembers()
         {
-            var connString = ConnectionStringReader.GetAdomd();
-            var disco = new DiscoverCommand(connString);
-            disco.Path = "[Date].[Calendar].[Calendar Year].[CY 2003]";
-            disco.Function = "children";
-            disco.Perspective = "Adventure Works";
+            var disco = DiscoveryFactory.BuildForMembers(
+                ConnectionStringReader.GetAdomd(),
+                "Adventure Works",
+                "[Date].[Calendar].[Calendar Year]",
+                "CY 2003");
 
             var engine = new DimensionCubeAdomdEngine();
             var res = engine.Execute(disco);
 
-            Assert.That(res.Count, Is.EqualTo(2));
+            Assert.That(res.Count, Is.EqualTo(2)); //Semesters
         }
     }
 }

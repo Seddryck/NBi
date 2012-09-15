@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AnalysisServices.AdomdClient;
 using System.Linq;
+using NBi.Core.Analysis.Discovery;
 
 namespace NBi.Core.Analysis.Metadata
 {
@@ -9,6 +10,6 @@ namespace NBi.Core.Analysis.Metadata
     {
         CubeMetadata GetFullMetadata();
 
-        IEnumerable<IField> GetPartialMetadata(DiscoverCommand command);
+        IEnumerable<IField> GetPartialMetadata(DiscoveryCommand command);
     }
 }

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections;
-using NUnitCtr = NUnit.Framework.Constraints;
-using NBi.Core.Analysis;
+using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Member;
-using NBi.Core.Analysis.Metadata;
+using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
 {
@@ -27,7 +26,7 @@ namespace NBi.NUnit.Member
 
         private NUnitCtr.Constraint internalConstraint;
 
-        protected DiscoverCommand command;
+        protected MembersDiscoveryCommand command;
         protected IDiscoverMemberEngine memberEngine;
 
         /// <summary>
@@ -103,15 +102,15 @@ namespace NBi.NUnit.Member
 
         public override bool Matches(object actual)
         {
-            if (actual is DiscoverCommand)
-                return Process((DiscoverCommand)actual);
+            if (actual is MembersDiscoveryCommand)
+                return Process((MembersDiscoveryCommand)actual);
             if (actual is ICollection)
                 return Matches((ICollection)actual);
 
             return false;
         }
 
-        protected bool Process(DiscoverCommand actual)
+        protected bool Process(MembersDiscoveryCommand actual)
         {
             command = actual;
             var extr = GetEngine();

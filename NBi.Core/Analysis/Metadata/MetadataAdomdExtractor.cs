@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.AnalysisServices.AdomdClient;
 using System.Linq;
+using NBi.Core.Analysis.Discovery;
 
 namespace NBi.Core.Analysis.Metadata
 {
@@ -57,13 +58,13 @@ namespace NBi.Core.Analysis.Metadata
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Starting investigation ..."));
 
-            GetPerspectives(PathParser.PathFilter.EmptyFilter());
-            GetDimensions(PathParser.PathFilter.EmptyFilter());
-            GetHierarchies(PathParser.PathFilter.EmptyFilter());
-            GetLevels(PathParser.PathFilter.EmptyFilter());
-            GetProperties(PathParser.PathFilter.EmptyFilter());
-            GetDimensionUsage(PathParser.PathFilter.EmptyFilter());
-            GetMeasures(PathParser.PathFilter.EmptyFilter());
+            GetPerspectives(Filter.Empty);
+            GetDimensions(Filter.Empty);
+            GetHierarchies(Filter.Empty);
+            GetLevels(Filter.Empty);
+            GetProperties(Filter.Empty);
+            GetDimensionUsage(Filter.Empty);
+            GetMeasures(Filter.Empty);
 
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Cube investigated"));
@@ -76,66 +77,83 @@ namespace NBi.Core.Analysis.Metadata
         /// </summary>
         /// <param name="command">limit the scope of the metadata's investigation</param>
         /// <returns>An enumration of fields</returns>
-        public IEnumerable<IField> GetPartialMetadata(DiscoverCommand command)
+        public IEnumerable<IField> GetPartialMetadata(DiscoveryCommand command)
         {
-            var pathParser = PathParser.Build(command);
-            
-            var filter = pathParser.Filter;
-            Console.Out.WriteLine(filter.Type);
-            Console.Out.WriteLine(command.Path);
+            var filter = command.Filter;
+            var depthController = command.Depth;
+            Console.Out.WriteLine(filter);
 
-            if (filter.Type == PathParser.FilterType.Cube)
-            {
+            //Execute the discovery command
+            //the depthController ensure we don't go too through in the discovery
+            if (depthController.Perspectives)
                 GetPerspectives(filter);
-                return Metadata.Perspectives.Values.AsEnumerable<IField>();
-            }
-            else if (filter.Type == PathParser.FilterType.Dimension)
-            {
-                //TODO Should Not Apply all the GetMethods but only these which will be helpfull
-                GetPerspectives(filter);
+            if (depthController.Dimensions)
                 GetDimensions(filter);
+            if (depthController.Hierarchies)
                 GetHierarchies(filter);
+            if (depthController.Levels)
                 GetLevels(filter);
-                GetProperties(filter);
-
-                if (string.IsNullOrEmpty(filter.DimensionUniqueName))
-                    return Metadata.Perspectives[filter.Perspective]
-                        .Dimensions.Values.AsEnumerable<IField>();
-                else if (string.IsNullOrEmpty(filter.HierarchyUniqueName))
-                    return Metadata.Perspectives[filter.Perspective]
-                        .Dimensions[filter.DimensionUniqueName]
-                        .Hierarchies.Values.AsEnumerable<IField>();
-                else if (string.IsNullOrEmpty(filter.LevelUniqueName))
-                    return Metadata.Perspectives[filter.Perspective]
-                        .Dimensions[filter.DimensionUniqueName]
-                        .Hierarchies[filter.HierarchyUniqueName]
-                        .Levels.Values.AsEnumerable<IField>();
-                else
-                    return Metadata.Perspectives[filter.Perspective]
-                        .Dimensions[filter.DimensionUniqueName]
-                        .Hierarchies[filter.HierarchyUniqueName]
-                        .Levels[filter.LevelUniqueName]
-                        .Properties.Values.AsEnumerable<IField>();
-            }
-            else
-            {
-                Console.Out.WriteLine(filter.MeasureGroupName);
-                
-                GetPerspectives(filter);
+            if (depthController.MeasureGroups)
                 GetDimensionUsage(filter);
+            if (depthController.Measures)
                 GetMeasures(filter);
 
-                if (string.IsNullOrEmpty(filter.MeasureGroupName))
-                    return Metadata.Perspectives[filter.Perspective]
-                        .MeasureGroups.Values.AsEnumerable<IField>();
-                else
-                    return Metadata.Perspectives[filter.Perspective]
-                        .MeasureGroups[filter.MeasureGroupName]
-                        .Measures.Values.AsEnumerable<IField>();
+            //Return result of the discovery command
+
+            //perspectives
+            if(command.Target==DiscoveryTarget.Perspectives)
+                return Metadata.Perspectives.Values.AsEnumerable<IField>();
+            if (Metadata.Perspectives.ContainsKey(filter.Perspective))
+            {
+                //dimensions and measure-groups
+                var persp = Metadata.Perspectives[filter.Perspective];
+                if(command.Target==DiscoveryTarget.Dimensions)
+                    return persp.Dimensions.Values.AsEnumerable<IField>();
+                //if(command.Target==DiscoveryTarget.MeasureGroups)
+                //    return persp.MeasureGroups.Values.AsEnumerable<IField>();
+                
+                //hierarchies & levels
+                if (depthController.Dimensions)
+                {
+                    if (persp.Dimensions.ContainsKey(filter.DimensionUniqueName))
+                    {
+                        var dim = persp.Dimensions[filter.DimensionUniqueName];
+                        if(command.Target==DiscoveryTarget.Hierarchies)
+                            return dim.Hierarchies.Values.AsEnumerable<IField>();
+
+                        if (dim.Hierarchies.ContainsKey(filter.HierarchyUniqueName))
+                        {
+                            var hie = dim.Hierarchies[filter.HierarchyUniqueName];
+                            if(command.Target==DiscoveryTarget.Levels)
+                                return hie.Levels.Values.AsEnumerable<IField>();
+                        }
+                        else
+                            throw new MetadataNotFoundException("The hierarchy named '{0}' doesn't exist", filter.HierarchyUniqueName);
+                    }
+                    else
+                        throw new MetadataNotFoundException("The dimension named '{0}' doesn't exist", filter.DimensionUniqueName);
+                }
+                
+                //Measures
+                if (depthController.MeasureGroups)
+                {
+                    if (persp.MeasureGroups.ContainsKey(filter.MeasureGroupName))
+                    {
+                        var mg = persp.MeasureGroups[filter.MeasureGroupName];
+                        if(command.Target==DiscoveryTarget.Measures)
+                            return mg.Measures.Values.AsEnumerable<IField>();
+                    }
+                    else
+                        throw new MetadataNotFoundException("The measure-group named '{0}' doesn't exist", filter.MeasureGroupName);
+                }
             }
+            else
+                throw new MetadataNotFoundException("The perspective named '{0}' doesn't exist", filter.Perspective);
+
+            throw new Exception("Unhandled case for partial metadata extraction!");
         }
 
-        protected internal void GetPerspectives(PathParser.PathFilter filter)
+        internal void GetPerspectives(Filter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating perspectives"));
@@ -158,7 +176,7 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        protected internal void GetDimensions(PathParser.PathFilter filter)
+        internal void GetDimensions(Filter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating dimensions"));
@@ -190,7 +208,7 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        protected internal void GetHierarchies(PathParser.PathFilter filter)
+        internal void GetHierarchies(Filter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating hierarchies"));
@@ -228,7 +246,7 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        protected internal void GetLevels(PathParser.PathFilter filter)
+        internal void GetLevels(Filter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating levels"));
@@ -275,7 +293,7 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        protected internal void GetProperties(PathParser.PathFilter filter)
+        internal void GetProperties(Filter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating properties"));
@@ -330,7 +348,7 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        protected internal void GetDimensionUsage(PathParser.PathFilter filter)
+        internal void GetDimensionUsage(Filter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating measure groups and dimensions usage"));
@@ -369,7 +387,7 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        protected internal void GetMeasures(PathParser.PathFilter filter)
+        internal void GetMeasures(Filter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating measures"));

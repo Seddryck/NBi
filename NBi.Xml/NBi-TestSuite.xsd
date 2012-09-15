@@ -68,7 +68,7 @@
 														<xs:attribute name="name" type="xs:string" use="optional" />
 														<xs:attribute name="perspective" type="xs:string" use="required" />
 														<xs:attribute name="path" type="xs:string" use="required" />
-														<xs:attribute name="children-of" type="xs:string" use="optional" />
+														<xs:attribute name="children-of" type="xs:string" use="optional"/>
 														<xs:attribute name="connectionString" type="xs:string" use="optional" />
 													</xs:extension>
 												</xs:simpleContent>

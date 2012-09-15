@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.Analysis;
+using NBi.Core.Analysis.Discovery;
 
 namespace NBi.Core.Analysis.Member
 {
@@ -28,7 +29,7 @@ namespace NBi.Core.Analysis.Member
             { throw new ConnectionException(ex); }
         }
 
-        public MemberResult Execute(DiscoverCommand cmd)
+        public MemberResult Execute(MembersDiscoveryCommand cmd)
         {
             var list = new MemberResult();
 
@@ -79,13 +80,16 @@ namespace NBi.Core.Analysis.Member
             return cmd;
         }
 
-        public AdomdCommand BuildCommand(DiscoverCommand disco)
+        public AdomdCommand BuildCommand(MembersDiscoveryCommand disco)
         {
             var cmd = CreateCommand(disco.ConnectionString);
 
             string dimensionCube = GetDimensionCube(disco.Path);
 
-            cmd.CommandText = string.Format("select {0}.{1} on 0 from {2}", disco.Path, disco.Function, dimensionCube);
+            if (string.IsNullOrEmpty(disco.MemberCaption))
+                cmd.CommandText = string.Format("select {0}.{1} on 0 from {2}", disco.Path, disco.Function, dimensionCube);
+            else
+                cmd.CommandText = string.Format("select {0}.[{3}].{1} on 0 from {2}", disco.Path, disco.Function, dimensionCube, disco.MemberCaption);
             Console.Out.WriteLine(cmd.CommandText);
             return cmd;
         }

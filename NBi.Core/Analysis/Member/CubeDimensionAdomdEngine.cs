@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AnalysisServices.AdomdClient;
-using NBi.Core.Analysis;
+using NBi.Core.Analysis.Discovery;
 
 namespace NBi.Core.Analysis.Member
 {
@@ -28,7 +27,7 @@ namespace NBi.Core.Analysis.Member
             { throw new ConnectionException(ex); }
         }
 
-        public MemberResult Execute(DiscoverCommand cmd)
+        public MemberResult Execute(MembersDiscoveryCommand cmd)
         {
             var list = new MemberResult();
 
@@ -36,7 +35,7 @@ namespace NBi.Core.Analysis.Member
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Starting discovery ..."));
 
             if (ProgressStatusChanged != null)
-                ProgressStatusChanged(this, new ProgressStatusEventArgs(string.Format("Discovering {0} on {1}", cmd.Path, cmd.Perspective)));
+                ProgressStatusChanged(this, new ProgressStatusEventArgs(string.Format("Discovering {0} on {1}", cmd.Path, cmd.PerspectiveName)));
 
             var cs = ExecuteCellSet(BuildCommand(cmd));
             // Traverse the response (The response is on first line!!!) 
@@ -79,11 +78,13 @@ namespace NBi.Core.Analysis.Member
             return cmd;
         }
 
-        public AdomdCommand BuildCommand(DiscoverCommand disco)
+        public AdomdCommand BuildCommand(MembersDiscoveryCommand disco)
         {
             var cmd = CreateCommand(disco.ConnectionString);
-
-            cmd.CommandText = string.Format("select {0} on 0, {1}.{2} on 1 from [{3}]", "{}" , disco.Path, disco.Function, disco.Perspective);
+            if (string.IsNullOrEmpty(disco.MemberCaption))
+                cmd.CommandText = string.Format("select {0} on 0, {1}.{2} on 1 from [{3}]", "{}" , disco.Path, disco.Function, disco.PerspectiveName);
+            else
+                cmd.CommandText = string.Format("select {0} on 0, {1}.[{4}].{2} on 1 from [{3}]", "{}", disco.Path, disco.Function, disco.PerspectiveName, disco.MemberCaption);
             Console.Out.WriteLine(cmd.CommandText);
             return cmd;
         }

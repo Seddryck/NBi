@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using Moq;
-using NBi.Core.Analysis;
+﻿using Moq;
+using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Member;
-using NBi.Core.Analysis.Metadata;
 using NBi.NUnit.Member;
 using NUnit.Framework;
 
@@ -15,8 +13,12 @@ namespace NBi.Testing.Unit.NUnit.Member
         public void Matches_GivenMemberCommand_EngineCalledOnceWithParametersComingFromMemberCommand()
         {
             var exp = "Expected member";
-            var mc = new DiscoverCommand("ConnectionString") { Path = "[dimension].[hierarchy]"
-                                                , Perspective = "perspective" };
+            var cmdMembers = DiscoveryFactory.BuildForMembers(
+                        "connectionString",
+                        "perspective",
+                        "[dimension]");
+
+            var cmd = (MembersDiscoveryCommand)cmdMembers;
 
             var memberStub = new Mock<NBi.Core.Analysis.Member.Member>();
             var member1 = memberStub.Object;
@@ -26,29 +28,29 @@ namespace NBi.Testing.Unit.NUnit.Member
             members.Add(member2);
 
             var meMock = new Mock<IDiscoverMemberEngine>();
-            meMock.Setup(engine => engine.Execute(mc))
+            meMock.Setup(engine => engine.Execute(cmd))
                 .Returns(members);
             var me = meMock.Object;
 
             var containsConstraint = new ContainsConstraint(exp) { MemberEngine = me };
 
             //Method under test
-            containsConstraint.Matches(mc);
+            containsConstraint.Matches(cmd);
          
             //Test conclusion            
-            meMock.Verify(engine => engine.Execute(mc), Times.Once());
+            meMock.Verify(engine => engine.Execute(cmd), Times.Once());
         }
 
         [Test]
         public void WriteTo_FailingAssertion_TextContainsFewKeyInfo()
         {
             var exp = "Expected member";
-            var mc = new DiscoverCommand(string.Empty)
-                                {
-                                    Path = "[dimension].[hierarchy]",
-                                    Perspective = "perspective"
-                                };
+            var cmdMembers = DiscoveryFactory.BuildForMembers(
+                        "connectionString",
+                        "perspective",
+                        "[dimension]");
 
+            var cmd = cmdMembers;
 
             var memberStub = new Mock<NBi.Core.Analysis.Member.Member>();
             var member1 = memberStub.Object;
@@ -58,7 +60,7 @@ namespace NBi.Testing.Unit.NUnit.Member
             members.Add(member2);
 
             var meStub = new Mock<IDiscoverMemberEngine>();
-            meStub.Setup(engine => engine.Execute(mc))
+            meStub.Setup(engine => engine.Execute(cmd))
                 .Returns(members);
             var me = meStub.Object;
 
@@ -68,7 +70,7 @@ namespace NBi.Testing.Unit.NUnit.Member
             string assertionText = null;
             try
             {
-                Assert.That(mc, containsConstraint);
+                Assert.That(cmd, containsConstraint);
             }
             catch (AssertionException ex)
             {
@@ -76,10 +78,9 @@ namespace NBi.Testing.Unit.NUnit.Member
             }
 
             //Test conclusion            
-            Assert.That(assertionText, Is.StringContaining(mc.Perspective).And
-                                            .StringContaining(mc.Path).And
-                                            .StringContaining("hierarchy").And
-                                            .StringContaining(exp));
+            Assert.That(assertionText, Is.StringContaining(cmd.PerspectiveName).And
+                                            .StringContaining(cmd.Path).And
+                                            .StringContaining("Expected member"));
         }
 
 

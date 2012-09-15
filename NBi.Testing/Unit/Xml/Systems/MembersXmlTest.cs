@@ -1,9 +1,7 @@
 ﻿#region Using directives
-
-using NUnit.Framework;
+using NBi.Core.Analysis.Discovery;
 using NBi.Xml.Systems;
-using NBi.Core.Analysis;
-
+using NUnit.Framework;
 #endregion
 
 namespace NBi.Testing.Unit.Xml.Systems
@@ -40,18 +38,20 @@ namespace NBi.Testing.Unit.Xml.Systems
         #endregion
 
         [Test]
-        public void Instantiate_ChildrenOfFilled_PathIncludesChildrenOf()
+        public void Instantiate_ChildrenOfFilled_MemberCaptionIsSet()
         {
             //Buiding object used during test
             var xml = new MembersXml();
+            xml.ConnectionString = "ConnectionString";
+            xml.Perspective = "perspective";
             xml.Path = "[dimension].[hierarchy].[level]";
             xml.ChildrenOf = "parent";
 
             //Call the method to test
-            var actual = (DiscoverCommand)(xml.Instantiate());
+            var actual = (MembersDiscoveryCommand)(xml.Instantiate());
 
             //Assertion
-            Assert.That(actual.Path, Is.EqualTo("[dimension].[hierarchy].[level].[parent]"));
+            Assert.That(actual.MemberCaption, Is.EqualTo("parent"));
         }
 
         [Test]
@@ -59,14 +59,16 @@ namespace NBi.Testing.Unit.Xml.Systems
         {
             //Buiding object used during test
             var xml = new MembersXml();
+            xml.ConnectionString = "ConnectionString";
+            xml.Perspective = "perspective";
             xml.Path = "[dimension].[hierarchy].[level]";
-            xml.ChildrenOf = "parent";
+            xml.ChildrenOf = "children";
 
             //Call the method to test
-            var actual = (DiscoverCommand)(xml.Instantiate());
+            var actual = (MembersDiscoveryCommand)(xml.Instantiate());
 
             //Assertion
-            Assert.That(actual.Function, Is.EqualTo("children"));
+            Assert.That(actual.Function.ToLower(), Is.EqualTo("Children".ToLower()));
         }
 
         [Test]
@@ -74,13 +76,15 @@ namespace NBi.Testing.Unit.Xml.Systems
         {
             //Buiding object used during test
             var xml = new MembersXml();
+            xml.ConnectionString = "ConnectionString";
+            xml.Perspective = "perspective";
             xml.Path = "[dimension].[hierarchy].[level]";
 
             //Call the method to test
-            var actual = (DiscoverCommand)(xml.Instantiate());
+            var actual = (MembersDiscoveryCommand)(xml.Instantiate());
 
             //Assertion
-            Assert.That(actual.Function, Is.EqualTo("members"));
+            Assert.That(actual.Function.ToLower(), Is.EqualTo("Members".ToLower()));
         }
 
 

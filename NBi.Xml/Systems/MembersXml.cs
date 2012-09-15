@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Xml.Serialization;
-using NBi.Core.Analysis.Member;
-using NBi.Core.Analysis;
+using NBi.Core.Analysis.Discovery;
 
 namespace NBi.Xml.Systems
 {
@@ -21,12 +20,12 @@ namespace NBi.Xml.Systems
 
         public override object Instantiate()
         {
-            var cmd = new DiscoverCommand(ConnectionString ?? Default.ConnectionString);
-
-            cmd.Perspective = Perspective;
-            cmd.Path = string.IsNullOrEmpty(ChildrenOf) ? Path : string.Format("{0}.[{1}]",Path,ChildrenOf);
-            cmd.Function = string.IsNullOrEmpty(ChildrenOf) ? "members" : "children";
-
+            var cmd = DiscoveryFactory.BuildForMembers(
+                ConnectionString ?? Default.ConnectionString,
+                Perspective,
+                Path,
+                ChildrenOf);
+            
             return cmd;
         }
     }

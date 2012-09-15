@@ -1,7 +1,7 @@
 ﻿#region Using directives
 using System.Collections.Generic;
 using Moq;
-using NBi.Core.Analysis;
+using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Member;
 using NBi.NUnit.Member;
 using NUnit.Framework;
@@ -231,14 +231,12 @@ namespace NBi.Testing.Unit.NUnit.Member
         }
 
         [Test]
-        public void Matches_GivenDiscoverCommand_EngineCalledOnceWithParametersComingFromDiscoverCommand()
+        public void Matches_GivenDiscoverCommand_EngineCalledOnceWithParametersComingFromDiscoveryCommand()
         {
-            var disco = new DiscoverCommand(string.Empty)
-            {
-                Path = "[dimension].[hierarchy]"
-                ,
-                Perspective = "perspective"
-            };
+            var disco = DiscoveryFactory.BuildForMembers(
+                "ConnectionString",
+                "perspective",
+                "[dimension].[hierarchy]");
 
             var memberStub = new Mock<NBi.Core.Analysis.Member.Member>();
             var member1 = memberStub.Object;

@@ -1,4 +1,4 @@
-﻿using NBi.Core.Analysis;
+﻿using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Metadata;
 using NUnit.Framework;
 
@@ -39,9 +39,10 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata
         public void GetChildStructure_DateDimensionWithHeighTeenHierarchies_ListStructureContainingHeighTeenElements()
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
-            var disco = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            disco.Perspective = "Adventure Works";
-            disco.Path = "[Date]";
+            var disco = DiscoveryFactory.BuildForHierarchy(
+                ConnectionStringReader.GetAdomd(),
+                "Adventure Works",
+                "[Date]");
 
             var structs = me.GetPartialMetadata(disco);
 
@@ -51,9 +52,10 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata
         public void GetChildStructure_CalendarHierarchyWithSixLevels_ListStructureContainingSixElements()
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
-            var disco = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            disco.Perspective = "Adventure Works";
-            disco.Path = "[Date].[Calendar]";
+            var disco = DiscoveryFactory.BuildForLevel(
+                ConnectionStringReader.GetAdomd(),
+                "Adventure Works",
+                "[Date].[Calendar]");
 
             var structs = me.GetPartialMetadata(disco);
 
@@ -63,21 +65,24 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata
         public void GetChildStructure_MonthLevelWithTwoProperties_ListStructureContainingTwoElements()
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
-            var disco = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            disco.Perspective = "Adventure Works";
-            disco.Path = "[Date].[Calendar].[Month]";
+            //var disco = DiscoveryFactory.BuildForProperty(
+            //    ConnectionStringReader.GetAdomd(),
+            //    "Adventure Works",
+            //    "[Date].[Calendar].[Month]");
 
-            var structs = me.GetPartialMetadata(disco);
+            //var structs = me.GetPartialMetadata(disco);
 
-            Assert.That(structs, Has.Count.EqualTo(2));
+            //Assert.That(structs, Has.Count.EqualTo(2));
+            Assert.Fail();
         }
 
         public void GetMeasuresOfFolder_PerspectiveAdventureWorks_OneElement()
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
-            var disco = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            disco.Perspective = "Finance";
-            disco.Path = "[Measures].[Financial Reporting]"; //Financial Reporting is the folder's name!
+            var disco = DiscoveryFactory.BuildForMeasureGroup(
+                ConnectionStringReader.GetAdomd(),
+                "Finances",
+                "Financial Reporting");
 
             var structs = me.GetPartialMetadata(disco);
 

@@ -1,5 +1,5 @@
 ﻿#region Using directives
-using NBi.Core.Analysis;
+using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Member;
 using NUnit.Framework;
 
@@ -43,9 +43,10 @@ namespace NBi.Testing.Integration.Core.Analysis
         {
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
-            var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            amc.Perspective = "Adventure Works";
-            amc.Path = "[Geography].[Geography].[Country]";
+            var amc = DiscoveryFactory.BuildForMembers(
+                ConnectionStringReader.GetAdomd(),
+                "Adventure Works",
+                "[Geography].[Geography].[Country]");
 
             //Call the method to test
             var actual = mae.Execute(amc);
@@ -61,9 +62,10 @@ namespace NBi.Testing.Integration.Core.Analysis
         {
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
-            var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            amc.Perspective = "Adventure Works";
-            amc.Path = "[Geography].[Geography].[Country]";
+            var amc = DiscoveryFactory.BuildForMembers(
+                ConnectionStringReader.GetAdomd(),
+                "Adventure Works",
+                "[Geography].[Geography].[Country]");
 
             //Call the method to test
             var actual = mae.Execute(amc);
@@ -78,9 +80,10 @@ namespace NBi.Testing.Integration.Core.Analysis
         {
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
-            var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            amc.Perspective = "Adventure Works";
-            amc.Path = "[Geography].[Geography].[Country]";
+            var amc = DiscoveryFactory.BuildForMembers(
+                ConnectionStringReader.GetAdomd(),
+                "Adventure Works",
+                "[Geography].[Geography].[Country]");
 
             //Call the method to test
             var actual = mae.Execute(amc);
@@ -95,9 +98,10 @@ namespace NBi.Testing.Integration.Core.Analysis
         {
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
-            var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            amc.Perspective = "Adventure Works";
-            amc.Path = "[Geography].[Geography].[Country]";
+            var amc= DiscoveryFactory.BuildForMembers(
+                ConnectionStringReader.GetAdomd(),
+                "Adventure Works",
+                "[Geography].[Geography].[Country]");
 
             //Call the method to test
             var actual = mae.Execute(amc);
@@ -111,9 +115,10 @@ namespace NBi.Testing.Integration.Core.Analysis
         {
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
-            var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            amc.Perspective = "Adventure Works";
-            amc.Path = "[Geography].[Geography]";
+            var amc = DiscoveryFactory.BuildForMembers(
+                ConnectionStringReader.GetAdomd(),
+                "Adventure Works",
+                "[Geography].[Geography]");
 
             //Call the method to test
             var actual = mae.Execute(amc);
@@ -129,9 +134,10 @@ namespace NBi.Testing.Integration.Core.Analysis
         {
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
-            var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            amc.Perspective = "Adventure Works";
-            amc.Path = "[Geography].[Geography]";
+            var amc = DiscoveryFactory.BuildForMembers(
+                ConnectionStringReader.GetAdomd(),
+                "Adventure Works",
+                "[Geography].[Geography]");
 
             //Call the method to test
             var actual = mae.Execute(amc);
@@ -146,9 +152,10 @@ namespace NBi.Testing.Integration.Core.Analysis
         {
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
-            var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            amc.Perspective = "Adventure Works";
-            amc.Path = "[Geography].[Geography]";
+            var amc = DiscoveryFactory.BuildForMembers(
+                ConnectionStringReader.GetAdomd(),
+                "Adventure Works",
+                "[Geography].[Geography]");
 
             //Call the method to test
             var actual = mae.Execute(amc);
@@ -164,9 +171,10 @@ namespace NBi.Testing.Integration.Core.Analysis
         {
             //Buiding object used during test
             var mae = new SchemaRowsetAdomdEngine();
-            var amc = new DiscoverCommand(ConnectionStringReader.GetAdomd());
-            amc.Perspective = "Adventure Works";
-            amc.Path = "[Geography].[Geography]";
+            var amc = DiscoveryFactory.BuildForMembers(
+                ConnectionStringReader.GetAdomd(),
+                "Adventure Works",
+                "[Geography].[Geography]");
 
             //Call the method to test
             var actual = mae.Execute(amc);

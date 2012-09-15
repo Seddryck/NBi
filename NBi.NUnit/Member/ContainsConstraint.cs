@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using NBi.Core;
-using NBi.Core.Analysis;
+using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Member;
 using NBi.Core.Analysis.Metadata;
 using NUnitCtr = NUnit.Framework.Constraints;
@@ -13,7 +13,7 @@ namespace NBi.NUnit.Member
     {
         protected IEnumerable<string> expectedCaptions;
         protected IComparer comparer;
-        protected DiscoverCommand command;
+        protected MembersDiscoveryCommand command;
         protected IDiscoverMemberEngine memberEngine;
 
         /// <summary>
@@ -76,8 +76,8 @@ namespace NBi.NUnit.Member
 
         public override bool Matches(object actual)
         {
-            if (actual is DiscoverCommand)
-                return Process((DiscoverCommand)actual);
+            if (actual is MembersDiscoveryCommand)
+                return Process((MembersDiscoveryCommand)actual);
             else
             {
                 base.Using(comparer);
@@ -91,7 +91,7 @@ namespace NBi.NUnit.Member
             return base.Using(comparer).Matches(actual);
         }
 
-        protected bool Process(DiscoverCommand actual)
+        protected bool Process(MembersDiscoveryCommand actual)
         {
             command = actual;
             var extr = GetEngine();
@@ -107,11 +107,10 @@ namespace NBi.NUnit.Member
         {
             if (command != null)
             {
-                var pathParser = PathParser.Build(command);
-                var persp = !string.IsNullOrEmpty(command.Perspective) ? string.Format("On perspective \"{0}\", a", command.Perspective) : "A";
+                var persp = !string.IsNullOrEmpty(command.PerspectiveName) ? string.Format("On perspective \"{0}\", a", command.PerspectiveName) : "A";
                 writer.WritePredicate(string.Format("{0} {1} identified by \"{2}\" containing a member with caption"
                                                             , persp
-                                                            , pathParser.Position.Current
+                                                            , command.GetDepthName().ToLower()
                                                             , command.Path));
                 writer.WriteExpectedValue(expectedCaptions);
             }

@@ -1,6 +1,5 @@
 ﻿#region Using directives
-using NBi.Core.Analysis;
-using NBi.Core.Analysis.Metadata;
+using NBi.Core.Analysis.Discovery;
 using NBi.NUnit.Structure;
 using NUnit.Framework;
 #endregion
@@ -41,7 +40,8 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainsConstraint_FindExistingPerspective_Success()
         {
-            var discovery = new DiscoverCommand(DiscoverTarget.Perspectives, ConnectionStringReader.GetAdomd());
+            var discovery = DiscoveryFactory.BuildForCube(
+                        ConnectionStringReader.GetAdomd());
 
             var ctr = new ContainsConstraint("Adventure Works");
 
@@ -53,7 +53,8 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainsConstraint_FindNonExistingPerspective_Failure()
         {
-            var discovery = new DiscoverCommand(DiscoverTarget.Perspectives, ConnectionStringReader.GetAdomd());
+            var discovery = DiscoveryFactory.BuildForCube(
+                        ConnectionStringReader.GetAdomd());
 
             var ctr = new ContainsConstraint("Not existing");
 
@@ -64,9 +65,10 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainsConstraint_FindExistingDimension_Success()
         {
-            var discovery = new DiscoverCommand(DiscoverTarget.Dimensions, ConnectionStringReader.GetAdomd());
-            discovery.Perspective = "Adventure Works";
-
+            var discovery = DiscoveryFactory.BuildForPerspective(
+                        ConnectionStringReader.GetAdomd(),
+                        "Adventure Works");
+            
             var ctr = new ContainsConstraint("Product");
 
             //Method under test
@@ -77,8 +79,9 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainsConstraint_FindNonExistingDimension_Failure()
         {
-            var discovery = new DiscoverCommand(DiscoverTarget.Dimensions, ConnectionStringReader.GetAdomd());
-            discovery.Perspective = "Adventure Works";
+            var discovery = DiscoveryFactory.BuildForPerspective(
+                        ConnectionStringReader.GetAdomd(),
+                        "Adventure Works");
 
             var ctr = new ContainsConstraint("Not existing");
 
@@ -90,9 +93,10 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainsConstraint_FindExistingHierarchyBellowSpecificDimension_Success()
         {
-            var discovery = new DiscoverCommand(DiscoverTarget.Hierarchies, ConnectionStringReader.GetAdomd());
-            discovery.Path = "[Product]";
-            discovery.Perspective = "Adventure Works";
+            var discovery = DiscoveryFactory.BuildForDimension(
+                        ConnectionStringReader.GetAdomd(),
+                        "Adventure Works",
+                        "[Product]");
             
             var ctr = new ContainsConstraint("Product Model Lines");
 
@@ -104,9 +108,10 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainsConstraint_FindNonExistingHierarchyBellowSpecificDimension_Failure()
         {
-            var discovery = new DiscoverCommand(DiscoverTarget.Hierarchies, ConnectionStringReader.GetAdomd());
-            discovery.Path = "[Product]";
-            discovery.Perspective = "Adventure Works";
+            var discovery = DiscoveryFactory.BuildForDimension(
+                        ConnectionStringReader.GetAdomd(),
+                        "Adventure Works",
+                        "[Product]");
 
             var ctr = new ContainsConstraint("Not existing");
 
@@ -118,9 +123,10 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainsConstraint_FindExistingLevel_Success()
         {
-            var discovery = new DiscoverCommand(DiscoverTarget.Levels, ConnectionStringReader.GetAdomd());
-            discovery.Path = "[Customer].[Customer Geography]";
-            discovery.Perspective = "Adventure Works";
+            var discovery = DiscoveryFactory.BuildForHierarchy(
+                        ConnectionStringReader.GetAdomd(),
+                        "Adventure Works",
+                        "[Customer].[Customer Geography]");
             
             var ctr = new ContainsConstraint("City");
 
@@ -132,9 +138,10 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainsConstraint_FindNonExistingLevel_Failure()
         {
-            var discovery = new DiscoverCommand(DiscoverTarget.Levels, ConnectionStringReader.GetAdomd());
-            discovery.Path = "[Customer].[Customer Geography]";
-            discovery.Perspective = "Adventure Works";
+            var discovery = DiscoveryFactory.BuildForHierarchy(
+                        ConnectionStringReader.GetAdomd(),
+                        "Adventure Works",
+                        "[Customer].[Customer Geography]");
 
             var ctr = new ContainsConstraint("Not existing");
 
@@ -145,8 +152,9 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainsConstraint_FindExistingMeasureGroup_Success()
         {
-            var discovery = new DiscoverCommand(DiscoverTarget.MeasureGroups, ConnectionStringReader.GetAdomd());
-            discovery.Perspective = "Adventure Works";
+            var discovery = DiscoveryFactory.BuildForPerspective(
+                        ConnectionStringReader.GetAdomd(),
+                        "Adventure Works");
 
             var ctr = new ContainsConstraint("Reseller Orders");
 
@@ -158,8 +166,9 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainsConstraint_FindNonExistingMeasureGroup_Failure()
         {
-            var discovery = new DiscoverCommand(DiscoverTarget.MeasureGroups, ConnectionStringReader.GetAdomd());
-            discovery.Perspective = "Adventure Works";
+            var discovery = DiscoveryFactory.BuildForPerspective(
+                         ConnectionStringReader.GetAdomd(),
+                         "Adventure Works");
 
             var ctr = new ContainsConstraint("Not existing");
 
@@ -170,9 +179,10 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainsConstraint_FindExistingMeasure_Success()
         {
-            var discovery = new DiscoverCommand(DiscoverTarget.Measures, ConnectionStringReader.GetAdomd());
-            discovery.Perspective = "Adventure Works";
-            discovery.MeasureGroup = "Reseller Orders";
+            var discovery = DiscoveryFactory.BuildForMeasureGroup(
+                        ConnectionStringReader.GetAdomd(),
+                        "Adventure Works",
+                        "Reseller Orders");
 
             var ctr = new ContainsConstraint("Reseller Order Count");
 
@@ -182,11 +192,12 @@ namespace NBi.Testing.Integration.NUnit.Structure
         }
 
         [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindNonExistingMeasureBellowSpecificDimension_Failure()
+        public void ContainsConstraint_FindNonExistingMeasure_Failure()
         {
-            var discovery = new DiscoverCommand(DiscoverTarget.Measures, ConnectionStringReader.GetAdomd());
-            discovery.Perspective = "Adventure Works";
-            discovery.MeasureGroup = "Reseller Orders";
+            var discovery = DiscoveryFactory.BuildForMeasureGroup(
+                        ConnectionStringReader.GetAdomd(),
+                        "Adventure Works",
+                        "Reseller Orders");
 
             var ctr = new ContainsConstraint("Not existing");
 

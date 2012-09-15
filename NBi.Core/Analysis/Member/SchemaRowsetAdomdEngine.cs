@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AnalysisServices.AdomdClient;
-using NBi.Core.Analysis.Metadata;
-using NBi.Core.Analysis;
+using NBi.Core.Analysis.Discovery;
 
 namespace NBi.Core.Analysis.Member
 {
@@ -13,18 +12,15 @@ namespace NBi.Core.Analysis.Member
         {
         }
 
-        public MemberResult Execute(DiscoverCommand cmd)
+        public MemberResult Execute(MembersDiscoveryCommand cmd)
         {
-            if (!string.IsNullOrEmpty(cmd.Function))
-                throw new ArgumentException("SchemaRowsetAdomdEngine doesn't support usage of 'function' value");
-            
             var list = new MemberResult();
 
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Starting discovery ..."));
 
             if (ProgressStatusChanged != null)
-                ProgressStatusChanged(this, new ProgressStatusEventArgs(string.Format("Discovering {0} in {1}", cmd.Path, cmd.Perspective)));
+                ProgressStatusChanged(this, new ProgressStatusEventArgs(string.Format("Discovering {0} in {1}", cmd.Path, cmd.PerspectiveName)));
 
             var rdr = ExecuteReader(BuildCommand(cmd));
             // Traverse the response and 
@@ -83,20 +79,23 @@ namespace NBi.Core.Analysis.Member
             return cmd;
         }
 
-        public AdomdCommand BuildCommand(DiscoverCommand disco)
+        public AdomdCommand BuildCommand(MembersDiscoveryCommand disco)
         {
+            if (!string.IsNullOrEmpty(disco.MemberCaption))
+                throw new ArgumentException("Member Caption can't be specified for this Engine");
+            
+            
             var cmd = CreateCommand(disco.ConnectionString);
 
             string whereClause = "";
-            whereClause += string.Format(" where CUBE_NAME='{0}'", disco.Perspective);
-
-            var pathParser = PathParser.Build(disco);
-            whereClause += string.Format(" and [{0}_UNIQUE_NAME]='{1}'", pathParser.Position.Current.ToUpper(), disco.Path);
+            whereClause += string.Format(" where CUBE_NAME='{0}'", disco.PerspectiveName);
+            whereClause += string.Format(" and [{0}_UNIQUE_NAME]='{1}'", disco.GetDepthName(), disco.Path);
 
             cmd.CommandText = string.Format("select * from $system.mdschema_members{0}", whereClause);
 
             return cmd;
 
         }
+
     }
 }

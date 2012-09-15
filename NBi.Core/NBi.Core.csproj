@@ -60,12 +60,32 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Analysis\DiscoverTarget.cs" />
+    <Compile Include="Analysis\Discovery\CubeDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Discovery\DimensionDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Discovery\DiscoveryCommand.cs" />
+    <Compile Include="Analysis\Discovery\DiscoveryFactory.cs" />
+    <Compile Include="Analysis\Discovery\DiscoveryFactoryException.cs" />
+    <Compile Include="Analysis\Discovery\DiscoveryTarget.cs" />
+    <Compile Include="Analysis\Discovery\FactoryValidations\ConnectionStringNotEmpty.cs" />
+    <Compile Include="Analysis\Discovery\FactoryValidations\DataNotEmpty.cs" />
+    <Compile Include="Analysis\Discovery\FactoryValidations\MeasureGroupNameNotEmpty.cs" />
+    <Compile Include="Analysis\Discovery\FactoryValidations\PathCorrectDepth.cs" />
+    <Compile Include="Analysis\Discovery\FactoryValidations\PathNotEmpty.cs" />
+    <Compile Include="Analysis\Discovery\FactoryValidations\PerspectiveNameNotEmpty.cs" />
+    <Compile Include="Analysis\Discovery\HierarchyDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Discovery\LevelDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Discovery\MeasureGroupDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Discovery\MembersDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Discovery\PathDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Discovery\PerspectiveDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Discovery\Validation.cs" />
     <Compile Include="Analysis\Member\CubeDimensionAdomdEngine.cs" />
     <Compile Include="Analysis\Member\DimensionCubeAdomdEngine.cs" />
-    <Compile Include="Analysis\DiscoverCommand.cs" />
     <Compile Include="Analysis\Member\IDiscoverMemberEngine.cs" />
     <Compile Include="Analysis\Member\Member.cs" />
     <Compile Include="Analysis\Member\SchemaRowsetAdomdEngine.cs" />
+    <Compile Include="Analysis\Discovery\Depth.cs" />
+    <Compile Include="Analysis\Discovery\Filter.cs" />
     <Compile Include="Analysis\Metadata\IFieldWithDisplayFolder.cs" />
     <Compile Include="Analysis\Metadata\IMetadataExtractor.cs" />
     <Compile Include="Analysis\Metadata\IMetadataReader.cs" />
@@ -89,6 +109,7 @@
     <Compile Include="Analysis\Metadata\MetadataExcelOleDbReader.cs" />
     <Compile Include="Analysis\Metadata\MetadataExcelOleDbWriter.cs" />
     <Compile Include="Analysis\Metadata\MetadataAdomdExtractor.cs" />
+    <Compile Include="Analysis\Metadata\MetadataNotFoundException.cs" />
     <Compile Include="Analysis\Metadata\MetadataFactory.cs" />
     <Compile Include="Analysis\Metadata\MetadataFileFormat.cs" />
     <Compile Include="Analysis\PathParser.cs" />

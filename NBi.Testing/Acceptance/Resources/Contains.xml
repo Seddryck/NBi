@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033</connectionString>
+		</default>
+	</settings>
+	<test name="In dimension Customers 'State-Provinces' contains Washington" uid="0001">
+		<system-under-test>
+			<members path="[Customer].[State-Province].[State-Province]" perspective="Adventure Works"/>
+		</system-under-test>
+		<assert>
+			<contains caption="Washington"/>
+		</assert>
+	</test>
+	<test name="In dimension Customers the country 'Canada' has a child 'Ontario'" uid="0002">
+		<system-under-test>
+			<members path="[Customer].[Customer Geography].[Country]" children-of="Canada" perspective="Adventure Works"/>
+		</system-under-test>
+		<assert>
+			<contains caption="Ontario"/>
+		</assert>
+	</test>
+	<test name="First zone of [Employee].[Sick Leave Hours] is 20-33" uid="0003">
+		<system-under-test>
+			<members path="[Employee].[Sick Leave Hours]" perspective="Adventure Works"/>
+		</system-under-test>
+		<assert>
+			<contains caption="20 - 33"/>
+		</assert>
+	</test>
+	<test name="Organization 'All' member is named [All Organizations]" uid="0004">
+		<system-under-test>
+			<members path="[Organization].[Currency Code]" perspective="Adventure Works"/>
+		</system-under-test>
+		<assert>
+			<contains caption="All Organizations"/>
+		</assert>
+	</test>
+</testSuite>

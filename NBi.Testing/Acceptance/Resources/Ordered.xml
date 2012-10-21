@@ -7,7 +7,9 @@
 	</settings>
 	<test name="In dimension Customers State-Provinces are ordered alphabetically" uid="0001">
 		<system-under-test>
-			<members path="[Customer].[State-Province].[State-Province]" perspective="Adventure Works" children-of=""/>
+			<level dimension="Customer" hierarchy="State-Province" caption="State-Province" perspective="Adventure Works">
+				<members/>
+			</level>
 		</system-under-test>
 		<assert>
 			<ordered rule="alphabetical"/>
@@ -15,7 +17,9 @@
 	</test>
 	<test name="In dimension Customers Countries are ordered alphabetically" uid="0002">
 		<system-under-test>
-			<members path="[Customer].[Country]" children-of="All Customers" perspective="Adventure Works" />
+			<hierarchy dimension="Customer" caption="Country"  perspective="Adventure Works">
+				<members children-of="All Customers"/>
+			</hierarchy>
 		</system-under-test>
 		<assert>
 			<ordered rule="alphabetical"/>
@@ -23,7 +27,9 @@
 	</test>
 	<test name="'In dimension Promotion Start Dates are ordered chronologically" uid="0003">
 		<system-under-test>
-			<members path="[Promotion].[Start Date].[Start Date]" perspective="Adventure Works"/>
+			<level dimension="Promotion" hierarchy="Start Date" caption="Start Date" perspective="Adventure Works">
+				<members/>
+			</level>
 		</system-under-test>
 		<assert>
 			<ordered rule="chronological"/>
@@ -31,7 +37,9 @@
 	</test>
 	<test name="'In dimension Promotion Discount Percents are ordered numerically" uid="0004">
 		<system-under-test>
-			<members path="[Promotion].[Discount Percent]" perspective="Adventure Works"/>
+			<hierarchy dimension="Promotion" caption="Discount Percent" perspective="Adventure Works">
+				<members/>
+			</hierarchy>
 		</system-under-test>
 		<assert>
 			<ordered rule="numerical"/>
@@ -39,7 +47,9 @@
 	</test>
 	<test name="'In dimension Promotion Discount Percents are ordered numerically" uid="0005">
 		<system-under-test>
-			<members path="[Scenario].[Scenario]" perspective="Adventure Works"/>
+			<hierarchy dimension="Scenario" caption="Scenario" perspective="Adventure Works">
+				<members/>
+			</hierarchy>
 		</system-under-test>
 		<assert>
 			<ordered rule="specific">

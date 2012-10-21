@@ -3,6 +3,7 @@ using NBi.Xml.Constraints.EqualTo;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 using NBiNu = NBi.NUnit;
+using Moq;
 
 namespace NBi.Testing.Unit.NUnit
 {
@@ -86,7 +87,13 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_ContainsXml_IsOfTypeElementContainsConstraint()
         {
-            var ctr = NBiNu.ConstraintFactory.Instantiate(new ContainsXml() { Caption = "xYz" }, typeof(StructureXml));
+            var sutStub =  new Mock<IAbstractSystemUnderTestXml>();
+            sutStub.Setup(s => s.IsMembers()).Returns(false);
+            sutStub.Setup(s => s.IsQuery()).Returns(false);
+            sutStub.Setup(s => s.IsStructure()).Returns(true);
+            var sutXml = sutStub.Object;
+
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new ContainsXml() { Caption = "xYz" }, sutXml);
 
             Assert.That(ctr, Is.InstanceOf<NBiNu.Structure.ContainsConstraint>());
         }
@@ -94,7 +101,13 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_ContainsXml_IsOfTypeMemberContainsConstraint()
         {
-            var ctr = NBiNu.ConstraintFactory.Instantiate(new ContainsXml() { Caption = "xYz" }, typeof(MembersXml));
+            var sutStub = new Mock<IAbstractSystemUnderTestXml>();
+            sutStub.Setup(s => s.IsMembers()).Returns(true);
+            sutStub.Setup(s => s.IsQuery()).Returns(false);
+            sutStub.Setup(s => s.IsStructure()).Returns(false);
+            var sutXml = sutStub.Object;
+
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new ContainsXml() { Caption = "xYz" }, sutXml);
 
             Assert.That(ctr, Is.InstanceOf<NBiNu.Member.ContainsConstraint>());
         }
@@ -102,7 +115,13 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_OrderedXml_IsOfTypeMemberOrderedConstraint()
         {
-            var ctr = NBiNu.ConstraintFactory.Instantiate(new OrderedXml(), typeof(MembersXml));
+            var sutStub = new Mock<IAbstractSystemUnderTestXml>();
+            sutStub.Setup(s => s.IsMembers()).Returns(true);
+            sutStub.Setup(s => s.IsQuery()).Returns(false);
+            sutStub.Setup(s => s.IsStructure()).Returns(false);
+            var sutXml = sutStub.Object;
+
+            var ctr = NBiNu.ConstraintFactory.Instantiate(new OrderedXml(), sutXml);
 
             Assert.That(ctr, Is.InstanceOf<NBiNu.Member.OrderedConstraint>());
         }
@@ -110,9 +129,15 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_ContainsXmlWithNot_IsOfTypeNotConstraint()
         {
-            var ctrXml = new ContainsXml() {Not=true, Caption="caption"};
+            var sutStub = new Mock<IAbstractSystemUnderTestXml>();
+            sutStub.Setup(s => s.IsMembers()).Returns(true);
+            sutStub.Setup(s => s.IsQuery()).Returns(false);
+            sutStub.Setup(s => s.IsStructure()).Returns(false);
+            var sutXml = sutStub.Object;
             
-            var ctr = NBiNu.ConstraintFactory.Instantiate(ctrXml, typeof(MembersXml));
+            var ctrXml = new ContainsXml() {Not=true, Caption="caption"};
+
+            var ctr = NBiNu.ConstraintFactory.Instantiate(ctrXml, sutXml);
 
             Assert.That(ctr, Is.InstanceOf<global::NUnit.Framework.Constraints.NotConstraint>());
         }

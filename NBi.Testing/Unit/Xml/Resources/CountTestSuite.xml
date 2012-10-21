@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="level counts exactly 10 members">
+		<system-under-test>
+			<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString">
+				<members/>
+			</level>
+		</system-under-test>
+		<assert>
+			<count
+				exactly="10"
+		/>
+		</assert>
+	</test>
+	<test name="hierarchy counts between 10 and 15 members">
+		<system-under-test>
+			<hierarchy dimension="dimension" caption="hierarchy" perspective="Perspective" connectionString="ConnectionString">
+				<members/>
+			</hierarchy>
+		</system-under-test>
+		<assert>
+			<count
+				more-than="10"
+				less-than="15"
+			/>
+		</assert>
+	</test>
+</testSuite>

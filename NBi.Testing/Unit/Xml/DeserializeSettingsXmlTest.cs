@@ -68,8 +68,8 @@ namespace NBi.Testing.Unit.Xml
             TestSuiteXml ts = DeserializeSample("SettingsWithDefault");
 
             Assert.That(ts.Settings.Defaults.Count, Is.EqualTo(1));
-            Assert.That(ts.Settings.Defaults[0].ApplyTo, Is.EqualTo(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest));
-            Assert.That(ts.Settings.Defaults[0].ConnectionString, Is.Not.Null.And.Not.Empty);
+            Assert.That(ts.Settings.Defaults[testNr].ApplyTo, Is.EqualTo(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest));
+            Assert.That(ts.Settings.Defaults[testNr].ConnectionString, Is.Not.Null.And.Not.Empty);
         }
 
         [Test]
@@ -87,7 +87,7 @@ namespace NBi.Testing.Unit.Xml
         [Test]
         public void DeserializeEqualToResultSet_SettingsWithoutDefault_NoDefaultLoaded()
         {
-            int testNr = 0;
+            //int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsWithoutDefault");
@@ -109,7 +109,7 @@ namespace NBi.Testing.Unit.Xml
         [Test]
         public void DeserializeEqualToResultSet_SettingsWithoutDefault_DefaultEqualToNull()
         {
-            int testNr = 0;
+            //int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsWithoutDefault");
@@ -120,7 +120,7 @@ namespace NBi.Testing.Unit.Xml
         [Test]
         public void DeserializeEqualToResultSet_SettingsWithReference_ReferenceLoaded()
         {
-            int testNr = 0;
+            //int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsWithReference");
@@ -135,7 +135,7 @@ namespace NBi.Testing.Unit.Xml
         [Test]
         public void DeserializeEqualToResultSet_SettingsWithReferenceNotExisting_ThrowArgumentException()
         {
-            int testNr = 0;
+            //int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsWithReference");

@@ -2,7 +2,9 @@
 <testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
 	<test name="hierarchy contains level with caption xyz (explicitely not ignoring case)">
 		<system-under-test>
-			<structure target="levels" path="[dimension].[hierarchy]" perspective="Perspective" connectionString="ConnectionString"/>
+			<hierarchy caption="hierarchy" dimension="dimension" perspective="Perspective" connectionString="ConnectionString">
+				<structure/>
+			</hierarchy>
 		</system-under-test>
 		<assert>
 			<contains
@@ -13,7 +15,7 @@
 	</test>
 	<test name="MeasureGroup contains a measure named xYz without display folder">
 		<system-under-test>
-			<structure target="measures" measure-group="MeasureGroupName" perspective="Perspective" connectionString="ConnectionString"/>
+			<measure-group caption="MeasureGroupName" perspective="Perspective" connectionString="ConnectionString"/>
 		</system-under-test>
 		<assert>
 			<contains
@@ -23,7 +25,7 @@
 	</test>
 	<test name="MeasureGroup contains a measure named xYz in displayFolder aBc">
 		<system-under-test>
-			<structure target="measures" measure-group="MeasureGroupName" perspective="Perspective" connectionString="ConnectionString"/>
+			<measure-group caption="MeasureGroupName" perspective="Perspective" connectionString="ConnectionString"/>
 		</system-under-test>
 		<assert>
 			<contains
@@ -34,11 +36,33 @@
 	</test>
 	<test name="MeasureGroup contains a measure named xYz in displayFolder root">
 		<system-under-test>
-			<structure target="measures" measure-group="MeasureGroupName" perspective="Perspective" connectionString="ConnectionString"/>
+			<measure-group caption="MeasureGroupName" perspective="Perspective" connectionString="ConnectionString"/>
 		</system-under-test>
 		<assert>
 			<contains
 				caption="xYz"
+				display-folder=""
+			/>
+		</assert>
+	</test>
+	<test name="level with caption xyz (explicitely not ignoring case) exists under dimension.hierarchy">
+		<system-under-test>
+			<level caption="xYz" hierarchy="hierarchy" dimension="dimension" perspective="Perspective" connectionString="ConnectionString">
+				<structure/>
+			</level>
+		</system-under-test>
+		<assert>
+			<exists
+				ignore-case="true"
+			/>
+		</assert>
+	</test>
+	<test name="Measure xYz exists in displayFolder root">
+		<system-under-test>
+			<measure caption="xYz" measure-group="MeasureGroupName" perspective="Perspective" connectionString="ConnectionString"/>
+		</system-under-test>
+		<assert>
+			<exists
 				display-folder=""
 			/>
 		</assert>

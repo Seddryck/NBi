@@ -25,7 +25,11 @@ namespace NBi.Core.ResultSet
 
         protected virtual IList<int> GetFieldsLength(IEnumerable<DataRow> rows)
         {
+
             var fieldsLength = new List<int>();
+
+            if (rows.Count() == 0)
+                return new List<int>(0);
 
             for (int i = 0; i < rows.ElementAt(0).ItemArray.Count(); i++)
             {
@@ -60,7 +64,15 @@ namespace NBi.Core.ResultSet
 
         public virtual IEnumerable<string> BuildContent(IEnumerable<DataRow> rows, int rowCount, bool compare)
         {
+
             var output = new List<string>();
+            //Empty resultset
+
+            if (rows.Count() == 0)
+            {
+                output.Add("This result set is empty.");
+                return output;
+            }
 
             //calculate row count to diplay
             int maxRows = (rowCount <= Math.Min(rows.Count(),MAX_ROWS_DISPLAYED)) ? rowCount : Math.Min(rows.Count(),MAX_ROWS_DISPLAYED);
@@ -133,6 +145,5 @@ namespace NBi.Core.ResultSet
             return output;
         }
 
-        
     }
 }

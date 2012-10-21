@@ -121,33 +121,7 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(((ContainsXml)ts.Tests[testNr].Constraints[0]).DisplayFolder, Is.EqualTo(""));
             Assert.That(((ContainsXml)ts.Tests[testNr].Constraints[0]).Specification.IsDisplayFolderSpecified, Is.True);
         }
-
-        [Test]
-        public void Deserialize_SampleFile_ExistsConstraintWithIgnoreCaseTrue()
-        {
-            int testNr = 4;
-
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
-
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<ExistsXml>());
-            Assert.That(((ExistsXml)ts.Tests[testNr].Constraints[0]).IgnoreCase, Is.True);
-        }
-
-        [Test]
-        public void Deserialize_SampleFile_ExistsConstraintWithDisplayFolderRoot()
-        {
-            int testNr = 5;
-
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
-
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<ExistsXml>());
-            Assert.That(((ExistsXml)ts.Tests[testNr].Constraints[0]).DisplayFolder, Is.EqualTo(""));
-            Assert.That(((ExistsXml)ts.Tests[testNr].Constraints[0]).Specification.IsDisplayFolderSpecified, Is.True);
-        }
-
-        
+                
 
     }
 }

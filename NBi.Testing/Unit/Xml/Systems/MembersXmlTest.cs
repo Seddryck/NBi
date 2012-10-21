@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using NBi.Core.Analysis.Discovery;
 using NBi.Xml.Systems;
+using NBi.Xml.Systems.Structure;
 using NUnit.Framework;
 #endregion
 
@@ -37,32 +38,40 @@ namespace NBi.Testing.Unit.Xml.Systems
         }
         #endregion
 
+        [Ignore]
         [Test]
         public void Instantiate_ChildrenOfFilled_MemberCaptionIsSet()
         {
             //Buiding object used during test
-            var xml = new MembersXml();
+            var xml = new LevelXml();
             xml.ConnectionString = "ConnectionString";
             xml.Perspective = "perspective";
-            xml.Path = "[dimension].[hierarchy].[level]";
-            xml.ChildrenOf = "parent";
+            xml.Dimension = "dimension";
+            xml.Hierarchy = "hierarchy";
+            xml.Caption = "level";
+            xml.Members = new MembersXml();
+            xml.Members.ChildrenOf = "parent-member";
 
             //Call the method to test
             var actual = (MembersDiscoveryCommand)(xml.Instantiate());
 
             //Assertion
-            Assert.That(actual.MemberCaption, Is.EqualTo("parent"));
+            Assert.That(actual.MemberCaption, Is.EqualTo("parent-member"));
         }
 
+        [Ignore]
         [Test]
         public void Instantiate_ChildrenOfFilled_FunctionIsSetToChildren()
         {
             //Buiding object used during test
-            var xml = new MembersXml();
+            var xml = new LevelXml();
             xml.ConnectionString = "ConnectionString";
             xml.Perspective = "perspective";
-            xml.Path = "[dimension].[hierarchy].[level]";
-            xml.ChildrenOf = "children";
+            xml.Dimension = "dimension";
+            xml.Hierarchy = "hierarchy";
+            xml.Caption = "level";
+            xml.Members = new MembersXml();
+            xml.Members.ChildrenOf = "children";
 
             //Call the method to test
             var actual = (MembersDiscoveryCommand)(xml.Instantiate());
@@ -71,14 +80,18 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(actual.Function.ToLower(), Is.EqualTo("Children".ToLower()));
         }
 
+        [Ignore]
         [Test]
         public void Instantiate_ChildrenOfNotFilled_FunctionIsSetToMembers()
         {
             //Buiding object used during test
-            var xml = new MembersXml();
+            var xml = new LevelXml();
             xml.ConnectionString = "ConnectionString";
             xml.Perspective = "perspective";
-            xml.Path = "[dimension].[hierarchy].[level]";
+            xml.Dimension = "dimension";
+            xml.Hierarchy = "hierarchy";
+            xml.Caption = "level";
+            xml.Members = new MembersXml();
 
             //Call the method to test
             var actual = (MembersDiscoveryCommand)(xml.Instantiate());

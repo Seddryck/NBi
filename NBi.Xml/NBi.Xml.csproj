@@ -46,6 +46,7 @@
     <Compile Include="Bases\BaseQueryXml.cs" />
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
     <Compile Include="Constraints\ContainsXml.cs" />
+    <Compile Include="Constraints\ExistsXml.cs" />
     <Compile Include="Constraints\EqualTo\CellXml.cs" />
     <Compile Include="Constraints\EqualTo\ColumnXml.cs" />
     <Compile Include="Constraints\EqualTo\KeyXml.cs" />
@@ -65,6 +66,12 @@
     <Compile Include="Constraints\SyntacticallyCorrectXml.cs" />
     <Compile Include="Constraints\FasterThanXml.cs" />
     <Compile Include="Systems\StructureXml.cs" />
+    <Compile Include="Systems\Structure\LevelXml.cs" />
+    <Compile Include="Systems\Structure\HierarchyXml.cs" />
+    <Compile Include="Systems\Structure\DimensionXml.cs" />
+    <Compile Include="Systems\Structure\MeasureXml.cs" />
+    <Compile Include="Systems\Structure\MeasureGroupXml.cs" />
+    <Compile Include="Systems\Structure\PerspectiveXml.cs" />
     <Compile Include="TestSuiteBuilder.cs" />
     <Compile Include="TestXml.cs" />
     <Compile Include="Systems\QueryXml.cs" />

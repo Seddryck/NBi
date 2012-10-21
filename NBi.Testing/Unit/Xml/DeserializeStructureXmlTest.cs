@@ -1,14 +1,10 @@
-﻿
-#region Using directives
-
+﻿#region Using directives
 using System.IO;
-using NBi.Xml;
 using System.Reflection;
+using NBi.Xml;
 using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Xml.Systems.Structure;
 using NUnit.Framework;
-using NBi.Core.ResultSet;
-
 #endregion
 
 namespace NBi.Testing.Unit.Xml
@@ -16,6 +12,7 @@ namespace NBi.Testing.Unit.Xml
     [TestFixture]
     public class DeserializeStructureXmlTest
     {
+
 
         #region SetUp & TearDown
         //Called only at instance creation
@@ -60,31 +57,31 @@ namespace NBi.Testing.Unit.Xml
         }
 
         [Test]
-        public void Deserialize_SampleFile_StructureContainsCaptionNotIgnoringCaseExplicitely()
+        public void Deserialize_SampleFile_Hierarchy()
         {
             int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<StructureXml>());
-            Assert.That(((StructureXml)ts.Tests[testNr].Systems[0]).Path, Is.EqualTo("[dimension].[hierarchy]"));
-            Assert.That(((StructureXml)ts.Tests[testNr].Systems[0]).Perspective, Is.EqualTo("Perspective"));
-            Assert.That(((StructureXml)ts.Tests[testNr].Systems[0]).ConnectionString, Is.EqualTo("ConnectionString"));
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<HierarchyXml>());
+            Assert.That(((HierarchyXml)ts.Tests[testNr].Systems[0]).Caption, Is.EqualTo("hierarchy"));
+            Assert.That(((HierarchyXml)ts.Tests[testNr].Systems[0]).Dimension, Is.EqualTo("dimension"));
+            Assert.That(((HierarchyXml)ts.Tests[testNr].Systems[0]).Perspective, Is.EqualTo("Perspective"));
+            Assert.That(((HierarchyXml)ts.Tests[testNr].Systems[0]).ConnectionString, Is.EqualTo("ConnectionString"));
         }
 
         [Test]
-        public void Deserialize_SampleFile_StructureWithoutPathButWithMeasureGroup()
+        public void Deserialize_SampleFile_MeasureGroup()
         {
             int testNr = 1;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<StructureXml>());
-            Assert.That(((StructureXml)ts.Tests[testNr].Systems[0]).MeasureGroup, Is.EqualTo("MeasureGroupName"));
-            Assert.That(((StructureXml)ts.Tests[testNr].Systems[0]).Perspective, Is.EqualTo("Perspective"));
-            Assert.That(((StructureXml)ts.Tests[testNr].Systems[0]).ConnectionString, Is.EqualTo("ConnectionString"));
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<MeasureGroupXml>());
+            Assert.That(((MeasureGroupXml)ts.Tests[testNr].Systems[0]).Perspective, Is.EqualTo("Perspective"));
+            Assert.That(((MeasureGroupXml)ts.Tests[testNr].Systems[0]).ConnectionString, Is.EqualTo("ConnectionString"));
         }
 
         [Test]
@@ -125,6 +122,30 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(((ContainsXml)ts.Tests[testNr].Constraints[0]).Specification.IsDisplayFolderSpecified, Is.True);
         }
 
+        [Test]
+        public void Deserialize_SampleFile_ExistsConstraintWithIgnoreCaseTrue()
+        {
+            int testNr = 4;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<ExistsXml>());
+            Assert.That(((ExistsXml)ts.Tests[testNr].Constraints[0]).IgnoreCase, Is.True);
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ExistsConstraintWithDisplayFolderRoot()
+        {
+            int testNr = 5;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<ExistsXml>());
+            Assert.That(((ExistsXml)ts.Tests[testNr].Constraints[0]).DisplayFolder, Is.EqualTo(""));
+            Assert.That(((ExistsXml)ts.Tests[testNr].Constraints[0]).Specification.IsDisplayFolderSpecified, Is.True);
+        }
 
         
 

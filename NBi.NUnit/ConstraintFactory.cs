@@ -3,53 +3,54 @@ using NBi.Core.Analysis.Metadata;
 using NBi.Core.ResultSet;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
+using NBi.Xml.Systems.Structure;
 using NUnit.Framework.Constraints;
 
 namespace NBi.NUnit
 {
     public class ConstraintFactory
     {
-        public static Constraint Instantiate(AbstractConstraintXml xml, Type systemType)
+        public static Constraint Instantiate(AbstractConstraintXml ctrXml, IAbstractSystemUnderTestXml sutXml)
         {
             Constraint ctr = null;
-            
-            if (xml.GetType() == typeof(EqualToXml)) ctr = Instantiate((EqualToXml)xml, systemType);
-            if (xml.GetType() == typeof(FasterThanXml)) ctr = Instantiate((FasterThanXml)xml);
-            if (xml.GetType() == typeof(SyntacticallyCorrectXml)) ctr = Instantiate((SyntacticallyCorrectXml)xml);
-            if (xml.GetType() == typeof(CountXml)) ctr = Instantiate((CountXml)xml);
-            if (xml.GetType() == typeof(ContainsXml)) ctr = Instantiate((ContainsXml)xml, systemType);
-            if (xml.GetType() == typeof(OrderedXml)) ctr = Instantiate((OrderedXml)xml);
+
+            if (ctrXml.GetType() == typeof(EqualToXml)) ctr = Instantiate((EqualToXml)ctrXml, sutXml);
+            if (ctrXml.GetType() == typeof(FasterThanXml)) ctr = Instantiate((FasterThanXml)ctrXml);
+            if (ctrXml.GetType() == typeof(SyntacticallyCorrectXml)) ctr = Instantiate((SyntacticallyCorrectXml)ctrXml);
+            if (ctrXml.GetType() == typeof(CountXml)) ctr = Instantiate((CountXml)ctrXml);
+            if (ctrXml.GetType() == typeof(ContainsXml)) ctr = Instantiate((ContainsXml)ctrXml, sutXml);
+            if (ctrXml.GetType() == typeof(OrderedXml)) ctr = Instantiate((OrderedXml)ctrXml);
 
             //If not handled by a constructore
             if (ctr==null)
-                throw new ArgumentException(string.Format("{0} is not an expected type for a constraint.",xml.GetType().Name));
+                throw new ArgumentException(string.Format("{0} is not an expected type for a constraint.",ctrXml.GetType().Name));
 
             //Apply negation if needed
-            if (xml.Not)
+            if (ctrXml.Not)
                 ctr = new NotConstraint(ctr);
 
             return ctr;
         }
-        
-        protected static EqualToConstraint Instantiate(EqualToXml xml, Type systemType)
+
+        protected static EqualToConstraint Instantiate(EqualToXml ctrXml, IAbstractSystemUnderTestXml sutXml)
         {
             EqualToConstraint ctr = null;
             
-            if (xml.GetCommand() != null)
+            if (ctrXml.GetCommand() != null)
             {
-                ctr = new EqualToConstraint(xml.GetCommand());
+                ctr = new EqualToConstraint(ctrXml.GetCommand());
             }
-            else if (xml.ResultSet != null)
+            else if (ctrXml.ResultSet != null)
             {
-                if (!string.IsNullOrEmpty(xml.ResultSet.File))
+                if (!string.IsNullOrEmpty(ctrXml.ResultSet.File))
                 {
                     Console.WriteLine("Debug: ResultSet.File defined in external file!");
-                    ctr = new EqualToConstraint(xml.ResultSet.File);
+                    ctr = new EqualToConstraint(ctrXml.ResultSet.File);
                 }
-                else if (xml.ResultSet.Rows!=null)
+                else if (ctrXml.ResultSet.Rows!=null)
                 {
                     Console.WriteLine("Debug: ResultSet defined in embedded resultSet!");
-                    ctr = new EqualToConstraint(xml.ResultSet.Rows);
+                    ctr = new EqualToConstraint(ctrXml.ResultSet.Rows);
                 }
             }
             
@@ -58,21 +59,21 @@ namespace NBi.NUnit
 
             //Manage settings for comparaison
             ResultSetComparisonSettings settings = new ResultSetComparisonSettings(
-                xml.KeysDef,
-                xml.ValuesDef,
-                xml.ColumnsDef
+                ctrXml.KeysDef,
+                ctrXml.ValuesDef,
+                ctrXml.ColumnsDef
                 );
 
             ctr.Using(settings);
 
             //Manage persistance
             EqualToConstraint.PersistanceItems persi = 0;
-            if (xml.GetCommand() != null)
+            if (ctrXml.GetCommand() != null)
                 persi += (int)EqualToConstraint.PersistanceItems.actual;
-            if (systemType == typeof(QueryXml))
+            if (sutXml is QueryXml)
                 persi += (int)EqualToConstraint.PersistanceItems.expected;
-            if (!(persi==0 || xml.Query==null || string.IsNullOrEmpty(xml.Query.Name)))
-                ctr.Persist(xml.Persistance, persi, xml.Query.Name);
+            if (!(persi==0 || ctrXml.Query==null || string.IsNullOrEmpty(ctrXml.Query.Name)))
+                ctr.Persist(ctrXml.Persistance, persi, ctrXml.Query.Name);
 
             return ctr;
 
@@ -135,16 +136,16 @@ namespace NBi.NUnit
             return ctr;
         }
 
-        protected static Constraint Instantiate(ContainsXml xml, Type systemType)
+        protected static Constraint Instantiate(ContainsXml ctrXml, IAbstractSystemUnderTestXml sutXml)
         {
             Constraint ctr = null;
-            if (systemType == typeof(StructureXml))
-                ctr = InstantiateForStructure(xml);
-            if (systemType == typeof(MembersXml))
-                ctr = InstantiateForMember(xml);
+            if (sutXml.IsStructure())
+                ctr = InstantiateForStructure(ctrXml);
+            else if (sutXml.IsMembers())
+                ctr = InstantiateForMember(ctrXml);
 
             if (ctr==null)
-                throw new ArgumentException(string.Format("'{0}' is not an expected type for a system when instantiating a '{1}' constraint.", systemType.Name, xml.GetType().Name));
+                throw new ArgumentException(string.Format("'{0}' is not an expected type for a system when instantiating a '{1}' constraint.", sutXml.GetType().Name, ctrXml.GetType().Name));
 
             return ctr;
         }

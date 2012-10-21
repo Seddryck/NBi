@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="Not available in Contains (Members)">
+		<system-under-test>
+			<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString">
+				<members/>
+			</level>
+		</system-under-test>
+		<assert>
+			<contains not="true" caption="member"/>
+		</assert>
+	</test>
+</testSuite>

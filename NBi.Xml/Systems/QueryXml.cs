@@ -6,6 +6,11 @@ namespace NBi.Xml.Systems
 {
     public class QueryXml : AbstractSystemUnderTestXml
     {
+        public virtual bool IsQuery()
+        {
+            return true;
+        }
+
         [XmlAttribute("name")]
         public string Name { get; set; }
         

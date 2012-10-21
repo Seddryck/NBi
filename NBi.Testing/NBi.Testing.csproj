@@ -109,6 +109,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
     <Compile Include="Unit\Xml\Constraints\EqualToXmlTest.cs" />
+    <Compile Include="Unit\Xml\ExistsDeserializeTest.cs" />
+    <Compile Include="Unit\Xml\MeasureDeserialize.cs" />
     <Compile Include="Unit\Xml\OrderedDeserialize.cs" />
     <Compile Include="Unit\Xml\IgnoreDeserialize.cs" />
     <Compile Include="Unit\Xml\NotDeserialize.cs" />
@@ -169,6 +171,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\ExistsTestSuite.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Unit\Xml\Resources\MeasureTestSuite.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\Resources\IgnoreTestSuite.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

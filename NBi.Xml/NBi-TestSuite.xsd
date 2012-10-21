@@ -206,7 +206,6 @@
 											<xs:complexType>
 												<xs:simpleContent>
 													<xs:extension base="xs:string">
-														<xs:attribute name="display-folder" type="xs:string" use="optional" />
 														<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
 														<xs:attribute name="not" type="xs:boolean" use="optional" />
 													</xs:extension>
@@ -276,7 +275,8 @@
 	<xs:complexType name="measure-type">
 		<xs:complexContent>
 			<xs:extension base="measure-group-type">
-				<xs:attribute name="measure-group" type="xs:string" use="required" />
+				<xs:attribute name="measure-group" type="xs:string" use="optional" />
+				<xs:attribute name="display-folder" type="xs:string" use="optional" />
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>

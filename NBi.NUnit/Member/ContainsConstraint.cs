@@ -14,12 +14,12 @@ namespace NBi.NUnit.Member
         protected IEnumerable<string> expectedCaptions;
         protected IComparer comparer;
         protected MembersDiscoveryCommand command;
-        protected IDiscoverMemberEngine memberEngine;
+        protected MembersAdomdEngine memberEngine;
 
         /// <summary>
         /// Engine dedicated to MetadataExtractor acquisition
         /// </summary>
-        protected internal IDiscoverMemberEngine MemberEngine
+        protected internal MembersAdomdEngine MemberEngine
         {
             set
             {
@@ -29,10 +29,10 @@ namespace NBi.NUnit.Member
             }
         }
 
-        protected IDiscoverMemberEngine GetEngine()
+        protected MembersAdomdEngine GetEngine()
         {
             if (memberEngine == null)
-                memberEngine = new CubeDimensionAdomdEngine();
+                memberEngine = new MembersAdomdEngine();
             return memberEngine;
         }
 
@@ -95,7 +95,7 @@ namespace NBi.NUnit.Member
         {
             command = actual;
             var extr = GetEngine();
-            MemberResult result = extr.Execute(command);
+            MemberResult result = extr.GetMembers(command);
             return this.Matches(result);
         }
 
@@ -105,17 +105,17 @@ namespace NBi.NUnit.Member
         /// <param name="writer">The writer on which the description is displayed</param>
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
-            if (command != null)
-            {
-                var persp = !string.IsNullOrEmpty(command.PerspectiveName) ? string.Format("On perspective \"{0}\", a", command.PerspectiveName) : "A";
-                writer.WritePredicate(string.Format("{0} {1} identified by \"{2}\" containing a member with caption"
-                                                            , persp
-                                                            , command.GetDepthName().ToLower()
-                                                            , command.Path));
-                writer.WriteExpectedValue(expectedCaptions);
-            }
-            else
-                base.WriteDescriptionTo(writer);
+            //if (command != null)
+            //{
+            //    var persp = !string.IsNullOrEmpty(command.Perspective) ? string.Format("On perspective \"{0}\", a", command.Perspective) : "A";
+            //    writer.WritePredicate(string.Format("{0} {1} identified by \"{2}\" containing a member with caption"
+            //                                                , persp
+            //                                                , "TODO"
+            //                                                , command.Path));
+            //    writer.WriteExpectedValue(expectedCaptions);
+            //}
+            //else
+            //    base.WriteDescriptionTo(writer);
         }
 
        

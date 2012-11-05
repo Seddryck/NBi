@@ -2,9 +2,9 @@
 <testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
 	<test name="level with caption xyz (explicitely not ignoring case) exists under dimension.hierarchy">
 		<system-under-test>
-			<level caption="xYz" hierarchy="hierarchy" dimension="dimension" perspective="Perspective" connectionString="ConnectionString">
-				<structure/>
-			</level>
+			<structure>
+				<level caption="xYz" hierarchy="hierarchy" dimension="dimension" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
 		</system-under-test>
 		<assert>
 			<exists
@@ -14,7 +14,9 @@
 	</test>
 	<test name="Measure xYz exists">
 		<system-under-test>
-			<measure caption="xYz" measure-group="MeasureGroupName" perspective="Perspective" connectionString="ConnectionString"/>
+			<structure>
+				<measure caption="xYz" measure-group="MeasureGroupName" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
 		</system-under-test>
 		<assert>
 			<exists

@@ -35,8 +35,8 @@ namespace NBi.NUnit.Runtime
                 {
                     foreach (var ctr in test.Constraints)
                     {
-                        var nUnitCtr = ConstraintFactory.Instantiate(ctr, tc);
-                        Assert.That(tc.Instantiate(), nUnitCtr);
+                        var testCase = new TestCaseFactory().Instantiate(tc, ctr);
+                        Assert.That(testCase.SystemUnderTest, testCase.Constraint);
                     }
                 }
             }

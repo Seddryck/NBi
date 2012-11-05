@@ -1,9 +1,8 @@
 ﻿using System.IO;
 using System.Reflection;
 using NBi.Xml;
-using NBi.Xml.Constraints;
+using NBi.Xml.Items;
 using NBi.Xml.Systems;
-using NBi.Xml.Systems.Structure;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Xml
@@ -35,12 +34,15 @@ namespace NBi.Testing.Unit.Xml
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<LevelXml>());
-            Assert.That(((LevelXml)ts.Tests[testNr].Systems[0]).Dimension, Is.EqualTo("dimension"));
-            Assert.That(((LevelXml)ts.Tests[testNr].Systems[0]).Hierarchy, Is.EqualTo("hierarchy"));
-            Assert.That(((LevelXml)ts.Tests[testNr].Systems[0]).Caption, Is.EqualTo("level"));
-            Assert.That(((LevelXml)ts.Tests[testNr].Systems[0]).Perspective, Is.EqualTo("Perspective"));
-            Assert.That(((LevelXml)ts.Tests[testNr].Systems[0]).ConnectionString, Is.EqualTo("ConnectionString"));
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<MembersXml>());
+            Assert.That(((MembersXml)ts.Tests[testNr].Systems[0]).Item, Is.TypeOf<LevelXml>());
+
+            LevelXml item = (LevelXml)((MembersXml)ts.Tests[testNr].Systems[0]).Item;
+            Assert.That(item.Dimension, Is.EqualTo("dimension"));
+            Assert.That(item.Hierarchy, Is.EqualTo("hierarchy"));
+            Assert.That(item.Caption, Is.EqualTo("level"));
+            Assert.That(item.Perspective, Is.EqualTo("Perspective"));
+            Assert.That(item.ConnectionString, Is.EqualTo("ConnectionString"));
         }
 
         [Test]
@@ -52,11 +54,14 @@ namespace NBi.Testing.Unit.Xml
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<HierarchyXml>());
-            Assert.That(((HierarchyXml)ts.Tests[testNr].Systems[0]).Dimension, Is.EqualTo("dimension"));
-            Assert.That(((HierarchyXml)ts.Tests[testNr].Systems[0]).Caption, Is.EqualTo("hierarchy"));
-            Assert.That(((HierarchyXml)ts.Tests[testNr].Systems[0]).Perspective, Is.EqualTo("Perspective"));
-            Assert.That(((HierarchyXml)ts.Tests[testNr].Systems[0]).ConnectionString, Is.EqualTo("ConnectionString"));
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<MembersXml>());
+            Assert.That(((MembersXml)ts.Tests[testNr].Systems[0]).Item, Is.TypeOf<HierarchyXml>());
+
+            HierarchyXml item = (HierarchyXml)((MembersXml)ts.Tests[testNr].Systems[0]).Item;
+            Assert.That(item.Dimension, Is.EqualTo("dimension"));
+            Assert.That(item.Caption, Is.EqualTo("hierarchy"));
+            Assert.That(item.Perspective, Is.EqualTo("Perspective"));
+            Assert.That(item.ConnectionString, Is.EqualTo("ConnectionString"));
         }
         
         [Test]
@@ -67,8 +72,8 @@ namespace NBi.Testing.Unit.Xml
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<LevelXml>());
-            Assert.That(((LevelXml)ts.Tests[testNr].Systems[0]).Members.ChildrenOf, Is.EqualTo("aBc"));
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<MembersXml>());
+            Assert.That(((MembersXml)ts.Tests[testNr].Systems[0]).ChildrenOf, Is.EqualTo("aBc"));
         }
 
     }

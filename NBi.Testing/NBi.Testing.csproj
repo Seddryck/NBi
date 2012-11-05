@@ -71,10 +71,8 @@
     <Compile Include="Acceptance\TestSuiteRunner.cs" />
     <Compile Include="ConnectionStringReader.cs" />
     <Compile Include="DiskOnFile.cs" />
-    <Compile Include="Integration\Core\Analysis\MemberAdomdExtractorTest.cs" />
-    <Compile Include="Integration\Core\Analysis\Member\CubeDimensionAdomdEngineTest.cs" />
-    <Compile Include="Integration\Core\Analysis\Member\DimensionCubeAdomdEngineTest.cs" />
-    <Compile Include="Integration\Core\Analysis\Member\SchemaRowsetAdomdEngineTest.cs" />
+    <Compile Include="Integration\Core\Analysis\Discovery\DiscoveryFactoryTest.cs" />
+    <Compile Include="Integration\Core\Analysis\MembersAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />
     <Compile Include="Integration\Core\Query\QueryAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\Query\QueryParserTest.cs" />
@@ -97,6 +95,14 @@
     <Compile Include="Unit\Core\Integration\PackageManagerTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
     <Compile Include="Unit\Core\Util\DiffFiles\LongestCommonSequence\DiffEngineTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\QuerySyntacticallyCorrectBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\QueryFasterThanBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\QueryEqualsToBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\StructureExistsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\MembersContainsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\MembersOrderedBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\MembersCountBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\StructureContainsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\MemberContainsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\CountConstraintTest.cs" />
     <Compile Include="Unit\NUnit\FasterThanConstraintTest.cs" />
@@ -128,6 +134,7 @@
     <Compile Include="Unit\Xml\XmlManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Integration\Core\Analysis\Member\" />
     <Folder Include="Integration\Core\Analysis\Query\" />
     <Folder Include="Integration\Core\Database\" />
     <Folder Include="Integration\NUnit\Database\" />
@@ -251,6 +258,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\SyntacticallyCorrect.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Exists.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="NBi.Testing.sql" />

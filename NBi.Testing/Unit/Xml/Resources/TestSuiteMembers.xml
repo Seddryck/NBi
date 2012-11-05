@@ -2,9 +2,9 @@
 <testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
 	<test name="level counts exactly 10 members">
 		<system-under-test>
-			<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString">
-				<members/>
-			</level>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<count
@@ -14,9 +14,9 @@
 	</test>
 	<test name="hierarchy counts between 10 and 15 members">
 		<system-under-test>
-			<hierarchy dimension="dimension" caption="hierarchy" perspective="Perspective" connectionString="ConnectionString">
-				<members/>
-			</hierarchy>
+			<members>
+				<hierarchy dimension="dimension" caption="hierarchy" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<count
@@ -27,9 +27,9 @@
 	</test>
 	<test name="hierarchy contains member with caption xyz under the element abc at level Level">
 		<system-under-test>
-			<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString">
-				<members children-of="aBc"/>
-			</level>
+			<members children-of="aBc">
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<contains
@@ -40,9 +40,9 @@
 	</test>
 	<test name="level's members are ordered alphabetically">
 		<system-under-test>
-			<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString">
-				<members/>
-			</level>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<ordered
@@ -51,9 +51,9 @@
 	</test>
 	<test name="level's members are ordered descending">
 		<system-under-test>
-			<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString">
-				<members/>
-			</level>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<ordered
@@ -63,9 +63,10 @@
 	</test>
 	<test name="level's members are ordered chronologically">
 		<system-under-test>
-			<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString">
-				<members/>
-			</level>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+
 		</system-under-test>
 		<assert>
 			<ordered
@@ -75,9 +76,9 @@
 	</test>
 	<test name="level's members are ordered specifically">
 		<system-under-test>
-			<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString">
-				<members/>
-			</level>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<ordered
@@ -93,9 +94,10 @@
 	</test>
 	<test name="Not available in Contains (Members)">
 		<system-under-test>
-			<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString">
-				<members/>
-			</level>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+
 		</system-under-test>
 		<assert>
 			<contains not="true" caption="member"/>
@@ -103,9 +105,9 @@
 	</test>
 	<test name="Ignore attribute" ignore="true">
 		<system-under-test>
-			<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString">
-				<members/>
-			</level>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<contains not="true" caption="member"/>

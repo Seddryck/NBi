@@ -2,9 +2,9 @@
 <testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
 	<test name="level counts exactly 10 members">
 		<system-under-test>
-			<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString">
-				<members/>
-			</level>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<count
@@ -14,9 +14,9 @@
 	</test>
 	<test name="hierarchy counts between 10 and 15 members">
 		<system-under-test>
-			<hierarchy dimension="dimension" caption="hierarchy" perspective="Perspective" connectionString="ConnectionString">
-				<members/>
-			</hierarchy>
+			<members>
+				<hierarchy dimension="dimension" caption="hierarchy" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<count

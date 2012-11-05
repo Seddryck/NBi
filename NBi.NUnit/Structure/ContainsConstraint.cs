@@ -16,7 +16,7 @@ namespace NBi.NUnit.Structure
         protected string expectedCaption;
         protected string expectedDisplayFolder;
         protected IComparer comparer;
-        protected DiscoveryCommand command;
+        protected MetadataDiscoveryCommand command;
         protected IMetadataExtractor _metadataExtractor;
         
         /// <summary>
@@ -80,8 +80,8 @@ namespace NBi.NUnit.Structure
 
         public override bool Matches(object actual)
         {
-            if (actual is DiscoveryCommand)
-                return Process((DiscoveryCommand)actual);
+            if (actual is MetadataDiscoveryCommand)
+                return Process((MetadataDiscoveryCommand)actual);
             else
             {
                 base.Using(comparer);
@@ -96,7 +96,7 @@ namespace NBi.NUnit.Structure
         }
 
         
-        protected bool Process(DiscoveryCommand actual)
+        protected bool Process(MetadataDiscoveryCommand actual)
         {
             command = actual;
             var extr = GetEngine(actual.ConnectionString);
@@ -120,16 +120,16 @@ namespace NBi.NUnit.Structure
                 {
                     var displayFolder = (_expected is IFieldWithDisplayFolder) ? string.Format(", in folder \"{0}\", ", ((IFieldWithDisplayFolder)_expected).DisplayFolder) : string.Empty;
                     writer.WritePredicate(string.Format("On perspective \"{0}\", the measuregroup \"{1}\" containing{2}a measure with caption"
-                                                                               , command.Filter.Perspective
-                                                                               , command.Filter.MeasureGroupName
+                                                                               , command.GetFilter(DiscoveryTarget.Perspectives).Value
+                                                                               , command.GetFilter(DiscoveryTarget.MeasureGroups).Value
                                                                                , displayFolder));
                 }
                 else
                     writer.WritePredicate(string.Format("On perspective \"{0}\", a {1} identified by \"{2}\" containing a {3} with caption"
-                                                            , ((PathDiscoveryCommand)command).Filter.Perspective
-                                                            , ((PathDiscoveryCommand)command).GetDepthName()
-                                                            , ((PathDiscoveryCommand)command).Path
-                                                            , ((PathDiscoveryCommand)command).GetNextDepthName()));
+                                                            , command.GetFilter(DiscoveryTarget.Perspectives).Value
+                                                            , "TODO"
+                                                            , "TODO"
+                                                            , "TODO"));
                 writer.WriteExpectedValue(expectedCaption);
             }
             else

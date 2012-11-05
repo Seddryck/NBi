@@ -233,10 +233,13 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_GivenDiscoverCommand_EngineCalledOnceWithParametersComingFromDiscoveryCommand()
         {
-            var disco = DiscoveryFactory.BuildForMembers(
+            var disco = new DiscoveryFactory().Build(
                 "ConnectionString",
+                "member-caption",
                 "perspective",
-                "[dimension].[hierarchy]");
+                "dimension",
+                "hierarchy",
+                null);
 
             var memberStub = new Mock<NBi.Core.Analysis.Member.Member>();
             var member1 = memberStub.Object;
@@ -245,8 +248,8 @@ namespace NBi.Testing.Unit.NUnit.Member
             members.Add(member1);
             members.Add(member2);
 
-            var meMock = new Mock<IDiscoverMemberEngine>();
-            meMock.Setup(engine => engine.Execute(disco))
+            var meMock = new Mock<MembersAdomdEngine>();
+            meMock.Setup(engine => engine.GetMembers(disco))
                 .Returns(members);
             var me = meMock.Object;
 
@@ -256,7 +259,7 @@ namespace NBi.Testing.Unit.NUnit.Member
             orderedConstraint.Matches(disco);
 
             //Test conclusion            
-            meMock.Verify(engine => engine.Execute(disco), Times.Once());
+            meMock.Verify(engine => engine.GetMembers(disco), Times.Once());
         }
     }
 }

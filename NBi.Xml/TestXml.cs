@@ -2,7 +2,6 @@
 using System.Xml.Serialization;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
-using NBi.Xml.Systems.Structure;
 
 namespace NBi.Xml
 {
@@ -25,12 +24,8 @@ namespace NBi.Xml
 
         [XmlArray("system-under-test"),
         XmlArrayItem(Type = typeof(QueryXml), ElementName = "query"),
-        XmlArrayItem(Type = typeof(PerspectiveXml), ElementName = "perspective"),
-        XmlArrayItem(Type = typeof(MeasureGroupXml), ElementName = "measure-group"),
-        XmlArrayItem(Type = typeof(MeasureXml), ElementName = "measure"),
-        XmlArrayItem(Type = typeof(DimensionXml), ElementName = "dimension"),
-        XmlArrayItem(Type = typeof(HierarchyXml), ElementName = "hierarchy"),
-        XmlArrayItem(Type = typeof(LevelXml), ElementName = "level"),
+        XmlArrayItem(Type = typeof(MembersXml), ElementName = "members"),
+        XmlArrayItem(Type = typeof(StructureXml), ElementName = "structure"),
         ]
         public List<AbstractSystemUnderTestXml> Systems;
 

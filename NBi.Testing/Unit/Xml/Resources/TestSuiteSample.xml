@@ -17,7 +17,6 @@
 			<query name="Select all products" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
 				SELECT * FROM Product;
 			</query>
-			<query file="Select all products.sql" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True" />
 		</system-under-test>
 		<assert>
 			<syntacticallyCorrect />

@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Data.SqlClient;
-using NBi.NUnit;
+using NBi.NUnit.Query;
 using NUnit.Framework;
 #endregion
 

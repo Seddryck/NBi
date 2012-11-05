@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.AnalysisServices.AdomdClient;
 using System.Linq;
+using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.Analysis.Discovery;
+using NBi.Core.Analysis.Metadata.Adomd;
 
 namespace NBi.Core.Analysis.Metadata
 {
@@ -58,13 +59,13 @@ namespace NBi.Core.Analysis.Metadata
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Starting investigation ..."));
 
-            GetPerspectives(Filter.Empty);
-            GetDimensions(Filter.Empty);
-            GetHierarchies(Filter.Empty);
-            GetLevels(Filter.Empty);
-            GetProperties(Filter.Empty);
-            GetDimensionUsage(Filter.Empty);
-            GetMeasures(Filter.Empty);
+            GetPerspectives(null);
+            GetDimensions(null, null);
+            GetHierarchies(null, null, null);
+            GetLevels(null, null, null, null);
+            GetProperties(null, null, null, null);
+            GetDimensionUsage(null, null, null);
+            GetMeasures(null, null);
 
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Cube investigated"));
@@ -77,89 +78,155 @@ namespace NBi.Core.Analysis.Metadata
         /// </summary>
         /// <param name="command">limit the scope of the metadata's investigation</param>
         /// <returns>An enumration of fields</returns>
-        public IEnumerable<IField> GetPartialMetadata(DiscoveryCommand command)
+        public IEnumerable<IField> GetPartialMetadata(MetadataDiscoveryCommand command)
         {
-            var filter = command.Filter;
-            var depthController = command.Depth;
-            Console.Out.WriteLine(filter);
+            if (command.Target == DiscoveryTarget.Perspectives)
+            {
+                var cmd = new PerspectiveDiscoveryCommand(ConnectionString);
+                return cmd.GetCaptions(command.GetAllFilters());
+            }
 
-            //Execute the discovery command
-            //the depthController ensure we don't go too through in the discovery
-            if (depthController.Perspectives)
-                GetPerspectives(filter);
-            if (depthController.Dimensions)
-                GetDimensions(filter);
-            if (depthController.Hierarchies)
-                GetHierarchies(filter);
-            if (depthController.Levels)
-                GetLevels(filter);
-            if (depthController.MeasureGroups)
-                GetDimensionUsage(filter);
-            if (depthController.Measures)
-                GetMeasures(filter);
+            if (command.Target == DiscoveryTarget.Dimensions)
+            {
+                var cmd = new DimensionDiscoveryCommand(ConnectionString);
+                return cmd.GetCaptions(command.GetAllFilters());
+            }
+
+            if (command.Target == DiscoveryTarget.Hierarchies)
+            {
+                var cmd = new HierarchyDiscoveryCommand(ConnectionString);
+                return cmd.GetCaptions(command.GetAllFilters());
+            }
+
+            if (command.Target == DiscoveryTarget.Levels)
+            {
+                var cmd = new LevelDiscoveryCommand(ConnectionString);
+                return cmd.GetCaptions(command.GetAllFilters());
+            }
+
+            if (command.Target == DiscoveryTarget.MeasureGroups)
+            {
+                var cmd = new MeasureGroupDiscoveryCommand(ConnectionString);
+                return cmd.GetCaptions(command.GetAllFilters());
+            }
+
+            if (command.Target == DiscoveryTarget.Measures)
+            {
+                var cmd = new MeasureDiscoveryCommand(ConnectionString);
+                return cmd.GetCaptions(command.GetAllFilters());
+            }
+
+            if (command.GetFilter(DiscoveryTarget.Dimensions) != null || command.Target == DiscoveryTarget.Dimensions)
+                GetDimensions(
+                    command.GetFilter(DiscoveryTarget.Perspectives),
+                    command.GetFilter(DiscoveryTarget.Dimensions)
+                    );
+
+            if (command.GetFilter(DiscoveryTarget.Hierarchies) != null || command.Target == DiscoveryTarget.Hierarchies)
+                GetHierarchies(
+                    command.GetFilter(DiscoveryTarget.Perspectives),
+                    command.GetFilter(DiscoveryTarget.Dimensions),
+                    command.GetFilter(DiscoveryTarget.Hierarchies)
+                    );
+
+            if (command.GetFilter(DiscoveryTarget.Levels) != null || command.Target == DiscoveryTarget.Levels)
+                GetLevels(
+                    command.GetFilter(DiscoveryTarget.Perspectives),
+                    command.GetFilter(DiscoveryTarget.Dimensions),
+                    command.GetFilter(DiscoveryTarget.Hierarchies),
+                    command.GetFilter(DiscoveryTarget.Levels)
+                    );
+
+            if (command.GetFilter(DiscoveryTarget.MeasureGroups) != null || command.Target == DiscoveryTarget.MeasureGroups)
+                GetDimensionUsage(
+                    command.GetFilter(DiscoveryTarget.Perspectives),
+                    command.GetFilter(DiscoveryTarget.MeasureGroups),
+                    command.GetFilter(DiscoveryTarget.Dimensions)
+                    );
+
+            if (command.GetFilter(DiscoveryTarget.Measures) != null || command.Target == DiscoveryTarget.Measures)
+                GetMeasures(
+                    command.GetFilter(DiscoveryTarget.Perspectives),
+                    command.GetFilter(DiscoveryTarget.MeasureGroups)
+                    );
 
             //Return result of the discovery command
 
             //perspectives
             if(command.Target==DiscoveryTarget.Perspectives)
                 return Metadata.Perspectives.Values.AsEnumerable<IField>();
-            if (Metadata.Perspectives.ContainsKey(filter.Perspective))
+
+            var perspectiveFilterValue = command.GetFilter(DiscoveryTarget.Perspectives).Value;
+            if (Metadata.Perspectives.ContainsKey(perspectiveFilterValue))
             {
                 //dimensions and measure-groups
-                var persp = Metadata.Perspectives[filter.Perspective];
+                var persp = Metadata.Perspectives[perspectiveFilterValue];
                 if(command.Target==DiscoveryTarget.Dimensions)
                     return persp.Dimensions.Values.AsEnumerable<IField>();
-                //if(command.Target==DiscoveryTarget.MeasureGroups)
-                //    return persp.MeasureGroups.Values.AsEnumerable<IField>();
+                if(command.Target==DiscoveryTarget.MeasureGroups)
+                    return persp.MeasureGroups.Values.AsEnumerable<IField>();
                 
                 //hierarchies & levels
-                if (depthController.Dimensions)
+                if (command.Target == DiscoveryTarget.Hierarchies || command.Target == DiscoveryTarget.Levels)
                 {
-                    if (persp.Dimensions.ContainsKey(filter.DimensionUniqueName))
+                    var dimensionFilterValue = command.GetFilter(DiscoveryTarget.Dimensions).Value;
+                    if (persp.Dimensions.ContainsKey(string.Format("[{0}]", dimensionFilterValue)))
                     {
-                        var dim = persp.Dimensions[filter.DimensionUniqueName];
+                        var dim = persp.Dimensions[string.Format("[{0}]", dimensionFilterValue)];
                         if(command.Target==DiscoveryTarget.Hierarchies)
                             return dim.Hierarchies.Values.AsEnumerable<IField>();
 
-                        if (dim.Hierarchies.ContainsKey(filter.HierarchyUniqueName))
+                        var hierarchyFilterValue = command.GetFilter(DiscoveryTarget.Hierarchies).Value;
+                        if (dim.Hierarchies.ContainsKey(string.Format("[{0}].[{1}]", dimensionFilterValue, hierarchyFilterValue)))
                         {
-                            var hie = dim.Hierarchies[filter.HierarchyUniqueName];
+                            var hie = dim.Hierarchies[string.Format("[{0}].[{1}]", dimensionFilterValue, hierarchyFilterValue)];
                             if(command.Target==DiscoveryTarget.Levels)
                                 return hie.Levels.Values.AsEnumerable<IField>();
                         }
                         else
-                            throw new MetadataNotFoundException("The hierarchy named '{0}' doesn't exist", filter.HierarchyUniqueName);
+                            throw new MetadataNotFoundException("The hierarchy named '{0}' doesn't exist", hierarchyFilterValue);
                     }
                     else
-                        throw new MetadataNotFoundException("The dimension named '{0}' doesn't exist", filter.DimensionUniqueName);
+                        throw new MetadataNotFoundException("The dimension named '{0}' doesn't exist", dimensionFilterValue);
                 }
                 
                 //Measures
-                if (depthController.MeasureGroups)
+                if (command.Target == DiscoveryTarget.Measures)
                 {
-                    if (persp.MeasureGroups.ContainsKey(filter.MeasureGroupName))
+                    if (command.GetFilter(DiscoveryTarget.Dimensions) != null)
                     {
-                        var mg = persp.MeasureGroups[filter.MeasureGroupName];
-                        if(command.Target==DiscoveryTarget.Measures)
-                            return mg.Measures.Values.AsEnumerable<IField>();
+                        var measureGroupFilterValue = command.GetFilter(DiscoveryTarget.MeasureGroups).Value;
+                        if (persp.MeasureGroups.ContainsKey(measureGroupFilterValue))
+                        {
+                            var mg = persp.MeasureGroups[measureGroupFilterValue];
+                            if (command.Target == DiscoveryTarget.Measures)
+                                return mg.Measures.Values.AsEnumerable<IField>();
+                        }
+                        else
+                            throw new MetadataNotFoundException("The measure-group named '{0}' doesn't exist", measureGroupFilterValue);
                     }
                     else
-                        throw new MetadataNotFoundException("The measure-group named '{0}' doesn't exist", filter.MeasureGroupName);
+                    {
+                        var measures = new List<IField>();
+                        foreach (var mg in persp.MeasureGroups)
+                                measures.AddRange(mg.Value.Measures.Values.AsEnumerable<IField>());
+                        return measures;
+                    }
                 }
             }
             else
-                throw new MetadataNotFoundException("The perspective named '{0}' doesn't exist", filter.Perspective);
+                throw new MetadataNotFoundException("The perspective named '{0}' doesn't exist", perspectiveFilterValue);
 
             throw new Exception("Unhandled case for partial metadata extraction!");
         }
 
-        internal void GetPerspectives(Filter filter)
+        internal void GetPerspectives(IFilter filter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating perspectives"));
             using (var cmd = CreateCommand())
             {
-                var whereClause = string.IsNullOrEmpty(filter.Perspective) ? string.Empty : string.Format(" and CUBE_NAME='{0}'", filter.Perspective);
+                var whereClause = filter!=null && filter.GetType() == typeof(CaptionFilter) ? string.Format(" and CUBE_NAME='{0}'", ((CaptionFilter)filter).Value) : string.Empty;
                 cmd.CommandText = string.Format("select * from $system.mdschema_dimensions where 1=1{0}", whereClause);
                 var rdr = ExecuteReader(cmd);
                 // Traverse the response and 
@@ -176,15 +243,15 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        internal void GetDimensions(Filter filter)
+        internal void GetDimensions(IFilter perspective, IFilter dimension)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating dimensions"));
 
             using (var cmd = CreateCommand())
             {
-                var whereClause = string.IsNullOrEmpty(filter.Perspective) ? string.Empty : string.Format(" and CUBE_NAME='{0}'", filter.Perspective);
-                whereClause += string.IsNullOrEmpty(filter.DimensionUniqueName) ? string.Empty : string.Format(" and [DIMENSION_UNIQUE_NAME]='{0}'", filter.DimensionUniqueName);
+                var whereClause = perspective.GetType() == typeof(CaptionFilter) ? string.Format(" and CUBE_NAME='{0}'", ((CaptionFilter)perspective).Value) : string.Empty;
+                whereClause += dimension != null && dimension.GetType() == typeof(CaptionFilter) ? string.Format(" and [DIMENSION_UNIQUE_NAME]='[{0}]'", ((CaptionFilter)dimension).Value) : string.Empty;
                 cmd.CommandText = string.Format("select * from $system.mdschema_dimensions where DIMENSION_IS_VISIBLE{0}", whereClause);
                 var rdr = ExecuteReader(cmd);
                 // Traverse the response and 
@@ -208,16 +275,16 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        internal void GetHierarchies(Filter filter)
+        internal void GetHierarchies(IFilter perspective, IFilter dimension, IFilter hierarchy)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating hierarchies"));
 
             using (var cmd = CreateCommand())
             {
-                var whereClause = string.IsNullOrEmpty(filter.Perspective) ? string.Empty : string.Format(" and CUBE_NAME='{0}'", filter.Perspective);
-                whereClause += string.IsNullOrEmpty(filter.DimensionUniqueName) ? string.Empty : string.Format(" and [DIMENSION_UNIQUE_NAME]='{0}'", filter.DimensionUniqueName);
-                whereClause += string.IsNullOrEmpty(filter.HierarchyUniqueName) ? string.Empty : string.Format(" and [HIERARCHY_UNIQUE_NAME]='{0}'", filter.HierarchyUniqueName);
+                var whereClause = perspective.GetType() == typeof(CaptionFilter) ? string.Format(" and CUBE_NAME='{0}'", ((CaptionFilter)perspective).Value) : string.Empty;
+                whereClause += dimension.GetType() == typeof(CaptionFilter) ? string.Format(" and [DIMENSION_UNIQUE_NAME]='[{0}]'", ((CaptionFilter)dimension).Value) : string.Empty;
+                whereClause += hierarchy != null && hierarchy.GetType() == typeof(CaptionFilter) ? string.Format(" and [HIERARCHY_UNIQUE_NAME]='[{0}].[{1}]'", ((CaptionFilter)dimension).Value, ((CaptionFilter)hierarchy).Value) : string.Empty;
                 cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_hierarchies where 1=1 {0}", whereClause);
                 var rdr = ExecuteReader(cmd);
 
@@ -246,17 +313,17 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        internal void GetLevels(Filter filter)
+        internal void GetLevels(IFilter perspectiveFilter, IFilter dimensionFilter, IFilter hierarchyFilter, IFilter levelFilter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating levels"));
 
             using (var cmd = CreateCommand())
             {
-                var whereClause = string.IsNullOrEmpty(filter.Perspective) ? string.Empty : string.Format(" and CUBE_NAME='{0}'", filter.Perspective);
-                whereClause += string.IsNullOrEmpty(filter.DimensionUniqueName) ? string.Empty : string.Format(" and [DIMENSION_UNIQUE_NAME]='{0}'", filter.DimensionUniqueName);
-                whereClause += string.IsNullOrEmpty(filter.HierarchyUniqueName) ? string.Empty : string.Format(" and [HIERARCHY_UNIQUE_NAME]='{0}'", filter.HierarchyUniqueName);
-                whereClause += string.IsNullOrEmpty(filter.LevelUniqueName) ? string.Empty : string.Format(" and [LEVEL_UNIQUE_NAME]='{0}'", filter.LevelUniqueName);
+                var whereClause = perspectiveFilter.GetType() == typeof(CaptionFilter) ? string.Format(" and CUBE_NAME='{0}'", ((CaptionFilter)perspectiveFilter).Value) : string.Empty;
+                whereClause += dimensionFilter.GetType() == typeof(CaptionFilter) ? string.Format(" and [DIMENSION_UNIQUE_NAME]='[{0}]'", ((CaptionFilter)dimensionFilter).Value) : string.Empty;
+                whereClause += hierarchyFilter.GetType() == typeof(CaptionFilter) ? string.Format(" and [HIERARCHY_UNIQUE_NAME]='[{0}].[{1}]'", ((CaptionFilter)dimensionFilter).Value, ((CaptionFilter)hierarchyFilter).Value) : string.Empty;
+                whereClause += levelFilter != null && levelFilter.GetType() == typeof(CaptionFilter) ? string.Format(" and [LEVEL_UNIQUE_NAME]='[{0}].[{1}].[{2}]'", ((CaptionFilter)dimensionFilter).Value, ((CaptionFilter)hierarchyFilter).Value, ((CaptionFilter)levelFilter).Value) : string.Empty;
                 cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_levels where 1=1 {0}", whereClause);
                 var rdr = ExecuteReader(cmd);
 
@@ -293,17 +360,17 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        internal void GetProperties(Filter filter)
+        internal void GetProperties(IFilter perspectiveFilter, IFilter dimensionFilter, IFilter hierarchyFilter, IFilter levelFilter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating properties"));
 
             using (var cmd = CreateCommand())
             {
-                var whereClause = string.IsNullOrEmpty(filter.Perspective) ? string.Empty : string.Format(" and CUBE_NAME='{0}'", filter.Perspective);
-                whereClause += string.IsNullOrEmpty(filter.DimensionUniqueName) ? string.Empty : string.Format(" and [DIMENSION_UNIQUE_NAME]='{0}'", filter.DimensionUniqueName);
-                whereClause += string.IsNullOrEmpty(filter.HierarchyUniqueName) ? string.Empty : string.Format(" and [HIERARCHY_UNIQUE_NAME]='{0}'", filter.HierarchyUniqueName);
-                whereClause += string.IsNullOrEmpty(filter.LevelUniqueName) ? string.Empty : string.Format(" and [LEVEL_UNIQUE_NAME]='{0}'", filter.LevelUniqueName);
+                var whereClause = perspectiveFilter.GetType() == typeof(CaptionFilter) ? string.Format(" and CUBE_NAME='{0}'", ((CaptionFilter)perspectiveFilter).Value) : string.Empty;
+                whereClause += dimensionFilter.GetType() == typeof(CaptionFilter) ? string.Format(" and [DIMENSION_UNIQUE_NAME]='[{0}]'", ((CaptionFilter)dimensionFilter).Value) : string.Empty;
+                whereClause += hierarchyFilter.GetType() == typeof(CaptionFilter) ? string.Format(" and [HIERARCHY_UNIQUE_NAME]='[{0}]'", ((CaptionFilter)hierarchyFilter).Value) : string.Empty;
+                whereClause += levelFilter.GetType() == typeof(CaptionFilter) ? string.Format(" and [LEVEL_UNIQUE_NAME]='[{0}]'", ((CaptionFilter)levelFilter).Value) : string.Empty;
                 cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_properties where 1=1 {0}", whereClause);
                 var rdr = ExecuteReader(cmd);
 
@@ -348,16 +415,16 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        internal void GetDimensionUsage(Filter filter)
+        internal void GetDimensionUsage(IFilter perspectiveFilter, IFilter measureGroupFilter, IFilter dimensionFilter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating measure groups and dimensions usage"));
 
             using (var cmd = CreateCommand())
             {
-                var whereClause = string.IsNullOrEmpty(filter.Perspective) ? string.Empty : string.Format(" and CUBE_NAME='{0}'", filter.Perspective);
-                whereClause += string.IsNullOrEmpty(filter.MeasureGroupName) ? string.Empty : string.Format(" and [MEASUREGROUP_NAME]='{0}'", filter.MeasureGroupName);
-                whereClause += string.IsNullOrEmpty(filter.DimensionUniqueName) ? string.Empty : string.Format(" and [DIMENSION_UNIQUE_NAME]='{0}'", filter.DimensionUniqueName);
+                var whereClause = perspectiveFilter.GetType() == typeof(CaptionFilter) ? string.Format(" and CUBE_NAME='{0}'", ((CaptionFilter)perspectiveFilter).Value) : string.Empty;
+                whereClause += dimensionFilter != null && dimensionFilter.GetType() == typeof(CaptionFilter) ? string.Format(" and [DIMENSION_UNIQUE_NAME]='[{0}]'", ((CaptionFilter)dimensionFilter).Value) : string.Empty;
+                whereClause += measureGroupFilter != null && measureGroupFilter.GetType() == typeof(CaptionFilter) ? string.Format(" and [MEASUREGROUP_NAME]='{0}'", ((CaptionFilter)measureGroupFilter).Value) : string.Empty;
                 cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_measuregroup_dimensions WHERE DIMENSION_IS_VISIBLE{0}", whereClause);
                 Console.Out.WriteLine(cmd.CommandText);
                 var rdr = ExecuteReader(cmd);
@@ -387,15 +454,15 @@ namespace NBi.Core.Analysis.Metadata
             }
         }
 
-        internal void GetMeasures(Filter filter)
+        internal void GetMeasures(IFilter perspectiveFilter, IFilter measureGroupFilter)
         {
             if (ProgressStatusChanged != null)
                 ProgressStatusChanged(this, new ProgressStatusEventArgs("Investigating measures"));
 
             using (var cmd = CreateCommand())
             {
-                var whereClause = string.IsNullOrEmpty(filter.Perspective) ? string.Empty : string.Format(" and CUBE_NAME='{0}'", filter.Perspective);
-                whereClause += string.IsNullOrEmpty(filter.MeasureGroupName) ? string.Empty : string.Format(" and [MEASUREGROUP_NAME]='{0}'", filter.MeasureGroupName);
+                var whereClause = perspectiveFilter.GetType() == typeof(CaptionFilter) ? string.Format(" and CUBE_NAME='{0}'", ((CaptionFilter)perspectiveFilter).Value) : string.Empty;
+                whereClause += measureGroupFilter != null && measureGroupFilter.GetType() == typeof(CaptionFilter) ? string.Format(" and [MEASUREGROUP_NAME]='{0}'", ((CaptionFilter)measureGroupFilter).Value) : string.Empty;
                 cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_measures WHERE MEASURE_IS_VISIBLE and LEN(MEASUREGROUP_NAME)>0{0}", whereClause);
                 Console.Out.WriteLine(cmd.CommandText);
                 var rdr = ExecuteReader(cmd);

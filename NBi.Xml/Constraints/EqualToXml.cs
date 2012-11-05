@@ -66,7 +66,7 @@ namespace NBi.Xml.Constraints
             return new ResultSetComparisonSettings(KeysDef, ValuesDef, Tolerance, ColumnsDef);
         }
 
-        public IDbCommand GetCommand()
+        public virtual IDbCommand GetCommand()
         {
             if (Query==null)
                 return null;

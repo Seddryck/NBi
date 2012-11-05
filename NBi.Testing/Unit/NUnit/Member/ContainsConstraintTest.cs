@@ -43,15 +43,15 @@ namespace NBi.Testing.Unit.NUnit.Member
         }
 
         [Test]
-        public void WriteTo_FailingAssertion_TextContainsFewKeyInfo()
+        public void WriteTo_FailingAssertionForChild_TextContainsFewKeyInfo()
         {
             var exp = "Expected member";
             var cmd = new DiscoveryFactory().Build(
-                "ConnectionString",
+                "connectionString",
                 "member-caption",
-                "perspective",
-                "dimension",
-                null,
+                "perspective-name",
+                "dimension-caption",
+                "hierarchy-caption",
                 null);
 
             var memberStub = new Mock<NBi.Core.Analysis.Member.Member>();
@@ -80,11 +80,59 @@ namespace NBi.Testing.Unit.NUnit.Member
             }
 
             //Test conclusion            
-            //Assert.That(assertionText, Is.StringContaining(cmd.PerspectiveName).And
-            //                                .StringContaining(cmd.Path).And
-            //                                .StringContaining("Expected member"));
+            Assert.That(assertionText, Is.StringContaining("perspective-name").And
+                                            .StringContaining("dimension-caption").And
+                                            .StringContaining("hierarchy-caption").And
+                                            .StringContaining("child").And
+                                            .StringContaining("Expected member"));
 
-            Assert.Fail();
+        }
+
+        [Test]
+        public void WriteTo_FailingAssertionForMember_TextContainsFewKeyInfo()
+        {
+            var exp = "Expected member";
+            var cmd = new DiscoveryFactory().Build(
+                "connectionString",
+                string.Empty,
+                "perspective-name",
+                "dimension-caption",
+                "hierarchy-caption",
+                "level-caption");
+
+            var memberStub = new Mock<NBi.Core.Analysis.Member.Member>();
+            var member1 = memberStub.Object;
+            var member2 = memberStub.Object;
+            var members = new MemberResult();
+            members.Add(member1);
+            members.Add(member2);
+
+            var meStub = new Mock<MembersAdomdEngine>();
+            meStub.Setup(engine => engine.GetMembers(cmd))
+                .Returns(members);
+            var me = meStub.Object;
+
+            var containsConstraint = new ContainsConstraint(exp) { MemberEngine = me };
+
+            //Method under test
+            string assertionText = null;
+            try
+            {
+                Assert.That(cmd, containsConstraint);
+            }
+            catch (AssertionException ex)
+            {
+                assertionText = ex.Message;
+            }
+
+            //Test conclusion            
+            Assert.That(assertionText, Is.StringContaining("perspective-name").And
+                                            .StringContaining("dimension-caption").And
+                                            .StringContaining("hierarchy-caption").And
+                                            .StringContaining("level-caption").And
+                                            .StringContaining("member").And
+                                            .StringContaining("Expected member"));
+
         }
 
 

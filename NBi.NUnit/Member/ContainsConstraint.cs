@@ -105,17 +105,29 @@ namespace NBi.NUnit.Member
         /// <param name="writer">The writer on which the description is displayed</param>
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
-            //if (command != null)
-            //{
-            //    var persp = !string.IsNullOrEmpty(command.Perspective) ? string.Format("On perspective \"{0}\", a", command.Perspective) : "A";
-            //    writer.WritePredicate(string.Format("{0} {1} identified by \"{2}\" containing a member with caption"
-            //                                                , persp
-            //                                                , "TODO"
-            //                                                , command.Path));
-            //    writer.WriteExpectedValue(expectedCaptions);
-            //}
-            //else
-            //    base.WriteDescriptionTo(writer);
+            if (command != null)
+            {
+                writer.WritePredicate(string.Format("On perspective \"{0}\", a {1} of \"{2}\" containing a member with caption"
+                                                            , command.Perspective
+                                                            , GetFunctionLabel(command.Function)
+                                                            , command.Path));
+                writer.WriteExpectedValue(expectedCaptions);
+            }
+            else
+                base.WriteDescriptionTo(writer);
+        }
+
+        protected string GetFunctionLabel(string function)
+        {
+            switch (function.ToLower())
+            {
+                case "children":
+                    return "child";
+                case "members":
+                    return "member";
+                default:
+                    return "?";
+            }
         }
 
        

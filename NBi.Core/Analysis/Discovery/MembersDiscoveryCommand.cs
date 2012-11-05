@@ -8,9 +8,31 @@ namespace NBi.Core.Analysis.Discovery
         public string MemberCaption { get; set; }
         public string Function { get; set; }
 
-        public MembersDiscoveryCommand()
+        protected internal MembersDiscoveryCommand()
             : base()
         {
+        }
+
+        public string Perspective
+        {
+            get
+            {
+                return GetFilter(DiscoveryTarget.Perspectives).Value;
+            }
+        }
+
+
+        public override string Path
+        {
+            get
+            {
+                string path = base.Path;
+
+                if (!string.IsNullOrEmpty(MemberCaption))
+                    path = string.Format("{0}.[{1}]", path, MemberCaption);
+
+                return path;
+            }
         }
 
     }

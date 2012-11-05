@@ -2,8 +2,6 @@
 using System.Reflection;
 using NBi.Xml;
 using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
-using NBi.Xml.Systems.Structure;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Xml
@@ -76,30 +74,5 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(((OrderedXml)ts.Tests[testNr].Constraints[0]).Definition, Has.Count.EqualTo(3));
             Assert.That(((OrderedXml)ts.Tests[testNr].Constraints[0]).Definition[0], Is.EqualTo("Leopold"));
         }
-
-        [Test]
-        public void Deserialize_SampleFile_ContainsNotAttributeCorrectlyRead()
-        {
-            int testNr = 4;
-            
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
-
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<ContainsXml>());
-            Assert.That(((ContainsXml)ts.Tests[testNr].Constraints[0]).Not, Is.EqualTo(true));
-        }
-
-        [Test]
-        public void Deserialize_SampleFile_IgnoreAttributeSetToTrue()
-        {
-            int testNr = 5;
-
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
-
-            Assert.That(ts.Tests[testNr], Is.TypeOf<TestXml>());
-            Assert.That(ts.Tests[testNr].Ignore, Is.True);
-        }
-
     }
 }

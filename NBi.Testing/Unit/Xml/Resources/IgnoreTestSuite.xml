@@ -2,9 +2,9 @@
 <testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
 	<test name="Ignore attribute" ignore="true">
 		<system-under-test>
-			<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString">
-				<members/>
-			</level>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<contains not="true" caption="member"/>

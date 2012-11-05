@@ -2,9 +2,9 @@
 <testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
 	<test name="hierarchy contains member with caption xyz (implicitely ignoring case)">
 		<system-under-test>
-			<hierarchy dimension="dimension" caption="hierarchy" perspective="Perspective" connectionString="ConnectionString">
-				<members/>
-			</hierarchy>
+			<members>
+				<hierarchy dimension="dimension" caption="hierarchy" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<contains
@@ -14,9 +14,9 @@
 	</test>
 	<test name="hierarchy contains member with caption xyz (explicitely not ignoring case)">
 		<system-under-test>
-			<hierarchy dimension="dimension" caption="hierarchy" perspective="Perspective" connectionString="ConnectionString">
-				<members/>
-			</hierarchy>
+			<members>
+				<hierarchy dimension="dimension" caption="hierarchy" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<contains

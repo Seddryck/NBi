@@ -10,6 +10,6 @@ namespace NBi.Core.Analysis.Metadata
     {
         CubeMetadata GetFullMetadata();
 
-        IEnumerable<IField> GetPartialMetadata(DiscoveryCommand command);
+        IEnumerable<IField> GetPartialMetadata(MetadataDiscoveryCommand command);
     }
 }

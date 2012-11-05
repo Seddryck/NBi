@@ -38,28 +38,30 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata
 
         public void GetChildStructure_DateDimensionWithHeighTeenHierarchies_ListStructureContainingHeighTeenElements()
         {
-            var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
-            var disco = DiscoveryFactory.BuildForHierarchy(
-                ConnectionStringReader.GetAdomd(),
-                "Adventure Works",
-                "[Date]");
+            //var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
+            //var disco = DiscoveryFactory.BuildForHierarchy(
+            //    ConnectionStringReader.GetAdomd(),
+            //    "Adventure Works",
+            //    "[Date]");
 
-            var structs = me.GetPartialMetadata(disco);
+            //var structs = me.GetPartialMetadata(disco);
 
-            Assert.That(structs, Has.Count.EqualTo(18));
+            //Assert.That(structs, Has.Count.EqualTo(18));
+            Assert.Fail();
         }
 
         public void GetChildStructure_CalendarHierarchyWithSixLevels_ListStructureContainingSixElements()
         {
-            var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
-            var disco = DiscoveryFactory.BuildForLevel(
-                ConnectionStringReader.GetAdomd(),
-                "Adventure Works",
-                "[Date].[Calendar]");
+            //var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
+            //var disco = DiscoveryFactory.BuildForLevel(
+            //    ConnectionStringReader.GetAdomd(),
+            //    "Adventure Works",
+            //    "[Date].[Calendar]");
 
-            var structs = me.GetPartialMetadata(disco);
+            //var structs = me.GetPartialMetadata(disco);
 
-            Assert.That(structs, Has.Count.EqualTo(6));
+            //Assert.That(structs, Has.Count.EqualTo(6));
+            Assert.Fail();
         }
 
         public void GetChildStructure_MonthLevelWithTwoProperties_ListStructureContainingTwoElements()
@@ -78,15 +80,16 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata
 
         public void GetMeasuresOfFolder_PerspectiveAdventureWorks_OneElement()
         {
-            var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
-            var disco = DiscoveryFactory.BuildForMeasureGroup(
-                ConnectionStringReader.GetAdomd(),
-                "Finances",
-                "Financial Reporting");
+            //var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
+            //var disco = DiscoveryFactory.BuildForMeasureGroup(
+            //    ConnectionStringReader.GetAdomd(),
+            //    "Finances",
+            //    "Financial Reporting");
 
-            var structs = me.GetPartialMetadata(disco);
+            //var structs = me.GetPartialMetadata(disco);
 
-            Assert.That(structs, Has.Count.EqualTo(1));
+            //Assert.That(structs, Has.Count.EqualTo(1));
+            Assert.Fail();
         }
 
         

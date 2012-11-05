@@ -3,7 +3,6 @@ using System.IO;
 using System.Reflection;
 using NBi.Xml;
 using NBi.Xml.Constraints;
-using NBi.Xml.Systems.Structure;
 using NUnit.Framework;
 #endregion
 

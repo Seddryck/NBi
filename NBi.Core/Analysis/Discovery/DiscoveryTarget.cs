@@ -6,21 +6,12 @@ namespace NBi.Core.Analysis.Discovery
 {
     public enum DiscoveryTarget
     {
-        [XmlEnum(Name = "perspectives")]
+        Undefined = 0,
         Perspectives,
-        //[XmlEnum(Name = "measure-groups")]
-        //MeasureGroups,
-        [XmlEnum(Name = "measures")]
+        MeasureGroups,
         Measures,
-        [XmlEnum(Name = "dimensions")]
         Dimensions,
-        [XmlEnum(Name = "hierarchies")]
         Hierarchies,
-        [XmlEnum(Name = "levels")]
-        Levels,
-        [XmlEnum(Name = "properties")]
-        Properties,
-        [XmlEnum(Name = "members")]
-        Members
+        Levels
     }
 }

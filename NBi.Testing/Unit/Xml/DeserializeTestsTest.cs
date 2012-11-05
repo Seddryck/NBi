@@ -3,7 +3,6 @@ using System.Reflection;
 using NBi.Xml;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
-using NBi.Xml.Systems.Structure;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Xml
@@ -101,25 +100,7 @@ namespace NBi.Testing.Unit.Xml
             //Assert.That(((EqualToXml)ts.Tests[2].Constraints[0]).ResultSetFile, Is.Not.Empty);
         }
         
-        [Test]
-        public void Deserialize_SampleFile_TestCaseMembersLoaded()
-        {
-            //Create the queryfile to read
-            DiskOnFile.CreatePhysicalFile("Select all products.sql", "NBi.Testing.Unit.Xml.Resources.SelectAllProducts.sql");
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
-
-            // Check the properties of the object.
-            Assert.That(ts.Tests[1].Systems[0], Is.InstanceOf<QueryXml>());
-            Assert.That(((QueryXml)ts.Tests[1].Systems[0]).GetQuery(), Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
-            Assert.That(((QueryXml)ts.Tests[1].Systems[0]).InlineQuery, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
-            Assert.That(((QueryXml)ts.Tests[1].Systems[0]).File, Is.Null);
-            Assert.That(((QueryXml)ts.Tests[1].Systems[1]).GetQuery(), Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
-            Assert.That(((QueryXml)ts.Tests[1].Systems[1]).InlineQuery, Is.Null);
-            Assert.That(((QueryXml)ts.Tests[1].Systems[1]).File, Is.Not.Null.And.Not.Empty);
-            
-            Assert.That(((QueryXml)ts.Tests[2].Systems[0]).ConnectionString, Is.Not.Null.And.Not.Empty);
-        }
+        
 
         [Test]
         public void Deserialize_SampleFile_TestCategoriesLoaded()

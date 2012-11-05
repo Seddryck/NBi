@@ -6,7 +6,7 @@ using NBi.Core.Analysis.Discovery;
 
 namespace NBi.Core.Analysis.Discovery.FactoryValidations
 {
-    internal class ConnectionStringNotEmpty : DataNotEmpty
+    internal class ConnectionStringNotEmpty : FilterNotNull
     {
 
         internal ConnectionStringNotEmpty(string connectionString)

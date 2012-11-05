@@ -7,9 +7,9 @@
 	</settings>
 	<test name="In dimension Customers 'State-Provinces' contains Washington" uid="0001">
 		<system-under-test>
-			<level caption="State-Province" dimension="Customer" hierarchy="State-Province" perspective="Adventure Works">
-				<members/>
-			</level>
+			<members>
+				<level caption="State-Province" dimension="Customer" hierarchy="State-Province" perspective="Adventure Works"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<contains caption="Washington"/>
@@ -17,9 +17,9 @@
 	</test>
 	<test name="In dimension Customers the country 'Canada' has a child 'Ontario'" uid="0002">
 		<system-under-test>
-			<level caption="Country" dimension="Customer" hierarchy="Customer Geography" perspective="Adventure Works">
-				<members children-of="Canada"/>
-			</level>
+			<members children-of="Canada">
+				<level caption="Country" dimension="Customer" hierarchy="Customer Geography" perspective="Adventure Works"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<contains caption="Ontario"/>
@@ -27,9 +27,9 @@
 	</test>
 	<test name="First zone of [Employee].[Sick Leave Hours] is 20 to 33" uid="0003">
 		<system-under-test>
-			<hierarchy dimension="Employee" caption="Sick Leave Hours" perspective="Adventure Works">
-				<members/>
-			</hierarchy>
+			<members>
+				<hierarchy dimension="Employee" caption="Sick Leave Hours" perspective="Adventure Works"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<contains caption="20 - 33"/>
@@ -37,9 +37,9 @@
 	</test>
 	<test name="Organization 'All' member is named [All Organizations]" uid="0004">
 		<system-under-test>
-			<hierarchy dimension="Organization" caption="Currency Code" perspective="Adventure Works">
-				<members/>
-			</hierarchy>
+			<members>
+				<hierarchy dimension="Organization" caption="Currency Code" perspective="Adventure Works"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<contains caption="All Organizations"/>

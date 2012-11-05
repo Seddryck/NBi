@@ -27,12 +27,12 @@ namespace NBi.NUnit.Member
         private NUnitCtr.Constraint internalConstraint;
 
         protected MembersDiscoveryCommand command;
-        protected IDiscoverMemberEngine memberEngine;
+        protected MembersAdomdEngine memberEngine;
 
         /// <summary>
         /// Engine dedicated to MetadataExtractor acquisition
         /// </summary>
-        protected internal IDiscoverMemberEngine MemberEngine
+        protected internal MembersAdomdEngine MemberEngine
         {
             set
             {
@@ -42,10 +42,10 @@ namespace NBi.NUnit.Member
             }
         }
 
-        protected IDiscoverMemberEngine GetEngine()
+        protected MembersAdomdEngine GetEngine()
         {
             if (memberEngine == null)
-                memberEngine = new CubeDimensionAdomdEngine();
+                memberEngine = new MembersAdomdEngine();
             return memberEngine;
         }
 
@@ -114,7 +114,7 @@ namespace NBi.NUnit.Member
         {
             command = actual;
             var extr = GetEngine();
-            MemberResult result = extr.Execute(command);
+            MemberResult result = extr.GetMembers(command);
             return this.Matches(result);
         }
 

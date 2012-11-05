@@ -60,28 +60,27 @@
 							<xs:element name="system-under-test" minOccurs="1" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:choice>
-										<xs:element name="query" type ="query-type" minOccurs="0" maxOccurs="unbounded"/>
-										<xs:element name="perspective" type="perspective-type" minOccurs="0" maxOccurs="1"/>
-										<xs:element name="measure-group" type="measure-group-type" minOccurs="0" maxOccurs="1"/>
-										<xs:element name="measure" type="measure-type" minOccurs="0" maxOccurs="1"/>
-										<xs:element name="dimension" type="dimension-type" minOccurs="0" maxOccurs="1"/>
-										<xs:element name="hierarchy" minOccurs="0" maxOccurs="1">
+										<xs:element name="query" type ="query-type" minOccurs="0" maxOccurs="1"/>
+										<xs:element name="members" minOccurs="0" maxOccurs="1">
 											<xs:complexType>
-												<xs:complexContent>
-													<xs:extension base="dimension-type">
-														<xs:attribute name="dimension" type="xs:string" use="required" />
-													</xs:extension>
-												</xs:complexContent>
+												<xs:choice>
+													<xs:element name="dimension" type="dimension-type" minOccurs="0" maxOccurs="1"/>
+													<xs:element name="hierarchy" type="hierarchy-type" minOccurs="0" maxOccurs="1"/>
+													<xs:element name="level" type="level-type" minOccurs="0" maxOccurs="1"/>
+												</xs:choice>
+												<xs:attribute name="children-of" type="xs:string" use="optional" />
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="level" minOccurs="0" maxOccurs="1">
+										<xs:element name="structure" minOccurs="0" maxOccurs="1">
 											<xs:complexType>
-												<xs:complexContent>
-													<xs:extension base="dimension-type">
-														<xs:attribute name="dimension" type="xs:string" use="required" />
-														<xs:attribute name="hierarchy" type="xs:string" use="required" />
-													</xs:extension>
-												</xs:complexContent>
+												<xs:choice>
+													<xs:element name="perspective" type="perspective-type" minOccurs="0" maxOccurs="1"/>
+													<xs:element name="measure-group" type="measure-group-type" minOccurs="0" maxOccurs="1"/>
+													<xs:element name="measure" type="measure-type" minOccurs="0" maxOccurs="1"/>
+													<xs:element name="dimension" type="dimension-type" minOccurs="0" maxOccurs="1"/>
+													<xs:element name="hierarchy" type="hierarchy-type" minOccurs="0" maxOccurs="1"/>
+													<xs:element name="level" type="level-type" minOccurs="0" maxOccurs="1"/>
+												</xs:choice>
 											</xs:complexType>
 										</xs:element>
 									</xs:choice>
@@ -283,15 +282,21 @@
 	<xs:complexType name="dimension-type">
 		<xs:complexContent>
 			<xs:extension base="perspective-type">
-				<xs:choice>
-					<xs:element name="structure"/>
-					<xs:element name="members">
-						<xs:complexType>
-							<xs:attribute name="children-of" type="xs:string" use="optional" />
-						</xs:complexType>
-					</xs:element>
-				</xs:choice>
 				<xs:attribute name="perspective" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="hierarchy-type">
+		<xs:complexContent>
+			<xs:extension base="dimension-type">
+				<xs:attribute name="dimension" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="level-type">
+		<xs:complexContent>
+			<xs:extension base="hierarchy-type">
+				<xs:attribute name="hierarchy" type="xs:string" use="required" />
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>

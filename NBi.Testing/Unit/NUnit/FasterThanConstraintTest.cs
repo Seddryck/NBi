@@ -1,6 +1,7 @@
 ﻿using System.Data.SqlClient;
 using Moq;
 using NBi.Core.Query;
+using NBi.NUnit.Query;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.NUnit
@@ -35,7 +36,7 @@ namespace NBi.Testing.Unit.NUnit
             mock.Setup(engine => engine.CleanCache());
             IQueryPerformance qp = mock.Object;
 
-            var fasterThanConstraint = new NBi.NUnit.FasterThanConstraint() { Engine = qp };
+            var fasterThanConstraint = new FasterThanConstraint() { Engine = qp };
             fasterThanConstraint = fasterThanConstraint.MaxTimeMilliSeconds(5000);
 
             //Method under test
@@ -57,7 +58,7 @@ namespace NBi.Testing.Unit.NUnit
             mock.Setup(engine => engine.CleanCache());
             IQueryPerformance qp = mock.Object;
 
-            var fasterThanConstraint = new NBi.NUnit.FasterThanConstraint() { Engine = qp };
+            var fasterThanConstraint = new FasterThanConstraint() { Engine = qp };
             fasterThanConstraint = fasterThanConstraint.MaxTimeMilliSeconds(5000).CleanCache();
 
             //Method under test
@@ -78,7 +79,7 @@ namespace NBi.Testing.Unit.NUnit
                 .Returns(new PerformanceResult(new System.TimeSpan(0, 0, 0, 8)));
             IQueryPerformance qp = stub.Object;
 
-            var fasterThanConstraint = new NBi.NUnit.FasterThanConstraint() { Engine = qp };
+            var fasterThanConstraint = new FasterThanConstraint() { Engine = qp };
             fasterThanConstraint.MaxTimeMilliSeconds(5000);
 
             //Method under test
@@ -98,7 +99,7 @@ namespace NBi.Testing.Unit.NUnit
                 .Returns(new PerformanceResult(new System.TimeSpan(0, 0, 0, 4)));
             IQueryPerformance qp = stub.Object;
 
-            var fasterThanConstraint = new NBi.NUnit.FasterThanConstraint() { Engine = qp };
+            var fasterThanConstraint = new FasterThanConstraint() { Engine = qp };
             fasterThanConstraint.MaxTimeMilliSeconds(5000);
 
             //Method under test

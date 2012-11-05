@@ -14,16 +14,6 @@ namespace NBi.Xml.Systems
         [XmlAttribute("name")]
         public string Name { get; set; }
         
-        public override object Instantiate()
-        {
-            var conn = ConnectionFactory.Get(GetConnectionString());
-            var cmd = conn.CreateCommand();
-            cmd.CommandText = GetQuery();
-
-            return cmd;
-        }
-
-
         //TODO should be removed in 1.1 and inheriting from BaseQueryXml ... (issue with desrialization of interface)
         //public DefaultXml Default { get; set; }
 
@@ -39,7 +29,7 @@ namespace NBi.Xml.Systems
         [XmlText]
         public string InlineQuery { get; set; }
 
-        public string GetQuery()
+        public virtual string GetQuery()
         {
             //if Sql is specified then return it
             if (!string.IsNullOrEmpty(InlineQuery))
@@ -50,7 +40,7 @@ namespace NBi.Xml.Systems
             return query;
         }
 
-        public string GetConnectionString()
+        public virtual string GetConnectionString()
         {
             //if Sql is specified then return it
             if (!string.IsNullOrEmpty(ConnectionString))

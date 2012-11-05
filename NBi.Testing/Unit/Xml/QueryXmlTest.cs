@@ -50,8 +50,27 @@ namespace NBi.Testing.Unit.Xml
             //Instantiate a System Under Test
             var systemUnderTest = new QueryXml() { InlineQuery = "SELECT * FROM Product" };
 
-            Assert.AreEqual("SELECT * FROM Product", systemUnderTest.GetQuery());
+            Assert.That(systemUnderTest.GetQuery(), Is.EqualTo("SELECT * FROM Product"));
+            Assert.That(systemUnderTest.InlineQuery, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
+            Assert.That(systemUnderTest.File, Is.Null);
         }
+
+        [Test]
+        public void GetQuery_FileNameSpecified_RetrieveContentOfFile()
+        {
+            //Create the queryfile to read
+            var filename = "Select all products.sql";
+            DiskOnFile.CreatePhysicalFile(filename, "NBi.Testing.Unit.Xml.Resources.SelectAllProducts.sql");
+
+            var systemUnderTest = new QueryXml() { File = filename };
+
+            // Check the properties of the object.
+            Assert.That(systemUnderTest.File, Is.Not.Null.And.Not.Empty);
+            Assert.That(systemUnderTest.InlineQuery, Is.Null);
+            Assert.That(systemUnderTest.GetQuery(), Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
+            
+        }
+
        
     }
 }

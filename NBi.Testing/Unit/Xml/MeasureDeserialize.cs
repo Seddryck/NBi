@@ -1,9 +1,8 @@
 ﻿using System.IO;
 using System.Reflection;
 using NBi.Xml;
-using NBi.Xml.Constraints;
+using NBi.Xml.Items;
 using NBi.Xml.Systems;
-using NBi.Xml.Systems.Structure;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Xml
@@ -35,9 +34,12 @@ namespace NBi.Testing.Unit.Xml
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<MeasureXml>());
-            Assert.That(((MeasureXml)ts.Tests[testNr].Systems[0]).MeasureGroup, Is.EqualTo("measure-group"));
-            Assert.That(((MeasureXml)ts.Tests[testNr].Systems[0]).Specification.IsMeasureGroupSpecified, Is.True);
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<StructureXml>());
+            Assert.That(((StructureXml)ts.Tests[testNr].Systems[0]).Item, Is.TypeOf<MeasureXml>());
+
+            MeasureXml item = (MeasureXml)((StructureXml)ts.Tests[testNr].Systems[0]).Item;
+            Assert.That(item.MeasureGroup, Is.EqualTo("measure-group"));
+            Assert.That(item.Specification.IsMeasureGroupSpecified, Is.True);
         }
 
         [Test]
@@ -49,9 +51,12 @@ namespace NBi.Testing.Unit.Xml
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<MeasureXml>());
-            Assert.That(((MeasureXml)ts.Tests[testNr].Systems[0]).MeasureGroup, Is.Null.Or.Empty);
-            Assert.That(((MeasureXml)ts.Tests[testNr].Systems[0]).Specification.IsMeasureGroupSpecified, Is.False);
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<StructureXml>());
+            Assert.That(((StructureXml)ts.Tests[testNr].Systems[0]).Item, Is.TypeOf<MeasureXml>());
+
+            MeasureXml item = (MeasureXml)((StructureXml)ts.Tests[testNr].Systems[0]).Item;
+            Assert.That(item.MeasureGroup, Is.Null.Or.Empty);
+            Assert.That(item.Specification.IsMeasureGroupSpecified, Is.False);
         }
 
         [Test]
@@ -63,9 +68,12 @@ namespace NBi.Testing.Unit.Xml
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<MeasureXml>());
-            Assert.That(((MeasureXml)ts.Tests[testNr].Systems[0]).DisplayFolder, Is.EqualTo("display-folder"));
-            Assert.That(((MeasureXml)ts.Tests[testNr].Systems[0]).Specification.IsDisplayFolderSpecified, Is.True);
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<StructureXml>());
+            Assert.That(((StructureXml)ts.Tests[testNr].Systems[0]).Item, Is.TypeOf<MeasureXml>());
+
+            MeasureXml item = (MeasureXml)((StructureXml)ts.Tests[testNr].Systems[0]).Item;
+            Assert.That(item.DisplayFolder, Is.EqualTo("display-folder"));
+            Assert.That(item.Specification.IsDisplayFolderSpecified, Is.True);
         }
 
         [Test]
@@ -77,9 +85,31 @@ namespace NBi.Testing.Unit.Xml
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<MeasureXml>());
-            Assert.That(((MeasureXml)ts.Tests[testNr].Systems[0]).DisplayFolder, Is.Null.Or.Empty);
-            Assert.That(((MeasureXml)ts.Tests[testNr].Systems[0]).Specification.IsMeasureGroupSpecified, Is.False);
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<StructureXml>());
+            Assert.That(((StructureXml)ts.Tests[testNr].Systems[0]).Item, Is.TypeOf<MeasureXml>());
+
+            MeasureXml item = (MeasureXml)((StructureXml)ts.Tests[testNr].Systems[0]).Item;
+            Assert.That(item.DisplayFolder, Is.Null.Or.Empty);
+            Assert.That(item.Specification.IsMeasureGroupSpecified, Is.False);
         }
+
+        [Test]
+        public void Deserialize_SampleFile_MeasureWithDisplayFolderRoot()
+        {
+            int testNr = 4;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<StructureXml>());
+            Assert.That(((StructureXml)ts.Tests[testNr].Systems[0]).Item, Is.TypeOf<MeasureXml>());
+
+            MeasureXml item = (MeasureXml)((StructureXml)ts.Tests[testNr].Systems[0]).Item;
+            Assert.That(item.DisplayFolder, Is.Empty);
+            Assert.That(item.Specification.IsDisplayFolderSpecified, Is.True);
+        }
+
+               
     }
 }

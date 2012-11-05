@@ -40,5 +40,32 @@ namespace NBi.Core.Analysis.Discovery
             return Filters.Values.ToArray();
         }
 
+        public virtual string Path
+        {
+            get
+            {
+                string path = string.Empty;
+
+                var dim = GetFilter(DiscoveryTarget.Dimensions);
+                if (dim == null)
+                    return path;
+
+                path = string.Format("[{0}]", dim.Value);
+
+                var hie = GetFilter(DiscoveryTarget.Hierarchies);
+                if (hie == null)
+                    return path;
+
+                path = string.Format("{0}.[{1}]", path, hie.Value);
+
+                var lev = GetFilter(DiscoveryTarget.Levels);
+                if (lev == null)
+                    return path;
+
+                path = string.Format("{0}.[{1}]", path, lev.Value);
+                return path;
+            }
+        }
+
     }
 }

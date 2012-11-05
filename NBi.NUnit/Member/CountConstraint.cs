@@ -90,16 +90,6 @@ namespace NBi.NUnit.Member
             return this;
         }
 
-
-        //public CountConstraint Approximatively(int value, int tolerance)
-        //{
-        //    if (internalConstraint != null)
-        //        internalConstraint = internalConstraint.And.T(value);
-        //    else
-        //        internalConstraint = new NUnitCtr.
-        //    return this;
-        //}
-
         public override bool Matches(object actual)
         {
             if (actual is MembersDiscoveryCommand)
@@ -139,6 +129,10 @@ namespace NBi.NUnit.Member
         /// <param name="writer">The writer on which the description is displayed</param>
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
+            writer.WritePredicate(string.Format("On perspective \"{0}\", the {1} of \"{2}\" are "
+                                                            , command.Perspective
+                                                            , command.Function.ToLower()
+                                                            , command.Path));
             if (exactly.HasValue)
             {
                 writer.WritePredicate("exactly");

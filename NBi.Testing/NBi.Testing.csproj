@@ -140,6 +140,7 @@
     <Folder Include="Integration\Core\Database\" />
     <Folder Include="Integration\NUnit\Database\" />
     <Folder Include="Unit\Core\Query\" />
+    <Folder Include="Unit\NUnit\Query\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Acceptance\Resources\ResellerOrderCountByYearBefore2006.csv">

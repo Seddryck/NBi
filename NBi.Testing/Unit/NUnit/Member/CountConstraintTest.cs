@@ -130,7 +130,25 @@ namespace NBi.Testing.Unit.NUnit.Member
         }
 
         [Test]
-        public void Matches_LessThanAndMoreThanWronglySpecified_Validated()
+        public void Matches_LessThanAndMoreThanWronglySpecifiedForMoreThan_Validated()
+        {
+            var members = new List<string>();
+            members.Add("First member");
+            members.Add("Second member");
+
+            var countConstraint = new CountConstraint();
+            countConstraint.MoreThan(2);
+            countConstraint.LessThan(3);
+
+            //Method under test
+            var res = countConstraint.Matches(members);
+
+            //Test conclusion            
+            Assert.That(res, Is.False);
+        }
+
+        [Test]
+        public void Matches_LessThanAndMoreThanWronglySpecifiedForLessThan_Validated()
         {
             var members = new List<string>();
             members.Add("First member");

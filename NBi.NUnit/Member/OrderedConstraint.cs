@@ -11,7 +11,7 @@ namespace NBi.NUnit.Member
     {
         private bool reversed;
         private IList<Object> specific;
-        protected IComparer comparer;
+        protected IComparerWithLabel comparer;
         protected MembersDiscoveryCommand command;
         protected MembersAdomdEngine memberEngine;
 
@@ -66,8 +66,8 @@ namespace NBi.NUnit.Member
         {
             get
             {
-                IComparer comp = new AlphabeticalComparer();
-                return (OrderedConstraint)base.Using(comp);
+                comparer = new AlphabeticalComparer();
+                return (OrderedConstraint)base.Using(comparer);
             }
         }
 
@@ -78,8 +78,8 @@ namespace NBi.NUnit.Member
         {
             get
             {
-                IComparer comp = new ChronologicalComparer();
-                return (OrderedConstraint)base.Using(comp);
+                comparer = new ChronologicalComparer();
+                return (OrderedConstraint)base.Using(comparer);
             }
         }
 
@@ -90,8 +90,8 @@ namespace NBi.NUnit.Member
         {
             get
             {
-                IComparer comp = new NumericalComparer();
-                return (OrderedConstraint)base.Using(comp);
+                comparer = new NumericalComparer();
+                return (OrderedConstraint)base.Using(comparer);
             }
         }
 
@@ -150,13 +150,40 @@ namespace NBi.NUnit.Member
             return this.Matches(result);
         }
 
-        protected class AlphabeticalComparer : IComparer
+        /// <summary>
+        /// Write the constraint description to a MessageWriter
+        /// </summary>
+        /// <param name="writer">The writer on which the description is displayed</param>
+        public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
+        {
+
+            writer.WritePredicate(string.Format("On perspective \"{0}\", the {1} of \"{2}\" are ordered {3}"
+                                                            , command.Perspective
+                                                            , command.Function.ToLower()
+                                                            , command.Path
+                                                            , comparer == null ? "specifically" : comparer.Label));
+        }
+
+        protected interface IComparerWithLabel : IComparer
+        {
+            string Label { get; }
+        }
+
+        protected class AlphabeticalComparer : IComparerWithLabel
         {
             private readonly IComparer internalComparer;
             
             public AlphabeticalComparer()
             {
                 internalComparer = StringComparer.InvariantCultureIgnoreCase;
+            }
+
+            public string Label
+            {
+                get
+                {
+                    return "alphabetically";
+                }
             }
 
             int IComparer.Compare(Object x, Object y)
@@ -168,10 +195,18 @@ namespace NBi.NUnit.Member
             }
         }
 
-        protected class ChronologicalComparer : IComparer
+        protected class ChronologicalComparer : IComparerWithLabel
         {
             public ChronologicalComparer()
             {
+            }
+
+            public string Label
+            {
+                get
+                {
+                    return "chronologically";
+                }
             }
             
             int IComparer.Compare(Object x, Object y)
@@ -214,10 +249,18 @@ namespace NBi.NUnit.Member
             }
         }
 
-        protected class NumericalComparer : IComparer
+        protected class NumericalComparer : IComparerWithLabel
         {
             public NumericalComparer()
             {
+            }
+
+            public string Label
+            {
+                get
+                {
+                    return "numerically";
+                }
             }
 
             int IComparer.Compare(Object x, Object y)

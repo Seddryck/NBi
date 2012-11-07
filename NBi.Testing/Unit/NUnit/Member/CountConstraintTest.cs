@@ -314,8 +314,8 @@ namespace NBi.Testing.Unit.NUnit.Member
             var me = meStub.Object;
 
             var countConstraint = new CountConstraint() { MemberEngine = me };
-            countConstraint.MoreThan(8);
-            countConstraint.LessThan(12);
+            countConstraint = countConstraint.MoreThan(8);
+            countConstraint = countConstraint.LessThan(12);
 
             //Method under test
             string assertionText = null;

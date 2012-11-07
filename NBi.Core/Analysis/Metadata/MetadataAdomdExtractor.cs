@@ -116,106 +116,106 @@ namespace NBi.Core.Analysis.Metadata
                 return cmd.GetCaptions(command.GetAllFilters());
             }
 
-            if (command.GetFilter(DiscoveryTarget.Dimensions) != null || command.Target == DiscoveryTarget.Dimensions)
-                GetDimensions(
-                    command.GetFilter(DiscoveryTarget.Perspectives),
-                    command.GetFilter(DiscoveryTarget.Dimensions)
-                    );
+            //if (command.GetFilter(DiscoveryTarget.Dimensions) != null || command.Target == DiscoveryTarget.Dimensions)
+            //    GetDimensions(
+            //        command.GetFilter(DiscoveryTarget.Perspectives),
+            //        command.GetFilter(DiscoveryTarget.Dimensions)
+            //        );
 
-            if (command.GetFilter(DiscoveryTarget.Hierarchies) != null || command.Target == DiscoveryTarget.Hierarchies)
-                GetHierarchies(
-                    command.GetFilter(DiscoveryTarget.Perspectives),
-                    command.GetFilter(DiscoveryTarget.Dimensions),
-                    command.GetFilter(DiscoveryTarget.Hierarchies)
-                    );
+            //if (command.GetFilter(DiscoveryTarget.Hierarchies) != null || command.Target == DiscoveryTarget.Hierarchies)
+            //    GetHierarchies(
+            //        command.GetFilter(DiscoveryTarget.Perspectives),
+            //        command.GetFilter(DiscoveryTarget.Dimensions),
+            //        command.GetFilter(DiscoveryTarget.Hierarchies)
+            //        );
 
-            if (command.GetFilter(DiscoveryTarget.Levels) != null || command.Target == DiscoveryTarget.Levels)
-                GetLevels(
-                    command.GetFilter(DiscoveryTarget.Perspectives),
-                    command.GetFilter(DiscoveryTarget.Dimensions),
-                    command.GetFilter(DiscoveryTarget.Hierarchies),
-                    command.GetFilter(DiscoveryTarget.Levels)
-                    );
+            //if (command.GetFilter(DiscoveryTarget.Levels) != null || command.Target == DiscoveryTarget.Levels)
+            //    GetLevels(
+            //        command.GetFilter(DiscoveryTarget.Perspectives),
+            //        command.GetFilter(DiscoveryTarget.Dimensions),
+            //        command.GetFilter(DiscoveryTarget.Hierarchies),
+            //        command.GetFilter(DiscoveryTarget.Levels)
+            //        );
 
-            if (command.GetFilter(DiscoveryTarget.MeasureGroups) != null || command.Target == DiscoveryTarget.MeasureGroups)
-                GetDimensionUsage(
-                    command.GetFilter(DiscoveryTarget.Perspectives),
-                    command.GetFilter(DiscoveryTarget.MeasureGroups),
-                    command.GetFilter(DiscoveryTarget.Dimensions)
-                    );
+            //if (command.GetFilter(DiscoveryTarget.MeasureGroups) != null || command.Target == DiscoveryTarget.MeasureGroups)
+            //    GetDimensionUsage(
+            //        command.GetFilter(DiscoveryTarget.Perspectives),
+            //        command.GetFilter(DiscoveryTarget.MeasureGroups),
+            //        command.GetFilter(DiscoveryTarget.Dimensions)
+            //        );
 
-            if (command.GetFilter(DiscoveryTarget.Measures) != null || command.Target == DiscoveryTarget.Measures)
-                GetMeasures(
-                    command.GetFilter(DiscoveryTarget.Perspectives),
-                    command.GetFilter(DiscoveryTarget.MeasureGroups)
-                    );
+            //if (command.GetFilter(DiscoveryTarget.Measures) != null || command.Target == DiscoveryTarget.Measures)
+            //    GetMeasures(
+            //        command.GetFilter(DiscoveryTarget.Perspectives),
+            //        command.GetFilter(DiscoveryTarget.MeasureGroups)
+            //        );
 
-            //Return result of the discovery command
+            ////Return result of the discovery command
 
-            //perspectives
-            if(command.Target==DiscoveryTarget.Perspectives)
-                return Metadata.Perspectives.Values.AsEnumerable<IField>();
+            ////perspectives
+            //if(command.Target==DiscoveryTarget.Perspectives)
+            //    return Metadata.Perspectives.Values.AsEnumerable<IField>();
 
-            var perspectiveFilterValue = command.GetFilter(DiscoveryTarget.Perspectives).Value;
-            if (Metadata.Perspectives.ContainsKey(perspectiveFilterValue))
-            {
-                //dimensions and measure-groups
-                var persp = Metadata.Perspectives[perspectiveFilterValue];
-                if(command.Target==DiscoveryTarget.Dimensions)
-                    return persp.Dimensions.Values.AsEnumerable<IField>();
-                if(command.Target==DiscoveryTarget.MeasureGroups)
-                    return persp.MeasureGroups.Values.AsEnumerable<IField>();
+            //var perspectiveFilterValue = command.GetFilter(DiscoveryTarget.Perspectives).Value;
+            //if (Metadata.Perspectives.ContainsKey(perspectiveFilterValue))
+            //{
+            //    //dimensions and measure-groups
+            //    var persp = Metadata.Perspectives[perspectiveFilterValue];
+            //    if(command.Target==DiscoveryTarget.Dimensions)
+            //        return persp.Dimensions.Values.AsEnumerable<IField>();
+            //    if(command.Target==DiscoveryTarget.MeasureGroups)
+            //        return persp.MeasureGroups.Values.AsEnumerable<IField>();
                 
-                //hierarchies & levels
-                if (command.Target == DiscoveryTarget.Hierarchies || command.Target == DiscoveryTarget.Levels)
-                {
-                    var dimensionFilterValue = command.GetFilter(DiscoveryTarget.Dimensions).Value;
-                    if (persp.Dimensions.ContainsKey(string.Format("[{0}]", dimensionFilterValue)))
-                    {
-                        var dim = persp.Dimensions[string.Format("[{0}]", dimensionFilterValue)];
-                        if(command.Target==DiscoveryTarget.Hierarchies)
-                            return dim.Hierarchies.Values.AsEnumerable<IField>();
+            //    //hierarchies & levels
+            //    if (command.Target == DiscoveryTarget.Hierarchies || command.Target == DiscoveryTarget.Levels)
+            //    {
+            //        var dimensionFilterValue = command.GetFilter(DiscoveryTarget.Dimensions).Value;
+            //        if (persp.Dimensions.ContainsKey(string.Format("[{0}]", dimensionFilterValue)))
+            //        {
+            //            var dim = persp.Dimensions[string.Format("[{0}]", dimensionFilterValue)];
+            //            if(command.Target==DiscoveryTarget.Hierarchies)
+            //                return dim.Hierarchies.Values.AsEnumerable<IField>();
 
-                        var hierarchyFilterValue = command.GetFilter(DiscoveryTarget.Hierarchies).Value;
-                        if (dim.Hierarchies.ContainsKey(string.Format("[{0}].[{1}]", dimensionFilterValue, hierarchyFilterValue)))
-                        {
-                            var hie = dim.Hierarchies[string.Format("[{0}].[{1}]", dimensionFilterValue, hierarchyFilterValue)];
-                            if(command.Target==DiscoveryTarget.Levels)
-                                return hie.Levels.Values.AsEnumerable<IField>();
-                        }
-                        else
-                            throw new MetadataNotFoundException("The hierarchy named '{0}' doesn't exist", hierarchyFilterValue);
-                    }
-                    else
-                        throw new MetadataNotFoundException("The dimension named '{0}' doesn't exist", dimensionFilterValue);
-                }
+            //            var hierarchyFilterValue = command.GetFilter(DiscoveryTarget.Hierarchies).Value;
+            //            if (dim.Hierarchies.ContainsKey(string.Format("[{0}].[{1}]", dimensionFilterValue, hierarchyFilterValue)))
+            //            {
+            //                var hie = dim.Hierarchies[string.Format("[{0}].[{1}]", dimensionFilterValue, hierarchyFilterValue)];
+            //                if(command.Target==DiscoveryTarget.Levels)
+            //                    return hie.Levels.Values.AsEnumerable<IField>();
+            //            }
+            //            else
+            //                throw new MetadataNotFoundException("The hierarchy named '{0}' doesn't exist", hierarchyFilterValue);
+            //        }
+            //        else
+            //            throw new MetadataNotFoundException("The dimension named '{0}' doesn't exist", dimensionFilterValue);
+            //    }
                 
-                //Measures
-                if (command.Target == DiscoveryTarget.Measures)
-                {
-                    if (command.GetFilter(DiscoveryTarget.Dimensions) != null)
-                    {
-                        var measureGroupFilterValue = command.GetFilter(DiscoveryTarget.MeasureGroups).Value;
-                        if (persp.MeasureGroups.ContainsKey(measureGroupFilterValue))
-                        {
-                            var mg = persp.MeasureGroups[measureGroupFilterValue];
-                            if (command.Target == DiscoveryTarget.Measures)
-                                return mg.Measures.Values.AsEnumerable<IField>();
-                        }
-                        else
-                            throw new MetadataNotFoundException("The measure-group named '{0}' doesn't exist", measureGroupFilterValue);
-                    }
-                    else
-                    {
-                        var measures = new List<IField>();
-                        foreach (var mg in persp.MeasureGroups)
-                                measures.AddRange(mg.Value.Measures.Values.AsEnumerable<IField>());
-                        return measures;
-                    }
-                }
-            }
-            else
-                throw new MetadataNotFoundException("The perspective named '{0}' doesn't exist", perspectiveFilterValue);
+            //    //Measures
+            //    if (command.Target == DiscoveryTarget.Measures)
+            //    {
+            //        if (command.GetFilter(DiscoveryTarget.Dimensions) != null)
+            //        {
+            //            var measureGroupFilterValue = command.GetFilter(DiscoveryTarget.MeasureGroups).Value;
+            //            if (persp.MeasureGroups.ContainsKey(measureGroupFilterValue))
+            //            {
+            //                var mg = persp.MeasureGroups[measureGroupFilterValue];
+            //                if (command.Target == DiscoveryTarget.Measures)
+            //                    return mg.Measures.Values.AsEnumerable<IField>();
+            //            }
+            //            else
+            //                throw new MetadataNotFoundException("The measure-group named '{0}' doesn't exist", measureGroupFilterValue);
+            //        }
+            //        else
+            //        {
+            //            var measures = new List<IField>();
+            //            foreach (var mg in persp.MeasureGroups)
+            //                    measures.AddRange(mg.Value.Measures.Values.AsEnumerable<IField>());
+            //            return measures;
+            //        }
+            //    }
+            //}
+            //else
+            //    throw new MetadataNotFoundException("The perspective named '{0}' doesn't exist", perspectiveFilterValue);
 
             throw new Exception("Unhandled case for partial metadata extraction!");
         }

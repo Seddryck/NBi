@@ -112,29 +112,36 @@ namespace NBi.NUnit.Structure
         {
             if (command != null)
             {
-                if (command.Target == DiscoveryTarget.Perspectives)
+                switch (command.Target)
                 {
-                    writer.WritePredicate(string.Format("On current cube, a perspective with caption"));
-                }
-                else if (command.Target == DiscoveryTarget.Measures)//TODO || command.Target == DiscoveryTarget.MeasureGroups)
-                {
-                    var displayFolder = (_expected is IFieldWithDisplayFolder) ? string.Format(", in folder \"{0}\", ", ((IFieldWithDisplayFolder)_expected).DisplayFolder) : string.Empty;
-                    writer.WritePredicate(string.Format("On perspective \"{0}\", the measuregroup \"{1}\" containing{2}a measure with caption"
+                    case DiscoveryTarget.MeasureGroups:
+                        var displayFolder = (_expected is IFieldWithDisplayFolder) ? string.Format(", in folder \"{0}\", ", ((IFieldWithDisplayFolder)_expected).DisplayFolder) : " ";
+                        writer.WritePredicate(string.Format("On perspective \"{0}\", the measuregroup \"{1}\" containing{2}a measure with caption"
                                                                                , command.GetFilter(DiscoveryTarget.Perspectives).Value
                                                                                , command.GetFilter(DiscoveryTarget.MeasureGroups).Value
                                                                                , displayFolder));
-                }
-                else
-                    writer.WritePredicate(string.Format("On perspective \"{0}\", a {1} identified by \"{2}\" containing a {3} with caption"
+                        break;
+                    case DiscoveryTarget.Dimensions:
+                        writer.WritePredicate(string.Format("On perspective \"{0}\", a dimension labeled by \"{1}\" containing a hierarchy with caption"
                                                             , command.GetFilter(DiscoveryTarget.Perspectives).Value
-                                                            , "TODO"
-                                                            , "TODO"
-                                                            , "TODO"));
+                                                            , command.GetFilter(command.Target).Value));
+                        break;
+                    case DiscoveryTarget.Hierarchies:
+                        writer.WritePredicate(string.Format("On perspective \"{0}\", a hierarchy labeled by \"{1}\", from dimension \"{2}\", containing a level with caption"
+                                                            , command.GetFilter(DiscoveryTarget.Perspectives).Value
+                                                            , command.GetFilter(DiscoveryTarget.Hierarchies).Value
+                                                            , command.GetFilter(DiscoveryTarget.Dimensions).Value));
+                        break;
+                    default:
+                        break;
+                }
+                
                 writer.WriteExpectedValue(expectedCaption);
             }
             else
                 base.WriteDescriptionTo(writer);
             
         }
+
     }
 }

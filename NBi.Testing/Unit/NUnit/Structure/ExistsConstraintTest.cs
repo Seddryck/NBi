@@ -8,18 +8,17 @@ using NUnit.Framework;
 namespace NBi.Testing.Unit.NUnit.Structure
 {
     [TestFixture]
-    public class ContainsConstraintTest
+    public class ExistsConstraintTest
     {
         [Test]
         public void Matches_GivenDiscoveryCommandForDimension_EngineCalledOnceWithParametersComingFromDiscoveryCommandy()
         {
-            var exp = "Expected hierarchy";
             var cmd = new DiscoveryFactory().Build(
                         "connectionString",
                         DiscoveryTarget.Dimensions,
                         "perspective-name",
                         null, null,
-                        "dimension-caption", null, null);
+                        "expected-dimension-caption", null, null);
 
             var elStub = new Mock<IField>();
             var el1 = elStub.Object;
@@ -33,24 +32,23 @@ namespace NBi.Testing.Unit.NUnit.Structure
                 .Returns(elements);
             var me = meMock.Object;
 
-            var containsConstraint = new ContainsConstraint(exp) { MetadataExtractor = me };
+            var existsConstraint = new ExistsConstraint() { MetadataExtractor = me };
 
             //Method under test
-            containsConstraint.Matches(cmd);
+            existsConstraint.Matches(cmd);
 
             //Test conclusion            
             meMock.Verify(engine => engine.GetPartialMetadata(cmd), Times.Once());
         }
 
         [Test]
-        public void Matches_GivenDiscoveryCommandForMeasureGroup_EngineCalledOnceWithParametersComingFromDiscoveryCommand()
+        public void Matches_GivenDiscoveryCommandForMeasure_EngineCalledOnceWithParametersComingFromDiscoveryCommand()
         {
-            var exp = "Expected measure";
             var cmd = new DiscoveryFactory().Build(
                         "connectionString",
                         DiscoveryTarget.MeasureGroups,
                         "perspective",
-                        "measure-group", null,
+                        "measure-group", "measure",
                         null, null, null);
 
 
@@ -66,10 +64,10 @@ namespace NBi.Testing.Unit.NUnit.Structure
                 .Returns(elements);
             var me = meMock.Object;
 
-            var containsConstraint = new ContainsConstraint(exp) { MetadataExtractor = me };
+            var existsConstraint = new ExistsConstraint() { MetadataExtractor = me };
 
             //Method under test
-            containsConstraint.Matches(cmd);
+            existsConstraint.Matches(cmd);
 
             //Test conclusion            
             meMock.Verify(engine => engine.GetPartialMetadata(cmd), Times.Once());
@@ -78,34 +76,27 @@ namespace NBi.Testing.Unit.NUnit.Structure
         [Test]
         public void WriteTo_FailingAssertionForDimension_TextContainsFewKeyInfo()
         {
-            var exp = "Expected hierarchy";
             var cmd = new DiscoveryFactory().Build(
                         "connectionString",
                         DiscoveryTarget.Dimensions,
                         "perspective-name",
                         null, null,
-                        "dimension-caption", null, null);
+                        "expected-dimension-caption", null, null);
 
-
-            var elStub = new Mock<IField>();
-            var el1 = elStub.Object;
-            var el2 = elStub.Object;
             var elements = new List<IField>();
-            elements.Add(el1);
-            elements.Add(el2);
 
             var meStub = new Mock<IMetadataExtractor>();
             meStub.Setup(engine => engine.GetPartialMetadata(cmd))
                 .Returns(elements);
             var me = meStub.Object;
 
-            var containsConstraint = new ContainsConstraint(exp) { MetadataExtractor = me };
+            var existsConstraint = new ExistsConstraint() { MetadataExtractor = me };
 
             //Method under test
             string assertionText = null;
             try
             {
-                Assert.That(cmd, containsConstraint);
+                Assert.That(cmd, existsConstraint);
             }
             catch (AssertionException ex)
             {
@@ -114,41 +105,34 @@ namespace NBi.Testing.Unit.NUnit.Structure
 
             //Test conclusion            
             Assert.That(assertionText, Is.StringContaining("perspective-name").And
-                                            .StringContaining("dimension-caption").And
-                                            .StringContaining("Expected hierarchy"));
+                                            .StringContaining("expected-dimension-caption"));
         }
 
         [Test]
         public void WriteTo_FailingAssertionForMeasureGroup_TextContainsFewKeyInfo()
         {
-            var exp = "Expected measure";
             var cmd = new DiscoveryFactory().Build(
                         "connectionString",
                         DiscoveryTarget.MeasureGroups,
                         "perspective-name",
-                        "measure-group-caption", null,
+                        "expected-measure-group-caption", null,
                         null, null, null);
 
 
-            var elStub = new Mock<IField>();
-            var el1 = elStub.Object;
-            var el2 = elStub.Object;
             var elements = new List<IField>();
-            elements.Add(el1);
-            elements.Add(el2);
 
             var meStub = new Mock<IMetadataExtractor>();
             meStub.Setup(engine => engine.GetPartialMetadata(cmd))
                 .Returns(elements);
             var me = meStub.Object;
 
-            var containsConstraint = new ContainsConstraint(exp) { MetadataExtractor = me };
+            var existsConstraint = new ExistsConstraint() { MetadataExtractor = me };
 
             //Method under test
             string assertionText = null;
             try
             {
-                Assert.That(cmd, containsConstraint);
+                Assert.That(cmd, existsConstraint);
             }
             catch (AssertionException ex)
             {
@@ -157,41 +141,34 @@ namespace NBi.Testing.Unit.NUnit.Structure
 
             //Test conclusion            
             Assert.That(assertionText, Is.StringContaining("perspective-name").And
-                                            .StringContaining("measure-group-caption").And
-                                            .StringContaining("Expected measure"));
+                                            .StringContaining("expected-measure-group-caption"));
         }
 
         [Test]
-        public void WriteTo_FailingAssertionForHierarchy_TextContainsFewKeyInfo()
+        public void WriteTo_FailingAssertionForPerspective_TextContainsFewKeyInfo()
         {
-            var exp = "Expected level";
             var cmd = new DiscoveryFactory().Build(
                         "connectionString",
-                        DiscoveryTarget.Hierarchies,
-                        "perspective-name",
+                        DiscoveryTarget.Perspectives,
+                        "expected-perspective-name",
                         null, null,
-                        "dimension-caption", "hierarchy-caption", null);
+                        null, null, null);
 
 
-            var elStub = new Mock<IField>();
-            var el1 = elStub.Object;
-            var el2 = elStub.Object;
             var elements = new List<IField>();
-            elements.Add(el1);
-            elements.Add(el2);
 
             var meStub = new Mock<IMetadataExtractor>();
             meStub.Setup(engine => engine.GetPartialMetadata(cmd))
                 .Returns(elements);
             var me = meStub.Object;
 
-            var containsConstraint = new ContainsConstraint(exp) { MetadataExtractor = me };
+            var existsConstraint = new ExistsConstraint() { MetadataExtractor = me };
 
             //Method under test
             string assertionText = null;
             try
             {
-                Assert.That(cmd, containsConstraint);
+                Assert.That(cmd, existsConstraint);
             }
             catch (AssertionException ex)
             {
@@ -199,10 +176,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
             }
 
             //Test conclusion            
-            Assert.That(assertionText, Is.StringContaining("perspective-name").And
-                                            .StringContaining("dimension-caption").And
-                                            .StringContaining("hierarchy-caption").And
-                                            .StringContaining("Expected level"));
+            Assert.That(assertionText, Is.StringContaining("expected-perspective-name"));
         }
 
 

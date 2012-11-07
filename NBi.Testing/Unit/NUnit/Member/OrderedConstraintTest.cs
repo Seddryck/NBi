@@ -77,6 +77,55 @@ namespace NBi.Testing.Unit.NUnit.Member
         }
 
         [Test]
+        public void WriteTo_FailingAssertionForAlphabetic_TextContainsFewKeyInfo()
+        {
+            var cmd = new DiscoveryFactory().Build(
+                "connectionString",
+                "member-caption",
+                "perspective-name",
+                "dimension-caption",
+                "hierarchy-caption",
+                null);
+
+            var member1Stub = new Mock<NBi.Core.Analysis.Member.Member>();
+            var member1 = member1Stub.Object;
+            member1.Caption = "Z";
+            var member2Stub = new Mock<NBi.Core.Analysis.Member.Member>();
+            var member2 = member2Stub.Object;
+            member2.Caption = "A";
+            var members = new MemberResult();
+            members.Add(member1);
+            members.Add(member2);
+
+            var meStub = new Mock<MembersAdomdEngine>();
+            meStub.Setup(engine => engine.GetMembers(cmd))
+                .Returns(members);
+            var me = meStub.Object;
+
+            var orderedConstraint = new OrderedConstraint() { MemberEngine = me };
+            orderedConstraint = orderedConstraint.Alphabetical;
+
+            //Method under test
+            string assertionText = null;
+            try
+            {
+                Assert.That(cmd, orderedConstraint);
+            }
+            catch (AssertionException ex)
+            {
+                assertionText = ex.Message;
+            }
+            //Test conclusion            
+            Assert.That(assertionText, Is.StringContaining("perspective-name").And
+                                            .StringContaining("dimension-caption").And
+                                            .StringContaining("hierarchy-caption").And
+                                            .StringContaining("member-caption").And
+                                            .StringContaining("children").And
+                                            .StringContaining("alphabetic"));
+
+        }
+
+        [Test]
         public void Matches_ReverseCorrectlyOrdered_Validated()
         {
             var members = new List<string>();
@@ -228,6 +277,56 @@ namespace NBi.Testing.Unit.NUnit.Member
 
             //Test conclusion            
             Assert.That(res, Is.False);
+        }
+
+        [Test]
+        public void WriteTo_FailingAssertionForSpecific_TextContainsFewKeyInfo()
+        {
+            var cmd = new DiscoveryFactory().Build(
+                "connectionString",
+                "member-caption",
+                "perspective-name",
+                "dimension-caption",
+                "hierarchy-caption",
+                null);
+
+            var member1Stub = new Mock<NBi.Core.Analysis.Member.Member>();
+            var member1 = member1Stub.Object;
+            member1.Caption="A";
+            var member2Stub = new Mock<NBi.Core.Analysis.Member.Member>();
+            var member2 = member2Stub.Object;
+            member2.Caption="B";
+            var members = new MemberResult();
+            members.Add(member1);
+            members.Add(member2);
+
+            var meStub = new Mock<MembersAdomdEngine>();
+            meStub.Setup(engine => engine.GetMembers(cmd))
+                .Returns(members);
+            var me = meStub.Object;
+
+            var orderedConstraint = new OrderedConstraint() { MemberEngine = me };
+            orderedConstraint.Specific(new List<object>() { "B", "A" });
+
+            //var assertionText = orderedConstraint.CreatePredicate();
+            //Method under test
+            string assertionText = null;
+            try
+            {
+                Assert.That(cmd, orderedConstraint);
+            }
+            catch (AssertionException ex)
+            {
+                assertionText = ex.Message;
+            }
+            //Test conclusion            
+            Assert.That(assertionText, Is.StringContaining("perspective-name").And
+                                            .StringContaining("dimension-caption").And
+                                            .StringContaining("hierarchy-caption").And
+                                            .StringContaining("member-caption").And
+                                            .StringContaining("children").And
+                                            .StringContaining("specifically"));
+
         }
 
         [Test]

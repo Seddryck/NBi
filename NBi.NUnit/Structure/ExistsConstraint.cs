@@ -95,37 +95,32 @@ namespace NBi.NUnit.Structure
         {
             if (command != null)
             {
-                if (command.Target == DiscoveryTarget.Perspectives)
+                switch (command.Target)
                 {
-                    writer.WritePredicate(string.Format("On current cube, a perspective \"{1}\" exists"
-                        , command.GetFilter(DiscoveryTarget.Perspectives).Value
-                        ));
-                }
-                if (command.Target == DiscoveryTarget.MeasureGroups)
-                {
-                    writer.WritePredicate(string.Format("On perspective \"{0}\", the measuregroup \"{1}\" exists"
-                        , command.GetFilter(DiscoveryTarget.Perspectives).Value
-                        , command.GetFilter(DiscoveryTarget.MeasureGroups).Value
-                        ));
-                    if (command.Target == DiscoveryTarget.Measures)
-                    {
+                    case DiscoveryTarget.Perspectives:
+                        writer.WritePredicate(string.Format("On current cube, a perspective \"{0}\" exists"
+                            , command.GetFilter(DiscoveryTarget.Perspectives).Value));
+                        break;
+                    case DiscoveryTarget.MeasureGroups:
+                        writer.WritePredicate(string.Format("On perspective \"{0}\", the measuregroup \"{1}\" exists"
+                            , command.GetFilter(DiscoveryTarget.Perspectives).Value
+                            , command.GetFilter(DiscoveryTarget.MeasureGroups).Value));
+                        break;
+                    case DiscoveryTarget.Measures:
                         writer.WritePredicate(string.Format("On perspective \"{0}\", a measure \"{1}\" exists"
                             , command.GetFilter(DiscoveryTarget.Perspectives).Value
-                            , command.GetFilter(DiscoveryTarget.Measures).Value
-                            ));
-                    }
-                    if (command.Target == DiscoveryTarget.Dimensions || command.Target == DiscoveryTarget.Hierarchies || command.Target == DiscoveryTarget.Levels)
-                        writer.WritePredicate(string.Format("On perspective \"{0}\", a {1} identified by \"{2}\" containing a {3} with caption"
-                            , command.GetFilter(DiscoveryTarget.Perspectives)
-                            , command.GetDepthName()
-                            , "TODO"
-                            , command.GetNextDepthName()));
-
-                    writer.WriteExpectedValue(true);
+                            , command.GetFilter(DiscoveryTarget.Measures).Value));
+                        break;
+                    case DiscoveryTarget.Dimensions:
+                        writer.WritePredicate(string.Format("On perspective \"{0}\", a dimension \"{1}\" exists"
+                            , command.GetFilter(DiscoveryTarget.Perspectives).Value
+                            , command.GetFilter(DiscoveryTarget.Dimensions).Value));
+                        break;
+                    default:
+                        break;
                 }
-                //else
-                //    base.WriteDescriptionTo(writer);
-
+                
+                writer.WriteExpectedValue(true);
             }
         }
     }

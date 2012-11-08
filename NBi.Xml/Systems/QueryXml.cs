@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Text;
 using System.Xml.Serialization;
 using NBi.Core;
 
@@ -36,7 +36,7 @@ namespace NBi.Xml.Systems
                 return InlineQuery;
 
             //Else read the file's content and 
-            var query = System.IO.File.ReadAllText(File);
+            var query = System.IO.File.ReadAllText(File, Encoding.UTF8);
             return query;
         }
 

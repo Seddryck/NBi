@@ -71,6 +71,21 @@ namespace NBi.Testing.Unit.Xml
             
         }
 
+
+        [Test]
+        public void GetQuery_FilenameSpecified_RetrieveContentWithEuroSymbol()
+        {
+            //create a text file on disk
+            var filename = DiskOnFile.CreatePhysicalFile("QueryFile€.mdx", "NBi.Testing.Unit.Xml.Resources.QueryFile€.mdx");
+
+            //Instantiate a Test Case and specify to find the sql in the fie created above
+            var testCase = new QueryXml() { File = filename };
+
+            // A Stream is needed to read the text file from the assembly.
+            string expectedContent = "select [measure].[price €/Kg] on 0;";
+
+            Assert.AreEqual(expectedContent, testCase.GetQuery());
+        }
        
     }
 }

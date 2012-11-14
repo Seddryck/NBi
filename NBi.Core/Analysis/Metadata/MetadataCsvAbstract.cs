@@ -16,7 +16,6 @@ namespace NBi.Core.Analysis.Metadata
 
         public bool SupportSheets { get {return false;}}
 
-        private string _sheetName;
         public string SheetName
         {
             get { throw new NotSupportedException(); }

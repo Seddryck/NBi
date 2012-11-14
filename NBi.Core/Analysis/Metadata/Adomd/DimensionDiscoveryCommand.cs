@@ -13,7 +13,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
 
         }
         
-        public virtual DimensionCollection List(IEnumerable<IFilter> filters)
+        public new DimensionCollection List(IEnumerable<IFilter> filters)
         {
             var dimensions = new DimensionCollection();
             

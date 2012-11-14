@@ -24,7 +24,7 @@ namespace NBi.NUnit.Builder
             SystemUnderTest = InstantiateSystemUnderTest(SystemUnderTestXml);
         }
 
-        protected IDbCommand InstantiateSystemUnderTest(QueryXml queryXml)
+        protected virtual IDbCommand InstantiateSystemUnderTest(QueryXml queryXml)
         {
             var conn = ConnectionFactory.Get(queryXml.GetConnectionString());
             var cmd = conn.CreateCommand();

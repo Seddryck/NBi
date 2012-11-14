@@ -50,7 +50,7 @@ namespace NBi.NUnit.Structure
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
-        public new ExistsConstraint IgnoreCase
+        public ExistsConstraint IgnoreCase
         {
             get
             {

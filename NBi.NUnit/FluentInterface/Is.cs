@@ -45,7 +45,7 @@ namespace NBi.NUnit.FluentInterface
             return ctr;
         }
 
-        public static OrderedConstraint Ordered()
+        public new static OrderedConstraint Ordered()
         {
             var ctr = new OrderedConstraint();
             return ctr;

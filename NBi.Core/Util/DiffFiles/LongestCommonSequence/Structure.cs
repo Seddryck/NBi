@@ -145,8 +145,33 @@ namespace NBi.Core.Util.DiffFiles.LongestCommonSequence
 		private int _length;
 		private DiffResultSpanStatus _status;
 
-		public int DestIndex {get{return _destIndex;}}
-		public int SourceIndex {get{return _sourceIndex;}}
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int result = 17;
+                result = result * 23 + this._destIndex.GetHashCode();
+                result = result * 23 + this._sourceIndex.GetHashCode();
+                result = result * 23 + this._length.GetHashCode();
+                result = result * 23 + this._status.GetHashCode();
+                return result;
+            }
+        }
+
+        public int DestIndex
+        {
+            get
+            {
+                return _destIndex;
+            }
+        }
+        public int SourceIndex
+        {
+            get
+            {
+                return _sourceIndex;
+            }
+        }
 		public int Length {get{return _length;}}
 		public DiffResultSpanStatus Status {get{return _status;}}
 		

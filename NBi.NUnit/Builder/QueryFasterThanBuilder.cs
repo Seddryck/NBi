@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Linq;
 using NBi.Core;
 using NBi.NUnit.Query;
@@ -39,7 +40,7 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
-        protected object InstantiateSystemUnderTest(QueryXml queryXml)
+        protected override IDbCommand InstantiateSystemUnderTest(QueryXml queryXml)
         {
             var conn = ConnectionFactory.Get(queryXml.GetConnectionString());
             var cmd = conn.CreateCommand();

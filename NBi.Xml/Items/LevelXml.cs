@@ -17,9 +17,9 @@ namespace NBi.Xml.Items
         }
 
         [XmlIgnore]
-        public string ParentPath { get { return string.Format("{0}.[{1}]",base.ParentPath, Hierarchy);}}
+        protected override string  ParentPath { get { return string.Format("{0}.[{1}]",base.ParentPath, Hierarchy);}}
 
         [XmlIgnore]
-        public string Path { get { return string.Format("{0}.[{1}]", ParentPath, Caption); } }
+        protected override string Path { get { return string.Format("{0}.[{1}]", ParentPath, Caption); } }
     }
 }

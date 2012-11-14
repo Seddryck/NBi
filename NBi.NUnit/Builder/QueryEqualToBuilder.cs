@@ -77,7 +77,7 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
-        protected IDbCommand InstantiateSystemUnderTest(QueryXml queryXml)
+        protected override IDbCommand InstantiateSystemUnderTest(QueryXml queryXml)
         {
                 var conn = ConnectionFactory.Get(queryXml.GetConnectionString());
                 var cmd = conn.CreateCommand();

@@ -118,7 +118,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
-            Assert.That(sut, Is.InstanceOfType<MetadataDiscoveryCommand>());
+            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryCommand>());
         }
 
         [Test]
@@ -202,7 +202,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
             
             //Assertion
-            Assert.That(sut, Is.InstanceOfType<MetadataDiscoveryCommand>());
+            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryCommand>());
         }
 
 
@@ -248,7 +248,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
-            Assert.That(sut, Is.InstanceOfType<MetadataDiscoveryCommand>());
+            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryCommand>());
         }
 
         [Test]

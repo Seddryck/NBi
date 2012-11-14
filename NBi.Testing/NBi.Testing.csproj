@@ -156,6 +156,7 @@
     </EmbeddedResource>
     <None Include="ConnectionString.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <EmbeddedResource Include="Integration\NUnit\Resources\NonEmptyAmountByYear.csv" />
     <None Include="packages.config" />

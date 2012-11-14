@@ -10,7 +10,6 @@ namespace NBi.NUnit.Builder
 {
     class StructureContainsBuilder: AbstractStructureBuilder
     {
-        protected StructureXml SystemUnderTestXml {get; set;}
         protected ContainsXml ConstraintXml {get; set;}
         
         public StructureContainsBuilder() : base()

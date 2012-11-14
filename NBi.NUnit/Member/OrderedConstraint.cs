@@ -157,11 +157,12 @@ namespace NBi.NUnit.Member
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
 
-            writer.WritePredicate(string.Format("On perspective \"{0}\", the {1} of \"{2}\" are ordered {3}"
+            writer.WritePredicate(string.Format("On perspective \"{0}\", the {1} of \"{2}\" are ordered {3}{4}"
                                                             , command.Perspective
                                                             , command.Function.ToLower()
                                                             , command.Path
-                                                            , comparer == null ? "specifically" : comparer.Label));
+                                                            , comparer == null ? "specifically" : comparer.Label
+                                                            , reversed ? "(descending)" : string.Empty));
         }
 
         protected interface IComparerWithLabel : IComparer

@@ -10,9 +10,6 @@ namespace NBi.Xml.Systems
         {
             return true;
         }
-
-        [XmlAttribute("name")]
-        public string Name { get; set; }
         
         //TODO should be removed in 1.1 and inheriting from BaseQueryXml ... (issue with desrialization of interface)
         //public DefaultXml Default { get; set; }

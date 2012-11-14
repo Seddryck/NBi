@@ -15,7 +15,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
 
         }
 
-        public virtual HierarchyCollection List(IEnumerable<IFilter> filters)
+        public new HierarchyCollection List(IEnumerable<IFilter> filters)
         {
             Filters = filters;
             var hierarchies = new HierarchyCollection();

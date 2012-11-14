@@ -26,7 +26,7 @@ namespace NBi.NUnit.FluentInterface
             return ctr;
         }
 
-        public static NBiMember.CountConstraint Exactly(int count)
+        public new static NBiMember.CountConstraint Exactly(int count)
         {
             var ctr = new NBiMember.CountConstraint();
             ctr.Exactly(count);

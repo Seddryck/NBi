@@ -13,7 +13,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
 
         }
 
-        public virtual LevelCollection List(IEnumerable<IFilter> filters)
+        public new LevelCollection List(IEnumerable<IFilter> filters)
         {
             Filters = filters;
             var levels = new LevelCollection();

@@ -40,7 +40,7 @@ namespace NBi.Xml.Settings
                     throw new ArgumentOutOfRangeException(string.Format("No reference named '{0}' existing in test suite's settings.", name));
                 return reference;
             }
-            catch (System.InvalidOperationException ex)
+            catch (System.InvalidOperationException)
             {
                 throw new InvalidOperationException(string.Format("All references'name must be unique in settings. The name '{0}' exists more than once.", name));
             }

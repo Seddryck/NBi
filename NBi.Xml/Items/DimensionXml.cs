@@ -17,6 +17,6 @@ namespace NBi.Xml.Items
         }
 
         [XmlIgnore]
-        public string Path { get { return string.Format("[{0}]", Caption); } }
+        protected virtual string Path { get { return string.Format("[{0}]", Caption); } }
     }
 }

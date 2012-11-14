@@ -13,7 +13,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
 
         }
 
-        public virtual MeasureGroupCollection List(IEnumerable<IFilter> filters)
+        public new virtual MeasureGroupCollection List(IEnumerable<IFilter> filters)
         {
             var measureGroups = new MeasureGroupCollection();
             
@@ -34,7 +34,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
                     {
                         // Get the column value
                         string name = (string)rdr.GetValue(3);
-                        MeasureGroup mg;
+                        //MeasureGroup mg;
                         measureGroups.AddOrIgnore(name);
                     }
                 }
@@ -43,13 +43,13 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             return measureGroups;
         }
 
-        public virtual IEnumerable<IField> GetCaptions(IEnumerable<IFilter> filters)
+        public override IEnumerable<IField> GetCaptions(IEnumerable<IFilter> filters)
         {
             var values = List(filters);
             return values.Values.ToArray();
         }
 
-        public virtual string Build(IEnumerable<IFilter> filters)
+        public override string Build(IEnumerable<IFilter> filters)
         {
             var filterString = string.Empty;
             foreach (var filter in filters)

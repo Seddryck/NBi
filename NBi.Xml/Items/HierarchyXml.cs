@@ -17,8 +17,8 @@ namespace NBi.Xml.Items
         }
 
         [XmlIgnore]
-        protected string ParentPath { get { return string.Format("[{0}]", Dimension); } }
+        protected virtual string ParentPath { get { return string.Format("[{0}]", Dimension); } }
         [XmlIgnore]
-        public string Path { get { return string.Format("{0}.[{1}]", ParentPath, Caption); } }
+        protected  override string Path { get { return string.Format("{0}.[{1}]", ParentPath, Caption); } }
     }
 }

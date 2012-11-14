@@ -154,14 +154,18 @@
     <EmbeddedResource Include="Acceptance\Resources\ResellerOrderCountByYearBefore2006.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="ConnectionString.config" />
-    <None Include="ConnectionString.user.config" />
+    <None Include="ConnectionString.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <EmbeddedResource Include="Integration\NUnit\Resources\NonEmptyAmountByYear.csv" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataCsvSample.csv" />
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataExcelSample.xls" />
     <EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject-Saved.nbi" />
     <EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject.nbi" />
+  </ItemGroup>
+  <ItemGroup>
+    <MyOptionalItems Include="ConnectionString.user.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
@@ -288,6 +292,12 @@
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
+  </Target>-->
+  <Target Name="CopyOptionalFiles" AfterTargets="Build">
+    <Message Text="Copy optional files" />
+    <CreateItem Include="@(MyOptionalItems)">
+      <Output ItemName="ItemsThatNeedToBeCopied" TaskParameter="Include" />
+    </CreateItem>
+    <Copy SourceFiles="@(ItemsThatNeedToBeCopied)" DestinationFolder="$(OutputPath)" Condition="Exists('%(RootDir)%(Directory)%(Filename)%(Extension)')" />
   </Target>
-  -->
 </Project>

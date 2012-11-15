@@ -9,13 +9,14 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
 {
-    public class ContainsConstraint : NUnitCtr.CollectionContainsConstraint
+    public class ContainsConstraint : NUnitCtr.Constraint
     {
         protected IEnumerable<string> expectedCaptions;
         protected IComparer comparer;
         protected MembersDiscoveryCommand command;
         protected MembersAdomdEngine memberEngine;
 
+        protected NUnitCtr.CollectionItemsEqualConstraint internalConstraint;
         /// <summary>
         /// Engine dedicated to MetadataExtractor acquisition
         /// </summary>
@@ -40,13 +41,14 @@ namespace NBi.NUnit.Member
         /// Construct a CollectionContainsConstraint specific for Members
         /// </summary>
         /// <param name="expected"></param>
-        public ContainsConstraint(string expected)
-            : base(StringComparerHelper.Build(expected))
+        public ContainsConstraint(string expected) : base()
         {
             var list = new List<string>();
             list.Add(expected);
             expectedCaptions = list;
             comparer = new NBi.Core.Analysis.Member.Member.ComparerByCaption(true);
+
+            internalConstraint = new NUnitCtr.CollectionContainsConstraint(StringComparerHelper.Build(expected));
         }
 
         /// <summary>
@@ -58,6 +60,12 @@ namespace NBi.NUnit.Member
         {
             expectedCaptions = expected;
             comparer = new NBi.Core.Analysis.Member.Member.ComparerByCaption(true);
+
+            var expectedStringHelper = new List<StringComparerHelper>();
+            foreach (var str in expected)
+                expectedStringHelper.Add(StringComparerHelper.Build(str));
+
+            internalConstraint = new NUnitCtr.CollectionSubsetConstraint(expectedStringHelper);
         }
         
         #region Modifiers
@@ -80,15 +88,10 @@ namespace NBi.NUnit.Member
                 return Process((MembersDiscoveryCommand)actual);
             else
             {
-                base.Using(comparer);
-                var res = base.Matches(actual);
+                internalConstraint = internalConstraint.Using(comparer);
+                var res = internalConstraint.Matches(actual);
                 return res;
             }
-        }
-
-        protected bool doMatch(IEnumerable<IField> actual)
-        {
-            return base.Using(comparer).Matches(actual);
         }
 
         protected bool Process(MembersDiscoveryCommand actual)
@@ -113,8 +116,8 @@ namespace NBi.NUnit.Member
                                                             , command.Path));
                 writer.WriteExpectedValue(expectedCaptions);
             }
-            else
-                base.WriteDescriptionTo(writer);
+            //else
+            //    base.WriteDescriptionTo(writer);
         }
 
         protected string GetFunctionLabel(string function)

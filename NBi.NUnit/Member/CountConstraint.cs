@@ -2,6 +2,7 @@
 using System.Collections;
 using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Member;
+using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
@@ -120,7 +121,10 @@ namespace NBi.NUnit.Member
             if (internalConstraint == null)
                 return false;
 
-            return internalConstraint.Matches(actual.Count);
+            IResolveConstraint exp = internalConstraint;
+            var multipleConstraint = exp.Resolve();
+
+            return multipleConstraint.Matches(actual.Count);
         }
 
         /// <summary>

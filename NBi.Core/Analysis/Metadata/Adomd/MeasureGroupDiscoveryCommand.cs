@@ -16,6 +16,19 @@ namespace NBi.Core.Analysis.Metadata.Adomd
         public new virtual MeasureGroupCollection List(IEnumerable<IFilter> filters)
         {
             var measureGroups = new MeasureGroupCollection();
+
+            var rows = Discover(filters);
+            foreach (var row in rows)
+            {
+                measureGroups.AddOrIgnore(row.Name);
+            }
+
+            return measureGroups;
+        }
+
+        internal new IEnumerable<MeasureGroupRow> Discover(IEnumerable<IFilter> filters)
+        {
+            var measureGroups = new List<MeasureGroupRow>();
             
             Inform("Investigating measure-groups");
 
@@ -24,19 +37,12 @@ namespace NBi.Core.Analysis.Metadata.Adomd
                 var adomdFiltering = Build(filters);
                 cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_measuregroup_dimensions WHERE DIMENSION_IS_VISIBLE{0}", adomdFiltering);
                 var rdr = ExecuteReader(cmd);
-                // Traverse the response and 
-                // read column 2, "CUBE_NAME"
-                // read column 3, "MEASUREGROUP_NAME"
+
                 while (rdr.Read())
                 {
-                    string perspectiveName = (string)rdr.GetValue(2);
-                    if (!perspectiveName.StartsWith("$"))
-                    {
-                        // Get the column value
-                        string name = (string)rdr.GetValue(3);
-                        //MeasureGroup mg;
-                        measureGroups.AddOrIgnore(name);
-                    }
+                    var row = MeasureGroupRow.Load(rdr);
+                    if (row != null)
+                        measureGroups.Add(row);
                 }
             }
 
@@ -47,18 +53,6 @@ namespace NBi.Core.Analysis.Metadata.Adomd
         {
             var values = List(filters);
             return values.Values.ToArray();
-        }
-
-        public override string Build(IEnumerable<IFilter> filters)
-        {
-            var filterString = string.Empty;
-            foreach (var filter in filters)
-            {
-                if (filter != null)
-                    filterString += string.Format(" and {0}", Build((CaptionFilter)filter));
-            }
-
-            return filterString;
         }
 
         protected override string Build(CaptionFilter filter)

@@ -1,6 +1,7 @@
 ﻿using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Metadata;
 using NUnit.Framework;
+using System.Linq;
 
 namespace NBi.Testing.Integration.Core.Analysis.Metadata
 {
@@ -36,60 +37,67 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata
             Assert.That(metadata.Perspectives["Adventure Works"].MeasureGroups["Financial Reporting"].Measures.ContainsKey("[Measures].[Amount]"));
         }
 
-        public void GetChildStructure_DateDimensionWithHeighTeenHierarchies_ListStructureContainingHeighTeenElements()
-        {
-            //var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
-            //var disco = DiscoveryFactory.BuildForHierarchy(
-            //    ConnectionStringReader.GetAdomd(),
-            //    "Adventure Works",
-            //    "[Date]");
-
-            //var structs = me.GetPartialMetadata(disco);
-
-            //Assert.That(structs, Has.Count.EqualTo(18));
-            Assert.Fail();
-        }
-
-        public void GetChildStructure_CalendarHierarchyWithSixLevels_ListStructureContainingSixElements()
-        {
-            //var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
-            //var disco = DiscoveryFactory.BuildForLevel(
-            //    ConnectionStringReader.GetAdomd(),
-            //    "Adventure Works",
-            //    "[Date].[Calendar]");
-
-            //var structs = me.GetPartialMetadata(disco);
-
-            //Assert.That(structs, Has.Count.EqualTo(6));
-            Assert.Fail();
-        }
-
-        public void GetChildStructure_MonthLevelWithTwoProperties_ListStructureContainingTwoElements()
+        [Test]
+        public void GetPartialMetadata_DateDimensionWithHeighTeenHierarchies_ListStructureContainingHeighTeenElements()
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
-            //var disco = DiscoveryFactory.BuildForProperty(
-            //    ConnectionStringReader.GetAdomd(),
-            //    "Adventure Works",
-            //    "[Date].[Calendar].[Month]");
+            var disco = new DiscoveryFactory().Build(
+                ConnectionStringReader.GetAdomd(),
+                DiscoveryTarget.Hierarchies,
+                "Adventure Works",
+                null, null,
+                "Date", null, null);
 
-            //var structs = me.GetPartialMetadata(disco);
+            var structs = me.GetPartialMetadata(disco);
 
-            //Assert.That(structs, Has.Count.EqualTo(2));
-            Assert.Fail();
+            Assert.That(structs.Count(), Is.EqualTo(18));
         }
 
-        public void GetMeasuresOfFolder_PerspectiveAdventureWorks_OneElement()
+        [Test]
+        public void GetPartialMetadata_CalendarHierarchyWithSixLevels_ListStructureContainingSixElements()
         {
-            //var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
-            //var disco = DiscoveryFactory.BuildForMeasureGroup(
-            //    ConnectionStringReader.GetAdomd(),
-            //    "Finances",
-            //    "Financial Reporting");
+            var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
+            var disco = new DiscoveryFactory().Build(
+                ConnectionStringReader.GetAdomd(),
+                DiscoveryTarget.Levels,
+                "Adventure Works",
+                null, null,
+                "Date", "Calendar", null);
 
-            //var structs = me.GetPartialMetadata(disco);
+            var structs = me.GetPartialMetadata(disco);
 
-            //Assert.That(structs, Has.Count.EqualTo(1));
-            Assert.Fail();
+            Assert.That(structs.Count(), Is.EqualTo(6));
+        }
+
+        public void GetPartialMetadata_MonthLevelWithTwoProperties_ListStructureContainingTwoElements()
+        {
+            var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
+            var disco = new DiscoveryFactory().Build(
+                ConnectionStringReader.GetAdomd(),
+                DiscoveryTarget.Properties,
+                "Adventure Works",
+                null, null,
+                "Date", "Calendar", "Month");
+
+            var structs = me.GetPartialMetadata(disco);
+
+            Assert.That(structs.Count(), Is.EqualTo(2));
+        }
+
+        [Test]
+        public void GetPartialMetadata_MeasureGroupFinancialReporting_OneElement()
+        {
+            var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
+            var disco = new DiscoveryFactory().Build(
+                ConnectionStringReader.GetAdomd(),
+                DiscoveryTarget.MeasureGroups,
+                "Finance",
+                "Financial Reporting", null, 
+                null, null, null);
+
+            var structs = me.GetPartialMetadata(disco);
+
+            Assert.That(structs.Count(), Is.EqualTo(1));
         }
 
         

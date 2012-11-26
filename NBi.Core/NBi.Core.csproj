@@ -90,6 +90,14 @@
     <Compile Include="Analysis\Member\MembersAdomdEngine.cs" />
     <Compile Include="Analysis\Member\MembersCommand.cs" />
     <Compile Include="Analysis\Metadata\Adomd\AdomdDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\PerspectiveRow.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\MeasureRow.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\MeasureGroupRow.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\PropertyRow.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\LevelRow.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\HierarchyRow.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\DimensionRow.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\PropertyDiscoveryCommand.cs" />
     <Compile Include="Analysis\Metadata\Adomd\MeasureDiscoveryCommand.cs" />
     <Compile Include="Analysis\Metadata\Adomd\MeasureGroupDiscoveryCommand.cs" />
     <Compile Include="Analysis\Metadata\Adomd\LevelDiscoveryCommand.cs" />

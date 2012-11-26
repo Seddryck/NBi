@@ -12,6 +12,7 @@ namespace NBi.Core.Analysis.Discovery
         Measures,
         Dimensions,
         Hierarchies,
-        Levels
+        Levels,
+        Properties
     }
 }

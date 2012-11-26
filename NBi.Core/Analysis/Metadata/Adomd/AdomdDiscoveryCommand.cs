@@ -6,7 +6,7 @@ using NBi.Core.Analysis.Discovery;
 
 namespace NBi.Core.Analysis.Metadata.Adomd
 {
-    internal abstract class AdomdDiscoveryCommand
+    internal abstract class AdomdDiscoveryCommand : IDisposable
     {
         public event ProgressStatusHandler ProgressStatusChanged;
 
@@ -59,9 +59,30 @@ namespace NBi.Core.Analysis.Metadata.Adomd
         }
 
         public abstract IEnumerable<IField> GetCaptions(IEnumerable<IFilter> filters);
+
         protected abstract string Build(CaptionFilter filter);
 
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
+        private bool disposed;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    // Dispose managed resources.
+                }
+
+                // There are no unmanaged resources to release, but
+                // if we add them, they need to be released here.
+            }
+            disposed = true;
+        }
     }
 }

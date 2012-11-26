@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
+using NBi.Core.Analysis.Metadata.Adomd;
 
 namespace NBi.Core.Analysis.Metadata
 {
@@ -64,6 +67,126 @@ namespace NBi.Core.Analysis.Metadata
                     }
             
             return result;
+        }
+
+        internal void Import(IEnumerable<PerspectiveRow> rows)
+        {
+            foreach (var row in rows)
+            {
+                Perspectives.AddOrIgnore(row.Name);
+            }
+        }
+
+        internal void Import(IEnumerable<DimensionRow> rows)
+        {
+            foreach (var row in rows)
+            {
+                if (Perspectives.ContainsKey(row.PerspectiveName))
+                {
+                    Perspectives[row.PerspectiveName].Dimensions.AddOrIgnore(row.UniqueName, row.Caption);
+                }
+            }
+        }
+
+        internal void Import(IEnumerable<HierarchyRow> rows)
+        {
+            foreach (var row in rows)
+            {
+                if (Perspectives.ContainsKey(row.PerspectiveName))
+                {
+                    if (Perspectives[row.PerspectiveName].Dimensions.ContainsKey(row.DimensionUniqueName))
+                    {
+                        Perspectives[row.PerspectiveName].Dimensions[row.DimensionUniqueName].Hierarchies.AddOrIgnore(row.UniqueName, row.Caption);
+                    }
+                }
+            }
+        }
+
+        internal void Import(IEnumerable<LevelRow> rows)
+        {
+            foreach (var row in rows)
+            {
+                if (Perspectives.ContainsKey(row.PerspectiveName))
+                {
+                    if (Perspectives[row.PerspectiveName].Dimensions.ContainsKey(row.DimensionUniqueName))
+                    {
+                        if (Perspectives[row.PerspectiveName].Dimensions[row.DimensionUniqueName].Hierarchies.ContainsKey(row.HierarchyUniqueName))
+                        {
+                            Perspectives[row.PerspectiveName]
+                                .Dimensions[row.DimensionUniqueName]
+                                .Hierarchies[row.HierarchyUniqueName]
+                                .Levels.AddOrIgnore(row.UniqueName, row.Caption, row.Number);
+                        }
+                    }
+                }
+            }
+        }
+
+        internal void Import(IEnumerable<PropertyRow> rows)
+        {
+            foreach (var row in rows)
+            {
+                if (Perspectives.ContainsKey(row.PerspectiveName))
+                {
+                    if (Perspectives[row.PerspectiveName].Dimensions.ContainsKey(row.DimensionUniqueName))
+                    {
+                        if (Perspectives[row.PerspectiveName].Dimensions[row.DimensionUniqueName].Hierarchies.ContainsKey(row.HierarchyUniqueName))
+                        {
+                            if (Perspectives[row.PerspectiveName].Dimensions[row.DimensionUniqueName].Hierarchies[row.HierarchyUniqueName].Levels.ContainsKey(row.LevelUniqueName))
+                            {
+                                Perspectives[row.PerspectiveName]
+                                    .Dimensions[row.DimensionUniqueName]
+                                    .Hierarchies[row.HierarchyUniqueName]
+                                    .Levels[row.LevelUniqueName]
+                                    .Properties.AddOrIgnore(row.UniqueName, row.Caption);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        internal void Import(IEnumerable<MeasureGroupRow> rows)
+        {
+            foreach (var row in rows)
+            {
+                if (Perspectives.ContainsKey(row.PerspectiveName))
+                {
+                    Perspectives[row.PerspectiveName].MeasureGroups.AddOrIgnore(row.Name);
+                }
+            }
+        }
+
+        internal void Import(IEnumerable<MeasureRow> rows)
+        {
+            foreach (var row in rows)
+            {
+                if (Perspectives.ContainsKey(row.PerspectiveName))
+                {
+                    if (Perspectives[row.PerspectiveName].MeasureGroups.ContainsKey(row.MeasureGroupName))
+                    {
+                        Perspectives[row.PerspectiveName].MeasureGroups[row.MeasureGroupName].Measures.Add(row.UniqueName, row.Caption, row.DisplayFolder);
+                    }
+                }
+            }
+        }
+
+        internal void Link(IEnumerable<MeasureGroupRow> rows)
+        {
+            foreach (var row in rows)
+            {
+                if (Perspectives.ContainsKey(row.PerspectiveName))
+                {
+                    if (Perspectives[row.PerspectiveName].Dimensions.ContainsKey(row.LinkedDimensionUniqueName))
+                    {
+                        var linkedDimension = Perspectives[row.PerspectiveName].Dimensions[row.LinkedDimensionUniqueName];
+                        if (Perspectives[row.PerspectiveName].MeasureGroups.ContainsKey(row.Name))
+                        {
+                            Perspectives[row.PerspectiveName].MeasureGroups[row.Name].LinkedDimensions.Add(linkedDimension);
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -16,6 +16,17 @@ namespace NBi.Core.Analysis.Metadata.Adomd
         public new DimensionCollection List(IEnumerable<IFilter> filters)
         {
             var dimensions = new DimensionCollection();
+
+            var rows = Discover(filters);
+            foreach (var row in rows)
+                dimensions.AddOrIgnore(row.UniqueName, row.Caption);
+
+            return dimensions;
+        }
+
+        internal new IEnumerable<DimensionRow> Discover(IEnumerable<IFilter> filters)
+        {
+            var dimensions = new List<DimensionRow>();
             
             Inform("Investigating dimensions");
 
@@ -25,22 +36,12 @@ namespace NBi.Core.Analysis.Metadata.Adomd
                 cmd.CommandText = string.Format("select * from $system.mdschema_dimensions where DIMENSION_IS_VISIBLE{0}", adomdFiltering);
                 var rdr = ExecuteReader(cmd);
                 // Traverse the response and 
-                // read column 2, "CUBE_NAME"
-                // read column 4, "DIMENSION_UNIQUE_NAME"
-                // read column 6, "DIMENSION_CAPTION"
-                // read column 8, "DIMENSION_TYPE"
-                // read column 10, "DEFAULT HIERARCHY"
+                
                 while (rdr.Read())
                 {
-                    string perspectiveName = (string)rdr.GetValue(2);
-                    if ((short)rdr.GetValue(8) != 2 && !perspectiveName.StartsWith("$"))
-                    {
-                        // Get the columns value
-                        string uniqueName = (string)rdr.GetValue(4);
-                        string caption = (string)rdr.GetValue(6);
-                        string defaultHierarchy = (string)rdr.GetValue(10);
-                        dimensions.AddOrIgnore(uniqueName, caption);
-                    }
+                    var dimRow = DimensionRow.Load(rdr);
+                    if (dimRow != null)
+                        dimensions.Add(dimRow);
                 }
             }
 

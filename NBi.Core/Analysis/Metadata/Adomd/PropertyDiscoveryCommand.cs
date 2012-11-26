@@ -5,46 +5,47 @@ using NBi.Core.Analysis.Discovery;
 
 namespace NBi.Core.Analysis.Metadata.Adomd
 {
-    internal class MeasureDiscoveryCommand : MeasureGroupDiscoveryCommand
+    internal class PropertyDiscoveryCommand : LevelDiscoveryCommand
     {
-        public MeasureDiscoveryCommand(string connectionString)
+        public PropertyDiscoveryCommand(string connectionString)
             : base(connectionString)
         {
 
         }
 
-        public new virtual MeasureCollection List(IEnumerable<IFilter> filters)
+        public new PropertyCollection List(IEnumerable<IFilter> filters)
         {
-            var measures = new MeasureCollection();
+            var properties = new PropertyCollection();
 
             var rows = Discover(filters);
             foreach (var row in rows)
-                measures.Add(row.UniqueName, row.Caption, row.DisplayFolder);
+                properties.AddOrIgnore(row.UniqueName, row.Caption);
 
-            return measures;
+            return properties;
         }
 
-        internal new IEnumerable<MeasureRow> Discover(IEnumerable<IFilter> filters)
+        internal new IEnumerable<PropertyRow> Discover(IEnumerable<IFilter> filters)
         {
-            var measures = new List<MeasureRow>();
-            
-            Inform("Investigating measure-groups");
+            Filters = filters;
+            var properties = new List<PropertyRow>();
+
+            Inform("Investigating properties");
 
             using (var cmd = CreateCommand())
             {
                 var adomdFiltering = Build(filters);
-                cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_measures WHERE MEASURE_IS_VISIBLE and LEN(MEASUREGROUP_NAME)>0{0}", adomdFiltering);
+                cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_properties where 1=1 {0}", adomdFiltering);
                 var rdr = ExecuteReader(cmd);
 
                 while (rdr.Read())
                 {
-                    var row = MeasureRow.Load(rdr);
+                    var row = PropertyRow.Load(rdr);
                     if (row != null)
-                        measures.Add(row);
+                        properties.Add(row);
                 }
             }
 
-            return measures;
+            return properties;
         }
 
         public override IEnumerable<IField> GetCaptions(IEnumerable<IFilter> filters)
@@ -60,10 +61,13 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             if (!String.IsNullOrEmpty(str))
                 return str;
 
-            if (filter.Target == DiscoveryTarget.Measures)
-                return string.Format("[MEASURE_UNIQUE_NAME]='[Measures].[{0}]'", filter.Value);
+            if (filter.Target == DiscoveryTarget.Properties)
+            {
+                return string.Format("[PROPERTY_CAPTION]='{0}'", filter.Value);
+            }
 
             return string.Empty;
         }
+
     }
 }

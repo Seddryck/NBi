@@ -15,8 +15,19 @@ namespace NBi.Core.Analysis.Metadata.Adomd
 
         public new LevelCollection List(IEnumerable<IFilter> filters)
         {
-            Filters = filters;
             var levels = new LevelCollection();
+
+            var rows = Discover(filters);
+            foreach (var row in rows)
+                levels.AddOrIgnore(row.UniqueName, row.Caption, row.Number);
+
+            return levels;
+        }
+
+        internal new IEnumerable<LevelRow> Discover(IEnumerable<IFilter> filters)
+        {
+            Filters = filters;
+            var levels = new List<LevelRow>();
 
             Inform("Investigating levels");
 
@@ -26,31 +37,13 @@ namespace NBi.Core.Analysis.Metadata.Adomd
                 cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_levels where 1=1 {0}", adomdFiltering);
                 var rdr = ExecuteReader(cmd);
 
-                // Traverse the response and 
-                // read column 2, "CUBE_NAME"
-                // read column 3, "DIMENSION_UNIQUE_NAME"
-                // read column 4, "HIERARCHY_UNIQUE_NAME"
-                // read column 6, "LEVEL_UNIQUE_NAME"
-                // read column 8, "LEVEL_CAPTION"
-                // read column 9, "LEVEL_NUMBER"
-                // read column 15, "LEVEL_IS_VISIBLE"
                 while (rdr.Read())
                 {
-                    // Get the column value
-                    string perspectiveName = (string)rdr.GetValue(2);
-                    if (!perspectiveName.StartsWith("$") && (bool)rdr.GetValue(15))
-                    {
-                        string dimensionUniqueName = (string)rdr.GetValue(3);
-                        if (true) //Needed to avoid dimension [Measure] previously filtered
-                        //Metadata.Perspectives[perspectiveName].Dimensions.ContainsKey(dimensionUniqueName)
-                        {
-                            string uniqueName = (string)rdr.GetValue(6);
-                            string caption = (string)rdr.GetValue(8);
-                            int number = Convert.ToInt32((uint)rdr.GetValue(9));
-                            levels.AddOrIgnore(uniqueName, caption, number);
-                        }
-                    }
+                    var row = LevelRow.Load(rdr);
+                    if (row != null)
+                        levels.Add(row);
                 }
+                
             }
 
             return levels;

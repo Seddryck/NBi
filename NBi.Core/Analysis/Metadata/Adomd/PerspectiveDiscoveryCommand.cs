@@ -13,9 +13,20 @@ namespace NBi.Core.Analysis.Metadata.Adomd
 
         }
 
-        public virtual PerspectiveCollection List(IEnumerable<IFilter> filters)
+        public PerspectiveCollection List(IEnumerable<IFilter> filters)
         {
             var perspectives = new PerspectiveCollection();
+
+            var rows = Discover(filters);
+            foreach (var row in rows)
+                perspectives.AddOrIgnore(row.Name);
+
+            return perspectives;
+        }
+
+        internal IEnumerable<PerspectiveRow> Discover(IEnumerable<IFilter> filters)
+        {
+            var perspectives = new List<PerspectiveRow>();
             
             Inform("Investigating perspectives");
 
@@ -28,12 +39,9 @@ namespace NBi.Core.Analysis.Metadata.Adomd
                 // read column 2, "CUBE_NAME"
                 while (rdr.Read())
                 {
-                    string perspectiveName = (string)rdr.GetValue(2);
-                    if (!perspectiveName.StartsWith("$"))
-                    {
-                        //Manage Perspectives 
-                        perspectives.AddOrIgnore(perspectiveName);
-                    }
+                    var row = PerspectiveRow.Load(rdr);
+                    if (row != null)
+                        perspectives.Add(row);
                 }
             }
 
@@ -49,6 +57,9 @@ namespace NBi.Core.Analysis.Metadata.Adomd
 
         public virtual string Build(IEnumerable<IFilter> filters)
         {
+            if (filters == null)
+                return string.Empty;
+
             var filterString = string.Empty;
             foreach (var filter in filters)
             {

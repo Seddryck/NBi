@@ -96,38 +96,10 @@ namespace NBi.Core.Analysis.Metadata
         /// </summary>
         /// <param name="command">limit the scope of the metadata's investigation</param>
         /// <returns>An enumeration of fields</returns>
-        public IEnumerable<IField> GetPartialMetadata(MetadataDiscoveryRequest command)
-        {
-            AdomdDiscoveryCommand cmd = null;
-
-            switch (command.Target)
-            {
-                case DiscoveryTarget.Perspectives:
-                    cmd = new PerspectiveDiscoveryCommand(ConnectionString);
-                    break;
-                case DiscoveryTarget.MeasureGroups:
-                    cmd = new MeasureGroupDiscoveryCommand(ConnectionString);
-                    break;
-                case DiscoveryTarget.Measures:
-                    cmd = new MeasureDiscoveryCommand(ConnectionString);
-                    break;
-                case DiscoveryTarget.Dimensions:
-                    cmd = new DimensionDiscoveryCommand(ConnectionString);
-                    break;
-                case DiscoveryTarget.Hierarchies:
-                    cmd = new HierarchyDiscoveryCommand(ConnectionString);
-                    break;
-                case DiscoveryTarget.Levels:
-                    cmd = new LevelDiscoveryCommand(ConnectionString);
-                    break;
-                case DiscoveryTarget.Properties:
-                    cmd = new PropertyDiscoveryCommand(ConnectionString);
-                    break;
-                default:
-                    break;
-            }
-
-            return cmd.GetCaptions(command.GetAllFilters());
-        }
+        //public IEnumerable<IField> GetPartialMetadata(MetadataDiscoveryRequest request)
+        //{
+        //    var factory= new AdomdDiscoveryCommandFactory(ConnectionString);
+        //     cmd.Execute(request.GetAllFilters());
+        //}
     }
 }

@@ -7,7 +7,6 @@ namespace NBi.Core.Analysis.Metadata.Adomd
 {
     internal class HierarchyDiscoveryCommand : DimensionDiscoveryCommand
     {
-        protected IEnumerable<IFilter> Filters;
 
         public HierarchyDiscoveryCommand(string connectionString)
             : base(connectionString)
@@ -28,7 +27,6 @@ namespace NBi.Core.Analysis.Metadata.Adomd
 
         internal new IEnumerable<HierarchyRow> Discover(IEnumerable<IFilter> filters)
         {
-            Filters = filters;
             var hierarchies = new List<HierarchyRow>();
 
             Inform("Investigating hierarchies");
@@ -50,9 +48,9 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             return hierarchies;
         }
 
-        public override IEnumerable<IField> GetCaptions(IEnumerable<IFilter> filters)
+        public override IEnumerable<IField> Execute()
         {
-            var values = List(filters);
+            var values = List(Filters);
             return values.Values.ToArray();
         }
 

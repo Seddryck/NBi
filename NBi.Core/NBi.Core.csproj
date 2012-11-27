@@ -68,6 +68,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Analysis\Metadata\Adomd\AdomdDiscoveryCommandFactory.cs" />
     <Compile Include="Analysis\Request\CaptionFilter.cs" />
     <Compile Include="Analysis\Request\BaseDiscoveryRequest.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\MeasureWithoutDimension.cs" />

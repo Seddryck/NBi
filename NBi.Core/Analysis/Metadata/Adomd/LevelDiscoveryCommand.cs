@@ -49,9 +49,9 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             return levels;
         }
 
-        public override IEnumerable<IField> GetCaptions(IEnumerable<IFilter> filters)
+        public override IEnumerable<IField> Execute()
         {
-            var values = List(filters);
+            var values = List(Filters);
             return values.Values.ToArray();
         }
 

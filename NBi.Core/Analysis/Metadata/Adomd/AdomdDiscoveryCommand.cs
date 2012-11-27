@@ -6,7 +6,7 @@ using NBi.Core.Analysis.Request;
 
 namespace NBi.Core.Analysis.Metadata.Adomd
 {
-    internal abstract class AdomdDiscoveryCommand : IDisposable
+    public abstract class AdomdDiscoveryCommand : IDisposable
     {
         public event ProgressStatusHandler ProgressStatusChanged;
 
@@ -58,7 +58,8 @@ namespace NBi.Core.Analysis.Metadata.Adomd
                 ProgressStatusChanged(this, new ProgressStatusEventArgs(text));
         }
 
-        public abstract IEnumerable<IField> GetCaptions(IEnumerable<IFilter> filters);
+        public IEnumerable<IFilter> Filters {get; set;}
+        public abstract IEnumerable<IField> Execute();
 
         protected abstract string Build(CaptionFilter filter);
 

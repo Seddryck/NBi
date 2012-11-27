@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using NBi.Core;
 using NBi.Core.Analysis.Metadata;
+using NBi.Core.Analysis.Metadata.Adomd;
 using NBi.Core.Analysis.Request;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
@@ -15,27 +16,27 @@ namespace NBi.NUnit.Structure
         protected string expectedCaption;
         protected string expectedDisplayFolder;
         protected IComparer comparer;
-        protected MetadataDiscoveryRequest command;
-        protected IMetadataExtractor _metadataExtractor;
+        protected MetadataDiscoveryRequest request;
+        protected AdomdDiscoveryCommandFactory commandFactory;
         
         /// <summary>
         /// Engine dedicated to MetadataExtractor acquisition
         /// </summary>
-        protected internal IMetadataExtractor MetadataExtractor
+        protected internal AdomdDiscoveryCommandFactory CommandFactory
         {
             set
             {
                 if (value == null)
                     throw new ArgumentNullException();
-                _metadataExtractor = value;
+                commandFactory = value;
             }
         }
 
-        protected IMetadataExtractor GetEngine(string connectionString)
+        protected AdomdDiscoveryCommandFactory GetFactory()
         {
-            if (_metadataExtractor == null)
-                _metadataExtractor = new MetadataAdomdExtractor(connectionString);
-            return _metadataExtractor;
+            if (commandFactory == null)
+                commandFactory = new AdomdDiscoveryCommandFactory();
+            return commandFactory;
         }
 
         /// <summary>
@@ -97,9 +98,10 @@ namespace NBi.NUnit.Structure
         
         protected bool Process(MetadataDiscoveryRequest actual)
         {
-            command = actual;
-            var extr = GetEngine(actual.ConnectionString);
-            IEnumerable<IField> structures = extr.GetPartialMetadata(actual);
+            request = actual;
+            var factory = GetFactory();
+            var command = factory.BuildExact(actual);
+            IEnumerable<IField> structures = command.Execute();
             return this.Matches(structures);
         }
 
@@ -109,27 +111,27 @@ namespace NBi.NUnit.Structure
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
-            if (command != null)
+            if (request != null)
             {
-                switch (command.Target)
+                switch (request.Target)
                 {
                     case DiscoveryTarget.MeasureGroups:
                         var displayFolder = (_expected is IFieldWithDisplayFolder) ? string.Format(", in folder \"{0}\", ", ((IFieldWithDisplayFolder)_expected).DisplayFolder) : " ";
                         writer.WritePredicate(string.Format("On perspective \"{0}\", the measuregroup \"{1}\" containing{2}a measure with caption"
-                                                                               , command.GetFilter(DiscoveryTarget.Perspectives).Value
-                                                                               , command.GetFilter(DiscoveryTarget.MeasureGroups).Value
+                                                                               , request.GetFilter(DiscoveryTarget.Perspectives).Value
+                                                                               , request.GetFilter(DiscoveryTarget.MeasureGroups).Value
                                                                                , displayFolder));
                         break;
                     case DiscoveryTarget.Dimensions:
                         writer.WritePredicate(string.Format("On perspective \"{0}\", a dimension labeled by \"{1}\" containing a hierarchy with caption"
-                                                            , command.GetFilter(DiscoveryTarget.Perspectives).Value
-                                                            , command.GetFilter(command.Target).Value));
+                                                            , request.GetFilter(DiscoveryTarget.Perspectives).Value
+                                                            , request.GetFilter(request.Target).Value));
                         break;
                     case DiscoveryTarget.Hierarchies:
                         writer.WritePredicate(string.Format("On perspective \"{0}\", a hierarchy labeled by \"{1}\", from dimension \"{2}\", containing a level with caption"
-                                                            , command.GetFilter(DiscoveryTarget.Perspectives).Value
-                                                            , command.GetFilter(DiscoveryTarget.Hierarchies).Value
-                                                            , command.GetFilter(DiscoveryTarget.Dimensions).Value));
+                                                            , request.GetFilter(DiscoveryTarget.Perspectives).Value
+                                                            , request.GetFilter(DiscoveryTarget.Hierarchies).Value
+                                                            , request.GetFilter(DiscoveryTarget.Dimensions).Value));
                         break;
                     default:
                         break;

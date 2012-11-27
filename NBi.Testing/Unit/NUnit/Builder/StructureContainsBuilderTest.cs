@@ -7,6 +7,7 @@ using NBi.NUnit.Builder;
 using NBi.NUnit.Structure;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
+using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 #endregion
@@ -73,6 +74,36 @@ namespace NBi.Testing.Unit.NUnit.Builder
         //@@@@@@@@@@@@@@@@@@@@@@@@@
         //    GetSystemUnderTest()
         //@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+        //**********************
+        //       Default ConnectionString
+        //**********************
+
+        [Test]
+        public void GetSystemUnderTest_ConnectionStringInDefault_CorrectlyInitialized()
+        {
+            //Buiding object used during test
+            var ctrXmlStubFactory = new Mock<ContainsXml>();
+            var ctrXml = ctrXmlStubFactory.Object;
+
+            var sutXml = new StructureXml();
+            sutXml.Default = new DefaultXml() { ConnectionString = "connectionString-default" };
+
+            sutXml.Item = new MeasureGroupXml();
+            ((MeasureGroupXml)sutXml.Item).Perspective = "Perspective";
+            sutXml.Item.Caption = "MeasureGroup";
+            var builder = new StructureContainsBuilder();
+            builder.Setup(sutXml, ctrXml);
+            //Call the method to test
+            builder.Build();
+            var sut = builder.GetSystemUnderTest();
+
+            //Assertion
+            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryCommand>());
+            Assert.That(((MetadataDiscoveryCommand)sut).ConnectionString, Is.EqualTo("connectionString-default"));
+        }
+
 
         //**********************
         //       Pespective

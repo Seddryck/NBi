@@ -108,7 +108,7 @@ namespace NBi.NUnit.Builder
 
             return discoveryFactory.Build
                 (
-                    sutXml.Item.ConnectionString,
+                    sutXml.GetConnectionString(),
                     target,
                     perspective,
                     measuregroup,

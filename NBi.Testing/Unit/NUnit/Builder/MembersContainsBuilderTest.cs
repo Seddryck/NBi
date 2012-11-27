@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using Moq;
 using NBi.Core.Analysis.Discovery;
 using NBi.NUnit.Builder;
@@ -178,7 +179,35 @@ namespace NBi.Testing.Unit.NUnit.Builder
             discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", "memberCaption", "perspective", "dimension", "hierarchy", "level"));
         }
 
-        
+        [Test]
+        public void GetSystemUnderTest_BuildWithDimension_Failure()
+        {
+            var sutXml = new MembersXml();
+            sutXml.ChildrenOf = "memberCaption";
+            var item = new DimensionXml();
+            sutXml.Item = item;
+            item.ConnectionString = "connectionString";
+            item.Perspective = "perspective";
+            item.Caption = "dimension";
+            var ctrXml = new ContainsXml();
+
+            var discoFactoStubFactory = new Mock<DiscoveryFactory>();
+            discoFactoStubFactory.Setup(dfs =>
+                dfs.Build(
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>()))
+                    .Returns(new MembersDiscoveryCommand());
+            var discoFactoMock = discoFactoStubFactory.Object;
+
+            var builder = new MembersContainsBuilder(discoFactoMock);
+            builder.Setup(sutXml, ctrXml);
+
+            Assert.Throws<ArgumentOutOfRangeException>(delegate { builder.Build(); });
+        }
 
 
 

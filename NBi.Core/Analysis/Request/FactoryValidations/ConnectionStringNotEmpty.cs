@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using NBi.Core.Analysis.Discovery;
 
-namespace NBi.Core.Analysis.Discovery.FactoryValidations
+namespace NBi.Core.Analysis.Request.FactoryValidations
 {
     internal class ConnectionStringNotEmpty : FilterNotNull
     {
@@ -16,7 +13,7 @@ namespace NBi.Core.Analysis.Discovery.FactoryValidations
 
         internal override void GenerateException()
         {
-            throw new DiscoveryFactoryException("connectionString");
+            throw new DiscoveryRequestFactoryException("connectionString");
         }
     }
 }

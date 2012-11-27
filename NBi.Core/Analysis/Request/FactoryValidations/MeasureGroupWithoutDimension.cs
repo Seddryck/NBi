@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.Analysis.Discovery.FactoryValidations
+namespace NBi.Core.Analysis.Request.FactoryValidations
 {
     internal class MeasureGroupWithoutDimension : Validation
     {
@@ -24,7 +24,7 @@ namespace NBi.Core.Analysis.Discovery.FactoryValidations
 
         internal override void GenerateException()
         {
-            throw new DiscoveryFactoryException("Dimension and Measure-Group cannot be specified at the same time");
+            throw new DiscoveryRequestFactoryException("Dimension and Measure-Group cannot be specified at the same time");
         }
     }
 }

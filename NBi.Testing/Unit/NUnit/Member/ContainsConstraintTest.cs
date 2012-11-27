@@ -1,6 +1,6 @@
 ﻿using Moq;
-using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Member;
+using NBi.Core.Analysis.Request;
 using NBi.NUnit.Member;
 using NUnit.Framework;
 
@@ -13,7 +13,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         public void Matches_GivenMemberCommand_EngineCalledOnceWithParametersComingFromMemberCommand()
         {
             var exp = "Expected member";
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                 "ConnectionString",
                 "member-caption",
                 "perspective",
@@ -46,7 +46,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         public void WriteTo_FailingAssertionForChild_TextContainsFewKeyInfo()
         {
             var exp = "Expected member";
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                 "connectionString",
                 "member-caption",
                 "perspective-name",
@@ -92,7 +92,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         public void WriteTo_FailingAssertionForMember_TextContainsFewKeyInfo()
         {
             var exp = "Expected member";
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                 "connectionString",
                 string.Empty,
                 "perspective-name",

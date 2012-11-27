@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Metadata;
+using NBi.Core.Analysis.Request;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
@@ -16,7 +16,7 @@ namespace NBi.NUnit.Builder
         {
         }
 
-        internal StructureContainsBuilder(DiscoveryFactory factory)
+        internal StructureContainsBuilder(DiscoveryRequestFactory factory)
             : base(factory)
         {
         }

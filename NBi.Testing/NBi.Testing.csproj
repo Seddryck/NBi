@@ -79,7 +79,7 @@
     <Compile Include="Acceptance\TestSuiteRunner.cs" />
     <Compile Include="ConnectionStringReader.cs" />
     <Compile Include="DiskOnFile.cs" />
-    <Compile Include="Integration\Core\Analysis\Discovery\DiscoveryFactoryTest.cs" />
+    <Compile Include="Integration\Core\Analysis\Request\DiscoveryRequestFactoryTest.cs" />
     <Compile Include="Integration\Core\Analysis\MembersAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />
     <Compile Include="Integration\Core\Query\QueryAdomdEngineTest.cs" />

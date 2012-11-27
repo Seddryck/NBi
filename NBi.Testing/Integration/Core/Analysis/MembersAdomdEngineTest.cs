@@ -1,6 +1,6 @@
 ﻿#region Using directives
-using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Member;
+using NBi.Core.Analysis.Request;
 using NUnit.Framework;
 
 #endregion
@@ -43,7 +43,7 @@ namespace NBi.Testing.Integration.Core.Analysis
         {
             //Buiding object used during test
             var mae = new MembersAdomdEngine();
-            var disco = new DiscoveryFactory().Build(
+            var disco = new DiscoveryRequestFactory().Build(
                 ConnectionStringReader.GetAdomd(),
                 string.Empty,
                 "Adventure Works",
@@ -66,7 +66,7 @@ namespace NBi.Testing.Integration.Core.Analysis
         {
             //Buiding object used during test
             var mae = new MembersAdomdEngine();
-            var disco = new DiscoveryFactory().Build(
+            var disco = new DiscoveryRequestFactory().Build(
                 ConnectionStringReader.GetAdomd(),
                 string.Empty,
                 "Adventure Works",
@@ -87,7 +87,7 @@ namespace NBi.Testing.Integration.Core.Analysis
         public void GetMembers_ByLevel_ReturnListMembersWithCorrectOrdinal()
         {
             var mae = new MembersAdomdEngine();
-            var disco = new DiscoveryFactory().Build(
+            var disco = new DiscoveryRequestFactory().Build(
                 ConnectionStringReader.GetAdomd(),
                 string.Empty,
                 "Adventure Works",
@@ -108,7 +108,7 @@ namespace NBi.Testing.Integration.Core.Analysis
         public void GetMembers_ByLevel_ReturnListMembersWithCorrectLevelNumber()
         {
             var mae = new MembersAdomdEngine();
-            var disco = new DiscoveryFactory().Build(
+            var disco = new DiscoveryRequestFactory().Build(
                 ConnectionStringReader.GetAdomd(),
                 string.Empty,
                 "Adventure Works",
@@ -129,7 +129,7 @@ namespace NBi.Testing.Integration.Core.Analysis
         {
             //Buiding object used during test
             var mae = new MembersAdomdEngine();
-            var disco = new DiscoveryFactory().Build(
+            var disco = new DiscoveryRequestFactory().Build(
                 ConnectionStringReader.GetAdomd(),
                 string.Empty,
                 "Adventure Works",
@@ -152,7 +152,7 @@ namespace NBi.Testing.Integration.Core.Analysis
         {
             //Buiding object used during test
             var mae = new MembersAdomdEngine();
-            var disco = new DiscoveryFactory().Build(
+            var disco = new DiscoveryRequestFactory().Build(
                 ConnectionStringReader.GetAdomd(),
                 string.Empty,
                 "Adventure Works",
@@ -174,7 +174,7 @@ namespace NBi.Testing.Integration.Core.Analysis
         {
             //Buiding object used during test
             var mae = new MembersAdomdEngine();
-            var disco = new DiscoveryFactory().Build(
+            var disco = new DiscoveryRequestFactory().Build(
                 ConnectionStringReader.GetAdomd(),
                 string.Empty,
                 "Adventure Works",
@@ -197,7 +197,7 @@ namespace NBi.Testing.Integration.Core.Analysis
         {
             //Buiding object used during test
             var mae = new MembersAdomdEngine();
-            var disco = new DiscoveryFactory().Build(
+            var disco = new DiscoveryRequestFactory().Build(
                 ConnectionStringReader.GetAdomd(),
                 string.Empty,
                 "Adventure Works",

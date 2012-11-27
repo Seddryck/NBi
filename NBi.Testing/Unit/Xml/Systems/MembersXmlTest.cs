@@ -1,7 +1,4 @@
 ﻿#region Using directives
-using NBi.Core.Analysis.Discovery;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
 using NUnit.Framework;
 #endregion
 

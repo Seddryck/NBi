@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AnalysisServices.AdomdClient;
-using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Metadata.Adomd;
+using NBi.Core.Analysis.Request;
 
 namespace NBi.Core.Analysis.Metadata
 {
@@ -12,7 +12,7 @@ namespace NBi.Core.Analysis.Metadata
         public event ProgressStatusHandler ProgressStatusChanged;
         
         public string ConnectionString { get; private set; }
-        protected CubeMetadata Metadata;
+        protected CubeMetadata Metadata;//TODO REmove 
 
         public MetadataAdomdExtractor(string connectionString) 
         {
@@ -96,7 +96,7 @@ namespace NBi.Core.Analysis.Metadata
         /// </summary>
         /// <param name="command">limit the scope of the metadata's investigation</param>
         /// <returns>An enumeration of fields</returns>
-        public IEnumerable<IField> GetPartialMetadata(MetadataDiscoveryCommand command)
+        public IEnumerable<IField> GetPartialMetadata(MetadataDiscoveryRequest command)
         {
             AdomdDiscoveryCommand cmd = null;
 

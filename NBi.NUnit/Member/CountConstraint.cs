@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
-using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Member;
+using NBi.Core.Analysis.Request;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
 
@@ -27,7 +27,7 @@ namespace NBi.NUnit.Member
 
         private NUnitCtr.Constraint internalConstraint;
 
-        protected MembersDiscoveryCommand command;
+        protected MembersDiscoveryRequest request;
         protected MembersAdomdEngine memberEngine;
 
         /// <summary>
@@ -93,19 +93,19 @@ namespace NBi.NUnit.Member
 
         public override bool Matches(object actual)
         {
-            if (actual is MembersDiscoveryCommand)
-                return Process((MembersDiscoveryCommand)actual);
+            if (actual is MembersDiscoveryRequest)
+                return Process((MembersDiscoveryRequest)actual);
             if (actual is ICollection)
                 return Matches((ICollection)actual);
 
             return false;
         }
 
-        protected bool Process(MembersDiscoveryCommand actual)
+        protected bool Process(MembersDiscoveryRequest actual)
         {
-            command = actual;
+            request = actual;
             var extr = GetEngine();
-            MemberResult result = extr.GetMembers(command);
+            MemberResult result = extr.GetMembers(request);
             return this.Matches(result);
         }
 
@@ -134,9 +134,9 @@ namespace NBi.NUnit.Member
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
             writer.WritePredicate(string.Format("On perspective \"{0}\", the {1} of \"{2}\" are "
-                                                            , command.Perspective
-                                                            , command.Function.ToLower()
-                                                            , command.Path));
+                                                            , request.Perspective
+                                                            , request.Function.ToLower()
+                                                            , request.Path));
             if (exactly.HasValue)
             {
                 writer.WritePredicate("exactly");

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Moq;
-using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Member;
+using NBi.Core.Analysis.Request;
 using NBi.NUnit.Member;
 using NUnit.Framework;
 
@@ -168,7 +168,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void WriteTo_FailingAssertionForExactly_TextContainsFewKeyInfo()
         {
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                 "connectionString",
                 "member-caption",
                 "perspective-name",
@@ -216,7 +216,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void WriteTo_FailingAssertionForMoreThan_TextContainsFewKeyInfo()
         {
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                 "connectionString",
                 "member-caption",
                 "perspective-name",
@@ -264,7 +264,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void WriteTo_FailingAssertionForLessThan_TextContainsFewKeyInfo()
         {
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                 "connectionString",
                 "member-caption",
                 "perspective-name",
@@ -311,7 +311,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void WriteTo_FailingAssertionForBetween_TextContainsFewKeyInfo()
         {
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                 "connectionString",
                 "member-caption",
                 "perspective-name",

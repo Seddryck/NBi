@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using NBi.Core.Analysis.Discovery.FactoryValidations;
 
-namespace NBi.Core.Analysis.Discovery
+namespace NBi.Core.Analysis.Request
 {
-    public class MetadataDiscoveryCommand : BaseDiscoveryCommand
+    public class MetadataDiscoveryRequest : BaseDiscoveryRequest
     {
         public DiscoveryTarget Target { get; set; }
 
-        public MetadataDiscoveryCommand() : base()
+        public MetadataDiscoveryRequest() : base()
         {
         }
 

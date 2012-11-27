@@ -2,9 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using NBi.Core;
-using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Member;
-using NBi.Core.Analysis.Metadata;
+using NBi.Core.Analysis.Request;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
@@ -13,7 +12,7 @@ namespace NBi.NUnit.Member
     {
         protected IEnumerable<string> expectedCaptions;
         protected IComparer comparer;
-        protected MembersDiscoveryCommand command;
+        protected MembersDiscoveryRequest request;
         protected MembersAdomdEngine memberEngine;
 
         protected NUnitCtr.CollectionItemsEqualConstraint internalConstraint;
@@ -72,7 +71,7 @@ namespace NBi.NUnit.Member
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
-        public new ContainsConstraint IgnoreCase
+        public ContainsConstraint IgnoreCase
         {
             get
             {
@@ -84,8 +83,8 @@ namespace NBi.NUnit.Member
 
         public override bool Matches(object actual)
         {
-            if (actual is MembersDiscoveryCommand)
-                return Process((MembersDiscoveryCommand)actual);
+            if (actual is MembersDiscoveryRequest)
+                return Process((MembersDiscoveryRequest)actual);
             else
             {
                 internalConstraint = internalConstraint.Using(comparer);
@@ -94,11 +93,11 @@ namespace NBi.NUnit.Member
             }
         }
 
-        protected bool Process(MembersDiscoveryCommand actual)
+        protected bool Process(MembersDiscoveryRequest actual)
         {
-            command = actual;
+            request = actual;
             var extr = GetEngine();
-            MemberResult result = extr.GetMembers(command);
+            MemberResult result = extr.GetMembers(request);
             return this.Matches(result);
         }
 
@@ -108,12 +107,12 @@ namespace NBi.NUnit.Member
         /// <param name="writer">The writer on which the description is displayed</param>
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
-            if (command != null)
+            if (request != null)
             {
                 writer.WritePredicate(string.Format("On perspective \"{0}\", a {1} of \"{2}\" containing a member with caption"
-                                                            , command.Perspective
-                                                            , GetFunctionLabel(command.Function)
-                                                            , command.Path));
+                                                            , request.Perspective
+                                                            , GetFunctionLabel(request.Function)
+                                                            , request.Path));
                 writer.WriteExpectedValue(expectedCaptions);
             }
             //else

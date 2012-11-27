@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.Analysis.Discovery.FactoryValidations
+namespace NBi.Core.Analysis.Request.FactoryValidations
 {
-    internal class HierarchyNotNull : FilterNotNull
+    internal class DimensionNotNull : FilterNotNull
     {
 
-        internal HierarchyNotNull(string path)
+        internal DimensionNotNull(string path)
             : base(path)
         {
             
@@ -16,7 +16,8 @@ namespace NBi.Core.Analysis.Discovery.FactoryValidations
 
         internal override void GenerateException()
         {
-            throw new DiscoveryFactoryException("hierarchy");
+            throw new DiscoveryRequestFactoryException("dimension");
         }
     }
 }
+

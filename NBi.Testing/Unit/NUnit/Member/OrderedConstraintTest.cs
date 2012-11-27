@@ -1,8 +1,8 @@
 ﻿#region Using directives
 using System.Collections.Generic;
 using Moq;
-using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Member;
+using NBi.Core.Analysis.Request;
 using NBi.NUnit.Member;
 using NUnit.Framework;
 #endregion
@@ -79,7 +79,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void WriteTo_FailingAssertionForAlphabetic_TextContainsFewKeyInfo()
         {
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                 "connectionString",
                 "member-caption",
                 "perspective-name",
@@ -282,7 +282,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void WriteTo_FailingAssertionForSpecific_TextContainsFewKeyInfo()
         {
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                 "connectionString",
                 "member-caption",
                 "perspective-name",
@@ -332,7 +332,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_GivenDiscoverCommand_EngineCalledOnceWithParametersComingFromDiscoveryCommand()
         {
-            var disco = new DiscoveryFactory().Build(
+            var disco = new DiscoveryRequestFactory().Build(
                 "ConnectionString",
                 "member-caption",
                 "perspective",

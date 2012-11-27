@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Xml.Serialization;
-using NBi.Core.Analysis.Discovery;
 
 namespace NBi.Xml.Items
 {

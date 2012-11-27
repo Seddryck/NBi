@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Moq;
-using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Metadata;
+using NBi.Core.Analysis.Request;
 using NBi.NUnit.Structure;
 using NUnit.Framework;
 
@@ -13,7 +13,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
         [Test]
         public void Matches_GivenDiscoveryCommandForDimension_EngineCalledOnceWithParametersComingFromDiscoveryCommandy()
         {
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                         "connectionString",
                         DiscoveryTarget.Dimensions,
                         "perspective-name",
@@ -44,7 +44,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
         [Test]
         public void Matches_GivenDiscoveryCommandForMeasure_EngineCalledOnceWithParametersComingFromDiscoveryCommand()
         {
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                         "connectionString",
                         DiscoveryTarget.MeasureGroups,
                         "perspective",
@@ -76,7 +76,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
         [Test]
         public void WriteTo_FailingAssertionForDimension_TextContainsFewKeyInfo()
         {
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                         "connectionString",
                         DiscoveryTarget.Dimensions,
                         "perspective-name",
@@ -111,7 +111,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
         [Test]
         public void WriteTo_FailingAssertionForMeasureGroup_TextContainsFewKeyInfo()
         {
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                         "connectionString",
                         DiscoveryTarget.MeasureGroups,
                         "perspective-name",
@@ -147,7 +147,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
         [Test]
         public void WriteTo_FailingAssertionForPerspective_TextContainsFewKeyInfo()
         {
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                         "connectionString",
                         DiscoveryTarget.Perspectives,
                         "expected-perspective-name",

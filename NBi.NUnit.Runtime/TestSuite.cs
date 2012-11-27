@@ -23,7 +23,7 @@ namespace NBi.NUnit.Runtime
         [Test, TestCaseSource("GetTestCases")]
         public virtual void ExecuteTestCases(TestXml test)
         {
-            Console.Out.WriteLine("Loading TestSuite");
+            Console.Out.WriteLine(string.Format("Loading TestSuite from {0}", GetOwnFilename()));
             Console.Out.WriteLine("Test suite defined in " + GetTestSuiteFileDefinition());
 
             //check if ignore is set to true
@@ -86,23 +86,58 @@ namespace NBi.NUnit.Runtime
             {
                 // If no config file is registered then search the first "nbits" (NBi Test Suite) file
                 Console.Out.WriteLine("No config file found.");
-                Console.Out.WriteLine("Looking after 'nbits' files ...");
-                var files = System.IO.Directory.GetFiles(Path.GetDirectoryName(assem), "*.nbits");
-                if (files.Count() == 1)
+
+                if (GetOwnFilename() != GetManifestName())
                 {
-                    Console.Out.WriteLine("'{0}' found, using it!", files[0]);
-                    testSuiteFile = files[0];
-                }
-                else if (files.Count() > 1)
-                {
-                    Console.Out.WriteLine("{0} 'nbits' files found, using the first found: '{1}'!", files.Count(), files[0]);
-                    testSuiteFile = files[0];
+                    var testSuiteName = Path.GetDirectoryName(assem) + Path.GetFileNameWithoutExtension(GetOwnFilename()) + ".nbits";
+                    Console.Out.WriteLine(string.Format("Dll for runtime renamed, looking after {0}", testSuiteName));
+                    if (File.Exists(testSuiteName))
+                    {
+                        testSuiteFile = testSuiteName;
+                        Console.Out.WriteLine("TestSuite File found!");
+                    }
+                    else
+                        Console.Out.WriteLine("TestSuite file NOT found!");
                 }
                 else
-                    Console.Out.WriteLine("No 'nbits' file found");
+                {
+                    Console.Out.WriteLine("Looking after 'nbits' files ...");
+                    var files = System.IO.Directory.GetFiles(Path.GetDirectoryName(assem), "*.nbits");
+                    if (files.Count() == 1)
+                    {
+                        Console.Out.WriteLine("'{0}' found, using it!", files[0]);
+                        testSuiteFile = files[0];
+                    }
+                    else if (files.Count() > 1)
+                    {
+                        Console.Out.WriteLine("{0} 'nbits' files found, using the first found: '{1}'!", files.Count(), files[0]);
+                        testSuiteFile = files[0];
+                    }
+                    else
+                        Console.Out.WriteLine("No 'nbits' file found");
+                }
             }
 
             return testSuiteFile;
+        }
+
+        protected internal string GetOwnFilename()
+        {
+            //get the full location of the assembly with DaoTests in it
+            var fullPath = System.Reflection.Assembly.GetAssembly(typeof(TestSuite)).Location;
+
+            //get the filename that's in
+            var fileName = Path.GetFileName( fullPath );
+
+            return fileName;
+        }
+
+        protected internal string GetManifestName()
+        {
+            //get the full location of the assembly with DaoTests in it
+            var fullName = System.Reflection.Assembly.GetAssembly(typeof(TestSuite)).ManifestModule.Name;
+
+            return fullName;
         }
     }
 }

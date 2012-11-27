@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NBi.Core.Analysis.Discovery;
+using NBi.Core.Analysis.Request;
 
 namespace NBi.Core.Analysis.Metadata.Adomd
 {

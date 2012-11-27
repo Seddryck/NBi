@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Moq;
 using NBi.Core.Analysis.Metadata;
+using NBi.Core.Analysis.Metadata.Adomd;
 using NBi.Core.Analysis.Request;
 using NBi.NUnit.Structure;
 using NUnit.Framework;
@@ -11,10 +12,10 @@ namespace NBi.Testing.Unit.NUnit.Structure
     public class ContainsConstraintTest
     {
         [Test]
-        public void Matches_GivenDiscoveryCommandForDimension_EngineCalledOnceWithParametersComingFromDiscoveryCommandy()
+        public void Matches_GivenDiscoveryRequest_FactoryCalledOnceWithParametersComingFromRequest()
         {
             var exp = "Expected hierarchy";
-            var cmd = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().Build(
                         "connectionString",
                         DiscoveryTarget.Dimensions,
                         "perspective-name",
@@ -28,25 +29,29 @@ namespace NBi.Testing.Unit.NUnit.Structure
             elements.Add(el1);
             elements.Add(el2);
 
-            var meMock = new Mock<IMetadataExtractor>();
-            meMock.Setup(engine => engine.GetPartialMetadata(cmd))
+            var commandStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandStub.Setup(f => f.Execute())
                 .Returns(elements);
-            var me = meMock.Object;
 
-            var containsConstraint = new ContainsConstraint(exp) { MetadataExtractor = me };
+            var factoryMock = new Mock<AdomdDiscoveryCommandFactory>();
+            factoryMock.Setup(f => f.BuildExact(request))
+                .Returns(commandStub.Object);
+            var factory = factoryMock.Object;
+
+            var containsConstraint = new ContainsConstraint(exp) { CommandFactory = factory };
 
             //Method under test
-            containsConstraint.Matches(cmd);
+            containsConstraint.Matches(request);
 
             //Test conclusion            
-            meMock.Verify(engine => engine.GetPartialMetadata(cmd), Times.Once());
+            factoryMock.Verify(f => f.BuildExact(request), Times.Once());
         }
 
         [Test]
-        public void Matches_GivenDiscoveryCommandForMeasureGroup_EngineCalledOnceWithParametersComingFromDiscoveryCommand()
+        public void Matches_GivenDiscoveryRequest_CommandCalledOnceWithParametersComingFromDiscoveryCommand()
         {
             var exp = "Expected measure";
-            var cmd = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().Build(
                         "connectionString",
                         DiscoveryTarget.MeasureGroups,
                         "perspective",
@@ -61,25 +66,29 @@ namespace NBi.Testing.Unit.NUnit.Structure
             elements.Add(el1);
             elements.Add(el2);
 
-            var meMock = new Mock<IMetadataExtractor>();
-            meMock.Setup(engine => engine.GetPartialMetadata(cmd))
+            var commandMock = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandMock.Setup(f => f.Execute())
                 .Returns(elements);
-            var me = meMock.Object;
 
-            var containsConstraint = new ContainsConstraint(exp) { MetadataExtractor = me };
+            var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
+            factoryStub.Setup(f => f.BuildExact(request))
+                .Returns(commandMock.Object);
+            var factory = factoryStub.Object;
+
+            var containsConstraint = new ContainsConstraint(exp) { CommandFactory = factory };
 
             //Method under test
-            containsConstraint.Matches(cmd);
+            containsConstraint.Matches(request);
 
             //Test conclusion            
-            meMock.Verify(engine => engine.GetPartialMetadata(cmd), Times.Once());
+            commandMock.Verify(c => c.Execute(), Times.Once());
         }
 
         [Test]
         public void WriteTo_FailingAssertionForDimension_TextContainsFewKeyInfo()
         {
             var exp = "Expected hierarchy";
-            var cmd = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().Build(
                         "connectionString",
                         DiscoveryTarget.Dimensions,
                         "perspective-name",
@@ -94,18 +103,22 @@ namespace NBi.Testing.Unit.NUnit.Structure
             elements.Add(el1);
             elements.Add(el2);
 
-            var meStub = new Mock<IMetadataExtractor>();
-            meStub.Setup(engine => engine.GetPartialMetadata(cmd))
+            var commandStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandStub.Setup(f => f.Execute())
                 .Returns(elements);
-            var me = meStub.Object;
 
-            var containsConstraint = new ContainsConstraint(exp) { MetadataExtractor = me };
+            var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
+            factoryStub.Setup(f => f.BuildExact(request))
+                .Returns(commandStub.Object);
+            var factory = factoryStub.Object;
+
+            var containsConstraint = new ContainsConstraint(exp) { CommandFactory = factory };
 
             //Method under test
             string assertionText = null;
             try
             {
-                Assert.That(cmd, containsConstraint);
+                Assert.That(request, containsConstraint);
             }
             catch (AssertionException ex)
             {
@@ -122,7 +135,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
         public void WriteTo_FailingAssertionForMeasureGroup_TextContainsFewKeyInfo()
         {
             var exp = "Expected measure";
-            var cmd = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().Build(
                         "connectionString",
                         DiscoveryTarget.MeasureGroups,
                         "perspective-name",
@@ -137,18 +150,22 @@ namespace NBi.Testing.Unit.NUnit.Structure
             elements.Add(el1);
             elements.Add(el2);
 
-            var meStub = new Mock<IMetadataExtractor>();
-            meStub.Setup(engine => engine.GetPartialMetadata(cmd))
+            var commandStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandStub.Setup(f => f.Execute())
                 .Returns(elements);
-            var me = meStub.Object;
 
-            var containsConstraint = new ContainsConstraint(exp) { MetadataExtractor = me };
+            var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
+            factoryStub.Setup(f => f.BuildExact(request))
+                .Returns(commandStub.Object);
+            var factory = factoryStub.Object;
+
+            var containsConstraint = new ContainsConstraint(exp) { CommandFactory = factory };
 
             //Method under test
             string assertionText = null;
             try
             {
-                Assert.That(cmd, containsConstraint);
+                Assert.That(request, containsConstraint);
             }
             catch (AssertionException ex)
             {
@@ -165,7 +182,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
         public void WriteTo_FailingAssertionForHierarchy_TextContainsFewKeyInfo()
         {
             var exp = "Expected level";
-            var cmd = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().Build(
                         "connectionString",
                         DiscoveryTarget.Hierarchies,
                         "perspective-name",
@@ -180,18 +197,22 @@ namespace NBi.Testing.Unit.NUnit.Structure
             elements.Add(el1);
             elements.Add(el2);
 
-            var meStub = new Mock<IMetadataExtractor>();
-            meStub.Setup(engine => engine.GetPartialMetadata(cmd))
+            var commandStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandStub.Setup(f => f.Execute())
                 .Returns(elements);
-            var me = meStub.Object;
 
-            var containsConstraint = new ContainsConstraint(exp) { MetadataExtractor = me };
+            var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
+            factoryStub.Setup(f => f.BuildExact(request))
+                .Returns(commandStub.Object);
+            var factory = factoryStub.Object;
+
+            var containsConstraint = new ContainsConstraint(exp) { CommandFactory = factory };
 
             //Method under test
             string assertionText = null;
             try
             {
-                Assert.That(cmd, containsConstraint);
+                Assert.That(request, containsConstraint);
             }
             catch (AssertionException ex)
             {

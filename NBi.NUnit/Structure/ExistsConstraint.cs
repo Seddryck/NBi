@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NBi.Core.Analysis.Metadata;
+using NBi.Core.Analysis.Metadata.Adomd;
 using NBi.Core.Analysis.Request;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
@@ -14,26 +15,26 @@ namespace NBi.NUnit.Structure
 
         protected IComparer comparer;
         protected MetadataDiscoveryRequest request;
-        protected IMetadataExtractor metadataExtractor;
+        protected AdomdDiscoveryCommandFactory commandFactory;
 
         /// <summary>
         /// Engine dedicated to MetadataExtractor acquisition
         /// </summary>
-        protected internal IMetadataExtractor MetadataExtractor
+        protected internal AdomdDiscoveryCommandFactory CommandFactory
         {
             set
             {
                 if (value == null)
                     throw new ArgumentNullException();
-                metadataExtractor = value;
+                commandFactory = value;
             }
         }
 
-        protected IMetadataExtractor GetEngine(string connectionString)
+        protected AdomdDiscoveryCommandFactory GetFactory()
         {
-            if (metadataExtractor == null)
-                metadataExtractor = new MetadataAdomdExtractor(connectionString);
-            return metadataExtractor;
+            if (commandFactory == null)
+                commandFactory = new AdomdDiscoveryCommandFactory();
+            return commandFactory;
         }
 
         /// <summary>
@@ -81,8 +82,9 @@ namespace NBi.NUnit.Structure
         protected bool Process(MetadataDiscoveryRequest actual)
         {
             request = actual;
-            var extr = GetEngine(actual.ConnectionString);
-            IEnumerable<IField> structures = extr.GetPartialMetadata(actual);
+            var factory = GetFactory();
+            var command = factory.BuildExact(actual);
+            IEnumerable<IField> structures = command.Execute();
             return this.Matches(structures);
         }
 

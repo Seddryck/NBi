@@ -61,7 +61,7 @@ namespace NBi.NUnit.Builder
 
             return discoveryFactory.Build
                 (
-                    sutXml.Item.ConnectionString,
+                    sutXml.GetConnectionString(),
                     sutXml.ChildrenOf,
                     perspective,
                     dimension,

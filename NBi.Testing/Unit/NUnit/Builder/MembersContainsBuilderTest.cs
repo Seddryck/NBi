@@ -5,6 +5,7 @@ using NBi.NUnit.Builder;
 using NBi.NUnit.Member;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
+using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 #endregion
@@ -69,6 +70,44 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             Assert.That(ctr, Is.InstanceOf<ContainsConstraint>());
         }
+
+        [Test]
+        public void GetSystemUnderTest_ConnectionStringInDefault_CorrectlyInitialized()
+        {
+            var defXml = new DefaultXml();
+            defXml.ConnectionString = "connectionString-default";
+            
+            var sutXml = new MembersXml();
+            sutXml.Default = defXml;
+            sutXml.ChildrenOf = "memberCaption";
+            var item = new HierarchyXml();
+            sutXml.Item = item;
+            item.Perspective = "perspective";
+            item.Dimension = "dimension";
+            item.Caption = "hierarchy";
+            var ctrXml = new ContainsXml();
+
+            var discoFactoMockFactory = new Mock<DiscoveryFactory>();
+            discoFactoMockFactory.Setup(dfs =>
+                dfs.Build(
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>()))
+                    .Returns(new MembersDiscoveryCommand());
+            var discoFactoMock = discoFactoMockFactory.Object;
+
+            var builder = new MembersContainsBuilder(discoFactoMock);
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var sut = builder.GetSystemUnderTest();
+
+            Assert.That(sut, Is.InstanceOf<MembersDiscoveryCommand>());
+            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString-default", It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), null));
+        }
+
 
         [Test]
         public void GetSystemUnderTest_BuildWithHierarchy_CorrectCallToDiscoverFactory()

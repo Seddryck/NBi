@@ -43,15 +43,16 @@ namespace NBi.NUnit.Builder
             if (sutXml.Item == null)
                 throw new ArgumentNullException();
 
-            if (sutXml.Item is DimensionXml)
-            {
-                perspective = ((DimensionXml)sutXml.Item).Perspective;
-                dimension = sutXml.Item.Caption;
-            }
             if (sutXml.Item is HierarchyXml)
             {
+                perspective = ((HierarchyXml)sutXml.Item).Perspective;
                 dimension = ((HierarchyXml)sutXml.Item).Dimension;
                 hierarchy = sutXml.Item.Caption;
+            }
+            else
+            {
+                //Other cases are not handled
+                throw new ArgumentOutOfRangeException("sutXml", sutXml, "The system-under-test for members must be a hierarchy or a level");
             }
             if (sutXml.Item is LevelXml)
             {
@@ -59,6 +60,8 @@ namespace NBi.NUnit.Builder
                 level = sutXml.Item.Caption;
             }
 
+            
+            
             return discoveryFactory.Build
                 (
                     sutXml.GetConnectionString(),

@@ -11,6 +11,7 @@ namespace NBi.NUnit.Builder
         protected object SystemUnderTest {get; set;}
         protected Constraint Constraint  {get; set;}
         protected bool isSetup;
+        protected bool isBuild;
 
         public  void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
@@ -29,6 +30,8 @@ namespace NBi.NUnit.Builder
 
             BaseBuild();
             SpecificBuild();
+
+            isBuild = true;
         }
 
         protected abstract void BaseBuild();
@@ -36,11 +39,17 @@ namespace NBi.NUnit.Builder
 
         public object GetSystemUnderTest()
         {
+            if (!isBuild)
+                throw new InvalidOperationException("The method GetSystemUnderTest must be preceded by a call to method Build");
+            
             return SystemUnderTest;
         }
 
         public Constraint GetConstraint()
         {
+            if (!isBuild)
+                throw new InvalidOperationException("The method GetConstraint must be preceded by a call to method Build");
+
             return Constraint;
         }
     }

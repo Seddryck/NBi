@@ -64,7 +64,6 @@
 										<xs:element name="members">
 											<xs:complexType>
 												<xs:choice>
-													<xs:element name="dimension" type="dimension-type"/>
 													<xs:element name="hierarchy" type="hierarchy-type"/>
 													<xs:element name="level" type="level-type"/>
 												</xs:choice>

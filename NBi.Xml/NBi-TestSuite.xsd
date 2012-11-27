@@ -60,26 +60,26 @@
 							<xs:element name="system-under-test" minOccurs="1" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:choice>
-										<xs:element name="query" type ="query-type" minOccurs="0" maxOccurs="1"/>
-										<xs:element name="members" minOccurs="0" maxOccurs="1">
+										<xs:element name="query" type ="query-type"/>
+										<xs:element name="members">
 											<xs:complexType>
 												<xs:choice>
-													<xs:element name="dimension" type="dimension-type" minOccurs="0" maxOccurs="1"/>
-													<xs:element name="hierarchy" type="hierarchy-type" minOccurs="0" maxOccurs="1"/>
-													<xs:element name="level" type="level-type" minOccurs="0" maxOccurs="1"/>
+													<xs:element name="dimension" type="dimension-type"/>
+													<xs:element name="hierarchy" type="hierarchy-type"/>
+													<xs:element name="level" type="level-type"/>
 												</xs:choice>
 												<xs:attribute name="children-of" type="xs:string" use="optional" />
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="structure" minOccurs="0" maxOccurs="1">
+										<xs:element name="structure">
 											<xs:complexType>
 												<xs:choice>
-													<xs:element name="perspective" type="perspective-type" minOccurs="0" maxOccurs="1"/>
-													<xs:element name="measure-group" type="measure-group-type" minOccurs="0" maxOccurs="1"/>
-													<xs:element name="measure" type="measure-type" minOccurs="0" maxOccurs="1"/>
-													<xs:element name="dimension" type="dimension-type" minOccurs="0" maxOccurs="1"/>
-													<xs:element name="hierarchy" type="hierarchy-type" minOccurs="0" maxOccurs="1"/>
-													<xs:element name="level" type="level-type" minOccurs="0" maxOccurs="1"/>
+													<xs:element name="perspective" type="perspective-type"/>
+													<xs:element name="measure-group" type="measure-group-type"/>
+													<xs:element name="measure" type="measure-type"/>
+													<xs:element name="dimension" type="dimension-type"/>
+													<xs:element name="hierarchy" type="hierarchy-type"/>
+													<xs:element name="level" type="level-type"/>
 												</xs:choice>
 											</xs:complexType>
 										</xs:element>
@@ -88,8 +88,8 @@
 							</xs:element>
 							<xs:element name="assert" minOccurs="1" maxOccurs="unbounded">
 								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="equalTo" minOccurs="0">
+									<xs:choice>
+										<xs:element name="equalTo">
 											<xs:complexType>
 												<xs:sequence>
 													<xs:element name="column" minOccurs="0" maxOccurs="unbounded">
@@ -171,15 +171,15 @@
 												</xs:attribute>
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="syntacticallyCorrect" minOccurs="0">
+										<xs:element name="syntacticallyCorrect">
 										</xs:element>
-										<xs:element name="fasterThan" minOccurs="0">
+										<xs:element name="fasterThan">
 											<xs:complexType>
 												<xs:attribute name="max-time-milliSeconds" type="xs:unsignedShort" use="required" />
 												<xs:attribute name="clean-cache" type="xs:boolean" use="optional" />
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="count" minOccurs="0">
+										<xs:element name="count">
 											<xs:complexType>
 												<xs:simpleContent>
 													<xs:extension base="xs:string">
@@ -190,7 +190,7 @@
 												</xs:simpleContent>
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="contains" minOccurs="0">
+										<xs:element name="contains">
 											<xs:complexType>
 												<xs:simpleContent>
 													<xs:extension base="xs:string">
@@ -201,7 +201,7 @@
 												</xs:simpleContent>
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="exists" minOccurs="0">
+										<xs:element name="exists">
 											<xs:complexType>
 												<xs:simpleContent>
 													<xs:extension base="xs:string">
@@ -211,7 +211,7 @@
 												</xs:simpleContent>
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="ordered" minOccurs="0">
+										<xs:element name="ordered">
 											<xs:complexType>
 												<xs:sequence>
 													<xs:element name="rule-definition" minOccurs="0" maxOccurs="1">
@@ -241,7 +241,7 @@
 												</xs:attribute>
 											</xs:complexType>
 										</xs:element>
-									</xs:sequence>							
+									</xs:choice>							
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>

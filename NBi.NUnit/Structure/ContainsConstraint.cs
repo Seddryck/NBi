@@ -2,9 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using NBi.Core;
-using NBi.Core.Analysis;
-using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Metadata;
+using NBi.Core.Analysis.Request;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
 
@@ -16,7 +15,7 @@ namespace NBi.NUnit.Structure
         protected string expectedCaption;
         protected string expectedDisplayFolder;
         protected IComparer comparer;
-        protected MetadataDiscoveryCommand command;
+        protected MetadataDiscoveryRequest command;
         protected IMetadataExtractor _metadataExtractor;
         
         /// <summary>
@@ -80,8 +79,8 @@ namespace NBi.NUnit.Structure
 
         public override bool Matches(object actual)
         {
-            if (actual is MetadataDiscoveryCommand)
-                return Process((MetadataDiscoveryCommand)actual);
+            if (actual is MetadataDiscoveryRequest)
+                return Process((MetadataDiscoveryRequest)actual);
             else
             {
                 base.Using(comparer);
@@ -96,7 +95,7 @@ namespace NBi.NUnit.Structure
         }
 
         
-        protected bool Process(MetadataDiscoveryCommand actual)
+        protected bool Process(MetadataDiscoveryRequest actual)
         {
             command = actual;
             var extr = GetEngine(actual.ConnectionString);

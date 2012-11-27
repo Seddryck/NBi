@@ -2,11 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Metadata;
+using NBi.Core.Analysis.Request;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
-using NBi.Core.Analysis.Metadata.Adomd;
 
 namespace NBi.NUnit.Structure
 {
@@ -14,7 +13,7 @@ namespace NBi.NUnit.Structure
     {
 
         protected IComparer comparer;
-        protected MetadataDiscoveryCommand command;
+        protected MetadataDiscoveryRequest request;
         protected IMetadataExtractor metadataExtractor;
 
         /// <summary>
@@ -62,8 +61,8 @@ namespace NBi.NUnit.Structure
 
         public override bool Matches(object actual)
         {
-            if (actual is MetadataDiscoveryCommand)
-                return Process((MetadataDiscoveryCommand)actual);
+            if (actual is MetadataDiscoveryRequest)
+                return Process((MetadataDiscoveryRequest)actual);
             else if (actual is IEnumerable<IField>)
             {
                 var res = doMatch((IEnumerable<IField>)actual);
@@ -79,9 +78,9 @@ namespace NBi.NUnit.Structure
         }
 
         
-        protected bool Process(MetadataDiscoveryCommand actual)
+        protected bool Process(MetadataDiscoveryRequest actual)
         {
-            command = actual;
+            request = actual;
             var extr = GetEngine(actual.ConnectionString);
             IEnumerable<IField> structures = extr.GetPartialMetadata(actual);
             return this.Matches(structures);
@@ -93,28 +92,28 @@ namespace NBi.NUnit.Structure
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
-            if (command != null)
+            if (request != null)
             {
-                switch (command.Target)
+                switch (request.Target)
                 {
                     case DiscoveryTarget.Perspectives:
                         writer.WritePredicate(string.Format("On current cube, a perspective \"{0}\" exists"
-                            , command.GetFilter(DiscoveryTarget.Perspectives).Value));
+                            , request.GetFilter(DiscoveryTarget.Perspectives).Value));
                         break;
                     case DiscoveryTarget.MeasureGroups:
                         writer.WritePredicate(string.Format("On perspective \"{0}\", the measuregroup \"{1}\" exists"
-                            , command.GetFilter(DiscoveryTarget.Perspectives).Value
-                            , command.GetFilter(DiscoveryTarget.MeasureGroups).Value));
+                            , request.GetFilter(DiscoveryTarget.Perspectives).Value
+                            , request.GetFilter(DiscoveryTarget.MeasureGroups).Value));
                         break;
                     case DiscoveryTarget.Measures:
                         writer.WritePredicate(string.Format("On perspective \"{0}\", a measure \"{1}\" exists"
-                            , command.GetFilter(DiscoveryTarget.Perspectives).Value
-                            , command.GetFilter(DiscoveryTarget.Measures).Value));
+                            , request.GetFilter(DiscoveryTarget.Perspectives).Value
+                            , request.GetFilter(DiscoveryTarget.Measures).Value));
                         break;
                     case DiscoveryTarget.Dimensions:
                         writer.WritePredicate(string.Format("On perspective \"{0}\", a dimension \"{1}\" exists"
-                            , command.GetFilter(DiscoveryTarget.Perspectives).Value
-                            , command.GetFilter(DiscoveryTarget.Dimensions).Value));
+                            , request.GetFilter(DiscoveryTarget.Perspectives).Value
+                            , request.GetFilter(DiscoveryTarget.Dimensions).Value));
                         break;
                     default:
                         break;

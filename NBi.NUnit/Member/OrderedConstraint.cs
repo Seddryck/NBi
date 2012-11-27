@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Member;
+using NBi.Core.Analysis.Request;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
@@ -12,7 +12,7 @@ namespace NBi.NUnit.Member
         private bool reversed;
         private IList<Object> specific;
         protected IComparerWithLabel comparer;
-        protected MembersDiscoveryCommand command;
+        protected MembersDiscoveryRequest command;
         protected MembersAdomdEngine memberEngine;
 
         /// <summary>
@@ -109,8 +109,8 @@ namespace NBi.NUnit.Member
 
         public override bool Matches(object actual)
         {
-            if (actual is MembersDiscoveryCommand)
-                return Process((MembersDiscoveryCommand)actual);
+            if (actual is MembersDiscoveryRequest)
+                return Process((MembersDiscoveryRequest)actual);
             else
             {
                 if (specific == null)
@@ -142,7 +142,7 @@ namespace NBi.NUnit.Member
             return true;
         }
 
-        protected bool Process(MembersDiscoveryCommand actual)
+        protected bool Process(MembersDiscoveryRequest actual)
         {
             command = actual;
             var extr = GetEngine();

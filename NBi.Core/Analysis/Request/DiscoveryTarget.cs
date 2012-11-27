@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace NBi.Core.Analysis.Discovery
+namespace NBi.Core.Analysis.Request
 {
     public enum DiscoveryTarget
     {

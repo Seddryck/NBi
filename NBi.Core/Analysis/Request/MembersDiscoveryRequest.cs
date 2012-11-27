@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 
-namespace NBi.Core.Analysis.Discovery
+namespace NBi.Core.Analysis.Request
 {
-    public class MembersDiscoveryCommand : BaseDiscoveryCommand
+    public class MembersDiscoveryRequest : BaseDiscoveryRequest
     {
         public string MemberCaption { get; set; }
         public string Function { get; set; }
 
-        protected internal MembersDiscoveryCommand()
+        protected internal MembersDiscoveryRequest()
             : base()
         {
         }

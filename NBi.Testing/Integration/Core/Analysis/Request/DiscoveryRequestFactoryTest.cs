@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Linq;
-using NBi.Core.Analysis.Discovery;
-using NBi.NUnit.Builder;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Core.Analysis.Request;
 using NUnit.Framework;
 
-namespace NBi.Testing.Integration.Core.Analysis.Discovery
+namespace NBi.Testing.Integration.Core.Analysis.Request
 {
     [TestFixture]
-    public class DiscoveryFactoryTest
+    public class DiscoveryRequestFactoryTest
     {
         [Test]
         public void Build_MemberCaptionFilled_MemberCaptionIsSet()
         {
-            var facto = new DiscoveryFactory();
+            var facto = new DiscoveryRequestFactory();
 
             var disco = facto.Build("connectionString", "parent-member", "perspective", "dimension", "hierarchy", null);
 
@@ -26,7 +22,7 @@ namespace NBi.Testing.Integration.Core.Analysis.Discovery
         [Test]
         public void Build_MemberCaptionFilled_FunctionIsSetToChildren()
         {
-            var facto = new DiscoveryFactory();
+            var facto = new DiscoveryRequestFactory();
 
             var disco = facto.Build("connectionString", "parent-member", "perspective", "dimension", "hierarchy", null);
 
@@ -37,7 +33,7 @@ namespace NBi.Testing.Integration.Core.Analysis.Discovery
         [Test]
         public void Build_MemberCaptionNotFilled_FunctionIsSetToMembers()
         {
-            var facto = new DiscoveryFactory();
+            var facto = new DiscoveryRequestFactory();
 
             var disco = facto.Build("connectionString", string.Empty, "perspective", "dimension", "hierarchy", null);
 

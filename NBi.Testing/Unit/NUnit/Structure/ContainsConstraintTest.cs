@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Moq;
-using NBi.Core.Analysis.Discovery;
 using NBi.Core.Analysis.Metadata;
+using NBi.Core.Analysis.Request;
 using NBi.NUnit.Structure;
 using NUnit.Framework;
 
@@ -14,7 +14,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
         public void Matches_GivenDiscoveryCommandForDimension_EngineCalledOnceWithParametersComingFromDiscoveryCommandy()
         {
             var exp = "Expected hierarchy";
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                         "connectionString",
                         DiscoveryTarget.Dimensions,
                         "perspective-name",
@@ -46,7 +46,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
         public void Matches_GivenDiscoveryCommandForMeasureGroup_EngineCalledOnceWithParametersComingFromDiscoveryCommand()
         {
             var exp = "Expected measure";
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                         "connectionString",
                         DiscoveryTarget.MeasureGroups,
                         "perspective",
@@ -79,7 +79,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
         public void WriteTo_FailingAssertionForDimension_TextContainsFewKeyInfo()
         {
             var exp = "Expected hierarchy";
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                         "connectionString",
                         DiscoveryTarget.Dimensions,
                         "perspective-name",
@@ -122,7 +122,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
         public void WriteTo_FailingAssertionForMeasureGroup_TextContainsFewKeyInfo()
         {
             var exp = "Expected measure";
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                         "connectionString",
                         DiscoveryTarget.MeasureGroups,
                         "perspective-name",
@@ -165,7 +165,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
         public void WriteTo_FailingAssertionForHierarchy_TextContainsFewKeyInfo()
         {
             var exp = "Expected level";
-            var cmd = new DiscoveryFactory().Build(
+            var cmd = new DiscoveryRequestFactory().Build(
                         "connectionString",
                         DiscoveryTarget.Hierarchies,
                         "perspective-name",

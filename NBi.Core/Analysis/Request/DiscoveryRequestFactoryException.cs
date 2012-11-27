@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.Analysis.Discovery
+namespace NBi.Core.Analysis.Request
 {
-    public class DiscoveryFactoryException : ArgumentException
+    public class DiscoveryRequestFactoryException : ArgumentException
     {
-        public DiscoveryFactoryException(string paramName) : base 
+        public DiscoveryRequestFactoryException(string paramName) : base 
             (
                 string.Format("You must fill the attribute '{0}'", paramName),
                 paramName
@@ -16,7 +16,7 @@ namespace NBi.Core.Analysis.Discovery
             
         }
 
-        public DiscoveryFactoryException(string message, string paramName)
+        public DiscoveryRequestFactoryException(string message, string paramName)
             : base
                 (
                 message,

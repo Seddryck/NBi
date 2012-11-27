@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using NBi.Core.Analysis.Discovery;
+using NBi.Core.Analysis.Request;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
 
@@ -14,7 +14,7 @@ namespace NBi.NUnit.Builder
         {
         }
 
-        internal MembersCountBuilder(DiscoveryFactory factory)
+        internal MembersCountBuilder(DiscoveryRequestFactory factory)
             : base(factory)
         {
         }

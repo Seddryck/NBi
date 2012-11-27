@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.Analysis.Discovery.FactoryValidations
+namespace NBi.Core.Analysis.Request.FactoryValidations
 {
     internal class PerspectiveNotNull : FilterNotNull
     {
@@ -17,7 +17,7 @@ namespace NBi.Core.Analysis.Discovery.FactoryValidations
 
         internal override void GenerateException()
         {
-            throw new DiscoveryFactoryException("perspectiveName");
+            throw new DiscoveryRequestFactoryException("perspectiveName");
         }
     }
 }

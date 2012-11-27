@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using NBi.Core.Analysis.Discovery;
+using NBi.Core.Analysis.Request;
 using NBi.NUnit.Structure;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
@@ -16,7 +16,7 @@ namespace NBi.NUnit.Builder
         {
         }
 
-        internal StructureExistsBuilder(DiscoveryFactory factory)
+        internal StructureExistsBuilder(DiscoveryRequestFactory factory)
             : base(factory)
         {
         }

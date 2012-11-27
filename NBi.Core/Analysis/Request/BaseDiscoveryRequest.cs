@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NBi.Core.Analysis.Discovery.FactoryValidations;
 
-namespace NBi.Core.Analysis.Discovery
+namespace NBi.Core.Analysis.Request
 {
-    public class BaseDiscoveryCommand
+    public class BaseDiscoveryRequest
     {
         public string ConnectionString { get; set; }
         protected IDictionary<DiscoveryTarget, IFilter> Filters { get; set; }
         internal IList<Validation> Validations { get; set; }
 
-        public BaseDiscoveryCommand()
+        public BaseDiscoveryRequest()
         {
             Filters = new Dictionary<DiscoveryTarget, IFilter>();
         }

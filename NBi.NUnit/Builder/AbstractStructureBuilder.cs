@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using NBi.Core.Analysis.Discovery;
+using NBi.Core.Analysis.Request;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
 
@@ -9,14 +9,14 @@ namespace NBi.NUnit.Builder
     abstract class AbstractStructureBuilder : AbstractTestCaseBuilder
     {
         protected StructureXml SystemUnderTestXml { get; set; }
-        protected readonly DiscoveryFactory discoveryFactory;
+        protected readonly DiscoveryRequestFactory discoveryFactory;
 
         public AbstractStructureBuilder()
         {
-            discoveryFactory = new DiscoveryFactory();
+            discoveryFactory = new DiscoveryRequestFactory();
         }
 
-        internal AbstractStructureBuilder(DiscoveryFactory factory)
+        internal AbstractStructureBuilder(DiscoveryRequestFactory factory)
         {
             discoveryFactory = factory;
         }

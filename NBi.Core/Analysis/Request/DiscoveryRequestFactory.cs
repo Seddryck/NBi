@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NBi.Core.Analysis.Discovery.FactoryValidations;
+using NBi.Core.Analysis.Request.FactoryValidations;
 
-namespace NBi.Core.Analysis.Discovery
+namespace NBi.Core.Analysis.Request
 {
-    public class DiscoveryFactory
+    public class DiscoveryRequestFactory
     {
         internal virtual void Validate(List<Validation> validations)
         {
             validations.ForEach(v => v.Apply());
         }
 
-        public virtual MetadataDiscoveryCommand Build(string connectionString, DiscoveryTarget target, string perspective, string measuregroup, string measure, string dimension, string hierarchy, string level)
+        public virtual MetadataDiscoveryRequest Build(string connectionString, DiscoveryTarget target, string perspective, string measuregroup, string measure, string dimension, string hierarchy, string level)
         {
             //Validations
             Validate( 
@@ -28,7 +28,7 @@ namespace NBi.Core.Analysis.Discovery
             );
             
             //If validation of parameters is successfull then we build the object
-            var disco = new MetadataDiscoveryCommand();
+            var disco = new MetadataDiscoveryRequest();
             disco.ConnectionString = connectionString;
             disco.Target = target;
             if (!string.IsNullOrEmpty(perspective))     disco.SpecifyFilter(new CaptionFilter(perspective, DiscoveryTarget.Perspectives));
@@ -41,7 +41,7 @@ namespace NBi.Core.Analysis.Discovery
             return disco;
         }
 
-        public virtual MembersDiscoveryCommand Build(string connectionString, string memberCaption, string perspective, string dimension, string hierarchy, string level)
+        public virtual MembersDiscoveryRequest Build(string connectionString, string memberCaption, string perspective, string dimension, string hierarchy, string level)
         {
             //Validations
             Validate(
@@ -55,7 +55,7 @@ namespace NBi.Core.Analysis.Discovery
             );
 
             //If validation of parameters is successfull then we build the object
-            var disco = new MembersDiscoveryCommand();
+            var disco = new MembersDiscoveryRequest();
             disco.ConnectionString = connectionString;
             if (!string.IsNullOrEmpty(perspective))     disco.SpecifyFilter(new CaptionFilter(perspective, DiscoveryTarget.Perspectives));
             if (!string.IsNullOrEmpty(dimension))       disco.SpecifyFilter(new CaptionFilter(dimension, DiscoveryTarget.Dimensions));

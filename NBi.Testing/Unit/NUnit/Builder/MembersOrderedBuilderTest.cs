@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using Moq;
-using NBi.Core.Analysis.Discovery;
+using NBi.Core.Analysis.Request;
 using NBi.NUnit.Builder;
 using NBi.NUnit.Member;
 using NBi.Xml.Constraints;
@@ -51,7 +51,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             sutXml.Item = item;
             var ctrXml = new OrderedXml();
 
-            var discoFactoStubFactory = new Mock<DiscoveryFactory>();
+            var discoFactoStubFactory = new Mock<DiscoveryRequestFactory>();
             discoFactoStubFactory.Setup(dfs =>
                 dfs.Build(
                     It.IsAny<string>(),
@@ -60,7 +60,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>()))
-                    .Returns(new MembersDiscoveryCommand());
+                    .Returns(new MembersDiscoveryRequest());
             var discoFactoStub = discoFactoStubFactory.Object;
 
             var builder = new MembersOrderedBuilder(discoFactoStub);
@@ -86,7 +86,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             item.Caption = "hierarchy";
             var ctrXml = new OrderedXml();
 
-            var discoFactoMockFactory = new Mock<DiscoveryFactory>();
+            var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();
             discoFactoMockFactory.Setup(dfs =>
                 dfs.Build(
                     It.IsAny<string>(),
@@ -95,7 +95,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>()))
-                    .Returns(new MembersDiscoveryCommand());
+                    .Returns(new MembersDiscoveryRequest());
             var discoFactoMock = discoFactoMockFactory.Object;
 
             var builder = new MembersOrderedBuilder(discoFactoMock);
@@ -103,7 +103,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 
-            Assert.That(sut, Is.InstanceOf<MembersDiscoveryCommand>());
+            Assert.That(sut, Is.InstanceOf<MembersDiscoveryRequest>());
             discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString-default", It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), null));
         }
 
@@ -120,7 +120,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             item.Caption = "hierarchy";
             var ctrXml = new OrderedXml();
 
-            var discoFactoMockFactory = new Mock<DiscoveryFactory>();
+            var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();
             discoFactoMockFactory.Setup(dfs =>
                 dfs.Build(
                     It.IsAny<string>(),
@@ -129,7 +129,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>()))
-                    .Returns(new MembersDiscoveryCommand());
+                    .Returns(new MembersDiscoveryRequest());
             var discoFactoMock = discoFactoMockFactory.Object;
 
             var builder = new MembersOrderedBuilder(discoFactoMock);
@@ -137,7 +137,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 
-            Assert.That(sut, Is.InstanceOf<MembersDiscoveryCommand>());
+            Assert.That(sut, Is.InstanceOf<MembersDiscoveryRequest>());
             discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", "memberCaption", "perspective", "dimension", "hierarchy", null));
         }
 
@@ -155,7 +155,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             item.Caption = "level";
             var ctrXml = new OrderedXml();
 
-            var discoFactoMockFactory = new Mock<DiscoveryFactory>();
+            var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();
             discoFactoMockFactory.Setup(dfs =>
                 dfs.Build(
                     It.IsAny<string>(),
@@ -164,7 +164,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>()))
-                    .Returns(new MembersDiscoveryCommand());
+                    .Returns(new MembersDiscoveryRequest());
             var discoFactoMock = discoFactoMockFactory.Object;
 
             var builder = new MembersOrderedBuilder(discoFactoMock);
@@ -172,7 +172,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 
-            Assert.That(sut, Is.InstanceOf<MembersDiscoveryCommand>());
+            Assert.That(sut, Is.InstanceOf<MembersDiscoveryRequest>());
             discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", "memberCaption", "perspective", "dimension", "hierarchy", "level"));
         }
     }

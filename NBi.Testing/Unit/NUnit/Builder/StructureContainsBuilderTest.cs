@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 using Moq;
-using NBi.Core.Analysis.Discovery;
+using NBi.Core.Analysis.Request;
 using NBi.NUnit.Builder;
 using NBi.NUnit.Structure;
 using NBi.Xml.Constraints;
@@ -100,8 +100,8 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
-            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryCommand>());
-            Assert.That(((MetadataDiscoveryCommand)sut).ConnectionString, Is.EqualTo("connectionString-default"));
+            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
+            Assert.That(((MetadataDiscoveryRequest)sut).ConnectionString, Is.EqualTo("connectionString-default"));
         }
 
 
@@ -149,7 +149,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
-            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryCommand>());
+            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
         }
 
         [Test]
@@ -233,7 +233,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
             
             //Assertion
-            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryCommand>());
+            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
         }
 
 
@@ -279,7 +279,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
-            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryCommand>());
+            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
         }
 
         [Test]

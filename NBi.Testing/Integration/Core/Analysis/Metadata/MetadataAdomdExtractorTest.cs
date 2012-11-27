@@ -1,7 +1,7 @@
-﻿using NBi.Core.Analysis.Discovery;
+﻿using System.Linq;
 using NBi.Core.Analysis.Metadata;
+using NBi.Core.Analysis.Request;
 using NUnit.Framework;
-using System.Linq;
 
 namespace NBi.Testing.Integration.Core.Analysis.Metadata
 {
@@ -41,7 +41,7 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata
         public void GetPartialMetadata_DateDimensionWithHeighTeenHierarchies_ListStructureContainingHeighTeenElements()
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
-            var disco = new DiscoveryFactory().Build(
+            var disco = new DiscoveryRequestFactory().Build(
                 ConnectionStringReader.GetAdomd(),
                 DiscoveryTarget.Hierarchies,
                 "Adventure Works",
@@ -57,7 +57,7 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata
         public void GetPartialMetadata_CalendarHierarchyWithSixLevels_ListStructureContainingSixElements()
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
-            var disco = new DiscoveryFactory().Build(
+            var disco = new DiscoveryRequestFactory().Build(
                 ConnectionStringReader.GetAdomd(),
                 DiscoveryTarget.Levels,
                 "Adventure Works",
@@ -72,7 +72,7 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata
         public void GetPartialMetadata_MonthLevelWithTwoProperties_ListStructureContainingTwoElements()
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
-            var disco = new DiscoveryFactory().Build(
+            var disco = new DiscoveryRequestFactory().Build(
                 ConnectionStringReader.GetAdomd(),
                 DiscoveryTarget.Properties,
                 "Adventure Works",
@@ -88,7 +88,7 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata
         public void GetPartialMetadata_MeasureGroupFinancialReporting_OneElement()
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());
-            var disco = new DiscoveryFactory().Build(
+            var disco = new DiscoveryRequestFactory().Build(
                 ConnectionStringReader.GetAdomd(),
                 DiscoveryTarget.MeasureGroups,
                 "Finance",

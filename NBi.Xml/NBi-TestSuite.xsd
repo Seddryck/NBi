@@ -49,6 +49,23 @@
 				<xs:element name="test" minOccurs="1" maxOccurs="unbounded">
 					<xs:complexType>
 						<xs:sequence>
+							<xs:element name="edition" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:sequence minOccurs="0" maxOccurs="unbounded">
+										<xs:element name="update">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="contributor" type="xs:string" use="optional" />
+														<xs:attribute name="timestamp" type="xs:dateTime" use="required" />
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="author" type="xs:string" use="optional" />
+								</xs:complexType>
+							</xs:element>
 							<xs:element name="category" minOccurs="0" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:simpleContent>

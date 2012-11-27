@@ -39,17 +39,29 @@ namespace NBi.Testing.Unit.NUnit.Runtime
         #endregion
 
         [Test]
-        public void GetTestSuiteConfig_NoExistingConfig_ReturnDefaultValue()
+        public void GetOwnFilename_DefaultValue_ReturnNBiNUnitRuntimedll()
         {
             //Buiding object used during test
-            var obj = new TestSuite();
+            var testSuite = new TestSuite();
             
-
             //Call the method to test
-            //var cfg = obj.GetTestSuiteConfig();
+            var filename = testSuite.GetOwnFilename();
 
             //Assertion
-            //Assert.That(cfg, Is.EqualTo("TestSuite.xml"));
+            Assert.That(filename, Is.EqualTo("NBi.NUnit.Runtime.dll"));
+        }
+
+        [Test]
+        public void GetSelfFilename_DefaultValue_ReturnNBiNUnitRuntimedll()
+        {
+            //Buiding object used during test
+            var testSuite = new TestSuite();
+
+            //Call the method to test
+            var name = testSuite.GetManifestName();
+
+            //Assertion
+            Assert.That(name, Is.EqualTo("NBi.NUnit.Runtime.dll"));
         }
 
     }

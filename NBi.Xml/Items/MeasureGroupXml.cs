@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
@@ -13,6 +14,20 @@ namespace NBi.Xml.Items
         {
             //TODO here?
             return null;
+        }
+
+
+        [XmlIgnore]
+        public override string TypeName
+        {
+            get { return "measure-group"; }
+        }
+
+        internal override Dictionary<string, string> GetRegexMatch()
+        {
+            var dico = base.GetRegexMatch();
+            dico.Add("sut:perspective", Perspective);
+            return dico;
         }
     }
 }

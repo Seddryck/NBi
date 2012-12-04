@@ -9,12 +9,12 @@ namespace NBi.Xml
 {
     public class XmlManager
     {
-        public TestSuiteXml TestSuite {get; protected set;}
-        protected bool _isValid; 
+        public virtual TestSuiteXml TestSuite {get; protected set;}
+        protected bool isValid; 
 
         public XmlManager() { }
 
-        public void Load(string filename)
+        public virtual void Load(string filename)
         {
             if (!this.Validate(filename))
                 throw new ArgumentException("The test suite is not valid. Check with the XSD");
@@ -82,7 +82,7 @@ namespace NBi.Xml
                 settings.Schemas.Compile();
             }
 
-            _isValid = true;
+            isValid = true;
 
             //ensure the file is existing
             if (!File.Exists(filename))
@@ -95,7 +95,7 @@ namespace NBi.Xml
             while (reader.Read()) ;
             //The validationeventhandler is the only thing that would set _isValid to false
 
-            return _isValid;
+            return isValid;
         }
 
         private void ValidationCallBack(Object sender, ValidationEventArgs args)
@@ -108,7 +108,7 @@ namespace NBi.Xml
             else
                 Console.WriteLine("Validation error: " + args.Message);
 
-            _isValid = false; //Validation failed
+            isValid = false; //Validation failed
         }
 
         

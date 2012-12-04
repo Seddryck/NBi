@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using NBi.Xml.Settings;
 
@@ -15,6 +16,11 @@ namespace NBi.Xml.Systems
         public AbstractSystemUnderTestXml()
         {
             Default = new DefaultXml();
+        }
+
+        internal virtual Dictionary<string, string> GetRegexMatch()
+        {
+            return new Dictionary<string, string>();
         }
     }
 }

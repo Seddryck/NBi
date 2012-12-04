@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using NBi.Xml.Items;
 
@@ -25,6 +26,11 @@ namespace NBi.Xml.Systems
             if (Default != null && !string.IsNullOrEmpty(Default.ConnectionString))
                 return Default.ConnectionString;
             return null;
+        }
+
+        internal override Dictionary<string, string> GetRegexMatch()
+        {
+            return Item.GetRegexMatch();
         }
     }
 }

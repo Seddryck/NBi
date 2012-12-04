@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
@@ -54,5 +55,19 @@ namespace NBi.Xml.Items
             public bool IsMeasureGroupSpecified { get; internal set; }
         }
 
+
+        [XmlIgnore]
+        public override string TypeName
+        {
+            get { return "measure"; }
+        }
+
+        internal override Dictionary<string, string> GetRegexMatch()
+        {
+            var dico = base.GetRegexMatch();
+            dico.Add("sut:measure-group", MeasureGroup);
+            dico.Add("sut:display-folder", DisplayFolder);
+            return dico;
+        }
     }
 }

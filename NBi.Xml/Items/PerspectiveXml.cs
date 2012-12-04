@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Xml.Serialization;
 
 namespace NBi.Xml.Items
 {
@@ -11,6 +12,12 @@ namespace NBi.Xml.Items
         {
             //TODO here?
             return null;
+        }
+
+        [XmlIgnore]
+        public override string TypeName
+        {
+            get { return "perspective"; }
         }
     }
 }

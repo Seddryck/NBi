@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Moq;
 using NBi.Core.Analysis.Metadata;
 using NBi.Core.Analysis.Metadata.Adomd;
 using NBi.Core.Analysis.Request;
 using NBi.NUnit.Structure;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 
 namespace NBi.Testing.Unit.NUnit.Structure
 {
@@ -47,7 +49,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
         }
 
         [Test]
-        public void Matches_GivenDiscoveryRequest_CommandCalledOnceWithParametersComingFromDiscoveryCommand()
+        public void Matches_GivenDiscoveryRequest_CommandCalledOnce()
         {
             var request = new DiscoveryRequestFactory().Build(
                         "connectionString",
@@ -83,7 +85,48 @@ namespace NBi.Testing.Unit.NUnit.Structure
         }
 
         [Test]
-        public void WriteTo_FailingAssertionForDimension_TextContainsFewKeyInfo()
+        public void Matches_GivenDiscoveryRequestFailing_InvestigateCommandCalledOnce()
+        {
+            var request = new DiscoveryRequestFactory().Build(
+                        "connectionString",
+                        DiscoveryTarget.MeasureGroups,
+                        "perspective",
+                        "measure-group", "measure",
+                        null, null, null);
+
+            var elements = new List<IField>();
+
+            var commandExactStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandExactStub.Setup(f => f.Execute())
+                .Returns(elements);
+
+            var commandExternalMock = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandExternalMock.Setup(f => f.Execute())
+                .Returns(elements);
+
+            var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
+            factoryStub.Setup(f => f.BuildExact(request))
+                .Returns(commandExactStub.Object);
+
+            factoryStub.Setup(f => f.BuildExternal(It.IsAny<MetadataDiscoveryRequest>()))
+                .Returns(commandExternalMock.Object);
+            var factory = factoryStub.Object;
+
+            var ctr = new ExistsConstraint() { CommandFactory = factory };
+
+            //Method under test
+            try
+            {
+                Assert.That(request, ctr);
+            }
+            catch { }
+
+            //Test conclusion            
+            commandExternalMock.Verify(c => c.Execute(), Times.Once());
+        }
+
+        [Test]
+        public void WriteTo_FailingAssertionForDimension_TextContainsCaptionOfExpectedDimensionAndNameOfPerspective()
         {
             var request = new DiscoveryRequestFactory().Build(
                         "connectionString",
@@ -94,13 +137,20 @@ namespace NBi.Testing.Unit.NUnit.Structure
 
             var elements = new List<IField>();
 
-            var commandStub = new Mock<AdomdDiscoveryCommand>("connectionString");
-            commandStub.Setup(f => f.Execute())
+            var commandExactStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandExactStub.Setup(f => f.Execute())
+                .Returns(elements);
+
+            var commandExternalStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandExternalStub.Setup(f => f.Execute())
                 .Returns(elements);
 
             var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
             factoryStub.Setup(f => f.BuildExact(request))
-                .Returns(commandStub.Object);
+                .Returns(commandExactStub.Object);
+
+            factoryStub.Setup(f => f.BuildExternal(It.IsAny<MetadataDiscoveryRequest>()))
+                .Returns(commandExternalStub.Object);
             var factory = factoryStub.Object;
 
             var existsConstraint = new ExistsConstraint() { CommandFactory = factory };
@@ -116,13 +166,62 @@ namespace NBi.Testing.Unit.NUnit.Structure
                 assertionText = ex.Message;
             }
 
-            //Test conclusion            
+            //Test conclusion   
+            Console.WriteLine(assertionText);
             Assert.That(assertionText, Is.StringContaining("perspective-name").And
                                             .StringContaining("expected-dimension-caption"));
         }
 
         [Test]
-        public void WriteTo_FailingAssertionForMeasureGroup_TextContainsFewKeyInfo()
+        public void WriteTo_FailingAssertionForHierarchy_TextContainsCaptionOfExpectedHierarchyAndCaptionOfFilters()
+        {
+            var request = new DiscoveryRequestFactory().Build(
+                        "connectionString",
+                        DiscoveryTarget.Hierarchies,
+                        "perspective-name",
+                        null, null,
+                        "dimension-caption", "expected-hierarchy-caption", null);
+
+            var elements = new List<IField>();
+
+            var commandExactStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandExactStub.Setup(f => f.Execute())
+                .Returns(elements);
+
+            var commandExternalStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandExternalStub.Setup(f => f.Execute())
+                .Returns(elements);
+
+            var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
+            factoryStub.Setup(f => f.BuildExact(request))
+                .Returns(commandExactStub.Object);
+
+            factoryStub.Setup(f => f.BuildExternal(It.IsAny<MetadataDiscoveryRequest>()))
+                .Returns(commandExternalStub.Object);
+            var factory = factoryStub.Object;
+
+            var existsConstraint = new ExistsConstraint() { CommandFactory = factory };
+
+            //Method under test
+            string assertionText = null;
+            try
+            {
+                Assert.That(request, existsConstraint);
+            }
+            catch (AssertionException ex)
+            {
+                assertionText = ex.Message;
+            }
+
+            //Test conclusion     
+            Console.WriteLine(assertionText);
+            Assert.That(assertionText, Is.StringContaining("perspective-name").And
+                                            .StringContaining("dimension-caption").And
+                                            .StringContaining("expected-hierarchy-caption"));
+        }
+
+        [Test]
+        public void WriteTo_FailingAssertionForMeasureGroup_TextContainsNameOfExpectedMeasureGroupAndNameOfPerspectiveFiltering()
         {
             var request = new DiscoveryRequestFactory().Build(
                         "connectionString",
@@ -134,13 +233,20 @@ namespace NBi.Testing.Unit.NUnit.Structure
 
             var elements = new List<IField>();
 
-            var commandStub = new Mock<AdomdDiscoveryCommand>("connectionString");
-            commandStub.Setup(f => f.Execute())
+            var commandExactStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandExactStub.Setup(f => f.Execute())
+                .Returns(elements);
+
+            var commandExternalStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandExternalStub.Setup(f => f.Execute())
                 .Returns(elements);
 
             var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
             factoryStub.Setup(f => f.BuildExact(request))
-                .Returns(commandStub.Object);
+                .Returns(commandExactStub.Object);
+
+            factoryStub.Setup(f => f.BuildExternal(It.IsAny<MetadataDiscoveryRequest>()))
+                .Returns(commandExternalStub.Object);
             var factory = factoryStub.Object;
 
             var existsConstraint = new ExistsConstraint() { CommandFactory = factory };
@@ -156,13 +262,14 @@ namespace NBi.Testing.Unit.NUnit.Structure
                 assertionText = ex.Message;
             }
 
-            //Test conclusion            
+            //Test conclusion   
+            Console.WriteLine(assertionText);
             Assert.That(assertionText, Is.StringContaining("perspective-name").And
                                             .StringContaining("expected-measure-group-caption"));
         }
 
         [Test]
-        public void WriteTo_FailingAssertionForPerspective_TextContainsFewKeyInfo()
+        public void WriteTo_FailingAssertionForPerspective_TextContainsNameOfExpectedPerspective()
         {
             var request = new DiscoveryRequestFactory().Build(
                         "connectionString",
@@ -174,13 +281,166 @@ namespace NBi.Testing.Unit.NUnit.Structure
 
             var elements = new List<IField>();
 
-            var commandStub = new Mock<AdomdDiscoveryCommand>("connectionString");
-            commandStub.Setup(f => f.Execute())
+            var commandExactStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandExactStub.Setup(f => f.Execute())
+                .Returns(elements);
+
+            var commandExternalStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandExternalStub.Setup(f => f.Execute())
                 .Returns(elements);
 
             var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
             factoryStub.Setup(f => f.BuildExact(request))
-                .Returns(commandStub.Object);
+                .Returns(commandExactStub.Object);
+
+            factoryStub.Setup(f => f.BuildExternal(It.IsAny<MetadataDiscoveryRequest>()))
+                .Returns(commandExternalStub.Object);
+            var factory = factoryStub.Object;
+
+            var existsConstraint = new ExistsConstraint() { CommandFactory = factory };
+
+            //Method under test
+            string assertionText = null;
+            try
+            {
+                Assert.That(request, existsConstraint);
+            }
+            catch (AssertionException ex)
+            {
+                assertionText = ex.Message;
+            }
+
+            //Test conclusion  
+            Console.WriteLine(assertionText);
+            Assert.That(assertionText, Is.StringContaining("expected-perspective-name"));
+        }
+
+        [Test]
+        public void WriteTo_FailingAssertionForPerspectiveWithNot_TextContainsFewKeyInfo()
+        {
+            var request = new DiscoveryRequestFactory().Build(
+                        "connectionString",
+                        DiscoveryTarget.Perspectives,
+                        "expected-perspective-name",
+                        null, null,
+                        null, null, null);
+
+
+            var elements = new List<IField>();
+            elements.Add(new Perspective("expected-perspective-name"));
+
+            var commandExactStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandExactStub.Setup(f => f.Execute())
+                .Returns(elements);
+
+            var commandExternalStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandExternalStub.Setup(f => f.Execute())
+                .Returns(elements);
+
+            var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
+            factoryStub.Setup(f => f.BuildExact(request))
+                .Returns(commandExactStub.Object);
+
+            elements.Add(new Perspective("unexpected-perspective-name"));
+
+            factoryStub.Setup(f => f.BuildExternal(It.IsAny<MetadataDiscoveryRequest>()))
+                .Returns(commandExternalStub.Object);
+            var factory = factoryStub.Object;
+
+            var existsConstraint = new ExistsConstraint() { CommandFactory = factory };
+            var notExistsConstraint = new NotConstraint(existsConstraint);
+
+            //Method under test
+            string assertionText = null;
+            try
+            {
+                Assert.That(request, notExistsConstraint);
+            }
+            catch (AssertionException ex)
+            {
+                assertionText = ex.Message;
+            }
+
+            //Test conclusion      
+            Console.WriteLine(assertionText);
+            Assert.That(assertionText, Is.StringContaining("not find"));
+        }
+
+        [Test]
+        public void WriteTo_FailingAssertionForPerspectiveWithInvestigationReturningOtherFields_TextContainsFewKeyInfo()
+        {
+            var request = new DiscoveryRequestFactory().Build(
+                        "connectionString",
+                        DiscoveryTarget.Perspectives,
+                        "expected-perspective-name",
+                        null, null,
+                        null, null, null);
+
+
+            var elements = new List<IField>();
+            elements.Add(new Perspective("first-unexpected-perspective-name"));
+            elements.Add(new Perspective("second-unexpected-perspective-name"));
+
+            var commandExactStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandExactStub.Setup(f => f.Execute())
+                .Returns(new List<IField>());
+
+            var commandExternalStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandExternalStub.Setup(f => f.Execute())
+                .Returns(elements);
+
+            var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
+            factoryStub.Setup(f => f.BuildExact(request))
+                .Returns(commandExactStub.Object);
+            factoryStub.Setup(f => f.BuildExternal(It.IsAny<MetadataDiscoveryRequest>()))
+                .Returns(commandExternalStub.Object);
+            var factory = factoryStub.Object;
+
+            var existsConstraint = new ExistsConstraint() { CommandFactory = factory };
+
+            //Method under test
+            string assertionText = null;
+            try
+            {
+                Assert.That(request, existsConstraint);
+            }
+            catch (AssertionException ex)
+            {
+                assertionText = ex.Message;
+            }
+
+            //Test conclusion
+            Console.WriteLine(assertionText);
+            Assert.That(assertionText, Is.StringContaining(elements[0].Caption).And
+                                            .StringContaining(elements[1].Caption));
+        }
+
+        [Test]
+        public void WriteTo_FailingAssertionForPerspectiveWithInvestigationReturningNoField_TextContainsFewKeyInfo()
+        {
+            var request = new DiscoveryRequestFactory().Build(
+                        "connectionString",
+                        DiscoveryTarget.Perspectives,
+                        "expected-perspective-name",
+                        null, null,
+                        null, null, null);
+
+
+            var elements = new List<IField>();
+
+            var commandExactStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandExactStub.Setup(f => f.Execute())
+                .Returns(new List<IField>());
+
+            var commandExternalStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandExternalStub.Setup(f => f.Execute())
+                .Returns(elements);
+
+            var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
+            factoryStub.Setup(f => f.BuildExact(request))
+                .Returns(commandExactStub.Object);
+            factoryStub.Setup(f => f.BuildExternal(It.IsAny<MetadataDiscoveryRequest>()))
+                .Returns(commandExternalStub.Object);
             var factory = factoryStub.Object;
 
             var existsConstraint = new ExistsConstraint() { CommandFactory = factory };
@@ -197,10 +457,9 @@ namespace NBi.Testing.Unit.NUnit.Structure
             }
 
             //Test conclusion            
-            Assert.That(assertionText, Is.StringContaining("expected-perspective-name"));
+            Console.WriteLine(assertionText);
+            Assert.That(assertionText, Is.StringContaining("nothing found"));
         }
-
-
         
 
        

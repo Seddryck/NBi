@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using NBi.Core;
 using NBi.Core.Analysis.Metadata;
 using NBi.Core.Analysis.Metadata.Adomd;
@@ -113,35 +114,21 @@ namespace NBi.NUnit.Structure
         {
             if (request != null)
             {
-                switch (request.Target)
-                {
-                    case DiscoveryTarget.MeasureGroups:
-                        var displayFolder = (_expected is IFieldWithDisplayFolder) ? string.Format(", in folder \"{0}\", ", ((IFieldWithDisplayFolder)_expected).DisplayFolder) : " ";
-                        writer.WritePredicate(string.Format("On perspective \"{0}\", the measuregroup \"{1}\" containing{2}a measure with caption"
-                                                                               , request.GetFilter(DiscoveryTarget.Perspectives).Value
-                                                                               , request.GetFilter(DiscoveryTarget.MeasureGroups).Value
-                                                                               , displayFolder));
-                        break;
-                    case DiscoveryTarget.Dimensions:
-                        writer.WritePredicate(string.Format("On perspective \"{0}\", a dimension labeled by \"{1}\" containing a hierarchy with caption"
-                                                            , request.GetFilter(DiscoveryTarget.Perspectives).Value
-                                                            , request.GetFilter(request.Target).Value));
-                        break;
-                    case DiscoveryTarget.Hierarchies:
-                        writer.WritePredicate(string.Format("On perspective \"{0}\", a hierarchy labeled by \"{1}\", from dimension \"{2}\", containing a level with caption"
-                                                            , request.GetFilter(DiscoveryTarget.Perspectives).Value
-                                                            , request.GetFilter(DiscoveryTarget.Hierarchies).Value
-                                                            , request.GetFilter(DiscoveryTarget.Dimensions).Value));
-                        break;
-                    default:
-                        break;
-                }
-                
-                writer.WriteExpectedValue(expectedCaption);
+                var description = new DescriptionStructureHelper();
+                var filterExpression = description.GetFilterExpression(request.GetAllFilters());
+                var nextTargetExpression = description.GetNextTargetExpression(request.Target);
+                var expectationExpression = expectedCaption;
+
+                writer.WritePredicate(string.Format("find a {0} named '{1}' contained {2}",
+                    nextTargetExpression,
+                    expectationExpression,
+                    filterExpression));
+                                                                               
             }
             else
                 base.WriteDescriptionTo(writer);
-            
+
+
         }
 
     }

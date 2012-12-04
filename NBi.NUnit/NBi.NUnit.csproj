@@ -74,6 +74,7 @@
     <Compile Include="Builder\ITestCaseBuilder.cs" />
     <Compile Include="Builder\MembersCountBuilder.cs" />
     <Compile Include="Builder\QueryEqualToBuilder.cs" />
+    <Compile Include="Structure\DescriptionStructureHelper.cs" />
     <Compile Include="TestCase.cs" />
     <Compile Include="TestCaseFactory.cs" />
     <Compile Include="FluentInterface\Has.cs" />

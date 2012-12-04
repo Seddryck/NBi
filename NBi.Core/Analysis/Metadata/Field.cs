@@ -49,7 +49,6 @@ namespace NBi.Core.Analysis.Metadata
                 throw new Exception(string.Format("{0}{1}", x.GetType().Name, y.GetType().Name));
             }
         }
-
        
     } 
     public class FieldWithDisplayFolder : IFieldWithDisplayFolder

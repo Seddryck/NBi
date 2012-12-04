@@ -43,7 +43,7 @@ namespace NBi.NUnit.Structure
         public ExistsConstraint()
             : base()
         {
-            
+
         }
 
         #region Modifiers
@@ -75,10 +75,10 @@ namespace NBi.NUnit.Structure
 
         public bool doMatch(IEnumerable<IField> actual)
         {
-           return (actual.Count()>0);
+            return (actual.Count() > 0);
         }
 
-        
+
         protected bool Process(MetadataDiscoveryRequest actual)
         {
             request = actual;
@@ -86,6 +86,18 @@ namespace NBi.NUnit.Structure
             var command = factory.BuildExact(actual);
             IEnumerable<IField> structures = command.Execute();
             return this.Matches(structures);
+        }
+
+        protected void Investigate()
+        {
+            var factory = GetFactory();
+            var command = factory.BuildExternal(request);
+            IEnumerable<IField> structures = command.Execute();
+
+            if (structures.Count() > 0)
+            {
+                this.actual = structures;
+            }
         }
 
         /// <summary>
@@ -96,33 +108,36 @@ namespace NBi.NUnit.Structure
         {
             if (request != null)
             {
-                switch (request.Target)
-                {
-                    case DiscoveryTarget.Perspectives:
-                        writer.WritePredicate(string.Format("On current cube, a perspective \"{0}\" exists"
-                            , request.GetFilter(DiscoveryTarget.Perspectives).Value));
-                        break;
-                    case DiscoveryTarget.MeasureGroups:
-                        writer.WritePredicate(string.Format("On perspective \"{0}\", the measuregroup \"{1}\" exists"
-                            , request.GetFilter(DiscoveryTarget.Perspectives).Value
-                            , request.GetFilter(DiscoveryTarget.MeasureGroups).Value));
-                        break;
-                    case DiscoveryTarget.Measures:
-                        writer.WritePredicate(string.Format("On perspective \"{0}\", a measure \"{1}\" exists"
-                            , request.GetFilter(DiscoveryTarget.Perspectives).Value
-                            , request.GetFilter(DiscoveryTarget.Measures).Value));
-                        break;
-                    case DiscoveryTarget.Dimensions:
-                        writer.WritePredicate(string.Format("On perspective \"{0}\", a dimension \"{1}\" exists"
-                            , request.GetFilter(DiscoveryTarget.Perspectives).Value
-                            , request.GetFilter(DiscoveryTarget.Dimensions).Value));
-                        break;
-                    default:
-                        break;
-                }
-                
-                writer.WriteExpectedValue(true);
+                var description = new DescriptionStructureHelper();
+                var filterExpression = description.GetFilterExpression(request.GetAllFilters().Where(f => f.Target != request.Target));
+                var notExpression = description.GetNotExpression(true);
+                var targetExpression = description.GetTargetExpression(request.Target);
+                var captionExpression = request.GetAllFilters().Single(f => f.Target==request.Target).Value;
+
+                writer.WritePredicate(string.Format("find {0} {1} named '{2}' {3}"
+                            , notExpression
+                            , targetExpression
+                            , captionExpression
+                            , filterExpression));
             }
         }
+
+        public override void WriteActualValueTo(MessageWriter writer)
+        {
+            Investigate();
+            if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() > 0)
+                base.WriteActualValueTo(writer);
+            else
+                writer.WriteActualValue(new NothingFoundMessage());
+        }
+
+        private class NothingFoundMessage
+        {
+            public override string ToString()
+            {
+                return "nothing found";
+            }
+        }
+        
     }
 }

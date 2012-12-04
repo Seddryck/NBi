@@ -20,6 +20,18 @@ namespace NBi.NUnit.Runtime
     {
         public const string DEFAULT_TESTSUITE = "TestSuite.xml";
 
+        public XmlManager TestSuiteManager { get; private set; }
+
+        public TestSuite()
+        {
+            TestSuiteManager = new XmlManager();
+        }
+
+        public TestSuite(XmlManager testSuiteManager)
+        {
+            TestSuiteManager = testSuiteManager;
+        }
+
         [Test, TestCaseSource("GetTestCases")]
         public virtual void ExecuteTestCases(TestXml test)
         {
@@ -44,16 +56,14 @@ namespace NBi.NUnit.Runtime
 
         public IEnumerable<TestCaseData> GetTestCases()
         {
-            var mgr = new XmlManager();
-
-            mgr.Load(GetTestSuiteFileDefinition());
+            TestSuiteManager.Load(GetTestSuiteFileDefinition());
 
             List<TestCaseData> testCasesNUnit = new List<TestCaseData>();
 
-            foreach (var test in mgr.TestSuite.Tests)
+            foreach (var test in TestSuiteManager.TestSuite.Tests)
             {
                 TestCaseData testCaseDataNUnit = new TestCaseData(test);
-                testCaseDataNUnit.SetName(test.Name);
+                testCaseDataNUnit.SetName(test.GetName());
                 testCaseDataNUnit.SetDescription(test.Description);
                 foreach (var category in test.Categories)
                 {

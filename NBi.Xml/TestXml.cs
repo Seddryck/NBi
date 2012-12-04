@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
@@ -46,5 +48,32 @@ namespace NBi.Xml
             Systems = new List<AbstractSystemUnderTestXml>();
             Categories = new List<string>();
         }
+
+        public string GetName()
+        {
+            string newName = Name;
+            if (Systems[0] != null)
+            {
+                var vals = Systems[0].GetRegexMatch();
+
+                Regex re = new Regex(@"\{(sut:([a-z\-])*?)\}", RegexOptions.Compiled);
+                string key = string.Empty;
+                try
+                {
+
+                    newName = re.Replace(Name, delegate(Match match)
+                                {
+                                    key = match.Groups[1].Value;
+                                    return vals[key];
+                                });
+                }
+                catch (KeyNotFoundException)
+                {
+                    Console.WriteLine(string.Format("Unknown tag '{0}' in test name has stopped the replacement of tag in test name", key));
+                }
+            }
+            return newName;
+        }
+
     }
 }

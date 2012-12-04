@@ -1,6 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using System.Xml.Serialization;
-using NBi.Core;
 
 namespace NBi.Xml.Systems
 {
@@ -53,5 +53,10 @@ namespace NBi.Xml.Systems
             return null;
         }
 
+        internal override Dictionary<string, string> GetRegexMatch()
+        {
+            var dico = base.GetRegexMatch();
+            return dico;
+        }
     }
 }

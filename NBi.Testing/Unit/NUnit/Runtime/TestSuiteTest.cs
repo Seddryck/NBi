@@ -7,6 +7,7 @@ using NBi.Xml;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Runtime
@@ -109,6 +110,29 @@ namespace NBi.Testing.Unit.NUnit.Runtime
                                             .StringContaining("My Caption").And
                                             .StringContaining("My Display Folder").And
                                             .StringContaining("and it's parsed!"));
+        }
+
+        [Test]
+        public void AssertTestCase_TestCaseFailing_StackTraceIsFilledWithXml()
+        {
+            var sut = "not empty";
+            var ctr = new EmptyConstraint();
+            var xmlContent = "<test><system></system><assert></assert></test>";
+
+            var testSuite = new TestSuite();
+
+            try
+            {
+                testSuite.AssertTestCase(sut, ctr, xmlContent);
+            }
+            catch (AssertionException ex)
+            {
+                Assert.That(ex.StackTrace, Is.EqualTo(xmlContent));
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail("The exception should have been an AssertionException but was {0}.", new object[] { ex.GetType().FullName });
+            }
         }
 
     }

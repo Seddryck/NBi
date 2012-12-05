@@ -35,8 +35,8 @@ namespace NBi.NUnit.Runtime
         [Test, TestCaseSource("GetTestCases")]
         public virtual void ExecuteTestCases(TestXml test)
         {
-            Console.Out.WriteLine(string.Format("Loading TestSuite from {0}", GetOwnFilename()));
-            Console.Out.WriteLine("Test suite defined in " + GetTestSuiteFileDefinition());
+            Console.Out.WriteLine(string.Format("Test suite loaded from {0}", GetOwnFilename()));
+            Console.Out.WriteLine(string.Format("Test suite defined in {0}", GetTestSuiteFileDefinition()));
 
             //check if ignore is set to true
             if (test.Ignore)
@@ -48,11 +48,32 @@ namespace NBi.NUnit.Runtime
                     foreach (var ctr in test.Constraints)
                     {
                         var testCase = new TestCaseFactory().Instantiate(tc, ctr);
-                        Assert.That(testCase.SystemUnderTest, testCase.Constraint);
+                        AssertTestCase(testCase.SystemUnderTest, testCase.Constraint, test.Content);
+
+                        
+                        
                     }
                 }
             }
         }
+
+        /// <summary>
+        /// Handles the standard assertion and if needed rethrow a new AssertionException with a modified stacktrace
+        /// </summary>
+        /// <param name="systemUnderTest"></param>
+        /// <param name="constraint"></param>
+        protected internal void AssertTestCase(Object systemUnderTest, NUnitCtr.Constraint constraint, string stackTrace)
+        {
+            try
+            {
+                Assert.That(systemUnderTest, constraint);
+            }
+            catch (AssertionException)
+            {
+                throw new CustomStackTraceAssertionException(stackTrace);
+            }
+        }
+
 
         public IEnumerable<TestCaseData> GetTestCases()
         {

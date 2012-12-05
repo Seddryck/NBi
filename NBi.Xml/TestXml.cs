@@ -75,5 +75,7 @@ namespace NBi.Xml
             return newName;
         }
 
+        [XmlIgnore()]
+        public string Content { get; set; }
     }
 }

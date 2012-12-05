@@ -12,28 +12,36 @@ namespace NBi.Xml
         public virtual TestSuiteXml TestSuite {get; protected set;}
         protected bool isValid; 
 
-        public XmlManager() { }
+        public XmlManager() 
+        {
+            docXml = new XmlDocument();
+        }
 
         public virtual void Load(string filename)
         {
             if (!this.Validate(filename))
                 throw new ArgumentException("The test suite is not valid. Check with the XSD");
 
+            
             using (StreamReader reader = new StreamReader(filename))
             {
                 Read(reader);
             }
+
+            docXml.Load(filename);
+            ReassignXml();
         }
 
+        private readonly XmlDocument docXml;
         public void Read(StreamReader reader)
         {
-            // Create an instance of the XmlSerializer specifying type and namespace.
+             // Create an instance of the XmlSerializer specifying type and namespace.
             XmlSerializer serializer = new XmlSerializer(typeof(TestSuiteXml));
 
             using (reader)
             {
                 // Use the Deserialize method to restore the object's state.
-                TestSuite = (TestSuiteXml)serializer.Deserialize(reader);
+                TestSuite = (TestSuiteXml)serializer.Deserialize(reader); 
             }
 
             //Apply defaults
@@ -49,7 +57,25 @@ namespace NBi.Xml
                     ctr.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.Assert);
                 }
             }
+
+            
         }
+
+        protected internal void ReassignXml()
+        {           
+            //Get the Xml content of the tests define in the testSuite
+            var testNodes = docXml.GetElementsByTagName("test");
+            for (int i = 0; i < TestSuite.Tests.Count; i++)
+            {
+                //Add indentation and line breaks
+                var nodeXml = new XmlDocument();
+                nodeXml.LoadXml(testNodes[i].OuterXml);
+                var content = XmlBeautifier.Beautify(nodeXml);
+                //Add the content to the test (Used for StackTrace)
+                TestSuite.Tests[i].Content = content;
+            }
+        }
+
 
         public void Persist(string filename, TestSuiteXml testSuite)
         {

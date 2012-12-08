@@ -28,7 +28,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
         {
             var measures = new List<MeasureRow>();
             
-            Inform("Investigating measure-groups");
+            Inform("Investigating measures");
 
             using (var cmd = CreateCommand())
             {

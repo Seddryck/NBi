@@ -26,9 +26,7 @@ namespace NBi.Xml.Settings
             //Don't throw exception ... generating lot of issues!
             //if (def == null)
             //    throw new ArgumentOutOfRangeException(string.Format("No default for '{0}' existing in test suite's settings.", Enum.GetName(typeof(DefaultScope), scope)));
-            return def;
-            
-            
+            return def;           
         }
 
         public ReferenceXml GetReference(string name)

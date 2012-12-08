@@ -49,9 +49,6 @@ namespace NBi.NUnit.Runtime
                     {
                         var testCase = new TestCaseFactory().Instantiate(tc, ctr);
                         AssertTestCase(testCase.SystemUnderTest, testCase.Constraint, test.Content);
-
-                        
-                        
                     }
                 }
             }

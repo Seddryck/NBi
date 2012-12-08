@@ -14,7 +14,7 @@ using NBi.Core.ResultSet;
 namespace NBi.Testing.Unit.Xml
 {
     [TestFixture]
-    public class DeserializeSettingsXmlTest
+    public class SettingsXmlTest
     {
 
         #region SetUp & TearDown
@@ -82,6 +82,18 @@ namespace NBi.Testing.Unit.Xml
 
             Assert.That(((QueryXml)ts.Tests[testNr].Systems[0]).ConnectionString, Is.Null.Or.Empty);
             Assert.That(((QueryXml)ts.Tests[testNr].Systems[0]).GetConnectionString(), Is.Not.Null.And.Not.Empty);
+        }
+
+        [Test]
+        [Ignore]
+        public void DeserializeEqualToResultSet_SettingsWithDefaultForAssert_DefaultReplicatedForTest()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("SettingsWithDefaultAssert");
+
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).GetCommand().Connection.ConnectionString, Is.Not.Null.And.Not.Empty);
         }
 
         [Test]

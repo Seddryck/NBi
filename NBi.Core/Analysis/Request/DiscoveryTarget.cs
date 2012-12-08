@@ -9,6 +9,7 @@ namespace NBi.Core.Analysis.Request
         Undefined = 0,
         Perspectives,
         MeasureGroups,
+        DisplayFolders,
         Measures,
         Dimensions,
         Hierarchies,

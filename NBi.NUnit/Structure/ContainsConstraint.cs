@@ -52,18 +52,6 @@ namespace NBi.NUnit.Structure
             comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(true);
         }
 
-        /// <summary>
-        /// Construct a CollectionContainsConstraint
-        /// </summary>
-        /// <param name="expected"></param>
-        public ContainsConstraint(IFieldWithDisplayFolder expected)
-            : base(expected)
-        {
-            _expected = expected;
-            expectedCaption = expected.Caption;
-            comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaptionAndDisplayFolder(true);
-        }
-
         #region Modifiers
         /// <summary>
         /// Flag the constraint to ignore case and return self.

@@ -2,7 +2,7 @@
 namespace NBi.Core.Analysis.Metadata
 {
 
-    public class Measure : IFieldWithDisplayFolder
+    public class Measure : IField
     {
         public string UniqueName { get; private set; }
         public string Caption { get; set; }

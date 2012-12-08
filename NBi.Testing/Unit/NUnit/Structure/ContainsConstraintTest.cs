@@ -19,7 +19,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         "connectionString",
                         DiscoveryTarget.Dimensions,
                         "perspective-name",
-                        null, null,
+                        null, null, null,
                         "dimension-caption", null, null);
 
             var elStub = new Mock<IField>();
@@ -55,14 +55,14 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         "connectionString",
                         DiscoveryTarget.MeasureGroups,
                         "perspective",
-                        "measure-group", null,
+                        "measure-group", null, null,
                         null, null, null);
 
 
-            var elStub = new Mock<IFieldWithDisplayFolder>();
+            var elStub = new Mock<IField>();
             var el1 = elStub.Object;
             var el2 = elStub.Object;
-            var elements = new List<IFieldWithDisplayFolder>();
+            var elements = new List<IField>();
             elements.Add(el1);
             elements.Add(el2);
 
@@ -92,7 +92,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         "connectionString",
                         DiscoveryTarget.Dimensions,
                         "perspective-name",
-                        null, null,
+                        null, null, null,
                         "dimension-caption", null, null);
 
 
@@ -139,7 +139,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         "connectionString",
                         DiscoveryTarget.MeasureGroups,
                         "perspective-name",
-                        "measure-group-caption", null,
+                        "measure-group-caption", null, null,
                         null, null, null);
 
 
@@ -186,7 +186,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         "connectionString",
                         DiscoveryTarget.Hierarchies,
                         "perspective-name",
-                        null, null,
+                        null, null, null,
                         "dimension-caption", "hierarchy-caption", null);
 
 

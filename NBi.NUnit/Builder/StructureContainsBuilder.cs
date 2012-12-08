@@ -38,17 +38,7 @@ namespace NBi.NUnit.Builder
         {
             NBi.NUnit.Structure.ContainsConstraint ctr=null;
 
-            if (ctrXml.Specification.IsDisplayFolderSpecified)
-            {
-                ctr = new NBi.NUnit.Structure.ContainsConstraint(
-                    new FieldWithDisplayFolder()
-                    {
-                        Caption = ctrXml.Caption,
-                        DisplayFolder = ctrXml.DisplayFolder
-                    });
-            }
-            else
-                ctr = new NBi.NUnit.Structure.ContainsConstraint(ctrXml.Caption);
+            ctr = new NBi.NUnit.Structure.ContainsConstraint(ctrXml.Caption);
 
             //Ignore-case if requested
             if (ctrXml.IgnoreCase)
@@ -59,7 +49,7 @@ namespace NBi.NUnit.Builder
 
         protected override object InstantiateSystemUnderTest(StructureXml sutXml)
         {
-            string perspective = null, measuregroup = null, measure = null, dimension = null, hierarchy = null, level = null;
+            string perspective = null, measuregroup = null, displayFolder = null, measure = null, dimension = null, hierarchy = null, level = null;
 
             if (string.IsNullOrEmpty(sutXml.Item.Caption))
                 throw new ArgumentException("Caption must be specified");
@@ -112,6 +102,7 @@ namespace NBi.NUnit.Builder
                     target,
                     perspective,
                     measuregroup,
+                    displayFolder,
                     measure,
                     dimension,
                     hierarchy,

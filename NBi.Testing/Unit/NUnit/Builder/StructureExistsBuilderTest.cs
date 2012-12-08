@@ -60,6 +60,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
+                    It.IsAny<string>(),
                     It.IsAny<string>()
                     ))
                     .Returns(new MetadataDiscoveryRequest());
@@ -93,6 +94,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
+                    It.IsAny<string>(),
                     It.IsAny<string>()
                     ))
                     .Returns(new MetadataDiscoveryRequest());
@@ -104,7 +106,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
-            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", DiscoveryTarget.Perspectives, "perspective", null, null, null, null, null));
+            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", DiscoveryTarget.Perspectives, "perspective", null, null, null, null, null, null));
         }
 
         [Test]
@@ -128,6 +130,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
+                    It.IsAny<string>(),
                     It.IsAny<string>()
                     ))
                     .Returns(new MetadataDiscoveryRequest());
@@ -139,7 +142,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
-            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", DiscoveryTarget.MeasureGroups, "perspective", "measure-group", null, null, null, null));
+            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", DiscoveryTarget.MeasureGroups, "perspective", "measure-group", null, null, null, null, null));
         }
 
         [Test]
@@ -163,6 +166,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
+                    It.IsAny<string>(),
                     It.IsAny<string>()
                     ))
                     .Returns(new MetadataDiscoveryRequest());
@@ -174,7 +178,81 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
-            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", DiscoveryTarget.Measures, "perspective", null, "measure", null, null, null));
+            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", DiscoveryTarget.Measures, "perspective", null, null, "measure", null, null, null));
+        }
+
+        [Test]
+        public void GetSystemUnderTest_BuildWithMeasureAndDisplayFolder_CorrectCallToDiscoverFactory()
+        {
+            var sutXml = new StructureXml();
+            var item = new MeasureXml();
+            sutXml.Item = item;
+            item.ConnectionString = "connectionString";
+            item.Perspective = "perspective";
+            item.DisplayFolder = "display-folder";
+            item.Caption = "measure";
+            var ctrXml = new ExistsXml();
+
+            var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();
+            discoFactoMockFactory.Setup(dfs =>
+                dfs.Build(
+                    It.IsAny<string>(),
+                    It.IsAny<DiscoveryTarget>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>()
+                    ))
+                    .Returns(new MetadataDiscoveryRequest());
+            var discoFactoMock = discoFactoMockFactory.Object;
+
+            var builder = new StructureExistsBuilder(discoFactoMock);
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var sut = builder.GetSystemUnderTest();
+
+            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
+            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", DiscoveryTarget.Measures, "perspective", null, "display-folder", "measure", null, null, null));
+        }
+
+        [Test]
+        public void GetSystemUnderTest_BuildWithMeasureAndMeasureGroup_CorrectCallToDiscoverFactory()
+        {
+            var sutXml = new StructureXml();
+            var item = new MeasureXml();
+            sutXml.Item = item;
+            item.ConnectionString = "connectionString";
+            item.Perspective = "perspective";
+            item.MeasureGroup = "measure-group";
+            item.Caption = "measure";
+            var ctrXml = new ExistsXml();
+
+            var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();
+            discoFactoMockFactory.Setup(dfs =>
+                dfs.Build(
+                    It.IsAny<string>(),
+                    It.IsAny<DiscoveryTarget>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>()
+                    ))
+                    .Returns(new MetadataDiscoveryRequest());
+            var discoFactoMock = discoFactoMockFactory.Object;
+
+            var builder = new StructureExistsBuilder(discoFactoMock);
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var sut = builder.GetSystemUnderTest();
+
+            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
+            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", DiscoveryTarget.Measures, "perspective", "measure-group", null, "measure", null, null, null));
         }
 
         [Test]
@@ -198,6 +276,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
+                    It.IsAny<string>(),
                     It.IsAny<string>()
                     ))
                     .Returns(new MetadataDiscoveryRequest());
@@ -209,7 +288,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
-            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", DiscoveryTarget.Dimensions, "perspective", null, null, "dimension", null, null));
+            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", DiscoveryTarget.Dimensions, "perspective", null, null, null, "dimension", null, null));
         }
 
         [Test]
@@ -234,6 +313,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
+                    It.IsAny<string>(),
                     It.IsAny<string>()
                     ))
                     .Returns(new MetadataDiscoveryRequest());
@@ -245,7 +325,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
-            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", DiscoveryTarget.Hierarchies, "perspective",null, null,  "dimension", "hierarchy", null));
+            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", DiscoveryTarget.Hierarchies, "perspective", null, null, null, "dimension", "hierarchy", null));
         }
 
         [Test]
@@ -271,6 +351,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
+                    It.IsAny<string>(),
                     It.IsAny<string>()
                     ))
                     .Returns(new MetadataDiscoveryRequest());
@@ -282,7 +363,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
-            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", DiscoveryTarget.Levels, "perspective", null, null, "dimension", "hierarchy", "level"));
+            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", DiscoveryTarget.Levels, "perspective", null, null, null, "dimension", "hierarchy", "level"));
         }
     }
 }

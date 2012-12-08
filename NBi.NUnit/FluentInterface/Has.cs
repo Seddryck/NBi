@@ -52,11 +52,5 @@ namespace NBi.NUnit.FluentInterface
             var ctr = new NBiStructure.ContainsConstraint(value);
             return ctr;
         }
-
-        public static NBiStructure.ContainsConstraint Structure(NBi.Core.Analysis.Metadata.IFieldWithDisplayFolder folderAndField)
-        {
-            var ctr = new NBiStructure.ContainsConstraint(folderAndField);
-            return ctr;
-        }
     }
 }

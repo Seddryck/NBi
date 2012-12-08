@@ -15,7 +15,7 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
                 ConnectionStringReader.GetAdomd(),
                 DiscoveryTarget.Hierarchies,
                 "Adventure Works",
-                null, null,
+                null, null, null,
                 "Date", null, null);
 
             var factory = new AdomdDiscoveryCommandFactory();
@@ -33,7 +33,7 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
                 ConnectionStringReader.GetAdomd(),
                 DiscoveryTarget.Levels,
                 "Adventure Works",
-                null, null,
+                null, null, null,
                 "Date", "Calendar", null);
 
             var factory = new AdomdDiscoveryCommandFactory();
@@ -50,7 +50,7 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
                 ConnectionStringReader.GetAdomd(),
                 DiscoveryTarget.Properties,
                 "Adventure Works",
-                null, null,
+                null, null, null,
                 "Date", "Calendar", "Month");
 
             var factory = new AdomdDiscoveryCommandFactory();
@@ -68,7 +68,7 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
                 ConnectionStringReader.GetAdomd(),
                 DiscoveryTarget.MeasureGroups,
                 "Finance",
-                "Financial Reporting", null,
+                "Financial Reporting", null, null,
                 null, null, null);
 
             var factory = new AdomdDiscoveryCommandFactory();

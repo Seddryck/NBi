@@ -21,7 +21,7 @@ namespace NBi.Testing.Unit.Xml
         [Test]
         public void Load_ValidFile_TestContentIsCorrect()
         {
-            var filename = DiskOnFile.CreatePhysicalFile("TestSuite.xml", "NBi.Testing.Unit.Xml.Resources.TestSuiteSample.xml");
+            var filename = DiskOnFile.CreatePhysicalFile("TestContentIsCorrect.xml", "NBi.Testing.Unit.Xml.Resources.TestSuiteSample.xml");
 
             var manager = new XmlManager();
             manager.Load(filename);

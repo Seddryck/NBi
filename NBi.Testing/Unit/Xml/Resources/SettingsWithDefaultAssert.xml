@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="assert">
+			<connectionString>My Connection String</connectionString>
+		</default>
+	</settings>
+	<test name="My first test case" uid="0001">
+		<system-under-test>
+			<query name="Select first product">
+				SELECT TOP 2 * FROM Product;
+			</query>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<query>
+					SELECT TOP 3 * FROM Product;
+				</query>
+			</equalTo>
+		</assert>
+	</test>
+</testSuite>

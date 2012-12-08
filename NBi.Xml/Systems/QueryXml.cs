@@ -39,7 +39,7 @@ namespace NBi.Xml.Systems
 
         public virtual string GetConnectionString()
         {
-            //if Sql is specified then return it
+            //if ConnectionString is specified then return it
             if (!string.IsNullOrEmpty(ConnectionString))
                 return ConnectionString;
 

@@ -136,10 +136,10 @@
     <Compile Include="Unit\Xml\DeserializeStructureXmlTest.cs" />
     <Compile Include="Unit\Xml\SettingsXmlTest.cs" />
     <Compile Include="Unit\Xml\Systems\MembersXmlTest.cs" />
-    <Compile Include="Unit\Xml\DeserializeQueryXmlTest.cs" />
+    <Compile Include="Unit\Xml\QueryXmlTest.cs" />
     <Compile Include="Unit\Xml\DeserializeTestsTest.cs" />
     <Compile Include="Unit\NUnit\ConstraintFactoryTest.cs" />
-    <Compile Include="Unit\Xml\QueryXmlTest.cs" />
+    <Compile Include="Unit\Xml\ExecutionXmlTest.cs" />
     <Compile Include="Unit\Xml\Systems\StructureXmlTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerTest.cs" />
   </ItemGroup>

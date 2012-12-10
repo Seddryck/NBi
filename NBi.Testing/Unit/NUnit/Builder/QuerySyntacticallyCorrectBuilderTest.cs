@@ -45,13 +45,13 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetConstraint_Build_CorrectConstraint()
         {
             //Buiding object used during test
-            var sutXmlStubFactory = new Mock<QueryXml>();
-            sutXmlStubFactory.Setup(s => s.GetQuery()).Returns("query");
+            var sutXmlStubFactory = new Mock<ExecutionXml>();
+            sutXmlStubFactory.Setup(s => s.Item.GetQuery()).Returns("query");
             var sutXml = sutXmlStubFactory.Object;
 
             var ctrXml = new SyntacticallyCorrectXml();
 
-            var builder = new QuerySyntacticallyCorrectBuilder();
+            var builder = new ExecutionSyntacticallyCorrectBuilder();
             builder.Setup(sutXml, ctrXml);
             //Call the method to test
             builder.Build();
@@ -65,13 +65,13 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetSystemUnderTest_Build_CorrectIDbCommand()
         {
             //Buiding object used during test
-            var sutXmlStubFactory = new Mock<QueryXml>();
-            sutXmlStubFactory.Setup(s => s.GetQuery()).Returns("query");
+            var sutXmlStubFactory = new Mock<ExecutionXml>();
+            sutXmlStubFactory.Setup(s => s.Item.GetQuery()).Returns("query");
             var sutXml = sutXmlStubFactory.Object;
 
             var ctrXml = new SyntacticallyCorrectXml();
 
-            var builder = new QuerySyntacticallyCorrectBuilder();
+            var builder = new ExecutionSyntacticallyCorrectBuilder();
             builder.Setup(sutXml, ctrXml);
             //Call the method to test
             builder.Build();

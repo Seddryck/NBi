@@ -1,8 +1,12 @@
-﻿using System.IO;
+﻿#region Using directives
+using System.IO;
 using System.Reflection;
-using NBi.NUnit;
-using NBi.Xml.Systems;
+using NBi.Core.ResultSet;
+using NBi.Xml;
+using NBi.Xml.Constraints;
+using NBi.Xml.Items;
 using NUnit.Framework;
+#endregion
 
 namespace NBi.Testing.Unit.Xml
 {
@@ -10,82 +14,155 @@ namespace NBi.Testing.Unit.Xml
     public class QueryXmlTest
     {
 
-        #region Setup & Teardown
+        #region SetUp & TearDown
+        //Called only at instance creation
+        [TestFixtureSetUp]
+        public void SetupMethods()
+        {
 
+        }
+
+        //Called only at instance destruction
+        [TestFixtureTearDown]
+        public void TearDownMethods()
+        {
+        }
+
+        //Called before each test
         [SetUp]
-        public void SetUp()
+        public void SetupTest()
         {
-           
         }
 
+        //Called after each test
         [TearDown]
-        public void TearDown()
+        public void TearDownTest()
         {
         }
-
         #endregion
 
-        [Test]
-        public void GetQuery_FilenameSpecified_RetrieveContentOfFile()
+        protected TestSuiteXml DeserializeSample()
         {
-            //create a text file on disk
-            var filename = DiskOnFile.CreatePhysicalFile("QueryFile.sql", "NBi.Testing.Unit.Xml.Resources.QueryFile.sql");
-           
-            //Instantiate a Test Case and specify to find the sql in the fie created above
-            var testCase = new QueryXml() { File = filename };
+            // Declare an object variable of the type to be deserialized.
+            var manager = new XmlManager();
 
-            // A Stream is needed to read the text file from the assembly.
-            string expectedContent;
+            // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.QueryFile.sql"))
-                using (StreamReader reader = new StreamReader(stream))
-                   expectedContent = reader.ReadToEnd();
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.TestSuiteQuery.xml"))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                manager.Read(reader);
+            }
+            return manager.TestSuite;
+        }
+
+        [Test]
+        public void DeserializeEqualToResultSet_QueryFile0_Inline()
+        {
+            int testNr = 0;
             
-            Assert.AreEqual(expectedContent, testCase.GetQuery());
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSet, Is.Not.Null);
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSet.Rows, Has.Count.EqualTo(2));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSet.Rows[0].Cells, Has.Count.EqualTo(3));
         }
 
         [Test]
-        public void GetQuery_FilenameNotSpecified_RetrieveContentOfInlineQuery()
+        public void DeserializeEqualToResultSet_QueryFile1_ExternalFile()
         {
-            //Instantiate a System Under Test
-            var systemUnderTest = new QueryXml() { InlineQuery = "SELECT * FROM Product" };
+            int testNr = 1;
+            
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(systemUnderTest.GetQuery(), Is.EqualTo("SELECT * FROM Product"));
-            Assert.That(systemUnderTest.InlineQuery, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
-            Assert.That(systemUnderTest.File, Is.Null);
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSet, Is.Not.Null);
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSet.File, Is.Not.Null.And.Not.Empty);
         }
 
         [Test]
-        public void GetQuery_FileNameSpecified_RetrieveContentOfFile()
+        public void DeserializeEqualToKey_QueryFile2_List()
         {
-            //Create the queryfile to read
-            var filename = "Select all products.sql";
-            DiskOnFile.CreatePhysicalFile(filename, "NBi.Testing.Unit.Xml.Resources.SelectAllProducts.sql");
+            int testNr = 2;
+            
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
 
-            var systemUnderTest = new QueryXml() { File = filename };
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).KeysDef, Is.EqualTo(ResultSetComparisonSettings.KeysChoice.First));
+        }
 
-            // Check the properties of the object.
-            Assert.That(systemUnderTest.File, Is.Not.Null.And.Not.Empty);
-            Assert.That(systemUnderTest.InlineQuery, Is.Null);
-            Assert.That(systemUnderTest.GetQuery(), Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
+        [Test]
+        public void DeserializeEqualToKey_QueryFile3_List()
+        {
+            int testNr = 3;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef, Has.Count.EqualTo(1));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[0], Has.Property("Index").EqualTo(3));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[0], Has.Property("Tolerance").EqualTo(10));
+        }
+
+        [Test]
+        public void DeserializeEqualToQuery_QueryFile4_List()
+        {
+            int testNr = 4;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Query, Is.TypeOf<QueryXml>());
+
+            var connStr = ((EqualToXml)ts.Tests[testNr].Constraints[0]).Query.GetConnectionString();
+            Assert.That(connStr, Is.Not.Empty);
+            Assert.That(connStr, Contains.Substring("Reference"));
+
+            var query = ((EqualToXml)ts.Tests[testNr].Constraints[0]).Query.GetQuery();
+            Assert.That(query, Is.Not.Empty);
+            Assert.That(query, Contains.Substring("Top2Product"));
+
+            var cmd = ((EqualToXml)ts.Tests[testNr].Constraints[0]).GetCommand();
+            Assert.That(cmd, Is.Not.Null);
+            Assert.That(cmd.Connection.ConnectionString, Contains.Substring("Reference"));
+            Assert.That(cmd.CommandText, Contains.Substring("Top2Product"));
             
         }
 
+        [Test]
+        public void DeserializeEqualToQuery_QueryFile5_List()
+        {
+            int testNr = 5;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ValuesDef, Is.EqualTo(ResultSetComparisonSettings.ValuesChoice.Last));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Tolerance, Is.EqualTo(100));
+
+            
+        }
 
         [Test]
-        public void GetQuery_FilenameSpecified_RetrieveContentWithEuroSymbol()
+        public void DeserializeEqualToQuery_QueryFile6_PersistanceAttributeRead()
         {
-            //create a text file on disk
-            var filename = DiskOnFile.CreatePhysicalFile("QueryFile€.mdx", "NBi.Testing.Unit.Xml.Resources.QueryFile€.mdx");
+            int testNr = 6;
 
-            //Instantiate a Test Case and specify to find the sql in the fie created above
-            var testCase = new QueryXml() { File = filename };
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
 
-            // A Stream is needed to read the text file from the assembly.
-            string expectedContent = "select [measure].[price €/Kg] on 0;";
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
 
-            Assert.AreEqual(expectedContent, testCase.GetQuery());
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Persistance, Is.EqualTo(PersistanceChoice.OnlyIfFailed));
         }
-       
+
     }
 }

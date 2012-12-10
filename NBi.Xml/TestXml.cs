@@ -25,7 +25,7 @@ namespace NBi.Xml
         public List<string> Categories;
 
         [XmlArray("system-under-test"),
-        XmlArrayItem(Type = typeof(QueryXml), ElementName = "query"),
+        XmlArrayItem(Type = typeof(ExecutionXml), ElementName = "execution"),
         XmlArrayItem(Type = typeof(MembersXml), ElementName = "members"),
         XmlArrayItem(Type = typeof(StructureXml), ElementName = "structure"),
         ]

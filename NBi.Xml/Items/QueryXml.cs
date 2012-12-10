@@ -1,19 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using NBi.Xml.Settings;
 
-namespace NBi.Xml.Systems
+namespace NBi.Xml.Items
 {
-    public class QueryXml : AbstractSystemUnderTestXml
+    public class QueryXml
     {
-        public virtual bool IsQuery()
-        {
-            return true;
-        }
+        public DefaultXml Default { get; set; }
         
-        //TODO should be removed in 1.1 and inheriting from BaseQueryXml ... (issue with desrialization of interface)
-        //public DefaultXml Default { get; set; }
-
         [XmlAttribute("file")]
         public string File { get; set; }
 
@@ -44,19 +41,13 @@ namespace NBi.Xml.Systems
                 return ConnectionString;
 
             //Else get the reference ConnectionString 
-            if (!string.IsNullOrEmpty(ConnectionStringReference))
-                return Settings.GetReference(ConnectionStringReference).ConnectionString;
+            //if (!string.IsNullOrEmpty(ConnectionStringReference))
+                //return Settings.GetReference(ConnectionStringReference).ConnectionString;
 
             //Else get the default ConnectionString 
-            if (Default!=null && !string.IsNullOrEmpty(Default.ConnectionString))
+            if (Default != null && !string.IsNullOrEmpty(Default.ConnectionString))
                 return Default.ConnectionString;
             return null;
-        }
-
-        internal override Dictionary<string, string> GetRegexMatch()
-        {
-            var dico = base.GetRegexMatch();
-            return dico;
         }
     }
 }

@@ -7,9 +7,11 @@
 	</settings>
 	<test name="My first test case" uid="0001">
 		<system-under-test>
-			<query name="Select first product">
-				SELECT TOP 2 * FROM Product;
-			</query>
+			<execution>
+				<query name="Select first product">
+					SELECT TOP 2 * FROM Product;
+				</query>
+			</execution>
 		</system-under-test>
 		<assert>
 			<equalTo>

@@ -77,7 +77,13 @@
 							<xs:element name="system-under-test" minOccurs="1" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:choice>
-										<xs:element name="query" type ="query-type"/>
+										<xs:element name="execution">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="query" type ="query-type"/>
+												</xs:sequence>
+											</xs:complexType>		
+										</xs:element>
 										<xs:element name="members">
 											<xs:complexType>
 												<xs:choice>

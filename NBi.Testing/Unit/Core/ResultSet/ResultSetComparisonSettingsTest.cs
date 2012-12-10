@@ -164,7 +164,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             cols.Add(colLightXml);
             cols.Add(col4Xml);
             cols.Add(colIgnoreXml);
-            xml._columnsDef = cols;
+            xml.columnsDef = cols;
 
             //get settings
             var settings = xml.GetSettings();

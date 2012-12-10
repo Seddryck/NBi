@@ -85,7 +85,6 @@ namespace NBi.Testing.Unit.Xml
         }
 
         [Test]
-        [Ignore]
         public void DeserializeEqualToResultSet_SettingsWithDefaultForAssert_DefaultReplicatedForTest()
         {
             int testNr = 0;

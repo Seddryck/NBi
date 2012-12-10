@@ -44,13 +44,13 @@ namespace NBi.Testing.Unit.NUnit.Builder
         [Test]
         public void GetConstraint_Build_CorrectConstraint()
         {
-            var sutXmlStubFactory = new Mock<QueryXml>();
-            sutXmlStubFactory.Setup(s => s.GetQuery()).Returns("query");
+            var sutXmlStubFactory = new Mock<ExecutionXml>();
+            sutXmlStubFactory.Setup(s => s.Item.GetQuery()).Returns("query");
             var sutXml = sutXmlStubFactory.Object;
 
             var ctrXml = new FasterThanXml();
 
-            var builder = new QueryFasterThanBuilder();
+            var builder = new ExecutionFasterThanBuilder();
             builder.Setup(sutXml, ctrXml);
             builder.Build();
             var ctr = builder.GetConstraint();
@@ -61,13 +61,13 @@ namespace NBi.Testing.Unit.NUnit.Builder
         [Test]
         public void GetSystemUnderTest_Build_CorrectIDbCommand()
         {
-            var sutXmlStubFactory = new Mock<QueryXml>();
-            sutXmlStubFactory.Setup(s => s.GetQuery()).Returns("query");
+            var sutXmlStubFactory = new Mock<ExecutionXml>();
+            sutXmlStubFactory.Setup(s => s.Item.GetQuery()).Returns("query");
             var sutXml = sutXmlStubFactory.Object;
 
             var ctrXml = new FasterThanXml();
 
-            var builder = new QueryFasterThanBuilder();
+            var builder = new ExecutionFasterThanBuilder();
             builder.Setup(sutXml, ctrXml);
             builder.Build();
             var sut = builder.GetSystemUnderTest();

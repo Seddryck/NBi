@@ -9,11 +9,11 @@ using NBi.Xml.Systems;
 
 namespace NBi.NUnit.Builder
 {
-    class QueryEqualToBuilder : AbstractQueryBuilder
+    class ExecutionEqualToBuilder : AbstractExecutionBuilder
     {
         protected EqualToXml ConstraintXml {get; set;}
 
-        public QueryEqualToBuilder()
+        public ExecutionEqualToBuilder()
         {
 
         }
@@ -66,22 +66,22 @@ namespace NBi.NUnit.Builder
             ctr.Using(settings);
 
             //Manage persistance
-            EqualToConstraint.PersistanceItems persi = 0;
-            if (ConstraintXml.GetCommand() != null)
-                persi += (int)EqualToConstraint.PersistanceItems.actual;
-            if (SystemUnderTestXml is QueryXml)
-                persi += (int)EqualToConstraint.PersistanceItems.expected;
-            if (!(persi==0 || ConstraintXml.Query==null || string.IsNullOrEmpty(ConstraintXml.Query.Name)))
-                ctr.Persist(ConstraintXml.Persistance, persi, ConstraintXml.Query.Name);
+            //EqualToConstraint.PersistanceItems persi = 0;
+            //if (ConstraintXml.GetCommand() != null)
+            //    persi += (int)EqualToConstraint.PersistanceItems.actual;
+            //if (SystemUnderTestXml is QueryXml)
+            //    persi += (int)EqualToConstraint.PersistanceItems.expected;
+            //if (!(persi==0 || ConstraintXml.Query==null || string.IsNullOrEmpty(ConstraintXml.Test.Name)))
+            //    ctr.Persist(ConstraintXml.Persistance, persi, ConstraintXml.Test.Name);
 
             return ctr;
         }
 
-        protected override IDbCommand InstantiateSystemUnderTest(QueryXml queryXml)
+        protected override IDbCommand InstantiateSystemUnderTest(ExecutionXml queryXml)
         {
-                var conn = ConnectionFactory.Get(queryXml.GetConnectionString());
+                var conn = ConnectionFactory.Get(queryXml.Item.GetConnectionString());
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = queryXml.GetQuery();
+                cmd.CommandText = queryXml.Item.GetQuery();
 
                 return cmd;
         }

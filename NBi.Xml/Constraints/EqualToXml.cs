@@ -5,12 +5,25 @@ using System.Xml.Serialization;
 using NBi.Core;
 using NBi.Core.ResultSet;
 using NBi.Xml.Constraints.EqualTo;
-using NBi.Xml.Systems;
+using NBi.Xml.Items;
+using NBi.Xml.Settings;
 
 namespace NBi.Xml.Constraints
 {
     public class EqualToXml : AbstractConstraintXml
     {
+
+        public override DefaultXml Default
+        {
+            get {return base.Default;} 
+            set
+            {
+                base.Default = value;
+                if (Query!=null)
+                    Query.Default=value;
+            }
+        }
+
         [XmlElement("resultSet")]
         public ResultSetXml ResultSet { get; set; }
 

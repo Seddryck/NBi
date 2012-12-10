@@ -65,6 +65,7 @@
     <Compile Include="Constraints\EqualTo\QueryXml.cs" />
     <Compile Include="Items\AbstractItem.cs" />
     <Compile Include="Items\AbstractMembersItem.cs" />
+    <Compile Include="Items\QueryXml.cs" />
     <Compile Include="Settings\DefaultXml.cs" />
     <Compile Include="Settings\ReferenceXml.cs" />
     <Compile Include="Settings\SettingsXml.cs" />
@@ -83,7 +84,7 @@
     <Compile Include="Items\PerspectiveXml.cs" />
     <Compile Include="TestSuiteBuilder.cs" />
     <Compile Include="TestXml.cs" />
-    <Compile Include="Systems\QueryXml.cs" />
+    <Compile Include="Systems\ExecutionXml.cs" />
     <Compile Include="TestSuiteXml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlBeautifier.cs" />

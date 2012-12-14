@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="My first test case" uid="0001">
+		<system-under-test>
+			<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+				SELECT TOP 1 * FROM Product;
+			</query>
+		</system-under-test>
+		<assert>
+			<syntacticallyCorrect />
+		</assert>
+	</test>
+	<test name="My second test case">
+		<category>Category 1</category>
+		<category>Category 2</category>
+		<system-under-test>
+			<query name="Select all products" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+				SELECT * FROM Product;
+			</query>
+		</system-under-test>
+		<assert>
+			<syntacticallyCorrect />
+		</assert>
+		<assert>
+			<fasterThan max-time-milliSeconds="5000" />
+		</assert>
+	</test>
+	<test name="My Mdx test case">
+		<system-under-test>
+			<query file="SimpleMdx.Mdx" connectionString="Provider=MSOLAP.4;Data Source=localhost;Catalog=&quot;Finances Analysis&quot;;"/>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet file="SimpleMdx.csv"></resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="My Mdx against another Mdx">
+		<system-under-test>
+			<query file="SimpleMdx.Mdx" connectionString="Provider=MSOLAP.4;Data Source=localhost;Catalog=&quot;Finances Analysis&quot;;"/>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<query
+					file="SimpleMdxTwo.mdx"
+					connectionString="Provider=MSOLAP.4;Data Source=RemoteServer;Catalog=Finances;"
+					/>
+			</equalTo>
+		</assert>
+	</test>
+</testSuite>

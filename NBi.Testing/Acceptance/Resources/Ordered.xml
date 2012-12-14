@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033</connectionString>
+		</default>
+	</settings>
+	<test name="In dimension Customers State-Provinces are ordered alphabetically" uid="0001">
+		<system-under-test>
+			<level dimension="Customer" hierarchy="State-Province" caption="State-Province" perspective="Adventure Works">
+				<members/>
+			</level>
+		</system-under-test>
+		<assert>
+			<ordered rule="alphabetical"/>
+		</assert>
+	</test>
+	<test name="In dimension Customers Countries are ordered alphabetically" uid="0002">
+		<system-under-test>
+			<hierarchy dimension="Customer" caption="Country"  perspective="Adventure Works">
+				<members children-of="All Customers"/>
+			</hierarchy>
+		</system-under-test>
+		<assert>
+			<ordered rule="alphabetical"/>
+		</assert>
+	</test>
+	<test name="'In dimension Promotion Start Dates are ordered chronologically" uid="0003">
+		<system-under-test>
+			<level dimension="Promotion" hierarchy="Start Date" caption="Start Date" perspective="Adventure Works">
+				<members/>
+			</level>
+		</system-under-test>
+		<assert>
+			<ordered rule="chronological"/>
+		</assert>
+	</test>
+	<test name="'In dimension Promotion Discount Percents are ordered numerically" uid="0004">
+		<system-under-test>
+			<hierarchy dimension="Promotion" caption="Discount Percent" perspective="Adventure Works">
+				<members/>
+			</hierarchy>
+		</system-under-test>
+		<assert>
+			<ordered rule="numerical"/>
+		</assert>
+	</test>
+	<test name="'In dimension Promotion Discount Percents are ordered numerically" uid="0005">
+		<system-under-test>
+			<hierarchy dimension="Scenario" caption="Scenario" perspective="Adventure Works">
+				<members/>
+			</hierarchy>
+		</system-under-test>
+		<assert>
+			<ordered rule="specific">
+				<rule-definition>
+					<item>Actual</item>
+					<item>Budget</item>
+					<item>Forecast</item>
+				</rule-definition>
+			</ordered>
+		</assert>
+	</test>
+</testSuite>

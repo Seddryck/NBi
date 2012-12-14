@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033</connectionString>
+		</default>
+	</settings>
+	<!--<test name="In dimension 'Customers', hierarchy 'State-Provinces', a level 'State-Provinces' is existing " uid="0001">
+		<system-under-test>
+			<structure>
+				<level caption="State-Province" dimension="Customer" hierarchy="State-Province" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="In dimension 'employee', a hierrachy named 'Sick Leave Hours' exists" uid="0002">
+		<system-under-test>
+			<structure>
+				<hierarchy dimension="Employee" caption="Sick Leave Hours" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="A dimension 'employee' exists" uid="0003">
+		<system-under-test>
+			<structure>
+				<dimension caption="Employee" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="A perspective named 'Adventure Works' exists" uid="0004">
+		<system-under-test>
+			<structure>
+				<perspective caption="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>-->
+	<!--<test name="A measure-group 'Reseller Orders' exists" uid="0005">
+		<system-under-test>
+			<structure>
+				<measure-group caption="Reseller Orders" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>-->
+	<test name="A measure 'Reseller Order Quantity' exists" uid="0006">
+		<system-under-test>
+			<structure>
+				<measure caption="Reseller Order Quantity" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="In Measure-group 'Reseller Orders', a measure 'Reseller Order Quantity' exists" uid="0007">
+		<system-under-test>
+			<structure>
+				<measure measure-group="Reseller Orders" caption="Reseller Order Quantity" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+</testSuite>

@@ -65,9 +65,9 @@ namespace NBi.NUnit.Runtime
             {
                 Assert.That(systemUnderTest, constraint);
             }
-            catch (AssertionException)
+            catch (AssertionException ex)
             {
-                throw new CustomStackTraceAssertionException(stackTrace);
+                throw new CustomStackTraceAssertionException(ex, stackTrace);
             }
         }
 

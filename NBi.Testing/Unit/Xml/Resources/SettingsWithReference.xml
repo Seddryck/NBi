@@ -10,9 +10,11 @@
 	</settings>
 	<test name="My first test case" uid="0001">
 		<system-under-test>
-			<query name="Select first product" connectionString-ref="second-ref">
-				SELECT TOP 2 * FROM Product;
-			</query>
+			<execution>
+				<query name="Select first product" connectionString-ref="second-ref">
+					SELECT TOP 2 * FROM Product;
+				</query>
+			</execution>
 		</system-under-test>
 		<assert>
 			<equalTo>
@@ -33,9 +35,11 @@
 	</test>
 	<test name="My second test case" uid="0002">
 		<system-under-test>
-			<query name="Select first product">
-				SELECT TOP 2 * FROM Product;
-			</query>
+			<execution>
+				<query name="Select first product">
+					SELECT TOP 2 * FROM Product;
+				</query>
+			</execution>
 		</system-under-test>
 		<assert>
 			<equalTo>

@@ -8,11 +8,11 @@ using NBi.Xml.Systems;
 
 namespace NBi.NUnit.Builder
 {
-    class QueryFasterThanBuilder: AbstractQueryBuilder
+    class ExecutionFasterThanBuilder: AbstractExecutionBuilder
     {
         protected FasterThanXml ConstraintXml {get; set;}
 
-        public QueryFasterThanBuilder()
+        public ExecutionFasterThanBuilder()
         {
 
         }
@@ -40,11 +40,11 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
-        protected override IDbCommand InstantiateSystemUnderTest(QueryXml queryXml)
+        protected override IDbCommand InstantiateSystemUnderTest(ExecutionXml queryXml)
         {
-            var conn = ConnectionFactory.Get(queryXml.GetConnectionString());
+            var conn = ConnectionFactory.Get(queryXml.Item.GetConnectionString());
             var cmd = conn.CreateCommand();
-            cmd.CommandText = queryXml.GetQuery();
+            cmd.CommandText = queryXml.Item.GetQuery();
 
             return cmd;
         }

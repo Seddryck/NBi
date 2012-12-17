@@ -7,10 +7,12 @@ namespace NBi.Core.Analysis.Metadata.Adomd
 {
     internal class MeasureDiscoveryCommand : MeasureGroupDiscoveryCommand
     {
+        public ICollection<PostCommandFilter> PostCommandFilters { get; private set; }
+
         public MeasureDiscoveryCommand(string connectionString)
             : base(connectionString)
         {
-
+            PostCommandFilters = new List<PostCommandFilter>();
         }
 
         public new virtual MeasureCollection List(IEnumerable<IFilter> filters)
@@ -28,7 +30,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
         {
             var measures = new List<MeasureRow>();
             
-            Inform("Investigating measure-groups");
+            Inform("Investigating measures");
 
             using (var cmd = CreateCommand())
             {
@@ -36,11 +38,13 @@ namespace NBi.Core.Analysis.Metadata.Adomd
                 cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_measures WHERE MEASURE_IS_VISIBLE and LEN(MEASUREGROUP_NAME)>0{0}", adomdFiltering);
                 var rdr = ExecuteReader(cmd);
 
+                
                 while (rdr.Read())
                 {
                     var row = MeasureRow.Load(rdr);
-                    if (row != null)
-                        measures.Add(row);
+                    if (PostFilter(row))                    
+                        if (row != null)
+                            measures.Add(row);
                 }
             }
 
@@ -63,7 +67,19 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             if (filter.Target == DiscoveryTarget.Measures)
                 return string.Format("[MEASURE_UNIQUE_NAME]='[Measures].[{0}]'", filter.Value);
 
+            if (filter.Target == DiscoveryTarget.DisplayFolders)
+                PostCommandFilters.Add(new DisplayFolderFilter(filter.Value));
+
             return string.Empty;
+        }
+
+        protected bool PostFilter(MeasureRow row)
+        {
+            foreach (var postCommandFilter in PostCommandFilters)
+                if (!postCommandFilter.Evaluate(row))
+                    return false;
+
+            return true;
         }
     }
 }

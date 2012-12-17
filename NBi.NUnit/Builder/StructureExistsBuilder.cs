@@ -42,7 +42,7 @@ namespace NBi.NUnit.Builder
 
         protected override object InstantiateSystemUnderTest(StructureXml sutXml)
         {
-            string perspective = null, measuregroup = null, measure = null, dimension = null, hierarchy = null, level = null;
+            string perspective = null, measuregroup = null, displayFolder = null, measure = null, dimension = null, hierarchy = null, level = null;
             DiscoveryTarget target = DiscoveryTarget.Undefined;
             
             if (sutXml.Item is PerspectiveXml)
@@ -58,7 +58,13 @@ namespace NBi.NUnit.Builder
             }
             if (sutXml.Item is MeasureXml)
             {
+                //Check if measure-group was explcitely specified or not and eventually assign it
                 measuregroup = null;
+                if (((MeasureXml)sutXml.Item).Specification.IsMeasureGroupSpecified)
+                    measuregroup = ((MeasureXml)sutXml.Item).MeasureGroup;
+                //Check if display-folder was explcitely specified or not and eventually assign it
+                if (((MeasureXml)sutXml.Item).Specification.IsDisplayFolderSpecified)
+                    displayFolder = ((MeasureXml)sutXml.Item).DisplayFolder;
                 measure = sutXml.Item.Caption;
                 target = DiscoveryTarget.Measures;
             }
@@ -89,6 +95,7 @@ namespace NBi.NUnit.Builder
                     target,
                     perspective,
                     measuregroup,
+                    displayFolder,
                     measure,
                     dimension,
                     hierarchy,

@@ -7,16 +7,16 @@ using NBi.Xml.Systems;
 
 namespace NBi.NUnit.Builder
 {
-    abstract class AbstractQueryBuilder : AbstractTestCaseBuilder
+    abstract class AbstractExecutionBuilder : AbstractTestCaseBuilder
     {
-        protected QueryXml SystemUnderTestXml { get; set; }
+        protected ExecutionXml SystemUnderTestXml { get; set; }
 
         protected override void BaseSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
-            if (!(sutXml is QueryXml))
+            if (!(sutXml is ExecutionXml))
                 throw new ArgumentException("Constraint must be a 'QueryXml'");
 
-            SystemUnderTestXml = (QueryXml)sutXml;
+            SystemUnderTestXml = (ExecutionXml)sutXml;
         }
 
         protected override void BaseBuild()
@@ -24,11 +24,11 @@ namespace NBi.NUnit.Builder
             SystemUnderTest = InstantiateSystemUnderTest(SystemUnderTestXml);
         }
 
-        protected virtual IDbCommand InstantiateSystemUnderTest(QueryXml queryXml)
+        protected virtual IDbCommand InstantiateSystemUnderTest(ExecutionXml queryXml)
         {
-            var conn = ConnectionFactory.Get(queryXml.GetConnectionString());
+            var conn = ConnectionFactory.Get(queryXml.Item.GetConnectionString());
             var cmd = conn.CreateCommand();
-            cmd.CommandText = queryXml.GetQuery();
+            cmd.CommandText = queryXml.Item.GetQuery();
 
             return cmd;
         }

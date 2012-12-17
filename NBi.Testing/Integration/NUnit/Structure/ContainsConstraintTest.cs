@@ -43,7 +43,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
             var discovery = new DiscoveryRequestFactory().Build(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Perspectives
-                        , null, null, null, null, null, null
+                        , null, null, null, null, null, null, null
                         );
 
             var ctr = new ContainsConstraint("Adventure Works");
@@ -59,7 +59,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
             var discovery = new DiscoveryRequestFactory().Build(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Perspectives
-                        , null, null, null, null, null, null
+                        , null, null, null, null, null, null, null
                         );
 
             var ctr = new ContainsConstraint("Not existing");
@@ -76,7 +76,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Dimensions
                         , "Adventure Works"
-                        , null, null, null, null, null
+                        , null, null, null, null, null, null
                         );
 
             var ctr = new ContainsConstraint("Product");
@@ -93,7 +93,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Dimensions
                         , "Adventure Works"
-                        , null, null, null, null, null
+                        , null, null, null, null, null, null
                         );
 
             var ctr = new ContainsConstraint("Not existing");
@@ -110,7 +110,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Hierarchies
                         , "Adventure Works"
-                        , null, null
+                        , null, null, null
                         , "Product"
                         , null, null
                         );
@@ -130,7 +130,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Hierarchies
                         , "Adventure Works"
-                        , null, null
+                        , null, null, null
                         , "Product"
                         , null, null
                         );
@@ -149,7 +149,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Levels
                         , "Adventure Works"
-                        , null, null
+                        , null, null, null
                         , "Customer"
                         , "Customer Geography"
                         , null
@@ -169,7 +169,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Levels
                         , "Adventure Works"
-                        , null, null
+                        , null, null, null
                         , "Customer"
                         , "Customer Geography"
                         , null
@@ -188,7 +188,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.MeasureGroups
                         , "Adventure Works"
-                        , null, null, null, null, null
+                        , null, null, null, null, null, null
                         );
 
             var ctr = new ContainsConstraint("Reseller Orders");
@@ -205,7 +205,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.MeasureGroups
                         , "Adventure Works"
-                        , null, null, null, null, null
+                        , null, null, null, null, null, null
                         );
 
             var ctr = new ContainsConstraint("Not existing");
@@ -222,7 +222,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , DiscoveryTarget.Measures
                         , "Adventure Works"
                         , "Reseller Orders"
-                        , null, null, null, null
+                        , null, null, null, null, null
                         );
 
             var ctr = new ContainsConstraint("Reseller Order Count");
@@ -240,7 +240,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                          , DiscoveryTarget.Measures
                          , "Adventure Works"
                          , "Reseller Orders"
-                         , null, null, null, null
+                         , null, null, null, null, null
                          );
 
             var ctr = new ContainsConstraint("Not existing");
@@ -257,7 +257,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , DiscoveryTarget.Measures
                         , "Adventure Works"
                         , null
-                        , null, null, null, null
+                        , null, null, null, null, null
                         );
 
             var ctr = new ContainsConstraint("Reseller Order Count");
@@ -275,7 +275,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                          , DiscoveryTarget.Measures
                          , "Adventure Works"
                          , null
-                         , null, null, null, null
+                         , null, null, null, null, null
                          );
 
             var ctr = new ContainsConstraint("Not existing");

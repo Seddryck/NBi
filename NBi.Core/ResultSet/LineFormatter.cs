@@ -91,7 +91,7 @@ namespace NBi.Core.ResultSet
 
                 var toleranceText = GetToleranceText();
 
-                value += new string(' ', length - (value.Length + toleranceText.Length)) + toleranceText;
+                value += new string(' ', Math.Max(0, length - (value.Length + toleranceText.Length))) + toleranceText;
 
                 return value;
             }

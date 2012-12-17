@@ -99,6 +99,7 @@
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbReaderTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbWriterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\DataRowBasedResultSetComparerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\LineFormatterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetComparisonSettingsTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetCsvReaderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetTest.cs" />

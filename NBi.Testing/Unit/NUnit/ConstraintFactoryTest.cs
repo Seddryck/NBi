@@ -33,7 +33,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void IsHandling_QuerySyntacticallyCorrect_True()
         {
-            var sutXml = new QueryXml();
+            var sutXml = new ExecutionXml();
             var ctrXml = new SyntacticallyCorrectXml();
             var testCaseFactory = new TestCaseFactory();
 
@@ -45,7 +45,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_QuerySyntacticallyCorrect_TestCase()
         {
-            var sutXml = new QueryXml();
+            var sutXml = new ExecutionXml();
             var ctrXml = new SyntacticallyCorrectXml();
 
             var builderMockFactory = new Mock<ITestCaseBuilder>();
@@ -56,7 +56,7 @@ namespace NBi.Testing.Unit.NUnit
             var builder = builderMockFactory.Object;
 
             var testCaseFactory = new TestCaseFactory();
-            testCaseFactory.Register(typeof(QueryXml), typeof(SyntacticallyCorrectXml), builder);
+            testCaseFactory.Register(typeof(ExecutionXml), typeof(SyntacticallyCorrectXml), builder);
 
             var tc = testCaseFactory.Instantiate(sutXml, ctrXml);
 
@@ -113,7 +113,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void IsHandling_QueryFasterThan_True()
         {
-            var sutXml = new QueryXml();
+            var sutXml = new ExecutionXml();
             var ctrXml = new FasterThanXml();
             var testCaseFactory = new TestCaseFactory();
 
@@ -125,7 +125,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_QueryFasterThan_TestCase()
         {
-            var sutXml = new QueryXml();
+            var sutXml = new ExecutionXml();
             var ctrXml = new FasterThanXml();
 
             var builderMockFactory = new Mock<ITestCaseBuilder>();
@@ -136,7 +136,7 @@ namespace NBi.Testing.Unit.NUnit
             var builder = builderMockFactory.Object;
 
             var testCaseFactory = new TestCaseFactory();
-            testCaseFactory.Register(typeof(QueryXml), typeof(FasterThanXml), builder);
+            testCaseFactory.Register(typeof(ExecutionXml), typeof(FasterThanXml), builder);
 
             var tc = testCaseFactory.Instantiate(sutXml, ctrXml);
 
@@ -192,7 +192,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void IsHandling_QueryEqualTo_True()
         {
-            var sutXml = new QueryXml();
+            var sutXml = new ExecutionXml();
             var ctrXml = new EqualToXml();
             var testCaseFactory = new TestCaseFactory();
 
@@ -204,7 +204,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_QueryEqualTo_TestCase()
         {
-            var sutXml = new QueryXml();
+            var sutXml = new ExecutionXml();
             var ctrXml = new EqualToXml();
 
             var builderMockFactory = new Mock<ITestCaseBuilder>();
@@ -215,7 +215,7 @@ namespace NBi.Testing.Unit.NUnit
             var builder = builderMockFactory.Object;
 
             var testCaseFactory = new TestCaseFactory();
-            testCaseFactory.Register(typeof(QueryXml), typeof(EqualToXml), builder);
+            testCaseFactory.Register(typeof(ExecutionXml), typeof(EqualToXml), builder);
 
             var tc = testCaseFactory.Instantiate(sutXml, ctrXml);
 
@@ -271,7 +271,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void IsHandling_QueryContains_False()
         {
-            var sutXml = new QueryXml();
+            var sutXml = new ExecutionXml();
             var ctrXml = new ContainsXml();
             var testCaseFactory = new TestCaseFactory();
 
@@ -283,7 +283,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_QueryContains_TestCase()
         {
-            var sutXml = new QueryXml();
+            var sutXml = new ExecutionXml();
             var ctrXml = new ContainsXml();
             var testCaseFactory = new TestCaseFactory();
 
@@ -360,7 +360,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void IsHandling_QueryCount_False()
         {
-            var sutXml = new QueryXml();
+            var sutXml = new ExecutionXml();
             var ctrXml = new CountXml();
             var testCaseFactory = new TestCaseFactory();
 
@@ -372,7 +372,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_QueryCount_TestCase()
         {
-            var sutXml = new QueryXml();
+            var sutXml = new ExecutionXml();
             var ctrXml = new CountXml();
             var testCaseFactory = new TestCaseFactory();
 
@@ -438,7 +438,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void IsHandling_QueryOrdered_False()
         {
-            var sutXml = new QueryXml();
+            var sutXml = new ExecutionXml();
             var ctrXml = new OrderedXml();
             var testCaseFactory = new TestCaseFactory();
 
@@ -450,7 +450,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_QueryOrdered_TestCase()
         {
-            var sutXml = new QueryXml();
+            var sutXml = new ExecutionXml();
             var ctrXml = new OrderedXml();
             var testCaseFactory = new TestCaseFactory();
 
@@ -517,7 +517,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void IsHandling_QueryExists_False()
         {
-            var sutXml = new QueryXml();
+            var sutXml = new ExecutionXml();
             var ctrXml = new ExistsXml();
             var testCaseFactory = new TestCaseFactory();
 
@@ -529,7 +529,7 @@ namespace NBi.Testing.Unit.NUnit
         [Test]
         public void Instantiate_QueryExists_TestCase()
         {
-            var sutXml = new QueryXml();
+            var sutXml = new ExecutionXml();
             var ctrXml = new ExistsXml();
             var testCaseFactory = new TestCaseFactory();
 

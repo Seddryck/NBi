@@ -135,5 +135,29 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             }
         }
 
+        [Test]
+        public void AssertTestCase_TestCaseFailing_MessageIsAvailable()
+        {
+            var sut = "not empty string";
+            var ctr = new EmptyConstraint();
+            var xmlContent = "<test><system></system><assert></assert></test>";
+
+            var testSuite = new TestSuite();
+
+            try
+            {
+                testSuite.AssertTestCase(sut, ctr, xmlContent);
+            }
+            catch (AssertionException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.That(ex.Message, Is.StringContaining("empty"));
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail("The exception should have been an AssertionException but was {0}.", new object[] { ex.GetType().FullName });
+            }
+        }
+
     }
 }

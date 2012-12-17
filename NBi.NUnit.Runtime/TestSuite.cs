@@ -49,9 +49,6 @@ namespace NBi.NUnit.Runtime
                     {
                         var testCase = new TestCaseFactory().Instantiate(tc, ctr);
                         AssertTestCase(testCase.SystemUnderTest, testCase.Constraint, test.Content);
-
-                        
-                        
                     }
                 }
             }
@@ -68,9 +65,9 @@ namespace NBi.NUnit.Runtime
             {
                 Assert.That(systemUnderTest, constraint);
             }
-            catch (AssertionException)
+            catch (AssertionException ex)
             {
-                throw new CustomStackTraceAssertionException(stackTrace);
+                throw new CustomStackTraceAssertionException(ex, stackTrace);
             }
         }
 

@@ -1,46 +1,51 @@
 ﻿using System.IO;
+using System.Text;
 using System.Xml.Serialization;
 using NBi.Xml.Settings;
 
 namespace NBi.Xml.Bases
 {
-    public class BaseQueryXml 
-    {
-        public DefaultXml Default { get; set; }
+    //public class BaseQueryXml 
+    //{
+    //    public DefaultXml Default { get; set; }
 
-        [XmlAttribute("query-file")]
-        public string Filename { get; set; }
+    //    [XmlAttribute("file")]
+    //    public string File { get; set; }
 
-        [XmlAttribute("connectionString")]
-        public string ConnectionString { get; set; }
+    //    [XmlAttribute("connectionString")]
+    //    public string ConnectionString { get; set; }
 
-        [XmlAttribute("connectionString-ref")]
-        public string ConnectionStringReference { get; set; }
+    //    [XmlAttribute("connectionString-ref")]
+    //    public string ConnectionStringReference { get; set; }
 
-        [XmlText]
-        public string InlineQuery { get; set; }
+    //    [XmlText]
+    //    public string InlineQuery { get; set; }
 
-        public string GetQuery()
-        {
-            //if Sql is specified then return it
-            if (!string.IsNullOrEmpty(InlineQuery))
-                return InlineQuery;
+    //    public virtual string GetQuery()
+    //    {
+    //        //if Sql is specified then return it
+    //        if (!string.IsNullOrEmpty(InlineQuery))
+    //            return InlineQuery;
 
-            //Else read the file's content and 
-            var query = File.ReadAllText(Filename);
-            return query;
-        }
+    //        //Else read the file's content and 
+    //        var query = System.IO.File.ReadAllText(File, Encoding.UTF8);
+    //        return query;
+    //    }
 
-        public string GetConnectionString()
-        {
-            //if Sql is specified then return it
-            if (!string.IsNullOrEmpty(ConnectionString))
-                return ConnectionString;
+    //    public virtual string GetConnectionString()
+    //    {
+    //        //if ConnectionString is specified then return it
+    //        if (!string.IsNullOrEmpty(ConnectionString))
+    //            return ConnectionString;
 
-            //Else get the reference ConnectionString 
-            if (!string.IsNullOrEmpty(Default.ConnectionString))
-                 return Default.ConnectionString;
-            return null;
-        }
-    }
+    //        //Else get the reference ConnectionString 
+    //        //if (!string.IsNullOrEmpty(ConnectionStringReference))
+    //        //    return Settings.GetReference(ConnectionStringReference).ConnectionString;
+
+    //        //Else get the default ConnectionString 
+    //        if (Default != null && !string.IsNullOrEmpty(Default.ConnectionString))
+    //            return Default.ConnectionString;
+    //        return null;
+    //    }
+    //}
 }

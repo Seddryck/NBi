@@ -2,13 +2,15 @@
 <testSuite name="Acceptance Testing: Faster Than" xmlns="http://NBi/TestSuite">
 	<test name="A fast query MDX">
 		<system-under-test>
-			<query name="MDX" connectionString="Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033">
-				SELECT
-				[Measures].[Reseller Order Count] ON 0,
-				EXCEPT({[Date].[Calendar Year].Children},{[Date].[Calendar Year].[CY 2006]}) ON 1
-				FROM
-				[Adventure Works]
-			</query>
+			<execution>
+				<query name="MDX" connectionString="Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033">
+					SELECT
+					[Measures].[Reseller Order Count] ON 0,
+					EXCEPT({[Date].[Calendar Year].Children},{[Date].[Calendar Year].[CY 2006]}) ON 1
+					FROM
+					[Adventure Works]
+				</query>
+			</execution>
 		</system-under-test>
 		<assert>
 			<fasterThan max-time-milliSeconds="1000"/>
@@ -16,10 +18,12 @@
 	</test>
 	<test name="A fast query SQL">
 		<system-under-test>
-			<query name="SQL" connectionString="Data Source=.;Initial Catalog='NBi.Testing';Integrated Security=SSPI">
-				SELECT
-					NULL
-			</query>
+			<execution>
+				<query name="SQL" connectionString="Data Source=.;Initial Catalog='NBi.Testing';Integrated Security=SSPI">
+					SELECT
+						NULL
+				</query>
+			</execution>
 		</system-under-test>
 		<assert>
 			<fasterThan max-time-milliSeconds="100"/>

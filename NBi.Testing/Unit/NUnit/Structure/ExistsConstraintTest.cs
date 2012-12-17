@@ -20,7 +20,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         "connectionString",
                         DiscoveryTarget.Dimensions,
                         "perspective-name",
-                        null, null,
+                        null, null, null,
                         "expected-dimension-caption", null, null);
 
             var elStub = new Mock<IField>();
@@ -55,14 +55,14 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         "connectionString",
                         DiscoveryTarget.MeasureGroups,
                         "perspective",
-                        "measure-group", "measure",
+                        "measure-group", null, "measure",
                         null, null, null);
 
 
-            var elStub = new Mock<IFieldWithDisplayFolder>();
+            var elStub = new Mock<IField>();
             var el1 = elStub.Object;
             var el2 = elStub.Object;
-            var elements = new List<IFieldWithDisplayFolder>();
+            var elements = new List<IField>();
             elements.Add(el1);
             elements.Add(el2);
 
@@ -91,7 +91,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         "connectionString",
                         DiscoveryTarget.MeasureGroups,
                         "perspective",
-                        "measure-group", "measure",
+                        "measure-group", null, "measure",
                         null, null, null);
 
             var elements = new List<IField>();
@@ -132,7 +132,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         "connectionString",
                         DiscoveryTarget.Dimensions,
                         "perspective-name",
-                        null, null,
+                        null, null, null,
                         "expected-dimension-caption", null, null);
 
             var elements = new List<IField>();
@@ -179,7 +179,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         "connectionString",
                         DiscoveryTarget.Hierarchies,
                         "perspective-name",
-                        null, null,
+                        null, null, null,
                         "dimension-caption", "expected-hierarchy-caption", null);
 
             var elements = new List<IField>();
@@ -227,7 +227,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         "connectionString",
                         DiscoveryTarget.MeasureGroups,
                         "perspective-name",
-                        "expected-measure-group-caption", null,
+                        "expected-measure-group-caption", null, null,
                         null, null, null);
 
 
@@ -275,7 +275,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         "connectionString",
                         DiscoveryTarget.Perspectives,
                         "expected-perspective-name",
-                        null, null,
+                        null, null, null,
                         null, null, null);
 
 
@@ -322,7 +322,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         "connectionString",
                         DiscoveryTarget.Perspectives,
                         "expected-perspective-name",
-                        null, null,
+                        null, null, null,
                         null, null, null);
 
 
@@ -373,7 +373,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         "connectionString",
                         DiscoveryTarget.Perspectives,
                         "expected-perspective-name",
-                        null, null,
+                        null, null, null,
                         null, null, null);
 
 
@@ -422,7 +422,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         "connectionString",
                         DiscoveryTarget.Perspectives,
                         "expected-perspective-name",
-                        null, null,
+                        null, null, null,
                         null, null, null);
 
 

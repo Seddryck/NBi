@@ -63,17 +63,17 @@
     </Compile>
     <Compile Include="Builder\AbstractMembersBuilder.cs" />
     <Compile Include="Builder\AbstractTestCaseBuilder.cs" />
-    <Compile Include="Builder\AbstractQueryBuilder.cs" />
+    <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
     <Compile Include="Builder\StructureExistsBuilder.cs" />
     <Compile Include="Builder\StructureContainsBuilder.cs" />
     <Compile Include="Builder\MembersContainsBuilder.cs" />
     <Compile Include="Builder\MembersOrderedBuilder.cs" />
-    <Compile Include="Builder\QuerySyntacticallyCorrectBuilder.cs" />
-    <Compile Include="Builder\QueryFasterThanBuilder.cs" />
+    <Compile Include="Builder\ExecutionSyntacticallyCorrectBuilder.cs" />
+    <Compile Include="Builder\ExecutionFasterThanBuilder.cs" />
     <Compile Include="Builder\ITestCaseBuilder.cs" />
     <Compile Include="Builder\MembersCountBuilder.cs" />
-    <Compile Include="Builder\QueryEqualToBuilder.cs" />
+    <Compile Include="Builder\ExecutionEqualToBuilder.cs" />
     <Compile Include="Structure\DescriptionStructureHelper.cs" />
     <Compile Include="TestCase.cs" />
     <Compile Include="TestCaseFactory.cs" />

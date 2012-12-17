@@ -5,7 +5,8 @@ using NBi.NUnit.Builder;
 using NBi.NUnit.Query;
 using NBi.Xml.Constraints;
 using NBi.Xml.Constraints.EqualTo;
-using NBi.Xml.Systems;
+using Items = NBi.Xml.Items;
+using Systems = NBi.Xml.Systems;
 using NUnit.Framework;
 #endregion
 
@@ -45,14 +46,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
         [Test]
         public void GetConstraint_BuildWithResultSet_CorrectConstraint()
         {
-            var sutXmlStubFactory = new Mock<QueryXml>();
-            sutXmlStubFactory.Setup(s => s.GetQuery()).Returns("query");
+            var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
+            sutXmlStubFactory.Setup(s => s.Item.GetQuery()).Returns("query");
             var sutXml = sutXmlStubFactory.Object;
 
             var ctrXml = new EqualToXml();
             ctrXml.ResultSet = new ResultSetXml();
 
-            var builder = new QueryEqualToBuilder();
+            var builder = new ExecutionEqualToBuilder();
             builder.Setup(sutXml, ctrXml);
             builder.Build();
             var ctr = builder.GetConstraint();
@@ -63,14 +64,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
         [Test]
         public void GetConstraint_BuildWithQuery_CorrectConstraint()
         {
-            var sutXmlStubFactory = new Mock<QueryXml>();
-            sutXmlStubFactory.Setup(s => s.GetQuery()).Returns("query");
+            var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
+            sutXmlStubFactory.Setup(s => s.Item.GetQuery()).Returns("query");
             var sutXml = sutXmlStubFactory.Object;
 
             var ctrXml = new EqualToXml();
-            ctrXml.Query = new QueryXml() {InlineQuery = "query"};
+            ctrXml.Query = new Items.QueryXml() {InlineQuery = "query"};
 
-            var builder = new QueryEqualToBuilder();
+            var builder = new ExecutionEqualToBuilder();
             builder.Setup(sutXml, ctrXml);
             builder.Build();
             var ctr = builder.GetConstraint();
@@ -81,14 +82,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
         [Test]
         public void GetSystemUnderTest_Build_CorrectDiscoveryCommand()
         {
-            var sutXmlStubFactory = new Mock<QueryXml>();
-            sutXmlStubFactory.Setup(s => s.GetQuery()).Returns("query");
+            var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
+            sutXmlStubFactory.Setup(s => s.Item.GetQuery()).Returns("query");
             var sutXml = sutXmlStubFactory.Object;
 
             var ctrXml = new EqualToXml();
-            ctrXml.Query = new QueryXml() { InlineQuery = "query" };
+            ctrXml.Query = new Items.QueryXml() { InlineQuery = "query" };
 
-            var builder = new QueryEqualToBuilder();
+            var builder = new ExecutionEqualToBuilder();
             builder.Setup(sutXml, ctrXml);
             builder.Build();
             var sut = builder.GetSystemUnderTest();

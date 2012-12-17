@@ -8,8 +8,8 @@ namespace NBi.NUnit.Runtime
     {
         private readonly string stackTrace;
 
-        public CustomStackTraceAssertionException(string stackTrace)
-            : base(null)
+        public CustomStackTraceAssertionException(AssertionException ex, string stackTrace)
+            : base(ex.Message)
         {
             this.stackTrace = stackTrace;
         }

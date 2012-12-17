@@ -10,8 +10,8 @@ namespace NBi.Xml.Systems
         [XmlAttribute("name")]
         public string Name { get; set; }
 
-        public DefaultXml Default { get; set; }
-        public SettingsXml Settings { get; set; }
+        public virtual DefaultXml Default { get; set; }
+        public virtual SettingsXml Settings { get; set; }
 
         public AbstractSystemUnderTestXml()
         {

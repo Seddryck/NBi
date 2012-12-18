@@ -144,6 +144,7 @@
     <Compile Include="ResultSet\PersistanceChoice.cs" />
     <Compile Include="ResultSet\ResultSet.cs" />
     <Compile Include="ResultSet\ResultSetBuilder.cs" />
+    <Compile Include="ResultSet\ResultSetComparerException.cs" />
     <Compile Include="ResultSet\ResultSetComparisonSettings.cs" />
     <Compile Include="ResultSet\ResultSetCompareResult.cs" />
     <Compile Include="ResultSet\ResultSetCsvReader.cs" />

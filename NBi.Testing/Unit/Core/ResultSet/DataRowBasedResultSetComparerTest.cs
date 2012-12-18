@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Data;
 using NBi.Core.ResultSet;
@@ -97,6 +98,48 @@ namespace NBi.Testing.Unit.Core.ResultSet
 
             //Assertion
             Assert.That(res, Is.EqualTo(ResultSetCompareResult.NotMatching));
+        }
+
+        [Test]
+        public void Compare_DuplicatedRow_ReturnNotEqual()
+        {
+            //Buiding object used during test
+            var comparer = new DataRowBasedResultSetComparer(BuildSettingsKeyValue());
+            var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
+            var actual = BuildDataTable(new string[] { "Key0", "Key1", "Key1" }, new double[] { 0, 1, 1 });
+
+            //Call the method to test
+            var res = comparer.Compare(reference, actual);
+
+            //Assertion
+            Assert.That(res, Is.EqualTo(ResultSetCompareResult.NotMatching));
+        }
+
+        [Test]
+        public void Compare_DuplicatedRowButWithDifferentValue_ReturnNotEqual()
+        {
+            //Buiding object used during test
+            var comparer = new DataRowBasedResultSetComparer(BuildSettingsKeyValue());
+            var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
+            var actual = BuildDataTable(new string[] { "Key0", "Key1", "Key1" }, new double[] { 0, 1, 2 });
+
+            //Call the method to test
+            var res = comparer.Compare(reference, actual);
+
+            //Assertion
+            Assert.That(res, Is.EqualTo(ResultSetCompareResult.NotMatching));
+        }
+
+        [Test]
+        public void Compare_DuplicatedRowInRef_ThrowException()
+        {
+            //Buiding object used during test
+            var comparer = new DataRowBasedResultSetComparer(BuildSettingsKeyValue());
+            var reference = BuildDataTable(new string[] { "Key0", "Key1", "Key1" }, new double[] { 0, 1, 2 });
+            var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
+            
+            //Assertion is generating an exception
+            Assert.Throws<ResultSetComparerException>(delegate { comparer.Compare(reference, actual); });
         }
 
         [Test]

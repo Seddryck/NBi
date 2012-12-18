@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using NBi.Xml.Constraints;
+using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 
 namespace NBi.Xml
@@ -15,8 +16,33 @@ namespace NBi.Xml
         [XmlAttribute("uid")]
         public string UniqueIdentifier { get; set; }
 
+        private bool ignore;
         [XmlAttribute("ignore")]
-        public bool Ignore { get; set; }
+        public bool Ignore
+        {
+            get
+            {
+                if (IgnoreElement != null)
+                    return true;
+                else
+                    return ignore;
+            }
+            set
+            {
+                if (value)
+                {
+                    if (IgnoreElement == null)
+                        IgnoreElement = new IgnoreXml();
+                }
+                else
+                {
+                    IgnoreElement = null;
+                }
+                ignore = value;
+            }
+        }
+
+
 
         [XmlAttribute("description")]
         public string Description { get; set; }
@@ -77,5 +103,28 @@ namespace NBi.Xml
 
         [XmlIgnore()]
         public string Content { get; set; }
+
+        [XmlIgnore()]
+        public string IgnoreReason
+        {
+            get
+            {
+                if (IgnoreElement == null)
+                    return string.Empty;
+                else
+                    return IgnoreElement.Reason;
+            }
+            set
+            {
+                if (IgnoreElement == null)
+                    Ignore = true;
+
+                IgnoreElement.Reason = value;
+            }
+        }
+
+        [XmlElement("ignore")]
+        public IgnoreXml IgnoreElement { get; set; }
+
     }
 }

@@ -40,7 +40,7 @@ namespace NBi.NUnit.Runtime
 
             //check if ignore is set to true
             if (test.Ignore)
-                Assert.Ignore();
+                Assert.Ignore(test.IgnoreReason);
             else
             {
                 foreach (var tc in test.Systems)

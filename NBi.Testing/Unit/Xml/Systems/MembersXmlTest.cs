@@ -1,44 +1,80 @@
-﻿#region Using directives
+﻿using System.IO;
+using System.Reflection;
+using NBi.Xml;
+using NBi.Xml.Items;
+using NBi.Xml.Systems;
 using NUnit.Framework;
-#endregion
 
 namespace NBi.Testing.Unit.Xml.Systems
 {
     [TestFixture]
     public class MembersXmlTest
     {
-
-        #region SetUp & TearDown
-        //Called only at instance creation
-        [TestFixtureSetUp]
-        public void SetupMethods()
+        protected TestSuiteXml DeserializeSample()
         {
+            // Declare an object variable of the type to be deserialized.
+            var manager = new XmlManager();
 
+            // A Stream is needed to read the XML document.
+            using (Stream stream = Assembly.GetExecutingAssembly()
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.MembersXmlTestSuite.xml"))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                manager.Read(reader);
+            }
+            return manager.TestSuite;
         }
-
-        //Called only at instance destruction
-        [TestFixtureTearDown]
-        public void TearDownMethods()
-        {
-        }
-
-        //Called before each test
-        [SetUp]
-        public void SetupTest()
-        {
-        }
-
-        //Called after each test
-        [TearDown]
-        public void TearDownTest()
-        {
-        }
-        #endregion
-
-        [Ignore]
+        
         [Test]
-        public void EmptyTestFile()
+        public void Deserialize_SampleFile_MembersWithLevel()
         {
+            int testNr = 0;
+            
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<MembersXml>());
+            Assert.That(((MembersXml)ts.Tests[testNr].Systems[0]).Item, Is.TypeOf<LevelXml>());
+
+            LevelXml item = (LevelXml)((MembersXml)ts.Tests[testNr].Systems[0]).Item;
+            Assert.That(item.Dimension, Is.EqualTo("dimension"));
+            Assert.That(item.Hierarchy, Is.EqualTo("hierarchy"));
+            Assert.That(item.Caption, Is.EqualTo("level"));
+            Assert.That(item.Perspective, Is.EqualTo("Perspective"));
+            Assert.That(item.ConnectionString, Is.EqualTo("ConnectionString"));
         }
+
+        [Test]
+        public void Deserialize_SampleFile_MembersWithHierarchy()
+        {
+            int testNr = 1;
+            
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<MembersXml>());
+            Assert.That(((MembersXml)ts.Tests[testNr].Systems[0]).Item, Is.TypeOf<HierarchyXml>());
+
+            HierarchyXml item = (HierarchyXml)((MembersXml)ts.Tests[testNr].Systems[0]).Item;
+            Assert.That(item.Dimension, Is.EqualTo("dimension"));
+            Assert.That(item.Caption, Is.EqualTo("hierarchy"));
+            Assert.That(item.Perspective, Is.EqualTo("Perspective"));
+            Assert.That(item.ConnectionString, Is.EqualTo("ConnectionString"));
+        }
+        
+        [Test]
+        public void Deserialize_SampleFile_MembersWithChildrenOf()
+        {
+            int testNr = 2;
+            
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<MembersXml>());
+            Assert.That(((MembersXml)ts.Tests[testNr].Systems[0]).ChildrenOf, Is.EqualTo("aBc"));
+        }
+
     }
 }

@@ -6,10 +6,10 @@ using NBi.Xml.Constraints;
 using NUnit.Framework;
 #endregion
 
-namespace NBi.Testing.Unit.Xml
+namespace NBi.Testing.Unit.Xml.Constraints
 {
     [TestFixture]
-    public class ExistsDeserializeTest
+    public class ExistsXmlTest
     {
 
 
@@ -47,7 +47,7 @@ namespace NBi.Testing.Unit.Xml
 
             // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.ExistsTestSuite.xml"))
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.ExistsXmlTestSuite.xml"))
             using (StreamReader reader = new StreamReader(stream))
             {
                 manager.Read(reader);

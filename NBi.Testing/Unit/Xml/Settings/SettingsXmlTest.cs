@@ -11,7 +11,7 @@ using NBi.Core.ResultSet;
 
 #endregion
 
-namespace NBi.Testing.Unit.Xml
+namespace NBi.Testing.Unit.Xml.Settings
 {
     [TestFixture]
     public class SettingsXmlTest
@@ -65,7 +65,7 @@ namespace NBi.Testing.Unit.Xml
             int testNr = 0;
             
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample("SettingsWithDefault");
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithDefault");
 
             Assert.That(ts.Settings.Defaults.Count, Is.EqualTo(1));
             Assert.That(ts.Settings.Defaults[testNr].ApplyTo, Is.EqualTo(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest));
@@ -78,7 +78,7 @@ namespace NBi.Testing.Unit.Xml
             int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample("SettingsWithDefault");
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithDefault");
 
             Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.ConnectionString, Is.Null.Or.Empty);
             Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.Not.Null.And.Not.Empty);
@@ -90,7 +90,7 @@ namespace NBi.Testing.Unit.Xml
             int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample("SettingsWithDefaultAssert");
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithDefaultAssert");
 
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).GetCommand().Connection.ConnectionString, Is.Not.Null.And.Not.Empty);
         }
@@ -101,7 +101,7 @@ namespace NBi.Testing.Unit.Xml
             //int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample("SettingsWithoutDefault");
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithoutDefault");
 
             Assert.That(ts.Settings.Defaults.Count, Is.EqualTo(0));
         }
@@ -112,7 +112,7 @@ namespace NBi.Testing.Unit.Xml
             int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample("SettingsWithoutDefault");
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithoutDefault");
 
             Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.ConnectionString, Is.Null.Or.Empty);
         }
@@ -123,7 +123,7 @@ namespace NBi.Testing.Unit.Xml
             //int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample("SettingsWithoutDefault");
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithoutDefault");
 
             Assert.That(ts.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest), Is.Null);
         }
@@ -134,7 +134,7 @@ namespace NBi.Testing.Unit.Xml
             //int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample("SettingsWithReference");
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithReference");
 
             Assert.That(ts.Settings.References.Count, Is.EqualTo(2));
             Assert.That(ts.Settings.GetReference("first-ref"), Is.Not.Null);
@@ -149,7 +149,7 @@ namespace NBi.Testing.Unit.Xml
             //int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample("SettingsWithReference");
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithReference");
 
             Assert.Throws<System.ArgumentOutOfRangeException>(delegate { ts.Settings.GetReference("not-existing"); });
         }
@@ -161,7 +161,7 @@ namespace NBi.Testing.Unit.Xml
             int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample("SettingsWithReference");
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithReference");
 
             Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.ConnectionString, Is.Null.Or.Empty);
             Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.Not.Null.And.Not.Empty);
@@ -173,7 +173,7 @@ namespace NBi.Testing.Unit.Xml
             int testNr = 1;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample("SettingsWithReference");
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithReference");
             Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.ConnectionString, Is.Null.Or.Empty);
             Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.Null);
         }

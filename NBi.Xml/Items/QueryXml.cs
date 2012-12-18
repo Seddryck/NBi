@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using NBi.Core;
 using NBi.Xml.Settings;
 
 namespace NBi.Xml.Items
@@ -29,7 +29,9 @@ namespace NBi.Xml.Items
             if (!string.IsNullOrEmpty(InlineQuery))
                 return InlineQuery;
 
-            //Else read the file's content and 
+            //Else check that file exists and read the file's content
+            if (!System.IO.File.Exists(File))
+                throw new ExternalDependencyNotFoundException(File);
             var query = System.IO.File.ReadAllText(File, Encoding.UTF8);
             return query;
         }

@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using Moq;
+using NBi.Core;
 using NBi.NUnit.Runtime;
 using NBi.Xml;
 using NBi.Xml.Items;
@@ -156,6 +157,59 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             catch (Exception ex)
             {
                 Assert.Fail("The exception should have been an AssertionException but was {0}.", new object[] { ex.GetType().FullName });
+            }
+        }
+
+        [Test]
+        public void AssertTestCase_TestCaseError_StackTraceIsFilledWithXml()
+        {
+            var sut = "not empty string";
+            var ctrStub = new Mock<Constraint>();
+            ctrStub.Setup(c => c.Matches(It.IsAny<object>())).Throws(new ExternalDependencyNotFoundException("Filename"));
+            var ctr = ctrStub.Object;
+
+            var xmlContent = "<test><system></system><assert></assert></test>";
+
+            var testSuite = new TestSuite();
+
+            try
+            {
+                testSuite.AssertTestCase(sut, ctr, xmlContent);
+            }
+            catch (CustomStackTraceErrorException ex)
+            {
+                Assert.That(ex.StackTrace, Is.EqualTo(xmlContent));
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail("The exception should have been an CustomStackTraceErrorException but was {0}.", new object[] { ex.GetType().FullName });
+            }
+        }
+
+        [Test]
+        public void AssertTestCase_TestCaseError_MessageIsAvailable()
+        {
+            var sut = "not empty string";
+            var ctrStub = new Mock<Constraint>();
+            ctrStub.Setup(c => c.Matches(It.IsAny<object>())).Throws(new ExternalDependencyNotFoundException("Filename"));
+            var ctr = ctrStub.Object;
+
+            var xmlContent = "<test><system></system><assert></assert></test>";
+
+            var testSuite = new TestSuite();
+
+            try
+            {
+                testSuite.AssertTestCase(sut, ctr, xmlContent);
+            }
+            catch (CustomStackTraceErrorException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.That(ex.Message, Is.StringContaining("Filename"));
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail("The exception should have been an CustomStackTraceErrorException but was {0}.", new object[] { ex.GetType().FullName });
             }
         }
 

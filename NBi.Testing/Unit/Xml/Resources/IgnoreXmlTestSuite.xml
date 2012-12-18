@@ -1,6 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="not Ignored">
+		<system-under-test>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contains not="true" caption="member"/>
+		</assert>
+	</test>
 	<test name="Ignore attribute" ignore="true">
+		<system-under-test>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contains not="true" caption="member"/>
+		</assert>
+	</test>
+	<test name="Ignore element">
+		<ignore/>
+		<system-under-test>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contains not="true" caption="member"/>
+		</assert>
+	</test>
+	<test name="Ignore reason">
+		<ignore>The reason to ignore this test.</ignore>
 		<system-under-test>
 			<members>
 				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>

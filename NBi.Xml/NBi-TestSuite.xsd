@@ -49,6 +49,14 @@
 				<xs:element name="test" minOccurs="1" maxOccurs="unbounded">
 					<xs:complexType>
 						<xs:sequence>
+							<xs:element name="ignore" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
 							<xs:element name="edition" minOccurs="0" maxOccurs="1">
 								<xs:complexType>
 									<xs:sequence minOccurs="0" maxOccurs="unbounded">

@@ -201,6 +201,14 @@ namespace NBi.NUnit.Query
                 writer.WriteLine();
             }
 
+            if (compareResult.Duplicated.Count > 0)
+            {
+                writer.WriteLine("  Duplicated rows:");
+                writer.WriteLine();
+                FormatResultSet(writer, compareResult.Duplicated, true);
+                writer.WriteLine();
+            }
+
             if (compareResult.NonMatchingValue.Count > 0)
             {
                 writer.WriteLine("  Non matching value rows:");
@@ -208,6 +216,7 @@ namespace NBi.NUnit.Query
                 FormatResultSet(writer, compareResult.NonMatchingValue, true);
                 writer.WriteLine();
             }
+
         }
        
 

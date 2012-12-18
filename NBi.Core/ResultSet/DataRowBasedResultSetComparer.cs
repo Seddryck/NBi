@@ -30,33 +30,51 @@ namespace NBi.Core.ResultSet
             throw new ArgumentException();
         }
 
-        protected ResultSetCompareResult doCompare(DataTable actual, DataTable expected)
+        protected ResultSetCompareResult doCompare(DataTable x, DataTable y)
         {
             if (Settings == null)
                 BuildDefaultSettings();
 
             Settings.ConsoleDisplay();
-            WriteSettingsToDataTableProperties(expected, Settings);
-            WriteSettingsToDataTableProperties(actual, Settings);
+            WriteSettingsToDataTableProperties(y, Settings);
+            WriteSettingsToDataTableProperties(x, Settings);
             
-            var keyComparer = new DataRowKeysComparer(Settings, actual.Columns.Count);
+            var keyComparer = new DataRowKeysComparer(Settings, x.Columns.Count);
 
-            var missingRows = actual.AsEnumerable().Except(expected.AsEnumerable(), keyComparer);
+            //Check that the rows in the reference are unique
+            var invalidY = y.AsEnumerable().GroupBy(row => keyComparer.GetHashCode(row), (hashCode, rows) => new
+            {
+                HashCode = hashCode,
+                Count = rows.Count()
+            }).Where(key => key.Count != 1);
+
+            if (invalidY.Count() > 0)
+                throw new ResultSetComparerException("The expected result set has some duplicated keys. Check your keys definition or your expected result set.");
+
+
+            var missingRows = x.AsEnumerable().Except(y.AsEnumerable(), keyComparer);
             Console.WriteLine("Missing rows: {0}", missingRows.Count());
 
-            var unexpectedRows = expected.AsEnumerable().Except(actual.AsEnumerable(),keyComparer);
+            var unexpectedRows = y.AsEnumerable().Except(x.AsEnumerable(),keyComparer);
             Console.WriteLine("Unexpected rows: {0}", unexpectedRows.Count());
 
-            var duplicatedKeys = expected.AsEnumerable().Except(actual.AsEnumerable(), keyComparer);
-            Console.WriteLine("Unexpected rows: {0}", unexpectedRows.Count());
+            var duplicatedKeys = x.AsEnumerable().GroupBy(row => keyComparer.GetHashCode(row), (hashCode, rows) => new
+            {
+                HashCode = hashCode,
+                Count = rows.Count()
+            }).Where(key => key.Count > 1);
 
-            var keyMatchingRows = actual.AsEnumerable().Except(missingRows).Except(unexpectedRows);
-            Console.WriteLine("Rows with a key matching: {0}", keyMatchingRows.Count());
+            var duplicatedRows = x.AsEnumerable().Where(row => duplicatedKeys.Any(key => key.HashCode == keyComparer.GetHashCode(row)));
+
+            Console.WriteLine("Duplicated rows: {0} (implicating {1} distinct keys)", duplicatedRows.Count(), duplicatedKeys.Count());
+
+            var keyMatchingRows = x.AsEnumerable().Except(missingRows).Except(unexpectedRows).Except(duplicatedRows);
+            Console.WriteLine("Rows with a matching key and not duplicated: {0}", keyMatchingRows.Count());
 
             var nonMatchingValueRows = new List<DataRow>(); 
             foreach (var rx in keyMatchingRows)
 	        {
-                var ry = expected.AsEnumerable().Single(r => keyComparer.GetHashCode(r) == keyComparer.GetHashCode(rx));
+                var ry = y.AsEnumerable().Single(r => keyComparer.GetHashCode(r) == keyComparer.GetHashCode(rx));
                 for (int i = 0; i < rx.Table.Columns.Count; i++)
                 {
                     if (Settings.IsValue(i))
@@ -107,9 +125,9 @@ namespace NBi.Core.ResultSet
                     }
                 }
 	        }
-            Console.WriteLine("Rows with a key matching but without value matching: {0}", nonMatchingValueRows.Count());
+            Console.WriteLine("Rows with a matching key but without matching value: {0}", nonMatchingValueRows.Count());
 
-            return ResultSetCompareResult.Build(missingRows, unexpectedRows, keyMatchingRows, nonMatchingValueRows);
+            return ResultSetCompareResult.Build(missingRows, unexpectedRows, duplicatedRows, keyMatchingRows, nonMatchingValueRows);
         }
 
         protected void WriteSettingsToDataTableProperties(DataTable dt, ResultSetComparisonSettings settings)

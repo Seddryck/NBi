@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Unit.Xml
 {
     [TestFixture]
-    public class DeserializeTestsTest
+    public class TestXmlTest
     {
 
         protected TestSuiteXml DeserializeSample()
@@ -18,7 +18,7 @@ namespace NBi.Testing.Unit.Xml
 
             // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.TestSuiteSample.xml"))
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.TestXmlTestSuite.xml"))
             using (StreamReader reader = new StreamReader(stream))
             {
                 manager.Read(reader);
@@ -114,7 +114,17 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(ts.Tests[1].Categories, Has.Member("Category 2"));
         }
 
-        
+        [Test]
+        public void Deserialize_SampleFile_ContainsNotAttributeCorrectlyRead()
+        {
+            int testNr = 4;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<ContainsXml>());
+            Assert.That(((ContainsXml)ts.Tests[testNr].Constraints[0]).Not, Is.EqualTo(true));
+        }
 
     }
 }

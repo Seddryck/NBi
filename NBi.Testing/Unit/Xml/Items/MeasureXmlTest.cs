@@ -5,10 +5,10 @@ using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 
-namespace NBi.Testing.Unit.Xml
+namespace NBi.Testing.Unit.Xml.Items
 {
     [TestFixture]
-    public class MeasureDeserialize
+    public class MeasureXmlTest
     {
         protected TestSuiteXml DeserializeSample()
         {
@@ -17,7 +17,7 @@ namespace NBi.Testing.Unit.Xml
 
             // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.MeasureTestSuite.xml"))
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.MeasureXmlTestSuite.xml"))
             using (StreamReader reader = new StreamReader(stream))
             {
                 manager.Read(reader);

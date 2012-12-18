@@ -4,7 +4,7 @@ using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 
-namespace NBi.Testing.Unit.Xml
+namespace NBi.Testing.Unit.Xml.Systems
 {
     [TestFixture]
     public class ExecutionXmlTest

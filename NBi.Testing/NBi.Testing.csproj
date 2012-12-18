@@ -120,23 +120,19 @@
     <Compile Include="Unit\NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\EqualToXmlTest.cs" />
-    <Compile Include="Unit\Xml\ExistsDeserializeTest.cs" />
-    <Compile Include="Unit\Xml\MeasureDeserialize.cs" />
-    <Compile Include="Unit\Xml\OrderedDeserialize.cs" />
-    <Compile Include="Unit\Xml\IgnoreDeserialize.cs" />
-    <Compile Include="Unit\Xml\NotDeserialize.cs" />
-    <Compile Include="Unit\Xml\ContainsMembersDeserialize.cs" />
-    <Compile Include="Unit\Xml\CountDeserialize.cs" />
-    <Compile Include="Unit\Xml\DeserializeMembers.cs" />
-    <Compile Include="Unit\Xml\DeserializeStructureXmlTest.cs" />
-    <Compile Include="Unit\Xml\SettingsXmlTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\MeasureXmlTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\OrderedXmlTest.cs" />
+    <Compile Include="Unit\Xml\IgnoreXmlTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\ContainsXmlTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\CountXmlTest.cs" />
     <Compile Include="Unit\Xml\Systems\MembersXmlTest.cs" />
-    <Compile Include="Unit\Xml\QueryXmlTest.cs" />
-    <Compile Include="Unit\Xml\DeserializeTestsTest.cs" />
-    <Compile Include="Unit\NUnit\ConstraintFactoryTest.cs" />
-    <Compile Include="Unit\Xml\ExecutionXmlTest.cs" />
     <Compile Include="Unit\Xml\Systems\StructureXmlTest.cs" />
+    <Compile Include="Unit\Xml\Settings\SettingsXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\QueryXmlTest.cs" />
+    <Compile Include="Unit\Xml\TestXmlTest.cs" />
+    <Compile Include="Unit\NUnit\ConstraintFactoryTest.cs" />
+    <Compile Include="Unit\Xml\Systems\ExecutionXmlTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -188,10 +184,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsWithDefaultAssert.xml">
+    <EmbeddedResource Include="Unit\Xml\Resources\TestXmlTestSuite.xml">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\ExistsTestSuite.xml">
+    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultAssert.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Unit\Xml\Resources\ExistsXmlTestSuite.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -199,52 +199,48 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\MeasureTestSuite.xml">
+    <EmbeddedResource Include="Unit\Xml\Resources\MeasureXmlTestSuite.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\IgnoreTestSuite.xml">
+    <EmbeddedResource Include="Unit\Xml\Resources\IgnoreXmlTestSuite.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\NotTestSuite.xml">
+    <EmbeddedResource Include="Unit\Xml\Resources\OrderedXmlTestSuite.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\OrderedTestSuite.xml">
+    <EmbeddedResource Include="Unit\Xml\Resources\ContainsXmlTestSuite.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\ContainsMembersTestSuite.xml">
+    <EmbeddedResource Include="Unit\Xml\Resources\CountXmlTestSuite.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\CountTestSuite.xml">
+    <EmbeddedResource Include="Unit\Xml\Resources\MembersXmlTestSuite.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteMembers.xml">
+    <EmbeddedResource Include="Unit\Xml\Resources\StructureXmlTestSuite.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteStructure.xml">
-      <SubType>Designer</SubType>
+    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithReference.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsWithReference.xml">
+    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithoutDefault.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsWithoutDefault.xml">
+    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefault.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsWithDefault.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteQuery.xml">
+    <EmbeddedResource Include="Unit\Xml\Resources\QueryXmlTestSuite.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Unit\Core\ResultSet\Resources\ResultDataSet.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteInvalidSyntax.xml">
+    <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidSyntax.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -281,7 +277,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="NBi.Testing.sql" />
-    <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteSample.xml">
+    <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerSample.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </EmbeddedResource>

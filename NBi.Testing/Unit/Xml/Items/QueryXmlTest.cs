@@ -8,7 +8,7 @@ using NBi.Xml.Items;
 using NUnit.Framework;
 #endregion
 
-namespace NBi.Testing.Unit.Xml
+namespace NBi.Testing.Unit.Xml.Items
 {
     [TestFixture]
     public class QueryXmlTest
@@ -48,7 +48,7 @@ namespace NBi.Testing.Unit.Xml
 
             // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.TestSuiteQuery.xml"))
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.QueryXmlTestSuite.xml"))
             using (StreamReader reader = new StreamReader(stream))
             {
                 manager.Read(reader);

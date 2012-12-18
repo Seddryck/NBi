@@ -4,10 +4,10 @@ using NBi.Xml;
 using NBi.Xml.Constraints;
 using NUnit.Framework;
 
-namespace NBi.Testing.Unit.Xml
+namespace NBi.Testing.Unit.Xml.Constraints
 {
     [TestFixture]
-    public class OrderedDeserialize
+    public class OrderedXmlTest
     {
         protected TestSuiteXml DeserializeSample()
         {
@@ -16,7 +16,7 @@ namespace NBi.Testing.Unit.Xml
 
             // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.OrderedTestSuite.xml"))
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.OrderedXmlTestSuite.xml"))
             using (StreamReader reader = new StreamReader(stream))
             {
                 manager.Read(reader);

@@ -1,13 +1,12 @@
 ﻿using System.IO;
 using System.Reflection;
 using NBi.Xml;
-using NBi.Xml.Constraints;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Xml
 {
     [TestFixture]
-    public class NotDeserialize
+    public class IgnoreXmlTest
     {
         protected TestSuiteXml DeserializeSample()
         {
@@ -16,7 +15,7 @@ namespace NBi.Testing.Unit.Xml
 
             // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.NotTestSuite.xml"))
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.IgnoreXmlTestSuite.xml"))
             using (StreamReader reader = new StreamReader(stream))
             {
                 manager.Read(reader);
@@ -25,15 +24,15 @@ namespace NBi.Testing.Unit.Xml
         }
         
         [Test]
-        public void Deserialize_SampleFile_ContainsNotAttributeCorrectlyRead()
+        public void Deserialize_SampleFile_IgnoreAttributeSetToTrue()
         {
             int testNr = 0;
-            
+
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<ContainsXml>());
-            Assert.That(((ContainsXml)ts.Tests[testNr].Constraints[0]).Not, Is.EqualTo(true));
+            Assert.That(ts.Tests[testNr], Is.TypeOf<TestXml>());
+            Assert.That(ts.Tests[testNr].Ignore, Is.True);
         }
 
     }

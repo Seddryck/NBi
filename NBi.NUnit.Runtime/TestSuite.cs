@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using NBi.Core;
 using NBi.Xml;
 using NUnit.Framework;
-using NBi.NUnit;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Runtime
@@ -68,6 +68,10 @@ namespace NBi.NUnit.Runtime
             catch (AssertionException ex)
             {
                 throw new CustomStackTraceAssertionException(ex, stackTrace);
+            }
+            catch (TestException ex)
+            {
+                throw new CustomStackTraceErrorException(ex, stackTrace);
             }
         }
 

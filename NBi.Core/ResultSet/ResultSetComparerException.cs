@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NBi.Core.ResultSet
 {
-    public class ResultSetComparerException : ArgumentException
+    public class ResultSetComparerException : TestException
     {
         public ResultSetComparerException(string message) : base(message)
         {

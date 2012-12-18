@@ -54,6 +54,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="CustomStackTraceErrorException.cs" />
     <Compile Include="CustomStackTraceAssertionException.cs" />
     <Compile Include="TestSuite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,6 +65,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
+      <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
+      <Name>NBi.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NBi.NUnit\NBi.NUnit.csproj">
       <Project>{66314704-AA76-4153-80D8-CA2C5FF06976}</Project>
       <Name>NBi.NUnit</Name>

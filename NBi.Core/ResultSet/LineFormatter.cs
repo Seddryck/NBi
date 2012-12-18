@@ -159,7 +159,7 @@ namespace NBi.Core.ResultSet
 
             public virtual string GetText(int length)
             {
-                return GetValueText() + new string(' ', length - GetValueText().Length);
+                return GetValueText() + new string(' ', Math.Max(0, length - GetValueText().Length));
             }
         }
 
@@ -213,7 +213,7 @@ namespace NBi.Core.ResultSet
                     , GetValueText()
                     , GetIsDifferentText()
                     , GetComparedText()
-                    , new string(' ', length - GetValueText().Length - GetIsDifferentText().Length - GetComparedText().Length - 5));
+                    , new string(' ', Math.Max(0, length - GetValueText().Length - GetIsDifferentText().Length - GetComparedText().Length - 5)));
             }
         }
     }

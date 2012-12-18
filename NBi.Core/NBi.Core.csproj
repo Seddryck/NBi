@@ -42,20 +42,6 @@
     <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>../../../../../../../Program%20Files/Microsoft.NET/ADOMD.NET/100/Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.Dts.DtsClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\DTS\Binn\Microsoft.SqlServer.Dts.DtsClient.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SqlServer.DTSPipelineWrap.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SQLServer.ManagedDTS, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SQLServer.ManagedDTS.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -181,8 +167,6 @@
     <Compile Include="ResultSet\ResultSetXmlWriter.cs" />
     <Compile Include="Query\IQueryParser.cs" />
     <Compile Include="Query\IQueryPerformance.cs" />
-    <Compile Include="Integration\DataFlowTask.cs" />
-    <Compile Include="Integration\PackageManager.cs" />
     <Compile Include="ProgressStatusEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringComparerHelper.cs" />

@@ -39,12 +39,12 @@ namespace NBi.Core.ResultSet
             WriteSettingsToDataTableProperties(y, Settings);
             WriteSettingsToDataTableProperties(x, Settings);
             
-            var KeyComparer = new DataRowKeysComparer(Settings, x.Columns.Count);
+            var keyComparer = new DataRowKeysComparer(Settings, x.Columns.Count);
 
-            var missingRows = x.AsEnumerable().Except(y.AsEnumerable(), KeyComparer);
+            var missingRows = x.AsEnumerable().Except(y.AsEnumerable(), keyComparer);
             Console.WriteLine("Missing rows: {0}", missingRows.Count());
 
-            var unexpectedRows = y.AsEnumerable().Except(x.AsEnumerable(),KeyComparer);
+            var unexpectedRows = y.AsEnumerable().Except(x.AsEnumerable(),keyComparer);
             Console.WriteLine("Unexpected rows: {0}", unexpectedRows.Count());
 
             var keyMatchingRows = x.AsEnumerable().Except(missingRows).Except(unexpectedRows);
@@ -53,7 +53,7 @@ namespace NBi.Core.ResultSet
             var nonMatchingValueRows = new List<DataRow>(); 
             foreach (var rx in keyMatchingRows)
 	        {
-                var ry = y.AsEnumerable().Single(r => KeyComparer.GetHashCode(r) == KeyComparer.GetHashCode(rx));
+                var ry = y.AsEnumerable().Single(r => keyComparer.GetHashCode(r) == keyComparer.GetHashCode(rx));
                 for (int i = 0; i < rx.Table.Columns.Count; i++)
                 {
                     if (Settings.IsValue(i))

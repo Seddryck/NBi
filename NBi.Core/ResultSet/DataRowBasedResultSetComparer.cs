@@ -30,30 +30,33 @@ namespace NBi.Core.ResultSet
             throw new ArgumentException();
         }
 
-        protected ResultSetCompareResult doCompare(DataTable x, DataTable y)
+        protected ResultSetCompareResult doCompare(DataTable actual, DataTable expected)
         {
             if (Settings == null)
                 BuildDefaultSettings();
 
             Settings.ConsoleDisplay();
-            WriteSettingsToDataTableProperties(y, Settings);
-            WriteSettingsToDataTableProperties(x, Settings);
+            WriteSettingsToDataTableProperties(expected, Settings);
+            WriteSettingsToDataTableProperties(actual, Settings);
             
-            var keyComparer = new DataRowKeysComparer(Settings, x.Columns.Count);
+            var keyComparer = new DataRowKeysComparer(Settings, actual.Columns.Count);
 
-            var missingRows = x.AsEnumerable().Except(y.AsEnumerable(), keyComparer);
+            var missingRows = actual.AsEnumerable().Except(expected.AsEnumerable(), keyComparer);
             Console.WriteLine("Missing rows: {0}", missingRows.Count());
 
-            var unexpectedRows = y.AsEnumerable().Except(x.AsEnumerable(),keyComparer);
+            var unexpectedRows = expected.AsEnumerable().Except(actual.AsEnumerable(),keyComparer);
             Console.WriteLine("Unexpected rows: {0}", unexpectedRows.Count());
 
-            var keyMatchingRows = x.AsEnumerable().Except(missingRows).Except(unexpectedRows);
+            var duplicatedKeys = expected.AsEnumerable().Except(actual.AsEnumerable(), keyComparer);
+            Console.WriteLine("Unexpected rows: {0}", unexpectedRows.Count());
+
+            var keyMatchingRows = actual.AsEnumerable().Except(missingRows).Except(unexpectedRows);
             Console.WriteLine("Rows with a key matching: {0}", keyMatchingRows.Count());
 
             var nonMatchingValueRows = new List<DataRow>(); 
             foreach (var rx in keyMatchingRows)
 	        {
-                var ry = y.AsEnumerable().Single(r => keyComparer.GetHashCode(r) == keyComparer.GetHashCode(rx));
+                var ry = expected.AsEnumerable().Single(r => keyComparer.GetHashCode(r) == keyComparer.GetHashCode(rx));
                 for (int i = 0; i < rx.Table.Columns.Count; i++)
                 {
                     if (Settings.IsValue(i))

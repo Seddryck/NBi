@@ -40,3 +40,4 @@ NBi.ncrunchsolution
 [Dd]ocumentation*/
 *.dgml
 .JustCode/
+.nuget/[Nn]u[Gg]et.exe

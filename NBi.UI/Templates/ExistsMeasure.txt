@@ -1,0 +1,10 @@
+﻿<test name="A measure named '{measuregroup.caption}' exists under the folder '{displayfolder.caption}' in measure-group '{measuregroup.caption}', perspective '{perspective.caption}'.">
+	<system-under-test>
+		<structure>	
+			<measure caption="{measure.caption}" display-folder="{displayfolder.caption}" measure-group="{measuregroup.caption}" perspective="{perspective.caption}"/>
+		</structure>
+	</system-under-test>
+	<assert>
+		<exists/>
+	</assert>
+</test>

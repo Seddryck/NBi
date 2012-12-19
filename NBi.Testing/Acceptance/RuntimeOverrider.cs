@@ -18,15 +18,15 @@ namespace NBi.Testing.Acceptance
         public class TestSuiteOverrider : TestSuite
         {
             
-            private string _filename;
+            private readonly string filename;
             public TestSuiteOverrider(string filename)
             {
-                _filename = filename;
+                this.filename = filename;
             }
             
             protected override string GetTestSuiteFileDefinition()
             {
-                return @"Acceptance\Resources\" + _filename;
+                return @"Acceptance\Resources\" + filename;
             }
 
             [Ignore]

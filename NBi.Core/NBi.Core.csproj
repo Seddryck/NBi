@@ -173,9 +173,6 @@
     <Compile Include="ProgressStatusEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringComparerHelper.cs" />
-    <Compile Include="Util\DiffFiles\LongestCommonSequence\DiffEngine.cs" />
-    <Compile Include="Util\DiffFiles\LongestCommonSequence\Structure.cs" />
-    <Compile Include="Util\DiffFiles\LongestCommonSequence\TextFile.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

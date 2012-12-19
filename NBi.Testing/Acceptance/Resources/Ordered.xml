@@ -7,9 +7,9 @@
 	</settings>
 	<test name="In dimension Customers State-Provinces are ordered alphabetically" uid="0001">
 		<system-under-test>
-			<level dimension="Customer" hierarchy="State-Province" caption="State-Province" perspective="Adventure Works">
-				<members/>
-			</level>
+			<members>
+				<level dimension="Customer" hierarchy="State-Province" caption="State-Province" perspective="Adventure Works"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<ordered rule="alphabetical"/>
@@ -17,9 +17,9 @@
 	</test>
 	<test name="In dimension Customers Countries are ordered alphabetically" uid="0002">
 		<system-under-test>
-			<hierarchy dimension="Customer" caption="Country"  perspective="Adventure Works">
-				<members children-of="All Customers"/>
-			</hierarchy>
+			<members children-of="All Customers">
+				<hierarchy dimension="Customer" caption="Country"  perspective="Adventure Works"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<ordered rule="alphabetical"/>
@@ -27,9 +27,9 @@
 	</test>
 	<test name="'In dimension Promotion Start Dates are ordered chronologically" uid="0003">
 		<system-under-test>
-			<level dimension="Promotion" hierarchy="Start Date" caption="Start Date" perspective="Adventure Works">
-				<members/>
-			</level>
+			<members>
+				<level dimension="Promotion" hierarchy="Start Date" caption="Start Date" perspective="Adventure Works"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<ordered rule="chronological"/>
@@ -37,9 +37,9 @@
 	</test>
 	<test name="'In dimension Promotion Discount Percents are ordered numerically" uid="0004">
 		<system-under-test>
-			<hierarchy dimension="Promotion" caption="Discount Percent" perspective="Adventure Works">
-				<members/>
-			</hierarchy>
+			<members>
+				<hierarchy dimension="Promotion" caption="Discount Percent" perspective="Adventure Works"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<ordered rule="numerical"/>
@@ -47,9 +47,9 @@
 	</test>
 	<test name="'In dimension Promotion Discount Percents are ordered numerically" uid="0005">
 		<system-under-test>
-			<hierarchy dimension="Scenario" caption="Scenario" perspective="Adventure Works">
-				<members/>
-			</hierarchy>
+			<members>
+				<hierarchy dimension="Scenario" caption="Scenario" perspective="Adventure Works"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<ordered rule="specific">

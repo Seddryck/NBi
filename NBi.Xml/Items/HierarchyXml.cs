@@ -33,5 +33,13 @@ namespace NBi.Xml.Items
             dico.Add("sut:dimension", Dimension);
             return dico;
         }
+
+        internal override ICollection<string> GetAutoCategories()
+        {
+            var values = base.GetAutoCategories();
+            if (!string.IsNullOrEmpty(Dimension))
+                values.Add(string.Format("Dimension '{0}'", Dimension));
+            return values;
+        }
     }
 }

@@ -69,5 +69,13 @@ namespace NBi.Xml.Items
             dico.Add("sut:display-folder", DisplayFolder);
             return dico;
         }
+
+        internal override ICollection<string> GetAutoCategories()
+        {
+            var values = base.GetAutoCategories();
+            if (!string.IsNullOrEmpty(MeasureGroup))
+                values.Add(string.Format("MeasureGroup '{0}'", MeasureGroup));
+            return values;
+        }
     }
 }

@@ -32,5 +32,12 @@ namespace NBi.Xml.Systems
         {
             return Item.GetRegexMatch();
         }
+
+        public override ICollection<string> GetAutoCategories()
+        {
+            var values = Item.GetAutoCategories();
+            values.Add("Structure");
+            return values;
+        }
     }
 }

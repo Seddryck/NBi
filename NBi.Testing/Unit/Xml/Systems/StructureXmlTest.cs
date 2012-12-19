@@ -76,6 +76,23 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(item.ConnectionString, Is.EqualTo("ConnectionString"));
         }
 
+
+        [Test]
+        public void Deserialize_SampleFile_AutoCategories()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            var autoCategories = ts.Tests[testNr].Systems[0].GetAutoCategories();
+
+            Assert.That(autoCategories, Has.Member("Dimension 'dimension'"));
+            Assert.That(autoCategories, Has.Member("Perspective 'Perspective'"));
+            Assert.That(autoCategories, Has.Member("Structure"));
+        }
+
         [Test]
         public void Deserialize_SampleFile_MeasureGroup()
         {

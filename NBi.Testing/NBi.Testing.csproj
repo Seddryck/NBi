@@ -118,6 +118,7 @@
     <Compile Include="Unit\NUnit\SyntacticallyCorrectConstraintTest.cs" />
     <Compile Include="Unit\NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unit\Service\GenericTestMakerTest.cs" />
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
@@ -173,6 +174,10 @@
     <ProjectReference Include="..\NBi.NUnit\NBi.NUnit.csproj">
       <Project>{66314704-AA76-4153-80D8-CA2C5FF06976}</Project>
       <Name>NBi.NUnit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NBi.Services\NBi.Service.csproj">
+      <Project>{a9c7e50a-1d3d-4c6d-9c56-8ea8925fe2d6}</Project>
+      <Name>NBi.Service</Name>
     </ProjectReference>
     <ProjectReference Include="..\NBi.UI\NBi.UI.csproj">
       <Project>{18ED64E4-7D72-4A2C-9CD8-46F732D287ED}</Project>

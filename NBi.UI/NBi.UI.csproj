@@ -174,6 +174,13 @@
       <Name>NBi.Xml</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Templates\ExistsDimension.txt" />
+    <Content Include="Templates\ExistsHierarchy.txt" />
+    <Content Include="Templates\ExistsLevel.txt" />
+    <Content Include="Templates\ExistsMeasure.txt" />
+    <Content Include="Templates\ExistsMeasureGroup.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /Y /S /I "$(ProjectDir)..\packages\NUnit.Runners.2.6.2\tools" "$(TargetDir)NUnit.Runners"</PostBuildEvent>

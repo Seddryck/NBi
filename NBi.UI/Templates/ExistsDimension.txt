@@ -1,0 +1,10 @@
+﻿<test name="A dimension named '{dimension.caption}' exists in perspective '{perspective.caption}'.">
+	<system-under-test>
+		<structure>	
+			<dimension caption="{dimension.caption}" perspective="{perspective.caption}"/>
+		</structure>
+	</system-under-test>
+	<assert>
+		<exists/>
+	</assert>
+</test>

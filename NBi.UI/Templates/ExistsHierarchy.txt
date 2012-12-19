@@ -1,0 +1,10 @@
+﻿<test name="A hierarchy named '{hierarchy.caption}' exists in dimension '{dimension.caption}', in perspective '{perspective.caption}'.">
+	<system-under-test>
+		<structure>	
+			<hierarchy caption="{hierarchy.caption}" dimension="{dimension.caption}" perspective="{perspective.caption}"/>
+		</structure>
+	</system-under-test>
+	<assert>
+		<exists/>
+	</assert>
+</test>

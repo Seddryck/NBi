@@ -57,6 +57,14 @@
 									</xs:simpleContent>
 								</xs:complexType>
 							</xs:element>
+							<xs:element name="description" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
 							<xs:element name="edition" minOccurs="0" maxOccurs="1">
 								<xs:complexType>
 									<xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -278,6 +286,7 @@
 						<xs:attribute name="name" type="xs:string" use="required" />
 						<xs:attribute name="uid" type="xs:unsignedByte" use="optional" />
 						<xs:attribute name="ignore" type="xs:boolean" use="optional" />
+						<xs:attribute name="description" type="xs:string" use="optional" />
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>

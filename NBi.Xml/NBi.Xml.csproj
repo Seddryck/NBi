@@ -66,6 +66,7 @@
     <Compile Include="Items\AbstractItem.cs" />
     <Compile Include="Items\AbstractMembersItem.cs" />
     <Compile Include="Items\QueryXml.cs" />
+    <Compile Include="Settings\DescriptionXml.cs" />
     <Compile Include="Settings\DefaultXml.cs" />
     <Compile Include="Settings\IgnoreXml.cs" />
     <Compile Include="Settings\ReferenceXml.cs" />

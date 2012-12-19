@@ -16,16 +16,14 @@ namespace NBi.Xml
         [XmlAttribute("uid")]
         public string UniqueIdentifier { get; set; }
 
-        private bool ignore;
+        [XmlElement("ignore")]
+        public IgnoreXml IgnoreElement { get; set; }
         [XmlAttribute("ignore")]
         public bool Ignore
         {
             get
             {
-                if (IgnoreElement != null)
-                    return true;
-                else
-                    return ignore;
+                return (IgnoreElement != null);
             }
             set
             {
@@ -38,14 +36,32 @@ namespace NBi.Xml
                 {
                     IgnoreElement = null;
                 }
-                ignore = value;
             }
         }
 
-
-
+        [XmlElement("description")]
+        public DescriptionXml DescriptionElement { get; set; }
         [XmlAttribute("description")]
-        public string Description { get; set; }
+        public string Description
+        {
+            get
+            {
+                return DescriptionElement == null ? string.Empty : DescriptionElement.Value;
+            }
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    DescriptionElement = null;
+                }
+                else
+                {
+                    if (DescriptionElement == null)
+                        DescriptionElement = new DescriptionXml();
+                    DescriptionElement.Value = value;
+                }
+            }
+        }
 
         [XmlElement("category")]
         public List<string> Categories;
@@ -123,8 +139,7 @@ namespace NBi.Xml
             }
         }
 
-        [XmlElement("ignore")]
-        public IgnoreXml IgnoreElement { get; set; }
+        
 
     }
 }

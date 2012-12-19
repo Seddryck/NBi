@@ -29,5 +29,13 @@ namespace NBi.Xml.Items
             dico.Add("sut:perspective", Perspective);
             return dico;
         }
+
+        internal override ICollection<string> GetAutoCategories()
+        {
+            var values = new List<string>();
+            if (!string.IsNullOrEmpty(Perspective))
+                values.Add(string.Format("Perspective '{0}'", Perspective));
+            return values;
+        }
     }
 }

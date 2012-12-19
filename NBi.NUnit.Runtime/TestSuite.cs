@@ -20,6 +20,8 @@ namespace NBi.NUnit.Runtime
     {
         public const string DEFAULT_TESTSUITE = "TestSuite.xml";
 
+        public bool EnableAutoCategories { get { return true; } }
+
         public XmlManager TestSuiteManager { get; private set; }
 
         public TestSuite()
@@ -91,6 +93,15 @@ namespace NBi.NUnit.Runtime
                 {
                     testCaseDataNUnit.SetCategory(category);
                 }
+
+                //Assign auto-categories
+                if (EnableAutoCategories)
+                {
+                    foreach (var system in test.Systems)
+                        foreach (var category in system.GetAutoCategories())
+                            testCaseDataNUnit.SetCategory(category);
+                }
+
                 testCasesNUnit.Add(testCaseDataNUnit);
             }
             return testCasesNUnit;

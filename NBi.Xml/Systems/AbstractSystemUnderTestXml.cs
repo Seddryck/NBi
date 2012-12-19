@@ -22,5 +22,7 @@ namespace NBi.Xml.Systems
         {
             return new Dictionary<string, string>();
         }
+
+        public abstract ICollection<string> GetAutoCategories();
     }
 }

@@ -35,5 +35,13 @@ namespace NBi.Xml.Items
             dico.Add("sut:hierarchy", Hierarchy);
             return dico;
         }
+
+        internal override ICollection<string> GetAutoCategories()
+        {
+            var values = base.GetAutoCategories();
+            if (!string.IsNullOrEmpty(Hierarchy))
+                values.Add(string.Format("Hierarchy '{0}'", Hierarchy));
+            return values;
+        }
     }
 }

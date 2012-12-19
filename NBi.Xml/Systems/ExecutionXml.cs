@@ -31,6 +31,11 @@ namespace NBi.Xml.Systems
             var dico = base.GetRegexMatch();
             return dico;
         }
+
+        public override ICollection<string> GetAutoCategories()
+        {
+            return new string[] { "Execution" };
+        }
        
     }
 }

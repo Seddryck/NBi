@@ -24,5 +24,7 @@ namespace NBi.Xml.Items
             dico.Add("sut:typeName", TypeName);
             return dico;
         }
+
+        internal abstract ICollection<string> GetAutoCategories();
     }
 }

@@ -46,6 +46,23 @@ namespace NBi.Testing.Unit.Xml.Systems
         }
 
         [Test]
+        public void Deserialize_SampleFile_AutoCategories()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            var autoCategories = ts.Tests[testNr].Systems[0].GetAutoCategories();
+
+            Assert.That(autoCategories, Has.Member("Dimension 'dimension'"));
+            Assert.That(autoCategories, Has.Member("Hierarchy 'hierarchy'"));
+            Assert.That(autoCategories, Has.Member("Perspective 'Perspective'"));
+            Assert.That(autoCategories, Has.Member("Members"));
+        }
+
+        [Test]
         public void Deserialize_SampleFile_MembersWithHierarchy()
         {
             int testNr = 1;

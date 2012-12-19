@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
@@ -18,6 +19,12 @@ namespace NBi.Xml.Items
         public override string TypeName
         {
             get { return "perspective"; }
+        }
+
+        internal override ICollection<string> GetAutoCategories()
+        {
+            var values = new List<string>();
+            return values;
         }
     }
 }

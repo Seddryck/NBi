@@ -19,7 +19,7 @@ namespace NBi.Service
             Variables = variables;
         }
 
-        protected internal string PreProcess(string templateXml, string[] variables)
+        protected internal string PreProcess(string templateXml, string[] variables, string[] dynamics)
         {
             var preProcessed = templateXml;
             var i = 0;
@@ -29,19 +29,27 @@ namespace NBi.Service
                 i++;
             }
 
+            foreach (var dyn in dynamics)
+            {
+                preProcessed = preProcessed.Replace("{@@" + dyn + "}", "{" + i.ToString() + "}");
+                i++;
+            }
+
             return preProcessed;
         }
 
         public IEnumerable<TestXml> Build(IEnumerable<IList<string>> rows)
         {
             if (string.IsNullOrEmpty(PreProcessedTemplate))
-                PreProcessedTemplate = PreProcess(TemplateXml, Variables);
+                PreProcessedTemplate = PreProcess(TemplateXml, Variables, GetDynamicNames());
             
             var tests = new List<TestXml>();
 
             foreach (var row in rows)
 	        {
-                var str = string.Format(PreProcessedTemplate, row.ToArray());
+                var rowList = row.ToList();
+                rowList.AddRange(GetDynamicValues());
+                var str = string.Format(PreProcessedTemplate, rowList.ToArray());
                 var test = XmlDeserializeFromString <TestStandaloneXml>(str);
                 tests.Add(test);
 	        }
@@ -65,6 +73,31 @@ namespace NBi.Service
             }
 
             return result;
+        }
+
+        protected string[] GetDynamicNames()
+        {
+            return new string []
+            {
+                "now",
+                "time",
+                "today",
+                "uid",
+                "username"
+            };
+        }
+
+        private int uid=0;
+        protected IEnumerable<string> GetDynamicValues()
+        {
+            return new string[]
+            {
+                DateTime.Today.ToShortDateString() + " " + DateTime.Now.ToLongTimeString(), 
+                DateTime.Now.ToLongTimeString(),
+                DateTime.Today.ToShortDateString(),
+                (++uid).ToString(),
+                Environment.UserName
+            };
         }
 
 

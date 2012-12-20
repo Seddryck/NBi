@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using NBi.Service;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
@@ -45,6 +46,18 @@ namespace NBi.Testing.Unit.Service
                 "    <system-under-test>" +
                 "        <structure>" +
                 "            <level caption=\"{level.caption}\" dimension=\"{dimension.caption}\" hierarchy=\"{hierarchy.caption}\" perspective=\"{perspective.caption}\"/>" +
+                "        </structure>" +
+                "    </system-under-test>" +
+                "    <assert>" +
+                "        <exists/>" +
+                "    </assert>" +
+                "</test>";
+
+        private const string TEMPLATE_DYNAMICS =
+                "<test name=\"{@@today}\" uid=\"{@@uid}\" description=\"{@@now}\">" +
+                "    <system-under-test>" +
+                "        <structure>" +
+                "            <level caption=\"\" dimension=\"{dimension.caption}\" hierarchy=\"{hierarchy.caption}\" perspective=\"{perspective.caption}\"/>" +
                 "        </structure>" +
                 "    </system-under-test>" +
                 "    <assert>" +
@@ -126,6 +139,40 @@ namespace NBi.Testing.Unit.Service
             var results = gtm.Build(info);
 
             Assert.That(results, Has.Count.EqualTo(2));
+        }
+
+        [Test]
+        public void Build_TemplateWithDynamics_DynamicsFilled()
+        {
+            var template = TEMPLATE_DYNAMICS;
+
+            var variables = new string[]
+            {
+                "level.caption",
+                "hierarchy.caption",
+                "dimension.caption",
+                "perspective.caption"
+            };
+
+            var info = new List<string[]>()
+                {
+                    new string[] 
+                    {
+                        "myLevel",
+                        "myHierarchy",
+                        "myDimension",
+                        "myPerspective"
+                    }
+                };
+
+            var gtm = new GenericTestMaker(template, variables);
+
+            var results = gtm.Build(info);
+            var result = results.ElementAt(0);
+
+            Assert.That(result.UniqueIdentifier, Is.EqualTo("1"));
+            Assert.That(result.Name, Is.EqualTo(DateTime.Today.ToShortDateString()));
+            Assert.That(result.Description, Is.EqualTo(DateTime.Now.ToLongTimeString()));
         }
     }
 }

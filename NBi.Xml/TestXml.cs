@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using NBi.Xml.Constraints;
@@ -19,6 +20,7 @@ namespace NBi.Xml
         [XmlElement("ignore")]
         public IgnoreXml IgnoreElement { get; set; }
         [XmlAttribute("ignore")]
+        [DefaultValue(false)]
         public bool Ignore
         {
             get
@@ -42,6 +44,7 @@ namespace NBi.Xml
         [XmlElement("description")]
         public DescriptionXml DescriptionElement { get; set; }
         [XmlAttribute("description")]
+        [DefaultValue("")]
         public string Description
         {
             get
@@ -89,6 +92,17 @@ namespace NBi.Xml
             Constraints = new List<AbstractConstraintXml>();
             Systems = new List<AbstractSystemUnderTestXml>();
             Categories = new List<string>();
+        }
+
+        public TestXml(TestStandaloneXml standalone)
+        {
+            this.Name = standalone.Name;
+            this.DescriptionElement = standalone.DescriptionElement;
+            this.IgnoreElement = standalone.IgnoreElement;
+            this.Categories = standalone.Categories;
+            this.Constraints = standalone.Constraints;
+            this.Systems = standalone.Systems;
+            this.UniqueIdentifier = standalone.UniqueIdentifier;
         }
 
         public string GetName()
@@ -139,7 +153,13 @@ namespace NBi.Xml
             }
         }
 
-        
+        public override string ToString()
+        {
+            if (string.IsNullOrEmpty(this.Name))
+                return base.ToString();
+            else
+                return Name.ToString();
+        }
 
     }
 }

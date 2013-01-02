@@ -172,7 +172,7 @@ namespace NBi.Testing.Unit.Service
 
             Assert.That(result.UniqueIdentifier, Is.EqualTo("1"));
             Assert.That(result.Name, Is.EqualTo(DateTime.Today.ToShortDateString()));
-            Assert.That(result.Description, Is.EqualTo(DateTime.Now.ToLongTimeString()));
+            Assert.That(result.Description, Is.EqualTo(DateTime.Now.ToShortDateString() + ' ' + DateTime.Now.ToLongTimeString()));
         }
     }
 }

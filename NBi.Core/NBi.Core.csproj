@@ -54,6 +54,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="CsvReader.cs" />
     <Compile Include="Analysis\Metadata\Adomd\AdomdDiscoveryCommandFactory.cs" />
     <Compile Include="Analysis\Metadata\Adomd\DisplayFolderFilter.cs" />
     <Compile Include="Analysis\Metadata\Adomd\PostCommandFilter.cs" />

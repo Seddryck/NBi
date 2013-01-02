@@ -49,7 +49,17 @@ namespace NBi.Service
 	        {
                 var rowList = row.ToList();
                 rowList.AddRange(GetDynamicValues());
-                var str = string.Format(PreProcessedTemplate, rowList.ToArray());
+                string str = string.Empty;
+                try
+                {
+                    str = string.Format(PreProcessedTemplate, rowList.ToArray());
+                }
+                catch (Exception)
+                {
+
+                    throw new ExpectedVariableNotFoundException();
+                }
+                
                 var test = XmlDeserializeFromString <TestStandaloneXml>(str);
                 tests.Add(test);
 	        }

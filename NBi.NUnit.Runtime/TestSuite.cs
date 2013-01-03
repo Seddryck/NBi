@@ -6,6 +6,7 @@ using System.Reflection;
 using NBi.Core;
 using NBi.Xml;
 using NUnit.Framework;
+using System.Configuration;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Runtime
@@ -107,20 +108,37 @@ namespace NBi.NUnit.Runtime
             return testCasesNUnit;
         }
 
-        protected virtual string GetTestSuiteFileDefinition()
+        protected internal virtual string GetTestSuiteFileDefinition()
         {
-            string assem = Path.GetFullPath((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath).Replace("%20"," ");
-            string configFile = Path.Combine(Path.GetDirectoryName(assem), Path.GetFileNameWithoutExtension(assem) + ".config");
-            
             //Set the default TestSuite
             string testSuiteFile = DEFAULT_TESTSUITE;
-            
+
+            string configFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
             //Try to find a config file, if existing take the path inside for the TestSuite
             Console.Out.WriteLine("Looking after config file located at '{0}'", configFile);
             if (File.Exists(configFile))
             {
                 Console.Out.WriteLine("Config File found!");
-                using (var sr = new StreamReader(configFile))
+                var section = (NBiSection)(ConfigurationManager.GetSection("nbi"));
+                var configRedirection = section.TestSuiteFilename;
+                if (!string.IsNullOrEmpty(configRedirection))
+                    return configRedirection;
+                else
+                    Console.Out.WriteLine("Config File not redirecting to a test suite!");
+            }
+            else
+                Console.Out.WriteLine("Config File not found!");
+
+
+            string assem = Path.GetFullPath((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath).Replace("%20"," ");
+            string redirectFile = Path.Combine(Path.GetDirectoryName(assem), Path.GetFileNameWithoutExtension(assem) + ".config");
+            
+            //Try to find a redirect file, if existing take the path inside for the TestSuite
+            Console.Out.WriteLine("Looking after redirect file located at '{0}'", redirectFile);
+            if (File.Exists(redirectFile))
+            {
+                Console.Out.WriteLine("Redirect File found!");
+                using (var sr = new StreamReader(redirectFile))
                 {
                     testSuiteFile = sr.ReadToEnd();
                 }
@@ -128,7 +146,7 @@ namespace NBi.NUnit.Runtime
             else
             {
                 // If no config file is registered then search the first "nbits" (NBi Test Suite) file
-                Console.Out.WriteLine("No config file found.");
+                Console.Out.WriteLine("No redirect file found.");
 
                 if (GetOwnFilename() != GetManifestName())
                 {

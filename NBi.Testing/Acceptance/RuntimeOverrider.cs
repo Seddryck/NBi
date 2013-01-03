@@ -24,7 +24,7 @@ namespace NBi.Testing.Acceptance
                 this.filename = filename;
             }
             
-            protected override string GetTestSuiteFileDefinition()
+            protected internal override string GetTestSuiteFileDefinition()
             {
                 return @"Acceptance\Resources\" + filename;
             }

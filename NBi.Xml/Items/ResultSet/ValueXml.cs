@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace NBi.Xml.Constraints.EqualTo
+namespace NBi.Xml.Items.ResultSet
 {
     public class ValueXml
     {

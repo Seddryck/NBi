@@ -9,7 +9,7 @@ namespace NBi.Xml
     {
         [XmlAttribute("name")]
         public string Name { get; set; }
-        
+
         [XmlElement("test")]
         public List<TestXml> Tests { get; set; }
 

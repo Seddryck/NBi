@@ -57,19 +57,19 @@ namespace NBi.Testing.Unit.Core.ResultSet
         {
             var objects = new RowXml[] { 
                 new RowXml {
-                    _cells= new List<CellXml> {
+                    cells= new List<CellXml> {
                         new CellXml() {Value= "CY 2001"},
                         new CellXml() {Value= "1000"}
                     }
                 }, 
                 new RowXml {
-                     _cells= new List<CellXml> {
+                     cells= new List<CellXml> {
                         new CellXml() {Value= "CY 2002"},
                         new CellXml() {Value= "10.4"}
                     }
                 }, 
                 new RowXml {
-                     _cells= new List<CellXml> {
+                     cells= new List<CellXml> {
                         new CellXml() {Value= "CY 2003"},
                         new CellXml() {Value= "200"}
                     }

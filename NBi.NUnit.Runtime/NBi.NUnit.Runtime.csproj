@@ -60,6 +60,7 @@
     <Compile Include="NBiSection.cs" />
     <Compile Include="TestSuite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestSuiteFinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SampleConfigFile.config">

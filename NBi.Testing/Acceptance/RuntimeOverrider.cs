@@ -18,15 +18,23 @@ namespace NBi.Testing.Acceptance
         public class TestSuiteOverrider : TestSuite
         {
             
-            private readonly string filename;
-            public TestSuiteOverrider(string filename)
+            public TestSuiteOverrider(string filename) : base()
             {
-                this.filename = filename;
+                TestSuiteFinder = new TestSuiteFinderOverrider(filename);
             }
             
-            protected internal override string GetTestSuiteFileDefinition()
+            internal class TestSuiteFinderOverrider : TestSuiteFinder
             {
-                return @"Acceptance\Resources\" + filename;
+                private readonly string filename;
+                public TestSuiteFinderOverrider(string filename)
+                {
+                    this.filename = filename;
+                }
+                
+                protected internal override string Find()
+                {
+                    return @"Acceptance\Resources\" + filename;
+                }
             }
 
             [Ignore]

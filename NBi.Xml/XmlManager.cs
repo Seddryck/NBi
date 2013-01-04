@@ -28,6 +28,9 @@ namespace NBi.Xml
                 Read(reader);
             }
 
+            var basePath = System.IO.Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar;
+            TestSuite.Settings.BasePath = basePath;
+
             docXml.Load(filename);
             ReassignXml();
         }
@@ -55,6 +58,7 @@ namespace NBi.Xml
                 foreach (var ctr in test.Constraints)
                 {
                     ctr.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.Assert);
+                    ctr.Settings = TestSuite.Settings;
                 }
             }
 

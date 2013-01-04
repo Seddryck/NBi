@@ -19,27 +19,28 @@ namespace NBi.NUnit.Runtime
     [TestFixture]
     public class TestSuite
     {
-        public const string DEFAULT_TESTSUITE = "TestSuite.xml";
-
         public bool EnableAutoCategories { get { return true; } }
 
-        public XmlManager TestSuiteManager { get; private set; }
+        internal XmlManager TestSuiteManager { get; private set; }
+        internal TestSuiteFinder TestSuiteFinder { get; set; }
 
         public TestSuite()
         {
             TestSuiteManager = new XmlManager();
+            TestSuiteFinder = new TestSuiteFinder();
         }
 
-        public TestSuite(XmlManager testSuiteManager)
+        internal TestSuite(XmlManager testSuiteManager, TestSuiteFinder testSuiteFinder)
         {
             TestSuiteManager = testSuiteManager;
+            TestSuiteFinder = testSuiteFinder;
         }
 
         [Test, TestCaseSource("GetTestCases")]
         public virtual void ExecuteTestCases(TestXml test)
         {
             Console.Out.WriteLine(string.Format("Test suite loaded from {0}", GetOwnFilename()));
-            Console.Out.WriteLine(string.Format("Test suite defined in {0}", GetTestSuiteFileDefinition()));
+            Console.Out.WriteLine(string.Format("Test suite defined in {0}", TestSuiteFinder.Find()));
 
             //check if ignore is set to true
             if (test.Ignore)
@@ -78,10 +79,9 @@ namespace NBi.NUnit.Runtime
             }
         }
 
-
         public IEnumerable<TestCaseData> GetTestCases()
         {
-            TestSuiteManager.Load(GetTestSuiteFileDefinition());
+            TestSuiteManager.Load(TestSuiteFinder.Find());
 
             List<TestCaseData> testCasesNUnit = new List<TestCaseData>();
 
@@ -108,79 +108,8 @@ namespace NBi.NUnit.Runtime
             return testCasesNUnit;
         }
 
-        protected internal virtual string GetTestSuiteFileDefinition()
-        {
-            //Set the default TestSuite
-            string testSuiteFile = DEFAULT_TESTSUITE;
+        
 
-            string configFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
-            //Try to find a config file, if existing take the path inside for the TestSuite
-            Console.Out.WriteLine("Looking after config file located at '{0}'", configFile);
-            if (File.Exists(configFile))
-            {
-                Console.Out.WriteLine("Config File found!");
-                var section = (NBiSection)(ConfigurationManager.GetSection("nbi"));
-                var configRedirection = section.TestSuiteFilename;
-                if (!string.IsNullOrEmpty(configRedirection))
-                    return configRedirection;
-                else
-                    Console.Out.WriteLine("Config File not redirecting to a test suite!");
-            }
-            else
-                Console.Out.WriteLine("Config File not found!");
-
-
-            string assem = Path.GetFullPath((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath).Replace("%20"," ");
-            string redirectFile = Path.Combine(Path.GetDirectoryName(assem), Path.GetFileNameWithoutExtension(assem) + ".config");
-            
-            //Try to find a redirect file, if existing take the path inside for the TestSuite
-            Console.Out.WriteLine("Looking after redirect file located at '{0}'", redirectFile);
-            if (File.Exists(redirectFile))
-            {
-                Console.Out.WriteLine("Redirect File found!");
-                using (var sr = new StreamReader(redirectFile))
-                {
-                    testSuiteFile = sr.ReadToEnd();
-                }
-            }
-            else
-            {
-                // If no config file is registered then search the first "nbits" (NBi Test Suite) file
-                Console.Out.WriteLine("No redirect file found.");
-
-                if (GetOwnFilename() != GetManifestName())
-                {
-                    var testSuiteName = Path.GetDirectoryName(assem) + Path.GetFileNameWithoutExtension(GetOwnFilename()) + ".nbits";
-                    Console.Out.WriteLine(string.Format("Dll for runtime renamed, looking after {0}", testSuiteName));
-                    if (File.Exists(testSuiteName))
-                    {
-                        testSuiteFile = testSuiteName;
-                        Console.Out.WriteLine("TestSuite File found!");
-                    }
-                    else
-                        Console.Out.WriteLine("TestSuite file NOT found!");
-                }
-                else
-                {
-                    Console.Out.WriteLine("Looking after 'nbits' files ...");
-                    var files = System.IO.Directory.GetFiles(Path.GetDirectoryName(assem), "*.nbits");
-                    if (files.Count() == 1)
-                    {
-                        Console.Out.WriteLine("'{0}' found, using it!", files[0]);
-                        testSuiteFile = files[0];
-                    }
-                    else if (files.Count() > 1)
-                    {
-                        Console.Out.WriteLine("{0} 'nbits' files found, using the first found: '{1}'!", files.Count(), files[0]);
-                        testSuiteFile = files[0];
-                    }
-                    else
-                        Console.Out.WriteLine("No 'nbits' file found");
-                }
-            }
-
-            return testSuiteFile;
-        }
 
         protected internal string GetOwnFilename()
         {

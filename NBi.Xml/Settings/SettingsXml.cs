@@ -7,6 +7,9 @@ namespace NBi.Xml.Settings
 {
     public class SettingsXml
     {
+        [XmlIgnore]
+        public string BasePath { get; set; }
+
         [XmlElement("default")]
         public List<DefaultXml> Defaults { get; set; }
         [XmlElement("reference")]

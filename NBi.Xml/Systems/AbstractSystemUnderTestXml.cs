@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using NBi.Xml.Items;
 using NBi.Xml.Settings;
 
 namespace NBi.Xml.Systems
@@ -10,8 +11,30 @@ namespace NBi.Xml.Systems
         [XmlAttribute("name")]
         public string Name { get; set; }
 
-        public virtual DefaultXml Default { get; set; }
-        public virtual SettingsXml Settings { get; set; }
+        private DefaultXml _default;
+        public virtual DefaultXml Default
+        {
+            get { return _default; }
+            set
+            {
+                _default = value;
+                if (BaseItem != null)
+                    BaseItem.Default = value;
+            }
+        }
+        private SettingsXml settings;
+        public virtual SettingsXml Settings
+        {
+            get { return settings; }
+            set
+            {
+                settings = value;
+                if (BaseItem != null)
+                    BaseItem.Settings = value;
+            }
+        }
+
+        public abstract BaseItem BaseItem { get; }
 
         public AbstractSystemUnderTestXml()
         {

@@ -7,19 +7,19 @@ namespace NBi.Core.ResultSet
 {
     public class ResultSet
     {
-        protected DataTable _table;
+        protected DataTable table;
 
-        internal DataTable Table { get { return _table; } }
+        internal DataTable Table { get { return table; } }
         
         public DataColumnCollection Columns
         {
-            get { return _table.Columns; }
+            get { return table.Columns; }
         }
 
 
         public DataRowCollection Rows
         {
-            get { return _table.Rows; }
+            get { return table.Rows; }
         }
 
         public ResultSet()
@@ -33,7 +33,7 @@ namespace NBi.Core.ResultSet
 
         public void Load(DataTable table)
         {
-            _table = table;
+            this.table = table;
 
             //display for debug
             ConsoleDisplay();
@@ -41,8 +41,8 @@ namespace NBi.Core.ResultSet
 
         public void Load(IEnumerable<DataRow> rows)
         {
-            _table = new DataTable();
-            rows.CopyToDataTable<DataRow>(_table, LoadOption.OverwriteChanges);
+            table = new DataTable();
+            rows.CopyToDataTable<DataRow>(table, LoadOption.OverwriteChanges);
 
             //display for debug
             ConsoleDisplay();
@@ -50,7 +50,7 @@ namespace NBi.Core.ResultSet
 
         public void Load(IEnumerable<object[]> objects)
         {
-            _table = new DataTable();
+            table = new DataTable();
 
             //if > 0 row
             if (objects.Count() > 0)
@@ -66,7 +66,7 @@ namespace NBi.Core.ResultSet
                 }
 
                 //load each row one by one
-                _table.BeginLoadData();
+                table.BeginLoadData();
                 foreach (var obj in objects)
                 {
                     //Transform (null) [string] into null
@@ -76,9 +76,9 @@ namespace NBi.Core.ResultSet
                             obj[i] = null;
                     }
 
-                    _table.LoadDataRow(obj, LoadOption.OverwriteChanges);
+                    table.LoadDataRow(obj, LoadOption.OverwriteChanges);
                 }
-                _table.EndLoadData();
+                table.EndLoadData();
             }
 
             //display for debug

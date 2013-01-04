@@ -52,29 +52,34 @@ namespace NBi.Core.ResultSet
         {
             _table = new DataTable();
 
-            //Build structure
-            for (int i = 0; i < objects.First().Length; i++)
+            //if > 0 row
+            if (objects.Count() > 0)
             {
-                if (objects.First().ElementAt(i) == null)
-                    Columns.Add(string.Format("Column{0}", i), typeof(string));
-                else
-                    Columns.Add(string.Format("Column{0}", i), objects.First().ElementAt(i).GetType());
-            }
 
-            //load each row one by one
-            _table.BeginLoadData();
-            foreach (var obj in objects)
-            {
-                //Transform (null) [string] into null
-                for (int i = 0; i < obj.Count(); i++)
+                //Build structure
+                for (int i = 0; i < objects.First().Length; i++)
                 {
-                    if(obj[i]!=null && obj[i].ToString().ToLower() == "(null)".ToLower())
-                        obj[i] = null;
+                    if (objects.First().ElementAt(i) == null)
+                        Columns.Add(string.Format("Column{0}", i), typeof(string));
+                    else
+                        Columns.Add(string.Format("Column{0}", i), objects.First().ElementAt(i).GetType());
                 }
 
-                _table.LoadDataRow(obj, LoadOption.OverwriteChanges);
+                //load each row one by one
+                _table.BeginLoadData();
+                foreach (var obj in objects)
+                {
+                    //Transform (null) [string] into null
+                    for (int i = 0; i < obj.Count(); i++)
+                    {
+                        if (obj[i] != null && obj[i].ToString().ToLower() == "(null)".ToLower())
+                            obj[i] = null;
+                    }
+
+                    _table.LoadDataRow(obj, LoadOption.OverwriteChanges);
+                }
+                _table.EndLoadData();
             }
-            _table.EndLoadData();
 
             //display for debug
             ConsoleDisplay();

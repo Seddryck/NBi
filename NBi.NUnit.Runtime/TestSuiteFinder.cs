@@ -2,7 +2,6 @@
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Linq;
 using System.Reflection;
 
 namespace NBi.NUnit.Runtime
@@ -17,7 +16,11 @@ namespace NBi.NUnit.Runtime
             if (File.Exists(configFile))
             {
                 Console.Out.WriteLine("Config file found!");
-                var section = (NBiSection)(ConfigurationManager.GetSection("nbi"));
+                
+                //line bellow to avoid .Net framework bug: http://support.microsoft.com/kb/2580188/en-us
+                var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                
+                var section = (NBiSection)(configuration.GetSection("nbi"));
                 if (section != null && !string.IsNullOrEmpty(section.TestSuiteFilename))
                 {
                     var configFullPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + section.TestSuiteFilename;

@@ -19,5 +19,19 @@ namespace NBi.NUnit.Runtime
                 this["testSuite"] = value;
             }
         }
+
+        // Create a "remoteOnly" attribute.
+        [ConfigurationProperty("enableAutoCategories", IsRequired = false, DefaultValue=true)]
+        public bool EnableAutoCategories
+        {
+            get
+            {
+                return (bool)this["enableAutoCategories"];
+            }
+            set
+            {
+                this["enableAutoCategories"] = value;
+            }
+        }
     }
 }

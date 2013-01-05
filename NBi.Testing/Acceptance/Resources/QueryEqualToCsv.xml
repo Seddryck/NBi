@@ -14,7 +14,7 @@
 		</system-under-test>
 		<assert>
 			<equalTo>
-				<resultSet file="Acceptance\Resources\ResellerOrderCountByYearBefore2006.csv"/>
+				<resultSet file="ResellerOrderCountByYearBefore2006.csv"/>
 			</equalTo>
 		</assert>
 	</test>

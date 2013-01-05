@@ -19,15 +19,19 @@ namespace NBi.NUnit.Runtime
     [TestFixture]
     public class TestSuite
     {
-        public bool EnableAutoCategories { get { return true; } }
+        public bool EnableAutoCategories { get; set; }
 
         internal XmlManager TestSuiteManager { get; private set; }
         internal TestSuiteFinder TestSuiteFinder { get; set; }
+        internal ConnectionStringsFinder ConnectionStringsFinder { get; set; }
+        internal ConfigurationFinder ConfigurationFinder { get; set; }
 
         public TestSuite()
         {
             TestSuiteManager = new XmlManager();
             TestSuiteFinder = new TestSuiteFinder();
+            ConnectionStringsFinder = new ConnectionStringsFinder();
+            ConfigurationFinder = new ConfigurationFinder();
         }
 
         internal TestSuite(XmlManager testSuiteManager, TestSuiteFinder testSuiteFinder)
@@ -83,6 +87,14 @@ namespace NBi.NUnit.Runtime
         {
             TestSuiteManager.Load(TestSuiteFinder.Find());
 
+            //Find configuration of NBi
+            if (ConfigurationFinder != null)
+                ApplyConfig(ConfigurationFinder.Find());
+
+            //Find connection strings referecned from an external file
+            if (ConnectionStringsFinder != null)
+                TestSuiteManager.ConnectionStrings = ConnectionStringsFinder.Find();
+
             List<TestCaseData> testCasesNUnit = new List<TestCaseData>();
 
             foreach (var test in TestSuiteManager.TestSuite.Tests)
@@ -108,7 +120,10 @@ namespace NBi.NUnit.Runtime
             return testCasesNUnit;
         }
 
-        
+        public void ApplyConfig(NBiSection config)
+        {
+            EnableAutoCategories = config.EnableAutoCategories;
+        }
 
 
         protected internal string GetOwnFilename()

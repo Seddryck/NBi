@@ -4,10 +4,10 @@ using Moq;
 using NBi.NUnit.Builder;
 using NBi.NUnit.Query;
 using NBi.Xml.Constraints;
-using NBi.Xml.Constraints.EqualTo;
+using NBi.Xml.Items.ResultSet;
+using NUnit.Framework;
 using Items = NBi.Xml.Items;
 using Systems = NBi.Xml.Systems;
-using NUnit.Framework;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder

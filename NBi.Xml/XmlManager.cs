@@ -4,17 +4,20 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using System.Collections.Specialized;
 
 namespace NBi.Xml
 {
     public class XmlManager
     {
         public virtual TestSuiteXml TestSuite {get; protected set;}
+        public virtual NameValueCollection ConnectionStrings { get; set; }
         protected bool isValid; 
 
         public XmlManager() 
         {
             docXml = new XmlDocument();
+            ConnectionStrings = new NameValueCollection();
         }
 
         public virtual void Load(string filename)
@@ -28,8 +31,10 @@ namespace NBi.Xml
                 Read(reader);
             }
 
+            //Apply Settings hacks
             var basePath = System.IO.Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar;
             TestSuite.Settings.BasePath = basePath;
+            TestSuite.Settings.GetValuesFromConfig(ConnectionStrings);
 
             docXml.Load(filename);
             ReassignXml();

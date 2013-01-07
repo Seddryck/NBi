@@ -66,4 +66,14 @@
 			<contains not="true" caption="member"/>
 		</assert>
 	</test>
+	<test name="Timeout attribute" timeout="1000">
+		<system-under-test>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contains not="true" caption="member"/>
+		</assert>
+	</test>
 </testSuite>

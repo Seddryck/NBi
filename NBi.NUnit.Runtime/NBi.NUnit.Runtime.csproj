@@ -63,6 +63,7 @@
     <Compile Include="TestSuite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestSuiteFinder.cs" />
+    <Compile Include="TestSuiteSetup.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SampleConfigFile.config">

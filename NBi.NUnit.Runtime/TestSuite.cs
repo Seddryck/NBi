@@ -19,7 +19,7 @@ namespace NBi.NUnit.Runtime
     [TestFixture]
     public class TestSuite
     {
-        public bool EnableAutoCategories { get; set; }
+        
 
         internal XmlManager TestSuiteManager { get; private set; }
         internal TestSuiteFinder TestSuiteFinder { get; set; }
@@ -40,12 +40,12 @@ namespace NBi.NUnit.Runtime
             TestSuiteFinder = testSuiteFinder;
         }
 
+        [SetUpFixture]
+        
+
         [Test, TestCaseSource("GetTestCases")]
         public virtual void ExecuteTestCases(TestXml test)
         {
-            Console.Out.WriteLine(string.Format("Test suite loaded from {0}", GetOwnFilename()));
-            Console.Out.WriteLine(string.Format("Test suite defined in {0}", TestSuiteFinder.Find()));
-
             //check if ignore is set to true
             if (test.Ignore)
                 Assert.Ignore(test.IgnoreReason);
@@ -85,16 +85,6 @@ namespace NBi.NUnit.Runtime
 
         public IEnumerable<TestCaseData> GetTestCases()
         {
-            TestSuiteManager.Load(TestSuiteFinder.Find());
-
-            //Find configuration of NBi
-            if (ConfigurationFinder != null)
-                ApplyConfig(ConfigurationFinder.Find());
-
-            //Find connection strings referecned from an external file
-            if (ConnectionStringsFinder != null)
-                TestSuiteManager.ConnectionStrings = ConnectionStringsFinder.Find();
-
             List<TestCaseData> testCasesNUnit = new List<TestCaseData>();
 
             foreach (var test in TestSuiteManager.TestSuite.Tests)
@@ -120,29 +110,5 @@ namespace NBi.NUnit.Runtime
             return testCasesNUnit;
         }
 
-        public void ApplyConfig(NBiSection config)
-        {
-            EnableAutoCategories = config.EnableAutoCategories;
-        }
-
-
-        protected internal string GetOwnFilename()
-        {
-            //get the full location of the assembly with DaoTests in it
-            var fullPath = System.Reflection.Assembly.GetAssembly(typeof(TestSuite)).Location;
-
-            //get the filename that's in
-            var fileName = Path.GetFileName( fullPath );
-
-            return fileName;
-        }
-
-        protected internal string GetManifestName()
-        {
-            //get the full location of the assembly with DaoTests in it
-            var fullName = System.Reflection.Assembly.GetAssembly(typeof(TestSuite)).ManifestModule.Name;
-
-            return fullName;
-        }
     }
 }

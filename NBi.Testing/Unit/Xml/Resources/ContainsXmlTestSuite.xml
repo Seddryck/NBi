@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="hierarchy contains member with caption xyz (implicitely ignoring case)">
+		<system-under-test>
+			<members>
+				<hierarchy dimension="dimension" caption="hierarchy" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contains
+				caption="xyz"
+			/>
+		</assert>
+	</test>
+	<test name="hierarchy contains member with caption xyz (explicitely not ignoring case)">
+		<system-under-test>
+			<members>
+				<hierarchy dimension="dimension" caption="hierarchy" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contains
+				caption="xYz"
+				ignore-case="true"
+			/>
+		</assert>
+	</test>
+</testSuite>

@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items
 {
-    abstract public class AbstractItem
+    abstract public class AbstractItem : BaseItem
     {
         [XmlAttribute("caption")]
         public string Caption { get; set; }

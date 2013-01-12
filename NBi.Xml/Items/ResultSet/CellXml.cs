@@ -1,7 +1,7 @@
 ﻿using System.Xml.Serialization;
 using NBi.Core.ResultSet;
 
-namespace NBi.Xml.Constraints.EqualTo
+namespace NBi.Xml.Items.ResultSet
 {
     public class CellXml : ICell
     {

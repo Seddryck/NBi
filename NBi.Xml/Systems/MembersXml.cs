@@ -16,6 +16,14 @@ namespace NBi.Xml.Systems
         ]
         public AbstractMembersItem Item { get; set; }
 
+        public override BaseItem BaseItem
+        {
+            get
+            {
+                return Item;
+            }
+        }
+
         public virtual string GetConnectionString()
         {
             //if ConnectionString is specified then return it

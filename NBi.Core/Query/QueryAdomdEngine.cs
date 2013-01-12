@@ -47,10 +47,11 @@ namespace NBi.Core.Query
             // Open the connection
             using (var connection = new AdomdConnection())
             {
+                var connectionString = _command.Connection.ConnectionString;
                 try
-                    { connection.ConnectionString = _command.Connection.ConnectionString; }
+                    { connection.ConnectionString = connectionString; }
                 catch (ArgumentException ex)
-                    {throw new ConnectionException(ex);}
+                { throw new ConnectionException(ex, connectionString); }
                 //TODO
                 //try
                 //    {connection.Open();}
@@ -69,7 +70,7 @@ namespace NBi.Core.Query
                 }
                 catch (AdomdConnectionException ex)
                 {
-                    throw new ConnectionException(ex);
+                    throw new ConnectionException(ex, connectionString);
                 }
 
                 // capture time after execution
@@ -88,13 +89,14 @@ namespace NBi.Core.Query
 
             using (var connection = new AdomdConnection())
             {
+                var connectionString = _command.Connection.ConnectionString;
                 try
                 {
-                    connection.ConnectionString = _command.Connection.ConnectionString;
+                    connection.ConnectionString = connectionString;
                     connection.Open();
                 }
                 catch (ArgumentException ex)
-                { throw new ConnectionException(ex); }
+                { throw new ConnectionException(ex, connectionString); }
                 
                 using (AdomdCommand cmdIn = new AdomdCommand(_command.CommandText, connection))
                 {

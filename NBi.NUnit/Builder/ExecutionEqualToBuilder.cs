@@ -44,7 +44,7 @@ namespace NBi.NUnit.Builder
                 if (!string.IsNullOrEmpty(ConstraintXml.ResultSet.File))
                 {
                     Console.WriteLine("Debug: ResultSet.File defined in external file!");
-                    ctr = new EqualToConstraint(ConstraintXml.ResultSet.File);
+                    ctr = new EqualToConstraint(ConstraintXml.ResultSet.GetFile());
                 }
                 else if (ConstraintXml.ResultSet.Rows!=null)
                 {

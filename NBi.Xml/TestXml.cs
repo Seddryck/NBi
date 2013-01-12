@@ -63,6 +63,9 @@ namespace NBi.Xml
             }
         }
 
+        [XmlAttribute("timeout")]
+        public int Timeout { get; set; }
+
         [XmlElement("category")]
         public List<string> Categories;
 

@@ -28,7 +28,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             catch (AdomdConnectionException ex)
             {
 
-                throw new ConnectionException(ex);
+                throw new ConnectionException(ex, conn.ConnectionString);
             }
 
 
@@ -46,9 +46,9 @@ namespace NBi.Core.Analysis.Metadata.Adomd
                 return rdr;
             }
             catch (AdomdConnectionException ex)
-            { throw new ConnectionException(ex); }
+            { throw new ConnectionException(ex, cmd.Connection.ConnectionString); }
             catch (AdomdErrorResponseException ex)
-            { throw new ConnectionException(ex); }
+            { throw new ConnectionException(ex, cmd.Connection.ConnectionString); }
         }
 
 

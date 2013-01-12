@@ -4,12 +4,12 @@ using System.Text;
 using System.Xml.Serialization;
 using NBi.Core;
 using NBi.Xml.Settings;
+using System.IO;
 
 namespace NBi.Xml.Items
 {
-    public class QueryXml
+    public class QueryXml : BaseItem
     {
-        public DefaultXml Default { get; set; }
         
         [XmlAttribute("file")]
         public string File { get; set; }
@@ -30,9 +30,14 @@ namespace NBi.Xml.Items
                 return InlineQuery;
 
             //Else check that file exists and read the file's content
-            if (!System.IO.File.Exists(File))
-                throw new ExternalDependencyNotFoundException(File);
-            var query = System.IO.File.ReadAllText(File, Encoding.UTF8);
+            var file = string.Empty;
+            if (Path.IsPathRooted(File))
+                file = File;
+            else
+                file = Settings.BasePath + File;
+            if (!System.IO.File.Exists(file))
+                throw new ExternalDependencyNotFoundException(file);
+            var query = System.IO.File.ReadAllText(file, Encoding.UTF8);
             return query;
         }
 

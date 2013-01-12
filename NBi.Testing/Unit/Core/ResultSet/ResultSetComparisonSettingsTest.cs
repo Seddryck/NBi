@@ -5,10 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using NBi.Core.ResultSet;
 using NBi.Xml.Constraints;
-using NBi.Xml.Constraints.EqualTo;
+using NBi.Xml.Items.ResultSet;
 using NUnit.Framework;
-using NBi.Core;
-
 #endregion
 
 namespace NBi.Testing.Unit.Core.ResultSet

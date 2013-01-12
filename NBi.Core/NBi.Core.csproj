@@ -125,6 +125,7 @@
     <Compile Include="Analysis\Metadata\PropertyCollection.cs" />
     <Compile Include="Analysis\Metadata\Field.cs" />
     <Compile Include="ExternalDependencyNotFoundException.cs" />
+    <Compile Include="NBiException.cs" />
     <Compile Include="TestException.cs" />
     <Compile Include="Query\QueryAdomdEngine.cs" />
     <Compile Include="Query\IQueryEnginable.cs" />

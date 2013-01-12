@@ -38,7 +38,7 @@ namespace NBi.Core.Analysis.Member
             catch (AdomdConnectionException ex)
             {
 
-                throw new ConnectionException(ex);
+                throw new ConnectionException(ex, conn.ConnectionString);
             }
 
 
@@ -56,9 +56,9 @@ namespace NBi.Core.Analysis.Member
                 return rdr;
             }
             catch (AdomdConnectionException ex)
-            { throw new ConnectionException(ex); }
+            { throw new ConnectionException(ex, cmd.Connection.ConnectionString); }
             catch (AdomdErrorResponseException ex)
-            { throw new ConnectionException(ex); }
+            { throw new ConnectionException(ex, cmd.Connection.ConnectionString); }
         }
 
         protected CellSet ExecuteCellSet(AdomdCommand cmd)
@@ -70,9 +70,9 @@ namespace NBi.Core.Analysis.Member
                 return cs;
             }
             catch (AdomdConnectionException ex)
-            { throw new ConnectionException(ex); }
+            { throw new ConnectionException(ex, cmd.Connection.ConnectionString); }
             catch (AdomdErrorResponseException ex)
-            { throw new ConnectionException(ex); }
+            { throw new ConnectionException(ex, cmd.Connection.ConnectionString); }
         }
 
 

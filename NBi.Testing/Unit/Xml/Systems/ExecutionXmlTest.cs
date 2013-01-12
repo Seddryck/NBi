@@ -70,7 +70,10 @@ namespace NBi.Testing.Unit.Xml.Systems
 
             var systemUnderTest = new ExecutionXml()
             {
-                Item = new QueryXml() { File = filename }
+                Item = new QueryXml() { 
+                    File = filename, 
+                    Settings = new NBi.Xml.Settings.SettingsXml() { BasePath=DiskOnFile.GetDirectoryPath() }
+                }
             };
 
             // Check the properties of the object.

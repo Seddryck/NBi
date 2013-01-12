@@ -99,7 +99,11 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             testSuiteManagerStub.Setup(mgr => mgr.Load(It.IsAny<string>()));
             testSuiteManagerStub.Setup(mgr => mgr.TestSuite).Returns(testSuiteXml);
 
-            var testSuite = new TestSuite(testSuiteManagerStub.Object);
+            //Building a stub for TestSuiteFinder
+            var testSuiteFinderStub = new Mock<TestSuiteFinder>();
+            testSuiteFinderStub.Setup(finder => finder.Find()).Returns(string.Empty);
+
+            var testSuite = new TestSuite(testSuiteManagerStub.Object, testSuiteFinderStub.Object);
 
             //Call the method to test
             var testCases = testSuite.GetTestCases();

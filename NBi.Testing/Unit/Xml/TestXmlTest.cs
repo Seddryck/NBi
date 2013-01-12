@@ -126,5 +126,17 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(((ContainsXml)ts.Tests[testNr].Constraints[0]).Not, Is.EqualTo(true));
         }
 
+        [Test]
+        public void Deserialize_SampleFile_TimeoutAttributeCorrectlyRead()
+        {
+            int testNr = 5;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Timeout, Is.TypeOf<int>());
+            Assert.That(ts.Tests[testNr].Timeout, Is.EqualTo(1000));
+        }
+
     }
 }

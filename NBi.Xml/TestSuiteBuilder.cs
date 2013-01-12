@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using NBi.Xml.Constraints;
-using NBi.Xml.Constraints.EqualTo;
 using NBi.Xml.Items;
+using NBi.Xml.Items.ResultSet;
 
 namespace NBi.Xml
 {

@@ -18,7 +18,7 @@
 	<test name="In dimension 'employee', a hierrachy named 'Sick Leave Hours' exists" uid="0002">
 		<system-under-test>
 			<structure>
-				<hierarchy dimension="Employee" caption="Sick Leave Hours" perspective="Adventure Works"/>
+				<hierarchy caption="Sick Leave Hours" dimension="Employee" perspective="Adventure Works"/>
 			</structure>
 		</system-under-test>
 		<assert>
@@ -68,7 +68,7 @@
 	<test name="In Measure-group '{sut:measure-group}', a measure '{sut:caption}' exists" uid="0007">
 		<system-under-test>
 			<structure>
-				<measure measure-group="Reseller Sales" caption="Reseller Order Quantity" perspective="Adventure Works"/>
+				<measure caption="Reseller Order Quantity" measure-group="Reseller Sales" perspective="Adventure Works"/>
 			</structure>
 		</system-under-test>
 		<assert>
@@ -78,7 +78,7 @@
 	<test name="In Measure-group '{sut:measure-group}', and display-folder '{sut:display-folder}', a measure '{sut:caption}' exists" uid="0007">
 		<system-under-test>
 			<structure>
-				<measure measure-group="Reseller Sales" display-folder="" caption="Reseller Order Quantity" perspective="Adventure Works"/>
+				<measure caption="Reseller Order Quantity" measure-group="Reseller Sales" display-folder="" perspective="Adventure Works"/>
 			</structure>
 		</system-under-test>
 		<assert>

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NBi.Core;
 using NBi.Core.Analysis.Metadata;
 using NBi.Core.Analysis.Metadata.Adomd;
 using NBi.Core.Analysis.Request;
@@ -16,6 +17,14 @@ namespace NBi.NUnit.Structure
         protected IComparer comparer;
         protected MetadataDiscoveryRequest request;
         protected AdomdDiscoveryCommandFactory commandFactory;
+
+        protected string ExpectedCaption
+        {
+            get
+            {
+                return request.GetAllFilters().Single(f => f.Target == request.Target).Value;
+            }
+        }
 
         /// <summary>
         /// Engine dedicated to MetadataExtractor acquisition
@@ -43,7 +52,7 @@ namespace NBi.NUnit.Structure
         public ExistsConstraint()
             : base()
         {
-
+            comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(true);
         }
 
         #region Modifiers
@@ -54,6 +63,7 @@ namespace NBi.NUnit.Structure
         {
             get
             {
+                comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(false);
                 return this;
             }
         }
@@ -75,7 +85,13 @@ namespace NBi.NUnit.Structure
 
         public bool doMatch(IEnumerable<IField> actual)
         {
-            return (actual.Count() > 0);
+            var expected = new StringComparerHelper() { Value = ExpectedCaption };
+
+            foreach (var field in actual)
+                if (comparer.Compare(field, expected) == 0)
+                    return true;
+           
+            return false;
         }
 
 
@@ -85,6 +101,7 @@ namespace NBi.NUnit.Structure
             var factory = GetFactory();
             var command = factory.BuildExact(actual);
             IEnumerable<IField> structures = command.Execute();
+            this.actual = structures;
             return this.Matches(structures);
         }
 
@@ -112,7 +129,7 @@ namespace NBi.NUnit.Structure
                 var filterExpression = description.GetFilterExpression(request.GetAllFilters().Where(f => f.Target != request.Target));
                 var notExpression = description.GetNotExpression(true);
                 var targetExpression = description.GetTargetExpression(request.Target);
-                var captionExpression = request.GetAllFilters().Single(f => f.Target==request.Target).Value;
+                var captionExpression = ExpectedCaption;
 
                 writer.WritePredicate(string.Format("find {0} {1} named '{2}' {3}"
                             , notExpression
@@ -124,11 +141,19 @@ namespace NBi.NUnit.Structure
 
         public override void WriteActualValueTo(MessageWriter writer)
         {
-            Investigate();
-            if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() > 0)
-                base.WriteActualValueTo(writer);
+            //IF actual is not empty it means we've an issue with Casing
+            if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() == 1)
+            {
+                writer.WriteActualValue(string.Format("< <{0}> > (Case not mtaching)", ((IEnumerable<IField>)actual).ToArray()[0].Caption));
+            }
             else
-                writer.WriteActualValue(new NothingFoundMessage());
+            {
+                Investigate();
+                if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() > 0)
+                    base.WriteActualValueTo(writer);
+                else
+                    writer.WriteActualValue(new NothingFoundMessage());
+            }
         }
 
         private class NothingFoundMessage

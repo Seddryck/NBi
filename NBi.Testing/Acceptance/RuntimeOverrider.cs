@@ -38,15 +38,15 @@ namespace NBi.Testing.Acceptance
         
         //By Acceptance Test Suite (file) create a Test Case
         [Test]
-        [TestCase("QueryEqualToCsv.xml")]
-        [TestCase("QueryEqualToQuery.xml")]
-        [TestCase("QueryEqualToResultSet.xml")]
-        [TestCase("QueryEqualToResultSetWithNull.xml")]
-        [TestCase("Ordered.xml")]
-        [TestCase("Count.xml")]
-        [TestCase("Contains.xml")]
-        [TestCase("fasterThan.xml")]
-        [TestCase("SyntacticallyCorrect.xml")]
+        //[TestCase("QueryEqualToCsv.xml")]
+        //[TestCase("QueryEqualToQuery.xml")]
+        //[TestCase("QueryEqualToResultSet.xml")]
+        //[TestCase("QueryEqualToResultSetWithNull.xml")]
+        //[TestCase("Ordered.xml")]
+        //[TestCase("Count.xml")]
+        //[TestCase("Contains.xml")]
+        //[TestCase("fasterThan.xml")]
+        //[TestCase("SyntacticallyCorrect.xml")]
         [TestCase("Exists.xml")]
         public void RunTestSuite(string filename)
         {

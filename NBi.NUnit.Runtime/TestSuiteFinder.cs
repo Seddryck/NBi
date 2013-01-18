@@ -12,10 +12,10 @@ namespace NBi.NUnit.Runtime
         {
             string configFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
             //Try to find a config file, if existing take the path inside for the TestSuite
-            Console.Out.WriteLine("Looking after config file located at '{0}'", configFile);
+            Console.Out.WriteLine("Looking for the config file located at '{0}'.", configFile);
             if (File.Exists(configFile))
             {
-                Console.Out.WriteLine("Config file found!");
+                Console.Out.WriteLine("The config file has been found.");
                 
                 //line bellow to avoid .Net framework bug: http://support.microsoft.com/kb/2580188/en-us
                 var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
@@ -27,15 +27,16 @@ namespace NBi.NUnit.Runtime
                     return configFullPath;
                 }
                 else
-                    Console.Out.WriteLine("Config file not redirecting to a test suite!");
+                    Console.Out.WriteLine("The config file is not redirecting to a test suite.");
             }
             else
-                Console.Out.WriteLine("No config file found!");
+                Console.Out.WriteLine("No config file has been found!");
 
             // If no config file is registered then search the first "nbits" (NBi Test Suite) file
-            Console.Out.WriteLine("Looking after 'nbits' files ...");
-            string assem = Path.GetFullPath((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath).Replace("%20", " ");
-            var files = System.IO.Directory.GetFiles(Path.GetDirectoryName(assem), "*.nbits");
+            string assem = Path.GetFullPath((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath).Replace("%20", " "); 
+            string directory = Path.GetDirectoryName(assem);
+            Console.Out.WriteLine("Looking for a 'nbits' files in directory '{0}'.", directory);
+            var files = System.IO.Directory.GetFiles(directory, "*.nbits");
             if (files.Count() > 0)
             {
                 if (files.Count() == 1)
@@ -45,7 +46,7 @@ namespace NBi.NUnit.Runtime
                 return files[0];
             }
 
-            throw new ArgumentNullException("No config or nbits file has been found.");
+            throw new ArgumentNullException("No config file or nbits file has been found.");
         }
     }
 }

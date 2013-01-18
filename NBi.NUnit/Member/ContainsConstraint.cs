@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq;
 using NBi.Core;
 using NBi.Core.Analysis.Member;
 using NBi.Core.Analysis.Request;
@@ -81,6 +83,7 @@ namespace NBi.NUnit.Member
         }
         #endregion
 
+
         public override bool Matches(object actual)
         {
             if (actual is MembersDiscoveryRequest)
@@ -98,6 +101,7 @@ namespace NBi.NUnit.Member
             request = actual;
             var extr = GetEngine();
             MemberResult result = extr.GetMembers(request);
+            this.actual = result;
             return this.Matches(result);
         }
 
@@ -119,6 +123,20 @@ namespace NBi.NUnit.Member
             //    base.WriteDescriptionTo(writer);
         }
 
+        public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
+        {
+            if (actual is MemberResult && ((MemberResult)actual).Count() > 0 && ((MemberResult)actual).Count()<=15)
+                writer.WriteActualValue((IEnumerable)actual);
+            else if (actual is MemberResult && ((MemberResult)actual).Count() > 0 && ((MemberResult)actual).Count() > 15)
+            {
+                writer.WriteActualValue(((IEnumerable<NBi.Core.Analysis.Member.Member>)actual).Take(10));
+                writer.WriteActualValue(string.Format(" ... and {0} others.", ((MemberResult)actual).Count() - 10));
+            }
+            else
+                writer.WriteActualValue(new NothingFoundMessage());
+        }
+
+
         protected string GetFunctionLabel(string function)
         {
             switch (function.ToLower())
@@ -129,6 +147,14 @@ namespace NBi.NUnit.Member
                     return "member";
                 default:
                     return "?";
+            }
+        }
+
+        private class NothingFoundMessage
+        {
+            public override string ToString()
+            {
+                return "nothing found";
             }
         }
 

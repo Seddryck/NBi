@@ -90,6 +90,7 @@ namespace NBi.NUnit.Member
                 return Process((MembersDiscoveryRequest)actual);
             else
             {
+                this.actual = actual;
                 internalConstraint = internalConstraint.Using(comparer);
                 var res = internalConstraint.Matches(actual);
                 return res;
@@ -101,7 +102,6 @@ namespace NBi.NUnit.Member
             request = actual;
             var extr = GetEngine();
             MemberResult result = extr.GetMembers(request);
-            this.actual = result;
             return this.Matches(result);
         }
 
@@ -150,7 +150,7 @@ namespace NBi.NUnit.Member
             }
         }
 
-        private class NothingFoundMessage
+        protected internal class NothingFoundMessage
         {
             public override string ToString()
             {

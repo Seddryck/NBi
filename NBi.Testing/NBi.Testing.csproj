@@ -164,28 +164,6 @@
     <MyOptionalItems Include="ConnectionString.user.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
-      <Project>{3F730647-FE31-4907-8A6E-A0C4A0C970EA}</Project>
-      <Name>NBi.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.NUnit.Runtime\NBi.NUnit.Runtime.csproj">
-      <Project>{5AA137A9-C158-4A4F-B07D-3DF787618C24}</Project>
-      <Name>NBi.NUnit.Runtime</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.NUnit\NBi.NUnit.csproj">
-      <Project>{66314704-AA76-4153-80D8-CA2C5FF06976}</Project>
-      <Name>NBi.NUnit</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.UI\NBi.UI.csproj">
-      <Project>{18ED64E4-7D72-4A2C-9CD8-46F732D287ED}</Project>
-      <Name>NBi.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
-      <Project>{3A9822B3-CCE4-441B-9C3E-D52817A994CA}</Project>
-      <Name>NBi.Xml</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\Resources\DescriptionXmlTestSuite.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -287,6 +265,28 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
+      <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
+      <Name>NBi.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NBi.NUnit.Runtime\NBi.NUnit.Runtime.csproj">
+      <Project>{5aa137a9-c158-4a4f-b07d-3df787618c24}</Project>
+      <Name>NBi.NUnit.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NBi.NUnit\NBi.NUnit.csproj">
+      <Project>{66314704-aa76-4153-80d8-ca2c5ff06976}</Project>
+      <Name>NBi.NUnit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NBi.UI\NBi.UI.csproj">
+      <Project>{18ed64e4-7d72-4a2c-9cd8-46f732d287ed}</Project>
+      <Name>NBi.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
+      <Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>
+      <Name>NBi.Xml</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

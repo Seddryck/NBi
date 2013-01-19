@@ -68,7 +68,6 @@ namespace NBi.Testing.Integration.NUnit.Structure
             Assert.That(ctr.Matches(discovery), Is.False);
         }
 
-        //TODO PRIORITY
         [Test, Category("Olap cube")]
         public void ContainsConstraint_FindExistingDimension_Success()
         {
@@ -86,7 +85,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
 
         }
 
-        //[Test, Category("Olap cube")]
+        [Test, Category("Olap cube")]
         public void ContainsConstraint_FindNonExistingDimension_Failure()
         {
             var discovery = new DiscoveryRequestFactory().Build(

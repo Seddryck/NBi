@@ -1,0 +1,64 @@
+! Test the availability of a measure (through a perspective) 
+!! System under test
+In order to let you check that a measure is available through a perspective, you need to stipulate where you'll be looking for. This is done by creating a tag named "structure" under the node "system-under-test".
+{code:xml}
+<test>
+    <system-under-test>
+        <structure/>
+    </system-under-test>
+</test>
+{code:xml}
+In this xml node, named "structure", you'll need to specify the path to reach the container of the element you're checking availability. This is done by respecting some MDX specifications. So you need to specify two attributes named "path" and "measure-group". For a measure the path must always be "[Measures]"! Note also that measure-groups have no unique name so you need to specify the caption.
+{code:xml}
+<structure path="[Measures]" measure-group="my measure group"/>
+{code:xml}
+When done, it'll also be needed to specify the perspective through which you'll be executing your test. To do this, fill the Xml attribute named "perspective". Note that perspectives have no unique name, so you must fill this information with the perspective's display name (so without brackets).
+{code:xml}
+<structure path="[Measures]" measure-group="my measure group" perspective="myPerspective"/>
+{code:xml}
+Finally, the last information needed is the connectionString to reach your cube. This information must be provided by the means of the Xml attribute named "connectionString".
+{code:xml}
+<structure path="[Measures]" measure-group="my measure group" perspective="myPerspective" 
+    connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+{code:xml}
+
+!! Assertion
+The assertion consists in a check that the path/measure-group specified above contains a child with a specific caption (through the given perspective).
+
+So we need to specify that we'll perform an assertion of type "contains":
+{code:xml}
+<test>
+    <assert>
+        <contains/>
+    </assert>
+</test>
+{code:xml}
+Then we need to specify which caption we're looking for:
+{code:xml}
+<contains caption="MyMeasure"/>
+{code:xml}
+
+If we're checking that the measure-group named "my measure group" contains a measure displayed "MyMeasure" then our test should be:
+{code:xml}
+<test>
+    <system-under-test>
+        <structure 
+            path="[Measures]"
+            measure-group="my measure group"
+            perspective="myPerspective" 
+            connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"
+        />
+    </system-under-test>
+    <assert>
+        <contains caption="MyMeasure"/>
+    </assert>
+</test>
+{code:xml}
+
+You can also include the name of the display-folder where you're expecting to find the measure in the assertion:
+{code:xml}
+    <assert>
+        <contains caption="MyMeasure" display-folder="my display folder"/>
+    </assert>
+{code:xml}
+

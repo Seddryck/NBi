@@ -319,5 +319,95 @@ namespace NBi.Testing.Integration.NUnit
             Assert.That(actual, Is.False);
         }
 
+        [Test]
+        public void Matches_SqlQueryWithDateComparedToString_Matching()
+        {
+            //Buiding object used during test
+            var expectedQuery = "SELECT 'CY 2006',  CAST('2006-01-01' AS DATE)";
+
+            var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+
+            var columns = new List<IColumn>();
+            columns.Add(new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime });
+
+            var ctr = new EqualToConstraint(expectedCmd);
+            ctr.Using(
+                    new ResultSetComparisonSettings(
+                        ResultSetComparisonSettings.KeysChoice.AllExpectLast,
+                        ResultSetComparisonSettings.ValuesChoice.Last,
+                        columns
+                    )
+                );
+
+            var query = "SELECT 'CY 2006',  '1/01/2006 00:00:00'";
+            var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+
+            //Call the method to test
+            var actual = ctr.Matches(cmd);
+
+            //Assertion
+            Assert.That(actual, Is.True);
+        }
+
+        [Test]
+        public void Matches_SqlQueryWithDateComparedToStringAnotherDate_NonMatching()
+        {
+            //Buiding object used during test
+            var expectedQuery = "SELECT 'CY 2006',  CAST('2006-01-02' AS DATE)";
+
+            var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+
+            var columns = new List<IColumn>();
+            columns.Add(new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime });
+
+            var ctr = new EqualToConstraint(expectedCmd);
+            ctr.Using(
+                    new ResultSetComparisonSettings(
+                        ResultSetComparisonSettings.KeysChoice.AllExpectLast,
+                        ResultSetComparisonSettings.ValuesChoice.Last,
+                        columns
+                    )
+                );
+
+            var query = "SELECT 'CY 2006',  '1/01/2006 00:00:00'";
+            var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+
+            //Call the method to test
+            var actual = ctr.Matches(cmd);
+
+            //Assertion
+            Assert.That(actual, Is.False);
+        }
+
+        [Test]
+        public void Matches_SqlQueryWithDateComparedToStringAnotherHour_NonMatching()
+        {
+            //Buiding object used during test
+            var expectedQuery = "SELECT 'CY 2006',  CAST('2006-01-01' AS DATE)";
+
+            var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+
+            var columns = new List<IColumn>();
+            columns.Add(new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime });
+
+            var ctr = new EqualToConstraint(expectedCmd);
+            ctr.Using(
+                    new ResultSetComparisonSettings(
+                        ResultSetComparisonSettings.KeysChoice.AllExpectLast,
+                        ResultSetComparisonSettings.ValuesChoice.Last,
+                        columns
+                    )
+                );
+
+            var query = "SELECT 'CY 2006',  '1/01/2006 01:00:00'";
+            var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+
+            //Call the method to test
+            var actual = ctr.Matches(cmd);
+
+            //Assertion
+            Assert.That(actual, Is.False);
+        }
+
     }
 }

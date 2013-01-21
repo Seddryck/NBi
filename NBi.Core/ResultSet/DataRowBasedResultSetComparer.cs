@@ -117,6 +117,24 @@ namespace NBi.Core.ResultSet
                                 }
                                 
                             }
+                            //Numeric
+                            else if (Settings.IsDateTime(i))
+                            {
+                                //Console.WriteLine("Debug: {0} {1}", rx[i].ToString(), rx[i].GetType());
+
+                                //Convert to decimal
+                                var rxDateTime = Convert.ToDateTime(rx[i], DateTimeFormatInfo.InvariantInfo);
+                                var ryDateTime = Convert.ToDateTime(ry[i], DateTimeFormatInfo.InvariantInfo);
+
+                                //Compare decimals (with tolerance)
+                                if (!IsEqual(rxDateTime, ryDateTime))
+                                {
+                                    ry.SetColumnError(i, rxDateTime.ToString());
+                                    if (!nonMatchingValueRows.Contains(ry))
+                                        nonMatchingValueRows.Add(ry);
+                                }
+
+                            }
                             //Not Numeric
                             else
                             {

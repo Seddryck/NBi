@@ -1,0 +1,58 @@
+! Test the availability of an hierarchy or level in a dimension (through a perspective)
+!! System under test
+In order to let you check that an element of a dimension is available through a perspective, you need to stipulate where you'll be looking. This is done by creating a tag named "structure" under the node "system-under-test".
+{code:xml}
+<test>
+    <system-under-test>
+        <structure/>
+    </system-under-test>
+</test>
+{code:xml}
+In this node named "structure", you'll need to specify the path to reach the container of the element you're checking availability. This is done by filling the xml attribute named "path" with the unique of your dimension,
+{code:xml}
+<structure path="[MyDimension]"/>
+{code:xml}
+or the hierarchy,
+{code:xml}
+<structure path="[MyDimension].[MyHierarchy]"/>
+{code:xml}
+When done, it'll also be neeeded to specify the perspective through which you'll be executing your test. To do this, fill the xml attribute named "perspective". Note that perspectives have no unique name, so you must fill this information with the perspective's displayname (and so without brackets).
+{code:xml}
+<structure path="[MyDimension].[MyHierarchy]" perspective="myPerspective"/>
+{code:xml}
+Finally, the last information needed is the connectionString to reach your cube. This information must be provided by the means of the xml attribute named "connectionString".
+{code:xml}
+<structure path="[MyDimension].[MyHierarchy]" perspective="myPerspective" 
+    connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+{code:xml}
+
+!! Assertion
+The assertion consists in a check that the path specified above contains a child with a specific caption (through the given perspective).
+
+So we need to specify that we'll perform an assertion of type "contains":
+{code:xml}
+<test>
+    <assert>
+        <contains/>
+    </assert>
+</test>
+{code:xml}
+The we need to specify which caption we're looking for:
+{code:xml}
+<contains caption="MyLevel"/>
+{code:xml}
+If we're checking that the hierarchy named "MyHierarchy" has a level named "MyLevel" then our test should be:
+{code:xml}
+<test>
+    <system-under-test>
+        <structure 
+            path="[MyDimension].[MyHierarchy]"
+            perspective="myPerspective" 
+            connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"
+        />
+    </system-under-test>
+    <assert>
+        <contains caption="MyLevel"/>
+    </assert>
+</test>
+{code:xml}

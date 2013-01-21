@@ -1,0 +1,59 @@
+! Manually create my first test suite with NBi 
+First, create an Xml file with your favourite Xml editor. If you want to validate the syntax of your file during its creation, you can reference, in your editor, the XSD available in file NBi-TestSuite.xsd.
+
+Your xml file should start with standard metadata information
+{code:xml}
+<?xml version="1.0" encoding="utf-8"?>
+{code:xml}
+Then, you must create a test suite and give it a name
+{code:xml}
+<testSuite name="My first test suite" xmlns="http://NBi/TestSuite">
+{code:xml}
+Inside your test suite, you need to specify your test and its name. This name will be used by the underlying framework (NUnit) and so will be displayed in reports and UI.
+{code:xml}
+<test name="my first test">
+{code:xml}
+For each test, you need to specify the system under test and the assertion that will be executed on this system. These two parts of the test are defined by the following tags 
+{code:xml}
+<system-under-test />
+{code:xml}
+and 
+{code:xml}
+<assert />
+{code:xml}
+In our sample, we'll test the structure of a cube. The full test will be to check that through the perspective "my perspective's caption", I've a dimension ([my dimension]) with an hierarchy displayed to end-user with the name "my hierarchy". 
+
+First, we need to specify on which item we'll perform a test. In this case on the dimension (through the perspective). For this, we're using the key tag named "structure" under the tag "system-under-test".
+{code:xml}
+<system-under-test>
+      <structure path="[my dimension]" perspective="my perspective's caption" connectionString="Provider=MSOLAP.4;Data Source=.;Integrated Security=SSPI;Initial Catalog=MyCube;" />
+</system-under-test>
+{code:xml}
+Note that you need to specify the unique name of your dimension. Usually, the unique name is the caption between brackets. The perspectives have no unique name and the caption can be used to identify them.
+
+After the definition of the system under test, you need to define what will be tested on this system. Here, we will assert that this system (the dimension) has effectively an hierarchy named "my hierarchy". The key Xml tag for this is "contains"
+{code:xml}
+<assert>
+      <contains caption="my hierarchy"/>
+</assert>
+{code:xml}
+
+The full definition for this test is available here under
+{code:xml}
+<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="My first test suite" xmlns="http://NBi/TestSuite">
+  <test name="My first test">
+    <system-under-test>
+      <structure path="[my dimension]" perspective="my perspective's caption" connectionString="Provider=MSOLAP.4;Data Source=.;Integrated Security=SSPI;Initial Catalog=MyCube;" />
+    </system-under-test>
+    <assert>
+      <contains caption="my hierarchy"/>
+    </assert>
+  </test>
+</testSuite>
+{code:xml}
+Naturally, you can specify more than one test in a test suite by creating more <test/> tags.
+
+Your next step is to effectively [run a test suite|RunTestSuite]
+
+[image:Test-Suite XML.png]

@@ -26,7 +26,7 @@
 			</execution>
 		</system-under-test>
 		<assert>
-			<fasterThan max-time-milliSeconds="100"/>
+			<fasterThan max-time-milliSeconds="5000"/>
 		</assert>
 	</test>
 </testSuite>

@@ -179,7 +179,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\QueryFile€.mdx">
+    <EmbeddedResource Include="Unit\Xml\Resources\QueryFileEuro.mdx">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

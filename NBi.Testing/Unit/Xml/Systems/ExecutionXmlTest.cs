@@ -88,7 +88,7 @@ namespace NBi.Testing.Unit.Xml.Systems
         public void GetQuery_FilenameSpecified_RetrieveContentWithEuroSymbol()
         {
             //create a text file on disk
-            var filename = DiskOnFile.CreatePhysicalFile("QueryFile€.mdx", "NBi.Testing.Unit.Xml.Resources.QueryFile€.mdx");
+            var filename = DiskOnFile.CreatePhysicalFile("QueryFile€.mdx", "NBi.Testing.Unit.Xml.Resources.QueryFileEuro.mdx");
 
             //Instantiate a Test Case and specify to find the sql in the file created above
             var testCase = new ExecutionXml()

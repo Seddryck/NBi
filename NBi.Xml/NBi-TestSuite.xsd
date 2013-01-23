@@ -150,7 +150,7 @@
 																			<xs:restriction base="xs:string">
 																				<xs:enumeration value="numeric"/>
 																				<xs:enumeration value="text"/>
-																				<xs:enumeration value="dateTime"/>
+																				<!--<xs:enumeration value="dateTime"/>-->
 																			</xs:restriction>
 																		</xs:simpleType>
 																	</xs:attribute>

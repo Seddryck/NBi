@@ -21,20 +21,27 @@ and
 {code:xml}
 <assert />
 {code:xml}
-In our sample, we'll test the structure of a cube. The full test will be to check that through the perspective "my perspective's caption", I've a dimension ([my dimension]) with an hierarchy displayed to end-user with the name "my hierarchy". 
+In our sample, we'll test the structure of a cube. The full test will be to check that through the perspective "my perspective's caption", I've a dimension (my dimension) with an hierarchy displayed to end-user with the name "my hierarchy". 
 
-First, we need to specify on which item we'll perform a test. In this case on the dimension (through the perspective). For this, we're using the key tag named "structure" under the tag "system-under-test".
+First, we need to specify which kind of test we'll perform. Here we'll perform a test of structure. For this, we're using the key tag named "structure" under the tag "system-under-test". 
 {code:xml}
 <system-under-test>
-      <structure path="[my dimension]" perspective="my perspective's caption" connectionString="Provider=MSOLAP.4;Data Source=.;Integrated Security=SSPI;Initial Catalog=MyCube;" />
+      <structure>
+      </structure>
+</system-under-test>
+Then we'll need to specify on what we'll test, in this case on the hierarchy under the dimension (through the perspective). This is done be the means of the tag hierarchy. The attribute "caption" will receive the caption of the hierarchy. Attributes "dimension" and "perspective" will be set to the name of the dimension and perspective. Finally we need to specify the connectionString to connect to the cube.
+{code:xml}
+<system-under-test>
+      <structure>
+            <hierarchy caption="my hierarchy" dimension="my dimension" perspective="my perspective's caption" connectionString="Provider=MSOLAP.4;Data Source=.;Integrated Security=SSPI;Initial Catalog=MyCube;" />
+      </structure>
 </system-under-test>
 {code:xml}
-Note that you need to specify the unique name of your dimension. Usually, the unique name is the caption between brackets. The perspectives have no unique name and the caption can be used to identify them.
 
-After the definition of the system under test, you need to define what will be tested on this system. Here, we will assert that this system (the dimension) has effectively an hierarchy named "my hierarchy". The key Xml tag for this is "contains"
+After the definition of the system under test, you need to define what will be tested on this system. Here, we will assert that this system (the hierarchy) really exists. The key Xml tag for this is "exists"
 {code:xml}
 <assert>
-      <contains caption="my hierarchy"/>
+      <exists/>
 </assert>
 {code:xml}
 
@@ -44,10 +51,12 @@ The full definition for this test is available here under
 <testSuite name="My first test suite" xmlns="http://NBi/TestSuite">
   <test name="My first test">
     <system-under-test>
-      <structure path="[my dimension]" perspective="my perspective's caption" connectionString="Provider=MSOLAP.4;Data Source=.;Integrated Security=SSPI;Initial Catalog=MyCube;" />
+      <structure>
+            <hierarchy caption="my hierarchy" dimension="my dimension" perspective="my perspective's caption" connectionString="Provider=MSOLAP.4;Data Source=.;Integrated Security=SSPI;Initial Catalog=MyCube;" />
+      </structure>
     </system-under-test>
     <assert>
-      <contains caption="my hierarchy"/>
+      <exists/>
     </assert>
   </test>
 </testSuite>

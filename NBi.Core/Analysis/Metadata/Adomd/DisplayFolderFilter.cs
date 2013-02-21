@@ -13,7 +13,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
         public override bool Evaluate(object row)
         {
             if (row is MeasureRow)
-                Evaluate((MeasureRow)row);
+                return Evaluate((MeasureRow)row);
 
             throw new ArgumentException();
         }

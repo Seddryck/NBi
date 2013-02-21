@@ -87,6 +87,7 @@
     <Compile Include="Integration\NUnit\Structure\ContainsConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\ExistsConstraintTest.cs" />
     <Compile Include="Integration\NUnit\SyntacticallyCorrectConstraintTest.cs" />
+    <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureDiscoverCommandTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\CubeMetadataTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvReaderTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvWriterTest.cs" />

@@ -63,7 +63,13 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             foreach (var filter in filters)
             {
                 if (filter != null)
-                    filterString += string.Format(" and {0}", Build((CaptionFilter)filter));
+                {
+                    var newFilter = Build((CaptionFilter)filter);
+                    //We need to check if the filter will not return an empty string because postCommandFilters will return a null string
+                    //If we don't test we still add to the filterString and have issues
+                    if (!string.IsNullOrEmpty(newFilter))
+                        filterString += string.Format(" and {0}", newFilter);
+                }
             }
 
             return filterString;

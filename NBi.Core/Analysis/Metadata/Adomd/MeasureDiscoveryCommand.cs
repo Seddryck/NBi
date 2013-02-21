@@ -73,6 +73,12 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             return string.Empty;
         }
 
+        /// <summary>
+        /// PostFilter method is specifically build to enable filter aftare the execution of the command.
+        /// For some attributes such as Display-Folder you cannot apply a filter in the command, in this case the filter is applied on the resultset
+        /// </summary>
+        /// <param name="row"></param>
+        /// <returns></returns>
         protected bool PostFilter(MeasureRow row)
         {
             foreach (var postCommandFilter in PostCommandFilters)

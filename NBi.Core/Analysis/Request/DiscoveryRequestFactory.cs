@@ -22,7 +22,7 @@ namespace NBi.Core.Analysis.Request
                     !target.Equals(DiscoveryTarget.Perspectives) ? (Validation)new PerspectiveNotNull(perspective) : new NoValidation(),
                     new MeasureGroupWithoutDimension(measuregroup, dimension),
                     new MeasureWithoutDimension(measure, dimension),
-                    !string.IsNullOrEmpty(displayFolder) ? (Validation)new MeasureNotNull(dimension) : new NoValidation(),
+                    !string.IsNullOrEmpty(displayFolder) ? (Validation)new MeasureNotNull(measure) : new NoValidation(),
                     !string.IsNullOrEmpty(hierarchy) ? (Validation)new DimensionNotNull(dimension) : new NoValidation(),
                     !string.IsNullOrEmpty(level) ? (Validation)new HierarchyNotNull(hierarchy) : new NoValidation()
                 }

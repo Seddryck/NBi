@@ -10,12 +10,6 @@ namespace NBi.Xml.Items
         [XmlAttribute("dimension")]
         public string Dimension { get; set; }
 
-        public override object Instantiate()
-        {
-            //TODO here?
-            return null;
-        }
-
         [XmlIgnore]
         protected virtual string ParentPath { get { return string.Format("[{0}]", Dimension); } }
         [XmlIgnore]

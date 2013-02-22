@@ -40,12 +40,6 @@ namespace NBi.Xml.Items
             Specification = new SpecificationMeasure();
         }
 
-        public override object Instantiate()
-        {
-            //TODO here?
-            return null;
-        }
-
         [XmlIgnore()]
         public SpecificationMeasure Specification { get; protected set; }
 

@@ -15,8 +15,6 @@ namespace NBi.Xml.Items
 
         public abstract string TypeName {get;}
 
-        public abstract object Instantiate();
-
         internal virtual Dictionary<string, string> GetRegexMatch()
         {
             var dico = new Dictionary<string, string>();

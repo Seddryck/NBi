@@ -73,7 +73,6 @@ namespace NBi.Xml.Items
                 values.Add(string.Format("Measuregroup '{0}'", MeasureGroup));
             if (!string.IsNullOrEmpty(DisplayFolder))
                 values.Add(string.Format("Display-folder '{0}'", DisplayFolder));
-            values.Add(string.Format("Measure '{0}'", Caption));
             values.Add("Measures");
             return values;
         }

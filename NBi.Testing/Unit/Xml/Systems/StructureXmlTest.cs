@@ -78,7 +78,7 @@ namespace NBi.Testing.Unit.Xml.Systems
 
 
         [Test]
-        public void Deserialize_SampleFile_AutoCategories()
+        public void GetAutoCategories_Hierarchy_ValidList()
         {
             int testNr = 0;
 
@@ -90,6 +90,25 @@ namespace NBi.Testing.Unit.Xml.Systems
 
             Assert.That(autoCategories, Has.Member("Dimension 'dimension'"));
             Assert.That(autoCategories, Has.Member("Perspective 'Perspective'"));
+            Assert.That(autoCategories, Has.Member("Hierarchy 'hierarchy'"));
+            Assert.That(autoCategories, Has.Member("Hierarchies"));
+            Assert.That(autoCategories, Has.Member("Structure"));
+        }
+
+        [Test]
+        public void GetAutoCategories_MeasureGroup_ValidList()
+        {
+            int testNr = 1;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            var autoCategories = ts.Tests[testNr].Systems[0].GetAutoCategories();
+
+            Assert.That(autoCategories, Has.Member("Measure group 'MeasureGroupName'"));
+            Assert.That(autoCategories, Has.Member("Perspective 'Perspective'"));
+            Assert.That(autoCategories, Has.Member("Measure groups"));
             Assert.That(autoCategories, Has.Member("Structure"));
         }
 

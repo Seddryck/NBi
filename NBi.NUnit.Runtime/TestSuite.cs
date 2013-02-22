@@ -112,7 +112,10 @@ namespace NBi.NUnit.Runtime
                 {
                     foreach (var system in test.Systems)
                         foreach (var category in system.GetAutoCategories())
-                            testCaseDataNUnit.SetCategory(category);
+                        {
+                            var noSpecialCharCategory = category.Replace("-", "_");
+                            testCaseDataNUnit.SetCategory(noSpecialCharCategory);
+                        }
                 }
 
                 testCasesNUnit.Add(testCaseDataNUnit);

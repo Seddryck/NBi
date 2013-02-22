@@ -141,10 +141,16 @@ namespace NBi.NUnit.Structure
 
         public override void WriteActualValueTo(MessageWriter writer)
         {
-            //IF actual is not empty it means we've an issue with Casing
+            //IF actual is not empty it means we've an issue with Casing or a space at the end
             if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() == 1)
             {
-                writer.WriteActualValue(string.Format("< <{0}> > (Case not mtaching)", ((IEnumerable<IField>)actual).ToArray()[0].Caption));
+                if (((IEnumerable<IField>)actual).ToArray()[0].Caption.ToLowerInvariant() == ExpectedCaption.ToLowerInvariant())
+                    writer.WriteActualValue(string.Format("< <{0}> > (case not matching)", ((IEnumerable<IField>)actual).ToArray()[0].Caption));
+                else if (((IEnumerable<IField>)actual).ToArray()[0].Caption.EndsWith(" "))
+                    writer.WriteActualValue(string.Format("< <{0}> > (with ending space(s))", ((IEnumerable<IField>)actual).ToArray()[0].Caption));
+                else
+                    writer.WriteActualValue(string.Format("< <{0}> > (small difference)", ((IEnumerable<IField>)actual).ToArray()[0].Caption));
+
             }
             else
             {

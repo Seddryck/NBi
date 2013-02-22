@@ -24,6 +24,8 @@ namespace NBi.Xml.Items
         internal override ICollection<string> GetAutoCategories()
         {
             var values = new List<string>();
+            values.Add(string.Format("Perspective '{0}'", Caption));
+            values.Add("Perspectives");
             return values;
         }
     }

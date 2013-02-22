@@ -35,6 +35,8 @@ namespace NBi.Xml.Items
             var values = new List<string>();
             if (!string.IsNullOrEmpty(Perspective))
                 values.Add(string.Format("Perspective '{0}'", Perspective));
+            values.Add(string.Format("Measure-group '{0}'", Caption));
+            values.Add("Measure-groups");
             return values;
         }
     }

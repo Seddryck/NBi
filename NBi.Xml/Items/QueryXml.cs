@@ -56,5 +56,6 @@ namespace NBi.Xml.Items
                 return Default.ConnectionString;
             return null;
         }
+
     }
 }

@@ -36,9 +36,13 @@ namespace NBi.Xml.Items
 
         internal override ICollection<string> GetAutoCategories()
         {
-            var values = base.GetAutoCategories();
+            var values = new List<string>();
+            if (!string.IsNullOrEmpty(Perspective))
+                values.Add(string.Format("Perspective '{0}'", Perspective));
             if (!string.IsNullOrEmpty(Dimension))
                 values.Add(string.Format("Dimension '{0}'", Dimension));
+            values.Add(string.Format("Hierarchy '{0}'", Caption));
+            values.Add("Hierarchies");
             return values;
         }
     }

@@ -72,9 +72,15 @@ namespace NBi.Xml.Items
 
         internal override ICollection<string> GetAutoCategories()
         {
-            var values = base.GetAutoCategories();
+            var values = new List<string>();
+            if (!string.IsNullOrEmpty(Perspective))
+                values.Add(string.Format("Perspective '{0}'", Perspective));
             if (!string.IsNullOrEmpty(MeasureGroup))
-                values.Add(string.Format("MeasureGroup '{0}'", MeasureGroup));
+                values.Add(string.Format("Measure-group '{0}'", MeasureGroup));
+            if (!string.IsNullOrEmpty(DisplayFolder))
+                values.Add(string.Format("Display-folder '{0}'", DisplayFolder));
+            values.Add(string.Format("Measure '{0}'", Caption));
+            values.Add("Measures");
             return values;
         }
     }

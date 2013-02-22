@@ -70,7 +70,7 @@ namespace NBi.Xml.Items
             if (!string.IsNullOrEmpty(Perspective))
                 values.Add(string.Format("Perspective '{0}'", Perspective));
             if (!string.IsNullOrEmpty(MeasureGroup))
-                values.Add(string.Format("Measure-group '{0}'", MeasureGroup));
+                values.Add(string.Format("Measuregroup '{0}'", MeasureGroup));
             if (!string.IsNullOrEmpty(DisplayFolder))
                 values.Add(string.Format("Display-folder '{0}'", DisplayFolder));
             values.Add(string.Format("Measure '{0}'", Caption));

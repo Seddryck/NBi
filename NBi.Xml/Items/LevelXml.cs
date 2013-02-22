@@ -10,12 +10,6 @@ namespace NBi.Xml.Items
         [XmlAttribute("hierarchy")]
         public string Hierarchy { get; set; }
 
-        public override object Instantiate()
-        {
-            //TODO here?
-            return null;
-        }
-
         [XmlIgnore]
         protected override string  ParentPath { get { return string.Format("{0}.[{1}]",base.ParentPath, Hierarchy);}}
 

@@ -10,13 +10,6 @@ namespace NBi.Xml.Items
         [XmlAttribute("perspective")]
         public string Perspective { get; set; }
 
-        public override object Instantiate()
-        {
-            //TODO here?
-            return null;
-        }
-
-
         [XmlIgnore]
         public override string TypeName
         {

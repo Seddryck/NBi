@@ -17,6 +17,7 @@ namespace NBi.NUnit.Member
         protected MembersAdomdEngine memberEngine;
 
         protected NUnitCtr.CollectionItemsEqualConstraint internalConstraint;
+
         /// <summary>
         /// Engine dedicated to MetadataExtractor acquisition
         /// </summary>

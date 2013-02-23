@@ -1,4 +1,9 @@
-﻿using System.Xml.Serialization;
+﻿using System.Collections.Generic;
+using System.Data;
+using System.Xml.Serialization;
+using NBi.Core;
+using NBi.Core.Query;
+using NBi.Xml.Systems;
 
 namespace NBi.Xml.Constraints
 {
@@ -9,6 +14,14 @@ namespace NBi.Xml.Constraints
 
         [XmlAttribute("caption")]
         public string Caption { get; set; }
+
+        [XmlElement("item")]
+        public List<string> ItemList { get; set; }
+
+        protected internal List<string> Items { get; set; }
+
+        [XmlElement("one-column-query")]
+        public QueryXml Query { get; set; }
 
 
         public ContainsXml()
@@ -30,6 +43,7 @@ namespace NBi.Xml.Constraints
             }
         }
 
+            Items = new List<string>();
         [XmlIgnore()]
         public SpecificationContains Specification { get; protected set; }
 
@@ -37,6 +51,35 @@ namespace NBi.Xml.Constraints
         public class SpecificationContains
         {
             public bool IsDisplayFolderSpecified { get; internal set; }
+        }
+
+        public override void Initialize()
+        {
+            if (ItemList.Count == 0 && !string.IsNullOrEmpty(Caption))
+                Items.Add(Caption);
+
+            if (ItemList.Count > 0)
+                Items.AddRange(ItemList);
+
+            if (GetCommand() != null)
+            {
+                var listBuilder = new ListBuilder();
+                Items.AddRange(listBuilder.Build(GetCommand()));
+            }
+
+            base.Initialize();
+        }
+
+        public IDbCommand GetCommand()
+        {
+            if (Query == null)
+                return null;
+
+            var conn = ConnectionFactory.Get(Query.GetConnectionString());
+            var cmd = conn.CreateCommand();
+            cmd.CommandText = Query.GetQuery();
+
+            return cmd;
         }
     }
 }

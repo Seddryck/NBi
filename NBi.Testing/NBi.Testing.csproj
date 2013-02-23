@@ -82,6 +82,7 @@
     <Compile Include="Integration\Core\Query\QueryAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\Query\QueryParserTest.cs" />
     <Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
+    <Compile Include="Integration\Xml\ContainsConstraintXmlTest.cs" />
     <Compile Include="Integration\NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\FasterThanConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\ContainsConstraintTest.cs" />
@@ -94,6 +95,11 @@
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbReaderTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbWriterTest.cs" />
     <Compile Include="Unit\Core\ConnectionExceptionTest.cs" />
+    <Compile Include="Unit\Core\Assemblies\AssemblyManagerTest.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\StaticKlass.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\Enumeration.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\Klass.cs" />
+    <Compile Include="Unit\Core\Assemblies\TypeConverterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\DataRowBasedResultSetComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\LineFormatterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetComparisonSettingsTest.cs" />
@@ -165,10 +171,12 @@
     <MyOptionalItems Include="ConnectionString.user.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\ContainsTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\DescriptionXmlTestSuite.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Unit\Xml\Resources\SettingsWithoutDefault.xml">
     <EmbeddedResource Include="Unit\Xml\Resources\TestXmlTestSuite.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

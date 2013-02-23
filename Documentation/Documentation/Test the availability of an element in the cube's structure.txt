@@ -1,5 +1,5 @@
-! Test the availability of an element in the cube's structure
-!! System under test
+!Test the availability of an element in the cube's structure
+!!System under test
 The sample here under explains how to check the availability of a measure but it's also possible to check the existence of a perspective, dimension, hierarchy, level or measure-group following the same way.
 In order to let you check that a measure is available through a perspective, you need to stipulate where you'll be looking for. This is done by creating a tag named "structure" under the node "system-under-test".
 {code:xml}

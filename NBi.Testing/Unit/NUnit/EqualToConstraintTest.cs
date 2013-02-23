@@ -1,8 +1,8 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using Moq;
-using NBi.Core.Query;
 using NBi.Core.ResultSet;
+using NBi.NUnit.Query;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.NUnit
@@ -26,7 +26,7 @@ namespace NBi.Testing.Unit.NUnit
                 .Returns(new ResultSetCompareResult() { Difference = ResultSetDifferenceType.None });
             var rsc = rscMock.Object;
 
-            var equalToConstraint = new NBi.NUnit.EqualToConstraint(rs) {Engine = rsc, ResultSetBuilder=rsb };
+            var equalToConstraint = new EqualToConstraint(rs) {Engine = rsc, ResultSetBuilder=rsb };
             equalToConstraint.ResultSetBuilder = rsb;
 
             //Method under test
@@ -52,7 +52,7 @@ namespace NBi.Testing.Unit.NUnit
                 .Returns(rsExpect);
             var rsb = rsbMock.Object;
 
-            var equalToConstraint = new NBi.NUnit.EqualToConstraint("my path for expectation") {ResultSetBuilder = rsb };
+            var equalToConstraint = new EqualToConstraint("my path for expectation") {ResultSetBuilder = rsb };
 
             //Method under test
             equalToConstraint.Matches(cmd);
@@ -84,7 +84,7 @@ namespace NBi.Testing.Unit.NUnit
                 .Returns(ResultSetCompareResult.NotMatching);
             var rsc = rscMock.Object;
 
-            var equalToConstraint = new NBi.NUnit.EqualToConstraint("my path for expectation") {ResultSetBuilder = rsbFake, Engine = rsc };
+            var equalToConstraint = new EqualToConstraint("my path for expectation") {ResultSetBuilder = rsbFake, Engine = rsc };
 
             //Method under test
             equalToConstraint.Matches(cmd);
@@ -107,7 +107,7 @@ namespace NBi.Testing.Unit.NUnit
                 .Returns(rs);
             var rsb = rsbMock.Object;
 
-            var equalToConstraint = new NBi.NUnit.EqualToConstraint(rs) { ResultSetBuilder = rsb };
+            var equalToConstraint = new EqualToConstraint(rs) { ResultSetBuilder = rsb };
 
             //Method under test
             var res = equalToConstraint.Matches(cmd);
@@ -132,7 +132,7 @@ namespace NBi.Testing.Unit.NUnit
                 .Returns(rsExpect);
             var rsb = rsbMock.Object;
 
-            var equalToConstraint = new NBi.NUnit.EqualToConstraint(rsExpect) {ResultSetBuilder = rsb };
+            var equalToConstraint = new EqualToConstraint(rsExpect) {ResultSetBuilder = rsb };
 
             //Method under test
             var res = equalToConstraint.Matches(cmd);

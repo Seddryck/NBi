@@ -30,6 +30,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,15 +54,21 @@
     <Compile Include="Bases\BaseQueryXml.cs" />
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
     <Compile Include="Constraints\ContainsXml.cs" />
-    <Compile Include="Constraints\EqualTo\CellXml.cs" />
-    <Compile Include="Constraints\EqualTo\ColumnXml.cs" />
-    <Compile Include="Constraints\EqualTo\KeyXml.cs" />
-    <Compile Include="Constraints\EqualTo\ResultSetXml.cs" />
-    <Compile Include="Constraints\EqualTo\RowXml.cs" />
-    <Compile Include="Constraints\EqualTo\ValueXml.cs" />
+    <Compile Include="Constraints\ExistsXml.cs" />
+    <Compile Include="Items\ResultSet\CellXml.cs" />
+    <Compile Include="Items\ResultSet\ColumnXml.cs" />
+    <Compile Include="Items\ResultSet\KeyXml.cs" />
+    <Compile Include="Items\ResultSet\ResultSetXml.cs" />
+    <Compile Include="Items\ResultSet\RowXml.cs" />
+    <Compile Include="Items\ResultSet\ValueXml.cs" />
     <Compile Include="Constraints\OrderedXml.cs" />
-    <Compile Include="Constraints\EqualTo\QueryXml.cs" />
+    <Compile Include="Items\AbstractItem.cs" />
+    <Compile Include="Items\AbstractMembersItem.cs" />
+    <Compile Include="Items\BaseItem.cs" />
+    <Compile Include="Items\QueryXml.cs" />
+    <Compile Include="Settings\DescriptionXml.cs" />
     <Compile Include="Settings\DefaultXml.cs" />
+    <Compile Include="Settings\IgnoreXml.cs" />
     <Compile Include="Settings\ReferenceXml.cs" />
     <Compile Include="Settings\SettingsXml.cs" />
     <Compile Include="Systems\AbstractSystemUnderTestXml.cs" />
@@ -66,11 +80,18 @@
     <Compile Include="Constraints\SyntacticallyCorrectXml.cs" />
     <Compile Include="Constraints\FasterThanXml.cs" />
     <Compile Include="Systems\StructureXml.cs" />
+    <Compile Include="Items\LevelXml.cs" />
+    <Compile Include="Items\HierarchyXml.cs" />
+    <Compile Include="Items\DimensionXml.cs" />
+    <Compile Include="Items\MeasureXml.cs" />
+    <Compile Include="Items\MeasureGroupXml.cs" />
+    <Compile Include="Items\PerspectiveXml.cs" />
     <Compile Include="TestSuiteBuilder.cs" />
     <Compile Include="TestXml.cs" />
-    <Compile Include="Systems\QueryXml.cs" />
+    <Compile Include="Systems\ExecutionXml.cs" />
     <Compile Include="TestSuiteXml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XmlBeautifier.cs" />
     <Compile Include="XmlManager.cs" />
   </ItemGroup>
   <ItemGroup>

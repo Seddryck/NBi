@@ -8,5 +8,7 @@ namespace NBi.Core.ResultSet
         Text = 0,
         [XmlEnum(Name = "numeric")]
         Numeric = 1,
+        [XmlEnum(Name = "dateTime")]
+        DateTime = 2
     }
 }

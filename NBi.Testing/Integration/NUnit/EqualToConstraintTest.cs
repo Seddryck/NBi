@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.ResultSet;
+using NBi.NUnit.Query;
 using NUnit.Framework;
-using NBiNu = NBi.NUnit;
 #endregion
 
 namespace NBi.Testing.Integration.NUnit
@@ -53,7 +53,7 @@ namespace NBi.Testing.Integration.NUnit
             objs.Add(new object[] { "CY 2004", "1513940" });
             rs.Load(objs);
 
-            var ctr = new NBiNu.EqualToConstraint(rs);
+            var ctr = new EqualToConstraint(rs);
 
             var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
@@ -77,7 +77,7 @@ namespace NBi.Testing.Integration.NUnit
             objs.Add(new object[] { "CY 2004", "1513940" });
             rs.Load(objs);
 
-            var ctr = new NBiNu.EqualToConstraint(rs);
+            var ctr = new EqualToConstraint(rs);
             ctr.Using(new ResultSetComparisonSettings(
                     ResultSetComparisonSettings.KeysChoice.First,
                     ResultSetComparisonSettings.ValuesChoice.Last,
@@ -107,7 +107,7 @@ namespace NBi.Testing.Integration.NUnit
             objs.Add(new object[] { "CY 2004", 1513940 });
             rs.Load(objs);
 
-            var ctr = new NBiNu.EqualToConstraint(rs);
+            var ctr = new EqualToConstraint(rs);
             ctr.Using(new ResultSetComparisonSettings(
                 ResultSetComparisonSettings.KeysChoice.First,
                 ResultSetComparisonSettings.ValuesChoice.Last,
@@ -131,7 +131,7 @@ namespace NBi.Testing.Integration.NUnit
             var expectedQuery = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
-            var ctr = new NBiNu.EqualToConstraint(expectedCmd);
+            var ctr = new EqualToConstraint(expectedCmd);
             ctr.Using(new ResultSetComparisonSettings(
                 ResultSetComparisonSettings.KeysChoice.First,
                 ResultSetComparisonSettings.ValuesChoice.Last,
@@ -156,7 +156,7 @@ namespace NBi.Testing.Integration.NUnit
             expectedQuery += " SELECT [Measures].NewAmount ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
-            var ctr = new NBiNu.EqualToConstraint(expectedCmd);
+            var ctr = new EqualToConstraint(expectedCmd);
             ctr.Using(new ResultSetComparisonSettings(
                 ResultSetComparisonSettings.KeysChoice.First,
                 ResultSetComparisonSettings.ValuesChoice.Last,
@@ -181,7 +181,7 @@ namespace NBi.Testing.Integration.NUnit
             expectedQuery += " SELECT [Measures].NewAmount ON 0, ([Date].[Calendar].[Calendar Year]-[Date].[Calendar].[Calendar Year].&[2006]) ON 1  FROM [Adventure Works]";
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
-            var ctr = new NBiNu.EqualToConstraint(expectedCmd);
+            var ctr = new EqualToConstraint(expectedCmd);
             ctr.Using(new ResultSetComparisonSettings(
                     ResultSetComparisonSettings.KeysChoice.First,
                     ResultSetComparisonSettings.ValuesChoice.Last,
@@ -219,7 +219,7 @@ namespace NBi.Testing.Integration.NUnit
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
-            var ctr = new NBiNu.EqualToConstraint(expectedCmd);
+            var ctr = new EqualToConstraint(expectedCmd);
             ctr.Using(
                     new ResultSetComparisonSettings(
                         ResultSetComparisonSettings.KeysChoice.AllExpectLast,
@@ -253,7 +253,7 @@ namespace NBi.Testing.Integration.NUnit
             //Buiding object used during test
             var filename = DiskOnFile.CreatePhysicalFile("NonEmptyAmountByYear.csv", "NBi.Testing.Integration.NUnit.Resources.NonEmptyAmountByYear.csv");
 
-            var ctr = new NBiNu.EqualToConstraint(filename);
+            var ctr = new EqualToConstraint(filename);
 
             var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
@@ -273,7 +273,7 @@ namespace NBi.Testing.Integration.NUnit
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
-            var ctr = new NBiNu.EqualToConstraint(expectedCmd);
+            var ctr = new EqualToConstraint(expectedCmd);
             ctr.Using(
                     new ResultSetComparisonSettings(
                         ResultSetComparisonSettings.KeysChoice.AllExpectLast,
@@ -300,7 +300,7 @@ namespace NBi.Testing.Integration.NUnit
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
-            var ctr = new NBiNu.EqualToConstraint(expectedCmd);
+            var ctr = new EqualToConstraint(expectedCmd);
             ctr.Using(
                     new ResultSetComparisonSettings(
                         ResultSetComparisonSettings.KeysChoice.AllExpectLast,
@@ -311,6 +311,96 @@ namespace NBi.Testing.Integration.NUnit
 
             var query = "SELECT  [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2006] ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
+
+            //Call the method to test
+            var actual = ctr.Matches(cmd);
+
+            //Assertion
+            Assert.That(actual, Is.False);
+        }
+
+        [Test]
+        public void Matches_SqlQueryWithDateComparedToString_Matching()
+        {
+            //Buiding object used during test
+            var expectedQuery = "SELECT 'CY 2006',  CAST('2006-01-01' AS DATE)";
+
+            var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+
+            var columns = new List<IColumn>();
+            columns.Add(new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime });
+
+            var ctr = new EqualToConstraint(expectedCmd);
+            ctr.Using(
+                    new ResultSetComparisonSettings(
+                        ResultSetComparisonSettings.KeysChoice.AllExpectLast,
+                        ResultSetComparisonSettings.ValuesChoice.Last,
+                        columns
+                    )
+                );
+
+            var query = "SELECT 'CY 2006',  '1/01/2006 00:00:00'";
+            var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+
+            //Call the method to test
+            var actual = ctr.Matches(cmd);
+
+            //Assertion
+            Assert.That(actual, Is.True);
+        }
+
+        [Test]
+        public void Matches_SqlQueryWithDateComparedToStringAnotherDate_NonMatching()
+        {
+            //Buiding object used during test
+            var expectedQuery = "SELECT 'CY 2006',  CAST('2006-01-02' AS DATE)";
+
+            var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+
+            var columns = new List<IColumn>();
+            columns.Add(new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime });
+
+            var ctr = new EqualToConstraint(expectedCmd);
+            ctr.Using(
+                    new ResultSetComparisonSettings(
+                        ResultSetComparisonSettings.KeysChoice.AllExpectLast,
+                        ResultSetComparisonSettings.ValuesChoice.Last,
+                        columns
+                    )
+                );
+
+            var query = "SELECT 'CY 2006',  '1/01/2006 00:00:00'";
+            var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+
+            //Call the method to test
+            var actual = ctr.Matches(cmd);
+
+            //Assertion
+            Assert.That(actual, Is.False);
+        }
+
+        [Test]
+        public void Matches_SqlQueryWithDateComparedToStringAnotherHour_NonMatching()
+        {
+            //Buiding object used during test
+            var expectedQuery = "SELECT 'CY 2006',  CAST('2006-01-01' AS DATE)";
+
+            var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+
+            var columns = new List<IColumn>();
+            columns.Add(new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime });
+
+            var ctr = new EqualToConstraint(expectedCmd);
+            ctr.Using(
+                    new ResultSetComparisonSettings(
+                        ResultSetComparisonSettings.KeysChoice.AllExpectLast,
+                        ResultSetComparisonSettings.ValuesChoice.Last,
+                        columns
+                    )
+                );
+
+            var query = "SELECT 'CY 2006',  '1/01/2006 01:00:00'";
+            var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
             //Call the method to test
             var actual = ctr.Matches(cmd);

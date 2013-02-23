@@ -1,0 +1,23 @@
+! Run a test suite with NUnit GUI 
+Once you've created an Xml test suite, you'll probably want to execute it. The easiest way to do this is by the means of NUnit GUI.
+
+For this tutorial, we presuppose that you've downloaded the binaries of NBi (and NUnit) and copied them in a unique directory. In this directory you'll need following dlls:
+* NUnit.Framework.dll (needed by NBi to delegate the execution of tests after transformation)
+* NBi.Xml.dll (needed to interpret correctly the Xml (nbits) file and transform it into an effective test suite.
+* NBi.NUnit.dll (Implementation of the assertions specific to NUnit)
+* NBi.Core.dll (Needed to execute the queries, transform tests results, ...)
+* NBi.NUnit.Runtime.dll (The point of connection between NBi and NUnit)
+
+[image:Installation Folder.png]
+
+Before starting the NUnit GUI, you need to reference your test suite (Nbits file) to NBi. For this, you've several options. You can simply put a file with the extension *".nbits"* in the same directory than dll _NBi.NUnit.Runtime.dll_. This file will be interreted by the framework as the definition of the testsuite you want to run. If more than one ".nbits" file is available in this directory, NBi will choose one of them.
+
+An alternative is to create a file named NBi.NUnit.Runtime.config (**without "dll"**!). In this file, just specify in plain text the full path of your Xml file in which the test suite that you want to execute is specified (expl: "C:\MyTestSuite.xml"). Save this config file in same folder than the dll named *NBi.NUnit.Runtime.dll*.
+
+Then, start the NUnit GUI and choose the menu option "file > open project". Select the dll named *NBi.NUnit.Runtime.dll* (available in your installation folder). 
+
+[image:Select NBi.NUnit.Runtime.png]
+
+This dll will read your test suite previously created and NUnit/NBi will parse and interpret it. The list of tests is populated and displayed in your UI (It can take a few seconds). Now, you just need to select your tests and execute them with NUnit UI.
+
+[image:Run Test Suite.png]

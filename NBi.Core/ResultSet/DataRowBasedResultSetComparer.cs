@@ -32,6 +32,8 @@ namespace NBi.Core.ResultSet
 
         protected ResultSetCompareResult doCompare(DataTable x, DataTable y)
         {
+            var chrono = DateTime.Now;
+
             if (Settings == null)
                 BuildDefaultSettings();
 
@@ -39,21 +41,46 @@ namespace NBi.Core.ResultSet
             WriteSettingsToDataTableProperties(y, Settings);
             WriteSettingsToDataTableProperties(x, Settings);
             
-            var KeyComparer = new DataRowKeysComparer(Settings, x.Columns.Count);
+            var keyComparer = new DataRowKeysComparer(Settings, x.Columns.Count);
 
-            var missingRows = x.AsEnumerable().Except(y.AsEnumerable(), KeyComparer);
-            Console.WriteLine("Missing rows: {0}", missingRows.Count());
+            //Check that the rows in the reference are unique
+            var invalidY = y.AsEnumerable().GroupBy(row => keyComparer.GetHashCode(row), (hashCode, rows) => new
+            {
+                HashCode = hashCode,
+                Count = rows.Count()
+            }).Where(key => key.Count != 1);
 
-            var unexpectedRows = y.AsEnumerable().Except(x.AsEnumerable(),KeyComparer);
-            Console.WriteLine("Unexpected rows: {0}", unexpectedRows.Count());
+            if (invalidY.Count() > 0)
+                throw new ResultSetComparerException("The expected result set has some duplicated keys. Check your keys definition or your expected result set.");
 
-            var keyMatchingRows = x.AsEnumerable().Except(missingRows).Except(unexpectedRows);
-            Console.WriteLine("Rows with a key matching: {0}", keyMatchingRows.Count());
+            chrono = DateTime.Now;
+            var missingRows = x.AsEnumerable().Except(y.AsEnumerable(), keyComparer).ToList();
+            Console.WriteLine("Missing rows: {0} [{1} ms]", missingRows.Count(), DateTime.Now.Subtract(chrono).Milliseconds);
 
+            chrono = DateTime.Now;
+            var unexpectedRows = y.AsEnumerable().Except(x.AsEnumerable(),keyComparer).ToList();
+            Console.WriteLine("Unexpected rows: {0} [{1} ms]", unexpectedRows.Count(), DateTime.Now.Subtract(chrono).Milliseconds);
+
+            chrono = DateTime.Now;
+            var duplicatedKeys = x.AsEnumerable().GroupBy(row => keyComparer.GetHashCode(row), (hashCode, rows) => new
+            {
+                HashCode = hashCode,
+                Count = rows.Count()
+            }).Where(key => key.Count > 1).ToList();
+
+            var duplicatedRows = x.AsEnumerable().Where(row => duplicatedKeys.Any(key => key.HashCode == keyComparer.GetHashCode(row))).ToList();
+
+            Console.WriteLine("Duplicated rows: {0} (implicating {1} distinct keys)  [{1} ms]", duplicatedRows.Count(), duplicatedKeys.Count(),  DateTime.Now.Subtract(chrono).Milliseconds);
+
+            chrono = DateTime.Now;
+            var keyMatchingRows = x.AsEnumerable().Except(missingRows).Except(unexpectedRows).Except(duplicatedRows).ToList();
+            Console.WriteLine("Rows with a matching key and not duplicated: {0}  [{1} ms]", keyMatchingRows.Count(), DateTime.Now.Subtract(chrono).Milliseconds);
+
+            chrono = DateTime.Now;
             var nonMatchingValueRows = new List<DataRow>(); 
             foreach (var rx in keyMatchingRows)
 	        {
-                var ry = y.AsEnumerable().Single(r => KeyComparer.GetHashCode(r) == KeyComparer.GetHashCode(rx));
+                var ry = y.AsEnumerable().Single(r => keyComparer.GetHashCode(r) == keyComparer.GetHashCode(rx));
                 for (int i = 0; i < rx.Table.Columns.Count; i++)
                 {
                     if (Settings.IsValue(i))
@@ -90,6 +117,24 @@ namespace NBi.Core.ResultSet
                                 }
                                 
                             }
+                            //Numeric
+                            else if (Settings.IsDateTime(i))
+                            {
+                                //Console.WriteLine("Debug: {0} {1}", rx[i].ToString(), rx[i].GetType());
+
+                                //Convert to decimal
+                                var rxDateTime = Convert.ToDateTime(rx[i], DateTimeFormatInfo.InvariantInfo);
+                                var ryDateTime = Convert.ToDateTime(ry[i], DateTimeFormatInfo.InvariantInfo);
+
+                                //Compare decimals (with tolerance)
+                                if (!IsEqual(rxDateTime, ryDateTime))
+                                {
+                                    ry.SetColumnError(i, rxDateTime.ToString());
+                                    if (!nonMatchingValueRows.Contains(ry))
+                                        nonMatchingValueRows.Add(ry);
+                                }
+
+                            }
                             //Not Numeric
                             else
                             {
@@ -104,9 +149,9 @@ namespace NBi.Core.ResultSet
                     }
                 }
 	        }
-            Console.WriteLine("Rows with a key matching but without value matching: {0}", nonMatchingValueRows.Count());
+            Console.WriteLine("Rows with a matching key but without matching value: {0} [{1} ms]", nonMatchingValueRows.Count(), DateTime.Now.Subtract(chrono).Milliseconds);
 
-            return ResultSetCompareResult.Build(missingRows, unexpectedRows, keyMatchingRows, nonMatchingValueRows);
+            return ResultSetCompareResult.Build(missingRows, unexpectedRows, duplicatedRows, keyMatchingRows, nonMatchingValueRows);
         }
 
         protected void WriteSettingsToDataTableProperties(DataTable dt, ResultSetComparisonSettings settings)

@@ -49,6 +49,39 @@
 				<xs:element name="test" minOccurs="1" maxOccurs="unbounded">
 					<xs:complexType>
 						<xs:sequence>
+							<xs:element name="ignore" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="description" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="edition" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:sequence minOccurs="0" maxOccurs="unbounded">
+										<xs:element name="update">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="contributor" type="xs:string" use="optional" />
+														<xs:attribute name="timestamp" type="xs:dateTime" use="required" />
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="author" type="xs:string" use="optional" />
+								</xs:complexType>
+							</xs:element>
 							<xs:element name="category" minOccurs="0" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:simpleContent>
@@ -59,41 +92,42 @@
 							</xs:element>
 							<xs:element name="system-under-test" minOccurs="1" maxOccurs="unbounded">
 								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="query" type ="query-type" minOccurs="0" maxOccurs="unbounded"/>
-										<xs:element name="members" minOccurs="0" maxOccurs="unbounded">
+									<xs:choice>
+										<xs:element name="execution">
 											<xs:complexType>
-												<xs:simpleContent>
-													<xs:extension base="xs:string">
-														<xs:attribute name="name" type="xs:string" use="optional" />
-														<xs:attribute name="perspective" type="xs:string" use="required" />
-														<xs:attribute name="path" type="xs:string" use="required" />
-														<xs:attribute name="children-of" type="xs:string" use="optional" />
-														<xs:attribute name="connectionString" type="xs:string" use="optional" />
-													</xs:extension>
-												</xs:simpleContent>
+												<xs:sequence>
+													<xs:element name="query" type ="query-type"/>
+												</xs:sequence>
+											</xs:complexType>		
+										</xs:element>
+										<xs:element name="members">
+											<xs:complexType>
+												<xs:choice>
+													<xs:element name="hierarchy" type="hierarchy-type"/>
+													<xs:element name="level" type="level-type"/>
+												</xs:choice>
+												<xs:attribute name="children-of" type="xs:string" use="optional" />
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="structure" minOccurs="0" maxOccurs="unbounded">
+										<xs:element name="structure">
 											<xs:complexType>
-												<xs:simpleContent>
-													<xs:extension base="xs:string">
-														<xs:attribute name="name" type="xs:string" use="optional" />
-														<xs:attribute name="perspective" type="xs:string" use="optional" />
-														<xs:attribute name="path" type="xs:string" use="optional" />
-														<xs:attribute name="measure-group" type="xs:string" use="optional" />
-														<xs:attribute name="connectionString" type="xs:string" use="optional" />
-													</xs:extension>
-												</xs:simpleContent>
+												<xs:choice>
+													<xs:element name="perspective" type="perspective-type"/>
+													<xs:element name="measure-group" type="measure-group-type"/>
+													<xs:element name="measure" type="measure-type"/>
+													<xs:element name="dimension" type="dimension-type"/>
+													<xs:element name="hierarchy" type="hierarchy-type"/>
+													<xs:element name="level" type="level-type"/>
+												</xs:choice>
 											</xs:complexType>
 										</xs:element>
-									</xs:sequence>
+									</xs:choice>
 								</xs:complexType>
 							</xs:element>
 							<xs:element name="assert" minOccurs="1" maxOccurs="unbounded">
 								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="equalTo" minOccurs="0">
+									<xs:choice>
+										<xs:element name="equalTo">
 											<xs:complexType>
 												<xs:sequence>
 													<xs:element name="column" minOccurs="0" maxOccurs="unbounded">
@@ -116,6 +150,7 @@
 																			<xs:restriction base="xs:string">
 																				<xs:enumeration value="numeric"/>
 																				<xs:enumeration value="text"/>
+																				<!--<xs:enumeration value="dateTime"/>-->
 																			</xs:restriction>
 																		</xs:simpleType>
 																	</xs:attribute>
@@ -175,15 +210,15 @@
 												</xs:attribute>
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="syntacticallyCorrect" minOccurs="0">
+										<xs:element name="syntacticallyCorrect">
 										</xs:element>
-										<xs:element name="fasterThan" minOccurs="0">
+										<xs:element name="fasterThan">
 											<xs:complexType>
 												<xs:attribute name="max-time-milliSeconds" type="xs:unsignedShort" use="required" />
 												<xs:attribute name="clean-cache" type="xs:boolean" use="optional" />
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="count" minOccurs="0">
+										<xs:element name="count">
 											<xs:complexType>
 												<xs:simpleContent>
 													<xs:extension base="xs:string">
@@ -194,25 +229,40 @@
 												</xs:simpleContent>
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="contains" minOccurs="0">
+										<xs:element name="contains">
 											<xs:complexType>
-												<xs:sequence>
-													<xs:element name="item" type="item-type" minOccurs="0" maxOccurs="unbounded"/>
-													<xs:element name="one-column-query" type="query-type" minOccurs="0" maxOccurs="1"/>
-												</xs:sequence>
-												<xs:attribute name="caption" type="xs:string" use="optional" />
-												<xs:attribute name="not" type="xs:boolean" use="optional" />
-												<xs:attribute name="display-folder" type="xs:string" use="optional" />
-												<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="caption" type="xs:string" use="required" />
+														<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+														<xs:attribute name="not" type="xs:boolean" use="optional" />
+													</xs:extension>
+												</xs:simpleContent>
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="ordered" minOccurs="0">
+										<xs:element name="exists">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+														<xs:attribute name="not" type="xs:boolean" use="optional" />
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="ordered">
 											<xs:complexType>
 												<xs:sequence>
 													<xs:element name="rule-definition" minOccurs="0" maxOccurs="1">
 														<xs:complexType>
 															<xs:sequence>
-																<xs:element name="item" type="item-type" minOccurs="0" maxOccurs="unbounded"/>
+																<xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+																	<xs:complexType>
+																		<xs:simpleContent>
+																			<xs:extension base="xs:string"/>
+																		</xs:simpleContent>
+																	</xs:complexType>
+																</xs:element>
 															</xs:sequence>
 														</xs:complexType>
 													</xs:element>
@@ -230,12 +280,14 @@
 												</xs:attribute>
 											</xs:complexType>
 										</xs:element>
-									</xs:sequence>
+									</xs:choice>							
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
 						<xs:attribute name="name" type="xs:string" use="required" />
 						<xs:attribute name="uid" type="xs:unsignedByte" use="optional" />
+						<xs:attribute name="ignore" type="xs:boolean" use="optional" />
+						<xs:attribute name="description" type="xs:string" use="optional" />
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
@@ -267,9 +319,44 @@
 		<xs:attribute name="connectionString" type="xs:string" use="optional" />
 		<xs:attribute name="connectionString-ref" type="xs:string" use="optional" />
 	</xs:complexType>
-	<xs:complexType name="item-type">
-		<xs:simpleContent>
-			<xs:extension base="xs:string"/>
-		</xs:simpleContent>
+	<xs:complexType name="perspective-type">
+		<xs:attribute name="caption" type="xs:string" use="required" />
+		<xs:attribute name="connectionString" type="xs:string" use="optional" />
+	</xs:complexType>
+	<xs:complexType name="measure-group-type">
+		<xs:complexContent>
+			<xs:extension base="perspective-type">
+				<xs:attribute name="perspective" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="measure-type">
+		<xs:complexContent>
+			<xs:extension base="measure-group-type">
+				<xs:attribute name="measure-group" type="xs:string" use="optional" />
+				<xs:attribute name="display-folder" type="xs:string" use="optional" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="dimension-type">
+		<xs:complexContent>
+			<xs:extension base="perspective-type">
+				<xs:attribute name="perspective" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="hierarchy-type">
+		<xs:complexContent>
+			<xs:extension base="dimension-type">
+				<xs:attribute name="dimension" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="level-type">
+		<xs:complexContent>
+			<xs:extension base="hierarchy-type">
+				<xs:attribute name="hierarchy" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 </xs:schema>

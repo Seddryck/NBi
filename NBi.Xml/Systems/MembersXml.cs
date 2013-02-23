@@ -1,33 +1,51 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
-using NBi.Core.Analysis.Member;
-using NBi.Core.Analysis;
+using NBi.Xml.Items;
 
 namespace NBi.Xml.Systems
 {
     public class MembersXml : AbstractSystemUnderTestXml
     {
-        [XmlAttribute("perspective")]
-        public string Perspective { get; set; }
-
-        [XmlAttribute("path")]
-        public string Path { get; set; }
-
         [XmlAttribute("children-of")]
         public string ChildrenOf { get; set; }
 
-        [XmlAttribute("connectionString")]
-        public string ConnectionString { get; set; }
+        [XmlElement(Type = typeof(DimensionXml), ElementName = "dimension"),
+        XmlElement(Type = typeof(HierarchyXml), ElementName = "hierarchy"),
+        XmlElement(Type = typeof(LevelXml), ElementName = "level")
+        ]
+        public AbstractMembersItem Item { get; set; }
 
-        public override object Instantiate()
+        public override BaseItem BaseItem
         {
-            var cmd = new DiscoverCommand(ConnectionString ?? Default.ConnectionString);
+            get
+            {
+                return Item;
+            }
+        }
 
-            cmd.Perspective = Perspective;
-            cmd.Path = string.IsNullOrEmpty(ChildrenOf) ? Path : string.Format("{0}.[{1}]",Path,ChildrenOf);
-            cmd.Function = string.IsNullOrEmpty(ChildrenOf) ? "members" : "children";
+        public virtual string GetConnectionString()
+        {
+            //if ConnectionString is specified then return it
+            if (!string.IsNullOrEmpty(Item.ConnectionString))
+                return Item.ConnectionString;
 
-            return cmd;
+            //Else get the default ConnectionString 
+            if (Default != null && !string.IsNullOrEmpty(Default.ConnectionString))
+                return Default.ConnectionString;
+            return null;
+        }
+
+        internal override Dictionary<string, string> GetRegexMatch()
+        {
+            return Item.GetRegexMatch();
+        }
+
+        public override ICollection<string> GetAutoCategories()
+        {
+            var values = Item.GetAutoCategories();
+            values.Add("Members");
+            return values;
         }
     }
 }

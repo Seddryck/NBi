@@ -18,15 +18,29 @@ namespace NBi.Testing.Acceptance
         public class TestSuiteOverrider : TestSuite
         {
             
-            private string _filename;
-            public TestSuiteOverrider(string filename)
+            public TestSuiteOverrider(string filename) : base()
             {
-                _filename = filename;
+                TestSuiteFinder = new TestSuiteFinderOverrider(filename);
             }
             
-            protected override string GetTestSuiteFileDefinition()
+            internal class TestSuiteFinderOverrider : TestSuiteFinder
             {
-                return @"Acceptance\Resources\" + _filename;
+                private readonly string filename;
+                public TestSuiteFinderOverrider(string filename)
+                {
+                    this.filename = filename;
+                }
+                
+                protected internal override string Find()
+                {
+                    return @"Acceptance\Resources\" + filename;
+                }
+            }
+
+            [Ignore]
+            public override void ExecuteTestCases(TestXml test)
+            {
+                base.ExecuteTestCases(test);
             }
         }
         
@@ -41,6 +55,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("Contains.xml")]
         [TestCase("fasterThan.xml")]
         [TestCase("SyntacticallyCorrect.xml")]
+        [TestCase("Exists.xml")]
         public void RunTestSuite(string filename)
         {
             var t = new TestSuiteOverrider(filename);

@@ -17,6 +17,7 @@ namespace NBi.Core.ResultSet
         public ResultSetDifferenceType Difference { get; set; }
         public Sample Missing { get; set; }
         public Sample Unexpected { get; set; }
+        public Sample Duplicated { get; set; }
         public Sample NonMatchingValue { get; set; }
 
 
@@ -44,17 +45,18 @@ namespace NBi.Core.ResultSet
             }
         }
 
-        public static ResultSetCompareResult Build(IEnumerable<DataRow> missingRows, IEnumerable<DataRow> unexpectedRows, IEnumerable<DataRow> keyMatchingRows, IEnumerable<DataRow> nonMatchingValueRows)
+        public static ResultSetCompareResult Build(IEnumerable<DataRow> missingRows, IEnumerable<DataRow> unexpectedRows, IEnumerable<DataRow> duplicatedRows, IEnumerable<DataRow> keyMatchingRows, IEnumerable<DataRow> nonMatchingValueRows)
         {
             ResultSetCompareResult res = null;
-            
-            if (missingRows.Count() == 0 && unexpectedRows.Count() == 0 && nonMatchingValueRows.Count() == 0)
+
+            if (missingRows.Count() == 0 && unexpectedRows.Count() == 0 && duplicatedRows.Count()==0 && nonMatchingValueRows.Count() == 0)
                 res = new ResultSetCompareResult() { Difference = ResultSetDifferenceType.None };
             else
                 res = new ResultSetCompareResult() { Difference = ResultSetDifferenceType.Content };
 
             res.Missing=GetSubset(missingRows);
             res.Unexpected = GetSubset(unexpectedRows);
+            res.Duplicated = GetSubset(duplicatedRows);
             res.NonMatchingValue = GetSubset(nonMatchingValueRows, keyMatchingRows);
 
             return res;

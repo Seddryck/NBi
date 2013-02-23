@@ -26,7 +26,7 @@ namespace NBi.NUnit.FluentInterface
             return ctr;
         }
 
-        public static NBiMember.CountConstraint Exactly(int count)
+        public new static NBiMember.CountConstraint Exactly(int count)
         {
             var ctr = new NBiMember.CountConstraint();
             ctr.Exactly(count);
@@ -50,12 +50,6 @@ namespace NBi.NUnit.FluentInterface
         public static NBiStructure.ContainsConstraint Structure(string value)
         {
             var ctr = new NBiStructure.ContainsConstraint(value);
-            return ctr;
-        }
-
-        public static NBiStructure.ContainsConstraint Structure(NBi.Core.Analysis.Metadata.IFieldWithDisplayFolder folderAndField)
-        {
-            var ctr = new NBiStructure.ContainsConstraint(folderAndField);
             return ctr;
         }
     }

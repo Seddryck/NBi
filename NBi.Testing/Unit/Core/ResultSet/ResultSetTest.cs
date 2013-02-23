@@ -1,7 +1,7 @@
 ﻿#region Using directives
 using System.Collections.Generic;
 using System.Linq;
-using NBi.Xml.Constraints.EqualTo;
+using NBi.Xml.Items.ResultSet;
 using NUnit.Framework;
 using NBiRs = NBi.Core.ResultSet;
 

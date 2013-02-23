@@ -23,29 +23,30 @@ namespace NBi.Xml.Constraints
         [XmlElement("one-column-query")]
         public QueryXml Query { get; set; }
 
-        protected string _displayFolder; 
 
+        public ContainsXml()
+        {
+            Specification = new SpecificationContains();
+        }
+
+        protected string displayFolder;
         [XmlAttribute("display-folder")]
         public string DisplayFolder
         {
             get
-            { return _displayFolder; }
+            { return displayFolder; }
 
             set
             {
-                _displayFolder = value;
+                displayFolder = value;
                 Specification.IsDisplayFolderSpecified = true;
             }
         }
 
-        public ContainsXml()
-        {
             Items = new List<string>();
-            Specification = new SpecificationContains();
-        }
-
         [XmlIgnore()]
         public SpecificationContains Specification { get; protected set; }
+
 
         public class SpecificationContains
         {

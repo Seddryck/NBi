@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using NBi.Core.Analysis;
 using NBi.Core.Analysis.Member;
-using NBi.Core.Analysis.Metadata;
+using NBi.Core.Analysis.Request;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
@@ -12,14 +11,14 @@ namespace NBi.NUnit.Member
     {
         private bool reversed;
         private IList<Object> specific;
-        protected IComparer comparer;
-        protected DiscoverCommand command;
-        protected IDiscoverMemberEngine memberEngine;
+        protected IComparerWithLabel comparer;
+        protected MembersDiscoveryRequest command;
+        protected MembersAdomdEngine memberEngine;
 
         /// <summary>
         /// Engine dedicated to MetadataExtractor acquisition
         /// </summary>
-        protected internal IDiscoverMemberEngine MemberEngine
+        protected internal MembersAdomdEngine MemberEngine
         {
             set
             {
@@ -29,10 +28,10 @@ namespace NBi.NUnit.Member
             }
         }
 
-        protected IDiscoverMemberEngine GetEngine()
+        protected MembersAdomdEngine GetEngine()
         {
             if (memberEngine == null)
-                memberEngine = new CubeDimensionAdomdEngine();
+                memberEngine = new MembersAdomdEngine();
             return memberEngine;
         }
 
@@ -67,8 +66,8 @@ namespace NBi.NUnit.Member
         {
             get
             {
-                IComparer comp = new AlphabeticalComparer();
-                return (OrderedConstraint)base.Using(comp);
+                comparer = new AlphabeticalComparer();
+                return (OrderedConstraint)base.Using(comparer);
             }
         }
 
@@ -79,8 +78,8 @@ namespace NBi.NUnit.Member
         {
             get
             {
-                IComparer comp = new ChronologicalComparer();
-                return (OrderedConstraint)base.Using(comp);
+                comparer = new ChronologicalComparer();
+                return (OrderedConstraint)base.Using(comparer);
             }
         }
 
@@ -91,8 +90,8 @@ namespace NBi.NUnit.Member
         {
             get
             {
-                IComparer comp = new NumericalComparer();
-                return (OrderedConstraint)base.Using(comp);
+                comparer = new NumericalComparer();
+                return (OrderedConstraint)base.Using(comparer);
             }
         }
 
@@ -110,8 +109,8 @@ namespace NBi.NUnit.Member
 
         public override bool Matches(object actual)
         {
-            if (actual is DiscoverCommand)
-                return Process((DiscoverCommand)actual);
+            if (actual is MembersDiscoveryRequest)
+                return Process((MembersDiscoveryRequest)actual);
             else
             {
                 if (specific == null)
@@ -143,21 +142,49 @@ namespace NBi.NUnit.Member
             return true;
         }
 
-        protected bool Process(DiscoverCommand actual)
+        protected bool Process(MembersDiscoveryRequest actual)
         {
             command = actual;
             var extr = GetEngine();
-            MemberResult result = extr.Execute(command);
+            MemberResult result = extr.GetMembers(command);
             return this.Matches(result);
         }
 
-        protected class AlphabeticalComparer : IComparer
+        /// <summary>
+        /// Write the constraint description to a MessageWriter
+        /// </summary>
+        /// <param name="writer">The writer on which the description is displayed</param>
+        public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
+        {
+
+            writer.WritePredicate(string.Format("On perspective \"{0}\", the {1} of \"{2}\" are ordered {3}{4}"
+                                                            , command.Perspective
+                                                            , command.Function.ToLower()
+                                                            , command.Path
+                                                            , comparer == null ? "specifically" : comparer.Label
+                                                            , reversed ? "(descending)" : string.Empty));
+        }
+
+        protected interface IComparerWithLabel : IComparer
+        {
+            string Label { get; }
+        }
+
+        protected class AlphabeticalComparer : IComparerWithLabel
         {
             private readonly IComparer internalComparer;
             
             public AlphabeticalComparer()
             {
                 internalComparer = StringComparer.InvariantCultureIgnoreCase;
+            }
+
+            public string Label
+            {
+                get
+                {
+                    return "alphabetically";
+                }
             }
 
             int IComparer.Compare(Object x, Object y)
@@ -169,10 +196,18 @@ namespace NBi.NUnit.Member
             }
         }
 
-        protected class ChronologicalComparer : IComparer
+        protected class ChronologicalComparer : IComparerWithLabel
         {
             public ChronologicalComparer()
             {
+            }
+
+            public string Label
+            {
+                get
+                {
+                    return "chronologically";
+                }
             }
             
             int IComparer.Compare(Object x, Object y)
@@ -215,10 +250,18 @@ namespace NBi.NUnit.Member
             }
         }
 
-        protected class NumericalComparer : IComparer
+        protected class NumericalComparer : IComparerWithLabel
         {
             public NumericalComparer()
             {
+            }
+
+            public string Label
+            {
+                get
+                {
+                    return "numerically";
+                }
             }
 
             int IComparer.Compare(Object x, Object y)

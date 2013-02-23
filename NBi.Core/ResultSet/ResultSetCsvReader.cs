@@ -22,6 +22,8 @@ namespace NBi.Core.ResultSet
             string res = null;
 
             var file = Path.Combine(fullpath);
+            if (!System.IO.File.Exists(file))
+                throw new ExternalDependencyNotFoundException(file);
             using (StreamReader infile = new StreamReader(file, Encoding.UTF7))
             {
                 res = infile.ReadToEnd();

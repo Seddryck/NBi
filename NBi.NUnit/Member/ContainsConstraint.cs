@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using NBi.Core;
-using NBi.Core.Analysis;
 using NBi.Core.Analysis.Member;
-using NBi.Core.Analysis.Metadata;
+using NBi.Core.Analysis.Request;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
@@ -13,15 +13,15 @@ namespace NBi.NUnit.Member
     {
         protected IEnumerable<string> expectedCaptions;
         protected IComparer comparer;
-        protected DiscoverCommand command;
-        protected IDiscoverMemberEngine memberEngine;
+        protected MembersDiscoveryRequest request;
+        protected MembersAdomdEngine memberEngine;
 
         protected NUnitCtr.CollectionItemsEqualConstraint internalConstraint;
 
         /// <summary>
         /// Engine dedicated to MetadataExtractor acquisition
         /// </summary>
-        protected internal IDiscoverMemberEngine MemberEngine
+        protected internal MembersAdomdEngine MemberEngine
         {
             set
             {
@@ -31,10 +31,10 @@ namespace NBi.NUnit.Member
             }
         }
 
-        protected IDiscoverMemberEngine GetEngine()
+        protected MembersAdomdEngine GetEngine()
         {
             if (memberEngine == null)
-                memberEngine = new CubeDimensionAdomdEngine();
+                memberEngine = new MembersAdomdEngine();
             return memberEngine;
         }
 
@@ -73,7 +73,7 @@ namespace NBi.NUnit.Member
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
-        public new ContainsConstraint IgnoreCase
+        public ContainsConstraint IgnoreCase
         {
             get
             {
@@ -83,23 +83,25 @@ namespace NBi.NUnit.Member
         }
         #endregion
 
+
         public override bool Matches(object actual)
         {
-            if (actual is DiscoverCommand)
-                return Process((DiscoverCommand)actual);
+            if (actual is MembersDiscoveryRequest)
+                return Process((MembersDiscoveryRequest)actual);
             else
             {
+                this.actual = actual;
                 internalConstraint = internalConstraint.Using(comparer);
                 var res = internalConstraint.Matches(actual);
                 return res;
             }
         }
 
-        protected bool Process(DiscoverCommand actual)
+        protected bool Process(MembersDiscoveryRequest actual)
         {
-            command = actual;
+            request = actual;
             var extr = GetEngine();
-            MemberResult result = extr.Execute(command);
+            MemberResult result = extr.GetMembers(request);
             return this.Matches(result);
         }
 
@@ -109,18 +111,51 @@ namespace NBi.NUnit.Member
         /// <param name="writer">The writer on which the description is displayed</param>
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
-            if (command != null)
+            if (request != null)
             {
-                var pathParser = PathParser.Build(command);
-                var persp = !string.IsNullOrEmpty(command.Perspective) ? string.Format("On perspective \"{0}\", a", command.Perspective) : "A";
-                writer.WritePredicate(string.Format("{0} {1} identified by \"{2}\" containing a member with caption"
-                                                            , persp
-                                                            , pathParser.Position.Current
-                                                            , command.Path));
+                writer.WritePredicate(string.Format("On perspective \"{0}\", a {1} of \"{2}\" containing a member with caption"
+                                                            , request.Perspective
+                                                            , GetFunctionLabel(request.Function)
+                                                            , request.Path));
                 writer.WriteExpectedValue(expectedCaptions);
             }
             //else
             //    base.WriteDescriptionTo(writer);
+        }
+
+        public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
+        {
+            if (actual is MemberResult && ((MemberResult)actual).Count() > 0 && ((MemberResult)actual).Count()<=15)
+                writer.WriteActualValue((IEnumerable)actual);
+            else if (actual is MemberResult && ((MemberResult)actual).Count() > 0 && ((MemberResult)actual).Count() > 15)
+            {
+                writer.WriteActualValue(((IEnumerable<NBi.Core.Analysis.Member.Member>)actual).Take(10));
+                writer.WriteActualValue(string.Format(" ... and {0} others.", ((MemberResult)actual).Count() - 10));
+            }
+            else
+                writer.WriteActualValue(new NothingFoundMessage());
+        }
+
+
+        protected string GetFunctionLabel(string function)
+        {
+            switch (function.ToLower())
+            {
+                case "children":
+                    return "child";
+                case "members":
+                    return "member";
+                default:
+                    return "?";
+            }
+        }
+
+        protected internal class NothingFoundMessage
+        {
+            public override string ToString()
+            {
+                return "nothing found";
+            }
         }
 
        

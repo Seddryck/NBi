@@ -91,15 +91,16 @@ namespace NBi.Core.Query
             // Open the connection
             using (var connection = new OleDbConnection())
             {
+                var connectionString = _command.Connection.ConnectionString;
                 try
-                    { connection.ConnectionString = _command.Connection.ConnectionString; }
+                    { connection.ConnectionString = connectionString; }
                 catch (ArgumentException ex)
-                    {throw new ConnectionException(ex);}
+                { throw new ConnectionException(ex, connectionString); }
 
                 try
                     {connection.Open();}
                 catch (OleDbException ex)
-                    {throw new ConnectionException(ex);}
+                { throw new ConnectionException(ex, connectionString); }
 
                 // capture time before execution
                 long ticksBefore = DateTime.Now.Ticks;

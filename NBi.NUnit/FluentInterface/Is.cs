@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Data;
 using System.Collections.Generic;
+using System.Data;
 using NBi.Core.ResultSet;
-using NBi.NUnit;
 using NBi.NUnit.Member;
-using NBi.NUnit.Structure;
-using NUnit.Framework.Constraints;
+using NBi.NUnit.Query;
 using NF = NUnit.Framework;
 
 namespace NBi.NUnit.FluentInterface
@@ -47,7 +45,7 @@ namespace NBi.NUnit.FluentInterface
             return ctr;
         }
 
-        public static OrderedConstraint Ordered()
+        public new static OrderedConstraint Ordered()
         {
             var ctr = new OrderedConstraint();
             return ctr;

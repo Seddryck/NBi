@@ -112,6 +112,17 @@ namespace NBi.Core.ResultSet
             return IsValue(index);
         }
 
+        public bool IsDateTime(int index)
+        {
+            if (ColumnsDef.Any(c => c.Index == index && c.Type != ColumnType.DateTime))
+                return false;
+
+            if (ColumnsDef.Any(c => c.Index == index && c.Type == ColumnType.DateTime))
+                return true;
+
+            return false;
+        }
+
         public decimal GetTolerance(int index)
         {
             if (!IsNumeric(index))

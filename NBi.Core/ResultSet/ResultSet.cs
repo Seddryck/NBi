@@ -7,19 +7,19 @@ namespace NBi.Core.ResultSet
 {
     public class ResultSet
     {
-        protected DataTable _table;
+        protected DataTable table;
 
-        internal DataTable Table { get { return _table; } }
+        internal DataTable Table { get { return table; } }
         
         public DataColumnCollection Columns
         {
-            get { return _table.Columns; }
+            get { return table.Columns; }
         }
 
 
         public DataRowCollection Rows
         {
-            get { return _table.Rows; }
+            get { return table.Rows; }
         }
 
         public ResultSet()
@@ -33,7 +33,7 @@ namespace NBi.Core.ResultSet
 
         public void Load(DataTable table)
         {
-            _table = table;
+            this.table = table;
 
             //display for debug
             ConsoleDisplay();
@@ -41,8 +41,8 @@ namespace NBi.Core.ResultSet
 
         public void Load(IEnumerable<DataRow> rows)
         {
-            _table = new DataTable();
-            rows.CopyToDataTable<DataRow>(_table, LoadOption.OverwriteChanges);
+            table = new DataTable();
+            rows.CopyToDataTable<DataRow>(table, LoadOption.OverwriteChanges);
 
             //display for debug
             ConsoleDisplay();
@@ -50,31 +50,36 @@ namespace NBi.Core.ResultSet
 
         public void Load(IEnumerable<object[]> objects)
         {
-            _table = new DataTable();
+            table = new DataTable();
 
-            //Build structure
-            for (int i = 0; i < objects.First().Length; i++)
+            //if > 0 row
+            if (objects.Count() > 0)
             {
-                if (objects.First().ElementAt(i) == null)
-                    Columns.Add(string.Format("Column{0}", i), typeof(string));
-                else
-                    Columns.Add(string.Format("Column{0}", i), objects.First().ElementAt(i).GetType());
-            }
 
-            //load each row one by one
-            _table.BeginLoadData();
-            foreach (var obj in objects)
-            {
-                //Transform (null) [string] into null
-                for (int i = 0; i < obj.Count(); i++)
+                //Build structure
+                for (int i = 0; i < objects.First().Length; i++)
                 {
-                    if(obj[i]!=null && obj[i].ToString().ToLower() == "(null)".ToLower())
-                        obj[i] = null;
+                    if (objects.First().ElementAt(i) == null)
+                        Columns.Add(string.Format("Column{0}", i), typeof(string));
+                    else
+                        Columns.Add(string.Format("Column{0}", i), objects.First().ElementAt(i).GetType());
                 }
 
-                _table.LoadDataRow(obj, LoadOption.OverwriteChanges);
+                //load each row one by one
+                table.BeginLoadData();
+                foreach (var obj in objects)
+                {
+                    //Transform (null) [string] into null
+                    for (int i = 0; i < obj.Count(); i++)
+                    {
+                        if (obj[i] != null && obj[i].ToString().ToLower() == "(null)".ToLower())
+                            obj[i] = null;
+                    }
+
+                    table.LoadDataRow(obj, LoadOption.OverwriteChanges);
+                }
+                table.EndLoadData();
             }
-            _table.EndLoadData();
 
             //display for debug
             ConsoleDisplay();

@@ -4,36 +4,52 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using System.Collections.Specialized;
 
 namespace NBi.Xml
 {
     public class XmlManager
     {
-        public TestSuiteXml TestSuite {get; protected set;}
-        protected bool _isValid; 
+        public virtual TestSuiteXml TestSuite {get; protected set;}
+        public virtual NameValueCollection ConnectionStrings { get; set; }
+        protected bool isValid; 
 
-        public XmlManager() { }
+        public XmlManager() 
+        {
+            docXml = new XmlDocument();
+            ConnectionStrings = new NameValueCollection();
+        }
 
-        public void Load(string filename)
+        public virtual void Load(string filename)
         {
             if (!this.Validate(filename))
                 throw new ArgumentException("The test suite is not valid. Check with the XSD");
 
+            
             using (StreamReader reader = new StreamReader(filename))
             {
                 Read(reader);
             }
+
+            //Apply Settings hacks
+            var basePath = System.IO.Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar;
+            TestSuite.Settings.BasePath = basePath;
+            TestSuite.Settings.GetValuesFromConfig(ConnectionStrings);
+
+            docXml.Load(filename);
+            ReassignXml();
         }
 
+        private readonly XmlDocument docXml;
         public void Read(StreamReader reader)
         {
-            // Create an instance of the XmlSerializer specifying type and namespace.
+             // Create an instance of the XmlSerializer specifying type and namespace.
             XmlSerializer serializer = new XmlSerializer(typeof(TestSuiteXml));
 
             using (reader)
             {
                 // Use the Deserialize method to restore the object's state.
-                TestSuite = (TestSuiteXml)serializer.Deserialize(reader);
+                TestSuite = (TestSuiteXml)serializer.Deserialize(reader); 
             }
 
             //Apply defaults
@@ -47,9 +63,28 @@ namespace NBi.Xml
                 foreach (var ctr in test.Constraints)
                 {
                     ctr.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.Assert);
+                    ctr.Settings = TestSuite.Settings;
                 }
             }
+
+            
         }
+
+        protected internal void ReassignXml()
+        {           
+            //Get the Xml content of the tests define in the testSuite
+            var testNodes = docXml.GetElementsByTagName("test");
+            for (int i = 0; i < TestSuite.Tests.Count; i++)
+            {
+                //Add indentation and line breaks
+                var nodeXml = new XmlDocument();
+                nodeXml.LoadXml(testNodes[i].OuterXml);
+                var content = XmlBeautifier.Beautify(nodeXml);
+                //Add the content to the test (Used for StackTrace)
+                TestSuite.Tests[i].Content = content;
+            }
+        }
+
 
         public void Persist(string filename, TestSuiteXml testSuite)
         {
@@ -68,7 +103,8 @@ namespace NBi.Xml
             // Set the validation settings.
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.ValidationType = ValidationType.Schema;
-            settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation;
+            //Removed for Issue#2 on Codeplex
+            //settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation;
             settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings;
             settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
 
@@ -81,7 +117,7 @@ namespace NBi.Xml
                 settings.Schemas.Compile();
             }
 
-            _isValid = true;
+            isValid = true;
 
             //ensure the file is existing
             if (!File.Exists(filename))
@@ -94,7 +130,7 @@ namespace NBi.Xml
             while (reader.Read()) ;
             //The validationeventhandler is the only thing that would set _isValid to false
 
-            return _isValid;
+            return isValid;
         }
 
         private void ValidationCallBack(Object sender, ValidationEventArgs args)
@@ -107,7 +143,7 @@ namespace NBi.Xml
             else
                 Console.WriteLine("Validation error: " + args.Message);
 
-            _isValid = false; //Validation failed
+            isValid = false; //Validation failed
         }
 
         

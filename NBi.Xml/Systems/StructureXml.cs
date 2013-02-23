@@ -1,46 +1,51 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
-using NBi.Core.Analysis;
-using NBi.Core.Analysis.Metadata;
+using NBi.Xml.Items;
 
 namespace NBi.Xml.Systems
 {
-    public class StructureXml : AbstractSystemUnderTestXml
+    public class StructureXml: AbstractSystemUnderTestXml
     {
-        [XmlAttribute("perspective")]
-        public string Perspective { get; set; }
+        [XmlElement(Type = typeof(PerspectiveXml), ElementName = "perspective"),
+        XmlElement(Type = typeof(MeasureGroupXml), ElementName = "measure-group"),
+        XmlElement(Type = typeof(MeasureXml), ElementName = "measure"),
+        XmlElement(Type = typeof(DimensionXml), ElementName = "dimension"),
+        XmlElement(Type = typeof(HierarchyXml), ElementName = "hierarchy"),
+        XmlElement(Type = typeof(LevelXml), ElementName = "level")
+        ]
+        public AbstractItem Item { get; set; }
 
-        [XmlAttribute("path")]
-        public string Path { get; set; }
-
-        [XmlAttribute("measure-group")]
-        public string MeasureGroup { get; set; }
-
-        [XmlAttribute("connectionString")]
-        public string ConnectionString { get; set; }
-
-        public override object Instantiate()
+        public override BaseItem BaseItem
         {
-            var cmd = new DiscoverCommand(ConnectionString ?? Default.ConnectionString);
-            cmd.Perspective = Perspective;
-
-            if (!string.IsNullOrEmpty(Path) && !Path.StartsWith("[Measures]"))
+            get
             {
-                if (string.IsNullOrEmpty(MeasureGroup))
-                    cmd.Path = Path;
-                else
-                    throw new Exception("If path is specified and not starting by '[Measures]' then MeasureGroup must not be specified");
+                return Item;
             }
-            else
-            {
-                if (!string.IsNullOrEmpty(MeasureGroup))
-                    cmd.Path = string.Format("[Measures].[{0}]", MeasureGroup);         
-                else
-                    throw new Exception("If path is not specified or not starting by '[Measures]' then MeasureGroup must be specified");
-            }
-            
+        }
 
-            return cmd;
+        public virtual string GetConnectionString()
+        {
+            //if ConnectionString is specified then return it
+            if (!string.IsNullOrEmpty(Item.ConnectionString))
+                return Item.ConnectionString;
+
+            //Else get the default ConnectionString 
+            if (Default != null && !string.IsNullOrEmpty(Default.ConnectionString))
+                return Default.ConnectionString;
+            return null;
+        }
+
+        internal override Dictionary<string, string> GetRegexMatch()
+        {
+            return Item.GetRegexMatch();
+        }
+
+        public override ICollection<string> GetAutoCategories()
+        {
+            var values = Item.GetAutoCategories();
+            values.Add("Structure");
+            return values;
         }
     }
 }

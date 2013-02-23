@@ -1,89 +1,97 @@
-﻿#region Using directives
-
-using NUnit.Framework;
+﻿using System.IO;
+using System.Reflection;
+using NBi.Xml;
+using NBi.Xml.Items;
 using NBi.Xml.Systems;
-using NBi.Core.Analysis;
-
-#endregion
+using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Xml.Systems
 {
     [TestFixture]
     public class MembersXmlTest
     {
-
-        #region SetUp & TearDown
-        //Called only at instance creation
-        [TestFixtureSetUp]
-        public void SetupMethods()
+        protected TestSuiteXml DeserializeSample()
         {
+            // Declare an object variable of the type to be deserialized.
+            var manager = new XmlManager();
 
+            // A Stream is needed to read the XML document.
+            using (Stream stream = Assembly.GetExecutingAssembly()
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.MembersXmlTestSuite.xml"))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                manager.Read(reader);
+            }
+            return manager.TestSuite;
         }
-
-        //Called only at instance destruction
-        [TestFixtureTearDown]
-        public void TearDownMethods()
-        {
-        }
-
-        //Called before each test
-        [SetUp]
-        public void SetupTest()
-        {
-        }
-
-        //Called after each test
-        [TearDown]
-        public void TearDownTest()
-        {
-        }
-        #endregion
-
+        
         [Test]
-        public void Instantiate_ChildrenOfFilled_PathIncludesChildrenOf()
+        public void Deserialize_SampleFile_MembersWithLevel()
         {
-            //Buiding object used during test
-            var xml = new MembersXml();
-            xml.Path = "[dimension].[hierarchy].[level]";
-            xml.ChildrenOf = "parent";
+            int testNr = 0;
+            
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
 
-            //Call the method to test
-            var actual = (DiscoverCommand)(xml.Instantiate());
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<MembersXml>());
+            Assert.That(((MembersXml)ts.Tests[testNr].Systems[0]).Item, Is.TypeOf<LevelXml>());
 
-            //Assertion
-            Assert.That(actual.Path, Is.EqualTo("[dimension].[hierarchy].[level].[parent]"));
+            LevelXml item = (LevelXml)((MembersXml)ts.Tests[testNr].Systems[0]).Item;
+            Assert.That(item.Dimension, Is.EqualTo("dimension"));
+            Assert.That(item.Hierarchy, Is.EqualTo("hierarchy"));
+            Assert.That(item.Caption, Is.EqualTo("level"));
+            Assert.That(item.Perspective, Is.EqualTo("Perspective"));
+            Assert.That(item.ConnectionString, Is.EqualTo("ConnectionString"));
         }
 
         [Test]
-        public void Instantiate_ChildrenOfFilled_FunctionIsSetToChildren()
+        public void Deserialize_SampleFile_AutoCategories()
         {
-            //Buiding object used during test
-            var xml = new MembersXml();
-            xml.Path = "[dimension].[hierarchy].[level]";
-            xml.ChildrenOf = "parent";
+            int testNr = 0;
 
-            //Call the method to test
-            var actual = (DiscoverCommand)(xml.Instantiate());
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
 
-            //Assertion
-            Assert.That(actual.Function, Is.EqualTo("children"));
+            // Check the properties of the object.
+            var autoCategories = ts.Tests[testNr].Systems[0].GetAutoCategories();
+
+            Assert.That(autoCategories, Has.Member("Dimension 'dimension'"));
+            Assert.That(autoCategories, Has.Member("Hierarchy 'hierarchy'"));
+            Assert.That(autoCategories, Has.Member("Perspective 'Perspective'"));
+            Assert.That(autoCategories, Has.Member("Members"));
         }
 
         [Test]
-        public void Instantiate_ChildrenOfNotFilled_FunctionIsSetToMembers()
+        public void Deserialize_SampleFile_MembersWithHierarchy()
         {
-            //Buiding object used during test
-            var xml = new MembersXml();
-            xml.Path = "[dimension].[hierarchy].[level]";
+            int testNr = 1;
+            
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
 
-            //Call the method to test
-            var actual = (DiscoverCommand)(xml.Instantiate());
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<MembersXml>());
+            Assert.That(((MembersXml)ts.Tests[testNr].Systems[0]).Item, Is.TypeOf<HierarchyXml>());
 
-            //Assertion
-            Assert.That(actual.Function, Is.EqualTo("members"));
+            HierarchyXml item = (HierarchyXml)((MembersXml)ts.Tests[testNr].Systems[0]).Item;
+            Assert.That(item.Dimension, Is.EqualTo("dimension"));
+            Assert.That(item.Caption, Is.EqualTo("hierarchy"));
+            Assert.That(item.Perspective, Is.EqualTo("Perspective"));
+            Assert.That(item.ConnectionString, Is.EqualTo("ConnectionString"));
         }
+        
+        [Test]
+        public void Deserialize_SampleFile_MembersWithChildrenOf()
+        {
+            int testNr = 2;
+            
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
 
-
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<MembersXml>());
+            Assert.That(((MembersXml)ts.Tests[testNr].Systems[0]).ChildrenOf, Is.EqualTo("aBc"));
+        }
 
     }
 }

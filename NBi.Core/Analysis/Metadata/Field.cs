@@ -17,6 +17,12 @@ namespace NBi.Core.Analysis.Metadata
             // Calls CaseInsensitiveComparer.Compare with the parameters reversed.
             int IComparer.Compare(Object x, Object y)
             {
+                if (x is String && y is String)
+                    return internalComparer.Compare(y, x);
+                if (x is String && y is IField)
+                    return internalComparer.Compare(((IField)y).Caption, x);
+                if (x is IField && y is String)
+                    return internalComparer.Compare(y, ((IField)x).Caption); 
                 if (x is StringComparerHelper && y is IField)
                     return internalComparer.Compare(((IField)y).Caption, ((StringComparerHelper)x).Value);
                 if (x is IField && y is StringComparerHelper)
@@ -26,35 +32,7 @@ namespace NBi.Core.Analysis.Metadata
 
                 throw new Exception();
             }
-        }
-
-        public class ComparerByCaptionAndDisplayFolder : IComparer
-        {
-            readonly IComparer internalComparer;
-
-            public ComparerByCaptionAndDisplayFolder(bool caseSensitive)
-            {
-                internalComparer = caseSensitive ? StringComparer.CurrentCulture : StringComparer.CurrentCultureIgnoreCase;
-            }
-
-            // Calls CaseInsensitiveComparer.Compare with the parameters reversed.
-            int IComparer.Compare(Object x, Object y)
-            {
-                if (x is IFieldWithDisplayFolder && y is IFieldWithDisplayFolder)
-                    return
-                        Math.Max(
-                            Math.Abs(internalComparer.Compare(((IFieldWithDisplayFolder)y).Caption, ((IFieldWithDisplayFolder)x).Caption)), 
-                            Math.Abs(internalComparer.Compare(((IFieldWithDisplayFolder)y).DisplayFolder, ((IFieldWithDisplayFolder)x).DisplayFolder)));
-
-                throw new Exception(string.Format("{0}{1}", x.GetType().Name, y.GetType().Name));
-            }
-        }
-
-       
+        }      
     } 
-    public class FieldWithDisplayFolder : IFieldWithDisplayFolder
-    {
-            public string DisplayFolder { get; set; }
-            public string Caption { get; set; }
-    }
+    
 }

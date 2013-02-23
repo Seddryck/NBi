@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Xml.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
-using System;
+using System.Xml.Serialization;
 
 namespace NBi.Xml.Settings
 {
     public class SettingsXml
     {
+        [XmlIgnore]
+        public string BasePath { get; set; }
+
         [XmlElement("default")]
         public List<DefaultXml> Defaults { get; set; }
         [XmlElement("reference")]
@@ -26,9 +30,7 @@ namespace NBi.Xml.Settings
             //Don't throw exception ... generating lot of issues!
             //if (def == null)
             //    throw new ArgumentOutOfRangeException(string.Format("No default for '{0}' existing in test suite's settings.", Enum.GetName(typeof(DefaultScope), scope)));
-            return def;
-            
-            
+            return def;           
         }
 
         public ReferenceXml GetReference(string name)
@@ -40,7 +42,7 @@ namespace NBi.Xml.Settings
                     throw new ArgumentOutOfRangeException(string.Format("No reference named '{0}' existing in test suite's settings.", name));
                 return reference;
             }
-            catch (System.InvalidOperationException ex)
+            catch (System.InvalidOperationException)
             {
                 throw new InvalidOperationException(string.Format("All references'name must be unique in settings. The name '{0}' exists more than once.", name));
             }
@@ -51,6 +53,39 @@ namespace NBi.Xml.Settings
         {
             Defaults = new List<DefaultXml>();
             References = new List<ReferenceXml>();
+        }
+
+        internal void GetValuesFromConfig(NameValueCollection connectionStrings)
+        {
+            foreach (var def in Defaults)
+            {
+                if (def.ConnectionString.StartsWith("@"))
+                {
+                    if (connectionStrings.Count == 0)
+                        throw new ArgumentOutOfRangeException(string.Format("No connectionString is provided through the config file and the default connection string is referencing the connection string named '{0}'", def.ConnectionString));
+
+                    var key = connectionStrings.AllKeys.SingleOrDefault(k => k == def.ConnectionString.Substring(1) || k == def.ConnectionString);
+                    if (string.IsNullOrEmpty(key))
+                        throw new ArgumentOutOfRangeException(string.Format("Some connectionStrings are provided through the config file but the default connection string is referencing the connection string named '{0}' has not been found.", def.ConnectionString));
+
+                    def.ConnectionString = connectionStrings.Get(key);
+                }
+            }
+
+            foreach (var reference in References)
+            {
+                if (reference.ConnectionString.StartsWith("@"))
+                {
+                    if (connectionStrings.Count == 0)
+                        throw new ArgumentOutOfRangeException(string.Format("No connectionString is provided through the config file but the connection string named '{0}' has not been found.", reference.ConnectionString));
+
+                    var key = connectionStrings.AllKeys.SingleOrDefault(k => k == reference.ConnectionString.Substring(1) || k == reference.ConnectionString);
+                    if (string.IsNullOrEmpty(key))
+                        throw new ArgumentOutOfRangeException(string.Format("Some connectionStrings are provided through the config file but the connection string is referencing the connection string named '{0}' has not been found.", reference.ConnectionString));
+
+                    reference.ConnectionString = connectionStrings.Get(key);
+                }
+            }
         }
     }
 }

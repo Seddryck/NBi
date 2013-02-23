@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
-using NUnitCtr = NUnit.Framework.Constraints;
-using NBi.Core.Analysis;
 using NBi.Core.Analysis.Member;
-using NBi.Core.Analysis.Metadata;
+using NBi.Core.Analysis.Request;
+using NUnit.Framework.Constraints;
+using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
 {
@@ -27,13 +27,13 @@ namespace NBi.NUnit.Member
 
         private NUnitCtr.Constraint internalConstraint;
 
-        protected DiscoverCommand command;
-        protected IDiscoverMemberEngine memberEngine;
+        protected MembersDiscoveryRequest request;
+        protected MembersAdomdEngine memberEngine;
 
         /// <summary>
         /// Engine dedicated to MetadataExtractor acquisition
         /// </summary>
-        protected internal IDiscoverMemberEngine MemberEngine
+        protected internal MembersAdomdEngine MemberEngine
         {
             set
             {
@@ -43,10 +43,10 @@ namespace NBi.NUnit.Member
             }
         }
 
-        protected IDiscoverMemberEngine GetEngine()
+        protected MembersAdomdEngine GetEngine()
         {
             if (memberEngine == null)
-                memberEngine = new CubeDimensionAdomdEngine();
+                memberEngine = new MembersAdomdEngine();
             return memberEngine;
         }
 
@@ -91,31 +91,21 @@ namespace NBi.NUnit.Member
             return this;
         }
 
-
-        //public CountConstraint Approximatively(int value, int tolerance)
-        //{
-        //    if (internalConstraint != null)
-        //        internalConstraint = internalConstraint.And.T(value);
-        //    else
-        //        internalConstraint = new NUnitCtr.
-        //    return this;
-        //}
-
         public override bool Matches(object actual)
         {
-            if (actual is DiscoverCommand)
-                return Process((DiscoverCommand)actual);
+            if (actual is MembersDiscoveryRequest)
+                return Process((MembersDiscoveryRequest)actual);
             if (actual is ICollection)
                 return Matches((ICollection)actual);
 
             return false;
         }
 
-        protected bool Process(DiscoverCommand actual)
+        protected bool Process(MembersDiscoveryRequest actual)
         {
-            command = actual;
+            request = actual;
             var extr = GetEngine();
-            MemberResult result = extr.Execute(command);
+            MemberResult result = extr.GetMembers(request);
             return this.Matches(result);
         }
 
@@ -131,7 +121,10 @@ namespace NBi.NUnit.Member
             if (internalConstraint == null)
                 return false;
 
-            return internalConstraint.Matches(actual.Count);
+            IResolveConstraint exp = internalConstraint;
+            var multipleConstraint = exp.Resolve();
+
+            return multipleConstraint.Matches(actual.Count);
         }
 
         /// <summary>
@@ -140,6 +133,10 @@ namespace NBi.NUnit.Member
         /// <param name="writer">The writer on which the description is displayed</param>
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
+            writer.WritePredicate(string.Format("On perspective \"{0}\", the {1} of \"{2}\" are "
+                                                            , request.Perspective
+                                                            , request.Function.ToLower()
+                                                            , request.Path));
             if (exactly.HasValue)
             {
                 writer.WritePredicate("exactly");

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using NBi.Core;
 using NBi.Xml;
 using NUnit.Framework;
-using NBi.NUnit;
+using System.Configuration;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Runtime
@@ -18,85 +19,133 @@ namespace NBi.NUnit.Runtime
     [TestFixture]
     public class TestSuite
     {
-        public const string DEFAULT_TESTSUITE = "TestSuite.xml";
+        public bool EnableAutoCategories { get; set; }
+
+        internal XmlManager TestSuiteManager { get; private set; }
+        internal TestSuiteFinder TestSuiteFinder { get; set; }
+        internal ConnectionStringsFinder ConnectionStringsFinder { get; set; }
+        internal ConfigurationFinder ConfigurationFinder { get; set; }
+
+        public TestSuite()
+        {
+            TestSuiteManager = new XmlManager();
+            TestSuiteFinder = new TestSuiteFinder();
+            ConnectionStringsFinder = new ConnectionStringsFinder();
+            ConfigurationFinder = new ConfigurationFinder();
+        }
+
+        internal TestSuite(XmlManager testSuiteManager, TestSuiteFinder testSuiteFinder)
+        {
+            TestSuiteManager = testSuiteManager;
+            TestSuiteFinder = testSuiteFinder;
+        }
 
         [Test, TestCaseSource("GetTestCases")]
-        public void ExecuteTestCases(TestXml test)
+        public virtual void ExecuteTestCases(TestXml test)
         {
-            Console.Out.WriteLine("Loading TestSuite");
-            Console.Out.WriteLine("Test suite defined in " + GetTestSuiteFileDefinition());
-            foreach (var tc in test.Systems)
+            Console.Out.WriteLine(string.Format("Test suite loaded from {0}", GetOwnFilename()));
+            Console.Out.WriteLine(string.Format("Test suite defined in {0}", TestSuiteFinder.Find()));
+
+            //check if ignore is set to true
+            if (test.Ignore)
+                Assert.Ignore(test.IgnoreReason);
+            else
             {
-                foreach (var ctr in test.Constraints)
+                foreach (var tc in test.Systems)
                 {
-                    ctr.Initialize();
-                    var nUnitCtr = ConstraintFactory.Instantiate(ctr, tc.GetType());
-                    Assert.That(tc.Instantiate(), nUnitCtr);
+                    foreach (var ctr in test.Constraints)
+                    {
+                        var testCase = new TestCaseFactory().Instantiate(tc, ctr);
+                        AssertTestCase(testCase.SystemUnderTest, testCase.Constraint, test.Content);
+                    }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Handles the standard assertion and if needed rethrow a new AssertionException with a modified stacktrace
+        /// </summary>
+        /// <param name="systemUnderTest"></param>
+        /// <param name="constraint"></param>
+        protected internal void AssertTestCase(Object systemUnderTest, NUnitCtr.Constraint constraint, string stackTrace)
+        {
+            try
+            {
+                Assert.That(systemUnderTest, constraint);
+            }
+            catch (AssertionException ex)
+            {
+                throw new CustomStackTraceAssertionException(ex, stackTrace);
+            }
+            catch (TestException ex)
+            {
+                throw new CustomStackTraceErrorException(ex, stackTrace);
             }
         }
 
         public IEnumerable<TestCaseData> GetTestCases()
         {
-            var mgr = new XmlManager();
+            TestSuiteManager.Load(TestSuiteFinder.Find());
 
-            mgr.Load(GetTestSuiteFileDefinition());
+            //Find configuration of NBi
+            if (ConfigurationFinder != null)
+                ApplyConfig(ConfigurationFinder.Find());
+
+            //Find connection strings referecned from an external file
+            if (ConnectionStringsFinder != null)
+                TestSuiteManager.ConnectionStrings = ConnectionStringsFinder.Find();
 
             List<TestCaseData> testCasesNUnit = new List<TestCaseData>();
 
-            foreach (var test in mgr.TestSuite.Tests)
+            foreach (var test in TestSuiteManager.TestSuite.Tests)
             {
                 TestCaseData testCaseDataNUnit = new TestCaseData(test);
-                testCaseDataNUnit.SetName(test.Name);
+                testCaseDataNUnit.SetName(test.GetName());
                 testCaseDataNUnit.SetDescription(test.Description);
                 foreach (var category in test.Categories)
                 {
                     testCaseDataNUnit.SetCategory(category);
                 }
+
+                //Assign auto-categories
+                if (EnableAutoCategories)
+                {
+                    foreach (var system in test.Systems)
+                        foreach (var category in system.GetAutoCategories())
+                        {
+                            var noSpecialCharCategory = category.Replace("-", "_");
+                            testCaseDataNUnit.SetCategory(noSpecialCharCategory);
+                        }
+                }
+
                 testCasesNUnit.Add(testCaseDataNUnit);
             }
             return testCasesNUnit;
         }
 
-        protected virtual string GetTestSuiteFileDefinition()
+        public void ApplyConfig(NBiSection config)
         {
-            string assem = Path.GetFullPath((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath).Replace("%20"," ");
-            string configFile = Path.Combine(Path.GetDirectoryName(assem), Path.GetFileNameWithoutExtension(assem) + ".config");
-            
-            //Set the default TestSuite
-            string testSuiteFile = DEFAULT_TESTSUITE;
-            
-            //Try to find a config file, if existing take the path inside for the TestSuite
-            Console.Out.WriteLine("Looking after config file located at '{0}'", configFile);
-            if (File.Exists(configFile))
-            {
-                Console.Out.WriteLine("Config File found!");
-                using (var sr = new StreamReader(configFile))
-                {
-                    testSuiteFile = sr.ReadToEnd();
-                }
-            }
-            else
-            {
-                // If no config file is registered then search the first "nbits" (NBi Test Suite) file
-                Console.Out.WriteLine("No config file found.");
-                Console.Out.WriteLine("Looking after 'nbits' files ...");
-                var files = System.IO.Directory.GetFiles(Path.GetDirectoryName(assem), "*.nbits");
-                if (files.Count() == 1)
-                {
-                    Console.Out.WriteLine("'{0}' found, using it!", files[0]);
-                    testSuiteFile = files[0];
-                }
-                else if (files.Count() > 1)
-                {
-                    Console.Out.WriteLine("{0} 'nbits' files found, using the first found: '{1}'!", files.Count(), files[0]);
-                    testSuiteFile = files[0];
-                }
-                else
-                    Console.Out.WriteLine("No 'nbits' file found");
-            }
+            EnableAutoCategories = config.EnableAutoCategories;
+        }
 
-            return testSuiteFile;
+
+        protected internal string GetOwnFilename()
+        {
+            //get the full location of the assembly with DaoTests in it
+            var fullPath = System.Reflection.Assembly.GetAssembly(typeof(TestSuite)).Location;
+
+            //get the filename that's in
+            var fileName = Path.GetFileName( fullPath );
+
+            return fileName;
+        }
+
+        protected internal string GetManifestName()
+        {
+            //get the full location of the assembly with DaoTests in it
+            var fullName = System.Reflection.Assembly.GetAssembly(typeof(TestSuite)).ManifestModule.Name;
+
+            return fullName;
         }
     }
 }

@@ -4,18 +4,44 @@ using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core;
 using NBi.Core.ResultSet;
-using NBi.Xml.Constraints.EqualTo;
-using NBi.Xml.Systems;
+using NBi.Xml.Items;
+using NBi.Xml.Items.ResultSet;
+using NBi.Xml.Settings;
 
 namespace NBi.Xml.Constraints
 {
     public class EqualToXml : AbstractConstraintXml
     {
+
+        public override DefaultXml Default
+        {
+            get {return base.Default;} 
+            set
+            {
+                base.Default = value;
+                if (Query!=null)
+                    Query.Default=value;
+            }
+        }
+
         [XmlElement("resultSet")]
         public ResultSetXml ResultSet { get; set; }
 
         [XmlElement("query")]
         public QueryXml Query { get; set; }
+
+        public override BaseItem BaseItem
+        {
+            get
+            {
+                if (Query != null)
+                    return Query;
+                if (ResultSet != null)
+                    return ResultSet;
+
+                return null;
+            }
+        }
 
         [XmlAttribute("keys")]
         public ResultSetComparisonSettings.KeysChoice KeysDef { get; set; }
@@ -23,38 +49,38 @@ namespace NBi.Xml.Constraints
         [XmlAttribute("values")]
         public ResultSetComparisonSettings.ValuesChoice ValuesDef { get; set; }
 
-        protected bool _isToleranceSpecified;
+        protected bool isToleranceSpecified;
         [XmlIgnore()]
         public bool IsToleranceSpecified
         {
-            get { return _isToleranceSpecified; }
-            protected set { _isToleranceSpecified = value; }
+            get { return isToleranceSpecified; }
+            protected set { isToleranceSpecified = value; }
         }
 
-        protected decimal _tolerance;
+        protected decimal tolerance;
         [XmlAttribute("tolerance")]
         public decimal Tolerance
         {
             get
-            { return _tolerance; }
+            { return tolerance; }
 
             set
             {
-                _tolerance = value;
-                _isToleranceSpecified = true;
+                tolerance = value;
+                isToleranceSpecified = true;
             }
         }
 
         [XmlElement("column")]
-        public List<ColumnXml> _columnsDef;
+        public List<ColumnXml> columnsDef;
 
         public IList<IColumn> ColumnsDef
         {
             get
             {
-                if (_columnsDef == null)
-                    _columnsDef = new List<ColumnXml>();
-                return _columnsDef.Cast<IColumn>().ToList();
+                if (columnsDef == null)
+                    columnsDef = new List<ColumnXml>();
+                return columnsDef.Cast<IColumn>().ToList();
             }
         }
 
@@ -66,7 +92,7 @@ namespace NBi.Xml.Constraints
             return new ResultSetComparisonSettings(KeysDef, ValuesDef, Tolerance, ColumnsDef);
         }
 
-        public IDbCommand GetCommand()
+        public virtual IDbCommand GetCommand()
         {
             if (Query==null)
                 return null;

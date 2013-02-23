@@ -1,4 +1,7 @@
-﻿using System.Xml.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Xml.Serialization;
+using NBi.Xml.Items;
 using NBi.Xml.Settings;
 
 namespace NBi.Xml.Systems
@@ -8,14 +11,41 @@ namespace NBi.Xml.Systems
         [XmlAttribute("name")]
         public string Name { get; set; }
 
-        public abstract object Instantiate();
+        private DefaultXml _default;
+        public virtual DefaultXml Default
+        {
+            get { return _default; }
+            set
+            {
+                _default = value;
+                if (BaseItem != null)
+                    BaseItem.Default = value;
+            }
+        }
+        private SettingsXml settings;
+        public virtual SettingsXml Settings
+        {
+            get { return settings; }
+            set
+            {
+                settings = value;
+                if (BaseItem != null)
+                    BaseItem.Settings = value;
+            }
+        }
 
-        public DefaultXml Default { get; set; }
-        public SettingsXml Settings { get; set; }
+        public abstract BaseItem BaseItem { get; }
 
         public AbstractSystemUnderTestXml()
         {
             Default = new DefaultXml();
         }
+
+        internal virtual Dictionary<string, string> GetRegexMatch()
+        {
+            return new Dictionary<string, string>();
+        }
+
+        public abstract ICollection<string> GetAutoCategories();
     }
 }

@@ -7,7 +7,9 @@
 	</settings>
 	<test name="In dimension Customers State-Provinces around 65 members" uid="0001">
 		<system-under-test>
-			<members path="[Customer].[State-Province].[State-Province]" perspective="Adventure Works"/>
+			<members>
+				<level caption="State-Province" dimension="Customer" hierarchy="State-Province" perspective="Adventure Works"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<count more-than="50" less-than="100"/>
@@ -15,7 +17,9 @@
 	</test>
 	<test name="In dimension Customers Countries are exactly 6" uid="0002">
 		<system-under-test>
-			<members path="[Customer].[Country]" children-of="All Customers" perspective="Adventure Works"/>
+			<members children-of="All Customers">
+				<hierarchy caption="Country" dimension="Customer" perspective="Adventure Works"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<count exactly="6"/>
@@ -23,7 +27,9 @@
 	</test>
 	<test name="Customers more than 100 members" uid="0003">
 		<system-under-test>
-			<members path="[Customer].[Customer].[Customer]" perspective="Adventure Works"/>
+			<members>
+				<level caption="Customer" dimension="Customer" hierarchy="Customer" perspective="Adventure Works"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<count more-than="100"/>
@@ -31,7 +37,9 @@
 	</test>
 	<test name="Customers more than 100 members" uid="0003">
 		<system-under-test>
-			<members path="[Employee].[Department Name].[Department Name]" perspective="Adventure Works"/>
+			<members>
+				<level caption="Department Name" dimension="Employee" hierarchy="Department Name" perspective="Adventure Works"/>
+			</members>
 		</system-under-test>
 		<assert>
 			<count less-than="30"/>

@@ -20,11 +20,8 @@ The main goal of this framework is to let users create tests with a declarative 
 *** [Test syntax]
 * SSAS
 ** Cube structure
-*** [Test the availability of a perspective]
-*** [Test the availability of a measure-group or dimension (through a perspective)]
-*** [Test the availability of an hierarchy or level in a dimension (through a perspective)]
-*** [Test the availability of a measure in a measure-group or display-folder (through a perspective)]
+*** [Test the availability of an element in the cube's structure] (measure, measure-group, level, hierarchy, dimension, perspective)
 ** Dimension membership
 *** [Test the members' count at any level of a dimension or hierarchy]
 *** [Test ordering of members at any level of a dimension or hierarchy]
-*** [Test availability of a member at any level of a dimension or hierarchy]
+*** [Test existence of a member at any level of a dimension or hierarchy]

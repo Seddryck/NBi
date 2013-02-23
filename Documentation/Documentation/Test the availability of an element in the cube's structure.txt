@@ -1,0 +1,169 @@
+! Test the availability of an element in the cube's structure
+!! System under test
+The sample here under explains how to check the availability of a measure but it's also possible to check the existence of a perspective, dimension, hierarchy, level or measure-group following the same way.
+In order to let you check that a measure is available through a perspective, you need to stipulate where you'll be looking for. This is done by creating a tag named "structure" under the node "system-under-test".
+{code:xml}
+<test>
+    <system-under-test>
+        <structure/>
+    </system-under-test>
+</test>
+{code:xml}
+In this xml node, named "structure", you'll need to specify for which element you'll check availability. For this you'll need to specify the type of element (perspective, dimension, hierrachy, levle, measure-group or measure), its caption and also the parents. In the sample bellow, we're checking if a measure 'MyMeasure' exists in a measure-group 'MyMeasureGroup' through the perspective 'MyPerspective'
+{code:xml}
+<structure>
+    <measure caption="MyMeasure" measure-group="MyMeasureGroup" perspective="MyPerspective"/>
+</structure>
+{code:xml}
+Finally, the last information needed is the connectionString to reach your cube. This information must be provided by the means of the Xml attribute named "connectionString".
+{code:xml}
+<structure>
+    <measure caption="MyMeasure" measure-group="MyMeasureGroup" perspective="MyPerspective"
+        connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+</structure>
+{code:xml}
+
+!! Assertion
+The assertion consists in a check that the element specified above exists (by exists we mean visible for the end-user browsing your cube).
+
+So we need to specify that we'll perform an assertion of type "exists":
+{code:xml}
+<test>
+    <assert>
+        <exists/>
+    </assert>
+</test>
+{code:xml}
+The full test should be:
+{code:xml}
+<test>
+    <system-under-test>
+        <structure>
+    	    <measure caption="MyMeasure" measure-group="MyMeasureGroup" perspective="MyPerspective"
+        	connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+	</structure>
+    </system-under-test>
+    <assert>
+        <exists />
+    </assert>
+</test>
+{code:xml}
+
+!!!Display-folder for measure
+It's not possible to check that a display-folder for measures exists. But anyway you can check that a measure is effectively available in the expected display-folder. Using the attribute display-folder.
+{code:xml}
+<test>
+    <system-under-test>
+        <structure>
+    	    <measure caption="MyMeasure" 
+		display-folder="MyDisplayFolder\SubFolder"
+		measure-group="MyMeasureGroup" perspective="MyPerspective"
+        	connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+	</structure>
+    </system-under-test>
+    <assert>
+        <exists />
+    </assert>
+</test>
+{code:xml}
+If you want to specify that the measure should be in the root of the measure-group simply apply an empty value for the display-folder.
+{code:xml}
+<test>
+    <system-under-test>
+        <structure>
+    	    <measure caption="MyMeasure" 
+		display-folder=""
+		measure-group="MyMeasureGroup" perspective="MyPerspective"
+        	connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+	</structure>
+    </system-under-test>
+    <assert>
+        <exists />
+    </assert>
+</test>
+{code:xml}
+If you don't specify the attribute display-folder then NBi will not take into account the display-folder when looking for your element. It means that if your measure is specified in the root or in a display-folder will not influence the result of the existence test.
+
+!!Other elements
+!!!Perspective
+For a perspective, you must specify the caption and nothing else.
+{code:xml}
+<test>
+    <system-under-test>
+        <structure>
+    	    <perspective caption="MyPerspective"
+        	connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+	</structure>
+    </system-under-test>
+    <assert>
+        <exists />
+    </assert>
+</test>
+{code:xml}
+!!!Dimension
+For a dimension, you'll need to specify the caption and the perspective
+{code:xml}
+<test>
+    <system-under-test>
+        <structure>
+    	    <dimension caption="MyDimension" 
+		perspective="MyPerspective"
+        	connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+	</structure>
+    </system-under-test>
+    <assert>
+        <exists />
+    </assert>
+</test>
+{code:xml}
+!!!hierarchy
+For a hierarchy, you'll need to specify the caption, the dimension and the perspective
+{code:xml}
+<test>
+    <system-under-test>
+        <structure>
+    	    <hierarchy caption="MyHierarchy"
+		dimension="MyDimension" 
+		perspective="MyPerspective"
+        	connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+	</structure>
+    </system-under-test>
+    <assert>
+        <exists />
+    </assert>
+</test>
+{code:xml}
+!!!Level
+For a level, you'll need to specify the caption, the hierarchy, the dimension and the perspective
+{code:xml}
+<test>
+    <system-under-test>
+        <structure>
+    	    <level caption="MyLevel"
+		hierarchy="MyHierarchy"
+		dimension="MyDimension" 
+		perspective="MyPerspective"
+        	connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+	</structure>
+    </system-under-test>
+    <assert>
+        <exists />
+    </assert>
+</test>
+{code:xml}
+!!!Measure-group
+For a measure-group, you'll need to specify the caption and the perspective
+{code:xml}
+<test>
+    <system-under-test>
+        <structure>
+    	    <measure-group caption="MyMeasureGroup" 
+		perspective="MyPerspective"
+        	connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+	</structure>
+    </system-under-test>
+    <assert>
+        <exists />
+    </assert>
+</test>
+{code:xml}

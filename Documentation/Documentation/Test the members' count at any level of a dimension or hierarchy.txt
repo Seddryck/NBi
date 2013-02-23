@@ -9,27 +9,35 @@ In order to let you check something about members of a dimension (or hierarchy/l
 </test>
 {code:xml}
 
-In this node, named "members", you'll need to specify the path to reach the container of the element you're checking availability. This is done by filling the xml attribute named "path" with the unique of your dimension,
+In this node, named "members", you'll need to specify on which element you'll be looking for. This is done by filling the xml element named "dimension", "hierarchy" or "level". As a sample here we're looking for a member in the level 'State-Province' of hierarchy 'State-Province' in dimension 'dimension='Customer'.
 {code:xml}
-<structure path="[MyDimension].[MyHierarchy]"/>
+<system-under-test>
+	<members>
+		<level caption="State-Province" dimension="Customer" hierarchy="State-Province" perspective="Adventure Works"/>
+	</members>
+</system-under-test>
 {code:xml}
-or the level,
+If we want to search in the hierarchy,
 {code:xml}
-<structure path="[MyDimension].[MyHierarchy].[MyLevel]"/>
+<system-under-test>
+	<members>
+		<hierarchy caption="State-Province" dimension="Customer" perspective="Adventure Works"/>
+	</members>
+</system-under-test>
 {code:xml}
-When done, it'll also be neeeded to specify the perspective through which you'll be executing your test. To do this, fill the xml attribute named "perspective". Note that perspectives have no unique name, so you must fill this information with the perspective's displayname (and so without brackets).
+Finally, the last information needed is the connectionString to reach your cube. This information must be provided by the means of the xml attribute named "connectionString" (or via a default value).
 {code:xml}
-<structure path="[MyDimension].[MyHierarchy]" perspective="myPerspective"/>
-{code:xml}
-Finally, the last information needed is the connectionString to reach your cube. This information must be provided by the means of the xml attribute named "connectionString".
-{code:xml}
-<structure path="[MyDimension].[MyHierarchy]" perspective="myPerspective" 
-    connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+<system-under-test>
+	<members>
+		<hierarchy caption="State-Province" dimension="Customer" perspective="Adventure Works"
+			connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"
+		/>
+	</members>
+</system-under-test>
 {code:xml}
 
 !! Assertion
-The assertion consists in a check about the count of members in the hierarchy or level specified.
-
+The assertion consists in a check about the members' count in the hierarchy or level specified.
 So we need to specify that we'll perform an assertion of type "count":
 {code:xml}
 <test>
@@ -51,11 +59,11 @@ If we're checking that the hierarchy named "MyHierarchy" has more than 15 member
 {code:xml}
 <test>
     <system-under-test>
-        <members 
-            path="[MyDimension].[MyHierarchy]"
-            perspective="myPerspective" 
-            connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"
-        />
+	    <members>
+		    <hierarchy caption="State-Province" dimension="Customer" perspective="Adventure Works"
+			     connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"
+		     />
+	    </members>
     </system-under-test>
     <assert>
         <count more-than="15"/>

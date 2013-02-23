@@ -18,11 +18,10 @@ If we're checking that the hierarchy named "MyHierarchy" has a member named "MyM
 {code:xml}
 <test>
     <system-under-test>
-        <members 
-            path="[MyDimension].[MyHierarchy]"
-            perspective="myPerspective" 
-            connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"
-        />
+        <members>
+    	    <hierarchy caption="MyHierarchy" dimension="MyDimension" perspective="MyPerspective"
+		connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+	</members> 
     </system-under-test>
     <assert>
         <contains caption="MyMember"/>

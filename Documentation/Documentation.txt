@@ -1,6 +1,8 @@
 ! How to
 * [Manually create my first test suite with NBi|Create manually my first test suite with NBi]
 * [Run a test suite with NUnit GUI]
+* [Run a test suite with Gallio]
+* [Share binaries between test-suites] (useful for build servers)
 
 ! Currently supported features 
 * SSAS & SQL
@@ -10,8 +12,7 @@
 *** [Test syntax]
 * SSAS
 ** Cube structure
-*** [Test the availability of an hierarchy or level in a dimension (through a perspective)]
-*** [Test the availability of a measure (through a perspective)]
+*** [Test the availability of an element in the cube's structure] (measure, measure-group, level, hierarchy, dimension, perspective)
 ** Dimension membership
 *** [Test the members' count at any level of a dimension or hierarchy]
 *** [Test ordering of members at any level of a dimension or hierarchy]

@@ -119,7 +119,6 @@
     <Compile Include="Analysis\Metadata\MetadataNotFoundException.cs" />
     <Compile Include="Analysis\Metadata\MetadataFactory.cs" />
     <Compile Include="Analysis\Metadata\MetadataFileFormat.cs" />
-    <Compile Include="Analysis\PathParser.cs" />
     <Compile Include="Analysis\Metadata\Perspective.cs" />
     <Compile Include="Analysis\Metadata\PerspectiveCollection.cs" />
     <Compile Include="Analysis\Metadata\Property.cs" />

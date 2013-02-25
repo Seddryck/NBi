@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using NBi.Core.Assemblies;
 
 namespace NBi.Xml.Items
 {
@@ -69,7 +70,21 @@ namespace NBi.Xml.Items
 
         public override string GetQuery()
         {
-            return string.Empty;
+            var assemblyManager = new AssemblyManager();
+            object methodExecution = null;
+            if (Static)
+            {
+                var type = assemblyManager.GetStatic(Path, Klass);
+                methodExecution = assemblyManager.ExecuteStatic(type, Method, GetParameters());
+            }
+            else
+            {
+                var classInstance = assemblyManager.GetInstance(Path, Klass, null);
+                methodExecution = assemblyManager.Execute(classInstance, Method, GetParameters());
+            }
+
+            if (methodExecution is string) //It means that we've a query
+                return (string)methodExecution;
         }
 
     }

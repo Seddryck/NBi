@@ -130,6 +130,7 @@
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\AssemblyXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\MeasureXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\OrderedXmlTest.cs" />
     <Compile Include="Unit\Xml\IgnoreXmlTest.cs" />
@@ -138,7 +139,7 @@
     <Compile Include="Unit\Xml\Systems\MembersXmlTest.cs" />
     <Compile Include="Unit\Xml\Systems\StructureXmlTest.cs" />
     <Compile Include="Unit\Xml\Settings\SettingsXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\QueryXmlTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\EqualToXmlTest.cs" />
     <Compile Include="Unit\Xml\TestXmlTest.cs" />
     <Compile Include="Unit\NUnit\ConstraintFactoryTest.cs" />
     <Compile Include="Unit\Xml\Systems\ExecutionXmlTest.cs" />
@@ -171,6 +172,7 @@
     <MyOptionalItems Include="ConnectionString.user.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\AssemblyXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\ContainsTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\DescriptionXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestXmlTestSuite.xml" />
@@ -187,7 +189,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithReference.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithoutDefault.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefault.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\QueryXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\EqualToTestSuite.xml" />
     <EmbeddedResource Include="Unit\Core\ResultSet\Resources\ResultDataSet.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidSyntax.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SelectAllProducts.sql" />

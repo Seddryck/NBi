@@ -2,9 +2,11 @@
 <testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
 	<test name="My first test case" uid="0001">
 		<system-under-test>
-			<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
-				SELECT TOP 2 * FROM Product;
-			</query>
+			<execution>
+				<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+					SELECT TOP 2 * FROM Product;
+				</query>
+			</execution>
 		</system-under-test>
 		<assert>
 			<equalTo>
@@ -25,9 +27,11 @@
 	</test>
 	<test name="external resultSet file">
 		<system-under-test>
-			<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
-				SELECT TOP 2 * FROM Product;
-			</query>
+			<execution>
+				<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+					SELECT TOP 2 * FROM Product;
+				</query>
+			</execution>
 		</system-under-test>
 		<assert>
 			<equalTo>
@@ -37,9 +41,11 @@
 	</test>
 	<test name="keys">
 		<system-under-test>
-			<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
-				SELECT TOP 2 * FROM Product;
-			</query>
+			<execution>
+				<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+					SELECT TOP 2 * FROM Product;
+				</query>
+			</execution>
 		</system-under-test>
 		<assert>
 			<equalTo keys="first">
@@ -49,9 +55,11 @@
 	</test>
 	<test name="values">
 		<system-under-test>
-			<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
-				SELECT TOP 2 * FROM Product;
-			</query>
+			<execution>
+				<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+					SELECT TOP 2 * FROM Product;
+				</query>
+			</execution>
 		</system-under-test>
 		<assert>
 			<equalTo>
@@ -62,9 +70,11 @@
 	</test>
 	<test name="values">
 		<system-under-test>
-			<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
-				SELECT TOP 2 * FROM Product;
-			</query>
+			<execution>
+				<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+					SELECT TOP 2 * FROM Product;
+				</query>
+			</execution>
 		</system-under-test>
 		<assert>
 			<equalTo>
@@ -76,9 +86,11 @@
 	</test>
   <test name="equalTo values and tolerance">
     <system-under-test>
-      <query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
-        SELECT TOP 2 * FROM Product;
-      </query>
+		<execution>
+			  <query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+				SELECT TOP 2 * FROM Product;
+			  </query>
+		</execution>
     </system-under-test>
     <assert>
       <equalTo values="last" tolerance="100">
@@ -88,9 +100,11 @@
   </test>
 	<test name="equalTo Persistance">
 		<system-under-test>
-			<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
-				SELECT TOP 2 * FROM Product;
-			</query>
+			<execution>
+				<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+					SELECT TOP 2 * FROM Product;
+				</query>
+			</execution>
 		</system-under-test>
 		<assert>
 			<equalTo persistance="only-if-failed">

@@ -12,6 +12,14 @@ namespace NBi.Xml.Items
         public string Name { get; set; }
 
         [XmlText]
-        public object Value { get; set; }
+        public string StringValue { get; set; }
+
+        public object Value
+        {
+            get
+            {
+                return StringValue;
+            }
+        }
     }
 }

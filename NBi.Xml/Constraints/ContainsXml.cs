@@ -3,7 +3,7 @@ using System.Data;
 using System.Xml.Serialization;
 using NBi.Core;
 using NBi.Core.Query;
-using NBi.Xml.Systems;
+using NBi.Xml.Items;
 
 namespace NBi.Xml.Constraints
 {
@@ -26,6 +26,7 @@ namespace NBi.Xml.Constraints
 
         public ContainsXml()
         {
+            Items = new List<string>();
             Specification = new SpecificationContains();
         }
 
@@ -43,7 +44,7 @@ namespace NBi.Xml.Constraints
             }
         }
 
-            Items = new List<string>();
+            
         [XmlIgnore()]
         public SpecificationContains Specification { get; protected set; }
 

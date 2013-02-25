@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1049</connectionString>
+		</default>
+	</settings>
+	<test name="'Reseller Order Count' for year 2004, query built by assembly" uid="0001">
+		<system-under-test>
+			<execution>
+				<assembly path="NBi.Testing.dll" class="NBi.Testing.Acceptance.Resources.AssemblyClass" method="GetSelectMdx">
+					<parameter name="calendarYear">CY 2004</parameter>
+				</assembly>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>CY 2004</cell>
+						<cell>894</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="'Reseller Order Count' for year 2004, query built by assembly" uid="0002">
+		<system-under-test>
+			<execution>
+				<assembly path="NBi.Testing.dll" class="NBi.Testing.Acceptance.Resources.AssemblyClass" method="GetSelectMdxWithTwoParams">
+					<parameter name="year">2002</parameter>
+					<parameter name="measure">OrderCount</parameter>
+				</assembly>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>CY 2002</cell>
+						<cell>1015</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+</testSuite>

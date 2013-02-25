@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core.Assemblies;
@@ -85,6 +86,8 @@ namespace NBi.Xml.Items
 
             if (methodExecution is string) //It means that we've a query
                 return (string)methodExecution;
+
+            throw new InvalidOperationException("The method should return a string (query)");
         }
 
     }

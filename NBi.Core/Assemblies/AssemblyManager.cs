@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reflection;
+using System.IO;
 
 namespace NBi.Core.Assemblies
 {
@@ -10,6 +10,9 @@ namespace NBi.Core.Assemblies
     {
         public object GetInstance(string assemblyPath, string typeName, object[] ctorParameters)
         {
+            if (!Path.IsPathRooted(assemblyPath))
+                assemblyPath = Path.GetFullPath(assemblyPath);
+
             var assembly = Assembly.LoadFile(assemblyPath);
             var type = assembly.GetType(typeName);
             if (type == null)

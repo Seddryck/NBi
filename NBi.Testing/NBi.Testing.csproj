@@ -173,8 +173,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\Resources\ContainsTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\DescriptionXmlTestSuite.xml" />
-	<EmbeddedResource Include="Unit\Xml\Resources\SettingsWithoutDefault.xml" />
-	<EmbeddedResource Include="Unit\Xml\Resources\TestXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\TestXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultAssert.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\ExistsXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\QueryFileEuro.mdx" />
@@ -193,16 +192,36 @@
     <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidSyntax.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SelectAllProducts.sql" />
     <EmbeddedResource Include="Unit\Xml\Resources\QueryFile.sql" />
-    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToResultSet.xml" />
-    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToCsv.xml" />
-    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToQuery.xml" />
-    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToResultSetWithNull.xml" />
-    <EmbeddedResource Include="Acceptance\Resources\Ordered.xml" />
-    <EmbeddedResource Include="Acceptance\Resources\Count.xml" />
-    <EmbeddedResource Include="Acceptance\Resources\Contains.xml" />
-    <EmbeddedResource Include="Acceptance\Resources\FasterThan.xml" />
-    <EmbeddedResource Include="Acceptance\Resources\SyntacticallyCorrect.xml" />
-    <EmbeddedResource Include="Acceptance\Resources\Exists.xml" />
+    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToResultSet.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToCsv.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToQuery.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToResultSetWithNull.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Ordered.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Count.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Contains.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\FasterThan.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\SyntacticallyCorrect.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Exists.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="NBi.Testing.sql" />
     <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerSample.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

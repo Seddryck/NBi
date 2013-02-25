@@ -95,9 +95,10 @@
 									<xs:choice>
 										<xs:element name="execution">
 											<xs:complexType>
-												<xs:sequence>
+												<xs:choice>
 													<xs:element name="query" type ="query-type"/>
-												</xs:sequence>
+													<xs:element name="assembly" type ="assembly-type"/>
+												</xs:choice>
 											</xs:complexType>		
 										</xs:element>
 										<xs:element name="members">
@@ -311,9 +312,6 @@
 		<xs:attribute name="method" type="xs:string" use="required" />
 	</xs:complexType>
 	<xs:complexType name="query-type" mixed="true">
-		<xs:sequence>
-			<xs:element name="assembly" type="assembly-type" minOccurs="0" maxOccurs="1"/>
-		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="optional" />
 		<xs:attribute name="file" type="xs:string" use="optional" />
 		<xs:attribute name="connectionString" type="xs:string" use="optional" />

@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using NBi.Core.Assemblies;
 
 namespace NBi.Xml.Items
 {
-    public class AssemblyXml
+    public class AssemblyXml : QueryableXml
     {
         [XmlAttribute("path")]
         public string Path { get; set; }
@@ -18,9 +17,6 @@ namespace NBi.Xml.Items
 
         [XmlAttribute("static")]
         public bool Static { get; set; }
-
-        [XmlAttribute("connectionString")]
-        public string ConnectionString { get; set; }
 
         [XmlElement("parameter")]
         public List<ParameterXml> Parameters { get; set; }
@@ -71,8 +67,10 @@ namespace NBi.Xml.Items
             return dico;
         }
 
-
-
+        public override string GetQuery()
+        {
+            return string.Empty;
+        }
 
     }
 }

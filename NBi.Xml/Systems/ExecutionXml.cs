@@ -12,14 +12,16 @@ namespace NBi.Xml.Systems
             return true;
         }
         
-        [XmlElement(Type = typeof(QueryXml), ElementName = "query")]
-        public virtual QueryXml Item { get; set; }
+        [XmlElement(Type = typeof(QueryXml), ElementName = "query"),
+        XmlElement(Type = typeof(AssemblyXml), ElementName = "assembly"),
+        ]
+        public virtual QueryableXml Item { get; set; }
 
         public override BaseItem BaseItem
         {
             get
             {
-                return Item;
+                return (BaseItem) Item;
             }
         }
 

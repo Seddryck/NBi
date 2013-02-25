@@ -4,7 +4,7 @@ using System.IO;
 using System.Xml.Serialization;
 using NBi.Core;
 
-namespace NBi.Xml.Systems
+namespace NBi.Xml.Items
 {
     public class ParameterXml
     {

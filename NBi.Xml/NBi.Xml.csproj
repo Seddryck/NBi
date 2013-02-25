@@ -74,8 +74,8 @@
     <Compile Include="Systems\AbstractSystemUnderTestXml.cs" />
     <Compile Include="Constraints\CountXml.cs" />
     <Compile Include="Constraints\EqualToXml.cs" />
-    <Compile Include="Systems\AssemblyXml.cs" />
-    <Compile Include="Systems\ParameterXml.cs" />
+    <Compile Include="Items\AssemblyXml.cs" />
+    <Compile Include="Items\ParameterXml.cs" />
     <Compile Include="Systems\MembersXml.cs" />
     <Compile Include="Constraints\SyntacticallyCorrectXml.cs" />
     <Compile Include="Constraints\FasterThanXml.cs" />

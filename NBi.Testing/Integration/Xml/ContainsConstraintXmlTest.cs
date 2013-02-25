@@ -1,8 +1,7 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Xml.Items;
 using NUnit.Framework;
 #endregion
 

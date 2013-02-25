@@ -71,6 +71,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Acceptance\Resources\AssemblyClass.cs" />
     <Compile Include="Acceptance\RuntimeOverrider.cs" />
     <Compile Include="Acceptance\TestSuiteRunner.cs" />
     <Compile Include="ConnectionStringReader.cs" />
@@ -222,6 +223,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Exists.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\AssemblyEqualToResultSet.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="NBi.Testing.sql" />

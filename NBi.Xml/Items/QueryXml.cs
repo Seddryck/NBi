@@ -13,10 +13,7 @@ namespace NBi.Xml.Items
         
         [XmlAttribute("file")]
         public string File { get; set; }
-
-        [XmlAttribute("connectionString")]
-        public string ConnectionString { get; set; }
-
+        
         [XmlAttribute("connectionString-ref")]
         public string ConnectionStringReference { get; set; }
 

@@ -5,6 +5,9 @@ using System.Text;
 
 namespace NBi.Core.Assemblies
 {
+    /// <summary>
+    /// This class let you convert an object into a specific type 
+    /// </summary>
     public class TypeConverter
     {
         public object Convert(object value, Type destinationType)

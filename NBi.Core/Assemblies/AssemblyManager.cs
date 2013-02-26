@@ -6,8 +6,18 @@ using System.IO;
 
 namespace NBi.Core.Assemblies
 {
+    /// <summary>
+    /// This class let you load an assembly and execute a method of it. It's just a kind of wrapper over the reflection namespace
+    /// </summary>
     public class AssemblyManager
     {
+        /// <summary>
+        /// Create an object of the specified class
+        /// </summary>
+        /// <param name="assemblyPath">The full or relative path of the assembly containing the class from which you want to instantiate an object</param>
+        /// <param name="typeName">The type of the object to instantiate</param>
+        /// <param name="ctorParameters">Value of the parameters for the constructor of the type</param>
+        /// <returns>An instance of the specified class</returns>
         public object GetInstance(string assemblyPath, string typeName, object[] ctorParameters)
         {
             if (!Path.IsPathRooted(assemblyPath))
@@ -34,7 +44,12 @@ namespace NBi.Core.Assemblies
         //    return classInstance;     
         //}
          
-
+        /// <summary>
+        /// Returns the type to call static methods
+        /// </summary>
+        /// <param name="assemblyPath"></param>
+        /// <param name="typeName"></param>
+        /// <returns></returns>
         public Type GetStatic(string assemblyPath, string typeName)
         {
             var assembly = Assembly.LoadFile(assemblyPath);
@@ -44,7 +59,13 @@ namespace NBi.Core.Assemblies
 
             return type;
         }
-
+        /// <summary>
+        /// Execute the method of the an object. Let you specify the value of the parameters of the method called.
+        /// </summary>
+        /// <param name="target">The object on which you want to apply a method</param>
+        /// <param name="methodName">The name of the method</param>
+        /// <param name="parameters">The pair of names and values for each parameter of the method</param>
+        /// <returns></returns>
         public object Execute(object target, string methodName, IDictionary<string, object> parameters)
         {
             var flags = BindingFlags.IgnoreCase | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
@@ -64,6 +85,13 @@ namespace NBi.Core.Assemblies
             return result;
         }
 
+        /// <summary>
+        /// Execute the static method of the a type. Let you specify the value of the parameters of the method called.
+        /// </summary>
+        /// <param name="target">The type on which you want to apply a method</param>
+        /// <param name="methodName">The name of the static method</param>
+        /// <param name="parameters">The pair of names and values for each parameter of the method</param>
+        /// <returns></returns>
         public object ExecuteStatic(Type type, string methodName, IDictionary<string, object> parameters)
         {
             var flags = BindingFlags.IgnoreCase | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static;

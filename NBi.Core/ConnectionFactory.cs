@@ -6,10 +6,20 @@ using Microsoft.AnalysisServices.AdomdClient;
 
 namespace NBi.Core
 {
+    /// <summary>
+    /// The ConnectionFactory is used to build an IDbConnection compatible with the connectionString provided.
+    /// </summary>
     public class ConnectionFactory
     {
-
-        public static IDbConnection Get(string connectionString)
+        public static ConnectionFactory Instance
+        {
+            get
+            {
+                return new ConnectionFactory();
+            }           
+        }
+        
+        public IDbConnection Get(string connectionString)
         {
             var csb = new DbConnectionStringBuilder();
             csb.ConnectionString = connectionString;
@@ -23,7 +33,7 @@ namespace NBi.Core
             return Get(providerName, connectionString);           
         }
 
-        public static string InterpretProviderName(string provider)
+        protected string InterpretProviderName(string provider)
         {
             if (provider.ToLowerInvariant().StartsWith("msolap")) return "Adomd";
             if (provider.ToLowerInvariant().StartsWith("sqlncli")) return "OleDb";         
@@ -32,7 +42,7 @@ namespace NBi.Core
             return null;
         }
 
-        public static IDbConnection Get(string providerName, string connectionString)
+        protected internal IDbConnection Get(string providerName, string connectionString)
         {
             var providerInvariantName = TranslateProviderName(providerName);
 
@@ -49,7 +59,7 @@ namespace NBi.Core
             return conn;
         }
 
-        protected static string TranslateProviderName(string providerName)
+        protected string TranslateProviderName(string providerName)
         {
             var providers = new List<string>();
             foreach (DataRowView item in DbProviderFactories.GetFactoryClasses().DefaultView)
@@ -65,7 +75,7 @@ namespace NBi.Core
             return null;
         }
 
-        protected static IDbConnection GetSpecific(string providerName)
+        protected IDbConnection GetSpecific(string providerName)
         {
             switch (providerName.ToLowerInvariant())
             {

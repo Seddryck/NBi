@@ -43,11 +43,11 @@ namespace NBi.Testing.Unit.Core
         #endregion
 
         [Test]
-        public void Get_OleDbMSOLAP_OledbConnection()
+        public void Get_OleDbMsOlap_OleDbConnection()
         {
             //Call the method to test
             var connStr = "Provider=MSOLAP;Data Source=ds;Initial Catalog=ic";
-            var actual = ConnectionFactory.Get("OleDb", connStr);
+            var actual = ConnectionFactory.Instance.Get("OleDb", connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<OleDbConnection>());
@@ -55,11 +55,11 @@ namespace NBi.Testing.Unit.Core
         }
 
         [Test]
-        public void Get_oLEdBWithIncorrectCase_OledbConnection()
+        public void Get_OleDbWithIncorrectCase_OledbConnection()
         {
             //Call the method to test
             var connStr = "Provider=MSOLAP;Data Source=ds;Initial Catalog=ic";
-            var actual = ConnectionFactory.Get("OleDb", connStr);
+            var actual = ConnectionFactory.Instance.Get("OleDb", connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<OleDbConnection>());
@@ -71,7 +71,7 @@ namespace NBi.Testing.Unit.Core
         {
             //Call the method to test
             var connStr = "Provider=MSOLAP;Data Source=ds;Initial Catalog=ic";
-            var actual = ConnectionFactory.Get("System.Data.OleDb", connStr);
+            var actual = ConnectionFactory.Instance.Get("System.Data.OleDb", connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<OleDbConnection>());
@@ -79,11 +79,11 @@ namespace NBi.Testing.Unit.Core
         }
 
         [Test]
-        public void Get_OleDbSQLNCLI_OledbConnection()
+        public void Get_OleDbSqlNCli_OledbConnection()
         {
             //Call the method to test
             var connStr = "Provider=SQLNCLI;Data Source=ds;Initial Catalog=ic";
-            var actual = ConnectionFactory.Get("OleDb", connStr);
+            var actual = ConnectionFactory.Instance.Get("OleDb", connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<OleDbConnection>());
@@ -95,7 +95,7 @@ namespace NBi.Testing.Unit.Core
         {
             //Call the method to test
             var connStr = "Driver={SQL Server Native Client 10.0};Server=myServerAddress;Database=myDataBase;Uid=myUsername;Pwd=myPassword;";
-            var actual = ConnectionFactory.Get("Odbc", connStr);
+            var actual = ConnectionFactory.Instance.Get("Odbc", connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<OdbcConnection>());
@@ -108,7 +108,7 @@ namespace NBi.Testing.Unit.Core
             var connStr = "Data Source=ds;Initial Catalog=ic";
 
             //Call the method to test
-            var actual = ConnectionFactory.Get("SqlClient", connStr);
+            var actual = ConnectionFactory.Instance.Get("SqlClient", connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<SqlConnection>());
@@ -122,7 +122,7 @@ namespace NBi.Testing.Unit.Core
             var connStr = "Data Source=ds;Initial Catalog=ic";
 
             //Call the method to test
-            var actual = ConnectionFactory.Get("Adomd", connStr);
+            var actual = ConnectionFactory.Instance.Get("Adomd", connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<AdomdConnection>());
@@ -135,7 +135,7 @@ namespace NBi.Testing.Unit.Core
             var connStr = "Data Source=ds;Initial Catalog=ic";
 
             //Call the method to test and Assert
-            Assert.Throws<ArgumentException>(delegate { ConnectionFactory.Get("Sql", connStr); });
+            Assert.Throws<ArgumentException>(delegate { ConnectionFactory.Instance.Get("Sql", connStr); });
         }
 
         [Test]
@@ -144,7 +144,7 @@ namespace NBi.Testing.Unit.Core
             var connStr = "Data Source=ds;Initial Catalog=ic";
 
             //Call the method to test and Assert
-            Assert.Throws<ArgumentException>(delegate { ConnectionFactory.Get("NotExistingProvider", connStr); });
+            Assert.Throws<ArgumentException>(delegate { ConnectionFactory.Instance.Get("NotExistingProvider", connStr); });
         }
 
         [Test]
@@ -152,7 +152,7 @@ namespace NBi.Testing.Unit.Core
         {
             //Call the method to test
             var connStr = "Provider=MSOLAP;Data Source=ds;Initial Catalog=ic";
-            var actual = ConnectionFactory.Get(connStr);
+            var actual = ConnectionFactory.Instance.Get(connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<AdomdConnection>());
@@ -164,7 +164,7 @@ namespace NBi.Testing.Unit.Core
         {
             //Call the method to test
             var connStr = "Data Source=ds;Initial Catalog=ic";
-            var actual = ConnectionFactory.Get(connStr);
+            var actual = ConnectionFactory.Instance.Get(connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<SqlConnection>());

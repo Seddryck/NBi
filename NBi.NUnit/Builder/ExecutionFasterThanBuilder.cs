@@ -42,7 +42,7 @@ namespace NBi.NUnit.Builder
 
         protected override IDbCommand InstantiateSystemUnderTest(ExecutionXml queryXml)
         {
-            var conn = ConnectionFactory.Get(queryXml.Item.GetConnectionString());
+            var conn = ConnectionFactory.Instance.Get(queryXml.Item.GetConnectionString());
             var cmd = conn.CreateCommand();
             cmd.CommandText = queryXml.Item.GetQuery();
 

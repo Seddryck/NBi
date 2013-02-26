@@ -11,14 +11,7 @@ namespace NBi.Core
     /// </summary>
     public class ConnectionFactory
     {
-        public static ConnectionFactory Instance
-        {
-            get
-            {
-                return new ConnectionFactory();
-            }           
-        }
-        
+ 
         public IDbConnection Get(string connectionString)
         {
             var csb = new DbConnectionStringBuilder();

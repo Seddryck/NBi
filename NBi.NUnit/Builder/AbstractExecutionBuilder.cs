@@ -26,7 +26,7 @@ namespace NBi.NUnit.Builder
 
         protected virtual IDbCommand InstantiateSystemUnderTest(ExecutionXml executionXml)
         {
-            var conn = ConnectionFactory.Get(executionXml.Item.GetConnectionString());
+            var conn = ConnectionFactory.Instance.Get(executionXml.Item.GetConnectionString());
             var cmd = conn.CreateCommand();
             cmd.CommandText = executionXml.Item.GetQuery();
 

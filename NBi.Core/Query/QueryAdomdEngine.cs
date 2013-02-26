@@ -4,50 +4,64 @@ using Microsoft.AnalysisServices.AdomdClient;
 
 namespace NBi.Core.Query
 {
-    public class QueryAdomdEngine:IQueryExecutor, IQueryEnginable, IQueryParser, IQueryPerformance
+    /// <summary>
+    /// Engine wrapping the Microsoft.AnalysisServices.AdomdClient namespace for execution of NBi tests
+    /// <remarks>Instances of this class are built by the means of the <see>QueryEngineFactory</see></remarks>
+    /// </summary>
+    internal class QueryAdomdEngine: IQueryEnginable, IQueryExecutor, IQueryParser, IQueryPerformance
     {
-        protected readonly AdomdCommand _command;
+        /// <summary>
+        /// The query to execute
+        /// </summary>
+        protected readonly AdomdCommand command;
 
 
-        public QueryAdomdEngine(AdomdCommand cmd)
+        protected internal QueryAdomdEngine(AdomdCommand command)
         {
-            _command = cmd;
+            this.command = command;
         }
 
-        public void CleanCache()
-        {
-            throw new NotImplementedException("Hé man what's the goal to clean the cache for an MDX query?");
-        }
-
+        /// <summary>
+        /// Method exposed by the interface IQueryPerformance to execute a test of performance
+        /// </summary>
+        /// <returns></returns>
         public virtual PerformanceResult CheckPerformance()
         {
             DateTime tsStart, tsStop;
 
-            if (_command.Connection.State == ConnectionState.Closed)
-                _command.Connection.Open();
+            if (command.Connection.State == ConnectionState.Closed)
+                command.Connection.Open();
 
             tsStart = DateTime.Now;
-            _command.ExecuteNonQuery();
+            command.ExecuteNonQuery();
             tsStop = DateTime.Now;
 
-            if (_command.Connection.State == ConnectionState.Open)
-                _command.Connection.Close();
+            if (command.Connection.State == ConnectionState.Open)
+                command.Connection.Close();
 
             return new PerformanceResult(tsStop.Subtract(tsStart));
         }
 
+        /// <summary>
+        /// Method exposed by the interface IQueryExecutor to execute a test of execution and get the result of the query executed
+        /// </summary>
+        /// <returns>The result of  execution of the query</returns>
         public virtual DataSet Execute()
         {
             int i;
             return Execute(out i);
         }
 
+        /// <summary>
+        /// Method exposed by the interface IQueryExecutor to execute a test of execution and get the result of the query executed and also the time needed to retrieve this result
+        /// </summary>
+        /// <returns>The result of  execution of the query</returns>
         public virtual DataSet Execute(out int elapsedSec)
         {
             // Open the connection
             using (var connection = new AdomdConnection())
             {
-                var connectionString = _command.Connection.ConnectionString;
+                var connectionString = command.Connection.ConnectionString;
                 try
                     { connection.ConnectionString = connectionString; }
                 catch (ArgumentException ex)
@@ -60,7 +74,7 @@ namespace NBi.Core.Query
 
                 // capture time before execution
                 long ticksBefore = DateTime.Now.Ticks;
-                var adapter = new AdomdDataAdapter(_command.CommandText, connection);
+                var adapter = new AdomdDataAdapter(command.CommandText, connection);
                 var ds = new DataSet();
                 
                 adapter.SelectCommand.CommandTimeout = 0;
@@ -83,13 +97,18 @@ namespace NBi.Core.Query
             }
         }
 
+        /// <summary>
+        /// Method exposed by the interface IQueryParser to execute a test of syntax on a MDX or SQL statement
+        /// </summary>
+        /// <remarks>This method makes usage the scommand behaviour named 'SchemaOnly' to not effectively execute the query but check the validity of this query</remarks>
+        /// <returns>The result of parsing test</returns>
         public virtual ParserResult Parse()
         {
             ParserResult res = null;
 
             using (var connection = new AdomdConnection())
             {
-                var connectionString = _command.Connection.ConnectionString;
+                var connectionString = command.Connection.ConnectionString;
                 try
                 {
                     connection.ConnectionString = connectionString;
@@ -98,7 +117,7 @@ namespace NBi.Core.Query
                 catch (ArgumentException ex)
                 { throw new ConnectionException(ex, connectionString); }
                 
-                using (AdomdCommand cmdIn = new AdomdCommand(_command.CommandText, connection))
+                using (AdomdCommand cmdIn = new AdomdCommand(command.CommandText, connection))
                 {
                     try
                     {
@@ -117,6 +136,14 @@ namespace NBi.Core.Query
             }
 
             return res;
+        }
+
+        /// <summary>
+        /// Method exposed by the interface IQueryPerformance of engine but useless in the case of an SSAS cube
+        /// </summary>
+        public void CleanCache()
+        {
+            throw new NotImplementedException("Hé man what's the goal to clean the cache for an MDX query?");
         }
     }
 }

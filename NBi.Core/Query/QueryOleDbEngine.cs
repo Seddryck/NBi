@@ -4,23 +4,32 @@ using System.Data.OleDb;
 
 namespace NBi.Core.Query
 {
-    public class QueryOleDbEngine:IQueryExecutor, IQueryPerformance, IQueryParser, IQueryEnginable
+    /// <summary>
+    /// Engine wrapping the System.Data.OleDb namespace for execution of NBi tests
+    /// <remarks>Instances of this class are built by the means of the <see>QueryEngineFactory</see></remarks>
+    /// </summary>
+    internal class QueryOleDbEngine: IQueryEnginable, IQueryExecutor, IQueryPerformance, IQueryParser
     {
-        protected readonly OleDbCommand _command;
+        protected readonly OleDbCommand command;
 
 
-        public QueryOleDbEngine(OleDbCommand cmd)
+        protected internal QueryOleDbEngine(OleDbCommand command)
         {
-            _command = cmd;
+            this.command = command;
         }
 
+        /// <summary>
+        /// Method exposed by the interface IQueryPerformance to execute a test of syntax
+        /// </summary>
+        /// <remarks>This method makes usage the set statement named SET FMTONLY to not effectively execute the query but check the validity of this query</remarks>
+        /// <returns></returns>
         public virtual ParserResult Parse()
         {
             ParserResult res=null;
             
-            using(var conn = new OleDbConnection(_command.Connection.ConnectionString))
+            using(var conn = new OleDbConnection(command.Connection.ConnectionString))
             {
-                var fullSql = string.Format(@"SET FMTONLY ON {0} SET FMTONLY OFF", _command.CommandText);
+                var fullSql = string.Format(@"SET FMTONLY ON {0} SET FMTONLY OFF", command.CommandText);
                 
                 conn.Open();
 
@@ -45,9 +54,13 @@ namespace NBi.Core.Query
             return res;
         }
 
+        /// <summary>
+        /// Method exposed by the interface IQueryPerformance to clean the cache of a SQL Database
+        /// <remarks>Makes usage of the command dbcc freeproccache and dbcc dropcleanbuffers</remarks>
+        /// </summary>
         public virtual void CleanCache()
         {
-            using (var conn = new OleDbConnection(_command.Connection.ConnectionString))
+            using (var conn = new OleDbConnection(command.Connection.ConnectionString))
             {
                 var clearSql = new string[] { "dbcc freeproccache", "dbcc dropcleanbuffers" };
 
@@ -67,15 +80,15 @@ namespace NBi.Core.Query
         {
             DateTime tsStart, tsStop;
 
-            if (_command.Connection.State == ConnectionState.Closed)
-                _command.Connection.Open();
+            if (command.Connection.State == ConnectionState.Closed)
+                command.Connection.Open();
 
             tsStart = DateTime.Now;
-            _command.ExecuteNonQuery();
+            command.ExecuteNonQuery();
             tsStop = DateTime.Now;
 
-            if (_command.Connection.State == ConnectionState.Open)
-                _command.Connection.Close();
+            if (command.Connection.State == ConnectionState.Open)
+                command.Connection.Close();
 
             return new PerformanceResult(tsStop.Subtract(tsStart));
         }
@@ -91,7 +104,7 @@ namespace NBi.Core.Query
             // Open the connection
             using (var connection = new OleDbConnection())
             {
-                var connectionString = _command.Connection.ConnectionString;
+                var connectionString = command.Connection.ConnectionString;
                 try
                     { connection.ConnectionString = connectionString; }
                 catch (ArgumentException ex)
@@ -104,7 +117,7 @@ namespace NBi.Core.Query
 
                 // capture time before execution
                 long ticksBefore = DateTime.Now.Ticks;
-                var adapter = new OleDbDataAdapter(_command.CommandText, connection);
+                var adapter = new OleDbDataAdapter(command.CommandText, connection);
                 var ds = new DataSet();
                 
                 adapter.SelectCommand.CommandTimeout = 0;

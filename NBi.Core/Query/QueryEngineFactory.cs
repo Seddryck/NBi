@@ -109,7 +109,7 @@ namespace NBi.Core.Query
         /// <returns></returns>
         protected IDbCommand BuildCommand(string query, string connectionString)
         {
-            var conn = ConnectionFactory.Instance.Get(connectionString);
+            var conn = new ConnectionFactory().Get(connectionString);
             var cmd = conn.CreateCommand();
             cmd.CommandText = query;
 

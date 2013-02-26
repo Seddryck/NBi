@@ -97,7 +97,7 @@ namespace NBi.Xml.Constraints
             if (Query==null)
                 return null;
 
-            var conn = ConnectionFactory.Instance.Get(Query.GetConnectionString());
+            var conn = new ConnectionFactory().Get(Query.GetConnectionString());
             var cmd = conn.CreateCommand();
             cmd.CommandText = Query.GetQuery();
 

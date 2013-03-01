@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NBi.Core.Query.QueryEngineFactory">
+    <Position X="3.5" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAEgAAAAAAAAAAAAAQAAAAAAAAQ=</HashCode>
+      <FileName>Query\QueryEngineFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NBi.Core.Query.QueryAdomdEngine" Collapsed="true">
+    <Position X="5.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAQAACAAAAACAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Query\QueryAdomdEngine.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NBi.Core.Query.QueryOleDbEngine" Collapsed="true">
+    <Position X="9.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAQAACAAAAACAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Query\QueryOleDbEngine.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NBi.Core.Query.QuerySqlEngine" Collapsed="true">
+    <Position X="7.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAQAACAAAAACAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Query\QuerySqlEngine.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NBi.Core.Query.ParserResult" Collapsed="true">
+    <Position X="7.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAIAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Query\ParserResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NBi.Core.Query.PerformanceResult" Collapsed="true">
+    <Position X="9.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Query\PerformanceResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NBi.Core.Query.ListBuilder" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Query\ListBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="NBi.Core.Query.IQueryPerformance" Collapsed="true">
+    <Position X="9.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Query\IQueryPerformance.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NBi.Core.Query.IQueryParser" Collapsed="true">
+    <Position X="7.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Query\IQueryParser.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NBi.Core.Query.IQueryEnginable" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Query\IQueryEnginable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NBi.Core.Query.IQueryExecutor" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Query\IQueryExecutor.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

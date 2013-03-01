@@ -11,8 +11,9 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Structure
 {
-    public class ContainsConstraint : NUnitCtr.CollectionContainsConstraint
+    public class ContainsConstraint : NUnitCtr.Constraint
     {
+        protected NUnitCtr.CollectionItemsEqualConstraint realConstraint;
         protected object _expected;
         protected string expectedCaption;
         protected string expectedDisplayFolder;
@@ -50,6 +51,7 @@ namespace NBi.NUnit.Structure
             _expected = expected;
             expectedCaption = expected;
             comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(true);
+            realConstraint = new NUnitCtr.CollectionContainsConstraint((string)_expected);
         }
 
         #region Modifiers
@@ -65,6 +67,39 @@ namespace NBi.NUnit.Structure
             }
         }
 
+        public ContainsConstraint Exactly
+        {
+            get
+            {
+                realConstraint = new NUnitCtr.CollectionEquivalentConstraint((IEnumerable)_expected);
+                return this;
+            }
+        }
+
+        public ContainsConstraint AtLeast
+        {
+            get
+            {
+                if (_expected is string)
+                    realConstraint = new NUnitCtr.CollectionContainsConstraint((string)_expected);
+                else if (_expected is IEnumerable)
+                    realConstraint = new NUnitCtr.CollectionEquivalentConstraint((IEnumerable)_expected);
+                else
+                    throw new ArgumentException();
+                
+                return this;
+            }
+        }
+
+        public ContainsConstraint NotMore
+        {
+            get
+            {
+                realConstraint = new NUnitCtr.CollectionEquivalentConstraint((IEnumerable)_expected);
+                return this;
+            }
+        }
+
         #endregion
 
         public override bool Matches(object actual)
@@ -73,15 +108,16 @@ namespace NBi.NUnit.Structure
                 return Process((MetadataDiscoveryRequest)actual);
             else
             {
-                base.Using(comparer);
-                var res= base.Matches(actual);
+                realConstraint.Using(comparer);
+                var actualString = ((IEnumerable<IField>)actual).Select(iField => iField.Caption);
+                var res = realConstraint.Matches(actualString);
                 return res; 
             }
         }
 
         public bool doMatch(IEnumerable<IField> actual)
         {
-           return base.Using(comparer).Matches(actual);
+            return realConstraint.Using(comparer).Matches(actual);
         }
 
         
@@ -114,9 +150,7 @@ namespace NBi.NUnit.Structure
                                                                                
             }
             else
-                base.WriteDescriptionTo(writer);
-
-
+                realConstraint.WriteDescriptionTo(writer);
         }
 
     }

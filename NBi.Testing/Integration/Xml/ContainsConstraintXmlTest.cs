@@ -43,7 +43,7 @@ namespace NBi.Testing.Integration.Xml
         {
             //Buiding object used during test
             var ctr = new ContainsXml();
-            ctr.ItemList = new List<string>() { "alpha", "beta" };
+            ctr.Items = new List<string>() { "alpha", "beta" };
             ctr.Query = new QueryXml()
             {
                 ConnectionString = ConnectionStringReader.GetSqlClient(),

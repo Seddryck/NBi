@@ -12,13 +12,14 @@ namespace NBi.Xml.Constraints
         [XmlAttribute("ignore-case")]
         public bool IgnoreCase { get; set; }
 
+        [XmlAttribute("exactly")]
+        public bool Exactly { get; set; }
+
         [XmlAttribute("caption")]
         public string Caption { get; set; }
 
         [XmlElement("item")]
-        public List<string> ItemList { get; set; }
-
-        protected internal List<string> Items { get; set; }
+        public List<string> Items { get; set; }
 
         [XmlElement("one-column-query")]
         public QueryXml Query { get; set; }
@@ -54,22 +55,22 @@ namespace NBi.Xml.Constraints
             public bool IsDisplayFolderSpecified { get; internal set; }
         }
 
-        public override void Initialize()
-        {
-            if (ItemList.Count == 0 && !string.IsNullOrEmpty(Caption))
-                Items.Add(Caption);
+        //public override void Initialize()
+        //{
+        //    if (ItemList.Count == 0 && !string.IsNullOrEmpty(Caption))
+        //        Items.Add(Caption);
 
-            if (ItemList.Count > 0)
-                Items.AddRange(ItemList);
+        //    if (ItemList.Count > 0)
+        //        Items.AddRange(ItemList);
 
-            if (GetCommand() != null)
-            {
-                var listBuilder = new ListBuilder();
-                Items.AddRange(listBuilder.Build(GetCommand()));
-            }
+        //    if (GetCommand() != null)
+        //    {
+        //        var listBuilder = new ListBuilder();
+        //        Items.AddRange(listBuilder.Build(GetCommand()));
+        //    }
 
-            base.Initialize();
-        }
+        //    base.Initialize();
+        //}
 
         public IDbCommand GetCommand()
         {

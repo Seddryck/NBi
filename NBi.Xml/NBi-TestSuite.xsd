@@ -232,13 +232,19 @@
 										</xs:element>
 										<xs:element name="contains">
 											<xs:complexType>
-												<xs:simpleContent>
-													<xs:extension base="xs:string">
-														<xs:attribute name="caption" type="xs:string" use="required" />
-														<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
-														<xs:attribute name="not" type="xs:boolean" use="optional" />
-													</xs:extension>
-												</xs:simpleContent>
+												<xs:sequence>
+													<xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:simpleContent>
+																<xs:extension base="xs:string"/>
+															</xs:simpleContent>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="caption" type="xs:string" use="optional" />
+												<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+												<xs:attribute name="exactly" type="xs:boolean" use="optional" />
+												<xs:attribute name="not" type="xs:boolean" use="optional" />
 											</xs:complexType>
 										</xs:element>
 										<xs:element name="exists">

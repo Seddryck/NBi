@@ -25,4 +25,30 @@
 			/>
 		</assert>
 	</test>
+	<test name="dimension 'alpha' contains exactly (not more, not less) hierarchies with caption xyz and abc (explicitely not ignoring case)">
+		<system-under-test>
+			<structure>
+				<dimension caption="alpha" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<contains exactly="true">
+				<item>xyz</item>
+				<item>abc</item>
+			</contains>
+		</assert>
+	</test>
+	<test name="dimension 'alpha' contains a subset of hierarchies with caption xyz and abc (explicitely not ignoring case)">
+		<system-under-test>
+			<structure>
+				<dimension caption="alpha" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<contains>
+				<item>xyz</item>
+				<item>abc</item>
+			</contains>
+		</assert>
+	</test>
 </testSuite>

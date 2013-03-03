@@ -97,6 +97,30 @@ namespace NBi.NUnit.Structure
             return text;
         }
 
+        public string GetNextTargetPluralExpression(DiscoveryTarget target)
+        {
+            var text = string.Empty;
+            switch (target)
+            {
+                case DiscoveryTarget.MeasureGroups:
+                    text = "measures";
+                    break;
+                case DiscoveryTarget.Dimensions:
+                    text = "hierarchies";
+                    break;
+                case DiscoveryTarget.Hierarchies:
+                    text = "levels";
+                    break;
+                case DiscoveryTarget.Levels:
+                    text = "properties";
+                    break;
+                default:
+                    break;
+            }
+
+            return text;
+        }
+
         public string GetNotExpression(bool not)
         {
             if (!not)

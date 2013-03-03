@@ -5,6 +5,7 @@ using Moq;
 using NBi.Core.Analysis.Request;
 using NBi.NUnit.Builder;
 using NBi.NUnit.Structure;
+using NBi.NUnit.Structure.Contains;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Settings;
@@ -68,6 +69,30 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctr = builder.GetConstraint();
 
             Assert.That(ctr, Is.InstanceOf<ContainsConstraint>());
+        }
+
+
+        [Test]
+        public void GetConstraint_BuildWithExactlySetToTrue_CorrectConstraint()
+        {
+            //Buiding object used during test
+            var sutXml = new StructureXml();
+            sutXml.Item = new MeasureGroupXml();
+            sutXml.Item.ConnectionString = "ConnectionString";
+            ((MeasureGroupXml)sutXml.Item).Perspective = "Perspective";
+            sutXml.Item.Caption = "MeasureGroup";
+
+            var ctrXml = new ContainsXml();
+            ctrXml.Caption = "Search";
+            ctrXml.Exactly = true;
+
+            var builder = new StructureContainsBuilder();
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var ctr = builder.GetConstraint();
+
+            Assert.That(ctr, Is.InstanceOf<ContainsConstraint>());
+            Assert.That(((ContainsConstraint)ctr).RealConstraint, Is.InstanceOf<ContainsEquivalentConstraint>());
         }
 
 

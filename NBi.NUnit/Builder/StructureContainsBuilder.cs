@@ -44,6 +44,10 @@ namespace NBi.NUnit.Builder
             if (ctrXml.IgnoreCase)
                 ctr = ctr.IgnoreCase;
 
+            //Exactly
+            if (ctrXml.IgnoreCase)
+                ctr = ctr.Exactly;
+
             return ctr;
         }
 

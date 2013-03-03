@@ -74,6 +74,9 @@
     <Compile Include="Builder\ITestCaseBuilder.cs" />
     <Compile Include="Builder\MembersCountBuilder.cs" />
     <Compile Include="Builder\ExecutionEqualToBuilder.cs" />
+    <Compile Include="Structure\Contains\ContainsEquivalentConstraint.cs" />
+    <Compile Include="Structure\Contains\ContainsItemConstraint.cs" />
+    <Compile Include="Structure\Contains\ContainsSubsetConstraint.cs" />
     <Compile Include="Structure\DescriptionStructureHelper.cs" />
     <Compile Include="TestCase.cs" />
     <Compile Include="TestCaseFactory.cs" />
@@ -88,6 +91,7 @@
     <Compile Include="Query\SyntacticallyCorrectConstraint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\FasterThanConstraint.cs" />
+    <Compile Include="WriterHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">

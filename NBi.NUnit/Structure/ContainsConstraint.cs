@@ -131,5 +131,14 @@ namespace NBi.NUnit.Structure
             RealConstraint.WriteDescriptionTo(writer);
         }
 
+        /// <summary>
+        /// Write the actual values of the constraint to a MessageWriter
+        /// </summary>
+        /// <param name="writer"></param>
+        public override void WriteActualValueTo(MessageWriter writer)
+        {
+            RealConstraint.WriteActualValueTo(writer);
+        }
+
     }
 }

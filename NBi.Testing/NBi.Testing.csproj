@@ -227,6 +227,9 @@
     <EmbeddedResource Include="Acceptance\Resources\AssemblyEqualToResultSet.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\ContainsStructure.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="NBi.Testing.sql" />
     <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerSample.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

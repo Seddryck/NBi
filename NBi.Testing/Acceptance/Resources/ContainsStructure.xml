@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033</connectionString>
+		</default>
+	</settings>
+	<test name="In dimension 'Customers', the hierarchy 'State-Provinces' contains exactly two levels 'State-Provinces' and '(All)'" uid="0001">
+		<system-under-test>
+			<structure>
+				<hierarchy dimension="Customer" caption="State-Province" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<contains exactly="true">
+				<item>State-Province</item>
+				<item>(All)</item>
+			</contains>
+		</assert>
+	</test>
+	<test name="The dimension 'employee' contains the hierarchy named 'Sick Leave Hours'" uid="0002">
+		<system-under-test>
+			<structure>
+				<dimension  caption="Employee" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<contains caption="Sick Leave Hours"/>
+		</assert>
+	</test>
+	<test name="The dimension 'employee' contains maximum the list of hierarchies defined" uid="0002">
+		<system-under-test>
+			<structure>
+				<dimension  caption="Employee" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<contains>
+				<item>Base Rate</item>
+				<item>Department Name</item>
+				<item>Employee Department</item>
+				<item>Employees</item>
+				<item>End Date</item>
+				<item>Gender</item>
+				<item>Hire Date</item>
+				<item>Hire Year</item>
+				<item>Marital Status</item>
+				<item>Pay Frequency</item>
+				<item>Phone</item>
+				<item>Salaried Flag</item>
+				<item>Sales Person Flag</item>
+				<item>Sick Leave Hours</item>
+				<item>Start Date</item>
+				<item>Status</item>
+				<item>Title</item>
+				<item>Vacation Hours</item>
+			</contains>
+		</assert>
+	</test>
+	<!--<test name="A dimension 'employee' exists" uid="0003">
+		<system-under-test>
+			<structure>
+				<dimension caption="Employee" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="A perspective named 'Adventure Works' exists" uid="0004">
+		<system-under-test>
+			<structure>
+				<perspective caption="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="A measure-group 'Reseller Sales' exists" uid="0005">
+		<system-under-test>
+			<structure>
+				<measure-group caption="Reseller Sales" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="A measure 'Reseller Order Quantity' exists" uid="0006">
+		<system-under-test>
+			<structure>
+				<measure caption="Reseller Order Quantity" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="In Measure-group '{sut:measure-group}', a measure '{sut:caption}' exists" uid="0007">
+		<system-under-test>
+			<structure>
+				<measure caption="Reseller Order Quantity" measure-group="Reseller Sales" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="In Measure-group '{sut:measure-group}', and display-folder '{sut:display-folder}', a measure '{sut:caption}' exists" uid="0007">
+		<system-under-test>
+			<structure>
+				<measure caption="Reseller Order Quantity" measure-group="Reseller Sales" display-folder="" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>-->
+</testSuite>

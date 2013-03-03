@@ -36,13 +36,13 @@ namespace NBi.NUnit.Structure.Contains
             {
                 var description = new DescriptionStructureHelper();
                 var filterExpression = description.GetFilterExpression(ParentConstraint.Request.GetAllFilters());
-                var nextTargetExpression = description.GetNextTargetPluralExpression(ParentConstraint.Request.Target);
+                var nextTargetExpression = description.GetTargetExpression(ParentConstraint.Request.Target);
                 var expectationExpression = new StringBuilder();
                 foreach (string item in (IEnumerable<string>)(ParentConstraint.Expected))
-                    expectationExpression.AppendFormat("< {0} >, ", item);
+                    expectationExpression.AppendFormat("<{0}>, ", item);
                 expectationExpression.Remove(expectationExpression.Length - 2, 2);
 
-                writer.WritePredicate(string.Format("find a list of {0} named '{1}' contained {2}",
+                writer.WritePredicate(string.Format("find no {0} not named '{1}' contained {2}",
                     nextTargetExpression,
                     expectationExpression.ToString(),
                     filterExpression));

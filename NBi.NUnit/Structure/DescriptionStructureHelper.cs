@@ -73,6 +73,39 @@ namespace NBi.NUnit.Structure
             return text;
         }
 
+        public string GetTargetPluralExpression(DiscoveryTarget target)
+        {
+            var text = string.Empty;
+            switch (target)
+            {
+                case DiscoveryTarget.Perspectives:
+                    text = "perspectives";
+                    break;
+                case DiscoveryTarget.MeasureGroups:
+                    text = "measure-groups";
+                    break;
+                case DiscoveryTarget.Measures:
+                    text = "measures";
+                    break;
+                case DiscoveryTarget.Dimensions:
+                    text = "dimensions";
+                    break;
+                case DiscoveryTarget.Hierarchies:
+                    text = "hierarchies";
+                    break;
+                case DiscoveryTarget.Levels:
+                    text = "levels";
+                    break;
+                case DiscoveryTarget.Properties:
+                    text = "properties";
+                    break;
+                default:
+                    break;
+            }
+
+            return text;
+        }
+
         public string GetNextTargetExpression(DiscoveryTarget target)
         {
             var text = string.Empty;

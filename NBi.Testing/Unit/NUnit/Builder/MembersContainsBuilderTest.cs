@@ -122,6 +122,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             item.Dimension = "dimension";
             item.Caption = "hierarchy";
             var ctrXml = new ContainsXml();
+            ctrXml.Caption = "caption";
 
             var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();
             discoFactoMockFactory.Setup(dfs =>
@@ -157,6 +158,8 @@ namespace NBi.Testing.Unit.NUnit.Builder
             item.Hierarchy = "hierarchy";
             item.Caption = "level";
             var ctrXml = new ContainsXml();
+            ctrXml.Items.Add("caption 1");
+            ctrXml.Items.Add("caption 2");
 
             var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();
             discoFactoMockFactory.Setup(dfs =>

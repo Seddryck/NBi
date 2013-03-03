@@ -83,7 +83,6 @@
     <Compile Include="Integration\Core\Query\QueryAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\Query\QueryParserTest.cs" />
     <Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
-    <Compile Include="Integration\Xml\ContainsConstraintXmlTest.cs" />
     <Compile Include="Integration\NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\FasterThanConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\ContainsConstraintTest.cs" />

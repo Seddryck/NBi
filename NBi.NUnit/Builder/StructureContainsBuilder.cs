@@ -38,14 +38,17 @@ namespace NBi.NUnit.Builder
         {
             NBi.NUnit.Structure.ContainsConstraint ctr=null;
 
-            ctr = new NBi.NUnit.Structure.ContainsConstraint(ctrXml.Caption);
+            if (ctrXml.Items.Count==1)
+                ctr = new NBi.NUnit.Structure.ContainsConstraint(ctrXml.Caption);
+            else
+                ctr = new NBi.NUnit.Structure.ContainsConstraint(ctrXml.Items);
 
             //Ignore-case if requested
             if (ctrXml.IgnoreCase)
                 ctr = ctr.IgnoreCase;
 
             //Exactly
-            if (ctrXml.IgnoreCase)
+            if (ctrXml.Exactly)
                 ctr = ctr.Exactly;
 
             return ctr;

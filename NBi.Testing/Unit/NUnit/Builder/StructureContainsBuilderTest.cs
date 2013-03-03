@@ -83,7 +83,8 @@ namespace NBi.Testing.Unit.NUnit.Builder
             sutXml.Item.Caption = "MeasureGroup";
 
             var ctrXml = new ContainsXml();
-            ctrXml.Caption = "Search";
+            ctrXml.Items.Add("Search");
+            ctrXml.Items.Add("Search 2");
             ctrXml.Exactly = true;
 
             var builder = new StructureContainsBuilder();

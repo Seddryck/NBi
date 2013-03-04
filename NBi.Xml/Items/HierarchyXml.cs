@@ -7,8 +7,35 @@ namespace NBi.Xml.Items
 {
     public class HierarchyXml : DimensionXml
     {
+        public HierarchyXml()
+        {
+            Specification = new SpecificationHierarchy();
+        }
+        
         [XmlAttribute("dimension")]
         public string Dimension { get; set; }
+
+        protected string displayFolder;
+        [XmlAttribute("display-folder")]
+        public string DisplayFolder
+        {
+            get
+            { return displayFolder; }
+
+            set
+            {
+                displayFolder = value;
+                Specification.IsDisplayFolderSpecified = true;
+            }
+        }
+
+        [XmlIgnore()]
+        public SpecificationHierarchy Specification { get; protected set; }
+
+        public class SpecificationHierarchy
+        {
+            public bool IsDisplayFolderSpecified { get; internal set; }
+        }
 
         [XmlIgnore]
         protected virtual string ParentPath { get { return string.Format("[{0}]", Dimension); } }

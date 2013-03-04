@@ -330,12 +330,14 @@
 		<xs:complexContent>
 			<xs:extension base="dimension-type">
 				<xs:attribute name="dimension" type="xs:string" use="required" />
+				<xs:attribute name="display-folder" type="xs:string" use="optional" />
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="level-type">
 		<xs:complexContent>
-			<xs:extension base="hierarchy-type">
+			<xs:extension base="dimension-type">
+				<xs:attribute name="dimension" type="xs:string" use="required" />
 				<xs:attribute name="hierarchy" type="xs:string" use="required" />
 			</xs:extension>
 		</xs:complexContent>

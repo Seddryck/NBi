@@ -43,7 +43,7 @@ namespace NBi.Core
 
             int count = 0;
             //Count the rows
-            using (StreamReader r = new StreamReader(Filename, Encoding.UTF8))
+            using (StreamReader r = new StreamReader(Filename, Encoding.Default))
             {
                 while (r.ReadLine() != null)
                     count++;
@@ -53,7 +53,7 @@ namespace NBi.Core
             //Get first row to know the coutn of columns
             var columnCount = 0;
             var columnNames=new List<string>();
-            using (StreamReader sr = new StreamReader(Filename, Encoding.UTF8))
+            using (StreamReader sr = new StreamReader(Filename, Encoding.Default))
             {
                 var firstLine = sr.ReadLine();
                 columnCount = firstLine.Split(Definition.FieldSeparator).Length;
@@ -70,7 +70,7 @@ namespace NBi.Core
                     table.Columns.Add(columnNames[c], typeof(string));
             }
 
-            using (StreamReader sr = new StreamReader(Filename, Encoding.UTF8))
+            using (StreamReader sr = new StreamReader(Filename, Encoding.Default))
             {
                 while (sr.Peek() >= 0)
                 {

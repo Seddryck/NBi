@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -82,7 +83,7 @@ namespace NBi.Xml
             // Create an instance of the XmlSerializer specifying type and namespace.
             var serializer = new XmlSerializer(typeof(TestSuiteXml));
 
-            using (var writer = new StreamWriter(filename))
+            using (var writer = new StreamWriter(filename, false, Encoding.UTF8))
             {
                 // Use the Serialize method to store the object's state.
                 serializer.Serialize(writer, testSuite);

@@ -51,7 +51,7 @@ namespace NBi.UI.Presenter.GenericTest
             }
             catch (ExpectedVariableNotFoundException)
             {
-                View.ShowException("The template as at least one variable which wasn't supplied by the Csv. Check the name of the variables.");
+                View.ShowException("The template has at least one variable which wasn't supplied by the Csv. Check the name of the variables.");
             }
         }
 
@@ -101,8 +101,9 @@ namespace NBi.UI.Presenter.GenericTest
             View.EmbeddedTemplates = new BindingList<string>();
             View.Tests = new BindingList<TestXml>();
 
-            var csvReader = new CsvReader(@"C:\mydims.csv", true);
-            View.CsvContent = csvReader.Read();
+            //var csvReader = new CsvReader(@"C:\mydims.csv", true);
+            //View.CsvContent = csvReader.Read();
+            View.CsvContent = new DataTable();
             foreach (DataColumn col in View.CsvContent.Columns)
                 View.Variables.Add(col.ColumnName);
             //Template

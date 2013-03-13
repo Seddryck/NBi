@@ -67,5 +67,10 @@ namespace NBi.UI.View.GenericTest
                 userTemplateFullPath.Text = openFileDialog.FileName;
         }
 
+        private void Cancel_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
+
     }
 }

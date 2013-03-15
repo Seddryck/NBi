@@ -136,7 +136,7 @@ namespace NBi.Core.Analysis.Metadata
 
                 if (!dim.Hierarchies.ContainsKey(r.hierarchyUniqueName))
                 {
-                    var hierarchy = new Hierarchy(r.hierarchyUniqueName, r.hierarchyCaption);
+                    var hierarchy = new Hierarchy(r.hierarchyUniqueName, r.hierarchyCaption, string.Empty);
                     dim.Hierarchies.Add(r.hierarchyUniqueName, hierarchy);
                 }
 

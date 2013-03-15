@@ -29,7 +29,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             mg.Measures.Add(m1);
             var d = new Dimension("[d]", "d");
             mg.LinkedDimensions.Add(d);
-            var h1 = new Hierarchy("[h1]", "h1");
+            var h1 = new Hierarchy("[h1]", "h1", "df");
             d.Hierarchies.Add(h1);
             var l1 = new Level("[l1]", "l1", 0);
             h1.Levels.Add(l1);
@@ -65,7 +65,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             mg.Measures.Add(m1);
             var d = new Dimension("[d]", "d");
             mg.LinkedDimensions.Add(d);
-            var h1 = new Hierarchy("[h1]", "h1");
+            var h1 = new Hierarchy("[h1]", "h1", "df");
             d.Hierarchies.Add(h1);
             var l1 = new Level("[l1]", "l1", 0);
             h1.Levels.Add(l1);
@@ -102,7 +102,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             mg.Measures.Add(m1);
             var d = new Dimension("[d]", "d");
             mg.LinkedDimensions.Add(d);
-            var h1 = new Hierarchy("[h1]", "h1");
+            var h1 = new Hierarchy("[h1]", "h1", "df");
             d.Hierarchies.Add(h1);
             var l1 = new Level("[l1]", "l1", 0);
             h1.Levels.Add(l1);
@@ -143,7 +143,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             mg.Measures.Add(m1);
             var d = new Dimension("[d]", "d");
             mg.LinkedDimensions.Add(d);
-            var h1 = new Hierarchy("[h1]", "h1");
+            var h1 = new Hierarchy("[h1]", "h1", "df");
             d.Hierarchies.Add(h1);
             var l1 = new Level("[l1]", "l1", 0);
             h1.Levels.Add(l1);
@@ -186,13 +186,13 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             mg.Measures.Add(m1);
             var d1 = new Dimension("[d1]", "d1");
             mg.LinkedDimensions.Add(d1);
-            var h1 = new Hierarchy("[h1]", "h1");
+            var h1 = new Hierarchy("[h1]", "h1", "df");
             d1.Hierarchies.Add(h1);
             var l1 = new Level("[l1]", "l1", 0);
             h1.Levels.Add(l1);
             var p1 = new Property("[p1]", "p1");
             l1.Properties.Add(p1);
-            var h2 = new Hierarchy("[h2]", "h2");
+            var h2 = new Hierarchy("[h2]", "h2", "df");
             d1.Hierarchies.Add(h2);
             var l2 = new Level("[l2]", "l2", 1);
             h2.Levels.Add(l2);
@@ -233,7 +233,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             mg.Measures.Add(m2);
             var d1 = new Dimension("[d1]", "d1");
             mg.LinkedDimensions.Add(d1);
-            var h1 = new Hierarchy("[h1]", "h1");
+            var h1 = new Hierarchy("[h1]", "h1", "df");
             d1.Hierarchies.Add(h1);
             var l1 = new Level("[l1]", "l1", 0);
             h1.Levels.Add(l1);
@@ -272,7 +272,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             mg.Measures.Add(m1);
             var d1 = new Dimension("[d1]", "d1");
             mg.LinkedDimensions.Add(d1);
-            var h1 = new Hierarchy("[h1]", "h1");
+            var h1 = new Hierarchy("[h1]", "h1", "df");
             d1.Hierarchies.Add(h1);
             var l1 = new Level("[l1]", "l1", 0);
             h1.Levels.Add(l1);
@@ -280,7 +280,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             l1.Properties.Add(p1);
             var d2 = new Dimension("[d2]", "d2");
             mg.LinkedDimensions.Add(d2);
-            var h2 = new Hierarchy("[h2]", "h2");
+            var h2 = new Hierarchy("[h2]", "h2", "df");
             d2.Hierarchies.Add(h2);
             var l2 = new Level("[l2]", "l2", 1);
             h2.Levels.Add(l2);
@@ -319,7 +319,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             mg1.Measures.Add(m1);
             var d1 = new Dimension("[d1]", "d1");
             mg1.LinkedDimensions.Add(d1);
-            var h1 = new Hierarchy("[h1]", "h1");
+            var h1 = new Hierarchy("[h1]", "h1", "df");
             d1.Hierarchies.Add(h1);
             var l1 = new Level("[l1]", "l1", 0);
             h1.Levels.Add(l1);
@@ -331,7 +331,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             mg2.Measures.Add(m2);
             var d2 = new Dimension("[d2]", "d2");
             mg2.LinkedDimensions.Add(d2);
-            var h2 = new Hierarchy("[h2]", "h2");
+            var h2 = new Hierarchy("[h2]", "h2", "df");
             d2.Hierarchies.Add(h2);
             var l2 = new Level("[l2]", "l2", 0);
             h2.Levels.Add(l2);
@@ -370,7 +370,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             mg1.Measures.Add(m1);
             var d1 = new Dimension("[d1]", "d1");
             mg1.LinkedDimensions.Add(d1);
-            var h1 = new Hierarchy("[h1]", "h1");
+            var h1 = new Hierarchy("[h1]", "h1", "df");
             d1.Hierarchies.Add(h1);
             var l1 = new Level("[l1]", "l1", 0);
             h1.Levels.Add(l1);
@@ -414,7 +414,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             mg1.Measures.Add(m1);
             var d1 = new Dimension("[d1]", "d1");
             mg1.LinkedDimensions.Add(d1);
-            var h1 = new Hierarchy("[h1]", "h1");
+            var h1 = new Hierarchy("[h1]", "h1", "df");
             d1.Hierarchies.Add(h1);
             var l1 = new Level("[l1]", "l1", 0);
             h1.Levels.Add(l1);
@@ -457,7 +457,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             mg1.Measures.Add(m1);
             var d1 = new Dimension("[d1]", "d1");
             mg1.LinkedDimensions.Add(d1);
-            var h1 = new Hierarchy("[h1]", "h1");
+            var h1 = new Hierarchy("[h1]", "h1", "df");
             d1.Hierarchies.Add(h1);
             var l1 = new Level("[l1]", "l1", 0);
             h1.Levels.Add(l1);
@@ -472,7 +472,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             mg2.Measures.Add(m2);
             var d2 = new Dimension("[d2]", "d2");
             mg2.LinkedDimensions.Add(d2);
-            var h2 = new Hierarchy("[h2]", "h2");
+            var h2 = new Hierarchy("[h2]", "h2", "df");
             d2.Hierarchies.Add(h2);
             var l2 = new Level("[l2]", "l2", 0);
             h2.Levels.Add(l2);

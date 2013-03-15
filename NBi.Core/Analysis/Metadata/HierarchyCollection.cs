@@ -9,12 +9,12 @@ namespace NBi.Core.Analysis.Metadata
 
         //public Hierarchy Default { get { return this[defaultUniqueName]; } }
 
-        public void AddOrIgnore(string uniqueName, string caption)
+        public void AddOrIgnore(string uniqueName, string caption, string displayFolder)
         {
             if (this.ContainsKey(uniqueName))
                 this[uniqueName].Caption=caption;
             else
-                this.Add(uniqueName, new Hierarchy(uniqueName, caption));
+                this.Add(uniqueName, new Hierarchy(uniqueName, caption, displayFolder));
         }
 
         //public void AddDefault(Hierarchy hierarchy)

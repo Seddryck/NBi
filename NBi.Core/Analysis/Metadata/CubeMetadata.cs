@@ -96,7 +96,7 @@ namespace NBi.Core.Analysis.Metadata
                 {
                     if (Perspectives[row.PerspectiveName].Dimensions.ContainsKey(row.DimensionUniqueName))
                     {
-                        Perspectives[row.PerspectiveName].Dimensions[row.DimensionUniqueName].Hierarchies.AddOrIgnore(row.UniqueName, row.Caption);
+                        Perspectives[row.PerspectiveName].Dimensions[row.DimensionUniqueName].Hierarchies.AddOrIgnore(row.UniqueName, row.Caption, row.DisplayFolder);
                     }
                 }
             }

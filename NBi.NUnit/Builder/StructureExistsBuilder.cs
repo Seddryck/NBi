@@ -77,11 +77,15 @@ namespace NBi.NUnit.Builder
             if (sutXml.Item is HierarchyXml)
             {
                 dimension =((HierarchyXml)sutXml.Item).Dimension;
+                //Check if display-folder was explcitely specified or not and eventually assign it
+                if (((HierarchyXml)sutXml.Item).Specification.IsDisplayFolderSpecified)
+                    displayFolder = ((HierarchyXml)sutXml.Item).DisplayFolder;
                 hierarchy = sutXml.Item.Caption;
                 target = DiscoveryTarget.Hierarchies;
             }
             if (sutXml.Item is LevelXml)
             {
+                dimension = ((LevelXml)sutXml.Item).Dimension;
                 hierarchy = ((LevelXml)sutXml.Item).Hierarchy;
                 level = sutXml.Item.Caption;
                 target = DiscoveryTarget.Levels;

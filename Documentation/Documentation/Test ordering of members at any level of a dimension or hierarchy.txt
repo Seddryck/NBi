@@ -1,0 +1,55 @@
+! Test ordering of members at any level of a dimension or hierarchy
+!! System under test
+If you're not familiar with the way to perform a test on dimension's members, you should take a look to [Members' count|Test the members' count at any level of a dimension or hierarchy].
+!! Assertion
+The assertion consists in a check that members are displayed in a specified order. So we need to specify that we'll perform an assertion of type "order":
+{code:xml}
+<test>
+    <assert>
+        <ordered/>
+    </assert>
+</test>
+{code:xml}
+Then we need to stipulate the rule for ordering:
+{code:xml}
+<ordered rule="alphabetical"/>
+{code:xml}
+The options available are
+* alphabetical
+* chronological
+* numerical
+* specific
+_Note that if a member cannot be converted to a valid date or numeric (and you're applying a rule chronological or numerical) the test will **not failed**. The test will simply ignore this member. This is not a bug but it's done by design. If we were failing the test when failing to convert a member, it'd mean that members such as "N/A" or "Unknown" in a numerical or date attribute will always break the test. It's probably not what you want._
+
+If we're checking that the hierarchy named "MyHierarchy" is ordered alphabetically:
+{code:xml}
+<test>
+    <system-under-test>
+        <members>
+    	    <hierarchy caption="MyHierarchy" dimension="MyDimension" perspective="MyPerspective"
+		connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+	</members> 
+    </system-under-test>
+    <assert>
+        <ordered rule="alphabetical"/>
+    </assert>
+</test>
+{code:xml}
+
+!!! Specific order
+For some dimensions/hierarchies/levels, we're using a specific order to display the members. By specific we mean that you cannot simply use the predefined rules alphabetical, chronological, numerical.
+
+For this we'll use the rule named "specific" and define what we're expecting. This is done by the usage of tags "rule-definition" and "item".
+{code:xml}
+<ordered rule="specific">
+    <rule-definition>
+        <item>My First Item</item>
+        <item>My Second Item</item>
+        <item>My Third Item</item>
+        <item>My Fourth Item</item>
+        <item>My Last Item</item>
+    </rule-definition>
+</ordered>
+{code:xml}
+
+If, when executing, the test is receiving a member named "My Fifth Item" not defined in your rule, the test will *not failed*. If the members have no item named "My First Item", again, the test will not failed. You should use the assertion named ["contains"|Test availability of a member at any level of a dimension or hierarchy] to ensure a member is available in a hierarchy or level.

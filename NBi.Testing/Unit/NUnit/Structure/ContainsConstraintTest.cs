@@ -271,7 +271,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
             Assert.That(assertionText, Is.StringContaining("perspective-name").And
                                             .StringContaining("dimension-caption").And
                                             .StringContaining("hierarchy-caption").And
-                                            .StringContaining("levels").And
+                                            .StringContaining("level").And
                                             .StringContaining("Expected level 1").And
                                             .StringContaining("Expected level 2"));
         }

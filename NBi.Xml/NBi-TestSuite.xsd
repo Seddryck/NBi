@@ -287,6 +287,22 @@
 												</xs:attribute>
 											</xs:complexType>
 										</xs:element>
+										<xs:element name="linkedTo">
+											<xs:complexType>
+												<xs:choice>
+													<xs:element name="dimension" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:attribute name="caption" type="xs:string" use="required"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="measure-group" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:attribute name="caption" type="xs:string" use="required"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:choice>
+											</xs:complexType>
+										</xs:element>
 									</xs:choice>							
 								</xs:complexType>
 							</xs:element>

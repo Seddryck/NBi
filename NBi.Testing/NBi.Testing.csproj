@@ -129,6 +129,7 @@
     <Compile Include="Unit\NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\LinkedToXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\HierarchyXmlTest.cs" />
@@ -174,6 +175,7 @@
     <MyOptionalItems Include="ConnectionString.user.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\LinkedToXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\HierarchyXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\AssemblyXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\ContainsTestSuite.xml" />

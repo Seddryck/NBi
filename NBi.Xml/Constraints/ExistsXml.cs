@@ -6,9 +6,5 @@ namespace NBi.Xml.Constraints
     {
         [XmlAttribute("ignore-case")]
         public bool IgnoreCase { get; set; }
-
-        
-
-        
     }
 }

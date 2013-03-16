@@ -10,6 +10,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
         public string DimensionUniqueName { get; set; }
         public string UniqueName { get; set; }
         public string Caption { get; set; }
+        public string DisplayFolder { get; set; }
 
         private HierarchyRow()
         {
@@ -23,8 +24,10 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             // read column 3, "DIMENSION_UNIQUE_NAME"
             // read column 21, "HIERARCHY_IS_VISIBLE"
             // read column 5, "HIERARCHY_UNIQUE_NAME"
-            // read column 7, "HIERARCHY_CAPTION"
-
+            // read column 4, "HIERARCHY_NAME"
+            //Don't use the hierarchy caption (prefer the hierarchy name) because for role-playing dimensions the copation wille the NameOfRolePlayingDimension.NameOfHieiarchy
+            // read column 23, "HIERARCHY_DISPLAY_FOLDER"
+            
             // Get the column value
             string perspectiveName = (string)dataReader.GetValue(2);
             if (!perspectiveName.StartsWith("$") && (bool)dataReader.GetValue(21))
@@ -36,7 +39,8 @@ namespace NBi.Core.Analysis.Metadata.Adomd
                     row.PerspectiveName = perspectiveName;
                     row.DimensionUniqueName = (string)dataReader.GetValue(3);
                     row.UniqueName = (string)dataReader.GetValue(5);
-                    row.Caption = (string)dataReader.GetValue(7);
+                    row.Caption = (string)dataReader.GetValue(4);
+                    row.DisplayFolder = (string)dataReader.GetValue(23);
                     return row;
                 }
             }

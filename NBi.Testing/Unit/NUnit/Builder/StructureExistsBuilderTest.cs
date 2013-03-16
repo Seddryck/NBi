@@ -329,6 +329,44 @@ namespace NBi.Testing.Unit.NUnit.Builder
         }
 
         [Test]
+        public void GetSystemUnderTest_BuildWithHierarchyAndDisplayFolder_CorrectCallToDiscoverFactory()
+        {
+            var sutXml = new StructureXml();
+            var item = new HierarchyXml();
+            sutXml.Item = item;
+            item.ConnectionString = "connectionString";
+            item.Perspective = "perspective";
+            item.Dimension = "dimension";
+            item.DisplayFolder = "display-folder";
+            item.Caption = "hierarchy";
+            var ctrXml = new ExistsXml();
+
+            var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();
+            discoFactoMockFactory.Setup(dfs =>
+                dfs.Build(
+                    It.IsAny<string>(),
+                    It.IsAny<DiscoveryTarget>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>()
+                    ))
+                    .Returns(new MetadataDiscoveryRequest());
+            var discoFactoMock = discoFactoMockFactory.Object;
+
+            var builder = new StructureExistsBuilder(discoFactoMock);
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var sut = builder.GetSystemUnderTest();
+
+            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
+            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", DiscoveryTarget.Hierarchies, "perspective", null, "display-folder", null, "dimension", "hierarchy", null));
+        }
+
+        [Test]
         public void GetSystemUnderTest_BuildWithLevel_CorrectCallToDiscoverFactory()
         {
             var sutXml = new StructureXml();

@@ -88,6 +88,7 @@
     <Compile Include="Integration\NUnit\Structure\ContainsConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\ExistsConstraintTest.cs" />
     <Compile Include="Integration\NUnit\SyntacticallyCorrectConstraintTest.cs" />
+    <Compile Include="Unit\Core\Analysis\Metadata\Adomd\HierarchyDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureDiscoverCommandTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\CubeMetadataTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvReaderTest.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\HierarchyXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\AssemblyXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\MeasureXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\OrderedXmlTest.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="Unit\Xml\Systems\StructureXmlTest.cs" />
     <Compile Include="Unit\Xml\Settings\SettingsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\EqualToXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\QueryXmlTest.cs" />
     <Compile Include="Unit\Xml\TestXmlTest.cs" />
     <Compile Include="Unit\NUnit\ConstraintFactoryTest.cs" />
     <Compile Include="Unit\Xml\Systems\ExecutionXmlTest.cs" />
@@ -172,6 +175,7 @@
     <MyOptionalItems Include="ConnectionString.user.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\HierarchyXmlTestSuite.xml">
     <EmbeddedResource Include="Unit\Xml\Resources\AssemblyXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\ContainsTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\DescriptionXmlTestSuite.xml" />

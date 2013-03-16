@@ -68,8 +68,8 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
             
             var mg = new MeasureGroup("mg");
 
-            var h1 = new Hierarchy("[h1]", "h1");
-            var h2 = new Hierarchy("[h2]", "h2");
+            var h1 = new Hierarchy("[h1]", "h1", "df");
+            var h2 = new Hierarchy("[h2]", "h2", "df");
 
             var hs = new HierarchyCollection();
             hs.Add(h1);

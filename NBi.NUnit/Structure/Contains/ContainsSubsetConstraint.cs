@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq;
 using System.Text;
 using NBi.Core;
 using NBi.Core.Analysis.Metadata;
@@ -36,7 +35,7 @@ namespace NBi.NUnit.Structure.Contains
             {
                 var description = new DescriptionStructureHelper();
                 var filterExpression = description.GetFilterExpression(ParentConstraint.Request.GetAllFilters());
-                var nextTargetExpression = description.GetTargetExpression(ParentConstraint.Request.Target);
+                var nextTargetExpression = description.GetNextTargetExpression(ParentConstraint.Request.Target);
                 var expectationExpression = new StringBuilder();
                 foreach (string item in (IEnumerable<string>)(ParentConstraint.Expected))
                     expectationExpression.AppendFormat("<{0}>, ", item);

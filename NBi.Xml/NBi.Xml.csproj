@@ -55,6 +55,7 @@
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
     <Compile Include="Constraints\ContainsXml.cs" />
     <Compile Include="Constraints\ExistsXml.cs" />
+    <Compile Include="Constraints\LinkedToXml.cs" />
     <Compile Include="Items\QueryableXml.cs" />
     <Compile Include="Items\ResultSet\CellXml.cs" />
     <Compile Include="Items\ResultSet\ColumnXml.cs" />

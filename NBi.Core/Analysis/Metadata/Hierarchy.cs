@@ -4,12 +4,14 @@
     {
         public string UniqueName { get; private set; }
         public string Caption { get; set; }
+        public string DisplayFolder { get; set; }
         public LevelCollection Levels { get; set; }
 
-        public Hierarchy(string uniqueName, string caption)
+        public Hierarchy(string uniqueName, string caption, string displayFolder)
         {
             UniqueName = uniqueName;
             Caption = caption;
+            DisplayFolder = displayFolder;
             Levels = new LevelCollection();
         }
 

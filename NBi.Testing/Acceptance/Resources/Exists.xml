@@ -15,10 +15,20 @@
 			<exists/>
 		</assert>
 	</test>
-	<test name="In dimension 'employee', a hierrachy named 'Sick Leave Hours' exists" uid="0002">
+	<test name="In dimension 'employee', a hierarchy named 'Sick Leave Hours' exists" uid="0002">
 		<system-under-test>
 			<structure>
 				<hierarchy caption="Sick Leave Hours" dimension="Employee" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="In dimension 'employee', a hierarchy named 'Sick Leave Hours' exists in display-folder root" uid="0002">
+		<system-under-test>
+			<structure>
+				<hierarchy caption="Sick Leave Hours" display-folder="" dimension="Employee" perspective="Adventure Works"/>
 			</structure>
 		</system-under-test>
 		<assert>

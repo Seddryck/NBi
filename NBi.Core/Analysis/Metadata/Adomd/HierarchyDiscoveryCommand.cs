@@ -7,11 +7,12 @@ namespace NBi.Core.Analysis.Metadata.Adomd
 {
     internal class HierarchyDiscoveryCommand : DimensionDiscoveryCommand
     {
+        public ICollection<PostCommandFilter> PostCommandFilters { get; private set; }
 
         public HierarchyDiscoveryCommand(string connectionString)
             : base(connectionString)
         {
-
+            PostCommandFilters = new List<PostCommandFilter>();
         }
 
         public new HierarchyCollection List(IEnumerable<IFilter> filters)
@@ -20,13 +21,14 @@ namespace NBi.Core.Analysis.Metadata.Adomd
 
             var rows = Discover(filters);
             foreach (var row in rows)
-                hierarchies.AddOrIgnore(row.UniqueName, row.Caption);
+                hierarchies.AddOrIgnore(row.UniqueName, row.Caption, row.DisplayFolder);
 
             return hierarchies;
         }
 
         internal new IEnumerable<HierarchyRow> Discover(IEnumerable<IFilter> filters)
         {
+            Filters = filters;
             var hierarchies = new List<HierarchyRow>();
 
             Inform("Investigating hierarchies");
@@ -40,8 +42,9 @@ namespace NBi.Core.Analysis.Metadata.Adomd
                 while (rdr.Read())
                 {
                     var hieRow = HierarchyRow.Load(rdr);
-                    if (hieRow != null)
-                        hierarchies.Add(hieRow);
+                    if (PostFilter(hieRow)) 
+                        if (hieRow != null)
+                            hierarchies.Add(hieRow);
                 }
             }
 
@@ -66,6 +69,9 @@ namespace NBi.Core.Analysis.Metadata.Adomd
                     var dimFilter = FindFilter(DiscoveryTarget.Dimensions);
                     return string.Format("[HIERARCHY_UNIQUE_NAME]='[{0}].[{1}]'", dimFilter.Value, filter.Value);
             }
+
+            if (filter.Target == DiscoveryTarget.DisplayFolders)
+                PostCommandFilters.Add(new DisplayFolderFilter(filter.Value));
             
             return string.Empty;
         }
@@ -74,6 +80,21 @@ namespace NBi.Core.Analysis.Metadata.Adomd
         {
             var filter = Filters.First(f => f is CaptionFilter && ((CaptionFilter)f).Target == target);
             return (CaptionFilter)filter;
+        }
+
+        /// <summary>
+        /// PostFilter method is specifically build to enable filter aftare the execution of the command.
+        /// For some attributes such as Display-Folder you cannot apply a filter in the command, in this case the filter is applied on the resultset
+        /// </summary>
+        /// <param name="row"></param>
+        /// <returns></returns>
+        protected bool PostFilter(HierarchyRow row)
+        {
+            foreach (var postCommandFilter in PostCommandFilters)
+                if (!postCommandFilter.Evaluate(row))
+                    return false;
+
+            return true;
         }
     }
 }

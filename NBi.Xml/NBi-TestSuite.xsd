@@ -214,7 +214,13 @@
 										</xs:element>
 										<xs:element name="fasterThan">
 											<xs:complexType>
-												<xs:attribute name="max-time-milliSeconds" type="xs:unsignedShort" use="required" />
+												<xs:attribute name="max-time-milliSeconds" use="required" >
+													<xs:simpleType>
+														<xs:restriction base="xs:positiveInteger">
+															<xs:maxInclusive value="2147483647"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
 												<xs:attribute name="clean-cache" type="xs:boolean" use="optional" />
 											</xs:complexType>
 										</xs:element>

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="Read correctly parameters of the Faster than constraint">
+		<system-under-test>
+			<execution>
+				<query connectionString="connectionString">
+					select * from myTable
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<fasterThan max-time-milliSeconds="100" clean-cache="true"/>
+		</assert>
+	</test>
+	<test name="Accept Int.MaxValue (around 25 days) as a value for max-time-milliSeconds">
+		<system-under-test>
+			<execution>
+				<query connectionString="connectionString">
+					select * from myTable
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<fasterThan max-time-milliSeconds="2147483647"/>
+		</assert>
+	</test>
+	<test name="Default value for clean-cache is false">
+		<system-under-test>
+			<execution>
+				<query connectionString="connectionString">
+					select * from myTable
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<fasterThan max-time-milliSeconds="100"/>
+		</assert>
+	</test>
+</testSuite>

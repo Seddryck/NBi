@@ -1,0 +1,72 @@
+! Test the members' count at any level of a dimension or hierarchy 
+!! System under test
+In order to let you check something about members of a dimension (or hierarchy/level), you need to stipulate where you'll be looking for. This is done by creating a tag named "members" under the node "system-under-test".
+{code:xml}
+<test>
+    <system-under-test>
+        <members/>
+    </system-under-test>
+</test>
+{code:xml}
+
+In this node, named "members", you'll need to specify on which element you'll be looking for. This is done by filling the xml element named "dimension", "hierarchy" or "level". As a sample here we're looking for a member in the level 'State-Province' of hierarchy 'State-Province' in dimension 'dimension='Customer'.
+{code:xml}
+<system-under-test>
+	<members>
+		<level caption="State-Province" dimension="Customer" hierarchy="State-Province" perspective="Adventure Works"/>
+	</members>
+</system-under-test>
+{code:xml}
+If we want to search in the hierarchy,
+{code:xml}
+<system-under-test>
+	<members>
+		<hierarchy caption="State-Province" dimension="Customer" perspective="Adventure Works"/>
+	</members>
+</system-under-test>
+{code:xml}
+Finally, the last information needed is the connectionString to reach your cube. This information must be provided by the means of the xml attribute named "connectionString" (or via a default value).
+{code:xml}
+<system-under-test>
+	<members>
+		<hierarchy caption="State-Province" dimension="Customer" perspective="Adventure Works"
+			connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"
+		/>
+	</members>
+</system-under-test>
+{code:xml}
+
+!! Assertion
+The assertion consists in a check about the members' count in the hierarchy or level specified.
+So we need to specify that we'll perform an assertion of type "count":
+{code:xml}
+<test>
+    <assert>
+        <count/>
+    </assert>
+</test>
+{code:xml}
+The we need to specify one of the following option:
+* exactly
+* more-than
+* less-than
+(It's also possible to combine more-than and less-than)
+{code:xml}
+<count more-than="5" less-than="10"/>
+{code:xml}
+
+If we're checking that the hierarchy named "MyHierarchy" has more than 15 members:
+{code:xml}
+<test>
+    <system-under-test>
+	    <members>
+		    <hierarchy caption="State-Province" dimension="Customer" perspective="Adventure Works"
+			     connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"
+		     />
+	    </members>
+    </system-under-test>
+    <assert>
+        <count more-than="15"/>
+    </assert>
+</test>
+{code:xml}

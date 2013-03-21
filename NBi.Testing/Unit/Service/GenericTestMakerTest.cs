@@ -89,7 +89,7 @@ namespace NBi.Testing.Unit.Service
                     }
                 };
 
-            var gtm = new GenericTestMaker(template, variables);
+            var gtm = new HomeMadeEngine(template, variables);
 
             var results = gtm.Build(info);
 
@@ -134,7 +134,7 @@ namespace NBi.Testing.Unit.Service
                     }
                 };
 
-            var gtm = new GenericTestMaker(template, variables);
+            var gtm = new HomeMadeEngine(template, variables);
 
             var results = gtm.Build(info);
 
@@ -165,7 +165,7 @@ namespace NBi.Testing.Unit.Service
                     }
                 };
 
-            var gtm = new GenericTestMaker(template, variables);
+            var gtm = new HomeMadeEngine(template, variables);
 
             var results = gtm.Build(info);
             var result = results.ElementAt(0);

@@ -45,6 +45,7 @@
             this.generate = new System.Windows.Forms.Button();
             this.testsList = new System.Windows.Forms.ListBox();
             this.bindingTests = new System.Windows.Forms.BindingSource(this.components);
+            this.useGrouping = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.bindingCsv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingColumnNames)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -93,6 +94,7 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.useGrouping);
             this.splitContainer2.Panel2.Controls.Add(this.openTemplate);
             this.splitContainer2.Panel2.Controls.Add(this.template);
             this.splitContainer2.Size = new System.Drawing.Size(439, 483);
@@ -210,6 +212,16 @@
             this.testsList.Size = new System.Drawing.Size(468, 433);
             this.testsList.TabIndex = 0;
             // 
+            // useGrouping
+            // 
+            this.useGrouping.AutoSize = true;
+            this.useGrouping.Location = new System.Drawing.Point(336, 16);
+            this.useGrouping.Name = "useGrouping";
+            this.useGrouping.Size = new System.Drawing.Size(89, 17);
+            this.useGrouping.TabIndex = 19;
+            this.useGrouping.Text = "Use grouping";
+            this.useGrouping.UseVisualStyleBackColor = true;
+            // 
             // CsvImporterView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -256,5 +268,6 @@
         private System.Windows.Forms.Button openCsv;
         private System.Windows.Forms.Button openTemplate;
         private System.Windows.Forms.BindingSource bindingTests;
+        private System.Windows.Forms.CheckBox useGrouping;
     }
 }

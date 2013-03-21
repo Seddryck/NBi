@@ -223,6 +223,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Templates\ExistsPerspective.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\ContainsPerspectiveDimension.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /Y /S /I "$(ProjectDir)..\packages\NUnit.Runners.2.6.2\tools" "$(TargetDir)NUnit.Runners"</PostBuildEvent>

@@ -45,6 +45,18 @@ namespace NBi.UI.View.GenericTest
             }
         }
 
+        public bool UseGrouping
+        {
+            get
+            {
+                return useGrouping.Checked;
+            }
+            set
+            {
+                useGrouping.Checked = value;
+            }
+        }
+
         public BindingList<string> Variables
         {
             get

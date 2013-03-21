@@ -7,13 +7,13 @@ using NBi.Xml;
 
 namespace NBi.Service
 {
-    public class GenericTestMaker
+    public class HomeMadeEngine
     {
         public string TemplateXml { get; private set; }
         public string PreProcessedTemplate { get; private set; }
         public string[] Variables { get; private set; }
 
-        public GenericTestMaker(string templateXml, string[] variables)
+        public HomeMadeEngine(string templateXml, string[] variables)
         {
             TemplateXml = templateXml;
             Variables = variables;

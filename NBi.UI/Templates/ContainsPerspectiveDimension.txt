@@ -6,7 +6,8 @@
 	</system-under-test>
 	<assert>
 		<contains>
-			<item>$dimension; separator="</item>\r\n\t\t\t<item>"$</item>
+			<item>$dimension; separator="</item>
+			<item>"$</item>
 		<contains>
 	</assert>
 </test>

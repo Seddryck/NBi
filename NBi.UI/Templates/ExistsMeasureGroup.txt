@@ -1,7 +1,7 @@
-﻿<test name="A measure-group named '{measuregroup.caption}' exists in perspective '{perspective.caption}'.">
+﻿<test name="A measure-group named '$measuregroup$' exists in perspective '$perspective$'.">
 	<system-under-test>
 		<structure>	
-			<measure-group caption="{measuregroup.caption}" perspective="{perspective.caption}"/>
+			<measure-group caption="$measuregroup$" perspective="$perspective$"/>
 		</structure>
 	</system-under-test>
 	<assert>

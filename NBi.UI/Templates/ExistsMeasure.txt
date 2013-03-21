@@ -1,7 +1,7 @@
-﻿<test name="A measure named '{measure.caption}' exists under the folder '{displayfolder.caption}' in measure-group '{measuregroup.caption}', perspective '{perspective.caption}'.">
+﻿<test name="A measure named '$measure$' exists under the folder '$displayfolder$' in measure-group '$measuregroup$', perspective '$perspective$'.">
 	<system-under-test>
 		<structure>	
-			<measure caption="{measure.caption}" display-folder="{displayfolder.caption}" measure-group="{measuregroup.caption}" perspective="{perspective.caption}"/>
+			<measure caption="$measure$" display-folder="$displayfolder$" measure-group="$measuregroup$" perspective="$perspective$"/>
 		</structure>
 	</system-under-test>
 	<assert>

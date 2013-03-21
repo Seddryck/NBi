@@ -1,7 +1,7 @@
-﻿<test name="A hierarchy named '{hierarchy.caption}' exists in dimension '{dimension.caption}', in perspective '{perspective.caption}'.">
+﻿<test name="A hierarchy named '$hierarchy$' exists in dimension '$dimension$', in perspective '$perspective$'.">
 	<system-under-test>
 		<structure>	
-			<hierarchy caption="{hierarchy.caption}" dimension="{dimension.caption}" perspective="{perspective.caption}"/>
+			<hierarchy caption="$hierarchy$" dimension="$dimension$" perspective="$perspective$"/>
 		</structure>
 	</system-under-test>
 	<assert>

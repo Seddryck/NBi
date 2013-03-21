@@ -10,6 +10,7 @@ namespace NBi.UI.Interface
     public interface ICsvImporterView : IView
     {
         DataTable CsvContent { get; set; }
+        bool UseGrouping { get; set; }
         BindingList<string> Variables { get;  set; }
         BindingList<TestXml> Tests { get; set; }
         BindingList<string> EmbeddedTemplates { get; set; }

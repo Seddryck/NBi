@@ -38,16 +38,44 @@ namespace NBi.UI.Presenter.GenericTest
 
         protected void OnViewGenerateTests(object sender, EventArgs e)
         {
-            var rows = new List<List<string>>();
-            foreach (DataRow row in View.CsvContent.Rows)
-                rows.Add(row.ItemArray.Cast<string>().ToList());
+            int groupedColumn = View.CsvContent.Rows[0].ItemArray.Length-1;
 
-            var genericTestMaker = new GenericTestMaker(View.Template, View.Variables.ToArray());
+            var table = new List<List<List<object>>>();
+            for (int i = 0; i < View.CsvContent.Rows.Count; i++)
+            {
+                var isIdentical = (i != 0) && View.UseGrouping;
+                var grouping = View.CsvContent.Rows[i].ItemArray.ToList();
+                grouping.RemoveAt(groupedColumn);
+                var k = 0;
+                while (k < grouping.Count && isIdentical)
+                {
+                    if (grouping[k].ToString() != table[table.Count - 1][k][0].ToString())
+                        isIdentical = false;
+                    k++;
+                }
+
+
+                if (!isIdentical)
+                {
+                    table.Add(new List<List<object>>());
+                    for (int j = 0; j < View.CsvContent.Rows[i].ItemArray.Length; j++)
+                    {
+                        table[table.Count - 1].Add(new List<object>());
+                        table[table.Count - 1][j].Add(View.CsvContent.Rows[i].ItemArray[j].ToString());
+                    }
+                }
+                else
+                    table[table.Count - 1][groupedColumn].Add(View.CsvContent.Rows[i].ItemArray[groupedColumn].ToString());
+            }
+                
+
+            var genericTestMaker = new StringTemplateEngine(View.Template, View.Variables.ToArray());
             try
             {
-                var tests = genericTestMaker.Build(rows);
+                var tests = genericTestMaker.Build(table);
                 foreach (var test in tests)
                     View.Tests.Add(test);
+
             }
             catch (ExpectedVariableNotFoundException)
             {

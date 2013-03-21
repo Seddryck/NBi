@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Testing", "NBi.Testing\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NBi", "NBi", "{DA70ECE5-216D-43A1-9E14-902E06050B8E}"
 	ProjectSection(SolutionItems) = preProject
-		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
+		AssemblyInfo.cs = AssemblyInfo.cs
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.NUnit", "NBi.NUnit\NBi.NUnit.csproj", "{66314704-AA76-4153-80D8-CA2C5FF06976}"

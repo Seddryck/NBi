@@ -25,11 +25,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C217FD
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Properties", "Properties", "{7E9D60A2-C4D2-4CAE-A8C2-71710E8B2BA0}"
-	ProjectSection(SolutionItems) = preProject
-		AssemblyInfo.cs = AssemblyInfo.cs
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -147,6 +142,5 @@ Global
 		{3A9822B3-CCE4-441B-9C3E-D52817A994CA} = {DA70ECE5-216D-43A1-9E14-902E06050B8E}
 		{18ED64E4-7D72-4A2C-9CD8-46F732D287ED} = {DA70ECE5-216D-43A1-9E14-902E06050B8E}
 		{5AA137A9-C158-4A4F-B07D-3DF787618C24} = {DA70ECE5-216D-43A1-9E14-902E06050B8E}
-		{7E9D60A2-C4D2-4CAE-A8C2-71710E8B2BA0} = {DA70ECE5-216D-43A1-9E14-902E06050B8E}
 	EndGlobalSection
 EndGlobal

@@ -3,8 +3,7 @@
 The main goal of this framework is to let users create tests with a declarative approach based on an Xml syntax. By the means of NBi, you don't need to develop C# code to specify your tests! Either, you don't need Visual Studio to compile your test suite. Just create an Xml file and let the framework interpret it and play your tests. The framework is designed as an add-on of NUnit but with the possibility to port it easily to other testing frameworks.
 
 !! Documentation
-[Documentation] is now available under codeplex, including a &quot;how to&quot;  for beginners
-
+[Documentation] is now updated for release *1.0*, including a serie of "how to" for beginners and the usage of some elements in NBi syntax to manage test cases (description, ignore, edition, category).
 
 ! How to
 * [Manually create my first test suite with NBi|Create manually my first test suite with NBi]
@@ -13,8 +12,8 @@ The main goal of this framework is to let users create tests with a declarative 
 * [Share binaries between test-suites] (useful for build servers)
 
 ! Currently supported features 
-* SSAS &amp; SQL
-** *Query execution*
+* SSAS & SQL
+** Query execution
 *** [Test equivalence of two result sets] (including tolerance for numeric values, dateTime, ...)
 *** [Test performance]
 *** [Test syntax]
@@ -24,4 +23,9 @@ The main goal of this framework is to let users create tests with a declarative 
 ** Dimension membership
 *** [Test the members' count at any level of a dimension or hierarchy]
 *** [Test ordering of members at any level of a dimension or hierarchy]
-*** [Test existence of a member at any level of a dimension or hierarchy]
+*** [Test availability of a member at any level of a dimension or hierarchy]
+* Manage test cases
+** [Group tests cases by categories (manual or automatic)]
+** [Author and updates]
+** [Provide a description to your test]
+** [Ignore a test]

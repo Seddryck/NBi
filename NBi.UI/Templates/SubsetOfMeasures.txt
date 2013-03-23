@@ -1,0 +1,17 @@
+﻿<test name="Measures of measure-group '$measuregroup$' in perspective '$perspective$' are a subset of these $length(measure)$ elements">
+	<description>
+		Verify that all the measures in the  measure-group '$measuregroup$' visible throw perspective '$perspective$' are in the following list of $length(measure)$ expected measures: $measure; separator=", "$
+	</description>
+	<edition author="$username$" created="$now$"/>
+	<system-under-test>
+		<structure>	
+			<measure-group caption="$measuregroup$" perspective="$perspective$"/>
+		</structure>
+	</system-under-test>
+	<assert>
+		<subsetOf>
+			<item>$measure; separator="</item>
+			<item>"$</item>
+		<subsetOf>
+	</assert>
+</test>

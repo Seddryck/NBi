@@ -55,10 +55,14 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Analysis\Metadata\Adomd\AdomdDiscoveryCommandFactory.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\LinkedToDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\DimensionLinkedToDiscoveryCommand.cs" />
     <Compile Include="Analysis\Metadata\Adomd\DisplayFolderFilter.cs" />
     <Compile Include="Analysis\Metadata\Adomd\PostCommandFilter.cs" />
     <Compile Include="Analysis\Request\CaptionFilter.cs" />
     <Compile Include="Analysis\Request\BaseDiscoveryRequest.cs" />
+    <Compile Include="Analysis\Request\FactoryValidations\AtLeastOneNotNull.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\MeasureNotNull.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\MeasureWithoutDimension.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\NoValidation.cs" />

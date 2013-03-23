@@ -62,5 +62,25 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             }
             throw new ArgumentOutOfRangeException();
         }
+
+        public virtual AdomdDiscoveryCommand BuildLinkedTo(MetadataDiscoveryRequest request)
+        {
+            AdomdDiscoveryCommand cmd = null;
+
+            switch (request.Target)
+            {
+                case DiscoveryTarget.MeasureGroups:
+                    cmd= new DimensionLinkedToDiscoveryCommand(request.ConnectionString);
+                    break;
+                case DiscoveryTarget.Dimensions:
+                    cmd= new MeasureGroupLinkedToDiscoveryCommand(request.ConnectionString);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            cmd.Filters = request.GetAllFilters();
+
+            return cmd;
+        }
     }
 }

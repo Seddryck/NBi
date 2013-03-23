@@ -17,9 +17,15 @@
 *** [Test the members' count at any level of a dimension or hierarchy]
 *** [Test ordering of members at any level of a dimension or hierarchy]
 *** [Test availability of a member at any level of a dimension or hierarchy]
-
+* Manage test cases
+** [Group tests cases by categories (manual or automatic)]
+** [Author and updates]
+** [Provide a description to your test]
+** [Ignore a test]
 
 ! Undocumented features
-These features are not documented *for the moment* and have not the same level of maturity than previous features. They are not compiled, and so only available in sources (without any guarantee).
+These features are not documented *for the moment* and have not the same level of maturity than previous features. They are not compiled, and so only available in sources (without any warranty)
+* Contains and subset for members and structure (v1.1)
+* Get a query from an assembly (v1.1)
 * Generate automatically tests about the structure of a cube (v2.0)
 * Generate automatically tests about the members availability on a dimension (v2.0)

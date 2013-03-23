@@ -224,7 +224,10 @@
     <EmbeddedResource Include="Templates\ExistsPerspective.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Templates\ContainsPerspectiveDimension.txt" />
+    <EmbeddedResource Include="Templates\SubsetOfHierarchies.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\SubsetOfMeasures.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

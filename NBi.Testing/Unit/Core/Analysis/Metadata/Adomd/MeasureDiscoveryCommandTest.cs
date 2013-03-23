@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Unit.Core.Analysis.Metadata.Adomd
 {
     [TestFixture]
-    public class MeasureDiscoverCommandTest
+    public class MeasureDiscoveryCommandTest
     {
         [Test]
         public void Build_FiltersContainDisplayFolder_DisplayFolderIsNotInCommandFilter()

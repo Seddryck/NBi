@@ -86,10 +86,12 @@
     <Compile Include="Integration\NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\FasterThanConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\ContainsConstraintTest.cs" />
+    <Compile Include="Integration\NUnit\Structure\LinkedToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\ExistsConstraintTest.cs" />
     <Compile Include="Integration\NUnit\SyntacticallyCorrectConstraintTest.cs" />
+    <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\HierarchyDiscoveryCommandTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureDiscoverCommandTest.cs" />
+    <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\CubeMetadataTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvReaderTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvWriterTest.cs" />
@@ -235,6 +237,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\ContainsStructure.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\LinkedTo.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="NBi.Testing.sql" />

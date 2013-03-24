@@ -49,7 +49,6 @@ namespace NBi.Xml.Items
             public bool IsMeasureGroupSpecified { get; internal set; }
         }
 
-
         [XmlIgnore]
         public override string TypeName
         {

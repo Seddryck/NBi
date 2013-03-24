@@ -68,8 +68,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\GlobalAssemblyInfo.cs">
-      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Acceptance\Resources\AssemblyClass.cs" />
     <Compile Include="Acceptance\RuntimeOverrider.cs" />
@@ -86,9 +86,12 @@
     <Compile Include="Integration\NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\FasterThanConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\ContainsConstraintTest.cs" />
+    <Compile Include="Integration\NUnit\Structure\LinkedToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\ExistsConstraintTest.cs" />
     <Compile Include="Integration\NUnit\SyntacticallyCorrectConstraintTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureDiscoverCommandTest.cs" />
+    <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommandTest.cs" />
+    <Compile Include="Unit\Core\Analysis\Metadata\Adomd\HierarchyDiscoveryCommandTest.cs" />
+    <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\CubeMetadataTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvReaderTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvWriterTest.cs" />
@@ -126,10 +129,13 @@
     <Compile Include="Unit\NUnit\Structure\ExistsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\SyntacticallyCorrectConstraintTest.cs" />
     <Compile Include="Unit\NUnit\EqualToConstraintTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\LinkedToXmlTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\FasterThanXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\HierarchyXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\AssemblyXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\MeasureXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\OrderedXmlTest.cs" />
@@ -172,6 +178,8 @@
     <MyOptionalItems Include="ConnectionString.user.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\LinkedToXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\HierarchyXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\AssemblyXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\ContainsTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\DescriptionXmlTestSuite.xml" />
@@ -190,10 +198,13 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithoutDefault.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefault.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\EqualToTestSuite.xml" />
+	<EmbeddedResource Include="Unit\Core\ResultSet\Resources\ResultDataSet.xml" />
     <EmbeddedResource Include="Unit\Core\ResultSet\Resources\ResultDataSet.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidSyntax.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SelectAllProducts.sql" />
     <EmbeddedResource Include="Unit\Xml\Resources\QueryFile.sql" />
+    <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerSample.xml" />
+    <!--Acceptance Ressources-->
     <EmbeddedResource Include="Acceptance\Resources\QueryEqualToResultSet.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -230,11 +241,10 @@
     <EmbeddedResource Include="Acceptance\Resources\ContainsStructure.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <Content Include="NBi.Testing.sql" />
-    <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerSample.xml">
+    <EmbeddedResource Include="Acceptance\Resources\LinkedTo.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Content Include="NBi.Testing.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">

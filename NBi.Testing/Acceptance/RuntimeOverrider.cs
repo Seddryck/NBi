@@ -58,6 +58,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("fasterThan.xml")]
         [TestCase("SyntacticallyCorrect.xml")]
         [TestCase("Exists.xml")]
+        [TestCase("LinkedTo.xml")]
         public void RunTestSuite(string filename)
         {
             var t = new TestSuiteOverrider(filename);

@@ -215,7 +215,13 @@
 										</xs:element>
 										<xs:element name="fasterThan">
 											<xs:complexType>
-												<xs:attribute name="max-time-milliSeconds" type="xs:unsignedShort" use="required" />
+												<xs:attribute name="max-time-milliSeconds" use="required" >
+													<xs:simpleType>
+														<xs:restriction base="xs:positiveInteger">
+															<xs:maxInclusive value="2147483647"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
 												<xs:attribute name="clean-cache" type="xs:boolean" use="optional" />
 											</xs:complexType>
 										</xs:element>
@@ -287,6 +293,22 @@
 												</xs:attribute>
 											</xs:complexType>
 										</xs:element>
+										<xs:element name="linkedTo">
+											<xs:complexType>
+												<xs:choice>
+													<xs:element name="dimension" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:attribute name="caption" type="xs:string" use="required"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="measure-group" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:attribute name="caption" type="xs:string" use="required"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:choice>
+											</xs:complexType>
+										</xs:element>
 									</xs:choice>							
 								</xs:complexType>
 							</xs:element>
@@ -353,12 +375,14 @@
 		<xs:complexContent>
 			<xs:extension base="dimension-type">
 				<xs:attribute name="dimension" type="xs:string" use="required" />
+				<xs:attribute name="display-folder" type="xs:string" use="optional" />
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="level-type">
 		<xs:complexContent>
-			<xs:extension base="hierarchy-type">
+			<xs:extension base="dimension-type">
+				<xs:attribute name="dimension" type="xs:string" use="required" />
 				<xs:attribute name="hierarchy" type="xs:string" use="required" />
 			</xs:extension>
 		</xs:complexContent>

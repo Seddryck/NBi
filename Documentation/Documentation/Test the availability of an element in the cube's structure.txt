@@ -1,5 +1,5 @@
-!Test the availability of an element in the cube's structure
-!!System under test
+! Test the availability of an element in the cube's structure
+!! System under test
 The sample here under explains how to check the availability of a measure but it's also possible to check the existence of a perspective, dimension, hierarchy, level or measure-group following the same way.
 In order to let you check that a measure is available through a perspective, you need to stipulate where you'll be looking for. This is done by creating a tag named "structure" under the node "system-under-test".
 {code:xml}
@@ -49,8 +49,8 @@ The full test should be:
 </test>
 {code:xml}
 
-!!!Display-folder for measure
-It's not possible to check that a display-folder for measures exists. But anyway you can check that a measure is effectively available in the expected display-folder. Using the attribute display-folder.
+!!! Display-folder for measures and hierarchies
+It's not possible to check that a display-folder for measures or hierarchies exists. But anyway you can check that a measure (or hierarchy) is effectively available in the expected display-folder. Using the attribute display-folder.
 {code:xml}
 <test>
     <system-under-test>
@@ -66,7 +66,7 @@ It's not possible to check that a display-folder for measures exists. But anyway
     </assert>
 </test>
 {code:xml}
-If you want to specify that the measure should be in the root of the measure-group simply apply an empty value for the display-folder.
+If you want to specify that the measure (or hierarchy) should be in the root of the measure-group simply apply an empty value for the display-folder.
 {code:xml}
 <test>
     <system-under-test>
@@ -82,10 +82,10 @@ If you want to specify that the measure should be in the root of the measure-gro
     </assert>
 </test>
 {code:xml}
-If you don't specify the attribute display-folder then NBi will not take into account the display-folder when looking for your element. It means that if your measure is specified in the root or in a display-folder will not influence the result of the existence test.
+If you don't specify the attribute display-folder then NBi will not take into account the display-folder when looking for your element. It means that if your measure (or attribute) is specified in the root or in a display-folder will not influence the result of the existence test.
 
-!!Other elements
-!!!Perspective
+!! Other elements
+!!! Perspective
 For a perspective, you must specify the caption and nothing else.
 {code:xml}
 <test>
@@ -100,7 +100,7 @@ For a perspective, you must specify the caption and nothing else.
     </assert>
 </test>
 {code:xml}
-!!!Dimension
+!!! Dimension
 For a dimension, you'll need to specify the caption and the perspective
 {code:xml}
 <test>
@@ -116,8 +116,8 @@ For a dimension, you'll need to specify the caption and the perspective
     </assert>
 </test>
 {code:xml}
-!!!hierarchy
-For a hierarchy, you'll need to specify the caption, the dimension and the perspective
+!!! Hierarchy
+For a hierarchy, you'll need to specify the caption, the dimension, the perspective and optionally the display-folder
 {code:xml}
 <test>
     <system-under-test>
@@ -133,7 +133,9 @@ For a hierarchy, you'll need to specify the caption, the dimension and the persp
     </assert>
 </test>
 {code:xml}
-!!!Level
+Note that for a role-playing dimension you don't have to prefix the caption of your hierarchy by the name of the your role-playing dimension: The caption should be "MyHierarchy" and not "MyRolePlayingDimension.MyHierarchy".
+
+!!! Level
 For a level, you'll need to specify the caption, the hierarchy, the dimension and the perspective
 {code:xml}
 <test>
@@ -151,7 +153,7 @@ For a level, you'll need to specify the caption, the hierarchy, the dimension an
     </assert>
 </test>
 {code:xml}
-!!!Measure-group
+!!! Measure-group
 For a measure-group, you'll need to specify the caption and the perspective
 {code:xml}
 <test>

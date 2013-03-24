@@ -1,16 +1,12 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NBi.NUnit.Runtime")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("NBi.Core")]
 [assembly: AssemblyConfiguration("")]
 
-//Reference the testing class to ensure access to internal members
-[assembly: InternalsVisibleTo("NBi.Testing")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -18,4 +14,5 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("266e4f0c-1911-4886-a6ca-57137047a02f")]
+[assembly: Guid("64c44ca6-f17a-4591-adbe-f9905039dfa1")]
+

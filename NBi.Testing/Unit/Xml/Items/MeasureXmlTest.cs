@@ -90,7 +90,7 @@ namespace NBi.Testing.Unit.Xml.Items
 
             MeasureXml item = (MeasureXml)((StructureXml)ts.Tests[testNr].Systems[0]).Item;
             Assert.That(item.DisplayFolder, Is.Null.Or.Empty);
-            Assert.That(item.Specification.IsMeasureGroupSpecified, Is.False);
+            Assert.That(item.Specification.IsDisplayFolderSpecified, Is.False);
         }
 
         [Test]

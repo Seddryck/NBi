@@ -56,6 +56,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
 
         public virtual string Build(IEnumerable<IFilter> filters)
         {
+            Filters = filters;
             if (filters == null)
                 return string.Empty;
 
@@ -65,7 +66,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
                 if (filter != null)
                 {
                     var newFilter = Build((CaptionFilter)filter);
-                    //We need to check if the filter will not return an empty string because postCommandFilters will return a null string
+                    //We need to check if the filter will not return an null or empty string because postCommandFilters will return a null string
                     //If we don't test we still add to the filterString and have issues
                     if (!string.IsNullOrEmpty(newFilter))
                         filterString += string.Format(" and {0}", newFilter);

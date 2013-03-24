@@ -178,6 +178,7 @@
     <MyOptionalItems Include="ConnectionString.user.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Core\ResultSet\Resources\ResultDataSet.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\LinkedToXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\HierarchyXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\AssemblyXmlTestSuite.xml" />
@@ -198,8 +199,6 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithoutDefault.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefault.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\EqualToTestSuite.xml" />
-	<EmbeddedResource Include="Unit\Core\ResultSet\Resources\ResultDataSet.xml" />
-    <EmbeddedResource Include="Unit\Core\ResultSet\Resources\ResultDataSet.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidSyntax.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SelectAllProducts.sql" />
     <EmbeddedResource Include="Unit\Xml\Resources\QueryFile.sql" />

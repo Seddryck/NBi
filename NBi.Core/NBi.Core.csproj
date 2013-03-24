@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3F730647-FE31-4907-8A6E-A0C4A0C970EA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NBi.Core</RootNamespace>
+    <AssemblyName>NBi.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>../../../../../../../Program%20Files/Microsoft.NET/ADOMD.NET/100/Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Analysis\Metadata\Adomd\AdomdDiscoveryCommandFactory.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\LinkedToDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\DimensionLinkedToDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\DisplayFolderFilter.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\PostCommandFilter.cs" />
+    <Compile Include="Analysis\Request\CaptionFilter.cs" />
+    <Compile Include="Analysis\Request\BaseDiscoveryRequest.cs" />
+    <Compile Include="Analysis\Request\FactoryValidations\AtLeastOneNotNull.cs" />
+    <Compile Include="Analysis\Request\FactoryValidations\MeasureNotNull.cs" />
+    <Compile Include="Analysis\Request\FactoryValidations\MeasureWithoutDimension.cs" />
+    <Compile Include="Analysis\Request\FactoryValidations\NoValidation.cs" />
+    <Compile Include="Analysis\Request\FactoryValidations\MeasureGroupWithoutDimension.cs" />
+    <Compile Include="Analysis\Request\MetadataDiscoveryRequest.cs" />
+    <Compile Include="Analysis\Request\DiscoveryRequestFactory.cs" />
+    <Compile Include="Analysis\Request\DiscoveryRequestFactoryException.cs" />
+    <Compile Include="Analysis\Request\DiscoveryTarget.cs" />
+    <Compile Include="Analysis\Request\FactoryValidations\ConnectionStringNotEmpty.cs" />
+    <Compile Include="Analysis\Request\FactoryValidations\HierarchyNotNull.cs" />
+    <Compile Include="Analysis\Request\FactoryValidations\FilterNotNull.cs" />
+    <Compile Include="Analysis\Request\FactoryValidations\DimensionNotNull.cs" />
+    <Compile Include="Analysis\Request\FactoryValidations\PerspectiveNotNull.cs" />
+    <Compile Include="Analysis\Request\IFilter.cs" />
+    <Compile Include="Analysis\Request\MembersDiscoveryRequest.cs" />
+    <Compile Include="Analysis\Request\Validation.cs" />
+    <Compile Include="Analysis\Member\IDiscoverMemberEngine.cs" />
+    <Compile Include="Analysis\Member\Member.cs" />
+    <Compile Include="Analysis\Member\MembersAdomdEngine.cs" />
+    <Compile Include="Analysis\Member\MembersCommand.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\AdomdDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\PerspectiveRow.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\MeasureRow.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\MeasureGroupRow.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\PropertyRow.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\LevelRow.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\HierarchyRow.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\DimensionRow.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\PropertyDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\MeasureDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\MeasureGroupDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\LevelDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\HierarchyDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\DimensionDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\PerspectiveDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Metadata\IMetadataExtractor.cs" />
+    <Compile Include="Analysis\Metadata\IMetadataReader.cs" />
+    <Compile Include="Analysis\Metadata\IField.cs" />
+    <Compile Include="Analysis\Metadata\Level.cs" />
+    <Compile Include="Analysis\Metadata\LevelCollection.cs" />
+    <Compile Include="Analysis\Metadata\MetadataCsvAbstract.cs" />
+    <Compile Include="Analysis\Metadata\MetadataCsvReader.cs" />
+    <Compile Include="Analysis\Metadata\MetadataCsvWriter.cs" />
+    <Compile Include="Analysis\Metadata\CubeMetadata.cs" />
+    <Compile Include="Analysis\Metadata\IMetadataWriter.cs" />
+    <Compile Include="Analysis\Metadata\MetadataExcelOleDbAbstract.cs" />
+    <Compile Include="Analysis\Metadata\Dimension.cs" />
+    <Compile Include="Analysis\Metadata\DimensionCollection.cs" />
+    <Compile Include="Analysis\Metadata\HierarchyCollection.cs" />
+    <Compile Include="Analysis\Metadata\Hierarchy.cs" />
+    <Compile Include="Analysis\Metadata\Measure.cs" />
+    <Compile Include="Analysis\Metadata\MeasureGroup.cs" />
+    <Compile Include="Analysis\Metadata\MeasureGroupCollection.cs" />
+    <Compile Include="Analysis\Metadata\MeasureCollection.cs" />
+    <Compile Include="Analysis\Metadata\MetadataExcelOleDbReader.cs" />
+    <Compile Include="Analysis\Metadata\MetadataExcelOleDbWriter.cs" />
+    <Compile Include="Analysis\Metadata\MetadataAdomdExtractor.cs" />
+    <Compile Include="Analysis\Metadata\MetadataNotFoundException.cs" />
+    <Compile Include="Analysis\Metadata\MetadataFactory.cs" />
+    <Compile Include="Analysis\Metadata\MetadataFileFormat.cs" />
+    <Compile Include="Analysis\Metadata\Perspective.cs" />
+    <Compile Include="Analysis\Metadata\PerspectiveCollection.cs" />
+    <Compile Include="Analysis\Metadata\Property.cs" />
+    <Compile Include="Analysis\Metadata\PropertyCollection.cs" />
+    <Compile Include="Analysis\Metadata\Field.cs" />
+    <Compile Include="Assemblies\AssemblyManager.cs" />
+    <Compile Include="Assemblies\TypeConverter.cs" />
+    <Compile Include="Query\ListBuilder.cs" />
+    <Compile Include="ExternalDependencyNotFoundException.cs" />
+    <Compile Include="NBiException.cs" />
+    <Compile Include="TestException.cs" />
+    <Compile Include="Query\QueryAdomdEngine.cs" />
+    <Compile Include="Query\IQueryEnginable.cs" />
+    <Compile Include="Query\IQueryExecutor.cs" />
+    <Compile Include="ResultSet\Column.cs" />
+    <Compile Include="ResultSet\ColumnRole.cs" />
+    <Compile Include="ResultSet\ColumnType.cs" />
+    <Compile Include="ResultSet\DataRowBasedResultSetComparer.cs" />
+    <Compile Include="ResultSet\DataRowKeysComparer.cs" />
+    <Compile Include="ResultSet\LineFormatter.cs" />
+    <Compile Include="ResultSet\ICell.cs" />
+    <Compile Include="ResultSet\IColumn.cs" />
+    <Compile Include="ResultSet\IResultSetBuilder.cs" />
+    <Compile Include="ResultSet\IResultSetWriter.cs" />
+    <Compile Include="Query\QueryEngineFactory.cs" />
+    <Compile Include="Query\QuerySqlEngine.cs" />
+    <Compile Include="ResultSet\IRow.cs" />
+    <Compile Include="ResultSet\NonMatchingValueRow.cs" />
+    <Compile Include="ResultSet\PersistanceChoice.cs" />
+    <Compile Include="ResultSet\ResultSet.cs" />
+    <Compile Include="ResultSet\ResultSetBuilder.cs" />
+    <Compile Include="ResultSet\ResultSetComparerException.cs" />
+    <Compile Include="ResultSet\ResultSetComparisonSettings.cs" />
+    <Compile Include="ResultSet\ResultSetCompareResult.cs" />
+    <Compile Include="ResultSet\ResultSetCsvReader.cs" />
+    <Compile Include="ResultSet\IResultSetComparer.cs" />
+    <Compile Include="ConnectionException.cs" />
+    <Compile Include="ConnectionFactory.cs" />
+    <Compile Include="CsvDefinition.cs" />
+    <Compile Include="Query\ParserResult.cs" />
+    <Compile Include="Query\PerformanceResult.cs" />
+    <Compile Include="IProgressStatusAware.cs" />
+    <Compile Include="Analysis\Member\MemberResult.cs" />
+    <Compile Include="ProgressStatusHandler.cs" />
+    <Compile Include="ResultSetManager.cs" />
+    <Compile Include="QuerySetManager.cs" />
+    <Compile Include="ResultSet\ResultSetAbstractWriter.cs" />
+    <Compile Include="ResultSet\ResultSetCsvWriter.cs" />
+    <Compile Include="Analysis\MdxBuilder.cs" />
+    <Compile Include="Query\QueryOleDbEngine.cs" />
+    <Compile Include="ResultSet\ResultSetDifference.cs" />
+    <Compile Include="ResultSet\ResultSetTextWriter.cs" />
+    <Compile Include="ResultSet\ResultSetXmlWriter.cs" />
+    <Compile Include="Query\IQueryParser.cs" />
+    <Compile Include="Query\IQueryPerformance.cs" />
+    <Compile Include="ProgressStatusEventArgs.cs" />
+    <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="StringComparerHelper.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

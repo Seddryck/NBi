@@ -95,9 +95,10 @@
 									<xs:choice>
 										<xs:element name="execution">
 											<xs:complexType>
-												<xs:sequence>
+												<xs:choice>
 													<xs:element name="query" type ="query-type"/>
-												</xs:sequence>
+													<xs:element name="assembly" type ="assembly-type"/>
+												</xs:choice>
 											</xs:complexType>		
 										</xs:element>
 										<xs:element name="members">
@@ -237,13 +238,19 @@
 										</xs:element>
 										<xs:element name="contains">
 											<xs:complexType>
-												<xs:simpleContent>
-													<xs:extension base="xs:string">
-														<xs:attribute name="caption" type="xs:string" use="required" />
-														<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
-														<xs:attribute name="not" type="xs:boolean" use="optional" />
-													</xs:extension>
-												</xs:simpleContent>
+												<xs:sequence>
+													<xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:simpleContent>
+																<xs:extension base="xs:string"/>
+															</xs:simpleContent>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="caption" type="xs:string" use="optional" />
+												<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+												<xs:attribute name="exactly" type="xs:boolean" use="optional" />
+												<xs:attribute name="not" type="xs:boolean" use="optional" />
 											</xs:complexType>
 										</xs:element>
 										<xs:element name="exists">
@@ -286,6 +293,22 @@
 												</xs:attribute>
 											</xs:complexType>
 										</xs:element>
+										<xs:element name="linkedTo">
+											<xs:complexType>
+												<xs:choice>
+													<xs:element name="dimension" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:attribute name="caption" type="xs:string" use="required"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="measure-group" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:attribute name="caption" type="xs:string" use="required"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:choice>
+											</xs:complexType>
+										</xs:element>
 									</xs:choice>							
 								</xs:complexType>
 							</xs:element>
@@ -300,6 +323,22 @@
 			<xs:attribute name="name" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
+	<xs:complexType name="assembly-type">
+		<xs:sequence>
+			<xs:element name="parameter" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="name" type="xs:string" use="required" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="path" type="xs:string" use="required" />
+		<xs:attribute name="class" type="xs:string" use="required" />
+		<xs:attribute name="method" type="xs:string" use="required" />
+	</xs:complexType>
 	<xs:complexType name="query-type" mixed="true">
 		<xs:attribute name="name" type="xs:string" use="optional" />
 		<xs:attribute name="file" type="xs:string" use="optional" />

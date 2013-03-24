@@ -11,15 +11,19 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Structure
 {
-    public class ContainsConstraint : NUnitCtr.CollectionContainsConstraint
+    public class ContainsConstraint : NUnitCtr.Constraint
     {
-        protected object _expected;
-        protected string expectedCaption;
-        protected string expectedDisplayFolder;
-        protected IComparer comparer;
-        protected MetadataDiscoveryRequest request;
+        protected internal NUnitCtr.CollectionItemsEqualConstraint RealConstraint;
+        protected internal object Expected;
         protected AdomdDiscoveryCommandFactory commandFactory;
+        protected IComparer comparer;
         
+        
+        /// <summary>
+        /// Request for metadata extraction
+        /// </summary>
+        public MetadataDiscoveryRequest Request {get; protected set;}
+
         /// <summary>
         /// Engine dedicated to MetadataExtractor acquisition
         /// </summary>
@@ -45,10 +49,20 @@ namespace NBi.NUnit.Structure
         /// </summary>
         /// <param name="expected"></param>
         public ContainsConstraint(string expected)
-            : base(StringComparerHelper.Build(expected))
         {
-            _expected = expected;
-            expectedCaption = expected;
+            this.Expected = expected;
+            RealConstraint = new Contains.ContainsItemConstraint(expected, this);
+            comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(true);
+        }
+
+        /// <summary>
+        /// Construct a CollectionContainsConstraint
+        /// </summary>
+        /// <param name="expected"></param>
+        public ContainsConstraint(IEnumerable<string> expected)
+        {
+            this.Expected = expected;
+            RealConstraint = new Contains.ContainsSubsetConstraint(expected, this);
             comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(true);
         }
 
@@ -56,7 +70,7 @@ namespace NBi.NUnit.Structure
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
-        public new ContainsConstraint IgnoreCase
+        public ContainsConstraint IgnoreCase
         {
             get
             {
@@ -64,6 +78,20 @@ namespace NBi.NUnit.Structure
                 return this;
             }
         }
+
+        public ContainsConstraint Exactly
+        {
+            get
+            {
+                if (Expected is IEnumerable<string>)
+                    RealConstraint = new Contains.ContainsEquivalentConstraint((IEnumerable<string>)Expected, this);
+                else
+                    throw new ArgumentException();
+
+                return this;
+            }
+        }
+
 
         #endregion
 
@@ -73,21 +101,21 @@ namespace NBi.NUnit.Structure
                 return Process((MetadataDiscoveryRequest)actual);
             else
             {
-                base.Using(comparer);
-                var res= base.Matches(actual);
+                RealConstraint = RealConstraint.Using(comparer);
+                var res = RealConstraint.Matches(actual);
                 return res; 
             }
         }
 
         public bool doMatch(IEnumerable<IField> actual)
         {
-           return base.Using(comparer).Matches(actual);
+            return RealConstraint.Matches(actual);
         }
 
         
         protected bool Process(MetadataDiscoveryRequest actual)
         {
-            request = actual;
+            Request = actual;
             var factory = GetFactory();
             var command = factory.BuildExact(actual);
             IEnumerable<IField> structures = command.Execute();
@@ -100,23 +128,16 @@ namespace NBi.NUnit.Structure
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
-            if (request != null)
-            {
-                var description = new DescriptionStructureHelper();
-                var filterExpression = description.GetFilterExpression(request.GetAllFilters());
-                var nextTargetExpression = description.GetNextTargetExpression(request.Target);
-                var expectationExpression = expectedCaption;
+            RealConstraint.WriteDescriptionTo(writer);
+        }
 
-                writer.WritePredicate(string.Format("find a {0} named '{1}' contained {2}",
-                    nextTargetExpression,
-                    expectationExpression,
-                    filterExpression));
-                                                                               
-            }
-            else
-                base.WriteDescriptionTo(writer);
-
-
+        /// <summary>
+        /// Write the actual values of the constraint to a MessageWriter
+        /// </summary>
+        /// <param name="writer"></param>
+        public override void WriteActualValueTo(MessageWriter writer)
+        {
+            RealConstraint.WriteActualValueTo(writer);
         }
 
     }

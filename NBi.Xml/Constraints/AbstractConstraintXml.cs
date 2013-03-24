@@ -37,6 +37,9 @@ namespace NBi.Xml.Constraints
 
         [XmlAttribute("not")]
         public bool Not { get; set; }
-        
+
+        public virtual void Initialize()
+        {
+        }
     }
 }

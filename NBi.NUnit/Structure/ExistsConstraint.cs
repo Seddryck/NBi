@@ -158,17 +158,11 @@ namespace NBi.NUnit.Structure
                 if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() > 0)
                     base.WriteActualValueTo(writer);
                 else
-                    writer.WriteActualValue(new NothingFoundMessage());
+                    writer.WriteActualValue(new WriterHelper.NothingFoundMessage());
             }
         }
 
-        private class NothingFoundMessage
-        {
-            public override string ToString()
-            {
-                return "nothing found";
-            }
-        }
+        
         
     }
 }

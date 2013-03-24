@@ -68,6 +68,29 @@ namespace NBi.Core.Analysis.Request
             
             return disco;
         }
+
+        public virtual MetadataDiscoveryRequest BuildLinkedTo(string connectionString, DiscoveryTarget target, string perspective, string measuregroup, string dimension)
+        {
+            //Validations
+            Validate(
+                new List<Validation>()
+                {
+                    new ConnectionStringNotEmpty(connectionString),
+                    new PerspectiveNotNull(perspective),
+                    new AtLeastOneNotNull(dimension, measuregroup)
+                }
+            );
+
+            //If validation of parameters is successfull then we build the object
+            var disco = new MetadataDiscoveryRequest();
+            disco.ConnectionString = connectionString;
+            disco.Target = target;
+            if (!string.IsNullOrEmpty(perspective)) disco.SpecifyFilter(new CaptionFilter(perspective, DiscoveryTarget.Perspectives));
+            if (!string.IsNullOrEmpty(measuregroup)) disco.SpecifyFilter(new CaptionFilter(measuregroup, DiscoveryTarget.MeasureGroups));
+            if (!string.IsNullOrEmpty(dimension)) disco.SpecifyFilter(new CaptionFilter(dimension, DiscoveryTarget.Dimensions));
+
+            return disco;
+        }
    
     }
 }

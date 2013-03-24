@@ -46,6 +46,7 @@ namespace NBi.Testing.Acceptance
         
         //By Acceptance Test Suite (file) create a Test Case
         [Test]
+        [TestCase("AssemblyEqualToResultSet.xml")]
         [TestCase("QueryEqualToCsv.xml")]
         [TestCase("QueryEqualToQuery.xml")]
         [TestCase("QueryEqualToResultSet.xml")]
@@ -53,9 +54,11 @@ namespace NBi.Testing.Acceptance
         [TestCase("Ordered.xml")]
         [TestCase("Count.xml")]
         [TestCase("Contains.xml")]
+        [TestCase("ContainsStructure.xml")]
         [TestCase("fasterThan.xml")]
         [TestCase("SyntacticallyCorrect.xml")]
         [TestCase("Exists.xml")]
+        [TestCase("LinkedTo.xml")]
         public void RunTestSuite(string filename)
         {
             var t = new TestSuiteOverrider(filename);

@@ -34,11 +34,20 @@ namespace NBi.NUnit.Builder
 
         protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(ContainsXml ctrXml)
         {
-            var ctr = new NBi.NUnit.Member.ContainsConstraint(ctrXml.Caption);
+            NBi.NUnit.Member.ContainsConstraint ctr = null;
+
+            if (ctrXml.Items.Count == 1)
+                ctr = new NBi.NUnit.Member.ContainsConstraint(ctrXml.Caption);
+            else
+                ctr = new NBi.NUnit.Member.ContainsConstraint(ctrXml.Items);
 
             //Ignore-case if requested
             if (ctrXml.IgnoreCase)
                 ctr = ctr.IgnoreCase;
+
+            //Exactly
+            //if (ctrXml.Exactly)
+                //ctr = ctr.Exactly;
 
             return ctr;
         }

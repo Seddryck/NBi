@@ -14,7 +14,7 @@ namespace NBi.NUnit.Builder
         protected override void BaseSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
             if (!(sutXml is ExecutionXml))
-                throw new ArgumentException("Constraint must be a 'QueryXml'");
+                throw new ArgumentException("System-under-test must be a 'ExecutionXml'");
 
             SystemUnderTestXml = (ExecutionXml)sutXml;
         }
@@ -24,11 +24,11 @@ namespace NBi.NUnit.Builder
             SystemUnderTest = InstantiateSystemUnderTest(SystemUnderTestXml);
         }
 
-        protected virtual IDbCommand InstantiateSystemUnderTest(ExecutionXml queryXml)
+        protected virtual IDbCommand InstantiateSystemUnderTest(ExecutionXml executionXml)
         {
-            var conn = ConnectionFactory.Get(queryXml.Item.GetConnectionString());
+            var conn = new ConnectionFactory().Get(executionXml.Item.GetConnectionString());
             var cmd = conn.CreateCommand();
-            cmd.CommandText = queryXml.Item.GetQuery();
+            cmd.CommandText = executionXml.Item.GetQuery();
 
             return cmd;
         }

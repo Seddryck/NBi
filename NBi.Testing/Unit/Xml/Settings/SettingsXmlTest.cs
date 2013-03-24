@@ -1,14 +1,12 @@
 ﻿using System.IO;
 #region Using directives
 
-using System.Xml.Serialization;
 using NBi.Xml;
 using System.Reflection;
 using NBi.Xml.Constraints;
+using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NUnit.Framework;
-using NBi.Core.ResultSet;
-
 #endregion
 
 namespace NBi.Testing.Unit.Xml.Settings
@@ -114,7 +112,7 @@ namespace NBi.Testing.Unit.Xml.Settings
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithoutDefault");
 
-            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.ConnectionString, Is.Null.Or.Empty);
+            Assert.That(((QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).Item).ConnectionString, Is.Null.Or.Empty);
         }
 
         [Test]
@@ -163,7 +161,7 @@ namespace NBi.Testing.Unit.Xml.Settings
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithReference");
 
-            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.ConnectionString, Is.Null.Or.Empty);
+            Assert.That(((QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).Item).ConnectionString, Is.Null.Or.Empty);
             Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.Not.Null.And.Not.Empty);
         }
 
@@ -174,7 +172,7 @@ namespace NBi.Testing.Unit.Xml.Settings
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithReference");
-            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.ConnectionString, Is.Null.Or.Empty);
+            Assert.That(((QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).Item).ConnectionString, Is.Null.Or.Empty);
             Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.Null);
         }
 

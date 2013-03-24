@@ -38,6 +38,7 @@ _ReSharper*/
 NUnit.exe.lnk
 NBi.ncrunchsolution
 [Dd]ocumentation*/
+*.orig
 *.dgml
 .JustCode/
 .nuget/[Nn]u[Gg]et.exe

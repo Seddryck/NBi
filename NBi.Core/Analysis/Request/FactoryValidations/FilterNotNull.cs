@@ -7,16 +7,16 @@ namespace NBi.Core.Analysis.Request.FactoryValidations
 {
     internal abstract class FilterNotNull : Validation
     {
-        private readonly string Data;
+        private readonly string data;
 
         internal FilterNotNull(string data)
         {
-            Data = data;
+            this.data = data;
         }
 
         internal override void Apply()
         {
-            if (string.IsNullOrEmpty(Data))
+            if (string.IsNullOrEmpty(data))
                 GenerateException();
         }
     }

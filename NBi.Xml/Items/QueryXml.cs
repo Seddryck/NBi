@@ -8,22 +8,19 @@ using System.IO;
 
 namespace NBi.Xml.Items
 {
-    public class QueryXml : BaseItem
+    public class QueryXml : QueryableXml
     {
         
         [XmlAttribute("file")]
         public string File { get; set; }
-
-        [XmlAttribute("connectionString")]
-        public string ConnectionString { get; set; }
-
+        
         [XmlAttribute("connectionString-ref")]
         public string ConnectionStringReference { get; set; }
 
         [XmlText]
         public string InlineQuery { get; set; }
 
-        public virtual string GetQuery()
+        public override string GetQuery()
         {
             //if Sql is specified then return it
             if (!string.IsNullOrEmpty(InlineQuery))
@@ -41,21 +38,7 @@ namespace NBi.Xml.Items
             return query;
         }
 
-        public virtual string GetConnectionString()
-        {
-            //if ConnectionString is specified then return it
-            if (!string.IsNullOrEmpty(ConnectionString))
-                return ConnectionString;
-
-            //Else get the reference ConnectionString 
-            //if (!string.IsNullOrEmpty(ConnectionStringReference))
-                //return Settings.GetReference(ConnectionStringReference).ConnectionString;
-
-            //Else get the default ConnectionString 
-            if (Default != null && !string.IsNullOrEmpty(Default.ConnectionString))
-                return Default.ConnectionString;
-            return null;
-        }
+        
 
     }
 }

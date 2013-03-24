@@ -38,5 +38,26 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             else
                 return null;
         }
+
+        public static DimensionRow LoadLinkedTo(AdomdDataReader dataReader)
+        {
+            // read column 2, "CUBE_NAME"
+            // read column 5, "DIMENSION_UNIQUE_NAME"
+            // read column 6, "DIMENSION_CAPTION"
+            // read column 7, "DIMENSION_IS_VISIBLE"
+
+            var perspectiveName = (string)dataReader.GetValue(2);
+            if ((bool)dataReader.GetValue(7) && !perspectiveName.StartsWith("$"))
+            {
+                // Get the columns value
+                var row = new DimensionRow();
+                row.PerspectiveName = perspectiveName;
+                row.UniqueName = dataReader.GetString(5);
+                row.Caption = dataReader.GetString(5).Replace("[", "").Replace("]", "");
+                return row;
+            }
+            else
+                return null;
+        }
     }
 }

@@ -5,6 +5,9 @@ using Microsoft.AnalysisServices.AdomdClient;
 
 namespace NBi.Core
 {
+    /// <summary>
+    /// Class handling all the constructor to build a ConnectionException. This exception is specifically managed by the Runtime to display correct and effective information about the issue.
+    /// </summary>
     public class ConnectionException : NBiException
     {
         public ConnectionException(ArgumentException ex, string connectionString)

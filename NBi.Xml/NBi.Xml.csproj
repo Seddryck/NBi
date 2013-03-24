@@ -55,6 +55,8 @@
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
     <Compile Include="Constraints\ContainsXml.cs" />
     <Compile Include="Constraints\ExistsXml.cs" />
+    <Compile Include="Constraints\LinkedToXml.cs" />
+    <Compile Include="Items\QueryableXml.cs" />
     <Compile Include="Items\ResultSet\CellXml.cs" />
     <Compile Include="Items\ResultSet\ColumnXml.cs" />
     <Compile Include="Items\ResultSet\KeyXml.cs" />
@@ -74,6 +76,8 @@
     <Compile Include="Systems\AbstractSystemUnderTestXml.cs" />
     <Compile Include="Constraints\CountXml.cs" />
     <Compile Include="Constraints\EqualToXml.cs" />
+    <Compile Include="Items\AssemblyXml.cs" />
+    <Compile Include="Items\ParameterXml.cs" />
     <Compile Include="Systems\MembersXml.cs" />
     <Compile Include="Constraints\SyntacticallyCorrectXml.cs" />
     <Compile Include="Constraints\FasterThanXml.cs" />

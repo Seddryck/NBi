@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033</connectionString>
+		</default>
+	</settings>
+	<test name="Dimension 'Customer' is linked to measure-group  'Internet Sales' throw perspective 'Adventure Works'" uid="0001">
+		<system-under-test>
+			<structure>
+				<dimension caption="Customer" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<linkedTo>
+				<measure-group caption="Internet Sales"/>
+			</linkedTo>
+		</assert>
+	</test>
+	<test name="Measure-group 'Internet Sales' is linked to dimension 'Internet Sales' throw perspective 'Adventure Works'" uid="0001">
+		<system-under-test>
+			<structure>
+				<measure-group caption="Internet Sales" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<linkedTo>
+				<dimension caption="Customer"/>
+			</linkedTo>
+		</assert>
+	</test>
+</testSuite>

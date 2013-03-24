@@ -78,5 +78,23 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
 
             Assert.That(structs.Count(), Is.EqualTo(1));
         }
+
+        [Test]
+        public void Execute_DateDimensionLinkedToElevenMeasureGroups_ListStructureContainingElevenElements()
+        {
+            var disco = new DiscoveryRequestFactory().BuildLinkedTo(
+                ConnectionStringReader.GetAdomd(),
+                DiscoveryTarget.MeasureGroups,
+                "Adventure Works",
+                null,
+                "Date");
+
+            var factory = new AdomdDiscoveryCommandFactory();
+            var cmd = factory.BuildExact(disco);
+
+            var structs = cmd.Execute();
+
+            Assert.That(structs.Count(), Is.EqualTo(11));
+        }
     }
 }

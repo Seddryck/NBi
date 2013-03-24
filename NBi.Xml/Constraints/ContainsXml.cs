@@ -1,4 +1,9 @@
-﻿using System.Xml.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Xml.Serialization;
+using NBi.Core;
+using NBi.Xml.Items;
 
 namespace NBi.Xml.Constraints
 {
@@ -7,12 +12,39 @@ namespace NBi.Xml.Constraints
         [XmlAttribute("ignore-case")]
         public bool IgnoreCase { get; set; }
 
+        [XmlAttribute("exactly")]
+        public bool Exactly { get; set; }
+
         [XmlAttribute("caption")]
-        public string Caption { get; set; }
+        public string Caption 
+        { 
+            get
+            {
+                if (Items.Count==1)
+                    return Items[0];
+                throw new InvalidOperationException();
+            }
+            set
+            {
+                if (Items.Count == 0)
+                    Items.Add(value);
+                else if (Items.Count == 1)
+                    Items[0] = value;
+                else
+                    throw new InvalidOperationException();
+            }  
+        }
+
+        [XmlElement("item")]
+        public List<string> Items { get; set; }
+
+        [XmlElement("one-column-query")]
+        public QueryXml Query { get; set; }
 
 
         public ContainsXml()
         {
+            Items = new List<string>();
             Specification = new SpecificationContains();
         }
 
@@ -30,6 +62,7 @@ namespace NBi.Xml.Constraints
             }
         }
 
+            
         [XmlIgnore()]
         public SpecificationContains Specification { get; protected set; }
 
@@ -37,6 +70,35 @@ namespace NBi.Xml.Constraints
         public class SpecificationContains
         {
             public bool IsDisplayFolderSpecified { get; internal set; }
+        }
+
+        //public override void Initialize()
+        //{
+        //    if (ItemList.Count == 0 && !string.IsNullOrEmpty(Caption))
+        //        Items.Add(Caption);
+
+        //    if (ItemList.Count > 0)
+        //        Items.AddRange(ItemList);
+
+        //    if (GetCommand() != null)
+        //    {
+        //        var listBuilder = new ListBuilder();
+        //        Items.AddRange(listBuilder.Build(GetCommand()));
+        //    }
+
+        //    base.Initialize();
+        //}
+
+        public IDbCommand GetCommand()
+        {
+            if (Query == null)
+                return null;
+
+            var conn = new ConnectionFactory().Get(Query.GetConnectionString());
+            var cmd = conn.CreateCommand();
+            cmd.CommandText = Query.GetQuery();
+
+            return cmd;
         }
     }
 }

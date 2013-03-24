@@ -84,6 +84,7 @@ namespace NBi.Xml
         XmlArrayItem(Type = typeof(ContainsXml), ElementName = "contains"),
         XmlArrayItem(Type = typeof(ExistsXml), ElementName = "exists"),
         XmlArrayItem(Type = typeof(OrderedXml), ElementName = "ordered"),
+        XmlArrayItem(Type = typeof(LinkedToXml), ElementName = "linkedTo"),
         ]
         public List<AbstractConstraintXml> Constraints;
 

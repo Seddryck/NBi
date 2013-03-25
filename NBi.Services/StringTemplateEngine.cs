@@ -79,7 +79,7 @@ namespace NBi.Service
         {
             return new string[]
             {
-                DateTime.Today.ToShortDateString() + " " + DateTime.Now.ToLongTimeString(), 
+                DateTime.Today.ToShortDateString() + "T" + DateTime.Now.ToLongTimeString(), 
                 DateTime.Now.ToLongTimeString(),
                 DateTime.Today.ToShortDateString(),
                 (++uid).ToString(),

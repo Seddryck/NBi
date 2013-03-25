@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033</connectionString>
+		</default>
+	</settings>
+	<test name="In dimension 'Customers', the levels of hierarchy 'State-Provinces' are all defined in the set 'State-Provinces' and '(All)'" uid="0001">
+		<system-under-test>
+			<structure>
+				<hierarchy dimension="Customer" caption="State-Province" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<subsetOf>
+				<item>State-Province</item>
+				<item>(All)</item>
+			</subsetOf>
+		</assert>
+	</test>
+</testSuite>

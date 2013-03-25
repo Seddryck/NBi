@@ -5,7 +5,6 @@ using Moq;
 using NBi.Core.Analysis.Request;
 using NBi.NUnit.Builder;
 using NBi.NUnit.Structure;
-using NBi.NUnit.Structure.Contains;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Settings;
@@ -68,7 +67,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             builder.Build();
             var ctr = builder.GetConstraint();
 
-            Assert.That(ctr, Is.InstanceOf<ContainsConstraint>());
+            Assert.That(ctr, Is.InstanceOf<CollectionItemConstraint>());
         }
 
 
@@ -92,8 +91,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             builder.Build();
             var ctr = builder.GetConstraint();
 
-            Assert.That(ctr, Is.InstanceOf<ContainsConstraint>());
-            Assert.That(((ContainsConstraint)ctr).RealConstraint, Is.InstanceOf<ContainsEquivalentConstraint>());
+            Assert.That(ctr, Is.InstanceOf<EquivalentToConstraint>());
         }
 
 

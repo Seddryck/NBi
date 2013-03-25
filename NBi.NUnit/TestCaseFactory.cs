@@ -32,6 +32,7 @@ namespace NBi.NUnit
             Register(typeof(MembersXml), typeof(ContainsXml), new MembersContainsBuilder());
 
             Register (typeof(StructureXml), typeof(ContainsXml),new StructureContainsBuilder());
+            Register(typeof(StructureXml), typeof(SubsetOfXml), new StructureSubsetOfBuilder());
             Register(typeof(StructureXml), typeof(ExistsXml), new StructureExistsBuilder());
             Register(typeof(StructureXml), typeof(LinkedToXml), new StructureLinkedToBuilder());
         }

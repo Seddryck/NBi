@@ -65,6 +65,7 @@
     <Compile Include="Builder\AbstractTestCaseBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
+    <Compile Include="Builder\StructureSubsetOfBuilder.cs" />
     <Compile Include="Builder\StructureLinkedToBuilder.cs" />
     <Compile Include="Builder\StructureExistsBuilder.cs" />
     <Compile Include="Builder\StructureContainsBuilder.cs" />
@@ -75,9 +76,9 @@
     <Compile Include="Builder\ITestCaseBuilder.cs" />
     <Compile Include="Builder\MembersCountBuilder.cs" />
     <Compile Include="Builder\ExecutionEqualToBuilder.cs" />
-    <Compile Include="Structure\Contains\ContainsEquivalentConstraint.cs" />
-    <Compile Include="Structure\Contains\ContainsItemConstraint.cs" />
-    <Compile Include="Structure\Contains\ContainsSubsetConstraint.cs" />
+    <Compile Include="Structure\EquivalentToConstraint.cs" />
+    <Compile Include="Structure\CollectionItemConstraint.cs" />
+    <Compile Include="Structure\SubsetOfConstraint.cs" />
     <Compile Include="Structure\LinkedToConstraint.cs" />
     <Compile Include="Structure\DescriptionStructureHelper.cs" />
     <Compile Include="TestCase.cs" />
@@ -87,7 +88,6 @@
     <Compile Include="Member\CountConstraint.cs" />
     <Compile Include="Query\EqualToConstraint.cs" />
     <Compile Include="Member\OrderedConstraint.cs" />
-    <Compile Include="Structure\ContainsConstraint.cs" />
     <Compile Include="FluentInterface\Is.cs" />
     <Compile Include="Structure\ExistsConstraint.cs" />
     <Compile Include="Query\SyntacticallyCorrectConstraint.cs" />

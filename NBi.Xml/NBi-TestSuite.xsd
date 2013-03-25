@@ -253,6 +253,21 @@
 												<xs:attribute name="not" type="xs:boolean" use="optional" />
 											</xs:complexType>
 										</xs:element>
+										<xs:element name="subsetOf">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:simpleContent>
+																<xs:extension base="xs:string"/>
+															</xs:simpleContent>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+												<xs:attribute name="not" type="xs:boolean" use="optional" />
+											</xs:complexType>
+										</xs:element>
 										<xs:element name="exists">
 											<xs:complexType>
 												<xs:simpleContent>

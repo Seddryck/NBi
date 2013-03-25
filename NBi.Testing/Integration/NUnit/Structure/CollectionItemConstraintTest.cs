@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Integration.NUnit.Structure
 {
     [TestFixture]
-    public class ContainsConstraintTest
+    public class CollectionItemConstraintTest
     {
 
         #region SetUp & TearDown
@@ -39,7 +39,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
         #endregion
 
         [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindExistingPerspective_Success()
+        public void Matches_ExpectedContainedInActual_Success()
         {
             var discovery = new DiscoveryRequestFactory().Build(
                         ConnectionStringReader.GetAdomd()
@@ -47,7 +47,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null, null, null
                         );
 
-            var ctr = new ContainsConstraint("Adventure Works");
+            var ctr = new CollectionItemConstraint("Adventure Works");
 
             //Method under test
             Assert.That(discovery, ctr);
@@ -55,7 +55,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
         }
 
         [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindNonExistingPerspective_Failure()
+        public void Matches_ExpectedNotContainedInActual_Failure()
         {
             var discovery = new DiscoveryRequestFactory().Build(
                         ConnectionStringReader.GetAdomd()
@@ -63,130 +63,13 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null, null, null
                         );
 
-            var ctr = new ContainsConstraint("Not existing");
+            var ctr = new CollectionItemConstraint("Not existing");
 
             //Method under test
             Assert.That(ctr.Matches(discovery), Is.False);
         }
 
-        [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindAllExistingPerspectives_Success()
-        {
-            var discovery = new DiscoveryRequestFactory().Build(
-                        ConnectionStringReader.GetAdomd()
-                        , DiscoveryTarget.Perspectives
-                        , null, null, null, null, null, null, null
-                        );
-
-            var expected = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
-            var ctr = new ContainsConstraint(expected);
-            ctr = ctr.Exactly;
-
-            //Method under test
-            Assert.That(discovery, ctr);
-
-        }
-
-        [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindAllExistingPerspectivesOneMissing_Failure()
-        {
-            var discovery = new DiscoveryRequestFactory().Build(
-                        ConnectionStringReader.GetAdomd()
-                        , DiscoveryTarget.Perspectives
-                        , null, null, null, null, null, null, null
-                        );
-
-            var expectedStrings = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
-            var expected = new List<string>();
-            expected.AddRange(expectedStrings);
-            expected.RemoveAt(0);
-            var ctr = new ContainsConstraint(expected);
-            ctr = ctr.Exactly;
-
-            //Method under test
-            Assert.That(ctr.Matches(discovery), Is.False);
-
-        }
-
-        [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindAllExistingPerspectivesOneMore_Failure()
-        {
-            var discovery = new DiscoveryRequestFactory().Build(
-                        ConnectionStringReader.GetAdomd()
-                        , DiscoveryTarget.Perspectives
-                        , null, null, null, null, null, null, null
-                        );
-
-            var expectedStrings = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
-            var expected = new List<string>();
-            expected.AddRange(expectedStrings);
-            expected.Add("Unexpected");
-            var ctr = new ContainsConstraint(expected);
-            ctr = ctr.Exactly;
-
-            //Method under test
-            Assert.That(ctr.Matches(discovery), Is.False);
-
-        }
-
-        [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindSubsetExistingPerspectives_Success()
-        {
-            var discovery = new DiscoveryRequestFactory().Build(
-                        ConnectionStringReader.GetAdomd()
-                        , DiscoveryTarget.Perspectives
-                        , null, null, null, null, null, null, null
-                        );
-
-            var expected = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
-            var ctr = new ContainsConstraint(expected);
-            ctr = ctr.Exactly;
-
-            //Method under test
-            Assert.That(discovery, ctr);
-
-        }
-
-        [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindSubsetExistingPerspectivesOneMissing_Failure()
-        {
-            var discovery = new DiscoveryRequestFactory().Build(
-                        ConnectionStringReader.GetAdomd()
-                        , DiscoveryTarget.Perspectives
-                        , null, null, null, null, null, null, null
-                        );
-
-            var expectedStrings = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
-            var expected = new List<string>();
-            expected.AddRange(expectedStrings);
-            expected.RemoveAt(0);
-            
-            var ctr = new ContainsConstraint(expected);
-
-            //Method under test
-            Assert.That(ctr.Matches(discovery), Is.False);
-
-        }
-
-        [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindSubsetExistingPerspectivesOneMore_Failure()
-        {
-            var discovery = new DiscoveryRequestFactory().Build(
-                        ConnectionStringReader.GetAdomd()
-                        , DiscoveryTarget.Perspectives
-                        , null, null, null, null, null, null, null
-                        );
-
-            var expectedStrings = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
-            var expected = new List<string>();
-            expected.AddRange(expectedStrings);
-            expected.Add("My new perspective");
-
-            var ctr = new ContainsConstraint(expected);
-
-            //Method under test
-            Assert.That(ctr.Matches(discovery), Is.True);
-        }
+       ///Dimension !!!!
 
         [Test, Category("Olap cube")]
         public void ContainsConstraint_FindExistingDimension_Success()
@@ -198,7 +81,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null, null
                         );
 
-            var ctr = new ContainsConstraint("Product");
+            var ctr = new CollectionItemConstraint("Product");
 
             //Method under test
             Assert.That(discovery, ctr);
@@ -215,7 +98,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null, null
                         );
 
-            var ctr = new ContainsConstraint("Not existing");
+            var ctr = new CollectionItemConstraint("Not existing");
 
             //Method under test
             Assert.That(ctr.Matches(discovery), Is.False);
@@ -233,9 +116,9 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , "Product"
                         , null, null
                         );
-                        
 
-            var ctr = new ContainsConstraint("Product Model Lines");
+
+            var ctr = new CollectionItemConstraint("Product Model Lines");
 
             //Method under test
             Assert.That(discovery, ctr);
@@ -254,7 +137,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null
                         );
 
-            var ctr = new ContainsConstraint("Not existing");
+            var ctr = new CollectionItemConstraint("Not existing");
 
             //Method under test
             Assert.That(ctr.Matches(discovery), Is.False);
@@ -274,7 +157,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null
                         );
 
-            var ctr = new ContainsConstraint("City");
+            var ctr = new CollectionItemConstraint("City");
 
             //Method under test
             Assert.That(discovery, ctr);
@@ -294,7 +177,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null
                         );
 
-            var ctr = new ContainsConstraint("Not existing");
+            var ctr = new CollectionItemConstraint("Not existing");
 
             //Method under test
             Assert.That(ctr.Matches(discovery), Is.False);
@@ -310,7 +193,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null, null
                         );
 
-            var ctr = new ContainsConstraint("Reseller Orders");
+            var ctr = new CollectionItemConstraint("Reseller Orders");
 
             //Method under test
             Assert.That(discovery, ctr);
@@ -327,7 +210,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null, null
                         );
 
-            var ctr = new ContainsConstraint("Not existing");
+            var ctr = new CollectionItemConstraint("Not existing");
 
             //Method under test
             Assert.That(ctr.Matches(discovery), Is.False);
@@ -344,7 +227,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null
                         );
 
-            var ctr = new ContainsConstraint("Reseller Order Count");
+            var ctr = new CollectionItemConstraint("Reseller Order Count");
 
             //Method under test
             Assert.That(discovery, ctr);
@@ -362,7 +245,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                          , null, null, null, null, null
                          );
 
-            var ctr = new ContainsConstraint("Not existing");
+            var ctr = new CollectionItemConstraint("Not existing");
 
             //Method under test
             Assert.That(ctr.Matches(discovery), Is.False);
@@ -379,7 +262,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null
                         );
 
-            var ctr = new ContainsConstraint("Reseller Order Count");
+            var ctr = new CollectionItemConstraint("Reseller Order Count");
 
             //Method under test
             Assert.That(discovery, ctr);
@@ -397,7 +280,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                          , null, null, null, null, null
                          );
 
-            var ctr = new ContainsConstraint("Not existing");
+            var ctr = new CollectionItemConstraint("Not existing");
 
             //Method under test
             Assert.That(ctr.Matches(discovery), Is.False);

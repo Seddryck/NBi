@@ -187,7 +187,6 @@
     <EmbeddedResource Include="Unit\Xml\Resources\LinkedToXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\HierarchyXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\AssemblyXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\ContainsTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\DescriptionXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultAssert.xml" />
@@ -208,8 +207,8 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SelectAllProducts.sql" />
     <EmbeddedResource Include="Unit\Xml\Resources\QueryFile.sql" />
     <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerSample.xml" />
-	<EmbeddedResource Include="Unit\Xml\Resources\FasterThanXmlTestSuite.xml" />
-	<EmbeddedResource Include="Unit\Xml\Resources\SubsetOfXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\FasterThanXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\SubsetOfXmlTestSuite.xml" />
     <!--Acceptance Ressources-->
     <EmbeddedResource Include="Acceptance\Resources\QueryEqualToResultSet.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

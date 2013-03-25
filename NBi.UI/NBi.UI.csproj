@@ -229,6 +229,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Templates\SubsetOfMeasures.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\SubsetOfDimensions.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\SubsetOfMeasureGroup.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\SubsetOfLevels.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\SubsetOfPerspectives.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /Y /S /I "$(ProjectDir)..\packages\NUnit.Runners.2.6.2\tools" "$(TargetDir)NUnit.Runners"</PostBuildEvent>

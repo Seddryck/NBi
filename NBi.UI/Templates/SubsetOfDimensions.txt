@@ -1,6 +1,6 @@
-﻿<test name="Dimensions '$dimension$' in perspective '$perspective$' are a subset of these $length(dimension)$ elements">
+﻿<test name="All dimensions in perspective '$perspective$' are a subset of these $length(dimension)$ elements">
 	<description>
-		Verify that all the dimensions visible throw perspective '$perspective$' are in the following list of $length(hierarchies)$ expected dimensions: $hierarchy; separator=", "$
+		Verify that all the dimensions visible throw perspective '$perspective$' are in the following list of $length(dimension)$ expected dimensions: $dimension; separator=", "$.
 	</description>
 	<edition author="$username$" created="$now$"/>
 	<system-under-test>

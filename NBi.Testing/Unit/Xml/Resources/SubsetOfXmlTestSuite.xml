@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="hierarchy contains members belonging to the set defined (implicitely ignoring case)">
+		<system-under-test>
+			<members>
+				<hierarchy dimension="dimension" caption="hierarchy" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<subsetOf>
+				<item>First Item</item>
+				<item>Second Item</item>
+			</subsetOf>
+		</assert>
+	</test>
+	<test name="hierarchy contains members belonging to the set defined (explicitely not ignoring case)">
+		<system-under-test>
+			<members>
+				<hierarchy dimension="dimension" caption="hierarchy" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<subsetOf
+				ignore-case="true"
+			>
+				<item>First Item</item>
+				<item>Second Item</item>
+			</subsetOf>
+		</assert>
+	</test>
+	<test name="All hierarchies of dimension 'alpha' belongs to the set defined">
+		<system-under-test>
+			<structure>
+				<dimension caption="alpha" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<subsetOf>
+				<item>First Item</item>
+				<item>Second Item</item>
+			</subsetOf>
+		</assert>
+	</test>
+</testSuite>

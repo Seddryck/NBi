@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NBiMember = NBi.NUnit.Member;
 using NBiStructure = NBi.NUnit.Structure;
 using NF = NUnit.Framework;
@@ -47,9 +47,15 @@ namespace NBi.NUnit.FluentInterface
             return ctr;
         }
 
-        public static NBiStructure.ContainsConstraint Structure(string value)
+        public static NBiStructure.CollectionItemConstraint Item(string value)
         {
-            var ctr = new NBiStructure.ContainsConstraint(value);
+            var ctr = new NBiStructure.CollectionItemConstraint(value);
+            return ctr;
+        }
+
+        public static NBiStructure.EquivalentToConstraint ExactlyItems(IEnumerable<string> values)
+        {
+            var ctr = new NBiStructure.EquivalentToConstraint(values);
             return ctr;
         }
     }

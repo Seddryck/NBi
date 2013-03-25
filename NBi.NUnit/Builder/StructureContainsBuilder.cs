@@ -36,21 +36,26 @@ namespace NBi.NUnit.Builder
 
         protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(ContainsXml ctrXml)
         {
-            NBi.NUnit.Structure.ContainsConstraint ctr=null;
+            global::NUnit.Framework.Constraints.Constraint ctr = null;
 
             if (ctrXml.Items.Count==1)
-                ctr = new NBi.NUnit.Structure.ContainsConstraint(ctrXml.Caption);
+                ctr = new NBi.NUnit.Structure.CollectionItemConstraint(ctrXml.Caption);
             else
-                ctr = new NBi.NUnit.Structure.ContainsConstraint(ctrXml.Items);
+                ctr = new NBi.NUnit.Structure.EquivalentToConstraint(ctrXml.Items);
 
-            //Ignore-case if requested
-            if (ctrXml.IgnoreCase)
-                ctr = ctr.IgnoreCase;
+            if (ctr is NBi.NUnit.Structure.CollectionItemConstraint)
+            {
+                //Ignore-case if requested
+                if (ctrXml.IgnoreCase)
+                    ctr = ((NBi.NUnit.Structure.CollectionItemConstraint)ctr).IgnoreCase;
+            }
 
-            //Exactly
-            if (ctrXml.Exactly)
-                ctr = ctr.Exactly;
-
+            if (ctr is NBi.NUnit.Structure.EquivalentToConstraint)
+            {
+                //Ignore-case if requested
+                if (ctrXml.IgnoreCase)
+                    ctr = ((NBi.NUnit.Structure.EquivalentToConstraint)ctr).IgnoreCase;
+            }
             return ctr;
         }
 

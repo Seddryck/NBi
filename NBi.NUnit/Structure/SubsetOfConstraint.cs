@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using NBi.Core;
 using NBi.Core.Analysis.Metadata;
 using NBi.Core.Analysis.Metadata.Adomd;
@@ -11,18 +12,16 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Structure
 {
-    public class ContainsConstraint : NUnitCtr.Constraint
+    public class SubsetOfConstraint : NUnitCtr.CollectionSubsetConstraint
     {
-        protected internal NUnitCtr.CollectionItemsEqualConstraint RealConstraint;
-        protected internal object Expected;
-        protected AdomdDiscoveryCommandFactory commandFactory;
-        protected IComparer comparer;
-        
-        
+        public IComparer Comparer { get; set; }
+        protected internal IEnumerable<string> Expected;
+        protected AdomdDiscoveryCommandFactory commandFactory;       
+
         /// <summary>
         /// Request for metadata extraction
         /// </summary>
-        public MetadataDiscoveryRequest Request {get; protected set;}
+        public MetadataDiscoveryRequest Request { get; protected set; }
 
         /// <summary>
         /// Engine dedicated to MetadataExtractor acquisition
@@ -45,74 +44,50 @@ namespace NBi.NUnit.Structure
         }
 
         /// <summary>
-        /// Construct a CollectionContainsConstraint
+        /// Construct a CollectionSubsetConstraint
         /// </summary>
         /// <param name="expected"></param>
-        public ContainsConstraint(string expected)
+        public SubsetOfConstraint(IEnumerable<string> expected)
+            : base(expected.Select(str => StringComparerHelper.Build(str)))
         {
             this.Expected = expected;
-            RealConstraint = new Contains.ContainsItemConstraint(expected, this);
-            comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(true);
-        }
-
-        /// <summary>
-        /// Construct a CollectionContainsConstraint
-        /// </summary>
-        /// <param name="expected"></param>
-        public ContainsConstraint(IEnumerable<string> expected)
-        {
-            this.Expected = expected;
-            RealConstraint = new Contains.ContainsSubsetConstraint(expected, this);
-            comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(true);
+            Comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(true);
+            base.Using(Comparer); 
         }
 
         #region Modifiers
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
-        public ContainsConstraint IgnoreCase
+        public new SubsetOfConstraint IgnoreCase
         {
             get
             {
-                comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(false);
+                Comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(false);
                 return this;
             }
         }
-
-        public ContainsConstraint Exactly
-        {
-            get
-            {
-                if (Expected is IEnumerable<string>)
-                    RealConstraint = new Contains.ContainsEquivalentConstraint((IEnumerable<string>)Expected, this);
-                else
-                    throw new ArgumentException();
-
-                return this;
-            }
-        }
-
 
         #endregion
 
+        #region Specific NUnit
         public override bool Matches(object actual)
         {
             if (actual is MetadataDiscoveryRequest)
                 return Process((MetadataDiscoveryRequest)actual);
             else
             {
-                RealConstraint = RealConstraint.Using(comparer);
-                var res = RealConstraint.Matches(actual);
-                return res; 
+                var res = base.Matches(actual);
+                return res;
             }
         }
 
         public bool doMatch(IEnumerable<IField> actual)
         {
-            return RealConstraint.Matches(actual);
+            return this.Matches(actual);
         }
 
-        
+
         protected bool Process(MetadataDiscoveryRequest actual)
         {
             Request = actual;
@@ -121,6 +96,7 @@ namespace NBi.NUnit.Structure
             IEnumerable<IField> structures = command.Execute();
             return this.Matches(structures);
         }
+        #endregion
 
         /// <summary>
         /// Write a description of the constraint to a MessageWriter
@@ -128,17 +104,31 @@ namespace NBi.NUnit.Structure
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
-            RealConstraint.WriteDescriptionTo(writer);
+            if (Request != null)
+            {
+                var description = new DescriptionStructureHelper();
+                var filterExpression = description.GetFilterExpression(Request.GetAllFilters());
+                var nextTargetExpression = description.GetNextTargetPluralExpression(Request.Target);
+                var expectationExpression = new StringBuilder();
+                foreach (string item in Expected)
+                    expectationExpression.AppendFormat("<{0}>, ", item);
+                expectationExpression.Remove(expectationExpression.Length - 2, 2);
+
+                writer.WritePredicate(string.Format("All {0} are defined in the set '{1}' for {2}",
+                    nextTargetExpression,
+                    expectationExpression.ToString(),
+                    filterExpression));
+            }
+            else
+                base.WriteDescriptionTo(writer);
         }
 
-        /// <summary>
-        /// Write the actual values of the constraint to a MessageWriter
-        /// </summary>
-        /// <param name="writer"></param>
         public override void WriteActualValueTo(MessageWriter writer)
         {
-            RealConstraint.WriteActualValueTo(writer);
+            if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() > 0)
+                base.WriteActualValueTo(writer);
+            else
+                writer.WriteActualValue(new WriterHelper.NothingFoundMessage());
         }
-
     }
 }

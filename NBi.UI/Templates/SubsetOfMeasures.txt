@@ -5,7 +5,7 @@
 	<edition author="$username$" created="$now$"/>
 	<system-under-test>
 		<structure>	
-			<measure-group caption="$measuregroup$" perspective="$perspective$"/>
+			<measures measure-group="$measuregroup$" perspective="$perspective$"/>
 		</structure>
 	</system-under-test>
 	<assert>

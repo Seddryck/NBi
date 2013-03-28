@@ -81,11 +81,12 @@ namespace NBi.Xml
         XmlArrayItem(Type = typeof(FasterThanXml), ElementName = "fasterThan"),
         XmlArrayItem(Type = typeof(EqualToXml), ElementName = "equalTo"),
         XmlArrayItem(Type = typeof(CountXml), ElementName = "count"),
-        XmlArrayItem(Type = typeof(ContainsXml), ElementName = "contains"),
+        XmlArrayItem(Type = typeof(ContainXml), ElementName = "contain"),
         XmlArrayItem(Type = typeof(ExistsXml), ElementName = "exists"),
         XmlArrayItem(Type = typeof(OrderedXml), ElementName = "ordered"),
         XmlArrayItem(Type = typeof(LinkedToXml), ElementName = "linkedTo"),
-        XmlArrayItem(Type = typeof(SubsetOfXml), ElementName = "subsetOf")
+        XmlArrayItem(Type = typeof(SubsetOfXml), ElementName = "subsetOf"),
+        XmlArrayItem(Type = typeof(EquivalentToXml), ElementName = "equivalentTo")
         ]
         public List<AbstractConstraintXml> Constraints;
 

@@ -50,7 +50,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = new MembersXml();
             var item = new HierarchyXml();
             sutXml.Item = item;
-            var ctrXml = new ContainsXml();
+            var ctrXml = new ContainXml();
 
             var discoFactoStubFactory = new Mock<DiscoveryRequestFactory>();
             discoFactoStubFactory.Setup(dfs =>
@@ -64,12 +64,12 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     .Returns(new MembersDiscoveryRequest());
             var discoFactoStub = discoFactoStubFactory.Object;
 
-            var builder = new MembersContainsBuilder(discoFactoStub);
+            var builder = new MembersContainBuilder(discoFactoStub);
             builder.Setup(sutXml, ctrXml);
             builder.Build();
             var ctr = builder.GetConstraint();
 
-            Assert.That(ctr, Is.InstanceOf<ContainsConstraint>());
+            Assert.That(ctr, Is.InstanceOf<ContainConstraint>());
         }
 
         [Test]
@@ -86,7 +86,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             item.Perspective = "perspective";
             item.Dimension = "dimension";
             item.Caption = "hierarchy";
-            var ctrXml = new ContainsXml();
+            var ctrXml = new ContainXml();
 
             var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();
             discoFactoMockFactory.Setup(dfs =>
@@ -100,7 +100,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     .Returns(new MembersDiscoveryRequest());
             var discoFactoMock = discoFactoMockFactory.Object;
 
-            var builder = new MembersContainsBuilder(discoFactoMock);
+            var builder = new MembersContainBuilder(discoFactoMock);
             builder.Setup(sutXml, ctrXml);
             builder.Build();
             var sut = builder.GetSystemUnderTest();
@@ -121,7 +121,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             item.Perspective = "perspective";
             item.Dimension = "dimension";
             item.Caption = "hierarchy";
-            var ctrXml = new ContainsXml();
+            var ctrXml = new ContainXml();
             ctrXml.Caption = "caption";
 
             var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();
@@ -136,7 +136,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     .Returns(new MembersDiscoveryRequest());
             var discoFactoMock = discoFactoMockFactory.Object;
 
-            var builder = new MembersContainsBuilder(discoFactoMock);
+            var builder = new MembersContainBuilder(discoFactoMock);
             builder.Setup(sutXml, ctrXml);
             builder.Build();
             var sut = builder.GetSystemUnderTest();
@@ -157,7 +157,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             item.Dimension = "dimension";
             item.Hierarchy = "hierarchy";
             item.Caption = "level";
-            var ctrXml = new ContainsXml();
+            var ctrXml = new ContainXml();
             ctrXml.Items.Add("caption 1");
             ctrXml.Items.Add("caption 2");
 
@@ -173,7 +173,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     .Returns(new MembersDiscoveryRequest());
             var discoFactoMock = discoFactoMockFactory.Object;
 
-            var builder = new MembersContainsBuilder(discoFactoMock);
+            var builder = new MembersContainBuilder(discoFactoMock);
             builder.Setup(sutXml, ctrXml);
             builder.Build();
             var sut = builder.GetSystemUnderTest();
@@ -192,7 +192,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             item.ConnectionString = "connectionString";
             item.Perspective = "perspective";
             item.Caption = "dimension";
-            var ctrXml = new ContainsXml();
+            var ctrXml = new ContainXml();
 
             var discoFactoStubFactory = new Mock<DiscoveryRequestFactory>();
             discoFactoStubFactory.Setup(dfs =>
@@ -206,7 +206,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     .Returns(new MembersDiscoveryRequest());
             var discoFactoMock = discoFactoStubFactory.Object;
 
-            var builder = new MembersContainsBuilder(discoFactoMock);
+            var builder = new MembersContainBuilder(discoFactoMock);
             builder.Setup(sutXml, ctrXml);
 
             Assert.Throws<ArgumentOutOfRangeException>(delegate { builder.Build(); });

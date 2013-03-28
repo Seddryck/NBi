@@ -94,6 +94,7 @@ namespace NBi.NUnit.Structure
             var factory = GetFactory();
             var command = factory.BuildExact(actual);
             IEnumerable<IField> structures = command.Execute();
+            this.actual = structures;
             return this.Matches(structures);
         }
         #endregion

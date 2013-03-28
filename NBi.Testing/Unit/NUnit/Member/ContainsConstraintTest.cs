@@ -33,7 +33,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meMock.Object;
 
-            var containsConstraint = new ContainsConstraint(exp) { MemberEngine = me };
+            var containsConstraint = new ContainConstraint(exp) { MemberEngine = me };
 
             //Method under test
             containsConstraint.Matches(cmd);
@@ -66,7 +66,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meStub.Object;
 
-            var containsConstraint = new ContainsConstraint(exp) { MemberEngine = me };
+            var containsConstraint = new ContainConstraint(exp) { MemberEngine = me };
 
             //Method under test
             string assertionText = null;
@@ -112,7 +112,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meStub.Object;
 
-            var containsConstraint = new ContainsConstraint(exp) { MemberEngine = me };
+            var containsConstraint = new ContainConstraint(exp) { MemberEngine = me };
 
             //Method under test
             string assertionText = null;

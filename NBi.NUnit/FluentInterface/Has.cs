@@ -14,15 +14,15 @@ namespace NBi.NUnit.FluentInterface
         {
         }
 
-        public static NBiMember.ContainsConstraint Member(string value)
+        public static NBiMember.ContainConstraint Member(string value)
         {
-            var ctr = new NBiMember.ContainsConstraint(value);
+            var ctr = new NBiMember.ContainConstraint(value);
             return ctr;
         }
 
-        public static NBiMember.ContainsConstraint Members(IEnumerable<string> values)
+        public static NBiMember.ContainConstraint Members(IEnumerable<string> values)
         {
-            var ctr = new NBiMember.ContainsConstraint(values);
+            var ctr = new NBiMember.ContainConstraint(values);
             return ctr;
         }
 
@@ -47,9 +47,9 @@ namespace NBi.NUnit.FluentInterface
             return ctr;
         }
 
-        public static NBiStructure.CollectionItemConstraint Item(string value)
+        public static NBiStructure.ContainConstraint Item(string value)
         {
-            var ctr = new NBiStructure.CollectionItemConstraint(value);
+            var ctr = new NBiStructure.ContainConstraint(value);
             return ctr;
         }
 

@@ -85,7 +85,7 @@
     <Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
     <Compile Include="Integration\NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\FasterThanConstraintTest.cs" />
-    <Compile Include="Integration\NUnit\Structure\CollectionItemConstraintTest.cs" />
+    <Compile Include="Integration\NUnit\Structure\ContainConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\SubsetOfConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\EquivalentToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\LinkedToConstraintTest.cs" />
@@ -113,6 +113,7 @@
     <Compile Include="Unit\Core\ResultSet\ResultSetWriterTest.cs" />
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\StructureEquivalentToBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\QuerySyntacticallyCorrectBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\QueryFasterThanBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\QueryEqualsToBuilderTest.cs" />
@@ -120,14 +121,14 @@
     <Compile Include="Unit\NUnit\Builder\MembersContainsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersOrderedBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersCountBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\StructureContainsBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\MemberContainsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\MemberContainConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\CountConstraintTest.cs" />
     <Compile Include="Unit\NUnit\FasterThanConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\ContainsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\OrderedConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Runtime\TestSuiteTest.cs" />
-    <Compile Include="Unit\NUnit\Structure\CollectionItemConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Structure\ContainConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Structure\SubsetOfConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Structure\EquivalentToConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Structure\ExistsConstraintTest.cs" />
@@ -140,12 +141,13 @@
     <Compile Include="Unit\Xml\Constraints\FasterThanXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\HierarchiesXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\HierarchyXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\AssemblyXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\MeasureXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\OrderedXmlTest.cs" />
     <Compile Include="Unit\Xml\IgnoreXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\ContainsXmlTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\ContainXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\CountXmlTest.cs" />
     <Compile Include="Unit\Xml\Systems\MembersXmlTest.cs" />
     <Compile Include="Unit\Xml\Systems\StructureXmlTest.cs" />
@@ -183,6 +185,7 @@
     <MyOptionalItems Include="ConnectionString.user.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\HierarchiesXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Core\ResultSet\Resources\ResultDataSet.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\LinkedToXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\HierarchyXmlTestSuite.xml" />
@@ -195,7 +198,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\MeasureXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\IgnoreXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\OrderedXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\ContainsXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\ContainXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\CountXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\MembersXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\StructureXmlTestSuite.xml" />
@@ -228,7 +231,7 @@
     <EmbeddedResource Include="Acceptance\Resources\Count.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Contains.xml">
+    <EmbeddedResource Include="Acceptance\Resources\Contain.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\FasterThan.xml">
@@ -243,13 +246,16 @@
     <EmbeddedResource Include="Acceptance\Resources\AssemblyEqualToResultSet.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\ContainsStructure.xml">
+    <EmbeddedResource Include="Acceptance\Resources\ContainStructure.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\LinkedTo.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\SubsetOfStructure.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\EquivalentToStructure.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="NBi.Testing.sql" />

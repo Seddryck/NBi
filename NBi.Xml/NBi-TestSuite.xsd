@@ -119,6 +119,12 @@
 													<xs:element name="dimension" type="dimension-type"/>
 													<xs:element name="hierarchy" type="hierarchy-type"/>
 													<xs:element name="level" type="level-type"/>
+													<xs:element name="perspectives" type="perspectives-type"/>
+													<xs:element name="measure-groups" type="measure-groups-type"/>
+													<xs:element name="measures" type="measures-type"/>
+													<xs:element name="dimensions" type="dimensions-type"/>
+													<xs:element name="hierarchies" type="hierarchies-type"/>
+													<xs:element name="levels" type="levels-type"/>
 												</xs:choice>
 											</xs:complexType>
 										</xs:element>
@@ -236,7 +242,7 @@
 												</xs:simpleContent>
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="contains">
+										<xs:element name="contain">
 											<xs:complexType>
 												<xs:sequence>
 													<xs:element name="item" minOccurs="0" maxOccurs="unbounded">
@@ -249,7 +255,21 @@
 												</xs:sequence>
 												<xs:attribute name="caption" type="xs:string" use="optional" />
 												<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
-												<xs:attribute name="exactly" type="xs:boolean" use="optional" />
+												<xs:attribute name="not" type="xs:boolean" use="optional" />
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="equivalentTo">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:simpleContent>
+																<xs:extension base="xs:string"/>
+															</xs:simpleContent>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
 												<xs:attribute name="not" type="xs:boolean" use="optional" />
 											</xs:complexType>
 										</xs:element>
@@ -397,6 +417,47 @@
 	<xs:complexType name="level-type">
 		<xs:complexContent>
 			<xs:extension base="dimension-type">
+				<xs:attribute name="dimension" type="xs:string" use="required" />
+				<xs:attribute name="hierarchy" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="perspectives-type">
+		<xs:attribute name="connectionString" type="xs:string" use="optional" />
+	</xs:complexType>
+	<xs:complexType name="measure-groups-type">
+		<xs:complexContent>
+			<xs:extension base="perspectives-type">
+				<xs:attribute name="perspective" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="measures-type">
+		<xs:complexContent>
+			<xs:extension base="measure-groups-type">
+				<xs:attribute name="measure-group" type="xs:string" use="optional" />
+				<xs:attribute name="display-folder" type="xs:string" use="optional" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="dimensions-type">
+		<xs:complexContent>
+			<xs:extension base="perspectives-type">
+				<xs:attribute name="perspective" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="hierarchies-type">
+		<xs:complexContent>
+			<xs:extension base="dimensions-type">
+				<xs:attribute name="dimension" type="xs:string" use="required" />
+				<xs:attribute name="display-folder" type="xs:string" use="optional" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="levels-type">
+		<xs:complexContent>
+			<xs:extension base="dimensions-type">
 				<xs:attribute name="dimension" type="xs:string" use="required" />
 				<xs:attribute name="hierarchy" type="xs:string" use="required" />
 			</xs:extension>

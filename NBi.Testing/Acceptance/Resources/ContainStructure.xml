@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033</connectionString>
+		</default>
+	</settings>
+	<test name="The dimension 'employee' has a hierarchy named 'Sick Leave Hours'" uid="0002">
+		<system-under-test>
+			<structure>
+				<hierarchies dimension="Employee" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<contain caption="Sick Leave Hours"/>
+		</assert>
+	</test>
+	<test name="In dimension 'employee', we find at least this list of hierarchies" uid="0002">
+		<system-under-test>
+			<structure>
+				<hierarchies dimension="Employee" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<contain>
+				<item>Base Rate</item>
+				<item>Department Name</item>
+				<item>Employee Department</item>
+				<item>Employees</item>
+				<item>End Date</item>
+			</contain>
+		</assert>
+	</test>
+</testSuite>

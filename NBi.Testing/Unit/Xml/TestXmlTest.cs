@@ -115,18 +115,19 @@ namespace NBi.Testing.Unit.Xml
         }
 
         [Test]
-        public void Deserialize_SampleFile_ContainsNotAttributeCorrectlyRead()
+        public void Deserialize_SampleFile_ContainNotAttributeCorrectlyRead()
         {
             int testNr = 4;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<ContainsXml>());
-            Assert.That(((ContainsXml)ts.Tests[testNr].Constraints[0]).Not, Is.EqualTo(true));
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<ContainXml>());
+            Assert.That(((ContainXml)ts.Tests[testNr].Constraints[0]).Not, Is.EqualTo(true));
         }
 
         [Test]
+        [Ignore]
         public void Deserialize_SampleFile_TimeoutAttributeCorrectlyRead()
         {
             int testNr = 5;

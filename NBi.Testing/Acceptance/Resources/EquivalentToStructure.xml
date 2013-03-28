@@ -5,37 +5,14 @@
 			<connectionString>Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033</connectionString>
 		</default>
 	</settings>
-	<test name="In dimension 'Customers', the hierarchy 'State-Provinces' contains exactly two levels 'State-Provinces' and '(All)'" uid="0001">
+	<test name="The dimension 'employee' is equivalent to the list of 18 hierarchies defined" uid="0000">
 		<system-under-test>
 			<structure>
-				<hierarchy dimension="Customer" caption="State-Province" perspective="Adventure Works"/>
+				<hierarchies dimension="Employee" perspective="Adventure Works"/>
 			</structure>
 		</system-under-test>
 		<assert>
-			<contains exactly="true">
-				<item>State-Province</item>
-				<item>(All)</item>
-			</contains>
-		</assert>
-	</test>
-	<test name="The dimension 'employee' contains the hierarchy named 'Sick Leave Hours'" uid="0002">
-		<system-under-test>
-			<structure>
-				<dimension  caption="Employee" perspective="Adventure Works"/>
-			</structure>
-		</system-under-test>
-		<assert>
-			<contains caption="Sick Leave Hours"/>
-		</assert>
-	</test>
-	<test name="The dimension 'employee' contains maximum the list of hierarchies defined" uid="0002">
-		<system-under-test>
-			<structure>
-				<dimension  caption="Employee" perspective="Adventure Works"/>
-			</structure>
-		</system-under-test>
-		<assert>
-			<contains>
+			<equivalentTo>
 				<item>Base Rate</item>
 				<item>Department Name</item>
 				<item>Employee Department</item>
@@ -54,7 +31,7 @@
 				<item>Status</item>
 				<item>Title</item>
 				<item>Vacation Hours</item>
-			</contains>
+			</equivalentTo>
 		</assert>
 	</test>
 </testSuite>

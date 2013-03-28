@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Unit.NUnit.Structure
 {
     [TestFixture]
-    public class CollectionItemConstraintTest
+    public class ContainConstraintTest
     {
         [Test]
         public void Matches_GivenDiscoveryRequest_FactoryCalledOnceWithParametersComingFromRequest()
@@ -38,7 +38,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                 .Returns(commandStub.Object);
             var factory = factoryMock.Object;
 
-            var containsConstraint = new CollectionItemConstraint(exp) { CommandFactory = factory };
+            var containsConstraint = new ContainConstraint(exp) { CommandFactory = factory };
 
             //Method under test
             containsConstraint.Matches(request);
@@ -75,7 +75,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                 .Returns(commandMock.Object);
             var factory = factoryStub.Object;
 
-            var containsConstraint = new CollectionItemConstraint(exp) { CommandFactory = factory };
+            var containsConstraint = new ContainConstraint(exp) { CommandFactory = factory };
 
             //Method under test
             containsConstraint.Matches(request);
@@ -112,7 +112,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                 .Returns(commandStub.Object);
             var factory = factoryStub.Object;
 
-            var containsConstraint = new CollectionItemConstraint(exp) { CommandFactory = factory };
+            var containsConstraint = new ContainConstraint(exp) { CommandFactory = factory };
 
             //Method under test
             string assertionText = null;
@@ -159,7 +159,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                 .Returns(commandStub.Object);
             var factory = factoryStub.Object;
 
-            var containsConstraint = new CollectionItemConstraint(exp) { CommandFactory = factory };
+            var containsConstraint = new ContainConstraint(exp) { CommandFactory = factory };
 
             //Method under test
             string assertionText = null;
@@ -206,7 +206,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                 .Returns(commandStub.Object);
             var factory = factoryStub.Object;
 
-            var containsConstraint = new CollectionItemConstraint(exp) { CommandFactory = factory };
+            var containsConstraint = new ContainConstraint(exp) { CommandFactory = factory };
 
             //Method under test
             string assertionText = null;
@@ -224,6 +224,57 @@ namespace NBi.Testing.Unit.NUnit.Structure
                                             .StringContaining("dimension-caption").And
                                             .StringContaining("hierarchy-caption").And
                                             .StringContaining("Expected level"));
+        }
+
+        [Test]
+        public void WriteTo_FailingAssertionForMultipleHierarchies_TextContainsFewKeyInfo()
+        {
+            var exp = new List<string>();
+            exp.Add("Expected h1");
+            exp.Add("Expected h2");
+
+            var request = new DiscoveryRequestFactory().Build(
+                        "connectionString",
+                        DiscoveryTarget.Hierarchies,
+                        "perspective-name",
+                        null, null, null,
+                        "dimension-caption", null, null);
+
+
+            var elStub = new Mock<IField>();
+            var el1 = elStub.Object;
+            var el2 = elStub.Object;
+            var elements = new List<IField>();
+            elements.Add(el1);
+            elements.Add(el2);
+
+            var commandStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandStub.Setup(f => f.Execute())
+                .Returns(elements);
+
+            var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
+            factoryStub.Setup(f => f.BuildExact(request))
+                .Returns(commandStub.Object);
+            var factory = factoryStub.Object;
+
+            var containsConstraint = new ContainConstraint(exp) { CommandFactory = factory };
+
+            //Method under test
+            string assertionText = null;
+            try
+            {
+                Assert.That(request, containsConstraint);
+            }
+            catch (AssertionException ex)
+            {
+                assertionText = ex.Message;
+            }
+
+            //Test conclusion            
+            Assert.That(assertionText, Is.StringContaining("perspective-name").And
+                                            .StringContaining("dimension-caption").And
+                                            .StringContaining("hierarchies").And
+                                            .Not.StringContaining("Expected h1"));
         }
       
     }

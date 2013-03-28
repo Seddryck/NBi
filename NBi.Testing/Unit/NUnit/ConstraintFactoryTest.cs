@@ -272,7 +272,7 @@ namespace NBi.Testing.Unit.NUnit
         public void IsHandling_QueryContains_False()
         {
             var sutXml = new ExecutionXml();
-            var ctrXml = new ContainsXml();
+            var ctrXml = new ContainXml();
             var testCaseFactory = new TestCaseFactory();
 
             var actual = testCaseFactory.IsHandling(sutXml.GetType(), ctrXml.GetType());
@@ -284,7 +284,7 @@ namespace NBi.Testing.Unit.NUnit
         public void Instantiate_QueryContains_TestCase()
         {
             var sutXml = new ExecutionXml();
-            var ctrXml = new ContainsXml();
+            var ctrXml = new ContainXml();
             var testCaseFactory = new TestCaseFactory();
 
             Assert.Throws<ArgumentException>(delegate { testCaseFactory.Instantiate(sutXml, ctrXml); });
@@ -294,7 +294,7 @@ namespace NBi.Testing.Unit.NUnit
         public void IsHandling_MembersContains_True()
         {
             var sutXml = new MembersXml();
-            var ctrXml = new ContainsXml();
+            var ctrXml = new ContainXml();
             var testCaseFactory = new TestCaseFactory();
 
             var actual = testCaseFactory.IsHandling(sutXml.GetType(), ctrXml.GetType());
@@ -306,17 +306,17 @@ namespace NBi.Testing.Unit.NUnit
         public void Instantiate_MembersContains_ArgumentException()
         {
             var sutXml = new MembersXml();
-            var ctrXml = new ContainsXml();
+            var ctrXml = new ContainXml();
 
             var builderMockFactory = new Mock<ITestCaseBuilder>();
             builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml));
             builderMockFactory.Setup(b => b.Build());
             builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new object());
-            builderMockFactory.Setup(b => b.GetConstraint()).Returns(new NBi.NUnit.Member.ContainsConstraint("expected"));
+            builderMockFactory.Setup(b => b.GetConstraint()).Returns(new NBi.NUnit.Member.ContainConstraint("expected"));
             var builder = builderMockFactory.Object;
 
             var testCaseFactory = new TestCaseFactory();
-            testCaseFactory.Register(typeof(MembersXml), typeof(ContainsXml), builder);
+            testCaseFactory.Register(typeof(MembersXml), typeof(ContainXml), builder);
 
             var tc = testCaseFactory.Instantiate(sutXml, ctrXml);
 
@@ -328,7 +328,7 @@ namespace NBi.Testing.Unit.NUnit
         public void IsHandling_StructureContains_True()
         {
             var sutXml = new StructureXml();
-            var ctrXml = new ContainsXml();
+            var ctrXml = new ContainXml();
             var testCaseFactory = new TestCaseFactory();
 
             var actual = testCaseFactory.IsHandling(sutXml.GetType(), ctrXml.GetType());
@@ -340,16 +340,16 @@ namespace NBi.Testing.Unit.NUnit
         public void Instantiate_StructureContains_ArgumentException()
         {
             var sutXml = new StructureXml();
-            var ctrXml = new ContainsXml();
+            var ctrXml = new ContainXml();
             var builderMockFactory = new Mock<ITestCaseBuilder>();
             builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml));
             builderMockFactory.Setup(b => b.Build());
             builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new object());
-            builderMockFactory.Setup(b => b.GetConstraint()).Returns(new NBi.NUnit.Structure.CollectionItemConstraint("expected"));
+            builderMockFactory.Setup(b => b.GetConstraint()).Returns(new NBi.NUnit.Structure.ContainConstraint("expected"));
             var builder = builderMockFactory.Object;
 
             var testCaseFactory = new TestCaseFactory();
-            testCaseFactory.Register(typeof(StructureXml), typeof(ContainsXml), builder);
+            testCaseFactory.Register(typeof(StructureXml), typeof(ContainXml), builder);
 
             var tc = testCaseFactory.Instantiate(sutXml, ctrXml);
 

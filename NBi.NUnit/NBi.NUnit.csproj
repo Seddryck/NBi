@@ -45,6 +45,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft.NET\ADOMD.NET\100\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
     </Reference>
+	<Reference Include="nunit.framework">
+		<SpecificVersion>False</SpecificVersion>
+		<HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+	</Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -100,10 +104,6 @@
     <Compile Include="WriterHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NUnit\src\NUnitFramework\framework\nunit.framework.dll.csproj">
-      <Project>{83dd7e12-a705-4dba-9d71-09c8973d9382}</Project>
-      <Name>nunit.framework.dll</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
       <Project>{3F730647-FE31-4907-8A6E-A0C4A0C970EA}</Project>
       <Name>NBi.Core</Name>

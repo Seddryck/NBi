@@ -7,6 +7,9 @@ namespace NBi.Core.Analysis.Member
 {
     public class MemberResult : List<Member>
     {
-
+        public void Add(string caption)
+        {
+            this.Add(new Member(caption));
+        }
     }
 }

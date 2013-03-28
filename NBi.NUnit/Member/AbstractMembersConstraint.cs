@@ -2,34 +2,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NBi.Core.Analysis.Member;
 using NBi.Core.Analysis.Metadata;
 using NBi.Core.Analysis.Metadata.Adomd;
 using NBi.Core.Analysis.Request;
 using NUnitCtr = NUnit.Framework.Constraints;
 
-namespace NBi.NUnit.Structure
+namespace NBi.NUnit.Member
 {
-    public abstract class AbstractStructureConstraint : NUnitCtr.Constraint
+    public abstract class AbstractMembersConstraint : NUnitCtr.Constraint
     {
-        private AdomdDiscoveryCommandFactory commandFactory;
-        protected virtual NUnitCtr.CollectionItemsEqualConstraint InternalConstraint {get; set;}
+        private MembersAdomdEngine commandFactory;
+        protected virtual NUnitCtr.Constraint InternalConstraint {get; set;}
         
         public IComparer Comparer { get; set; }
         
         /// <summary>
         /// Request for metadata extraction
         /// </summary>
-        public MetadataDiscoveryRequest Request { get; protected set; }
+        public MembersDiscoveryRequest Request { get; protected set; }
 
         /// <summary>
         /// Engine dedicated to MetadataExtractor acquisition
         /// </summary>
-        protected internal AdomdDiscoveryCommandFactory CommandFactory
+        protected internal MembersAdomdEngine CommandFactory
         {
             get
             {
                 if (commandFactory == null)
-                    commandFactory = new AdomdDiscoveryCommandFactory();
+                    commandFactory = new MembersAdomdEngine();
                 return commandFactory;
             }
             set
@@ -44,9 +45,9 @@ namespace NBi.NUnit.Structure
         /// Construct a CollectionContainsConstraint
         /// </summary>
         /// <param name="expected"></param>
-        public AbstractStructureConstraint()
+        public AbstractMembersConstraint()
         {
-            Comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(true);
+            Comparer = new NBi.Core.Analysis.Member.Member.ComparerByCaption(true);
         }
 
         #region Modifiers
@@ -55,7 +56,7 @@ namespace NBi.NUnit.Structure
         /// </summary>
         protected void IgnoreCase()
         {
-             Comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(false);
+            Comparer = new NBi.Core.Analysis.Member.Member.ComparerByCaption(false);
         }
 
         #endregion
@@ -63,13 +64,14 @@ namespace NBi.NUnit.Structure
         #region Specific NUnit
         public override bool Matches(object actual)
         {
-            if (actual is MetadataDiscoveryRequest)
-                return Process((MetadataDiscoveryRequest)actual);
-            else if (actual is IEnumerable<IField>)
+            if (actual is MembersDiscoveryRequest)
+                return Process((MembersDiscoveryRequest)actual);
+            else if (actual is MemberResult)
             {
                 this.actual = actual;
                 var ctr = InternalConstraint;
-                ctr = ctr.Using(Comparer);
+                if (ctr is NUnitCtr.CollectionItemsEqualConstraint)
+                    ctr = ((NUnitCtr.CollectionItemsEqualConstraint)ctr).Using(Comparer);
                 var res = ctr.Matches(actual);
                 return res;
             }
@@ -77,19 +79,14 @@ namespace NBi.NUnit.Structure
                 throw new ArgumentException();
         }
 
-        protected bool Process(MetadataDiscoveryRequest actual)
+        protected bool Process(MembersDiscoveryRequest actual)
         {
             Request = actual;
-            var factory = CommandFactory;
-            var command = BuildCommand(factory,actual);
-            IEnumerable<IField> structures = command.Execute();
-            return this.Matches(structures);
+            var engine = CommandFactory;
+            MemberResult result = engine.GetMembers(Request);
+            return this.Matches(result);
         }
 
-        protected virtual AdomdDiscoveryCommand BuildCommand(AdomdDiscoveryCommandFactory factory, MetadataDiscoveryRequest actual)
-        {
-            return factory.BuildExact(actual);
-        }
         #endregion
 
     }

@@ -3,37 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using NBi.Core.Analysis.Member;
 using NBi.Core.Analysis.Request;
+using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
 {
-    public class OrderedConstraint : NUnitCtr.CollectionOrderedConstraint
+    public class OrderedConstraint : AbstractMembersConstraint
     {
         private bool reversed;
         private IList<Object> specific;
-        protected IComparerWithLabel comparer;
-        protected MembersDiscoveryRequest command;
-        protected MembersAdomdEngine memberEngine;
-
-        /// <summary>
-        /// Engine dedicated to MetadataExtractor acquisition
-        /// </summary>
-        protected internal MembersAdomdEngine MemberEngine
-        {
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException();
-                memberEngine = value;
-            }
-        }
-
-        protected MembersAdomdEngine GetEngine()
-        {
-            if (memberEngine == null)
-                memberEngine = new MembersAdomdEngine();
-            return memberEngine;
-        }
 
         /// <summary>
         /// Construct a CollectionContainsConstraint specific for Members
@@ -42,20 +20,19 @@ namespace NBi.NUnit.Member
         public OrderedConstraint()
             : base()
         {
-            IComparer comp = StringComparer.InvariantCultureIgnoreCase;
-            base.Using(comp);
+            Comparer = new AlphabeticalComparer();
         }
 
         #region Modifiers
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
-        public new OrderedConstraint Descending
+        public OrderedConstraint Descending
         {
             get
             {
                 reversed = true;
-                return (OrderedConstraint)base.Descending;
+                return this;
             }
         }
         
@@ -66,8 +43,8 @@ namespace NBi.NUnit.Member
         {
             get
             {
-                comparer = new AlphabeticalComparer();
-                return (OrderedConstraint)base.Using(comparer);
+                Comparer = new AlphabeticalComparer();
+                return this;
             }
         }
 
@@ -78,8 +55,8 @@ namespace NBi.NUnit.Member
         {
             get
             {
-                comparer = new ChronologicalComparer();
-                return (OrderedConstraint)base.Using(comparer);
+                Comparer = new ChronologicalComparer();
+                return this;
             }
         }
 
@@ -90,8 +67,8 @@ namespace NBi.NUnit.Member
         {
             get
             {
-                comparer = new NumericalComparer();
-                return (OrderedConstraint)base.Using(comparer);
+                Comparer = new NumericalComparer();
+                return this;
             }
         }
 
@@ -101,9 +78,32 @@ namespace NBi.NUnit.Member
         public OrderedConstraint Specific(IList<Object> definition)
         {
             specific = definition;
+            Comparer = null;
             return this;
         }
 
+        protected override NUnitCtr.Constraint InternalConstraint
+        {
+            get
+            {
+                if (base.InternalConstraint == null)
+                    base.InternalConstraint = BuildInternalConstraint();
+                return base.InternalConstraint;
+            }
+            set
+            {
+                base.InternalConstraint = value;
+            }
+        }
+
+        protected NUnitCtr.Constraint BuildInternalConstraint()
+        {
+            var ctr = new CollectionOrderedConstraint();
+            if (this.reversed)
+                ctr = ctr.Descending;
+            ctr = ctr.Using(Comparer);
+            return ctr;
+        }
 
         #endregion
 
@@ -111,13 +111,16 @@ namespace NBi.NUnit.Member
         {
             if (actual is MembersDiscoveryRequest)
                 return Process((MembersDiscoveryRequest)actual);
-            else
+            else if (actual is MemberResult)
             {
+                this.actual = actual;
                 if (specific == null)
-                    return base.Matches(actual);
+                    return InternalConstraint.Matches(actual);
                 else
                     return this.doMatch(actual);
             }
+            else
+                throw new ArgumentException();
         }
 
         protected bool doMatch(object actual)
@@ -142,14 +145,6 @@ namespace NBi.NUnit.Member
             return true;
         }
 
-        protected bool Process(MembersDiscoveryRequest actual)
-        {
-            command = actual;
-            var extr = GetEngine();
-            MemberResult result = extr.GetMembers(command);
-            return this.Matches(result);
-        }
-
         /// <summary>
         /// Write the constraint description to a MessageWriter
         /// </summary>
@@ -158,10 +153,10 @@ namespace NBi.NUnit.Member
         {
 
             writer.WritePredicate(string.Format("On perspective \"{0}\", the {1} of \"{2}\" are ordered {3}{4}"
-                                                            , command.Perspective
-                                                            , command.Function.ToLower()
-                                                            , command.Path
-                                                            , comparer == null ? "specifically" : comparer.Label
+                                                            , Request.Perspective
+                                                            , Request.Function.ToLower()
+                                                            , Request.Path
+                                                            , Comparer == null ? "specifically" : ((IComparerWithLabel)Comparer).Label
                                                             , reversed ? "(descending)" : string.Empty));
         }
 

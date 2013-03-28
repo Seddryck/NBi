@@ -29,7 +29,7 @@ namespace NBi.NUnit.Structure
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
-        public LinkedToConstraint IgnoreCase
+        public new LinkedToConstraint IgnoreCase
         {
             get
             {

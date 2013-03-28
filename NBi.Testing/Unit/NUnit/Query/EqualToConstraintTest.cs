@@ -5,7 +5,7 @@ using NBi.Core.ResultSet;
 using NBi.NUnit.Query;
 using NUnit.Framework;
 
-namespace NBi.Testing.Unit.NUnit
+namespace NBi.Testing.Unit.NUnit.Query
 {
     [TestFixture]
     public class EqualToConstraintTest

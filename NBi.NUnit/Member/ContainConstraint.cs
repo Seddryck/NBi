@@ -5,51 +5,22 @@ using System.Linq;
 using NBi.Core;
 using NBi.Core.Analysis.Member;
 using NBi.Core.Analysis.Request;
+using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
 {
-    public class ContainConstraint : NUnitCtr.Constraint
+    public class ContainConstraint : AbstractMembersConstraint
     {
-        protected IEnumerable<string> expectedCaptions;
-        protected IComparer comparer;
-        protected MembersDiscoveryRequest request;
-        protected MembersAdomdEngine memberEngine;
-
-        protected NUnitCtr.CollectionItemsEqualConstraint internalConstraint;
-
-        /// <summary>
-        /// Engine dedicated to MetadataExtractor acquisition
-        /// </summary>
-        protected internal MembersAdomdEngine MemberEngine
-        {
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException();
-                memberEngine = value;
-            }
-        }
-
-        protected MembersAdomdEngine GetEngine()
-        {
-            if (memberEngine == null)
-                memberEngine = new MembersAdomdEngine();
-            return memberEngine;
-        }
-
+        protected IEnumerable<string> Expected {get; set;}
+        
         /// <summary>
         /// Construct a CollectionContainsConstraint specific for Members
         /// </summary>
         /// <param name="expected"></param>
         public ContainConstraint(string expected) : base()
         {
-            var list = new List<string>();
-            list.Add(expected);
-            expectedCaptions = list;
-            comparer = new NBi.Core.Analysis.Member.Member.ComparerByCaption(true);
-
-            internalConstraint = new NUnitCtr.CollectionContainsConstraint(StringComparerHelper.Build(expected));
+            Expected = new List<string>() {expected};
         }
 
         /// <summary>
@@ -57,52 +28,53 @@ namespace NBi.NUnit.Member
         /// </summary>
         /// <param name="expected"></param>
         public ContainConstraint(IEnumerable<string> expected)
-            : base(expected)
+            : base()
         {
-            expectedCaptions = expected;
-            comparer = new NBi.Core.Analysis.Member.Member.ComparerByCaption(true);
-
-            var expectedStringHelper = new List<StringComparerHelper>();
-            foreach (var str in expected)
-                expectedStringHelper.Add(StringComparerHelper.Build(str));
-
-            internalConstraint = new NUnitCtr.CollectionSubsetConstraint(expectedStringHelper);
+            Expected = expected;
         }
-        
+
         #region Modifiers
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
-        public ContainConstraint IgnoreCase
+        public new ContainConstraint IgnoreCase
         {
             get
             {
-                comparer = new NBi.Core.Analysis.Member.Member.ComparerByCaption(false);
+                base.IgnoreCase();
                 return this;
             }
         }
+
         #endregion
-
-
+        
         public override bool Matches(object actual)
         {
             if (actual is MembersDiscoveryRequest)
                 return Process((MembersDiscoveryRequest)actual);
-            else
+            else if (actual is MemberResult)
             {
                 this.actual = actual;
-                internalConstraint = internalConstraint.Using(comparer);
-                var res = internalConstraint.Matches(actual);
+                NUnitCtr.Constraint ctr = null;
+                foreach (var item in Expected)
+                {
+                    var localCtr = new NUnitCtr.CollectionContainsConstraint(StringComparerHelper.Build(item));
+                    var usingCtr = localCtr.Using(Comparer);
+
+                    if (ctr != null)
+                        ctr = new NUnitCtr.AndConstraint(ctr, usingCtr);
+                    else
+                        ctr = usingCtr;
+                }
+
+                IResolveConstraint exp = ctr;
+                var multipleConstraint = exp.Resolve();
+                var res = multipleConstraint.Matches(actual);
+                
                 return res;
             }
-        }
-
-        protected bool Process(MembersDiscoveryRequest actual)
-        {
-            request = actual;
-            var extr = GetEngine();
-            MemberResult result = extr.GetMembers(request);
-            return this.Matches(result);
+            else
+                throw new ArgumentException();
         }
 
         /// <summary>
@@ -111,16 +83,15 @@ namespace NBi.NUnit.Member
         /// <param name="writer">The writer on which the description is displayed</param>
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
-            if (request != null)
+            if (Request != null)
             {
                 writer.WritePredicate(string.Format("On perspective \"{0}\", a {1} of \"{2}\" containing a member with caption"
-                                                            , request.Perspective
-                                                            , GetFunctionLabel(request.Function)
-                                                            , request.Path));
-                writer.WriteExpectedValue(expectedCaptions);
+                                                            , Request.Perspective
+                                                            , GetFunctionLabel(Request.Function)
+                                                            , Request.Path));
+                writer.WriteExpectedValue(Expected);
             }
-            //else
-            //    base.WriteDescriptionTo(writer);
+            
         }
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)

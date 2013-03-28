@@ -61,6 +61,8 @@
     <Compile Include="Builder\AbstractTestCaseBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
+    <Compile Include="Builder\MembersSubsetOfBuilder.cs" />
+    <Compile Include="Builder\MembersEquivalentToBuilder.cs" />
     <Compile Include="Builder\StructureEquivalentToBuilder.cs" />
     <Compile Include="Builder\StructureSubsetOfBuilder.cs" />
     <Compile Include="Builder\StructureLinkedToBuilder.cs" />
@@ -74,6 +76,8 @@
     <Compile Include="Builder\MembersCountBuilder.cs" />
     <Compile Include="Builder\ExecutionEqualToBuilder.cs" />
     <Compile Include="Member\AbstractMembersConstraint.cs" />
+    <Compile Include="Member\EquivalentToConstraint.cs" />
+    <Compile Include="Member\SubsetOfConstraint.cs" />
     <Compile Include="Structure\AbstractCollectionConstraint.cs" />
     <Compile Include="Structure\AbstractStructureConstraint.cs" />
     <Compile Include="Structure\EquivalentToConstraint.cs" />

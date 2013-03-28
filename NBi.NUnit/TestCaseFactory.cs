@@ -30,6 +30,8 @@ namespace NBi.NUnit
             Register (typeof(MembersXml), typeof(CountXml) ,new MembersCountBuilder());
             Register(typeof(MembersXml), typeof(OrderedXml), new MembersOrderedBuilder());
             Register(typeof(MembersXml), typeof(ContainXml), new MembersContainBuilder());
+            Register(typeof(MembersXml), typeof(EquivalentToXml), new MembersEquivalentToBuilder());
+            Register(typeof(MembersXml), typeof(SubsetOfXml), new MembersSubsetOfBuilder());
 
             Register (typeof(StructureXml), typeof(ContainXml),new StructureContainBuilder());
             Register(typeof(StructureXml), typeof(EquivalentToXml), new StructureEquivalentToBuilder());

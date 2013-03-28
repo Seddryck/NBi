@@ -61,6 +61,8 @@ namespace NBi.Testing.Acceptance
         [TestCase("LinkedTo.xml")]
         [TestCase("SubsetOfStructure.xml")]
         [TestCase("EquivalentToStructure.xml")]
+        [TestCase("SubsetOfMembers.xml")]
+        [TestCase("EquivalentToMembers.xml")]
         public void RunTestSuite(string filename)
         {
             var t = new TestSuiteOverrider(filename);

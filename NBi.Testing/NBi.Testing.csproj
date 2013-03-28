@@ -119,6 +119,8 @@
     <Compile Include="Unit\NUnit\Builder\MembersCountBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Member\CountConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Member\EquivalentToConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Member\SubsetOfConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Query\FasterThanConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\ContainsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\OrderedConstraintTest.cs" />
@@ -250,6 +252,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\EquivalentToStructure.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\SubsetOfMembers.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\EquivalentToMembers.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="NBi.Testing.sql" />

@@ -12,7 +12,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_ExactlyCorrectlySpecified_Validated()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("First member");
             members.Add("Second member");
 
@@ -29,7 +29,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_ExactlyWronglySpecified_Validated()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("First member");
             members.Add("Second member");
 
@@ -46,7 +46,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_MoreThanCorrectlySpecified_Validated()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("First member");
             members.Add("Second member");
 
@@ -63,7 +63,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_MoreThanWronglySpecified_Validated()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("First member");
             members.Add("Second member");
 
@@ -80,7 +80,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_LessThanCorrectlySpecified_Validated()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("First member");
             members.Add("Second member");
 
@@ -97,7 +97,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_LessThanWronglySpecified_Validated()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("First member");
             members.Add("Second member");
 
@@ -114,7 +114,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_LessThanAndMoreThanCorrectlySpecified_Validated()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("First member");
             members.Add("Second member");
 
@@ -132,7 +132,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_LessThanAndMoreThanWronglySpecifiedForMoreThan_Validated()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("First member");
             members.Add("Second member");
 
@@ -150,7 +150,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_LessThanAndMoreThanWronglySpecifiedForLessThan_Validated()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("First member");
             members.Add("Second member");
 
@@ -188,7 +188,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meStub.Object;
 
-            var countConstraint = new CountConstraint() { MemberEngine = me };
+            var countConstraint = new CountConstraint() { CommandFactory = me };
             countConstraint.Exactly(10);
 
             //Method under test
@@ -236,7 +236,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meStub.Object;
 
-            var countConstraint = new CountConstraint() { MemberEngine = me };
+            var countConstraint = new CountConstraint() { CommandFactory = me };
             countConstraint.MoreThan(10);
 
             //Method under test
@@ -284,7 +284,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meStub.Object;
 
-            var countConstraint = new CountConstraint() { MemberEngine = me };
+            var countConstraint = new CountConstraint() { CommandFactory = me };
             countConstraint.LessThan(1);
 
             //Method under test
@@ -331,7 +331,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meStub.Object;
 
-            var countConstraint = new CountConstraint() { MemberEngine = me };
+            var countConstraint = new CountConstraint() { CommandFactory = me };
             countConstraint = countConstraint.MoreThan(8);
             countConstraint = countConstraint.LessThan(12);
 

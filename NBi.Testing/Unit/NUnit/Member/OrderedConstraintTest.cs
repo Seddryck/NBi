@@ -43,7 +43,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_AlphabeticallyCorrectlyOrdered_Validated()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("A member");
             members.Add("B member");
             members.Add("C member");
@@ -61,7 +61,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_AlphabeticallyNotCorrectlyOrdered_Failed()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("A member");
             members.Add("C member");
             members.Add("B member");
@@ -102,7 +102,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meStub.Object;
 
-            var orderedConstraint = new OrderedConstraint() { MemberEngine = me };
+            var orderedConstraint = new OrderedConstraint() { CommandFactory = me };
             orderedConstraint = orderedConstraint.Alphabetical;
 
             //Method under test
@@ -128,7 +128,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_ReverseCorrectlyOrdered_Validated()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("C member");
             members.Add("B member");
             members.Add("A member");
@@ -146,7 +146,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_ReverseNotCorrectlyOrdered_Failed()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("A member");
             members.Add("C member");
             members.Add("B member");
@@ -164,7 +164,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_ChronologicalCorrectlyOrdered_Validated()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("20/10/2010");
             members.Add("5/2/2011");
             members.Add("3/10/2011");
@@ -182,7 +182,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_ChronologicalNotCorrectlyOrdered_Failed()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("20/10/2010");
             members.Add("3/10/2011");
             members.Add("5/2/2011");
@@ -200,7 +200,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_NumericalCorrectlyOrdered_Validated()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("1");
             members.Add("5");
             members.Add("100");
@@ -218,7 +218,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_NumericalNotCorrectlyOrdered_Failed()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("1");
             members.Add("100");
             members.Add("5");
@@ -236,7 +236,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_SpecificCorrectlyOrdered_Succeed()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("Leopold");
             members.Add("Albert");
             members.Add("Baudoin");
@@ -259,7 +259,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_SpecificNotCorrectlyOrdered_Failed()
         {
-            var members = new List<string>();
+            var members = new MemberResult();
             members.Add("Leopold");
             members.Add("Baudoin");
             members.Add("Albert");
@@ -305,7 +305,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meStub.Object;
 
-            var orderedConstraint = new OrderedConstraint() { MemberEngine = me };
+            var orderedConstraint = new OrderedConstraint() { CommandFactory = me };
             orderedConstraint.Specific(new List<object>() { "B", "A" });
 
             //var assertionText = orderedConstraint.CreatePredicate();
@@ -352,7 +352,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meMock.Object;
 
-            var orderedConstraint = new OrderedConstraint() { MemberEngine = me };
+            var orderedConstraint = new OrderedConstraint() { CommandFactory = me };
 
             //Method under test
             orderedConstraint.Matches(disco);

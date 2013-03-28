@@ -73,6 +73,7 @@
     <Compile Include="Builder\ITestCaseBuilder.cs" />
     <Compile Include="Builder\MembersCountBuilder.cs" />
     <Compile Include="Builder\ExecutionEqualToBuilder.cs" />
+    <Compile Include="Member\AbstractMembersConstraint.cs" />
     <Compile Include="Structure\AbstractCollectionConstraint.cs" />
     <Compile Include="Structure\AbstractStructureConstraint.cs" />
     <Compile Include="Structure\EquivalentToConstraint.cs" />

@@ -118,9 +118,8 @@
     <Compile Include="Unit\NUnit\Builder\MembersOrderedBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersCountBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\MemberContainConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\CountConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\FasterThanConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Query\FasterThanConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\ContainsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\OrderedConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Runtime\TestSuiteTest.cs" />
@@ -128,8 +127,8 @@
     <Compile Include="Unit\NUnit\Structure\SubsetOfConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Structure\EquivalentToConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Structure\ExistsConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\SyntacticallyCorrectConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\EqualToConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Query\SyntacticallyCorrectConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Query\EqualToConstraintTest.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
     <Compile Include="Unit\Xml\Constraints\SubsetOfXmlTest.cs" />
@@ -160,7 +159,6 @@
     <Folder Include="Integration\Core\Database\" />
     <Folder Include="Integration\NUnit\Database\" />
     <Folder Include="Unit\Core\Query\" />
-    <Folder Include="Unit\NUnit\Query\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Acceptance\Resources\ResellerOrderCountByYearBefore2006.csv">

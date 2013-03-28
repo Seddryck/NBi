@@ -42,10 +42,6 @@
     <OutputPath>bin\x64\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -73,12 +69,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\NUnit\src\NUnitFramework\framework\nunit.framework.dll.csproj">
+      <Project>{83dd7e12-a705-4dba-9d71-09c8973d9382}</Project>
+      <Name>nunit.framework.dll</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
       <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
       <Name>NBi.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\NBi.NUnit\NBi.NUnit.csproj">
-      <Project>{66314704-AA76-4153-80D8-CA2C5FF06976}</Project>
+      <Project>{66314704-aa76-4153-80d8-ca2c5ff06976}</Project>
       <Name>NBi.NUnit</Name>
     </ProjectReference>
     <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">

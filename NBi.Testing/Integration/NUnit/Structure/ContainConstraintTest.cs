@@ -55,6 +55,23 @@ namespace NBi.Testing.Integration.NUnit.Structure
         }
 
         [Test, Category("Olap cube")]
+        public void Matches_ExpectedContainedInActualCaseNotMatching_Success()
+        {
+            var discovery = new DiscoveryRequestFactory().Build(
+                        ConnectionStringReader.GetAdomd()
+                        , DiscoveryTarget.Perspectives
+                        , null, null, null, null, null, null, null
+                        );
+
+            var ctr = new ContainConstraint("Adventure Works".ToLower());
+            ctr = ctr.IgnoreCase;
+
+            //Method under test
+            Assert.That(discovery, ctr);
+
+        }
+
+        [Test, Category("Olap cube")]
         public void Matches_ExpectedNotContainedInActual_Failure()
         {
             var discovery = new DiscoveryRequestFactory().Build(
@@ -286,8 +303,24 @@ namespace NBi.Testing.Integration.NUnit.Structure
             Assert.That(ctr.Matches(discovery), Is.False);
         }
 
-        
+        [Test, Category("Olap cube")]
+        public void ContainConstraint_FindExistingMeasureWithCaseNonMatching_Success()
+        {
+            var discovery = new DiscoveryRequestFactory().Build(
+                        ConnectionStringReader.GetAdomd()
+                        , DiscoveryTarget.Measures
+                        , "Adventure Works"
+                        , "Reseller Orders"
+                        , null, null, null, null, null
+                        );
 
+            var ctr = new ContainConstraint("Reseller Order Count".ToLower());
+            ctr = ctr.IgnoreCase;
+
+            //Method under test
+            Assert.That(discovery, ctr);
+
+        }
     }
 
 }

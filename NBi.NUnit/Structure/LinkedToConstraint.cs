@@ -11,49 +11,18 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Structure
 {
-    public class LinkedToConstraint : NUnitCtr.Constraint
+    public class LinkedToConstraint : AbstractStructureConstraint
     {
-        protected internal object Expected;
-        protected IComparer comparer;
-        protected MetadataDiscoveryRequest request;
-        protected AdomdDiscoveryCommandFactory commandFactory;
-
-        protected string ExpectedCaption
-        {
-            get
-            {
-                return (string)this.Expected;
-            }
-        }
+        protected string Expected {get; set;}
 
         /// <summary>
-        /// Engine dedicated to MetadataExtractor acquisition
-        /// </summary>
-        protected internal AdomdDiscoveryCommandFactory CommandFactory
-        {
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException();
-                commandFactory = value;
-            }
-        }
-
-        protected AdomdDiscoveryCommandFactory GetFactory()
-        {
-            if (commandFactory == null)
-                commandFactory = new AdomdDiscoveryCommandFactory();
-            return commandFactory;
-        }
-
-        /// <summary>
-        /// Construct a ExistsConstraint
+        /// Construct a LinkedToConstraint
         /// </summary>
         public LinkedToConstraint(string expected)
             : base()
         {
+            InternalConstraint = new CollectionContainsConstraint(StringComparerHelper.Build(expected));
             this.Expected = expected;
-            comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(true);
         }
 
         #region Modifiers
@@ -64,52 +33,28 @@ namespace NBi.NUnit.Structure
         {
             get
             {
-                comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(false);
+                base.IgnoreCase();
                 return this;
             }
         }
 
         #endregion
 
-        public override bool Matches(object actual)
+        /// <summary>
+        /// Change the standard Build using BuildExact by BuildLinkedTo
+        /// </summary>
+        /// <param name="factory"></param>
+        /// <param name="actual"></param>
+        /// <returns></returns>
+        protected override AdomdDiscoveryCommand BuildCommand(AdomdDiscoveryCommandFactory factory, MetadataDiscoveryRequest actual)
         {
-            if (actual is MetadataDiscoveryRequest)
-                return Process((MetadataDiscoveryRequest)actual);
-            else if (actual is IEnumerable<IField>)
-            {
-                var res = doMatch((IEnumerable<IField>)actual);
-                return res;
-            }
-            else
-                throw new ArgumentException();
+            return factory.BuildLinkedTo(actual);
         }
-
-        public bool doMatch(IEnumerable<IField> actual)
-        {
-            var expected = new StringComparerHelper() { Value = ExpectedCaption };
-
-            foreach (var field in actual)
-                if (comparer.Compare(field, expected) == 0)
-                    return true;
-           
-            return false;
-        }
-
-
-        protected bool Process(MetadataDiscoveryRequest actual)
-        {
-            request = actual;
-            var factory = GetFactory();
-            var command = factory.BuildLinkedTo(actual);
-            IEnumerable<IField> structures = command.Execute();
-            this.actual = structures;
-            return this.Matches(structures);
-        }
-
+        
         protected void Investigate()
         {
-            var factory = GetFactory();
-            var command = factory.BuildExternal(request);
+            var factory = CommandFactory;
+            var command = factory.BuildExternal(Request);
             IEnumerable<IField> structures = command.Execute();
 
             if (structures.Count() > 0)
@@ -124,13 +69,13 @@ namespace NBi.NUnit.Structure
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
-            if (request != null)
+            if (Request != null)
             {
                 var description = new DescriptionStructureHelper();
-                var filterExpression = description.GetFilterExpression(request.GetAllFilters().Where(f => f.Target != request.Target));
+                var filterExpression = description.GetFilterExpression(Request.GetAllFilters().Where(f => f.Target != Request.Target));
                 var notExpression = description.GetNotExpression(true);
-                var targetExpression = description.GetTargetExpression(request.Target);
-                var captionExpression = ExpectedCaption;
+                var targetExpression = description.GetTargetExpression(Request.Target);
+                var captionExpression = Expected;
 
                 writer.WritePredicate(string.Format("find {0} {1} named '{2}' linked to {3}"
                             , notExpression
@@ -145,7 +90,7 @@ namespace NBi.NUnit.Structure
             //IF actual is not empty it means we've an issue with Casing or a space at the end
             if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() == 1)
             {
-                if (((IEnumerable<IField>)actual).ToArray()[0].Caption.ToLowerInvariant() == ExpectedCaption.ToLowerInvariant())
+                if (((IEnumerable<IField>)actual).ToArray()[0].Caption.ToLowerInvariant() == Expected.ToLowerInvariant())
                     writer.WriteActualValue(string.Format("< <{0}> > (case not matching)", ((IEnumerable<IField>)actual).ToArray()[0].Caption));
                 else if (((IEnumerable<IField>)actual).ToArray()[0].Caption.EndsWith(" "))
                     writer.WriteActualValue(string.Format("< <{0}> > (with ending space(s))", ((IEnumerable<IField>)actual).ToArray()[0].Caption));

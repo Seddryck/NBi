@@ -15,7 +15,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Unit.NUnit.Builder
 {
     [TestFixture]
-    public class StructureContainsBuilderTest
+    public class StructureEquivalentToBuilderTest
     {
 
         #region SetUp & TearDown
@@ -50,43 +50,19 @@ namespace NBi.Testing.Unit.NUnit.Builder
         //@@@@@@@@@@@@@@@@@@@@@@@@@
 
         [Test]
-        public void GetConstraint_Build_CorrectConstraint()
+        public void GetConstraint_BuildWithWithList_CorrectConstraint()
         {
             //Buiding object used during test
             var sutXml = new StructureXml();
-            sutXml.Item = new MeasureGroupXml();
+            sutXml.Item = new MeasureGroupsXml();
             sutXml.Item.ConnectionString = "ConnectionString";
-            ((MeasureGroupXml)sutXml.Item).Perspective = "Perspective";
-            sutXml.Item.Caption = "MeasureGroup";
+            ((MeasureGroupsXml)sutXml.Item).Perspective = "Perspective";
 
-            var ctrXml = new ContainsXml();
-            ctrXml.Caption = "Search";
-
-            var builder = new StructureContainsBuilder();
-            builder.Setup(sutXml, ctrXml);
-            builder.Build();
-            var ctr = builder.GetConstraint();
-
-            Assert.That(ctr, Is.InstanceOf<CollectionItemConstraint>());
-        }
-
-
-        [Test]
-        public void GetConstraint_BuildWithExactlySetToTrue_CorrectConstraint()
-        {
-            //Buiding object used during test
-            var sutXml = new StructureXml();
-            sutXml.Item = new MeasureGroupXml();
-            sutXml.Item.ConnectionString = "ConnectionString";
-            ((MeasureGroupXml)sutXml.Item).Perspective = "Perspective";
-            sutXml.Item.Caption = "MeasureGroup";
-
-            var ctrXml = new ContainsXml();
+            var ctrXml = new EquivalentToXml();
             ctrXml.Items.Add("Search");
             ctrXml.Items.Add("Search 2");
-            ctrXml.Exactly = true;
 
-            var builder = new StructureContainsBuilder();
+            var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
             builder.Build();
             var ctr = builder.GetConstraint();
@@ -108,16 +84,15 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetSystemUnderTest_ConnectionStringInDefault_CorrectlyInitialized()
         {
             //Buiding object used during test
-            var ctrXmlStubFactory = new Mock<ContainsXml>();
+            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
             var ctrXml = ctrXmlStubFactory.Object;
 
             var sutXml = new StructureXml();
             sutXml.Default = new DefaultXml() { ConnectionString = "connectionString-default" };
 
-            sutXml.Item = new MeasureGroupXml();
-            ((MeasureGroupXml)sutXml.Item).Perspective = "Perspective";
-            sutXml.Item.Caption = "MeasureGroup";
-            var builder = new StructureContainsBuilder();
+            sutXml.Item = new MeasureGroupsXml();
+            ((MeasureGroupsXml)sutXml.Item).Perspective = "Perspective";
+            var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
             //Call the method to test
             builder.Build();
@@ -134,20 +109,22 @@ namespace NBi.Testing.Unit.NUnit.Builder
         //**********************
 
         [Test]
-        public void GetSystemUnderTest_CorrectPerspectiveTarget_FailBecausePerspectiveDoesNotSupportContains()
+        public void GetSystemUnderTest_CorrectPerspectiveTarget_Success()
         {
             //Buiding object used during test
-            var ctrXmlStubFactory = new Mock<ContainsXml>();
+            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
             var ctrXml = ctrXmlStubFactory.Object;
 
             var sutXml = new StructureXml();
-            sutXml.Item = new PerspectiveXml();
+            sutXml.Item = new PerspectivesXml();
             sutXml.Item.ConnectionString = "ConnectionString";
-            sutXml.Item.Caption = "Perspective";
-            var builder = new StructureContainsBuilder();
+            var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var sut = builder.GetSystemUnderTest();
+
             //Assertion
-            Assert.Throws<ArgumentException>(delegate { builder.Build(); });
+            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
         }
         
         //**********************
@@ -158,15 +135,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetSystemUnderTest_CorrectMeasureGroupTarget_Success()
         {
             //Buiding object used during test
-            var ctrXmlStubFactory = new Mock<ContainsXml>();
+            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
             var ctrXml = ctrXmlStubFactory.Object;
 
             var sutXml = new StructureXml();
-            sutXml.Item = new MeasureGroupXml();
+            sutXml.Item = new MeasureGroupsXml();
             sutXml.Item.ConnectionString = "ConnectionString";
-            ((MeasureGroupXml)sutXml.Item).Perspective = "Perspective";
-            sutXml.Item.Caption = "MeasureGroup";
-            var builder = new StructureContainsBuilder();
+            ((MeasureGroupsXml)sutXml.Item).Perspective = "Perspective";
+            var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
             //Call the method to test
             builder.Build();
@@ -180,32 +156,34 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetSystemUnderTest_InCorrectMeasureGroupTargetWithoutCaption_Success()
         {
             //Buiding object used during test
-            var ctrXmlStubFactory = new Mock<ContainsXml>();
+            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
             var ctrXml = ctrXmlStubFactory.Object;
 
             var sutXml = new StructureXml();
-            sutXml.Item = new MeasureGroupXml();
+            sutXml.Item = new MeasureGroupsXml();
             sutXml.Item.ConnectionString = "ConnectionString";
-            ((MeasureGroupXml)sutXml.Item).Perspective = "Perspective";
-            var builder = new StructureContainsBuilder();
+            ((MeasureGroupsXml)sutXml.Item).Perspective = "Perspective";
+            var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var sut = builder.GetSystemUnderTest();
+
             //Assertion
-            Assert.Throws<ArgumentException>(delegate { builder.Build(); });
+            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
         }
         
         [Test]
         public void GetSystemUnderTest_IncorrectMeasureGroupTargetWithoutPerspective_ThrowException()
         {
             //Buiding object used during test
-            var ctrXmlStubFactory = new Mock<ContainsXml>();
+            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
             var ctrXml = ctrXmlStubFactory.Object;
 
             var sutXml = new StructureXml();
-            sutXml.Item = new MeasureGroupXml();
+            sutXml.Item = new MeasureGroupsXml();
             sutXml.Item.ConnectionString = "ConnectionString";
-            sutXml.Item.Caption = "MeasureGroup";
 
-            var builder = new StructureContainsBuilder();
+            var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
             //Assertion
             Assert.Throws<ArgumentException>(delegate { builder.Build(); });
@@ -216,20 +194,24 @@ namespace NBi.Testing.Unit.NUnit.Builder
         //**********************
 
         [Test]
-        public void GetSystemUnderTest_CorrectMeasureTarget_FailBecauseMeasureDoesNotSupportContains()
+        public void GetSystemUnderTest_CorrectMeasureTarget_Success()
         {
             //Buiding object used during test
-            var ctrXmlStubFactory = new Mock<ContainsXml>();
+            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
             var ctrXml = ctrXmlStubFactory.Object;
 
             var sutXml = new StructureXml();
-            sutXml.Item = new MeasureXml();
+            sutXml.Item = new MeasuresXml();
             sutXml.Item.ConnectionString = "ConnectionString";
-            sutXml.Item.Caption = "Measure";
-            var builder = new StructureContainsBuilder();
+            ((MeasuresXml)sutXml.Item).Perspective = "Perspective";
+            ((MeasuresXml)sutXml.Item).MeasureGroup = "MeasureGroup";
+            var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var sut = builder.GetSystemUnderTest();
+
             //Assertion
-            Assert.Throws<ArgumentException>(delegate { builder.Build(); });
+            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
         }
 
         //**********************
@@ -240,17 +222,16 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetSystemUnderTest_CorrectDimensionTarget_Success()
         {
             //Buiding object used during test
-            var ctrXmlStubFactory = new Mock<ContainsXml>();
+            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
             var ctrXml = ctrXmlStubFactory.Object;
 
             var sutXml = new StructureXml();
-            var dim = new DimensionXml();
+            var dim = new DimensionsXml();
             dim.ConnectionString = "ConnectionString";
             dim.Perspective = "Perspective";
-            dim.Caption = "dimension";
             sutXml.Item = dim;
 
-            var builder = new StructureContainsBuilder();
+            var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
             //Call the method to test
             builder.Build();
@@ -266,17 +247,17 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetSystemUnderTest_IncorrectDimensionTargetWithoutPerspective_ThrowException()
         {
             //Buiding object used during test
-            var ctrXmlStubFactory = new Mock<ContainsXml>();
+            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
             var ctrXml = ctrXmlStubFactory.Object;
 
             var sutXml = new StructureXml();
-            sutXml.Item = new DimensionXml();
+            sutXml.Item = new DimensionsXml();
             sutXml.Item.ConnectionString = "ConnectionString";
 
-            var builder = new StructureContainsBuilder();
+            var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
             //Assertion
-            Assert.Throws<ArgumentException>(delegate { builder.Build();});
+            Assert.Throws<ArgumentException>(delegate { builder.Build(); });
         }
 
         //**********************
@@ -287,16 +268,15 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetSystemUnderTest_CorrectHierarchyTarget_Success()
         {
             //Buiding object used during test
-            var ctrXmlStubFactory = new Mock<ContainsXml>();
+            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
             var ctrXml = ctrXmlStubFactory.Object;
 
             var sutXml = new StructureXml();
-            sutXml.Item = new DimensionXml();
+            sutXml.Item = new DimensionsXml();
             sutXml.Item.ConnectionString = "ConnectionString";
-            ((DimensionXml)sutXml.Item).Perspective = "Perspective";
-            sutXml.Item.Caption = "dimension";
+            ((DimensionsXml)sutXml.Item).Perspective = "Perspective";
 
-            var builder = new StructureContainsBuilder();
+            var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
             //Call the method to test
             builder.Build();
@@ -306,37 +286,20 @@ namespace NBi.Testing.Unit.NUnit.Builder
             Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
         }
 
-        [Test]
-        public void GetSystemUnderTest_IncorrectHierarchyTargetWithoutCaptionSpecified_ThrowException()
-        {
-            //Buiding object used during test
-            var ctrXmlStubFactory = new Mock<ContainsXml>();
-            var ctrXml = ctrXmlStubFactory.Object;
-
-            var sutXml = new StructureXml();
-            sutXml.Item = new DimensionXml();
-            sutXml.Item.ConnectionString = "ConnectionString";
-            ((DimensionXml)sutXml.Item).Perspective = "Perspective";
-
-            var builder = new StructureContainsBuilder();
-            builder.Setup(sutXml, ctrXml);
-            //Assertion
-            Assert.Throws<ArgumentException>(delegate { builder.Build(); });
-        }
+        
 
         [Test]
         public void GetSystemUnderTest_IncorrectHierarchyTargetWithoutPerspective_ThrowException()
         {
             //Buiding object used during test
-            var ctrXmlStubFactory = new Mock<ContainsXml>();
+            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
             var ctrXml = ctrXmlStubFactory.Object;
 
             var sutXml = new StructureXml();
-            sutXml.Item = new DimensionXml();
+            sutXml.Item = new DimensionsXml();
             sutXml.Item.ConnectionString = "ConnectionString";
-            sutXml.Item.Caption = "dimension";
 
-            var builder = new StructureContainsBuilder();
+            var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
             //Assertion
             Assert.Throws<ArgumentException>(delegate { builder.Build(); });
@@ -348,69 +311,45 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
 
         [Test]
-        public void GetSystemUnderTest_CorrectLevelTarget_FailBecauseLevelDoesNotSupportContains()
+        public void GetSystemUnderTest_CorrectLevelTarget_Success()
         {
             //Buiding object used during test
-            var ctrXmlStubFactory = new Mock<ContainsXml>();
+            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
             var ctrXml = ctrXmlStubFactory.Object;
 
             var sutXml = new StructureXml();
-            sutXml.Item = new LevelXml();
+            sutXml.Item = new LevelsXml();
             sutXml.Item.ConnectionString = "ConnectionString";
-            sutXml.Item.Caption = "Level";
-            ((LevelXml)sutXml.Item).Dimension = "Dimension";
-            ((LevelXml)sutXml.Item).Hierarchy = "Hierarchy";
-            var builder = new StructureContainsBuilder();
+            ((LevelsXml)sutXml.Item).Perspective = "Perspective";
+            ((LevelsXml)sutXml.Item).Dimension = "Dimension";
+            ((LevelsXml)sutXml.Item).Hierarchy = "Hierarchy";
+            var builder = new StructureEquivalentToBuilder();
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var sut = builder.GetSystemUnderTest();
+
+            //Assertion
+            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
+        }
+
+        [Test]
+        public void GetSystemUnderTest_InCorrectLevelTargetWithoutHGierarchy_ThrowException()
+        {
+            //Buiding object used during test
+            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
+            var ctrXml = ctrXmlStubFactory.Object;
+
+            var sutXml = new StructureXml();
+            sutXml.Item = new LevelsXml();
+            sutXml.Item.ConnectionString = "ConnectionString";
+            ((LevelsXml)sutXml.Item).Perspective = "Perspective";
+            ((LevelsXml)sutXml.Item).Dimension = "Dimension";
+
+            var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
             //Assertion
             Assert.Throws<ArgumentException>(delegate { builder.Build(); });
         }
-
-        //[Ignore]
-        //[Test]
-        //public void GetSystemUnderTest_CorrectLevelTarget_Success()
-        //{
-        //    //Buiding object used during test
-        //    var xml = new LevelXml();
-        //    xml.Perspective = "Perspective";
-        //    xml.ConnectionString = "ConnectionString";
-        //    xml.Dimension = "dimension";
-        //    xml.Hierarchy = "hierarchy";
-        //    xml.Caption = "level";
-            
-        //    //Call the method to test
-        //    var actual = xml.GetSystemUnderTest_();
-
-        //    //Assertion
-        //    Assert.That(actual, Is.InstanceOfType<DiscoveryCommand>());
-        //}
-
-        //[Ignore]
-        //[Test]
-        //public void GetSystemUnderTest_IncorrectLevelTargetWithoutPathSpecified_ThrowException()
-        //{
-        //    //Buiding object used during test
-        //    var xml = new LevelXml();
-        //    xml.Perspective = "Perspective";
-        //    xml.ConnectionString = "ConnectionString";
-
-        //    //Assertion
-        //    Assert.Throws<DiscoveryFactoryException>(delegate { xml.GetSystemUnderTest_(); });
-        //}
-
-        //[Ignore]
-        //[Test]
-        //public void GetSystemUnderTest_IncorrectLevelTargetWithoutPerspective_ThrowException()
-        //{
-        //    //Buiding object used during test
-        //    var xml = new LevelXml();
-        //    xml.Dimension = "dimension";
-        //    xml.Hierarchy = "hierarchy";
-        //    xml.ConnectionString = "ConnectionString";
-            
-        //    //Assertion
-        //    Assert.Throws<DiscoveryFactoryException>(delegate { xml.GetSystemUnderTest_(); });
-        //}
 
     }
 }

@@ -53,13 +53,14 @@ namespace NBi.Testing.Acceptance
         [TestCase("QueryEqualToResultSetWithNull.xml")]
         [TestCase("Ordered.xml")]
         [TestCase("Count.xml")]
-        [TestCase("Contains.xml")]
-        [TestCase("ContainsStructure.xml")]
+        [TestCase("Contain.xml")]
+        [TestCase("ContainStructure.xml")]
         [TestCase("fasterThan.xml")]
         [TestCase("SyntacticallyCorrect.xml")]
         [TestCase("Exists.xml")]
         [TestCase("LinkedTo.xml")]
         [TestCase("SubsetOfStructure.xml")]
+        [TestCase("EquivalentToStructure.xml")]
         public void RunTestSuite(string filename)
         {
             var t = new TestSuiteOverrider(filename);

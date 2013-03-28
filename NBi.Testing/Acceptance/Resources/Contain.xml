@@ -5,14 +5,14 @@
 			<connectionString>Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033</connectionString>
 		</default>
 	</settings>
-	<test name="In dimension Customers 'State-Provinces' contains Washington" uid="0001">
+	<test name="In dimension Customers, the members of level named 'State-Provinces' contain 'Washington'" uid="0001">
 		<system-under-test>
 			<members>
 				<level caption="State-Province" dimension="Customer" hierarchy="State-Province" perspective="Adventure Works"/>
 			</members>
 		</system-under-test>
 		<assert>
-			<contains caption="Washington"/>
+			<contain caption="Washington"/>
 		</assert>
 	</test>
 	<test name="In dimension Customers the country 'Canada' has a child 'Ontario'" uid="0002">
@@ -22,7 +22,7 @@
 			</members>
 		</system-under-test>
 		<assert>
-			<contains caption="Ontario"/>
+			<contain caption="Ontario"/>
 		</assert>
 	</test>
 	<test name="First zone of [Employee].[Sick Leave Hours] is 20 to 33" uid="0003">
@@ -32,7 +32,7 @@
 			</members>
 		</system-under-test>
 		<assert>
-			<contains caption="20 - 33"/>
+			<contain caption="20 - 33"/>
 		</assert>
 	</test>
 	<test name="Organization 'All' member is named [All Organizations]" uid="0004">
@@ -42,7 +42,7 @@
 			</members>
 		</system-under-test>
 		<assert>
-			<contains caption="All Organizations"/>
+			<contain caption="All Organizations"/>
 		</assert>
 	</test>
 </testSuite>

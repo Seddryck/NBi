@@ -7,7 +7,7 @@ using NBi.Xml.Items;
 
 namespace NBi.Xml.Constraints
 {
-    public class SubsetOfXml : AbstractConstraintXml
+    public class EquivalentToXml : AbstractConstraintXml
     {
         [XmlAttribute("ignore-case")]
         public bool IgnoreCase { get; set; }
@@ -19,7 +19,7 @@ namespace NBi.Xml.Constraints
         public QueryXml Query { get; set; }
 
 
-        public SubsetOfXml()
+        public EquivalentToXml()
         {
             Items = new List<string>();
         }

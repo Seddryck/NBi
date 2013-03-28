@@ -11,11 +11,12 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Structure
 {
-    public class CollectionItemConstraint : NUnitCtr.CollectionContainsConstraint
+    public class ContainConstraint : NUnitCtr.Constraint
     {
         public IComparer Comparer { get; set; }
-        protected internal string Expected;
-        protected AdomdDiscoveryCommandFactory commandFactory;       
+        protected internal ICollection<string> Expected;
+        protected AdomdDiscoveryCommandFactory commandFactory;
+        protected NUnitCtr.Constraint internalConstraint;
 
         /// <summary>
         /// Request for metadata extraction
@@ -46,19 +47,30 @@ namespace NBi.NUnit.Structure
         /// Construct a CollectionContainsConstraint
         /// </summary>
         /// <param name="expected"></param>
-        public CollectionItemConstraint(string expected)
+        public ContainConstraint(string expected)
             : base(StringComparerHelper.Build(expected))
         {
-            Expected = expected;
+            Expected = new List<String>();
+            Expected.Add(expected);
             Comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(true);
-            base.Using(Comparer);
+        }
+
+        /// <summary>
+        /// Construct a CollectionContainsConstraint
+        /// </summary>
+        /// <param name="expected"></param>
+        public ContainConstraint(IEnumerable<string> expected)
+            : base(expected.Select(str => StringComparerHelper.Build(str)).ToList())
+        {
+            Expected = new List<String>(expected);
+            Comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(true);
         }
 
         #region Modifiers
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
-        public new CollectionItemConstraint IgnoreCase
+        public new ContainConstraint IgnoreCase
         {
             get
             {
@@ -77,7 +89,22 @@ namespace NBi.NUnit.Structure
                 return Process((MetadataDiscoveryRequest)actual);
             else
             {
-                var res = base.Matches(actual);
+                NUnitCtr.Constraint ctr = null;
+                foreach (var item in Expected)
+                {
+                    var localCtr = new NUnitCtr.CollectionContainsConstraint(StringComparerHelper.Build(item));
+                    var usingCtr = localCtr.Using(Comparer);
+
+                    if (ctr != null)
+                        ctr = new AndConstraint(ctr, usingCtr);
+                    else
+                        ctr = usingCtr;
+                }
+
+                IResolveConstraint exp = ctr;
+                var multipleConstraint = exp.Resolve();
+                var res = multipleConstraint.Matches(actual);
+                
                 return res;
             }
         }
@@ -88,12 +115,13 @@ namespace NBi.NUnit.Structure
         }
 
 
-        protected bool Process(MetadataDiscoveryRequest actual)
+        protected bool Process(MetadataDiscoveryRequest metadataDiscoveryRequest)
         {
-            Request = actual;
+            Request = metadataDiscoveryRequest;
             var factory = GetFactory();
-            var command = factory.BuildExact(actual);
+            var command = factory.BuildExact(metadataDiscoveryRequest);
             IEnumerable<IField> structures = command.Execute();
+            this.actual = structures;
             return this.Matches(structures);
         }
         #endregion
@@ -106,13 +134,20 @@ namespace NBi.NUnit.Structure
         {
             var description = new DescriptionStructureHelper();
             var filterExpression = description.GetFilterExpression(Request.GetAllFilters());
-            var nextTargetExpression = description.GetNextTargetExpression(Request.Target);
-            var expectationExpression = Expected;
 
-            writer.WritePredicate(string.Format("find a {0} named '{1}' contained {2}",
-                nextTargetExpression,
-                expectationExpression,
-                filterExpression));
+            if (Expected.Count == 1)
+            {
+                writer.WritePredicate(string.Format("find a {0} named '{1}' contained {2}",
+                    description.GetTargetExpression(Request.Target),
+                    Expected.First(),
+                    filterExpression));
+            }
+            else
+            {
+                writer.WritePredicate(string.Format("find a list of {0} contained {1}",
+                    description.GetTargetPluralExpression(Request.Target),
+                    filterExpression));
+            }
         }
 
         public override void WriteActualValueTo(MessageWriter writer)

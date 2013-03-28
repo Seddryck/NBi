@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using NBi.Core.Analysis.Metadata;
 using NBi.Core.Analysis.Request;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
@@ -8,25 +7,25 @@ using NBi.Xml.Systems;
 
 namespace NBi.NUnit.Builder
 {
-    class StructureSubsetOfBuilder: StructureContainBuilder
+    class StructureEquivalentToBuilder: AbstractStructureBuilder
     {
-        protected new SubsetOfXml ConstraintXml { get; set; }
+        protected EquivalentToXml ConstraintXml { get; set; }
         
-        public StructureSubsetOfBuilder() : base()
+        public StructureEquivalentToBuilder() : base()
         {
         }
 
-        internal StructureSubsetOfBuilder(DiscoveryRequestFactory factory)
+        internal StructureEquivalentToBuilder(DiscoveryRequestFactory factory)
             : base(factory)
         {
         }
 
         protected override void SpecificSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
-            if (!(ctrXml is SubsetOfXml))
-                throw new ArgumentException("Constraint must be a 'SubsetOfXml'");
+            if (!(ctrXml is EquivalentToXml))
+                throw new ArgumentException("Constraint must be a 'EquivalentToXml'");
 
-            ConstraintXml = (SubsetOfXml)ctrXml;
+            ConstraintXml = (EquivalentToXml)ctrXml;
         }
 
         protected override void SpecificBuild()
@@ -34,13 +33,14 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint(ConstraintXml);
         }
 
-        protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(SubsetOfXml ctrXml)
+        protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(EquivalentToXml ctrXml)
         {
-            var ctr = new NBi.NUnit.Structure.SubsetOfConstraint(ctrXml.Items);
+            var ctr = new NBi.NUnit.Structure.EquivalentToConstraint(ctrXml.Items);
+        
+            //Ignore-case if requested
+            if (ctrXml.IgnoreCase)
+                ctr = ctr.IgnoreCase;
 
-                //Ignore-case if requested
-                if (ctrXml.IgnoreCase)
-                    ctr = ctr.IgnoreCase;
             return ctr;
         }
 
@@ -125,12 +125,13 @@ namespace NBi.NUnit.Builder
             if (item is HierarchiesXml)
                 return DiscoveryTarget.Hierarchies;
             if (item is DimensionsXml)
-                return DiscoveryTarget.Dimensions;           
+                return DiscoveryTarget.Dimensions;
             if (item is PerspectivesXml)
                 return DiscoveryTarget.Perspectives;
-            
+
             throw new ArgumentException();
 
         }
+
     }
 }

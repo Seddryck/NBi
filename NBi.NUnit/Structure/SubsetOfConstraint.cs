@@ -48,7 +48,7 @@ namespace NBi.NUnit.Structure
         /// </summary>
         /// <param name="expected"></param>
         public SubsetOfConstraint(IEnumerable<string> expected)
-            : base(expected.Select(str => StringComparerHelper.Build(str)))
+            : base(expected.Select(str => StringComparerHelper.Build(str)).ToList())
         {
             this.Expected = expected;
             Comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(true);
@@ -94,6 +94,7 @@ namespace NBi.NUnit.Structure
             var factory = GetFactory();
             var command = factory.BuildExact(actual);
             IEnumerable<IField> structures = command.Execute();
+            this.actual = structures;
             return this.Matches(structures);
         }
         #endregion

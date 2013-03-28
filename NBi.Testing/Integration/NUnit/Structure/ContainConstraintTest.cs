@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Integration.NUnit.Structure
 {
     [TestFixture]
-    public class CollectionItemConstraintTest
+    public class ContainConstraintTest
     {
 
         #region SetUp & TearDown
@@ -47,7 +47,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null, null, null
                         );
 
-            var ctr = new CollectionItemConstraint("Adventure Works");
+            var ctr = new ContainConstraint("Adventure Works");
 
             //Method under test
             Assert.That(discovery, ctr);
@@ -63,7 +63,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null, null, null
                         );
 
-            var ctr = new CollectionItemConstraint("Not existing");
+            var ctr = new ContainConstraint("Not existing");
 
             //Method under test
             Assert.That(ctr.Matches(discovery), Is.False);
@@ -72,7 +72,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
        ///Dimension !!!!
 
         [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindExistingDimension_Success()
+        public void ContainConstraint_FindExistingDimension_Success()
         {
             var discovery = new DiscoveryRequestFactory().Build(
                         ConnectionStringReader.GetAdomd()
@@ -81,7 +81,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null, null
                         );
 
-            var ctr = new CollectionItemConstraint("Product");
+            var ctr = new ContainConstraint("Product");
 
             //Method under test
             Assert.That(discovery, ctr);
@@ -89,7 +89,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
         }
 
         [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindNonExistingDimension_Failure()
+        public void ContainConstraint_FindNonExistingDimension_Failure()
         {
             var discovery = new DiscoveryRequestFactory().Build(
                         ConnectionStringReader.GetAdomd()
@@ -98,7 +98,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null, null
                         );
 
-            var ctr = new CollectionItemConstraint("Not existing");
+            var ctr = new ContainConstraint("Not existing");
 
             //Method under test
             Assert.That(ctr.Matches(discovery), Is.False);
@@ -106,7 +106,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
 
 
         [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindExistingHierarchyBellowSpecificDimension_Success()
+        public void ContainConstraint_FindExistingHierarchyBellowSpecificDimension_Success()
         {
             var discovery = new DiscoveryRequestFactory().Build(
                         ConnectionStringReader.GetAdomd()
@@ -118,7 +118,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         );
 
 
-            var ctr = new CollectionItemConstraint("Product Model Lines");
+            var ctr = new ContainConstraint("Product Model Lines");
 
             //Method under test
             Assert.That(discovery, ctr);
@@ -126,7 +126,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
         }
 
         [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindNonExistingHierarchyBellowSpecificDimension_Failure()
+        public void ContainConstraint_FindNonExistingHierarchyBellowSpecificDimension_Failure()
         {
             var discovery = new DiscoveryRequestFactory().Build(
                         ConnectionStringReader.GetAdomd()
@@ -137,7 +137,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null
                         );
 
-            var ctr = new CollectionItemConstraint("Not existing");
+            var ctr = new ContainConstraint("Not existing");
 
             //Method under test
             Assert.That(ctr.Matches(discovery), Is.False);
@@ -145,7 +145,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
 
 
         [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindExistingLevel_Success()
+        public void ContainConstraint_FindExistingLevel_Success()
         {
             var discovery = new DiscoveryRequestFactory().Build(
                         ConnectionStringReader.GetAdomd()
@@ -157,7 +157,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null
                         );
 
-            var ctr = new CollectionItemConstraint("City");
+            var ctr = new ContainConstraint("City");
 
             //Method under test
             Assert.That(discovery, ctr);
@@ -165,7 +165,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
         }
 
         [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindNonExistingLevel_Failure()
+        public void ContainConstraint_FindNonExistingLevel_Failure()
         {
             var discovery = new DiscoveryRequestFactory().Build(
                         ConnectionStringReader.GetAdomd()
@@ -177,14 +177,14 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null
                         );
 
-            var ctr = new CollectionItemConstraint("Not existing");
+            var ctr = new ContainConstraint("Not existing");
 
             //Method under test
             Assert.That(ctr.Matches(discovery), Is.False);
         }
 
         [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindExistingMeasureGroup_Success()
+        public void ContainConstraint_FindExistingMeasureGroup_Success()
         {
             var discovery = new DiscoveryRequestFactory().Build(
                         ConnectionStringReader.GetAdomd()
@@ -193,7 +193,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null, null
                         );
 
-            var ctr = new CollectionItemConstraint("Reseller Orders");
+            var ctr = new ContainConstraint("Reseller Orders");
 
             //Method under test
             Assert.That(discovery, ctr);
@@ -201,7 +201,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
         }
 
         [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindNonExistingMeasureGroup_Failure()
+        public void ContainConstraint_FindNonExistingMeasureGroup_Failure()
         {
             var discovery = new DiscoveryRequestFactory().Build(
                         ConnectionStringReader.GetAdomd()
@@ -210,14 +210,14 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null, null
                         );
 
-            var ctr = new CollectionItemConstraint("Not existing");
+            var ctr = new ContainConstraint("Not existing");
 
             //Method under test
             Assert.That(ctr.Matches(discovery), Is.False);
         }
 
         [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindExistingMeasure_Success()
+        public void ContainConstraint_FindExistingMeasure_Success()
         {
             var discovery = new DiscoveryRequestFactory().Build(
                         ConnectionStringReader.GetAdomd()
@@ -227,7 +227,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null
                         );
 
-            var ctr = new CollectionItemConstraint("Reseller Order Count");
+            var ctr = new ContainConstraint("Reseller Order Count");
 
             //Method under test
             Assert.That(discovery, ctr);
@@ -235,7 +235,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
         }
 
         [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindNonExistingMeasure_Failure()
+        public void ContainConstraint_FindNonExistingMeasure_Failure()
         {
             var discovery = new DiscoveryRequestFactory().Build(
                          ConnectionStringReader.GetAdomd()
@@ -245,14 +245,14 @@ namespace NBi.Testing.Integration.NUnit.Structure
                          , null, null, null, null, null
                          );
 
-            var ctr = new CollectionItemConstraint("Not existing");
+            var ctr = new ContainConstraint("Not existing");
 
             //Method under test
             Assert.That(ctr.Matches(discovery), Is.False);
         }
 
         [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindExistingMeasureWithoutMeasureGroup_Success()
+        public void ContainConstraint_FindExistingMeasureWithoutMeasureGroup_Success()
         {
             var discovery = new DiscoveryRequestFactory().Build(
                         ConnectionStringReader.GetAdomd()
@@ -262,7 +262,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null
                         );
 
-            var ctr = new CollectionItemConstraint("Reseller Order Count");
+            var ctr = new ContainConstraint("Reseller Order Count");
 
             //Method under test
             Assert.That(discovery, ctr);
@@ -270,7 +270,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
         }
 
         [Test, Category("Olap cube")]
-        public void ContainsConstraint_FindNonExistingMeasureWithoutMeasureGroup_Failure()
+        public void ContainConstraint_FindNonExistingMeasureWithoutMeasureGroup_Failure()
         {
             var discovery = new DiscoveryRequestFactory().Build(
                          ConnectionStringReader.GetAdomd()
@@ -280,7 +280,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                          , null, null, null, null, null
                          );
 
-            var ctr = new CollectionItemConstraint("Not existing");
+            var ctr = new ContainConstraint("Not existing");
 
             //Method under test
             Assert.That(ctr.Matches(discovery), Is.False);

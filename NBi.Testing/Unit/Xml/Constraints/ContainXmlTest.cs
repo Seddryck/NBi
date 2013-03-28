@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Unit.Xml.Constraints
 {
     [TestFixture]
-    public class SubsetOfXmlTest
+    public class ContainXmlTest
     {
         protected TestSuiteXml DeserializeSample()
         {
@@ -16,7 +16,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.SubsetOfXmlTestSuite.xml"))
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.ContainXmlTestSuite.xml"))
             using (StreamReader reader = new StreamReader(stream))
             {
                 manager.Read(reader);
@@ -25,7 +25,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
         }
 
         [Test]
-        public void Deserialize_SampleFile_SubsetOfNotIgnoringCaseImplicitely()
+        public void Deserialize_SampleFile_ContainCaptionNotIgnoringCaseImplicitely()
         {
             int testNr = 0;
             
@@ -33,12 +33,13 @@ namespace NBi.Testing.Unit.Xml.Constraints
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<SubsetOfXml>());
-            Assert.That(((SubsetOfXml)ts.Tests[testNr].Constraints[0]).IgnoreCase, Is.False);
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<ContainXml>());
+            Assert.That(((ContainXml)ts.Tests[testNr].Constraints[0]).Caption, Is.EqualTo("xyz"));
+            Assert.That(((ContainXml)ts.Tests[testNr].Constraints[0]).IgnoreCase, Is.False);
         }
 
         [Test]
-        public void Deserialize_SampleFile_SubsetOfCaptionIgnoringCaseExplicitely()
+        public void Deserialize_SampleFile_ContainCaptionIgnoringCaseExplicitely()
         {
             int testNr = 1;
             
@@ -46,11 +47,12 @@ namespace NBi.Testing.Unit.Xml.Constraints
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(((SubsetOfXml)ts.Tests[testNr].Constraints[0]).IgnoreCase, Is.True);
+            Assert.That(((ContainXml)ts.Tests[testNr].Constraints[0]).Caption.ToLower(), Is.EqualTo("xyz"));
+            Assert.That(((ContainXml)ts.Tests[testNr].Constraints[0]).IgnoreCase, Is.True);
         }
 
         [Test]
-        public void Deserialize_SampleFile_SubsetOfReadItems()
+        public void Deserialize_SampleFile_ContainReadItems()
         {
             int testNr = 2;
 
@@ -58,9 +60,9 @@ namespace NBi.Testing.Unit.Xml.Constraints
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(((SubsetOfXml)ts.Tests[testNr].Constraints[0]).Items, Has.Count.EqualTo(2));
-            Assert.That(((SubsetOfXml)ts.Tests[testNr].Constraints[0]).Items[0], Is.EqualTo("First hierarchy"));
-            Assert.That(((SubsetOfXml)ts.Tests[testNr].Constraints[0]).Items[1], Is.EqualTo("Second hierarchy"));
+            Assert.That(((ContainXml)ts.Tests[testNr].Constraints[0]).Items, Has.Count.EqualTo(2));
+            Assert.That(((ContainXml)ts.Tests[testNr].Constraints[0]).Items[0], Is.EqualTo("xyz"));
+            Assert.That(((ContainXml)ts.Tests[testNr].Constraints[0]).Items[1], Is.EqualTo("abc"));
         }
     }
 }

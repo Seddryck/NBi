@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Unit.NUnit
 {
     [TestFixture]
-    public class MemberContainsConstraintTest
+    public class MemberContainConstraintTest
     {
 
         #region SetUp & TearDown
@@ -48,10 +48,10 @@ namespace NBi.Testing.Unit.NUnit
             members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[First member]", "First member", 1, 0));
             members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[Second member]", "Second member", 2, 0));
 
-            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint("First member");
+            var containConstraint = new NBi.NUnit.Member.ContainConstraint("First member");
             
             //Call the method to test
-            var res = containsConstraint.Matches(members);
+            var res = containConstraint.Matches(members);
 
             //Test conclusion            
             Assert.That(res, Is.True);
@@ -65,10 +65,10 @@ namespace NBi.Testing.Unit.NUnit
             members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[First member]", "First member", 1, 0));
             members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[Second member]", "Second member", 2, 0));
 
-            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint("Third member");
+            var containConstraint = new NBi.NUnit.Member.ContainConstraint("Third member");
 
             //Call the method to test
-            var res = containsConstraint.Matches(members);
+            var res = containConstraint.Matches(members);
 
             //Test conclusion            
             Assert.That(res, Is.False);
@@ -86,11 +86,11 @@ namespace NBi.Testing.Unit.NUnit
             members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[First member]", "First member", 1, 0));
             members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[Second member]", "Second member", 2, 0));
 
-            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint("Third member");
+            var containConstraint = new NBi.NUnit.Member.ContainConstraint("Third member");
 
             //Call the method to test
-            containsConstraint.Matches(members);
-            containsConstraint.WriteActualValueTo(writer);
+            containConstraint.Matches(members);
+            containConstraint.WriteActualValueTo(writer);
 
             //Test conclusion            
             mockWriter.Verify(wr => wr.WriteActualValue(members));
@@ -106,14 +106,14 @@ namespace NBi.Testing.Unit.NUnit
             //Buiding object used during test
             var members = new MemberResult();
             
-            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint("Third member");
+            var containConstraint = new NBi.NUnit.Member.ContainConstraint("Third member");
 
             //Call the method to test
-            containsConstraint.Matches(members);
-            containsConstraint.WriteActualValueTo(writer);
+            containConstraint.Matches(members);
+            containConstraint.WriteActualValueTo(writer);
 
             //Test conclusion            
-            mockWriter.Verify(wr => wr.WriteActualValue(It.IsAny<NBi.NUnit.Member.ContainsConstraint.NothingFoundMessage>()));
+            mockWriter.Verify(wr => wr.WriteActualValue(It.IsAny<NBi.NUnit.Member.ContainConstraint.NothingFoundMessage>()));
         }
 
         [Test]
@@ -128,11 +128,11 @@ namespace NBi.Testing.Unit.NUnit
             for (int i = 0; i < 25; i++)
                 members.Add(new NBi.Core.Analysis.Member.Member(string.Format("[Hierarchy].[member {0}]", i), string.Format("member {0}", i), i, 0));
             
-            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint("Searched member");
+            var containConstraint = new NBi.NUnit.Member.ContainConstraint("Searched member");
 
             //Call the method to test
-            containsConstraint.Matches(members);
-            containsConstraint.WriteActualValueTo(writer);
+            containConstraint.Matches(members);
+            containConstraint.WriteActualValueTo(writer);
 
             //Test conclusion 
             var shortList = members.Take(10);
@@ -148,10 +148,10 @@ namespace NBi.Testing.Unit.NUnit
             members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[First member]", "First member", 1, 0));
             members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[Second member]", "Second member", 2, 0));
 
-            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint(new string[] {"First member", "Second member"});
+            var containConstraint = new NBi.NUnit.Member.ContainConstraint(new string[] {"First member", "Second member"});
 
             //Call the method to test
-            var res = containsConstraint.Matches(members);
+            var res = containConstraint.Matches(members);
 
             //Test conclusion            
             Assert.That(res, Is.True);
@@ -165,10 +165,10 @@ namespace NBi.Testing.Unit.NUnit
             members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[First member]", "First member", 1, 0));
             members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[Second member]", "Second member", 2, 0));
 
-            var containsConstraint = new NBi.NUnit.Member.ContainsConstraint(new string[] {"Third member", "Second member"});
+            var containConstraint = new NBi.NUnit.Member.ContainConstraint(new string[] {"Third member", "Second member"});
 
             //Call the method to test
-            var res = containsConstraint.Matches(members);
+            var res = containConstraint.Matches(members);
 
             //Test conclusion            
             Assert.That(res, Is.False);

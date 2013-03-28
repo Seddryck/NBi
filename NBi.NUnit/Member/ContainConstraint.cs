@@ -9,7 +9,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
 {
-    public class ContainsConstraint : NUnitCtr.Constraint
+    public class ContainConstraint : NUnitCtr.Constraint
     {
         protected IEnumerable<string> expectedCaptions;
         protected IComparer comparer;
@@ -42,7 +42,7 @@ namespace NBi.NUnit.Member
         /// Construct a CollectionContainsConstraint specific for Members
         /// </summary>
         /// <param name="expected"></param>
-        public ContainsConstraint(string expected) : base()
+        public ContainConstraint(string expected) : base()
         {
             var list = new List<string>();
             list.Add(expected);
@@ -56,7 +56,7 @@ namespace NBi.NUnit.Member
         /// Construct a CollectionContainsConstraint specific for Members
         /// </summary>
         /// <param name="expected"></param>
-        public ContainsConstraint(IEnumerable<string> expected)
+        public ContainConstraint(IEnumerable<string> expected)
             : base(expected)
         {
             expectedCaptions = expected;
@@ -73,7 +73,7 @@ namespace NBi.NUnit.Member
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
-        public ContainsConstraint IgnoreCase
+        public ContainConstraint IgnoreCase
         {
             get
             {

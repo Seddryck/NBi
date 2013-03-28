@@ -11,59 +11,23 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Structure
 {
-    public class ContainConstraint : NUnitCtr.Constraint
+    public class ContainConstraint : AbstractCollectionConstraint
     {
-        public IComparer Comparer { get; set; }
-        protected internal ICollection<string> Expected;
-        protected AdomdDiscoveryCommandFactory commandFactory;
-        protected NUnitCtr.Constraint internalConstraint;
-
-        /// <summary>
-        /// Request for metadata extraction
-        /// </summary>
-        public MetadataDiscoveryRequest Request { get; protected set; }
-        
-        /// <summary>
-        /// Engine dedicated to MetadataExtractor acquisition
-        /// </summary>
-        protected internal AdomdDiscoveryCommandFactory CommandFactory
-        {
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException();
-                commandFactory = value;
-            }
-        }
-
-        protected AdomdDiscoveryCommandFactory GetFactory()
-        {
-            if (commandFactory == null)
-                commandFactory = new AdomdDiscoveryCommandFactory();
-            return commandFactory;
-        }
-
         /// <summary>
         /// Construct a CollectionContainsConstraint
         /// </summary>
         /// <param name="expected"></param>
         public ContainConstraint(string expected)
-            : base(StringComparerHelper.Build(expected))
+            : base(new List<string>() {expected})
         {
-            Expected = new List<String>();
-            Expected.Add(expected);
-            Comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(true);
         }
-
         /// <summary>
         /// Construct a CollectionContainsConstraint
         /// </summary>
         /// <param name="expected"></param>
         public ContainConstraint(IEnumerable<string> expected)
-            : base(expected.Select(str => StringComparerHelper.Build(str)).ToList())
+            : base(expected)
         {
-            Expected = new List<String>(expected);
-            Comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(true);
         }
 
         #region Modifiers
@@ -74,11 +38,10 @@ namespace NBi.NUnit.Structure
         {
             get
             {
-                Comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(false);
+                base.IgnoreCase();
                 return this;
             }
         }
-
 
         #endregion
 
@@ -109,21 +72,6 @@ namespace NBi.NUnit.Structure
             }
         }
 
-        public bool doMatch(IEnumerable<IField> actual)
-        {
-            return this.Matches(actual);
-        }
-
-
-        protected bool Process(MetadataDiscoveryRequest metadataDiscoveryRequest)
-        {
-            Request = metadataDiscoveryRequest;
-            var factory = GetFactory();
-            var command = factory.BuildExact(metadataDiscoveryRequest);
-            IEnumerable<IField> structures = command.Execute();
-            this.actual = structures;
-            return this.Matches(structures);
-        }
         #endregion
 
         /// <summary>
@@ -135,7 +83,7 @@ namespace NBi.NUnit.Structure
             var description = new DescriptionStructureHelper();
             var filterExpression = description.GetFilterExpression(Request.GetAllFilters());
 
-            if (Expected.Count == 1)
+            if (Expected.Count() == 1)
             {
                 writer.WritePredicate(string.Format("find a {0} named '{1}' contained {2}",
                     description.GetTargetExpression(Request.Target),
@@ -148,14 +96,6 @@ namespace NBi.NUnit.Structure
                     description.GetTargetPluralExpression(Request.Target),
                     filterExpression));
             }
-        }
-
-        public override void WriteActualValueTo(MessageWriter writer)
-        {
-            if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() > 0)
-                base.WriteActualValueTo(writer);
-            else
-                writer.WriteActualValue(new WriterHelper.NothingFoundMessage());
         }
     }
 }

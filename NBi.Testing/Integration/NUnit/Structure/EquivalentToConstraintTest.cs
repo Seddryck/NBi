@@ -56,6 +56,24 @@ namespace NBi.Testing.Integration.NUnit.Structure
         }
 
         [Test, Category("Olap cube")]
+        public void Matches_ActualEqualToExpectationButCaseNonMatching_Success()
+        {
+            var discovery = new DiscoveryRequestFactory().Build(
+                        ConnectionStringReader.GetAdomd()
+                        , DiscoveryTarget.Perspectives
+                        , null, null, null, null, null, null, null
+                        );
+
+            var expected = new string[] { "Adventure Works".ToLower(), "Channel Sales".ToUpper(), "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
+            var ctr = new EquivalentToConstraint(expected);
+            ctr = ctr.IgnoreCase;
+
+            //Method under test
+            Assert.That(discovery, ctr);
+
+        }
+
+        [Test, Category("Olap cube")]
         public void Matches_ActualMoreThanExpectation_Failure()
         {
             var discovery = new DiscoveryRequestFactory().Build(

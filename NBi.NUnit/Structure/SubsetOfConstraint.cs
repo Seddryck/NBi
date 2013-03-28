@@ -12,47 +12,17 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Structure
 {
-    public class SubsetOfConstraint : NUnitCtr.CollectionSubsetConstraint
+    public class SubsetOfConstraint : AbstractCollectionConstraint
     {
-        public IComparer Comparer { get; set; }
-        protected internal IEnumerable<string> Expected;
-        protected AdomdDiscoveryCommandFactory commandFactory;       
-
-        /// <summary>
-        /// Request for metadata extraction
-        /// </summary>
-        public MetadataDiscoveryRequest Request { get; protected set; }
-
-        /// <summary>
-        /// Engine dedicated to MetadataExtractor acquisition
-        /// </summary>
-        protected internal AdomdDiscoveryCommandFactory CommandFactory
-        {
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException();
-                commandFactory = value;
-            }
-        }
-
-        protected AdomdDiscoveryCommandFactory GetFactory()
-        {
-            if (commandFactory == null)
-                commandFactory = new AdomdDiscoveryCommandFactory();
-            return commandFactory;
-        }
-
+        
         /// <summary>
         /// Construct a CollectionSubsetConstraint
         /// </summary>
         /// <param name="expected"></param>
         public SubsetOfConstraint(IEnumerable<string> expected)
-            : base(expected.Select(str => StringComparerHelper.Build(str)).ToList())
+            : base(expected)
         {
-            this.Expected = expected;
-            Comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(true);
-            base.Using(Comparer); 
+            InternalConstraint = new CollectionSubsetConstraint(expected.Select(str => StringComparerHelper.Build(str)).ToList());
         }
 
         #region Modifiers
@@ -63,40 +33,11 @@ namespace NBi.NUnit.Structure
         {
             get
             {
-                Comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(false);
+                base.IgnoreCase();
                 return this;
             }
         }
 
-        #endregion
-
-        #region Specific NUnit
-        public override bool Matches(object actual)
-        {
-            if (actual is MetadataDiscoveryRequest)
-                return Process((MetadataDiscoveryRequest)actual);
-            else
-            {
-                var res = base.Matches(actual);
-                return res;
-            }
-        }
-
-        public bool doMatch(IEnumerable<IField> actual)
-        {
-            return this.Matches(actual);
-        }
-
-
-        protected bool Process(MetadataDiscoveryRequest actual)
-        {
-            Request = actual;
-            var factory = GetFactory();
-            var command = factory.BuildExact(actual);
-            IEnumerable<IField> structures = command.Execute();
-            this.actual = structures;
-            return this.Matches(structures);
-        }
         #endregion
 
         /// <summary>
@@ -120,16 +61,6 @@ namespace NBi.NUnit.Structure
                     expectationExpression.ToString(),
                     filterExpression));
             }
-            else
-                base.WriteDescriptionTo(writer);
-        }
-
-        public override void WriteActualValueTo(MessageWriter writer)
-        {
-            if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() > 0)
-                base.WriteActualValueTo(writer);
-            else
-                writer.WriteActualValue(new WriterHelper.NothingFoundMessage());
         }
     }
 }

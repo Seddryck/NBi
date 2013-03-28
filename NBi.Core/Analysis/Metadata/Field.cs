@@ -8,10 +8,13 @@ namespace NBi.Core.Analysis.Metadata
         public class ComparerByCaption : IComparer
         {
             readonly IComparer internalComparer;
+            
+            public bool CaseSensitive{private get; set;}
 
             public ComparerByCaption(bool caseSensitive)
             {
                 internalComparer = caseSensitive ? StringComparer.CurrentCulture : StringComparer.CurrentCultureIgnoreCase;
+                CaseSensitive = caseSensitive;
             }
             
             // Calls CaseInsensitiveComparer.Compare with the parameters reversed.

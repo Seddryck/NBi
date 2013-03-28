@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C217FD
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.framework.dll", "..\NUnit\src\NUnitFramework\framework\nunit.framework.dll.csproj", "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,6 +133,18 @@ Global
 		{5AA137A9-C158-4A4F-B07D-3DF787618C24}.Release|x64.Build.0 = Release|x64
 		{5AA137A9-C158-4A4F-B07D-3DF787618C24}.Release|x86.ActiveCfg = Release|Any CPU
 		{5AA137A9-C158-4A4F-B07D-3DF787618C24}.Release|x86.Build.0 = Release|Any CPU
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Release|x64.ActiveCfg = Release|Any CPU
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

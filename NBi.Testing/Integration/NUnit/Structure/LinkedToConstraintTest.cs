@@ -53,6 +53,22 @@ namespace NBi.Testing.Integration.NUnit.Structure
         }
 
         [Test, Category("Olap cube")]
+        public void LinkedToConstraint_ExistingPerspectiveDimensionAndMeasureGroupLinkedWithoutCaseMatching_Success()
+        {
+            var discovery = new DiscoveryRequestFactory().BuildLinkedTo(
+                        ConnectionStringReader.GetAdomd()
+                        , DiscoveryTarget.MeasureGroups
+                        , "Adventure Works", null, "Customer"
+                        );
+
+            var ctr = new LinkedToConstraint("Internet Sales".ToLower());
+            ctr = ctr.IgnoreCase;
+
+            //Method under test
+            Assert.That(discovery, ctr);
+        }
+
+        [Test, Category("Olap cube")]
         public void LinkedToConstraint_ExistingPerspectiveDimensionAndNotExistingMeasureGroup_Failure()
         {
             var discovery = new DiscoveryRequestFactory().BuildLinkedTo(

@@ -46,6 +46,10 @@
     <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>../../../../../../../Program%20Files/Microsoft.NET/ADOMD.NET/100/Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
@@ -263,10 +267,6 @@
     <Content Include="NBi.Testing.sql" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NUnit\src\NUnitFramework\framework\nunit.framework.dll.csproj">
-      <Project>{83dd7e12-a705-4dba-9d71-09c8973d9382}</Project>
-      <Name>nunit.framework.dll</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
       <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
       <Name>NBi.Core</Name>

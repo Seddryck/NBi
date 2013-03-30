@@ -1,0 +1,10 @@
+﻿<test name="A measure-group named '$measuregroup$' exists in perspective '$perspective$'.">
+	<system-under-test>
+		<structure>	
+			<measure-group caption="$measuregroup$" perspective="$perspective$"/>
+		</structure>
+	</system-under-test>
+	<assert>
+		<exists/>
+	</assert>
+</test>

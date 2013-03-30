@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using NBi.UI.View.GenericTest;
 
 namespace NBi.UI
 {
@@ -13,7 +14,7 @@ namespace NBi.UI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new CsvImporterView());
         }
     }
 }

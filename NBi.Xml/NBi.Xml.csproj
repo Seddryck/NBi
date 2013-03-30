@@ -96,6 +96,7 @@
     <Compile Include="Items\MeasureXml.cs" />
     <Compile Include="Items\MeasureGroupXml.cs" />
     <Compile Include="Items\PerspectiveXml.cs" />
+    <Compile Include="TestStandaloneXml.cs" />
     <Compile Include="TestSuiteBuilder.cs" />
     <Compile Include="TestXml.cs" />
     <Compile Include="Systems\ExecutionXml.cs" />

@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.ComponentModel;
+using System.Xml.Serialization;
 using NBi.Xml.Items;
 using NBi.Xml.Settings;
 

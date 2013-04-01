@@ -12,6 +12,6 @@
 		<subsetOf>
 			<item>$perspective; separator="</item>
 			<item>"$</item>
-		<subsetOf>
+		</subsetOf>
 	</assert>
 </test>

@@ -39,13 +39,14 @@
             this.columnHeaderChoice = new System.Windows.Forms.ComboBox();
             this.rename = new System.Windows.Forms.Button();
             this.csvContent = new System.Windows.Forms.DataGridView();
+            this.useGrouping = new System.Windows.Forms.CheckBox();
             this.openTemplate = new System.Windows.Forms.Button();
             this.template = new System.Windows.Forms.TextBox();
             this.saveAs = new System.Windows.Forms.Button();
             this.generate = new System.Windows.Forms.Button();
             this.testsList = new System.Windows.Forms.ListBox();
             this.bindingTests = new System.Windows.Forms.BindingSource(this.components);
-            this.useGrouping = new System.Windows.Forms.CheckBox();
+            this.undo = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingCsv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingColumnNames)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -73,6 +74,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.undo);
             this.splitContainer1.Panel2.Controls.Add(this.saveAs);
             this.splitContainer1.Panel2.Controls.Add(this.generate);
             this.splitContainer1.Panel2.Controls.Add(this.testsList);
@@ -163,6 +165,16 @@
             this.csvContent.Size = new System.Drawing.Size(439, 169);
             this.csvContent.TabIndex = 14;
             // 
+            // useGrouping
+            // 
+            this.useGrouping.AutoSize = true;
+            this.useGrouping.Location = new System.Drawing.Point(336, 16);
+            this.useGrouping.Name = "useGrouping";
+            this.useGrouping.Size = new System.Drawing.Size(89, 17);
+            this.useGrouping.TabIndex = 19;
+            this.useGrouping.Text = "Use grouping";
+            this.useGrouping.UseVisualStyleBackColor = true;
+            // 
             // openTemplate
             // 
             this.openTemplate.Location = new System.Drawing.Point(12, 12);
@@ -185,7 +197,7 @@
             // 
             // saveAs
             // 
-            this.saveAs.Location = new System.Drawing.Point(86, 13);
+            this.saveAs.Location = new System.Drawing.Point(388, 14);
             this.saveAs.Name = "saveAs";
             this.saveAs.Size = new System.Drawing.Size(77, 23);
             this.saveAs.TabIndex = 16;
@@ -211,16 +223,18 @@
             this.testsList.Name = "testsList";
             this.testsList.Size = new System.Drawing.Size(468, 433);
             this.testsList.TabIndex = 0;
+            this.testsList.SelectedIndexChanged += new System.EventHandler(this.TestsList_SelectedIndexChanged);
+            this.testsList.DoubleClick += new System.EventHandler(this.TestsList_DoubleClick);
             // 
-            // useGrouping
+            // undo
             // 
-            this.useGrouping.AutoSize = true;
-            this.useGrouping.Location = new System.Drawing.Point(336, 16);
-            this.useGrouping.Name = "useGrouping";
-            this.useGrouping.Size = new System.Drawing.Size(89, 17);
-            this.useGrouping.TabIndex = 19;
-            this.useGrouping.Text = "Use grouping";
-            this.useGrouping.UseVisualStyleBackColor = true;
+            this.undo.Location = new System.Drawing.Point(86, 13);
+            this.undo.Name = "undo";
+            this.undo.Size = new System.Drawing.Size(77, 23);
+            this.undo.TabIndex = 17;
+            this.undo.Text = "&Undo";
+            this.undo.UseVisualStyleBackColor = true;
+            this.undo.Click += new System.EventHandler(this.Undo_Click);
             // 
             // CsvImporterView
             // 
@@ -269,5 +283,6 @@
         private System.Windows.Forms.Button openTemplate;
         private System.Windows.Forms.BindingSource bindingTests;
         private System.Windows.Forms.CheckBox useGrouping;
+        private System.Windows.Forms.Button undo;
     }
 }

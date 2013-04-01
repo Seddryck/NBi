@@ -14,7 +14,9 @@ namespace NBi.UI.View.GenericTest
     {
         private CsvImportPresenter Presenter { get; set; }
 
+        protected RenameVariableView RenameVariableView { get; set; }
         protected OpenTemplateView OpenTemplateView { get; set; }
+        protected DisplayTestView DisplayTestView { get; set; }
 
         public CsvImporterView()
         {
@@ -27,7 +29,9 @@ namespace NBi.UI.View.GenericTest
 
         protected void InitializeSubViews()
         {
+            RenameVariableView = new RenameVariableView(this);
             OpenTemplateView = new OpenTemplateView(this);
+            DisplayTestView = new DisplayTestView(this);
         }
 
         #region properties
@@ -106,6 +110,21 @@ namespace NBi.UI.View.GenericTest
             }
         }
 
+        public TestXml TestSelected
+        {
+            get
+            {
+                throw new InvalidOperationException();
+            }
+            set
+            {
+                if (value == null)
+                    DisplayTestView.TestContent = string.Empty;
+                else
+                    DisplayTestView.TestContent = value.Content;
+            }
+        }
+
         #endregion
 
         protected void DeclareBindings()
@@ -139,6 +158,14 @@ namespace NBi.UI.View.GenericTest
                 handler(this, e);
         }
 
+        public event EventHandler UndoGenerateTests;
+        public void InvokeUndoGenerateTests(EventArgs e)
+        {
+            var handler = UndoGenerateTests;
+            if (handler != null)
+                handler(this, e);
+        }
+
         public event EventHandler<PersistTestSuiteEventArgs> PersistTestSuite;
         public void InvokePersistTestSuite(PersistTestSuiteEventArgs e)
         {
@@ -151,6 +178,14 @@ namespace NBi.UI.View.GenericTest
         public void InvokeVariableRenamed(VariableRenamedEventArgs e)
         {
             var handler = VariableRenamed;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        public event EventHandler<SelectedTestEventArgs> NewTestSelected;
+        public void InvokeNewTestSelected(SelectedTestEventArgs e)
+        {
+            var handler = NewTestSelected;
             if (handler != null)
                 handler(this, e);
         }
@@ -174,6 +209,11 @@ namespace NBi.UI.View.GenericTest
             InvokeGenerateTests(e);
         }
 
+        private void Undo_Click(object sender, EventArgs e)
+        {
+            InvokeUndoGenerateTests(e);
+        }
+
         private void OpenCsv_Click(object sender, EventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
@@ -185,15 +225,17 @@ namespace NBi.UI.View.GenericTest
 
         private void OpenTemplateClick(object sender, System.EventArgs e)
         {
-            OpenTemplateView.Show(this);
+            if (!OpenTemplateView.Visible)
+                OpenTemplateView.Show(this);
         }
 
 
         private void Rename_Click(object sender, EventArgs e)
         {
-            var view = new RenameVariableView(this, columnHeaderChoice.SelectedIndex);
-            view.Variable = columnHeaderChoice.SelectedItem.ToString();
-            view.ShowDialog();
+            RenameVariableView.Index = columnHeaderChoice.SelectedIndex;
+            RenameVariableView.Variable = columnHeaderChoice.SelectedItem.ToString();
+            if (!RenameVariableView.Visible)
+                RenameVariableView.Show(this);
         }
 
         public void ShowException(string text)
@@ -213,5 +255,17 @@ namespace NBi.UI.View.GenericTest
             if (result == DialogResult.OK)
                 InvokePersistTestSuite(new PersistTestSuiteEventArgs(saveAsDialog.FileName));
         }
+
+        private void TestsList_DoubleClick(object sender, EventArgs e)
+        {
+            if (!DisplayTestView.Visible)
+                DisplayTestView.Show();
+        }
+
+        private void TestsList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            InvokeNewTestSelected(new SelectedTestEventArgs(testsList.SelectedIndex));
+        }
+
     }
 }

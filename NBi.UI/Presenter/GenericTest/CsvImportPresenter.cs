@@ -16,11 +16,12 @@ namespace NBi.UI.Presenter.GenericTest
     {
         private const string TEMPLATE_DIRECTORY = "NBi.UI.Templates.";
 
+        private readonly List<TestXml> lastGeneration;
+
         public CsvImportPresenter(ICsvImporterView view)
             : base(view)
         {
-            
-            
+            lastGeneration = new List<TestXml>();
         }
 
         
@@ -31,9 +32,11 @@ namespace NBi.UI.Presenter.GenericTest
         
             View.VariableRenamed += OnViewVariableRenamed;
             View.GenerateTests += OnViewGenerateTests;
+            View.UndoGenerateTests += OnViewUndoGenerateTests;
             View.NewCsvSelected += OnViewNewCsvSelected;
             View.NewTemplateSelected += OnViewNewTemplateSelected;
             View.PersistTestSuite += OnViewPersistTestSuite;
+            View.NewTestSelected += OnViewTestSelected;
         }
 
         protected void OnViewGenerateTests(object sender, EventArgs e)
@@ -73,13 +76,25 @@ namespace NBi.UI.Presenter.GenericTest
             try
             {
                 var tests = genericTestMaker.Build(table);
+                lastGeneration.Clear();
                 foreach (var test in tests)
+                {
                     View.Tests.Add(test);
+                    lastGeneration.Add(test);
+                }
 
             }
             catch (ExpectedVariableNotFoundException)
             {
                 View.ShowException("The template has at least one variable which wasn't supplied by the Csv. Check the name of the variables.");
+            }
+        }
+
+        protected void OnViewUndoGenerateTests(object sender, EventArgs e)
+        {
+            foreach (var test in lastGeneration)
+            {
+                View.Tests.Remove(test);
             }
         }
 
@@ -113,14 +128,51 @@ namespace NBi.UI.Presenter.GenericTest
 
         public void OnViewNewTemplateSelected(object sender, NewTemplateSelectedEventArgs e)
         {
+            var tpl = string.Empty;
             //Template
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(string.Format("NBi.UI.Templates.{0}.txt",e.ResourceName)))
+            switch (e.Template)
+            {
+                case NewTemplateSelectedEventArgs.TemplateType.Embedded:
+                    tpl = ReadEmbeddedTemplate(e.ResourceName);
+                    break;
+                case NewTemplateSelectedEventArgs.TemplateType.External:
+                    tpl = ReadExternalTemplate(e.ResourceName);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            View.Template = tpl;
+        }
+
+        public void OnViewTestSelected(object sender, SelectedTestEventArgs e)
+        {
+            if (e.Index != -1)
+                View.TestSelected = View.Tests[e.Index];
+            else
+                View.TestSelected = null;
+        }
+  
+        private string ReadEmbeddedTemplate(string resourceName)
+        {
+            var tpl = string.Empty;           //Template
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(string.Format("NBi.UI.Templates.{0}.txt", resourceName)))
             {
                 using (var reader = new StreamReader(stream))
                 {
-                    View.Template = reader.ReadToEnd();
+                    tpl = reader.ReadToEnd();
                 }
             }
+            return tpl;
+        }
+
+        private string ReadExternalTemplate(string resourceName)
+        {
+            var tpl = string.Empty;           //Template
+            using (var stream = new StreamReader(resourceName))
+            {
+                tpl = stream.ReadToEnd();
+            }
+            return tpl;
         }
 
         protected void Initialize()

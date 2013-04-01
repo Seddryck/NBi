@@ -60,6 +60,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Interface\SelectedTestEventArgs.cs" />
     <Compile Include="Interface\PersistTestSuiteEventArgs.cs" />
     <Compile Include="Interface\NewCsvSelectedEventArgs.cs" />
     <Compile Include="Interface\ICsvImporterView.cs" />
@@ -72,6 +73,12 @@
     <Compile Include="Configuration\DirectoryCollection.cs" />
     <Compile Include="Configuration\Directory.cs" />
     <Compile Include="Presenter\GenericTest\CsvImportPresenter.cs" />
+    <Compile Include="View\GenericTest\DisplayTestView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\GenericTest\DisplayTestView.Designer.cs">
+      <DependentUpon>DisplayTestView.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\GenericTest\OpenTemplateView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,6 +125,9 @@
     <Compile Include="View\GenericTest\RenameVariableView.Designer.cs">
       <DependentUpon>RenameVariableView.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="View\GenericTest\DisplayTestView.resx">
+      <DependentUpon>DisplayTestView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\GenericTest\OpenTemplateView.resx">
       <DependentUpon>OpenTemplateView.cs</DependentUpon>
     </EmbeddedResource>

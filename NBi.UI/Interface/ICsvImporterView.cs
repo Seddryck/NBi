@@ -15,6 +15,7 @@ namespace NBi.UI.Interface
         BindingList<TestXml> Tests { get; set; }
         BindingList<string> EmbeddedTemplates { get; set; }
         string Template { get; set; }
+        TestXml TestSelected { get; set; }
 
         //A new csv file is selected to be displayed in the screen
         event EventHandler<NewCsvSelectedEventArgs> NewCsvSelected;
@@ -26,5 +27,9 @@ namespace NBi.UI.Interface
         event EventHandler GenerateTests;
         //Persist the testsuite created
         event EventHandler<PersistTestSuiteEventArgs> PersistTestSuite;
+        //Select a new Test
+        event EventHandler<SelectedTestEventArgs> NewTestSelected;
+        //Undo las generation
+        event EventHandler UndoGenerateTests;
     }
 }

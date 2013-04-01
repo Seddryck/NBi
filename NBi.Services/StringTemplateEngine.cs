@@ -38,6 +38,7 @@ namespace NBi.Service
                 var str = template.Render();
 
                 var test = XmlDeserializeFromString<TestStandaloneXml>(str);
+                test.Content = XmlSerializeFrom<TestStandaloneXml>(test);
                 tests.Add(test);
             }
             
@@ -47,6 +48,11 @@ namespace NBi.Service
         protected internal T XmlDeserializeFromString<T>(string objectData)
         {
             return (T)XmlDeserializeFromString(objectData, typeof(T));
+        }
+
+        protected internal string XmlSerializeFrom<T>(T objectData)
+        {
+            return SerializeFrom(objectData, typeof(T));
         }
 
         protected object XmlDeserializeFromString(string objectData, Type type)
@@ -59,6 +65,19 @@ namespace NBi.Service
                 result = serializer.Deserialize(reader);
             }
 
+            return result;
+        }
+
+        protected string SerializeFrom(object objectData, Type type)
+        {
+            var serializer = new XmlSerializer(type);
+            var result = string.Empty;
+            using (var writer = new StringWriter())
+            {
+                // Use the Serialize method to store the object's state.
+                serializer.Serialize(writer, objectData);
+                result = writer.ToString();
+            }
             return result;
         }
 

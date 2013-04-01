@@ -7,15 +7,13 @@ namespace NBi.UI.View.GenericTest
 {
     public partial class RenameVariableView : Form
     {
-        private readonly int index;
-        private readonly CsvImporterView parentView;
+        public int Index { get; set; }
+        private readonly CsvImporterView Origin;
 
-        public RenameVariableView(CsvImporterView parentView, int index)
+        public RenameVariableView(CsvImporterView origin)
         {
-            this.index = index;
-            this.parentView = parentView;
+            this.Origin = origin;
             InitializeComponent();
-
             InvokeInitialize(new EventArgs());
         }
 
@@ -56,8 +54,8 @@ namespace NBi.UI.View.GenericTest
                 MessageBox.Show(this, "Variable's name cannot be empty", "Rename variable", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            parentView.InvokeVariableRenamed(new VariableRenamedEventArgs(index, Variable));
-            Close();
+            Origin.InvokeVariableRenamed(new VariableRenamedEventArgs(Index, Variable));
+            this.Hide();
         }
 
     }

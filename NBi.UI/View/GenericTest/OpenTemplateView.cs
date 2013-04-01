@@ -38,17 +38,20 @@ namespace NBi.UI.View.GenericTest
 
         private void Apply_Click(object sender, EventArgs e)
         {
+            NewTemplateSelectedEventArgs eventArgs = null;
             if (isUserTemplate.Checked)
             {
-                FullPath = userTemplateFullPath.Text;
-                EmbeddedName = string.Empty;
+                eventArgs = new NewTemplateSelectedEventArgs(
+                    NewTemplateSelectedEventArgs.TemplateType.External, 
+                    userTemplateFullPath.Text);
             }
             else
             {
-                FullPath = string.Empty;
-                EmbeddedName = predefinedTemplateName.SelectedValue.ToString();
+                eventArgs = new NewTemplateSelectedEventArgs(
+                    NewTemplateSelectedEventArgs.TemplateType.Embedded,
+                    predefinedTemplateName.SelectedValue.ToString());
             }
-            Origin.InvokeNewTemplateSelected(new NewTemplateSelectedEventArgs(isUserTemplate.Checked ? userTemplateFullPath.Text : predefinedTemplateName.SelectedValue.ToString()));
+            Origin.InvokeNewTemplateSelected(eventArgs);
             this.Hide();
         }
 

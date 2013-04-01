@@ -12,6 +12,6 @@
 		<subsetOf>
 			<item>$dimension; separator="</item>
 			<item>"$</item>
-		<subsetOf>
+		</subsetOf>
 	</assert>
 </test>

@@ -44,8 +44,15 @@ namespace NBi.Xml
         private readonly XmlDocument docXml;
         public void Read(StreamReader reader)
         {
-             // Create an instance of the XmlSerializer specifying type and namespace.
-            XmlSerializer serializer = new XmlSerializer(typeof(TestSuiteXml));
+            //Add the attributes that should only be used during read phase
+            //These attributes are kept for compatibility with previous versions
+            //They should never been used during write process
+            var attrs = new SpecificReadAttributes();
+            attrs.Build();
+
+            // Create an instance of the XmlSerializer specifying type and read-attributes.
+            XmlSerializer serializer = new XmlSerializer(typeof(TestSuiteXml), attrs);
+
 
             using (reader)
             {
@@ -97,6 +104,52 @@ namespace NBi.Xml
                 // Use the Serialize method to store the object's state.
                 serializer.Serialize(writer, testSuite);
             }
+        }
+
+        public TestXml DeserializeTest(string objectData)
+        {
+            return XmlDeserializeFromString<TestXml>(objectData);
+        }
+
+        protected internal T XmlDeserializeFromString<T>(string objectData)
+        {
+            return (T)XmlDeserializeFromString(objectData, typeof(T));
+        }
+
+        protected object XmlDeserializeFromString(string objectData, Type type)
+        {
+            var serializer = new XmlSerializer(type);
+            object result;
+
+            using (TextReader reader = new StringReader(objectData))
+            {
+                result = serializer.Deserialize(reader);
+            }
+
+            return result;
+        }
+
+        public string SerializeTest(TestXml objectData)
+        {
+            return XmlSerializeFrom<TestXml>(objectData);
+        }
+
+        protected internal string XmlSerializeFrom<T>(T objectData)
+        {
+            return SerializeFrom(objectData, typeof(T));
+        }
+
+        protected string SerializeFrom(object objectData, Type type)
+        {
+            var serializer = new XmlSerializer(type);
+            var result = string.Empty;
+            using (var writer = new StringWriter())
+            {
+                // Use the Serialize method to store the object's state.
+                serializer.Serialize(writer, objectData);
+                result = writer.ToString();
+            }
+            return result;
         }
 
         protected bool Validate(string filename)

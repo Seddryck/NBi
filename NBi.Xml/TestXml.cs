@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using NBi.Xml.Constraints;
@@ -16,9 +17,9 @@ namespace NBi.Xml
         [XmlAttribute("uid")]
         public string UniqueIdentifier { get; set; }
 
-        [XmlElement("ignore")]
+        [XmlElement("ignore", Order=1)]
         public IgnoreXml IgnoreElement { get; set; }
-        [XmlAttribute("ignore")]
+        [XmlIgnore]
         public bool Ignore
         {
             get
@@ -39,9 +40,9 @@ namespace NBi.Xml
             }
         }
 
-        [XmlElement("description")]
+        [XmlElement("description", Order = 2)]
         public DescriptionXml DescriptionElement { get; set; }
-        [XmlAttribute("description")]
+        [XmlIgnore]
         public string Description
         {
             get
@@ -63,20 +64,24 @@ namespace NBi.Xml
             }
         }
 
-        [XmlAttribute("timeout")]
-        public int Timeout { get; set; }
+        [XmlElement("edition", Order = 3)]
+        public EditionXml Edition;
 
-        [XmlElement("category")]
+        [XmlElement("category", Order = 4)]
         public List<string> Categories;
 
-        [XmlArray("system-under-test"),
+        [XmlAttribute("timeout")]
+        [DefaultValue(0)]
+        public int Timeout { get; set; }
+
+        [XmlArray("system-under-test", Order = 5),
         XmlArrayItem(Type = typeof(ExecutionXml), ElementName = "execution"),
         XmlArrayItem(Type = typeof(MembersXml), ElementName = "members"),
         XmlArrayItem(Type = typeof(StructureXml), ElementName = "structure"),
         ]
         public List<AbstractSystemUnderTestXml> Systems;
 
-        [XmlArray("assert"),
+        [XmlArray("assert", Order = 6),
         XmlArrayItem(Type = typeof(SyntacticallyCorrectXml), ElementName = "syntacticallyCorrect"),
         XmlArrayItem(Type = typeof(FasterThanXml), ElementName = "fasterThan"),
         XmlArrayItem(Type = typeof(EqualToXml), ElementName = "equalTo"),
@@ -95,6 +100,17 @@ namespace NBi.Xml
             Constraints = new List<AbstractConstraintXml>();
             Systems = new List<AbstractSystemUnderTestXml>();
             Categories = new List<string>();
+        }
+
+        public TestXml(TestStandaloneXml standalone)
+        {
+            this.Name = standalone.Name;
+            this.DescriptionElement = standalone.DescriptionElement;
+            this.IgnoreElement = standalone.IgnoreElement;
+            this.Categories = standalone.Categories;
+            this.Constraints = standalone.Constraints;
+            this.Systems = standalone.Systems;
+            this.UniqueIdentifier = standalone.UniqueIdentifier;
         }
 
         public string GetName()
@@ -145,7 +161,13 @@ namespace NBi.Xml
             }
         }
 
-        
+        public override string ToString()
+        {
+            if (string.IsNullOrEmpty(this.Name))
+                return base.ToString();
+            else
+                return Name.ToString();
+        }
 
     }
 }

@@ -12,6 +12,7 @@ namespace NBi.Xml.Systems
         public string Name { get; set; }
 
         private DefaultXml _default;
+        [XmlIgnore()]
         public virtual DefaultXml Default
         {
             get { return _default; }
@@ -23,6 +24,7 @@ namespace NBi.Xml.Systems
             }
         }
         private SettingsXml settings;
+        [XmlIgnore()]
         public virtual SettingsXml Settings
         {
             get { return settings; }
@@ -39,6 +41,7 @@ namespace NBi.Xml.Systems
         public AbstractSystemUnderTestXml()
         {
             Default = new DefaultXml();
+            Settings = new SettingsXml();
         }
 
         internal virtual Dictionary<string, string> GetRegexMatch()

@@ -1,0 +1,10 @@
+﻿<test name="A perspective named '$perspective$' exists.">
+	<system-under-test>
+		<structure>	
+			<perspective caption="$perspective$"/>
+		</structure>
+	</system-under-test>
+	<assert>
+		<exists/>
+	</assert>
+</test>

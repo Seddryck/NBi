@@ -1,4 +1,4 @@
-﻿namespace NBi.UI.View.GenericTest
+﻿namespace NBi.UI.Genbi.View.Generator
 {
     partial class DisplayTestView
     {

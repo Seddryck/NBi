@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using NBi.UI.Genbi.Interface.Generator;
 
-namespace NBi.UI.View.GenericTest
+namespace NBi.UI.Genbi.View.Generator
 {
     public partial class DisplayTestView : Form
     {
-        protected CsvImporterView Origin { get; set; }
+        protected ICsvGeneratorView Origin { get; set; }
         public string TestContent { get; set; }
-        
-        public DisplayTestView(CsvImporterView origin)
+
+        public DisplayTestView(ICsvGeneratorView origin)
         {
             Origin = origin;
             InitializeComponent();

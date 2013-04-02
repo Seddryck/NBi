@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.UI.Interface
+namespace NBi.UI.Genbi.Interface.Generator.Events
 {
-    public class PersistTestSuiteEventArgs : EventArgs
+    public class TestSuitePersistEventArgs : EventArgs
     {
         public string FileName { get; private set; }
-        public PersistTestSuiteEventArgs(string fileName)
+        public TestSuitePersistEventArgs(string fileName)
         {
             FileName = fileName;
         }

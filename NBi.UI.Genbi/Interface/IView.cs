@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.UI.Interface
+namespace NBi.UI.Genbi.Interface
 {
     public interface IView
     {

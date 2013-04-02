@@ -60,37 +60,10 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Interface\SelectedTestEventArgs.cs" />
-    <Compile Include="Interface\PersistTestSuiteEventArgs.cs" />
-    <Compile Include="Interface\NewCsvSelectedEventArgs.cs" />
-    <Compile Include="Interface\ICsvImporterView.cs" />
-    <Compile Include="Interface\IView.cs" />
-    <Compile Include="Interface\NewTemplateSelectedEventArgs.cs" />
-    <Compile Include="Interface\VariableRenamedEventArgs.cs" />
-    <Compile Include="Presenter\BasePresenter.cs" />
     <Compile Include="Configuration\ConnectionString.cs" />
     <Compile Include="Configuration\ConnectionStringCollection.cs" />
     <Compile Include="Configuration\DirectoryCollection.cs" />
     <Compile Include="Configuration\Directory.cs" />
-    <Compile Include="Presenter\GenericTest\CsvImportPresenter.cs" />
-    <Compile Include="View\GenericTest\DisplayTestView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\GenericTest\DisplayTestView.Designer.cs">
-      <DependentUpon>DisplayTestView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\GenericTest\OpenTemplateView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\GenericTest\OpenTemplateView.Designer.cs">
-      <DependentUpon>OpenTemplateView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\GenericTest\CsvImporterView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\GenericTest\CsvImporterView.Designer.cs">
-      <DependentUpon>CsvImporterView.cs</DependentUpon>
-    </Compile>
     <Compile Include="FindMeasures.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,21 +92,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="NUnit\NUnitLauncher.cs" />
-    <Compile Include="View\GenericTest\RenameVariableView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\GenericTest\RenameVariableView.Designer.cs">
-      <DependentUpon>RenameVariableView.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="View\GenericTest\DisplayTestView.resx">
-      <DependentUpon>DisplayTestView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\GenericTest\OpenTemplateView.resx">
-      <DependentUpon>OpenTemplateView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\GenericTest\RenameVariableView.resx">
-      <DependentUpon>RenameVariableView.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -159,9 +117,6 @@
       <DependentUpon>TestSuiteCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="TreeviewStrcuture.cs" />
-    <EmbeddedResource Include="View\GenericTest\CsvImporterView.resx">
-      <DependentUpon>CsvImporterView.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FindMeasures.resx">
       <DependentUpon>FindMeasures.cs</DependentUpon>
     </EmbeddedResource>
@@ -222,34 +177,6 @@
       <Project>{3A9822B3-CCE4-441B-9C3E-D52817A994CA}</Project>
       <Name>NBi.Xml</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ExistsDimension.txt" />
-    <EmbeddedResource Include="Templates\ExistsHierarchy.txt" />
-    <EmbeddedResource Include="Templates\ExistsLevel.txt" />
-    <EmbeddedResource Include="Templates\ExistsMeasure.txt" />
-    <EmbeddedResource Include="Templates\ExistsMeasureGroup.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ExistsPerspective.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\SubsetOfHierarchies.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\SubsetOfMeasures.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\SubsetOfDimensions.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\SubsetOfMeasureGroup.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\SubsetOfLevels.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\SubsetOfPerspectives.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

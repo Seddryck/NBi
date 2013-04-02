@@ -5,20 +5,22 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using NBi.Core;
 using NBi.Service;
-using NBi.UI.Interface;
+using NBi.UI.Genbi.Interface.Generator;
+using NBi.UI.Genbi.Interface.Generator.Events;
 using NBi.Xml;
 
-namespace NBi.UI.Presenter.GenericTest
+namespace NBi.UI.Genbi.Presenter.Generator
 {
-    public class CsvImportPresenter: BasePresenter<ICsvImporterView>
+    public class CsvGeneratorPresenter: BasePresenter<ICsvGeneratorView>
     {
-        private const string TEMPLATE_DIRECTORY = "NBi.UI.Templates.";
+        private const string TEMPLATE_DIRECTORY = "NBi.UI.Genbi.Templates.";
 
         private readonly List<TestXml> lastGeneration;
 
-        public CsvImportPresenter(ICsvImporterView view)
+        public CsvGeneratorPresenter(ICsvGeneratorView view)
             : base(view)
         {
             lastGeneration = new List<TestXml>();
@@ -30,16 +32,17 @@ namespace NBi.UI.Presenter.GenericTest
             base.OnViewInitialize(sender, e);
             Initialize();
         
-            View.VariableRenamed += OnViewVariableRenamed;
-            View.GenerateTests += OnViewGenerateTests;
-            View.UndoGenerateTests += OnViewUndoGenerateTests;
-            View.NewCsvSelected += OnViewNewCsvSelected;
-            View.NewTemplateSelected += OnViewNewTemplateSelected;
-            View.PersistTestSuite += OnViewPersistTestSuite;
-            View.NewTestSelected += OnViewTestSelected;
+            View.VariableRename += OnRenameVariable;
+            View.TestsGenerate += OnTestsGenerate;
+            View.TestsUndoGenerate += OnTestsUndoGenerate;
+            View.CsvSelect += OnCsvSelect;
+            View.TemplateSelect += OnTemplateSelect;
+            View.TestSuitePersist += OnTestSuitePersist;
+            View.TestSelect += OnTestSelect;
+            View.TestDelete += OnTestDelete;
         }
 
-        protected void OnViewGenerateTests(object sender, EventArgs e)
+        protected void OnTestsGenerate(object sender, EventArgs e)
         {
             int groupedColumn = View.CsvContent.Rows[0].ItemArray.Length-1;
 
@@ -90,7 +93,7 @@ namespace NBi.UI.Presenter.GenericTest
             }
         }
 
-        protected void OnViewUndoGenerateTests(object sender, EventArgs e)
+        protected void OnTestsUndoGenerate(object sender, EventArgs e)
         {
             foreach (var test in lastGeneration)
             {
@@ -98,7 +101,7 @@ namespace NBi.UI.Presenter.GenericTest
             }
         }
 
-        protected void OnViewPersistTestSuite(object sender, PersistTestSuiteEventArgs e)
+        protected void OnTestSuitePersist(object sender, TestSuitePersistEventArgs e)
         {
             var testSuite = new TestSuiteXml();
             var array = View.Tests.ToArray();
@@ -109,13 +112,13 @@ namespace NBi.UI.Presenter.GenericTest
             View.ShowInform(String.Format("Test-suite '{0}' persisted.", e.FileName));
         }
 
-        public void OnViewVariableRenamed(object sender, VariableRenamedEventArgs e)
+        public void OnRenameVariable(object sender, VariableRenameEventArgs e)
         {
             View.CsvContent.Columns[e.Index].ColumnName = e.NewName;
             View.Variables[e.Index] = e.NewName;
         }
 
-        public void OnViewNewCsvSelected(object sender, NewCsvSelectedEventArgs e)
+        public void OnCsvSelect(object sender, CsvSelectEventArgs e)
         {
             //Content of Csv
             var csvReader = new CsvReader(e.FullPath, true);
@@ -126,16 +129,16 @@ namespace NBi.UI.Presenter.GenericTest
                 View.Variables.Add(col.ColumnName);
         }
 
-        public void OnViewNewTemplateSelected(object sender, NewTemplateSelectedEventArgs e)
+        public void OnTemplateSelect(object sender, TemplateSelectEventArgs e)
         {
             var tpl = string.Empty;
             //Template
             switch (e.Template)
             {
-                case NewTemplateSelectedEventArgs.TemplateType.Embedded:
+                case TemplateSelectEventArgs.TemplateType.Embedded:
                     tpl = ReadEmbeddedTemplate(e.ResourceName);
                     break;
-                case NewTemplateSelectedEventArgs.TemplateType.External:
+                case TemplateSelectEventArgs.TemplateType.External:
                     tpl = ReadExternalTemplate(e.ResourceName);
                     break;
                 default:
@@ -144,18 +147,30 @@ namespace NBi.UI.Presenter.GenericTest
             View.Template = tpl;
         }
 
-        public void OnViewTestSelected(object sender, SelectedTestEventArgs e)
+        public void OnTestSelect(object sender, TestSelectEventArgs e)
         {
             if (e.Index != -1)
                 View.TestSelected = View.Tests[e.Index];
             else
                 View.TestSelected = null;
         }
+
+        public void OnTestDelete(object sender, EventArgs e)
+        {
+            if (View.TestSelected != null)
+            {
+                lastGeneration.Add(View.TestSelected);
+                View.Tests.Remove(View.TestSelected);
+                View.TestSelected = null;
+            }
+            else
+                View.ShowInform(String.Format("No test to delete."));
+        }
   
         private string ReadEmbeddedTemplate(string resourceName)
         {
             var tpl = string.Empty;           //Template
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(string.Format("NBi.UI.Templates.{0}.txt", resourceName)))
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(string.Format("NBi.UI.Genbi.Templates.{0}.txt", resourceName)))
             {
                 using (var reader = new StreamReader(stream))
                 {
@@ -181,13 +196,13 @@ namespace NBi.UI.Presenter.GenericTest
             View.EmbeddedTemplates = new BindingList<string>();
             View.Tests = new BindingList<TestXml>();
 
-            //var csvReader = new CsvReader(@"C:\mydims.csv", true);
-            //View.CsvContent = csvReader.Read();
+            //CsvContent
             View.CsvContent = new DataTable();
             foreach (DataColumn col in View.CsvContent.Columns)
                 View.Variables.Add(col.ColumnName);
+            
             //Template
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("NBi.UI.Templates.ExistsDimension.txt"))
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("NBi.UI.Genbi.Templates.ExistsDimension.txt"))
             {
                 using (var reader = new StreamReader(stream))
                 {
@@ -196,10 +211,24 @@ namespace NBi.UI.Presenter.GenericTest
             }
             //EmbeddedResources
             var resources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
-            var templates = resources.Where(t => t.StartsWith(TEMPLATE_DIRECTORY) && t.EndsWith(".txt"));
+            IEnumerable<string> templates = resources.Where(t => t.StartsWith(TEMPLATE_DIRECTORY) && t.EndsWith(".txt")).ToList();
             templates = templates.Select(t => t.Replace(TEMPLATE_DIRECTORY, ""));
             templates = templates.Select(t => t.Substring(0, t.Length-4));
+            templates = templates.Select(t => SplitCamelCase(t));
             View.EmbeddedTemplates = new BindingList<string>(templates.ToArray());
+        }
+
+        private static string SplitCamelCase(string str)
+        {
+            return Regex.Replace(
+                Regex.Replace(
+                    str,
+                    @"(\P{Ll})(\P{Ll}\p{Ll})",
+                    "$1 $2"
+                ),
+                @"(\p{Ll})(\P{Ll})",
+                "$1 $2"
+            );
         }
     }
 }

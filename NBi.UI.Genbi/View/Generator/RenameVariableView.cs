@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using NBi.UI.Interface;
+using NBi.UI.Genbi.Interface.Generator;
+using NBi.UI.Genbi.Interface.Generator.Events;
 
-namespace NBi.UI.View.GenericTest
+namespace NBi.UI.Genbi.View.Generator
 {
     public partial class RenameVariableView : Form
     {
         public int Index { get; set; }
-        private readonly CsvImporterView Origin;
+        protected CsvGeneratorView Origin { get; set; }
 
-        public RenameVariableView(CsvImporterView origin)
+        public RenameVariableView(CsvGeneratorView origin)
         {
             this.Origin = origin;
             InitializeComponent();
             InvokeInitialize(new EventArgs());
         }
 
-        public event EventHandler<VariableRenamedEventArgs> Apply;
-        public void InvokeApply(VariableRenamedEventArgs e)
+        public event EventHandler<VariableRenameEventArgs> Apply;
+        public void InvokeApply(VariableRenameEventArgs e)
         {
-            EventHandler<VariableRenamedEventArgs> handler = Apply;
+            EventHandler<VariableRenameEventArgs> handler = Apply;
             if (handler != null)
                 handler(this, e);
         }
@@ -54,7 +55,7 @@ namespace NBi.UI.View.GenericTest
                 MessageBox.Show(this, "Variable's name cannot be empty", "Rename variable", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            Origin.InvokeVariableRenamed(new VariableRenamedEventArgs(Index, Variable));
+            Origin.InvokeVariableRename(new VariableRenameEventArgs(Index, Variable));
             this.Hide();
         }
 

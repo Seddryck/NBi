@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using NBi.UI.Genbi.View.Generator;
 
-namespace NBi.UI
+namespace NBi.UI.Genbi
 {
     static class Program
     {
@@ -13,7 +14,7 @@ namespace NBi.UI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new CsvGeneratorView());
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 
-namespace NBi.UI.Interface
+namespace NBi.UI.Genbi.Interface.Generator.Events
 {
-    public class NewCsvSelectedEventArgs : EventArgs
+    public class CsvSelectEventArgs : EventArgs
     {
         public string FullPath { get; private set; }
-        public NewCsvSelectedEventArgs(string fullPath)
+        public CsvSelectEventArgs(string fullPath)
         {
             FullPath = fullPath;
         }

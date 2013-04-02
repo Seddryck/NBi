@@ -17,10 +17,9 @@ namespace NBi.Xml
         [XmlAttribute("uid")]
         public string UniqueIdentifier { get; set; }
 
-        [XmlElement("ignore")]
+        [XmlElement("ignore", Order=1)]
         public IgnoreXml IgnoreElement { get; set; }
-        [XmlAttribute("ignore")]
-        [DefaultValue(false)]
+        [XmlIgnore]
         public bool Ignore
         {
             get
@@ -41,10 +40,9 @@ namespace NBi.Xml
             }
         }
 
-        [XmlElement("description")]
+        [XmlElement("description", Order = 2)]
         public DescriptionXml DescriptionElement { get; set; }
-        [XmlAttribute("description")]
-        [DefaultValue("")]
+        [XmlIgnore]
         public string Description
         {
             get
@@ -66,21 +64,24 @@ namespace NBi.Xml
             }
         }
 
-        [XmlElement("category")]
+        [XmlElement("edition", Order = 3)]
+        public EditionXml Edition;
+
+        [XmlElement("category", Order = 4)]
         public List<string> Categories;
 
         [XmlAttribute("timeout")]
         [DefaultValue(0)]
         public int Timeout { get; set; }
 
-        [XmlArray("system-under-test"),
+        [XmlArray("system-under-test", Order = 5),
         XmlArrayItem(Type = typeof(ExecutionXml), ElementName = "execution"),
         XmlArrayItem(Type = typeof(MembersXml), ElementName = "members"),
         XmlArrayItem(Type = typeof(StructureXml), ElementName = "structure"),
         ]
         public List<AbstractSystemUnderTestXml> Systems;
 
-        [XmlArray("assert"),
+        [XmlArray("assert", Order = 6),
         XmlArrayItem(Type = typeof(SyntacticallyCorrectXml), ElementName = "syntacticallyCorrect"),
         XmlArrayItem(Type = typeof(FasterThanXml), ElementName = "fasterThan"),
         XmlArrayItem(Type = typeof(EqualToXml), ElementName = "equalTo"),

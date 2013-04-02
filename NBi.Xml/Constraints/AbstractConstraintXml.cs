@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.ComponentModel;
+using System.Xml.Serialization;
 using NBi.Xml.Items;
 using NBi.Xml.Settings;
 
@@ -7,6 +8,7 @@ namespace NBi.Xml.Constraints
     public abstract class AbstractConstraintXml
     {
         private DefaultXml _default;
+        [XmlIgnore()]
         public virtual DefaultXml Default
         {
             get { return _default; }
@@ -18,6 +20,7 @@ namespace NBi.Xml.Constraints
             }
         }
         private SettingsXml settings;
+        [XmlIgnore()]
         public virtual SettingsXml Settings
         {
             get { return settings; }
@@ -36,10 +39,7 @@ namespace NBi.Xml.Constraints
         }
 
         [XmlAttribute("not")]
+        [DefaultValue(false)]
         public bool Not { get; set; }
-
-        public virtual void Initialize()
-        {
-        }
     }
 }

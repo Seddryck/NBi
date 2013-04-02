@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
+using System.ComponentModel;
 using System.Xml.Serialization;
-using NBi.Core;
 using NBi.Xml.Items;
 
 namespace NBi.Xml.Constraints
@@ -10,6 +9,7 @@ namespace NBi.Xml.Constraints
     public class EquivalentToXml : AbstractConstraintXml
     {
         [XmlAttribute("ignore-case")]
+        [DefaultValue(false)]
         public bool IgnoreCase { get; set; }
 
         [XmlElement("item")]

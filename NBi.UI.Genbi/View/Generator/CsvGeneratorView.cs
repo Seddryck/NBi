@@ -1,26 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
-using NBi.UI.Interface;
-using NBi.UI.Presenter.GenericTest;
+using NBi.UI.Genbi.Interface.Generator;
+using NBi.UI.Genbi.Interface.Generator.Events;
+using NBi.UI.Genbi.Presenter.Generator;
 using NBi.Xml;
 
-namespace NBi.UI.View.GenericTest
+namespace NBi.UI.Genbi.View.Generator
 {
-    public partial class CsvImporterView : Form, ICsvImporterView
+    public partial class CsvGeneratorView : Form, ICsvGeneratorView
     {
-        private CsvImportPresenter Presenter { get; set; }
+        private CsvGeneratorPresenter Presenter { get; set; }
 
         protected RenameVariableView RenameVariableView { get; set; }
         protected OpenTemplateView OpenTemplateView { get; set; }
         protected DisplayTestView DisplayTestView { get; set; }
 
-        public CsvImporterView()
+        public CsvGeneratorView()
         {
-            Presenter = new CsvImportPresenter(this);
+            Presenter = new CsvGeneratorPresenter(this);
             InitializeComponent();
             InitializeSubViews();
             DeclareBindings();
@@ -110,14 +110,16 @@ namespace NBi.UI.View.GenericTest
             }
         }
 
+        private TestXml testSelected;
         public TestXml TestSelected
         {
             get
             {
-                throw new InvalidOperationException();
+                return testSelected;
             }
             set
             {
+                testSelected = value;
                 if (value == null)
                     DisplayTestView.TestContent = string.Empty;
                 else
@@ -134,58 +136,66 @@ namespace NBi.UI.View.GenericTest
             testsList.DataSource = bindingTests;
         }
 
-        public event EventHandler<NewCsvSelectedEventArgs> NewCsvSelected;
-        public void InvokeNewCsvSelected(NewCsvSelectedEventArgs e)
+        public event EventHandler<CsvSelectEventArgs> CsvSelect;
+        public void InvokeCsvSelect(CsvSelectEventArgs e)
         {
-            var handler = NewCsvSelected;
+            var handler = CsvSelect;
             if (handler != null)
                 handler(this, e);
         }
 
-        public event EventHandler<NewTemplateSelectedEventArgs> NewTemplateSelected;
-        public void InvokeNewTemplateSelected(NewTemplateSelectedEventArgs e)
+        public event EventHandler<TemplateSelectEventArgs> TemplateSelect;
+        public void InvokeTemplateSelect(TemplateSelectEventArgs e)
         {
-            var handler = NewTemplateSelected;
+            var handler = TemplateSelect;
             if (handler != null)
                 handler(this, e);
         }
 
-        public event EventHandler GenerateTests;
-        public void InvokeGenerateTests(EventArgs e)
+        public event EventHandler TestsGenerate;
+        public void InvokeTestsGenerate(EventArgs e)
         {
-            var handler = GenerateTests;
+            var handler = TestsGenerate;
             if (handler != null)
                 handler(this, e);
         }
 
-        public event EventHandler UndoGenerateTests;
-        public void InvokeUndoGenerateTests(EventArgs e)
+        public event EventHandler TestsUndoGenerate;
+        public void InvokeTestsUndoGenerate(EventArgs e)
         {
-            var handler = UndoGenerateTests;
+            var handler = TestsUndoGenerate;
             if (handler != null)
                 handler(this, e);
         }
 
-        public event EventHandler<PersistTestSuiteEventArgs> PersistTestSuite;
-        public void InvokePersistTestSuite(PersistTestSuiteEventArgs e)
+        public event EventHandler<TestSuitePersistEventArgs> TestSuitePersist;
+        public void InvokeTestSuitePersist(TestSuitePersistEventArgs e)
         {
-            var handler = PersistTestSuite;
+            var handler = TestSuitePersist;
             if (handler != null)
                 handler(this, e);
         }
 
-        public event EventHandler<VariableRenamedEventArgs> VariableRenamed;
-        public void InvokeVariableRenamed(VariableRenamedEventArgs e)
+        public event EventHandler<VariableRenameEventArgs> VariableRename;
+        public void InvokeVariableRename(VariableRenameEventArgs e)
         {
-            var handler = VariableRenamed;
+            var handler = VariableRename;
             if (handler != null)
                 handler(this, e);
         }
 
-        public event EventHandler<SelectedTestEventArgs> NewTestSelected;
-        public void InvokeNewTestSelected(SelectedTestEventArgs e)
+        public event EventHandler<TestSelectEventArgs> TestSelect;
+        public void InvokeTestSelect(TestSelectEventArgs e)
         {
-            var handler = NewTestSelected;
+            var handler = TestSelect;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        public event EventHandler TestDelete;
+        public void InvokeTestDelete(EventArgs e)
+        {
+            var handler = TestDelete;
             if (handler != null)
                 handler(this, e);
         }
@@ -206,12 +216,12 @@ namespace NBi.UI.View.GenericTest
 
         private void Generate_Click(object sender, EventArgs e)
         {
-            InvokeGenerateTests(e);
+            InvokeTestsGenerate(e);
         }
 
         private void Undo_Click(object sender, EventArgs e)
         {
-            InvokeUndoGenerateTests(e);
+            InvokeTestsUndoGenerate(e);
         }
 
         private void OpenCsv_Click(object sender, EventArgs e)
@@ -219,7 +229,7 @@ namespace NBi.UI.View.GenericTest
             var openFileDialog = new OpenFileDialog();
             DialogResult result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)
-                InvokeNewCsvSelected(new NewCsvSelectedEventArgs(openFileDialog.FileName));
+                InvokeCsvSelect(new CsvSelectEventArgs(openFileDialog.FileName));
         }
 
 
@@ -253,7 +263,7 @@ namespace NBi.UI.View.GenericTest
             var saveAsDialog = new SaveFileDialog();
             DialogResult result = saveAsDialog.ShowDialog();
             if (result == DialogResult.OK)
-                InvokePersistTestSuite(new PersistTestSuiteEventArgs(saveAsDialog.FileName));
+                InvokeTestSuitePersist(new TestSuitePersistEventArgs(saveAsDialog.FileName));
         }
 
         private void TestsList_DoubleClick(object sender, EventArgs e)
@@ -264,8 +274,25 @@ namespace NBi.UI.View.GenericTest
 
         private void TestsList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            InvokeNewTestSelected(new SelectedTestEventArgs(testsList.SelectedIndex));
+            InvokeTestSelect(new TestSelectEventArgs(testsList.SelectedIndex));
         }
 
+        private void TestsList_MouseDown(object sender, MouseEventArgs e)
+        {
+            if ( e.Button == MouseButtons.Right )
+            {
+                //select the item under the mouse pointer
+                testsList.SelectedIndex = testsList.IndexFromPoint(e.Location);
+                if (testsList.SelectedIndex != -1)
+                {
+                    deleteTest.Show();   
+                }                
+            }
+        }
+
+        private void DeleteTest_Click(object sender, EventArgs e)
+        {
+            InvokeTestDelete(EventArgs.Empty);
+        }
     }
 }

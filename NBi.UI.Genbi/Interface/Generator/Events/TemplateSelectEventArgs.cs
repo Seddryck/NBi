@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.UI.Interface
+namespace NBi.UI.Genbi.Interface.Generator.Events
 {
-    public class NewTemplateSelectedEventArgs : EventArgs
+    public class TemplateSelectEventArgs : EventArgs
     {
         public TemplateType Template;
         public string ResourceName { get; private set; }
-        public NewTemplateSelectedEventArgs(TemplateType template, string resourceName)
+        public TemplateSelectEventArgs(TemplateType template, string resourceName)
         {
             Template = template;
             ResourceName = resourceName;

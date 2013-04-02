@@ -1,6 +1,6 @@
-﻿namespace NBi.UI.View.GenericTest
+﻿namespace NBi.UI.Genbi.View.Generator
 {
-    partial class CsvImporterView
+    partial class CsvGeneratorView
     {
         /// <summary>
         /// Required designer variable.
@@ -42,11 +42,12 @@
             this.useGrouping = new System.Windows.Forms.CheckBox();
             this.openTemplate = new System.Windows.Forms.Button();
             this.template = new System.Windows.Forms.TextBox();
+            this.undo = new System.Windows.Forms.Button();
             this.saveAs = new System.Windows.Forms.Button();
             this.generate = new System.Windows.Forms.Button();
             this.testsList = new System.Windows.Forms.ListBox();
             this.bindingTests = new System.Windows.Forms.BindingSource(this.components);
-            this.undo = new System.Windows.Forms.Button();
+            this.deleteTest = new System.Windows.Forms.ContextMenuStrip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.bindingCsv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingColumnNames)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -195,6 +196,16 @@
             this.template.TabIndex = 12;
             this.template.WordWrap = false;
             // 
+            // undo
+            // 
+            this.undo.Location = new System.Drawing.Point(86, 13);
+            this.undo.Name = "undo";
+            this.undo.Size = new System.Drawing.Size(77, 23);
+            this.undo.TabIndex = 17;
+            this.undo.Text = "&Undo";
+            this.undo.UseVisualStyleBackColor = true;
+            this.undo.Click += new System.EventHandler(this.Undo_Click);
+            // 
             // saveAs
             // 
             this.saveAs.Location = new System.Drawing.Point(388, 14);
@@ -217,6 +228,7 @@
             // 
             // testsList
             // 
+            this.testsList.ContextMenuStrip = this.deleteTest;
             this.testsList.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.testsList.FormattingEnabled = true;
             this.testsList.Location = new System.Drawing.Point(0, 50);
@@ -225,24 +237,23 @@
             this.testsList.TabIndex = 0;
             this.testsList.SelectedIndexChanged += new System.EventHandler(this.TestsList_SelectedIndexChanged);
             this.testsList.DoubleClick += new System.EventHandler(this.TestsList_DoubleClick);
+            this.testsList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TestsList_MouseDown);
             // 
-            // undo
+            // deleteTest
             // 
-            this.undo.Location = new System.Drawing.Point(86, 13);
-            this.undo.Name = "undo";
-            this.undo.Size = new System.Drawing.Size(77, 23);
-            this.undo.TabIndex = 17;
-            this.undo.Text = "&Undo";
-            this.undo.UseVisualStyleBackColor = true;
-            this.undo.Click += new System.EventHandler(this.Undo_Click);
+            this.deleteTest.Name = "deleteTest";
+            this.deleteTest.Size = new System.Drawing.Size(61, 4);
+            this.deleteTest.Text = "Delete test";
+            this.deleteTest.Items.Add("Delete test");
+            this.deleteTest.Click += new System.EventHandler(this.DeleteTest_Click);
             // 
-            // CsvImporterView
+            // CsvGeneratorView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(911, 483);
             this.Controls.Add(this.splitContainer1);
-            this.Name = "CsvImporterView";
+            this.Name = "CsvGeneratorView";
             this.Text = "CsvImporter";
             this.Load += new System.EventHandler(this.CsvImporterView_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bindingCsv)).EndInit();
@@ -284,5 +295,6 @@
         private System.Windows.Forms.BindingSource bindingTests;
         private System.Windows.Forms.CheckBox useGrouping;
         private System.Windows.Forms.Button undo;
+        private System.Windows.Forms.ContextMenuStrip deleteTest;
     }
 }

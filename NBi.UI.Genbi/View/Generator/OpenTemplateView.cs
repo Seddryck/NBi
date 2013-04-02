@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using NBi.UI.Interface;
+using NBi.UI.Genbi.Interface.Generator.Events;
 
-namespace NBi.UI.View.GenericTest
+namespace NBi.UI.Genbi.View.Generator
 {
     public partial class OpenTemplateView : Form
     {
-        protected CsvImporterView Origin { get; set; }
+        protected CsvGeneratorView Origin { get; set; }
         public string EmbeddedName { get; set; }
         public string FullPath { get; set; }
 
-        public OpenTemplateView(CsvImporterView origin)
+        public OpenTemplateView(CsvGeneratorView origin)
         {
             Origin = origin;
             InitializeComponent();
@@ -28,30 +28,22 @@ namespace NBi.UI.View.GenericTest
             TemplateChoice_CheckedChanged(this, EventArgs.Empty);
         }
 
-        public event EventHandler<VariableRenamedEventArgs> Apply;
-        public void InvokeApply(VariableRenamedEventArgs e)
-        {
-            EventHandler<VariableRenamedEventArgs> handler = Apply;
-            if (handler != null)
-                handler(this, e);
-        }
-
         private void Apply_Click(object sender, EventArgs e)
         {
-            NewTemplateSelectedEventArgs eventArgs = null;
+            TemplateSelectEventArgs eventArgs = null;
             if (isUserTemplate.Checked)
             {
-                eventArgs = new NewTemplateSelectedEventArgs(
-                    NewTemplateSelectedEventArgs.TemplateType.External, 
+                eventArgs = new TemplateSelectEventArgs(
+                    TemplateSelectEventArgs.TemplateType.External, 
                     userTemplateFullPath.Text);
             }
             else
             {
-                eventArgs = new NewTemplateSelectedEventArgs(
-                    NewTemplateSelectedEventArgs.TemplateType.Embedded,
-                    predefinedTemplateName.SelectedValue.ToString());
+                eventArgs = new TemplateSelectEventArgs(
+                    TemplateSelectEventArgs.TemplateType.Embedded,
+                    predefinedTemplateName.SelectedValue.ToString().Replace(" ",""));
             }
-            Origin.InvokeNewTemplateSelected(eventArgs);
+            Origin.InvokeTemplateSelect(eventArgs);
             this.Hide();
         }
 

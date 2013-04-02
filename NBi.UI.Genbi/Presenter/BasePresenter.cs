@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using NBi.UI.Interface;
+using NBi.UI.Genbi.Interface;
 
-namespace NBi.UI.Presenter
+namespace NBi.UI.Genbi.Presenter
 {
     public class BasePresenter<TView> where TView : class, IView
     {

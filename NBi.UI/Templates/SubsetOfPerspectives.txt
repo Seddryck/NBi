@@ -1,7 +1,5 @@
 ﻿<test name="All perspectives are a subset of these $length(perspective)$ elements">
-	<description>
-		Verify that all the perspectives are in the following list of $length(perspective)$ expected perspectives: $perspective; separator=", "$.
-	</description>
+	<description>Verify that all the perspectives are in the following list of $length(perspective)$ expected perspectives: $perspective; separator=", "$.</description>
 	<edition author="$username$" created="$now$"/>
 	<system-under-test>
 		<structure>	

@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033</connectionString>
+		</default>
+	</settings>
+	<test name="Perspectives are all defined in the set of 7 elements" uid="0001">
+		<system-under-test>
+			<structure>
+				<perspectives/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<subsetOf>
+				<item>Adventure Works</item>
+				<item>Channel Sales</item>
+				<item>Direct Sales</item>
+				<item>Finance</item>
+				<item>Mined Customers</item>
+				<item>Sales Summary</item>
+				<item>Sales Targets</item>
+			</subsetOf>
+		</assert>
+	</test>
+	<test name="In perspective 'Finance', the dimensions are all defined in the following set of 6 values" uid="0001">
+		<system-under-test>
+			<structure>
+				<dimensions perspective="Finance"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<subsetOf>
+				<item>Account</item>
+				<item>Date</item>
+				<item>Department</item>
+				<item>Destination Currency</item>
+				<item>Organization</item>
+				<item>Scenario</item>
+			</subsetOf>
+		</assert>
+	</test>
+	<test name="In perspective 'Finance', the hierarchies of dimension 'Organization' are all defined in the following set of 1 value" uid="0001">
+		<system-under-test>
+			<structure>
+				<hierarchies dimension="Organization" perspective="Finance"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<subsetOf>
+				<item>Organizations</item>
+			</subsetOf>
+		</assert>
+	</test>
+	<test name="In dimension 'Customers', the levels of hierarchy 'State-Provinces' are all defined in the set 'State-Provinces' and '(All)'" uid="0001">
+		<system-under-test>
+			<structure>
+				<levels hierarchy="State-Province" dimension="Customer" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<subsetOf>
+				<item>State-Province</item>
+				<item>(All)</item>
+			</subsetOf>
+		</assert>
+	</test>
+	<test name="In perspective 'Finance', the measure-groups are all defined in the following set of 2 values" uid="0001">
+		<system-under-test>
+			<structure>
+				<measure-groups perspective="Finance"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<subsetOf>
+				<item>Exchange Rates</item>
+				<item>Financial Reporting</item>
+			</subsetOf>
+		</assert>
+	</test>
+	<test name="In perspective 'Finance', the measures of measure-group 'Exchange Rates' are all defined in the following set of 2 values" uid="0001">
+		<system-under-test>
+			<structure>
+				<measures measure-group="Exchange Rates" perspective="Finance"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<subsetOf>
+				<item>End of Day Rate</item>
+				<item>Average Rate</item>
+			</subsetOf>
+		</assert>
+	</test>
+</testSuite>

@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{28B43C12-C599-49CD-B712-92B5590A6F20}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NBi.UI.Genbi</RootNamespace>
+    <AssemblyName>NBi.UI.Genbi</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="View\Generator\CsvGeneratorView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Generator\CsvGeneratorView.Designer.cs">
+      <DependentUpon>CsvGeneratorView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Generator\DisplayTestView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Generator\DisplayTestView.Designer.cs">
+      <DependentUpon>DisplayTestView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Generator\OpenTemplateView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Generator\OpenTemplateView.Designer.cs">
+      <DependentUpon>OpenTemplateView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Generator\RenameVariableView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Generator\RenameVariableView.Designer.cs">
+      <DependentUpon>RenameVariableView.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Interface\Generator\ICsvGeneratorView.cs" />
+    <Compile Include="Interface\IView.cs" />
+    <Compile Include="Interface\Generator\Events\CsvSelectEventArgs.cs" />
+    <Compile Include="Interface\Generator\Events\TemplateSelectEventArgs.cs" />
+    <Compile Include="Interface\Generator\Events\TestSuitePersistEventArgs.cs" />
+    <Compile Include="Interface\Generator\Events\TestSelectEventArgs.cs" />
+    <Compile Include="Interface\Generator\Events\VariableRenameEventArgs.cs" />
+    <Compile Include="Presenter\BasePresenter.cs" />
+    <Compile Include="Presenter\Generator\CsvGeneratorPresenter.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="View\Generator\CsvGeneratorView.resx">
+      <DependentUpon>CsvGeneratorView.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\ExistsDimension.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\ExistsHierarchy.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\ExistsLevel.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\ExistsMeasure.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\ExistsMeasureGroup.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\ExistsPerspective.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\SubsetOfDimensions.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\SubsetOfHierarchies.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\SubsetOfLevels.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\SubsetOfMeasureGroup.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\SubsetOfMeasures.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\SubsetOfPerspectives.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
+      <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
+      <Name>NBi.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NBi.Services\NBi.Service.csproj">
+      <Project>{a9c7e50a-1d3d-4c6d-9c56-8ea8925fe2d6}</Project>
+      <Name>NBi.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
+      <Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>
+      <Name>NBi.Xml</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

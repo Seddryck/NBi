@@ -20,7 +20,12 @@ namespace NBi.Core.Analysis.Metadata.Adomd
         protected AdomdCommand CreateCommand()
         {
             var conn = new AdomdConnection();
+
+            //If connectionString is empty throw a ConnectionException 
+            if (String.IsNullOrEmpty(ConnectionString))
+                throw new ConnectionException(new ArgumentNullException(), "No connectionString found.");
             conn.ConnectionString = ConnectionString;
+
             try
             {
                 conn.Open();

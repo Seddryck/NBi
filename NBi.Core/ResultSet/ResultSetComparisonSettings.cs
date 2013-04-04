@@ -140,7 +140,10 @@ namespace NBi.Core.ResultSet
 
         public int GetLastColumnIndex()
         {
-            return _lastColumnIndex;
+            if (!isLastColumnIndexDefined)
+                throw new InvalidOperationException("You must call the method ApplyTo() before trying to call GetLastColumnIndex()");
+            
+            return lastColumnIndex;
         }
 
         public int GetMinColumnIndexDefined()
@@ -171,11 +174,13 @@ namespace NBi.Core.ResultSet
             return max;
         }
 
-        protected int _lastColumnIndex;
+        private bool isLastColumnIndexDefined = false;
+        private int lastColumnIndex;
 
         public void ApplyTo(int columnCount)
         {
-            _lastColumnIndex = columnCount-1;
+            isLastColumnIndexDefined = true;
+            lastColumnIndex = columnCount-1;
         }
         
         //public IList<int> KeyColumnIndexes { get; private set; }
@@ -191,6 +196,11 @@ namespace NBi.Core.ResultSet
         //    throw new ArgumentException();
         //}
 
+        public ResultSetComparisonSettings(int columnsCount, KeysChoice keysDef, ValuesChoice valuesDef)
+            : this(keysDef, valuesDef, 0, null)
+        {
+            ApplyTo(columnsCount);
+        }
 
         public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, ICollection<IColumn> columnsDef)
             : this(keysDef, valuesDef, 0, columnsDef)

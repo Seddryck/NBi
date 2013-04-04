@@ -34,8 +34,11 @@ namespace NBi.Core.ResultSet
         {
             var chrono = DateTime.Now;
 
+            var columnsCount = Math.Max(y.Columns.Count, x.Columns.Count);
             if (Settings == null)
-                BuildDefaultSettings();
+                BuildDefaultSettings(columnsCount);
+            else
+                Settings.ApplyTo(columnsCount);
 
             Settings.ConsoleDisplay();
             WriteSettingsToDataTableProperties(y, Settings);
@@ -209,7 +212,10 @@ namespace NBi.Core.ResultSet
             {
                 if (!dr.IsNull(i))
                 {
-                    if (settings.IsNumeric(i) && !IsValidNumeric(dr[i].ToString()))
+                    if (settings.IsNumeric(i) && IsNumericField(dr.Table.Columns[i]))
+                        return;
+
+                    if (settings.IsNumeric(i) && !IsValidNumeric(dr[i].ToString())
                     {                   
                         var exception = string.Format("The column with an index of {0} is expecting a numeric value but the first row of your result set contains a value '{1}' not recognized as a valid numeric value."
                             , i, dr[i].ToString());
@@ -220,6 +226,9 @@ namespace NBi.Core.ResultSet
                         throw new ResultSetComparerException(exception);
                     }
 
+                    if (settings.IsDateTime(i) && IsDateTimeField(dr.Table.Columns[i]))
+                        return;
+
                     if (settings.IsDateTime(i) && !IsValidDateTime(dr[i].ToString()))
                     {
                         throw new ResultSetComparerException(
@@ -228,6 +237,28 @@ namespace NBi.Core.ResultSet
                     } 
                 }
             }
+        }
+
+        private bool IsNumericField(DataColumn dataColumn)
+        {
+            return
+                dataColumn.DataType == typeof(Byte) ||
+                dataColumn.DataType == typeof(Decimal) ||
+                dataColumn.DataType == typeof(Double) ||
+                dataColumn.DataType == typeof(Int16) ||
+                dataColumn.DataType == typeof(Int32) ||
+                dataColumn.DataType == typeof(Int64) ||
+                dataColumn.DataType == typeof(SByte) ||
+                dataColumn.DataType == typeof(Single) ||
+                dataColumn.DataType == typeof(UInt16) ||
+                dataColumn.DataType == typeof(UInt32) ||
+                dataColumn.DataType == typeof(UInt64);
+        }
+
+        private bool IsDateTimeField(DataColumn dataColumn)
+        {
+            return
+                dataColumn.DataType == typeof(DateTime);
         }
 
         private bool IsValidNumeric(string value)
@@ -270,12 +301,12 @@ namespace NBi.Core.ResultSet
             return x.GetHashCode() == y.GetHashCode();
         }
 
-        protected void BuildDefaultSettings()
+        protected void BuildDefaultSettings(int columnsCount)
         {
             Settings = new ResultSetComparisonSettings(
+                columnsCount,
                 ResultSetComparisonSettings.KeysChoice.AllExpectLast,
-                ResultSetComparisonSettings.ValuesChoice.Last,
-                null);
+                ResultSetComparisonSettings.ValuesChoice.Last);
         }
 
     }

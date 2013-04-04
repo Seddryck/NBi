@@ -88,10 +88,12 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = ctrXmlStubFactory.Object;
 
             var sutXml = new StructureXml();
-            sutXml.Default = new DefaultXml() { ConnectionString = "connectionString-default" };
 
             sutXml.Item = new MeasureGroupsXml();
             ((MeasureGroupsXml)sutXml.Item).Perspective = "Perspective";
+
+            sutXml.Default = new DefaultXml() { ConnectionString = "connectionString-default" };
+
             var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
             //Call the method to test

@@ -75,17 +75,18 @@ namespace NBi.Testing.Unit.NUnit.Builder
         [Test]
         public void GetSystemUnderTest_ConnectionStringInDefault_CorrectlyInitialized()
         {
-            var defXml = new DefaultXml();
-            defXml.ConnectionString = "connectionString-default";
-            
             var sutXml = new MembersXml();
-            sutXml.Default = defXml;
             sutXml.ChildrenOf = "memberCaption";
             var item = new HierarchyXml();
             sutXml.Item = item;
             item.Perspective = "perspective";
             item.Dimension = "dimension";
             item.Caption = "hierarchy";
+
+            var defXml = new DefaultXml();
+            defXml.ConnectionString = "connectionString-default";
+            sutXml.Default = defXml;
+            
             var ctrXml = new ContainXml();
 
             var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();

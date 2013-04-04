@@ -72,18 +72,59 @@ namespace NBi.Testing.Unit.NUnit.Builder
         }
 
         [Test]
-        public void GetSystemUnderTest_ConnectionStringInDefault_CorrectlyInitialized()
+        public void GetSystemUnderTest_ConnectionStringInReference_CorrectlyInitialized()
         {
-            var defXml = new DefaultXml();
-            defXml.ConnectionString = "connectionString-default";
-            
             var sutXml = new MembersXml();
-            sutXml.Default = defXml;
+
             var item = new HierarchyXml();
             sutXml.Item = item;
             item.Perspective = "perspective";
             item.Dimension = "dimension";
             item.Caption = "hierarchy";
+            item.ConnectionString = "@ref-connStr";
+
+            var settingsXml = new SettingsXml();
+            settingsXml.References.Add(new ReferenceXml() {Name="ref-connStr", ConnectionString="connectionString-ref"});
+            sutXml.Settings = settingsXml;
+
+            var ctrXml = new CountXml();
+
+            var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();
+            discoFactoMockFactory.Setup(dfs =>
+                dfs.Build(
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>()))
+                    .Returns(new MembersDiscoveryRequest());
+            var discoFactoMock = discoFactoMockFactory.Object;
+
+            var builder = new MembersCountBuilder(discoFactoMock);
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var sut = builder.GetSystemUnderTest();
+
+            Assert.That(sut, Is.InstanceOf<MembersDiscoveryRequest>());
+            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString-ref", It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), null));
+        }
+
+        [Test]
+        public void GetSystemUnderTest_ConnectionStringInDefault_CorrectlyInitialized()
+        {           
+            var sutXml = new MembersXml();
+            
+            var item = new HierarchyXml();
+            sutXml.Item = item;
+            item.Perspective = "perspective";
+            item.Dimension = "dimension";
+            item.Caption = "hierarchy";
+
+            var defXml = new DefaultXml();
+            defXml.ConnectionString = "connectionString-default";
+            sutXml.Default = defXml;
+
             var ctrXml = new CountXml();
 
             var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();

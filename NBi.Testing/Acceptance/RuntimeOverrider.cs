@@ -51,6 +51,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("QueryEqualToQuery.xml")]
         [TestCase("QueryEqualToResultSet.xml")]
         [TestCase("QueryEqualToResultSetWithNull.xml")]
+        [TestCase("QueryWithReference.xml")]
         [TestCase("Ordered.xml")]
         [TestCase("Count.xml")]
         [TestCase("Contain.xml")]

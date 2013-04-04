@@ -11,7 +11,7 @@
 	<test name="My first test case" uid="0001">
 		<system-under-test>
 			<execution>
-				<query name="Select first product" connectionString-ref="second-ref">
+				<query name="Select first product" connectionString="@second-ref">
 					SELECT TOP 2 * FROM Product;
 				</query>
 			</execution>
@@ -56,6 +56,16 @@
 					</row>
 				</resultSet>
 			</equalTo>
+		</assert>
+	</test>
+	<test name="perspective and reference">
+		<system-under-test>
+			<structure>
+				<perspective caption="toto" connectionString="@first-ref"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
 		</assert>
 	</test>
 </testSuite>

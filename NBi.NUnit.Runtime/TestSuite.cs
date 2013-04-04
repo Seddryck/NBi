@@ -77,7 +77,7 @@ namespace NBi.NUnit.Runtime
             {
                 throw new CustomStackTraceAssertionException(ex, stackTrace);
             }
-            catch (TestException ex)
+            catch (NBiException ex)
             {
                 throw new CustomStackTraceErrorException(ex, stackTrace);
             }

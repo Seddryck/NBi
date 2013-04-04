@@ -112,7 +112,7 @@ namespace NBi.Testing.Unit.Xml.Settings
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithoutDefault");
 
-            Assert.That(((QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).Item).ConnectionString, Is.Null.Or.Empty);
+            Assert.That(((QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).Item).GetConnectionString(), Is.Null.Or.Empty);
         }
 
         [Test]
@@ -153,7 +153,6 @@ namespace NBi.Testing.Unit.Xml.Settings
         }
 
         [Test]
-        [Ignore ("Reference Not fully implemented")]
         public void DeserializeEqualToResultSet_SettingsWithReference_ReferenceAppliedToTest()
         {
             int testNr = 0;
@@ -161,8 +160,8 @@ namespace NBi.Testing.Unit.Xml.Settings
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithReference");
 
-            Assert.That(((QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).Item).ConnectionString, Is.Null.Or.Empty);
             Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.Not.Null.And.Not.Empty);
+            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.EqualTo("My Second Connection String"));
         }
 
         [Test]
@@ -172,8 +171,20 @@ namespace NBi.Testing.Unit.Xml.Settings
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithReference");
-            Assert.That(((QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).Item).ConnectionString, Is.Null.Or.Empty);
+            Assert.That(((QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).Item).GetConnectionString(), Is.Null.Or.Empty);
             Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.Null);
+        }
+
+        [Test]
+        public void DeserializeStructurePerspective_SettingsWithReference_ReferenceAppliedToTest()
+        {
+            int testNr = 2;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithReference");
+
+            Assert.That(((StructureXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.Not.Null.And.Not.Empty);
+            Assert.That(((StructureXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.EqualTo("My First Connection String"));
         }
 
     }

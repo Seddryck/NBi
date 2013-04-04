@@ -63,7 +63,7 @@ namespace NBi.NUnit.Builder
             }
 
             var disco = discoveryFactory.BuildLinkedTo(
-                    sutXml.GetConnectionString(),
+                    sutXml.Item.GetConnectionString(),
                     target,
                     perspective,
                     measuregroup,

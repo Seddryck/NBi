@@ -24,18 +24,6 @@ namespace NBi.Xml.Systems
             }
         }
 
-        public virtual string GetConnectionString()
-        {
-            //if ConnectionString is specified then return it
-            if (!string.IsNullOrEmpty(Item.ConnectionString))
-                return Item.ConnectionString;
-
-            //Else get the default ConnectionString 
-            if (Default != null && !string.IsNullOrEmpty(Default.ConnectionString))
-                return Default.ConnectionString;
-            return null;
-        }
-
         internal override Dictionary<string, string> GetRegexMatch()
         {
             return Item.GetRegexMatch();

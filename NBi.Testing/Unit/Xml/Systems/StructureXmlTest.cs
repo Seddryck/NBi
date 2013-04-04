@@ -73,7 +73,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(item.Caption, Is.EqualTo("hierarchy"));
             Assert.That(item.Dimension, Is.EqualTo("dimension"));
             Assert.That(item.Perspective, Is.EqualTo("Perspective"));
-            Assert.That(item.ConnectionString, Is.EqualTo("ConnectionString"));
+            Assert.That(item.GetConnectionString(), Is.EqualTo("ConnectionString"));
         }
 
 
@@ -126,7 +126,7 @@ namespace NBi.Testing.Unit.Xml.Systems
 
             MeasureGroupXml item = (MeasureGroupXml)((StructureXml)ts.Tests[testNr].Systems[0]).Item;
             Assert.That(item.Perspective, Is.EqualTo("Perspective"));
-            Assert.That(item.ConnectionString, Is.EqualTo("ConnectionString"));
+            Assert.That(item.GetConnectionString(), Is.EqualTo("ConnectionString"));
         }
 
        

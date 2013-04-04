@@ -42,7 +42,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(item.Hierarchy, Is.EqualTo("hierarchy"));
             Assert.That(item.Caption, Is.EqualTo("level"));
             Assert.That(item.Perspective, Is.EqualTo("Perspective"));
-            Assert.That(item.ConnectionString, Is.EqualTo("ConnectionString"));
+            Assert.That(item.GetConnectionString(), Is.EqualTo("ConnectionString"));
         }
 
         [Test]
@@ -78,7 +78,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(item.Dimension, Is.EqualTo("dimension"));
             Assert.That(item.Caption, Is.EqualTo("hierarchy"));
             Assert.That(item.Perspective, Is.EqualTo("Perspective"));
-            Assert.That(item.ConnectionString, Is.EqualTo("ConnectionString"));
+            Assert.That(item.GetConnectionString(), Is.EqualTo("ConnectionString"));
         }
         
         [Test]

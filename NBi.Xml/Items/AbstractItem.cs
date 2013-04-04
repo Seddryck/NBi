@@ -10,9 +10,6 @@ namespace NBi.Xml.Items
         [XmlAttribute("caption")]
         public string Caption { get; set; }
 
-        [XmlAttribute("connectionString")]
-        public string ConnectionString { get; set; }
-
         public abstract string TypeName {get;}
 
         internal virtual Dictionary<string, string> GetRegexMatch()

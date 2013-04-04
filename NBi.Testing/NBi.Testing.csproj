@@ -264,6 +264,9 @@
     <EmbeddedResource Include="Acceptance\Resources\EquivalentToMembers.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\QueryWithReference.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="NBi.Testing.sql" />
   </ItemGroup>
   <ItemGroup>

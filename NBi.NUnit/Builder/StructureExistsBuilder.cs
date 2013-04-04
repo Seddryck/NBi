@@ -95,7 +95,7 @@ namespace NBi.NUnit.Builder
                 throw new ArgumentOutOfRangeException();
 
             var disco = discoveryFactory.Build(
-                    sutXml.GetConnectionString(),
+                    sutXml.Item.GetConnectionString(),
                     target,
                     perspective,
                     measuregroup,

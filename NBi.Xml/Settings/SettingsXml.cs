@@ -62,11 +62,11 @@ namespace NBi.Xml.Settings
                 if (def.ConnectionString.StartsWith("@"))
                 {
                     if (connectionStrings.Count == 0)
-                        throw new ArgumentOutOfRangeException(string.Format("No connectionString is provided through the config file and the default connection string is referencing the connection string named '{0}'", def.ConnectionString));
+                        throw new ArgumentOutOfRangeException(string.Format("No connectionString is provided through the config file. The default connection string stipulated in nbits file is trying to reference a connection string named '{0}'", def.ConnectionString));
 
                     var key = connectionStrings.AllKeys.SingleOrDefault(k => k == def.ConnectionString.Substring(1) || k == def.ConnectionString);
                     if (string.IsNullOrEmpty(key))
-                        throw new ArgumentOutOfRangeException(string.Format("Some connectionStrings are provided through the config file but the default connection string is referencing the connection string named '{0}' has not been found.", def.ConnectionString));
+                        throw new ArgumentOutOfRangeException(string.Format("Some connectionStrings are provided through the config file but the default connection string is trying to reference a connection string named '{0}' which has not been found.", def.ConnectionString));
 
                     def.ConnectionString = connectionStrings.Get(key);
                 }
@@ -77,11 +77,11 @@ namespace NBi.Xml.Settings
                 if (reference.ConnectionString.StartsWith("@"))
                 {
                     if (connectionStrings.Count == 0)
-                        throw new ArgumentOutOfRangeException(string.Format("No connectionString is provided through the config file but the connection string named '{0}' has not been found.", reference.ConnectionString));
+                        throw new ArgumentOutOfRangeException(string.Format("No connectionString is provided through the config file. The connection string named '{0}' has not been found and cannot be created as a reference.", reference.ConnectionString));
 
                     var key = connectionStrings.AllKeys.SingleOrDefault(k => k == reference.ConnectionString.Substring(1) || k == reference.ConnectionString);
                     if (string.IsNullOrEmpty(key))
-                        throw new ArgumentOutOfRangeException(string.Format("Some connectionStrings are provided through the config file but the connection string is referencing the connection string named '{0}' has not been found.", reference.ConnectionString));
+                        throw new ArgumentOutOfRangeException(string.Format("Some connectionStrings are provided through the config file but a reference connection string is trying to reference a connection string named '{0}' which has not been found.", reference.ConnectionString));
 
                     reference.ConnectionString = connectionStrings.Get(key);
                 }

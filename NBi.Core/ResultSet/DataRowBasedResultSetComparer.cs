@@ -215,7 +215,7 @@ namespace NBi.Core.ResultSet
                     if (settings.IsNumeric(i) && IsNumericField(dr.Table.Columns[i]))
                         return;
 
-                    if (settings.IsNumeric(i) && !IsValidNumeric(dr[i].ToString())
+                    if (settings.IsNumeric(i) && !IsValidNumeric(dr[i].ToString()))
                     {                   
                         var exception = string.Format("The column with an index of {0} is expecting a numeric value but the first row of your result set contains a value '{1}' not recognized as a valid numeric value."
                             , i, dr[i].ToString());

@@ -14,6 +14,8 @@
 		</system-under-test>
 		<assert>
 			<equalTo>
+				<column index="0" role="key" type="text"/>
+				<column index="1" role="value" type="numeric"/>
 				<resultSet file="ResellerOrderCountByYearBefore2006.csv"/>
 			</equalTo>
 		</assert>

@@ -143,6 +143,22 @@ namespace NBi.Core.ResultSet
             return _lastColumnIndex;
         }
 
+        public int GetMinColumnIndexDefined()
+        {
+            if (ColumnsDef.Count > 0)
+                return ColumnsDef.Min(cd => cd.Index);
+            else
+                return -1;
+        }
+
+        public int GetMaxColumnIndexDefined()
+        {
+            if (ColumnsDef.Count > 0)
+                return ColumnsDef.Max(cd => cd.Index);
+            else
+                return -1;
+        }
+
         public int GetLastKeyColumnIndex()
         {
             var max = 0;

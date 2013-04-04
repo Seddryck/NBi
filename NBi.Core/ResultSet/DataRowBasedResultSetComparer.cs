@@ -18,7 +18,7 @@ namespace NBi.Core.ResultSet
         {
             Settings = settings;
         }
-        
+
         public ResultSetCompareResult Compare(object x, object y)
         {
             if (x is DataTable && y is DataTable)
@@ -40,7 +40,13 @@ namespace NBi.Core.ResultSet
             Settings.ConsoleDisplay();
             WriteSettingsToDataTableProperties(y, Settings);
             WriteSettingsToDataTableProperties(x, Settings);
-            
+
+            CheckSettingsAndDataTable(y, Settings);
+            CheckSettingsAndDataTable(x, Settings);
+
+            CheckSettingsAndFirstRow(y, Settings);
+            CheckSettingsAndFirstRow(x, Settings);
+
             var keyComparer = new DataRowKeysComparer(Settings, x.Columns.Count);
 
             //Check that the rows in the reference are unique
@@ -58,7 +64,7 @@ namespace NBi.Core.ResultSet
             Console.WriteLine("Missing rows: {0} [{1} ms]", missingRows.Count(), DateTime.Now.Subtract(chrono).Milliseconds);
 
             chrono = DateTime.Now;
-            var unexpectedRows = y.AsEnumerable().Except(x.AsEnumerable(),keyComparer).ToList();
+            var unexpectedRows = y.AsEnumerable().Except(x.AsEnumerable(), keyComparer).ToList();
             Console.WriteLine("Unexpected rows: {0} [{1} ms]", unexpectedRows.Count(), DateTime.Now.Subtract(chrono).Milliseconds);
 
             chrono = DateTime.Now;
@@ -70,16 +76,16 @@ namespace NBi.Core.ResultSet
 
             var duplicatedRows = x.AsEnumerable().Where(row => duplicatedKeys.Any(key => key.HashCode == keyComparer.GetHashCode(row))).ToList();
 
-            Console.WriteLine("Duplicated rows: {0} (implicating {1} distinct keys)  [{1} ms]", duplicatedRows.Count(), duplicatedKeys.Count(),  DateTime.Now.Subtract(chrono).Milliseconds);
+            Console.WriteLine("Duplicated rows: {0} (implicating {1} distinct keys)  [{1} ms]", duplicatedRows.Count(), duplicatedKeys.Count(), DateTime.Now.Subtract(chrono).Milliseconds);
 
             chrono = DateTime.Now;
             var keyMatchingRows = x.AsEnumerable().Except(missingRows).Except(unexpectedRows).Except(duplicatedRows).ToList();
             Console.WriteLine("Rows with a matching key and not duplicated: {0}  [{1} ms]", keyMatchingRows.Count(), DateTime.Now.Subtract(chrono).Milliseconds);
 
             chrono = DateTime.Now;
-            var nonMatchingValueRows = new List<DataRow>(); 
+            var nonMatchingValueRows = new List<DataRow>();
             foreach (var rx in keyMatchingRows)
-	        {
+            {
                 var ry = y.AsEnumerable().Single(r => keyComparer.GetHashCode(r) == keyComparer.GetHashCode(rx));
                 for (int i = 0; i < rx.Table.Columns.Count; i++)
                 {
@@ -88,12 +94,12 @@ namespace NBi.Core.ResultSet
                         //Null management
                         if (rx.IsNull(i) || ry.IsNull(i))
                         {
-                             if (!rx.IsNull(i) || !ry.IsNull(i))
-                             {
-                                 ry.SetColumnError(i, ry.IsNull(i) ? rx[i].ToString() : "(null)");
-                                 if (!nonMatchingValueRows.Contains(ry))
-                                     nonMatchingValueRows.Add(ry);
-                             }
+                            if (!rx.IsNull(i) || !ry.IsNull(i))
+                            {
+                                ry.SetColumnError(i, ry.IsNull(i) ? rx[i].ToString() : "(null)");
+                                if (!nonMatchingValueRows.Contains(ry))
+                                    nonMatchingValueRows.Add(ry);
+                            }
                         }
                         //Not Null management
                         else
@@ -107,7 +113,7 @@ namespace NBi.Core.ResultSet
                                 var rxDecimal = Convert.ToDecimal(rx[i], NumberFormatInfo.InvariantInfo);
                                 var ryDecimal = Convert.ToDecimal(ry[i], NumberFormatInfo.InvariantInfo);
                                 var tolerance = Convert.ToDecimal(Settings.GetTolerance(i), NumberFormatInfo.InvariantInfo);
-                                
+
                                 //Compare decimals (with tolerance)
                                 if (!IsEqual(rxDecimal, ryDecimal, tolerance))
                                 {
@@ -115,9 +121,9 @@ namespace NBi.Core.ResultSet
                                     if (!nonMatchingValueRows.Contains(ry))
                                         nonMatchingValueRows.Add(ry);
                                 }
-                                
+
                             }
-                            //Numeric
+                            //Date and Time
                             else if (Settings.IsDateTime(i))
                             {
                                 //Console.WriteLine("Debug: {0} {1}", rx[i].ToString(), rx[i].GetType());
@@ -148,7 +154,7 @@ namespace NBi.Core.ResultSet
                         }
                     }
                 }
-	        }
+            }
             Console.WriteLine("Rows with a matching key but without matching value: {0} [{1} ms]", nonMatchingValueRows.Count(), DateTime.Now.Subtract(chrono).Milliseconds);
 
             return ResultSetCompareResult.Build(missingRows, unexpectedRows, duplicatedRows, keyMatchingRows, nonMatchingValueRows);
@@ -175,6 +181,74 @@ namespace NBi.Core.ResultSet
             }
         }
 
+
+        protected void CheckSettingsAndDataTable(DataTable dt, ResultSetComparisonSettings settings)
+        {
+            var max = settings.GetMaxColumnIndexDefined();
+            if (dt.Columns.Count <= max)
+            {
+                var exception = string.Format("You've defined a column with an index of {0}, meaning that your result set would have at least {1} columns but your result set has only {2} columns."
+                    , max
+                    , max + 1
+                    , dt.Columns.Count);
+
+                if (dt.Columns.Count == max && settings.GetMinColumnIndexDefined() == 1)
+                    exception += " You've no definition for a column with an index of 0. Are you sure you'vent started to index at 1 in place of 0?";
+
+                throw new ResultSetComparerException(exception);
+            }
+        }
+
+        protected void CheckSettingsAndFirstRow(DataTable dt, ResultSetComparisonSettings settings)
+        {
+            if (dt.Rows.Count == 0)
+                return;
+
+            var dr = dt.Rows[0];
+            for (int i = 0; i < dr.Table.Columns.Count; i++)
+            {
+                if (!dr.IsNull(i))
+                {
+                    if (settings.IsNumeric(i) && !IsValidNumeric(dr[i].ToString()))
+                    {                   
+                        var exception = string.Format("The column with an index of {0} is expecting a numeric value but the first row of your result set contains a value '{1}' not recognized as a valid numeric value."
+                            , i, dr[i].ToString());
+                            
+                        if (IsValidNumeric(dr[i].ToString().Replace(",", ".")))
+                            exception += " Aren't you trying to use the ',' as a decimal separator? NBi requires that the decimal separator must be a '.'.";
+
+                        throw new ResultSetComparerException(exception);
+                    }
+
+                    if (settings.IsDateTime(i) && !IsValidDateTime(dr[i].ToString()))
+                    {
+                        throw new ResultSetComparerException(
+                            string.Format("The column with an index of {0} is expecting a date & time value but the first row of your result set contains a value '{1}' not recognized as a valid date & time value."
+                                , i, dr[i].ToString()));
+                    } 
+                }
+            }
+        }
+
+        private bool IsValidNumeric(string value)
+        {
+            decimal num = 0;
+            return Decimal.TryParse(value
+                                , NumberStyles.AllowLeadingSign | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowDecimalPoint
+                                , CultureInfo.InvariantCulture
+                                , out num);
+        }
+
+        private bool IsValidDateTime(string value)
+        {
+            DateTime dateTime = DateTime.MinValue;
+            return DateTime.TryParse(value
+                                , CultureInfo.InvariantCulture.DateTimeFormat
+                                , DateTimeStyles.AllowWhiteSpaces
+                                , out dateTime);
+        }
+
+
         protected internal bool IsEqual(Decimal x, Decimal y, Decimal tolerance)
         {
             //Console.WriteLine("IsEqual: {0} {1} {2} {3} {4} {5}", x, y, tolerance, Math.Abs(x - y), x == y, Math.Abs(x - y) <= tolerance);
@@ -199,8 +273,8 @@ namespace NBi.Core.ResultSet
         protected void BuildDefaultSettings()
         {
             Settings = new ResultSetComparisonSettings(
-                ResultSetComparisonSettings.KeysChoice.AllExpectLast, 
-                ResultSetComparisonSettings.ValuesChoice.Last, 
+                ResultSetComparisonSettings.KeysChoice.AllExpectLast,
+                ResultSetComparisonSettings.ValuesChoice.Last,
                 null);
         }
 

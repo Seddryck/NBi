@@ -205,10 +205,6 @@ namespace NBi.UI.Genbi.Presenter.Generator
             View.CanSaveTemplate = View.Template.Length > 0;
         }
   
-        
-
-        
-
         protected void Initialize()
         {
             View.Variables = new BindingList<string>();

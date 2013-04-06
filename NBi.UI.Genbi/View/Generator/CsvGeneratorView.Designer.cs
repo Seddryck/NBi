@@ -46,8 +46,9 @@
             this.saveAs = new System.Windows.Forms.Button();
             this.generate = new System.Windows.Forms.Button();
             this.testsList = new System.Windows.Forms.ListBox();
-            this.bindingTests = new System.Windows.Forms.BindingSource(this.components);
             this.deleteTest = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.bindingTests = new System.Windows.Forms.BindingSource(this.components);
+            this.clear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingCsv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingColumnNames)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -75,6 +76,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.clear);
             this.splitContainer1.Panel2.Controls.Add(this.undo);
             this.splitContainer1.Panel2.Controls.Add(this.saveAs);
             this.splitContainer1.Panel2.Controls.Add(this.generate);
@@ -244,8 +246,17 @@
             this.deleteTest.Name = "deleteTest";
             this.deleteTest.Size = new System.Drawing.Size(61, 4);
             this.deleteTest.Text = "Delete test";
-            this.deleteTest.Items.Add("Delete test");
             this.deleteTest.Click += new System.EventHandler(this.DeleteTest_Click);
+            // 
+            // clear
+            // 
+            this.clear.Location = new System.Drawing.Point(169, 14);
+            this.clear.Name = "clear";
+            this.clear.Size = new System.Drawing.Size(77, 23);
+            this.clear.TabIndex = 18;
+            this.clear.Text = "Clear";
+            this.clear.UseVisualStyleBackColor = true;
+            this.clear.Click += new System.EventHandler(this.Clear_Click);
             // 
             // CsvGeneratorView
             // 
@@ -296,5 +307,6 @@
         private System.Windows.Forms.CheckBox useGrouping;
         private System.Windows.Forms.Button undo;
         private System.Windows.Forms.ContextMenuStrip deleteTest;
+        private System.Windows.Forms.Button clear;
     }
 }

@@ -200,6 +200,14 @@ namespace NBi.UI.Genbi.View.Generator
                 handler(this, e);
         }
 
+        public event EventHandler TestsClear;
+        public void InvokeTestsClear(EventArgs e)
+        {
+            var handler = TestsClear;
+            if (handler != null)
+                handler(this, e);
+        }
+
         public event EventHandler Initialize;
         public void InvokeInitialize(EventArgs e)
         {
@@ -293,6 +301,19 @@ namespace NBi.UI.Genbi.View.Generator
         private void DeleteTest_Click(object sender, EventArgs e)
         {
             InvokeTestDelete(EventArgs.Empty);
+        }
+
+        private void Clear_Click(object sender, EventArgs e)
+        {
+            var diagRes = MessageBox.Show(
+                "Are your sure you want to clear the test-suite?",
+                "Genbi",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button1);
+
+            if (diagRes.HasFlag(DialogResult.OK))
+                InvokeTestsClear(EventArgs.Empty);
         }
     }
 }

@@ -40,6 +40,7 @@ namespace NBi.UI.Genbi.Presenter.Generator
             View.TestSuitePersist += OnTestSuitePersist;
             View.TestSelect += OnTestSelect;
             View.TestDelete += OnTestDelete;
+            View.TestsClear += OnTestsClear;
         }
 
         protected void OnTestsGenerate(object sender, EventArgs e)
@@ -165,6 +166,14 @@ namespace NBi.UI.Genbi.Presenter.Generator
             }
             else
                 View.ShowInform(String.Format("No test to delete."));
+        }
+
+        public void OnTestsClear(object sender, EventArgs e)
+        {
+            lastGeneration.Clear();
+            View.Tests.Clear();
+            View.TestSelected = null;
+            View.ShowInform(String.Format("Generated test-suite has been cleared."));
         }
   
         private string ReadEmbeddedTemplate(string resourceName)

@@ -31,7 +31,9 @@ namespace NBi.UI.Genbi.Interface.Generator
         event EventHandler<TestSelectEventArgs> TestSelect;
         //Delete a test
         event EventHandler TestDelete;
-        //Undo las generation
+        //Undo last generation
         event EventHandler TestsUndoGenerate;
+        //Clear all the tests generated
+        event EventHandler TestsClear;
     }
 }

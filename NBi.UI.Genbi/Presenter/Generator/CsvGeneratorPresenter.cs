@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
 using NBi.Core;
 using NBi.Service;
 using NBi.UI.Genbi.Interface.Generator;
@@ -16,8 +13,6 @@ namespace NBi.UI.Genbi.Presenter.Generator
 {
     public class CsvGeneratorPresenter: BasePresenter<ICsvGeneratorView>
     {
-        private const string TEMPLATE_DIRECTORY = "NBi.UI.Genbi.Templates.";
-
         private readonly List<TestXml> lastGeneration;
 
         public CsvGeneratorPresenter(ICsvGeneratorView view)

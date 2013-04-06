@@ -127,42 +127,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Templates\ExistsDimension.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ExistsHierarchy.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ExistsLevel.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ExistsMeasure.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ExistsMeasureGroup.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ExistsPerspective.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\SubsetOfDimensions.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\SubsetOfHierarchies.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\SubsetOfLevels.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\SubsetOfMeasureGroup.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\SubsetOfMeasures.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\SubsetOfPerspectives.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
       <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
       <Name>NBi.Core</Name>

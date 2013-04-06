@@ -145,14 +145,15 @@ namespace NBi.UI.Genbi.Presenter.Generator
         public void OnTemplateSelect(object sender, TemplateSelectEventArgs e)
         {
             var tpl = string.Empty;
+            var templateManager = new TemplateManager();
             //Template
             switch (e.Template)
             {
                 case TemplateSelectEventArgs.TemplateType.Embedded:
-                    tpl = ReadEmbeddedTemplate(e.ResourceName);
+                    tpl = templateManager.GetEmbeddedTemplate(e.ResourceName);
                     break;
                 case TemplateSelectEventArgs.TemplateType.External:
-                    tpl = ReadExternalTemplate(e.ResourceName);
+                    tpl = templateManager.GetExternalTemplate(e.ResourceName);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -204,28 +205,9 @@ namespace NBi.UI.Genbi.Presenter.Generator
             View.CanSaveTemplate = View.Template.Length > 0;
         }
   
-        private string ReadEmbeddedTemplate(string resourceName)
-        {
-            var tpl = string.Empty;           //Template
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(string.Format("NBi.UI.Genbi.Templates.{0}.txt", resourceName)))
-            {
-                using (var reader = new StreamReader(stream))
-                {
-                    tpl = reader.ReadToEnd();
-                }
-            }
-            return tpl;
-        }
+        
 
-        private string ReadExternalTemplate(string resourceName)
-        {
-            var tpl = string.Empty;           //Template
-            using (var stream = new StreamReader(resourceName))
-            {
-                tpl = stream.ReadToEnd();
-            }
-            return tpl;
-        }
+        
 
         protected void Initialize()
         {
@@ -239,20 +221,9 @@ namespace NBi.UI.Genbi.Presenter.Generator
                 View.Variables.Add(col.ColumnName);
             
             //Template
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("NBi.UI.Genbi.Templates.ExistsDimension.txt"))
-            {
-                using (var reader = new StreamReader(stream))
-                {
-                    View.Template = reader.ReadToEnd();
-                }
-            }
-            //EmbeddedResources
-            var resources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
-            IEnumerable<string> templates = resources.Where(t => t.StartsWith(TEMPLATE_DIRECTORY) && t.EndsWith(".txt")).ToList();
-            templates = templates.Select(t => t.Replace(TEMPLATE_DIRECTORY, ""));
-            templates = templates.Select(t => t.Substring(0, t.Length-4));
-            templates = templates.Select(t => SplitCamelCase(t));
-            View.EmbeddedTemplates = new BindingList<string>(templates.ToArray());
+            var templateManager = new TemplateManager();
+            View.Template = templateManager.GetDefaultContent();
+            View.EmbeddedTemplates = new BindingList<string>(templateManager.GetEmbeddedLabels());
 
             View.CanGenerate = false;
             View.CanUndo = false;
@@ -261,17 +232,5 @@ namespace NBi.UI.Genbi.Presenter.Generator
             View.CanSaveTemplate = false;
         }
 
-        private static string SplitCamelCase(string str)
-        {
-            return Regex.Replace(
-                Regex.Replace(
-                    str,
-                    @"(\P{Ll})(\P{Ll}\p{Ll})",
-                    "$1 $2"
-                ),
-                @"(\p{Ll})(\P{Ll})",
-                "$1 $2"
-            );
-        }
     }
 }

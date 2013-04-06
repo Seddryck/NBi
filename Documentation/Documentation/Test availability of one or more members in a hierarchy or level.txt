@@ -1,0 +1,69 @@
+! Test availability of one or more members in a hierarchy or level.
+
+!! System under test
+If you're not familiar with the way to perform a test on dimension's members, you should take a look to [Members' count|Test the members' count at any level of a dimension or hierarchy].
+!! Assertion
+!! One unique member
+The assertion consists in a check that one of the members in a hierarchy or level has a given caption. So we need to specify that we'll perform an assertion of type "contain":
+{code:xml}
+<test>
+    <assert>
+        <contain/>
+    </assert>
+</test>
+{code:xml}
+Then we need to stipulate the caption to look for:
+{code:xml}
+<contain caption="MyMember"/>
+{code:xml}
+If we're checking that the hierarchy named "MyHierarchy" has effectively a member named "MyMember":
+{code:xml}
+<test>
+    <system-under-test>
+        <members>
+    	    <hierarchy caption="MyHierarchy" dimension="MyDimension" perspective="MyPerspective"
+		connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+	</members> 
+    </system-under-test>
+    <assert>
+        <contain caption="MyMember"/>
+    </assert>
+</test>
+{code:xml}
+!! Several members
+You can also check in one unique test that two members are part of a hierarchy or level. 
+From a unit testing point of view you can argue that it’s probably not a good idea for the granularity of the report. On the other hand, you can use this feature to be sure that predefined value not coming from our main source (as N/A, Unknown, Not defined, (All)) are effectively in your cube. Anyway NBi let you do this. 
+Your system-under-test is not changed but in your assert you’ll need to define one element named _item_ by member that you’ll check:
+{code:xml}
+    <assert>
+        <contain>
+            <item>My first member</item>
+            <item>My second member </item>
+            <item>My third member</item>
+        </contain>
+    </assert>
+{code:xml}
+The test will only succeed if all the members defined in your assertion are effectively in the hierarchy (or level).
+!! All members belong to a predefined list
+Imagine that you’ve a hierarchy sex. You know that you can have male and female, other values are not expected. With assertions explained above you would need to check that both members are effectively available. It could happen that you’ve only loaded men (or women). In this case, your assertion with members of hierarchy “sex” contain “female” will fail … but your data warehouse is correctly loaded! You probably want to check that members of this hierarchy are not different than “male” and “female”. The assertion subsetOf is there for you.
+ {code:xml}
+    <assert>
+        <subsetOf>
+            <item>Male</item>
+            <item>Female</item>
+        </subsetOf>
+    </assert>
+{code:xml}
+This test will only succeed if all the members of your hierarchy are value provided in the list of item. If you’ve only one of these two member, the test will not fail.
+!! You exactly know all the members
+In some case, you exactly know the content of your hierarchy or level. In this case, you’ll probably want to test that the whole hierarchy is correctly loaded in your cube.
+    <assert>
+        <equivalentTo>
+            <item>Male</item>
+            <item>Female</item>
+        </equivalentTo>
+    </assert>
+The test will only succeed if your hierarchy has exactly two members which are “Male” and “Female”. If you’ve more or less or different items, this test will fail.
+Note that this test is equivalent to two assertions “contain” (one for “male” and another for female) and one assertion “subsetOf” (for “male” and “female”). It’s just a matter of readability versus reporting facility.
+
+

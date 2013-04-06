@@ -216,11 +216,7 @@ namespace NBi.UI.Genbi.Presenter.Generator
             View.Template = templateManager.GetDefaultContent();
             View.EmbeddedTemplates = new BindingList<string>(templateManager.GetEmbeddedLabels());
 
-            View.CanGenerate = false;
-            View.CanUndo = false;
-            View.CanClear = false;
-            View.CanSaveAs = false;
-            View.CanSaveTemplate = false;
+            ChangeCan();
         }
 
     }

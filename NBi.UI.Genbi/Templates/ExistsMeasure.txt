@@ -1,4 +1,6 @@
 ﻿<test name="A measure named '$measure$' exists under the folder '$displayfolder$' in measure-group '$measuregroup$', perspective '$perspective$'.">
+	<description>Verify that the measure named '$measure$' exists under the folder '$displayfolder$' in measure-group '$measuregroup$' throw perspective '$perspective$' and is visible for end-users</description>
+	<edition author="$username$" created="$now$"/>
 	<system-under-test>
 		<structure>	
 			<measure caption="$measure$" display-folder="$displayfolder$" measure-group="$measuregroup$" perspective="$perspective$"/>

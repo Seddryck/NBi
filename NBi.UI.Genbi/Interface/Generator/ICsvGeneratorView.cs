@@ -20,6 +20,7 @@ namespace NBi.UI.Genbi.Interface.Generator
         bool CanGenerate { set; }
         bool CanClear { set; }
         bool CanSaveAs { set; }
+        bool CanSaveTemplate { set; }
 
         //A new csv file is selected to be displayed in the screen
         event EventHandler<CsvSelectEventArgs> CsvSelect;
@@ -27,6 +28,8 @@ namespace NBi.UI.Genbi.Interface.Generator
         event EventHandler<TemplateSelectEventArgs> TemplateSelect;
         //A new template resource is updated
         event EventHandler TemplateUpdate;
+        //Persist the template used
+        event EventHandler<TemplatePersistEventArgs> TemplatePersist;
         //A variable is renamed
         event EventHandler<VariableRenameEventArgs> VariableRename;
         //Create a serie of tests based on template and CSV

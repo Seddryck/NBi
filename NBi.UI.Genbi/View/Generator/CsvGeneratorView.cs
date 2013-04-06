@@ -159,6 +159,14 @@ namespace NBi.UI.Genbi.View.Generator
             }
         }
 
+        public bool CanSaveTemplate
+        {
+            set
+            {
+                saveTemplate.Enabled = value;
+            }
+        }
+
         #endregion
 
         protected void DeclareBindings()
@@ -180,6 +188,14 @@ namespace NBi.UI.Genbi.View.Generator
         public void InvokeTemplateSelect(TemplateSelectEventArgs e)
         {
             var handler = TemplateSelect;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        public event EventHandler<TemplatePersistEventArgs> TemplatePersist;
+        public void InvokeTemplatePersist(TemplatePersistEventArgs e)
+        {
+            var handler = TemplatePersist;
             if (handler != null)
                 handler(this, e);
         }
@@ -275,6 +291,8 @@ namespace NBi.UI.Genbi.View.Generator
         private void OpenCsv_Click(object sender, EventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "All Files (*.*)|*.*|CSV (Comma delimited) (*.csv)|*.csv|Text Files (*.txt)|*.txt";
+            openFileDialog.FilterIndex = 2;
             DialogResult result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)
                 InvokeCsvSelect(new CsvSelectEventArgs(openFileDialog.FileName));
@@ -285,6 +303,16 @@ namespace NBi.UI.Genbi.View.Generator
         {
             if (!OpenTemplateView.Visible)
                 OpenTemplateView.Show(this);
+        }
+
+        private void SaveTemplateClick(object sender, System.EventArgs e)
+        {
+            var saveAsDialog = new SaveFileDialog();
+            saveAsDialog.Filter = "All Files (*.*)|*.*|NBi Test Template Files (*.nbitt)|*.nbitt|Text Files (*.txt)|*.txt";
+            saveAsDialog.FilterIndex = 2;
+            DialogResult result = saveAsDialog.ShowDialog();
+            if (result == DialogResult.OK)
+                InvokeTemplatePersist(new TemplatePersistEventArgs(saveAsDialog.FileName));
         }
 
 
@@ -309,6 +337,8 @@ namespace NBi.UI.Genbi.View.Generator
         private void SaveAsClick(object sender, EventArgs e)
         {
             var saveAsDialog = new SaveFileDialog();
+            saveAsDialog.Filter = "All Files (*.*)|*.*|NBi Test Suite Files (*.nbits)|*.nbits|Xml Files (*.xml)|*.xml|Text Files (*.txt)|*.txt";
+            saveAsDialog.FilterIndex = 2;
             DialogResult result = saveAsDialog.ShowDialog();
             if (result == DialogResult.OK)
                 InvokeTestSuitePersist(new TestSuitePersistEventArgs(saveAsDialog.FileName));

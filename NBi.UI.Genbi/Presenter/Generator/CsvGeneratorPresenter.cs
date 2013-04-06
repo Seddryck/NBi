@@ -37,11 +37,19 @@ namespace NBi.UI.Genbi.Presenter.Generator
             View.TestsUndoGenerate += OnTestsUndoGenerate;
             View.CsvSelect += OnCsvSelect;
             View.TemplateSelect += OnTemplateSelect;
+            View.TemplatePersist += OnTemplatePersist;
             View.TemplateUpdate += OnTemplateUpdate;
             View.TestSuitePersist += OnTestSuitePersist;
             View.TestSelect += OnTestSelect;
             View.TestDelete += OnTestDelete;
             View.TestsClear += OnTestsClear;
+        }
+
+        private void OnTemplatePersist(object sender, TemplatePersistEventArgs e)
+        {
+            var manager = new TemplateManager();
+            manager.Persist(e.FileName, View.Template);
+            View.ShowInform(String.Format("Template '{0}' persisted.", e.FileName));
         }
 
         protected void OnTestsGenerate(object sender, EventArgs e)
@@ -193,6 +201,7 @@ namespace NBi.UI.Genbi.Presenter.Generator
             View.CanUndo = lastGeneration.Count != 0;
             View.CanClear = View.Tests.Count != 0;
             View.CanSaveAs = View.Tests.Count != 0;
+            View.CanSaveTemplate = View.Template.Length > 0;
         }
   
         private string ReadEmbeddedTemplate(string resourceName)
@@ -249,6 +258,7 @@ namespace NBi.UI.Genbi.Presenter.Generator
             View.CanUndo = false;
             View.CanClear = false;
             View.CanSaveAs = false;
+            View.CanSaveTemplate = false;
         }
 
         private static string SplitCamelCase(string str)

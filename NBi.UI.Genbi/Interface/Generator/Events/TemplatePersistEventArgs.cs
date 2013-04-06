@@ -5,9 +5,10 @@ using System.Text;
 
 namespace NBi.UI.Genbi.Interface.Generator.Events
 {
-    public class TestSuitePersistEventArgs : FilePersistEventArgs
+    public class TemplatePersistEventArgs : FilePersistEventArgs
     {
-        public TestSuitePersistEventArgs(string fileName) : base (fileName)
+        public TemplatePersistEventArgs(string fileName)
+            : base(fileName)
         {
         }
     }

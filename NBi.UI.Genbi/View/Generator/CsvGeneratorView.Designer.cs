@@ -39,6 +39,7 @@
             this.columnHeaderChoice = new System.Windows.Forms.ComboBox();
             this.rename = new System.Windows.Forms.Button();
             this.csvContent = new System.Windows.Forms.DataGridView();
+            this.saveTemplate = new System.Windows.Forms.Button();
             this.useGrouping = new System.Windows.Forms.CheckBox();
             this.openTemplate = new System.Windows.Forms.Button();
             this.template = new System.Windows.Forms.TextBox();
@@ -99,6 +100,7 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.saveTemplate);
             this.splitContainer2.Panel2.Controls.Add(this.useGrouping);
             this.splitContainer2.Panel2.Controls.Add(this.openTemplate);
             this.splitContainer2.Panel2.Controls.Add(this.template);
@@ -168,6 +170,16 @@
             this.csvContent.Size = new System.Drawing.Size(439, 169);
             this.csvContent.TabIndex = 14;
             // 
+            // saveTemplate
+            // 
+            this.saveTemplate.Location = new System.Drawing.Point(123, 12);
+            this.saveTemplate.Name = "saveTemplate";
+            this.saveTemplate.Size = new System.Drawing.Size(105, 23);
+            this.saveTemplate.TabIndex = 20;
+            this.saveTemplate.Text = "Save Template ...";
+            this.saveTemplate.UseVisualStyleBackColor = true;
+            this.saveTemplate.Click += new System.EventHandler(this.SaveTemplateClick);
+            // 
             // useGrouping
             // 
             this.useGrouping.AutoSize = true;
@@ -201,7 +213,7 @@
             // 
             // clear
             // 
-            this.clear.Location = new System.Drawing.Point(169, 14);
+            this.clear.Location = new System.Drawing.Point(169, 13);
             this.clear.Name = "clear";
             this.clear.Size = new System.Drawing.Size(77, 23);
             this.clear.TabIndex = 18;
@@ -309,5 +321,6 @@
         private System.Windows.Forms.Button undo;
         private System.Windows.Forms.ContextMenuStrip deleteTest;
         private System.Windows.Forms.Button clear;
+        private System.Windows.Forms.Button saveTemplate;
     }
 }

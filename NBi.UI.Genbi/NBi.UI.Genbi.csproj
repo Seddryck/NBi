@@ -63,6 +63,8 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Interface\Generator\Events\TemplatePersistEventArgs.cs" />
+    <Compile Include="Interface\Generator\Events\FilePersistEventArgs.cs" />
     <Compile Include="View\Generator\CsvGeneratorView.cs">
       <SubType>Form</SubType>
     </Compile>

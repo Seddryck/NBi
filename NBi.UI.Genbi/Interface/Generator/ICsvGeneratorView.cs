@@ -16,11 +16,17 @@ namespace NBi.UI.Genbi.Interface.Generator
         BindingList<string> EmbeddedTemplates { get; set; }
         string Template { get; set; }
         TestXml TestSelected { get; set; }
+        bool CanUndo { set; }
+        bool CanGenerate { set; }
+        bool CanClear { set; }
+        bool CanSaveAs { set; }
 
         //A new csv file is selected to be displayed in the screen
         event EventHandler<CsvSelectEventArgs> CsvSelect;
         //A new template resource is selected to be displayed in the screen
         event EventHandler<TemplateSelectEventArgs> TemplateSelect;
+        //A new template resource is updated
+        event EventHandler TemplateUpdate;
         //A variable is renamed
         event EventHandler<VariableRenameEventArgs> VariableRename;
         //Create a serie of tests based on template and CSV

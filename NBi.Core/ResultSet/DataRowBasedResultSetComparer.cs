@@ -221,7 +221,7 @@ namespace NBi.Core.ResultSet
                             , i, dr[i].ToString());
                             
                         if (IsValidNumeric(dr[i].ToString().Replace(",", ".")))
-                            exception += " Aren't you trying to use the ',' as a decimal separator? NBi requires that the decimal separator must be a '.'.";
+                            exception += " Aren't you trying to use a comma (',' ) as a decimal separator? NBi requires that the decimal separator must be a '.'.";
 
                         throw new ResultSetComparerException(exception);
                     }

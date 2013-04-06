@@ -127,6 +127,38 @@ namespace NBi.UI.Genbi.View.Generator
             }
         }
 
+        public bool CanGenerate
+        {
+            set
+            {
+                generate.Enabled = value;
+            }
+        }
+
+        public bool CanUndo
+        {
+            set
+            {
+                undo.Enabled = value;
+            }
+        }
+
+        public bool CanClear
+        {
+            set
+            {
+                clear.Enabled = value;
+            }
+        }
+
+        public bool CanSaveAs
+        {
+            set
+            {
+                saveAs.Enabled = value;
+            }
+        }
+
         #endregion
 
         protected void DeclareBindings()
@@ -148,6 +180,14 @@ namespace NBi.UI.Genbi.View.Generator
         public void InvokeTemplateSelect(TemplateSelectEventArgs e)
         {
             var handler = TemplateSelect;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        public event EventHandler TemplateUpdate;
+        public void InvokeTemplateUpdate(EventArgs e)
+        {
+            var handler = TemplateUpdate;
             if (handler != null)
                 handler(this, e);
         }
@@ -314,6 +354,11 @@ namespace NBi.UI.Genbi.View.Generator
 
             if (diagRes.HasFlag(DialogResult.OK))
                 InvokeTestsClear(EventArgs.Empty);
+        }
+
+        private void Template_TextChanged(object sender, EventArgs e)
+        {
+            InvokeTemplateUpdate(EventArgs.Empty);
         }
     }
 }

@@ -37,6 +37,7 @@ namespace NBi.UI.Genbi.Presenter.Generator
             View.TestsUndoGenerate += OnTestsUndoGenerate;
             View.CsvSelect += OnCsvSelect;
             View.TemplateSelect += OnTemplateSelect;
+            View.TemplateUpdate += OnTemplateUpdate;
             View.TestSuitePersist += OnTestSuitePersist;
             View.TestSelect += OnTestSelect;
             View.TestDelete += OnTestDelete;
@@ -86,7 +87,7 @@ namespace NBi.UI.Genbi.Presenter.Generator
                     View.Tests.Add(test);
                     lastGeneration.Add(test);
                 }
-
+                ChangeCan();
             }
             catch (ExpectedVariableNotFoundException)
             {
@@ -100,6 +101,8 @@ namespace NBi.UI.Genbi.Presenter.Generator
             {
                 View.Tests.Remove(test);
             }
+            lastGeneration.Clear();
+            ChangeCan();
         }
 
         protected void OnTestSuitePersist(object sender, TestSuitePersistEventArgs e)
@@ -128,6 +131,7 @@ namespace NBi.UI.Genbi.Presenter.Generator
             View.Variables.Clear();
             foreach (DataColumn col in View.CsvContent.Columns)
                 View.Variables.Add(col.ColumnName);
+            ChangeCan();
         }
 
         public void OnTemplateSelect(object sender, TemplateSelectEventArgs e)
@@ -146,6 +150,12 @@ namespace NBi.UI.Genbi.Presenter.Generator
                     throw new ArgumentOutOfRangeException();
             }
             View.Template = tpl;
+            ChangeCan();
+        }
+
+        public void OnTemplateUpdate(object sender, EventArgs e)
+        {
+            ChangeCan();
         }
 
         public void OnTestSelect(object sender, TestSelectEventArgs e)
@@ -174,6 +184,15 @@ namespace NBi.UI.Genbi.Presenter.Generator
             View.Tests.Clear();
             View.TestSelected = null;
             View.ShowInform(String.Format("Generated test-suite has been cleared."));
+            ChangeCan();
+        }
+
+        private void ChangeCan()
+        {
+            View.CanGenerate = View.Template.Length > 0 && View.CsvContent.Rows.Count > 0;
+            View.CanUndo = lastGeneration.Count != 0;
+            View.CanClear = View.Tests.Count != 0;
+            View.CanSaveAs = View.Tests.Count != 0;
         }
   
         private string ReadEmbeddedTemplate(string resourceName)
@@ -225,6 +244,11 @@ namespace NBi.UI.Genbi.Presenter.Generator
             templates = templates.Select(t => t.Substring(0, t.Length-4));
             templates = templates.Select(t => SplitCamelCase(t));
             View.EmbeddedTemplates = new BindingList<string>(templates.ToArray());
+
+            View.CanGenerate = false;
+            View.CanUndo = false;
+            View.CanClear = false;
+            View.CanSaveAs = false;
         }
 
         private static string SplitCamelCase(string str)

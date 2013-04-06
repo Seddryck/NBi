@@ -1,4 +1,6 @@
 ﻿<test name="A hierarchy named '$hierarchy$' exists in dimension '$dimension$', in perspective '$perspective$'.">
+	<description>Verify that the hierarchy named '$hierarchy$' exists in dimension '$dimension$' throw perspective '$perspective$' and is visible for end-users</description>
+	<edition author="$username$" created="$now$"/>
 	<system-under-test>
 		<structure>	
 			<hierarchy caption="$hierarchy$" dimension="$dimension$" perspective="$perspective$"/>

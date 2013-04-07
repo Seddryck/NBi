@@ -127,10 +127,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
-      <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
-      <Name>NBi.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NBi.Services\NBi.Service.csproj">
       <Project>{a9c7e50a-1d3d-4c6d-9c56-8ea8925fe2d6}</Project>
       <Name>NBi.Service</Name>

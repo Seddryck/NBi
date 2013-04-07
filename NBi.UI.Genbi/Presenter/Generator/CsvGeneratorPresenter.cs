@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
-using NBi.Core;
 using NBi.Service;
 using NBi.UI.Genbi.Interface.Generator;
 using NBi.UI.Genbi.Interface.Generator.Events;
@@ -90,7 +89,7 @@ namespace NBi.UI.Genbi.Presenter.Generator
                     View.Tests.Add(test);
                     lastGeneration.Add(test);
                 }
-                ChangeCan();
+                CalculateValidAction();
             }
             catch (ExpectedVariableNotFoundException)
             {
@@ -105,7 +104,7 @@ namespace NBi.UI.Genbi.Presenter.Generator
                 View.Tests.Remove(test);
             }
             lastGeneration.Clear();
-            ChangeCan();
+            CalculateValidAction();
         }
 
         protected void OnTestSuitePersist(object sender, TestSuitePersistEventArgs e)
@@ -128,13 +127,12 @@ namespace NBi.UI.Genbi.Presenter.Generator
         public void OnCsvSelect(object sender, CsvSelectEventArgs e)
         {
             //Content of Csv
-            var csvReader = new CsvReader(e.FullPath, true);
-            View.CsvContent = csvReader.Read();
+            var csvManager = new CsvManager(e.FullPath);
+            View.CsvContent = csvManager.Content;
             //Variables
-            View.Variables.Clear();
-            foreach (DataColumn col in View.CsvContent.Columns)
-                View.Variables.Add(col.ColumnName);
-            ChangeCan();
+            View.Variables= new BindingList<string>(csvManager.ColumnHeaders);
+            //Re-calculate the actions available
+            CalculateValidAction();
         }
 
         public void OnTemplateSelect(object sender, TemplateSelectEventArgs e)
@@ -154,12 +152,12 @@ namespace NBi.UI.Genbi.Presenter.Generator
                     throw new ArgumentOutOfRangeException();
             }
             View.Template = tpl;
-            ChangeCan();
+            CalculateValidAction();
         }
 
         public void OnTemplateUpdate(object sender, EventArgs e)
         {
-            ChangeCan();
+            CalculateValidAction();
         }
 
         public void OnTestSelect(object sender, TestSelectEventArgs e)
@@ -188,10 +186,10 @@ namespace NBi.UI.Genbi.Presenter.Generator
             View.Tests.Clear();
             View.TestSelected = null;
             View.ShowInform(String.Format("Generated test-suite has been cleared."));
-            ChangeCan();
+            CalculateValidAction();
         }
 
-        private void ChangeCan()
+        private void CalculateValidAction()
         {
             View.CanGenerate = View.Template.Length > 0 && View.CsvContent.Rows.Count > 0;
             View.CanUndo = lastGeneration.Count != 0;
@@ -216,7 +214,7 @@ namespace NBi.UI.Genbi.Presenter.Generator
             View.Template = templateManager.GetDefaultContent();
             View.EmbeddedTemplates = new BindingList<string>(templateManager.GetEmbeddedLabels());
 
-            ChangeCan();
+            CalculateValidAction();
         }
 
     }

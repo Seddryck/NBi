@@ -48,7 +48,6 @@
     <Compile Include="StringTemplateEngine.cs" />
     <Compile Include="ExpectedVariableNotFoundException.cs" />
     <Compile Include="HomeMadeEngine.cs" />
-    <Compile Include="StructureTesting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TemplateManager.cs" />
   </ItemGroup>

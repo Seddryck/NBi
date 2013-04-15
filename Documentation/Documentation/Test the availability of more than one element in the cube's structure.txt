@@ -1,0 +1,79 @@
+! Test availability of one or more elements in the cube structure
+_*This feature is only available since version 1.1*_
+!! System under test
+At the difference of the test of existance (see [Test the availability of an element in the cube's structure]), we'll need to define our system-under-test as the group of elements. So in place of creating a system-under-test as *a dimension*, I'll instantiate my test on *the dimensions*. The available xml elements are named dimensions, hierarchies, levels, perspectives, measure-groups and measures. At the difference of their singular, you have no attribute named _caption_.
+By example:
+{code:xml}
+<system-under-test>
+    <structure>
+         <dimensions
+             perspective="my perspective"
+         />
+    </structure>
+</system-under-test>
+</test>
+{code:xml}
+!! Assertion
+!! One unique element
+The assertion consists in a check that one of the elements in a structure has a given caption. So we need to specify that we'll perform an assertion of type "contain":
+{code:xml}
+<assert>
+    <contain/>
+</assert>
+{code:xml}
+Then we need to stipulate the caption to look for:
+{code:xml}
+<contain caption="MyMember"/>
+{code:xml}
+If we're checking that the hierarchy named "MyHierarchy" has effectively a member named "MyMember":
+{code:xml}
+<test>
+    <system-under-test>
+        <structure>
+    	    <hierarchies dimension="My Dimension" perspective="My Perspective"
+		connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+	</structure>
+    </system-under-test>
+    <assert>
+        <contain caption="My Hierarchy"/>
+    </assert>
+</test>
+{code:xml}
+!! Several members
+You can also check in one unique test that two elements are part of a dimensions, hierarchies, levels, measure-groups, measures or even perspectives. 
+From a unit testing point of view you can argue that it’s probably not a good idea for the granularity of the report. On the other hand, you can use this feature to be sure that predefined value not coming from our main source (as N/A, Unknown, Not defined, (All)) are effectively in your cube. Anyway NBi let you do this. 
+Your system-under-test is not changed but in your assert you’ll need to define one element named _item_ by member that you’ll check:
+{code:xml}
+    <assert>
+        <contain>
+            <item>My first element</item>
+            <item>My second element</item>
+            <item>My third element</item>
+        </contain>
+    </assert>
+{code:xml}
+The test will only succeed if all the members defined in your assertion are effectively in your structure.
+!! All members belong to a predefined list
+{code:xml}
+    <assert>
+        <subsetOf>
+            <item>My first element</item>
+            <item>My second element</item>
+        </subsetOf>
+    </assert>
+{code:xml}
+This test will only succeed if all the elements of your structure are values provided in the list of item. If you’ve only one of these two elements then the test will not fail.
+!! You know exactly all the members
+In some case, you know exactly all the elements in your structure. In this case, you’ll probably want to test that the whole structure is correctly defined in your cube.
+{code:xml}
+    <assert>
+        <equivalentTo>
+            <item>My first element</item>
+            <item>My second element</item>
+        </equivalentTo>
+    </assert>
+{code:xml}
+The test will only succeed if your structure has exactly two elements which are named "My first element" and "My second element". If you’ve more or less or different items, this test will fail.
+Note that this test is equivalent to two assertions “contain” (one for "My first element" and another for "My second element") and one assertion “subsetOf” (for "My first element" and "My second element"). It’s just a matter of readability versus reporting facilities.
+
+

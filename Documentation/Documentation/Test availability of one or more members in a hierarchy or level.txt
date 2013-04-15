@@ -46,7 +46,7 @@ Your system-under-test is not changed but in your assert you’ll need to define o
 The test will only succeed if all the members defined in your assertion are effectively in the hierarchy (or level).
 !! All members belong to a predefined list
 Imagine that you’ve a hierarchy sex. You know that you can have male and female, other values are not expected. With assertions explained above you would need to check that both members are effectively available. It could happen that you’ve only loaded men (or women). In this case, your assertion with members of hierarchy “sex” contain “female” will fail … but your data warehouse is correctly loaded! You probably want to check that members of this hierarchy are not different than “male” and “female”. The assertion subsetOf is there for you.
- {code:xml}
+{code:xml}
     <assert>
         <subsetOf>
             <item>Male</item>
@@ -55,14 +55,16 @@ Imagine that you’ve a hierarchy sex. You know that you can have male and female,
     </assert>
 {code:xml}
 This test will only succeed if all the members of your hierarchy are value provided in the list of item. If you’ve only one of these two member, the test will not fail.
-!! You exactly know all the members
-In some case, you exactly know the content of your hierarchy or level. In this case, you’ll probably want to test that the whole hierarchy is correctly loaded in your cube.
+!! You know exactly all the members
+In some case, you know exactly the content of your hierarchy or level. In this case, you’ll probably want to test that the whole hierarchy is correctly loaded in your cube.
+{code:xml}
     <assert>
         <equivalentTo>
             <item>Male</item>
             <item>Female</item>
         </equivalentTo>
     </assert>
+{code:xml}
 The test will only succeed if your hierarchy has exactly two members which are “Male” and “Female”. If you’ve more or less or different items, this test will fail.
 Note that this test is equivalent to two assertions “contain” (one for “male” and another for female) and one assertion “subsetOf” (for “male” and “female”). It’s just a matter of readability versus reporting facility.
 

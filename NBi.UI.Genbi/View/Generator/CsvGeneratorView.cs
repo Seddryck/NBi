@@ -3,10 +3,10 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
+using NBi.Service.Dto;
 using NBi.UI.Genbi.Interface.Generator;
 using NBi.UI.Genbi.Interface.Generator.Events;
 using NBi.UI.Genbi.Presenter.Generator;
-using NBi.Xml;
 
 namespace NBi.UI.Genbi.View.Generator
 {
@@ -74,15 +74,16 @@ namespace NBi.UI.Genbi.View.Generator
             
         }
 
-        public BindingList<TestXml> Tests
+        public BindingList<Test> Tests
         {
             get
             {
-                return (BindingList<TestXml>)(bindingTests.DataSource);
+                return (BindingList<Test>)(bindingTests.DataSource);
             }
             set
             {
                 bindingTests.DataSource = value;
+                testsList.DisplayMember = "Title";
             }
         }
 
@@ -110,8 +111,8 @@ namespace NBi.UI.Genbi.View.Generator
             }
         }
 
-        private TestXml testSelected;
-        public TestXml TestSelected
+        private Test testSelected;
+        public Test TestSelected
         {
             get
             {
@@ -124,6 +125,18 @@ namespace NBi.UI.Genbi.View.Generator
                     DisplayTestView.TestContent = string.Empty;
                 else
                     DisplayTestView.TestContent = value.Content;
+            }
+        }
+
+        public int TestSelectedIndex
+        {
+            get
+            {
+                return testsList.SelectedIndex;
+            }
+            set
+            {
+                testsList.SelectedIndex = value;
             }
         }
 
@@ -390,5 +403,6 @@ namespace NBi.UI.Genbi.View.Generator
         {
             InvokeTemplateUpdate(EventArgs.Empty);
         }
+
     }
 }

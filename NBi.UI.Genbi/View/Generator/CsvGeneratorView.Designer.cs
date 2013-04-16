@@ -34,6 +34,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.remove = new System.Windows.Forms.Button();
             this.openCsv = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.columnHeaderChoice = new System.Windows.Forms.ComboBox();
@@ -51,7 +52,6 @@
             this.testsListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteTest = new System.Windows.Forms.ToolStripMenuItem();
             this.bindingTests = new System.Windows.Forms.BindingSource(this.components);
-            this.remove = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingCsv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingColumnNames)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -120,10 +120,21 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.columnHeaderChoice);
             this.panel1.Controls.Add(this.rename);
-            this.panel1.Location = new System.Drawing.Point(12, 11);
+            this.panel1.Location = new System.Drawing.Point(3, 11);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(443, 74);
+            this.panel1.Size = new System.Drawing.Size(452, 57);
             this.panel1.TabIndex = 16;
+            // 
+            // remove
+            // 
+            this.remove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.remove.Location = new System.Drawing.Point(365, 34);
+            this.remove.Name = "remove";
+            this.remove.Size = new System.Drawing.Size(77, 23);
+            this.remove.TabIndex = 18;
+            this.remove.Text = "Remove";
+            this.remove.UseVisualStyleBackColor = true;
+            this.remove.Click += new System.EventHandler(this.Remove_Click);
             // 
             // openCsv
             // 
@@ -152,13 +163,13 @@
             this.columnHeaderChoice.FormattingEnabled = true;
             this.columnHeaderChoice.Location = new System.Drawing.Point(87, 35);
             this.columnHeaderChoice.Name = "columnHeaderChoice";
-            this.columnHeaderChoice.Size = new System.Drawing.Size(180, 21);
+            this.columnHeaderChoice.Size = new System.Drawing.Size(189, 21);
             this.columnHeaderChoice.TabIndex = 16;
             // 
             // rename
             // 
             this.rename.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rename.Location = new System.Drawing.Point(273, 34);
+            this.rename.Location = new System.Drawing.Point(282, 34);
             this.rename.Name = "rename";
             this.rename.Size = new System.Drawing.Size(77, 23);
             this.rename.TabIndex = 14;
@@ -172,14 +183,14 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.csvContent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.csvContent.Location = new System.Drawing.Point(0, 91);
+            this.csvContent.Location = new System.Drawing.Point(0, 74);
             this.csvContent.Name = "csvContent";
-            this.csvContent.Size = new System.Drawing.Size(455, 175);
+            this.csvContent.Size = new System.Drawing.Size(455, 192);
             this.csvContent.TabIndex = 14;
             // 
             // saveTemplate
             // 
-            this.saveTemplate.Location = new System.Drawing.Point(123, 12);
+            this.saveTemplate.Location = new System.Drawing.Point(123, 8);
             this.saveTemplate.Name = "saveTemplate";
             this.saveTemplate.Size = new System.Drawing.Size(105, 23);
             this.saveTemplate.TabIndex = 20;
@@ -191,7 +202,7 @@
             // 
             this.useGrouping.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.useGrouping.AutoSize = true;
-            this.useGrouping.Location = new System.Drawing.Point(356, 15);
+            this.useGrouping.Location = new System.Drawing.Point(356, 11);
             this.useGrouping.Name = "useGrouping";
             this.useGrouping.Size = new System.Drawing.Size(89, 17);
             this.useGrouping.TabIndex = 19;
@@ -200,7 +211,7 @@
             // 
             // openTemplate
             // 
-            this.openTemplate.Location = new System.Drawing.Point(12, 12);
+            this.openTemplate.Location = new System.Drawing.Point(12, 8);
             this.openTemplate.Name = "openTemplate";
             this.openTemplate.Size = new System.Drawing.Size(105, 23);
             this.openTemplate.TabIndex = 18;
@@ -216,6 +227,7 @@
             this.template.Location = new System.Drawing.Point(0, 37);
             this.template.Multiline = true;
             this.template.Name = "template";
+            this.template.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.template.Size = new System.Drawing.Size(455, 178);
             this.template.TabIndex = 12;
             this.template.WordWrap = false;
@@ -289,17 +301,6 @@
             this.deleteTest.Name = "deleteTest";
             this.deleteTest.Size = new System.Drawing.Size(129, 22);
             this.deleteTest.Text = "Delete test";
-            // 
-            // remove
-            // 
-            this.remove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.remove.Location = new System.Drawing.Point(356, 34);
-            this.remove.Name = "remove";
-            this.remove.Size = new System.Drawing.Size(77, 23);
-            this.remove.TabIndex = 18;
-            this.remove.Text = "Remove";
-            this.remove.UseVisualStyleBackColor = true;
-            this.remove.Click += new System.EventHandler(this.Remove_Click);
             // 
             // CsvGeneratorView
             // 

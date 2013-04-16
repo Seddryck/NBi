@@ -22,6 +22,8 @@ namespace NBi.UI.Genbi.Interface.Generator
         bool CanClear { set; }
         bool CanSaveAs { set; }
         bool CanSaveTemplate { set; }
+        bool CanRename { set; }
+        bool CanRemove { set; }
 
         //A new csv file is selected to be displayed in the screen
         event EventHandler<CsvSelectEventArgs> CsvSelect;
@@ -47,6 +49,8 @@ namespace NBi.UI.Genbi.Interface.Generator
         event EventHandler TestsUndoGenerate;
         //Clear all the tests generated
         event EventHandler TestsClear;
+
+
 
 
 

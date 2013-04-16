@@ -90,6 +90,7 @@ namespace NBi.UI.Genbi.Presenter.Generator
         {
             View.CsvContent.Columns.RemoveAt(e.Index);
             View.Variables.RemoveAt(e.Index);
+            CalculateValidAction();
         }
 
         public void OnCsvSelect(object sender, CsvSelectEventArgs e)
@@ -166,6 +167,8 @@ namespace NBi.UI.Genbi.Presenter.Generator
             View.CanClear = View.Tests.Count != 0;
             View.CanSaveAs = View.Tests.Count != 0;
             View.CanSaveTemplate = View.Template.Length > 0;
+            View.CanRename = View.Variables.Count > 0;
+            View.CanRemove = View.Variables.Count > 1;
         }
   
         protected void Initialize()

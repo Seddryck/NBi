@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using NBi.Service.Dto;
 using NBi.UI.Genbi.Interface.Generator.Events;
-using NBi.Xml;
 
 namespace NBi.UI.Genbi.Interface.Generator
 {
@@ -12,10 +12,11 @@ namespace NBi.UI.Genbi.Interface.Generator
         DataTable CsvContent { get; set; }
         bool UseGrouping { get; set; }
         BindingList<string> Variables { get;  set; }
-        BindingList<TestXml> Tests { get; set; }
+        BindingList<Test> Tests { get; set; }
         BindingList<string> EmbeddedTemplates { get; set; }
         string Template { get; set; }
-        TestXml TestSelected { get; set; }
+        Test TestSelected { get; set; }
+        int TestSelectedIndex { get; set; }
         bool CanUndo { set; }
         bool CanGenerate { set; }
         bool CanClear { set; }
@@ -44,5 +45,7 @@ namespace NBi.UI.Genbi.Interface.Generator
         event EventHandler TestsUndoGenerate;
         //Clear all the tests generated
         event EventHandler TestsClear;
+
+        
     }
 }

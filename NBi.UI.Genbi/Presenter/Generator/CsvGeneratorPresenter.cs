@@ -4,20 +4,20 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using NBi.Service;
+using NBi.Service.Dto;
 using NBi.UI.Genbi.Interface.Generator;
 using NBi.UI.Genbi.Interface.Generator.Events;
-using NBi.Xml;
 
 namespace NBi.UI.Genbi.Presenter.Generator
 {
     public class CsvGeneratorPresenter: BasePresenter<ICsvGeneratorView>
     {
-        private readonly List<TestXml> lastGeneration;
+        private readonly TestManager testManager;    
 
         public CsvGeneratorPresenter(ICsvGeneratorView view)
             : base(view)
         {
-            lastGeneration = new List<TestXml>();
+            testManager = new TestManager();    
         }
 
         
@@ -48,73 +48,34 @@ namespace NBi.UI.Genbi.Presenter.Generator
 
         protected void OnTestsGenerate(object sender, EventArgs e)
         {
-            int groupedColumn = View.CsvContent.Rows[0].ItemArray.Length-1;
-
-            var table = new List<List<List<object>>>();
-            for (int i = 0; i < View.CsvContent.Rows.Count; i++)
-            {
-                var isIdentical = (i != 0) && View.UseGrouping;
-                var grouping = View.CsvContent.Rows[i].ItemArray.ToList();
-                grouping.RemoveAt(groupedColumn);
-                var k = 0;
-                while (k < grouping.Count && isIdentical)
-                {
-                    if (grouping[k].ToString() != table[table.Count - 1][k][0].ToString())
-                        isIdentical = false;
-                    k++;
-                }
-
-
-                if (!isIdentical)
-                {
-                    table.Add(new List<List<object>>());
-                    for (int j = 0; j < View.CsvContent.Rows[i].ItemArray.Length; j++)
-                    {
-                        table[table.Count - 1].Add(new List<object>());
-                        table[table.Count - 1][j].Add(View.CsvContent.Rows[i].ItemArray[j].ToString());
-                    }
-                }
-                else
-                    table[table.Count - 1][groupedColumn].Add(View.CsvContent.Rows[i].ItemArray[groupedColumn].ToString());
-            }
-                
-
-            var genericTestMaker = new StringTemplateEngine(View.Template, View.Variables.ToArray());
+            
             try
             {
-                var tests = genericTestMaker.Build(table);
-                lastGeneration.Clear();
-                foreach (var test in tests)
-                {
-                    View.Tests.Add(test);
-                    lastGeneration.Add(test);
-                }
-                CalculateValidAction();
+                testManager.Build(View.Template, View.Variables.ToArray(), View.CsvContent, View.UseGrouping);
+                var tests = testManager.GetTests();
+                View.Tests = new BindingList<Test>(tests.ToArray());
             }
             catch (ExpectedVariableNotFoundException)
             {
                 View.ShowException("The template has at least one variable which wasn't supplied by the Csv. Check the name of the variables.");
             }
+            finally
+            {
+                CalculateValidAction();
+            }
         }
 
         protected void OnTestsUndoGenerate(object sender, EventArgs e)
         {
-            foreach (var test in lastGeneration)
-            {
-                View.Tests.Remove(test);
-            }
-            lastGeneration.Clear();
+            testManager.Undo();
+            var tests = testManager.GetTests();
+            View.Tests = new BindingList<Test>(tests.ToArray());
             CalculateValidAction();
         }
 
         protected void OnTestSuitePersist(object sender, TestSuitePersistEventArgs e)
         {
-            var testSuite = new TestSuiteXml();
-            var array = View.Tests.ToArray();
-            testSuite.Load(array);
-
-            var manager = new XmlManager();
-            manager.Persist(e.FileName, testSuite);
+            testManager.SaveAs(e.FileName);
             View.ShowInform(String.Format("Test-suite '{0}' persisted.", e.FileName));
         }
 
@@ -172,8 +133,9 @@ namespace NBi.UI.Genbi.Presenter.Generator
         {
             if (View.TestSelected != null)
             {
-                lastGeneration.Add(View.TestSelected);
-                View.Tests.Remove(View.TestSelected);
+                testManager.RemoveAt(View.TestSelectedIndex);
+                var tests = testManager.GetTests();
+                View.Tests = new BindingList<Test>(tests.ToArray());
                 View.TestSelected = null;
             }
             else
@@ -182,8 +144,9 @@ namespace NBi.UI.Genbi.Presenter.Generator
 
         public void OnTestsClear(object sender, EventArgs e)
         {
-            lastGeneration.Clear();
-            View.Tests.Clear();
+            testManager.Clear();
+            var tests = testManager.GetTests();
+            View.Tests = new BindingList<Test>(tests.ToArray());
             View.TestSelected = null;
             View.ShowInform(String.Format("Generated test-suite has been cleared."));
             CalculateValidAction();
@@ -192,7 +155,7 @@ namespace NBi.UI.Genbi.Presenter.Generator
         private void CalculateValidAction()
         {
             View.CanGenerate = View.Template.Length > 0 && View.CsvContent.Rows.Count > 0;
-            View.CanUndo = lastGeneration.Count != 0;
+            View.CanUndo = testManager.CanUndo;
             View.CanClear = View.Tests.Count != 0;
             View.CanSaveAs = View.Tests.Count != 0;
             View.CanSaveTemplate = View.Template.Length > 0;
@@ -202,7 +165,7 @@ namespace NBi.UI.Genbi.Presenter.Generator
         {
             View.Variables = new BindingList<string>();
             View.EmbeddedTemplates = new BindingList<string>();
-            View.Tests = new BindingList<TestXml>();
+            View.Tests = new BindingList<Test>();
 
             //CsvContent
             View.CsvContent = new DataTable();

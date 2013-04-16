@@ -253,6 +253,14 @@ namespace NBi.UI.Genbi.View.Generator
                 handler(this, e);
         }
 
+        public event EventHandler<VariableRemoveEventArgs> VariableRemove;
+        public void InvokeVariableRemove(VariableRemoveEventArgs e)
+        {
+            var handler = VariableRemove;
+            if (handler != null)
+                handler(this, e);
+        }
+
         public event EventHandler<TestSelectEventArgs> TestSelect;
         public void InvokeTestSelect(TestSelectEventArgs e)
         {
@@ -376,7 +384,7 @@ namespace NBi.UI.Genbi.View.Generator
                 testsList.SelectedIndex = testsList.IndexFromPoint(e.Location);
                 if (testsList.SelectedIndex != -1)
                 {
-                    deleteTest.Show();   
+                    testsListMenu.Show();   
                 }                
             }
         }
@@ -403,6 +411,20 @@ namespace NBi.UI.Genbi.View.Generator
         {
             InvokeTemplateUpdate(EventArgs.Empty);
         }
+
+        private void Remove_Click(object sender, EventArgs e)
+        {
+            var diagRes = MessageBox.Show(
+                "Are your sure you want to remove this variable/column?",
+                "Genbi",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button1);
+
+            if (diagRes.HasFlag(DialogResult.OK))
+                InvokeVariableRemove(new VariableRemoveEventArgs(columnHeaderChoice.SelectedIndex));
+        }
+
 
     }
 }

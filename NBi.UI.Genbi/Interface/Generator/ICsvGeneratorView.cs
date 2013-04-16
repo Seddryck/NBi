@@ -33,6 +33,8 @@ namespace NBi.UI.Genbi.Interface.Generator
         event EventHandler<TemplatePersistEventArgs> TemplatePersist;
         //A variable is renamed
         event EventHandler<VariableRenameEventArgs> VariableRename;
+        //A variable is removed
+        event EventHandler<VariableRemoveEventArgs> VariableRemove;
         //Create a serie of tests based on template and CSV
         event EventHandler TestsGenerate;
         //Persist the testsuite created
@@ -45,6 +47,8 @@ namespace NBi.UI.Genbi.Interface.Generator
         event EventHandler TestsUndoGenerate;
         //Clear all the tests generated
         event EventHandler TestsClear;
+
+
 
         
     }

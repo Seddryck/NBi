@@ -114,6 +114,9 @@
     <EmbeddedResource Include="View\Generator\CsvGeneratorView.resx">
       <DependentUpon>CsvGeneratorView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\Generator\RenameVariableView.resx">
+      <DependentUpon>RenameVariableView.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

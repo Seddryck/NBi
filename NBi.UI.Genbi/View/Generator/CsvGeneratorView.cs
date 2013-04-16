@@ -180,6 +180,22 @@ namespace NBi.UI.Genbi.View.Generator
             }
         }
 
+        public bool CanRename
+        {
+            set
+            {
+                rename.Enabled = value;
+            }
+        }
+
+        public bool CanRemove
+        {
+            set
+            {
+                remove.Enabled = value;
+            }
+        }
+
         #endregion
 
         protected void DeclareBindings()

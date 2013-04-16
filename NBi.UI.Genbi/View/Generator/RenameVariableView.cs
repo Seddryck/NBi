@@ -59,5 +59,10 @@ namespace NBi.UI.Genbi.View.Generator
             this.Hide();
         }
 
+        private void Cancel_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
+
     }
 }

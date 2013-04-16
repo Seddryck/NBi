@@ -27,6 +27,7 @@ namespace NBi.UI.Genbi.Presenter.Generator
             Initialize();
         
             View.VariableRename += OnRenameVariable;
+            View.VariableRemove += OnRemoveVariable;
             View.TestsGenerate += OnTestsGenerate;
             View.TestsUndoGenerate += OnTestsUndoGenerate;
             View.CsvSelect += OnCsvSelect;
@@ -83,6 +84,12 @@ namespace NBi.UI.Genbi.Presenter.Generator
         {
             View.CsvContent.Columns[e.Index].ColumnName = e.NewName;
             View.Variables[e.Index] = e.NewName;
+        }
+
+        public void OnRemoveVariable(object sender, VariableRemoveEventArgs e)
+        {
+            View.CsvContent.Columns.RemoveAt(e.Index);
+            View.Variables.RemoveAt(e.Index);
         }
 
         public void OnCsvSelect(object sender, CsvSelectEventArgs e)

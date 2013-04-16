@@ -48,8 +48,10 @@
             this.saveAs = new System.Windows.Forms.Button();
             this.generate = new System.Windows.Forms.Button();
             this.testsList = new System.Windows.Forms.ListBox();
-            this.deleteTest = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.testsListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteTest = new System.Windows.Forms.ToolStripMenuItem();
             this.bindingTests = new System.Windows.Forms.BindingSource(this.components);
+            this.remove = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingCsv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingColumnNames)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -62,6 +64,7 @@
             this.splitContainer2.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.csvContent)).BeginInit();
+            this.testsListMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingTests)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,8 +85,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.saveAs);
             this.splitContainer1.Panel2.Controls.Add(this.generate);
             this.splitContainer1.Panel2.Controls.Add(this.testsList);
-            this.splitContainer1.Size = new System.Drawing.Size(911, 483);
-            this.splitContainer1.SplitterDistance = 439;
+            this.splitContainer1.Size = new System.Drawing.Size(1038, 483);
+            this.splitContainer1.SplitterDistance = 458;
             this.splitContainer1.TabIndex = 5;
             // 
             // splitContainer2
@@ -104,21 +107,22 @@
             this.splitContainer2.Panel2.Controls.Add(this.useGrouping);
             this.splitContainer2.Panel2.Controls.Add(this.openTemplate);
             this.splitContainer2.Panel2.Controls.Add(this.template);
-            this.splitContainer2.Size = new System.Drawing.Size(439, 483);
-            this.splitContainer2.SplitterDistance = 260;
+            this.splitContainer2.Size = new System.Drawing.Size(458, 483);
+            this.splitContainer2.SplitterDistance = 264;
             this.splitContainer2.TabIndex = 0;
             // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.remove);
             this.panel1.Controls.Add(this.openCsv);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.columnHeaderChoice);
             this.panel1.Controls.Add(this.rename);
             this.panel1.Location = new System.Drawing.Point(12, 11);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(413, 74);
+            this.panel1.Size = new System.Drawing.Size(443, 74);
             this.panel1.TabIndex = 16;
             // 
             // openCsv
@@ -142,6 +146,8 @@
             // 
             // columnHeaderChoice
             // 
+            this.columnHeaderChoice.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.columnHeaderChoice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.columnHeaderChoice.FormattingEnabled = true;
             this.columnHeaderChoice.Location = new System.Drawing.Point(87, 35);
@@ -151,6 +157,7 @@
             // 
             // rename
             // 
+            this.rename.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rename.Location = new System.Drawing.Point(273, 34);
             this.rename.Name = "rename";
             this.rename.Size = new System.Drawing.Size(77, 23);
@@ -167,7 +174,7 @@
             this.csvContent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.csvContent.Location = new System.Drawing.Point(0, 91);
             this.csvContent.Name = "csvContent";
-            this.csvContent.Size = new System.Drawing.Size(439, 169);
+            this.csvContent.Size = new System.Drawing.Size(455, 175);
             this.csvContent.TabIndex = 14;
             // 
             // saveTemplate
@@ -182,8 +189,9 @@
             // 
             // useGrouping
             // 
+            this.useGrouping.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.useGrouping.AutoSize = true;
-            this.useGrouping.Location = new System.Drawing.Point(336, 16);
+            this.useGrouping.Location = new System.Drawing.Point(356, 15);
             this.useGrouping.Name = "useGrouping";
             this.useGrouping.Size = new System.Drawing.Size(89, 17);
             this.useGrouping.TabIndex = 19;
@@ -202,11 +210,13 @@
             // 
             // template
             // 
-            this.template.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.template.Location = new System.Drawing.Point(0, 41);
+            this.template.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.template.Location = new System.Drawing.Point(0, 37);
             this.template.Multiline = true;
             this.template.Name = "template";
-            this.template.Size = new System.Drawing.Size(439, 178);
+            this.template.Size = new System.Drawing.Size(455, 178);
             this.template.TabIndex = 12;
             this.template.WordWrap = false;
             this.template.TextChanged += new System.EventHandler(this.Template_TextChanged);
@@ -234,7 +244,7 @@
             // saveAs
             // 
             this.saveAs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveAs.Location = new System.Drawing.Point(388, 13);
+            this.saveAs.Location = new System.Drawing.Point(487, 13);
             this.saveAs.Name = "saveAs";
             this.saveAs.Size = new System.Drawing.Size(77, 23);
             this.saveAs.TabIndex = 16;
@@ -254,29 +264,48 @@
             // 
             // testsList
             // 
-            this.testsList.ContextMenuStrip = this.deleteTest;
+            this.testsList.ContextMenuStrip = this.testsListMenu;
             this.testsList.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.testsList.FormattingEnabled = true;
             this.testsList.Location = new System.Drawing.Point(0, 50);
             this.testsList.Name = "testsList";
-            this.testsList.Size = new System.Drawing.Size(468, 433);
+            this.testsList.Size = new System.Drawing.Size(576, 433);
             this.testsList.TabIndex = 0;
             this.testsList.SelectedIndexChanged += new System.EventHandler(this.TestsList_SelectedIndexChanged);
             this.testsList.DoubleClick += new System.EventHandler(this.TestsList_DoubleClick);
             this.testsList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TestsList_MouseDown);
             // 
+            // testsListMenu
+            // 
+            this.testsListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteTest});
+            this.testsListMenu.Name = "deleteTest";
+            this.testsListMenu.Size = new System.Drawing.Size(130, 26);
+            this.testsListMenu.Text = "Delete test";
+            this.testsListMenu.Click += new System.EventHandler(this.DeleteTest_Click);
+            // 
             // deleteTest
             // 
             this.deleteTest.Name = "deleteTest";
-            this.deleteTest.Size = new System.Drawing.Size(61, 4);
+            this.deleteTest.Size = new System.Drawing.Size(129, 22);
             this.deleteTest.Text = "Delete test";
-            this.deleteTest.Click += new System.EventHandler(this.DeleteTest_Click);
+            // 
+            // remove
+            // 
+            this.remove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.remove.Location = new System.Drawing.Point(356, 34);
+            this.remove.Name = "remove";
+            this.remove.Size = new System.Drawing.Size(77, 23);
+            this.remove.TabIndex = 18;
+            this.remove.Text = "Remove";
+            this.remove.UseVisualStyleBackColor = true;
+            this.remove.Click += new System.EventHandler(this.Remove_Click);
             // 
             // CsvGeneratorView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(911, 483);
+            this.ClientSize = new System.Drawing.Size(1038, 483);
             this.Controls.Add(this.splitContainer1);
             this.Name = "CsvGeneratorView";
             this.Text = "CsvImporter";
@@ -295,6 +324,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.csvContent)).EndInit();
+            this.testsListMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingTests)).EndInit();
             this.ResumeLayout(false);
 
@@ -320,8 +350,10 @@
         private System.Windows.Forms.BindingSource bindingTests;
         private System.Windows.Forms.CheckBox useGrouping;
         private System.Windows.Forms.Button undo;
-        private System.Windows.Forms.ContextMenuStrip deleteTest;
+        private System.Windows.Forms.ContextMenuStrip testsListMenu;
         private System.Windows.Forms.Button clear;
         private System.Windows.Forms.Button saveTemplate;
+        private System.Windows.Forms.ToolStripMenuItem deleteTest;
+        private System.Windows.Forms.Button remove;
     }
 }

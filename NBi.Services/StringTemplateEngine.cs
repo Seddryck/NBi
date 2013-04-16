@@ -98,7 +98,7 @@ namespace NBi.Service
         {
             return new string[]
             {
-                DateTime.Today.ToShortDateString() + "T" + DateTime.Now.ToLongTimeString(), 
+                String.Format("{0}-{1:00}-{2:00}T{3}",DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.ToLongTimeString()),
                 DateTime.Now.ToLongTimeString(),
                 DateTime.Today.ToShortDateString(),
                 (++uid).ToString(),

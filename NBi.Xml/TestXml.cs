@@ -111,6 +111,7 @@ namespace NBi.Xml
             this.Constraints = standalone.Constraints;
             this.Systems = standalone.Systems;
             this.UniqueIdentifier = standalone.UniqueIdentifier;
+            this.Edition = standalone.Edition;
         }
 
         public string GetName()

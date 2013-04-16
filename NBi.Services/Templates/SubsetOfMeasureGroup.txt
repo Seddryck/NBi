@@ -1,5 +1,5 @@
 ﻿<test name="All Measure-groups '$measuregroup$' in perspective '$perspective$' are a subset of these $length(measuregroup)$ elements">
-	<description>Verify that all the measure-groups visible throw perspective '$perspective$' are in the following list of $length(measuregroup)$ expected measure-groups: $measuregroup; separator=", "$.</description>
+	<description>Verify that all the measure-groups visible through the perspective '$perspective$' are in the following list of $length(measuregroup)$ expected measure-groups: $measuregroup; separator=", "$.</description>
 	<edition author="$username$" created="$now$"/>
 	<system-under-test>
 		<structure>	

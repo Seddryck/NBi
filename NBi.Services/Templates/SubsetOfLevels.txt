@@ -1,5 +1,5 @@
 ﻿<test name="All levels of hierarchy '$hierarchy$' from dimension '$dimension$' in perspective '$perspective$' are a subset of these $length(level)$ elements">
-	<description>Verify that all the levels of hierarchy '$hierarchy$' in dimension '$dimension$' visible throw perspective '$perspective$' are in the following list of $length(level)$ expected levels: $level; separator=", "$.</description>
+	<description>Verify that all the levels of hierarchy '$hierarchy$' in dimension '$dimension$' visible through the perspective '$perspective$' are in the following list of $length(level)$ expected levels: $level; separator=", "$.</description>
 	<edition author="$username$" created="$now$"/>
 	<system-under-test>
 		<structure>	

@@ -233,7 +233,8 @@
             // 
             // saveAs
             // 
-            this.saveAs.Location = new System.Drawing.Point(388, 14);
+            this.saveAs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveAs.Location = new System.Drawing.Point(388, 13);
             this.saveAs.Name = "saveAs";
             this.saveAs.Size = new System.Drawing.Size(77, 23);
             this.saveAs.TabIndex = 16;

@@ -80,6 +80,7 @@
 										</xs:element>
 									</xs:sequence>
 									<xs:attribute name="author" type="xs:string" use="optional" />
+									<xs:attribute name="created" type="xs:dateTime" use="optional" />
 								</xs:complexType>
 							</xs:element>
 							<xs:element name="category" minOccurs="0" maxOccurs="unbounded">

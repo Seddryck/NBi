@@ -97,4 +97,6 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
             Assert.That(structs.Count(), Is.EqualTo(11));
         }
     }
+
+
 }

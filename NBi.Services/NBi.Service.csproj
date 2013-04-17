@@ -102,6 +102,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Templates\SubsetOfPerspectives.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\LinkedToDimension.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\LinkedToMeasureGroup.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -37,7 +37,16 @@ namespace NBi.Service
 
                 var str = template.Render();
 
-                var test = XmlDeserializeFromString<TestStandaloneXml>(str);
+                TestStandaloneXml test = null;
+                try
+                {
+                    test = XmlDeserializeFromString<TestStandaloneXml>(str);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    throw new TemplateExecutionException(ex.Message);
+                }
+                
                 test.Content = XmlSerializeFrom<TestStandaloneXml>(test);
                 tests.Add(test);
             }

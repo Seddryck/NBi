@@ -60,6 +60,10 @@ namespace NBi.UI.Genbi.Presenter.Generator
             {
                 View.ShowException("The template has at least one variable which wasn't supplied by the Csv. Check the name of the variables.");
             }
+            catch (TemplateExecutionException ex)
+            {
+                View.ShowException(ex.Message);
+            }
             finally
             {
                 CalculateValidAction();

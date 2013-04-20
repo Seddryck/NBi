@@ -276,8 +276,10 @@
             // 
             // testsList
             // 
+            this.testsList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.testsList.ContextMenuStrip = this.testsListMenu;
-            this.testsList.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.testsList.FormattingEnabled = true;
             this.testsList.Location = new System.Drawing.Point(0, 50);
             this.testsList.Name = "testsList";

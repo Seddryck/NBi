@@ -10,11 +10,11 @@ namespace NBi.Xml
         [XmlAttribute("name")]
         public string Name { get; set; }
         
-        [XmlElement("test")]
-        public List<TestXml> Tests { get; set; }
-
-        [XmlElement("settings")]
+        [XmlElement("settings", Order = 1)]
         public SettingsXml Settings { get; set; }
+
+        [XmlElement("test", Order = 2)]
+        public List<TestXml> Tests { get; set; }
 
         public TestSuiteXml()
         {

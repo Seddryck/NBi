@@ -8,6 +8,7 @@ namespace NBi.Core.Query
     public interface IQueryPerformance : IQueryEnginable
     {
         PerformanceResult CheckPerformance();
+        PerformanceResult CheckPerformance(int timeout);
         void CleanCache();
     }
 }

@@ -229,6 +229,13 @@
 														</xs:restriction>
 													</xs:simpleType>
 												</xs:attribute>
+												<xs:attribute name="timeout-milliSeconds" use="optional" >
+													<xs:simpleType>
+														<xs:restriction base="xs:positiveInteger">
+															<xs:maxInclusive value="2147483647"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
 												<xs:attribute name="clean-cache" type="xs:boolean" use="optional" />
 											</xs:complexType>
 										</xs:element>

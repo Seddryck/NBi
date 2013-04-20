@@ -12,5 +12,8 @@ namespace NBi.Xml.Constraints
         [DefaultValue(false)]
         public bool CleanCache { get; set; }
 
+        [XmlAttribute("timeout-milliSeconds")]
+        [DefaultValue(0)]
+        public int TimeOutMilliSeconds { get; set; }
     }
 }

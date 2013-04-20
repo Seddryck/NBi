@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Xml.Serialization;
@@ -44,9 +45,11 @@ namespace NBi.Xml.Constraints
         }
 
         [XmlAttribute("keys")]
+        [DefaultValue(ResultSetComparisonSettings.KeysChoice.First)]
         public ResultSetComparisonSettings.KeysChoice KeysDef { get; set; }
 
         [XmlAttribute("values")]
+        [DefaultValue(ResultSetComparisonSettings.ValuesChoice.AllExpectFirst)]
         public ResultSetComparisonSettings.ValuesChoice ValuesDef { get; set; }
 
         protected bool isToleranceSpecified;
@@ -59,6 +62,7 @@ namespace NBi.Xml.Constraints
 
         protected decimal tolerance;
         [XmlAttribute("tolerance")]
+        [DefaultValue(0)]
         public decimal Tolerance
         {
             get
@@ -85,6 +89,7 @@ namespace NBi.Xml.Constraints
         }
 
         [XmlAttribute("persistance")]
+        [DefaultValue(PersistanceChoice.Never)]
         public PersistanceChoice Persistance;
 
         public ResultSetComparisonSettings GetSettings()

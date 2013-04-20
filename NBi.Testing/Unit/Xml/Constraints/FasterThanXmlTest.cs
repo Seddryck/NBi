@@ -92,6 +92,30 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(((FasterThanXml)ts.Tests[testNr].Constraints[0]).CleanCache, Is.False);
         }
 
+        [Test]
+        public void Deserialize_SampleFile_DefaultValueForTimeOutMilliSecondsIsZero()
+        {
+            int testNr = 3;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<FasterThanXml>());
+            Assert.That(((FasterThanXml)ts.Tests[testNr].Constraints[0]).TimeOutMilliSeconds, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ReadValueForTimeOutMilliSecondsIsZero()
+        {
+            int testNr = 4;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<FasterThanXml>());
+            Assert.That(((FasterThanXml)ts.Tests[testNr].Constraints[0]).TimeOutMilliSeconds, Is.EqualTo(10000));
+        }
+
         
 
     }

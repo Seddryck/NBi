@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="CsvManager.cs" />
     <Compile Include="Dto\Test.cs" />
+    <Compile Include="ProgressEventArgs.cs" />
     <Compile Include="SettingsManager.cs" />
     <Compile Include="StringTemplateEngine.cs" />
     <Compile Include="ExpectedVariableNotFoundException.cs" />

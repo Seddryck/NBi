@@ -237,6 +237,18 @@ namespace NBi.UI.Genbi.View.Generator
             }
         }
 
+        public int ProgressValue
+        {
+            set
+            {
+                if (progressBarTest.Value != value)
+                {
+                    progressBarTest.Value = value;
+                    progressBarTest.Refresh();
+                }
+            }
+        }
+
         #endregion
 
         protected void DeclareBindings()

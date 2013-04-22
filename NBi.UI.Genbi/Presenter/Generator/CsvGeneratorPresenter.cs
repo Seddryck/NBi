@@ -58,6 +58,7 @@ namespace NBi.UI.Genbi.Presenter.Generator
             
             try
             {
+                testManager.Progressed += new EventHandler<ProgressEventArgs>(TestManager_Progressed);
                 testManager.Build(View.Template, View.Variables.ToArray(), View.CsvContent, View.UseGrouping);
                 var tests = testManager.GetTests();
                 View.Tests = new BindingList<Test>(tests.ToArray());
@@ -73,6 +74,7 @@ namespace NBi.UI.Genbi.Presenter.Generator
             finally
             {
                 CalculateValidAction();
+                testManager.Progressed -= new EventHandler<ProgressEventArgs>(TestManager_Progressed);
             }
         }
 
@@ -216,6 +218,11 @@ namespace NBi.UI.Genbi.Presenter.Generator
             View.SettingsNames = new BindingList<string>(settingsManager.GetNames());
 
             CalculateValidAction();
+        }
+
+        protected void TestManager_Progressed(object sender, ProgressEventArgs e)
+        {
+            View.ProgressValue = Math.Min(e.Done * 100 / e.Total, 100) ;
         }
 
     }

@@ -10,6 +10,7 @@ namespace NBi.Service
 {
     public class TestManager
     {
+
         private IList<TestXml> tests;
         private IList<TestXml> lastGeneration;
 
@@ -27,8 +28,23 @@ namespace NBi.Service
         {
             var generator = new StringTemplateEngine(template, variables);
             var cases = GetCases(dataTable, useGrouping);
+            generator.Progressed += new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
             lastGeneration = generator.Build(cases).ToList();
+            generator.Progressed -= new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
             tests = tests.Concat(lastGeneration).ToList();
+        }
+
+        public  void OnTestGenerated(object sender, ProgressEventArgs e)
+        {
+            InvokeProgress(e);
+        }
+
+        public event EventHandler<ProgressEventArgs> Progressed;
+        public void InvokeProgress(ProgressEventArgs e)
+        {
+            var handler = Progressed;
+            if (handler != null)
+                handler(this, e);
         }
 
         public bool CanUndo

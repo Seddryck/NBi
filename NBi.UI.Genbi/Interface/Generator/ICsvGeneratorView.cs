@@ -63,6 +63,8 @@ namespace NBi.UI.Genbi.Interface.Generator
 
 
 
-        
+
+
+        int ProgressValue { set; }
     }
 }

@@ -43,5 +43,6 @@ namespace NBi.Xml
                     this.Tests.Add(test);
             }
         }
+
     }
 }

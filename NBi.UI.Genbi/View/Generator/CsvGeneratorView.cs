@@ -111,6 +111,47 @@ namespace NBi.UI.Genbi.View.Generator
             }
         }
 
+        public BindingList<string> SettingsNames
+        {
+            get
+            {
+                return (BindingList<string>)(bindingSettings.DataSource);
+            }
+            set
+            {
+                bindingSettings.DataSource = value;
+            }
+        }
+
+        public string SettingsValue
+        {
+            get
+            {
+                return settingsValue.Text;
+            }
+            set
+            {
+                settingsValue.Text = value;
+            }
+        }
+
+        private string settingsNameSelected;
+        //public string SettingsNameSelected
+        //{
+        //    get
+        //    {
+        //        return settingsNameSelected;
+        //    }
+        //    set
+        //    {
+        //        settingsNameSelected = value;
+        //        if (value == null)
+        //            settingsName.SelectedIndex = -1;
+        //        else
+        //            settingsName.SelectedValue = value;
+        //    }
+        //}
+
         private Test testSelected;
         public Test TestSelected
         {
@@ -225,6 +266,22 @@ namespace NBi.UI.Genbi.View.Generator
         public void InvokeTemplatePersist(TemplatePersistEventArgs e)
         {
             var handler = TemplatePersist;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        public event EventHandler<SettingsSelectEventArgs> SettingsSelect;
+        public void InvokeSettingsSelect(SettingsSelectEventArgs e)
+        {
+            var handler = SettingsSelect;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        public event EventHandler<SettingsUpdateEventArgs> SettingsUpdate;
+        public void InvokeSettingsUpdate(SettingsUpdateEventArgs e)
+        {
+            var handler = SettingsUpdate;
             if (handler != null)
                 handler(this, e);
         }
@@ -439,6 +496,18 @@ namespace NBi.UI.Genbi.View.Generator
 
             if (diagRes.HasFlag(DialogResult.OK))
                 InvokeVariableRemove(new VariableRemoveEventArgs(columnHeaderChoice.SelectedIndex));
+        }
+
+        private void SettingsName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            settingsValue.TextChanged -= SettingsValue_TextChanged;
+            InvokeSettingsSelect(new SettingsSelectEventArgs((string)settingsName.SelectedValue));
+            settingsValue.TextChanged += SettingsValue_TextChanged;
+        }
+
+        private void SettingsValue_TextChanged(object sender, EventArgs e)
+        {
+            InvokeSettingsUpdate(new SettingsUpdateEventArgs((string)settingsName.SelectedValue, settingsValue.Text));
         }
 
 

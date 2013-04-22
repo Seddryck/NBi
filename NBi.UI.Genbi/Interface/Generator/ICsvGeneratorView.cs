@@ -17,6 +17,9 @@ namespace NBi.UI.Genbi.Interface.Generator
         string Template { get; set; }
         Test TestSelected { get; set; }
         int TestSelectedIndex { get; set; }
+        BindingList<string> SettingsNames { get; set; }
+        //string SettingsNameSelected { get; set; }
+        string SettingsValue { get; set; }
         bool CanUndo { set; }
         bool CanGenerate { set; }
         bool CanClear { set; }
@@ -37,6 +40,10 @@ namespace NBi.UI.Genbi.Interface.Generator
         event EventHandler<VariableRenameEventArgs> VariableRename;
         //A variable is removed
         event EventHandler<VariableRemoveEventArgs> VariableRemove;
+        //A variable is renamed
+        event EventHandler<SettingsSelectEventArgs> SettingsSelect;
+        //A variable is removed
+        event EventHandler<SettingsUpdateEventArgs> SettingsUpdate;
         //Create a serie of tests based on template and CSV
         event EventHandler TestsGenerate;
         //Persist the testsuite created
@@ -49,6 +56,8 @@ namespace NBi.UI.Genbi.Interface.Generator
         event EventHandler TestsUndoGenerate;
         //Clear all the tests generated
         event EventHandler TestsClear;
+
+
 
 
 

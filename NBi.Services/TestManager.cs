@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using NBi.Service.Dto;
 using NBi.Xml;
+using NBi.Xml.Settings;
 
 namespace NBi.Service
 {
@@ -11,12 +12,16 @@ namespace NBi.Service
     {
         private IList<TestXml> tests;
         private IList<TestXml> lastGeneration;
+
+        public IList<TestXml> Tests { get { return tests; } }
+        
         
         public TestManager()
         {
             tests = new List<TestXml>();
             lastGeneration = new List<TestXml>();
         }
+
 
         public void Build(string template, string[] variables, DataTable dataTable, bool useGrouping)
         {
@@ -100,14 +105,6 @@ namespace NBi.Service
             tests.RemoveAt(index);
         }
 
-        public void SaveAs(string filename)
-        {
-            var testSuite = new TestSuiteXml();
-            var array = tests.ToArray();
-            testSuite.Load(array);
-
-            var manager = new XmlManager();
-            manager.Persist(filename, testSuite);
-        }
+        
     }
 }

@@ -63,6 +63,8 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Interface\Generator\Events\SettingsUpdateEventArgs.cs" />
+    <Compile Include="Interface\Generator\Events\SettingsSelectEventArgs.cs" />
     <Compile Include="Interface\Generator\Events\VariableRemoveEventArgs.cs" />
     <Compile Include="Interface\Generator\Events\TemplatePersistEventArgs.cs" />
     <Compile Include="Interface\Generator\Events\FilePersistEventArgs.cs" />

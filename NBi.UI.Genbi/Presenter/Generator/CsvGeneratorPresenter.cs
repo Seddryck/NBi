@@ -12,12 +12,16 @@ namespace NBi.UI.Genbi.Presenter.Generator
 {
     public class CsvGeneratorPresenter: BasePresenter<ICsvGeneratorView>
     {
-        private readonly TestManager testManager;    
+        private readonly TestManager testManager;
+        private readonly SettingsManager settingsManager;
+        private readonly TestSuiteManager testSuiteManager;
 
         public CsvGeneratorPresenter(ICsvGeneratorView view)
             : base(view)
         {
-            testManager = new TestManager();    
+            testManager = new TestManager();
+            settingsManager = new SettingsManager();
+            testSuiteManager = new TestSuiteManager();
         }
 
         
@@ -38,6 +42,8 @@ namespace NBi.UI.Genbi.Presenter.Generator
             View.TestSelect += OnTestSelect;
             View.TestDelete += OnTestDelete;
             View.TestsClear += OnTestsClear;
+            View.SettingsSelect += OnSettingsSelect;
+            View.SettingsUpdate += OnSettingsUpdate;
         }
 
         private void OnTemplatePersist(object sender, TemplatePersistEventArgs e)
@@ -80,7 +86,9 @@ namespace NBi.UI.Genbi.Presenter.Generator
 
         protected void OnTestSuitePersist(object sender, TestSuitePersistEventArgs e)
         {
-            testManager.SaveAs(e.FileName);
+            testSuiteManager.DefineSettings(settingsManager);
+            testSuiteManager.DefineTests(testManager);
+            testSuiteManager.SaveAs(e.FileName);
             View.ShowInform(String.Format("Test-suite '{0}' persisted.", e.FileName));
         }
 
@@ -94,6 +102,17 @@ namespace NBi.UI.Genbi.Presenter.Generator
         {
             View.CsvContent.Columns.RemoveAt(e.Index);
             View.Variables.RemoveAt(e.Index);
+            CalculateValidAction();
+        }
+
+        public void OnSettingsSelect(object sender, SettingsSelectEventArgs e)
+        {
+            View.SettingsValue = settingsManager.GetValue(e.Name);
+        }
+
+        public void OnSettingsUpdate(object sender, SettingsUpdateEventArgs e)
+        {
+            settingsManager.SetValue(e.Name, e.Value);
             CalculateValidAction();
         }
 
@@ -173,6 +192,8 @@ namespace NBi.UI.Genbi.Presenter.Generator
             View.CanSaveTemplate = View.Template.Length > 0;
             View.CanRename = View.Variables.Count > 0;
             View.CanRemove = View.Variables.Count > 1;
+            //View.CanSelectSettings = View.SettingsNames.Count > 0;
+            //View.CanEditSettings = View.SettingsNameSelected != string.Empty;
         }
   
         protected void Initialize()
@@ -190,6 +211,9 @@ namespace NBi.UI.Genbi.Presenter.Generator
             var templateManager = new TemplateManager();
             View.Template = templateManager.GetDefaultContent();
             View.EmbeddedTemplates = new BindingList<string>(templateManager.GetEmbeddedLabels());
+
+            //Settings
+            View.SettingsNames = new BindingList<string>(settingsManager.GetNames());
 
             CalculateValidAction();
         }

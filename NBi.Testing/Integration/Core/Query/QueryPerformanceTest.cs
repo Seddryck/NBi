@@ -42,7 +42,7 @@ namespace NBi.Testing.Integration.Core.Query
             var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
             var qp = new QueryEngineFactory().GetPerformance(cmd);
-            var res = qp.CheckPerformance();
+            var res = qp.CheckPerformance(1000);
 
             Assert.That(res.TimeOut.TotalMilliseconds, Is.EqualTo(1000));
             Assert.That(res.IsTimeOut, Is.True);

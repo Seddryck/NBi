@@ -23,9 +23,11 @@ namespace NBi.Service
         public IEnumerable<TestXml> Build(List<List<List<object>>> table)
         {
             var tests = new List<TestXml>();
+            int count=0;
 
             foreach (var row in table)
             {
+                count++;
                 Template template = new Template(TemplateXml, '$', '$');
                 for (int i = 0; i < Variables.Count(); i++)
                     template.Add(Variables[i], row[i]);
@@ -49,6 +51,7 @@ namespace NBi.Service
                 
                 test.Content = XmlSerializeFrom<TestStandaloneXml>(test);
                 tests.Add(test);
+                InvokeProgress(new ProgressEventArgs(count, table.Count()));
             }
             
             return tests;
@@ -115,7 +118,13 @@ namespace NBi.Service
             };
         }
 
-
+        public event EventHandler<ProgressEventArgs> Progressed;
+        public void InvokeProgress(ProgressEventArgs e)
+        {
+            var handler = Progressed;
+            if (handler != null)
+                handler(this, e);
+        }
 
     }
 }

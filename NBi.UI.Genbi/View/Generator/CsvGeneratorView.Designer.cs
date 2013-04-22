@@ -56,6 +56,7 @@
             this.testsListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteTest = new System.Windows.Forms.ToolStripMenuItem();
             this.bindingTests = new System.Windows.Forms.BindingSource(this.components);
+            this.progressBarTest = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.bindingCsv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingColumnNames)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -86,6 +87,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.progressBarTest);
             this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel2.Controls.Add(this.clear);
             this.splitContainer1.Panel2.Controls.Add(this.undo);
@@ -323,9 +325,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.testsList.ContextMenuStrip = this.testsListMenu;
             this.testsList.FormattingEnabled = true;
-            this.testsList.Location = new System.Drawing.Point(4, 141);
+            this.testsList.Location = new System.Drawing.Point(11, 141);
             this.testsList.Name = "testsList";
-            this.testsList.Size = new System.Drawing.Size(560, 342);
+            this.testsList.Size = new System.Drawing.Size(553, 316);
             this.testsList.TabIndex = 0;
             this.testsList.SelectedIndexChanged += new System.EventHandler(this.TestsList_SelectedIndexChanged);
             this.testsList.DoubleClick += new System.EventHandler(this.TestsList_DoubleClick);
@@ -345,6 +347,16 @@
             this.deleteTest.Name = "deleteTest";
             this.deleteTest.Size = new System.Drawing.Size(129, 22);
             this.deleteTest.Text = "Delete test";
+            // 
+            // progressBarTest
+            // 
+            this.progressBarTest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBarTest.Location = new System.Drawing.Point(11, 457);
+            this.progressBarTest.Name = "progressBarTest";
+            this.progressBarTest.Size = new System.Drawing.Size(553, 23);
+            this.progressBarTest.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBarTest.TabIndex = 20;
             // 
             // CsvGeneratorView
             // 
@@ -407,5 +419,6 @@
         private System.Windows.Forms.ComboBox settingsName;
         private System.Windows.Forms.TextBox settingsValue;
         private System.Windows.Forms.BindingSource bindingSettings;
+        private System.Windows.Forms.ProgressBar progressBarTest;
     }
 }

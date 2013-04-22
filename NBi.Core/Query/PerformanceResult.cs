@@ -29,6 +29,7 @@ namespace NBi.Core.Query
         public PerformanceResult(TimeSpan timeElapsed)
         {
             TimeElapsed = timeElapsed;
+            IsTimeOut = false;
         }
 
         /// <summary>

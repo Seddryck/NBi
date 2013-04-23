@@ -365,7 +365,7 @@
             this.ClientSize = new System.Drawing.Size(1038, 483);
             this.Controls.Add(this.splitContainer1);
             this.Name = "CsvGeneratorView";
-            this.Text = "CsvImporter";
+            this.Text = "Genbi";
             this.Load += new System.EventHandler(this.CsvImporterView_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bindingCsv)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingColumnNames)).EndInit();

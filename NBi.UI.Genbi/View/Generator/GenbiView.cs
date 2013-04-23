@@ -10,17 +10,17 @@ using NBi.UI.Genbi.Presenter.Generator;
 
 namespace NBi.UI.Genbi.View.Generator
 {
-    public partial class CsvGeneratorView : Form, ICsvGeneratorView
+    public partial class GenbiView : Form, ICsvGeneratorView
     {
-        private CsvGeneratorPresenter Presenter { get; set; }
+        private GenbiPresenter Presenter { get; set; }
 
         protected RenameVariableView RenameVariableView { get; set; }
         protected OpenTemplateView OpenTemplateView { get; set; }
         protected DisplayTestView DisplayTestView { get; set; }
 
-        public CsvGeneratorView()
+        public GenbiView()
         {
-            Presenter = new CsvGeneratorPresenter(this);
+            Presenter = new GenbiPresenter(this);
             InitializeComponent();
             InitializeSubViews();
             DeclareBindings();
@@ -495,9 +495,12 @@ namespace NBi.UI.Genbi.View.Generator
 
         private void SettingsName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            settingsValue.TextChanged -= SettingsValue_TextChanged;
-            InvokeSettingsSelect(new SettingsSelectEventArgs((string)settingsName.SelectedValue));
-            settingsValue.TextChanged += SettingsValue_TextChanged;
+            if (settingsName.SelectedValue != null)
+            {
+                settingsValue.TextChanged -= SettingsValue_TextChanged;
+                InvokeSettingsSelect(new SettingsSelectEventArgs((string)settingsName.SelectedValue));
+                settingsValue.TextChanged += SettingsValue_TextChanged;
+            }
         }
 
         private void SettingsValue_TextChanged(object sender, EventArgs e)

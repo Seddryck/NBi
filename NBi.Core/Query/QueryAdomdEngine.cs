@@ -25,21 +25,39 @@ namespace NBi.Core.Query
         /// Method exposed by the interface IQueryPerformance to execute a test of performance
         /// </summary>
         /// <returns></returns>
-        public virtual PerformanceResult CheckPerformance()
+        public PerformanceResult CheckPerformance()
         {
-            DateTime tsStart, tsStop;
+            return CheckPerformance(0);
+        }
+
+        public PerformanceResult CheckPerformance(int timeout)
+        {
+            bool isTimeout = false;
+            DateTime tsStart, tsStop = DateTime.Now;
 
             if (command.Connection.State == ConnectionState.Closed)
                 command.Connection.Open();
 
             tsStart = DateTime.Now;
-            command.ExecuteNonQuery();
-            tsStop = DateTime.Now;
+            try
+            {
+                command.ExecuteNonQuery();
+                tsStop = DateTime.Now;
+            }
+            catch (AdomdException e)
+            {
+                if (!e.Message.StartsWith("Timeout expired."))
+                    throw;
+                isTimeout = true;
+            }
 
             if (command.Connection.State == ConnectionState.Open)
                 command.Connection.Close();
 
-            return new PerformanceResult(tsStop.Subtract(tsStart));
+            if (isTimeout)
+                return PerformanceResult.Timeout(timeout);
+            else
+                return new PerformanceResult(tsStop.Subtract(tsStart));
         }
 
         /// <summary>

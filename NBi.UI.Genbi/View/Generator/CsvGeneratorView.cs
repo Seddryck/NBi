@@ -3,10 +3,10 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
+using NBi.Service.Dto;
 using NBi.UI.Genbi.Interface.Generator;
 using NBi.UI.Genbi.Interface.Generator.Events;
 using NBi.UI.Genbi.Presenter.Generator;
-using NBi.Xml;
 
 namespace NBi.UI.Genbi.View.Generator
 {
@@ -74,15 +74,16 @@ namespace NBi.UI.Genbi.View.Generator
             
         }
 
-        public BindingList<TestXml> Tests
+        public BindingList<Test> Tests
         {
             get
             {
-                return (BindingList<TestXml>)(bindingTests.DataSource);
+                return (BindingList<Test>)(bindingTests.DataSource);
             }
             set
             {
                 bindingTests.DataSource = value;
+                testsList.DisplayMember = "Title";
             }
         }
 
@@ -110,8 +111,32 @@ namespace NBi.UI.Genbi.View.Generator
             }
         }
 
-        private TestXml testSelected;
-        public TestXml TestSelected
+        public BindingList<string> SettingsNames
+        {
+            get
+            {
+                return (BindingList<string>)(bindingSettings.DataSource);
+            }
+            set
+            {
+                bindingSettings.DataSource = value;
+            }
+        }
+
+        public string SettingsValue
+        {
+            get
+            {
+                return settingsValue.Text;
+            }
+            set
+            {
+                settingsValue.Text = value;
+            }
+        }
+
+        private Test testSelected;
+        public Test TestSelected
         {
             get
             {
@@ -124,6 +149,86 @@ namespace NBi.UI.Genbi.View.Generator
                     DisplayTestView.TestContent = string.Empty;
                 else
                     DisplayTestView.TestContent = value.Content;
+            }
+        }
+
+        public int TestSelectedIndex
+        {
+            get
+            {
+                return testsList.SelectedIndex;
+            }
+            set
+            {
+                testsList.SelectedIndex = value;
+            }
+        }
+
+        public bool CanGenerate
+        {
+            set
+            {
+                generate.Enabled = value;
+            }
+        }
+
+        public bool CanUndo
+        {
+            set
+            {
+                undo.Enabled = value;
+            }
+        }
+
+        public bool CanClear
+        {
+            set
+            {
+                clear.Enabled = value;
+            }
+        }
+
+        public bool CanSaveAs
+        {
+            set
+            {
+                saveAs.Enabled = value;
+            }
+        }
+
+        public bool CanSaveTemplate
+        {
+            set
+            {
+                saveTemplate.Enabled = value;
+            }
+        }
+
+        public bool CanRename
+        {
+            set
+            {
+                rename.Enabled = value;
+            }
+        }
+
+        public bool CanRemove
+        {
+            set
+            {
+                remove.Enabled = value;
+            }
+        }
+
+        public int ProgressValue
+        {
+            set
+            {
+                if (progressBarTest.Value != value)
+                {
+                    progressBarTest.Value = value;
+                    progressBarTest.Refresh();
+                }
             }
         }
 
@@ -148,6 +253,38 @@ namespace NBi.UI.Genbi.View.Generator
         public void InvokeTemplateSelect(TemplateSelectEventArgs e)
         {
             var handler = TemplateSelect;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        public event EventHandler<TemplatePersistEventArgs> TemplatePersist;
+        public void InvokeTemplatePersist(TemplatePersistEventArgs e)
+        {
+            var handler = TemplatePersist;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        public event EventHandler<SettingsSelectEventArgs> SettingsSelect;
+        public void InvokeSettingsSelect(SettingsSelectEventArgs e)
+        {
+            var handler = SettingsSelect;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        public event EventHandler<SettingsUpdateEventArgs> SettingsUpdate;
+        public void InvokeSettingsUpdate(SettingsUpdateEventArgs e)
+        {
+            var handler = SettingsUpdate;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        public event EventHandler TemplateUpdate;
+        public void InvokeTemplateUpdate(EventArgs e)
+        {
+            var handler = TemplateUpdate;
             if (handler != null)
                 handler(this, e);
         }
@@ -184,6 +321,14 @@ namespace NBi.UI.Genbi.View.Generator
                 handler(this, e);
         }
 
+        public event EventHandler<VariableRemoveEventArgs> VariableRemove;
+        public void InvokeVariableRemove(VariableRemoveEventArgs e)
+        {
+            var handler = VariableRemove;
+            if (handler != null)
+                handler(this, e);
+        }
+
         public event EventHandler<TestSelectEventArgs> TestSelect;
         public void InvokeTestSelect(TestSelectEventArgs e)
         {
@@ -196,6 +341,14 @@ namespace NBi.UI.Genbi.View.Generator
         public void InvokeTestDelete(EventArgs e)
         {
             var handler = TestDelete;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        public event EventHandler TestsClear;
+        public void InvokeTestsClear(EventArgs e)
+        {
+            var handler = TestsClear;
             if (handler != null)
                 handler(this, e);
         }
@@ -227,6 +380,8 @@ namespace NBi.UI.Genbi.View.Generator
         private void OpenCsv_Click(object sender, EventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "All Files (*.*)|*.*|CSV (Comma delimited) (*.csv)|*.csv|Text Files (*.txt)|*.txt";
+            openFileDialog.FilterIndex = 2;
             DialogResult result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)
                 InvokeCsvSelect(new CsvSelectEventArgs(openFileDialog.FileName));
@@ -237,6 +392,16 @@ namespace NBi.UI.Genbi.View.Generator
         {
             if (!OpenTemplateView.Visible)
                 OpenTemplateView.Show(this);
+        }
+
+        private void SaveTemplateClick(object sender, System.EventArgs e)
+        {
+            var saveAsDialog = new SaveFileDialog();
+            saveAsDialog.Filter = "All Files (*.*)|*.*|NBi Test Template Files (*.nbitt)|*.nbitt|Text Files (*.txt)|*.txt";
+            saveAsDialog.FilterIndex = 2;
+            DialogResult result = saveAsDialog.ShowDialog();
+            if (result == DialogResult.OK)
+                InvokeTemplatePersist(new TemplatePersistEventArgs(saveAsDialog.FileName));
         }
 
 
@@ -261,6 +426,8 @@ namespace NBi.UI.Genbi.View.Generator
         private void SaveAsClick(object sender, EventArgs e)
         {
             var saveAsDialog = new SaveFileDialog();
+            saveAsDialog.Filter = "All Files (*.*)|*.*|NBi Test Suite Files (*.nbits)|*.nbits|Xml Files (*.xml)|*.xml|Text Files (*.txt)|*.txt";
+            saveAsDialog.FilterIndex = 2;
             DialogResult result = saveAsDialog.ShowDialog();
             if (result == DialogResult.OK)
                 InvokeTestSuitePersist(new TestSuitePersistEventArgs(saveAsDialog.FileName));
@@ -285,7 +452,7 @@ namespace NBi.UI.Genbi.View.Generator
                 testsList.SelectedIndex = testsList.IndexFromPoint(e.Location);
                 if (testsList.SelectedIndex != -1)
                 {
-                    deleteTest.Show();   
+                    testsListMenu.Show();   
                 }                
             }
         }
@@ -294,5 +461,50 @@ namespace NBi.UI.Genbi.View.Generator
         {
             InvokeTestDelete(EventArgs.Empty);
         }
+
+        private void Clear_Click(object sender, EventArgs e)
+        {
+            var diagRes = MessageBox.Show(
+                "Are your sure you want to clear the test-suite?",
+                "Genbi",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button1);
+
+            if (diagRes.HasFlag(DialogResult.OK))
+                InvokeTestsClear(EventArgs.Empty);
+        }
+
+        private void Template_TextChanged(object sender, EventArgs e)
+        {
+            InvokeTemplateUpdate(EventArgs.Empty);
+        }
+
+        private void Remove_Click(object sender, EventArgs e)
+        {
+            var diagRes = MessageBox.Show(
+                "Are your sure you want to remove this variable/column?",
+                "Genbi",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button1);
+
+            if (diagRes.HasFlag(DialogResult.OK))
+                InvokeVariableRemove(new VariableRemoveEventArgs(columnHeaderChoice.SelectedIndex));
+        }
+
+        private void SettingsName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            settingsValue.TextChanged -= SettingsValue_TextChanged;
+            InvokeSettingsSelect(new SettingsSelectEventArgs((string)settingsName.SelectedValue));
+            settingsValue.TextChanged += SettingsValue_TextChanged;
+        }
+
+        private void SettingsValue_TextChanged(object sender, EventArgs e)
+        {
+            InvokeSettingsUpdate(new SettingsUpdateEventArgs((string)settingsName.SelectedValue, settingsValue.Text));
+        }
+
+
     }
 }

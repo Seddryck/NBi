@@ -1,4 +1,6 @@
 ﻿<test name="A level named '$level$' exists in hierarchy '$hierarchy$', dimension '$dimension$', in perspective '$perspective$'.">
+	<description>Verify that the level named '$level$' exists in hierarchy '$hierarchy$', in dimension '$dimension$' throw perspective '$perspective$' and is visible for end-users</description>
+	<edition author="$username$" created="$now$"/>
 	<system-under-test>
 		<structure>	
 			<level caption="$level$" dimension="$dimension$" hierarchy="$hierarchy$" perspective="$perspective$"/>

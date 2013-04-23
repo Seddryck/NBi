@@ -40,24 +40,45 @@ namespace NBi.Core.Query
 
         public PerformanceResult CheckPerformance()
         {
-            DateTime tsStart, tsStop;
+            return CheckPerformance(0);
+        }
+
+        public PerformanceResult CheckPerformance(int timeout)
+        {
+            bool isTimeout=false;
+            DateTime tsStart, tsStop = DateTime.Now;
 
             if (command.Connection.State == ConnectionState.Closed)
                 command.Connection.Open();
 
+            command.CommandTimeout = timeout / 1000;
+
             tsStart = DateTime.Now;
-            command.ExecuteNonQuery();
-            tsStop = DateTime.Now;
+            try
+            {
+                command.ExecuteNonQuery();
+                tsStop = DateTime.Now;
+            }
+            catch (SqlException e)
+            {
+                if (!e.Message.StartsWith("Timeout expired."))
+                    throw;
+                isTimeout=true;
+            }
+            
 
             if (command.Connection.State == ConnectionState.Open)
                 command.Connection.Close();
 
-            return new PerformanceResult(tsStop.Subtract(tsStart));
+            if (isTimeout)
+                return PerformanceResult.Timeout(timeout);
+            else
+                return new PerformanceResult(tsStop.Subtract(tsStart));
 
         }
 
         /// <summary>
-        /// Method exposed by the interface IQueryPerformance to execute a test of syntax
+        /// Method exposed by the interface IQueryParser to execute a test of syntax
         /// </summary>
         /// <remarks>This method makes usage the set statement named SET FMTONLY to not effectively execute the query but check the validity of this query</remarks>
         /// <returns></returns>

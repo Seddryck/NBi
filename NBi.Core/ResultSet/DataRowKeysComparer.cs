@@ -8,11 +8,11 @@ namespace NBi.Core.ResultSet
 {
     public class DataRowKeysComparer : IEqualityComparer<DataRow>
     {
-        private ResultSetComparisonSettings _settings;
+        private readonly ResultSetComparisonSettings settings;
                
         public DataRowKeysComparer(ResultSetComparisonSettings settings, int columnCount)
         {
-            _settings = settings;
+            this.settings = settings;
             settings.ApplyTo(columnCount);
         }
         
@@ -28,12 +28,12 @@ namespace NBi.Core.ResultSet
 
         protected bool CheckKeysExist(DataRow dr)
         {
-            return _settings.GetLastKeyColumnIndex() < dr.Table.Columns.Count;
+            return settings.GetLastKeyColumnIndex() < dr.Table.Columns.Count;
         }
 
         public int GetHashCode(DataRow obj)
         {
-            var values = obj.ItemArray.Where<object>((o, i) => _settings.IsKey(i));
+            var values = obj.ItemArray.Where<object>((o, i) => settings.IsKey(i));
             int hash = 0;
             foreach (var value in values)
             {

@@ -4,11 +4,11 @@ using NBi.Core;
 
 namespace NBi.NUnit.Runtime
 {
-    public class CustomStackTraceErrorException: TestException
+    public class CustomStackTraceErrorException : Exception
     {
         private readonly string stackTrace;
 
-        public CustomStackTraceErrorException(TestException ex, string stackTrace)
+        public CustomStackTraceErrorException(NBiException ex, string stackTrace)
             : base(ex.Message)
         {
             this.stackTrace = stackTrace;

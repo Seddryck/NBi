@@ -23,9 +23,11 @@ namespace NBi.Service
         public IEnumerable<TestXml> Build(List<List<List<object>>> table)
         {
             var tests = new List<TestXml>();
+            int count=0;
 
             foreach (var row in table)
             {
+                count++;
                 Template template = new Template(TemplateXml, '$', '$');
                 for (int i = 0; i < Variables.Count(); i++)
                     template.Add(Variables[i], row[i]);
@@ -37,9 +39,19 @@ namespace NBi.Service
 
                 var str = template.Render();
 
-                var test = XmlDeserializeFromString<TestStandaloneXml>(str);
+                TestStandaloneXml test = null;
+                try
+                {
+                    test = XmlDeserializeFromString<TestStandaloneXml>(str);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    throw new TemplateExecutionException(ex.Message);
+                }
+                
                 test.Content = XmlSerializeFrom<TestStandaloneXml>(test);
                 tests.Add(test);
+                InvokeProgress(new ProgressEventArgs(count, table.Count()));
             }
             
             return tests;
@@ -98,7 +110,7 @@ namespace NBi.Service
         {
             return new string[]
             {
-                DateTime.Today.ToShortDateString() + "T" + DateTime.Now.ToLongTimeString(), 
+                String.Format("{0}-{1:00}-{2:00}T{3}",DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.ToLongTimeString()),
                 DateTime.Now.ToLongTimeString(),
                 DateTime.Today.ToShortDateString(),
                 (++uid).ToString(),
@@ -106,7 +118,13 @@ namespace NBi.Service
             };
         }
 
-
+        public event EventHandler<ProgressEventArgs> Progressed;
+        public void InvokeProgress(ProgressEventArgs e)
+        {
+            var handler = Progressed;
+            if (handler != null)
+                handler(this, e);
+        }
 
     }
 }

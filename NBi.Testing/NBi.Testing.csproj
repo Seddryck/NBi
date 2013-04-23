@@ -85,6 +85,7 @@
     <Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
     <Compile Include="Integration\NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\FasterThanConstraintTest.cs" />
+    <Compile Include="Integration\NUnit\Query\FasterThanConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\ContainConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\SubsetOfConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\EquivalentToConstraintTest.cs" />

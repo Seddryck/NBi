@@ -31,7 +31,7 @@ namespace NBi.Testing.Unit.NUnit.Query
             var cmd = new SqlCommand();
 
             var mock = new Mock<IQueryPerformance>();
-            mock.Setup(engine => engine.CheckPerformance())
+            mock.Setup(engine => engine.CheckPerformance(It.IsAny<int>()))
                 .Returns(new PerformanceResult(new System.TimeSpan(0,0,0,2)));
             mock.Setup(engine => engine.CleanCache());
             IQueryPerformance qp = mock.Object;
@@ -43,7 +43,7 @@ namespace NBi.Testing.Unit.NUnit.Query
             fasterThanConstraint.Matches(cmd);
 
             //Test conclusion            
-            mock.Verify(engine => engine.CheckPerformance(), Times.Once());
+            mock.Verify(engine => engine.CheckPerformance(It.IsAny<int>()), Times.Once());
             mock.Verify(engine => engine.CleanCache(), Times.Never());
         }
 
@@ -53,7 +53,7 @@ namespace NBi.Testing.Unit.NUnit.Query
             var cmd = new SqlCommand();
 
             var mock = new Mock<IQueryPerformance>();
-            mock.Setup(engine => engine.CheckPerformance())
+            mock.Setup(engine => engine.CheckPerformance(It.IsAny<int>()))
                 .Returns(new PerformanceResult(new System.TimeSpan(0, 0, 0, 2)));
             mock.Setup(engine => engine.CleanCache());
             IQueryPerformance qp = mock.Object;
@@ -65,7 +65,7 @@ namespace NBi.Testing.Unit.NUnit.Query
             fasterThanConstraint.Matches(cmd);
 
             //Test conclusion            
-            mock.Verify(engine => engine.CheckPerformance(), Times.Once());
+            mock.Verify(engine => engine.CheckPerformance(It.IsAny<int>()), Times.Once());
             mock.Verify(engine => engine.CleanCache(), Times.Once());
         }
 
@@ -75,7 +75,7 @@ namespace NBi.Testing.Unit.NUnit.Query
             var cmd = new SqlCommand();
 
             var stub = new Mock<IQueryPerformance>();
-            stub.Setup(engine => engine.CheckPerformance())
+            stub.Setup(engine => engine.CheckPerformance(It.IsAny<int>()))
                 .Returns(new PerformanceResult(new System.TimeSpan(0, 0, 0, 8)));
             IQueryPerformance qp = stub.Object;
 
@@ -95,7 +95,7 @@ namespace NBi.Testing.Unit.NUnit.Query
             var cmd = new SqlCommand();
 
             var stub = new Mock<IQueryPerformance>();
-            stub.Setup(engine => engine.CheckPerformance())
+            stub.Setup(engine => engine.CheckPerformance(It.IsAny<int>()))
                 .Returns(new PerformanceResult(new System.TimeSpan(0, 0, 0, 4)));
             IQueryPerformance qp = stub.Object;
 

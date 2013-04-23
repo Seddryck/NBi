@@ -46,9 +46,9 @@ namespace NBi.NUnit.Structure
         /// <param name="factory"></param>
         /// <param name="actual"></param>
         /// <returns></returns>
-        protected override AdomdDiscoveryCommand BuildCommand(AdomdDiscoveryCommandFactory factory, MetadataDiscoveryRequest actual)
+        protected override AdomdDiscoveryCommand BuildCommand(AdomdDiscoveryCommandFactory factory, MetadataDiscoveryRequest request)
         {
-            return factory.BuildLinkedTo(actual);
+            return factory.BuildLinkedTo(request);
         }
         
         protected void Investigate()
@@ -87,25 +87,27 @@ namespace NBi.NUnit.Structure
 
         public override void WriteActualValueTo(MessageWriter writer)
         {
-            //IF actual is not empty it means we've an issue with Casing or a space at the end
-            if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() == 1)
-            {
-                if (((IEnumerable<IField>)actual).ToArray()[0].Caption.ToLowerInvariant() == Expected.ToLowerInvariant())
-                    writer.WriteActualValue(string.Format("< <{0}> > (case not matching)", ((IEnumerable<IField>)actual).ToArray()[0].Caption));
-                else if (((IEnumerable<IField>)actual).ToArray()[0].Caption.EndsWith(" "))
-                    writer.WriteActualValue(string.Format("< <{0}> > (with ending space(s))", ((IEnumerable<IField>)actual).ToArray()[0].Caption));
-                else
-                    writer.WriteActualValue(string.Format("< <{0}> > (small difference)", ((IEnumerable<IField>)actual).ToArray()[0].Caption));
+            //actual is equal to the List of Dimensions/Measure-Group effectively linkedTo, so we don't need to perform an investigation.
+            
+            ////IF actual is not empty it means we've an issue with Casing or a space at the end
+            //if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() == 1)
+            //{
+            //    if (((IEnumerable<IField>)actual).ToArray()[0].Caption.ToLowerInvariant() == Expected.ToLowerInvariant())
+            //        writer.WriteActualValue(string.Format("< <{0}> > (case not matching)", ((IEnumerable<IField>)actual).ToArray()[0].Caption));
+            //    else if (((IEnumerable<IField>)actual).ToArray()[0].Caption.EndsWith(" "))
+            //        writer.WriteActualValue(string.Format("< <{0}> > (with ending space(s))", ((IEnumerable<IField>)actual).ToArray()[0].Caption));
+            //    else
+            //        writer.WriteActualValue(string.Format("< <{0}> > (small difference)", ((IEnumerable<IField>)actual).ToArray()[0].Caption));
 
-            }
-            else
-            {
-                Investigate();
+            //}
+            //else
+            //{
+            //    Investigate();
                 if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() > 0)
                     base.WriteActualValueTo(writer);
                 else
                     writer.WriteActualValue(new WriterHelper.NothingFoundMessage());
-            }
+            //}
         }
 
         

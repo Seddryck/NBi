@@ -135,23 +135,6 @@ namespace NBi.UI.Genbi.View.Generator
             }
         }
 
-        private string settingsNameSelected;
-        //public string SettingsNameSelected
-        //{
-        //    get
-        //    {
-        //        return settingsNameSelected;
-        //    }
-        //    set
-        //    {
-        //        settingsNameSelected = value;
-        //        if (value == null)
-        //            settingsName.SelectedIndex = -1;
-        //        else
-        //            settingsName.SelectedValue = value;
-        //    }
-        //}
-
         private Test testSelected;
         public Test TestSelected
         {

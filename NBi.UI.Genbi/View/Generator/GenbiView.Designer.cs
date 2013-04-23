@@ -1,6 +1,6 @@
 ﻿namespace NBi.UI.Genbi.View.Generator
 {
-    partial class CsvGeneratorView
+    partial class GenbiView
     {
         /// <summary>
         /// Required designer variable.

@@ -10,13 +10,13 @@ using NBi.UI.Genbi.Interface.Generator.Events;
 
 namespace NBi.UI.Genbi.Presenter.Generator
 {
-    public class CsvGeneratorPresenter: BasePresenter<ICsvGeneratorView>
+    public class GenbiPresenter: BasePresenter<ICsvGeneratorView>
     {
         private readonly TestManager testManager;
         private readonly SettingsManager settingsManager;
         private readonly TestSuiteManager testSuiteManager;
 
-        public CsvGeneratorPresenter(ICsvGeneratorView view)
+        public GenbiPresenter(ICsvGeneratorView view)
             : base(view)
         {
             testManager = new TestManager();
@@ -50,7 +50,7 @@ namespace NBi.UI.Genbi.Presenter.Generator
         {
             var manager = new TemplateManager();
             manager.Persist(e.FileName, View.Template);
-            View.ShowInform(String.Format("Template '{0}' persisted.", e.FileName));
+            View.ShowInform(String.Format("Template '{0}' saved.", e.FileName));
         }
 
         protected void OnTestsGenerate(object sender, EventArgs e)

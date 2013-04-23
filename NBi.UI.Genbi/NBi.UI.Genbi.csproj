@@ -68,11 +68,11 @@
     <Compile Include="Interface\Generator\Events\VariableRemoveEventArgs.cs" />
     <Compile Include="Interface\Generator\Events\TemplatePersistEventArgs.cs" />
     <Compile Include="Interface\Generator\Events\FilePersistEventArgs.cs" />
-    <Compile Include="View\Generator\CsvGeneratorView.cs">
+    <Compile Include="View\Generator\GenbiView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\Generator\CsvGeneratorView.Designer.cs">
-      <DependentUpon>CsvGeneratorView.cs</DependentUpon>
+    <Compile Include="View\Generator\GenbiView.Designer.cs">
+      <DependentUpon>GenbiView.cs</DependentUpon>
     </Compile>
     <Compile Include="View\Generator\DisplayTestView.cs">
       <SubType>Form</SubType>
@@ -105,7 +105,7 @@
     <Compile Include="Interface\Generator\Events\TestSelectEventArgs.cs" />
     <Compile Include="Interface\Generator\Events\VariableRenameEventArgs.cs" />
     <Compile Include="Presenter\BasePresenter.cs" />
-    <Compile Include="Presenter\Generator\CsvGeneratorPresenter.cs" />
+    <Compile Include="Presenter\Generator\GenbiPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -113,8 +113,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="View\Generator\CsvGeneratorView.resx">
-      <DependentUpon>CsvGeneratorView.cs</DependentUpon>
+    <EmbeddedResource Include="View\Generator\GenbiView.resx">
+      <DependentUpon>GenbiView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\Generator\RenameVariableView.resx">
       <DependentUpon>RenameVariableView.cs</DependentUpon>

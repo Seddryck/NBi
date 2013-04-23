@@ -1,4 +1,6 @@
 ﻿<test name="A perspective named '$perspective$' exists.">
+	<description>Verify that the perspective '$perspective$' exists and is visible for end-users</description>
+	<edition author="$username$" created="$now$"/>
 	<system-under-test>
 		<structure>	
 			<perspective caption="$perspective$"/>

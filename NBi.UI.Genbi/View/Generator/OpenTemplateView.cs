@@ -57,6 +57,8 @@ namespace NBi.UI.Genbi.View.Generator
         private void UserTemplateFileSelection_Click(object sender, EventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "All Files (*.*)|*.*|NBi Test Template Files (*.nbitt)|*.nbitt|Text Files (*.txt)|*.txt";
+            openFileDialog.FilterIndex = 2;
             DialogResult result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)
                 userTemplateFullPath.Text = openFileDialog.FileName;

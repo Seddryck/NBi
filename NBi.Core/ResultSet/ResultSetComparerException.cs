@@ -5,9 +5,10 @@ using System.Text;
 
 namespace NBi.Core.ResultSet
 {
-    public class ResultSetComparerException : TestException
+    public class ResultSetComparerException : NBiException
     {
-        public ResultSetComparerException(string message) : base(message)
+        public ResultSetComparerException(string message)
+            : base(message)
         {
 
         }

@@ -41,8 +41,8 @@ namespace NBi.Testing.Unit.NUnit.Query
         [Test]
         public void Matches_IDbCommandAsActualAndPathAsExpectation_ResulSetBuildersCreateResultSetsUsingActualAndExpectationProvided()
         {
-            var rsActual = new ResultSetCsvReader().Parse("a;b;c");
-            var rsExpect = new ResultSetCsvReader().Parse("x;y;z");
+            var rsActual = new ResultSetCsvReader().Parse("a;b;1");
+            var rsExpect = new ResultSetCsvReader().Parse("x;y;2");
             var cmd = new SqlCommand();
 
             var rsbMock = new Mock<IResultSetBuilder>();
@@ -96,7 +96,7 @@ namespace NBi.Testing.Unit.NUnit.Query
         [Test]
         public void Matches_TwoIdenticalResultSets_ReturnTrue()
         {
-            var rs = new ResultSetCsvReader().Parse("a;b;0");
+            var rs = new ResultSetCsvReader().Parse("a;X;1");
 
             var cmd = new SqlCommand();
 
@@ -120,8 +120,8 @@ namespace NBi.Testing.Unit.NUnit.Query
         [Test]
         public void Matches_TwoDifferentResultSets_ReturnFalse()
         {
-            var rsActual = new ResultSetCsvReader().Parse("a;b;c");
-            var rsExpect = new ResultSetCsvReader().Parse("a;X;c");
+            var rsActual = new ResultSetCsvReader().Parse("a;b;1");
+            var rsExpect = new ResultSetCsvReader().Parse("a;X;1");
 
             var cmd = new SqlCommand();
 

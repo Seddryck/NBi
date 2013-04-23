@@ -134,7 +134,6 @@
     <Compile Include="Query\ListBuilder.cs" />
     <Compile Include="ExternalDependencyNotFoundException.cs" />
     <Compile Include="NBiException.cs" />
-    <Compile Include="TestException.cs" />
     <Compile Include="Query\QueryAdomdEngine.cs" />
     <Compile Include="Query\IQueryEnginable.cs" />
     <Compile Include="Query\IQueryExecutor.cs" />

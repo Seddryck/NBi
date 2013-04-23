@@ -127,7 +127,7 @@ namespace NBi.Testing.Unit.Xml
         }
 
         [Test]
-        [Ignore]
+        [Ignore("Timeout attribute is not interpreted by NBi")]
         public void Deserialize_SampleFile_TimeoutAttributeCorrectlyRead()
         {
             int testNr = 5;

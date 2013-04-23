@@ -13,19 +13,23 @@ The main goal of this framework is to let users create tests with a declarative 
 
 ! Currently supported features 
 * SSAS & SQL
-** Query execution
-*** [Test equivalence of two result sets] (including tolerance for numeric values, dateTime, ...)
+** *Query execution*
+*** [Test equivalence of two result sets]
 *** [Test performance]
 *** [Test syntax]
 * SSAS
 ** Cube structure
 *** [Test the availability of an element in the cube's structure] (measure, measure-group, level, hierarchy, dimension, perspective)
+*** [Test availability of one or more elements in the cube structure] *v1.1*
+*** [Test the relation between a dimension and a measure-group] *v1.1*
 ** Dimension membership
 *** [Test the members' count at any level of a dimension or hierarchy]
 *** [Test ordering of members at any level of a dimension or hierarchy]
 *** [Test availability of a member at any level of a dimension or hierarchy]
+*** [Test availability of one or more members in a hierarchy or level] *v1.1*
 * Manage test cases
 ** [Group tests cases by categories (manual or automatic)]
 ** [Author and updates]
 ** [Provide a description to your test]
 ** [Ignore a test]
+** [Manage connection strings] *v1.1*

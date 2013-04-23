@@ -36,4 +36,28 @@
 			<fasterThan max-time-milliSeconds="100"/>
 		</assert>
 	</test>
+	<test name="Default value for timeout-milliSeconds is 0">
+		<system-under-test>
+			<execution>
+				<query connectionString="connectionString">
+					select * from myTable
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<fasterThan max-time-milliSeconds="100"/>
+		</assert>
+	</test>
+	<test name="Correctly read value for timeout-milliSeconds">
+		<system-under-test>
+			<execution>
+				<query connectionString="connectionString">
+					select * from myTable
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<fasterThan max-time-milliSeconds="100" timeout-milliSeconds="10000"/>
+		</assert>
+	</test>
 </testSuite>

@@ -27,6 +27,7 @@ namespace NBi.NUnit.Query
         protected PerformanceResult performanceResult;
 
         protected int maxTimeMilliSeconds;
+        protected int timeOutMilliSeconds;
         protected bool cleanCache;
 
         public FasterThanConstraint()
@@ -37,6 +38,12 @@ namespace NBi.NUnit.Query
         public FasterThanConstraint MaxTimeMilliSeconds(int value)
         {
             this.maxTimeMilliSeconds = value;
+            return this;
+        }
+
+        public FasterThanConstraint TimeOutMilliSeconds(int value)
+        {
+            this.timeOutMilliSeconds = value;
             return this;
         }
 
@@ -76,8 +83,12 @@ namespace NBi.NUnit.Query
             var engine = GetEngine(actual);
             if (cleanCache)
                 engine.CleanCache();
-            performanceResult = engine.CheckPerformance();
-            return performanceResult.TimeElapsed.TotalMilliseconds < maxTimeMilliSeconds;
+            performanceResult = engine.CheckPerformance(timeOutMilliSeconds);
+            return 
+                (
+                    performanceResult.TimeElapsed.TotalMilliseconds < maxTimeMilliSeconds
+                    && ! performanceResult.IsTimeOut
+                );
         }
 
         /// <summary>
@@ -94,7 +105,10 @@ namespace NBi.NUnit.Query
 
         public override void  WriteActualValueTo(NUnitCtr.MessageWriter writer)
         {
-            writer.WriteActualValue(string.Format("{0}ms", performanceResult.TimeElapsed.TotalMilliseconds));
+            if (performanceResult.IsTimeOut)
+                writer.WriteActualValue(string.Format("query interrupted after {0}ms (timeout)", performanceResult.TimeOut));
+            else
+                writer.WriteActualValue(string.Format("{0}ms", performanceResult.TimeElapsed.TotalMilliseconds));
         }
     }
 }

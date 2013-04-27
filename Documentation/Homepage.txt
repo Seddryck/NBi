@@ -13,10 +13,11 @@ The main goal of this framework is to let users create tests with a declarative 
 
 ! Currently supported features 
 * SSAS & SQL
-** *Query execution*
+** Query execution
 *** [Test equivalence of two result sets]
-*** [Test performance]
+*** [Test performance] *(improved in v1.1)*
 *** [Test syntax]
+*** [Get a query from an assembly] *v1.1*
 * SSAS
 ** Cube structure
 *** [Test the availability of an element in the cube's structure] (measure, measure-group, level, hierarchy, dimension, perspective)
@@ -33,3 +34,5 @@ The main goal of this framework is to let users create tests with a declarative 
 ** [Provide a description to your test]
 ** [Ignore a test]
 ** [Manage connection strings] *v1.1*
+* Tool to assist in the creation of a test suite
+** [Generate new tests based on a template] *v1.1*

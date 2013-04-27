@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033</connectionString>
+		</default>
+	</settings>
+	<test name="Members of department bellow 'Corporate' are in the following list" uid="0001">
+		<system-under-test>
+			<members children-of="Corporate">
+				<hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<equivalentTo>
+				<item>Executive General and Administration</item>
+				<item>Inventory Management</item>
+				<item>Manufacturing</item>
+				<item>Quality Assurance</item>
+				<item>Research and Development</item>
+				<item>Sales and Marketing</item>
+			</equivalentTo>
+		</assert>
+	</test>
+</testSuite>

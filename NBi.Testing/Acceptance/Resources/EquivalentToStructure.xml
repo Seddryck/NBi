@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033</connectionString>
+		</default>
+	</settings>
+	<test name="The dimension 'employee' is equivalent to the list of 18 hierarchies defined" uid="0000">
+		<system-under-test>
+			<structure>
+				<hierarchies dimension="Employee" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<equivalentTo>
+				<item>Base Rate</item>
+				<item>Department Name</item>
+				<item>Employee Department</item>
+				<item>Employees</item>
+				<item>End Date</item>
+				<item>Gender</item>
+				<item>Hire Date</item>
+				<item>Hire Year</item>
+				<item>Marital Status</item>
+				<item>Pay Frequency</item>
+				<item>Phone</item>
+				<item>Salaried Flag</item>
+				<item>Sales Person Flag</item>
+				<item>Sick Leave Hours</item>
+				<item>Start Date</item>
+				<item>Status</item>
+				<item>Title</item>
+				<item>Vacation Hours</item>
+			</equivalentTo>
+		</assert>
+	</test>
+</testSuite>

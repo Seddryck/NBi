@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3A9822B3-CCE4-441B-9C3E-D52817A994CA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NBi.Xml</RootNamespace>
+    <AssemblyName>NBi.Xml</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Bases\BaseQueryXml.cs" />
+    <Compile Include="Constraints\AbstractConstraintXml.cs" />
+    <Compile Include="Constraints\ContainXml.cs" />
+    <Compile Include="Constraints\EquivalentToXml.cs" />
+    <Compile Include="Constraints\SubsetOfXml.cs" />
+    <Compile Include="Constraints\ExistsXml.cs" />
+    <Compile Include="Constraints\LinkedToXml.cs" />
+    <Compile Include="Items\MeasuresXml.cs" />
+    <Compile Include="Items\MeasureGroupsXml.cs" />
+    <Compile Include="Items\LevelsXml.cs" />
+    <Compile Include="Items\HierarchiesXml.cs" />
+    <Compile Include="Items\PerspectivesXml.cs" />
+    <Compile Include="Items\DimensionsXml.cs" />
+    <Compile Include="Items\QueryableXml.cs" />
+    <Compile Include="Items\ResultSet\CellXml.cs" />
+    <Compile Include="Items\ResultSet\ColumnXml.cs" />
+    <Compile Include="Items\ResultSet\KeyXml.cs" />
+    <Compile Include="Items\ResultSet\ResultSetXml.cs" />
+    <Compile Include="Items\ResultSet\RowXml.cs" />
+    <Compile Include="Items\ResultSet\ValueXml.cs" />
+    <Compile Include="Constraints\OrderedXml.cs" />
+    <Compile Include="Items\AbstractItem.cs" />
+    <Compile Include="Items\AbstractMembersItem.cs" />
+    <Compile Include="Items\BaseItem.cs" />
+    <Compile Include="Items\QueryXml.cs" />
+    <Compile Include="Settings\UpdateXml.cs" />
+    <Compile Include="Settings\EditionXml.cs" />
+    <Compile Include="Settings\DescriptionXml.cs" />
+    <Compile Include="Settings\DefaultXml.cs" />
+    <Compile Include="Settings\IgnoreXml.cs" />
+    <Compile Include="Settings\ReferenceXml.cs" />
+    <Compile Include="Settings\SettingsXml.cs" />
+    <Compile Include="SpecificReadAttributes.cs" />
+    <Compile Include="Systems\AbstractSystemUnderTestXml.cs" />
+    <Compile Include="Constraints\CountXml.cs" />
+    <Compile Include="Constraints\EqualToXml.cs" />
+    <Compile Include="Items\AssemblyXml.cs" />
+    <Compile Include="Items\ParameterXml.cs" />
+    <Compile Include="Systems\MembersXml.cs" />
+    <Compile Include="Constraints\SyntacticallyCorrectXml.cs" />
+    <Compile Include="Constraints\FasterThanXml.cs" />
+    <Compile Include="Systems\StructureXml.cs" />
+    <Compile Include="Items\LevelXml.cs" />
+    <Compile Include="Items\HierarchyXml.cs" />
+    <Compile Include="Items\DimensionXml.cs" />
+    <Compile Include="Items\MeasureXml.cs" />
+    <Compile Include="Items\MeasureGroupXml.cs" />
+    <Compile Include="Items\PerspectiveXml.cs" />
+    <Compile Include="TestStandaloneXml.cs" />
+    <Compile Include="TestSuiteBuilder.cs" />
+    <Compile Include="TestXml.cs" />
+    <Compile Include="Systems\ExecutionXml.cs" />
+    <Compile Include="TestSuiteXml.cs" />
+    <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="XmlBeautifier.cs" />
+    <Compile Include="XmlManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="NBi-TestSuite.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
+      <Project>{3F730647-FE31-4907-8A6E-A0C4A0C970EA}</Project>
+      <Name>NBi.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

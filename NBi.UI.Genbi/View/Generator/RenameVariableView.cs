@@ -9,9 +9,9 @@ namespace NBi.UI.Genbi.View.Generator
     public partial class RenameVariableView : Form
     {
         public int Index { get; set; }
-        protected CsvGeneratorView Origin { get; set; }
+        protected GenbiView Origin { get; set; }
 
-        public RenameVariableView(CsvGeneratorView origin)
+        public RenameVariableView(GenbiView origin)
         {
             this.Origin = origin;
             InitializeComponent();

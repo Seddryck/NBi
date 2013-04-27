@@ -14,7 +14,7 @@ namespace NBi.UI.Genbi
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new CsvGeneratorView());
+            Application.Run(new GenbiView());
         }
     }
 }

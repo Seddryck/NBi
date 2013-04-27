@@ -7,11 +7,11 @@ namespace NBi.UI.Genbi.View.Generator
 {
     public partial class OpenTemplateView : Form
     {
-        protected CsvGeneratorView Origin { get; set; }
+        protected GenbiView Origin { get; set; }
         public string EmbeddedName { get; set; }
         public string FullPath { get; set; }
 
-        public OpenTemplateView(CsvGeneratorView origin)
+        public OpenTemplateView(GenbiView origin)
         {
             Origin = origin;
             InitializeComponent();

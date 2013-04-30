@@ -92,6 +92,13 @@
     <Compile Include="View\Generator\RenameVariableView.Designer.cs">
       <DependentUpon>RenameVariableView.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\Generator\SettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\Generator\SettingsControl.Designer.cs">
+      <DependentUpon>SettingsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Generator\TestSuiteViewAdapter.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -118,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\Generator\RenameVariableView.resx">
       <DependentUpon>RenameVariableView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Generator\SettingsControl.resx">
+      <DependentUpon>SettingsControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

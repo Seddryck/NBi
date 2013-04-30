@@ -8,12 +8,11 @@ namespace NBi.UI.Genbi.View.Generator
 {
     public partial class RenameVariableView : Form
     {
-        public int Index { get; set; }
-        protected GenbiView Origin { get; set; }
-
-        public RenameVariableView(GenbiView origin)
+        protected TestSuiteViewAdapter Adapter { get; set; }
+       
+        public RenameVariableView(TestSuiteViewAdapter adapter)
         {
-            this.Origin = origin;
+            Adapter = adapter;
             InitializeComponent();
             InvokeInitialize(new EventArgs());
         }
@@ -33,6 +32,8 @@ namespace NBi.UI.Genbi.View.Generator
             if (handler != null)
                 handler(this, e);
         }
+
+        //            RenameVariableView.Variable = columnHeaderChoice.SelectedItem.ToString();
 
         public string Variable
         {
@@ -55,7 +56,7 @@ namespace NBi.UI.Genbi.View.Generator
                 MessageBox.Show(this, "Variable's name cannot be empty", "Rename variable", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            Origin.InvokeVariableRename(new VariableRenameEventArgs(Index, Variable));
+            Adapter.InvokeVariableRename(new VariableRenameEventArgs(Adapter.VariableSelectedIndex, Variable));
             this.Hide();
         }
 
@@ -63,6 +64,7 @@ namespace NBi.UI.Genbi.View.Generator
         {
             this.Hide();
         }
+
 
     }
 }

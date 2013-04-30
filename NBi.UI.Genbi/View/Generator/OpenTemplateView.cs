@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using NBi.UI.Genbi.Interface.Generator.Events;
@@ -7,13 +8,15 @@ namespace NBi.UI.Genbi.View.Generator
 {
     public partial class OpenTemplateView : Form
     {
+        protected TestSuiteViewAdapter Adapter { get; set; }
+
         protected GenbiView Origin { get; set; }
         public string EmbeddedName { get; set; }
         public string FullPath { get; set; }
 
-        public OpenTemplateView(GenbiView origin)
+        public OpenTemplateView(TestSuiteViewAdapter adapter)
         {
-            Origin = origin;
+            Adapter = adapter;
             InitializeComponent();
             DeclareBindings();
         }
@@ -21,6 +24,18 @@ namespace NBi.UI.Genbi.View.Generator
         private void DeclareBindings()
         {
             predefinedTemplateName.DataSource = BindingEmbeddedTemplates;
+        }
+
+        public BindingList<string> EmbeddedTemplates
+        {
+            get
+            {
+                return (BindingList<string>)(BindingEmbeddedTemplates.DataSource);
+            }
+            set
+            {
+                BindingEmbeddedTemplates.DataSource = value;
+            }
         }
 
         private void OpenTemplateView_Load(object sender, EventArgs e)
@@ -43,7 +58,7 @@ namespace NBi.UI.Genbi.View.Generator
                     TemplateSelectEventArgs.TemplateType.Embedded,
                     predefinedTemplateName.SelectedValue.ToString().Replace(" ",""));
             }
-            Origin.InvokeTemplateSelect(eventArgs);
+            Adapter.InvokeTemplateSelect(eventArgs);
             this.Hide();
         }
 

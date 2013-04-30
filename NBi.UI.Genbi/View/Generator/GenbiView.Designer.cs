@@ -44,6 +44,7 @@
             this.useGrouping = new System.Windows.Forms.CheckBox();
             this.openTemplate = new System.Windows.Forms.Button();
             this.template = new System.Windows.Forms.TextBox();
+            this.progressBarTest = new System.Windows.Forms.ProgressBar();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.settingsValue = new System.Windows.Forms.TextBox();
             this.settingsName = new System.Windows.Forms.ComboBox();
@@ -56,7 +57,6 @@
             this.testsListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteTest = new System.Windows.Forms.ToolStripMenuItem();
             this.bindingTests = new System.Windows.Forms.BindingSource(this.components);
-            this.progressBarTest = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.bindingCsv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingColumnNames)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -242,6 +242,16 @@
             this.template.WordWrap = false;
             this.template.TextChanged += new System.EventHandler(this.Template_TextChanged);
             // 
+            // progressBarTest
+            // 
+            this.progressBarTest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBarTest.Location = new System.Drawing.Point(11, 457);
+            this.progressBarTest.Name = "progressBarTest";
+            this.progressBarTest.Size = new System.Drawing.Size(553, 23);
+            this.progressBarTest.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBarTest.TabIndex = 20;
+            // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -264,7 +274,6 @@
             this.settingsValue.Name = "settingsValue";
             this.settingsValue.Size = new System.Drawing.Size(547, 39);
             this.settingsValue.TabIndex = 1;
-            this.settingsValue.TextChanged += new System.EventHandler(this.SettingsValue_TextChanged);
             // 
             // settingsName
             // 
@@ -275,7 +284,6 @@
             this.settingsName.Name = "settingsName";
             this.settingsName.Size = new System.Drawing.Size(235, 21);
             this.settingsName.TabIndex = 0;
-            this.settingsName.SelectedIndexChanged += new System.EventHandler(this.SettingsName_SelectedIndexChanged);
             // 
             // clear
             // 
@@ -348,23 +356,13 @@
             this.deleteTest.Size = new System.Drawing.Size(129, 22);
             this.deleteTest.Text = "Delete test";
             // 
-            // progressBarTest
-            // 
-            this.progressBarTest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBarTest.Location = new System.Drawing.Point(11, 457);
-            this.progressBarTest.Name = "progressBarTest";
-            this.progressBarTest.Size = new System.Drawing.Size(553, 23);
-            this.progressBarTest.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBarTest.TabIndex = 20;
-            // 
-            // CsvGeneratorView
+            // GenbiView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1038, 483);
             this.Controls.Add(this.splitContainer1);
-            this.Name = "CsvGeneratorView";
+            this.Name = "GenbiView";
             this.Text = "Genbi";
             this.Load += new System.EventHandler(this.CsvImporterView_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bindingCsv)).EndInit();
@@ -392,8 +390,6 @@
 
         #endregion
 
-        private System.Windows.Forms.BindingSource bindingCsv;
-        private System.Windows.Forms.BindingSource bindingColumnNames;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TextBox template;
         private System.Windows.Forms.SplitContainer splitContainer2;
@@ -407,8 +403,6 @@
         private System.Windows.Forms.Button rename;
         private System.Windows.Forms.Button openCsv;
         private System.Windows.Forms.Button openTemplate;
-        private System.Windows.Forms.BindingSource bindingTests;
-        private System.Windows.Forms.CheckBox useGrouping;
         private System.Windows.Forms.Button undo;
         private System.Windows.Forms.ContextMenuStrip testsListMenu;
         private System.Windows.Forms.Button clear;
@@ -418,7 +412,11 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox settingsName;
         private System.Windows.Forms.TextBox settingsValue;
-        private System.Windows.Forms.BindingSource bindingSettings;
         private System.Windows.Forms.ProgressBar progressBarTest;
+        protected internal System.Windows.Forms.CheckBox useGrouping;
+        protected internal System.Windows.Forms.BindingSource bindingCsv;
+        protected internal System.Windows.Forms.BindingSource bindingColumnNames;
+        protected internal System.Windows.Forms.BindingSource bindingTests;
+        protected internal System.Windows.Forms.BindingSource bindingSettings;
     }
 }

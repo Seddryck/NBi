@@ -27,6 +27,7 @@ namespace NBi.UI.Genbi.Interface.Generator
         bool CanSaveTemplate { set; }
         bool CanRename { set; }
         bool CanRemove { set; }
+        int ProgressValue { set; }
 
         //A new csv file is selected to be displayed in the screen
         event EventHandler<CsvSelectEventArgs> CsvSelect;
@@ -65,6 +66,6 @@ namespace NBi.UI.Genbi.Interface.Generator
 
 
 
-        int ProgressValue { set; }
+        
     }
 }

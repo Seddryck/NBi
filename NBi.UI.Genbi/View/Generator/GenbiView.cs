@@ -10,28 +10,23 @@ using NBi.UI.Genbi.Presenter.Generator;
 
 namespace NBi.UI.Genbi.View.Generator
 {
-    public partial class GenbiView : Form, ICsvGeneratorView
+    public partial class GenbiView : Form
     {
-        private GenbiPresenter Presenter { get; set; }
+        protected TestSuiteViewAdapter Adapter { get; set; }
 
-        protected RenameVariableView RenameVariableView { get; set; }
-        protected OpenTemplateView OpenTemplateView { get; set; }
-        protected DisplayTestView DisplayTestView { get; set; }
 
-        public GenbiView()
+        public GenbiView(TestSuiteViewAdapter adapter)
         {
-            Presenter = new GenbiPresenter(this);
+            Adapter = adapter;
             InitializeComponent();
-            InitializeSubViews();
             DeclareBindings();
-            InvokeInitialize(new EventArgs());
         }
 
-        protected void InitializeSubViews()
+        protected void DeclareBindings()
         {
-            RenameVariableView = new RenameVariableView(this);
-            OpenTemplateView = new OpenTemplateView(this);
-            DisplayTestView = new DisplayTestView(this);
+            csvContent.DataSource = bindingCsv;
+            columnHeaderChoice.DataSource = bindingColumnNames;
+            testsList.DataSource = bindingTests;
         }
 
         #region properties
@@ -71,7 +66,7 @@ namespace NBi.UI.Genbi.View.Generator
             {
                 bindingColumnNames.DataSource = value;
             }
-            
+
         }
 
         public BindingList<Test> Tests
@@ -87,18 +82,8 @@ namespace NBi.UI.Genbi.View.Generator
             }
         }
 
-        public BindingList<string> EmbeddedTemplates
-        {
-            get
-            {
-                return (BindingList<string>)(OpenTemplateView.BindingEmbeddedTemplates.DataSource);
-            }
-            set
-            {
-                OpenTemplateView.BindingEmbeddedTemplates.DataSource = value;
-            }
-        }
         
+
         public string Template
         {
             get
@@ -132,23 +117,6 @@ namespace NBi.UI.Genbi.View.Generator
             set
             {
                 settingsValue.Text = value;
-            }
-        }
-
-        private Test testSelected;
-        public Test TestSelected
-        {
-            get
-            {
-                return testSelected;
-            }
-            set
-            {
-                testSelected = value;
-                if (value == null)
-                    DisplayTestView.TestContent = string.Empty;
-                else
-                    DisplayTestView.TestContent = value.Content;
             }
         }
 
@@ -234,133 +202,6 @@ namespace NBi.UI.Genbi.View.Generator
 
         #endregion
 
-        protected void DeclareBindings()
-        {
-            csvContent.DataSource = bindingCsv;
-            columnHeaderChoice.DataSource = bindingColumnNames;
-            testsList.DataSource = bindingTests;
-        }
-
-        public event EventHandler<CsvSelectEventArgs> CsvSelect;
-        public void InvokeCsvSelect(CsvSelectEventArgs e)
-        {
-            var handler = CsvSelect;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        public event EventHandler<TemplateSelectEventArgs> TemplateSelect;
-        public void InvokeTemplateSelect(TemplateSelectEventArgs e)
-        {
-            var handler = TemplateSelect;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        public event EventHandler<TemplatePersistEventArgs> TemplatePersist;
-        public void InvokeTemplatePersist(TemplatePersistEventArgs e)
-        {
-            var handler = TemplatePersist;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        public event EventHandler<SettingsSelectEventArgs> SettingsSelect;
-        public void InvokeSettingsSelect(SettingsSelectEventArgs e)
-        {
-            var handler = SettingsSelect;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        public event EventHandler<SettingsUpdateEventArgs> SettingsUpdate;
-        public void InvokeSettingsUpdate(SettingsUpdateEventArgs e)
-        {
-            var handler = SettingsUpdate;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        public event EventHandler TemplateUpdate;
-        public void InvokeTemplateUpdate(EventArgs e)
-        {
-            var handler = TemplateUpdate;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        public event EventHandler TestsGenerate;
-        public void InvokeTestsGenerate(EventArgs e)
-        {
-            var handler = TestsGenerate;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        public event EventHandler TestsUndoGenerate;
-        public void InvokeTestsUndoGenerate(EventArgs e)
-        {
-            var handler = TestsUndoGenerate;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        public event EventHandler<TestSuitePersistEventArgs> TestSuitePersist;
-        public void InvokeTestSuitePersist(TestSuitePersistEventArgs e)
-        {
-            var handler = TestSuitePersist;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        public event EventHandler<VariableRenameEventArgs> VariableRename;
-        public void InvokeVariableRename(VariableRenameEventArgs e)
-        {
-            var handler = VariableRename;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        public event EventHandler<VariableRemoveEventArgs> VariableRemove;
-        public void InvokeVariableRemove(VariableRemoveEventArgs e)
-        {
-            var handler = VariableRemove;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        public event EventHandler<TestSelectEventArgs> TestSelect;
-        public void InvokeTestSelect(TestSelectEventArgs e)
-        {
-            var handler = TestSelect;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        public event EventHandler TestDelete;
-        public void InvokeTestDelete(EventArgs e)
-        {
-            var handler = TestDelete;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        public event EventHandler TestsClear;
-        public void InvokeTestsClear(EventArgs e)
-        {
-            var handler = TestsClear;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        public event EventHandler Initialize;
-        public void InvokeInitialize(EventArgs e)
-        {
-            EventHandler handler = Initialize;
-            if (handler != null)
-                handler(this, e);
-        }
-
 
         private void CsvImporterView_Load(object sender, EventArgs e)
         {
@@ -369,12 +210,12 @@ namespace NBi.UI.Genbi.View.Generator
 
         private void Generate_Click(object sender, EventArgs e)
         {
-            InvokeTestsGenerate(e);
+            Adapter.InvokeTestsGenerate(e);
         }
 
         private void Undo_Click(object sender, EventArgs e)
         {
-            InvokeTestsUndoGenerate(e);
+            Adapter.InvokeTestsUndoGenerate(e);
         }
 
         private void OpenCsv_Click(object sender, EventArgs e)
@@ -384,14 +225,14 @@ namespace NBi.UI.Genbi.View.Generator
             openFileDialog.FilterIndex = 2;
             DialogResult result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)
-                InvokeCsvSelect(new CsvSelectEventArgs(openFileDialog.FileName));
+                Adapter.InvokeCsvSelect(new CsvSelectEventArgs(openFileDialog.FileName));
         }
 
 
         private void OpenTemplateClick(object sender, System.EventArgs e)
         {
-            if (!OpenTemplateView.Visible)
-                OpenTemplateView.Show(this);
+            if (!Adapter.OpenTemplateForm.Visible)
+                Adapter.OpenTemplateForm.Show(this);
         }
 
         private void SaveTemplateClick(object sender, System.EventArgs e)
@@ -401,26 +242,16 @@ namespace NBi.UI.Genbi.View.Generator
             saveAsDialog.FilterIndex = 2;
             DialogResult result = saveAsDialog.ShowDialog();
             if (result == DialogResult.OK)
-                InvokeTemplatePersist(new TemplatePersistEventArgs(saveAsDialog.FileName));
+                Adapter.InvokeTemplatePersist(new TemplatePersistEventArgs(saveAsDialog.FileName));
         }
 
 
         private void Rename_Click(object sender, EventArgs e)
         {
-            RenameVariableView.Index = columnHeaderChoice.SelectedIndex;
-            RenameVariableView.Variable = columnHeaderChoice.SelectedItem.ToString();
-            if (!RenameVariableView.Visible)
-                RenameVariableView.Show(this);
-        }
-
-        public void ShowException(string text)
-        {
-            MessageBox.Show(text, "Generic test builder", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-        }
-
-        public void ShowInform(string text)
-        {
-            MessageBox.Show(text, "Generic test builder", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            Adapter.VariableSelectedIndex       = columnHeaderChoice.SelectedIndex;
+            Adapter.RenameVariableForm.Variable = Adapter.Variables[Adapter.VariableSelectedIndex];
+            if (!Adapter.RenameVariableForm.Visible)
+                Adapter.RenameVariableForm.Show(this);
         }
 
         private void SaveAsClick(object sender, EventArgs e)
@@ -430,18 +261,18 @@ namespace NBi.UI.Genbi.View.Generator
             saveAsDialog.FilterIndex = 2;
             DialogResult result = saveAsDialog.ShowDialog();
             if (result == DialogResult.OK)
-                InvokeTestSuitePersist(new TestSuitePersistEventArgs(saveAsDialog.FileName));
+                Adapter.InvokeTestSuitePersist(new TestSuitePersistEventArgs(saveAsDialog.FileName));
         }
 
         private void TestsList_DoubleClick(object sender, EventArgs e)
         {
-            if (!DisplayTestView.Visible)
-                DisplayTestView.Show();
+            if (!Adapter.DisplayTestForm.Visible)
+                Adapter.DisplayTestForm.Show();
         }
 
         private void TestsList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            InvokeTestSelect(new TestSelectEventArgs(testsList.SelectedIndex));
+            Adapter.InvokeTestSelect(new TestSelectEventArgs(testsList.SelectedIndex));
         }
 
         private void TestsList_MouseDown(object sender, MouseEventArgs e)
@@ -459,7 +290,7 @@ namespace NBi.UI.Genbi.View.Generator
 
         private void DeleteTest_Click(object sender, EventArgs e)
         {
-            InvokeTestDelete(EventArgs.Empty);
+            Adapter.InvokeTestDelete(EventArgs.Empty);
         }
 
         private void Clear_Click(object sender, EventArgs e)
@@ -472,12 +303,12 @@ namespace NBi.UI.Genbi.View.Generator
                 MessageBoxDefaultButton.Button1);
 
             if (diagRes.HasFlag(DialogResult.OK))
-                InvokeTestsClear(EventArgs.Empty);
+                Adapter.InvokeTestsClear(EventArgs.Empty);
         }
 
         private void Template_TextChanged(object sender, EventArgs e)
         {
-            InvokeTemplateUpdate(EventArgs.Empty);
+            Adapter.InvokeTemplateUpdate(EventArgs.Empty);
         }
 
         private void Remove_Click(object sender, EventArgs e)
@@ -490,23 +321,11 @@ namespace NBi.UI.Genbi.View.Generator
                 MessageBoxDefaultButton.Button1);
 
             if (diagRes.HasFlag(DialogResult.OK))
-                InvokeVariableRemove(new VariableRemoveEventArgs(columnHeaderChoice.SelectedIndex));
+                Adapter.InvokeVariableRemove(new VariableRemoveEventArgs(columnHeaderChoice.SelectedIndex));
         }
 
-        private void SettingsName_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (settingsName.SelectedValue != null)
-            {
-                settingsValue.TextChanged -= SettingsValue_TextChanged;
-                InvokeSettingsSelect(new SettingsSelectEventArgs((string)settingsName.SelectedValue));
-                settingsValue.TextChanged += SettingsValue_TextChanged;
-            }
-        }
 
-        private void SettingsValue_TextChanged(object sender, EventArgs e)
-        {
-            InvokeSettingsUpdate(new SettingsUpdateEventArgs((string)settingsName.SelectedValue, settingsValue.Text));
-        }
+        
 
 
     }

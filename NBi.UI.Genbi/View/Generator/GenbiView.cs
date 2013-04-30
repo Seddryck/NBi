@@ -27,6 +27,8 @@ namespace NBi.UI.Genbi.View.Generator
             csvContent.DataSource = bindingCsv;
             columnHeaderChoice.DataSource = bindingColumnNames;
             testsList.DataSource = bindingTests;
+            settingsControl.Adapter = Adapter;
+            settingsControl.DeclareBindings();
         }
 
         #region properties
@@ -96,27 +98,29 @@ namespace NBi.UI.Genbi.View.Generator
             }
         }
 
-        public BindingList<string> SettingsNames
-        {
-            get
-            {
-                return (BindingList<string>)(bindingSettings.DataSource);
-            }
-            set
-            {
-                bindingSettings.DataSource = value;
-            }
-        }
 
         public string SettingsValue
         {
             get
             {
-                return settingsValue.Text;
+                return settingsControl.Value;
             }
             set
             {
-                settingsValue.Text = value;
+                settingsControl.Value = value;
+            }
+        }
+
+
+        public BindingList<string> SettingsNames
+        {
+            get
+            {
+                return settingsControl.Names;
+            }
+            set
+            {
+                settingsControl.Names = value;
             }
         }
 
@@ -323,10 +327,5 @@ namespace NBi.UI.Genbi.View.Generator
             if (diagRes.HasFlag(DialogResult.OK))
                 Adapter.InvokeVariableRemove(new VariableRemoveEventArgs(columnHeaderChoice.SelectedIndex));
         }
-
-
-        
-
-
     }
 }

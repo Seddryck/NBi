@@ -45,10 +45,6 @@
             this.openTemplate = new System.Windows.Forms.Button();
             this.template = new System.Windows.Forms.TextBox();
             this.progressBarTest = new System.Windows.Forms.ProgressBar();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.settingsValue = new System.Windows.Forms.TextBox();
-            this.settingsName = new System.Windows.Forms.ComboBox();
-            this.bindingSettings = new System.Windows.Forms.BindingSource(this.components);
             this.clear = new System.Windows.Forms.Button();
             this.undo = new System.Windows.Forms.Button();
             this.saveAs = new System.Windows.Forms.Button();
@@ -57,6 +53,7 @@
             this.testsListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteTest = new System.Windows.Forms.ToolStripMenuItem();
             this.bindingTests = new System.Windows.Forms.BindingSource(this.components);
+            this.settingsControl = new SettingsControl();
             ((System.ComponentModel.ISupportInitialize)(this.bindingCsv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingColumnNames)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -69,8 +66,8 @@
             this.splitContainer2.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.csvContent)).BeginInit();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSettings)).BeginInit();
+            this.testsListMenu.SuspendLayout();
+            this.settingsControl.SuspendLayout();
             this.testsListMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingTests)).BeginInit();
             this.SuspendLayout();
@@ -88,7 +85,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.progressBarTest);
-            this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
+            this.splitContainer1.Panel2.Controls.Add(this.settingsControl);
             this.splitContainer1.Panel2.Controls.Add(this.clear);
             this.splitContainer1.Panel2.Controls.Add(this.undo);
             this.splitContainer1.Panel2.Controls.Add(this.saveAs);
@@ -252,38 +249,15 @@
             this.progressBarTest.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBarTest.TabIndex = 20;
             // 
-            // groupBox1
+            // settingsControl
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.settingsControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.settingsValue);
-            this.groupBox1.Controls.Add(this.settingsName);
-            this.groupBox1.Location = new System.Drawing.Point(4, 42);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(560, 93);
-            this.groupBox1.TabIndex = 19;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Settings";
-            // 
-            // settingsValue
-            // 
-            this.settingsValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.settingsValue.Location = new System.Drawing.Point(7, 48);
-            this.settingsValue.Multiline = true;
-            this.settingsValue.Name = "settingsValue";
-            this.settingsValue.Size = new System.Drawing.Size(547, 39);
-            this.settingsValue.TabIndex = 1;
-            // 
-            // settingsName
-            // 
-            this.settingsName.DataSource = this.bindingSettings;
-            this.settingsName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.settingsName.FormattingEnabled = true;
-            this.settingsName.Location = new System.Drawing.Point(7, 20);
-            this.settingsName.Name = "settingsName";
-            this.settingsName.Size = new System.Drawing.Size(235, 21);
-            this.settingsName.TabIndex = 0;
+            this.settingsControl.Location = new System.Drawing.Point(4, 42);
+            this.settingsControl.Name = "settingsControl";
+            this.settingsControl.Size = new System.Drawing.Size(560, 93);
+            this.settingsControl.TabIndex = 19;
+            this.settingsControl.TabStop = false;
             // 
             // clear
             // 
@@ -378,10 +352,9 @@
             this.splitContainer2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.settingsControl.ResumeLayout(false);
+            this.settingsControl.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.csvContent)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSettings)).EndInit();
             this.testsListMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingTests)).EndInit();
             this.ResumeLayout(false);
@@ -409,14 +382,11 @@
         private System.Windows.Forms.Button saveTemplate;
         private System.Windows.Forms.ToolStripMenuItem deleteTest;
         private System.Windows.Forms.Button remove;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ComboBox settingsName;
-        private System.Windows.Forms.TextBox settingsValue;
         private System.Windows.Forms.ProgressBar progressBarTest;
         protected internal System.Windows.Forms.CheckBox useGrouping;
         protected internal System.Windows.Forms.BindingSource bindingCsv;
         protected internal System.Windows.Forms.BindingSource bindingColumnNames;
         protected internal System.Windows.Forms.BindingSource bindingTests;
-        protected internal System.Windows.Forms.BindingSource bindingSettings;
+        private NBi.UI.Genbi.View.Generator.SettingsControl settingsControl;
     }
 }

@@ -68,6 +68,11 @@
     <Compile Include="Interface\Generator\Events\VariableRemoveEventArgs.cs" />
     <Compile Include="Interface\Generator\Events\TemplatePersistEventArgs.cs" />
     <Compile Include="Interface\Generator\Events\FilePersistEventArgs.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="View\Generator\GenbiView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,11 +103,29 @@
     <Compile Include="View\Generator\SettingsControl.Designer.cs">
       <DependentUpon>SettingsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\Generator\TemplateControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\Generator\TemplateControl.Designer.cs">
+      <DependentUpon>TemplateControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Generator\TestListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\Generator\TestListControl.Designer.cs">
+      <DependentUpon>TestListControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\Generator\TestSuiteViewAdapter.cs" />
+    <Compile Include="View\Generator\VariablesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\Generator\VariablesControl.Designer.cs">
+      <DependentUpon>VariablesControl.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Compile Include="Interface\Generator\ICsvGeneratorView.cs" />
     <Compile Include="Interface\IView.cs" />
@@ -115,11 +138,6 @@
     <Compile Include="Presenter\Generator\GenbiPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="View\Generator\GenbiView.resx">
       <DependentUpon>GenbiView.cs</DependentUpon>
     </EmbeddedResource>
@@ -128,6 +146,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\Generator\SettingsControl.resx">
       <DependentUpon>SettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Generator\TemplateControl.resx">
+      <DependentUpon>TemplateControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Generator\TestListControl.resx">
+      <DependentUpon>TestListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Generator\VariablesControl.resx">
+      <DependentUpon>VariablesControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -169,6 +196,11 @@
       <ProductName>Windows Installer 4.5</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Icons\textfield_delete.png" />
+    <Content Include="Icons\textfield_rename.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

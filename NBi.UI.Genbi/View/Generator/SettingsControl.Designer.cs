@@ -29,67 +29,66 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.bindingSettings = new System.Windows.Forms.BindingSource(this.components);
             this.settingsValue = new System.Windows.Forms.TextBox();
             this.settingsName = new System.Windows.Forms.ComboBox();
-            this.bindingSettings = new System.Windows.Forms.BindingSource(this.components);
-            this.groupBox1.SuspendLayout();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSettings)).BeginInit();
             this.SuspendLayout();
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.settingsValue);
-            this.groupBox1.Controls.Add(this.settingsName);
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(571, 99);
-            this.groupBox1.TabIndex = 20;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Settings";
-            // 
             // settingsValue
             // 
-            this.settingsValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.settingsValue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.settingsValue.Location = new System.Drawing.Point(7, 48);
+            this.settingsValue.Location = new System.Drawing.Point(0, 30);
             this.settingsValue.Multiline = true;
             this.settingsValue.Name = "settingsValue";
-            this.settingsValue.Size = new System.Drawing.Size(558, 39);
-            this.settingsValue.TabIndex = 1;
+            this.settingsValue.Size = new System.Drawing.Size(571, 107);
+            this.settingsValue.TabIndex = 3;
             this.settingsValue.TextChanged += new System.EventHandler(this.SettingsValue_TextChanged);
             // 
             // settingsName
             // 
+            this.settingsName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.settingsName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.settingsName.FormattingEnabled = true;
-            this.settingsName.Location = new System.Drawing.Point(7, 20);
+            this.settingsName.Location = new System.Drawing.Point(54, 3);
             this.settingsName.Name = "settingsName";
-            this.settingsName.Size = new System.Drawing.Size(235, 21);
-            this.settingsName.TabIndex = 0;
+            this.settingsName.Size = new System.Drawing.Size(212, 21);
+            this.settingsName.TabIndex = 2;
             this.settingsName.SelectedIndexChanged += new System.EventHandler(this.SettingsName_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(0, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(48, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Settings:";
             // 
             // SettingsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.settingsValue);
+            this.Controls.Add(this.settingsName);
             this.Name = "SettingsControl";
-            this.Size = new System.Drawing.Size(588, 102);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.Size = new System.Drawing.Size(574, 140);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSettings)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox1;
+        protected internal System.Windows.Forms.BindingSource bindingSettings;
         private System.Windows.Forms.TextBox settingsValue;
         private System.Windows.Forms.ComboBox settingsName;
-        protected internal System.Windows.Forms.BindingSource bindingSettings;
+        private System.Windows.Forms.Label label1;
     }
 }

@@ -57,5 +57,7 @@ namespace NBi.UI.Genbi.View.Generator
         {
             settingsName.DataSource = bindingSettings;
         }
+
+
     }
 }

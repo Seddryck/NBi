@@ -141,6 +141,7 @@ namespace NBi.UI.Genbi.View.Generator
             set
             {
                 generateToolStripMenuItem.Enabled = value;
+                toolStripTestSuiteGenerate.Enabled = value;
             }
         }
 
@@ -157,6 +158,7 @@ namespace NBi.UI.Genbi.View.Generator
             set
             {
                 clearToolStripMenuItem.Enabled = value;
+                toolStripTestSuiteSaveAs.Enabled = value;
             }
         }
 
@@ -268,6 +270,7 @@ namespace NBi.UI.Genbi.View.Generator
 
             if (diagRes.HasFlag(DialogResult.OK))
                 Adapter.InvokeTestsClear(EventArgs.Empty);
-        }               
+        }
+  
     }
 }

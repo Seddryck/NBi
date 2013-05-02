@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using NBi.UI.Genbi.Presenter.Generator;
-using NBi.UI.Genbi.View.Generator;
+using NBi.UI.Genbi.Presenter;
+using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi
 {
@@ -17,7 +17,7 @@ namespace NBi.UI.Genbi
             Application.SetCompatibleTextRenderingDefault(false);
 
             var adapter = new TestSuiteViewAdapter();
-            var presenter = new GenbiPresenter(adapter);
+            var presenter = new TestSuiteGeneratorPresenter(adapter);
             adapter.InvokeInitialize(EventArgs.Empty);
 
             Application.Run(adapter.MainForm);

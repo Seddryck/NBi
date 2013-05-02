@@ -1,11 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: query equalTo query" xmlns="http://NBi/TestSuite">
-	<!--<test name="'Reseller Order Count' by year before 2006" uid="0001" ignore="true">
+	<test name="'Reseller Order Count' by year before 2006" uid="0001">
 		<system-under-test>
 			<execution>
-				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1049">
+				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033">
+					WITH MEMBER 
+						[Measures].[Reseller Order Count Divided by 7] 
+					AS 
+						[Measures].[Reseller Order Count]/7
 					SELECT
-						[Measures].[Reseller Order Count] ON 0,
+						[Measures].[Reseller Order Count Divided by 7] ON 0,
 						EXCEPT({[Date].[Calendar Year].Children},{[Date].[Calendar Year].[CY 2006]}) ON 1
 					FROM
 						[Adventure Works]
@@ -14,15 +18,17 @@
 		</system-under-test>
 		<assert>
 			<equalTo>
+				<column index="0" role="key" type="text"/>
+				<column index="1" role="value" type="numeric" tolerance="0.01"/>
 				<query connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=true">
-					SELECT 'CY 2001', 366
-					UNION ALL SELECT 'CY 2002', 1015
-					UNION ALL SELECT 'CY 2003', 1521
-					UNION ALL SELECT 'CY 2004', 894
+					SELECT 'CY 2001', 366.0/7
+					UNION ALL SELECT 'CY 2002', 1015.0/7
+					UNION ALL SELECT 'CY 2003', 1521.0/7
+					UNION ALL SELECT 'CY 2004', 894.0/7
 				</query>
 			</equalTo>
 		</assert>
-	</test>-->
+	</test>
 	<test name="'Reseller Order Count' by year before 2006" uid="0001" ignore="false">
 		<system-under-test>
 			<execution>

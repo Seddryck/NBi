@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="My first test case" uid="0001">
+		<system-under-test>
+			<execution>
+				<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+					SELECT TOP 2 * FROM Product;
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>A</cell>
+						<cell>B</cell>
+						<cell>1</cell>
+					</row>
+					<row>
+						<cell>C</cell>
+						<cell>D</cell>
+						<cell>2</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="external resultSet file">
+		<system-under-test>
+			<execution>
+				<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+					SELECT TOP 2 * FROM Product;
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet file="Query.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="keys">
+		<system-under-test>
+			<execution>
+				<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+					SELECT TOP 2 * FROM Product;
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo keys="first">
+				<resultSet file="Query.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="values">
+		<system-under-test>
+			<execution>
+				<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+					SELECT TOP 2 * FROM Product;
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<column role="value" index="3" type="numeric" tolerance="10"/>
+				<query file="Query.sql"/>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="values">
+		<system-under-test>
+			<execution>
+				<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+					SELECT TOP 2 * FROM Product;
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<query connectionString="Data Source=.;Initial Catalog=NBi.Reference;Integrated Security=True">
+					SELECT * FROM Top2Product
+				</query>
+			</equalTo>
+		</assert>
+	</test>
+  <test name="equalTo values and tolerance">
+    <system-under-test>
+		<execution>
+			  <query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+				SELECT TOP 2 * FROM Product;
+			  </query>
+		</execution>
+    </system-under-test>
+    <assert>
+      <equalTo values="last" tolerance="100">
+        <query file="Query.sql"/>
+      </equalTo>
+    </assert>
+  </test>
+	<test name="equalTo Persistance">
+		<system-under-test>
+			<execution>
+				<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+					SELECT TOP 2 * FROM Product;
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo persistance="only-if-failed">
+				<resultSet file="Query.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+</testSuite>

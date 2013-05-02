@@ -63,63 +63,63 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Interface\Generator\Events\SettingsUpdateEventArgs.cs" />
-    <Compile Include="Interface\Generator\Events\SettingsSelectEventArgs.cs" />
-    <Compile Include="Interface\Generator\Events\VariableRemoveEventArgs.cs" />
-    <Compile Include="Interface\Generator\Events\TemplatePersistEventArgs.cs" />
-    <Compile Include="Interface\Generator\Events\FilePersistEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\SettingsUpdateEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\SettingsSelectEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\VariableRemoveEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\TemplatePersistEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\FilePersistEventArgs.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="View\Generator\GenbiView.cs">
+    <Compile Include="View\TestSuiteGenerator\TestSuiteView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\Generator\GenbiView.Designer.cs">
-      <DependentUpon>GenbiView.cs</DependentUpon>
+    <Compile Include="View\TestSuiteGenerator\TestSuiteView.Designer.cs">
+      <DependentUpon>TestSuiteView.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\Generator\DisplayTestView.cs">
+    <Compile Include="View\TestSuiteGenerator\DisplayTestView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\Generator\DisplayTestView.Designer.cs">
+    <Compile Include="View\TestSuiteGenerator\DisplayTestView.Designer.cs">
       <DependentUpon>DisplayTestView.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\Generator\OpenTemplateView.cs">
+    <Compile Include="View\TestSuiteGenerator\OpenTemplateView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\Generator\OpenTemplateView.Designer.cs">
+    <Compile Include="View\TestSuiteGenerator\OpenTemplateView.Designer.cs">
       <DependentUpon>OpenTemplateView.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\Generator\RenameVariableView.cs">
+    <Compile Include="View\TestSuiteGenerator\RenameVariableView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\Generator\RenameVariableView.Designer.cs">
+    <Compile Include="View\TestSuiteGenerator\RenameVariableView.Designer.cs">
       <DependentUpon>RenameVariableView.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\Generator\SettingsControl.cs">
+    <Compile Include="View\TestSuiteGenerator\SettingsControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="View\Generator\SettingsControl.Designer.cs">
+    <Compile Include="View\TestSuiteGenerator\SettingsControl.Designer.cs">
       <DependentUpon>SettingsControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\Generator\TemplateControl.cs">
+    <Compile Include="View\TestSuiteGenerator\TemplateControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="View\Generator\TemplateControl.Designer.cs">
+    <Compile Include="View\TestSuiteGenerator\TemplateControl.Designer.cs">
       <DependentUpon>TemplateControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\Generator\TestListControl.cs">
+    <Compile Include="View\TestSuiteGenerator\TestListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="View\Generator\TestListControl.Designer.cs">
+    <Compile Include="View\TestSuiteGenerator\TestListControl.Designer.cs">
       <DependentUpon>TestListControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\Generator\TestSuiteViewAdapter.cs" />
-    <Compile Include="View\Generator\VariablesControl.cs">
+    <Compile Include="View\TestSuiteGenerator\TestSuiteViewAdapter.cs" />
+    <Compile Include="View\TestSuiteGenerator\VariablesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="View\Generator\VariablesControl.Designer.cs">
+    <Compile Include="View\TestSuiteGenerator\VariablesControl.Designer.cs">
       <DependentUpon>VariablesControl.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -127,33 +127,33 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Interface\Generator\ICsvGeneratorView.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\ICsvGeneratorView.cs" />
     <Compile Include="Interface\IView.cs" />
-    <Compile Include="Interface\Generator\Events\CsvSelectEventArgs.cs" />
-    <Compile Include="Interface\Generator\Events\TemplateSelectEventArgs.cs" />
-    <Compile Include="Interface\Generator\Events\TestSuitePersistEventArgs.cs" />
-    <Compile Include="Interface\Generator\Events\TestSelectEventArgs.cs" />
-    <Compile Include="Interface\Generator\Events\VariableRenameEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\CsvSelectEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\TemplateSelectEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\TestSuitePersistEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\TestSelectEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\VariableRenameEventArgs.cs" />
     <Compile Include="Presenter\BasePresenter.cs" />
-    <Compile Include="Presenter\Generator\GenbiPresenter.cs" />
+    <Compile Include="Presenter\TestSuiteGeneratorPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
-    <EmbeddedResource Include="View\Generator\GenbiView.resx">
-      <DependentUpon>GenbiView.cs</DependentUpon>
+    <EmbeddedResource Include="View\TestSuiteGenerator\TestSuiteView.resx">
+      <DependentUpon>TestSuiteView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\Generator\RenameVariableView.resx">
+    <EmbeddedResource Include="View\TestSuiteGenerator\RenameVariableView.resx">
       <DependentUpon>RenameVariableView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\Generator\SettingsControl.resx">
+    <EmbeddedResource Include="View\TestSuiteGenerator\SettingsControl.resx">
       <DependentUpon>SettingsControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\Generator\TemplateControl.resx">
+    <EmbeddedResource Include="View\TestSuiteGenerator\TemplateControl.resx">
       <DependentUpon>TemplateControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\Generator\TestListControl.resx">
+    <EmbeddedResource Include="View\TestSuiteGenerator\TestListControl.resx">
       <DependentUpon>TestListControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\Generator\VariablesControl.resx">
+    <EmbeddedResource Include="View\TestSuiteGenerator\VariablesControl.resx">
       <DependentUpon>VariablesControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">

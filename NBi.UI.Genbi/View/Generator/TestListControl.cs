@@ -65,6 +65,13 @@ namespace NBi.UI.Genbi.View.Generator
             Adapter.InvokeTestSelect(new TestSelectEventArgs(testsList.SelectedIndex));
         }
 
+
+        private void TestsList_DoubleClick(object sender, EventArgs e)
+        {
+            if (!Adapter.DisplayTestForm.Visible)
+                Adapter.DisplayTestForm.Show();
+        }
+
         private void TestsList_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -73,7 +80,7 @@ namespace NBi.UI.Genbi.View.Generator
                 testsList.SelectedIndex = testsList.IndexFromPoint(e.Location);
                 if (testsList.SelectedIndex != -1)
                 {
-                    testsListMenu.Show();
+                    testsListMenu.Show(testsList, e.Location);
                 }
             }
         }

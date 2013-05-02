@@ -61,6 +61,7 @@
             this.testsList.TabIndex = 21;
             this.testsList.SelectedIndexChanged += new System.EventHandler(this.TestsList_SelectedIndexChanged);
             this.testsList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TestsList_MouseDown);
+            this.testsList.DoubleClick += new System.EventHandler(this.TestsList_DoubleClick);
             // 
             // testsListMenu
             // 

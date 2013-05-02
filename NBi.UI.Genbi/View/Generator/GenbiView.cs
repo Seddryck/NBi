@@ -256,11 +256,6 @@ namespace NBi.UI.Genbi.View.Generator
                 Adapter.InvokeTestSuitePersist(new TestSuitePersistEventArgs(saveAsDialog.FileName));
         }
 
-        private void TestsList_DoubleClick(object sender, EventArgs e)
-        {
-            if (!Adapter.DisplayTestForm.Visible)
-                Adapter.DisplayTestForm.Show();
-        }
 
         private void Clear_Click(object sender, EventArgs e)
         {

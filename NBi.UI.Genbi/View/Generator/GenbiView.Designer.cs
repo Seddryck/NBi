@@ -29,33 +29,27 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.bindingCsv = new System.Windows.Forms.BindingSource(this.components);
-            this.bindingColumnNames = new System.Windows.Forms.BindingSource(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.remove = new System.Windows.Forms.Button();
-            this.openCsv = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.columnHeaderChoice = new System.Windows.Forms.ComboBox();
-            this.rename = new System.Windows.Forms.Button();
-            this.csvContent = new System.Windows.Forms.DataGridView();
-            this.saveTemplate = new System.Windows.Forms.Button();
-            this.useGrouping = new System.Windows.Forms.CheckBox();
-            this.openTemplate = new System.Windows.Forms.Button();
-            this.template = new System.Windows.Forms.TextBox();
-            this.progressBarTest = new System.Windows.Forms.ProgressBar();
-            this.clear = new System.Windows.Forms.Button();
-            this.undo = new System.Windows.Forms.Button();
-            this.saveAs = new System.Windows.Forms.Button();
-            this.generate = new System.Windows.Forms.Button();
-            this.testsList = new System.Windows.Forms.ListBox();
-            this.testsListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.deleteTest = new System.Windows.Forms.ToolStripMenuItem();
-            this.bindingTests = new System.Windows.Forms.BindingSource(this.components);
-            this.settingsControl = new SettingsControl();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingCsv)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingColumnNames)).BeginInit();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.sourceFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveCsvAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.templateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveTemplateAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testSuiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTipRemove = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTipRename = new System.Windows.Forms.ToolTip(this.components);
+            this.variablesControl = new NBi.UI.Genbi.View.Generator.VariablesControl();
+            this.templateControl = new NBi.UI.Genbi.View.Generator.TemplateControl();
+            this.settingsControl = new NBi.UI.Genbi.View.Generator.SettingsControl();
+            this.testListControl = new NBi.UI.Genbi.View.Generator.TestListControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -64,18 +58,19 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.csvContent)).BeginInit();
-            this.testsListMenu.SuspendLayout();
-            this.settingsControl.SuspendLayout();
-            this.testsListMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingTests)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Location = new System.Drawing.Point(0, 27);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -84,14 +79,8 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.progressBarTest);
-            this.splitContainer1.Panel2.Controls.Add(this.settingsControl);
-            this.splitContainer1.Panel2.Controls.Add(this.clear);
-            this.splitContainer1.Panel2.Controls.Add(this.undo);
-            this.splitContainer1.Panel2.Controls.Add(this.saveAs);
-            this.splitContainer1.Panel2.Controls.Add(this.generate);
-            this.splitContainer1.Panel2.Controls.Add(this.testsList);
-            this.splitContainer1.Size = new System.Drawing.Size(1038, 483);
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer3);
+            this.splitContainer1.Size = new System.Drawing.Size(1038, 533);
             this.splitContainer1.SplitterDistance = 458;
             this.splitContainer1.TabIndex = 5;
             // 
@@ -104,289 +93,245 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.panel1);
-            this.splitContainer2.Panel1.Controls.Add(this.csvContent);
+            this.splitContainer2.Panel1.Controls.Add(this.variablesControl);
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.saveTemplate);
-            this.splitContainer2.Panel2.Controls.Add(this.useGrouping);
-            this.splitContainer2.Panel2.Controls.Add(this.openTemplate);
-            this.splitContainer2.Panel2.Controls.Add(this.template);
-            this.splitContainer2.Size = new System.Drawing.Size(458, 483);
-            this.splitContainer2.SplitterDistance = 264;
+            this.splitContainer2.Panel2.Controls.Add(this.templateControl);
+            this.splitContainer2.Size = new System.Drawing.Size(458, 533);
+            this.splitContainer2.SplitterDistance = 291;
             this.splitContainer2.TabIndex = 0;
             // 
-            // panel1
+            // splitContainer3
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.remove);
-            this.panel1.Controls.Add(this.openCsv);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.columnHeaderChoice);
-            this.panel1.Controls.Add(this.rename);
-            this.panel1.Location = new System.Drawing.Point(3, 11);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(452, 57);
-            this.panel1.TabIndex = 16;
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // remove
+            // splitContainer3.Panel1
             // 
-            this.remove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.remove.Location = new System.Drawing.Point(365, 34);
-            this.remove.Name = "remove";
-            this.remove.Size = new System.Drawing.Size(77, 23);
-            this.remove.TabIndex = 18;
-            this.remove.Text = "Remove";
-            this.remove.UseVisualStyleBackColor = true;
-            this.remove.Click += new System.EventHandler(this.Remove_Click);
+            this.splitContainer3.Panel1.Controls.Add(this.settingsControl);
             // 
-            // openCsv
+            // splitContainer3.Panel2
             // 
-            this.openCsv.Location = new System.Drawing.Point(3, 3);
-            this.openCsv.Name = "openCsv";
-            this.openCsv.Size = new System.Drawing.Size(105, 23);
-            this.openCsv.TabIndex = 17;
-            this.openCsv.Text = "Open Csv ...";
-            this.openCsv.UseVisualStyleBackColor = true;
-            this.openCsv.Click += new System.EventHandler(this.OpenCsv_Click);
+            this.splitContainer3.Panel2.Controls.Add(this.testListControl);
+            this.splitContainer3.Size = new System.Drawing.Size(576, 533);
+            this.splitContainer3.SplitterDistance = 101;
+            this.splitContainer3.TabIndex = 0;
             // 
-            // label1
+            // menuStrip
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(0, 39);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(81, 13);
-            this.label1.TabIndex = 15;
-            this.label1.Text = "Column\'s name:";
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sourceFileToolStripMenuItem,
+            this.templateToolStripMenuItem,
+            this.testSuiteToolStripMenuItem});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(1038, 24);
+            this.menuStrip.TabIndex = 17;
+            this.menuStrip.Text = "menuStrip1";
             // 
-            // columnHeaderChoice
+            // sourceFileToolStripMenuItem
             // 
-            this.columnHeaderChoice.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.columnHeaderChoice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.columnHeaderChoice.FormattingEnabled = true;
-            this.columnHeaderChoice.Location = new System.Drawing.Point(87, 35);
-            this.columnHeaderChoice.Name = "columnHeaderChoice";
-            this.columnHeaderChoice.Size = new System.Drawing.Size(189, 21);
-            this.columnHeaderChoice.TabIndex = 16;
+            this.sourceFileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openCsvToolStripMenuItem,
+            this.saveCsvAsToolStripMenuItem});
+            this.sourceFileToolStripMenuItem.Name = "sourceFileToolStripMenuItem";
+            this.sourceFileToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
+            this.sourceFileToolStripMenuItem.Text = "Source file";
             // 
-            // rename
+            // openCsvToolStripMenuItem
             // 
-            this.rename.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rename.Location = new System.Drawing.Point(282, 34);
-            this.rename.Name = "rename";
-            this.rename.Size = new System.Drawing.Size(77, 23);
-            this.rename.TabIndex = 14;
-            this.rename.Text = "Rename";
-            this.rename.UseVisualStyleBackColor = true;
-            this.rename.Click += new System.EventHandler(this.Rename_Click);
+            this.openCsvToolStripMenuItem.Name = "openCsvToolStripMenuItem";
+            this.openCsvToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.O)));
+            this.openCsvToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.openCsvToolStripMenuItem.Text = "Open Csv ...";
+            this.openCsvToolStripMenuItem.Click += new System.EventHandler(this.OpenCsv_Click);
             // 
-            // csvContent
+            // saveCsvAsToolStripMenuItem
             // 
-            this.csvContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.csvContent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.csvContent.Location = new System.Drawing.Point(0, 74);
-            this.csvContent.Name = "csvContent";
-            this.csvContent.Size = new System.Drawing.Size(455, 192);
-            this.csvContent.TabIndex = 14;
+            this.saveCsvAsToolStripMenuItem.Name = "saveCsvAsToolStripMenuItem";
+            this.saveCsvAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.saveCsvAsToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.saveCsvAsToolStripMenuItem.Text = "Save Csv As ...";
+            this.saveCsvAsToolStripMenuItem.Visible = false;
             // 
-            // saveTemplate
+            // templateToolStripMenuItem
             // 
-            this.saveTemplate.Location = new System.Drawing.Point(123, 8);
-            this.saveTemplate.Name = "saveTemplate";
-            this.saveTemplate.Size = new System.Drawing.Size(105, 23);
-            this.saveTemplate.TabIndex = 20;
-            this.saveTemplate.Text = "Save Template ...";
-            this.saveTemplate.UseVisualStyleBackColor = true;
-            this.saveTemplate.Click += new System.EventHandler(this.SaveTemplateClick);
+            this.templateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openTemplateToolStripMenuItem,
+            this.saveTemplateAsToolStripMenuItem});
+            this.templateToolStripMenuItem.Name = "templateToolStripMenuItem";
+            this.templateToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.templateToolStripMenuItem.Text = "Template";
             // 
-            // useGrouping
+            // openTemplateToolStripMenuItem
             // 
-            this.useGrouping.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.useGrouping.AutoSize = true;
-            this.useGrouping.Location = new System.Drawing.Point(356, 11);
-            this.useGrouping.Name = "useGrouping";
-            this.useGrouping.Size = new System.Drawing.Size(89, 17);
-            this.useGrouping.TabIndex = 19;
-            this.useGrouping.Text = "Use grouping";
-            this.useGrouping.UseVisualStyleBackColor = true;
+            this.openTemplateToolStripMenuItem.Name = "openTemplateToolStripMenuItem";
+            this.openTemplateToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.O)));
+            this.openTemplateToolStripMenuItem.Size = new System.Drawing.Size(242, 22);
+            this.openTemplateToolStripMenuItem.Text = "Open Template ...";
+            this.openTemplateToolStripMenuItem.Click += new System.EventHandler(this.OpenTemplate_Click);
             // 
-            // openTemplate
+            // saveTemplateAsToolStripMenuItem
             // 
-            this.openTemplate.Location = new System.Drawing.Point(12, 8);
-            this.openTemplate.Name = "openTemplate";
-            this.openTemplate.Size = new System.Drawing.Size(105, 23);
-            this.openTemplate.TabIndex = 18;
-            this.openTemplate.Text = "Open Template ...";
-            this.openTemplate.UseVisualStyleBackColor = true;
-            this.openTemplate.Click += new System.EventHandler(this.OpenTemplateClick);
+            this.saveTemplateAsToolStripMenuItem.Name = "saveTemplateAsToolStripMenuItem";
+            this.saveTemplateAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.S)));
+            this.saveTemplateAsToolStripMenuItem.Size = new System.Drawing.Size(242, 22);
+            this.saveTemplateAsToolStripMenuItem.Text = "Save Template As ...";
+            this.saveTemplateAsToolStripMenuItem.Click += new System.EventHandler(this.SaveTemplate_Click);
             // 
-            // template
+            // testSuiteToolStripMenuItem
             // 
-            this.template.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.template.Location = new System.Drawing.Point(0, 37);
-            this.template.Multiline = true;
-            this.template.Name = "template";
-            this.template.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.template.Size = new System.Drawing.Size(455, 178);
-            this.template.TabIndex = 12;
-            this.template.WordWrap = false;
-            this.template.TextChanged += new System.EventHandler(this.Template_TextChanged);
+            this.testSuiteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.generateToolStripMenuItem,
+            this.undoToolStripMenuItem,
+            this.clearToolStripMenuItem,
+            this.saveAsToolStripMenuItem});
+            this.testSuiteToolStripMenuItem.Name = "testSuiteToolStripMenuItem";
+            this.testSuiteToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
+            this.testSuiteToolStripMenuItem.Text = "Test Suite";
             // 
-            // progressBarTest
+            // generateToolStripMenuItem
             // 
-            this.progressBarTest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBarTest.Location = new System.Drawing.Point(11, 457);
-            this.progressBarTest.Name = "progressBarTest";
-            this.progressBarTest.Size = new System.Drawing.Size(553, 23);
-            this.progressBarTest.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBarTest.TabIndex = 20;
+            this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
+            this.generateToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
+            this.generateToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.generateToolStripMenuItem.Text = "&Generate";
+            this.generateToolStripMenuItem.Click += new System.EventHandler(this.Generate_Click);
+            // 
+            // undoToolStripMenuItem
+            // 
+            this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
+            this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.undoToolStripMenuItem.Text = "Undo";
+            this.undoToolStripMenuItem.Click += new System.EventHandler(this.Undo_Click);
+            // 
+            // clearToolStripMenuItem
+            // 
+            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.clearToolStripMenuItem.Text = "Clear";
+            this.clearToolStripMenuItem.Click += new System.EventHandler(this.Clear_Click);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.saveAsToolStripMenuItem.Text = "Save As ...";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveTestSuiteAs_Click);
+            // 
+            // toolTipRemove
+            // 
+            this.toolTipRemove.ToolTipTitle = "Remove";
+            // 
+            // toolTipRename
+            // 
+            this.toolTipRename.ToolTipTitle = "Rename";
+            // 
+            // variablesControl
+            // 
+            this.variablesControl.CsvContent = null;
+            this.variablesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.variablesControl.Location = new System.Drawing.Point(0, 0);
+            this.variablesControl.Name = "variablesControl";
+            this.variablesControl.Size = new System.Drawing.Size(458, 291);
+            this.variablesControl.TabIndex = 20;
+            this.variablesControl.TabStop = false;
+            this.variablesControl.Variables = null;
+            // 
+            // templateControl
+            // 
+            this.templateControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.templateControl.Location = new System.Drawing.Point(0, 0);
+            this.templateControl.Name = "templateControl";
+            this.templateControl.Size = new System.Drawing.Size(458, 238);
+            this.templateControl.TabIndex = 21;
+            this.templateControl.TabStop = false;
+            this.templateControl.Template = "";
+            this.templateControl.UseGrouping = false;
             // 
             // settingsControl
             // 
-            this.settingsControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.settingsControl.Location = new System.Drawing.Point(4, 42);
+            this.settingsControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.settingsControl.Location = new System.Drawing.Point(0, 0);
             this.settingsControl.Name = "settingsControl";
-            this.settingsControl.Size = new System.Drawing.Size(560, 93);
-            this.settingsControl.TabIndex = 19;
+            this.settingsControl.Names = null;
+            this.settingsControl.Size = new System.Drawing.Size(576, 101);
+            this.settingsControl.TabIndex = 20;
             this.settingsControl.TabStop = false;
+            this.settingsControl.Value = "";
             // 
-            // clear
+            // testListControl
             // 
-            this.clear.Location = new System.Drawing.Point(169, 13);
-            this.clear.Name = "clear";
-            this.clear.Size = new System.Drawing.Size(77, 23);
-            this.clear.TabIndex = 18;
-            this.clear.Text = "Clear";
-            this.clear.UseVisualStyleBackColor = true;
-            this.clear.Click += new System.EventHandler(this.Clear_Click);
-            // 
-            // undo
-            // 
-            this.undo.Location = new System.Drawing.Point(86, 13);
-            this.undo.Name = "undo";
-            this.undo.Size = new System.Drawing.Size(77, 23);
-            this.undo.TabIndex = 17;
-            this.undo.Text = "&Undo";
-            this.undo.UseVisualStyleBackColor = true;
-            this.undo.Click += new System.EventHandler(this.Undo_Click);
-            // 
-            // saveAs
-            // 
-            this.saveAs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveAs.Location = new System.Drawing.Point(487, 13);
-            this.saveAs.Name = "saveAs";
-            this.saveAs.Size = new System.Drawing.Size(77, 23);
-            this.saveAs.TabIndex = 16;
-            this.saveAs.Text = "Save as ...";
-            this.saveAs.UseVisualStyleBackColor = true;
-            this.saveAs.Click += new System.EventHandler(this.SaveAsClick);
-            // 
-            // generate
-            // 
-            this.generate.Location = new System.Drawing.Point(3, 13);
-            this.generate.Name = "generate";
-            this.generate.Size = new System.Drawing.Size(77, 23);
-            this.generate.TabIndex = 15;
-            this.generate.Text = "Generate";
-            this.generate.UseVisualStyleBackColor = true;
-            this.generate.Click += new System.EventHandler(this.Generate_Click);
-            // 
-            // testsList
-            // 
-            this.testsList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.testsList.ContextMenuStrip = this.testsListMenu;
-            this.testsList.FormattingEnabled = true;
-            this.testsList.Location = new System.Drawing.Point(11, 141);
-            this.testsList.Name = "testsList";
-            this.testsList.Size = new System.Drawing.Size(553, 316);
-            this.testsList.TabIndex = 0;
-            this.testsList.SelectedIndexChanged += new System.EventHandler(this.TestsList_SelectedIndexChanged);
-            this.testsList.DoubleClick += new System.EventHandler(this.TestsList_DoubleClick);
-            this.testsList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TestsList_MouseDown);
-            // 
-            // testsListMenu
-            // 
-            this.testsListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.deleteTest});
-            this.testsListMenu.Name = "deleteTest";
-            this.testsListMenu.Size = new System.Drawing.Size(130, 26);
-            this.testsListMenu.Text = "Delete test";
-            this.testsListMenu.Click += new System.EventHandler(this.DeleteTest_Click);
-            // 
-            // deleteTest
-            // 
-            this.deleteTest.Name = "deleteTest";
-            this.deleteTest.Size = new System.Drawing.Size(129, 22);
-            this.deleteTest.Text = "Delete test";
+            this.testListControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.testListControl.Location = new System.Drawing.Point(0, 0);
+            this.testListControl.Name = "testListControl";
+            this.testListControl.Size = new System.Drawing.Size(576, 428);
+            this.testListControl.TabIndex = 22;
+            this.testListControl.TabStop = false;
+            this.testListControl.Tests = null;
+            this.testListControl.TestSelectedIndex = -1;
             // 
             // GenbiView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1038, 483);
+            this.ClientSize = new System.Drawing.Size(1038, 560);
+            this.Controls.Add(this.menuStrip);
             this.Controls.Add(this.splitContainer1);
+            this.MainMenuStrip = this.menuStrip;
             this.Name = "GenbiView";
             this.Text = "Genbi";
             this.Load += new System.EventHandler(this.CsvImporterView_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.bindingCsv)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingColumnNames)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
-            this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.settingsControl.ResumeLayout(false);
-            this.settingsControl.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.csvContent)).EndInit();
-            this.testsListMenu.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.bindingTests)).EndInit();
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.TextBox template;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.DataGridView csvContent;
-        private System.Windows.Forms.ListBox testsList;
-        private System.Windows.Forms.Button generate;
-        private System.Windows.Forms.Button saveAs;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox columnHeaderChoice;
-        private System.Windows.Forms.Button rename;
-        private System.Windows.Forms.Button openCsv;
-        private System.Windows.Forms.Button openTemplate;
-        private System.Windows.Forms.Button undo;
-        private System.Windows.Forms.ContextMenuStrip testsListMenu;
-        private System.Windows.Forms.Button clear;
-        private System.Windows.Forms.Button saveTemplate;
-        private System.Windows.Forms.ToolStripMenuItem deleteTest;
-        private System.Windows.Forms.Button remove;
-        private System.Windows.Forms.ProgressBar progressBarTest;
-        protected internal System.Windows.Forms.CheckBox useGrouping;
-        protected internal System.Windows.Forms.BindingSource bindingCsv;
-        protected internal System.Windows.Forms.BindingSource bindingColumnNames;
-        protected internal System.Windows.Forms.BindingSource bindingTests;
-        private NBi.UI.Genbi.View.Generator.SettingsControl settingsControl;
+        private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem sourceFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openCsvToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveCsvAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem templateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openTemplateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveTemplateAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testSuiteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem generateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolTip toolTipRemove;
+        private System.Windows.Forms.ToolTip toolTipRename;
+        private VariablesControl variablesControl;
+        private TemplateControl templateControl;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private SettingsControl settingsControl;
+        private TestListControl testListControl;
     }
 }

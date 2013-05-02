@@ -24,11 +24,16 @@ namespace NBi.UI.Genbi.View.Generator
 
         protected void DeclareBindings()
         {
-            csvContent.DataSource = bindingCsv;
-            columnHeaderChoice.DataSource = bindingColumnNames;
-            testsList.DataSource = bindingTests;
+            testListControl.Adapter = Adapter;
+            testListControl.DeclareBindings();
+
+            variablesControl.Adapter = Adapter;
+            variablesControl.DeclareBindings();
+
             settingsControl.Adapter = Adapter;
             settingsControl.DeclareBindings();
+
+            templateControl.Adapter = Adapter;
         }
 
         #region properties
@@ -37,12 +42,11 @@ namespace NBi.UI.Genbi.View.Generator
         {
             get
             {
-                return (DataTable)(bindingCsv.DataSource);
+                return (DataTable)(variablesControl.bindingCsv.DataSource);
             }
             set
             {
-                bindingCsv.DataSource = value;
-                csvContent.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+                variablesControl.bindingCsv.DataSource = value;
             }
         }
 
@@ -50,11 +54,11 @@ namespace NBi.UI.Genbi.View.Generator
         {
             get
             {
-                return useGrouping.Checked;
+                return templateControl.UseGrouping;
             }
             set
             {
-                useGrouping.Checked = value;
+                templateControl.UseGrouping = value;
             }
         }
 
@@ -62,39 +66,35 @@ namespace NBi.UI.Genbi.View.Generator
         {
             get
             {
-                return (BindingList<string>)(bindingColumnNames.DataSource);
+                return variablesControl.Variables;
             }
             set
             {
-                bindingColumnNames.DataSource = value;
+                variablesControl.Variables = value;
             }
-
         }
 
         public BindingList<Test> Tests
         {
             get
             {
-                return (BindingList<Test>)(bindingTests.DataSource);
+                return testListControl.Tests;
             }
             set
             {
-                bindingTests.DataSource = value;
-                testsList.DisplayMember = "Title";
+                testListControl.Tests = value;
             }
         }
-
-        
 
         public string Template
         {
             get
             {
-                return template.Text;
+                return templateControl.Template;
             }
             set
             {
-                template.Text = value;
+                templateControl.Template = value;
             }
         }
 
@@ -128,11 +128,11 @@ namespace NBi.UI.Genbi.View.Generator
         {
             get
             {
-                return testsList.SelectedIndex;
+                return testListControl.TestSelectedIndex;
             }
             set
             {
-                testsList.SelectedIndex = value;
+                testListControl.TestSelectedIndex = value;
             }
         }
 
@@ -140,7 +140,7 @@ namespace NBi.UI.Genbi.View.Generator
         {
             set
             {
-                generate.Enabled = value;
+                generateToolStripMenuItem.Enabled = value;
             }
         }
 
@@ -148,7 +148,7 @@ namespace NBi.UI.Genbi.View.Generator
         {
             set
             {
-                undo.Enabled = value;
+                undoToolStripMenuItem.Enabled = value;
             }
         }
 
@@ -156,7 +156,7 @@ namespace NBi.UI.Genbi.View.Generator
         {
             set
             {
-                clear.Enabled = value;
+                clearToolStripMenuItem.Enabled = value;
             }
         }
 
@@ -164,7 +164,7 @@ namespace NBi.UI.Genbi.View.Generator
         {
             set
             {
-                saveAs.Enabled = value;
+                saveAsToolStripMenuItem.Enabled = value;
             }
         }
 
@@ -172,7 +172,7 @@ namespace NBi.UI.Genbi.View.Generator
         {
             set
             {
-                saveTemplate.Enabled = value;
+                saveTemplateAsToolStripMenuItem.Enabled = value;
             }
         }
 
@@ -180,7 +180,7 @@ namespace NBi.UI.Genbi.View.Generator
         {
             set
             {
-                rename.Enabled = value;
+                variablesControl.CanRename = value;
             }
         }
 
@@ -188,19 +188,16 @@ namespace NBi.UI.Genbi.View.Generator
         {
             set
             {
-                remove.Enabled = value;
+                variablesControl.CanRemove = value;
             }
         }
+
 
         public int ProgressValue
         {
             set
             {
-                if (progressBarTest.Value != value)
-                {
-                    progressBarTest.Value = value;
-                    progressBarTest.Refresh();
-                }
+                testListControl.ProgressValue = value;
             }
         }
 
@@ -233,13 +230,13 @@ namespace NBi.UI.Genbi.View.Generator
         }
 
 
-        private void OpenTemplateClick(object sender, System.EventArgs e)
+        private void OpenTemplate_Click(object sender, EventArgs e)
         {
             if (!Adapter.OpenTemplateForm.Visible)
                 Adapter.OpenTemplateForm.Show(this);
         }
 
-        private void SaveTemplateClick(object sender, System.EventArgs e)
+        private void SaveTemplate_Click(object sender, EventArgs e)
         {
             var saveAsDialog = new SaveFileDialog();
             saveAsDialog.Filter = "All Files (*.*)|*.*|NBi Test Template Files (*.nbitt)|*.nbitt|Text Files (*.txt)|*.txt";
@@ -249,16 +246,7 @@ namespace NBi.UI.Genbi.View.Generator
                 Adapter.InvokeTemplatePersist(new TemplatePersistEventArgs(saveAsDialog.FileName));
         }
 
-
-        private void Rename_Click(object sender, EventArgs e)
-        {
-            Adapter.VariableSelectedIndex       = columnHeaderChoice.SelectedIndex;
-            Adapter.RenameVariableForm.Variable = Adapter.Variables[Adapter.VariableSelectedIndex];
-            if (!Adapter.RenameVariableForm.Visible)
-                Adapter.RenameVariableForm.Show(this);
-        }
-
-        private void SaveAsClick(object sender, EventArgs e)
+        private void SaveTestSuiteAs_Click(object sender, EventArgs e)
         {
             var saveAsDialog = new SaveFileDialog();
             saveAsDialog.Filter = "All Files (*.*)|*.*|NBi Test Suite Files (*.nbits)|*.nbits|Xml Files (*.xml)|*.xml|Text Files (*.txt)|*.txt";
@@ -274,29 +262,6 @@ namespace NBi.UI.Genbi.View.Generator
                 Adapter.DisplayTestForm.Show();
         }
 
-        private void TestsList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Adapter.InvokeTestSelect(new TestSelectEventArgs(testsList.SelectedIndex));
-        }
-
-        private void TestsList_MouseDown(object sender, MouseEventArgs e)
-        {
-            if ( e.Button == MouseButtons.Right )
-            {
-                //select the item under the mouse pointer
-                testsList.SelectedIndex = testsList.IndexFromPoint(e.Location);
-                if (testsList.SelectedIndex != -1)
-                {
-                    testsListMenu.Show();   
-                }                
-            }
-        }
-
-        private void DeleteTest_Click(object sender, EventArgs e)
-        {
-            Adapter.InvokeTestDelete(EventArgs.Empty);
-        }
-
         private void Clear_Click(object sender, EventArgs e)
         {
             var diagRes = MessageBox.Show(
@@ -308,24 +273,6 @@ namespace NBi.UI.Genbi.View.Generator
 
             if (diagRes.HasFlag(DialogResult.OK))
                 Adapter.InvokeTestsClear(EventArgs.Empty);
-        }
-
-        private void Template_TextChanged(object sender, EventArgs e)
-        {
-            Adapter.InvokeTemplateUpdate(EventArgs.Empty);
-        }
-
-        private void Remove_Click(object sender, EventArgs e)
-        {
-            var diagRes = MessageBox.Show(
-                "Are your sure you want to remove this variable/column?",
-                "Genbi",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Question,
-                MessageBoxDefaultButton.Button1);
-
-            if (diagRes.HasFlag(DialogResult.OK))
-                Adapter.InvokeVariableRemove(new VariableRemoveEventArgs(columnHeaderChoice.SelectedIndex));
-        }
+        }               
     }
 }

@@ -9,7 +9,7 @@ using NBi.UI.Genbi.Interface.TestSuiteGenerator.Events;
 
 namespace NBi.UI.Genbi.View.TestSuiteGenerator
 {
-    public class TestSuiteViewAdapter: ICsvGeneratorView
+    public class TestSuiteViewAdapter: ITestSuiteGeneratorView
     {
         //private GenbiPresenter Presenter { get; set; }
 

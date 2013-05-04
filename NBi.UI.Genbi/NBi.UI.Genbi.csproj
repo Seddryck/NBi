@@ -63,15 +63,37 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Interface\RunnerConfig\RunnerConfigBuildEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\SettingsUpdateEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\SettingsSelectEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\VariableRemoveEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\TemplatePersistEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\FilePersistEventArgs.cs" />
+    <Compile Include="Presenter\RunnerConfigPresenter.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\RunnerConfig\IRunnerConfigView.cs" />
+    <Compile Include="View\RunnerConfig\FileControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\RunnerConfig\FileControl.Designer.cs">
+      <DependentUpon>FileControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\RunnerConfig\PathControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\RunnerConfig\PathControl.Designer.cs">
+      <DependentUpon>PathControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\RunnerConfig\RunnerConfigViewAdapter.cs" />
+    <Compile Include="View\RunnerConfig\RunnerConfigView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\RunnerConfig\RunnerConfigView.Designer.cs">
+      <DependentUpon>RunnerConfigView.cs</DependentUpon>
     </Compile>
     <Compile Include="View\TestSuiteGenerator\TestSuiteView.cs">
       <SubType>Form</SubType>
@@ -127,7 +149,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Interface\TestSuiteGenerator\ICsvGeneratorView.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\ITestSuiteGeneratorView.cs" />
     <Compile Include="Interface\IView.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\CsvSelectEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\TemplateSelectEventArgs.cs" />
@@ -138,6 +160,15 @@
     <Compile Include="Presenter\TestSuiteGeneratorPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <EmbeddedResource Include="View\RunnerConfig\FileControl.resx">
+      <DependentUpon>FileControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\RunnerConfig\PathControl.resx">
+      <DependentUpon>PathControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\RunnerConfig\RunnerConfigView.resx">
+      <DependentUpon>RunnerConfigView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\TestSuiteGenerator\TestSuiteView.resx">
       <DependentUpon>TestSuiteView.cs</DependentUpon>
     </EmbeddedResource>

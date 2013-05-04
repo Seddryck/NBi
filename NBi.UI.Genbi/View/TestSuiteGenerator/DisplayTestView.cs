@@ -8,10 +8,10 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
 {
     public partial class DisplayTestView : Form
     {
-        protected ICsvGeneratorView Origin { get; set; }
+        protected ITestSuiteGeneratorView Origin { get; set; }
         public string TestContent { get; set; }
 
-        public DisplayTestView(ICsvGeneratorView origin)
+        public DisplayTestView(ITestSuiteGeneratorView origin)
         {
             Origin = origin;
             InitializeComponent();

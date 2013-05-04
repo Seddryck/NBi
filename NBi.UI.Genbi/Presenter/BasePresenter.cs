@@ -15,7 +15,7 @@ namespace NBi.UI.Genbi.Presenter
 
             View = view;
             View.Initialize += OnViewInitialize;
-            View.Load += OnViewLoad;
+            //View.Load += OnViewLoad;
         }
 
         protected virtual void OnViewInitialize(object sender, EventArgs e) { }

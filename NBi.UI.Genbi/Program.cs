@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using NBi.UI.Genbi.View.Generator;
+using NBi.UI.Genbi.View;
 
 namespace NBi.UI.Genbi
 {
@@ -14,7 +14,11 @@ namespace NBi.UI.Genbi
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GenbiView());
+
+            var dispatcher = new GenbiDispatcher();
+            dispatcher.Initialize();
+
+            Application.Run(dispatcher.GetMainForm());
         }
     }
 }

@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NBi.Services")]
+[assembly: AssemblyTitle("NBi.Service.Testing")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Hewlett-Packard Company")]
-[assembly: AssemblyProduct("NBi.Services")]
-[assembly: AssemblyCopyright("Copyright © Hewlett-Packard Company 2012")]
+[assembly: AssemblyProduct("NBi.Service.Testing")]
+[assembly: AssemblyCopyright("Copyright © Hewlett-Packard Company 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("cb15b89d-7174-4cdf-bf84-cb64ef07cb76")]
+[assembly: Guid("457552fa-adbe-4637-8181-e7bd96fb2977")]
 
 // Version information for an assembly consists of the following four values:
 //

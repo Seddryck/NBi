@@ -7,7 +7,7 @@ using NBi.UI.Genbi.Interface.TestSuiteGenerator.Events;
 
 namespace NBi.UI.Genbi.Interface.TestSuiteGenerator
 {
-    public interface ICsvGeneratorView : IView
+    public interface ITestSuiteGeneratorView : IView
     {
         DataTable CsvContent { get; set; }
         bool UseGrouping { get; set; }

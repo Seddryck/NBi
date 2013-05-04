@@ -9,13 +9,13 @@ using NBi.UI.Genbi.Interface.TestSuiteGenerator.Events;
 
 namespace NBi.UI.Genbi.Presenter
 {
-    public class TestSuiteGeneratorPresenter: BasePresenter<ICsvGeneratorView>
+    public class TestSuiteGeneratorPresenter: BasePresenter<ITestSuiteGeneratorView>
     {
         private readonly TestManager testManager;
         private readonly SettingsManager settingsManager;
         private readonly TestSuiteManager testSuiteManager;
 
-        public TestSuiteGeneratorPresenter(ICsvGeneratorView view)
+        public TestSuiteGeneratorPresenter(ITestSuiteGeneratorView view)
             : base(view)
         {
             testManager = new TestManager();

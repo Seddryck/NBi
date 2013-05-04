@@ -1,0 +1,35 @@
+! Author and updates
+It can be really interesting to know who has created or updated a specific test case (especially when working with a team of testers). NBi has defined a few elements to help you to achieve this.
+
+!! Creation
+To specify who is the author of a specific test case you can use the element named "edition". 
+{code:xml}
+<test name="test's name" uid="0001">
+    <edition author="Cédric L. Charlier"/>
+    <system-under-test>
+        ...
+    </system-under-test>
+    <assert>
+        <exists/>
+    </assert>
+</test>
+{code:xml}
+
+!! Updates
+You can also specify who has updated the test and when. For this add an "update" element as a child of the "edition" element. This new element has two attributes, the first one (contributor) let your register the name of the author and the second one ("timestamp") let you specify when it has been updated.
+{code:xml}
+<test name="test's name" uid="0001">
+    <edition author="Cédric L. Charlier"/>
+        <update contributor="Your co-worker" timestamp="2012-10-16T09:55:00"/>
+        <update contributor="Cédric L. Charlier" timestamp="2013-02-16T17:11:16"/>
+    <system-under-test>
+        ...
+    </system-under-test>
+    <assert>
+        <exists/>
+    </assert>
+</test>
+{code:xml}
+Note that the format of the timestamp attribute is DateTime and this houdl be expressed with the format YYYY-MM-DDTHH:mm:SS according to [xml standard|http://www.w3schools.com/schema/schema_dtypes_date.asp]
+!! At runtime?
+Currently, NBi doesn't care about these elements at runtime but in the future we hope to be able to define a few [categories|Group tests cases by categories (manual or automatic)] based on them.

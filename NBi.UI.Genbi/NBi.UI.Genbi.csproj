@@ -63,61 +63,131 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Interface\Generator\Events\SettingsUpdateEventArgs.cs" />
-    <Compile Include="Interface\Generator\Events\SettingsSelectEventArgs.cs" />
-    <Compile Include="Interface\Generator\Events\VariableRemoveEventArgs.cs" />
-    <Compile Include="Interface\Generator\Events\TemplatePersistEventArgs.cs" />
-    <Compile Include="Interface\Generator\Events\FilePersistEventArgs.cs" />
-    <Compile Include="View\Generator\GenbiView.cs">
+    <Compile Include="Interface\RunnerConfig\RunnerConfigBuildEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\SettingsUpdateEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\SettingsSelectEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\VariableRemoveEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\TemplatePersistEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\FilePersistEventArgs.cs" />
+    <Compile Include="Presenter\RunnerConfigPresenter.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\RunnerConfig\IRunnerConfigView.cs" />
+    <Compile Include="View\GenbiDispatcher.cs" />
+    <Compile Include="View\IAdapter.cs" />
+    <Compile Include="View\RunnerConfig\FileControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\RunnerConfig\FileControl.Designer.cs">
+      <DependentUpon>FileControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\RunnerConfig\PathControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\RunnerConfig\PathControl.Designer.cs">
+      <DependentUpon>PathControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\RunnerConfig\RunnerConfigViewAdapter.cs" />
+    <Compile Include="View\RunnerConfig\RunnerConfigView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\Generator\GenbiView.Designer.cs">
-      <DependentUpon>GenbiView.cs</DependentUpon>
+    <Compile Include="View\RunnerConfig\RunnerConfigView.Designer.cs">
+      <DependentUpon>RunnerConfigView.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\Generator\DisplayTestView.cs">
+    <Compile Include="View\TestSuiteGenerator\TestSuiteView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\Generator\DisplayTestView.Designer.cs">
+    <Compile Include="View\TestSuiteGenerator\TestSuiteView.Designer.cs">
+      <DependentUpon>TestSuiteView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\DisplayTestView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\DisplayTestView.Designer.cs">
       <DependentUpon>DisplayTestView.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\Generator\OpenTemplateView.cs">
+    <Compile Include="View\TestSuiteGenerator\OpenTemplateView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\Generator\OpenTemplateView.Designer.cs">
+    <Compile Include="View\TestSuiteGenerator\OpenTemplateView.Designer.cs">
       <DependentUpon>OpenTemplateView.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\Generator\RenameVariableView.cs">
+    <Compile Include="View\TestSuiteGenerator\RenameVariableView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\Generator\RenameVariableView.Designer.cs">
+    <Compile Include="View\TestSuiteGenerator\RenameVariableView.Designer.cs">
       <DependentUpon>RenameVariableView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\SettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\SettingsControl.Designer.cs">
+      <DependentUpon>SettingsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\TemplateControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\TemplateControl.Designer.cs">
+      <DependentUpon>TemplateControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\TestListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\TestListControl.Designer.cs">
+      <DependentUpon>TestListControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\TestSuiteViewAdapter.cs" />
+    <Compile Include="View\TestSuiteGenerator\VariablesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\VariablesControl.Designer.cs">
+      <DependentUpon>VariablesControl.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Interface\Generator\ICsvGeneratorView.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\ITestSuiteGeneratorView.cs" />
     <Compile Include="Interface\IView.cs" />
-    <Compile Include="Interface\Generator\Events\CsvSelectEventArgs.cs" />
-    <Compile Include="Interface\Generator\Events\TemplateSelectEventArgs.cs" />
-    <Compile Include="Interface\Generator\Events\TestSuitePersistEventArgs.cs" />
-    <Compile Include="Interface\Generator\Events\TestSelectEventArgs.cs" />
-    <Compile Include="Interface\Generator\Events\VariableRenameEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\CsvSelectEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\TemplateSelectEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\TestSuitePersistEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\TestSelectEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\VariableRenameEventArgs.cs" />
     <Compile Include="Presenter\BasePresenter.cs" />
-    <Compile Include="Presenter\Generator\GenbiPresenter.cs" />
+    <Compile Include="Presenter\TestSuiteGeneratorPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <EmbeddedResource Include="View\Generator\GenbiView.resx">
-      <DependentUpon>GenbiView.cs</DependentUpon>
+    <EmbeddedResource Include="View\RunnerConfig\FileControl.resx">
+      <DependentUpon>FileControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\Generator\RenameVariableView.resx">
+    <EmbeddedResource Include="View\RunnerConfig\PathControl.resx">
+      <DependentUpon>PathControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\RunnerConfig\RunnerConfigView.resx">
+      <DependentUpon>RunnerConfigView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TestSuiteGenerator\TestSuiteView.resx">
+      <DependentUpon>TestSuiteView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TestSuiteGenerator\RenameVariableView.resx">
       <DependentUpon>RenameVariableView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TestSuiteGenerator\SettingsControl.resx">
+      <DependentUpon>SettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TestSuiteGenerator\TemplateControl.resx">
+      <DependentUpon>TemplateControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TestSuiteGenerator\TestListControl.resx">
+      <DependentUpon>TestListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TestSuiteGenerator\VariablesControl.resx">
+      <DependentUpon>VariablesControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -159,6 +229,13 @@
       <ProductName>Windows Installer 4.5</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Icons\page_gear.png" />
+    <Content Include="Icons\page_save.png" />
+    <Content Include="Icons\textfield_delete.png" />
+    <Content Include="Icons\textfield_rename.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

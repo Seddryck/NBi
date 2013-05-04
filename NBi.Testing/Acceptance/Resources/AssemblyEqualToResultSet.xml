@@ -5,7 +5,7 @@
 			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049</connectionString>
 		</default>
 	</settings>
-	<test name="'Reseller Order Count' for year 2004, query built by assembly" uid="0001">
+	<test name="'Reseller Order Count' for year 2008, query built by assembly" uid="0001">
 		<system-under-test>
 			<execution>
 				<assembly path="NBi.Testing.dll" class="NBi.Testing.Acceptance.Resources.AssemblyClass" method="GetSelectMdx">
@@ -24,7 +24,7 @@
 			</equalTo>
 		</assert>
 	</test>
-	<test name="'Reseller Order Count' for year 2004, query built by assembly" uid="0002">
+	<test name="'Reseller Order Count' for year 2006, query built by assembly" uid="0002">
 		<system-under-test>
 			<execution>
 				<assembly path="NBi.Testing.dll" class="NBi.Testing.Acceptance.Resources.AssemblyClass" method="GetSelectMdxWithTwoParams">

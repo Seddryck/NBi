@@ -47,7 +47,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null, null, null
                         );
 
-            var expected = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
+            var expected = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Sales Summary", "Sales Targets" };
             var ctr = new EquivalentToConstraint(expected);
 
             //Method under test
@@ -64,7 +64,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null, null, null
                         );
 
-            var expected = new string[] { "Adventure Works".ToLower(), "Channel Sales".ToUpper(), "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
+            var expected = new string[] { "Adventure Works".ToLower(), "Channel Sales".ToUpper(), "Direct Sales", "Finance", "Sales Summary", "Sales Targets" };
             var ctr = new EquivalentToConstraint(expected);
             ctr = ctr.IgnoreCase;
 
@@ -82,7 +82,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , null, null, null, null, null, null, null
                         );
 
-            var expectedStrings = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
+            var expectedStrings = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Sales Summary", "Sales Targets" };
             var expected = new List<string>();
             expected.AddRange(expectedStrings);
             expected.RemoveAt(0);

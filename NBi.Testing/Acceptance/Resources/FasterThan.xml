@@ -3,7 +3,7 @@
 	<test name="A fast query MDX">
 		<system-under-test>
 			<execution>
-				<query name="MDX" connectionString="Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033">
+				<query name="MDX" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033">
 					SELECT
 					[Measures].[Reseller Order Count] ON 0,
 					EXCEPT({[Date].[Calendar Year].Children},{[Date].[Calendar Year].[CY 2006]}) ON 1

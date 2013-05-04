@@ -2,7 +2,7 @@
 <testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="assert">
-			<connectionString>Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033</connectionString>
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
 		</default>
 	</settings>
 	<test name="My first test case" uid="0001">

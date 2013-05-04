@@ -47,10 +47,10 @@ namespace NBi.Testing.Integration.NUnit
             //Buiding object used during test
             var rs = new ResultSet();
             var objs = new List<object[]>();
-            objs.Add(new object[] { "CY 2001", "1874469.00" });
-            objs.Add(new object[] { "CY 2002", "4511243.0" });
-            objs.Add(new object[] { "CY 2003", "4709851" });
-            objs.Add(new object[] { "CY 2004", "1513940" });
+            objs.Add(new object[] { "CY 2005", "1874469.00" });
+            objs.Add(new object[] { "CY 2006", "4511243.0" });
+            objs.Add(new object[] { "CY 2007", "4709851" });
+            objs.Add(new object[] { "CY 2008", "1513940" });
             rs.Load(objs);
 
             var ctr = new EqualToConstraint(rs);
@@ -71,10 +71,10 @@ namespace NBi.Testing.Integration.NUnit
             //Buiding object used during test
             var rs = new ResultSet();
             var objs = new List<object[]>();
-            objs.Add(new object[] { "CY 2001", "1874469.00" });
-            objs.Add(new object[] { "CY 2002", "4511243.0" });
-            objs.Add(new object[] { "CY 2003", "4709851" });
-            objs.Add(new object[] { "CY 2004", "1513940" });
+            objs.Add(new object[] { "CY 2005", "1874469.00" });
+            objs.Add(new object[] { "CY 2006", "4511243.0" });
+            objs.Add(new object[] { "CY 2007", "4709851" });
+            objs.Add(new object[] { "CY 2008", "1513940" });
             rs.Load(objs);
 
             var ctr = new EqualToConstraint(rs);
@@ -101,10 +101,10 @@ namespace NBi.Testing.Integration.NUnit
             //Buiding object used during test
             var rs = new ResultSet();
             var objs = new List<object[]>();
-            objs.Add(new object[] { "CY 2001", 1874469.00 });
-            objs.Add(new object[] { "CY 2002", 4511243.0 });
-            objs.Add(new object[] { "CY 2003", 4709851 });
-            objs.Add(new object[] { "CY 2004", 1513940 });
+            objs.Add(new object[] { "CY 2005", 1874469.00 });
+            objs.Add(new object[] { "CY 2006", 4511243.0 });
+            objs.Add(new object[] { "CY 2007", 4709851 });
+            objs.Add(new object[] { "CY 2008", 1513940 });
             rs.Load(objs);
 
             var ctr = new EqualToConstraint(rs);
@@ -163,7 +163,7 @@ namespace NBi.Testing.Integration.NUnit
                 null)
             );
 
-            var query = "SELECT [Measures].[Amount] ON 0, ([Date].[Calendar].[Calendar Year]-[Date].[Calendar].[Calendar Year].&[2006]) ON 1  FROM [Adventure Works]";
+            var query = "SELECT [Measures].[Amount] ON 0, ([Date].[Calendar].[Calendar Year]-[Date].[Calendar].[Calendar Year].&[2010]) ON 1  FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
@@ -178,8 +178,8 @@ namespace NBi.Testing.Integration.NUnit
         {
             //Buiding object used during test
             var expectedQuery = "WITH MEMBER [Measures].NewAmount AS [Measures].[Amount]+1";
-            expectedQuery += " SELECT [Measures].NewAmount ON 0, ([Date].[Calendar].[Calendar Year]-[Date].[Calendar].[Calendar Year].&[2006]) ON 1  FROM [Adventure Works]";
-            var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
+            expectedQuery += " SELECT [Measures].NewAmount ON 0, ([Date].[Calendar].[Calendar Year].[CY 2005]:[Date].[Calendar].[Calendar Year].[CY 2008]) ON 1  FROM [Adventure Works]";
+            var expectedCmd   = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             var ctr = new EqualToConstraint(expectedCmd);
             ctr.Using(new ResultSetComparisonSettings(
@@ -212,10 +212,10 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_MdxQueryAndSqlQueryWithCorrectSettings_Matching()
         {
             //Buiding object used during test
-            var expectedQuery = "SELECT 'CY 2001',  1874469 UNION ";
-            expectedQuery += " SELECT 'CY 2002', 4511243 UNION ";
-            expectedQuery += " SELECT 'CY 2003', 4709851 UNION ";
-            expectedQuery += " SELECT 'CY 2004', 1513940  ";
+            var expectedQuery = "SELECT 'CY 2005',  1874469 UNION ";
+            expectedQuery += " SELECT 'CY 2006', 4511243 UNION ";
+            expectedQuery += " SELECT 'CY 2007', 4709851 UNION ";
+            expectedQuery += " SELECT 'CY 2008', 1513940  ";
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
@@ -269,7 +269,7 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_MdxQueryWithNullComparedToSqlWithNull_Matching()
         {
             //Buiding object used during test
-            var expectedQuery = "SELECT 'CY 2006',  NULL ";
+            var expectedQuery = "SELECT 'CY 2010',  NULL ";
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
@@ -282,7 +282,7 @@ namespace NBi.Testing.Integration.NUnit
                     )
                 );
 
-            var query = "SELECT  [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2006] ON 1 FROM [Adventure Works]";
+            var query = "SELECT  [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2010] ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
@@ -296,7 +296,7 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_MdxQueryWithNullComparedToSqlWithValue_NonMatching()
         {
             //Buiding object used during test
-            var expectedQuery = "SELECT 'CY 2006',  0 ";
+            var expectedQuery = "SELECT 'CY 2010',  0 ";
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
@@ -309,7 +309,7 @@ namespace NBi.Testing.Integration.NUnit
                     )
                 );
 
-            var query = "SELECT  [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2006] ON 1 FROM [Adventure Works]";
+            var query = "SELECT  [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2010] ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
@@ -323,7 +323,7 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_SqlQueryWithDateComparedToString_Matching()
         {
             //Buiding object used during test
-            var expectedQuery = "SELECT 'CY 2006',  CAST('2006-01-01' AS DATE)";
+            var expectedQuery = "SELECT 'CY 2010',  CAST('2010-01-01' AS DATE)";
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
@@ -339,7 +339,7 @@ namespace NBi.Testing.Integration.NUnit
                     )
                 );
 
-            var query = "SELECT 'CY 2006',  '1/01/2006 00:00:00'";
+            var query = "SELECT 'CY 2010',  '1/01/2010 00:00:00'";
             var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
             //Call the method to test
@@ -353,7 +353,7 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_SqlQueryWithDateComparedToStringAnotherDate_NonMatching()
         {
             //Buiding object used during test
-            var expectedQuery = "SELECT 'CY 2006',  CAST('2006-01-02' AS DATE)";
+            var expectedQuery = "SELECT 'CY 2010',  CAST('2010-01-02' AS DATE)";
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
@@ -369,7 +369,7 @@ namespace NBi.Testing.Integration.NUnit
                     )
                 );
 
-            var query = "SELECT 'CY 2006',  '1/01/2006 00:00:00'";
+            var query = "SELECT 'CY 2010',  '1/01/2010 00:00:00'";
             var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
             //Call the method to test
@@ -383,7 +383,7 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_SqlQueryWithDateComparedToStringAnotherHour_NonMatching()
         {
             //Buiding object used during test
-            var expectedQuery = "SELECT 'CY 2006',  CAST('2006-01-01' AS DATE)";
+            var expectedQuery = "SELECT 'CY 2010',  CAST('2010-01-01' AS DATE)";
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
@@ -399,7 +399,7 @@ namespace NBi.Testing.Integration.NUnit
                     )
                 );
 
-            var query = "SELECT 'CY 2006',  '1/01/2006 01:00:00'";
+            var query = "SELECT 'CY 2010',  '1/01/2010 01:00:00'";
             var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
             //Call the method to test

@@ -3,12 +3,12 @@
 	<test name="'Reseller Order Count' by year before 2006" uid="0001">
 		<system-under-test>
 			<execution>
-				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033">
+				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033">
 					SELECT
-						[Measures].[Reseller Order Count] ON 0,
-						[Date].[Calendar Year].Children ON 1
+					[Measures].[Reseller Order Count] ON 0,
+					{[Date].[Calendar Year].[CY 2005]:[Date].[Calendar Year].[CY 2009]} ON 1
 					FROM
-						[Adventure Works]
+					[Adventure Works]
 				</query>
 			</execution>
 		</system-under-test>
@@ -16,23 +16,23 @@
 			<equalTo>
 				<resultSet>
 					<row>
-						<cell>CY 2001</cell>
+						<cell>CY 2005</cell>
 						<cell>366</cell>
 					</row>
 					<row>
-						<cell>CY 2002</cell>
+						<cell>CY 2006</cell>
 						<cell>1015</cell>
 					</row>
 					<row>
-						<cell>CY 2003</cell>
+						<cell>CY 2007</cell>
 						<cell>1521</cell>
 					</row>
 					<row>
-						<cell>CY 2004</cell>
+						<cell>CY 2008</cell>
 						<cell>894</cell>
 					</row>
 					<row>
-						<cell>CY 2006</cell>
+						<cell>CY 2009</cell>
 						<cell/>
 					</row>
 				</resultSet>

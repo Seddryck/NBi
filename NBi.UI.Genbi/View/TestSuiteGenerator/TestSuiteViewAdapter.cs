@@ -9,22 +9,28 @@ using NBi.UI.Genbi.Interface.TestSuiteGenerator.Events;
 
 namespace NBi.UI.Genbi.View.TestSuiteGenerator
 {
-    public class TestSuiteViewAdapter: ITestSuiteGeneratorView
+    public class TestSuiteViewAdapter: ITestSuiteGeneratorView, IAdapter
     {
-        //private GenbiPresenter Presenter { get; set; }
-
-        public TestSuiteView MainForm { get; set; }
+        public TestSuiteView GlobalForm { get; set; }
         public DisplayTestView DisplayTestForm { get; set; }
         public OpenTemplateView OpenTemplateForm { get; set; }
         public RenameVariableView RenameVariableForm { get; set; }
 
 
-        public TestSuiteViewAdapter()
+        public TestSuiteViewAdapter(GenbiDispatcher dispatcher)
         {
-            MainForm = new TestSuiteView(this);
+            GlobalForm = new TestSuiteView(dispatcher, this);
             DisplayTestForm = new DisplayTestView(this);
             OpenTemplateForm = new OpenTemplateView(this);
             RenameVariableForm = new RenameVariableView(this);
+        }
+
+        public Form MainForm
+        {
+            get
+            {
+                return GlobalForm;
+            }
         }
 
         #region properties
@@ -33,11 +39,11 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             get
             {
-                return MainForm.CsvContent;
+                return GlobalForm.CsvContent;
             }
             set
             {
-                MainForm.CsvContent=value;
+                GlobalForm.CsvContent=value;
             }
         }
 
@@ -45,11 +51,11 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             get
             {
-                return MainForm.UseGrouping;
+                return GlobalForm.UseGrouping;
             }
             set
             {
-                MainForm.UseGrouping = value;
+                GlobalForm.UseGrouping = value;
             }
         }
 
@@ -57,11 +63,11 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             get
             {
-                return MainForm.Variables;
+                return GlobalForm.Variables;
             }
             set
             {
-                MainForm.Variables = value;
+                GlobalForm.Variables = value;
             }
 
         }
@@ -70,11 +76,11 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             get
             {
-                return MainForm.Tests;
+                return GlobalForm.Tests;
             }
             set
             {
-                MainForm.Tests = value;
+                GlobalForm.Tests = value;
             }
         }
 
@@ -94,11 +100,11 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             get
             {
-                return MainForm.Template;
+                return GlobalForm.Template;
             }
             set
             {
-                MainForm.Template = value;
+                GlobalForm.Template = value;
             }
         }
 
@@ -106,11 +112,11 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             get
             {
-                return MainForm.SettingsNames;
+                return GlobalForm.SettingsNames;
             }
             set
             {
-                MainForm.SettingsNames = value;
+                GlobalForm.SettingsNames = value;
             }
         }
 
@@ -118,11 +124,11 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             get
             {
-                return MainForm.SettingsValue;
+                return GlobalForm.SettingsValue;
             }
             set
             {
-                MainForm.SettingsValue = value;
+                GlobalForm.SettingsValue = value;
             }
         }
 
@@ -147,11 +153,11 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             get
             {
-                return MainForm.TestSelectedIndex;
+                return GlobalForm.TestSelectedIndex;
             }
             set
             {
-                MainForm.TestSelectedIndex = value;
+                GlobalForm.TestSelectedIndex = value;
             }
         }
 
@@ -159,7 +165,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             set
             {
-                MainForm.CanGenerate = value;
+                GlobalForm.CanGenerate = value;
             }
         }
 
@@ -167,7 +173,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             set
             {
-                MainForm.CanUndo = value;
+                GlobalForm.CanUndo = value;
             }
         }
 
@@ -175,7 +181,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             set
             {
-                MainForm.CanClear = value;
+                GlobalForm.CanClear = value;
             }
         }
 
@@ -183,7 +189,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             set
             {
-                MainForm.CanSaveAs = value;
+                GlobalForm.CanSaveAs = value;
             }
         }
 
@@ -191,7 +197,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             set
             {
-                MainForm.CanSaveTemplate = value;
+                GlobalForm.CanSaveTemplate = value;
             }
         }
 
@@ -199,7 +205,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             set
             {
-                MainForm.CanRename = value;
+                GlobalForm.CanRename = value;
             }
         }
 
@@ -207,7 +213,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             set
             {
-                MainForm.CanRemove = value;
+                GlobalForm.CanRemove = value;
             }
         }
 
@@ -215,7 +221,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             set
             {
-                MainForm.ProgressValue = value;
+                GlobalForm.ProgressValue = value;
             }
         }
 

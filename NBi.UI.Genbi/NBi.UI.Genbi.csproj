@@ -76,6 +76,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Interface\RunnerConfig\IRunnerConfigView.cs" />
+    <Compile Include="View\GenbiDispatcher.cs" />
+    <Compile Include="View\IAdapter.cs" />
     <Compile Include="View\RunnerConfig\FileControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

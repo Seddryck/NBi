@@ -41,6 +41,26 @@ namespace NBi.Testing.Integration.Core.Query
         }
 
         [Test]
+        public void Execute_ValidDax_GetResult()
+        {
+
+            var query = "EVALUATE CALCULATETABLE(VALUES('Product Subcategory'[Product Subcategory Name]),'Product Category'[Product Category Name] = \"Bikes\")";
+
+            var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomdTabular()));
+
+            var qe = new QueryAdomdEngine(cmd);
+            var ds = qe.Execute();
+
+            Assert.IsInstanceOf<string>(ds.Tables[0].Rows[0][0]);
+            Assert.AreEqual((string)ds.Tables[0].Rows[0][0], "Mountain Bikes");
+            Assert.AreEqual((string)ds.Tables[0].Rows[1][0], "Road Bikes");
+            Assert.AreEqual((string)ds.Tables[0].Rows[2][0], "Touring Bikes");
+
+            Assert.AreEqual(ds.Tables[0].Rows.Count, 3);
+            Assert.AreEqual(ds.Tables[0].Columns.Count, 1);
+        }
+
+        [Test]
         public void Parse_ValidMdx_Success()
         {
 

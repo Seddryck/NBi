@@ -45,5 +45,10 @@ namespace NBi.Testing
             }
             return "";
         }
+
+        internal static string GetAdomdTabular()
+        {
+            return Get("AdomdTabular");
+        }
     }
 }

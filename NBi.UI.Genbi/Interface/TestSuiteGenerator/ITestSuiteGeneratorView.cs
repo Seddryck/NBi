@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Windows.Forms;
 using NBi.Service.Dto;
 using NBi.UI.Genbi.Interface.TestSuiteGenerator.Events;
 
@@ -9,6 +10,7 @@ namespace NBi.UI.Genbi.Interface.TestSuiteGenerator
 {
     public interface ITestSuiteGeneratorView : IView
     {
+        Form MainForm { get; }
         DataTable CsvContent { get; set; }
         bool UseGrouping { get; set; }
         BindingList<string> Variables { get;  set; }

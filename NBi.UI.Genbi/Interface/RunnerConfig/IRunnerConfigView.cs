@@ -9,5 +9,7 @@ namespace NBi.UI.Genbi.Interface.RunnerConfig
     {
         event EventHandler<RunnerConfigBuildEventArgs> Build;
         event EventHandler Close;
+
+        void Show();
     }
 }

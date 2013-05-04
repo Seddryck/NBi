@@ -31,11 +31,11 @@
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.variablesControl = new VariablesControl();
-            this.templateControl = new TemplateControl();
+            this.variablesControl = new NBi.UI.Genbi.View.TestSuiteGenerator.VariablesControl();
+            this.templateControl = new NBi.UI.Genbi.View.TestSuiteGenerator.TemplateControl();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.settingsControl = new SettingsControl();
-            this.testListControl = new TestListControl();
+            this.settingsControl = new NBi.UI.Genbi.View.TestSuiteGenerator.SettingsControl();
+            this.testListControl = new NBi.UI.Genbi.View.TestSuiteGenerator.TestListControl();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.sourceFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,6 +48,8 @@
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configProjectFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTipRemove = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipRename = new System.Windows.Forms.ToolTip(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -173,7 +175,8 @@
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sourceFileToolStripMenuItem,
             this.templateToolStripMenuItem,
-            this.testSuiteToolStripMenuItem});
+            this.testSuiteToolStripMenuItem,
+            this.configProjectFilesToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1038, 24);
@@ -242,8 +245,8 @@
             this.clearToolStripMenuItem,
             this.saveAsToolStripMenuItem});
             this.testSuiteToolStripMenuItem.Name = "testSuiteToolStripMenuItem";
-            this.testSuiteToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
-            this.testSuiteToolStripMenuItem.Text = "Test Suite";
+            this.testSuiteToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.testSuiteToolStripMenuItem.Text = "Test suite";
             // 
             // generateToolStripMenuItem
             // 
@@ -277,6 +280,21 @@
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.saveAsToolStripMenuItem.Text = "Save As ...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveTestSuiteAs_Click);
+            // 
+            // configProjectFilesToolStripMenuItem
+            // 
+            this.configProjectFilesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.generateToolStripMenuItem1});
+            this.configProjectFilesToolStripMenuItem.Name = "configProjectFilesToolStripMenuItem";
+            this.configProjectFilesToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
+            this.configProjectFilesToolStripMenuItem.Text = "Project files";
+            // 
+            // generateToolStripMenuItem1
+            // 
+            this.generateToolStripMenuItem1.Name = "generateToolStripMenuItem1";
+            this.generateToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.generateToolStripMenuItem1.Text = "Generate";
+            this.generateToolStripMenuItem1.Click += new System.EventHandler(this.GenerateProjectFileToolStripMenuItem_Click);
             // 
             // toolTipRemove
             // 
@@ -317,7 +335,7 @@
             this.toolStripTestSuiteSaveAs.Text = "toolStripButton2";
             this.toolStripTestSuiteSaveAs.Click += new System.EventHandler(this.SaveTestSuiteAs_Click);
             // 
-            // GenbiView
+            // TestSuiteView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -326,7 +344,7 @@
             this.Controls.Add(this.menuStrip);
             this.Controls.Add(this.splitContainer1);
             this.MainMenuStrip = this.menuStrip;
-            this.Name = "GenbiView";
+            this.Name = "TestSuiteView";
             this.Text = "Genbi";
             this.Load += new System.EventHandler(this.CsvImporterView_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -376,5 +394,7 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripTestSuiteGenerate;
         private System.Windows.Forms.ToolStripButton toolStripTestSuiteSaveAs;
+        private System.Windows.Forms.ToolStripMenuItem configProjectFilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem generateToolStripMenuItem1;
     }
 }

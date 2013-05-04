@@ -4,7 +4,7 @@ using NBi.UI.Genbi.Interface.RunnerConfig;
 
 namespace NBi.UI.Genbi.View.RunnerConfig
 {
-    public class RunnerConfigViewAdapter: IRunnerConfigView
+    public class RunnerConfigViewAdapter : IRunnerConfigView, IAdapter
     {
         public RunnerConfigView MainForm { get; set; }
 
@@ -13,6 +13,11 @@ namespace NBi.UI.Genbi.View.RunnerConfig
             MainForm = new RunnerConfigView(this);
         }
         
+        public void Show()
+        {
+            MainForm.ShowDialog();
+        }
+
         public event EventHandler<RunnerConfigBuildEventArgs> Build;
         public void InvokeBuild(RunnerConfigBuildEventArgs e)
         {

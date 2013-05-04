@@ -24,7 +24,13 @@ namespace NBi.Service.RunnerConfig
 
         private Dictionary<string, string> Dico { get; set; }
 
+        private AbstractRunnerConfigBuilder()
+        {
+            filePersister = new FilePersister();
+        }
+
         public AbstractRunnerConfigBuilder(string configTemplateFilename, string runnerProjectTemplateFilename)
+            : this()
         {
             ConfigTemplateFilename = configTemplateFilename;
             RunnerProjectTemplateFilename = runnerProjectTemplateFilename;

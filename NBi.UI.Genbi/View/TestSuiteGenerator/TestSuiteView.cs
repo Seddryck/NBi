@@ -11,10 +11,12 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
     public partial class TestSuiteView : Form
     {
         protected TestSuiteViewAdapter Adapter { get; set; }
+        protected GenbiDispatcher Dispatcher { get; set; }
 
 
-        public TestSuiteView(TestSuiteViewAdapter adapter)
+        public TestSuiteView(GenbiDispatcher dispatcher, TestSuiteViewAdapter adapter)
         {
+            Dispatcher = dispatcher;
             Adapter = adapter;
             InitializeComponent();
             DeclareBindings();
@@ -269,6 +271,13 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             if (diagRes.HasFlag(DialogResult.OK))
                 Adapter.InvokeTestsClear(EventArgs.Empty);
         }
+
+        private void GenerateProjectFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Dispatcher.StartRunnerConfig();
+        }
+
+        
   
     }
 }

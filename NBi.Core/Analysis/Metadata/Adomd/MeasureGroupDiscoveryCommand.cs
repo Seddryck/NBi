@@ -35,14 +35,15 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             using (var cmd = CreateCommand())
             {
                 var adomdFiltering = Build(filters);
-                cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_measuregroup_dimensions WHERE DIMENSION_IS_VISIBLE{0}", adomdFiltering);
+                cmd.CommandText = string.Format("SELECT * FROM $system.mdschema_measures WHERE MEASURE_IS_VISIBLE{0}", adomdFiltering);
                 var rdr = ExecuteReader(cmd);
 
                 while (rdr.Read())
                 {
                     var row = MeasureGroupRow.Load(rdr);
                     if (row != null)
-                        measureGroups.Add(row);
+                        if (!measureGroups.Exists(mg => mg.Name==row.Name && mg.PerspectiveName==row.PerspectiveName))
+                            measureGroups.Add(row);
                 }
             }
 

@@ -225,5 +225,28 @@ namespace NBi.Testing.Integration.Core.Analysis
             Assert.That(List.Map(actual).Property("LevelNumber"), Has.All.LessThanOrEqualTo(4));
 
         }
+
+        [Test]
+        public void GetMembersDax_ByLevel_ReturnListMembersWithCorrectCaptions()
+        {
+            //Buiding object used during test
+            var mae = new MembersAdomdEngine();
+            var disco = new DiscoveryRequestFactory().Build(
+                ConnectionStringReader.GetAdomdTabular(),
+                string.Empty,
+                "Internet Operation",
+                "Geography",
+                "Geography",
+                "Country Region"
+                );
+
+            //Call the method to test
+            var actual = mae.GetMembers(disco);
+
+            ////Assertion
+            Assert.That(List.Map(actual).Property("Caption"), Has.None.EqualTo("All"));
+            Assert.That(List.Map(actual).Property("Caption"), Has.Member("Canada"));
+            Assert.That(List.Map(actual).Property("Caption"), Has.Member("France"));
+        }
     }
 }

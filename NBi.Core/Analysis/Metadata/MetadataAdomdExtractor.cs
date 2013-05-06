@@ -80,7 +80,7 @@ namespace NBi.Core.Analysis.Metadata
             {
                 var rows = cmd.Discover(null);
                 cube.Import(rows);
-                cube.Link(rows);
+                //cube.Link(rows);
             }
             using (var cmd = new MeasureDiscoveryCommand(ConnectionString))
                 cube.Import(cmd.Discover(null));

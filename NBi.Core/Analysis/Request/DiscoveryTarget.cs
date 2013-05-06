@@ -14,6 +14,8 @@ namespace NBi.Core.Analysis.Request
         Dimensions,
         Hierarchies,
         Levels,
-        Properties
+        Properties,
+        Tables,
+        Columns
     }
 }

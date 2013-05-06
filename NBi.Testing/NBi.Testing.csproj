@@ -77,6 +77,8 @@
     <Compile Include="ConnectionStringReader.cs" />
     <Compile Include="DiskOnFile.cs" />
     <Compile Include="Integration\Core\Analysis\Metadata\Adomd\AdomdDiscoveryCommandTest.cs" />
+    <Compile Include="Integration\Core\Analysis\Metadata\Adomd\ColumnDiscoveryCommandTest.cs" />
+    <Compile Include="Integration\Core\Analysis\Metadata\Adomd\TableDiscoveryCommandTest.cs" />
     <Compile Include="Integration\Core\Analysis\Request\DiscoveryRequestFactoryTest.cs" />
     <Compile Include="Integration\Core\Analysis\MembersAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />

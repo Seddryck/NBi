@@ -59,6 +59,10 @@ namespace NBi.Core.Analysis.Metadata.Adomd
                     return new LevelDiscoveryCommand(request.ConnectionString);
                 case DiscoveryTarget.Properties:
                     return new PropertyDiscoveryCommand(request.ConnectionString);
+                case DiscoveryTarget.Tables:
+                    return new TableDiscoveryCommand(request.ConnectionString);
+                case DiscoveryTarget.Columns:
+                    return new ColumnDiscoveryCommand(request.ConnectionString);
             }
             throw new ArgumentOutOfRangeException();
         }

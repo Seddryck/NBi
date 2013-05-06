@@ -54,6 +54,14 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Analysis\Metadata\Adomd\ColumnRow.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\ColumnDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\TableDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\TableRow.cs" />
+    <Compile Include="Analysis\Metadata\ColumnCollection.cs" />
+    <Compile Include="Analysis\Metadata\Column.cs" />
+    <Compile Include="Analysis\Metadata\Table.cs" />
+    <Compile Include="Analysis\Metadata\TableCollection.cs" />
     <Compile Include="CsvReader.cs" />
     <Compile Include="Analysis\Metadata\Adomd\AdomdDiscoveryCommandFactory.cs" />
     <Compile Include="Analysis\Metadata\Adomd\LinkedToDiscoveryCommand.cs" />

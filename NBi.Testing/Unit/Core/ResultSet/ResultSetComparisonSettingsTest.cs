@@ -134,30 +134,30 @@ namespace NBi.Testing.Unit.Core.ResultSet
             xml.Tolerance = 100;
 
             //Build a value column (numeric, specific tolerance)
-            var colXml = new ColumnXml();
+            var colXml = new ColumnDefinitionXml();
             colXml.Index = 1;
             colXml.Role = ColumnRole.Value;
             colXml.Type = ColumnType.Numeric;
             colXml.Tolerance = 1;
 
             //Build a value column (without info)
-            var colLightXml = new ColumnXml();
+            var colLightXml = new ColumnDefinitionXml();
             colLightXml.Index = 2;
             colLightXml.Role = ColumnRole.Value;
 
             //Build a value column (numeric)
-            var col4Xml = new ColumnXml();
+            var col4Xml = new ColumnDefinitionXml();
             col4Xml.Index = 4;
             col4Xml.Role = ColumnRole.Value;
             col4Xml.Type = ColumnType.Numeric;
 
             //Build a ignore column (without info)
-            var colIgnoreXml = new ColumnXml();
+            var colIgnoreXml = new ColumnDefinitionXml();
             colIgnoreXml.Index = 5;
             colIgnoreXml.Role = ColumnRole.Ignore;
 
             //Add columns to definition
-            var cols = new List<ColumnXml>();
+            var cols = new List<ColumnDefinitionXml>();
             cols.Add(colXml);
             cols.Add(colLightXml);
             cols.Add(col4Xml);

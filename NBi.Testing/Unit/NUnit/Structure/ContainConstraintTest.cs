@@ -20,7 +20,8 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         DiscoveryTarget.Dimensions,
                         "perspective-name",
                         null, null, null,
-                        "dimension-caption", null, null);
+                        "dimension-caption", null, null
+                        , null, null);
 
             var elStub = new Mock<IField>();
             var el1 = elStub.Object;
@@ -56,7 +57,8 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         DiscoveryTarget.MeasureGroups,
                         "perspective",
                         "measure-group", null, null,
-                        null, null, null);
+                        null, null, null
+                        , null, null);
 
 
             var elStub = new Mock<IField>();
@@ -93,7 +95,8 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         DiscoveryTarget.Dimensions,
                         "perspective-name",
                         null, null, null,
-                        "dimension-caption", null, null);
+                        "dimension-caption", null, null
+                        , null, null);
 
 
             var elStub = new Mock<IField>();
@@ -140,7 +143,8 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         DiscoveryTarget.MeasureGroups,
                         "perspective-name",
                         "measure-group-caption", null, null,
-                        null, null, null);
+                        null, null, null
+                        , null, null);
 
 
             var elStub = new Mock<IField>();
@@ -187,7 +191,8 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         DiscoveryTarget.Hierarchies,
                         "perspective-name",
                         null, null, null,
-                        "dimension-caption", "hierarchy-caption", null);
+                        "dimension-caption", "hierarchy-caption", null
+                        , null, null);
 
 
             var elStub = new Mock<IField>();
@@ -238,7 +243,8 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         DiscoveryTarget.Hierarchies,
                         "perspective-name",
                         null, null, null,
-                        "dimension-caption", null, null);
+                        "dimension-caption", null, null
+                        , null, null);
 
 
             var elStub = new Mock<IField>();

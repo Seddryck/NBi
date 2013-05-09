@@ -46,7 +46,10 @@ namespace NBi.NUnit.Builder
 
         protected override object InstantiateSystemUnderTest(StructureXml sutXml)
         {
-            string perspective = null, measuregroup = null, displayFolder = null, measure = null, dimension = null, hierarchy = null, level = null;
+            string perspective = null
+               , measuregroup = null, displayFolder = null, measure = null
+               , dimension = null, hierarchy = null, level = null
+               , table = null, column = null;
 
             if (sutXml.Item.GetType() == typeof(PerspectivesXml))
             {
@@ -97,6 +100,20 @@ namespace NBi.NUnit.Builder
 
                 hierarchy = hie;
             }
+            if (sutXml.Item is TablesXml)
+            {
+                var persp = ((TablesXml)sutXml.Item).Perspective;
+                if (string.IsNullOrEmpty(persp))
+                    throw new ArgumentException("Perspective must be specified");
+
+                perspective = persp;
+            }
+            if (sutXml.Item is ColumnsXml)
+            {
+                var tab = ((ColumnsXml)sutXml.Item).Table;
+                if (string.IsNullOrEmpty(tab))
+                    throw new ArgumentException("Table must be specified");
+            }
 
             var target = GetTarget(sutXml.Item);
 
@@ -110,7 +127,9 @@ namespace NBi.NUnit.Builder
                     measure,
                     dimension,
                     hierarchy,
-                    level
+                    level,
+                    table,
+                    column
                 );
         }
 

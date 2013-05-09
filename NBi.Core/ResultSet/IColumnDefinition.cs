@@ -1,6 +1,6 @@
 ﻿namespace NBi.Core.ResultSet
 {
-    public interface IColumn
+    public interface IColumnDefinition
     {
         int Index { get; set; }
         ColumnRole Role {get; set;}

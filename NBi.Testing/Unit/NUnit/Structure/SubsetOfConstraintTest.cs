@@ -20,7 +20,8 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         DiscoveryTarget.Hierarchies,
                         "perspective-name",
                         null, null, null,
-                        "dimension-caption", "hierarchy-caption", null);
+                        "dimension-caption", "hierarchy-caption", null
+                        , null, null);
 
 
             var elStub = new Mock<IField>();

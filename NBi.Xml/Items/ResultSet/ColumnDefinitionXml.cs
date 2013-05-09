@@ -3,7 +3,7 @@ using NBi.Core.ResultSet;
 
 namespace NBi.Xml.Items.ResultSet
 {
-    public class ColumnXml: IColumn
+    public class ColumnDefinitionXml: IColumnDefinition
     {
         [XmlAttribute("index")]
         public int Index {get; set;}
@@ -12,25 +12,25 @@ namespace NBi.Xml.Items.ResultSet
         [XmlAttribute("type")]
         public ColumnType Type{get; set;}
 
-        protected bool _isToleranceSpecified;
+        protected bool isToleranceSpecified;
         [XmlIgnore()]
         public bool IsToleranceSpecified
         {
-            get { return _isToleranceSpecified; }
-            set { _isToleranceSpecified = value; }
+            get { return isToleranceSpecified; }
+            set { isToleranceSpecified = value; }
         }
 
-        protected decimal _tolerance;
+        protected decimal tolerance;
         [XmlAttribute("tolerance")]
         public decimal Tolerance
         {
             get
-            { return _tolerance; }
+            { return tolerance; }
 
             set
             {
-                _tolerance = value;
-                _isToleranceSpecified = true;
+                tolerance = value;
+                isToleranceSpecified = true;
             }
         }
     }

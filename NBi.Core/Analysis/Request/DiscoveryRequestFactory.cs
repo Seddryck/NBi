@@ -12,7 +12,11 @@ namespace NBi.Core.Analysis.Request
             validations.ForEach(v => v.Apply());
         }
 
-        public virtual MetadataDiscoveryRequest Build(string connectionString, DiscoveryTarget target, string perspective, string measuregroup, string displayFolder, string measure, string dimension, string hierarchy, string level)
+        public virtual MetadataDiscoveryRequest Build(string connectionString, DiscoveryTarget target
+            , string perspective, string measuregroup, string displayFolder, string measure
+            , string dimension, string hierarchy, string level
+            , string table, string column
+            )
         {
             //Validations
             Validate( 
@@ -24,7 +28,8 @@ namespace NBi.Core.Analysis.Request
                     new MeasureWithoutDimension(measure, dimension),
                     !string.IsNullOrEmpty(displayFolder) && string.IsNullOrEmpty(dimension) ? (Validation)new MeasureNotNull(measure) : new NoValidation(),
                     !string.IsNullOrEmpty(hierarchy) ? (Validation)new DimensionNotNull(dimension) : new NoValidation(),
-                    !string.IsNullOrEmpty(level) ? (Validation)new HierarchyNotNull(hierarchy) : new NoValidation()
+                    !string.IsNullOrEmpty(level) ? (Validation)new HierarchyNotNull(hierarchy) : new NoValidation(),
+                    !string.IsNullOrEmpty(column) ? (Validation)new TableNotNull(table) : new NoValidation()
                 }
             );
             
@@ -39,6 +44,8 @@ namespace NBi.Core.Analysis.Request
             if (!string.IsNullOrEmpty(dimension))       disco.SpecifyFilter(new CaptionFilter(dimension, DiscoveryTarget.Dimensions));
             if (!string.IsNullOrEmpty(hierarchy))       disco.SpecifyFilter(new CaptionFilter(hierarchy, DiscoveryTarget.Hierarchies));
             if (!string.IsNullOrEmpty(level))           disco.SpecifyFilter(new CaptionFilter(level, DiscoveryTarget.Levels));
+            if (!string.IsNullOrEmpty(table))           disco.SpecifyFilter(new CaptionFilter(table, DiscoveryTarget.Tables));
+            if (!string.IsNullOrEmpty(column))           disco.SpecifyFilter(new CaptionFilter(column, DiscoveryTarget.Columns));
 
             return disco;
         }

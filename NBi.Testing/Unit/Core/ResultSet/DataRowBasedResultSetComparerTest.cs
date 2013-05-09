@@ -289,7 +289,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
 
         protected ResultSetComparisonSettings BuildSettingsKeyValue(decimal tolerance)
         {
-            var columnsDef = new List<IColumn>();
+            var columnsDef = new List<IColumnDefinition>();
             columnsDef.Add(
                     new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance }
                     );
@@ -303,7 +303,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
 
         protected ResultSetComparisonSettings BuildSettingsKeyValueIgnore(decimal tolerance)
         {
-            var columnsDef = new List<IColumn>();
+            var columnsDef = new List<IColumnDefinition>();
             columnsDef.Add(
                     new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance }
                     );

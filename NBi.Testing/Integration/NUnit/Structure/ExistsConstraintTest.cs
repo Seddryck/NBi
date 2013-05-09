@@ -44,6 +44,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Perspectives
                         , "adventure Works", null, null, null, null, null, null
+                        , null, null
                         );
 
             var ctr = new ExistsConstraint();
@@ -59,6 +60,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Perspectives
                         , "adventure Works", null, null, null, null, null, null
+                        , null, null
                         );
 
             var ctr = new ExistsConstraint();

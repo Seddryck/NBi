@@ -16,7 +16,8 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
                 DiscoveryTarget.Hierarchies,
                 "Adventure Works",
                 null, null, null,
-                "Date", null, null);
+                "Date", null, null
+                , null, null);
 
             var factory = new AdomdDiscoveryCommandFactory();
             var cmd = factory.BuildExact(disco);
@@ -34,7 +35,8 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
                 DiscoveryTarget.Hierarchies,
                 "Internet Operation",
                 null, null, null,
-                "Date", null, null);
+                "Date", null, null
+                , null, null);
 
             var factory = new AdomdDiscoveryCommandFactory();
             var cmd = factory.BuildExact(disco);
@@ -52,7 +54,8 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
                 DiscoveryTarget.Levels,
                 "Adventure Works",
                 null, null, null,
-                "Date", "Calendar", null);
+                "Date", "Calendar", null,
+                null, null);
 
             var factory = new AdomdDiscoveryCommandFactory();
             var cmd = factory.BuildExact(disco);
@@ -70,7 +73,8 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
                 DiscoveryTarget.Levels,
                 "Internet Operation",
                 null, null, null,
-                "Date", "Calendar", null);
+                "Date", "Calendar", null,
+                null, null);
 
             var factory = new AdomdDiscoveryCommandFactory();
             var cmd = factory.BuildExact(disco);
@@ -88,7 +92,8 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
                 DiscoveryTarget.Properties,
                 "Adventure Works",
                 null, null, null,
-                "Date", "Calendar", "Month");
+                "Date", "Calendar", "Month",
+                null, null);
 
             var factory = new AdomdDiscoveryCommandFactory();
             var cmd = factory.BuildExact(disco);
@@ -106,7 +111,8 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
                 DiscoveryTarget.Properties,
                 "Internet Operation",
                 null, null, null,
-                "Date", "Calendar", "Month");
+                "Date", "Calendar", "Month",
+                null, null);
 
             var factory = new AdomdDiscoveryCommandFactory();
             var cmd = factory.BuildExact(disco);
@@ -124,7 +130,8 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
                 DiscoveryTarget.MeasureGroups,
                 "Finance",
                 null, null, null,
-                null, null, null);
+                null, null, null,
+                null, null);
 
             var factory = new AdomdDiscoveryCommandFactory();
             var cmd = factory.BuildExact(disco);
@@ -142,7 +149,8 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
                 DiscoveryTarget.MeasureGroups,
                 "Internet Operation",
                 null, null, null,
-                null, null, null);
+                null, null, null,
+                null, null);
 
             var factory = new AdomdDiscoveryCommandFactory();
             var cmd = factory.BuildExact(disco);

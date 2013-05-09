@@ -42,7 +42,10 @@ namespace NBi.NUnit.Builder
 
         protected override object InstantiateSystemUnderTest(StructureXml sutXml)
         {
-            string perspective = null, measuregroup = null, displayFolder = null, measure = null, dimension = null, hierarchy = null, level = null;
+            string perspective = null, 
+                measuregroup = null, displayFolder = null, measure = null, 
+                dimension = null, hierarchy = null, level = null,
+                table =null, column = null ;
             DiscoveryTarget target = DiscoveryTarget.Undefined;
             
             if (sutXml.Item is PerspectiveXml)
@@ -90,6 +93,18 @@ namespace NBi.NUnit.Builder
                 level = sutXml.Item.Caption;
                 target = DiscoveryTarget.Levels;
             }
+            if (sutXml.Item is TableXml)
+            {
+                perspective = ((TableXml)sutXml.Item).Perspective;
+                table = sutXml.Item.Caption;
+                target = DiscoveryTarget.Tables;
+            }
+            if (sutXml.Item is ColumnXml)
+            {
+                table = ((ColumnXml)sutXml.Item).Table;
+                column = sutXml.Item.Caption;
+                target = DiscoveryTarget.Columns;
+            }
 
             if (target.Equals(DiscoveryTarget.Undefined))
                 throw new ArgumentOutOfRangeException();
@@ -103,7 +118,9 @@ namespace NBi.NUnit.Builder
                     measure,
                     dimension,
                     hierarchy,
-                    level
+                    level,
+                    table,
+                    column
                 );
             return disco;
         }

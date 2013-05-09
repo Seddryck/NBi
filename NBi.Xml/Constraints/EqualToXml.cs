@@ -75,16 +75,16 @@ namespace NBi.Xml.Constraints
             }
         }
 
-        [XmlElement("column")]
-        public List<ColumnXml> columnsDef;
+        [XmlElement("column-definition")]
+        public List<NBi.Xml.Items.ResultSet.ColumnDefinitionXml> columnsDef;
 
-        public IList<IColumn> ColumnsDef
+        public IList<IColumnDefinition> ColumnsDef
         {
             get
             {
                 if (columnsDef == null)
-                    columnsDef = new List<ColumnXml>();
-                return columnsDef.Cast<IColumn>().ToList();
+                    columnsDef = new List<NBi.Xml.Items.ResultSet.ColumnDefinitionXml>();
+                return columnsDef.Cast<IColumnDefinition>().ToList();
             }
         }
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NBi.Core.ResultSet
 {
-    public class Column : IColumn
+    public class Column : IColumnDefinition
     {
         public int Index {get; set;} 
         public ColumnRole Role {get; set;} 

@@ -63,7 +63,7 @@
 		</system-under-test>
 		<assert>
 			<equalTo>
-				<column role="value" index="3" type="numeric" tolerance="10"/>
+				<column-definition role="value" index="3" type="numeric" tolerance="10"/>
 				<query file="Query.sql"/>
 			</equalTo>
 		</assert>

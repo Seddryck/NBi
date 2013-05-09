@@ -148,6 +148,8 @@
     <Compile Include="Unit\Xml\Constraints\FasterThanXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\ColumnXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\TableXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\HierarchiesXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\HierarchyXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\AssemblyXmlTest.cs" />
@@ -191,6 +193,8 @@
     <MyOptionalItems Include="ConnectionString.user.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\TableXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\ColumnXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\HierarchiesXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Core\ResultSet\Resources\ResultDataSet.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\LinkedToXmlTestSuite.xml" />

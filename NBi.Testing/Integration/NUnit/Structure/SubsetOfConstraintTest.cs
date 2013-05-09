@@ -45,6 +45,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Perspectives
                         , null, null, null, null, null, null, null
+                        , null, null
                         );
 
             var expected = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
@@ -62,6 +63,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Perspectives
                         , null, null, null, null, null, null, null
+                        , null, null
                         );
 
             var expected = new string[] { "Adventure Works".ToUpper(), "Channel Sales".ToLower(), "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
@@ -80,6 +82,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Perspectives
                         , null, null, null, null, null, null, null
+                        , null, null
                         );
 
             var expectedStrings = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
@@ -100,6 +103,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Perspectives
                         , null, null, null, null, null, null, null
+                        , null, null
                         );
 
             var expectedStrings = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };

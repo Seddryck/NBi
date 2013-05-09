@@ -120,6 +120,8 @@
 													<xs:element name="dimension" type="dimension-type"/>
 													<xs:element name="hierarchy" type="hierarchy-type"/>
 													<xs:element name="level" type="level-type"/>
+													<xs:element name="table" type="table-type"/>
+													<xs:element name="column" type="column-type"/>
 													<xs:element name="perspectives" type="perspectives-type"/>
 													<xs:element name="measure-groups" type="measure-groups-type"/>
 													<xs:element name="measures" type="measures-type"/>
@@ -138,7 +140,7 @@
 										<xs:element name="equalTo">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element name="column" minOccurs="0" maxOccurs="unbounded">
+													<xs:element name="column-definition" minOccurs="0" maxOccurs="unbounded">
 														<xs:complexType>
 															<xs:simpleContent>
 																<xs:extension base="xs:string">
@@ -427,6 +429,20 @@
 			<xs:extension base="dimension-type">
 				<xs:attribute name="dimension" type="xs:string" use="required" />
 				<xs:attribute name="hierarchy" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="table-type">
+		<xs:complexContent>
+			<xs:extension base="perspective-type">
+				<xs:attribute name="perspective" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="column-type">
+		<xs:complexContent>
+			<xs:extension base="table-type">
+				<xs:attribute name="table" type="xs:string" use="required" />
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>

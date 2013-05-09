@@ -27,7 +27,7 @@ namespace NBi.Core.ResultSet
 
         private KeysChoice KeysDef { get; set; }
         private ValuesChoice ValuesDef { get; set; }
-        private ICollection<IColumn> ColumnsDef { get; set; }
+        private ICollection<IColumnDefinition> ColumnsDef { get; set; }
         private decimal DefaultTolerance { get; set; }
 
         public bool IsKey(int index)
@@ -202,7 +202,7 @@ namespace NBi.Core.ResultSet
             ApplyTo(columnsCount);
         }
 
-        public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, ICollection<IColumn> columnsDef)
+        public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, ICollection<IColumnDefinition> columnsDef)
             : this(keysDef, valuesDef, 0, columnsDef)
         {
         }
@@ -212,7 +212,7 @@ namespace NBi.Core.ResultSet
         {
         }
 
-        public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, decimal defaultTolerance, ICollection<IColumn> columnsDef)
+        public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, decimal defaultTolerance, ICollection<IColumnDefinition> columnsDef)
         {
             KeysDef = keysDef;
             ValuesDef = valuesDef;
@@ -220,7 +220,7 @@ namespace NBi.Core.ResultSet
             if (columnsDef != null)
                 ColumnsDef = columnsDef;
             else
-                ColumnsDef = new List<IColumn>(0);
+                ColumnsDef = new List<IColumnDefinition>(0);
         }
 
         //public ResultSetComparaisonSettings() : this (new List<int>() {0}, new List<int>() {1}, 0)

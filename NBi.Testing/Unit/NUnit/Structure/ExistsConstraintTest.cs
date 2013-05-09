@@ -21,7 +21,8 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         DiscoveryTarget.Dimensions,
                         "perspective-name",
                         null, null, null,
-                        "expected-dimension-caption", null, null);
+                        "expected-dimension-caption", null, null
+                        , null, null);
 
             var elStub = new Mock<IField>();
             var el1 = elStub.Object;
@@ -56,7 +57,8 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         DiscoveryTarget.MeasureGroups,
                         "perspective",
                         "measure-group", null, "measure",
-                        null, null, null);
+                        null, null, null
+                        , null, null);
 
 
             var elStub = new Mock<IField>();
@@ -92,7 +94,8 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         DiscoveryTarget.MeasureGroups,
                         "perspective",
                         "measure-group", null, "measure",
-                        null, null, null);
+                        null, null, null
+                        , null, null);
 
             var elements = new List<IField>();
 
@@ -133,7 +136,8 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         DiscoveryTarget.Dimensions,
                         "perspective-name",
                         null, null, null,
-                        "expected-dimension-caption", null, null);
+                        "expected-dimension-caption", null, null
+                        , null, null);
 
             var elements = new List<IField>();
 
@@ -180,7 +184,8 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         DiscoveryTarget.Hierarchies,
                         "perspective-name",
                         null, null, null,
-                        "dimension-caption", "expected-hierarchy-caption", null);
+                        "dimension-caption", "expected-hierarchy-caption", null
+                        , null, null);
 
             var elements = new List<IField>();
 
@@ -228,7 +233,8 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         DiscoveryTarget.MeasureGroups,
                         "perspective-name",
                         "expected-measure-group-caption", null, null,
-                        null, null, null);
+                        null, null, null
+                        , null, null);
 
 
             var elements = new List<IField>();
@@ -276,7 +282,8 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         DiscoveryTarget.Perspectives,
                         "expected-perspective-name",
                         null, null, null,
-                        null, null, null);
+                        null, null, null
+                        , null, null);
 
 
             var elements = new List<IField>();
@@ -323,7 +330,8 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         DiscoveryTarget.Perspectives,
                         "expected-perspective-name",
                         null, null, null,
-                        null, null, null);
+                        null, null, null
+                        , null, null);
 
 
             var elements = new List<IField>();
@@ -374,7 +382,8 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         DiscoveryTarget.Perspectives,
                         "expected-perspective-name",
                         null, null, null,
-                        null, null, null);
+                        null, null, null
+                        , null, null);
 
 
             var elements = new List<IField>();
@@ -423,7 +432,8 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         DiscoveryTarget.Perspectives,
                         "expected-perspective-name",
                         null, null, null,
-                        null, null, null);
+                        null, null, null
+                        , null, null);
 
 
             var elements = new List<IField>();

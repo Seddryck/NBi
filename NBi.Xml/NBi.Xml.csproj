@@ -58,6 +58,10 @@
     <Compile Include="Constraints\SubsetOfXml.cs" />
     <Compile Include="Constraints\ExistsXml.cs" />
     <Compile Include="Constraints\LinkedToXml.cs" />
+    <Compile Include="Items\ColumnXml.cs" />
+    <Compile Include="Items\ColumnsXml.cs" />
+    <Compile Include="Items\TablesXml.cs" />
+    <Compile Include="Items\TableXml.cs" />
     <Compile Include="Items\MeasuresXml.cs" />
     <Compile Include="Items\MeasureGroupsXml.cs" />
     <Compile Include="Items\LevelsXml.cs" />
@@ -66,7 +70,7 @@
     <Compile Include="Items\DimensionsXml.cs" />
     <Compile Include="Items\QueryableXml.cs" />
     <Compile Include="Items\ResultSet\CellXml.cs" />
-    <Compile Include="Items\ResultSet\ColumnXml.cs" />
+    <Compile Include="Items\ResultSet\ColumnDefinitionXml.cs" />
     <Compile Include="Items\ResultSet\KeyXml.cs" />
     <Compile Include="Items\ResultSet\ResultSetXml.cs" />
     <Compile Include="Items\ResultSet\RowXml.cs" />

@@ -185,7 +185,7 @@ namespace NBi.Testing.Integration.NUnit
             ctr.Using(new ResultSetComparisonSettings(
                     ResultSetComparisonSettings.KeysChoice.First,
                     ResultSetComparisonSettings.ValuesChoice.Last,
-                    new List<IColumn>()
+                    new List<IColumnDefinition>()
                     {
                         new Column()
                         {
@@ -224,7 +224,7 @@ namespace NBi.Testing.Integration.NUnit
                     new ResultSetComparisonSettings(
                         ResultSetComparisonSettings.KeysChoice.AllExpectLast,
                         ResultSetComparisonSettings.ValuesChoice.Last,
-                        new List<IColumn>()
+                        new List<IColumnDefinition>()
                         {
                             new Column()
                             {
@@ -327,7 +327,7 @@ namespace NBi.Testing.Integration.NUnit
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
-            var columns = new List<IColumn>();
+            var columns = new List<IColumnDefinition>();
             columns.Add(new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime });
 
             var ctr = new EqualToConstraint(expectedCmd);
@@ -357,7 +357,7 @@ namespace NBi.Testing.Integration.NUnit
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
-            var columns = new List<IColumn>();
+            var columns = new List<IColumnDefinition>();
             columns.Add(new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime });
 
             var ctr = new EqualToConstraint(expectedCmd);
@@ -387,7 +387,7 @@ namespace NBi.Testing.Integration.NUnit
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
-            var columns = new List<IColumn>();
+            var columns = new List<IColumnDefinition>();
             columns.Add(new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime });
 
             var ctr = new EqualToConstraint(expectedCmd);

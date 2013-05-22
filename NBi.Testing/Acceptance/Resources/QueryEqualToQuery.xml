@@ -18,8 +18,8 @@
 		</system-under-test>
 		<assert>
 			<equalTo>
-				<column index="0" role="key" type="text"/>
-				<column index="1" role="value" type="numeric" tolerance="0.01"/>
+				<column-definition index="0" role="key" type="text"/>
+				<column-definition index="1" role="value" type="numeric" tolerance="0.01"/>
 				<query connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=true">
 					SELECT 'CY 2001', 366.0/7
 					UNION ALL SELECT 'CY 2002', 1015.0/7

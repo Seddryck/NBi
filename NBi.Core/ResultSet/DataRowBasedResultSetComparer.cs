@@ -216,7 +216,7 @@ namespace NBi.Core.ResultSet
                     if (settings.IsNumeric(i) && IsNumericField(dr.Table.Columns[i]))
                         return;
 
-                    if (settings.IsNumeric(i) && !IsValidNumeric(dr[i].ToString()))
+                    if (settings.IsNumeric(i) && !IsValidNumeric(dr[i]))
                     {                   
                         var exception = string.Format("The column with an index of {0} is expecting a numeric value but the first row of your result set contains a value '{1}' not recognized as a valid numeric value."
                             , i, dr[i].ToString());
@@ -262,13 +262,29 @@ namespace NBi.Core.ResultSet
                 dataColumn.DataType == typeof(DateTime);
         }
 
-        private bool IsValidNumeric(string value)
+        private bool IsValidNumeric(object value)
         {
             decimal num = 0;
-            return Decimal.TryParse(value
+            var result =  Decimal.TryParse(value.ToString()
                                 , NumberStyles.AllowLeadingSign | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowDecimalPoint
                                 , CultureInfo.InvariantCulture
                                 , out num);
+            //The first method is not enough, you can have cases where this method returns false but the value is effectively a numeric. The problem is in the .ToString() on the object where you apply the regional settings for the numeric values.
+            //The second method gives a better result but unfortunately generates an exception.
+            if (!result)
+            {
+                try
+                {
+                    num = Convert.ToDecimal(value, NumberFormatInfo.InvariantInfo);
+                    result = true;
+                }
+                catch (Exception)
+                {
+
+                    result = false;
+                }
+            }
+            return result;
         }
 
         private bool IsValidDateTime(string value)

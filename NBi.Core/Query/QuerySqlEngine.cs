@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace NBi.Core.Query
 {
@@ -59,8 +60,8 @@ namespace NBi.Core.Query
                     throw new ConnectionException(ex, command.Connection.ConnectionString);
                 }
             }
-                
 
+            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
             command.CommandTimeout = timeout / 1000;
 
             tsStart = DateTime.Now;

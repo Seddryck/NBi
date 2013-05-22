@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.OleDb;
+using System.Diagnostics;
 
 namespace NBi.Core.Query
 {
@@ -133,6 +134,7 @@ namespace NBi.Core.Query
                 catch (OleDbException ex)
                 { throw new ConnectionException(ex, connectionString); }
 
+                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
                 // capture time before execution
                 long ticksBefore = DateTime.Now.Ticks;
                 var adapter = new OleDbDataAdapter(command.CommandText, connection);

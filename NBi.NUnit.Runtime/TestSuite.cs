@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using NBi.Core;
 using NBi.Xml;
 using NUnit.Framework;
-using System.Configuration;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Runtime
@@ -43,8 +42,8 @@ namespace NBi.NUnit.Runtime
         [Test, TestCaseSource("GetTestCases")]
         public virtual void ExecuteTestCases(TestXml test)
         {
-            Console.Out.WriteLine(string.Format("Test suite loaded from {0}", GetOwnFilename()));
-            Console.Out.WriteLine(string.Format("Test suite defined in {0}", TestSuiteFinder.Find()));
+            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Test loaded by {0}", GetOwnFilename()));
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Test defined in {0}", TestSuiteFinder.Find()));
 
             //check if ignore is set to true
             if (test.Ignore)

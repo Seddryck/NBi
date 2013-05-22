@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 
 namespace NBi.Core.ResultSet
@@ -104,15 +105,18 @@ namespace NBi.Core.ResultSet
 
         protected void ConsoleDisplay()
         {
-            Console.WriteLine(new string('-', 30));
+            if (!NBiTraceSwitch.TraceVerbose)
+                return;
+
+            Trace.WriteLine(string.Format(new string('-', 30)));
             foreach (DataRow row in Rows)
             {
                 foreach (object cell in row.ItemArray)
-                    Console.Write("| {0}\t", cell.ToString());
-                Console.WriteLine("|");
+                    Trace.WriteLine(string.Format("| {0}\t", cell.ToString()));
+                Trace.WriteLine(string.Format("|"));
             }
-            Console.WriteLine(new string('-', 30));
-            Console.WriteLine();
+            Trace.WriteLine(string.Format(new string('-', 30)));
+            Trace.WriteLine(string.Format(""));
         }
 
     }

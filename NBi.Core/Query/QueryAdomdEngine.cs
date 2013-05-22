@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Diagnostics;
 using Microsoft.AnalysisServices.AdomdClient;
 
 namespace NBi.Core.Query
@@ -90,6 +91,7 @@ namespace NBi.Core.Query
                 //catch (AdomdException ex)
                 //    {throw new ConnectionException(ex);}
 
+                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
                 // capture time before execution
                 long ticksBefore = DateTime.Now.Ticks;
                 var adapter = new AdomdDataAdapter(command.CommandText, connection);

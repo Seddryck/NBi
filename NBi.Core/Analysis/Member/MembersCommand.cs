@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.Analysis.Request;
@@ -142,7 +143,7 @@ namespace NBi.Core.Analysis.Member
                 commandText = string.Format("select {0} on 0, {1}.{2} on 1 from [{3}]", "{}", path, function, perspective);
             else
                 commandText = string.Format("select {0} on 0, {1}.[{4}].{2} on 1 from [{3}]", "{}", path, function, perspective, memberCaption);
-            Console.Out.WriteLine(commandText);
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, commandText);
             return commandText;
         }
     }

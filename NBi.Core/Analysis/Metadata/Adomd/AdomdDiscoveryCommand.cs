@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.Analysis.Request;
@@ -44,6 +45,8 @@ namespace NBi.Core.Analysis.Metadata.Adomd
 
         protected AdomdDataReader ExecuteReader(AdomdCommand cmd)
         {
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, cmd.CommandText);
+            
             AdomdDataReader rdr = null;
             try
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using NBi.Core;
 using NBi.Core.ResultSet;
@@ -43,12 +44,12 @@ namespace NBi.NUnit.Builder
             {
                 if (!string.IsNullOrEmpty(ConstraintXml.ResultSet.File))
                 {
-                    Console.WriteLine("Debug: ResultSet.File defined in external file!");
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet.File defined in external file!");
                     ctr = new EqualToConstraint(ConstraintXml.ResultSet.GetFile());
                 }
                 else if (ConstraintXml.ResultSet.Rows!=null)
                 {
-                    Console.WriteLine("Debug: ResultSet defined in embedded resultSet!");
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in embedded resultSet!");
                     ctr = new EqualToConstraint(ConstraintXml.ResultSet.Rows);
                 }
             }

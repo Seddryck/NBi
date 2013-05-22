@@ -1,0 +1,74 @@
+For this kind of test, you'll need to define your system under test as a "query" and your assertion as an "equalTo" constraint. You've the choice to assert the result of your query against three types of resources:
+* An embedded result set
+* An external csv file
+* Another query (or the same query on another connection)
+NBi will create a brief analysis of the comparison of result sets generated. For this, you're able to specify the role played by each column and the variation that you'll allow on them. It's also possible to write the result sets (actual and expected) created during execution of the defined queries (for further analysis/comparison of the results).
+
+!! System Under Test
+Let's start with the definition of your system under test:
+
+You must create a tag named "query" under the tag "system-under-test". You can associate a connection string to this query (or rely on the default connection string).
+{code:xml}
+<system-under-test>
+	<query connectionString="...">
+</system-under-test>
+{code:xml}
+The query can be specified inside the test suite.
+{code:xml}
+<query connectionString="...">
+<![CDATA[
+	SELECT
+		{[Measure].[MyMeasure]} ON 0,
+		{[MyDimension].[MyHierarchy].Members} ON 1
+	FROM
+		MyCube
+]]>
+</query>
+{code:xml}
+Usage of tags {"<![CDATA[ and ]]>"} is not mandatory but highly recommended. This will allow you to write the &, < and > characters in your query with no need to translate them in their xml equivalent (&amp; &lt; and &gt;)
+
+An alternative is to reference your query from an external file
+{code:xml}
+<query file="C:\myFile.sql" connectionString="..."/>
+{code:xml}
+!! Assert
+Once you system under test is defined, you'll need to specify that you want to assert the execution’s result of this query. This done by the tag 
+{code:xml}
+<assert>
+	<equalTo />
+</assert>
+{code:xml}
+!!! Embedded result set
+The easiest way to express this is the usage of a result set embedded in your test suite.
+{code:xml}
+<equalTo>
+	<resultSet>
+		<row><cell>First Member’s value</cell><cell>100.05</cell></row>
+		<row><cell>Last Member’s value</cell><cell>77.7</cell></row>
+	</resultSet>
+</equalTo>
+{code:xml}
+if you want to specify a cell with a null value, simply write an empty tag.
+{code:xml}
+<cell/>
+or
+<cell></cell>
+{code:xml}
+Note that the numeric values must be written with an international format ( a dot (".") to separate the decimal part).
+
+By default, NBi will take the assumption that the first column is a key and the other columns are values (numeric without tolerance). This will influence the comparison result. If you want to override this configuration, you should read [Result set's comparison configuration ]
+!!! External CSV file
+You also have the opportunity to specify that the result set is defined in an external file (useful for large result set)
+{code:xml}
+<equalTo>
+	<resultSet file="C:\myResult.csv">
+</equalTo>
+{code:xml}
+Finally, the third choice is to compare the result set of the query under test to the result set of another query. This can be useful to assure a non-regression between two systems or to compare the Datawarehouse data and the corresponding Olap data. The expression here under must be applied.
+!!! Another query
+{code:xml}
+<equalTo>
+	<query connectionString="…">SELECT MyHierarchy, MyMeasure FROM MyTable</query>
+</equalTo>
+{code:xml}
+Naturally, you can also use other way to specify the parameters of your query (file reference, connectionString default, …)

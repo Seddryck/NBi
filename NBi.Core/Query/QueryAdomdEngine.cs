@@ -67,7 +67,7 @@ namespace NBi.Core.Query
         /// <returns>The result of  execution of the query</returns>
         public virtual DataSet Execute()
         {
-            int i;
+            float i;
             return Execute(out i);
         }
 
@@ -75,7 +75,7 @@ namespace NBi.Core.Query
         /// Method exposed by the interface IQueryExecutor to execute a test of execution and get the result of the query executed and also the time needed to retrieve this result
         /// </summary>
         /// <returns>The result of  execution of the query</returns>
-        public virtual DataSet Execute(out int elapsedSec)
+        public virtual DataSet Execute(out float elapsedSec)
         {
             // Open the connection
             using (var connection = new AdomdConnection())
@@ -111,7 +111,8 @@ namespace NBi.Core.Query
                 long ticksAfter = DateTime.Now.Ticks;
 
                 // setting query runtime
-                elapsedSec = Convert.ToInt32((ticksAfter - ticksBefore) / 1000 / 1000);
+                elapsedSec = (ticksAfter - ticksBefore) / 1000f / 1000f;
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0:F3} s", elapsedSec));
 
                 return ds;
             }

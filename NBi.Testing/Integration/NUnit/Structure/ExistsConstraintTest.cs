@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using NBi.Core.Analysis.Request;
 using NBi.NUnit.Structure;
 using NUnit.Framework;
@@ -40,12 +41,12 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ExistsConstraint_ExistingPerspectiveButWrongCaseWithIgnoreCaseFalse_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Perspectives
-                        , "adventure Works", null, null, null, null, null, null
-                        , null, null
-                        );
+                        , new List<IFilter>() { 
+                            new CaptionFilter("Adventure Works".ToLower(), DiscoveryTarget.Perspectives)
+                        });
 
             var ctr = new ExistsConstraint();
 
@@ -56,12 +57,13 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ExistsConstraint_ExistingPerspectiveButWrongCaseWithIgnoreCaseTrue_Success()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Perspectives
-                        , "adventure Works", null, null, null, null, null, null
-                        , null, null
-                        );
+                        , new List<IFilter>() { 
+                            new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives),
+                            new CaptionFilter("Date", DiscoveryTarget.Dimensions)
+                        });
 
             var ctr = new ExistsConstraint();
             ctr = ctr.IgnoreCase;

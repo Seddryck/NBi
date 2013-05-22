@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NBi.Core.Analysis.Request;
 
@@ -15,7 +16,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
         {
             AdomdDiscoveryCommand cmd = null;
 
-            cmd = Build(request);
+            cmd = BuildBase(request.Target, request.ConnectionString);
             cmd.Filters = request.GetAllFilters();
 
             return cmd;
@@ -25,7 +26,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
         {
             AdomdDiscoveryCommand cmd = null;
 
-            cmd = Build(request);
+            cmd = BuildBase(request.Target, request.ConnectionString);
             cmd.Filters = request.GetAllFilters().Where(f => f.Target!=request.Target);
 
             return cmd;
@@ -35,37 +36,12 @@ namespace NBi.Core.Analysis.Metadata.Adomd
         {
             AdomdDiscoveryCommand cmd = null;
 
-            cmd = Build(request);
+            cmd = BuildBase(request.Target, request.ConnectionString);
             cmd.Filters = request.GetAllFilters().Where(f => f.Target == request.Target);
 
             return cmd;
         }
 
-        protected virtual AdomdDiscoveryCommand Build(MetadataDiscoveryRequest request)
-        {
-            switch (request.Target)
-            {
-                case DiscoveryTarget.Perspectives:
-                    return new PerspectiveDiscoveryCommand(request.ConnectionString);
-                case DiscoveryTarget.MeasureGroups:
-                    return new MeasureGroupDiscoveryCommand(request.ConnectionString);
-                case DiscoveryTarget.Measures:
-                    return new MeasureDiscoveryCommand(request.ConnectionString);
-                case DiscoveryTarget.Dimensions:
-                    return new DimensionDiscoveryCommand(request.ConnectionString);
-                case DiscoveryTarget.Hierarchies:
-                    return new HierarchyDiscoveryCommand(request.ConnectionString);
-                case DiscoveryTarget.Levels:
-                    return new LevelDiscoveryCommand(request.ConnectionString);
-                case DiscoveryTarget.Properties:
-                    return new PropertyDiscoveryCommand(request.ConnectionString);
-                case DiscoveryTarget.Tables:
-                    return new TableDiscoveryCommand(request.ConnectionString);
-                case DiscoveryTarget.Columns:
-                    return new ColumnDiscoveryCommand(request.ConnectionString);
-            }
-            throw new ArgumentOutOfRangeException();
-        }
 
         public virtual AdomdDiscoveryCommand BuildLinkedTo(MetadataDiscoveryRequest request)
         {
@@ -85,6 +61,39 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             cmd.Filters = request.GetAllFilters();
 
             return cmd;
+        }
+
+        public AdomdDiscoveryCommand Build(DiscoveryTarget target, IEnumerable<IFilter> filters, string connectionString)
+        {
+            var command = BuildBase(target, connectionString);
+            command.Filters = filters;
+            return command;
+        }
+
+        protected AdomdDiscoveryCommand BuildBase(DiscoveryTarget target, string connectionString)
+        {
+            switch (target)
+            {
+                case DiscoveryTarget.Perspectives:
+                    return new PerspectiveDiscoveryCommand(connectionString);
+                case DiscoveryTarget.MeasureGroups:
+                    return new MeasureGroupDiscoveryCommand(connectionString);
+                case DiscoveryTarget.Measures:
+                    return new MeasureDiscoveryCommand(connectionString);
+                case DiscoveryTarget.Dimensions:
+                    return new DimensionDiscoveryCommand(connectionString);
+                case DiscoveryTarget.Hierarchies:
+                    return new HierarchyDiscoveryCommand(connectionString);
+                case DiscoveryTarget.Levels:
+                    return new LevelDiscoveryCommand(connectionString);
+                case DiscoveryTarget.Properties:
+                    return new PropertyDiscoveryCommand(connectionString);
+                case DiscoveryTarget.Tables:
+                    return new TableDiscoveryCommand(connectionString);
+                case DiscoveryTarget.Columns:
+                    return new ColumnDiscoveryCommand(connectionString);
+            }
+            throw new ArgumentOutOfRangeException();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿#region Using directives
+﻿    #region Using directives
 using System;
 using System.Linq;
 using Moq;
@@ -188,7 +188,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
             //Assertion
-            Assert.Throws<ArgumentException>(delegate { builder.Build(); });
+            Assert.Throws<DiscoveryRequestFactoryException>(delegate { builder.Build(); });
         }
 
         //**********************
@@ -259,7 +259,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
             //Assertion
-            Assert.Throws<ArgumentException>(delegate { builder.Build(); });
+            Assert.Throws<DiscoveryRequestFactoryException>(delegate { builder.Build(); });
         }
 
         //**********************
@@ -304,7 +304,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
             //Assertion
-            Assert.Throws<ArgumentException>(delegate { builder.Build(); });
+            Assert.Throws<DiscoveryRequestFactoryException>(delegate { builder.Build(); });
         }
 
         //**********************
@@ -335,7 +335,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
         }
 
         [Test]
-        public void GetSystemUnderTest_InCorrectLevelTargetWithoutHGierarchy_ThrowException()
+        public void GetSystemUnderTest_InCorrectLevelTargetWithoutHierarchy_ThrowException()
         {
             //Buiding object used during test
             var ctrXmlStubFactory = new Mock<EquivalentToXml>();
@@ -350,7 +350,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
             //Assertion
-            Assert.Throws<ArgumentException>(delegate { builder.Build(); });
+            Assert.Throws<DiscoveryRequestFactoryException>(delegate { builder.Build(); });
         }
 
     }

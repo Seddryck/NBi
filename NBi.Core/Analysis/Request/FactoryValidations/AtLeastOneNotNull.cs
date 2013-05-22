@@ -5,14 +5,14 @@ using System.Text;
 
 namespace NBi.Core.Analysis.Request.FactoryValidations
 {
-    internal class AtLeastOneNotNull : Validation
+    internal class AtLeastOneNotNull : ValidationFilter
     {
-        private readonly IList<string> elements;
+        private readonly IList<DiscoveryTarget> elements;
 
-        internal AtLeastOneNotNull(string firstElement, string secondElement)
-            : base ()
+        internal AtLeastOneNotNull(IEnumerable<IFilter> filters, DiscoveryTarget firstElement, DiscoveryTarget secondElement)
+            : base (filters)
         {
-            elements = new List<string>();
+            elements = new List<DiscoveryTarget>();
             elements.Add(firstElement);
             elements.Add(secondElement);
         }
@@ -21,7 +21,7 @@ namespace NBi.Core.Analysis.Request.FactoryValidations
         {
             foreach (var element in elements)
             {
-                if (!string.IsNullOrEmpty(element))
+                if (GetSpecificFilter(element)!=null)
                     return;
             }
             GenerateException();

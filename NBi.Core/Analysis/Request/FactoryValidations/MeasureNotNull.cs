@@ -8,10 +8,14 @@ namespace NBi.Core.Analysis.Request.FactoryValidations
     internal class MeasureNotNull : FilterNotNull
     {
 
-        internal MeasureNotNull(string path)
-            : base(path)
+        internal MeasureNotNull(IEnumerable<IFilter> filters)
+            : base(DiscoveryTarget.Measures, filters)
         {
-            
+        }
+
+        protected override bool IsApplicable()
+        {
+            return GetSpecificFilter(DiscoveryTarget.DisplayFolders) != null && GetSpecificFilter(DiscoveryTarget.Dimensions) == null;
         }
 
         internal override void GenerateException()

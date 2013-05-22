@@ -15,6 +15,12 @@ namespace NBi.Core.Analysis.Request
             Filters = new Dictionary<DiscoveryTarget, IFilter>();
         }
 
+        protected void AddFilters(IEnumerable<IFilter> filters)
+        {
+            foreach (var filter in filters)
+                SpecifyFilter(filter);
+        }
+
         public void SpecifyFilter(IFilter filter)
         {
             if (filter == null)

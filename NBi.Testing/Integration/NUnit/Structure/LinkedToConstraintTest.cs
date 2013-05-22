@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using NBi.Core.Analysis.Request;
 using NBi.NUnit.Structure;
 using NUnit.Framework;
@@ -40,11 +41,13 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void LinkedToConstraint_ExistingPerspectiveDimensionAndMeasureGroupLinked_Success()
         {
-            var discovery = new DiscoveryRequestFactory().BuildLinkedTo(
+            var discovery = new DiscoveryRequestFactory().BuildRelation(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.MeasureGroups
-                        , "Adventure Works", null, "Customer" 
-                        );
+                        , new List<IFilter>() { 
+                            new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                            , new CaptionFilter("Customer", DiscoveryTarget.Dimensions)
+                        });
 
             var ctr = new LinkedToConstraint("Internet Sales");
 
@@ -55,11 +58,13 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void LinkedToConstraint_ExistingPerspectiveDimensionAndMeasureGroupLinkedWithoutCaseMatching_Success()
         {
-            var discovery = new DiscoveryRequestFactory().BuildLinkedTo(
+            var discovery = new DiscoveryRequestFactory().BuildRelation(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.MeasureGroups
-                        , "Adventure Works", null, "Customer"
-                        );
+                        , new List<IFilter>() { 
+                            new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                            , new CaptionFilter("Customer", DiscoveryTarget.Dimensions)
+                        });
 
             var ctr = new LinkedToConstraint("Internet Sales".ToLower());
             ctr = ctr.IgnoreCase;
@@ -71,11 +76,13 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void LinkedToConstraint_ExistingPerspectiveDimensionAndNotExistingMeasureGroup_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().BuildLinkedTo(
+            var discovery = new DiscoveryRequestFactory().BuildRelation(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.MeasureGroups
-                        , "Adventure Works", null, "Customers"
-                        );
+                        , new List<IFilter>() { 
+                            new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                            , new CaptionFilter("Customer", DiscoveryTarget.Dimensions)
+                        });
 
             var ctr = new LinkedToConstraint("Not existing");
 
@@ -86,11 +93,13 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void LinkedToConstraint_ExistingPerspectiveNotExistingDimensionAndExistingMeasureGroup_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().BuildLinkedTo(
+            var discovery = new DiscoveryRequestFactory().BuildRelation(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.MeasureGroups
-                        , "Adventure Works", null, "Not existing"
-                        );
+                        , new List<IFilter>() { 
+                            new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                            , new CaptionFilter("Not existing", DiscoveryTarget.Dimensions)
+                        });
 
             var ctr = new LinkedToConstraint("Reseller Sales");
 
@@ -101,11 +110,13 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void LinkedToConstraint_NotExistingPerspectiveExistingDimensionAndExistingMeasureGroup_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().BuildLinkedTo(
+            var discovery = new DiscoveryRequestFactory().BuildRelation(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.MeasureGroups
-                        , "Not existing", null, "Customer"
-                        );
+                        , new List<IFilter>() { 
+                            new CaptionFilter("Not existing", DiscoveryTarget.Perspectives)
+                            , new CaptionFilter("Customer", DiscoveryTarget.Dimensions)
+                        });
 
             var ctr = new LinkedToConstraint("Internet Sales");
 
@@ -116,11 +127,13 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void LinkedToConstraint_ExistingPerspectiveDimensionAndExistingMeasureGroupButNotLinked_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().BuildLinkedTo(
+            var discovery = new DiscoveryRequestFactory().BuildRelation(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.MeasureGroups
-                        , "Adventure Works", null, "Customer"
-                        );
+                        , new List<IFilter>() { 
+                            new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                            , new CaptionFilter("Customer", DiscoveryTarget.Dimensions)
+                        });
 
             var ctr = new LinkedToConstraint("Reseller Sales");
 
@@ -133,11 +146,13 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void LinkedToConstraint_ExistingPerspectiveMeasureGroupAndDimensionLinked_Success()
         {
-            var discovery = new DiscoveryRequestFactory().BuildLinkedTo(
+            var discovery = new DiscoveryRequestFactory().BuildRelation(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Dimensions
-                        , "Adventure Works", "Internet Sales", null
-                        );
+                        , new List<IFilter>() { 
+                            new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                            , new CaptionFilter("Internet Sales", DiscoveryTarget.MeasureGroups)
+                        });
 
             var ctr = new LinkedToConstraint("Customer");
 
@@ -148,11 +163,13 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void LinkedToConstraint_ExistingPerspectiveMeasureGroupAndNotExistingDimension_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().BuildLinkedTo(
+            var discovery = new DiscoveryRequestFactory().BuildRelation(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Dimensions
-                        , "Adventure Works", "Internet Sales", null
-                        );
+                        , new List<IFilter>() { 
+                            new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                            , new CaptionFilter("Internet Sales", DiscoveryTarget.MeasureGroups)
+                        });
 
             var ctr = new LinkedToConstraint("Not existing");
 
@@ -163,11 +180,13 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void LinkedToConstraint_ExistingPerspectiveNotExistingMeasureGroupAndExistingDimension_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().BuildLinkedTo(
+            var discovery = new DiscoveryRequestFactory().BuildRelation(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Dimensions
-                        , "Adventure Works", "Not existing", null
-                        );
+                        , new List<IFilter>() { 
+                            new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                            , new CaptionFilter("Not existing", DiscoveryTarget.MeasureGroups)
+                        });
 
             var ctr = new LinkedToConstraint("Customer");
 
@@ -178,11 +197,13 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void LinkedToConstraint_NotExistingPerspectiveExistingMeasureGroupAndExistingDimension_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().BuildLinkedTo(
+            var discovery = new DiscoveryRequestFactory().BuildRelation(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Dimensions
-                        , "Not existing", "Internet Sales", null
-                        );
+                        , new List<IFilter>() { 
+                            new CaptionFilter("Not existing", DiscoveryTarget.Perspectives)
+                            , new CaptionFilter("Internet Sales", DiscoveryTarget.MeasureGroups)
+                        });
 
             var ctr = new LinkedToConstraint("Customer");
 
@@ -193,11 +214,13 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void LinkedToConstraint_ExistingPerspectiveMeasureGroupAndExistingDimensionButNotLinked_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().BuildLinkedTo(
+            var discovery = new DiscoveryRequestFactory().BuildRelation(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Dimensions
-                        , "Adventure Works","Reseller Sales", null
-                        );
+                        , new List<IFilter>() { 
+                            new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                            , new CaptionFilter("Reseller Sales", DiscoveryTarget.MeasureGroups)
+                        });
 
             var ctr = new LinkedToConstraint("Customer");
 

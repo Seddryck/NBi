@@ -15,13 +15,15 @@ namespace NBi.Testing.Unit.NUnit.Structure
         public void WriteTo_FailingAssertionForListOfLevels_TextContainsFewKeyInfo()
         {
             var exp = new string[] { "Expected level 1", "Expected level 2" };
-            var request = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().BuildDirect(
                         "connectionString",
                         DiscoveryTarget.Hierarchies,
-                        "perspective-name",
-                        null, null, null,
-                        "dimension-caption", "hierarchy-caption", null
-                        , null, null);
+                        new List<IFilter>()
+                            {
+                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("dimension-caption", DiscoveryTarget.Dimensions)
+                                , new CaptionFilter("hierarchy-caption", DiscoveryTarget.Hierarchies)
+                        });
 
 
             var elStub = new Mock<IField>();

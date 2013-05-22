@@ -16,7 +16,7 @@ namespace NBi.NUnit.Builder
         {
         }
 
-        internal StructureLinkedToBuilder(DiscoveryRequestFactory factory)
+        internal StructureLinkedToBuilder(MetadataDiscoveryRequestBuilder factory)
             : base(factory)
         {
         }
@@ -40,36 +40,10 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
-        protected override object InstantiateSystemUnderTest(StructureXml sutXml)
+        protected override MetadataDiscoveryRequest InstantiateCommand(AbstractItem item)
         {
-            string perspective = null, measuregroup = null, dimension = null;
-            DiscoveryTarget target = DiscoveryTarget.Undefined;
-
-            if (!(sutXml.Item is MeasureGroupXml || sutXml.Item is DimensionXml))
-                throw new ArgumentOutOfRangeException();
-
-            if (sutXml.Item is MeasureGroupXml)
-            {
-                perspective = ((MeasureGroupXml)sutXml.Item).Perspective;
-                measuregroup = sutXml.Item.Caption;
-                target = DiscoveryTarget.Dimensions;
-            }
-
-            if (sutXml.Item is DimensionXml)
-            {
-                perspective =((DimensionXml)sutXml.Item).Perspective;
-                dimension = sutXml.Item.Caption;
-                target = DiscoveryTarget.MeasureGroups;
-            }
-
-            var disco = discoveryFactory.BuildLinkedTo(
-                    sutXml.Item.GetConnectionString(),
-                    target,
-                    perspective,
-                    measuregroup,
-                    dimension
-                );
-            return disco;
+            var request = discoveryFactory.Build(item, MetadataDiscoveryRequestBuilder.MetadataDiscoveryRequestType.Relation);
+            return request;
         }
 
     }

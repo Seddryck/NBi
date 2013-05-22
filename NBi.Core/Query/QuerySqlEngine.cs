@@ -49,7 +49,17 @@ namespace NBi.Core.Query
             DateTime tsStart, tsStop = DateTime.Now;
 
             if (command.Connection.State == ConnectionState.Closed)
-                command.Connection.Open();
+            {
+                try
+                {
+                    command.Connection.Open();
+                }
+                catch (SqlException ex)
+                {
+                    throw new ConnectionException(ex, command.Connection.ConnectionString);
+                }
+            }
+                
 
             command.CommandTimeout = timeout / 1000;
 
@@ -90,7 +100,15 @@ namespace NBi.Core.Query
             {
                 var fullSql = string.Format(@"SET FMTONLY ON {0} SET FMTONLY OFF", command.CommandText);
 
-                conn.Open();
+                try
+                {
+                    conn.Open();
+                }
+                catch (SqlException ex)
+                {
+                    throw new ConnectionException(ex, command.Connection.ConnectionString);
+                }
+                
 
                 using (SqlCommand cmdIn = new SqlCommand(fullSql, conn))
                 {

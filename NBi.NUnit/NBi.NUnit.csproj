@@ -45,10 +45,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft.NET\ADOMD.NET\100\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
     </Reference>
-	<Reference Include="nunit.framework">
-		<SpecificVersion>False</SpecificVersion>
-		<HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
-	</Reference>
+    <Reference Include="nunit.framework">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -65,6 +65,7 @@
     <Compile Include="Builder\AbstractTestCaseBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
+    <Compile Include="Builder\MetadataDiscoveryRequestBuilder.cs" />
     <Compile Include="Builder\MembersSubsetOfBuilder.cs" />
     <Compile Include="Builder\MembersEquivalentToBuilder.cs" />
     <Compile Include="Builder\StructureEquivalentToBuilder.cs" />

@@ -5,20 +5,17 @@ using System.Text;
 
 namespace NBi.Core.Analysis.Request.FactoryValidations
 {
-    internal class MeasureWithoutDimension : Validation
+    internal class MeasureWithoutDimension : ValidationFilter
     {
-        protected readonly string measure;
-        protected readonly string dimension;
 
-        internal MeasureWithoutDimension(string m, string dim)
+        internal MeasureWithoutDimension(IEnumerable<IFilter> filters)
+            : base(filters)
         {
-            measure = m;
-            dimension = dim;
         }
 
         internal override void Apply()
         {
-            if (!(string.IsNullOrEmpty(dimension) || string.IsNullOrEmpty(measure)))
+            if (!(GetSpecificFilter(DiscoveryTarget.Dimensions) == null || GetSpecificFilter(DiscoveryTarget.Measures) == null))
                 GenerateException();
         }
 

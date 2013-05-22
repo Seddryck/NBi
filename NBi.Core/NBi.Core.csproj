@@ -62,7 +62,9 @@
     <Compile Include="Analysis\Metadata\Column.cs" />
     <Compile Include="Analysis\Metadata\Table.cs" />
     <Compile Include="Analysis\Metadata\TableCollection.cs" />
-    <Compile Include="Analysis\Request\FactoryValidations\TableNotNull.cs" />
+    <Compile Include="Analysis\Request\MetadataLinkedToDiscoveryRequest.cs" />
+    <Compile Include="Analysis\Request\FactoryValidations\TableNotNullIfColumn.cs" />
+    <Compile Include="Analysis\Request\FactoryValidations\ValidationFilter.cs" />
     <Compile Include="CsvReader.cs" />
     <Compile Include="Analysis\Metadata\Adomd\AdomdDiscoveryCommandFactory.cs" />
     <Compile Include="Analysis\Metadata\Adomd\LinkedToDiscoveryCommand.cs" />
@@ -82,9 +84,9 @@
     <Compile Include="Analysis\Request\DiscoveryRequestFactoryException.cs" />
     <Compile Include="Analysis\Request\DiscoveryTarget.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\ConnectionStringNotEmpty.cs" />
-    <Compile Include="Analysis\Request\FactoryValidations\HierarchyNotNull.cs" />
+    <Compile Include="Analysis\Request\FactoryValidations\HierarchyNotNullIfLevel.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\FilterNotNull.cs" />
-    <Compile Include="Analysis\Request\FactoryValidations\DimensionNotNull.cs" />
+    <Compile Include="Analysis\Request\FactoryValidations\DimensionNotNullIfHierarchy.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\PerspectiveNotNull.cs" />
     <Compile Include="Analysis\Request\IFilter.cs" />
     <Compile Include="Analysis\Request\MembersDiscoveryRequest.cs" />

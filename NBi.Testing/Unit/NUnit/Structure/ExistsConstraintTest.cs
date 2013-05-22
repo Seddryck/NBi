@@ -16,13 +16,14 @@ namespace NBi.Testing.Unit.NUnit.Structure
         [Test]
         public void Matches_GivenDiscoveryRequest_FactoryCalledOnceWithParametersComingFromRequest()
         {
-            var request = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().BuildDirect(
                         "connectionString",
                         DiscoveryTarget.Dimensions,
-                        "perspective-name",
-                        null, null, null,
-                        "expected-dimension-caption", null, null
-                        , null, null);
+                        new List<IFilter>()
+                            {
+                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("expected-dimension-caption", DiscoveryTarget.Dimensions)
+                        });
 
             var elStub = new Mock<IField>();
             var el1 = elStub.Object;
@@ -52,13 +53,15 @@ namespace NBi.Testing.Unit.NUnit.Structure
         [Test]
         public void Matches_GivenDiscoveryRequest_CommandCalledOnce()
         {
-            var request = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().BuildDirect(
                         "connectionString",
                         DiscoveryTarget.MeasureGroups,
-                        "perspective",
-                        "measure-group", null, "measure",
-                        null, null, null
-                        , null, null);
+                        new List<IFilter>()
+                            {
+                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("measure-group", DiscoveryTarget.MeasureGroups)
+                                , new CaptionFilter("measure", DiscoveryTarget.Measures)
+                        });
 
 
             var elStub = new Mock<IField>();
@@ -89,13 +92,15 @@ namespace NBi.Testing.Unit.NUnit.Structure
         [Test]
         public void Matches_GivenDiscoveryRequestFailing_InvestigateCommandCalledOnce()
         {
-            var request = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().BuildDirect(
                         "connectionString",
                         DiscoveryTarget.MeasureGroups,
-                        "perspective",
-                        "measure-group", null, "measure",
-                        null, null, null
-                        , null, null);
+                        new List<IFilter>()
+                            {
+                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("measure-group", DiscoveryTarget.MeasureGroups)
+                                , new CaptionFilter("measure", DiscoveryTarget.Measures)
+                        });
 
             var elements = new List<IField>();
 
@@ -131,13 +136,14 @@ namespace NBi.Testing.Unit.NUnit.Structure
         [Test]
         public void WriteTo_FailingAssertionForDimension_TextContainsCaptionOfExpectedDimensionAndNameOfPerspective()
         {
-            var request = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().BuildDirect(
                         "connectionString",
                         DiscoveryTarget.Dimensions,
-                        "perspective-name",
-                        null, null, null,
-                        "expected-dimension-caption", null, null
-                        , null, null);
+                        new List<IFilter>()
+                            {
+                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("expected-dimension-caption", DiscoveryTarget.Dimensions)
+                        });
 
             var elements = new List<IField>();
 
@@ -179,13 +185,15 @@ namespace NBi.Testing.Unit.NUnit.Structure
         [Test]
         public void WriteTo_FailingAssertionForHierarchy_TextContainsCaptionOfExpectedHierarchyAndCaptionOfFilters()
         {
-            var request = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().BuildDirect(
                         "connectionString",
                         DiscoveryTarget.Hierarchies,
-                        "perspective-name",
-                        null, null, null,
-                        "dimension-caption", "expected-hierarchy-caption", null
-                        , null, null);
+                        new List<IFilter>()
+                            {
+                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("dimension-caption", DiscoveryTarget.Dimensions)
+                                , new CaptionFilter("expected-hierarchy-caption", DiscoveryTarget.Hierarchies)
+                        });
 
             var elements = new List<IField>();
 
@@ -228,13 +236,14 @@ namespace NBi.Testing.Unit.NUnit.Structure
         [Test]
         public void WriteTo_FailingAssertionForMeasureGroup_TextContainsNameOfExpectedMeasureGroupAndNameOfPerspectiveFiltering()
         {
-            var request = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().BuildDirect(
                         "connectionString",
                         DiscoveryTarget.MeasureGroups,
-                        "perspective-name",
-                        "expected-measure-group-caption", null, null,
-                        null, null, null
-                        , null, null);
+                        new List<IFilter>()
+                            {
+                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("expected-measure-group-caption", DiscoveryTarget.MeasureGroups)
+                        });
 
 
             var elements = new List<IField>();
@@ -277,13 +286,13 @@ namespace NBi.Testing.Unit.NUnit.Structure
         [Test]
         public void WriteTo_FailingAssertionForPerspective_TextContainsNameOfExpectedPerspective()
         {
-            var request = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().BuildDirect(
                         "connectionString",
                         DiscoveryTarget.Perspectives,
-                        "expected-perspective-name",
-                        null, null, null,
-                        null, null, null
-                        , null, null);
+                        new List<IFilter>()
+                            {
+                                new CaptionFilter("expected-perspective-name", DiscoveryTarget.Perspectives)
+                        });
 
 
             var elements = new List<IField>();
@@ -325,13 +334,13 @@ namespace NBi.Testing.Unit.NUnit.Structure
         [Test]
         public void WriteTo_FailingAssertionForPerspectiveWithNot_TextContainsFewKeyInfo()
         {
-            var request = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().BuildDirect(
                         "connectionString",
                         DiscoveryTarget.Perspectives,
-                        "expected-perspective-name",
-                        null, null, null,
-                        null, null, null
-                        , null, null);
+                        new List<IFilter>()
+                            {
+                                new CaptionFilter("expected-perspective-name", DiscoveryTarget.Perspectives)
+                        });
 
 
             var elements = new List<IField>();
@@ -377,13 +386,13 @@ namespace NBi.Testing.Unit.NUnit.Structure
         [Test]
         public void WriteTo_FailingAssertionForPerspectiveWithInvestigationReturningOtherFields_TextContainsFewKeyInfo()
         {
-            var request = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().BuildDirect(
                         "connectionString",
                         DiscoveryTarget.Perspectives,
-                        "expected-perspective-name",
-                        null, null, null,
-                        null, null, null
-                        , null, null);
+                        new List<IFilter>()
+                            {
+                                new CaptionFilter("expected-perspective-name", DiscoveryTarget.Perspectives)
+                        });
 
 
             var elements = new List<IField>();
@@ -427,13 +436,13 @@ namespace NBi.Testing.Unit.NUnit.Structure
         [Test]
         public void WriteTo_FailingAssertionForPerspectiveWithInvestigationReturningNoField_TextContainsFewKeyInfo()
         {
-            var request = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().BuildDirect(
                         "connectionString",
                         DiscoveryTarget.Perspectives,
-                        "expected-perspective-name",
-                        null, null, null,
-                        null, null, null
-                        , null, null);
+                        new List<IFilter>()
+                            {
+                                new CaptionFilter("expected-perspective-name", DiscoveryTarget.Perspectives)
+                        });
 
 
             var elements = new List<IField>();

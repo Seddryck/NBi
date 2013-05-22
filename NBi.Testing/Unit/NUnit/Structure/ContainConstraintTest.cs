@@ -15,13 +15,14 @@ namespace NBi.Testing.Unit.NUnit.Structure
         public void Matches_GivenDiscoveryRequest_FactoryCalledOnceWithParametersComingFromRequest()
         {
             var exp = "Expected hierarchy";
-            var request = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().BuildDirect(
                         "connectionString",
                         DiscoveryTarget.Dimensions,
-                        "perspective-name",
-                        null, null, null,
-                        "dimension-caption", null, null
-                        , null, null);
+                        new List<IFilter>()
+                            {
+                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("dimension-caption", DiscoveryTarget.Dimensions)
+                        });
 
             var elStub = new Mock<IField>();
             var el1 = elStub.Object;
@@ -52,13 +53,14 @@ namespace NBi.Testing.Unit.NUnit.Structure
         public void Matches_GivenDiscoveryRequest_CommandCalledOnceWithParametersComingFromDiscoveryCommand()
         {
             var exp = "Expected measure";
-            var request = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().BuildDirect(
                         "connectionString",
                         DiscoveryTarget.MeasureGroups,
-                        "perspective",
-                        "measure-group", null, null,
-                        null, null, null
-                        , null, null);
+                        new List<IFilter>()
+                            {
+                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("measure-group", DiscoveryTarget.MeasureGroups)
+                        });
 
 
             var elStub = new Mock<IField>();
@@ -90,13 +92,14 @@ namespace NBi.Testing.Unit.NUnit.Structure
         public void WriteTo_FailingAssertionForOneDimension_TextContainsFewKeyInfo()
         {
             var exp = "Expected hierarchy";
-            var request = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().BuildDirect(
                         "connectionString",
                         DiscoveryTarget.Dimensions,
-                        "perspective-name",
-                        null, null, null,
-                        "dimension-caption", null, null
-                        , null, null);
+                        new List<IFilter>()
+                            {
+                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("dimension-caption", DiscoveryTarget.Dimensions)
+                        });
 
 
             var elStub = new Mock<IField>();
@@ -138,13 +141,14 @@ namespace NBi.Testing.Unit.NUnit.Structure
         public void WriteTo_FailingAssertionForOneMeasureGroup_TextContainsFewKeyInfo()
         {
             var exp = "Expected measure";
-            var request = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().BuildDirect(
                         "connectionString",
                         DiscoveryTarget.MeasureGroups,
-                        "perspective-name",
-                        "measure-group-caption", null, null,
-                        null, null, null
-                        , null, null);
+                        new List<IFilter>()
+                            {
+                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("measure-group-caption", DiscoveryTarget.MeasureGroups)
+                        });
 
 
             var elStub = new Mock<IField>();
@@ -186,13 +190,15 @@ namespace NBi.Testing.Unit.NUnit.Structure
         public void WriteTo_FailingAssertionForOneHierarchy_TextContainsFewKeyInfo()
         {
             var exp = "Expected level";
-            var request = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().BuildDirect(
                         "connectionString",
                         DiscoveryTarget.Hierarchies,
-                        "perspective-name",
-                        null, null, null,
-                        "dimension-caption", "hierarchy-caption", null
-                        , null, null);
+                        new List<IFilter>()
+                            {
+                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("dimension-caption", DiscoveryTarget.Dimensions)
+                                , new CaptionFilter("hierarchy-caption", DiscoveryTarget.Hierarchies)
+                        });
 
 
             var elStub = new Mock<IField>();
@@ -238,13 +244,14 @@ namespace NBi.Testing.Unit.NUnit.Structure
             exp.Add("Expected h1");
             exp.Add("Expected h2");
 
-            var request = new DiscoveryRequestFactory().Build(
+            var request = new DiscoveryRequestFactory().BuildDirect(
                         "connectionString",
                         DiscoveryTarget.Hierarchies,
-                        "perspective-name",
-                        null, null, null,
-                        "dimension-caption", null, null
-                        , null, null);
+                        new List<IFilter>()
+                            {
+                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("dimension-caption", DiscoveryTarget.Dimensions)
+                        });
 
 
             var elStub = new Mock<IField>();

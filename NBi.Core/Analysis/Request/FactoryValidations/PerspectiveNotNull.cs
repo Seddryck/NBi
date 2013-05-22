@@ -8,16 +8,14 @@ namespace NBi.Core.Analysis.Request.FactoryValidations
     internal class PerspectiveNotNull : FilterNotNull
     {
 
-        internal PerspectiveNotNull(string perspectiveName)
-            : base(perspectiveName)
+        internal PerspectiveNotNull(IEnumerable<IFilter> filters)
+            : base(DiscoveryTarget.Perspectives, filters)
         {
-            
-            
         }
 
         internal override void GenerateException()
         {
-            throw new DiscoveryRequestFactoryException("perspectiveName");
+            throw new DiscoveryRequestFactoryException("Perspective");
         }
     }
 }

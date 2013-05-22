@@ -41,12 +41,10 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void Matches_ExpectedContainedInActual_Success()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Perspectives
-                        , null, null, null, null, null, null, null
-                        , null, null
-                        );
+                        , new List<IFilter>());
 
             var ctr = new ContainConstraint("Adventure Works");
 
@@ -58,12 +56,10 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void Matches_ExpectedContainedInActualCaseNotMatching_Success()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Perspectives
-                        , null, null, null, null, null, null, null
-                        , null, null
-                        );
+                        , new List<IFilter>());
 
             var ctr = new ContainConstraint("Adventure Works".ToLower());
             ctr = ctr.IgnoreCase;
@@ -76,12 +72,10 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void Matches_ExpectedNotContainedInActual_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Perspectives
-                        , null, null, null, null, null, null, null
-                        , null, null
-                        );
+                        , new List<IFilter>());
 
             var ctr = new ContainConstraint("Not existing");
 
@@ -94,13 +88,15 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainConstraint_FindExistingDimension_Success()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Dimensions
-                        , "Adventure Works"
-                        , null, null, null, null, null, null
-                        , null, null
-                        );
+                        , new List<IFilter>()
+                            {
+                                new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                        });
+
+                        
 
             var ctr = new ContainConstraint("Product");
 
@@ -112,13 +108,13 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainConstraint_FindNonExistingDimension_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Dimensions
-                        , "Adventure Works"
-                        , null, null, null, null, null, null
-                        , null, null
-                        );
+                        , new List<IFilter>()
+                            {
+                                new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                        });
 
             var ctr = new ContainConstraint("Not existing");
 
@@ -130,15 +126,14 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainConstraint_FindExistingHierarchyBellowSpecificDimension_Success()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Hierarchies
-                        , "Adventure Works"
-                        , null, null, null
-                        , "Product"
-                        , null, null
-                        , null, null
-                        );
+                        , new List<IFilter>()
+                            {
+                                new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("Product", DiscoveryTarget.Dimensions)
+                        });
 
 
             var ctr = new ContainConstraint("Product Model Lines");
@@ -151,15 +146,14 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainConstraint_FindNonExistingHierarchyBellowSpecificDimension_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Hierarchies
-                        , "Adventure Works"
-                        , null, null, null
-                        , "Product"
-                        , null, null
-                        , null, null
-                        );
+                        , new List<IFilter>()
+                            {
+                                new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("Product", DiscoveryTarget.Dimensions)
+                        });
 
             var ctr = new ContainConstraint("Not existing");
 
@@ -171,16 +165,15 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainConstraint_FindExistingLevel_Success()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Levels
-                        , "Adventure Works"
-                        , null, null, null
-                        , "Customer"
-                        , "Customer Geography"
-                        , null
-                        , null, null
-                        );
+                        , new List<IFilter>()
+                            {
+                                new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("Customer", DiscoveryTarget.Dimensions)
+                                , new CaptionFilter("Customer Geography", DiscoveryTarget.Hierarchies)
+                        });
 
             var ctr = new ContainConstraint("City");
 
@@ -192,16 +185,15 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainConstraint_FindNonExistingLevel_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Levels
-                        , "Adventure Works"
-                        , null, null, null
-                        , "Customer"
-                        , "Customer Geography"
-                        , null
-                        , null, null
-                        );
+                        , new List<IFilter>()
+                            {
+                                new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("Customer", DiscoveryTarget.Dimensions)
+                                , new CaptionFilter("Customer Geography", DiscoveryTarget.Hierarchies)
+                        });
 
             var ctr = new ContainConstraint("Not existing");
 
@@ -212,13 +204,13 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainConstraint_FindExistingMeasureGroup_Success()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.MeasureGroups
-                        , "Adventure Works"
-                        , null, null, null, null, null, null
-                        , null, null
-                        );
+                        , new List<IFilter>()
+                            {
+                                new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                        });
 
             var ctr = new ContainConstraint("Reseller Orders");
 
@@ -230,13 +222,13 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainConstraint_FindNonExistingMeasureGroup_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.MeasureGroups
-                        , "Adventure Works"
-                        , null, null, null, null, null, null
-                        , null, null
-                        );
+                        , new List<IFilter>()
+                            {
+                                new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                        });
 
             var ctr = new ContainConstraint("Not existing");
 
@@ -247,14 +239,14 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainConstraint_FindExistingMeasure_Success()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Measures
-                        , "Adventure Works"
-                        , "Reseller Orders"
-                        , null, null, null, null, null
-                        , null, null
-                        );
+                        , new List<IFilter>()
+                            {
+                                new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("Reseller Orders", DiscoveryTarget.MeasureGroups)
+                        });
 
             var ctr = new ContainConstraint("Reseller Order Count");
 
@@ -266,14 +258,14 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainConstraint_FindNonExistingMeasure_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                          ConnectionStringReader.GetAdomd()
                          , DiscoveryTarget.Measures
-                         , "Adventure Works"
-                         , "Reseller Orders"
-                         , null, null, null, null, null
-                         , null, null
-                         );
+                         , new List<IFilter>()
+                            {
+                                new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("Reseller Orders", DiscoveryTarget.MeasureGroups)
+                        });
 
             var ctr = new ContainConstraint("Not existing");
 
@@ -284,14 +276,13 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainConstraint_FindExistingMeasureWithoutMeasureGroup_Success()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Measures
-                        , "Adventure Works"
-                        , null
-                        , null, null, null, null, null
-                        , null, null
-                        );
+                        , new List<IFilter>()
+                            {
+                                new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                        });
 
             var ctr = new ContainConstraint("Reseller Order Count");
 
@@ -303,14 +294,13 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainConstraint_FindNonExistingMeasureWithoutMeasureGroup_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                          ConnectionStringReader.GetAdomd()
                          , DiscoveryTarget.Measures
-                         , "Adventure Works"
-                         , null
-                         , null, null, null, null, null
-                         , null, null
-                         );
+                         , new List<IFilter>()
+                            {
+                                new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                        });
 
             var ctr = new ContainConstraint("Not existing");
 
@@ -321,14 +311,14 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ContainConstraint_FindExistingMeasureWithCaseNonMatching_Success()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Measures
-                        , "Adventure Works"
-                        , "Reseller Orders"
-                        , null, null, null, null, null
-                        , null, null
-                        );
+                        , new List<IFilter>()
+                            {
+                                new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("Reseller Orders", DiscoveryTarget.MeasureGroups)
+                        });
 
             var ctr = new ContainConstraint("Reseller Order Count".ToLower());
             ctr = ctr.IgnoreCase;

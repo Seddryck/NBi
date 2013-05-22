@@ -5,19 +5,48 @@ using System.Text;
 
 namespace NBi.Core.Analysis.Request.FactoryValidations
 {
-    internal abstract class FilterNotNull : Validation
+    internal abstract class FilterNotNull : ValidationFilter
     {
-        private readonly string data;
+        private readonly DiscoveryTarget target;
+        private readonly DiscoveryTarget filterInvestigated;
 
-        internal FilterNotNull(string data)
+        protected DiscoveryTarget Target 
         {
-            this.data = data;
+            get
+            {
+                return target;
+            }
+        }
+
+        internal FilterNotNull(DiscoveryTarget filterInvestigated, IEnumerable<IFilter> filters)
+            : this(filterInvestigated, filterInvestigated, filters)
+        {
+            //this.target = target;
+        }
+
+        internal FilterNotNull(DiscoveryTarget filterInvestigated, DiscoveryTarget target, IEnumerable<IFilter> filters)
+            : base(filters)
+        {
+            this.target = target;
+            this.filterInvestigated = filterInvestigated;
         }
 
         internal override void Apply()
         {
-            if (string.IsNullOrEmpty(data))
-                GenerateException();
+            if (IsApplicable())
+            {
+                var filter = GetSpecificFilter(filterInvestigated, Filters);
+
+                if (filter==null)
+                    GenerateException();
+            }
         }
+
+        protected virtual bool IsApplicable()
+        {
+            return true;
+        }
+
+
     }
 }

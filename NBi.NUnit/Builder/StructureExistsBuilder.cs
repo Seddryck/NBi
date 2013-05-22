@@ -16,7 +16,7 @@ namespace NBi.NUnit.Builder
         {
         }
 
-        internal StructureExistsBuilder(DiscoveryRequestFactory factory)
+        internal StructureExistsBuilder(MetadataDiscoveryRequestBuilder factory)
             : base(factory)
         {
         }
@@ -38,91 +38,6 @@ namespace NBi.NUnit.Builder
         {
             var ctr = new ExistsConstraint();
             return ctr;
-        }
-
-        protected override object InstantiateSystemUnderTest(StructureXml sutXml)
-        {
-            string perspective = null, 
-                measuregroup = null, displayFolder = null, measure = null, 
-                dimension = null, hierarchy = null, level = null,
-                table =null, column = null ;
-            DiscoveryTarget target = DiscoveryTarget.Undefined;
-            
-            if (sutXml.Item is PerspectiveXml)
-            {
-                perspective = sutXml.Item.Caption;
-                target = DiscoveryTarget.Perspectives;
-            }
-            if (sutXml.Item is MeasureGroupXml)
-            {
-                perspective = ((MeasureGroupXml)sutXml.Item).Perspective;
-                measuregroup = sutXml.Item.Caption;
-                target = DiscoveryTarget.MeasureGroups;
-            }
-            if (sutXml.Item is MeasureXml)
-            {
-                //Check if measure-group was explcitely specified or not and eventually assign it
-                measuregroup = null;
-                if (((MeasureXml)sutXml.Item).Specification.IsMeasureGroupSpecified)
-                    measuregroup = ((MeasureXml)sutXml.Item).MeasureGroup;
-                //Check if display-folder was explcitely specified or not and eventually assign it
-                if (((MeasureXml)sutXml.Item).Specification.IsDisplayFolderSpecified)
-                    displayFolder = ((MeasureXml)sutXml.Item).DisplayFolder;
-                measure = sutXml.Item.Caption;
-                target = DiscoveryTarget.Measures;
-            }
-            if (sutXml.Item is DimensionXml)
-            {
-                perspective =((DimensionXml)sutXml.Item).Perspective;
-                dimension = sutXml.Item.Caption;
-                target = DiscoveryTarget.Dimensions;
-            }
-            if (sutXml.Item is HierarchyXml)
-            {
-                dimension =((HierarchyXml)sutXml.Item).Dimension;
-                //Check if display-folder was explcitely specified or not and eventually assign it
-                if (((HierarchyXml)sutXml.Item).Specification.IsDisplayFolderSpecified)
-                    displayFolder = ((HierarchyXml)sutXml.Item).DisplayFolder;
-                hierarchy = sutXml.Item.Caption;
-                target = DiscoveryTarget.Hierarchies;
-            }
-            if (sutXml.Item is LevelXml)
-            {
-                dimension = ((LevelXml)sutXml.Item).Dimension;
-                hierarchy = ((LevelXml)sutXml.Item).Hierarchy;
-                level = sutXml.Item.Caption;
-                target = DiscoveryTarget.Levels;
-            }
-            if (sutXml.Item is TableXml)
-            {
-                perspective = ((TableXml)sutXml.Item).Perspective;
-                table = sutXml.Item.Caption;
-                target = DiscoveryTarget.Tables;
-            }
-            if (sutXml.Item is ColumnXml)
-            {
-                table = ((ColumnXml)sutXml.Item).Table;
-                column = sutXml.Item.Caption;
-                target = DiscoveryTarget.Columns;
-            }
-
-            if (target.Equals(DiscoveryTarget.Undefined))
-                throw new ArgumentOutOfRangeException();
-
-            var disco = discoveryFactory.Build(
-                    sutXml.Item.GetConnectionString(),
-                    target,
-                    perspective,
-                    measuregroup,
-                    displayFolder,
-                    measure,
-                    dimension,
-                    hierarchy,
-                    level,
-                    table,
-                    column
-                );
-            return disco;
         }
 
     }

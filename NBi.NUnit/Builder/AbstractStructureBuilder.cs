@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using NBi.Core.Analysis.Metadata.Adomd;
 using NBi.Core.Analysis.Request;
 using NBi.Xml.Constraints;
+using NBi.Xml.Items;
 using NBi.Xml.Systems;
 
 namespace NBi.NUnit.Builder
@@ -9,14 +11,14 @@ namespace NBi.NUnit.Builder
     abstract class AbstractStructureBuilder : AbstractTestCaseBuilder
     {
         protected StructureXml SystemUnderTestXml { get; set; }
-        protected readonly DiscoveryRequestFactory discoveryFactory;
+        protected readonly MetadataDiscoveryRequestBuilder discoveryFactory;
 
         public AbstractStructureBuilder()
         {
-            discoveryFactory = new DiscoveryRequestFactory();
+            discoveryFactory = new MetadataDiscoveryRequestBuilder();
         }
 
-        internal AbstractStructureBuilder(DiscoveryRequestFactory factory)
+        internal AbstractStructureBuilder(MetadataDiscoveryRequestBuilder factory)
         {
             discoveryFactory = factory;
         }
@@ -34,7 +36,16 @@ namespace NBi.NUnit.Builder
             SystemUnderTest = InstantiateSystemUnderTest(SystemUnderTestXml);
         }
 
-        protected abstract object InstantiateSystemUnderTest(StructureXml sutXml);
+        protected virtual object InstantiateSystemUnderTest(StructureXml sutXml)
+        {
+            return InstantiateCommand(sutXml.Item);
+        }
+
+        protected virtual MetadataDiscoveryRequest InstantiateCommand(AbstractItem item)
+        {
+            var request = discoveryFactory.Build(item, MetadataDiscoveryRequestBuilder.MetadataDiscoveryRequestType.Direct);
+            return request;
+        }
 
     }
 }

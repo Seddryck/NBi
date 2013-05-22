@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NBi.Core.Analysis.Request
@@ -7,8 +8,16 @@ namespace NBi.Core.Analysis.Request
     {
         public DiscoveryTarget Target { get; set; }
 
-        public MetadataDiscoveryRequest() : base()
+        internal MetadataDiscoveryRequest() : base()
         {
+        }
+
+        internal MetadataDiscoveryRequest(string connectionString, DiscoveryTarget target, IEnumerable<IFilter> filters)
+            : base()
+        {
+            base.ConnectionString = connectionString;
+            this.Target = target;
+            base.AddFilters(filters);
         }
 
         private readonly string[] depths = new string[] { "dimension", "hierarchy", "level", "property" };

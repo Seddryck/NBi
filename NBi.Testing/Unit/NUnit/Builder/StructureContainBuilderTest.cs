@@ -211,7 +211,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var builder = new StructureContainBuilder();
             builder.Setup(sutXml, ctrXml);
             //Assertion
-            Assert.Throws<ArgumentException>(delegate { builder.Build(); });
+            Assert.Throws<DiscoveryRequestFactoryException>(delegate { builder.Build(); });
         }
 
         //**********************
@@ -282,7 +282,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var builder = new StructureContainBuilder();
             builder.Setup(sutXml, ctrXml);
             //Assertion
-            Assert.Throws<ArgumentException>(delegate { builder.Build(); });
+            Assert.Throws<DiscoveryRequestFactoryException>(delegate { builder.Build(); });
         }
 
         //**********************
@@ -327,7 +327,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var builder = new StructureContainBuilder();
             builder.Setup(sutXml, ctrXml);
             //Assertion
-            Assert.Throws<ArgumentException>(delegate { builder.Build(); });
+            Assert.Throws<DiscoveryRequestFactoryException>(delegate { builder.Build(); });
         }
 
         //**********************
@@ -358,7 +358,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
         }
 
         [Test]
-        public void GetSystemUnderTest_InCorrectLevelTargetWithoutHGierarchy_ThrowException()
+        public void GetSystemUnderTest_InCorrectLevelTargetWithoutHierarchy_ThrowException()
         {
             //Buiding object used during test
             var ctrXmlStubFactory = new Mock<ContainXml>();
@@ -373,7 +373,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var builder = new StructureContainBuilder();
             builder.Setup(sutXml, ctrXml);
             //Assertion
-            Assert.Throws<ArgumentException>(delegate { builder.Build(); });
+            Assert.Throws<DiscoveryRequestFactoryException>(delegate { builder.Build(); });
         }
 
     }

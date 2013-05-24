@@ -64,6 +64,8 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Command\CommandBase.cs" />
+    <Compile Include="Command\ICommand.cs" />
     <Compile Include="IBootstrapper.cs" />
     <Compile Include="Interface\RunnerConfig\RunnerConfigBuildEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\SettingsUpdateEventArgs.cs" />
@@ -78,6 +80,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Interface\RunnerConfig\IRunnerConfigView.cs" />
+    <Compile Include="View\AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\ExceptionManagerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,6 +178,9 @@
     <Compile Include="Presenter\TestSuiteGeneratorPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <EmbeddedResource Include="View\AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\ExceptionManagerWindow.resx">
       <DependentUpon>ExceptionManagerWindow.cs</DependentUpon>
     </EmbeddedResource>

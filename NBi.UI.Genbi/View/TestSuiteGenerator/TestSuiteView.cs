@@ -277,6 +277,12 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             Dispatcher.StartRunnerConfig();
         }
 
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var window = new AboutBox();
+            window.ShowDialog(this);
+        }
+
         
   
     }

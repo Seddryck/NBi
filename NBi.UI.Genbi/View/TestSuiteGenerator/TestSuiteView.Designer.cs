@@ -55,6 +55,8 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripTestSuiteGenerate = new System.Windows.Forms.ToolStripButton();
             this.toolStripTestSuiteSaveAs = new System.Windows.Forms.ToolStripButton();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -176,7 +178,8 @@
             this.sourceFileToolStripMenuItem,
             this.templateToolStripMenuItem,
             this.testSuiteToolStripMenuItem,
-            this.configProjectFilesToolStripMenuItem});
+            this.configProjectFilesToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1038, 24);
@@ -335,6 +338,21 @@
             this.toolStripTestSuiteSaveAs.Text = "toolStripButton2";
             this.toolStripTestSuiteSaveAs.Click += new System.EventHandler(this.SaveTestSuiteAs_Click);
             // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
+            // 
             // TestSuiteView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -396,5 +414,7 @@
         private System.Windows.Forms.ToolStripButton toolStripTestSuiteSaveAs;
         private System.Windows.Forms.ToolStripMenuItem configProjectFilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
     }
 }

@@ -209,6 +209,7 @@ namespace NBi.Testing.Integration.NUnit
         }
 
         [Test]
+        [Category("Sql")]
         public void Matches_MdxQueryAndSqlQueryWithCorrectSettings_Matching()
         {
             //Buiding object used during test
@@ -320,6 +321,7 @@ namespace NBi.Testing.Integration.NUnit
         }
 
         [Test]
+        [Category("Sql")]
         public void Matches_SqlQueryWithDateComparedToString_Matching()
         {
             //Buiding object used during test
@@ -350,6 +352,7 @@ namespace NBi.Testing.Integration.NUnit
         }
 
         [Test]
+        [Category("Sql")]
         public void Matches_SqlQueryWithDateComparedToStringAnotherDate_NonMatching()
         {
             //Buiding object used during test
@@ -380,6 +383,7 @@ namespace NBi.Testing.Integration.NUnit
         }
 
         [Test]
+        [Category("Sql")]
         public void Matches_SqlQueryWithDateComparedToStringAnotherHour_NonMatching()
         {
             //Buiding object used during test

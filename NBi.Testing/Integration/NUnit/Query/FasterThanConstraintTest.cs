@@ -37,7 +37,7 @@ namespace NBi.Testing.Integration.NUnit.Query
         }
         #endregion
 
-        [Test, Category("SQL")]
+        [Test, Category("Sql")]
         public void Matches_FasterThanMaxTime_Success()
         {
             var command = new SqlCommand();
@@ -53,7 +53,7 @@ namespace NBi.Testing.Integration.NUnit.Query
 
         }
 
-        [Test, Category("SQL")]
+        [Test, Category("Sql")]
         public void Matches_SlowerThanMaxTime_Failure()
         {
             var command = new SqlCommand();
@@ -69,7 +69,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             //Error Message
         }
 
-        [Test, Category("SQL")]
+        [Test, Category("Sql")]
         public void Matches_SlowerThanMaxTimeAndTimeOut_Failure()
         {
             var command = new SqlCommand();

@@ -20,7 +20,7 @@
 			<equalTo>
 				<column-definition index="0" role="key" type="text"/>
 				<column-definition index="1" role="value" type="numeric" tolerance="0.01"/>
-				<query connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=true">
+				<query connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
 					SELECT 'CY 2005', 366.0/7
 					UNION ALL SELECT 'CY 2006', 1015.0/7
 					UNION ALL SELECT 'CY 2007', 1521.0/7

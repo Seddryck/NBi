@@ -3,7 +3,7 @@
 	<test name="My first test case" uid="0001">
 		<system-under-test>
 			<execution>
-				<query name="Select first product" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+				<query name="Select first product" connectionString="Data Source=.;Initial Cataloging;Integrated Security=True">
 					SELECT TOP 1 * FROM Product;
 				</query>
 			</execution>
@@ -17,7 +17,7 @@
 		<category>Category 2</category>
 		<system-under-test>
 			<execution>
-				<query name="Select all products" connectionString="Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True">
+				<query name="Select all products" connectionString="Data Source=.;Initial Cataloging;Integrated Security=True">
 					SELECT * FROM Product;
 				</query>
 			</execution>

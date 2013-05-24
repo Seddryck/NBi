@@ -86,14 +86,12 @@
     <Compile Include="Integration\Core\Query\QueryParserTest.cs" />
     <Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
     <Compile Include="Integration\NUnit\EqualToConstraintTest.cs" />
-    <Compile Include="Integration\NUnit\FasterThanConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Query\FasterThanConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\ContainConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\SubsetOfConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\EquivalentToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\LinkedToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\ExistsConstraintTest.cs" />
-    <Compile Include="Integration\NUnit\SyntacticallyCorrectConstraintTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\HierarchyDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureDiscoveryCommandTest.cs" />
@@ -170,8 +168,6 @@
   <ItemGroup>
     <Folder Include="Integration\Core\Analysis\Member\" />
     <Folder Include="Integration\Core\Analysis\Query\" />
-    <Folder Include="Integration\Core\Database\" />
-    <Folder Include="Integration\NUnit\Database\" />
     <Folder Include="Unit\Core\Query\" />
   </ItemGroup>
   <ItemGroup>
@@ -215,7 +211,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithReference.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithoutDefault.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefault.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\EqualToTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\EqualToXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidSyntax.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SelectAllProducts.sql" />
     <EmbeddedResource Include="Unit\Xml\Resources\QueryFile.sql" />
@@ -231,6 +227,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\QueryEqualToQuery.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\QueryEqualToResultSetWithNull.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

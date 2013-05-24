@@ -9,6 +9,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Integration.Core.Query
 {
     [TestFixture]
+    [Category("Sql")]
     public class QueryParserTest
     {
 
@@ -42,7 +43,7 @@ namespace NBi.Testing.Integration.Core.Query
         [Test]
         public void Parse_CorrectTableName_Success()
         {
-            var sql = "SELECT * FROM Product;";
+            var sql = "SELECT * FROM [HumanResources].[Department];";
             var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
             var qp = new QueryEngineFactory().GetParser(cmd);
 
@@ -68,7 +69,7 @@ namespace NBi.Testing.Integration.Core.Query
         [Test]
         public void Parse_CorrectFields_Success()
         {
-            var sql = "SELECT ProductSKU, [Description] FROM Product;";
+            var sql = "select [DepartmentID], Name from [HumanResources].[Department];";
             var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
             var qp = new QueryEngineFactory().GetParser(cmd);
 
@@ -81,7 +82,7 @@ namespace NBi.Testing.Integration.Core.Query
         [Test]
         public void Parse_WrongField_Failed()
         {
-            var sql = "SELECT ProductSKU, [Description], WrongField FROM Product;";
+            var sql = "select [DepartmentID], Name, WrongField from [HumanResources].[Department];";
             var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
             var qp = new QueryEngineFactory().GetParser(cmd);
 
@@ -94,7 +95,7 @@ namespace NBi.Testing.Integration.Core.Query
         [Test]
         public void Parse_WrongFields_Failed()
         {
-            var sql = "SELECT ProductSKU, [Description], WrongField1, WrongField2 FROM Product;";
+            var sql = "select [DepartmentID], Name, WrongField1, WrongField2 from [HumanResources].[Department];";
             var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
             var qp = new QueryEngineFactory().GetParser(cmd);
 
@@ -108,7 +109,7 @@ namespace NBi.Testing.Integration.Core.Query
         [Test]
         public void Parse_WrongSyntax_Failed()
         {
-            var sql = "SELECTION ProductSKU, [Description], WrongField1, WrongField2 FROM Product;";
+            var sql = "SELECTION [DepartmentID], Name, WrongField1, WrongField2 from [HumanResources].[Department];";
             var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
             var qp = new QueryEngineFactory().GetParser(cmd);
 
@@ -122,8 +123,8 @@ namespace NBi.Testing.Integration.Core.Query
         [Test]
         public void Parse_DontExecuteEffectivelyQuery()
         {
-            var sqlCount = @"SELECT COUNT(*) FROM Product";
-            var sql = @"DELETE FROM Product";
+            var sqlCount = @"SELECT COUNT(*) from [HumanResources].[Department]";
+            var sql = @"DELETE from [HumanResources].[Department]";
 
             var countBefore = ExecuteCount(sqlCount);
             if (countBefore == 0) //If nothing was present we cannot assert

@@ -48,7 +48,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.EqualToTestSuite.xml"))
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.EqualToXmlTestSuite.xml"))
             using (StreamReader reader = new StreamReader(stream))
             {
                 manager.Read(reader);
@@ -126,12 +126,12 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             var query = ((EqualToXml)ts.Tests[testNr].Constraints[0]).Query.GetQuery();
             Assert.That(query, Is.Not.Empty);
-            Assert.That(query, Contains.Substring("Top2Product"));
+            Assert.That(query, Contains.Substring("select top 2 [Name]"));
 
             var cmd = ((EqualToXml)ts.Tests[testNr].Constraints[0]).GetCommand();
             Assert.That(cmd, Is.Not.Null);
-            Assert.That(cmd.Connection.ConnectionString, Contains.Substring("Reference"));
-            Assert.That(cmd.CommandText, Contains.Substring("Top2Product"));
+            Assert.That(cmd.Connection.ConnectionString, Contains.Substring("Adventure"));
+            Assert.That(cmd.CommandText, Contains.Substring("select top 2 [Name]"));
             
         }
 

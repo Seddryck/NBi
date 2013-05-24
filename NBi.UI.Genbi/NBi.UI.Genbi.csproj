@@ -63,6 +63,8 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="IBootstrapper.cs" />
     <Compile Include="Interface\RunnerConfig\RunnerConfigBuildEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\SettingsUpdateEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\SettingsSelectEventArgs.cs" />
@@ -76,6 +78,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Interface\RunnerConfig\IRunnerConfigView.cs" />
+    <Compile Include="View\ExceptionManagerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ExceptionManagerWindow.Designer.cs">
+      <DependentUpon>ExceptionManagerWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\GenbiDispatcher.cs" />
     <Compile Include="View\IAdapter.cs" />
     <Compile Include="View\RunnerConfig\FileControl.cs">
@@ -162,6 +170,9 @@
     <Compile Include="Presenter\TestSuiteGeneratorPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <EmbeddedResource Include="View\ExceptionManagerWindow.resx">
+      <DependentUpon>ExceptionManagerWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\RunnerConfig\FileControl.resx">
       <DependentUpon>FileControl.cs</DependentUpon>
     </EmbeddedResource>

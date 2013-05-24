@@ -274,7 +274,6 @@
     <EmbeddedResource Include="Acceptance\Resources\QueryWithReference.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <Content Include="NBi.Testing.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">

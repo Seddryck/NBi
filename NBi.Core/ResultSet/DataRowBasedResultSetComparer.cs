@@ -214,7 +214,7 @@ namespace NBi.Core.ResultSet
                 if (!dr.IsNull(i))
                 {
                     if (settings.IsNumeric(i) && IsNumericField(dr.Table.Columns[i]))
-                        return;
+                        continue;
 
                     if (settings.IsNumeric(i) && !IsValidNumeric(dr[i]))
                     {                   

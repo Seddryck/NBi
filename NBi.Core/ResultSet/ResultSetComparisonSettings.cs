@@ -109,7 +109,7 @@ namespace NBi.Core.ResultSet
             if (ColumnsDef.Any(c => c.Index == index && c.Type == ColumnType.Numeric))
                 return true;
 
-            return IsValue(index);
+            return false;
         }
 
         public bool IsDateTime(int index)

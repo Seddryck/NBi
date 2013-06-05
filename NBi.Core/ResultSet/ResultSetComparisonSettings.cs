@@ -25,7 +25,7 @@ namespace NBi.Core.ResultSet
             Last = 1
         }
 
-        private KeysChoice KeysDef { get; set; }
+        public KeysChoice KeysDef { get; set; }
         private ValuesChoice ValuesDef { get; set; }
         private ICollection<IColumnDefinition> ColumnsDef { get; set; }
         private decimal DefaultTolerance { get; set; }

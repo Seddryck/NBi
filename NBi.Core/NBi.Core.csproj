@@ -152,6 +152,7 @@
     <Compile Include="ResultSet\Column.cs" />
     <Compile Include="ResultSet\ColumnRole.cs" />
     <Compile Include="ResultSet\ColumnType.cs" />
+    <Compile Include="ResultSet\CompareHelper.cs" />
     <Compile Include="ResultSet\DataRowBasedResultSetComparer.cs" />
     <Compile Include="ResultSet\DataRowKeysComparer.cs" />
     <Compile Include="ResultSet\LineFormatter.cs" />

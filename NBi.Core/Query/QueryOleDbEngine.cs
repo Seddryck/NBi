@@ -136,7 +136,7 @@ namespace NBi.Core.Query
 
                 Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
                 // capture time before execution
-                long ticksBefore = DateTime.Now.Ticks;
+                DateTime timeBefore = DateTime.Now;
                 var adapter = new OleDbDataAdapter(command.CommandText, connection);
                 var ds = new DataSet();
                 
@@ -144,11 +144,11 @@ namespace NBi.Core.Query
                 adapter.Fill(ds);
 
                 // capture time after execution
-                long ticksAfter = DateTime.Now.Ticks;
+                DateTime timeAfter = DateTime.Now;
 
                 // setting query runtime
-                elapsedSec = (ticksAfter - ticksBefore) / 1000f / 1000f;
-                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0:F3} s", elapsedSec));
+                elapsedSec = (float)timeAfter.Subtract(timeBefore).TotalSeconds;
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
                 return ds;
             }

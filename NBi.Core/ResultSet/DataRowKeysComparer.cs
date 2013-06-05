@@ -49,7 +49,30 @@ namespace NBi.Core.ResultSet
 
             }
             return hash;
+        }
 
+        public void GetHashCode64_KeysValues(DataRow row, out Int64 keysHashed, out Int64 valuesHashed)
+        {
+            keysHashed = 0;
+            valuesHashed = 0;
+
+            for (int i=0; i < row.Table.Columns.Count; i++)
+            {
+                var value = row[i];
+
+                string v = null;
+                if (value is IConvertible)
+                    v = ((IConvertible)value).ToString(CultureInfo.InvariantCulture);
+                else
+                    v = value.ToString();
+
+                valuesHashed = (valuesHashed * 397) ^ v.GetHashCode();
+
+                if (settings.IsKey(i))
+                {
+                    keysHashed = (keysHashed * 397) ^ v.GetHashCode();
+                }
+            }
         }
     }
 }

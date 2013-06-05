@@ -25,26 +25,13 @@ namespace NBi.Core.ResultSet
 
         public ResultSetCompareResult Compare(object x, object y)
         {
-            DataTable dtX;
-            DataTable dtY;
-
             if (x is DataTable && y is DataTable)
-            {
-                dtX = (DataTable)x;
-                dtY = (DataTable)y;
-            }
-            else if (x is ResultSet && y is ResultSet)
-            {
-                dtX = ((ResultSet)x).Table;
-                dtY = ((ResultSet)y).Table;
-            }
-            else
-            {
-                throw new ArgumentException();
-            }
+                return doCompare((DataTable)y, (DataTable)x);
 
+            if (x is ResultSet && y is ResultSet)
+                return doCompare(((ResultSet)y).Table, ((ResultSet)x).Table);
 
-            return doCompare(dtY, dtX);
+            throw new ArgumentException();
         }
 
         private void CalculateHashValues(DataTable dt, Dictionary<Int64, CompareHelper> dict, DataRowKeysComparer keyComparer, bool IsSystemUnderTest)

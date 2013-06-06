@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Xml.Serialization;
 using NBi.Xml.Items;
 using NBi.Xml.Settings;
@@ -7,6 +8,13 @@ namespace NBi.Xml.Constraints
 {
     public abstract class AbstractConstraintXml
     {
+        public AbstractConstraintXml()
+        {
+            Default = new DefaultXml();
+            Settings = new SettingsXml();
+            Logs = new List<LogXml>();
+        }
+
         private DefaultXml _default;
         [XmlIgnore()]
         public virtual DefaultXml Default
@@ -31,6 +39,9 @@ namespace NBi.Xml.Constraints
                     BaseItem.Settings = value;
             }
         }
+
+        [XmlElement("log")]
+        public List<LogXml> Logs { get; set; }
         
         [XmlIgnore]
         public virtual BaseItem BaseItem 

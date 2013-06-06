@@ -36,12 +36,16 @@ namespace NBi.Xml.Systems
             }
         }
 
+        [XmlElement("log")]
+        public List<LogXml> Logs { get; set; }
+
         public abstract BaseItem BaseItem { get; }
 
         public AbstractSystemUnderTestXml()
         {
             Default = new DefaultXml();
             Settings = new SettingsXml();
+            Logs = new List<LogXml>();
         }
 
         internal virtual Dictionary<string, string> GetRegexMatch()

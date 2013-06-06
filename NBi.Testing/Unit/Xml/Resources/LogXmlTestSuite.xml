@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+		</default>
+	</settings>
+	<test name="Log in System-under-test">
+		<system-under-test>
+			<execution>
+				<query name="Select first departments">
+					select top 2 [DepartmentID], [Name], [GroupName] from [HumanResources].[Department] order by Name
+				</query>
+			</execution>
+			<log condition="only-if-failed" content="resultSet" file="myFilename" />
+			<log content="statistics"/>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet file="Query.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="Log in Assert">
+		<system-under-test>
+			<execution>
+				<query name="Select first departments">
+					select top 2 [DepartmentID], [Name], [GroupName] from [HumanResources].[Department] order by DepartmentID
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<query name="Select first departments">
+					select top 2 [DepartmentID], [Name], [GroupName] from [HumanResources].[Department] order by Name
+				</query>
+			</equalTo>
+			<log condition="only-if-failed" content="resultSet" file="myOtherFilename" />
+		</assert>
+	</test>
+</testSuite>

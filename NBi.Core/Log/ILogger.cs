@@ -5,8 +5,8 @@ namespace NBi.Core.Log
 {
     public interface ILogger
     {
-        void Listen(object engine);
-        void Write(bool isFailure);
+        void Write(object message);
         Condition Condition { get; }
+        Content Content { get; }
     }
 }

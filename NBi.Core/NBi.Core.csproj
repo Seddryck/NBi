@@ -151,6 +151,9 @@
     <Compile Include="Log\ILogger.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Log\ResultSetLogger.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="NBiTraceSwitch.cs" />
     <Compile Include="Query\AbstractQueryEngine.cs" />
     <Compile Include="Query\ListBuilder.cs" />

@@ -62,13 +62,14 @@
 		<system-under-test>
 			<execution>
 				<query>
-					select top 2 [DepartmentID], [Name], [GroupName] from [HumanResources].[Department] order by Name
+					select top 2 [DepartmentID], [Name], [GroupName], cast(0 as bit) As Active from [HumanResources].[Department] order by Name
 				</query>
 			</execution>
 		</system-under-test>
 		<assert>
 			<equalTo>
 				<column-definition role="value" index="3" type="numeric" tolerance="10"/>
+				<column-definition role="value" index="4" type="boolean"/>
 				<query file="Query.sql"/>
 			</equalTo>
 		</assert>

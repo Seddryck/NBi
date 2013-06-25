@@ -104,9 +104,11 @@ namespace NBi.Testing.Unit.Xml.Constraints
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef, Has.Count.EqualTo(1));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef, Has.Count.EqualTo(2));
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[0], Has.Property("Index").EqualTo(3));
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[0], Has.Property("Tolerance").EqualTo(10));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[1], Has.Property("Index").EqualTo(4));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[1], Has.Property("Type").EqualTo(ColumnType.Boolean));
         }
 
         [Test]

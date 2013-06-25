@@ -35,4 +35,98 @@
 			</equalTo>
 		</assert>
 	</test>
+	<test name="'Boolean' columns" uid="0002">
+		<system-under-test>
+			<execution>
+				<query name="SQL Except" connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+					<![CDATA[
+					SELECT
+						'ID True' AS [CodeKey],
+						1 As [Integer],
+						1.0 As [Double],
+						'True' As [String],
+						CAST(1 as bit) As [Boolean]
+					UNION ALL
+					SELECT
+						'ID False' AS [CodeKey],
+						0 As [Integer],
+						0 As [Double],
+						'False' As [String],
+						CAST(0 as bit) As [Boolean]
+					]]>
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo keys="first">
+				<column-definition index="1" role="value" type="boolean"/>
+				<column-definition index="2" role="value" type="boolean"/>
+				<column-definition index="3" role="value" type="boolean"/>
+				<column-definition index="4" role="value" type="boolean"/>
+				<resultSet>
+					<row>
+						<cell>ID True</cell>
+						<cell>True</cell>
+						<cell>TRUE</cell>
+						<cell>true</cell>
+						<cell>1</cell>
+					</row>
+					<row>
+						<cell>ID False</cell>
+						<cell>False</cell>
+						<cell>FALSE</cell>
+						<cell>false</cell>
+						<cell>0</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="'DateTime' columns" uid="0002">
+		<system-under-test>
+			<execution>
+				<query name="SQL Except" connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+					<![CDATA[
+					SELECT
+						'English' AS [CodeKey],
+						CAST('2012-12-17' As Date) AS [DateValue],
+						CAST('12/17/2012' As varchar) AS [NativeValue]
+					UNION ALL
+					SELECT
+						'French' AS [CodeKey],
+						CAST('2012-12-17' As Date) AS [DateValue],
+						CAST('17/12/2012' As varchar) AS [NativeValue]
+					UNION ALL
+					SELECT
+						'Universal' AS [CodeKey],
+						CAST('2012-12-17' As Date) AS [DateValue],
+						CAST('2012-12-17' As varchar) AS [NativeValue]
+					]]>
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo keys="first">
+				<column-definition index="1" role="value" type="dateTime"/>
+				<column-definition index="2" role="value" type="dateTime"/>
+				<resultSet>
+					<row>
+						<cell>English</cell>
+						<cell>12/17/2012</cell>
+						<cell>2012-12-17</cell>
+					</row>
+					<row>
+						<cell>French</cell>
+						<cell>17/12/2012</cell>
+						<cell>2012-12-17</cell>
+					</row>
+					<row>
+						<cell>Universal</cell>
+						<cell>2012-12-17</cell>
+						<cell>2012-12-17</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
 </testSuite>

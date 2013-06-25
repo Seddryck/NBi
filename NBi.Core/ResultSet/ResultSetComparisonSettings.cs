@@ -97,6 +97,10 @@ namespace NBi.Core.ResultSet
 		{
 			if (IsNumeric(index))
 				return ColumnType.Numeric;
+			if (IsDateTime(index))
+				return ColumnType.DateTime;
+			if (IsBoolean(index))
+				return ColumnType.Boolean;
 			else
 				return ColumnType.Text;
 		}
@@ -118,6 +122,17 @@ namespace NBi.Core.ResultSet
 				return false;
 
 			if (ColumnsDef.Any(c => c.Index == index && c.Type == ColumnType.DateTime))
+				return true;
+
+			return false;
+		}
+
+		public bool IsBoolean(int index)
+		{
+			if (ColumnsDef.Any(c => c.Index == index && c.Type != ColumnType.Boolean))
+				return false;
+
+			if (ColumnsDef.Any(c => c.Index == index && c.Type == ColumnType.Boolean))
 				return true;
 
 			return false;

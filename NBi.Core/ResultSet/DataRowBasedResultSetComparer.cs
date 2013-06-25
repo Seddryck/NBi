@@ -186,7 +186,7 @@ namespace NBi.Core.ResultSet
                                     result = dateTimeComparer.Compare(rx[i], ry[i]);
                                 }
                                 //Boolean
-                                else if (Settings.IsDateTime(i))
+                                else if (Settings.IsBoolean(i))
                                 {
                                     //Convert to bool
                                     result = booleanComparer.Compare(rx[i], ry[i]);

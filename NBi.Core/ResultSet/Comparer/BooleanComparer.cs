@@ -19,7 +19,7 @@ namespace NBi.Core.ResultSet.Comparer
             if (IsEqual(xThreeState, yThreeState))
                 return ComparerResult.Equality;
 
-            return new ComparerResult(ThreeStateToString(xThreeState));
+            return new ComparerResult(ThreeStateToString(xThreeState, x.ToString()));
         }
 
         protected ThreeState IntParsing(object obj)
@@ -54,7 +54,7 @@ namespace NBi.Core.ResultSet.Comparer
         };
 
 
-        protected string ThreeStateToString(ThreeState ts)
+        protected string ThreeStateToString(ThreeState ts, string value)
         {
             switch (ts)
             {
@@ -63,7 +63,7 @@ namespace NBi.Core.ResultSet.Comparer
                 case ThreeState.True:
                     return "true";
             }
-            return "unknown";
+            return value;
         }
 
         protected bool IsEqual(ThreeState x, ThreeState y)

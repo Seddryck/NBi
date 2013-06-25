@@ -4,6 +4,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using NBi.Core.ResultSet.Comparer;
 
 namespace NBi.Core.ResultSet
 {
@@ -11,8 +12,14 @@ namespace NBi.Core.ResultSet
     {
         public ResultSetComparisonSettings Settings { get; set; }
 
-        Dictionary<Int64, CompareHelper> xDict = new Dictionary<long, CompareHelper>();
-        Dictionary<Int64, CompareHelper> yDict = new Dictionary<long, CompareHelper>();
+        private readonly Dictionary<Int64, CompareHelper> xDict = new Dictionary<long, CompareHelper>();
+        private readonly Dictionary<Int64, CompareHelper> yDict = new Dictionary<long, CompareHelper>();
+
+        private readonly BaseComparer baseComparer = new BaseComparer();
+        private readonly NumericComparer numericComparer = new NumericComparer();
+        private readonly TextComparer textComparer = new TextComparer();
+        private readonly DateTimeComparer dateTimeComparer = new DateTimeComparer();
+        private readonly BooleanComparer booleanComparer = new BooleanComparer();
 
         public DataRowBasedResultSetComparer()
         {
@@ -164,52 +171,38 @@ namespace NBi.Core.ResultSet
                             //Not Null management
                             else
                             {
+                                ComparerResult result = null;
+
                                 //Numeric
                                 if (Settings.IsNumeric(i))
                                 {
-                                    //Console.WriteLine("Debug: {0} {1}", rx[i].ToString(), rx[i].GetType());
-
                                     //Convert to decimal
-                                    var rxDecimal = Convert.ToDecimal(rx[i], NumberFormatInfo.InvariantInfo);
-                                    var ryDecimal = Convert.ToDecimal(ry[i], NumberFormatInfo.InvariantInfo);
-                                    var tolerance = Convert.ToDecimal(Settings.GetTolerance(i), NumberFormatInfo.InvariantInfo);
-
-                                    //Compare decimals (with tolerance)
-                                    if (!IsEqual(rxDecimal, ryDecimal, tolerance))
-                                    {
-                                        ry.SetColumnError(i, rxDecimal.ToString());
-                                        if (!nonMatchingValueRows.Contains(ry))
-                                            nonMatchingValueRows.Add(ry);
-                                    }
-
+                                    result = numericComparer.Compare(rx[i], ry[i], Settings.GetTolerance(i));
                                 }
                                 //Date and Time
                                 else if (Settings.IsDateTime(i))
                                 {
-                                    //Console.WriteLine("Debug: {0} {1}", rx[i].ToString(), rx[i].GetType());
-
-                                    //Convert to decimal
-                                    var rxDateTime = Convert.ToDateTime(rx[i], DateTimeFormatInfo.InvariantInfo);
-                                    var ryDateTime = Convert.ToDateTime(ry[i], DateTimeFormatInfo.InvariantInfo);
-
-                                    //Compare decimals (with tolerance)
-                                    if (!IsEqual(rxDateTime, ryDateTime))
-                                    {
-                                        ry.SetColumnError(i, rxDateTime.ToString());
-                                        if (!nonMatchingValueRows.Contains(ry))
-                                            nonMatchingValueRows.Add(ry);
-                                    }
-
+                                    //Convert to dateTime
+                                    result = dateTimeComparer.Compare(rx[i], ry[i]);
                                 }
-                                //Not Numeric
+                                //Boolean
+                                else if (Settings.IsDateTime(i))
+                                {
+                                    //Convert to bool
+                                    result = booleanComparer.Compare(rx[i], ry[i]);
+                                }
+                                //Text
                                 else
                                 {
-                                    if (!IsEqual(rx[i], ry[i]))
-                                    {
-                                        ry.SetColumnError(i, rx[i].ToString());
-                                        if (!nonMatchingValueRows.Contains(ry))
-                                            nonMatchingValueRows.Add(ry);
-                                    }
+                                    result = textComparer.Compare(rx[i], ry[i]);
+                                }
+
+                                //If are not equal then we need to set the message in the ColumnError.
+                                if (!result.AreEqual)
+                                {
+                                    ry.SetColumnError(i, result.Message);
+                                    if (!nonMatchingValueRows.Contains(ry))
+                                        nonMatchingValueRows.Add(ry);
                                 }
                             }
                         }
@@ -281,12 +274,12 @@ namespace NBi.Core.ResultSet
                     if (settings.IsNumeric(i) && IsNumericField(dr.Table.Columns[i]))
                         continue;
 
-                    if (settings.IsNumeric(i) && !IsValidNumeric(dr[i]))
+                    if (settings.IsNumeric(i) && !baseComparer.IsValidNumeric(dr[i]))
                     {                   
                         var exception = string.Format("The column with an index of {0} is expecting a numeric value but the first row of your result set contains a value '{1}' not recognized as a valid numeric value."
                             , i, dr[i].ToString());
-                            
-                        if (IsValidNumeric(dr[i].ToString().Replace(",", ".")))
+
+                        if (baseComparer.IsValidNumeric(dr[i].ToString().Replace(",", ".")))
                             exception += " Aren't you trying to use a comma (',' ) as a decimal separator? NBi requires that the decimal separator must be a '.'.";
 
                         throw new ResultSetComparerException(exception);
@@ -295,7 +288,7 @@ namespace NBi.Core.ResultSet
                     if (settings.IsDateTime(i) && IsDateTimeField(dr.Table.Columns[i]))
                         return;
 
-                    if (settings.IsDateTime(i) && !IsValidDateTime(dr[i].ToString()))
+                    if (settings.IsDateTime(i) && !baseComparer.IsValidDateTime(dr[i].ToString()))
                     {
                         throw new ResultSetComparerException(
                             string.Format("The column with an index of {0} is expecting a date & time value but the first row of your result set contains a value '{1}' not recognized as a valid date & time value."
@@ -325,62 +318,6 @@ namespace NBi.Core.ResultSet
         {
             return
                 dataColumn.DataType == typeof(DateTime);
-        }
-
-        private bool IsValidNumeric(object value)
-        {
-            decimal num = 0;
-            var result =  Decimal.TryParse(value.ToString()
-                                , NumberStyles.AllowLeadingSign | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowDecimalPoint
-                                , CultureInfo.InvariantCulture
-                                , out num);
-            //The first method is not enough, you can have cases where this method returns false but the value is effectively a numeric. The problem is in the .ToString() on the object where you apply the regional settings for the numeric values.
-            //The second method gives a better result but unfortunately generates an exception.
-            if (!result)
-            {
-                try
-                {
-                    num = Convert.ToDecimal(value, NumberFormatInfo.InvariantInfo);
-                    result = true;
-                }
-                catch (Exception)
-                {
-
-                    result = false;
-                }
-            }
-            return result;
-        }
-
-        private bool IsValidDateTime(string value)
-        {
-            DateTime dateTime = DateTime.MinValue;
-            return DateTime.TryParse(value
-                                , CultureInfo.InvariantCulture.DateTimeFormat
-                                , DateTimeStyles.AllowWhiteSpaces
-                                , out dateTime);
-        }
-
-
-        protected internal bool IsEqual(Decimal x, Decimal y, Decimal tolerance)
-        {
-            //Console.WriteLine("IsEqual: {0} {1} {2} {3} {4} {5}", x, y, tolerance, Math.Abs(x - y), x == y, Math.Abs(x - y) <= tolerance);
-
-            //quick check
-            if (x == y)
-                return true;
-
-            //Stop checks if tolerance is set to 0
-            if (tolerance == 0)
-                return false;
-
-            //include some math[Time consumming] (Tolerance needed to validate)
-            return (Math.Abs(x - y) <= tolerance);
-        }
-
-        private bool IsEqual(object x, object y)
-        {
-            return x.GetHashCode() == y.GetHashCode();
         }
 
         protected void BuildDefaultSettings(int columnsCount)

@@ -111,17 +111,18 @@ namespace NBi.Core.ResultSet
 
             private string GetTypeText()
             {
-                var typeText = string.Empty;
                 switch (Type)
                 {
-                    case ColumnType.Text:
-                        typeText = "Text"; break;
                     case ColumnType.Numeric:
-                        typeText = "Numeric"; break;
-                    default:
-                        typeText = "?"; break;
+                        return "Numeric"; 
+                    case ColumnType.Text:
+                        return "Text"; 
+                    case ColumnType.DateTime:
+                        return "DateTime";
+                    case ColumnType.Boolean:
+                        return "Boolean"; 
                 }
-                return typeText;
+                return "?";
             }
 
             private string GetToleranceText()

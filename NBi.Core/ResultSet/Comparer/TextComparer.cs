@@ -15,13 +15,22 @@ namespace NBi.Core.ResultSet.Comparer
             if (IsEqual(rxText, ryText))
                 return ComparerResult.Equality;
 
-            return new ComparerResult(rxText);
+            return new ComparerResult(string.IsNullOrEmpty(rxText) ? "(empty)" : rxText);
         }
 
         protected bool IsEqual(string x, string y)
         {
             //quick check
-            return (x == y);
+            if (x == y)
+                return true;
+
+            if (x == "(empty)" && string.IsNullOrEmpty(y))
+                return true;
+
+            if (y == "(empty)" && string.IsNullOrEmpty(x))
+                return true;
+
+            return false;
         }
     }
 }

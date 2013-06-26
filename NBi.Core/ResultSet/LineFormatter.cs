@@ -155,6 +155,8 @@ namespace NBi.Core.ResultSet
             {
                 if (Value is DBNull)
                     return "(null)";
+                if (Value is string && ((string)Value).Length == 0)
+                    return "(empty)";
                 return Value.ToString();
             }
 
@@ -191,6 +193,8 @@ namespace NBi.Core.ResultSet
             {
                 if (Value is DBNull)
                     return "(null)";
+                if (Value is string && ((string)Value).Length == 0)
+                    return "(empty)";
                 return Value.ToString();
             }
 
@@ -198,6 +202,8 @@ namespace NBi.Core.ResultSet
             {
                 if (Compared is DBNull)
                     return "(null)";
+                if (Compared is string && ((string)Compared).Length == 0)
+                    return "(empty)";
                 return Compared.ToString();
             }
 

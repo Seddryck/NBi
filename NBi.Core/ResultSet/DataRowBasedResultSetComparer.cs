@@ -168,6 +168,16 @@ namespace NBi.Core.ResultSet
                                         nonMatchingValueRows.Add(ry);
                                 }
                             }
+                            //(value) management
+                            else if (rx[i].ToString() == "(value)" || ry[i].ToString() == "(value)")
+                            {
+                                if (rx.IsNull(i) || ry.IsNull(i))
+                                {
+                                    ry.SetColumnError(i, rx[i].ToString());
+                                    if (!nonMatchingValueRows.Contains(ry))
+                                        nonMatchingValueRows.Add(ry);
+                                }
+                            }
                             //Not Null management
                             else
                             {

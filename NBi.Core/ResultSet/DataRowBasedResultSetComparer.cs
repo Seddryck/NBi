@@ -63,8 +63,9 @@ namespace NBi.Core.ResultSet
                 if (dict.ContainsKey(keysHashed))
                 {
                     throw new ResultSetComparerException(
-                        string.Format("The {0} data set has some duplicated keys. Check your keys definition or your expected result set.", 
-                            IsSystemUnderTest ? "system under test" : "results"
+                        string.Format("The {0} data set has some duplicated keys. Check your keys definition or the result set defined in your {1}.", 
+                            IsSystemUnderTest ? "actual" : "expected",
+                            IsSystemUnderTest ? "system-under-test" : "assertion"
                             )
                         );
                 }

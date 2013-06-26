@@ -19,9 +19,9 @@ namespace NBi.Core.ResultSet
         public bool Equals(DataRow x, DataRow y)
         {
             if (!CheckKeysExist(x))
-                throw new ArgumentException("First datarow have not the the required key fields");
+                throw new ArgumentException("First datarow has not the required key fields");
             if (!CheckKeysExist(y))
-                throw new ArgumentException("Second datarow have not the the required key fields");
+                throw new ArgumentException("Second datarow has not the required key fields");
 
             return GetHashCode(x) == GetHashCode(y);
         }

@@ -8,6 +8,9 @@ namespace NBi.Core.ResultSet.Comparer
     {
         public bool IsValidNumeric(object value)
         {
+            if (value is string && ((string)value) == "(value)")
+                return true;
+
             decimal num = 0;
             var result = Decimal.TryParse(value.ToString()
                                 , NumberStyles.AllowLeadingSign | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowDecimalPoint
@@ -33,6 +36,9 @@ namespace NBi.Core.ResultSet.Comparer
 
         public bool IsValidDateTime(string value)
         {
+            if (value == "(value)")
+                return true;
+
             DateTime dateTime = DateTime.MinValue;
             var result = DateTime.TryParse(value
                                 , CultureInfo.InvariantCulture.DateTimeFormat

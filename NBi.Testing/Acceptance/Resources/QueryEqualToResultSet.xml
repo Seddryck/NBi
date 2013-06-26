@@ -129,4 +129,93 @@
 			</equalTo>
 		</assert>
 	</test>
+	<test name="'null' columns" uid="0002">
+		<system-under-test>
+			<execution>
+				<query name="SQL Except" connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+					<![CDATA[
+					SELECT
+						'MyCode1' AS [CodeKey],
+						NULL
+					UNION ALL
+					SELECT
+						'MyCode2' AS [CodeKey],
+						NULL
+					]]>
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo keys="first">
+				<column-definition index="1" role="value" type="text"/>
+				<resultSet>
+					<row>
+						<cell>MyCode1</cell>
+						<cell></cell>
+					</row>
+					<row>
+						<cell>MyCode2</cell>
+						<cell/>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="'empty' columns" uid="0002">
+		<system-under-test>
+			<execution>
+				<query name="SQL Except" connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+					<![CDATA[
+					SELECT
+						'MyCode1' AS [CodeKey],
+						''
+					]]>
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo keys="first">
+				<column-definition index="1" role="value" type="text"/>
+				<resultSet>
+					<row>
+						<cell>MyCode1</cell>
+						<cell>(empty)</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="'value' columns" uid="0002">
+		<system-under-test>
+			<execution>
+				<query name="SQL Except" connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+					<![CDATA[
+					SELECT
+						'MyCode1' AS [CodeKey],
+						'Alpha',
+						10,
+						GETDATE(),
+						CAST(1 AS Bit)
+					]]>
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo keys="first">
+				<column-definition index="1" role="value" type="text"/>
+				<column-definition index="2" role="value" type="numeric"/>
+				<column-definition index="3" role="value" type="dateTime"/>
+				<column-definition index="4" role="value" type="boolean"/>
+				<resultSet>
+					<row>
+						<cell>MyCode1</cell>
+						<cell>(value)</cell>
+						<cell>(value)</cell>
+						<cell>(value)</cell>
+						<cell>(value)</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
 </testSuite>

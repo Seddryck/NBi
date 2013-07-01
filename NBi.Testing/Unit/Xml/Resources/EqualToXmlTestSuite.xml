@@ -68,8 +68,8 @@
 		</system-under-test>
 		<assert>
 			<equalTo>
-				<column-definition role="value" index="3" type="numeric" tolerance="10"/>
-				<column-definition role="value" index="4" type="boolean"/>
+				<column role="value" index="3" type="numeric" tolerance="10"/>
+				<column role="value" index="4" type="boolean"/>
 				<query file="Query.sql"/>
 			</equalTo>
 		</assert>

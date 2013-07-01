@@ -59,10 +59,10 @@
 		</system-under-test>
 		<assert>
 			<equalTo keys="first">
-				<column-definition index="1" role="value" type="boolean"/>
-				<column-definition index="2" role="value" type="boolean"/>
-				<column-definition index="3" role="value" type="boolean"/>
-				<column-definition index="4" role="value" type="boolean"/>
+				<column index="1" role="value" type="boolean"/>
+				<column index="2" role="value" type="boolean"/>
+				<column index="3" role="value" type="boolean"/>
+				<column index="4" role="value" type="boolean"/>
 				<resultSet>
 					<row>
 						<cell>ID True</cell>
@@ -107,8 +107,8 @@
 		</system-under-test>
 		<assert>
 			<equalTo keys="first">
-				<column-definition index="1" role="value" type="dateTime"/>
-				<column-definition index="2" role="value" type="dateTime"/>
+				<column index="1" role="value" type="dateTime"/>
+				<column index="2" role="value" type="dateTime"/>
 				<resultSet>
 					<row>
 						<cell>English</cell>
@@ -147,7 +147,7 @@
 		</system-under-test>
 		<assert>
 			<equalTo keys="first">
-				<column-definition index="1" role="value" type="text"/>
+				<column index="1" role="value" type="text"/>
 				<resultSet>
 					<row>
 						<cell>MyCode1</cell>
@@ -175,7 +175,7 @@
 		</system-under-test>
 		<assert>
 			<equalTo keys="first">
-				<column-definition index="1" role="value" type="text"/>
+				<column index="1" role="value" type="text"/>
 				<resultSet>
 					<row>
 						<cell>MyCode1</cell>
@@ -202,10 +202,10 @@
 		</system-under-test>
 		<assert>
 			<equalTo keys="first">
-				<column-definition index="1" role="value" type="text"/>
-				<column-definition index="2" role="value" type="numeric"/>
-				<column-definition index="3" role="value" type="dateTime"/>
-				<column-definition index="4" role="value" type="boolean"/>
+				<column index="1" role="value" type="text"/>
+				<column index="2" role="value" type="numeric"/>
+				<column index="3" role="value" type="dateTime"/>
+				<column index="4" role="value" type="boolean"/>
 				<resultSet>
 					<row>
 						<cell>MyCode1</cell>

@@ -62,7 +62,7 @@ namespace NBi.NUnit.Builder
                 level = sutXml.Item.Caption;
             }
            
-            return discoveryFactory.Build
+            var disco = discoveryFactory.Build
                 (
                     sutXml.Item.GetConnectionString(),
                     sutXml.ChildrenOf,
@@ -72,6 +72,8 @@ namespace NBi.NUnit.Builder
                     hierarchy,
                     level
                 );
+
+            return disco;
         }
 
 

@@ -7,6 +7,11 @@ namespace NBi.Xml.Systems
 {
     public class MembersXml : AbstractSystemUnderTestXml
     {
+        public MembersXml() : base()
+        {
+            Exclude = new ExcludeXml();
+        }
+        
         [XmlAttribute("children-of")]
         public string ChildrenOf { get; set; }
 

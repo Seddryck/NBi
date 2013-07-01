@@ -93,5 +93,23 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(((MembersXml)ts.Tests[testNr].Systems[0]).ChildrenOf, Is.EqualTo("aBc"));
         }
 
+        [Test]
+        public void Deserialize_SampleFile_MembersWithExlusions()
+        {
+            int testNr = 3;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<MembersXml>());
+            Assert.That(((MembersXml)ts.Tests[testNr].Systems[0]).Exclude, Is.TypeOf<ExcludeXml>());
+
+            var exclude = ((MembersXml)ts.Tests[testNr].Systems[0]).Exclude;
+
+            Assert.That(exclude.Items.Count, Is.EqualTo(2));
+            Assert.That(exclude.Items, Has.Member("Arizona"));
+            Assert.That(exclude.Items, Has.Member("Iowa"));
+        }
+
     }
 }

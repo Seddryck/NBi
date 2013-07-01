@@ -16,6 +16,9 @@ namespace NBi.Xml.Systems
         ]
         public AbstractMembersItem Item { get; set; }
 
+        [XmlElement("exclude")]
+        public ExcludeXml Exclude { get; set; }
+
         public override BaseItem BaseItem
         {
             get

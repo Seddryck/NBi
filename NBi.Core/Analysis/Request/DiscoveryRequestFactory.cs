@@ -37,6 +37,11 @@ namespace NBi.Core.Analysis.Request
 
         public virtual MembersDiscoveryRequest Build(string connectionString, string memberCaption, string perspective, string dimension, string hierarchy, string level)
         {
+            return Build(connectionString, memberCaption, null, perspective, dimension, hierarchy, level);
+        }
+        
+        public virtual MembersDiscoveryRequest Build(string connectionString, string memberCaption, IEnumerable<string> excludedMembers, string perspective, string dimension, string hierarchy, string level)
+        {
             //Validations
             Validate(
                 new List<Validation>()
@@ -57,6 +62,7 @@ namespace NBi.Core.Analysis.Request
             if (!string.IsNullOrEmpty(level)) disco.SpecifyFilter(new CaptionFilter(level, DiscoveryTarget.Levels));
             disco.Function = string.IsNullOrEmpty(memberCaption) ? "members" : "children";
             disco.MemberCaption = memberCaption;
+            disco.Exlusions = excludedMembers;
 
             return disco;
         }

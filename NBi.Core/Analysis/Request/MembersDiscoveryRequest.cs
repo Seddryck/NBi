@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NBi.Core.Analysis.Request
@@ -6,6 +7,7 @@ namespace NBi.Core.Analysis.Request
     public class MembersDiscoveryRequest : BaseDiscoveryRequest
     {
         public string MemberCaption { get; set; }
+        public IEnumerable<string> Exlusions { get; set; }
         public string Function { get; set; }
 
         protected internal MembersDiscoveryRequest()
@@ -35,5 +37,7 @@ namespace NBi.Core.Analysis.Request
             }
         }
 
+
+        
     }
 }

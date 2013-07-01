@@ -61,14 +61,12 @@ namespace NBi.NUnit.Builder
                 hierarchy = ((LevelXml)sutXml.Item).Hierarchy;
                 level = sutXml.Item.Caption;
             }
-            
-
-            
-            
+           
             return discoveryFactory.Build
                 (
                     sutXml.Item.GetConnectionString(),
                     sutXml.ChildrenOf,
+                    sutXml.Exclude.Items,
                     perspective,
                     dimension,
                     hierarchy,

@@ -14,12 +14,18 @@ namespace NBi.Core.Analysis.Member
         public string ConnectionString { get; private set; }
         public string Function { get; private set; }
         public string MemberCaption { get; private set; }
+        public IEnumerable<string> ExcludedMembers { get; private set; }
 
         public MembersCommand(string connectionString, string function, string memberCaption)
+            : this(connectionString,function,memberCaption,null)
+        {}
+
+        public MembersCommand(string connectionString, string function, string memberCaption, IEnumerable<string> excludedMembers)
         {
             ConnectionString = connectionString;
             Function = function;
             MemberCaption = memberCaption;
+            ExcludedMembers = excludedMembers;
         }
 
         protected void Inform(string text)
@@ -87,7 +93,7 @@ namespace NBi.Core.Analysis.Member
             {
                 var path = BuildPath(filters);
                 var perspective = GetPerspective(filters);
-                var commandText = Build(perspective.Value, path, Function, MemberCaption);
+                var commandText = Build(perspective.Value, path, Function, MemberCaption, ExcludedMembers);
                 cmd.CommandText = commandText;
                 var cs = ExecuteCellSet(cmd);
                 // Traverse the response (The response is on first line!!!) 
@@ -138,11 +144,27 @@ namespace NBi.Core.Analysis.Member
 
         public string Build(string perspective, string path, string function, string memberCaption)
         {
-            var commandText = string.Empty;
+            return Build(perspective, path, function,memberCaption, null);
+        }
+
+        public string Build(string perspective, string path, string function, string memberCaption, IEnumerable<string> exludedMembers)
+        {
+            var members = string.Empty;
             if (string.IsNullOrEmpty(memberCaption))
-                commandText = string.Format("select {0} on 0, {1}.{2} on 1 from [{3}]", "{}", path, function, perspective);
+                members = string.Format("{0}.{1}", path, function);
             else
-                commandText = string.Format("select {0} on 0, {1}.[{4}].{2} on 1 from [{3}]", "{}", path, function, perspective, memberCaption);
+                members = string.Format("{0}.[{2}].{1}", path, function, memberCaption);
+
+            if (exludedMembers!=null && exludedMembers.Count()>0)
+            {
+                foreach (var excl in exludedMembers)
+                    members = string.Format("{0}-{1}.[{2}]", members, path, excl);
+                members = string.Format("{0}{1}{2}", "{", members, "}");
+            }
+                            
+            var commandText = string.Empty;
+            commandText = string.Format("select {0} on 0, {1} on 1 from [{2}]", "{}", members, perspective);
+
             Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, commandText);
             return commandText;
         }

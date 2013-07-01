@@ -45,4 +45,18 @@
 			<contain caption="All Organizations"/>
 		</assert>
 	</test>
+	<test name="In dimension Customers, the members of level named 'State-Provinces' (excluded Iowa and Arizona) contain 'Washington'" uid="0001">
+		<system-under-test>
+			<members>
+				<level caption="State-Province" dimension="Customer" hierarchy="State-Province" perspective="Adventure Works"/>
+				<exclude>
+					<item>Arizona</item>
+					<item>Iowa</item>
+				</exclude>
+			</members>
+		</system-under-test>
+		<assert>
+			<contain caption="Washington"/>
+		</assert>
+	</test>
 </testSuite>

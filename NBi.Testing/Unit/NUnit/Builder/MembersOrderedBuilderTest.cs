@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using Moq;
 using NBi.Core.Analysis.Request;
 using NBi.NUnit.Builder;
@@ -56,6 +57,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                 dfs.Build(
                     It.IsAny<string>(),
                     It.IsAny<string>(),
+                    It.IsAny<List<string>>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
@@ -93,6 +95,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                 dfs.Build(
                     It.IsAny<string>(),
                     It.IsAny<string>(),
+                    It.IsAny<List<string>>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
@@ -106,7 +109,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             Assert.That(sut, Is.InstanceOf<MembersDiscoveryRequest>());
-            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString-default", It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), null));
+            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString-default", It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), null));
         }
 
         [Test]
@@ -127,6 +130,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                 dfs.Build(
                     It.IsAny<string>(),
                     It.IsAny<string>(),
+                     It.IsAny<List<string>>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
@@ -140,7 +144,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             Assert.That(sut, Is.InstanceOf<MembersDiscoveryRequest>());
-            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", "memberCaption", "perspective", "dimension", "hierarchy", null));
+            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", "memberCaption", It.IsAny<List<string>>(), "perspective", "dimension", "hierarchy", null));
         }
 
         [Test]
@@ -162,6 +166,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                 dfs.Build(
                     It.IsAny<string>(),
                     It.IsAny<string>(),
+                    It.IsAny<List<string>>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
@@ -175,7 +180,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             Assert.That(sut, Is.InstanceOf<MembersDiscoveryRequest>());
-            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", "memberCaption", "perspective", "dimension", "hierarchy", "level"));
+            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", "memberCaption", It.IsAny<List<string>>(), "perspective", "dimension", "hierarchy", "level"));
         }
     }
 }

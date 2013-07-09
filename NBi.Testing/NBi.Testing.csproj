@@ -76,6 +76,7 @@
     <Compile Include="Acceptance\TestSuiteRunner.cs" />
     <Compile Include="ConnectionStringReader.cs" />
     <Compile Include="DiskOnFile.cs" />
+    <Compile Include="Integration\Core\Analysis\Member\MembersCommandTest.cs" />
     <Compile Include="Integration\Core\Analysis\Metadata\Adomd\AdomdDiscoveryCommandTest.cs" />
     <Compile Include="Integration\Core\Analysis\Metadata\Adomd\ColumnDiscoveryCommandTest.cs" />
     <Compile Include="Integration\Core\Analysis\Metadata\Adomd\TableDiscoveryCommandTest.cs" />
@@ -171,7 +172,6 @@
     <Compile Include="Unit\Xml\XmlManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Integration\Core\Analysis\Member\" />
     <Folder Include="Integration\Core\Analysis\Query\" />
     <Folder Include="Unit\Core\Query\" />
   </ItemGroup>

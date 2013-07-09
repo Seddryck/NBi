@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NBi.Core.Analysis.Member;
 
 namespace NBi.Core.Analysis.Request
 {
     public class MembersDiscoveryRequest : BaseDiscoveryRequest
     {
         public string MemberCaption { get; set; }
-        public IEnumerable<string> Exlusions { get; set; }
+        public IEnumerable<string> ExcludedMembers { get; set; }
+        public IEnumerable<PatternValue> ExcludedPatterns { get; set; }
         public string Function { get; set; }
 
         protected internal MembersDiscoveryRequest()

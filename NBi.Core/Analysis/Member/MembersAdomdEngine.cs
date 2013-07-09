@@ -8,7 +8,7 @@ namespace NBi.Core.Analysis.Member
     {
         public virtual MemberResult GetMembers(MembersDiscoveryRequest command)
         {
-            var cmd = new MembersCommand(command.ConnectionString, command.Function, command.MemberCaption, command.Exlusions);
+            var cmd = new MembersCommand(command.ConnectionString, command.Function, command.MemberCaption, command.ExcludedMembers, command.ExcludedPatterns);
             return cmd.List(command.GetAllFilters());
         }
     }

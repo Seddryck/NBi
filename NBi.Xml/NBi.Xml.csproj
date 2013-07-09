@@ -61,6 +61,7 @@
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
     <Compile Include="Items\ExcludeXml.cs" />
+    <Compile Include="Items\PatternXml.cs" />
     <Compile Include="Items\TablesXml.cs" />
     <Compile Include="Items\TableXml.cs" />
     <Compile Include="Items\MeasuresXml.cs" />

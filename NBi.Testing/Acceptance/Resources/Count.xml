@@ -35,14 +35,40 @@
 			<count more-than="100"/>
 		</assert>
 	</test>
-	<test name="Customers more than 100 members" uid="0003">
+	<test name="Department Name more than 5 members" uid="0003">
 		<system-under-test>
 			<members>
-				<level caption="Department Name" dimension="Employee" hierarchy="Department Name" perspective="Adventure Works"/>
+				<level caption="Department" dimension="Employee" hierarchy="Employee Department" perspective="Adventure Works"/>
 			</members>
 		</system-under-test>
 		<assert>
-			<count less-than="30"/>
+			<count more-than="5"/>
+		</assert>
+	</test>
+	<test name="Employee more than 30 members not-starting with 'John'" uid="0003">
+		<system-under-test>
+			<members>
+				<level caption="Employee" dimension="Employee" hierarchy="Employee Department" perspective="Adventure Works"/>
+				<exclude>
+					<items pattern="start-with">John</items>
+				</exclude>
+			</members>
+		</system-under-test>
+		<assert>
+			<count more-than="30"/>
+		</assert>
+	</test>
+	<test name="Status has exactly 2 members" uid="0003">
+		<system-under-test>
+			<members>
+				<hierarchy dimension="Employee" caption="Status" perspective="Adventure Works"/>
+				<exclude>
+					<item>All</item>
+				</exclude>
+			</members>
+		</system-under-test>
+		<assert>
+			<count exactly="2"/>
 		</assert>
 	</test>
 

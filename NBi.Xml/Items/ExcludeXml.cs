@@ -10,6 +10,9 @@ namespace NBi.Xml.Items
         [XmlElement("item")]
         public List<string> Items { get; set; }
 
+        [XmlElement("items")]
+        public List<PatternXml> Patterns { get; set; }
+
         public ExcludeXml()
         {
             Items = new List<string>();

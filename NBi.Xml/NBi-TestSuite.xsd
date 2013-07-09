@@ -113,6 +113,24 @@
 														<xs:complexType>
 															<xs:sequence>
 																<xs:element name="item" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+																<xs:element name="items" minOccurs="0" maxOccurs="unbounded">
+																  <xs:complexType>
+																	  <xs:simpleContent>
+																		  <xs:extension base="xs:string">
+																			  <xs:attribute name="pattern" use="required">
+																				  <xs:simpleType>
+																					  <xs:restriction base="xs:string">
+																						  <xs:enumeration value="start-with"/>
+																						  <xs:enumeration value="exact"/>
+																						  <xs:enumeration value="contain"/>
+																						  <xs:enumeration value="end-with"/>
+																					  </xs:restriction>
+																				  </xs:simpleType>
+																			  </xs:attribute>
+																		  </xs:extension>
+																	  </xs:simpleContent>
+																  </xs:complexType>
+																</xs:element>
 															</xs:sequence>
 														</xs:complexType>
 													</xs:element>

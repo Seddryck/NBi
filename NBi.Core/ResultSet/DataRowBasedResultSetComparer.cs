@@ -41,7 +41,7 @@ namespace NBi.Core.ResultSet
             throw new ArgumentException();
         }
 
-        private void CalculateHashValues(DataTable dt, Dictionary<Int64, CompareHelper> dict, DataRowKeysComparer keyComparer, bool IsSystemUnderTest)
+        private void CalculateHashValues(DataTable dt, Dictionary<Int64, CompareHelper> dict, DataRowKeysComparer keyComparer, bool isSystemUnderTest)
         {
             dict.Clear();
 
@@ -64,8 +64,8 @@ namespace NBi.Core.ResultSet
                 {
                     throw new ResultSetComparerException(
                         string.Format("The {0} data set has some duplicated keys. Check your keys definition or the result set defined in your {1}.", 
-                            IsSystemUnderTest ? "actual" : "expected",
-                            IsSystemUnderTest ? "system-under-test" : "assertion"
+                            isSystemUnderTest ? "actual" : "expected",
+                            isSystemUnderTest ? "system-under-test" : "assertion"
                             )
                         );
                 }
@@ -96,8 +96,8 @@ namespace NBi.Core.ResultSet
 
             var keyComparer = new DataRowKeysComparer(Settings, x.Columns.Count);
 
-            CalculateHashValues(x, xDict, keyComparer, true);
-            CalculateHashValues(y, yDict, keyComparer, false);
+            CalculateHashValues(x, xDict, keyComparer, false);
+            CalculateHashValues(y, yDict, keyComparer, true);
 
             chrono = DateTime.Now;
             List<CompareHelper> missingRows;

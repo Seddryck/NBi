@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
-	<test name="'Reseller Order Count' by year before 2006" uid="0001">
+	<!--<test name="'Reseller Order Count' by year before 2006" uid="0001">
 		<system-under-test>
 			<execution>
 				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
@@ -212,6 +212,53 @@
 						<cell>(value)</cell>
 						<cell>(value)</cell>
 						<cell>(value)</cell>
+						<cell>(value)</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>-->
+	<test name="Query with a natural hierarchy returns more column than in SQL Server Management Studio">
+		<system-under-test>
+			<execution>
+				<query name="SQL Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+					<![CDATA[
+						select
+							[Measures].[Customer Count] on 0,
+							[Date].[Fiscal].[Fiscal Quarter].Members on 1
+						from
+							[Adventure Works]
+						where
+							([Date].[Calendar Year].&[2005])
+					]]>
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo keys="all-except-last">
+				<resultSet>
+					<row>
+						<cell>FY 2005</cell><!--Year-->
+						<cell>H2 FY 2005</cell><!--Semester-->
+						<cell>Q3 FY 2005</cell>
+						<cell>(null)</cell>
+					</row>
+					<row>
+						<cell>FY 2005</cell>
+						<cell>H2 FY 2005</cell>
+						<cell>Q4 FY 2005</cell>
+						<cell>(null)</cell>
+					</row>
+					<row>
+						<cell>FY 2006</cell>
+						<cell>H1 FY 2006</cell>
+						<cell>Q1 FY 2006</cell>
+						<cell>(value)</cell>
+					</row>
+					<row>
+						<cell>FY 2006</cell>
+						<cell>H1 FY 2006</cell>
+						<cell>Q2 FY 2006</cell>
 						<cell>(value)</cell>
 					</row>
 				</resultSet>

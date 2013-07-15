@@ -1,4 +1,4 @@
-For this kind of test, you'll need to define your system under test as a "query" and your assertion as an "equalTo" constraint. You've the choice to assert the result of your query against three types of resources:
+NBi is able to execute *SQL*, *MDX* or *DAX (since version 1.2)* queries and capture the result set to compare it with another resource. For this kind of test, you'll need to define your system under test as a "query" and your assertion as an "equalTo" constraint. You've the choice to assert the result of your query against three types of resources:
 * An embedded result set
 * An external csv file
 * Another query (or the same query on another connection)
@@ -7,13 +7,16 @@ NBi will create a brief analysis of the comparison of result sets generated. For
 !! System Under Test
 Let's start with the definition of your system under test:
 
-You must create a tag named "query" under the tag "system-under-test". You can associate a connection string to this query (or rely on the default connection string).
+You must create a xml element named "execution" under the tag "system-under-test". Under this xml element, you must create another xml element named 'query'. You can associate a connection string to this query (or rely on the [default connection string|Manage connection strings]).
 {code:xml}
 <system-under-test>
-	<query connectionString="...">
+	<execution>
+		<query connectionString="...">
+	</execution>
 </system-under-test>
 {code:xml}
-The query can be specified inside the test suite.
+
+The query can be specified directly inside the test suite.
 {code:xml}
 <query connectionString="...">
 <![CDATA[

@@ -91,20 +91,4 @@
 			</subsetOf>
 		</assert>
 	</test>
-	<test name="In perspective 'Inventory', the measures of measure-group 'Date' are all defined in the following set of 2 values">
-		<category>Tabular</category>
-		<system-under-test>
-			<structure>
-				<measures measure-group="Date" perspective="Inventory"
-					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"		  
-				/>
-			</structure>
-		</system-under-test>
-		<assert>
-			<subsetOf>
-				<item>Days In Current Quarter</item>
-				<item>Days In Current Quarter to Date</item>
-			</subsetOf>
-		</assert>
-	</test>
 </testSuite>

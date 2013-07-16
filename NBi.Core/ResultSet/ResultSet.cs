@@ -112,7 +112,7 @@ namespace NBi.Core.ResultSet
             foreach (DataRow row in Rows)
             {
                 foreach (object cell in row.ItemArray)
-                    Trace.WriteLine(string.Format("| {0}\t", cell.ToString()));
+                    Trace.Write(string.Format("| {0}\t", cell.ToString()));
                 Trace.WriteLine(string.Format("|"));
             }
             Trace.WriteLine(string.Format(new string('-', 30)));

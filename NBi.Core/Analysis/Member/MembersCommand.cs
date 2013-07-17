@@ -46,7 +46,6 @@ namespace NBi.Core.Analysis.Member
             }
             catch (AdomdConnectionException ex)
             {
-
                 throw new ConnectionException(ex, conn.ConnectionString);
             }
 

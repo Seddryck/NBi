@@ -123,7 +123,7 @@
     <Compile Include="Unit\NUnit\Builder\StructureEquivalentToBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\QuerySyntacticallyCorrectBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\QueryFasterThanBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\QueryEqualsToBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ExecutionEqualsToBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureExistsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersContainsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersOrderedBuilderTest.cs" />

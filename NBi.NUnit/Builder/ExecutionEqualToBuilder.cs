@@ -61,6 +61,7 @@ namespace NBi.NUnit.Builder
             ResultSetComparisonSettings settings = new ResultSetComparisonSettings(
                 ConstraintXml.KeysDef,
                 ConstraintXml.ValuesDef,
+                ConstraintXml.Tolerance,
                 ConstraintXml.ColumnsDef
                 );
 

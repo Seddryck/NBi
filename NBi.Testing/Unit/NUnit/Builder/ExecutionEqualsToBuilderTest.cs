@@ -13,7 +13,7 @@ using Systems = NBi.Xml.Systems;
 namespace NBi.Testing.Unit.NUnit.Builder
 {
     [TestFixture]
-    public class QueryEqualsToBuilderTest
+    public class ExecutionEqualsToBuilderTest
     {
 
         #region SetUp & TearDown
@@ -77,6 +77,27 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctr = builder.GetConstraint();
 
             Assert.That(ctr, Is.InstanceOf<EqualToConstraint>());
+        }
+
+        [Test]
+        public void GetConstraint_BuildWithTolerance_CorrectConstraint()
+        {
+            var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
+            sutXmlStubFactory.Setup(s => s.Item.GetQuery()).Returns("query");
+            var sutXml = sutXmlStubFactory.Object;
+
+            var ctrXml = new EqualToXml();
+            ctrXml.Query = new Items.QueryXml() { InlineQuery = "query" };
+            ctrXml.Tolerance = 10;
+
+            var builder = new ExecutionEqualToBuilder();
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var ctr = builder.GetConstraint();
+
+            Assert.That(ctr, Is.InstanceOf<EqualToConstraint>());
+            //Get the tolerance for the column with 1 (and not 0) to avoid to get the tolerance on a key.
+            Assert.That(((EqualToConstraint)ctr).Engine.Settings.GetTolerance(1), Is.EqualTo(10));
         }
 
         [Test]

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using NBi.UI.Genbi.View;
+using NBi.UI.Genbi.Presenter;
+using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi
 {
@@ -23,9 +24,7 @@ namespace NBi.UI.Genbi
             //var interactionManager = new InteractionManager();
 
             //var masterPresenter = new MasterPresenter(documentPresenterFactory, validationService, transformationService, interactionManager);
-            var dispatcher = new GenbiDispatcher();
-            dispatcher.Initialize();
-
+            var masterView = new TestSuiteView();
 
             if (args != null && args.Length != 0)
             {
@@ -33,7 +32,7 @@ namespace NBi.UI.Genbi
                 //TODO dispatcher.Open(testSuiteToOpen);
             }
 
-            Application.Run(dispatcher.GetMainForm());
+            Application.Run(masterView);
         }
     }
 }

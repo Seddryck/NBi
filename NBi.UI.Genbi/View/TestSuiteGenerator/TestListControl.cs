@@ -1,96 +1,63 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
-using NBi.Service.Dto;
-using NBi.UI.Genbi.Interface.TestSuiteGenerator.Events;
+using NBi.UI.Genbi.Presenter;
 
 namespace NBi.UI.Genbi.View.TestSuiteGenerator
 {
     public partial class TestListControl : UserControl
     {
 
-        internal  TestSuiteViewAdapter Adapter { get; set; }
-
         public TestListControl()
         {
             InitializeComponent();
         }
 
-        internal void DeclareBindings()
+        internal void DataBind(TestListPresenter presenter)
         {
-            testsList.DataSource = bindingTests;
-        }
-
-        public BindingList<Test> Tests
-        {
-            get
+            if (presenter != null)
             {
-                return (BindingList<Test>)(bindingTests.DataSource);
-            }
-            set
-            {
-                bindingTests.DataSource = value;
+                testsList.DataSource = presenter.Tests;
                 testsList.DisplayMember = "Title";
+
+                testsList.DataBindings.Add("SelectedItem", presenter, "SelectedTest", true, DataSourceUpdateMode.OnPropertyChanged);
+                testsList.SelectedIndexChanged += (s, args) => testsList.DataBindings["SelectedItem"].WriteValue();
+
+                progressBarTest.DataBindings.Add("Value", presenter, "Progress");
             }
         }
 
-        public int TestSelectedIndex
-        {
-            get
-            {
-                return testsList.SelectedIndex;
-            }
-            set
-            {
-                testsList.SelectedIndex = value;
-            }
-        }
+        //public int ProgressValue
+        //{
+        //    set
+        //    {
+        //        //In case of issue ajust the value to be in [0,100]
+        //        value = Math.Max((Math.Min(value, 100)), 0);
 
-        public int ProgressValue
-        {
-            set
-            {
-                if (progressBarTest.Value != value)
-                {
-                    progressBarTest.Value = value;
-                    progressBarTest.Refresh();
-                }
-            }
-        }
-
-
-        private void TestsList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Adapter.InvokeTestSelect(new TestSelectEventArgs(testsList.SelectedIndex));
-        }
-
-
-        private void TestsList_DoubleClick(object sender, EventArgs e)
-        {
-            if (!Adapter.DisplayTestForm.Visible)
-                Adapter.DisplayTestForm.Show();
-        }
+        //        //If value doesn't change effectively don't do the update
+        //        if (progressBarTest.Value != value)
+        //        {
+        //            progressBarTest.Value = value;
+        //            progressBarTest.Refresh();
+        //        }
+        //    }
+        //}
 
         private void TestsList_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right)
-            {
-                //select the item under the mouse pointer
-                testsList.SelectedIndex = testsList.IndexFromPoint(e.Location);
-                if (testsList.SelectedIndex != -1)
-                {
-                    testsListMenu.Show(testsList, e.Location);
-                }
-            }
+            //select the item under the mouse pointer
+            testsList.SelectedIndex = testsList.IndexFromPoint(e.Location);
+
+            //If it's a right click (and something is selected) display the pop-up menu
+            if (e.Button == MouseButtons.Right && testsList.SelectedIndex != -1)
+                testsListMenu.Show(testsList, e.Location);
         }
 
-        private void DeleteTest_Click(object sender, EventArgs e)
+
+
+        public ToolStripMenuItem DeleteCommand
         {
-            Adapter.InvokeTestDelete(EventArgs.Empty);
+            get { return deleteTest; }
         }
-
-
-        
     }
 }

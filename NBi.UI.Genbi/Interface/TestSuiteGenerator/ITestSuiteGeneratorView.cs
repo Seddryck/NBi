@@ -14,6 +14,7 @@ namespace NBi.UI.Genbi.Interface.TestSuiteGenerator
         DataTable CsvContent { get; set; }
         bool UseGrouping { get; set; }
         BindingList<string> Variables { get;  set; }
+        int SelectedVariableIndex { get; }
         BindingList<Test> Tests { get; set; }
         BindingList<string> EmbeddedTemplates { get; set; }
         string Template { get; set; }
@@ -49,6 +50,8 @@ namespace NBi.UI.Genbi.Interface.TestSuiteGenerator
         event EventHandler<SettingsUpdateEventArgs> SettingsUpdate;
         //Create a serie of tests based on template and CSV
         event EventHandler TestsGenerate;
+        //Open existing testsuite 
+        event EventHandler<TestSuiteSelectEventArgs> TestSuiteSelect;
         //Persist the testsuite created
         event EventHandler<TestSuitePersistEventArgs> TestSuitePersist;
         //Select a test
@@ -59,6 +62,8 @@ namespace NBi.UI.Genbi.Interface.TestSuiteGenerator
         event EventHandler TestsUndoGenerate;
         //Clear all the tests generated
         event EventHandler TestsClear;
+
+
 
 
 

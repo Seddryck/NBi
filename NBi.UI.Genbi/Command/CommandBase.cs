@@ -1,12 +1,12 @@
 using System.ComponentModel;
-using NBi.UI.Genbi.Command;
+using System.Windows.Forms;
 
-namespace Greg.XmlEditor.Presentation.Commands
+namespace NBi.UI.Genbi.Command
 {
     /// <summary>
     /// Base abstract class for command implementation
     /// </summary>
-    public abstract class CommandBase : ICommand
+    abstract class CommandBase : ICommand
     {
         private bool isEnabled;
 
@@ -54,6 +54,16 @@ namespace Greg.XmlEditor.Presentation.Commands
         {
             if (this.PropertyChanged != null)
                 this.PropertyChanged(this, new PropertyChangedEventArgs("IsEnabled"));
+        }
+
+        public void ShowException(string text)
+        {
+            MessageBox.Show(text, "Genbi", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+        }
+
+        public void ShowInform(string text)
+        {
+            MessageBox.Show(text, "Genbi", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
     }
 }

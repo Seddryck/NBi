@@ -54,7 +54,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             Assert.That(actual.GetColumnType(3), Is.EqualTo(ColumnType.Text));
             Assert.That(actual.GetColumnType(4), Is.EqualTo(ColumnType.Numeric)); 
             Assert.That(actual.GetColumnType(8), Is.EqualTo(ColumnType.Text));
-            //default for a Value is Numeric
+            //default for a SettingsValue is Numeric
             Assert.That(actual.GetColumnType(9), Is.EqualTo(ColumnType.Numeric));
 
         }

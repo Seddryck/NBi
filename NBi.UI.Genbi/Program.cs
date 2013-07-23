@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 using NBi.UI.Genbi.View;
 
@@ -10,15 +11,21 @@ namespace NBi.UI.Genbi
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(params string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Application.ThreadException += OnUnhandledException;
 
-            var dispatcher = new GenbiDispatcher();
-            dispatcher.Initialize();
+            var bootstrapper = new Bootstrapper();
+            bootstrapper.Boot(args);
+        }
 
-            Application.Run(dispatcher.GetMainForm());
+
+        private static void OnUnhandledException(object sender, ThreadExceptionEventArgs e)
+        {
+            var window = new ExceptionManagerWindow(e.Exception);
+            window.Show();
         }
     }
 }

@@ -4,7 +4,7 @@ using NBi.UI.Genbi.Interface;
 
 namespace NBi.UI.Genbi.Presenter
 {
-    public class BasePresenter<TView> where TView : class, IView
+    internal class BasePresenter<TView> : PresenterBase where TView : class, IView 
     {
         public TView View { get; private set; }
 

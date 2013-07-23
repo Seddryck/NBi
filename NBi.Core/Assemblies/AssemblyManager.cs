@@ -16,7 +16,7 @@ namespace NBi.Core.Assemblies
         /// </summary>
         /// <param name="assemblyPath">The full or relative path of the assembly containing the class from which you want to instantiate an object</param>
         /// <param name="typeName">The type of the object to instantiate</param>
-        /// <param name="ctorParameters">Value of the parameters for the constructor of the type</param>
+        /// <param name="ctorParameters">SettingsValue of the parameters for the constructor of the type</param>
         /// <returns>An instance of the specified class</returns>
         public object GetInstance(string assemblyPath, string typeName, object[] ctorParameters)
         {

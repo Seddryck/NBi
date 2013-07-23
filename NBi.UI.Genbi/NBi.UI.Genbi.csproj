@@ -27,6 +27,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,6 +49,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.TextEditor, Version=3.2.1.6466, Culture=neutral, PublicKeyToken=4d61825e8dd49f1a, processorArchitecture=MSIL">
+      <HintPath>..\packages\ICSharpCode.TextEditor.3.2.1.6466\lib\Net20\ICSharpCode.TextEditor.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -63,20 +67,78 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Command\AutoIndentCommand.cs" />
+    <Compile Include="Command\ButtonCommandBinding.cs" />
+    <Compile Include="Command\CancelFindCommand.cs" />
+    <Compile Include="Command\CommandBase.cs" />
+    <Compile Include="Command\CommandBindings.cs" />
+    <Compile Include="Command\CommandManager.cs" />
+    <Compile Include="Command\DelegateCommand.cs" />
+    <Compile Include="Command\Delegates.cs" />
+    <Compile Include="Command\FindAndReplaceCommand.cs" />
+    <Compile Include="Command\FindCommand.cs" />
+    <Compile Include="Command\ICommand.cs" />
+    <Compile Include="Command\ICommandBinding.cs" />
+    <Compile Include="Command\ReplaceAllCommand.cs" />
+    <Compile Include="Command\ReplaceCommand.cs" />
+    <Compile Include="Command\Settings\AddReferenceCommand.cs" />
+    <Compile Include="Command\Settings\RemoveReferenceCommand.cs" />
+    <Compile Include="Command\Template\OpenTemplateCommand.cs" />
+    <Compile Include="Command\Template\SaveTemplateCommand.cs" />
+    <Compile Include="Command\TestCases\OpenTestCasesCommand.cs" />
+    <Compile Include="Command\TestSuite\OpenTestSuiteCommand.cs" />
+    <Compile Include="Command\TestSuite\SaveAsTestSuiteCommand.cs" />
+    <Compile Include="Command\TestsXml\ClearTestListCommand.cs" />
+    <Compile Include="Command\TestsXml\GenerateTestListCommand.cs" />
+    <Compile Include="Command\TestsXml\UndoGenerateTestListCommand.cs" />
+    <Compile Include="Command\Test\DeleteTestCommand.cs" />
+    <Compile Include="Command\Test\EditTestCommand.cs" />
+    <Compile Include="Command\ToolStripCommandBinding.cs" />
+    <Compile Include="Command\TestCases\RemoveVariableCommand.cs" />
+    <Compile Include="Command\TestCases\RenameVariableCommand.cs" />
+    <Compile Include="IBootstrapper.cs" />
+    <Compile Include="Interface\ITemplateView.cs" />
+    <Compile Include="Interface\ITestCasesView.cs" />
+    <Compile Include="Interface\ISettingsView.cs" />
+    <Compile Include="Interface\ITestSuiteView.cs" />
+    <Compile Include="Interface\ITestsGenerationView.cs" />
     <Compile Include="Interface\RunnerConfig\RunnerConfigBuildEventArgs.cs" />
+    <Compile Include="Interface\TestSuiteGenerator\Events\TestSuiteSelectEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\SettingsUpdateEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\SettingsSelectEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\VariableRemoveEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\TemplatePersistEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\FilePersistEventArgs.cs" />
+    <Compile Include="Presenter\BasePresenter.cs" />
+    <Compile Include="Presenter\DocumentPresenterBase.cs" />
+    <Compile Include="Presenter\FindAndReplacePresenter.cs" />
+    <Compile Include="Presenter\PresenterBase.cs" />
+    <Compile Include="Presenter\SettingsPresenter.cs" />
     <Compile Include="Presenter\RunnerConfigPresenter.cs" />
+    <Compile Include="Presenter\TemplatePresenter.cs" />
+    <Compile Include="Presenter\TestCasesPresenter.cs" />
+    <Compile Include="Presenter\TestListGenerationResult.cs" />
+    <Compile Include="Presenter\TestListPresenter.cs" />
+    <Compile Include="Presenter\TestSuitePresenter.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Interface\RunnerConfig\IRunnerConfigView.cs" />
-    <Compile Include="View\GenbiDispatcher.cs" />
+    <Compile Include="View\AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\ExceptionManagerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ExceptionManagerWindow.Designer.cs">
+      <DependentUpon>ExceptionManagerWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\IAdapter.cs" />
     <Compile Include="View\RunnerConfig\FileControl.cs">
       <SubType>UserControl</SubType>
@@ -97,6 +159,12 @@
     <Compile Include="View\RunnerConfig\RunnerConfigView.Designer.cs">
       <DependentUpon>RunnerConfigView.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\TestSuiteGenerator\NewReferenceWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\NewReferenceWindow.Designer.cs">
+      <DependentUpon>NewReferenceWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\TestSuiteGenerator\TestSuiteView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,17 +177,17 @@
     <Compile Include="View\TestSuiteGenerator\DisplayTestView.Designer.cs">
       <DependentUpon>DisplayTestView.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\TestSuiteGenerator\OpenTemplateView.cs">
+    <Compile Include="View\TestSuiteGenerator\OpenTemplateWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\TestSuiteGenerator\OpenTemplateView.Designer.cs">
-      <DependentUpon>OpenTemplateView.cs</DependentUpon>
+    <Compile Include="View\TestSuiteGenerator\OpenTemplateWindow.Designer.cs">
+      <DependentUpon>OpenTemplateWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\TestSuiteGenerator\RenameVariableView.cs">
+    <Compile Include="View\TestSuiteGenerator\RenameVariableWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\TestSuiteGenerator\RenameVariableView.Designer.cs">
-      <DependentUpon>RenameVariableView.cs</DependentUpon>
+    <Compile Include="View\TestSuiteGenerator\RenameVariableWindow.Designer.cs">
+      <DependentUpon>RenameVariableWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="View\TestSuiteGenerator\SettingsControl.cs">
       <SubType>UserControl</SubType>
@@ -139,13 +207,26 @@
     <Compile Include="View\TestSuiteGenerator\TestListControl.Designer.cs">
       <DependentUpon>TestListControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\TestSuiteGenerator\TestSuiteViewAdapter.cs" />
-    <Compile Include="View\TestSuiteGenerator\VariablesControl.cs">
+    <Compile Include="View\TestSuiteGenerator\TestCasesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="View\TestSuiteGenerator\VariablesControl.Designer.cs">
-      <DependentUpon>VariablesControl.cs</DependentUpon>
+    <Compile Include="View\TestSuiteGenerator\TestCasesControl.Designer.cs">
+      <DependentUpon>TestCasesControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\TestSuiteGenerator\XmlEditor\FindAndReplaceWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\XmlEditor\FindAndReplaceWindow.designer.cs">
+      <DependentUpon>FindAndReplaceWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\XmlEditor\XmlFormattingStrategy.cs" />
+    <Compile Include="View\TestSuiteGenerator\XmlEditor\XmlTextEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\XmlEditor\XmlTextEditorBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\XmlEditor\XmlFoldingStrategy.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
@@ -158,10 +239,14 @@
     <Compile Include="Interface\TestSuiteGenerator\Events\TestSuitePersistEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\TestSelectEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\VariableRenameEventArgs.cs" />
-    <Compile Include="Presenter\BasePresenter.cs" />
-    <Compile Include="Presenter\TestSuiteGeneratorPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <EmbeddedResource Include="View\AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ExceptionManagerWindow.resx">
+      <DependentUpon>ExceptionManagerWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\RunnerConfig\FileControl.resx">
       <DependentUpon>FileControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -171,11 +256,20 @@
     <EmbeddedResource Include="View\RunnerConfig\RunnerConfigView.resx">
       <DependentUpon>RunnerConfigView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\TestSuiteGenerator\DisplayTestView.resx">
+      <DependentUpon>DisplayTestView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TestSuiteGenerator\NewReferenceWindow.resx">
+      <DependentUpon>NewReferenceWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TestSuiteGenerator\OpenTemplateWindow.resx">
+      <DependentUpon>OpenTemplateWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\TestSuiteGenerator\TestSuiteView.resx">
       <DependentUpon>TestSuiteView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\TestSuiteGenerator\RenameVariableView.resx">
-      <DependentUpon>RenameVariableView.cs</DependentUpon>
+    <EmbeddedResource Include="View\TestSuiteGenerator\RenameVariableWindow.resx">
+      <DependentUpon>RenameVariableWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\TestSuiteGenerator\SettingsControl.resx">
       <DependentUpon>SettingsControl.cs</DependentUpon>
@@ -186,9 +280,14 @@
     <EmbeddedResource Include="View\TestSuiteGenerator\TestListControl.resx">
       <DependentUpon>TestListControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\TestSuiteGenerator\VariablesControl.resx">
-      <DependentUpon>VariablesControl.cs</DependentUpon>
+    <EmbeddedResource Include="View\TestSuiteGenerator\TestCasesControl.resx">
+      <DependentUpon>TestCasesControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\TestSuiteGenerator\XmlEditor\FindAndReplaceWindow.resx">
+      <DependentUpon>FindAndReplaceWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\NBi.UI.Genbi.Presenter.SettingsPresenter.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -230,14 +329,36 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <Folder Include="Command\Variable\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icons\accept.png" />
+    <Content Include="Icons\cancel.png" />
+    <Content Include="Icons\csv_open.png" />
+    <Content Include="Icons\find.png" />
+    <Content Include="Icons\folder_page.png" />
+    <Content Include="Icons\note_delete.png" />
+    <Content Include="Icons\note_edit.png" />
+    <Content Include="Icons\note_invalid.png" />
+    <Content Include="Icons\note_valid.png" />
+    <Content Include="Icons\page_add.png" />
+    <Content Include="Icons\page_delete.png" />
+    <Content Include="Icons\page_find.png" />
     <Content Include="Icons\page_gear.png" />
+    <Content Include="Icons\page_go.png" />
     <Content Include="Icons\page_save.png" />
+    <Content Include="Icons\page_undo.png" />
+    <Content Include="Icons\script_open.png" />
+    <Content Include="Icons\script_save.png" />
+    <Content Include="Icons\tag_blue_add.png" />
+    <Content Include="Icons\tag_blue_delete.png" />
     <Content Include="Icons\textfield_delete.png" />
     <Content Include="Icons\textfield_rename.png" />
+    <Content Include="Icons\user.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,52 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using NBi.UI.Genbi.Presenter;
 
 namespace NBi.UI.Genbi.View.TestSuiteGenerator
 {
     public partial class TemplateControl : UserControl
     {
-        internal TestSuiteViewAdapter Adapter { get; set; }
-
         public TemplateControl()
         {
             InitializeComponent();
         }
 
-
-        public bool UseGrouping
+        internal void DataBind(TemplatePresenter presenter)
         {
-            get
+            if (presenter != null)
             {
-                return useGrouping.Checked;
-            }
-            set
-            {
-                useGrouping.Checked = value;
+                template.DataBindings.Add("Text", presenter, "Template", true, DataSourceUpdateMode.OnPropertyChanged);
+                presenter.PropertyChanged += (sender, e) => { template.Text = presenter.Template; };
             }
         }
-
-        public string Template
-        {
-            get
-            {
-                return template.Text;
-            }
-            set
-            {
-                template.Text = value;
-            }
-        }
-
-        private void Template_TextChanged(object sender, EventArgs e)
-        {
-            Adapter.InvokeTemplateUpdate(EventArgs.Empty);
-        }
-
     }
 }

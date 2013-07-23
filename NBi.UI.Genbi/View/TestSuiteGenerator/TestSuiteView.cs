@@ -3,50 +3,130 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
+using NBi.Service;
 using NBi.Service.Dto;
-using NBi.UI.Genbi.Interface.TestSuiteGenerator.Events;
+using NBi.UI.Genbi.Command;
+using NBi.UI.Genbi.Interface;
+using NBi.UI.Genbi.Presenter;
 
 namespace NBi.UI.Genbi.View.TestSuiteGenerator
 {
-    public partial class TestSuiteView : Form
+    partial class TestSuiteView : Form, ITestCasesView, ITemplateView, ISettingsView, ITestsGenerationView, ITestSuiteView
     {
-        protected TestSuiteViewAdapter Adapter { get; set; }
-        protected GenbiDispatcher Dispatcher { get; set; }
+
+        private TestCasesPresenter TestCasesPresenter {get; set;}
+        private TemplatePresenter TemplatePresenter { get; set; }
+        private SettingsPresenter SettingsPresenter { get; set; }
+        private TestListPresenter TestListPresenter { get; set; }
+        private TestSuitePresenter TestSuitePresenter { get; set; } 
 
 
-        public TestSuiteView(GenbiDispatcher dispatcher, TestSuiteViewAdapter adapter)
+        public TestSuiteView()
         {
-            Dispatcher = dispatcher;
-            Adapter = adapter;
+            TestCasesPresenter = new TestCasesPresenter(this, new RenameVariableWindow(), new TestCasesManager());
+            TemplatePresenter = new TemplatePresenter(this, new TemplateManager());
+            SettingsPresenter = new SettingsPresenter(this, new SettingsManager());
+            TestListPresenter = new TestListPresenter(this, new TestListManager());
+            TestSuitePresenter = new TestSuitePresenter(this, new TestSuiteManager());
+
             InitializeComponent();
             DeclareBindings();
+            BindPresenter();
         }
 
         protected void DeclareBindings()
         {
-            testListControl.Adapter = Adapter;
-            testListControl.DeclareBindings();
+            testCasesControl.DataBind(TestCasesPresenter);
+            settingsControl.DataBind(SettingsPresenter);
+            templateControl.DataBind(TemplatePresenter);
+            testListControl.DataBind(TestListPresenter);
 
-            variablesControl.Adapter = Adapter;
-            variablesControl.DeclareBindings();
+            //Synchronisation between the presenters
+            TemplatePresenter.PropertyChanged += (sender, e) => TestListPresenter.Template = TemplatePresenter.Template;
+            TestCasesPresenter.PropertyChanged += (sender, e) =>
+                {
+                    switch (e.PropertyName)
+                    {
+                        case "TestCases":
+                            TestListPresenter.TestCases = TestCasesPresenter.TestCases;
+                            break;
+                        case "Variables":
+                            TestListPresenter.Variables = TestCasesPresenter.Variables;
+                            break;
+                    }
 
-            settingsControl.Adapter = Adapter;
-            settingsControl.DeclareBindings();
+                };
+            SettingsPresenter.PropertyChanged += (sender, e) =>
+            {
+                switch (e.PropertyName)
+                {
+                    case "Settings":
+                        TestSuitePresenter.Settings = SettingsPresenter.Settings;
+                        break;
+                }
 
-            templateControl.Adapter = Adapter;
+            };
+            TestListPresenter.PropertyChanged += (sender, e) =>
+            {
+                switch (e.PropertyName)
+                {
+                    case "Tests":
+                        TestSuitePresenter.Tests = TestListPresenter.Tests;
+                        break;
+                }
+
+            };
         }
+
+
+        private void BindPresenter()
+        {
+            CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.OpenTestCasesCommand, openTestCasesToolStripMenuItem);
+            CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.OpenTestCasesCommand, openTestCasesToolStripButton);
+            CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.RemoveVariableCommand, testCasesControl.RemoveCommand);
+            CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.RenameVariableCommand, testCasesControl.RenameCommand);
+
+            CommandManager.Instance.Bindings.Add(this.TemplatePresenter.OpenTemplateCommand, openTemplateToolStripMenuItem);
+            CommandManager.Instance.Bindings.Add(this.TemplatePresenter.OpenTemplateCommand, openTemplateToolStripButton);
+            CommandManager.Instance.Bindings.Add(this.TemplatePresenter.SaveTemplateCommand, saveAsTemplateToolStripMenuItem);
+            CommandManager.Instance.Bindings.Add(this.TemplatePresenter.SaveTemplateCommand, saveAsTemplateToolStripButton);
+
+            CommandManager.Instance.Bindings.Add(this.SettingsPresenter.AddReferenceCommand, settingsControl.AddCommand);
+            CommandManager.Instance.Bindings.Add(this.SettingsPresenter.RemoveReferenceCommand, settingsControl.RemoveCommand);
+
+            //CommandManager.Instance.Bindings.Add(this.TestListPresenter.OpenTestSuiteCommand, openTestSuiteToolStripMenuItem);
+            //CommandManager.Instance.Bindings.Add(this.TestListPresenter.OpenTestSuiteCommand, openTestSuiteToolStripButton);
+
+
+            CommandManager.Instance.Bindings.Add(this.TestListPresenter.GenerateTestsXmlCommand, generateTestsToolStripMenuItem);
+            CommandManager.Instance.Bindings.Add(this.TestListPresenter.GenerateTestsXmlCommand, generateTestsToolStripButton);
+            CommandManager.Instance.Bindings.Add(this.TestListPresenter.ClearTestsXmlCommand, clearTestsToolStripMenuItem);
+            CommandManager.Instance.Bindings.Add(this.TestListPresenter.ClearTestsXmlCommand, clearTestsToolStripButton);
+            CommandManager.Instance.Bindings.Add(this.TestListPresenter.UndoGenerateTestsXmlCommand, undoGenerateTestsToolStripMenuItem);
+            CommandManager.Instance.Bindings.Add(this.TestListPresenter.UndoGenerateTestsXmlCommand, undoGenerateTestsToolStripButton);
+            CommandManager.Instance.Bindings.Add(this.TestListPresenter.DeleteTestCommand, testListControl.DeleteCommand);
+
+            CommandManager.Instance.Bindings.Add(this.TestSuitePresenter.SaveAsTestSuiteCommand, saveAsTestSuiteToolStripMenuItem);
+            CommandManager.Instance.Bindings.Add(this.TestSuitePresenter.SaveAsTestSuiteCommand, saveAsTestSuiteToolStripButton);
+        }
+
+        private void UnbindPresenter()
+        {
+            //CommandManager.Instance.Bindings.Remove(this.Presenter.RemoveVariableCommand, apply);
+        }
+
 
         #region properties
 
-        public DataTable CsvContent
+        public DataTable TestCases
         {
             get
             {
-                return (DataTable)(variablesControl.bindingCsv.DataSource);
+                return (DataTable)(testCasesControl.bindingCsv.DataSource);
             }
             set
             {
-                variablesControl.bindingCsv.DataSource = value;
+                testCasesControl.bindingCsv.DataSource = value;
             }
         }
 
@@ -54,47 +134,36 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             get
             {
-                return templateControl.UseGrouping;
+                return false;//templateControl.UseGrouping;
             }
             set
             {
-                templateControl.UseGrouping = value;
+                //templateControl.UseGrouping = value;
             }
         }
 
-        public BindingList<string> Variables
-        {
-            get
-            {
-                return variablesControl.Variables;
-            }
-            set
-            {
-                variablesControl.Variables = value;
-            }
-        }
 
         public BindingList<Test> Tests
         {
             get
             {
-                return testListControl.Tests;
+                return null;
             }
             set
             {
-                testListControl.Tests = value;
+                //testListControl.Tests = value;
             }
         }
 
-        public string Template
+        public string TemplateValue
         {
             get
             {
-                return templateControl.Template;
+                return null;//templateControl.Template;
             }
             set
             {
-                templateControl.Template = value;
+                //templateControl.Template = value;
             }
         }
 
@@ -103,11 +172,11 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             get
             {
-                return settingsControl.Value;
+                return null; //settingsControl.Value;
             }
             set
             {
-                settingsControl.Value = value;
+                //settingsControl.Value = value;
             }
         }
 
@@ -116,11 +185,35 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             get
             {
-                return settingsControl.Names;
+                return null; //settingsControl.Names;
             }
             set
             {
-                settingsControl.Names = value;
+                //settingsControl.Names = value;
+            }
+        }
+
+        public int SettingsSelectedIndex
+        {
+            get
+            {
+                return 0;
+            }
+            set
+            {
+                
+            }
+        }
+
+        public Test TestSelection
+        {
+            get
+            {
+                return null; //testListControl.TestSelection;
+            }
+            set
+            {
+                //testListControl.TestSelection = value;
             }
         }
 
@@ -128,80 +221,21 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             get
             {
-                return testListControl.TestSelectedIndex;
+                return 0;// testListControl.TestSelectedIndex;
             }
             set
             {
-                testListControl.TestSelectedIndex = value;
+                //testListControl.TestSelectedIndex = value;
             }
         }
 
-        public bool CanGenerate
-        {
-            set
-            {
-                generateToolStripMenuItem.Enabled = value;
-                toolStripTestSuiteGenerate.Enabled = value;
-            }
-        }
-
-        public bool CanUndo
-        {
-            set
-            {
-                undoToolStripMenuItem.Enabled = value;
-            }
-        }
-
-        public bool CanClear
-        {
-            set
-            {
-                clearToolStripMenuItem.Enabled = value;
-                toolStripTestSuiteSaveAs.Enabled = value;
-            }
-        }
-
-        public bool CanSaveAs
-        {
-            set
-            {
-                saveAsToolStripMenuItem.Enabled = value;
-            }
-        }
-
-        public bool CanSaveTemplate
-        {
-            set
-            {
-                saveTemplateAsToolStripMenuItem.Enabled = value;
-            }
-        }
-
-        public bool CanRename
-        {
-            set
-            {
-                variablesControl.CanRename = value;
-            }
-        }
-
-        public bool CanRemove
-        {
-            set
-            {
-                variablesControl.CanRemove = value;
-            }
-        }
-
-
-        public int ProgressValue
-        {
-            set
-            {
-                testListControl.ProgressValue = value;
-            }
-        }
+        //public int ProgressValue
+        //{
+        //    set
+        //    {
+        //        testListControl.ProgressValue = value;
+        //    }
+        //}
 
         #endregion
 
@@ -211,73 +245,83 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
 
         }
 
-        private void Generate_Click(object sender, EventArgs e)
-        {
-            Adapter.InvokeTestsGenerate(e);
-        }
-
-        private void Undo_Click(object sender, EventArgs e)
-        {
-            Adapter.InvokeTestsUndoGenerate(e);
-        }
-
-        private void OpenCsv_Click(object sender, EventArgs e)
-        {
-            var openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "All Files (*.*)|*.*|CSV (Comma delimited) (*.csv)|*.csv|Text Files (*.txt)|*.txt";
-            openFileDialog.FilterIndex = 2;
-            DialogResult result = openFileDialog.ShowDialog();
-            if (result == DialogResult.OK)
-                Adapter.InvokeCsvSelect(new CsvSelectEventArgs(openFileDialog.FileName));
-        }
-
-
-        private void OpenTemplate_Click(object sender, EventArgs e)
-        {
-            if (!Adapter.OpenTemplateForm.Visible)
-                Adapter.OpenTemplateForm.Show(this);
-        }
-
-        private void SaveTemplate_Click(object sender, EventArgs e)
-        {
-            var saveAsDialog = new SaveFileDialog();
-            saveAsDialog.Filter = "All Files (*.*)|*.*|NBi Test Template Files (*.nbitt)|*.nbitt|Text Files (*.txt)|*.txt";
-            saveAsDialog.FilterIndex = 2;
-            DialogResult result = saveAsDialog.ShowDialog();
-            if (result == DialogResult.OK)
-                Adapter.InvokeTemplatePersist(new TemplatePersistEventArgs(saveAsDialog.FileName));
-        }
-
-        private void SaveTestSuiteAs_Click(object sender, EventArgs e)
-        {
-            var saveAsDialog = new SaveFileDialog();
-            saveAsDialog.Filter = "All Files (*.*)|*.*|NBi Test Suite Files (*.nbits)|*.nbits|Xml Files (*.xml)|*.xml|Text Files (*.txt)|*.txt";
-            saveAsDialog.FilterIndex = 2;
-            DialogResult result = saveAsDialog.ShowDialog();
-            if (result == DialogResult.OK)
-                Adapter.InvokeTestSuitePersist(new TestSuitePersistEventArgs(saveAsDialog.FileName));
-        }
-
-
-        private void Clear_Click(object sender, EventArgs e)
-        {
-            var diagRes = MessageBox.Show(
-                "Are your sure you want to clear the test-suite?",
-                "Genbi",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Question,
-                MessageBoxDefaultButton.Button1);
-
-            if (diagRes.HasFlag(DialogResult.OK))
-                Adapter.InvokeTestsClear(EventArgs.Empty);
-        }
 
         private void GenerateProjectFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Dispatcher.StartRunnerConfig();
+            //Dispatcher.StartRunnerConfig();
         }
 
-        
-  
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var window = new AboutBox();
+            window.ShowDialog(this);
+        }
+
+
+
+
+
+
+
+
+        public BindingList<string> Variables
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        BindingList<Test> ITestSuiteView.Tests
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        Test ITestSuiteView.TestSelection
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        int ITestSuiteView.TestSelectedIndex
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        event EventHandler IView.Initialize
+        {
+            add { }
+            remove { throw new NotImplementedException(); }
+        }
+
+
+        public int VariableSelectedIndex
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

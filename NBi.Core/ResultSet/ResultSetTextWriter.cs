@@ -104,7 +104,7 @@ namespace NBi.Core.ResultSet
             //separator
             output.Add(GetFirstIndentation() + GetSeparator(fieldLength));
 
-            //Content
+            //TestCases
             for (int i = 0; i < maxRows; i++)
             {
                 var sbRow = new System.Text.StringBuilder();

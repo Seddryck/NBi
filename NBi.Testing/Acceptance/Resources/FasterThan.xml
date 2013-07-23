@@ -19,7 +19,7 @@
 	<test name="A fast query SQL">
 		<system-under-test>
 			<execution>
-				<query name="SQL" connectionString="Data Source=.;Initial Catalog='NBi.Testing';Integrated Security=SSPI">
+				<query name="SQL" connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
 					SELECT
 						NULL
 				</query>

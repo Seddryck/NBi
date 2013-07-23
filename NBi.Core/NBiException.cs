@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
 namespace NBi.Core
 {
@@ -9,10 +8,15 @@ namespace NBi.Core
     {
         public NBiException(string message, Exception innerException)
             : base(message, innerException)
-        { }
+        {
+            Trace.WriteLineIf(NBiTraceSwitch.TraceWarning, "!!!! NBiException !!!!");
+            Trace.WriteLineIf(NBiTraceSwitch.TraceWarning, message);
+            if (innerException != null)
+                Trace.WriteLineIf(NBiTraceSwitch.TraceWarning, innerException.Message);
+        }
 
         public NBiException(string message)
-            : base(message)
+            : this(message, null)
         { }
     }
 }

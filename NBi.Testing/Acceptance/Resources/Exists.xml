@@ -106,4 +106,30 @@
 			<exists/>
 		</assert>
 	</test>
+	<test name="In perspective 'Internet Operation', the table 'Customer' exists">
+		<category>Tabular</category>
+		<system-under-test>
+			<structure>
+				<table caption="Customer" perspective="Internet Operation"
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"		  
+				/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists />
+		</assert>
+	</test>
+	<test name="In perspective 'Internet Operation', table 'Customer', the column 'Birth Date' exists">
+		<category>Tabular</category>
+		<system-under-test>
+			<structure>
+				<column caption="Birth Date" table="Customer" perspective="Internet Operation"
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"		  
+				/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists />
+		</assert>
+	</test>
 </testSuite>

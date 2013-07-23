@@ -111,17 +111,18 @@ namespace NBi.Core.ResultSet
 
             private string GetTypeText()
             {
-                var typeText = string.Empty;
                 switch (Type)
                 {
-                    case ColumnType.Text:
-                        typeText = "Text"; break;
                     case ColumnType.Numeric:
-                        typeText = "Numeric"; break;
-                    default:
-                        typeText = "?"; break;
+                        return "Numeric"; 
+                    case ColumnType.Text:
+                        return "Text"; 
+                    case ColumnType.DateTime:
+                        return "DateTime";
+                    case ColumnType.Boolean:
+                        return "Boolean"; 
                 }
-                return typeText;
+                return "?";
             }
 
             private string GetToleranceText()
@@ -154,6 +155,8 @@ namespace NBi.Core.ResultSet
             {
                 if (Value is DBNull)
                     return "(null)";
+                if (Value is string && ((string)Value).Length == 0)
+                    return "(empty)";
                 return Value.ToString();
             }
 
@@ -190,6 +193,8 @@ namespace NBi.Core.ResultSet
             {
                 if (Value is DBNull)
                     return "(null)";
+                if (Value is string && ((string)Value).Length == 0)
+                    return "(empty)";
                 return Value.ToString();
             }
 
@@ -197,6 +202,8 @@ namespace NBi.Core.ResultSet
             {
                 if (Compared is DBNull)
                     return "(null)";
+                if (Compared is string && ((string)Compared).Length == 0)
+                    return "(empty)";
                 return Compared.ToString();
             }
 

@@ -106,7 +106,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             //Buiding object used during test
             var comparer = new DataRowBasedResultSetComparer(BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
-            var actual = BuildDataTable(new string[] { "Key0", "Key1", "Key1" }, new double[] { 0, 1, 1 });
+            var actual = BuildDataTable(new string[] { "Key0", "Key1", "Key2" }, new double[] { 0, 1, 1 });
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -121,7 +121,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             //Buiding object used during test
             var comparer = new DataRowBasedResultSetComparer(BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
-            var actual = BuildDataTable(new string[] { "Key0", "Key1", "Key1" }, new double[] { 0, 1, 2 });
+            var actual = BuildDataTable(new string[] { "Key0", "Key1", "Key2" }, new double[] { 0, 1, 2 });
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);

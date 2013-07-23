@@ -54,6 +54,8 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Analysis\Member\Pattern.cs" />
+    <Compile Include="Analysis\Member\PatternValue.cs" />
     <Compile Include="Analysis\Metadata\Adomd\ColumnRow.cs" />
     <Compile Include="Analysis\Metadata\Adomd\ColumnDiscoveryCommand.cs" />
     <Compile Include="Analysis\Metadata\Adomd\TableDiscoveryCommand.cs" />
@@ -152,6 +154,12 @@
     <Compile Include="ResultSet\Column.cs" />
     <Compile Include="ResultSet\ColumnRole.cs" />
     <Compile Include="ResultSet\ColumnType.cs" />
+    <Compile Include="ResultSet\CompareHelper.cs" />
+    <Compile Include="ResultSet\Comparer\BaseComparer.cs" />
+    <Compile Include="ResultSet\Comparer\ComparerResult.cs" />
+    <Compile Include="ResultSet\Comparer\BooleanComparer.cs" />
+    <Compile Include="ResultSet\Comparer\DateTimeComparer.cs" />
+    <Compile Include="ResultSet\Comparer\TextComparer.cs" />
     <Compile Include="ResultSet\DataRowBasedResultSetComparer.cs" />
     <Compile Include="ResultSet\DataRowKeysComparer.cs" />
     <Compile Include="ResultSet\LineFormatter.cs" />
@@ -163,6 +171,7 @@
     <Compile Include="Query\QuerySqlEngine.cs" />
     <Compile Include="ResultSet\IRow.cs" />
     <Compile Include="ResultSet\NonMatchingValueRow.cs" />
+    <Compile Include="ResultSet\Comparer\NumericComparer.cs" />
     <Compile Include="ResultSet\PersistanceChoice.cs" />
     <Compile Include="ResultSet\ResultSet.cs" />
     <Compile Include="ResultSet\ResultSetBuilder.cs" />

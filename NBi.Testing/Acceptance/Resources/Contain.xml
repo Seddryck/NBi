@@ -45,4 +45,17 @@
 			<contain caption="All Organizations"/>
 		</assert>
 	</test>
+	<test name="Dimension 'Currency' contains 'Croatian Kuna' in the hierarchy 'CurrencyName' (without space)">
+		<category>Tabular</category>
+		<system-under-test>
+			<members>
+				<hierarchy caption="CurrencyName" dimension="Currency" perspective="Internet Operation"
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"
+				/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contain caption="Croatian Kuna"/>
+		</assert>
+	</test>
 </testSuite>

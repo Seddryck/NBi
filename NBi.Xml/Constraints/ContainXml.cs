@@ -12,7 +12,7 @@ namespace NBi.Xml.Constraints
         [DefaultValue(false)]
         public bool IgnoreCase { get; set; }
 
-        [XmlAttribute("caption")]
+        [XmlIgnore]
         public string Caption 
         { 
             get

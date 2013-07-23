@@ -1,9 +1,9 @@
 ! Test availability of one or more members in a hierarchy or level.
-
+_*This feature is only available in version 1.1 and next*_
 !! System under test
-If you're not familiar with the way to perform a test on dimension's members, you should take a look to [Members' count|Test the members' count at any level of a dimension or hierarchy].
+If you're not familiar with the way to specify a test on members of a dimension, read first the article about [Tests on dimension's members].
 !! Assertion
-!! One unique member
+!!! One unique member
 The assertion consists in a check that one of the members in a hierarchy or level has a given caption. So we need to specify that we'll perform an assertion of type "contain":
 {code:xml}
 <test>
@@ -30,7 +30,7 @@ If we're checking that the hierarchy named "MyHierarchy" has effectively a membe
     </assert>
 </test>
 {code:xml}
-!! Several members
+!!! Several members
 You can also check in one unique test that two members are part of a hierarchy or level. 
 From a unit testing point of view you can argue that it’s probably not a good idea for the granularity of the report. On the other hand, you can use this feature to be sure that predefined value not coming from our main source (as N/A, Unknown, Not defined, (All)) are effectively in your cube. Anyway NBi let you do this. 
 Your system-under-test is not changed but in your assert you’ll need to define one element named _item_ by member that you’ll check:
@@ -44,7 +44,7 @@ Your system-under-test is not changed but in your assert you’ll need to define o
     </assert>
 {code:xml}
 The test will only succeed if all the members defined in your assertion are effectively in the hierarchy (or level).
-!! All members belong to a predefined list
+!!! All members belong to a predefined list
 Imagine that you’ve a hierarchy sex. You know that you can have male and female, other values are not expected. With assertions explained above you would need to check that both members are effectively available. It could happen that you’ve only loaded men (or women). In this case, your assertion with members of hierarchy “sex” contain “female” will fail … but your data warehouse is correctly loaded! You probably want to check that members of this hierarchy are not different than “male” and “female”. The assertion subsetOf is there for you.
 {code:xml}
     <assert>
@@ -67,5 +67,3 @@ In some case, you know exactly the content of your hierarchy or level. In this c
 {code:xml}
 The test will only succeed if your hierarchy has exactly two members which are “Male” and “Female”. If you’ve more or less or different items, this test will fail.
 Note that this test is equivalent to two assertions “contain” (one for “male” and another for female) and one assertion “subsetOf” (for “male” and “female”). It’s just a matter of readability versus reporting facility.
-
-

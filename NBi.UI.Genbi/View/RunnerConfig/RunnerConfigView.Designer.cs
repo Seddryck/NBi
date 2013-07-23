@@ -131,6 +131,7 @@
             this.Controls.Add(this.rootPath);
             this.Name = "RunnerConfigView";
             this.Text = "Runners\' config builder";
+            this.Load += new System.EventHandler(this.RunnerConfigView_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -75,7 +75,7 @@ namespace NBi.Xml.Constraints
             }
         }
 
-        [XmlElement("column-definition")]
+        [XmlElement("column")]
         public List<NBi.Xml.Items.ResultSet.ColumnDefinitionXml> columnsDef;
 
         public IList<IColumnDefinition> ColumnsDef

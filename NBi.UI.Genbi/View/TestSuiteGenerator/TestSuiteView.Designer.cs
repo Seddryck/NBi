@@ -31,30 +31,44 @@
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.variablesControl = new NBi.UI.Genbi.View.TestSuiteGenerator.VariablesControl();
+            this.testCasesControl = new NBi.UI.Genbi.View.TestSuiteGenerator.TestCasesControl();
             this.templateControl = new NBi.UI.Genbi.View.TestSuiteGenerator.TemplateControl();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.settingsControl = new NBi.UI.Genbi.View.TestSuiteGenerator.SettingsControl();
             this.testListControl = new NBi.UI.Genbi.View.TestSuiteGenerator.TestListControl();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.sourceFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCsvAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.templateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveTemplateAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testSuiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.generateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configProjectFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTipRemove = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipRename = new System.Windows.Forms.ToolTip(this.components);
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripTestSuiteGenerate = new System.Windows.Forms.ToolStripButton();
-            this.toolStripTestSuiteSaveAs = new System.Windows.Forms.ToolStripButton();
+            this.mainToolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.openTestCasesToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.generateTestsToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.undoGenerateTestsToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.clearTestsToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.openTestSuiteToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.saveAsTestSuiteToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.openTemplateToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.saveAsTemplateToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.openTestCasesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateTestsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.undoGenerateTestsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearTestsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openTestSuiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsTestSuiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -68,7 +82,7 @@
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
             this.menuStrip.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
+            this.mainToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -99,7 +113,7 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.variablesControl);
+            this.splitContainer2.Panel1.Controls.Add(this.testCasesControl);
             // 
             // splitContainer2.Panel2
             // 
@@ -108,16 +122,15 @@
             this.splitContainer2.SplitterDistance = 277;
             this.splitContainer2.TabIndex = 0;
             // 
-            // variablesControl
+            // testCasesControl
             // 
-            this.variablesControl.CsvContent = null;
-            this.variablesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.variablesControl.Location = new System.Drawing.Point(0, 0);
-            this.variablesControl.Name = "variablesControl";
-            this.variablesControl.Size = new System.Drawing.Size(458, 277);
-            this.variablesControl.TabIndex = 20;
-            this.variablesControl.TabStop = false;
-            this.variablesControl.Variables = null;
+            this.testCasesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.testCasesControl.Location = new System.Drawing.Point(0, 0);
+            this.testCasesControl.Name = "testCasesControl";
+            this.testCasesControl.Size = new System.Drawing.Size(458, 277);
+            this.testCasesControl.TabIndex = 20;
+            this.testCasesControl.TabStop = false;
+            this.testCasesControl.Window = null;
             // 
             // templateControl
             // 
@@ -127,8 +140,6 @@
             this.templateControl.Size = new System.Drawing.Size(458, 227);
             this.templateControl.TabIndex = 21;
             this.templateControl.TabStop = false;
-            this.templateControl.Template = "";
-            this.templateControl.UseGrouping = false;
             // 
             // splitContainer3
             // 
@@ -153,11 +164,9 @@
             this.settingsControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.settingsControl.Location = new System.Drawing.Point(0, 0);
             this.settingsControl.Name = "settingsControl";
-            this.settingsControl.Names = null;
             this.settingsControl.Size = new System.Drawing.Size(576, 96);
             this.settingsControl.TabIndex = 20;
             this.settingsControl.TabStop = false;
-            this.settingsControl.Value = "";
             // 
             // testListControl
             // 
@@ -167,16 +176,16 @@
             this.testListControl.Size = new System.Drawing.Size(576, 408);
             this.testListControl.TabIndex = 22;
             this.testListControl.TabStop = false;
-            this.testListControl.Tests = null;
-            this.testListControl.TestSelectedIndex = -1;
             // 
             // menuStrip
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sourceFileToolStripMenuItem,
             this.templateToolStripMenuItem,
+            this.testsToolStripMenuItem,
             this.testSuiteToolStripMenuItem,
-            this.configProjectFilesToolStripMenuItem});
+            this.configProjectFilesToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1038, 24);
@@ -186,20 +195,11 @@
             // sourceFileToolStripMenuItem
             // 
             this.sourceFileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openCsvToolStripMenuItem,
+            this.openTestCasesToolStripMenuItem,
             this.saveCsvAsToolStripMenuItem});
             this.sourceFileToolStripMenuItem.Name = "sourceFileToolStripMenuItem";
             this.sourceFileToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.sourceFileToolStripMenuItem.Text = "Test cases";
-            // 
-            // openCsvToolStripMenuItem
-            // 
-            this.openCsvToolStripMenuItem.Name = "openCsvToolStripMenuItem";
-            this.openCsvToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.O)));
-            this.openCsvToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.openCsvToolStripMenuItem.Text = "Open Csv ...";
-            this.openCsvToolStripMenuItem.Click += new System.EventHandler(this.OpenCsv_Click);
             // 
             // saveCsvAsToolStripMenuItem
             // 
@@ -214,7 +214,7 @@
             // 
             this.templateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openTemplateToolStripMenuItem,
-            this.saveTemplateAsToolStripMenuItem});
+            this.saveAsTemplateToolStripMenuItem});
             this.templateToolStripMenuItem.Name = "templateToolStripMenuItem";
             this.templateToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
             this.templateToolStripMenuItem.Text = "Template";
@@ -226,60 +226,33 @@
             | System.Windows.Forms.Keys.O)));
             this.openTemplateToolStripMenuItem.Size = new System.Drawing.Size(242, 22);
             this.openTemplateToolStripMenuItem.Text = "Open Template ...";
-            this.openTemplateToolStripMenuItem.Click += new System.EventHandler(this.OpenTemplate_Click);
             // 
-            // saveTemplateAsToolStripMenuItem
+            // saveAsTemplateToolStripMenuItem
             // 
-            this.saveTemplateAsToolStripMenuItem.Name = "saveTemplateAsToolStripMenuItem";
-            this.saveTemplateAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.saveAsTemplateToolStripMenuItem.Name = "saveTemplateAsToolStripMenuItem";
+            this.saveAsTemplateToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.S)));
-            this.saveTemplateAsToolStripMenuItem.Size = new System.Drawing.Size(242, 22);
-            this.saveTemplateAsToolStripMenuItem.Text = "Save Template As ...";
-            this.saveTemplateAsToolStripMenuItem.Click += new System.EventHandler(this.SaveTemplate_Click);
+            this.saveAsTemplateToolStripMenuItem.Size = new System.Drawing.Size(242, 22);
+            this.saveAsTemplateToolStripMenuItem.Text = "Save Template As ...";
+            // 
+            // testsToolStripMenuItem
+            // 
+            this.testsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.generateTestsToolStripMenuItem,
+            this.undoGenerateTestsToolStripMenuItem,
+            this.clearTestsToolStripMenuItem});
+            this.testsToolStripMenuItem.Name = "testsToolStripMenuItem";
+            this.testsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.testsToolStripMenuItem.Text = "Tests";
             // 
             // testSuiteToolStripMenuItem
             // 
             this.testSuiteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.generateToolStripMenuItem,
-            this.undoToolStripMenuItem,
-            this.clearToolStripMenuItem,
-            this.saveAsToolStripMenuItem});
+            this.openTestSuiteToolStripMenuItem,
+            this.saveAsTestSuiteToolStripMenuItem});
             this.testSuiteToolStripMenuItem.Name = "testSuiteToolStripMenuItem";
             this.testSuiteToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
             this.testSuiteToolStripMenuItem.Text = "Test suite";
-            // 
-            // generateToolStripMenuItem
-            // 
-            this.generateToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.page_gear;
-            this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
-            this.generateToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
-            this.generateToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.generateToolStripMenuItem.Text = "&Generate";
-            this.generateToolStripMenuItem.Click += new System.EventHandler(this.Generate_Click);
-            // 
-            // undoToolStripMenuItem
-            // 
-            this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.undoToolStripMenuItem.Text = "Undo";
-            this.undoToolStripMenuItem.Click += new System.EventHandler(this.Undo_Click);
-            // 
-            // clearToolStripMenuItem
-            // 
-            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.clearToolStripMenuItem.Text = "Clear";
-            this.clearToolStripMenuItem.Click += new System.EventHandler(this.Clear_Click);
-            // 
-            // saveAsToolStripMenuItem
-            // 
-            this.saveAsToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.page_save;
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.saveAsToolStripMenuItem.Text = "Save As ...";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveTestSuiteAs_Click);
             // 
             // configProjectFilesToolStripMenuItem
             // 
@@ -292,9 +265,24 @@
             // generateToolStripMenuItem1
             // 
             this.generateToolStripMenuItem1.Name = "generateToolStripMenuItem1";
-            this.generateToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.generateToolStripMenuItem1.Size = new System.Drawing.Size(121, 22);
             this.generateToolStripMenuItem1.Text = "Generate";
             this.generateToolStripMenuItem1.Click += new System.EventHandler(this.GenerateProjectFileToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
             // toolTipRemove
             // 
@@ -304,43 +292,173 @@
             // 
             this.toolTipRename.ToolTipTitle = "Rename";
             // 
-            // toolStrip1
+            // mainToolStrip
             // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripTestSuiteGenerate,
-            this.toolStripTestSuiteSaveAs});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1038, 25);
-            this.toolStrip1.TabIndex = 18;
-            this.toolStrip1.Text = "toolStrip1";
+            this.mainToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openTestCasesToolStripButton,
+            this.toolStripSeparator1,
+            this.openTemplateToolStripButton,
+            this.saveAsTemplateToolStripButton,
+            this.toolStripSeparator4,
+            this.generateTestsToolStripButton,
+            this.undoGenerateTestsToolStripButton,
+            this.clearTestsToolStripButton,
+            this.toolStripSeparator3,
+            this.openTestSuiteToolStripButton,
+            this.saveAsTestSuiteToolStripButton,
+            this.toolStripSeparator2});
+            this.mainToolStrip.Location = new System.Drawing.Point(0, 24);
+            this.mainToolStrip.Name = "mainToolStrip";
+            this.mainToolStrip.Size = new System.Drawing.Size(1038, 25);
+            this.mainToolStrip.TabIndex = 18;
+            this.mainToolStrip.Text = "toolStrip1";
             // 
-            // toolStripTestSuiteGenerate
+            // toolStripSeparator1
             // 
-            this.toolStripTestSuiteGenerate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripTestSuiteGenerate.Image = global::NBi.UI.Genbi.Properties.Resources.page_gear;
-            this.toolStripTestSuiteGenerate.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripTestSuiteGenerate.Name = "toolStripTestSuiteGenerate";
-            this.toolStripTestSuiteGenerate.Size = new System.Drawing.Size(23, 22);
-            this.toolStripTestSuiteGenerate.Text = "toolStripButton1";
-            this.toolStripTestSuiteGenerate.Click += new System.EventHandler(this.Generate_Click);
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripTestSuiteSaveAs
+            // toolStripSeparator3
             // 
-            this.toolStripTestSuiteSaveAs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripTestSuiteSaveAs.Image = global::NBi.UI.Genbi.Properties.Resources.page_save;
-            this.toolStripTestSuiteSaveAs.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripTestSuiteSaveAs.Name = "toolStripTestSuiteSaveAs";
-            this.toolStripTestSuiteSaveAs.Size = new System.Drawing.Size(23, 22);
-            this.toolStripTestSuiteSaveAs.Text = "toolStripButton2";
-            this.toolStripTestSuiteSaveAs.Click += new System.EventHandler(this.SaveTestSuiteAs_Click);
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // openTestCasesToolStripButton
+            // 
+            this.openTestCasesToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openTestCasesToolStripButton.Image = global::NBi.UI.Genbi.Properties.Resources.csv_open;
+            this.openTestCasesToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openTestCasesToolStripButton.Name = "openTestCasesToolStripButton";
+            this.openTestCasesToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.openTestCasesToolStripButton.Text = "toolStripTestCasesOpen";
+            // 
+            // generateTestsToolStripButton
+            // 
+            this.generateTestsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.generateTestsToolStripButton.Image = global::NBi.UI.Genbi.Properties.Resources.page_go;
+            this.generateTestsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.generateTestsToolStripButton.Name = "generateTestsToolStripButton";
+            this.generateTestsToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.generateTestsToolStripButton.Text = "toolStripButton1";
+            // 
+            // undoGenerateTestsToolStripButton
+            // 
+            this.undoGenerateTestsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.undoGenerateTestsToolStripButton.Image = global::NBi.UI.Genbi.Properties.Resources.page_undo;
+            this.undoGenerateTestsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.undoGenerateTestsToolStripButton.Name = "undoGenerateTestsToolStripButton";
+            this.undoGenerateTestsToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.undoGenerateTestsToolStripButton.Text = "Undo last generation";
+            // 
+            // clearTestsToolStripButton
+            // 
+            this.clearTestsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.clearTestsToolStripButton.Image = global::NBi.UI.Genbi.Properties.Resources.page_delete;
+            this.clearTestsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.clearTestsToolStripButton.Name = "clearTestsToolStripButton";
+            this.clearTestsToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.clearTestsToolStripButton.Text = "Clear test suite";
+            // 
+            // openTestSuiteToolStripButton
+            // 
+            this.openTestSuiteToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openTestSuiteToolStripButton.Image = global::NBi.UI.Genbi.Properties.Resources.folder_page;
+            this.openTestSuiteToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openTestSuiteToolStripButton.Name = "openTestSuiteToolStripButton";
+            this.openTestSuiteToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.openTestSuiteToolStripButton.Text = "Open Test Suite";
+            // 
+            // saveAsTestSuiteToolStripButton
+            // 
+            this.saveAsTestSuiteToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveAsTestSuiteToolStripButton.Image = global::NBi.UI.Genbi.Properties.Resources.page_save;
+            this.saveAsTestSuiteToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveAsTestSuiteToolStripButton.Name = "saveAsTestSuiteToolStripButton";
+            this.saveAsTestSuiteToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.saveAsTestSuiteToolStripButton.Text = "Save As Test Suite";
+            // 
+            // openTemplateToolStripButton
+            // 
+            this.openTemplateToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openTemplateToolStripButton.Image = global::NBi.UI.Genbi.Properties.Resources.script_open;
+            this.openTemplateToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openTemplateToolStripButton.Name = "openTemplateToolStripButton";
+            this.openTemplateToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.openTemplateToolStripButton.Text = "Open template";
+            // 
+            // saveAsTemplateToolStripButton
+            // 
+            this.saveAsTemplateToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveAsTemplateToolStripButton.Image = global::NBi.UI.Genbi.Properties.Resources.script_save;
+            this.saveAsTemplateToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveAsTemplateToolStripButton.Name = "saveAsTemplateToolStripButton";
+            this.saveAsTemplateToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.saveAsTemplateToolStripButton.Text = "Save as template";
+            // 
+            // openTestCasesToolStripMenuItem
+            // 
+            this.openTestCasesToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.csv_open;
+            this.openTestCasesToolStripMenuItem.Name = "openTestCasesToolStripMenuItem";
+            this.openTestCasesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.O)));
+            this.openTestCasesToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.openTestCasesToolStripMenuItem.Text = "Open Csv ...";
+            // 
+            // generateTestsToolStripMenuItem
+            // 
+            this.generateTestsToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.page_go;
+            this.generateTestsToolStripMenuItem.Name = "generateTestsToolStripMenuItem";
+            this.generateTestsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
+            this.generateTestsToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.generateTestsToolStripMenuItem.Text = "Generate";
+            // 
+            // undoGenerateTestsToolStripMenuItem
+            // 
+            this.undoGenerateTestsToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.page_undo;
+            this.undoGenerateTestsToolStripMenuItem.Name = "undoGenerateTestsToolStripMenuItem";
+            this.undoGenerateTestsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
+            this.undoGenerateTestsToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.undoGenerateTestsToolStripMenuItem.Text = "Undo";
+            // 
+            // clearTestsToolStripMenuItem
+            // 
+            this.clearTestsToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.page_delete;
+            this.clearTestsToolStripMenuItem.Name = "clearTestsToolStripMenuItem";
+            this.clearTestsToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.clearTestsToolStripMenuItem.Text = "Clear";
+            // 
+            // openTestSuiteToolStripMenuItem
+            // 
+            this.openTestSuiteToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.folder_page;
+            this.openTestSuiteToolStripMenuItem.Name = "openTestSuiteToolStripMenuItem";
+            this.openTestSuiteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openTestSuiteToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.openTestSuiteToolStripMenuItem.Text = "Open ...";
+            // 
+            // saveAsTestSuiteToolStripMenuItem
+            // 
+            this.saveAsTestSuiteToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.page_save;
+            this.saveAsTestSuiteToolStripMenuItem.Name = "saveAsTestSuiteToolStripMenuItem";
+            this.saveAsTestSuiteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveAsTestSuiteToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.saveAsTestSuiteToolStripMenuItem.Text = "Save As ...";
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // TestSuiteView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1038, 560);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.mainToolStrip);
             this.Controls.Add(this.menuStrip);
             this.Controls.Add(this.splitContainer1);
             this.MainMenuStrip = this.menuStrip;
@@ -361,8 +479,8 @@
             this.splitContainer3.ResumeLayout(false);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.mainToolStrip.ResumeLayout(false);
+            this.mainToolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -374,27 +492,41 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem sourceFileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openCsvToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openTestCasesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveCsvAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem templateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openTemplateToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveTemplateAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsTemplateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testSuiteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem generateToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsTestSuiteToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTipRemove;
         private System.Windows.Forms.ToolTip toolTipRename;
-        private VariablesControl variablesControl;
+        private TestCasesControl testCasesControl;
         private TemplateControl templateControl;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private SettingsControl settingsControl;
         private TestListControl testListControl;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripTestSuiteGenerate;
-        private System.Windows.Forms.ToolStripButton toolStripTestSuiteSaveAs;
+        private System.Windows.Forms.ToolStrip mainToolStrip;
+        private System.Windows.Forms.ToolStripButton generateTestsToolStripButton;
+        private System.Windows.Forms.ToolStripButton saveAsTestSuiteToolStripButton;
         private System.Windows.Forms.ToolStripMenuItem configProjectFilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton openTestSuiteToolStripButton;
+        private System.Windows.Forms.ToolStripButton clearTestsToolStripButton;
+        private System.Windows.Forms.ToolStripMenuItem openTestSuiteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton openTestCasesToolStripButton;
+        private System.Windows.Forms.ToolStripButton undoGenerateTestsToolStripButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem testsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem generateTestsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem undoGenerateTestsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearTestsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton openTemplateToolStripButton;
+        private System.Windows.Forms.ToolStripButton saveAsTemplateToolStripButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
     }
 }

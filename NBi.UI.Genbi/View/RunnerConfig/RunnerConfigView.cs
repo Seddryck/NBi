@@ -31,5 +31,10 @@ namespace NBi.UI.Genbi.View.RunnerConfig
         {
             this.Hide();
         }
+
+        private void RunnerConfigView_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

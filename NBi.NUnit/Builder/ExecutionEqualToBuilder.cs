@@ -44,7 +44,7 @@ namespace NBi.NUnit.Builder
             {
                 if (!string.IsNullOrEmpty(ConstraintXml.ResultSet.File))
                 {
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet.File defined in external file!");
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in external file!");
                     ctr = new EqualToConstraint(ConstraintXml.ResultSet.GetFile());
                 }
                 else if (ConstraintXml.ResultSet.Rows!=null)
@@ -61,6 +61,7 @@ namespace NBi.NUnit.Builder
             ResultSetComparisonSettings settings = new ResultSetComparisonSettings(
                 ConstraintXml.KeysDef,
                 ConstraintXml.ValuesDef,
+                ConstraintXml.Tolerance,
                 ConstraintXml.ColumnsDef
                 );
 

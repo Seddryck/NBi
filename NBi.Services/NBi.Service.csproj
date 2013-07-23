@@ -47,8 +47,13 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Dto\Document.cs" />
+    <Compile Include="Dto\DocumentBase.cs" />
+    <Compile Include="Dto\Schema.cs" />
+    <Compile Include="Dto\Setting.cs" />
+    <Compile Include="Dto\Style.cs" />
     <Compile Include="RunnerConfig\AbstractRunnerConfigBuilder.cs" />
-    <Compile Include="CsvManager.cs" />
+    <Compile Include="TestCasesManager.cs" />
     <Compile Include="Dto\Test.cs" />
     <Compile Include="RunnerConfig\FilePersister.cs" />
     <Compile Include="RunnerConfig\GallioRunnerConfigBuilder.cs" />
@@ -64,7 +69,7 @@
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="TemplateExecutionException.cs" />
     <Compile Include="TemplateManager.cs" />
-    <Compile Include="TestManager.cs" />
+    <Compile Include="TestListManager.cs" />
     <Compile Include="TestSuiteManager.cs" />
   </ItemGroup>
   <ItemGroup>

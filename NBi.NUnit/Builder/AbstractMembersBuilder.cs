@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 using NBi.Core.Analysis.Request;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
+using NBi.Core.Analysis.Member;
 
 namespace NBi.NUnit.Builder
 {
@@ -61,21 +63,36 @@ namespace NBi.NUnit.Builder
                 hierarchy = ((LevelXml)sutXml.Item).Hierarchy;
                 level = sutXml.Item.Caption;
             }
-            
-
-            
-            
-            return discoveryFactory.Build
+           
+            var disco = discoveryFactory.Build
                 (
                     sutXml.Item.GetConnectionString(),
                     sutXml.ChildrenOf,
+                    sutXml.Exclude.Items,
+                    BuildPatterns(sutXml.Exclude.Patterns),
                     perspective,
                     dimension,
                     hierarchy,
                     level
                 );
+
+            return disco;
         }
 
-
-    }
+        private IEnumerable<PatternValue> BuildPatterns(IEnumerable<PatternXml> patterns)
+        {
+            var res = new List<PatternValue>();
+            if (patterns != null)
+            { 
+                foreach (var p in patterns)
+                {
+                    var pv = new PatternValue();
+                    pv.Pattern = p.Pattern;
+                    pv.Text = p.Value;
+                    res.Add(pv);
+                }
+            }
+            return res;
+        }
+	}
 }

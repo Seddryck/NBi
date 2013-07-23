@@ -1,6 +1,6 @@
 ! Test ordering of members at any level of a dimension or hierarchy
 !! System under test
-If you're not familiar with the way to perform a test on dimension's members, you should take a look to [Members' count|Test the members' count at any level of a dimension or hierarchy].
+If you're not familiar with the way to specify a test on members of a dimension, read first the article about [Tests on dimension's members].
 !! Assertion
 The assertion consists in a check that members are displayed in a specified order. So we need to specify that we'll perform an assertion of type "order":
 {code:xml}

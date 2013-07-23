@@ -66,7 +66,7 @@ namespace NBi.UI.Configuration
                     //Define File value
                     File = System.IO.Path.GetFileName(value);
                     
-                    //Define Path Value
+                    //Define Path SettingsValue
                     if (string.IsNullOrEmpty(Root.Root))
                         Path = System.IO.Path.GetDirectoryName(value);
                     else if (System.IO.Path.GetDirectoryName(value).Length > Root.Root.Length)

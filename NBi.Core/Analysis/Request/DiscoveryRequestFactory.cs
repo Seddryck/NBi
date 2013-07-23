@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NBi.Core.Analysis.Request.FactoryValidations;
+using NBi.Core.Analysis.Member;
 
 namespace NBi.Core.Analysis.Request
 {
@@ -37,6 +38,20 @@ namespace NBi.Core.Analysis.Request
 
         public virtual MembersDiscoveryRequest Build(string connectionString, string memberCaption, string perspective, string dimension, string hierarchy, string level)
         {
+            return Build(connectionString, memberCaption, null, null, perspective, dimension, hierarchy, level);
+        }
+
+        public virtual MembersDiscoveryRequest Build(string connectionString, string memberCaption
+            , IEnumerable<string> excludedMembers
+            , string perspective, string dimension, string hierarchy, string level)
+        {
+            return Build(connectionString, memberCaption, null, null, perspective, dimension, hierarchy, level);
+        }
+
+        public virtual MembersDiscoveryRequest Build(string connectionString, string memberCaption
+            , IEnumerable<string> excludedMembers, IEnumerable<PatternValue> excludedPatterns, 
+            string perspective, string dimension, string hierarchy, string level)
+        {
             //Validations
             Validate(
                 new List<Validation>()
@@ -57,6 +72,8 @@ namespace NBi.Core.Analysis.Request
             if (!string.IsNullOrEmpty(level)) disco.SpecifyFilter(new CaptionFilter(level, DiscoveryTarget.Levels));
             disco.Function = string.IsNullOrEmpty(memberCaption) ? "members" : "children";
             disco.MemberCaption = memberCaption;
+            disco.ExcludedMembers = excludedMembers;
+            disco.ExcludedPatterns = excludedPatterns;
 
             return disco;
         }

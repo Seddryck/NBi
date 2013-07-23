@@ -5,6 +5,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Integration.Core.Query
 {
     [TestFixture]
+    [Category("Sql")]
     public class QueryPerformanceTest
     {
 

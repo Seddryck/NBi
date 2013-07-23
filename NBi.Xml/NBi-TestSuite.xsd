@@ -104,10 +104,37 @@
 										</xs:element>
 										<xs:element name="members">
 											<xs:complexType>
-												<xs:choice>
-													<xs:element name="hierarchy" type="hierarchy-type"/>
-													<xs:element name="level" type="level-type"/>
-												</xs:choice>
+												<xs:sequence>
+													<xs:choice>
+														<xs:element name="hierarchy" type="hierarchy-type"/>
+														<xs:element name="level" type="level-type"/>
+													</xs:choice>
+													<xs:element name="exclude" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="item" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+																<xs:element name="items" minOccurs="0" maxOccurs="unbounded">
+																  <xs:complexType>
+																	  <xs:simpleContent>
+																		  <xs:extension base="xs:string">
+																			  <xs:attribute name="pattern" use="required">
+																				  <xs:simpleType>
+																					  <xs:restriction base="xs:string">
+																						  <xs:enumeration value="start-with"/>
+																						  <xs:enumeration value="exact"/>
+																						  <xs:enumeration value="contain"/>
+																						  <xs:enumeration value="end-with"/>
+																					  </xs:restriction>
+																				  </xs:simpleType>
+																			  </xs:attribute>
+																		  </xs:extension>
+																	  </xs:simpleContent>
+																  </xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
 												<xs:attribute name="children-of" type="xs:string" use="optional" />
 											</xs:complexType>
 										</xs:element>
@@ -140,7 +167,7 @@
 										<xs:element name="equalTo">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element name="column-definition" minOccurs="0" maxOccurs="unbounded">
+													<xs:element name="column" minOccurs="0" maxOccurs="unbounded">
 														<xs:complexType>
 															<xs:simpleContent>
 																<xs:extension base="xs:string">
@@ -160,7 +187,8 @@
 																			<xs:restriction base="xs:string">
 																				<xs:enumeration value="numeric"/>
 																				<xs:enumeration value="text"/>
-																				<!--<xs:enumeration value="dateTime"/>-->
+																				<xs:enumeration value="dateTime"/>
+																				<xs:enumeration value="boolean"/>
 																			</xs:restriction>
 																		</xs:simpleType>
 																	</xs:attribute>

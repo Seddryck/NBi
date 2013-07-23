@@ -4,12 +4,22 @@ using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using NBi.Core.ResultSet.Comparer;
 
 namespace NBi.Core.ResultSet
 {
     public class DataRowBasedResultSetComparer : IResultSetComparer
     {
         public ResultSetComparisonSettings Settings { get; set; }
+
+        private readonly Dictionary<Int64, CompareHelper> xDict = new Dictionary<long, CompareHelper>();
+        private readonly Dictionary<Int64, CompareHelper> yDict = new Dictionary<long, CompareHelper>();
+
+        private readonly BaseComparer baseComparer = new BaseComparer();
+        private readonly NumericComparer numericComparer = new NumericComparer();
+        private readonly TextComparer textComparer = new TextComparer();
+        private readonly DateTimeComparer dateTimeComparer = new DateTimeComparer();
+        private readonly BooleanComparer booleanComparer = new BooleanComparer();
 
         public DataRowBasedResultSetComparer()
         {
@@ -29,6 +39,39 @@ namespace NBi.Core.ResultSet
                 return doCompare(((ResultSet)y).Table, ((ResultSet)x).Table);
 
             throw new ArgumentException();
+        }
+
+        private void CalculateHashValues(DataTable dt, Dictionary<Int64, CompareHelper> dict, DataRowKeysComparer keyComparer, bool isSystemUnderTest)
+        {
+            dict.Clear();
+
+            Int64 keysHashed;
+            Int64 valuesHashed;
+
+            foreach (DataRow row in dt.Rows)
+            {
+                CompareHelper hlpr = new CompareHelper();
+
+                keyComparer.GetHashCode64_KeysValues(row, out keysHashed, out valuesHashed);
+                
+                hlpr.KeysHashed = keysHashed;
+                hlpr.ValuesHashed = valuesHashed;
+                hlpr.DataRowObj = row;
+
+                //Check that the rows in the reference are unique
+                // All the rows should be unique regardless of whether it is the system under test or the result set.
+                if (dict.ContainsKey(keysHashed))
+                {
+                    throw new ResultSetComparerException(
+                        string.Format("The {0} data set has some duplicated keys. Check your keys definition or the result set defined in your {1}.", 
+                            isSystemUnderTest ? "actual" : "expected",
+                            isSystemUnderTest ? "system-under-test" : "assertion"
+                            )
+                        );
+                }
+
+                dict.Add(keysHashed, hlpr);
+            }
         }
 
         protected ResultSetCompareResult doCompare(DataTable x, DataTable y)
@@ -53,104 +96,122 @@ namespace NBi.Core.ResultSet
 
             var keyComparer = new DataRowKeysComparer(Settings, x.Columns.Count);
 
-            //Check that the rows in the reference are unique
-            var invalidY = y.AsEnumerable().GroupBy(row => keyComparer.GetHashCode(row), (hashCode, rows) => new
+            CalculateHashValues(x, xDict, keyComparer, false);
+            CalculateHashValues(y, yDict, keyComparer, true);
+
+            chrono = DateTime.Now;
+            List<CompareHelper> missingRows;
             {
-                HashCode = hashCode,
-                Count = rows.Count()
-            }).Where(key => key.Count != 1);
-
-            if (invalidY.Count() > 0)
-                throw new ResultSetComparerException("The expected result set has some duplicated keys. Check your keys definition or your expected result set.");
-
-            chrono = DateTime.Now;
-            var missingRows = x.AsEnumerable().Except(y.AsEnumerable(), keyComparer).ToList();
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Missing rows: {0} [{1} ms]", missingRows.Count(), DateTime.Now.Subtract(chrono).Milliseconds));
+                var missingRowKeys = xDict.Keys.Except(yDict.Keys);
+                missingRows = new List<CompareHelper>(missingRowKeys.Count());
+                foreach (Int64 i in missingRowKeys)
+                {
+                    missingRows.Add(xDict[i]);
+                }
+            }
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Missing rows: {0} [{1}]", missingRows.Count(), DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
             chrono = DateTime.Now;
-            var unexpectedRows = y.AsEnumerable().Except(x.AsEnumerable(), keyComparer).ToList();
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Unexpected rows: {0} [{1} ms]", unexpectedRows.Count(), DateTime.Now.Subtract(chrono).Milliseconds));
-
-            chrono = DateTime.Now;
-            var duplicatedKeys = x.AsEnumerable().GroupBy(row => keyComparer.GetHashCode(row), (hashCode, rows) => new
+            List<CompareHelper> unexpectedRows;
             {
-                HashCode = hashCode,
-                Count = rows.Count()
-            }).Where(key => key.Count > 1).ToList();
-
-            var duplicatedRows = x.AsEnumerable().Where(row => duplicatedKeys.Any(key => key.HashCode == keyComparer.GetHashCode(row))).ToList();
-
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Duplicated rows: {0} (implicating {1} distinct keys)  [{1} ms]", duplicatedRows.Count(), duplicatedKeys.Count(), DateTime.Now.Subtract(chrono).Milliseconds));
+                var unexpectedRowKeys = yDict.Keys.Except(xDict.Keys);
+                unexpectedRows = new List<CompareHelper>(unexpectedRowKeys.Count());
+                foreach (Int64 i in unexpectedRowKeys)
+                {
+                    unexpectedRows.Add(yDict[i]);
+                }
+            }
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Unexpected rows: {0} [{1}]", unexpectedRows.Count(), DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
             chrono = DateTime.Now;
-            var keyMatchingRows = x.AsEnumerable().Except(missingRows).Except(unexpectedRows).Except(duplicatedRows).ToList();
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key and not duplicated: {0}  [{1} ms]", keyMatchingRows.Count(), DateTime.Now.Subtract(chrono).Milliseconds));
+            List<CompareHelper> keyMatchingRows;
+            {
+                var keyMatchingRowKeys = xDict.Keys.Intersect(yDict.Keys);
+                keyMatchingRows = new List<CompareHelper>(keyMatchingRowKeys.Count());
+                foreach (Int64 i in keyMatchingRowKeys)
+                {
+                    keyMatchingRows.Add(xDict[i]);
+                }
+            }
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key and not duplicated: {0}  [{1}]", keyMatchingRows.Count(), DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
             chrono = DateTime.Now;
             var nonMatchingValueRows = new List<DataRow>();
-            foreach (var rx in keyMatchingRows)
+
+            // If all of the columns make up the key, then we already know which rows match and which don't.
+            //  So there is no need to continue testing
+            if (Settings.KeysDef != ResultSetComparisonSettings.KeysChoice.All)
             {
-                var ry = y.AsEnumerable().Single(r => keyComparer.GetHashCode(r) == keyComparer.GetHashCode(rx));
-                for (int i = 0; i < rx.Table.Columns.Count; i++)
+                foreach (var rxHelper in keyMatchingRows)
                 {
-                    if (Settings.IsValue(i))
+                    var ryHelper = yDict[rxHelper.KeysHashed];
+
+                    if (ryHelper.ValuesHashed == rxHelper.ValuesHashed)
                     {
-                        //Null management
-                        if (rx.IsNull(i) || ry.IsNull(i))
-                        {
-                            if (!rx.IsNull(i) || !ry.IsNull(i))
-                            {
-                                ry.SetColumnError(i, ry.IsNull(i) ? rx[i].ToString() : "(null)");
-                                if (!nonMatchingValueRows.Contains(ry))
-                                    nonMatchingValueRows.Add(ry);
-                            }
-                        }
-                        //Not Null management
-                        else
-                        {
-                            //Numeric
-                            if (Settings.IsNumeric(i))
-                            {
-                                //Console.WriteLine("Debug: {0} {1}", rx[i].ToString(), rx[i].GetType());
+                        // quick shortcut. If the hash of the values matches, then there is no further need to test
+                        continue;
+                    }
 
-                                //Convert to decimal
-                                var rxDecimal = Convert.ToDecimal(rx[i], NumberFormatInfo.InvariantInfo);
-                                var ryDecimal = Convert.ToDecimal(ry[i], NumberFormatInfo.InvariantInfo);
-                                var tolerance = Convert.ToDecimal(Settings.GetTolerance(i), NumberFormatInfo.InvariantInfo);
+                    var rx = rxHelper.DataRowObj;
+                    var ry = ryHelper.DataRowObj;
 
-                                //Compare decimals (with tolerance)
-                                if (!IsEqual(rxDecimal, ryDecimal, tolerance))
+                    for (int i = 0; i < rx.Table.Columns.Count; i++)
+                    {
+                        if (Settings.IsValue(i))
+                        {
+                            //Null management
+                            if (rx.IsNull(i) || ry.IsNull(i))
+                            {
+                                if (!rx.IsNull(i) || !ry.IsNull(i))
                                 {
-                                    ry.SetColumnError(i, rxDecimal.ToString());
+                                    ry.SetColumnError(i, ry.IsNull(i) ? rx[i].ToString() : "(null)");
                                     if (!nonMatchingValueRows.Contains(ry))
                                         nonMatchingValueRows.Add(ry);
                                 }
-
                             }
-                            //Date and Time
-                            else if (Settings.IsDateTime(i))
+                            //(value) management
+                            else if (rx[i].ToString() == "(value)" || ry[i].ToString() == "(value)")
                             {
-                                //Console.WriteLine("Debug: {0} {1}", rx[i].ToString(), rx[i].GetType());
-
-                                //Convert to decimal
-                                var rxDateTime = Convert.ToDateTime(rx[i], DateTimeFormatInfo.InvariantInfo);
-                                var ryDateTime = Convert.ToDateTime(ry[i], DateTimeFormatInfo.InvariantInfo);
-
-                                //Compare decimals (with tolerance)
-                                if (!IsEqual(rxDateTime, ryDateTime))
-                                {
-                                    ry.SetColumnError(i, rxDateTime.ToString());
-                                    if (!nonMatchingValueRows.Contains(ry))
-                                        nonMatchingValueRows.Add(ry);
-                                }
-
-                            }
-                            //Not Numeric
-                            else
-                            {
-                                if (!IsEqual(rx[i], ry[i]))
+                                if (rx.IsNull(i) || ry.IsNull(i))
                                 {
                                     ry.SetColumnError(i, rx[i].ToString());
+                                    if (!nonMatchingValueRows.Contains(ry))
+                                        nonMatchingValueRows.Add(ry);
+                                }
+                            }
+                            //Not Null management
+                            else
+                            {
+                                ComparerResult result = null;
+
+                                //Numeric
+                                if (Settings.IsNumeric(i))
+                                {
+                                    //Convert to decimal
+                                    result = numericComparer.Compare(rx[i], ry[i], Settings.GetTolerance(i));
+                                }
+                                //Date and Time
+                                else if (Settings.IsDateTime(i))
+                                {
+                                    //Convert to dateTime
+                                    result = dateTimeComparer.Compare(rx[i], ry[i]);
+                                }
+                                //Boolean
+                                else if (Settings.IsBoolean(i))
+                                {
+                                    //Convert to bool
+                                    result = booleanComparer.Compare(rx[i], ry[i]);
+                                }
+                                //Text
+                                else
+                                {
+                                    result = textComparer.Compare(rx[i], ry[i]);
+                                }
+
+                                //If are not equal then we need to set the message in the ColumnError.
+                                if (!result.AreEqual)
+                                {
+                                    ry.SetColumnError(i, result.Message);
                                     if (!nonMatchingValueRows.Contains(ry))
                                         nonMatchingValueRows.Add(ry);
                                 }
@@ -159,9 +220,17 @@ namespace NBi.Core.ResultSet
                     }
                 }
             }
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key but without matching value: {0} [{1} ms]", nonMatchingValueRows.Count(), DateTime.Now.Subtract(chrono).Milliseconds));
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key but without matching value: {0} [{1}]", nonMatchingValueRows.Count(), DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
-            return ResultSetCompareResult.Build(missingRows, unexpectedRows, duplicatedRows, keyMatchingRows, nonMatchingValueRows);
+            var duplicatedRows = new List<DataRow>(); // Dummy place holder
+
+            return ResultSetCompareResult.Build(
+                missingRows.Select(a => a.DataRowObj).ToList(),
+                unexpectedRows.Select(a => a.DataRowObj).ToList(),
+                duplicatedRows,
+                keyMatchingRows.Select(a => a.DataRowObj).ToList(),
+                nonMatchingValueRows
+                );
         }
 
         protected void WriteSettingsToDataTableProperties(DataTable dt, ResultSetComparisonSettings settings)
@@ -214,14 +283,14 @@ namespace NBi.Core.ResultSet
                 if (!dr.IsNull(i))
                 {
                     if (settings.IsNumeric(i) && IsNumericField(dr.Table.Columns[i]))
-                        return;
+                        continue;
 
-                    if (settings.IsNumeric(i) && !IsValidNumeric(dr[i]))
+                    if (settings.IsNumeric(i) && !baseComparer.IsValidNumeric(dr[i]))
                     {                   
                         var exception = string.Format("The column with an index of {0} is expecting a numeric value but the first row of your result set contains a value '{1}' not recognized as a valid numeric value."
                             , i, dr[i].ToString());
-                            
-                        if (IsValidNumeric(dr[i].ToString().Replace(",", ".")))
+
+                        if (baseComparer.IsValidNumeric(dr[i].ToString().Replace(",", ".")))
                             exception += " Aren't you trying to use a comma (',' ) as a decimal separator? NBi requires that the decimal separator must be a '.'.";
 
                         throw new ResultSetComparerException(exception);
@@ -230,7 +299,7 @@ namespace NBi.Core.ResultSet
                     if (settings.IsDateTime(i) && IsDateTimeField(dr.Table.Columns[i]))
                         return;
 
-                    if (settings.IsDateTime(i) && !IsValidDateTime(dr[i].ToString()))
+                    if (settings.IsDateTime(i) && !baseComparer.IsValidDateTime(dr[i].ToString()))
                     {
                         throw new ResultSetComparerException(
                             string.Format("The column with an index of {0} is expecting a date & time value but the first row of your result set contains a value '{1}' not recognized as a valid date & time value."
@@ -260,62 +329,6 @@ namespace NBi.Core.ResultSet
         {
             return
                 dataColumn.DataType == typeof(DateTime);
-        }
-
-        private bool IsValidNumeric(object value)
-        {
-            decimal num = 0;
-            var result =  Decimal.TryParse(value.ToString()
-                                , NumberStyles.AllowLeadingSign | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowDecimalPoint
-                                , CultureInfo.InvariantCulture
-                                , out num);
-            //The first method is not enough, you can have cases where this method returns false but the value is effectively a numeric. The problem is in the .ToString() on the object where you apply the regional settings for the numeric values.
-            //The second method gives a better result but unfortunately generates an exception.
-            if (!result)
-            {
-                try
-                {
-                    num = Convert.ToDecimal(value, NumberFormatInfo.InvariantInfo);
-                    result = true;
-                }
-                catch (Exception)
-                {
-
-                    result = false;
-                }
-            }
-            return result;
-        }
-
-        private bool IsValidDateTime(string value)
-        {
-            DateTime dateTime = DateTime.MinValue;
-            return DateTime.TryParse(value
-                                , CultureInfo.InvariantCulture.DateTimeFormat
-                                , DateTimeStyles.AllowWhiteSpaces
-                                , out dateTime);
-        }
-
-
-        protected internal bool IsEqual(Decimal x, Decimal y, Decimal tolerance)
-        {
-            //Console.WriteLine("IsEqual: {0} {1} {2} {3} {4} {5}", x, y, tolerance, Math.Abs(x - y), x == y, Math.Abs(x - y) <= tolerance);
-
-            //quick check
-            if (x == y)
-                return true;
-
-            //Stop checks if tolerance is set to 0
-            if (tolerance == 0)
-                return false;
-
-            //include some math[Time consumming] (Tolerance needed to validate)
-            return (Math.Abs(x - y) <= tolerance);
-        }
-
-        private bool IsEqual(object x, object y)
-        {
-            return x.GetHashCode() == y.GetHashCode();
         }
 
         protected void BuildDefaultSettings(int columnsCount)

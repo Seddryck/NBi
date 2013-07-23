@@ -14,12 +14,20 @@ namespace NBi.Core.Analysis.Member
         public string ConnectionString { get; private set; }
         public string Function { get; private set; }
         public string MemberCaption { get; private set; }
+        public IEnumerable<string> ExcludedMembers { get; private set; }
+        public IEnumerable<PatternValue> ExcludedPatterns { get; private set; }
 
         public MembersCommand(string connectionString, string function, string memberCaption)
+            : this(connectionString,function,memberCaption,null, null)
+        {}
+
+        public MembersCommand(string connectionString, string function, string memberCaption, IEnumerable<string> excludedMembers, IEnumerable<PatternValue> excludedPatterns)
         {
             ConnectionString = connectionString;
             Function = function;
             MemberCaption = memberCaption;
+            ExcludedMembers = excludedMembers;
+            ExcludedPatterns = excludedPatterns;
         }
 
         protected void Inform(string text)
@@ -38,7 +46,6 @@ namespace NBi.Core.Analysis.Member
             }
             catch (AdomdConnectionException ex)
             {
-
                 throw new ConnectionException(ex, conn.ConnectionString);
             }
 
@@ -87,7 +94,7 @@ namespace NBi.Core.Analysis.Member
             {
                 var path = BuildPath(filters);
                 var perspective = GetPerspective(filters);
-                var commandText = Build(perspective.Value, path, Function, MemberCaption);
+                var commandText = Build(perspective.Value, path, Function, MemberCaption, ExcludedMembers, ExcludedPatterns);
                 cmd.CommandText = commandText;
                 var cs = ExecuteCellSet(cmd);
                 // Traverse the response (The response is on first line!!!) 
@@ -138,13 +145,78 @@ namespace NBi.Core.Analysis.Member
 
         public string Build(string perspective, string path, string function, string memberCaption)
         {
-            var commandText = string.Empty;
+            return Build(perspective, path, function,memberCaption, null, null);
+        }
+
+        public string Build(string perspective, string path, string function, string memberCaption, IEnumerable<string> exludedMembers, IEnumerable<PatternValue> excludedPatterns)
+        {
+            var members = string.Empty;
             if (string.IsNullOrEmpty(memberCaption))
-                commandText = string.Format("select {0} on 0, {1}.{2} on 1 from [{3}]", "{}", path, function, perspective);
+                members = string.Format("{0}.{1}", path, function);
             else
-                commandText = string.Format("select {0} on 0, {1}.[{4}].{2} on 1 from [{3}]", "{}", path, function, perspective, memberCaption);
+                members = string.Format("{0}.[{2}].{1}", path, function, memberCaption);
+
+            if (exludedMembers!=null && exludedMembers.Count()>0)
+            {
+                foreach (var excl in exludedMembers)
+                    members = string.Format("{0}-{1}.[{2}]", members, path, excl);
+                members = string.Format("{0}{1}{2}", "{", members, "}");
+            }
+
+            if (ExcludedPatterns != null && ExcludedPatterns.Count() > 0)
+            {
+                var hierarchyPath = BuildHierarchyPath(path);
+                var exclPattern = BuildExcludedPatterns(hierarchyPath, excludedPatterns);
+                members = string.Format("filter({0}, {1})"
+                    , members
+                    , exclPattern);                
+            }
+                            
+            var commandText = string.Empty;
+            commandText = string.Format("select {0} on 0, {1} on 1 from [{2}]", "{}", members, perspective);
+
             Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, commandText);
             return commandText;
+        }
+
+        private string BuildHierarchyPath(string path)
+        {
+            if (path.Count(c => c == '.') == 1)
+                return path;
+            else
+                return path.Substring(0,path.IndexOf('.', path.IndexOf('.') + 1));
+        }
+
+        internal protected string BuildExcludedPatterns(string hierarchyPath, IEnumerable<PatternValue> excludedPatterns)
+        {
+            if (excludedPatterns == null || excludedPatterns.Count() == 0)
+                return string.Empty;
+
+            var exclusions = new System.Text.StringBuilder();
+            foreach (var excl in excludedPatterns)
+            {
+                var exclPattern = string.Empty;
+                switch (excl.Pattern)
+                {
+                    case Pattern.StartWith:
+                        exclPattern = "left({0}, len('{1}'))<>'{1}'";
+                        break;
+                    case Pattern.EndWith:
+                        exclPattern = "right({0}, len('{1}'))<>'{1}'";
+                        break;
+                    case Pattern.Exact:
+                        exclPattern = "{0}<>'{1}'";
+                        break;
+                    case Pattern.Contain:
+                        exclPattern = "instr({0}, '{1}') = 0";
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+                exclusions.AppendFormat(" and " + exclPattern, hierarchyPath + ".CurrentMember.Member_Name", excl.Text);
+            }
+            exclusions.Remove(0, 4);
+            return exclusions.ToString();
         }
     }
 }

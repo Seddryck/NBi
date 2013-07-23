@@ -1,4 +1,4 @@
-For this kind of test, you'll need to define your system under test as a "query" and your assertion as an "equalTo" constraint. You've the choice to assert the result of your query against three types of resources:
+NBi is able to execute *SQL*, *MDX* or *DAX (since version 1.2)* queries and capture the result set to compare it with another resource. For this kind of test, you'll need to define your system under test as a "query" and your assertion as an "equalTo" constraint. You've the choice to assert the result of your query against three types of resources:
 * An embedded result set
 * An external csv file
 * Another query (or the same query on another connection)
@@ -7,13 +7,16 @@ NBi will create a brief analysis of the comparison of result sets generated. For
 !! System Under Test
 Let's start with the definition of your system under test:
 
-You must create a tag named "query" under the tag "system-under-test". You can associate a connection string to this query (or rely on the default connection string).
+You must create a xml element named "execution" under the tag "system-under-test". Under this xml element, you must create another xml element named 'query'. You can associate a connection string to this query (or rely on the [default connection string|Manage connection strings]).
 {code:xml}
 <system-under-test>
-	<query connectionString="...">
+	<execution>
+		<query connectionString="...">
+	</execution>
 </system-under-test>
 {code:xml}
-The query can be specified inside the test suite.
+
+The query can be specified directly inside the test suite.
 {code:xml}
 <query connectionString="...">
 <![CDATA[
@@ -48,15 +51,35 @@ The easiest way to express this is the usage of a result set embedded in your te
 	</resultSet>
 </equalTo>
 {code:xml}
-if you want to specify a cell with a null value, simply write an empty tag.
+
+
+Note that the *numeric values* must be written with an international format (a dot (".") to separate the decimal part).
+
+!!! Specific values *(improved in v1.2)*
+if you want to specify a cell with a *null value*, simply write an empty tag or specify (null) in your tag.
 {code:xml}
 <cell/>
 or
 <cell></cell>
+or
+<cell>(null)</cell>
 {code:xml}
-Note that the numeric values must be written with an international format ( a dot (".") to separate the decimal part).
 
-By default, NBi will take the assumption that the first column is a key and the other columns are values (numeric without tolerance). This will influence the comparison result. If you want to override this configuration, you should read [Result set's comparison configuration ]
+If you want to specify that *any non-null value* will be a valid result, you can specify "(value)" in your xml element
+{code:xml}
+<cell>(value)</cell>
+{code:xml}
+
+If you want to specify that *an empty value* (string with length of 0 characters) will be a valid result, you can specify "(empty)" in your xml element
+{code:xml}
+<cell>(empty)</cell>
+{code:xml}
+
+!!! Keys and Values *(improved in v1.2)*
+By default, NBi will take the assumption that the first column is a key (text) and the other columns are values (numeric without tolerance). This will influence the comparison result. If you want to override this configuration, you should read [Result set's comparison configuration]. 
+
+*Since version 1.2,* NBi is also able to manage dateTime and boolean formats without tricks in SQL queries, see more at [Result set's comparison configuration]
+
 !!! External CSV file
 You also have the opportunity to specify that the result set is defined in an external file (useful for large result set)
 {code:xml}

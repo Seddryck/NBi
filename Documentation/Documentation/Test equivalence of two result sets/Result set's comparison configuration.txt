@@ -18,8 +18,16 @@ This is the most common type for a column. The content of the cell is used durin
 !! Numeric
 To avoid comparison of textual content, you can use the “Numeric” type. The content of the cell is first converted to a numeric (decimal) value using the international format (a dot to separate the decimal part). It means that values “10.0”, “010” and “10” are considered as *equal* when using this type. This type is useful when you’ve “Value” columns.
 !! DateTime
-*This type is currently not supported (Next releases)*
-The DateTime type has the same role than the “Numeric” type. The content of the cell is first converted to a DateTime value  ??using the international format (yyyy-mm-dd hh:mm:ss)??. It will allow NBi to define “2012-05-02” and “2012-05-02 00:00:00” as equal values.
+*version 1.2 and next*
+The DateTime type has the same role than the “Numeric” type. The content of the cell is first converted to a DateTime value  using the international format (yyyy-mm-dd hh:mm:ss). 
+
+To specify that your column is a dateTime column, just add the attribute 'type' with the value 'dateTime'
+!!Boolean
+*version 1.2 and next*
+The boolean type has the same role than the “Numeric” type. The content of the cell is first converted to a boolean value. NBi understands "0" or "false" and "1" or "true" as boolean values. 
+
+To specify that your column is a boolean column, just add the attribute 'type' with the value 'boolean'
+
 ! Tolerance
 For the moment, the tolerance can only be assigned to column defined as a “Value and with a Type “Numeric”. The tolerance must be an absolute tolerance. For next releases, We’ve planned to support tolerance on “DateTime” columns and as a relative (%) value.
 If you apply a tolerance of 10 to a numeric column, two rows (with same keys) will be considered as equal if the absolute difference between them is less or equal to 10.

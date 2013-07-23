@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using NBi.Core;
 using NBi.Xml;
 using NUnit.Framework;
@@ -61,6 +62,19 @@ namespace NBi.NUnit.Runtime
             }
         }
 
+        public virtual void ExecuteTest(string testSuiteXml)
+        {
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, testSuiteXml);
+
+            byte[] byteArray = Encoding.ASCII.GetBytes(testSuiteXml);
+            var stream = new MemoryStream(byteArray);
+            var sr = new StreamReader(stream);
+
+            TestSuiteManager.Read(sr);
+            foreach (var test in TestSuiteManager.TestSuite.Tests)
+                ExecuteTestCases(test);
+        }
+
         /// <summary>
         /// Handles the standard assertion and if needed rethrow a new AssertionException with a modified stacktrace
         /// </summary>
@@ -94,6 +108,11 @@ namespace NBi.NUnit.Runtime
             if (ConnectionStringsFinder != null)
                 TestSuiteManager.ConnectionStrings = ConnectionStringsFinder.Find();
 
+            return BuildTestCases();
+        }
+  
+        private IEnumerable<TestCaseData> BuildTestCases()
+        {
             List<TestCaseData> testCasesNUnit = new List<TestCaseData>();
 
             foreach (var test in TestSuiteManager.TestSuite.Tests)

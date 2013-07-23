@@ -1,9 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
-	<test name="'Reseller Order Count' by year before 2006" uid="0001">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049</connectionString>
+		</default>
+	</settings>
+	<test name="'Reseller Orders' count, year by year, between 2005 and 2008" uid="0001">
 		<system-under-test>
 			<execution>
-				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+				<query name="MDX Except">
 					SELECT
 						[Measures].[Reseller Order Count] ON 0,
 						{[Date].[Calendar Year].[CY 2005]:[Date].[Calendar Year].[CY 2008]} ON 1
@@ -30,6 +35,60 @@
 					<row>
 						<cell>CY 2008</cell>
 						<cell>894</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="DAX Query with one column">
+		<system-under-test>
+			<execution>
+				<query
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"		  
+				>
+					EVALUATE
+					CALCULATETABLE(
+					VALUES('Product Subcategory'[Product Subcategory Name]),
+					'Product Category'[Product Category Name] = "Bikes")
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo keys="first">
+				<resultSet>
+					<row>
+						<cell>Mountain Bikes</cell>
+					</row>
+					<row>
+						<cell>Road Bikes</cell>
+					</row>
+					<row>
+						<cell>Touring Bikes</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="DAX Query with two columns">
+		<system-under-test>
+			<execution>
+				<query
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"
+				>
+					evaluate(
+					row(
+					"MinOrderDate", min('Internet Sales'[OrderDateKey]) ,
+					"MaxOrderDate", max('Internet Sales'[OrderDateKey]) )
+					)
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo keys="all">
+				<resultSet>
+					<row>
+						<cell>20050701</cell>
+						<cell>20080731</cell>
 					</row>
 				</resultSet>
 			</equalTo>

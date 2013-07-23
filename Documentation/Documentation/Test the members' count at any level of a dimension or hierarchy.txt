@@ -1,40 +1,6 @@
 ! Test the members' count at any level of a dimension or hierarchy 
 !! System under test
-In order to let you check something about members of a dimension (or hierarchy/level), you need to stipulate where you'll be looking for. This is done by creating a tag named "members" under the node "system-under-test".
-{code:xml}
-<test>
-    <system-under-test>
-        <members/>
-    </system-under-test>
-</test>
-{code:xml}
-
-In this node, named "members", you'll need to specify on which element you'll be looking for. This is done by filling the xml element named "dimension", "hierarchy" or "level". As a sample here we're looking for a member in the level 'State-Province' of hierarchy 'State-Province' in dimension 'dimension='Customer'.
-{code:xml}
-<system-under-test>
-	<members>
-		<level caption="State-Province" dimension="Customer" hierarchy="State-Province" perspective="Adventure Works"/>
-	</members>
-</system-under-test>
-{code:xml}
-If we want to search in the hierarchy,
-{code:xml}
-<system-under-test>
-	<members>
-		<hierarchy caption="State-Province" dimension="Customer" perspective="Adventure Works"/>
-	</members>
-</system-under-test>
-{code:xml}
-Finally, the last information needed is the connectionString to reach your cube. This information must be provided by the means of the xml attribute named "connectionString" (or via a default value).
-{code:xml}
-<system-under-test>
-	<members>
-		<hierarchy caption="State-Province" dimension="Customer" perspective="Adventure Works"
-			connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"
-		/>
-	</members>
-</system-under-test>
-{code:xml}
+If you're not familiar with the way to specify a test on members of a dimension, read first the article about [Tests on dimension's members].
 
 !! Assertion
 The assertion consists in a check about the members' count in the hierarchy or level specified.

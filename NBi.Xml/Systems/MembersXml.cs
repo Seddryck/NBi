@@ -7,6 +7,11 @@ namespace NBi.Xml.Systems
 {
     public class MembersXml : AbstractSystemUnderTestXml
     {
+        public MembersXml() : base()
+        {
+            Exclude = new ExcludeXml();
+        }
+        
         [XmlAttribute("children-of")]
         public string ChildrenOf { get; set; }
 
@@ -15,6 +20,9 @@ namespace NBi.Xml.Systems
         XmlElement(Type = typeof(LevelXml), ElementName = "level")
         ]
         public AbstractMembersItem Item { get; set; }
+
+        [XmlElement("exclude")]
+        public ExcludeXml Exclude { get; set; }
 
         public override BaseItem BaseItem
         {

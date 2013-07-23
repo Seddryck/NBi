@@ -43,8 +43,19 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
 
         public new void Show()
         {
-            textBox1.Text = TestContent;
+            xmlTextEditor.Text = TestContent;
             base.Show();
+        }
+
+        private void DisplayTestView_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form_Closing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
         }
 
 

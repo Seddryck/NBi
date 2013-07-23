@@ -28,12 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.bindingSettings = new System.Windows.Forms.BindingSource(this.components);
             this.settingsValue = new System.Windows.Forms.TextBox();
             this.settingsName = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSettings)).BeginInit();
+            this.removeReference = new System.Windows.Forms.Button();
+            this.addReference = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // settingsValue
@@ -46,7 +45,6 @@
             this.settingsValue.Name = "settingsValue";
             this.settingsValue.Size = new System.Drawing.Size(571, 107);
             this.settingsValue.TabIndex = 3;
-            this.settingsValue.TextChanged += new System.EventHandler(this.SettingsValue_TextChanged);
             // 
             // settingsName
             // 
@@ -58,7 +56,6 @@
             this.settingsName.Name = "settingsName";
             this.settingsName.Size = new System.Drawing.Size(212, 21);
             this.settingsName.TabIndex = 2;
-            this.settingsName.SelectedIndexChanged += new System.EventHandler(this.SettingsName_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -69,16 +66,37 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "Settings:";
             // 
+            // removeReference
+            // 
+            this.removeReference.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.removeReference.Image = global::NBi.UI.Genbi.Properties.Resources.tag_blue_delete;
+            this.removeReference.Location = new System.Drawing.Point(301, 3);
+            this.removeReference.Name = "removeReference";
+            this.removeReference.Size = new System.Drawing.Size(24, 24);
+            this.removeReference.TabIndex = 20;
+            this.removeReference.UseVisualStyleBackColor = true;
+            // 
+            // addReference
+            // 
+            this.addReference.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.addReference.Image = global::NBi.UI.Genbi.Properties.Resources.tag_blue_add;
+            this.addReference.Location = new System.Drawing.Point(272, 3);
+            this.addReference.Name = "addReference";
+            this.addReference.Size = new System.Drawing.Size(24, 24);
+            this.addReference.TabIndex = 19;
+            this.addReference.UseVisualStyleBackColor = true;
+            // 
             // SettingsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.removeReference);
+            this.Controls.Add(this.addReference);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.settingsValue);
             this.Controls.Add(this.settingsName);
             this.Name = "SettingsControl";
             this.Size = new System.Drawing.Size(574, 140);
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSettings)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -86,9 +104,10 @@
 
         #endregion
 
-        protected internal System.Windows.Forms.BindingSource bindingSettings;
         private System.Windows.Forms.TextBox settingsValue;
         private System.Windows.Forms.ComboBox settingsName;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button removeReference;
+        private System.Windows.Forms.Button addReference;
     }
 }

@@ -98,8 +98,6 @@ namespace NBi.NUnit.Runtime
 
         public IEnumerable<TestCaseData> GetTestCases()
         {
-            TestSuiteManager.Load(TestSuiteFinder.Find());
-
             //Find configuration of NBi
             if (ConfigurationFinder != null)
                 ApplyConfig(ConfigurationFinder.Find());
@@ -107,6 +105,9 @@ namespace NBi.NUnit.Runtime
             //Find connection strings referecned from an external file
             if (ConnectionStringsFinder != null)
                 TestSuiteManager.ConnectionStrings = ConnectionStringsFinder.Find();
+
+            //Build the Test suite
+            TestSuiteManager.Load(TestSuiteFinder.Find());
 
             return BuildTestCases();
         }

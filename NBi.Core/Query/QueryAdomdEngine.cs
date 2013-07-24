@@ -106,6 +106,10 @@ namespace NBi.Core.Query
                 {
                     throw new ConnectionException(ex, connectionString);
                 }
+                catch (AdomdErrorResponseException ex)
+                {
+                    throw new ConnectionException(ex, connectionString);
+                }
 
                 // capture time after execution
                 DateTime timeAfter = DateTime.Now;

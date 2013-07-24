@@ -121,19 +121,14 @@ namespace NBi.NUnit.Runtime
                 testCaseDataNUnit.SetName(test.GetName());
                 testCaseDataNUnit.SetDescription(test.Description);
                 foreach (var category in test.Categories)
-                {
-                    testCaseDataNUnit.SetCategory(category);
-                }
+                    testCaseDataNUnit.SetCategory(CategoryHelper.Format(category));
 
                 //Assign auto-categories
                 if (EnableAutoCategories)
                 {
                     foreach (var system in test.Systems)
                         foreach (var category in system.GetAutoCategories())
-                        {
-                            var noSpecialCharCategory = category.Replace("-", "_");
-                            testCaseDataNUnit.SetCategory(noSpecialCharCategory);
-                        }
+                            testCaseDataNUnit.SetCategory(CategoryHelper.Format(category));
                 }
 
                 testCasesNUnit.Add(testCaseDataNUnit);

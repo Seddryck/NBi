@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite xmlns="http://NBi/GenbiL">
+	<step>
+		<testCases>
+			<open file="Acceptance\GenbiL\Resources\dimensions.csv"/>
+		</testCases>
+		<template>
+			<open embedded="Dimension Exists" />
+		</template>
+	</step>
+	<save file="Simple-TestSuiteBuild.nbits"/>
+</testSuite>

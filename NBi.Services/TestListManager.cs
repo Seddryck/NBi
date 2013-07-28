@@ -137,6 +137,11 @@ namespace NBi.Service
             tests.Remove(test.Reference);
         }
 
-        
+
+
+        public IList<TestXml> GetTestList()
+        {
+            return tests;
+        }
     }
 }

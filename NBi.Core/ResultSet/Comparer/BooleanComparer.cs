@@ -39,9 +39,9 @@ namespace NBi.Core.ResultSet.Comparer
         protected ThreeState StringParsing(object obj)
         {
             var str= obj.ToString().ToLowerInvariant();
-            if (str == "false")
+            if (str == "false" || str=="no")
                 return ThreeState.False;
-            if (str == "true")
+            if (str == "true" || str == "yes")
                 return ThreeState.True;
             return ThreeState.Unknown;
         }

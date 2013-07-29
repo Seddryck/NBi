@@ -131,5 +131,36 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
             Assert.That(result.AreEqual, Is.False);
         }
 
+        [Test]
+        public void Compare_YesAndTrue_True()
+        {
+            var comparer = new BooleanComparer();
+            var result = comparer.Compare("Yes", true);
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_YesAndFalse_False()
+        {
+            var comparer = new BooleanComparer();
+            var result = comparer.Compare("Yes", false);
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_NoAndTrue_False()
+        {
+            var comparer = new BooleanComparer();
+            var result = comparer.Compare("No", true);
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_NoAndFalse_True()
+        {
+            var comparer = new BooleanComparer();
+            var result = comparer.Compare("No", false);
+            Assert.That(result.AreEqual, Is.True);
+        }
     }
 }

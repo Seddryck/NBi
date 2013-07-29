@@ -4,20 +4,28 @@ using System.Linq;
 
 namespace NBi.Core.ResultSet.Comparer
 {
-    class NumericComparer
+    class NumericComparer : BaseComparer
     {
-        public ComparerResult Compare(object x, object y)
-        {
-            return Compare(x, y, 0);
-        }
-        
         public ComparerResult Compare(object x, object y, decimal tolerance)
         {
+            return base.Compare(x, y, tolerance);
+        }
+
+        protected override ComparerResult CompareObjects(object x, object y)
+        {
+            return CompareObjects(x, y, (decimal)0);
+        }
+
+        protected override ComparerResult CompareObjects(object x, object y, object tolerance)
+        {
+            if (!(tolerance is decimal))
+                throw new ArgumentException(string.Format("Tolerance for a numeric comparer must be a decimal and is a '{0}'.", tolerance.GetType().Name), "tolerance");
+            
             var rxDecimal = Convert.ToDecimal(x, NumberFormatInfo.InvariantInfo);
             var ryDecimal = Convert.ToDecimal(y, NumberFormatInfo.InvariantInfo);
 
             //Compare decimals (with tolerance)
-            if (IsEqual(rxDecimal, ryDecimal, tolerance))
+            if (IsEqual(rxDecimal, ryDecimal, (decimal)tolerance))
                 return ComparerResult.Equality;
 
             return new ComparerResult(rxDecimal.ToString(NumberFormatInfo.InvariantInfo));

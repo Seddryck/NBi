@@ -162,5 +162,63 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
             var result = comparer.Compare("No", false);
             Assert.That(result.AreEqual, Is.True);
         }
+
+        [Test]
+        public void Compare_TrueAndAny_True()
+        {
+            var comparer = new BooleanComparer();
+            var result = comparer.Compare(true, "(any)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_TrueAndValue_True()
+        {
+            var comparer = new BooleanComparer();
+            var result = comparer.Compare(true, "(value)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_FalseAndAny_False()
+        {
+            var comparer = new BooleanComparer();
+            var result = comparer.Compare(false, "(any)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_FalseAndValue_False()
+        {
+            var comparer = new BooleanComparer();
+            var result = comparer.Compare(false, "(value)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+
+        [Test]
+        public void Compare_FalseAndNull_False()
+        {
+            var comparer = new BooleanComparer();
+            var result = comparer.Compare(false, null);
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+
+        [Test]
+        public void Compare_TrueAndNull_False()
+        {
+            var comparer = new BooleanComparer();
+            var result = comparer.Compare(true, null);
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_YesAndNull_False()
+        {
+            var comparer = new BooleanComparer();
+            var result = comparer.Compare("yes", null);
+            Assert.That(result.AreEqual, Is.False);
+        }
     }
 }

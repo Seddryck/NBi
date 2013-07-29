@@ -6,7 +6,7 @@ namespace NBi.Core.ResultSet.Comparer
 {
     class BooleanComparer : BaseComparer
     {
-        public ComparerResult Compare(object x, object y)
+        protected override ComparerResult CompareObjects(object x, object y)
         {
             var xThreeState = IntParsing(x);
             if (xThreeState == ThreeState.Unknown)
@@ -22,9 +22,15 @@ namespace NBi.Core.ResultSet.Comparer
             return new ComparerResult(ThreeStateToString(xThreeState, x.ToString()));
         }
 
+        protected override ComparerResult CompareObjects(object x, object y, object tolerance)
+        {
+            throw new NotImplementedException("You cannot compare two booleans with a tolerance");
+        }
+
+
         protected ThreeState IntParsing(object obj)
         {
-            if (IsValidNumeric(obj))
+            if (IsParsableNumeric(obj))
             {
                 var dec = Convert.ToDecimal(obj, NumberFormatInfo.InvariantInfo);
                 if (dec == new decimal(0))

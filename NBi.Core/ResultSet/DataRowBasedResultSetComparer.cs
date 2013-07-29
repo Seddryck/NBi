@@ -15,7 +15,6 @@ namespace NBi.Core.ResultSet
         private readonly Dictionary<Int64, CompareHelper> xDict = new Dictionary<long, CompareHelper>();
         private readonly Dictionary<Int64, CompareHelper> yDict = new Dictionary<long, CompareHelper>();
 
-        private readonly BaseComparer baseComparer = new BaseComparer();
         private readonly NumericComparer numericComparer = new NumericComparer();
         private readonly TextComparer textComparer = new TextComparer();
         private readonly DateTimeComparer dateTimeComparer = new DateTimeComparer();
@@ -285,12 +284,12 @@ namespace NBi.Core.ResultSet
                     if (settings.IsNumeric(i) && IsNumericField(dr.Table.Columns[i]))
                         continue;
 
-                    if (settings.IsNumeric(i) && !baseComparer.IsValidNumeric(dr[i]))
+                    if (settings.IsNumeric(i) && !BaseComparer.IsValidNumeric(dr[i]))
                     {                   
                         var exception = string.Format("The column with an index of {0} is expecting a numeric value but the first row of your result set contains a value '{1}' not recognized as a valid numeric value."
                             , i, dr[i].ToString());
 
-                        if (baseComparer.IsValidNumeric(dr[i].ToString().Replace(",", ".")))
+                        if (BaseComparer.IsValidNumeric(dr[i].ToString().Replace(",", ".")))
                             exception += " Aren't you trying to use a comma (',' ) as a decimal separator? NBi requires that the decimal separator must be a '.'.";
 
                         throw new ResultSetComparerException(exception);
@@ -299,7 +298,7 @@ namespace NBi.Core.ResultSet
                     if (settings.IsDateTime(i) && IsDateTimeField(dr.Table.Columns[i]))
                         return;
 
-                    if (settings.IsDateTime(i) && !baseComparer.IsValidDateTime(dr[i].ToString()))
+                    if (settings.IsDateTime(i) && !BaseComparer.IsValidDateTime(dr[i].ToString()))
                     {
                         throw new ResultSetComparerException(
                             string.Format("The column with an index of {0} is expecting a date & time value but the first row of your result set contains a value '{1}' not recognized as a valid date & time value."

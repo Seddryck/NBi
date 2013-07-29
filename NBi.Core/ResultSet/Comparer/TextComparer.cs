@@ -37,5 +37,11 @@ namespace NBi.Core.ResultSet.Comparer
 
             return false;
         }
+
+
+        protected override bool IsValidObject(object x)
+        {
+            return true;
+        }
     }
 }

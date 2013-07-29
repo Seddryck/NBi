@@ -146,5 +146,12 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
             var result = comparer.Compare(null, "(null)", 1);
             Assert.That(result.AreEqual, Is.True);
         }
+
+        [Test]
+        public void Compare_NonNumericAndAny_ArgumentException()
+        {
+            var comparer = new NumericComparer();
+            Assert.Throws<FormatException>(delegate { comparer.Compare("string", "(any)", 1); });
+        }
     }
 }

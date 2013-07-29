@@ -46,5 +46,11 @@ namespace NBi.Core.ResultSet.Comparer
             //include some math[Time consumming] (Tolerance needed to validate)
             return (Math.Abs(x - y) <= tolerance);
         }
+
+
+        protected override bool IsValidObject(object x)
+        {
+            return (IsValidNumeric(x));
+        }
     }
 }

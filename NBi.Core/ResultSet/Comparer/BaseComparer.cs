@@ -24,6 +24,7 @@ namespace NBi.Core.ResultSet.Comparer
             return CompareObjects(x, y, tolerance);
         }
 
+        protected abstract bool IsValidObject (object x);
         protected abstract ComparerResult CompareObjects(object x, object y);
         protected abstract ComparerResult CompareObjects(object x, object y, object tolerance);
 
@@ -60,16 +61,16 @@ namespace NBi.Core.ResultSet.Comparer
         protected bool EqualByPlaceholder(object x, object y)
         {
             if (x is string && ((string)x) == "(value)")
-                return y != null;
+                return y != null && IsValidObject(y);
 
             if (y is string && ((string)y) == "(value)")
-                return x != null;
+                return x != null && IsValidObject(x);
 
             if (x is string && ((string)x) == "(any)")
-                return true;
+                return y == null || IsValidObject(y);
 
             if (y is string && ((string)y) == "(any)")
-                return true;
+                return x == null || IsValidObject(x);
 
             return false;
         }

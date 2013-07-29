@@ -80,5 +80,10 @@ namespace NBi.Core.ResultSet.Comparer
             //quick check
             return (x == y);
         }
+
+        protected override bool IsValidObject(object x)
+        {
+            return (x is Boolean || IsValidNumeric(x) || StringParsing(x) != ThreeState.Unknown);
+        }
     }
 }

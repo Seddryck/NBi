@@ -67,5 +67,59 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
             Assert.That(result.AreEqual, Is.True);
         }
 
+        [Test]
+        public void Compare_ValidDateAndAny_True()
+        {
+            var comparer = new DateTimeComparer();
+            var result = comparer.Compare("2013-10-16", "(any)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_StringAndAny_ArgumentException()
+        {
+            var comparer = new DateTimeComparer();
+            Assert.Throws<ArgumentException>(delegate {comparer.Compare("Not a date", "(any)");});
+        }
+
+        [Test]
+        public void Compare_StringAndValue_True()
+        {
+            var comparer = new DateTimeComparer();
+            var result = comparer.Compare("2013-10-16", "(value)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_NullAndAny_True()
+        {
+            var comparer = new DateTimeComparer();
+            var result = comparer.Compare(null, "(any)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_NullAndValue_False()
+        {
+            var comparer = new DateTimeComparer();
+            var result = comparer.Compare(null, "(value)");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_NullAndString_False()
+        {
+            var comparer = new DateTimeComparer();
+            var result = comparer.Compare(null, new DateTime(2013, 10, 16));
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_NullAndNullPlaceHolder_True()
+        {
+            var comparer = new DateTimeComparer();
+            var result = comparer.Compare(null, "(null)");
+            Assert.That(result.AreEqual, Is.True);
+        }
     }
 }

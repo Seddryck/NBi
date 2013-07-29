@@ -4,9 +4,10 @@ using System.Linq;
 
 namespace NBi.Core.ResultSet.Comparer
 {
-    class DateTimeComparer
+    class DateTimeComparer : BaseComparer
     {
-        public ComparerResult Compare(object x, object y)
+
+        protected override ComparerResult CompareObjects(object x, object y)
         {
             DateTime rxDateTime, ryDateTime;
             if (x is string)
@@ -26,6 +27,11 @@ namespace NBi.Core.ResultSet.Comparer
             return new ComparerResult(rxDateTime.ToString(NumberFormatInfo.InvariantInfo));
         }
 
+        protected override ComparerResult CompareObjects(object x, object y, object tolerance)
+        {
+            throw new NotImplementedException("You cannot compare with a DateTime comparer and a tolerance (for the moment).");
+        }
+
         protected bool IsEqual(DateTime x, DateTime y)
         {
             //quick check
@@ -34,22 +40,36 @@ namespace NBi.Core.ResultSet.Comparer
 
         protected DateTime StringParse(string value)
         {
-            DateTime dateTime = DateTime.MinValue;
-            var result = DateTime.TryParse(value
-                                , CultureInfo.InvariantCulture.DateTimeFormat
-                                , DateTimeStyles.AllowWhiteSpaces
-                                , out dateTime);
-            if (!result)
-            {
-                result = DateTime.TryParse(value
-                                , new CultureInfo("fr-fr").DateTimeFormat
-                                , DateTimeStyles.AllowWhiteSpaces
-                                , out dateTime);
-            }
+            bool result = false;
+            DateTime dateTime;
+            result = ValidDateTime(value, out dateTime);
             if (!result)
                 throw new ArgumentException(string.Format("'{0}' is not recognized as a valid date", value), "value");
             
             return dateTime;
+        }
+  
+        private bool ValidDateTime(string value, out DateTime dateTime)
+        {
+            dateTime = DateTime.MinValue;
+            var result = DateTime.TryParse(value,
+                CultureInfo.InvariantCulture.DateTimeFormat,
+                DateTimeStyles.AllowWhiteSpaces,
+                out dateTime);
+            if (!result)
+            {
+                result = DateTime.TryParse(value,
+                    new CultureInfo("fr-fr").DateTimeFormat,
+                    DateTimeStyles.AllowWhiteSpaces,
+                    out dateTime);
+            }
+
+            return result;
+        }
+
+        protected override bool IsValidObject(object x)
+        {
+            return (x is DateTime || (x is string && IsValidDateTime((string)x)));
         }
     }
 }

@@ -4,13 +4,90 @@ using System.Linq;
 
 namespace NBi.Core.ResultSet.Comparer
 {
-    public class BaseComparer
+    abstract class BaseComparer
     {
-        public bool IsValidNumeric(object value)
+        public ComparerResult Compare(object x, object y)
+        {
+            var eq = CompareBasic(x,y);
+            if (eq != null)
+                return eq;
+
+            return CompareObjects(x,y);
+        }
+
+        public ComparerResult Compare(object x, object y, object tolerance)
+        {
+            var eq = CompareBasic(x, y);
+            if (eq != null)
+                return eq;
+
+            return CompareObjects(x, y, tolerance);
+        }
+
+        protected abstract ComparerResult CompareObjects(object x, object y);
+        protected abstract ComparerResult CompareObjects(object x, object y, object tolerance);
+
+        protected ComparerResult CompareBasic(object x, object y)
+        {
+            if (x is string && ((string)x) == "(null)")
+                x = null;
+
+            if (y is string && ((string)y) == "(null)")
+                y = null;
+
+            if (EqualByPlaceholder(x, y))
+                return ComparerResult.Equality;
+
+            var eq = EqualByNull(x, y);
+            if (eq != null)
+                return eq;
+
+            return null;
+        }
+
+
+        private ComparerResult EqualByNull(object x, object y)
+        {
+            if (x == null && y == null)
+                return ComparerResult.Equality;
+
+            if (x == null || y == null)
+                return new ComparerResult("(null)");
+
+            return null;
+        }
+
+        protected bool EqualByPlaceholder(object x, object y)
+        {
+            if (x is string && ((string)x) == "(value)")
+                return y != null;
+
+            if (y is string && ((string)y) == "(value)")
+                return x != null;
+
+            if (x is string && ((string)x) == "(any)")
+                return true;
+
+            if (y is string && ((string)y) == "(any)")
+                return true;
+
+            return false;
+        }
+
+        
+        public static bool IsValidNumeric(object value)
         {
             if (value is string && ((string)value) == "(value)")
                 return true;
 
+            if (value is string && ((string)value) == "(any)")
+                return true;
+
+            return IsParsableNumeric(value);
+        }
+
+        protected static bool IsParsableNumeric(object value)
+        {
             decimal num = 0;
             var result = Decimal.TryParse(value.ToString()
                                 , NumberStyles.AllowLeadingSign | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowDecimalPoint
@@ -34,7 +111,7 @@ namespace NBi.Core.ResultSet.Comparer
             return result;
         }
 
-        public bool IsValidDateTime(string value)
+        public static bool IsValidDateTime(string value)
         {
             if (value == "(value)")
                 return true;

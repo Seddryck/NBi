@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace NBi.Core.ResultSet.Comparer
 {
-    class TextComparer
+    class TextComparer : BaseComparer
     {
-        public ComparerResult Compare(object x, object y)
+        protected override ComparerResult CompareObjects(object x, object y)
         {
             var rxText = x.ToString();
             var ryText = y.ToString();
@@ -18,6 +18,11 @@ namespace NBi.Core.ResultSet.Comparer
             return new ComparerResult(string.IsNullOrEmpty(rxText) ? "(empty)" : rxText);
         }
 
+        protected override ComparerResult CompareObjects(object x, object y, object tolerance)
+        {
+            throw new NotImplementedException("You cannot compare with a text comparer and a tolerance.");
+        }       
+        
         protected bool IsEqual(string x, string y)
         {
             //quick check

@@ -27,21 +27,6 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             }
         }
 
-        //public int ProgressValue
-        //{
-        //    set
-        //    {
-        //        //In case of issue ajust the value to be in [0,100]
-        //        value = Math.Max((Math.Min(value, 100)), 0);
-
-        //        //If value doesn't change effectively don't do the update
-        //        if (progressBarTest.Value != value)
-        //        {
-        //            progressBarTest.Value = value;
-        //            progressBarTest.Refresh();
-        //        }
-        //    }
-        //}
 
         private void TestsList_MouseDown(object sender, MouseEventArgs e)
         {
@@ -53,11 +38,14 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
                 testsListMenu.Show(testsList, e.Location);
         }
 
-
+        public ToolStripMenuItem DisplayCommand
+        {
+            get { return editTestToolStripMenuItem; }
+        }
 
         public ToolStripMenuItem DeleteCommand
         {
-            get { return deleteTest; }
+            get { return deleteTestToolStripMenuItem; }
         }
     }
 }

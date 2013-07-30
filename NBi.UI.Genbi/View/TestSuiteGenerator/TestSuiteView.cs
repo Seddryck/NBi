@@ -33,7 +33,8 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             TestSuitePresenter = new TestSuitePresenter(this, new TestSuiteManager(), State.Tests, State.Settings);
 
             InitializeComponent();
-            DeclareBindings();            BindPresenter();
+            DeclareBindings();            
+            BindPresenter();
         }
 
         protected void DeclareBindings()
@@ -77,6 +78,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             CommandManager.Instance.Bindings.Add(this.TestListPresenter.UndoGenerateTestsXmlCommand, undoGenerateTestsToolStripMenuItem);
             CommandManager.Instance.Bindings.Add(this.TestListPresenter.UndoGenerateTestsXmlCommand, undoGenerateTestsToolStripButton);
             CommandManager.Instance.Bindings.Add(this.TestListPresenter.DeleteTestCommand, testListControl.DeleteCommand);
+            CommandManager.Instance.Bindings.Add(this.TestListPresenter.DisplayTestCommand, testListControl.DisplayCommand);
 
             CommandManager.Instance.Bindings.Add(this.TestSuitePresenter.OpenTestSuiteCommand, openTestSuiteToolStripMenuItem);
             CommandManager.Instance.Bindings.Add(this.TestSuitePresenter.OpenTestSuiteCommand, openTestSuiteToolStripButton);

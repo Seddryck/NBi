@@ -47,9 +47,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             TestListPresenter.PropertyChanged += (sender, e) => TestSuitePresenter.RefreshCommands();
 
             TestSuitePresenter.TestSuiteLoaded += (sender, e) =>
-            {
-                TestListPresenter.ReloadTests();
-            };
+                SettingsPresenter.Refresh();
         }
 
 

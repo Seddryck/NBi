@@ -61,7 +61,17 @@ namespace NBi.UI.Genbi.Presenter
 
         internal void Load(string fullPath)
         {
-            //testSuiteManager.Open(fullPath, settingsManager, testListManager);
+            testSuiteManager.Open(fullPath);
+
+            Tests.Clear();
+            foreach (var test in testSuiteManager.GetTests())
+                Tests.Add(test);
+
+            Settings.Clear();
+            foreach (var setting in testSuiteManager.GetSettings())
+                Settings.Add(setting);
+
+            this.SaveAsTestSuiteCommand.Refresh();
             OnTestSuiteLoaded(EventArgs.Empty);
         }
 

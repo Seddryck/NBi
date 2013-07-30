@@ -23,8 +23,7 @@ namespace NBi.UI.Genbi.Presenter
 
             this.settingsManager = settingsManager;
             Settings = settings;
-            SettingsNames = new BindingList<string>((settings.Select<Setting, string>(s => s.Name)).ToList());
-            previousSelection = SettingsNames[0];
+            Refresh();
         }
 
         #region Bindable properties
@@ -134,5 +133,13 @@ namespace NBi.UI.Genbi.Presenter
                 handler(this, e);
         }
 
+
+        internal void Refresh()
+        {
+            SettingsNames = new BindingList<string>((Settings.Select<Setting, string>(s => s.Name)).ToList());
+            previousSelection = SettingsNames[0];
+            SettingsNameSelected = SettingsNames[0];
+            DisplayValue(previousSelection);
+        }
     }
 }

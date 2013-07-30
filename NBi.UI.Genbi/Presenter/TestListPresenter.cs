@@ -9,6 +9,7 @@ using NBi.UI.Genbi.Command.Test;
 using NBi.UI.Genbi.Command.TestsXml;
 using NBi.UI.Genbi.Interface;
 using NBi.UI.Genbi.Stateful;
+using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.Presenter
 {
@@ -24,6 +25,7 @@ namespace NBi.UI.Genbi.Presenter
             this.GenerateTestsXmlCommand = new GenerateTestListCommand(this);
             this.UndoGenerateTestsXmlCommand = new UndoGenerateTestListCommand(this);
             this.DeleteTestCommand = new DeleteTestCommand(this);
+            this.DisplayTestCommand = new EditTestCommand(this, new DisplayTestView());
 
 
             this.testListManager = testListManager;
@@ -48,6 +50,7 @@ namespace NBi.UI.Genbi.Presenter
         public ICommand GenerateTestsXmlCommand { get; private set; }
         public ICommand UndoGenerateTestsXmlCommand { get; private set; }
         public ICommand DeleteTestCommand { get; private set; }
+        public ICommand DisplayTestCommand { get; private set; }
 
 
 
@@ -102,7 +105,7 @@ namespace NBi.UI.Genbi.Presenter
                     break;
                 case "SelectedTest":
                     this.DeleteTestCommand.Refresh();
-                    //this.EditTestCommand.Refresh();
+                    this.DisplayTestCommand.Refresh();
                     break;
                 case "TestCases":
                     this.GenerateTestsXmlCommand.Refresh();

@@ -8,12 +8,14 @@ using NBi.Service.Dto;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Interface;
 using NBi.UI.Genbi.Presenter;
+using NBi.UI.Genbi.Stateful;
 
 namespace NBi.UI.Genbi.View.TestSuiteGenerator
 {
     partial class TestSuiteView : Form, ITestCasesView, ITemplateView, ISettingsView, ITestsGenerationView, ITestSuiteView
     {
 
+        private TestSuiteState State { get; set; }
         private TestCasesPresenter TestCasesPresenter {get; set;}
         private TemplatePresenter TemplatePresenter { get; set; }
         private SettingsPresenter SettingsPresenter { get; set; }
@@ -23,15 +25,15 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
 
         public TestSuiteView()
         {
-            TestCasesPresenter = new TestCasesPresenter(this, new RenameVariableWindow(), new TestCasesManager());
-            TemplatePresenter = new TemplatePresenter(this, new TemplateManager());
-            SettingsPresenter = new SettingsPresenter(this, new SettingsManager());
-            TestListPresenter = new TestListPresenter(this, new TestListManager());
-            TestSuitePresenter = new TestSuitePresenter(this, new TestSuiteManager());
+            State = new TestSuiteState();
+            TestCasesPresenter = new TestCasesPresenter(this, new RenameVariableWindow(), new TestCasesManager(), State.TestCases, State.Variables);
+            TemplatePresenter = new TemplatePresenter(this, new TemplateManager(), State.Template);
+            SettingsPresenter = new SettingsPresenter(this, new SettingsManager(), State.Settings);
+            TestListPresenter = new TestListPresenter(this, new TestListManager(), State.Tests, State.TestCases, State.Variables, State.Template);
+            TestSuitePresenter = new TestSuitePresenter(this, new TestSuiteManager(), State.Tests, State.Settings);
 
             InitializeComponent();
-            DeclareBindings();
-            BindPresenter();
+            DeclareBindings();            BindPresenter();
         }
 
         protected void DeclareBindings()
@@ -41,40 +43,12 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             templateControl.DataBind(TemplatePresenter);
             testListControl.DataBind(TestListPresenter);
 
-            //Synchronisation between the presenters
             TemplatePresenter.PropertyChanged += (sender, e) => TestListPresenter.Template = TemplatePresenter.Template;
-            TestCasesPresenter.PropertyChanged += (sender, e) =>
-                {
-                    switch (e.PropertyName)
-                    {
-                        case "TestCases":
-                            TestListPresenter.TestCases = TestCasesPresenter.TestCases;
-                            break;
-                        case "Variables":
-                            TestListPresenter.Variables = TestCasesPresenter.Variables;
-                            break;
-                    }
+            TestListPresenter.PropertyChanged += (sender, e) => TestSuitePresenter.RefreshCommands();
 
-                };
-            SettingsPresenter.PropertyChanged += (sender, e) =>
+            TestSuitePresenter.TestSuiteLoaded += (sender, e) =>
             {
-                switch (e.PropertyName)
-                {
-                    case "Settings":
-                        TestSuitePresenter.Settings = SettingsPresenter.Settings;
-                        break;
-                }
-
-            };
-            TestListPresenter.PropertyChanged += (sender, e) =>
-            {
-                switch (e.PropertyName)
-                {
-                    case "Tests":
-                        TestSuitePresenter.Tests = TestListPresenter.Tests;
-                        break;
-                }
-
+                TestListPresenter.ReloadTests();
             };
         }
 
@@ -106,6 +80,8 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             CommandManager.Instance.Bindings.Add(this.TestListPresenter.UndoGenerateTestsXmlCommand, undoGenerateTestsToolStripButton);
             CommandManager.Instance.Bindings.Add(this.TestListPresenter.DeleteTestCommand, testListControl.DeleteCommand);
 
+            CommandManager.Instance.Bindings.Add(this.TestSuitePresenter.OpenTestSuiteCommand, openTestSuiteToolStripMenuItem);
+            CommandManager.Instance.Bindings.Add(this.TestSuitePresenter.OpenTestSuiteCommand, openTestSuiteToolStripButton);
             CommandManager.Instance.Bindings.Add(this.TestSuitePresenter.SaveAsTestSuiteCommand, saveAsTestSuiteToolStripMenuItem);
             CommandManager.Instance.Bindings.Add(this.TestSuitePresenter.SaveAsTestSuiteCommand, saveAsTestSuiteToolStripButton);
         }

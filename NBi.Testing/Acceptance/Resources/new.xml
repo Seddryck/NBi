@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1037</connectionString>
+		</default>
+	</settings>
+	<test name="'Reseller Orders' count, year by year, between 2005 and 2008" uid="0001">
+		<system-under-test>
+			<execution>
+				<query name="MDX Except">
+					with member [Measures].[Error Measure] as 1/[Measures].[Non Existing]
+					select [Measures].[Error Measure] on 0 from [Adventure Works]
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>CY 2005</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+</testSuite>

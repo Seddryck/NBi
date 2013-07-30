@@ -118,7 +118,7 @@
     <Compile Include="Presenter\RunnerConfigPresenter.cs" />
     <Compile Include="Presenter\TemplatePresenter.cs" />
     <Compile Include="Presenter\TestCasesPresenter.cs" />
-    <Compile Include="Presenter\TestListGenerationResult.cs" />
+    <Compile Include="Stateful\TestListGenerationResult.cs" />
     <Compile Include="Presenter\TestListPresenter.cs" />
     <Compile Include="Presenter\TestSuitePresenter.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -127,6 +127,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Interface\RunnerConfig\IRunnerConfigView.cs" />
+    <Compile Include="Stateful\TestSuiteState.cs" />
     <Compile Include="View\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>

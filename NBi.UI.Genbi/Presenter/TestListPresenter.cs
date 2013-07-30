@@ -8,6 +8,7 @@ using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.Test;
 using NBi.UI.Genbi.Command.TestsXml;
 using NBi.UI.Genbi.Interface;
+using NBi.UI.Genbi.Stateful;
 
 namespace NBi.UI.Genbi.Presenter
 {
@@ -16,7 +17,7 @@ namespace NBi.UI.Genbi.Presenter
         private readonly TestListManager testListManager;
         public bool IsUndo { get; private set; }
 
-        public TestListPresenter(ITestsGenerationView testsGenerationView, TestListManager testListManager)
+        public TestListPresenter(ITestsGenerationView testsGenerationView, TestListManager testListManager, BindingList<Test> tests, DataTable testCases, BindingList<string> variables, string template)
             : base(testsGenerationView)
         {
             this.ClearTestsXmlCommand = new ClearTestListCommand(this);
@@ -27,7 +28,10 @@ namespace NBi.UI.Genbi.Presenter
 
             this.testListManager = testListManager;
 
-            Tests = new BindingList<Test>();
+            Tests = tests;
+            TestCases = testCases;
+            Variables = variables;
+            Template = template;
 
             testListManager.Progressed += (sender, e) => { Progress = Math.Min(100, 100 * e.Done / e.Total); };
         }

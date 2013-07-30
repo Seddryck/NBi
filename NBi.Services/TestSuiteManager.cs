@@ -14,17 +14,23 @@ namespace NBi.Service
 
         public void DefineSettings(IEnumerable<Setting> settings)
         {
-            var sm = new SettingsManager();
+            this.settings = new SettingsXml();
             foreach (var s in settings)
-                sm.Add(s.Name, s.Value);
-            
-            this.settings = sm.Settings;
+            {
+                if (s.Name.StartsWith("Default - System-under-test"))
+                    this.settings.Defaults.Add(new DefaultXml { ApplyTo = SettingsXml.DefaultScope.SystemUnderTest, ConnectionString = s.Value });
+                else if (s.Name.StartsWith("Default - Assert"))
+                    this.settings.Defaults.Add(new DefaultXml { ApplyTo = SettingsXml.DefaultScope.Assert, ConnectionString = s.Value });
+                else
+                    this.settings.References.Add(new ReferenceXml() { Name = s.Name.Split(' ')[2], ConnectionString = s.Value });
+            }
+                
+
         }
 
-        public void DefineTests(IList<Test> tests)
+        public void DefineTests(IEnumerable<Test> tests)
         {
             this.tests = new List<TestXml>();
-            this.tests.Clear();
             foreach (var t in tests)
                 this.tests.Add(t.Reference);
         }

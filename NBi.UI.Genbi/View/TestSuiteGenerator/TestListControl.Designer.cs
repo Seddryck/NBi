@@ -75,7 +75,7 @@
             // deleteTestToolStripMenuItem
             // 
             this.deleteTestToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.note_delete;
-            this.deleteTestToolStripMenuItem.Name = "deleteTest";
+            this.deleteTestToolStripMenuItem.Name = "deleteTestToolStripMenuItem";
             this.deleteTestToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.deleteTestToolStripMenuItem.Text = "Delete test";
             // 

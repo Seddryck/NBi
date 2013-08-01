@@ -86,6 +86,12 @@ namespace NBi.UI.Genbi.Presenter
             set { SetValue("Template", value); }
         }
 
+        public bool UseGrouping
+        {
+            get { return GetValue<bool>("UseGrouping"); }
+            set { SetValue("UseGrouping", value); }
+        }
+
         public int Progress
         {
             get { return GetValue<int>("Progress"); }
@@ -125,7 +131,7 @@ namespace NBi.UI.Genbi.Presenter
         {
             try
             {
-                testListManager.Build(Template, Variables.ToArray(), TestCases, false);
+                testListManager.Build(Template, Variables.ToArray(), TestCases, UseGrouping);
             }
             catch (ExpectedVariableNotFoundException)
             {

@@ -23,6 +23,8 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
                 testsList.DataBindings.Add("SelectedItem", presenter, "SelectedTest", true, DataSourceUpdateMode.OnPropertyChanged);
                 testsList.SelectedIndexChanged += (s, args) => testsList.DataBindings["SelectedItem"].WriteValue();
 
+                useGrouping.DataBindings.Add("Checked", presenter, "UseGrouping", false, DataSourceUpdateMode.OnPropertyChanged);
+
                 progressBarTest.DataBindings.Add("Value", presenter, "Progress");
             }
         }

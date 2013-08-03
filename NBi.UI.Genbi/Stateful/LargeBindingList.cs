@@ -7,7 +7,7 @@ namespace NBi.UI.Genbi.Stateful
 {
     class LargeBindingList<T> : BindingList<T>
     {
-        public void Clear()
+        public new void Clear()
         {
             this.ClearItems();
         }

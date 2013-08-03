@@ -59,7 +59,7 @@ namespace NBi.Xml.Settings
         {
             foreach (var def in Defaults)
             {
-                if (def.ConnectionString.StartsWith("@"))
+                if (!string.IsNullOrEmpty(def.ConnectionString) && def.ConnectionString.StartsWith("@"))
                 {
                     if (connectionStrings.Count == 0)
                         throw new ArgumentOutOfRangeException(string.Format("No connectionString is provided through the config file. The default connection string stipulated in nbits file is trying to reference a connection string named '{0}'", def.ConnectionString));

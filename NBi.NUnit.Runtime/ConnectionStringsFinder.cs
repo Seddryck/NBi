@@ -24,7 +24,7 @@ namespace NBi.NUnit.Runtime
 				{
 					Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Section 'connectionStrings' found."));
 					if (!string.IsNullOrEmpty(configuration.ConnectionStrings.SectionInformation.ConfigSource))
-                        Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Section 'connectionStrings' overriden by '{1}'.", configuration.ConnectionStrings.SectionInformation.ConfigSource));
+						Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Section 'connectionStrings' overriden by '{0}'.", configuration.ConnectionStrings.SectionInformation.ConfigSource));
 
 					foreach (ConnectionStringSettings css in configuration.ConnectionStrings.ConnectionStrings)
 					{

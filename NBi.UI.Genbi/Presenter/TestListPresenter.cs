@@ -18,7 +18,7 @@ namespace NBi.UI.Genbi.Presenter
         private readonly TestListManager testListManager;
         public bool IsUndo { get; private set; }
 
-        public TestListPresenter(ITestsGenerationView testsGenerationView, TestListManager testListManager, BindingList<Test> tests, DataTable testCases, BindingList<string> variables, string template)
+        public TestListPresenter(ITestsGenerationView testsGenerationView, TestListManager testListManager, LargeBindingList<Test> tests, DataTable testCases, BindingList<string> variables, string template)
             : base(testsGenerationView)
         {
             this.ClearTestsXmlCommand = new ClearTestListCommand(this);
@@ -35,7 +35,12 @@ namespace NBi.UI.Genbi.Presenter
             Variables = variables;
             Template = template;
 
-            testListManager.Progressed += (sender, e) => { Progress = Math.Min(100, 100 * e.Done / e.Total); };
+            testListManager.Progressed += (sender, e) => 
+            {
+                var newValue = Math.Min(100, 100 * e.Done / e.Total);
+                if (newValue - Progress >= 5 || (newValue==0 && Progress!=0) || (newValue==100 && Progress!=100))
+                    Progress = newValue; 
+            };
         }
 
         public TestListManager Manager 
@@ -56,9 +61,9 @@ namespace NBi.UI.Genbi.Presenter
 
         #region Bindable properties
 
-        public BindingList<Test> Tests 
+        public LargeBindingList<Test> Tests 
         {
-            get { return GetValue<BindingList<Test>>("Tests"); }
+            get { return GetValue<LargeBindingList<Test>>("Tests"); }
             set { SetValue("Tests", value); }
         }
 
@@ -129,23 +134,31 @@ namespace NBi.UI.Genbi.Presenter
 
         internal TestListGenerationResult Generate()
         {
+            TestListGenerationResult message = null;
             try
             {
+                Progress = 0;
+                OnGenerationStarted(EventArgs.Empty);
                 testListManager.Build(Template, Variables.ToArray(), TestCases, UseGrouping);
+                Progress = 100;
+                IsUndo = true;
+                ReloadTests();
+                message = TestListGenerationResult.Success(Tests.Count);
             }
             catch (ExpectedVariableNotFoundException)
             {
-                return TestListGenerationResult.Failure("The template has at least one variable which wasn't supplied by the test cases provider (CSV file). Check the name of the variables.");
+                message = TestListGenerationResult.Failure("The template has at least one variable which wasn't supplied by the test cases provider (CSV file). Check the name of the variables.");
             }
             catch (TemplateExecutionException ex)
             {
-                return TestListGenerationResult.Failure(ex.Message);
+                message = TestListGenerationResult.Failure(ex.Message);
+            }
+            finally
+            {
+                OnGenerationEnded(EventArgs.Empty);
             }
 
-            IsUndo = true;
-            ReloadTests();
-            
-            return TestListGenerationResult.Success(Tests.Count);
+            return message;
         }
 
         internal void Clear()
@@ -167,9 +180,28 @@ namespace NBi.UI.Genbi.Presenter
             var tests = testListManager.GetTests();
 
             Tests.Clear();
-            foreach (var test in tests)
-                Tests.Add(test);
+            Tests.AddRange(tests);
+            //foreach (var test in tests)
+            //    Tests.Add(test);
             OnPropertyChanged("Tests");
+        }
+
+        public event EventHandler<EventArgs> GenerationStarted;
+
+        protected void OnGenerationStarted(EventArgs e)
+        {
+            EventHandler<EventArgs> handler = GenerationStarted;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        public event EventHandler<EventArgs> GenerationEnded;
+
+        protected void OnGenerationEnded(EventArgs e)
+        {
+            EventHandler<EventArgs> handler = GenerationEnded;
+            if (handler != null)
+                handler(this, e);
         }
     }
 }

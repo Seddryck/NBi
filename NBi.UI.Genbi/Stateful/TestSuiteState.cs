@@ -12,14 +12,14 @@ namespace NBi.UI.Genbi.Stateful
         public BindingList<string> Variables { get; private set; }
         public DataTable TestCases { get; private set; }
         public string Template { get; private set; }
-        public BindingList<Test> Tests { get; private set; }
+        public LargeBindingList<Test> Tests { get; private set; }
         public BindingList<Setting> Settings { get; private set; }
 
         public TestSuiteState()
         {
             Variables = new BindingList<string>();
             TestCases = new DataTable();
-            Tests = new BindingList<Test>();
+            Tests = new LargeBindingList<Test>();
             Settings = new BindingList<Setting>();
             Settings.Add(new Setting() { Name = "Default - System-under-test" });
             Settings.Add(new Setting() { Name = "Default - Assert" });

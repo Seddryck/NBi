@@ -8,6 +8,8 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
     public partial class TestListControl : UserControl
     {
 
+        private BindingSource testsSource;
+
         public TestListControl()
         {
             InitializeComponent();
@@ -17,15 +19,20 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             if (presenter != null)
             {
-                testsList.DataSource = presenter.Tests;
+                testsSource = new BindingSource(presenter, "Tests");
+                testsList.DataSource = testsSource;
                 testsList.DisplayMember = "Title";
 
                 testsList.DataBindings.Add("SelectedItem", presenter, "SelectedTest", true, DataSourceUpdateMode.OnPropertyChanged);
                 testsList.SelectedIndexChanged += (s, args) => testsList.DataBindings["SelectedItem"].WriteValue();
 
-                useGrouping.DataBindings.Add("Checked", presenter, "UseGrouping", false, DataSourceUpdateMode.OnPropertyChanged);
 
-                progressBarTest.DataBindings.Add("Value", presenter, "Progress");
+                useGrouping.DataBindings.Add("Checked", presenter, "UseGrouping", false, DataSourceUpdateMode.OnValidation);
+
+                progressBarTest.DataBindings.Add("Value", presenter, "Progress", false, DataSourceUpdateMode.OnPropertyChanged);
+
+                presenter.GenerationStarted += (sender, e) => testsSource.SuspendBinding();
+                presenter.GenerationEnded += (sender, e) => testsSource.ResumeBinding();
             }
         }
 

@@ -118,6 +118,7 @@
     <Compile Include="Presenter\RunnerConfigPresenter.cs" />
     <Compile Include="Presenter\TemplatePresenter.cs" />
     <Compile Include="Presenter\TestCasesPresenter.cs" />
+    <Compile Include="Stateful\LargeBindingList.cs" />
     <Compile Include="Stateful\TestListGenerationResult.cs" />
     <Compile Include="Presenter\TestListPresenter.cs" />
     <Compile Include="Presenter\TestSuitePresenter.cs" />

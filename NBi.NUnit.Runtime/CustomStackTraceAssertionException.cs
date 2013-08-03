@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace NBi.NUnit.Runtime
 {
+    [Serializable]
     public class CustomStackTraceAssertionException: AssertionException
     {
         private readonly string stackTrace;

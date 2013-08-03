@@ -26,6 +26,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             return dimensions;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         internal IEnumerable<DimensionRow> Discover(IEnumerable<IFilter> filters)
         {
             var dimensions = new List<DimensionRow>();

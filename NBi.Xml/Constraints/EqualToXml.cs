@@ -97,6 +97,7 @@ namespace NBi.Xml.Constraints
             return new ResultSetComparisonSettings(KeysDef, ValuesDef, Tolerance, ColumnsDef);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public virtual IDbCommand GetCommand()
         {
             if (Query==null)

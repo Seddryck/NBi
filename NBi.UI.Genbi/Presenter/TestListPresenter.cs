@@ -13,13 +13,12 @@ using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.Presenter
 {
-    class TestListPresenter : BasePresenter<ITestsGenerationView>
+    class TestListPresenter : PresenterBase
     {
         private readonly TestListManager testListManager;
         public bool IsUndo { get; private set; }
 
-        public TestListPresenter(ITestsGenerationView testsGenerationView, TestListManager testListManager, LargeBindingList<Test> tests, DataTable testCases, BindingList<string> variables, string template)
-            : base(testsGenerationView)
+        public TestListPresenter(TestListManager testListManager, LargeBindingList<Test> tests, DataTable testCases, BindingList<string> variables, string template)
         {
             this.ClearTestsXmlCommand = new ClearTestListCommand(this);
             this.GenerateTestsXmlCommand = new GenerateTestListCommand(this);

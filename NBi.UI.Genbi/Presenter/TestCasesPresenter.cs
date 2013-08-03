@@ -11,12 +11,11 @@ using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.Presenter
 {
-    class TestCasesPresenter : BasePresenter<ITestCasesView>
+    class TestCasesPresenter : PresenterBase
     {
         private readonly TestCasesManager testCasesManager;
 
-        public TestCasesPresenter(ITestCasesView testCasesView, RenameVariableWindow window,TestCasesManager testCasesManager, DataTable testCases, BindingList<string> variables)
-            : base(testCasesView)
+        public TestCasesPresenter(RenameVariableWindow window,TestCasesManager testCasesManager, DataTable testCases, BindingList<string> variables)
         {
             this.OpenTestCasesCommand = new OpenTestCasesCommand(this);
             this.RenameVariableCommand = new RenameVariableCommand(this, window);

@@ -9,13 +9,12 @@ using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.Presenter
 {
-    class TemplatePresenter : BasePresenter<ITemplateView>
+    class TemplatePresenter : PresenterBase
     {
         private readonly TemplateManager templateManager;
         public bool IsModified {get; private set;}
 
-        public TemplatePresenter(ITemplateView templateView, TemplateManager templateManager, string template)
-            : base(templateView)
+        public TemplatePresenter(TemplateManager templateManager, string template)
         {
             EmbeddedTemplateLabels = new BindingList<string>();
 

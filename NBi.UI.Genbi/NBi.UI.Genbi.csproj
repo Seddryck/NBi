@@ -110,7 +110,6 @@
     <Compile Include="Interface\TestSuiteGenerator\Events\VariableRemoveEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\TemplatePersistEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\FilePersistEventArgs.cs" />
-    <Compile Include="Presenter\BasePresenter.cs" />
     <Compile Include="Presenter\DocumentPresenterBase.cs" />
     <Compile Include="Presenter\FindAndReplacePresenter.cs" />
     <Compile Include="Presenter\PresenterBase.cs" />

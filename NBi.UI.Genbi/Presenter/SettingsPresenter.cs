@@ -10,13 +10,13 @@ using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.Presenter
 {
-    class SettingsPresenter : BasePresenter<ISettingsView>
+    class SettingsPresenter : PresenterBase
     {
         private readonly SettingsManager settingsManager;
         private string previousSelection;
 
-        public SettingsPresenter(ISettingsView view, SettingsManager settingsManager, BindingList<Setting> settings)
-            : base(view)
+        public SettingsPresenter(SettingsManager settingsManager, BindingList<Setting> settings)
+            : base()
         {
             AddReferenceCommand = new AddReferenceCommand(this, new NewReferenceWindow());
             RemoveReferenceCommand = new RemoveReferenceCommand(this);

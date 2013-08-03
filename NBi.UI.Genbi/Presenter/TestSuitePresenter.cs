@@ -9,12 +9,12 @@ using NBi.UI.Genbi.Interface;
 
 namespace NBi.UI.Genbi.Presenter
 {
-    class TestSuitePresenter : BasePresenter<ITestSuiteView>
+    class TestSuitePresenter : PresenterBase
     {
         private readonly TestSuiteManager testSuiteManager;
 
-        public TestSuitePresenter(ITestSuiteView testSuiteView, TestSuiteManager testSuiteManager, BindingList<Test> tests, BindingList<Setting> settings)
-            : base(testSuiteView)
+        public TestSuitePresenter(TestSuiteManager testSuiteManager, BindingList<Test> tests, BindingList<Setting> settings)
+            : base()
         {
             this.testSuiteManager = testSuiteManager;
 

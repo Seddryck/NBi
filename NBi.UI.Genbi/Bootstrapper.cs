@@ -8,6 +8,13 @@ namespace NBi.UI.Genbi
 {
     class Bootstrapper
     {
+        private static RunnerConfigView runnerConfigView;
+
+        public static RunnerConfigView GetRunnerConfigView()
+        {
+            return runnerConfigView;
+        }
+
         /// <summary>
         /// Boots the application.
         /// </summary>
@@ -17,6 +24,7 @@ namespace NBi.UI.Genbi
         public void Boot(params string[] args)
         {
             var masterView = new TestSuiteView();
+            runnerConfigView = new RunnerConfigView();
 
             if (args != null && args.Length != 0)
             {

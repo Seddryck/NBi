@@ -74,6 +74,7 @@
     <Compile Include="Command\CommandBase.cs" />
     <Compile Include="Command\CommandBindings.cs" />
     <Compile Include="Command\CommandManager.cs" />
+    <Compile Include="Command\Configs\CreateConfigsCommand.cs" />
     <Compile Include="Command\DelegateCommand.cs" />
     <Compile Include="Command\Delegates.cs" />
     <Compile Include="Command\FindAndReplaceCommand.cs" />
@@ -153,7 +154,6 @@
     <Compile Include="View\RunnerConfig\PathControl.Designer.cs">
       <DependentUpon>PathControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\RunnerConfig\RunnerConfigViewAdapter.cs" />
     <Compile Include="View\RunnerConfig\RunnerConfigView.cs">
       <SubType>Form</SubType>
     </Compile>

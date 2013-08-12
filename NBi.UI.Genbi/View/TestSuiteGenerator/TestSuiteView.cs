@@ -93,145 +93,16 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         }
 
 
-        #region properties
-
-        //public DataTable TestCases
-        //{
-        //    get
-        //    {
-        //        return (DataTable)(testCasesControl.bindingCsv.DataSource);
-        //    }
-        //    set
-        //    {
-        //        testCasesControl.bindingCsv.DataSource = value;
-        //    }
-        //}
-
-        //public bool UseGrouping
-        //{
-        //    get
-        //    {
-        //        return false;//templateControl.UseGrouping;
-        //    }
-        //    set
-        //    {
-        //        //templateControl.UseGrouping = value;
-        //    }
-        //}
-
-
-        //public BindingList<Test> Tests
-        //{
-        //    get
-        //    {
-        //        return null;
-        //    }
-        //    set
-        //    {
-        //        //testListControl.Tests = value;
-        //    }
-        //}
-
-        //public string TemplateValue
-        //{
-        //    get
-        //    {
-        //        return null;//templateControl.Template;
-        //    }
-        //    set
-        //    {
-        //        //templateControl.Template = value;
-        //    }
-        //}
-
-
-        //public string SettingsValue
-        //{
-        //    get
-        //    {
-        //        return null; //settingsControl.Value;
-        //    }
-        //    set
-        //    {
-        //        //settingsControl.Value = value;
-        //    }
-        //}
-
-
-        //public BindingList<string> SettingsNames
-        //{
-        //    get
-        //    {
-        //        return null; //settingsControl.Names;
-        //    }
-        //    set
-        //    {
-        //        //settingsControl.Names = value;
-        //    }
-        //}
-
-        //public int SettingsSelectedIndex
-        //{
-        //    get
-        //    {
-        //        return 0;
-        //    }
-        //    set
-        //    {
-                
-        //    }
-        //}
-
-        //public Test TestSelection
-        //{
-        //    get
-        //    {
-        //        return null; //testListControl.TestSelection;
-        //    }
-        //    set
-        //    {
-        //        //testListControl.TestSelection = value;
-        //    }
-        //}
-
-        //public int TestSelectedIndex
-        //{
-        //    get
-        //    {
-        //        return 0;// testListControl.TestSelectedIndex;
-        //    }
-        //    set
-        //    {
-        //        //testListControl.TestSelectedIndex = value;
-        //    }
-        //}
-
-        ////public int ProgressValue
-        ////{
-        ////    set
-        ////    {
-        ////        testListControl.ProgressValue = value;
-        ////    }
-        ////}
-
-        #endregion
-
-
-        private void CsvImporterView_Load(object sender, EventArgs e)
-        {
-
-        }
-
-
-        private void GenerateProjectFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //Dispatcher.StartRunnerConfig();
-        }
-
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var window = new AboutBox();
             window.ShowDialog(this);
+        }
+
+        private void generateToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var view = Bootstrapper.GetRunnerConfigView();
+            view.ShowDialog(this);
         }
 
 

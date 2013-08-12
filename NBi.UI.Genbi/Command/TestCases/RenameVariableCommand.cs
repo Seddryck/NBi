@@ -30,9 +30,9 @@ namespace NBi.UI.Genbi.Command.TestCases
 		/// </summary>
 		public override void Invoke()
 		{
-            DialogResult result = window.ShowDialog();
-            if (result == DialogResult.OK)
-			    presenter.Rename(presenter.VariableSelectedIndex, window.NewName);
+			DialogResult result = window.ShowDialog();
+			if (result == DialogResult.OK)
+				presenter.Rename(presenter.VariableSelectedIndex, window.NewName);
 		}
 	}
 }

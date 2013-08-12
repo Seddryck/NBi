@@ -11,7 +11,7 @@ namespace NBi.UI.Genbi.Command.Test
 		private readonly DisplayTestView view;
 
 
-        public EditTestCommand(TestListPresenter presenter, DisplayTestView displayTestView)
+		public EditTestCommand(TestListPresenter presenter, DisplayTestView displayTestView)
 		{
 			this.presenter = presenter;
 			view = displayTestView;
@@ -30,8 +30,8 @@ namespace NBi.UI.Genbi.Command.Test
 		/// </summary>
 		public override void Invoke()
 		{
-            view.Test = presenter.SelectedTest;
-            view.DeclareBindings();
+			view.Test = presenter.SelectedTest;
+			view.DeclareBindings();
 			view.Show();
 		}
 	}

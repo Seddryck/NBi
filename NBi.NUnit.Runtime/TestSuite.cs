@@ -111,11 +111,21 @@ namespace NBi.NUnit.Runtime
             return BuildTestCases();
         }
   
-        private IEnumerable<TestCaseData> BuildTestCases()
+        internal IEnumerable<TestCaseData> BuildTestCases()
         {
             List<TestCaseData> testCasesNUnit = new List<TestCaseData>();
 
-            foreach (var test in TestSuiteManager.TestSuite.Tests)
+            testCasesNUnit.AddRange(BuildTestCases(TestSuiteManager.TestSuite.Tests));
+            testCasesNUnit.AddRange(BuildTestCases(TestSuiteManager.TestSuite.Groups));
+
+            return testCasesNUnit;
+        }
+
+        private IEnumerable<TestCaseData> BuildTestCases(IEnumerable<TestXml> tests)
+        {
+            var testCases = new List<TestCaseData>(tests.Count());
+
+            foreach (var test in tests)
             {
                 TestCaseData testCaseDataNUnit = new TestCaseData(test);
                 testCaseDataNUnit.SetName(test.GetName());
@@ -136,9 +146,21 @@ namespace NBi.NUnit.Runtime
                         }
                 }
 
-                testCasesNUnit.Add(testCaseDataNUnit);
+                testCases.Add(testCaseDataNUnit);
             }
-            return testCasesNUnit;
+            return testCases;
+        }
+
+        private IEnumerable<TestCaseData> BuildTestCases(IEnumerable<GroupXml> groups)
+        {
+            var testCases = new List<TestCaseData>();
+
+            foreach (var group in groups)
+            {
+                testCases.AddRange(BuildTestCases(group.Tests));
+                testCases.AddRange(BuildTestCases(group.Groups));
+            }
+            return testCases;
         }
 
         public void ApplyConfig(NBiSection config)

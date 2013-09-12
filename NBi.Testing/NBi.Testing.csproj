@@ -153,6 +153,7 @@
     <Compile Include="Unit\Xml\Constraints\FasterThanXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
+    <Compile Include="Unit\Xml\GroupXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\ColumnXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\TableXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\HierarchiesXmlTest.cs" />
@@ -306,6 +307,9 @@
       <Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>
       <Name>NBi.Xml</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\GroupXmlTestSuite.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithoutParallelQueries.xml" />

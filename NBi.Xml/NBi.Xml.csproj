@@ -58,6 +58,7 @@
     <Compile Include="Constraints\SubsetOfXml.cs" />
     <Compile Include="Constraints\ExistsXml.cs" />
     <Compile Include="Constraints\LinkedToXml.cs" />
+    <Compile Include="GroupXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
     <Compile Include="Items\ExcludeXml.cs" />

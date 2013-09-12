@@ -8,28 +8,38 @@ using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.Test;
 using NBi.UI.Genbi.Command.TestsXml;
 using NBi.UI.Genbi.Interface;
+using NBi.UI.Genbi.Stateful;
+using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.Presenter
 {
-    class TestListPresenter : BasePresenter<ITestsGenerationView>
+    class TestListPresenter : PresenterBase
     {
         private readonly TestListManager testListManager;
         public bool IsUndo { get; private set; }
 
-        public TestListPresenter(ITestsGenerationView testsGenerationView, TestListManager testListManager)
-            : base(testsGenerationView)
+        public TestListPresenter(TestListManager testListManager, LargeBindingList<Test> tests, DataTable testCases, BindingList<string> variables, string template)
         {
             this.ClearTestsXmlCommand = new ClearTestListCommand(this);
             this.GenerateTestsXmlCommand = new GenerateTestListCommand(this);
             this.UndoGenerateTestsXmlCommand = new UndoGenerateTestListCommand(this);
             this.DeleteTestCommand = new DeleteTestCommand(this);
+            this.DisplayTestCommand = new EditTestCommand(this, new DisplayTestView());
 
 
             this.testListManager = testListManager;
 
-            Tests = new BindingList<Test>();
+            Tests = tests;
+            TestCases = testCases;
+            Variables = variables;
+            Template = template;
 
-            testListManager.Progressed += (sender, e) => { Progress = Math.Min(100, 100 * e.Done / e.Total); };
+            testListManager.Progressed += (sender, e) => 
+            {
+                var newValue = Math.Min(100, 100 * e.Done / e.Total);
+                if (newValue - Progress >= 5 || (newValue==0 && Progress!=0) || (newValue==100 && Progress!=100))
+                    Progress = newValue; 
+            };
         }
 
         public TestListManager Manager 
@@ -44,14 +54,15 @@ namespace NBi.UI.Genbi.Presenter
         public ICommand GenerateTestsXmlCommand { get; private set; }
         public ICommand UndoGenerateTestsXmlCommand { get; private set; }
         public ICommand DeleteTestCommand { get; private set; }
+        public ICommand DisplayTestCommand { get; private set; }
 
 
 
         #region Bindable properties
 
-        public BindingList<Test> Tests 
+        public LargeBindingList<Test> Tests 
         {
-            get { return GetValue<BindingList<Test>>("Tests"); }
+            get { return GetValue<LargeBindingList<Test>>("Tests"); }
             set { SetValue("Tests", value); }
         }
 
@@ -79,6 +90,12 @@ namespace NBi.UI.Genbi.Presenter
             set { SetValue("Template", value); }
         }
 
+        public bool UseGrouping
+        {
+            get { return GetValue<bool>("UseGrouping"); }
+            set { SetValue("UseGrouping", value); }
+        }
+
         public int Progress
         {
             get { return GetValue<int>("Progress"); }
@@ -98,7 +115,7 @@ namespace NBi.UI.Genbi.Presenter
                     break;
                 case "SelectedTest":
                     this.DeleteTestCommand.Refresh();
-                    //this.EditTestCommand.Refresh();
+                    this.DisplayTestCommand.Refresh();
                     break;
                 case "TestCases":
                     this.GenerateTestsXmlCommand.Refresh();
@@ -116,23 +133,31 @@ namespace NBi.UI.Genbi.Presenter
 
         internal TestListGenerationResult Generate()
         {
+            TestListGenerationResult message = null;
             try
             {
-                testListManager.Build(Template, Variables.ToArray(), TestCases, false);
+                Progress = 0;
+                OnGenerationStarted(EventArgs.Empty);
+                testListManager.Build(Template, Variables.ToArray(), TestCases, UseGrouping);
+                Progress = 100;
+                IsUndo = true;
+                ReloadTests();
+                message = TestListGenerationResult.Success(Tests.Count);
             }
             catch (ExpectedVariableNotFoundException)
             {
-                return TestListGenerationResult.Failure("The template has at least one variable which wasn't supplied by the test cases provider (CSV file). Check the name of the variables.");
+                message = TestListGenerationResult.Failure("The template has at least one variable which wasn't supplied by the test cases provider (CSV file). Check the name of the variables.");
             }
             catch (TemplateExecutionException ex)
             {
-                return TestListGenerationResult.Failure(ex.Message);
+                message = TestListGenerationResult.Failure(ex.Message);
+            }
+            finally
+            {
+                OnGenerationEnded(EventArgs.Empty);
             }
 
-            IsUndo = true;
-            ReloadTests();
-            
-            return TestListGenerationResult.Success(Tests.Count);
+            return message;
         }
 
         internal void Clear()
@@ -154,9 +179,28 @@ namespace NBi.UI.Genbi.Presenter
             var tests = testListManager.GetTests();
 
             Tests.Clear();
-            foreach (var test in tests)
-                Tests.Add(test);
+            Tests.AddRange(tests);
+            //foreach (var test in tests)
+            //    Tests.Add(test);
             OnPropertyChanged("Tests");
+        }
+
+        public event EventHandler<EventArgs> GenerationStarted;
+
+        protected void OnGenerationStarted(EventArgs e)
+        {
+            EventHandler<EventArgs> handler = GenerationStarted;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        public event EventHandler<EventArgs> GenerationEnded;
+
+        protected void OnGenerationEnded(EventArgs e)
+        {
+            EventHandler<EventArgs> handler = GenerationEnded;
+            if (handler != null)
+                handler(this, e);
         }
     }
 }

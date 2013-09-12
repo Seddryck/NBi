@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Windows.Forms;
 using NBi.UI.Genbi.Presenter;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
 
@@ -9,13 +8,13 @@ namespace NBi.UI.Genbi.Command.Test
 	class EditTestCommand: CommandBase
 	{
 		private readonly TestListPresenter presenter;
-		//private readonly ViewTestWindow window;
+		private readonly DisplayTestView view;
 
 
-		public EditTestCommand(TestListPresenter presenter)//, OpenTemplateWindow window)
+		public EditTestCommand(TestListPresenter presenter, DisplayTestView displayTestView)
 		{
 			this.presenter = presenter;
-			//this.window = window;
+			view = displayTestView;
 		}
 
 		/// <summary>
@@ -31,7 +30,9 @@ namespace NBi.UI.Genbi.Command.Test
 		/// </summary>
 		public override void Invoke()
 		{
-			
+			view.Test = presenter.SelectedTest;
+			view.DeclareBindings();
+			view.Show();
 		}
 	}
 }

@@ -98,8 +98,6 @@ namespace NBi.NUnit.Runtime
 
         public IEnumerable<TestCaseData> GetTestCases()
         {
-            TestSuiteManager.Load(TestSuiteFinder.Find());
-
             //Find configuration of NBi
             if (ConfigurationFinder != null)
                 ApplyConfig(ConfigurationFinder.Find());
@@ -107,6 +105,9 @@ namespace NBi.NUnit.Runtime
             //Find connection strings referecned from an external file
             if (ConnectionStringsFinder != null)
                 TestSuiteManager.ConnectionStrings = ConnectionStringsFinder.Find();
+
+            //Build the Test suite
+            TestSuiteManager.Load(TestSuiteFinder.Find());
 
             return BuildTestCases();
         }
@@ -121,19 +122,14 @@ namespace NBi.NUnit.Runtime
                 testCaseDataNUnit.SetName(test.GetName());
                 testCaseDataNUnit.SetDescription(test.Description);
                 foreach (var category in test.Categories)
-                {
-                    testCaseDataNUnit.SetCategory(category);
-                }
+                    testCaseDataNUnit.SetCategory(CategoryHelper.Format(category));
 
                 //Assign auto-categories
                 if (EnableAutoCategories)
                 {
                     foreach (var system in test.Systems)
                         foreach (var category in system.GetAutoCategories())
-                        {
-                            var noSpecialCharCategory = category.Replace("-", "_");
-                            testCaseDataNUnit.SetCategory(noSpecialCharCategory);
-                        }
+                            testCaseDataNUnit.SetCategory(CategoryHelper.Format(category));
                 }
 
                 testCasesNUnit.Add(testCaseDataNUnit);

@@ -75,6 +75,7 @@ namespace NBi.Core.Query
         /// Method exposed by the interface IQueryExecutor to execute a test of execution and get the result of the query executed and also the time needed to retrieve this result
         /// </summary>
         /// <returns>The result of  execution of the query</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public virtual DataSet Execute(out float elapsedSec)
         {
             // Open the connection
@@ -106,6 +107,10 @@ namespace NBi.Core.Query
                 {
                     throw new ConnectionException(ex, connectionString);
                 }
+                catch (AdomdErrorResponseException ex)
+                {
+                    throw new ConnectionException(ex, connectionString);
+                }
 
                 // capture time after execution
                 DateTime timeAfter = DateTime.Now;
@@ -123,6 +128,7 @@ namespace NBi.Core.Query
         /// </summary>
         /// <remarks>This method makes usage the scommand behaviour named 'SchemaOnly' to not effectively execute the query but check the validity of this query</remarks>
         /// <returns>The result of parsing test</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public virtual ParserResult Parse()
         {
             ParserResult res = null;

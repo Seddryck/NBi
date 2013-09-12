@@ -24,6 +24,7 @@ namespace NBi.Core.Query
         /// </summary>
         /// <remarks>This method makes usage the set statement named SET FMTONLY to not effectively execute the query but check the validity of this query</remarks>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public virtual ParserResult Parse()
         {
             ParserResult res=null;
@@ -59,6 +60,7 @@ namespace NBi.Core.Query
         /// Method exposed by the interface IQueryPerformance to clean the cache of a SQL Database
         /// <remarks>Makes usage of the command dbcc freeproccache and dbcc dropcleanbuffers</remarks>
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public virtual void CleanCache()
         {
             using (var conn = new OleDbConnection(command.Connection.ConnectionString))
@@ -118,6 +120,7 @@ namespace NBi.Core.Query
             return Execute(out i);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public virtual DataSet Execute(out float elapsedSec)
         {
             // Open the connection

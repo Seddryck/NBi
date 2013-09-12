@@ -87,6 +87,7 @@
     <Compile Include="Integration\Core\Query\QueryParserTest.cs" />
     <Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
     <Compile Include="Integration\NUnit\EqualToConstraintTest.cs" />
+    <Compile Include="Integration\NUnit\Query\EqualToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Query\FasterThanConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\ContainConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\SubsetOfConstraintTest.cs" />
@@ -305,6 +306,15 @@
       <Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>
       <Name>NBi.Xml</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithoutParallelQueries.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithParallelQueriesSetTrue.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithParallelQueriesSetFalse.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

@@ -67,6 +67,11 @@ namespace NBi.NUnit.Builder
 
             ctr.Using(settings);
 
+            if (ConstraintXml.ParallelizeQueries)
+                ctr = ctr.Parallel();
+            else
+                ctr = ctr.Sequential();
+
             //Manage persistance
             //EqualToConstraint.PersistanceItems persi = 0;
             //if (ConstraintXml.GetCommand() != null)
@@ -79,6 +84,7 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         protected override IDbCommand InstantiateSystemUnderTest(ExecutionXml queryXml)
         {
             var conn = new ConnectionFactory().Get(queryXml.Item.GetConnectionString());

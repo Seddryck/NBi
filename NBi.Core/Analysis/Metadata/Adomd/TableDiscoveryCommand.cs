@@ -25,6 +25,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             return tables;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         internal IEnumerable<TableRow> Discover(IEnumerable<IFilter> filters)
         {
             var tables = new List<TableRow>();

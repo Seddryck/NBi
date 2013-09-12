@@ -9,13 +9,12 @@ using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.Presenter
 {
-    class TemplatePresenter : BasePresenter<ITemplateView>
+    class TemplatePresenter : PresenterBase
     {
         private readonly TemplateManager templateManager;
         public bool IsModified {get; private set;}
 
-        public TemplatePresenter(ITemplateView templateView, TemplateManager templateManager)
-            : base(templateView)
+        public TemplatePresenter(TemplateManager templateManager, string template)
         {
             EmbeddedTemplateLabels = new BindingList<string>();
 
@@ -28,8 +27,9 @@ namespace NBi.UI.Genbi.Presenter
             OpenTemplateCommand = new OpenTemplateCommand(this, window);
             SaveTemplateCommand = new SaveTemplateCommand(this);
 
-            Template = string.Empty;
+            Template = template;
             IsModified = false;
+            SaveTemplateCommand.Refresh();
         }
 
         #region Bindable properties
@@ -74,22 +74,21 @@ namespace NBi.UI.Genbi.Presenter
 
         internal void LoadExternalTemplate(string fullPath)
         {
-            var templateManager = new TemplateManager();
             Template = templateManager.GetExternalTemplate(fullPath);
+            IsModified = false;
             OnPropertyChanged("Template");
         }
 
         internal void LoadEmbeddedTemplate(string name)
         {
-            var templateManager = new TemplateManager();
             Template = templateManager.GetEmbeddedTemplate(name);
+            IsModified = false;
             OnPropertyChanged("Template");
         }
 
         internal void Save(string fullPath)
         {
-            var manager = new TemplateManager();
-            manager.Persist(fullPath, Template);
+            templateManager.Persist(fullPath, Template);
             IsModified = false;
             this.SaveTemplateCommand.Refresh();
         }

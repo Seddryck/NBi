@@ -77,7 +77,7 @@ namespace NBi.Service
             return Dictionary.Keys.ToArray();
         }
 
-        internal SettingsXml Settings
+        public SettingsXml Settings
         {
             get
             {
@@ -134,11 +134,6 @@ namespace NBi.Service
             return !containsABadCharacter.IsMatch(name);
         }
 
-        public bool IsReferenceSelected(string name)
-        {
-            return !string.IsNullOrEmpty(name) && name.StartsWith("Reference - ");
-        }
-
         public IEnumerable<Setting> GetSettings()
         {
             var list = new List<Setting>();
@@ -153,6 +148,11 @@ namespace NBi.Service
             }
 
             return list;
+        }
+
+        public SettingsXml GetSettingsXml()
+        {
+            throw new NotImplementedException();
         }
     }
 }

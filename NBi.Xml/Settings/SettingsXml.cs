@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
 
@@ -15,6 +16,10 @@ namespace NBi.Xml.Settings
         public List<DefaultXml> Defaults { get; set; }
         [XmlElement("reference")]
         public List<ReferenceXml> References { get; set; }
+
+        [XmlElement("parallelize-queries")]
+        [DefaultValue(false)]
+        public bool ParallelizeQueries { get; set; }
 
         public enum DefaultScope
         {

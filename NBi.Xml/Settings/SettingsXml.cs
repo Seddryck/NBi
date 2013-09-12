@@ -58,6 +58,7 @@ namespace NBi.Xml.Settings
         {
             Defaults = new List<DefaultXml>();
             References = new List<ReferenceXml>();
+            ParallelizeQueries = false;
         }
 
         internal void GetValuesFromConfig(NameValueCollection connectionStrings)
@@ -90,6 +91,14 @@ namespace NBi.Xml.Settings
 
                     reference.ConnectionString = connectionStrings.Get(key);
                 }
+            }
+        }
+
+        public static SettingsXml Empty
+        {
+            get
+            {
+                return new SettingsXml();
             }
         }
     }

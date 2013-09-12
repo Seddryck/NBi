@@ -14,6 +14,21 @@ namespace NBi.Xml.Constraints
     public class EqualToXml : AbstractConstraintXml
     {
 
+        public EqualToXml()
+        {
+            parallelizeQueries = false;
+        }
+
+        internal  EqualToXml(bool parallelizeQueries)
+        {
+            this.parallelizeQueries = parallelizeQueries;
+        }
+
+        internal EqualToXml(SettingsXml settings)
+        {
+            this.Settings = settings;
+        }
+
         public override DefaultXml Default
         {
             get {return base.Default;} 
@@ -97,6 +112,7 @@ namespace NBi.Xml.Constraints
             return new ResultSetComparisonSettings(KeysDef, ValuesDef, Tolerance, ColumnsDef);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public virtual IDbCommand GetCommand()
         {
             if (Query==null)
@@ -109,6 +125,14 @@ namespace NBi.Xml.Constraints
             return cmd;
         }
 
-        
+        private readonly bool parallelizeQueries;
+        public bool ParallelizeQueries
+        {
+            get
+            {
+                return parallelizeQueries || Settings.ParallelizeQueries;
+            }
+        }
+              
     }
 }

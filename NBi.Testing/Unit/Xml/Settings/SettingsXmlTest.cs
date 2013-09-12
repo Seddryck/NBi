@@ -187,5 +187,38 @@ namespace NBi.Testing.Unit.Xml.Settings
             Assert.That(((StructureXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.EqualTo("My First Connection String"));
         }
 
+        [Test]
+        public void DeserializeStructurePerspective_SettingsWithoutParallelizeQueries_False()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithoutParallelQueries");
+
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ParallelizeQueries, Is.False);
+        }
+
+        [Test]
+        public void DeserializeStructurePerspective_SettingsWithParallelizeQueriesSetFalse_False()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithParallelQueriesSetFalse");
+
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ParallelizeQueries, Is.False);
+        }
+
+        [Test]
+        public void DeserializeStructurePerspective_SettingsWithParallelizeQueriesSetTrue_True()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithParallelQueriesSetTrue");
+
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ParallelizeQueries, Is.True);
+        }
+
     }
 }

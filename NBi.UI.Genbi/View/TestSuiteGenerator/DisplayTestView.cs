@@ -2,37 +2,35 @@
 using System.Linq;
 using System.Windows.Forms;
 using NBi.Service.Dto;
-using NBi.UI.Genbi.Interface.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.View.TestSuiteGenerator
 {
     public partial class DisplayTestView : Form
     {
-        protected ITestSuiteGeneratorView Origin { get; set; }
-        public string TestContent { get; set; }
+        public Test Test { get; set; }
 
-        public DisplayTestView(ITestSuiteGeneratorView origin)
+        public DisplayTestView()
         {
-            Origin = origin;
             InitializeComponent();
+            DeclareBindings();
+            BindPresenter();
         }
 
-
-        private Test testSelected;
-        public Test TestSelected
+        public void DeclareBindings()
         {
-            get
-            {
-                return testSelected;
-            }
-            set
-            {
-                testSelected = value;
-                if (value == null)
-                    TestContent = string.Empty;
-                else
-                    TestContent = value.Content;
-            }
+            this.DataBind(Test);
+        }
+
+        private void DataBind(Test test)
+        {
+            xmlTextEditor.DataBindings.Clear();
+            if (test!=null)
+                xmlTextEditor.DataBindings.Add("Text", test, "Content");
+        }
+
+        protected void BindPresenter()
+        {
+            
         }
 
 
@@ -41,11 +39,6 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             this.Hide();
         }
 
-        public new void Show()
-        {
-            xmlTextEditor.Text = TestContent;
-            base.Show();
-        }
 
         private void DisplayTestView_Load(object sender, EventArgs e)
         {

@@ -84,6 +84,7 @@ namespace NBi.Core.Analysis.Member
         }
 
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public virtual MemberResult List(IEnumerable<IFilter> filters)
         {
             var list = new MemberResult();

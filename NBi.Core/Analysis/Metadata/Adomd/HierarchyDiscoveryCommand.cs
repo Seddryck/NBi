@@ -26,6 +26,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             return hierarchies;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         internal new IEnumerable<HierarchyRow> Discover(IEnumerable<IFilter> filters)
         {
             Filters = filters;

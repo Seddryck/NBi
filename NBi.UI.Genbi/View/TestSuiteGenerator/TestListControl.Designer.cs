@@ -32,7 +32,7 @@
             this.progressBarTest = new System.Windows.Forms.ProgressBar();
             this.testsList = new System.Windows.Forms.ListBox();
             this.testsListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.deleteTest = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.bindingTests = new System.Windows.Forms.BindingSource(this.components);
@@ -66,18 +66,18 @@
             // testsListMenu
             // 
             this.testsListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.deleteTest,
+            this.deleteTestToolStripMenuItem,
             this.editTestToolStripMenuItem});
             this.testsListMenu.Name = "deleteTest";
             this.testsListMenu.Size = new System.Drawing.Size(130, 48);
             this.testsListMenu.Text = "Delete test";
             // 
-            // deleteTest
+            // deleteTestToolStripMenuItem
             // 
-            this.deleteTest.Image = global::NBi.UI.Genbi.Properties.Resources.note_delete;
-            this.deleteTest.Name = "deleteTest";
-            this.deleteTest.Size = new System.Drawing.Size(129, 22);
-            this.deleteTest.Text = "Delete test";
+            this.deleteTestToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.note_delete;
+            this.deleteTestToolStripMenuItem.Name = "deleteTestToolStripMenuItem";
+            this.deleteTestToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.deleteTestToolStripMenuItem.Text = "Delete test";
             // 
             // editTestToolStripMenuItem
             // 
@@ -129,7 +129,7 @@
         private System.Windows.Forms.ListBox testsList;
         protected internal System.Windows.Forms.BindingSource bindingTests;
         private System.Windows.Forms.ContextMenuStrip testsListMenu;
-        private System.Windows.Forms.ToolStripMenuItem deleteTest;
+        private System.Windows.Forms.ToolStripMenuItem deleteTestToolStripMenuItem;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem editTestToolStripMenuItem;
         protected internal System.Windows.Forms.CheckBox useGrouping;

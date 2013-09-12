@@ -109,6 +109,14 @@ namespace NBi.Xml.Constraints
             return cmd;
         }
 
-        
+
+        public bool ParallelizeQueries
+        {
+            get
+            {
+                return Settings.ParallelizeQueries;
+            }
+        }
+              
     }
 }

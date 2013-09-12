@@ -43,6 +43,14 @@
 									<xs:attribute name="name" type="xs:string" use="required"/>
 								</xs:complexType>
 							</xs:element>
+							<xs:element name="parallelize-queries" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:boolean">
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>

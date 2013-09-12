@@ -8,6 +8,8 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
     public partial class TestListControl : UserControl
     {
 
+        private BindingSource testsSource;
+
         public TestListControl()
         {
             InitializeComponent();
@@ -17,31 +19,23 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             if (presenter != null)
             {
-                testsList.DataSource = presenter.Tests;
+                testsSource = new BindingSource(presenter, "Tests");
+                testsList.DataSource = testsSource;
                 testsList.DisplayMember = "Title";
 
                 testsList.DataBindings.Add("SelectedItem", presenter, "SelectedTest", true, DataSourceUpdateMode.OnPropertyChanged);
                 testsList.SelectedIndexChanged += (s, args) => testsList.DataBindings["SelectedItem"].WriteValue();
 
-                progressBarTest.DataBindings.Add("Value", presenter, "Progress");
+
+                useGrouping.DataBindings.Add("Checked", presenter, "UseGrouping", false, DataSourceUpdateMode.OnValidation);
+
+                progressBarTest.DataBindings.Add("Value", presenter, "Progress", false, DataSourceUpdateMode.OnPropertyChanged);
+
+                presenter.GenerationStarted += (sender, e) => testsSource.SuspendBinding();
+                presenter.GenerationEnded += (sender, e) => testsSource.ResumeBinding();
             }
         }
 
-        //public int ProgressValue
-        //{
-        //    set
-        //    {
-        //        //In case of issue ajust the value to be in [0,100]
-        //        value = Math.Max((Math.Min(value, 100)), 0);
-
-        //        //If value doesn't change effectively don't do the update
-        //        if (progressBarTest.Value != value)
-        //        {
-        //            progressBarTest.Value = value;
-        //            progressBarTest.Refresh();
-        //        }
-        //    }
-        //}
 
         private void TestsList_MouseDown(object sender, MouseEventArgs e)
         {
@@ -53,11 +47,14 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
                 testsListMenu.Show(testsList, e.Location);
         }
 
-
+        public ToolStripMenuItem DisplayCommand
+        {
+            get { return editTestToolStripMenuItem; }
+        }
 
         public ToolStripMenuItem DeleteCommand
         {
-            get { return deleteTest; }
+            get { return deleteTestToolStripMenuItem; }
         }
     }
 }

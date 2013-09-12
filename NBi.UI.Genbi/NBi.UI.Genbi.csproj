@@ -74,6 +74,7 @@
     <Compile Include="Command\CommandBase.cs" />
     <Compile Include="Command\CommandBindings.cs" />
     <Compile Include="Command\CommandManager.cs" />
+    <Compile Include="Command\Configs\CreateConfigsCommand.cs" />
     <Compile Include="Command\DelegateCommand.cs" />
     <Compile Include="Command\Delegates.cs" />
     <Compile Include="Command\FindAndReplaceCommand.cs" />
@@ -110,7 +111,6 @@
     <Compile Include="Interface\TestSuiteGenerator\Events\VariableRemoveEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\TemplatePersistEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\FilePersistEventArgs.cs" />
-    <Compile Include="Presenter\BasePresenter.cs" />
     <Compile Include="Presenter\DocumentPresenterBase.cs" />
     <Compile Include="Presenter\FindAndReplacePresenter.cs" />
     <Compile Include="Presenter\PresenterBase.cs" />
@@ -118,7 +118,8 @@
     <Compile Include="Presenter\RunnerConfigPresenter.cs" />
     <Compile Include="Presenter\TemplatePresenter.cs" />
     <Compile Include="Presenter\TestCasesPresenter.cs" />
-    <Compile Include="Presenter\TestListGenerationResult.cs" />
+    <Compile Include="Stateful\LargeBindingList.cs" />
+    <Compile Include="Stateful\TestListGenerationResult.cs" />
     <Compile Include="Presenter\TestListPresenter.cs" />
     <Compile Include="Presenter\TestSuitePresenter.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -127,6 +128,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Interface\RunnerConfig\IRunnerConfigView.cs" />
+    <Compile Include="Stateful\TestSuiteState.cs" />
     <Compile Include="View\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -152,7 +154,6 @@
     <Compile Include="View\RunnerConfig\PathControl.Designer.cs">
       <DependentUpon>PathControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\RunnerConfig\RunnerConfigViewAdapter.cs" />
     <Compile Include="View\RunnerConfig\RunnerConfigView.cs">
       <SubType>Form</SubType>
     </Compile>

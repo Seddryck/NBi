@@ -15,7 +15,7 @@ namespace NBi.NUnit.Query
         
         protected Object expect;
 
-        protected bool parallelQueryExecution = false;
+        protected bool parallelizeQueries = false;
 
         protected ResultSet expectedResultSet;
         protected ResultSet actualResultSet;
@@ -108,13 +108,13 @@ namespace NBi.NUnit.Query
 
         public EqualToConstraint Parallel()
         {
-            this.parallelQueryExecution = true;
+            this.parallelizeQueries = true;
             return this;
         }
 
         public EqualToConstraint Sequential()
         {
-            this.parallelQueryExecution = false;
+            this.parallelizeQueries = false;
             return this;
         }
 
@@ -170,7 +170,7 @@ namespace NBi.NUnit.Query
         public bool Process(IDbCommand actual)
         {
             ResultSet rsActual = null;
-            if (parallelQueryExecution)
+            if (parallelizeQueries)
             {
                 rsActual = ProcessParallel(actual);
             }
@@ -293,6 +293,11 @@ namespace NBi.NUnit.Query
         {
             var writer = new ResultSetCsvWriter(System.IO.Path.GetDirectoryName(path));
             writer.Write(System.IO.Path.GetFileName(path), resultSet);
+        }
+
+        internal bool IsParallelizeQueries()
+        {
+            return parallelizeQueries;
         }
     }
 }

@@ -67,6 +67,11 @@ namespace NBi.NUnit.Builder
 
             ctr.Using(settings);
 
+            if (ConstraintXml.ParallelizeQueries)
+                ctr = ctr.Parallel();
+            else
+                ctr = ctr.Sequential();
+
             //Manage persistance
             //EqualToConstraint.PersistanceItems persi = 0;
             //if (ConstraintXml.GetCommand() != null)

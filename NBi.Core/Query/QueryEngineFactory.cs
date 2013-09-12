@@ -107,6 +107,7 @@ namespace NBi.Core.Query
         /// <param name="query"></param>
         /// <param name="connectionString"></param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         protected IDbCommand BuildCommand(string query, string connectionString)
         {
             var conn = new ConnectionFactory().Get(connectionString);

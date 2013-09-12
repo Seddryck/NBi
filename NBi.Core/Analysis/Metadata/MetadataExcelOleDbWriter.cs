@@ -15,6 +15,7 @@ namespace NBi.Core.Analysis.Metadata
         public MetadataExcelOleDbWriter(string filename, string sheetname) : base(filename, sheetname) { }
 
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public void Write(CubeMetadata metadata)
         {
             if (metadata == null)
@@ -101,6 +102,7 @@ namespace NBi.Core.Analysis.Metadata
             Execute(sb.ToString());
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         protected void Execute(string sql)
         {
             using (var conn = new OleDbConnection())

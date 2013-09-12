@@ -10,23 +10,20 @@ using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.Presenter
 {
-    class SettingsPresenter : BasePresenter<ISettingsView>
+    class SettingsPresenter : PresenterBase
     {
         private readonly SettingsManager settingsManager;
         private string previousSelection;
 
-        public SettingsPresenter(ISettingsView view, SettingsManager settingsManager)
-            : base(view)
+        public SettingsPresenter(SettingsManager settingsManager, BindingList<Setting> settings)
+            : base()
         {
             AddReferenceCommand = new AddReferenceCommand(this, new NewReferenceWindow());
             RemoveReferenceCommand = new RemoveReferenceCommand(this);
 
             this.settingsManager = settingsManager;
-            Settings = new BindingList<Setting>();
-            SettingsNames = new BindingList<string>();
-            ReloadSettings();
-            previousSelection = SettingsNames[0];
-
+            Settings = settings;
+            Refresh();
         }
 
         #region Bindable properties
@@ -79,39 +76,39 @@ namespace NBi.UI.Genbi.Presenter
 
         public void DisplayValue(string name)
         {
-            SettingsValue = settingsManager.GetValue(name);
+            var settingDisplayed = Settings.First(s => s.Name == name);
+            if (settingDisplayed != null)
+                SettingsValue = settingDisplayed.Value;
         }
 
         public void UpdateValue(string name, string value)
         {
             //Ensure that the reference exists before updating this value
             //Needed because SetValue is creating the reference if it doesn't exist and when removing  reference it's a problem
-            if (settingsManager.Exists(name))
-                settingsManager.SetValue(name, value);
+            var settingUpdated = Settings.FirstOrDefault(s => s.Name == name);
+            if (settingUpdated != null)
+                settingUpdated.Value = value;
+            OnPropertyChanged("Settings");
         }
 
         public void AddReference(string name)
         {
-            settingsManager.Add(name, string.Empty);
-            ReloadSettings();
+            Settings.Add(new Setting() { Name = "Reference - " + name, Value = string.Empty });
+            SettingsNames.Add("Reference - " + name);
             SettingsNameSelected = "Reference - " + name;
-        }
-
-        private void ReloadSettings()
-        {
-            SettingsNames.Clear();
-            foreach (var name in settingsManager.GetNames())
-                SettingsNames.Add(name);
-
-            Settings.Clear();
-            foreach (var setting in settingsManager.GetSettings())
-                Settings.Add(setting);
         }
 
         public void RemoveReference(string name)
         {
-            settingsManager.Remove(name);
-            ReloadSettings();
+            var settingDeleted = Settings.FirstOrDefault(s => s.Name == name);
+            if (settingDeleted != null)
+            {
+                Settings.Remove(settingDeleted);
+                SettingsNames.Remove(name);
+            }
+            SettingsNameSelected = SettingsNames[0];
+
+            OnPropertyChanged("Settings");
         }
 
         public bool IsValidReferenceName(string name)
@@ -121,7 +118,7 @@ namespace NBi.UI.Genbi.Presenter
 
         internal bool IsReferenceSelected()
         {
-            return settingsManager.IsReferenceSelected(SettingsNameSelected);
+            return !string.IsNullOrEmpty(SettingsNameSelected) && SettingsNameSelected.StartsWith("Reference - ");
         }
 
         public ICommand AddReferenceCommand { get; private set; }
@@ -134,6 +131,15 @@ namespace NBi.UI.Genbi.Presenter
             EventHandler<EventArgs> handler = ListUpdated;
             if (handler != null)
                 handler(this, e);
+        }
+
+
+        internal void Refresh()
+        {
+            SettingsNames = new BindingList<string>((Settings.Select<Setting, string>(s => s.Name)).ToList());
+            previousSelection = SettingsNames[0];
+            SettingsNameSelected = SettingsNames[0];
+            DisplayValue(previousSelection);
         }
     }
 }

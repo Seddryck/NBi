@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using NBi.UI.Genbi.Presenter;
+using NBi.UI.Genbi.View.RunnerConfig;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi
 {
     class Bootstrapper
     {
+        private static RunnerConfigView runnerConfigView;
+
+        public static RunnerConfigView GetRunnerConfigView()
+        {
+            return runnerConfigView;
+        }
+
         /// <summary>
         /// Boots the application.
         /// </summary>
@@ -16,15 +23,8 @@ namespace NBi.UI.Genbi
         /// </param>
         public void Boot(params string[] args)
         {
-
-            //var transformationService = new TransformationService();
-            //var validationService = new ValidationService();
-            //var documentService = new DocumentService();
-            //var documentPresenterFactory = new DocumentPresenterFactory(documentService);
-            //var interactionManager = new InteractionManager();
-
-            //var masterPresenter = new MasterPresenter(documentPresenterFactory, validationService, transformationService, interactionManager);
             var masterView = new TestSuiteView();
+            runnerConfigView = new RunnerConfigView();
 
             if (args != null && args.Length != 0)
             {

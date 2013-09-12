@@ -25,17 +25,23 @@ namespace NBi.Service
             var tests = new List<TestXml>();
             int count=0;
 
+            var template = new Template(TemplateXml, '$', '$');
+            
+            var dynNames = GetDynamicNames();
+            var dynValues = GetDynamicValues();
+            for (int i = 0; i < dynNames.Count(); i++)
+                template.Add(dynNames[i], dynValues[i]);
+
             foreach (var row in table)
             {
                 count++;
-                Template template = new Template(TemplateXml, '$', '$');
-                for (int i = 0; i < Variables.Count(); i++)
-                    template.Add(Variables[i], row[i]);
 
-                var dynNames = GetDynamicNames();
-                var dynValues = GetDynamicValues();
-                for (int i = 0; i < dynNames.Count(); i++)
-                    template.Add(dynNames[i], dynValues[i]);
+                for (int i = 0; i < Variables.Count(); i++)
+                { 
+                    if (count!=1)
+                        template.Remove(Variables[i]); 
+                    template.Add(Variables[i], row[i]);
+                }
 
                 var str = template.Render();
 

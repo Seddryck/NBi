@@ -24,6 +24,7 @@ namespace NBi.NUnit.Builder
             SystemUnderTest = InstantiateSystemUnderTest(SystemUnderTestXml);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         protected virtual IDbCommand InstantiateSystemUnderTest(ExecutionXml executionXml)
         {
             var conn = new ConnectionFactory().Get(executionXml.Item.GetConnectionString());

@@ -42,3 +42,5 @@ NBi.ncrunchsolution
 *.dgml
 .JustCode/
 .nuget/[Nn]u[Gg]et.exe
+*.vsp
+*.psess

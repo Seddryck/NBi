@@ -24,6 +24,11 @@ namespace NBi.Xml.Constraints
             this.parallelizeQueries = parallelizeQueries;
         }
 
+        internal EqualToXml(SettingsXml settings)
+        {
+            this.Settings = settings;
+        }
+
         public override DefaultXml Default
         {
             get {return base.Default;} 

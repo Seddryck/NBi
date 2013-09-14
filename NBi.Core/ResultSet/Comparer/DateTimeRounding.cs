@@ -7,7 +7,7 @@ namespace NBi.Core.ResultSet.Comparer
     {
         protected TimeSpan step;
 
-        public DateTimeRounding(TimeSpan step, Rounding.RoudingStyle style)
+        public DateTimeRounding(TimeSpan step, Rounding.RoundingStyle style)
             : base(step.ToString(), style)
         {
             if (step.Ticks <= 0)

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using NBi.Core.ResultSet.Comparer;
 
 namespace NBi.Core.ResultSet
 {
@@ -11,21 +10,14 @@ namespace NBi.Core.ResultSet
         public ColumnRole Role {get; set;} 
         public ColumnType Type {get; set;}
 
-        protected decimal _tolerance;
-        public decimal Tolerance
+        public bool IsToleranceSpecified
         {
-            get
-            {
-                return _tolerance;
-            }
-
-            set
-            {
-                IsToleranceSpecified = true;
-                _tolerance = value;
-            }
+            get { return !string.IsNullOrEmpty(Tolerance); }
         }
-        public bool IsToleranceSpecified { get; set; }
-       
+
+        public string Tolerance { get; set; }
+
+        public Rounding.RoundingStyle RoundingStyle { get; set; }
+        public string RoundingStep { get; set; }
     }
 }

@@ -34,6 +34,9 @@ namespace NBi.Core.ResultSet.Comparer
 
         protected override ComparerResult CompareObjects(object x, object y, object tolerance)
         {
+            if ((tolerance is string) && string.IsNullOrEmpty((string)tolerance))
+                return CompareObjects(x, y);
+
             var rxDecimal = Convert.ToDecimal(x, NumberFormatInfo.InvariantInfo);
             var ryDecimal = Convert.ToDecimal(y, NumberFormatInfo.InvariantInfo);
 
@@ -54,7 +57,7 @@ namespace NBi.Core.ResultSet.Comparer
             //Convert the value to an % decimal value
             decimal tolerancePercentage=0;
             var isPercentage = false;
-            if (!isDecimal && ((string)tolerance).Replace(" ", "").Reverse().ElementAt(0) == '%')
+            if (!isDecimal && !string.IsNullOrEmpty((string)tolerance) && ((string)tolerance).Replace(" ", "").Reverse().ElementAt(0) == '%')
             {
                 var percentage = string.Concat(((string)tolerance).Replace(" ", "").Reverse().Skip(1).Reverse());
                 isPercentage = decimal.TryParse(percentage, NumberStyles.Float, NumberFormatInfo.InvariantInfo, out tolerancePercentage);

@@ -7,7 +7,7 @@ namespace NBi.Core.ResultSet.Comparer
     {
         protected double step;
 
-        public NumericRounding(double step, Rounding.RoudingStyle style)
+        public NumericRounding(double step, Rounding.RoundingStyle style)
             : base(step.ToString(), style)
         {
             if (step <= 0)

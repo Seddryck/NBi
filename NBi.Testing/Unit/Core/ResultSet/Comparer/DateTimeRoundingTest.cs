@@ -36,13 +36,13 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         #endregion
 
         [Test]
-        [TestCase("2013-10-06", Rounding.RoudingStyle.Floor, "2013-10-06")]
-        [TestCase("2013-10-06 06:00:00", Rounding.RoudingStyle.Floor, "2013-10-06")]
-        [TestCase("2013-10-06 06:00:00", Rounding.RoudingStyle.Ceiling, "2013-10-07")]
-        [TestCase("2013-10-06 06:00:00", Rounding.RoudingStyle.Round, "2013-10-06")]
-        [TestCase("2013-10-06 18:00:00", Rounding.RoudingStyle.Round, "2013-10-07")]
+        [TestCase("2013-10-06", Rounding.RoundingStyle.Floor, "2013-10-06")]
+        [TestCase("2013-10-06 06:00:00", Rounding.RoundingStyle.Floor, "2013-10-06")]
+        [TestCase("2013-10-06 06:00:00", Rounding.RoundingStyle.Ceiling, "2013-10-07")]
+        [TestCase("2013-10-06 06:00:00", Rounding.RoundingStyle.Round, "2013-10-06")]
+        [TestCase("2013-10-06 18:00:00", Rounding.RoundingStyle.Round, "2013-10-07")]
        
-        public void GetValue_ValueDayRoundingStyle_NewValue(DateTime value, Rounding.RoudingStyle roundingStyle, DateTime newValue)
+        public void GetValue_ValueDayRoundingStyle_NewValue(DateTime value, Rounding.RoundingStyle roundingStyle, DateTime newValue)
         {
             var rounder = new DateTimeRounding(new TimeSpan(1,0,0,0), roundingStyle);
             
@@ -50,16 +50,16 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         }
 
         [Test]
-        [TestCase("2013-10-06", Rounding.RoudingStyle.Floor, "2013-10-06")]
-        [TestCase("2013-10-06 06:00:00", Rounding.RoudingStyle.Floor, "2013-10-06 06:00:00")]
-        [TestCase("2013-10-06 06:45:00", Rounding.RoudingStyle.Floor, "2013-10-06 06:00:00")]
-        [TestCase("2013-10-06 06:00:00", Rounding.RoudingStyle.Ceiling, "2013-10-06 06:00:00")]
-        [TestCase("2013-10-06 06:15:00", Rounding.RoudingStyle.Ceiling, "2013-10-06 07:00:00")]
-        [TestCase("2013-10-06 06:00:00", Rounding.RoudingStyle.Round, "2013-10-06 06:00:00")]
-        [TestCase("2013-10-06 06:20:00", Rounding.RoudingStyle.Round, "2013-10-06 06:00:00")]
-        [TestCase("2013-10-06 06:30:00", Rounding.RoudingStyle.Round, "2013-10-06 06:00:00")]
-        [TestCase("2013-10-06 06:40:00", Rounding.RoudingStyle.Round, "2013-10-06 07:00:00")]
-        public void GetValue_ValueHourRoundingStyle_NewValue(DateTime value, Rounding.RoudingStyle roundingStyle, DateTime newValue)
+        [TestCase("2013-10-06", Rounding.RoundingStyle.Floor, "2013-10-06")]
+        [TestCase("2013-10-06 06:00:00", Rounding.RoundingStyle.Floor, "2013-10-06 06:00:00")]
+        [TestCase("2013-10-06 06:45:00", Rounding.RoundingStyle.Floor, "2013-10-06 06:00:00")]
+        [TestCase("2013-10-06 06:00:00", Rounding.RoundingStyle.Ceiling, "2013-10-06 06:00:00")]
+        [TestCase("2013-10-06 06:15:00", Rounding.RoundingStyle.Ceiling, "2013-10-06 07:00:00")]
+        [TestCase("2013-10-06 06:00:00", Rounding.RoundingStyle.Round, "2013-10-06 06:00:00")]
+        [TestCase("2013-10-06 06:20:00", Rounding.RoundingStyle.Round, "2013-10-06 06:00:00")]
+        [TestCase("2013-10-06 06:30:00", Rounding.RoundingStyle.Round, "2013-10-06 06:00:00")]
+        [TestCase("2013-10-06 06:40:00", Rounding.RoundingStyle.Round, "2013-10-06 07:00:00")]
+        public void GetValue_ValueHourRoundingStyle_NewValue(DateTime value, Rounding.RoundingStyle roundingStyle, DateTime newValue)
         {
             var rounder = new DateTimeRounding(new TimeSpan(0, 1, 0, 0), roundingStyle);
 
@@ -67,11 +67,11 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         }
 
         [Test]
-        [TestCase("2013-10-06 06:10:00.526", Rounding.RoudingStyle.Floor, "2013-10-06 06:00:00")]
-        [TestCase("2013-10-06 06:15:00.526", Rounding.RoudingStyle.Floor, "2013-10-06 06:15:00")]
-        [TestCase("2013-10-06 06:15:00", Rounding.RoudingStyle.Floor, "2013-10-06 06:15:00")]
-        [TestCase("2013-10-06 06:00:00", Rounding.RoudingStyle.Floor, "2013-10-06 06:00:00")]
-        public void GetValue_ValueQuarterHourRoundingStyle_NewValue(DateTime value, Rounding.RoudingStyle roundingStyle, DateTime newValue)
+        [TestCase("2013-10-06 06:10:00.526", Rounding.RoundingStyle.Floor, "2013-10-06 06:00:00")]
+        [TestCase("2013-10-06 06:15:00.526", Rounding.RoundingStyle.Floor, "2013-10-06 06:15:00")]
+        [TestCase("2013-10-06 06:15:00", Rounding.RoundingStyle.Floor, "2013-10-06 06:15:00")]
+        [TestCase("2013-10-06 06:00:00", Rounding.RoundingStyle.Floor, "2013-10-06 06:00:00")]
+        public void GetValue_ValueQuarterHourRoundingStyle_NewValue(DateTime value, Rounding.RoundingStyle roundingStyle, DateTime newValue)
         {
             var rounder = new DateTimeRounding(new TimeSpan(0, 0, 15, 0), roundingStyle);
 

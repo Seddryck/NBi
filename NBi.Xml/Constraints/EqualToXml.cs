@@ -75,10 +75,10 @@ namespace NBi.Xml.Constraints
             protected set { isToleranceSpecified = value; }
         }
 
-        protected decimal tolerance;
+        protected string tolerance;
         [XmlAttribute("tolerance")]
-        [DefaultValue(0)]
-        public decimal Tolerance
+        [DefaultValue("")]
+        public string Tolerance
         {
             get
             { return tolerance; }

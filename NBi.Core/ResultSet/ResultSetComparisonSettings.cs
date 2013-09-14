@@ -28,7 +28,7 @@ namespace NBi.Core.ResultSet
 		public KeysChoice KeysDef { get; set; }
 		private ValuesChoice ValuesDef { get; set; }
 		private ICollection<IColumnDefinition> ColumnsDef { get; set; }
-		private decimal DefaultTolerance { get; set; }
+		private string DefaultTolerance { get; set; }
 
 		public bool IsKey(int index)
 		{
@@ -138,10 +138,10 @@ namespace NBi.Core.ResultSet
 			return false;
 		}
 
-		public decimal GetTolerance(int index)
+		public string GetTolerance(int index)
 		{
-			if (!IsNumeric(index))
-				return 0;
+			if (!IsNumeric(index) && !IsDateTime(index))
+				return string.Empty;
 			
 			var col = ColumnsDef.FirstOrDefault(c => c.Index == index);
 			if (col == null)
@@ -212,22 +212,22 @@ namespace NBi.Core.ResultSet
 		//}
 
 		public ResultSetComparisonSettings(int columnsCount, KeysChoice keysDef, ValuesChoice valuesDef)
-			: this(keysDef, valuesDef, 0, null)
+			: this(keysDef, valuesDef, "0", null)
 		{
 			ApplyTo(columnsCount);
 		}
 
 		public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, ICollection<IColumnDefinition> columnsDef)
-			: this(keysDef, valuesDef, 0, columnsDef)
+            : this(keysDef, valuesDef, "0", columnsDef)
 		{
 		}
 
-		public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, decimal defaultTolerance)
+		public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, string defaultTolerance)
 			: this(keysDef, valuesDef, defaultTolerance, null)
 		{
 		}
 
-		public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, decimal defaultTolerance, ICollection<IColumnDefinition> columnsDef)
+		public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, string defaultTolerance, ICollection<IColumnDefinition> columnsDef)
 		{
 			KeysDef = keysDef;
 			ValuesDef = valuesDef;

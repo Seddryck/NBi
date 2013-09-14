@@ -36,16 +36,16 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         #endregion
 
         [Test]
-        [TestCase(105, 20, Rounding.RoudingStyle.Floor, 100)]
-        [TestCase(105, 2, Rounding.RoudingStyle.Floor, 104)]
-        [TestCase(105, 2, Rounding.RoudingStyle.Round, 104)]
-        [TestCase(108, 10, Rounding.RoudingStyle.Round, 110)]
-        [TestCase(105, 20, Rounding.RoudingStyle.Ceiling, 120)]
-        [TestCase(105, 2, Rounding.RoudingStyle.Ceiling, 106)]
-        [TestCase(105, 5, Rounding.RoudingStyle.Floor, 105)]
-        [TestCase(105, 5, Rounding.RoudingStyle.Ceiling, 105)]
-        [TestCase(105, 5, Rounding.RoudingStyle.Round, 105)]
-        public void GetValue_ValueStepStyle_NewValue(decimal value, int step, Rounding.RoudingStyle roundingStyle, decimal newValue)
+        [TestCase(105, 20, Rounding.RoundingStyle.Floor, 100)]
+        [TestCase(105, 2, Rounding.RoundingStyle.Floor, 104)]
+        [TestCase(105, 2, Rounding.RoundingStyle.Round, 104)]
+        [TestCase(108, 10, Rounding.RoundingStyle.Round, 110)]
+        [TestCase(105, 20, Rounding.RoundingStyle.Ceiling, 120)]
+        [TestCase(105, 2, Rounding.RoundingStyle.Ceiling, 106)]
+        [TestCase(105, 5, Rounding.RoundingStyle.Floor, 105)]
+        [TestCase(105, 5, Rounding.RoundingStyle.Ceiling, 105)]
+        [TestCase(105, 5, Rounding.RoundingStyle.Round, 105)]
+        public void GetValue_ValueStepStyle_NewValue(decimal value, int step, Rounding.RoundingStyle roundingStyle, decimal newValue)
         {
             var rounder = new NumericRounding(step, roundingStyle);
             

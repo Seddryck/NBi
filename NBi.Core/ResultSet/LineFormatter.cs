@@ -20,7 +20,7 @@ namespace NBi.Core.ResultSet
         {
             var role = (ColumnRole)table.Columns[columnIndex].ExtendedProperties["NBi::Role"];
             var type = (ColumnType)table.Columns[columnIndex].ExtendedProperties["NBi::Type"];
-            var tolerance = (decimal)table.Columns[columnIndex].ExtendedProperties["NBi::Tolerance"];
+            var tolerance = (string)table.Columns[columnIndex].ExtendedProperties["NBi::Tolerance"];
 
             return Build(role, type, tolerance);
         }
@@ -42,7 +42,7 @@ namespace NBi.Core.ResultSet
             return Build(value);
         }
 
-        protected static ICellFormatter Build(ColumnRole role, ColumnType type, decimal tolerance)
+        protected static ICellFormatter Build(ColumnRole role, ColumnType type, string tolerance)
         {
             return new HeaderFormatter(role, type, tolerance);
         }
@@ -64,9 +64,9 @@ namespace NBi.Core.ResultSet
 
             public ColumnRole Role { get; set; }
             public ColumnType Type { get; set; }
-            public decimal Tolerance { get; set; }
+            public string Tolerance { get; set; }
 
-            public HeaderFormatter(ColumnRole role, ColumnType type, decimal tolerance)
+            public HeaderFormatter(ColumnRole role, ColumnType type, string tolerance)
             {
                 Role = role;
                 Type = type;
@@ -128,8 +128,7 @@ namespace NBi.Core.ResultSet
             private string GetToleranceText()
             {
                 var toleranceText = string.Empty;
-                if (Tolerance > 0)
-                    toleranceText += string.Format(" (+/- {0}) ", Tolerance);
+                toleranceText += string.Format(" (+/- {0}) ", Tolerance);
                 return toleranceText;
             }
 

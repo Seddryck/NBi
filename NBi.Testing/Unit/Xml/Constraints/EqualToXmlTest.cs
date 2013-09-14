@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Comparer;
 using NBi.Xml;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
@@ -106,7 +107,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef, Has.Count.EqualTo(2));
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[0], Has.Property("Index").EqualTo(3));
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[0], Has.Property("Tolerance").EqualTo(10));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[0], Has.Property("Tolerance").EqualTo("10"));
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[1], Has.Property("Index").EqualTo(4));
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[1], Has.Property("Type").EqualTo(ColumnType.Boolean));
         }
@@ -148,7 +149,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
 
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ValuesDef, Is.EqualTo(ResultSetComparisonSettings.ValuesChoice.Last));
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Tolerance, Is.EqualTo(100));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Tolerance, Is.EqualTo("100"));
 
             
         }
@@ -164,6 +165,39 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
 
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Persistance, Is.EqualTo(PersistanceChoice.OnlyIfFailed));
+        }
+
+        [Test]
+        public void DeserializeEqualToQuery_QueryFile7_RoundingAttributeRead()
+        {
+            int testNr = 7;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[1].RoundingStyle, Is.EqualTo(Rounding.RoundingStyle.Round));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[1].RoundingStep, Is.EqualTo("100"));
+
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[2].RoundingStyle, Is.EqualTo(Rounding.RoundingStyle.Floor));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[2].RoundingStep, Is.EqualTo("00:15:00"));
+        }
+
+        [Test]
+        public void DeserializeEqualToQuery_QueryFile8_ToleranceAttributeRead()
+        {
+            int testNr = 8;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[1].Tolerance, Is.EqualTo("16%"));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[2].Tolerance, Is.EqualTo("1.12:00:00"));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[3].Tolerance, Is.EqualTo("00:15:00"));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[4].Tolerance, Is.EqualTo("00:00:00.125"));
         }
 
     }

@@ -1,24 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Xml.Serialization;
 
 namespace NBi.Core.ResultSet.Comparer
 {
     public class Rounding
     {
-        public enum RoudingStyle
+        public enum RoundingStyle
         {
-            Undefined = 0,
+            [XmlEnum(Name = "none")]
+            None = 0,
+            [XmlEnum(Name = "floor")]
             Floor,
+            [XmlEnum(Name = "ceiling")]
             Ceiling,
+            [XmlEnum(Name = "round")]
             Round
         }
 
         public string Step { get; private set; }
-        public RoudingStyle Style { get; private set; }
+        public RoundingStyle Style { get; private set; }
 
-        protected Rounding(string step, RoudingStyle style)
+        protected Rounding(string step, RoundingStyle style)
         {
             Step = step;
             Style = style; 
@@ -28,7 +31,7 @@ namespace NBi.Core.ResultSet.Comparer
         {
             var remainder = Math.Abs(value) % step;
 
-            if ((Style == RoudingStyle.Ceiling && remainder>0) || (Style == RoudingStyle.Round && remainder > step / 2))
+            if ((Style == RoundingStyle.Ceiling && remainder>0) || (Style == RoundingStyle.Round && remainder > step / 2))
                 remainder -= step;
 
             return (value - remainder) * Math.Sign(value);

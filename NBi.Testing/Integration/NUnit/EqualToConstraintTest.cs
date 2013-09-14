@@ -81,7 +81,7 @@ namespace NBi.Testing.Integration.NUnit
             ctr.Using(new ResultSetComparisonSettings(
                     ResultSetComparisonSettings.KeysChoice.First,
                     ResultSetComparisonSettings.ValuesChoice.Last,
-                    500
+                    "500"
                 )
             );
 
@@ -111,7 +111,7 @@ namespace NBi.Testing.Integration.NUnit
             ctr.Using(new ResultSetComparisonSettings(
                 ResultSetComparisonSettings.KeysChoice.First,
                 ResultSetComparisonSettings.ValuesChoice.Last,
-                null)
+                string.Empty)
             );
 
             var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
@@ -135,7 +135,7 @@ namespace NBi.Testing.Integration.NUnit
             ctr.Using(new ResultSetComparisonSettings(
                 ResultSetComparisonSettings.KeysChoice.First,
                 ResultSetComparisonSettings.ValuesChoice.Last,
-                null)
+                string.Empty)
             );
 
             var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1  FROM [Adventure Works]";
@@ -160,7 +160,7 @@ namespace NBi.Testing.Integration.NUnit
             ctr.Using(new ResultSetComparisonSettings(
                 ResultSetComparisonSettings.KeysChoice.First,
                 ResultSetComparisonSettings.ValuesChoice.Last,
-                null)
+                string.Empty)
             );
 
             var query = "SELECT [Measures].[Amount] ON 0, ([Date].[Calendar].[Calendar Year]-[Date].[Calendar].[Calendar Year].&[2010]) ON 1  FROM [Adventure Works]";
@@ -192,7 +192,7 @@ namespace NBi.Testing.Integration.NUnit
                             Index=1,
                             Role= ColumnRole.Value,
                             Type=ColumnType.Numeric,
-                            Tolerance= 10
+                            Tolerance= "10"
                         }
                     }
                 )
@@ -232,7 +232,7 @@ namespace NBi.Testing.Integration.NUnit
                                 Index = 1,
                                 Role = ColumnRole.Value,
                                 Type = ColumnType.Numeric,
-                                Tolerance = 5
+                                Tolerance = "5"
                             }
                         }
                     )
@@ -279,7 +279,7 @@ namespace NBi.Testing.Integration.NUnit
                     new ResultSetComparisonSettings(
                         ResultSetComparisonSettings.KeysChoice.AllExpectLast,
                         ResultSetComparisonSettings.ValuesChoice.Last,
-                        null
+                        string.Empty
                     )
                 );
 
@@ -306,7 +306,7 @@ namespace NBi.Testing.Integration.NUnit
                     new ResultSetComparisonSettings(
                         ResultSetComparisonSettings.KeysChoice.AllExpectLast,
                         ResultSetComparisonSettings.ValuesChoice.Last,
-                        null
+                        string.Empty
                     )
                 );
 

@@ -18,7 +18,18 @@ namespace NBi.Core.ResultSet.Comparer
 
         protected override ComparerResult CompareObjects(object x, object y)
         {
-            return CompareObjects(x, y, (decimal)0);
+            return CompareObjects(x, y, new decimal(0));
+        }
+
+        public ComparerResult Compare(object x, object y, NumericRounding rounding)
+        {
+            var rxDecimal = Convert.ToDecimal(x, NumberFormatInfo.InvariantInfo);
+            var ryDecimal = Convert.ToDecimal(y, NumberFormatInfo.InvariantInfo);
+
+            rxDecimal = rounding.GetValue(rxDecimal);
+            ryDecimal = rounding.GetValue(ryDecimal);
+
+            return CompareObjects(x, y);
         }
 
         protected override ComparerResult CompareObjects(object x, object y, object tolerance)

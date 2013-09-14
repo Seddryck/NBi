@@ -158,7 +158,10 @@
     <Compile Include="ResultSet\Comparer\BaseComparer.cs" />
     <Compile Include="ResultSet\Comparer\ComparerResult.cs" />
     <Compile Include="ResultSet\Comparer\BooleanComparer.cs" />
+    <Compile Include="ResultSet\Comparer\DateTimeRounding.cs" />
     <Compile Include="ResultSet\Comparer\DateTimeComparer.cs" />
+    <Compile Include="ResultSet\Comparer\NumericRounding.cs" />
+    <Compile Include="ResultSet\Comparer\Rounding.cs" />
     <Compile Include="ResultSet\Comparer\TextComparer.cs" />
     <Compile Include="ResultSet\DataRowBasedResultSetComparer.cs" />
     <Compile Include="ResultSet\DataRowKeysComparer.cs" />

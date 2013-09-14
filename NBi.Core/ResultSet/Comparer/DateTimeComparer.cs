@@ -29,6 +29,17 @@ namespace NBi.Core.ResultSet.Comparer
             return base.Compare(x, y, tolerance);
         }
 
+        public ComparerResult Compare(object x, object y, DateTimeRounding rounding)
+        {
+            var rxDateTime = ConvertToDate(x);
+            var ryDateTime = ConvertToDate(y);
+
+            rxDateTime = rounding.GetValue(rxDateTime);
+            ryDateTime = rounding.GetValue(ryDateTime);
+
+            return CompareObjects(x, y);
+        }
+
         protected override ComparerResult CompareObjects(object x, object y, object tolerance)
         {
             var rxDateTime = ConvertToDate(x);
@@ -37,7 +48,7 @@ namespace NBi.Core.ResultSet.Comparer
             if (!(tolerance is string))
                 throw new ArgumentException(string.Format("Tolerance for a dateTime comparer must be a string and is a '{0}'.", tolerance.GetType().Name), "tolerance");
 
-            //Convert the value to an absolute timespan value
+            //Convert the value to a timespan value
             TimeSpan toleranceTimeSpan;
             var isTimeSpan = false;
             if ((tolerance is TimeSpan))
@@ -51,7 +62,7 @@ namespace NBi.Core.ResultSet.Comparer
             if (!isTimeSpan)
                 throw new ArgumentException(string.Format("Tolerance for a dateTime comparer must be a TimeSpan but '{0}' is not recognized as a valid TimeSpan value.", tolerance), "tolerance");
 
-            //Compare decimals (with tolerance)
+            //Compare dateTimes (with tolerance)
             if (IsEqual(rxDateTime, ryDateTime, toleranceTimeSpan))
                 return ComparerResult.Equality;
 

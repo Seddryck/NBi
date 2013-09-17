@@ -29,7 +29,7 @@ namespace NBi.Core.ResultSet.Comparer
             return base.Compare(x, y, tolerance);
         }
 
-        public ComparerResult Compare(object x, object y, DateTimeRounding rounding)
+        public ComparerResult CompareObjects(object x, object y, DateTimeRounding rounding)
         {
             var rxDateTime = ConvertToDate(x);
             var ryDateTime = ConvertToDate(y);
@@ -37,7 +37,15 @@ namespace NBi.Core.ResultSet.Comparer
             rxDateTime = rounding.GetValue(rxDateTime);
             ryDateTime = rounding.GetValue(ryDateTime);
 
-            return CompareObjects(x, y);
+            return CompareObjects(rxDateTime, ryDateTime);
+        }
+
+        protected override ComparerResult CompareObjects(object x, object y, Rounding rounding)
+        {
+            if (!(rounding is DateTimeRounding))
+                throw new ArgumentException("Rounding must be of type 'DateTimeRounding'");
+
+            return CompareObjects(x, y, (DateTimeRounding)rounding);
         }
 
         protected override ComparerResult CompareObjects(object x, object y, object tolerance)

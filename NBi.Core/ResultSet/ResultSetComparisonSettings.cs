@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
+using NBi.Core.ResultSet.Comparer;
 
 namespace NBi.Core.ResultSet
 {
@@ -82,6 +83,25 @@ namespace NBi.Core.ResultSet
 
 			return false;
 		}
+
+        public bool IsRounding(int index)
+        {
+            return ColumnsDef.Any(
+                    c => c.Index == index
+                    && c.Role == ColumnRole.Value
+                    && c.RoundingStyle != Comparer.Rounding.RoundingStyle.None
+                    && !string.IsNullOrEmpty(c.RoundingStep));
+        }
+
+        public Rounding GetRounding(int index)
+        {
+            if (!IsRounding(index))
+                return null;
+
+            return RoundingFactory.Build(ColumnsDef.Single(
+                    c => c.Index == index
+                    && c.Role == ColumnRole.Value));
+        }
 
 		public ColumnRole GetColumnRole(int index)
 		{

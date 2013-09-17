@@ -27,6 +27,11 @@ namespace NBi.Core.ResultSet.Comparer
             throw new NotImplementedException("You cannot compare two booleans with a tolerance");
         }
 
+        protected override ComparerResult CompareObjects(object x, object y, Rounding rounding)
+        {
+            throw new NotImplementedException("You cannot compare with a boolean comparer and a rounding.");
+        }
+
 
         protected ThreeState IntParsing(object obj)
         {

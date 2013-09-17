@@ -162,6 +162,7 @@
     <Compile Include="ResultSet\Comparer\DateTimeComparer.cs" />
     <Compile Include="ResultSet\Comparer\NumericRounding.cs" />
     <Compile Include="ResultSet\Comparer\Rounding.cs" />
+    <Compile Include="ResultSet\Comparer\RoundingFactory.cs" />
     <Compile Include="ResultSet\Comparer\TextComparer.cs" />
     <Compile Include="ResultSet\DataRowBasedResultSetComparer.cs" />
     <Compile Include="ResultSet\DataRowKeysComparer.cs" />

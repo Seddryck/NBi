@@ -187,13 +187,19 @@ namespace NBi.Core.ResultSet
                                 if (Settings.IsNumeric(i))
                                 {
                                     //Convert to decimal
-                                    result = numericComparer.Compare(rx[i], ry[i], Settings.GetTolerance(i));
+                                    if (Settings.IsRounding(i))
+                                        result = numericComparer.Compare(rx[i], ry[i], Settings.GetRounding(i));
+                                    else
+                                        result = numericComparer.Compare(rx[i], ry[i], Settings.GetTolerance(i));
                                 }
                                 //Date and Time
                                 else if (Settings.IsDateTime(i))
                                 {
                                     //Convert to dateTime
-                                    result = dateTimeComparer.Compare(rx[i], ry[i]);
+                                    if (Settings.IsRounding(i))
+                                        result = dateTimeComparer.Compare(rx[i], ry[i], Settings.GetRounding(i));
+                                    else
+                                        result = dateTimeComparer.Compare(rx[i], ry[i]);
                                 }
                                 //Boolean
                                 else if (Settings.IsBoolean(i))

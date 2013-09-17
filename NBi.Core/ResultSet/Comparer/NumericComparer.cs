@@ -21,7 +21,15 @@ namespace NBi.Core.ResultSet.Comparer
             return CompareObjects(x, y, new decimal(0));
         }
 
-        public ComparerResult Compare(object x, object y, NumericRounding rounding)
+        protected override ComparerResult CompareObjects(object x, object y, Rounding rounding)
+        {
+            if (!(rounding is NumericRounding))
+                throw new ArgumentException("Rounding must be of type 'NumericRounding'");
+
+            return CompareObjects(x, y, (NumericRounding)rounding);
+        }
+        
+        public ComparerResult CompareObjects(object x, object y, NumericRounding rounding)
         {
             var rxDecimal = Convert.ToDecimal(x, NumberFormatInfo.InvariantInfo);
             var ryDecimal = Convert.ToDecimal(y, NumberFormatInfo.InvariantInfo);
@@ -29,7 +37,7 @@ namespace NBi.Core.ResultSet.Comparer
             rxDecimal = rounding.GetValue(rxDecimal);
             ryDecimal = rounding.GetValue(ryDecimal);
 
-            return CompareObjects(x, y);
+            return CompareObjects(rxDecimal, ryDecimal);
         }
 
         protected override ComparerResult CompareObjects(object x, object y, object tolerance)
@@ -100,5 +108,6 @@ namespace NBi.Core.ResultSet.Comparer
         {
             return (IsValidNumeric(x));
         }
+
     }
 }

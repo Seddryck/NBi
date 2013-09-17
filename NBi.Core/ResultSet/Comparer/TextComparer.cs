@@ -6,6 +6,7 @@ namespace NBi.Core.ResultSet.Comparer
 {
     class TextComparer : BaseComparer
     {
+
         protected override ComparerResult CompareObjects(object x, object y)
         {
             var rxText = x.ToString();
@@ -21,7 +22,12 @@ namespace NBi.Core.ResultSet.Comparer
         protected override ComparerResult CompareObjects(object x, object y, object tolerance)
         {
             throw new NotImplementedException("You cannot compare with a text comparer and a tolerance.");
-        }       
+        }
+
+        protected override ComparerResult CompareObjects(object x, object y, Rounding rounding)
+        {
+            throw new NotImplementedException("You cannot compare with a text comparer and a rounding.");
+        }
         
         protected bool IsEqual(string x, string y)
         {

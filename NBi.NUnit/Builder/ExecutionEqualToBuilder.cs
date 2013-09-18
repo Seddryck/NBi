@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using NBi.Core;
 using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Comparer;
 using NBi.NUnit.Query;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
@@ -61,7 +62,7 @@ namespace NBi.NUnit.Builder
             ResultSetComparisonSettings settings = new ResultSetComparisonSettings(
                 ConstraintXml.KeysDef,
                 ConstraintXml.ValuesDef,
-                ConstraintXml.Tolerance,
+                ToleranceFactory.BuildNumeric(ConstraintXml.Tolerance),
                 ConstraintXml.ColumnsDef
                 );
 

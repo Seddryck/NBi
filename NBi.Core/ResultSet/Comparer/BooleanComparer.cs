@@ -22,7 +22,7 @@ namespace NBi.Core.ResultSet.Comparer
             return new ComparerResult(ThreeStateToString(xThreeState, x.ToString()));
         }
 
-        protected override ComparerResult CompareObjects(object x, object y, object tolerance)
+        protected override ComparerResult CompareObjects(object x, object y, Tolerance tolerance)
         {
             throw new NotImplementedException("You cannot compare two booleans with a tolerance");
         }

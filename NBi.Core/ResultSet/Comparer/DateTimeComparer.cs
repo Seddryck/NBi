@@ -21,12 +21,12 @@ namespace NBi.Core.ResultSet.Comparer
 
         public ComparerResult Compare(object x, object y, TimeSpan tolerance)
         {
-            return base.Compare(x, y, tolerance);
+            return base.Compare(x, y, new DateTimeTolerance(tolerance));
         }
 
         public ComparerResult Compare(object x, object y, string tolerance)
         {
-            return base.Compare(x, y, tolerance);
+            return base.Compare(x, y, new DateTimeTolerance(TimeSpan.Parse(tolerance)));
         }
 
         public ComparerResult CompareObjects(object x, object y, DateTimeRounding rounding)
@@ -48,30 +48,21 @@ namespace NBi.Core.ResultSet.Comparer
             return CompareObjects(x, y, (DateTimeRounding)rounding);
         }
 
-        protected override ComparerResult CompareObjects(object x, object y, object tolerance)
+        protected override ComparerResult CompareObjects(object x, object y, Tolerance tolerance)
+        {
+            if (!(tolerance is DateTimeTolerance))
+                throw new ArgumentException("Tolerance must be of type 'DateTimeTolerance'");
+
+            return CompareObjects(x, y, (DateTimeTolerance)tolerance);
+        }
+
+        protected ComparerResult CompareObjects(object x, object y, DateTimeTolerance tolerance)
         {
             var rxDateTime = ConvertToDate(x);
             var ryDateTime = ConvertToDate(y);
             
-            if (!(tolerance is string))
-                throw new ArgumentException(string.Format("Tolerance for a dateTime comparer must be a string and is a '{0}'.", tolerance.GetType().Name), "tolerance");
-
-            //Convert the value to a timespan value
-            TimeSpan toleranceTimeSpan;
-            var isTimeSpan = false;
-            if ((tolerance is TimeSpan))
-            {
-                toleranceTimeSpan = (TimeSpan)tolerance;
-                isTimeSpan = true;
-            }
-            else
-                isTimeSpan = TimeSpan.TryParse((string)tolerance, DateTimeFormatInfo.InvariantInfo, out toleranceTimeSpan);
-
-            if (!isTimeSpan)
-                throw new ArgumentException(string.Format("Tolerance for a dateTime comparer must be a TimeSpan but '{0}' is not recognized as a valid TimeSpan value.", tolerance), "tolerance");
-
             //Compare dateTimes (with tolerance)
-            if (IsEqual(rxDateTime, ryDateTime, toleranceTimeSpan))
+            if (IsEqual(rxDateTime, ryDateTime, tolerance.TimeSpan))
                 return ComparerResult.Equality;
 
             return new ComparerResult(rxDateTime.ToString(DateTimeFormatInfo.InvariantInfo));

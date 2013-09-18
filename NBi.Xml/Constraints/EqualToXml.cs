@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core;
 using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Comparer;
 using NBi.Xml.Items;
 using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Settings;
@@ -109,7 +110,7 @@ namespace NBi.Xml.Constraints
 
         public ResultSetComparisonSettings GetSettings()
         {
-            return new ResultSetComparisonSettings(KeysDef, ValuesDef, Tolerance, ColumnsDef);
+            return new ResultSetComparisonSettings(KeysDef, ValuesDef, ToleranceFactory.BuildNumeric(Tolerance), ColumnsDef);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]

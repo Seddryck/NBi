@@ -103,6 +103,12 @@ namespace NBi.UI.Genbi.Presenter
             set { SetValue("Progress", value); }
         }
 
+        public IEnumerable<Test> SelectedTests
+        {
+            get { return GetValue<IEnumerable<Test>>("SelectedTests"); }
+            set { SetValue("SelectedTests", value); }
+        }
+
         #endregion
 
         protected override void OnPropertyChanged(string propertyName)
@@ -115,6 +121,11 @@ namespace NBi.UI.Genbi.Presenter
                     this.UndoGenerateTestsXmlCommand.Refresh();
                     break;
                 case "SelectedTest":
+                    this.DeleteTestCommand.Refresh();
+                    this.DisplayTestCommand.Refresh();
+                    this.AddCategoryCommand.Refresh();
+                    break;
+                case "SelectedTests":
                     this.DeleteTestCommand.Refresh();
                     this.DisplayTestCommand.Refresh();
                     this.AddCategoryCommand.Refresh();
@@ -178,7 +189,9 @@ namespace NBi.UI.Genbi.Presenter
 
         internal void AddCategory(string categoryName)
         {
-            testListManager.AddCategory(this.SelectedTest, categoryName);
+            foreach (var test in SelectedTests)
+                testListManager.AddCategory(test, categoryName);
+            
             ReloadTests();
         }
 
@@ -222,5 +235,9 @@ namespace NBi.UI.Genbi.Presenter
         {
             return testListManager.GetExistingCategories();
         }
+
+
+
+        
     }
 }

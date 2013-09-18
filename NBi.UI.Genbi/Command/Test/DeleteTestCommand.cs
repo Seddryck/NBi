@@ -20,7 +20,7 @@ namespace NBi.UI.Genbi.Command.Test
 		/// </summary>
 		public override void Refresh()
 		{
-			this.IsEnabled = presenter.SelectedTest != null;
+			this.IsEnabled = presenter.SelectedTests != null || presenter.SelectedTest != null;
 		}
 
 		/// <summary>
@@ -28,10 +28,12 @@ namespace NBi.UI.Genbi.Command.Test
 		/// </summary>
 		public override void Invoke()
 		{
-			if (presenter.SelectedTest == null)
+			if (!(presenter.SelectedTests != null || presenter.SelectedTest != null))
 				throw new InvalidOperationException("No test selected. Impossible to delete it.");
 
-			presenter.Manager.Remove(presenter.SelectedTest);
+			foreach (var test in presenter.SelectedTests)
+				presenter.Manager.Remove(test);
+			
 			presenter.ReloadTests();
 		}
 	}

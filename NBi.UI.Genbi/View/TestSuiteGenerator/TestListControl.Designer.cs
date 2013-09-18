@@ -60,7 +60,7 @@
             this.testsList.FormattingEnabled = true;
             this.testsList.Location = new System.Drawing.Point(0, 26);
             this.testsList.Name = "testsList";
-            this.testsList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.testsList.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             this.testsList.Size = new System.Drawing.Size(578, 290);
             this.testsList.TabIndex = 21;
             this.testsList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TestsList_MouseDown);

@@ -121,5 +121,53 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
             var result = comparer.Compare(null, "(null)");
             Assert.That(result.AreEqual, Is.True);
         }
+
+        [Test]
+        public void Compare_yyyymmddWithToleranceInDays_True()
+        {
+            var comparer = new DateTimeComparer();
+            var result = comparer.Compare("2013-10-09", "2013-10-08", "1");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_yyyymmddWithToleranceInDays_False()
+        {
+            var comparer = new DateTimeComparer();
+            var result = comparer.Compare("2013-10-09", "2013-10-01", "1");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_yyyymmddWithToleranceInHours_True()
+        {
+            var comparer = new DateTimeComparer();
+            var result = comparer.Compare("2013-10-09", "2013-10-08 06:00:00", "22:30:00");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_yyyymmddWithToleranceInHours_False()
+        {
+            var comparer = new DateTimeComparer();
+            var result = comparer.Compare("2013-10-09", "2013-10-08 01:00:00", "22:30:00");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_yyyymmddWithToleranceInMilliSeconds_True()
+        {
+            var comparer = new DateTimeComparer();
+            var result = comparer.Compare("2013-10-08 01:00:00.500", "2013-10-08 01:00:00.550", "00:00:00.125");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_yyyymmddWithToleranceInMilliSeconds_False()
+        {
+            var comparer = new DateTimeComparer();
+            var result = comparer.Compare("2013-10-08 01:00:00.500", "2013-10-08 01:00:00.850", "00:00:00.125");
+            Assert.That(result.AreEqual, Is.False);
+        }
     }
 }

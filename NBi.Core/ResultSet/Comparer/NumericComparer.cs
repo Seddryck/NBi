@@ -6,29 +6,83 @@ namespace NBi.Core.ResultSet.Comparer
 {
     class NumericComparer : BaseComparer
     {
+        public ComparerResult Compare(object x, object y, string tolerance)
+        {
+            return base.Compare(x, y, ToleranceFactory.BuildNumeric(tolerance));
+        }
+        
         public ComparerResult Compare(object x, object y, decimal tolerance)
         {
-            return base.Compare(x, y, tolerance);
+            return base.Compare(x, y, new NumericAbsoluteTolerance(tolerance));
         }
 
         protected override ComparerResult CompareObjects(object x, object y)
         {
-            return CompareObjects(x, y, (decimal)0);
+            return CompareObjects(x, y, new NumericAbsoluteTolerance(0));
         }
 
-        protected override ComparerResult CompareObjects(object x, object y, object tolerance)
+        protected override ComparerResult CompareObjects(object x, object y, Rounding rounding)
         {
-            if (!(tolerance is decimal))
-                throw new ArgumentException(string.Format("Tolerance for a numeric comparer must be a decimal and is a '{0}'.", tolerance.GetType().Name), "tolerance");
-            
+            if (!(rounding is NumericRounding))
+                throw new ArgumentException("Rounding must be of type 'NumericRounding'");
+
+            return CompareObjects(x, y, (NumericRounding)rounding);
+        }
+
+        protected override ComparerResult CompareObjects(object x, object y, Tolerance tolerance)
+        {
+            if (!(tolerance is NumericTolerance))
+                throw new ArgumentException("Tolerance must be of type 'NumericTolerance'");
+
+            return CompareObjects(x, y, (NumericTolerance)tolerance);
+        }
+        
+        public ComparerResult CompareObjects(object x, object y, NumericRounding rounding)
+        {
             var rxDecimal = Convert.ToDecimal(x, NumberFormatInfo.InvariantInfo);
             var ryDecimal = Convert.ToDecimal(y, NumberFormatInfo.InvariantInfo);
 
+            rxDecimal = rounding.GetValue(rxDecimal);
+            ryDecimal = rounding.GetValue(ryDecimal);
+
+            return CompareObjects(rxDecimal, ryDecimal);
+        }
+
+        protected ComparerResult CompareObjects(object x, object y, NumericTolerance tolerance)
+        {
+            var rxDecimal = Convert.ToDecimal(x, NumberFormatInfo.InvariantInfo);
+            var ryDecimal = Convert.ToDecimal(y, NumberFormatInfo.InvariantInfo);
+
+            return CompareDecimals(rxDecimal, ryDecimal, tolerance);
+        }
+
+        protected ComparerResult CompareDecimals(decimal x, decimal y, NumericTolerance tolerance)
+        {
+            if (tolerance is NumericAbsoluteTolerance)
+                return CompareDecimals(x, y, (NumericAbsoluteTolerance)tolerance);
+
+            if (tolerance is NumericPercentageTolerance)
+                return CompareDecimals(x, y, (NumericPercentageTolerance)tolerance);
+
+            throw new ArgumentException();
+        }
+
+        protected ComparerResult CompareDecimals(decimal x, decimal y, NumericAbsoluteTolerance tolerance)
+        {
             //Compare decimals (with tolerance)
-            if (IsEqual(rxDecimal, ryDecimal, (decimal)tolerance))
+            if (IsEqual(x, y, tolerance.Value))
                 return ComparerResult.Equality;
 
-            return new ComparerResult(rxDecimal.ToString(NumberFormatInfo.InvariantInfo));
+            return new ComparerResult(x.ToString(NumberFormatInfo.InvariantInfo));
+        }
+
+        protected ComparerResult CompareDecimals(decimal x, decimal y, NumericPercentageTolerance tolerance)
+        {
+            //Compare decimals (with tolerance)
+            if (IsEqual(x, y, x * tolerance.Value))
+                return ComparerResult.Equality;
+
+            return new ComparerResult(x.ToString(NumberFormatInfo.InvariantInfo));
         }
 
         protected bool IsEqual(decimal x, decimal y, decimal tolerance)
@@ -52,5 +106,6 @@ namespace NBi.Core.ResultSet.Comparer
         {
             return (IsValidNumeric(x));
         }
+
     }
 }

@@ -148,10 +148,33 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         }
 
         [Test]
-        public void Compare_NonNumericAndAny_ArgumentException()
+        public void Compare_NonNumericAndAny_FormatException()
         {
             var comparer = new NumericComparer();
             Assert.Throws<FormatException>(delegate { comparer.Compare("string", "(any)", 1); });
+        }
+
+        [Test]
+        public void Compare_TwelveToElevenWithAToleranceOFTenPercent_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(12, 11, "10%");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_TwelveToElevenWithAToleranceOFTenPercent_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(12, 11, "5%");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_NonValidPercentageForTolerance_ArgumentException()
+        {
+            var comparer = new NumericComparer();
+            Assert.Throws<ArgumentException>(delegate { comparer.Compare(12, 11, "1,1%"); });
         }
     }
 }

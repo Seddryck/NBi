@@ -256,6 +256,11 @@ namespace NBi.Core.ResultSet
                     column.ExtendedProperties["NBi::Tolerance"] = settings.GetTolerance(column.Ordinal);
                 else
                     column.ExtendedProperties.Add("NBi::Tolerance", settings.GetTolerance(column.Ordinal));
+
+                if (column.ExtendedProperties.ContainsKey("NBi::Rounding"))
+                    column.ExtendedProperties["NBi::Rounding"] = settings.GetRounding(column.Ordinal);
+                else
+                    column.ExtendedProperties.Add("NBi::Rounding", settings.GetRounding(column.Ordinal));
             }
         }
 

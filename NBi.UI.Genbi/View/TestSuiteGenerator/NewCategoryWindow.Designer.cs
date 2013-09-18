@@ -41,6 +41,7 @@
             this.categoryName.Name = "categoryName";
             this.categoryName.Size = new System.Drawing.Size(277, 20);
             this.categoryName.TabIndex = 7;
+            this.categoryName.TextChanged += new System.EventHandler(this.CategoryName_TextChanged);
             // 
             // variableLabel
             // 
@@ -73,7 +74,7 @@
             this.cancel.Text = "&Cancel";
             this.cancel.UseVisualStyleBackColor = true;
             // 
-            // NewReferenceWindow
+            // NewCategoryWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -82,7 +83,7 @@
             this.Controls.Add(this.variableLabel);
             this.Controls.Add(this.apply);
             this.Controls.Add(this.cancel);
-            this.Name = "NewReferenceWindow";
+            this.Name = "NewCategoryWindow";
             this.Text = "Add a category";
             this.ResumeLayout(false);
             this.PerformLayout();

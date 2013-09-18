@@ -56,5 +56,10 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             get { return deleteTestToolStripMenuItem; }
         }
+
+        public ToolStripItem AddCategoryCommand
+        {
+            get { return addCategoryToolStripMenuItem; }
+        }
     }
 }

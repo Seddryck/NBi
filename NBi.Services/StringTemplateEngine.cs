@@ -68,7 +68,7 @@ namespace NBi.Service
             return (T)XmlDeserializeFromString(objectData, typeof(T));
         }
 
-        protected internal string XmlSerializeFrom<T>(T objectData)
+        protected internal static string XmlSerializeFrom<T>(T objectData)
         {
             return SerializeFrom(objectData, typeof(T));
         }
@@ -86,14 +86,23 @@ namespace NBi.Service
             return result;
         }
 
-        protected string SerializeFrom(object objectData, Type type)
+        protected static string SerializeFrom(object objectData, Type type)
         {
             var serializer = new XmlSerializer(type);
             var result = string.Empty;
             using (var writer = new StringWriter())
             {
                 // Use the Serialize method to store the object's state.
-                serializer.Serialize(writer, objectData);
+                try
+                {
+                    serializer.Serialize(writer, objectData);
+                }
+                catch (Exception e)
+                {
+                    
+                    throw e;
+                }
+                
                 result = writer.ToString();
             }
             return result;

@@ -25,6 +25,7 @@ namespace NBi.UI.Genbi.Presenter
             this.UndoGenerateTestsXmlCommand = new UndoGenerateTestListCommand(this);
             this.DeleteTestCommand = new DeleteTestCommand(this);
             this.DisplayTestCommand = new EditTestCommand(this, new DisplayTestView());
+            this.AddCategoryCommand = new AddCategoryTestCommand(this, new NewCategoryWindow());
 
 
             this.testListManager = testListManager;
@@ -55,7 +56,7 @@ namespace NBi.UI.Genbi.Presenter
         public ICommand UndoGenerateTestsXmlCommand { get; private set; }
         public ICommand DeleteTestCommand { get; private set; }
         public ICommand DisplayTestCommand { get; private set; }
-
+        public ICommand AddCategoryCommand { get; private set; }
 
 
         #region Bindable properties
@@ -116,6 +117,7 @@ namespace NBi.UI.Genbi.Presenter
                 case "SelectedTest":
                     this.DeleteTestCommand.Refresh();
                     this.DisplayTestCommand.Refresh();
+                    this.AddCategoryCommand.Refresh();
                     break;
                 case "TestCases":
                     this.GenerateTestsXmlCommand.Refresh();
@@ -174,6 +176,12 @@ namespace NBi.UI.Genbi.Presenter
             ReloadTests();
         }
 
+        internal void AddCategory(string categoryName)
+        {
+            testListManager.AddCategory(this.SelectedTest, categoryName);
+            ReloadTests();
+        }
+
         public void ReloadTests()
         {
             var tests = testListManager.GetTests();
@@ -202,5 +210,7 @@ namespace NBi.UI.Genbi.Presenter
             if (handler != null)
                 handler(this, e);
         }
+
+        
     }
 }

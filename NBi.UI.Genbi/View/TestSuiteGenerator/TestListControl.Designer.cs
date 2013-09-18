@@ -37,6 +37,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.bindingTests = new System.Windows.Forms.BindingSource(this.components);
             this.useGrouping = new System.Windows.Forms.CheckBox();
+            this.addCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testsListMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingTests)).BeginInit();
             this.SuspendLayout();
@@ -67,23 +68,24 @@
             // 
             this.testsListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteTestToolStripMenuItem,
-            this.editTestToolStripMenuItem});
+            this.editTestToolStripMenuItem,
+            this.addCategoryToolStripMenuItem});
             this.testsListMenu.Name = "deleteTest";
-            this.testsListMenu.Size = new System.Drawing.Size(130, 48);
+            this.testsListMenu.Size = new System.Drawing.Size(153, 92);
             this.testsListMenu.Text = "Delete test";
             // 
             // deleteTestToolStripMenuItem
             // 
             this.deleteTestToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.note_delete;
             this.deleteTestToolStripMenuItem.Name = "deleteTestToolStripMenuItem";
-            this.deleteTestToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.deleteTestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.deleteTestToolStripMenuItem.Text = "Delete test";
             // 
             // editTestToolStripMenuItem
             // 
             this.editTestToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.note_edit;
             this.editTestToolStripMenuItem.Name = "editTestToolStripMenuItem";
-            this.editTestToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.editTestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.editTestToolStripMenuItem.Text = "Edit test";
             // 
             // label1
@@ -105,6 +107,12 @@
             this.useGrouping.TabIndex = 24;
             this.useGrouping.Text = "Use grouping";
             this.useGrouping.UseVisualStyleBackColor = true;
+            // 
+            // addCategoryToolStripMenuItem
+            // 
+            this.addCategoryToolStripMenuItem.Name = "addCategoryToolStripMenuItem";
+            this.addCategoryToolStripMenuItem.Size = new System.Drawing.Size(32, 19);
+            this.addCategoryToolStripMenuItem.Text = "Add category";
             // 
             // TestListControl
             // 
@@ -133,6 +141,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem editTestToolStripMenuItem;
         protected internal System.Windows.Forms.CheckBox useGrouping;
+        private System.Windows.Forms.ToolStripMenuItem addCategoryToolStripMenuItem;
 
 
     }

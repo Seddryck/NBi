@@ -313,7 +313,7 @@
 																</xs:restriction>
 															</xs:simpleType>
 														</xs:attribute>
-														<xs:attribute name="tolerance" type="xs:decimal" use="optional" />
+														<xs:attribute name="tolerance" type="xs:string" use="optional" />
 														<xs:attribute name="type" use="optional">
 															<xs:simpleType>
 																<xs:restriction base="xs:string">
@@ -324,6 +324,17 @@
 																</xs:restriction>
 															</xs:simpleType>
 														</xs:attribute>
+														<xs:attribute name="rounding-style" use="optional">
+															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:enumeration value="none"/>
+																	<xs:enumeration value="floor"/>
+																	<xs:enumeration value="ceiling"/>
+																	<xs:enumeration value="round"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:attribute>
+														<xs:attribute name="rounding-step" type="xs:string" use="optional" />
 													</xs:extension>
 												</xs:simpleContent>
 											</xs:complexType>

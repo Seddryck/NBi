@@ -187,13 +187,19 @@ namespace NBi.Core.ResultSet
                                 if (Settings.IsNumeric(i))
                                 {
                                     //Convert to decimal
-                                    result = numericComparer.Compare(rx[i], ry[i], Settings.GetTolerance(i));
+                                    if (Settings.IsRounding(i))
+                                        result = numericComparer.Compare(rx[i], ry[i], Settings.GetRounding(i));
+                                    else
+                                        result = numericComparer.Compare(rx[i], ry[i], Settings.GetTolerance(i));
                                 }
                                 //Date and Time
                                 else if (Settings.IsDateTime(i))
                                 {
                                     //Convert to dateTime
-                                    result = dateTimeComparer.Compare(rx[i], ry[i]);
+                                    if (Settings.IsRounding(i))
+                                        result = dateTimeComparer.Compare(rx[i], ry[i], Settings.GetRounding(i));
+                                    else
+                                        result = dateTimeComparer.Compare(rx[i], ry[i]);
                                 }
                                 //Boolean
                                 else if (Settings.IsBoolean(i))
@@ -250,6 +256,11 @@ namespace NBi.Core.ResultSet
                     column.ExtendedProperties["NBi::Tolerance"] = settings.GetTolerance(column.Ordinal);
                 else
                     column.ExtendedProperties.Add("NBi::Tolerance", settings.GetTolerance(column.Ordinal));
+
+                if (column.ExtendedProperties.ContainsKey("NBi::Rounding"))
+                    column.ExtendedProperties["NBi::Rounding"] = settings.GetRounding(column.Ordinal);
+                else
+                    column.ExtendedProperties.Add("NBi::Rounding", settings.GetRounding(column.Ordinal));
             }
         }
 

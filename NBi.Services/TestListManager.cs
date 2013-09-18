@@ -4,7 +4,6 @@ using System.Data;
 using System.Linq;
 using NBi.Service.Dto;
 using NBi.Xml;
-using NBi.Xml.Settings;
 
 namespace NBi.Service
 {
@@ -137,6 +136,16 @@ namespace NBi.Service
             tests.Remove(test.Reference);
         }
 
-        
+        public void AddCategory(Test test, string categoryName)
+        {
+            var categories = test.Reference.Categories;
+
+            if (!categories.Contains(categoryName))
+            {
+                categories.Add(categoryName);
+                test.Reference.Content = StringTemplateEngine.XmlSerializeFrom<TestStandaloneXml>((TestStandaloneXml)test.Reference);
+            }
+                
+        }
     }
 }

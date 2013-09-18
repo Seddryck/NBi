@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using NBi.Service.Dto;
 using NBi.UI.Genbi.Presenter;
 
 namespace NBi.UI.Genbi.View.TestSuiteGenerator
@@ -26,6 +27,10 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
                 testsList.DataBindings.Add("SelectedItem", presenter, "SelectedTest", true, DataSourceUpdateMode.OnPropertyChanged);
                 testsList.SelectedIndexChanged += (s, args) => testsList.DataBindings["SelectedItem"].WriteValue();
 
+                testsList.SelectedIndexChanged += (s, args) =>
+                    {
+                        presenter.SelectedTests = testsList.SelectedItems.Cast<Test>();
+                    };
 
                 useGrouping.DataBindings.Add("Checked", presenter, "UseGrouping", false, DataSourceUpdateMode.OnValidation);
 

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
-using NBi.Core.ResultSet;
+using System.Linq;
+using NBi.Core.ResultSet.Comparer;
 
 namespace NBi.Core.ResultSet
 {
@@ -20,9 +18,10 @@ namespace NBi.Core.ResultSet
         {
             var role = (ColumnRole)table.Columns[columnIndex].ExtendedProperties["NBi::Role"];
             var type = (ColumnType)table.Columns[columnIndex].ExtendedProperties["NBi::Type"];
-            var tolerance = (string)table.Columns[columnIndex].ExtendedProperties["NBi::Tolerance"];
+            var tolerance = (Tolerance)table.Columns[columnIndex].ExtendedProperties["NBi::Tolerance"];
+            var rounding = (Rounding)table.Columns[columnIndex].ExtendedProperties["NBi::Rounding"];
 
-            return Build(role, type, tolerance);
+            return Build(role, type, tolerance, rounding);
         }
 
         public static ICellFormatter Build(DataRow row, int columnIndex)
@@ -42,9 +41,9 @@ namespace NBi.Core.ResultSet
             return Build(value);
         }
 
-        protected static ICellFormatter Build(ColumnRole role, ColumnType type, string tolerance)
+        protected static ICellFormatter Build(ColumnRole role, ColumnType type, Tolerance tolerance, Rounding rounding)
         {
-            return new HeaderFormatter(role, type, tolerance);
+            return new HeaderFormatter(role, type, tolerance, rounding);
         }
 
         protected static ICellFormatter Build(object value)
@@ -64,13 +63,15 @@ namespace NBi.Core.ResultSet
 
             public ColumnRole Role { get; set; }
             public ColumnType Type { get; set; }
-            public string Tolerance { get; set; }
+            public Tolerance Tolerance { get; set; }
+            public Rounding Rounding { get; set; }
 
-            public HeaderFormatter(ColumnRole role, ColumnType type, string tolerance)
+            public HeaderFormatter(ColumnRole role, ColumnType type, Tolerance tolerance, Rounding rounding)
             {
                 Role = role;
                 Type = type;
                 Tolerance = tolerance;
+                Rounding = rounding;
             }
 
             public virtual int GetCellLength()
@@ -90,8 +91,9 @@ namespace NBi.Core.ResultSet
                 var value = string.Format("{0} ({1})", roleText, typeText);
 
                 var toleranceText = GetToleranceText();
+                var roundingText = GetRoundingText();
 
-                value += new string(' ', Math.Max(0, length - (value.Length + toleranceText.Length))) + toleranceText;
+                value += new string(' ', Math.Max(0, length - (value.Length + toleranceText.Length + roundingText.Length))) + toleranceText + roundingText;
 
                 return value;
             }
@@ -128,8 +130,33 @@ namespace NBi.Core.ResultSet
             private string GetToleranceText()
             {
                 var toleranceText = string.Empty;
-                toleranceText += string.Format(" (+/- {0}) ", Tolerance);
+                if (Tolerance!=null)
+                    toleranceText += string.Format(" (+/- {0}) ", Tolerance.ValueString);
                 return toleranceText;
+            }
+
+            private string GetRoundingText()
+            {
+                var roundingText = string.Empty;
+                if (Rounding != null)
+                    roundingText += string.Format(" ({0} {1}) ", GetRoundingStyleText(), Rounding.Step);
+                return roundingText;
+            }
+
+            private string GetRoundingStyleText()
+            {
+                switch (this.Rounding.Style)
+                {
+                    case Rounding.RoundingStyle.None:
+                        return string.Empty;
+                    case Rounding.RoundingStyle.Floor:
+                        return "floor";
+                    case Rounding.RoundingStyle.Round:
+                        return "round";
+                    case Rounding.RoundingStyle.Ceiling:
+                        return "ceiling";
+                }
+                return "?";
             }
 
         }

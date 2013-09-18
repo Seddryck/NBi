@@ -2,9 +2,8 @@
 using System;
 using System.Data;
 using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Comparer;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
-
 #endregion
 
 namespace NBi.Testing.Unit.Core.ResultSet
@@ -19,7 +18,6 @@ namespace NBi.Testing.Unit.Core.ResultSet
             DataColumn col = new DataColumn("DummyColumn");
             col.ExtendedProperties.Add("NBi::Role", ColumnRole.Key);
             col.ExtendedProperties.Add("NBi::Type", ColumnType.Numeric);
-            col.ExtendedProperties.Add("NBi::Tolerance", (decimal)0);
 
             // Design dummy table
             DataTable table = new DataTable();
@@ -30,6 +28,116 @@ namespace NBi.Testing.Unit.Core.ResultSet
             // This must not throw an exception when the header is bigger that requested size
             cf.GetText(4);
             Assert.Pass();
+        }
+
+        [Test]
+        public void GetText_NumericAbsoluteTolerance_CorrectHeader()
+        {
+            // Design Dummy Column
+            DataColumn col = new DataColumn("DummyColumn");
+            col.ExtendedProperties.Add("NBi::Role", ColumnRole.Value);
+            col.ExtendedProperties.Add("NBi::Type", ColumnType.Numeric);
+            col.ExtendedProperties.Add("NBi::Tolerance", new NumericAbsoluteTolerance(new decimal(0.5)));
+
+            // Design dummy table
+            DataTable table = new DataTable();
+            table.Columns.Add(col);
+
+            ICellFormatter cf = LineFormatter.BuildHeader(table, 0);
+
+            // This must not throw an exception when the header is bigger that requested size
+            var text = cf.GetText(cf.GetCellLength());
+            Assert.That(text, Is.StringContaining("VALUE"));
+            Assert.That(text, Is.StringContaining("Numeric"));
+            Assert.That(text, Is.StringContaining("(+/- 0.5)"));
+        }
+
+        [Test]
+        public void GetText_NumericPercentageTolerance_CorrectHeader()
+        {
+            // Design Dummy Column
+            DataColumn col = new DataColumn("DummyColumn");
+            col.ExtendedProperties.Add("NBi::Role", ColumnRole.Value);
+            col.ExtendedProperties.Add("NBi::Type", ColumnType.Numeric);
+            col.ExtendedProperties.Add("NBi::Tolerance", new NumericPercentageTolerance(new decimal(12.5)));
+
+            // Design dummy table
+            DataTable table = new DataTable();
+            table.Columns.Add(col);
+
+            ICellFormatter cf = LineFormatter.BuildHeader(table, 0);
+
+            // This must not throw an exception when the header is bigger that requested size
+            var text = cf.GetText(cf.GetCellLength());
+            Assert.That(text, Is.StringContaining("VALUE"));
+            Assert.That(text, Is.StringContaining("Numeric"));
+            Assert.That(text, Is.StringContaining("(+/- 12.5%)"));
+        }
+
+        [Test]
+        public void GetText_DateTimeTolerance_CorrectHeader()
+        {
+            // Design Dummy Column
+            DataColumn col = new DataColumn("DummyColumn");
+            col.ExtendedProperties.Add("NBi::Role", ColumnRole.Value);
+            col.ExtendedProperties.Add("NBi::Type", ColumnType.Numeric);
+            col.ExtendedProperties.Add("NBi::Tolerance", new DateTimeTolerance(new TimeSpan(0,15,0)));
+
+            // Design dummy table
+            DataTable table = new DataTable();
+            table.Columns.Add(col);
+
+            ICellFormatter cf = LineFormatter.BuildHeader(table, 0);
+
+            // This must not throw an exception when the header is bigger that requested size
+            var text = cf.GetText(cf.GetCellLength());
+            Assert.That(text, Is.StringContaining("VALUE"));
+            Assert.That(text, Is.StringContaining("Numeric"));
+            Assert.That(text, Is.StringContaining("(+/- 00:15:00)"));
+        }
+
+        [Test]
+        public void GetText_DateTimeRounding_CorrectHeader()
+        {
+            // Design Dummy Column
+            DataColumn col = new DataColumn("DummyColumn");
+            col.ExtendedProperties.Add("NBi::Role", ColumnRole.Value);
+            col.ExtendedProperties.Add("NBi::Type", ColumnType.Numeric);
+            col.ExtendedProperties.Add("NBi::Rounding", new DateTimeRounding(new TimeSpan(0, 15, 0), Rounding.RoundingStyle.Floor));
+
+            // Design dummy table
+            DataTable table = new DataTable();
+            table.Columns.Add(col);
+
+            ICellFormatter cf = LineFormatter.BuildHeader(table, 0);
+
+            // This must not throw an exception when the header is bigger that requested size
+            var text = cf.GetText(cf.GetCellLength());
+            Assert.That(text, Is.StringContaining("VALUE"));
+            Assert.That(text, Is.StringContaining("Numeric"));
+            Assert.That(text, Is.StringContaining("(floor 00:15:00)"));
+        }
+
+        [Test]
+        public void GetText_NumericRounding_CorrectHeader()
+        {
+            // Design Dummy Column
+            DataColumn col = new DataColumn("DummyColumn");
+            col.ExtendedProperties.Add("NBi::Role", ColumnRole.Value);
+            col.ExtendedProperties.Add("NBi::Type", ColumnType.Numeric);
+            col.ExtendedProperties.Add("NBi::Rounding", new NumericRounding(10.5, Rounding.RoundingStyle.Round));
+
+            // Design dummy table
+            DataTable table = new DataTable();
+            table.Columns.Add(col);
+
+            ICellFormatter cf = LineFormatter.BuildHeader(table, 0);
+
+            // This must not throw an exception when the header is bigger that requested size
+            var text = cf.GetText(cf.GetCellLength());
+            Assert.That(text, Is.StringContaining("VALUE"));
+            Assert.That(text, Is.StringContaining("Numeric"));
+            Assert.That(text, Is.StringContaining("(round 10.5)"));
         }
 
         [Test]

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 
 namespace NBi.Core.ResultSet.Comparer
@@ -8,7 +9,7 @@ namespace NBi.Core.ResultSet.Comparer
         protected double step;
 
         public NumericRounding(double step, Rounding.RoundingStyle style)
-            : base(step.ToString(), style)
+            : base(step.ToString(NumberFormatInfo.InvariantInfo), style)
         {
             if (step <= 0)
                 throw new ArgumentException("The parameter '{0}' must be a value greater than zero.", "step");

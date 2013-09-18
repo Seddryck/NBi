@@ -147,5 +147,13 @@ namespace NBi.Service
             }
                 
         }
+
+        public IEnumerable<char> GetCategoryForbiddenChars()
+        {
+            return new List<char>()
+            {
+                '+', '-'
+            };
+        }
     }
 }

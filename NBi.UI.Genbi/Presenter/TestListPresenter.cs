@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
@@ -7,7 +8,6 @@ using NBi.Service.Dto;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.Test;
 using NBi.UI.Genbi.Command.TestsXml;
-using NBi.UI.Genbi.Interface;
 using NBi.UI.Genbi.Stateful;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
 
@@ -211,6 +211,11 @@ namespace NBi.UI.Genbi.Presenter
                 handler(this, e);
         }
 
-        
+
+
+        internal IEnumerable<char> GetCategoryForbiddenChars()
+        {
+            return testListManager.GetCategoryForbiddenChars();
+        }
     }
 }

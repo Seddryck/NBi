@@ -28,20 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.categoryName = new System.Windows.Forms.TextBox();
             this.variableLabel = new System.Windows.Forms.Label();
             this.apply = new System.Windows.Forms.Button();
             this.cancel = new System.Windows.Forms.Button();
+            this.categoryName = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
-            // 
-            // categoryName
-            // 
-            this.categoryName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.categoryName.Location = new System.Drawing.Point(113, 11);
-            this.categoryName.Name = "categoryName";
-            this.categoryName.Size = new System.Drawing.Size(277, 20);
-            this.categoryName.TabIndex = 7;
-            this.categoryName.TextChanged += new System.EventHandler(this.CategoryName_TextChanged);
             // 
             // variableLabel
             // 
@@ -74,6 +65,14 @@
             this.cancel.Text = "&Cancel";
             this.cancel.UseVisualStyleBackColor = true;
             // 
+            // categoryName
+            // 
+            this.categoryName.FormattingEnabled = true;
+            this.categoryName.Location = new System.Drawing.Point(105, 11);
+            this.categoryName.Name = "categoryName";
+            this.categoryName.Size = new System.Drawing.Size(284, 21);
+            this.categoryName.TabIndex = 7;
+            // 
             // NewCategoryWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -92,9 +91,9 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox categoryName;
         private System.Windows.Forms.Label variableLabel;
         private System.Windows.Forms.Button apply;
         private System.Windows.Forms.Button cancel;
+        private System.Windows.Forms.ComboBox categoryName;
     }
 }

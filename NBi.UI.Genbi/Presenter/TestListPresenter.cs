@@ -217,5 +217,10 @@ namespace NBi.UI.Genbi.Presenter
         {
             return testListManager.GetCategoryForbiddenChars();
         }
+
+        internal IEnumerable<string> GetExistingCategories()
+        {
+            return testListManager.GetExistingCategories();
+        }
     }
 }

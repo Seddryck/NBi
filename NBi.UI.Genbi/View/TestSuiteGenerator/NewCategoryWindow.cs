@@ -14,7 +14,9 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         public NewCategoryWindow()
         {
             InitializeComponent();
-            CategoryName_TextChanged(this, EventArgs.Empty);
+            CategoryName_Changed(this, EventArgs.Empty);
+            this.categoryName.SelectedIndexChanged += CategoryName_Changed;
+            this.categoryName.TextChanged += CategoryName_Changed;
         }
 
         public string CategoryName
@@ -25,11 +27,22 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             }
         }
 
-        public IEnumerable<char> ForbiddenChars { get; set; }
+        public IEnumerable<char> ForbiddenChars { private get; set; }
+        public IEnumerable<string> ExistingCategories 
+        { 
+            set
+            {
+                categoryName.Items.Clear();
+                categoryName.Items.AddRange(value.ToArray());
+                categoryName.SelectedIndex = -1;
+            }
+         }
 
-        private void CategoryName_TextChanged(object sender, EventArgs e)
+        private void CategoryName_Changed(object sender, EventArgs e)
         {
             apply.Enabled = ForbiddenChars!=null && CategoryName.Intersect(ForbiddenChars).Count() == 0 && CategoryName.Length > 0;
         }
+
+        
     }
 }

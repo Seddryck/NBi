@@ -5,7 +5,7 @@
 			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049</connectionString>
 		</default>
 	</settings>
-	<!--<test name="'Reseller Orders' count, year by year, between 2005 and 2008" uid="0001">
+	<test name="'Reseller Orders' count, year by year, between 2005 and 2008" uid="0001">
 		<system-under-test>
 			<execution>
 				<query name="MDX Except">
@@ -39,7 +39,7 @@
 				</resultSet>
 			</equalTo>
 		</assert>
-	</test>-->
+	</test>
 	<test name="'Reseller Orders' count, year by year, between 2005 and 2008 with a tolerance of 5%" uid="0002">
 		<system-under-test>
 			<execution>
@@ -76,7 +76,7 @@
 			</equalTo>
 		</assert>
 	</test>
-	<!--<test name="'Reseller Orders' count, year by year, between 2005 and 2008 with a rounding by step of 100" uid="0003">
+	<test name="'Reseller Orders' count, year by year, between 2005 and 2008 with a rounding by step of 100" uid="0003">
 		<system-under-test>
 			<execution>
 				<query name="MDX Except">
@@ -165,5 +165,5 @@
 				</resultSet>
 			</equalTo>
 		</assert>
-	</test>-->
+	</test>
 </testSuite>

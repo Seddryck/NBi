@@ -67,11 +67,11 @@ namespace NBi.Testing.Unit.Core.ResultSet
 
             //Assertion
             //apply specific value
-            Assert.That(actual.GetTolerance(1), Is.EqualTo("1"));
+            Assert.That(actual.GetTolerance(1).ValueString, Is.EqualTo("1"));
             //apply default value
-            Assert.That(actual.GetTolerance(2), Is.EqualTo(string.Empty)); //We haven't a Numeric column
-            Assert.That(actual.GetTolerance(4), Is.EqualTo("100")); 
-            Assert.That(actual.GetTolerance(9), Is.EqualTo("100"));
+            Assert.That(actual.GetTolerance(2), Is.Null); //We haven't a Numeric column
+            Assert.That(actual.GetTolerance(4).ValueString, Is.EqualTo("100"));
+            Assert.That(actual.GetTolerance(9).ValueString, Is.EqualTo("100"));
         }
 
         [Test]

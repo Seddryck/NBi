@@ -155,5 +155,19 @@ namespace NBi.Service
                 '+', '-'
             };
         }
+
+        public IEnumerable<string> GetExistingCategories()
+        {
+            var categories = new List<string>();
+            foreach (var test in tests)
+            {
+                foreach (var category in test.Categories)
+                {
+                    if (!categories.Contains(category))
+                        categories.Add(category);
+                }
+            }
+            return categories;
+        }
     }
 }

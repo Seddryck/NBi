@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
-using System.Windows.Forms;
 using NBi.UI.Genbi.Presenter;
-using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.Command.Test
 {
@@ -20,7 +19,7 @@ namespace NBi.UI.Genbi.Command.Test
 		/// </summary>
 		public override void Refresh()
 		{
-			this.IsEnabled = presenter.SelectedTest != null;
+			this.IsEnabled = presenter.SelectedTests != null || presenter.SelectedTest != null;
 		}
 
 		/// <summary>
@@ -28,10 +27,13 @@ namespace NBi.UI.Genbi.Command.Test
 		/// </summary>
 		public override void Invoke()
 		{
-			if (presenter.SelectedTest == null)
+			if (!(presenter.SelectedTests != null || presenter.SelectedTest != null))
 				throw new InvalidOperationException("No test selected. Impossible to delete it.");
 
-			presenter.Manager.Remove(presenter.SelectedTest);
+			Debug.WriteLine("{0} elements to remove", presenter.SelectedTests.Count());
+			foreach (var test in presenter.SelectedTests)
+				presenter.Manager.Remove(test);
+			
 			presenter.ReloadTests();
 		}
 	}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -104,6 +105,7 @@ namespace NBi.Xml
                 // Use the Serialize method to store the object's state.
                 serializer.Serialize(writer, testSuite);
             }
+            Debug.Write(XmlSerializeFrom<TestSuiteXml>(testSuite));
         }
 
         public TestXml DeserializeTest(string objectData)

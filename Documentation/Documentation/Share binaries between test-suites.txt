@@ -1,0 +1,80 @@
+! Share binaries between test-suites 
+You probably don't want to copy again and again all the binaries (dll) files when you've more than a few test suites available on the same computer. A single version of the binaries can be shared between all your test-suites (nbits files). Unfortunately due to limitations of NUnit and Gallio, the way to achieve this is slightly different depending on the tool you’re using to run your tests.
+!! The NUnit’s way
+!!! Step by step
+Create one root folder (here named UnitTests) with two children (here named Framework and MyFirstTestSuite).
+[image:ShareBinaries-Folders1.png]
+In the sub-folder “Frameworks”, create a new folder with the version of the binaries (here 1.0 RC1). Drop the dll  in this sub-folder.
+[image:ShareBinaries-Folders2.png]
+In the sub-folder “MyFirstTestSuite”, copy all the query and results files (csv, sql, mdx, …) and the nbits file.
+[image:ShareBinaries-Folders3.png]
+In your “UnitTests”, next to the folders “Frameworks” and “TestSuites”, create a new config file named “MyFirstTestSuite.config”. 
+[image:ShareBinaries-Folders4.png]
+Open it and copy the following information.
+{code:xml}
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<configSections>
+		<section name="nbi" type="NBi.NUnit.Runtime.NBiSection, NBi.NUnit.Runtime"/>
+	</configSections>
+	<nbi testSuite=" MyFirstTestSuite\MyFirstTestSuite.nbits"/>
+</configuration>
+{code:xml}
+Now execute NUnit.exe and create a new project "File>New Project" (save it as “UnitTests/MyFirstTestSuite/MyFirstTestSuite.nunit”).
+[image:ShareBinaries-Folders5.png]
+Edit the project "Project>Edit" and reference the AppBase as “..\”, the config file as “MyFirstTestSuite.config”.
+[image:ShareBinaries-Folders6.png]
+In the tab assemblies, reference the NBi.NUnit.Runtime.dll that you want to use (others dll in the same directory will automatically been found).
+[image:ShareBinaries-Folders7.png]
+Open the project file with a text editor, the content should be identical to:
+{code:xml}
+<NUnitProject>
+  <Settings activeconfig="Default" processModel="Default" domainUsage="Default" />
+  <Config name="Default" binpathtype="Auto" appbase="..\" configfile="MyFirstTestSuite.config">
+    <assembly path="Framework\1.0 RC1\NBi.NUnit.Runtime.dll" />
+  </Config>
+</NUnitProject>
+{code:xml}
+Now, if you open the project with NUnit "File>Open Project"
+[image:ShareBinaries-Folders8.png]
+The test suite is loaded with the version of NBi specified in the project file.
+To create a second test suite, you need to create a second sub-folder in “UnitTests/TestSuites” named “MySecondTestSuite”, create the nbits file and eventually the csv, sql and mdx files. Create a config file at the root (don’t forget to correctly reference your nbits file). And finally create a new nunit project in “UnitTests/TestSuites” (Referencing the correct config file and the correct version of the NBI framework).
+[image:ShareBinaries-Folders9.png]
+These two test-suites will share the same binaries and will be completely separated in two different folders.
+!!!Limitations
+Due to a limitation of NUnit, the **config file must be in the root** (UnitTests  … AppBase) and cannot be copied to the sub-folder “TestSuites”.
+!!The Gallio’s way
+!!!Limitation
+Unfortunately with Gallio, it’s impossible to share 100% of the binaries. Gallio doesn’t allow you to specify the name of the config file and always use the pattern “dllundertestwithextension.config”. More this config file must be in the same directory than the dll tested (NBi.NUnit.Runtime.dll). But anyway, it’s still possible to share other dlls and clearly separate two test-suites in two distincts folders.
+!!!Step by step
+To prepare your environment execute the same steps than for NUnit (see above) until the creation of your configuration file. 
+[image:ShareBinaries-Folders10.png]
+When this config file is created, copy/paste the dll NBi.NUnit.Runtime.dll next to the config file. Then rename this dll “MyFirstTestSuite.dll”.
+Execute Icarus.exe and create a new project. Add the file “MyFirstTestSuite.dll” and specify hint paths to “\Framework\1.0 RC1\”. Save your project into “UnitTests/TestSuites” as “MyFirstTestSuite.gallio”and open it with a text editor. Your file should be identical to
+{code:xml}
+<?xml version="1.0" encoding="utf-8"?>
+<testProject xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.gallio.org/">
+  <testPackage shadowCopy="false" debug="false" applicationBaseDirectory="..\">
+    <files>
+      <file>..\EDW-170.NUnit.Runtime.dll</file>
+    </files>
+    <hintDirectories>
+      <hintDirectory>..\Framework\0.11.C\</hintDirectory>
+    </hintDirectories>
+    <excludedFrameworkIds />
+    <properties />
+  </testPackage>
+  <testFilters>
+    <testFilter filterName="AutoSave" filterExpr="" />
+    <testFilter filterName="LastRun" filterExpr="" />
+  </testFilters>
+  <extensionSpecifications />
+  <reportDirectory>..\..\..\..\Users\xxxx\AppData\Roaming\Gallio\Icarus\Reports</reportDirectory>
+  <reportNameFormat>test-report-{0}-{1}</reportNameFormat>
+</testProject>
+{code:xml}
+(The report directory may vary according to your OS and your username).
+To create a second test suite, you need to create a second sub-folder in “UnitTests/TestSuites” named “MySecondTestSuite”, create the corresponding nbits file and eventually the csv, sql and mdx files. Create a config file at the root (don’t forget to correctly reference your nbits file). Copy/paste the dll NUnit.Runtime.dll and rename it according to your config file. Finally create a new Gallio project in “UnitTests/TestSuites” (Referencing the correct config file, the NBi.NUnit.Runtime.dll renamed into MySecondTestSuite.dll, and the correct version of the NBI framework).
+With Gallio, you’ll share all the binaries except the NBi.NUnit.Runtime.dll. It could be a little bit frustrating. Note, that it looks possible to be able to write a Gallio’s extension to directly select the nbits file and execute the corresponding test-suite. Due to the lake of documentation of Gallio in this part of the Gallio project, it’s not in the plan to do it in a near feature.
+
+

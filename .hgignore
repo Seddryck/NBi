@@ -1,0 +1,46 @@
+# Ignore file for Visual Studio 2008
+
+# use glob syntax
+syntax: glob
+
+# Ignore Visual Studio 2008 files
+*.obj
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.scc
+[Bb]in
+[Dd]ebug*/
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+[Bb]uild[Ll]og.*
+*.[Pp]ublish.xml
+[Ii]nspiration/
+[Pp]ackages/
+*.user.config
+NUnit.exe.lnk
+NBi.ncrunchsolution
+[Dd]ocumentation*/
+*.orig
+*.dgml
+.JustCode/
+.nuget/[Nn]u[Gg]et.exe
+*.vsp
+*.psess

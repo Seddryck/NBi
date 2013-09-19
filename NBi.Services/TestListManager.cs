@@ -137,6 +137,12 @@ namespace NBi.Service
             tests.Remove(test.Reference);
         }
 
-        
+
+        public void SetTests(IEnumerable<Test> tests)
+        {
+            Tests.Clear();
+            foreach (var testDto in tests)
+                Tests.Add(testDto.Reference);
+        }
     }
 }

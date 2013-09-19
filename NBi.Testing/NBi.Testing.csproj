@@ -157,6 +157,7 @@
     <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
     <Compile Include="Unit\Xml\GroupXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\ColumnXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\PerspectiveXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\TableXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\HierarchiesXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\HierarchyXmlTest.cs" />

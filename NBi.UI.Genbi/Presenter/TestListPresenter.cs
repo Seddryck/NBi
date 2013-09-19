@@ -202,5 +202,10 @@ namespace NBi.UI.Genbi.Presenter
             if (handler != null)
                 handler(this, e);
         }
+
+        internal void Refresh()
+        {
+            testListManager.SetTests(Tests);
+        }
     }
 }

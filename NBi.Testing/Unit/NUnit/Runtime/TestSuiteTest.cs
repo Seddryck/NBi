@@ -1,6 +1,8 @@
 ﻿#region Using directives
 using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using Moq;
 using NBi.Core;
 using NBi.NUnit.Runtime;
@@ -215,6 +217,25 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             {
                 Assert.Fail("The exception should have been a CustomStackTraceErrorException but was {0}.", new object[] { ex.GetType().FullName });
             }
+        }
+
+        [Test]
+        public void BuildTestCases_WithGroups_AllTestsLoaded()
+        {
+            // Declare an object variable of the type to be deserialized.
+            var manager = new XmlManager();
+
+            // A Stream is needed to read the XML document.
+            using (Stream stream = Assembly.GetExecutingAssembly()
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.GroupXmlTestSuite.xml"))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                manager.Read(reader);
+            }
+
+            var testSuite = new TestSuite(manager, null);
+            var testCases = testSuite.BuildTestCases();
+            Assert.That(testCases.Count(), Is.EqualTo(2+2+1+1));
         }
 
     }

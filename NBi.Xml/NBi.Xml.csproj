@@ -58,6 +58,7 @@
     <Compile Include="Constraints\SubsetOfXml.cs" />
     <Compile Include="Constraints\ExistsXml.cs" />
     <Compile Include="Constraints\LinkedToXml.cs" />
+    <Compile Include="GroupXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
     <Compile Include="Items\ExcludeXml.cs" />
@@ -76,7 +77,6 @@
     <Compile Include="Items\ResultSet\KeyXml.cs" />
     <Compile Include="Items\ResultSet\ResultSetXml.cs" />
     <Compile Include="Items\ResultSet\RowXml.cs" />
-    <Compile Include="Items\ResultSet\ValueXml.cs" />
     <Compile Include="Constraints\OrderedXml.cs" />
     <Compile Include="Items\AbstractItem.cs" />
     <Compile Include="Items\AbstractMembersItem.cs" />

@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
+using NBi.Core.ResultSet.Comparer;
 
 namespace NBi.Core.ResultSet
 {
@@ -28,7 +29,7 @@ namespace NBi.Core.ResultSet
 		public KeysChoice KeysDef { get; set; }
 		private ValuesChoice ValuesDef { get; set; }
 		private ICollection<IColumnDefinition> ColumnsDef { get; set; }
-		private decimal DefaultTolerance { get; set; }
+		private NumericTolerance DefaultTolerance { get; set; }
 
 		public bool IsKey(int index)
 		{
@@ -82,6 +83,25 @@ namespace NBi.Core.ResultSet
 
 			return false;
 		}
+
+        public bool IsRounding(int index)
+        {
+            return ColumnsDef.Any(
+                    c => c.Index == index
+                    && c.Role == ColumnRole.Value
+                    && c.RoundingStyle != Comparer.Rounding.RoundingStyle.None
+                    && !string.IsNullOrEmpty(c.RoundingStep));
+        }
+
+        public Rounding GetRounding(int index)
+        {
+            if (!IsRounding(index))
+                return null;
+
+            return RoundingFactory.Build(ColumnsDef.Single(
+                    c => c.Index == index
+                    && c.Role == ColumnRole.Value));
+        }
 
 		public ColumnRole GetColumnRole(int index)
 		{
@@ -138,17 +158,17 @@ namespace NBi.Core.ResultSet
 			return false;
 		}
 
-		public decimal GetTolerance(int index)
+		public Tolerance GetTolerance(int index)
 		{
-			if (!IsNumeric(index))
-				return 0;
+			if (!IsNumeric(index) && !IsDateTime(index))
+				return null;
 			
 			var col = ColumnsDef.FirstOrDefault(c => c.Index == index);
 			if (col == null)
 				return DefaultTolerance;
 
 			if (col.IsToleranceSpecified)
-				return col.Tolerance;
+				return ToleranceFactory.Build(col);
 			else
 				return DefaultTolerance;
 		}
@@ -212,22 +232,22 @@ namespace NBi.Core.ResultSet
 		//}
 
 		public ResultSetComparisonSettings(int columnsCount, KeysChoice keysDef, ValuesChoice valuesDef)
-			: this(keysDef, valuesDef, 0, null)
+			: this(keysDef, valuesDef, new NumericAbsoluteTolerance(0), null)
 		{
 			ApplyTo(columnsCount);
 		}
 
 		public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, ICollection<IColumnDefinition> columnsDef)
-			: this(keysDef, valuesDef, 0, columnsDef)
+            : this(keysDef, valuesDef, new NumericAbsoluteTolerance(0), columnsDef)
 		{
 		}
 
-		public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, decimal defaultTolerance)
+        public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, NumericTolerance defaultTolerance)
 			: this(keysDef, valuesDef, defaultTolerance, null)
 		{
 		}
 
-		public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, decimal defaultTolerance, ICollection<IColumnDefinition> columnsDef)
+		public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, NumericTolerance defaultTolerance, ICollection<IColumnDefinition> columnsDef)
 		{
 			KeysDef = keysDef;
 			ValuesDef = valuesDef;
@@ -237,54 +257,6 @@ namespace NBi.Core.ResultSet
 			else
 				ColumnsDef = new List<IColumnDefinition>(0);
 		}
-
-		//public ResultSetComparaisonSettings() : this (new List<int>() {0}, new List<int>() {1}, 0)
-		//{
-		//}
-
-		//public ResultSetComparaisonSettings(decimal tolerance)
-		//    : this(new List<int>() { 0 }, new List<int>() { 1 }, tolerance)
-		//{
-
-		//}
-
-		//protected ResultSetComparaisonSettings(IList<int> keyColumnIndexes, IList<int> valueColumnIndexes)
-		//{
-		//    KeyColumnIndexes = keyColumnIndexes;
-		//    ValueColumnIndexes = valueColumnIndexes;
-		//}
-
-		//public ResultSetComparaisonSettings(IList<int> keyColumnIndexes, IList<int> valueColumnIndexes, decimal tolerance)
-		//    : this(keyColumnIndexes, valueColumnIndexes) 
-		//{
-		//    _tolerances = new List<decimal>(valueColumnIndexes.Count);
-		//    for (int i = 0; i < valueColumnIndexes.Count; i++)
-		//        _tolerances.Add(tolerance);
-		//}
-
-		//public ResultSetComparaisonSettings(IList<int> keyColumnIndexes, IList<int> valueColumnIndexes, IList<decimal> tolerances)
-		//    : this(keyColumnIndexes, valueColumnIndexes) 
-		//{
-		//    if (valueColumnIndexes.Count != tolerances.Count)
-		//        throw new ArgumentException();
-		//    _tolerances = tolerances;
-		//}
-
-		//public ResultSetComparaisonSettings(int keyColumnCount, int valueColumnCount, decimal tolerance)
-		//{
-		//    KeyColumnIndexes = new List<int>(keyColumnCount);
-		//    for (int i = 0; i < keyColumnCount; i++)
-		//        KeyColumnIndexes.Add(i);
-
-		//    ValueColumnIndexes = new List<int>(valueColumnCount);
-		//    _tolerances = new List<decimal>(valueColumnCount);
-		//    for (int i = 0; i < valueColumnCount; i++)
-		//    {
-		//        ValueColumnIndexes.Add(i + keyColumnCount);
-		//        _tolerances.Add(tolerance);
-		//    }
-
-		//}
 
 		public void ConsoleDisplay()
 		{

@@ -291,7 +291,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
         {
             var columnsDef = new List<IColumnDefinition>();
             columnsDef.Add(
-                    new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance }
+                    new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance.ToString() }
                     );
 
             return new ResultSetComparisonSettings(
@@ -305,7 +305,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
         {
             var columnsDef = new List<IColumnDefinition>();
             columnsDef.Add(
-                    new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance }
+                    new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance.ToString() }
                     );
 
             columnsDef.Add(

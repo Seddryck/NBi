@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="not described">
+		<system-under-test>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contains not="true" caption="member"/>
+		</assert>
+	</test>
+	<test name="described attribute" description="Test's description">
+		<system-under-test>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contains not="true" caption="member"/>
+		</assert>
+	</test>
+	<test name="described element">
+		<description>Test's description</description>
+		<system-under-test>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contains not="true" caption="member"/>
+		</assert>
+	</test>
+</testSuite>

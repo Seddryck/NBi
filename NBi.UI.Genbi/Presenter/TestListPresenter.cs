@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
@@ -7,7 +8,6 @@ using NBi.Service.Dto;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.Test;
 using NBi.UI.Genbi.Command.TestsXml;
-using NBi.UI.Genbi.Interface;
 using NBi.UI.Genbi.Stateful;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
 
@@ -25,6 +25,7 @@ namespace NBi.UI.Genbi.Presenter
             this.UndoGenerateTestsXmlCommand = new UndoGenerateTestListCommand(this);
             this.DeleteTestCommand = new DeleteTestCommand(this);
             this.DisplayTestCommand = new EditTestCommand(this, new DisplayTestView());
+            this.AddCategoryCommand = new AddCategoryTestCommand(this, new NewCategoryWindow());
 
 
             this.testListManager = testListManager;
@@ -55,7 +56,7 @@ namespace NBi.UI.Genbi.Presenter
         public ICommand UndoGenerateTestsXmlCommand { get; private set; }
         public ICommand DeleteTestCommand { get; private set; }
         public ICommand DisplayTestCommand { get; private set; }
-
+        public ICommand AddCategoryCommand { get; private set; }
 
 
         #region Bindable properties
@@ -102,6 +103,12 @@ namespace NBi.UI.Genbi.Presenter
             set { SetValue("Progress", value); }
         }
 
+        public IEnumerable<Test> SelectedTests
+        {
+            get { return GetValue<IEnumerable<Test>>("SelectedTests"); }
+            set { SetValue("SelectedTests", value); }
+        }
+
         #endregion
 
         protected override void OnPropertyChanged(string propertyName)
@@ -116,6 +123,12 @@ namespace NBi.UI.Genbi.Presenter
                 case "SelectedTest":
                     this.DeleteTestCommand.Refresh();
                     this.DisplayTestCommand.Refresh();
+                    this.AddCategoryCommand.Refresh();
+                    break;
+                case "SelectedTests":
+                    this.DeleteTestCommand.Refresh();
+                    this.DisplayTestCommand.Refresh();
+                    this.AddCategoryCommand.Refresh();
                     break;
                 case "TestCases":
                     this.GenerateTestsXmlCommand.Refresh();
@@ -174,6 +187,14 @@ namespace NBi.UI.Genbi.Presenter
             ReloadTests();
         }
 
+        internal void AddCategory(string categoryName)
+        {
+            foreach (var test in SelectedTests)
+                testListManager.AddCategory(test, categoryName);
+            
+            ReloadTests();
+        }
+
         public void ReloadTests()
         {
             var tests = testListManager.GetTests();
@@ -207,5 +228,20 @@ namespace NBi.UI.Genbi.Presenter
         {
             testListManager.SetTests(Tests);
         }
+
+
+        internal IEnumerable<char> GetCategoryForbiddenChars()
+        {
+            return testListManager.GetCategoryForbiddenChars();
+        }
+
+        internal IEnumerable<string> GetExistingCategories()
+        {
+            return testListManager.GetExistingCategories();
+        }
+
+
+
+        
     }
 }

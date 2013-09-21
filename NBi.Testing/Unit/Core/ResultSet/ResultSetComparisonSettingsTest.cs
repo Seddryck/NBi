@@ -67,11 +67,11 @@ namespace NBi.Testing.Unit.Core.ResultSet
 
             //Assertion
             //apply specific value
-            Assert.That(actual.GetTolerance(1), Is.EqualTo(1));
+            Assert.That(actual.GetTolerance(1).ValueString, Is.EqualTo("1"));
             //apply default value
-            Assert.That(actual.GetTolerance(2), Is.EqualTo(0)); //We haven't a Numeric column
-            Assert.That(actual.GetTolerance(4), Is.EqualTo(100)); 
-            Assert.That(actual.GetTolerance(9), Is.EqualTo(100));
+            Assert.That(actual.GetTolerance(2), Is.Null); //We haven't a Numeric column
+            Assert.That(actual.GetTolerance(4).ValueString, Is.EqualTo("100"));
+            Assert.That(actual.GetTolerance(9).ValueString, Is.EqualTo("100"));
         }
 
         [Test]
@@ -131,14 +131,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             //default values/def
             xml.KeysDef = ResultSetComparisonSettings.KeysChoice.AllExpectLast;
             //default tolerance
-            xml.Tolerance = 100;
+            xml.Tolerance = "100";
 
             //Build a value column (numeric, specific tolerance)
             var colXml = new ColumnDefinitionXml();
             colXml.Index = 1;
             colXml.Role = ColumnRole.Value;
             colXml.Type = ColumnType.Numeric;
-            colXml.Tolerance = 1;
+            colXml.Tolerance = "1";
 
             //Build a value column (without info)
             var colLightXml = new ColumnDefinitionXml();

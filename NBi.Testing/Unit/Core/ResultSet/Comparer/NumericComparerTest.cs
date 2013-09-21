@@ -62,7 +62,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         [Test]
         public void Compare_1DecimalAnd2String_False()
         {
-            var comparer = new BooleanComparer();
+            var comparer = new NumericComparer();
             var result = comparer.Compare(new decimal(1), "2.0");
             Assert.That(result.AreEqual, Is.False);
         }
@@ -97,6 +97,84 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
             var comparer = new NumericComparer();
             var result = comparer.Compare(new decimal(1), "2.5", 1);
             Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_1DecimalAndAny_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(new decimal(1), "(any)", 1);
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_1DecimalAndValue_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(new decimal(1), "(value)", 1);
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_NullAndAny_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(null, "(any)", 1);
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_NullAndValue_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(null, "(value)", 1);
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_NullAnd1Decimal_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(null, new decimal(1), 1);
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_NullAndNullPlaceHolder_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(null, "(null)", 1);
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_NonNumericAndAny_FormatException()
+        {
+            var comparer = new NumericComparer();
+            Assert.Throws<FormatException>(delegate { comparer.Compare("string", "(any)", 1); });
+        }
+
+        [Test]
+        public void Compare_TwelveToElevenWithAToleranceOFTenPercent_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(12, 11, "10%");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_TwelveToElevenWithAToleranceOFTenPercent_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(12, 11, "5%");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_NonValidPercentageForTolerance_ArgumentException()
+        {
+            var comparer = new NumericComparer();
+            Assert.Throws<ArgumentException>(delegate { comparer.Compare(12, 11, "1,1%"); });
         }
     }
 }

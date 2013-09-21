@@ -67,5 +67,85 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
             Assert.That(result.AreEqual, Is.False);
         }
 
+        [Test]
+        public void Compare_StringAndAny_True()
+        {
+            var comparer = new TextComparer();
+            var result = comparer.Compare("string", "(any)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_StringAndValue_True()
+        {
+            var comparer = new TextComparer();
+            var result = comparer.Compare("string", "(value)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_NullAndAny_True()
+        {
+            var comparer = new TextComparer();
+            var result = comparer.Compare(null, "(any)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_NullAndValue_False()
+        {
+            var comparer = new TextComparer();
+            var result = comparer.Compare(null, "(value)");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_NullAndString_False()
+        {
+            var comparer = new TextComparer();
+            var result = comparer.Compare(null, "string");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_NullAndNullPlaceHolder_True()
+        {
+            var comparer = new TextComparer();
+            var result = comparer.Compare(null, "(null)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_EmptyAndEmptyPlaceHolder_True()
+        {
+            var comparer = new TextComparer();
+            var result = comparer.Compare(string.Empty, "(empty)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_NonEmptyAndEmptyPlaceHolder_False()
+        {
+            var comparer = new TextComparer();
+            var result = comparer.Compare("string", "(empty)");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+
+        [Test]
+        public void Compare_NullAndEmptyPlaceHolder_False()
+        {
+            var comparer = new TextComparer();
+            var result = comparer.Compare(null, "(empty)");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_1AndEmptyPlaceHolder_False()
+        {
+            var comparer = new TextComparer();
+            var result = comparer.Compare(1, "(empty)");
+            Assert.That(result.AreEqual, Is.False);
+        }
     }
 }

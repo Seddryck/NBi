@@ -90,20 +90,20 @@
 			</equalTo>
 		</assert>
 	</test>
-  <test name="equalTo values and tolerance">
-    <system-under-test>
-		<execution>
-			  <query>
-				  select top 2 [Name], [GroupName], [DepartmentID] from [HumanResources].[Department] order by Name
-			  </query>
-		</execution>
-    </system-under-test>
-    <assert>
-      <equalTo values="last" tolerance="100">
-        <query file="Query.sql"/>
-      </equalTo>
-    </assert>
-  </test>
+	<test name="equalTo values and tolerance">
+		<system-under-test>
+			<execution>
+				<query>
+					select top 2 [Name], [GroupName], [DepartmentID] from [HumanResources].[Department] order by Name
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo values="last" tolerance="100">
+				<query file="Query.sql"/>
+			</equalTo>
+		</assert>
+	</test>
 	<test name="equalTo Persistance">
 		<system-under-test>
 			<execution>
@@ -114,6 +114,42 @@
 		</system-under-test>
 		<assert>
 			<equalTo persistance="only-if-failed">
+				<resultSet file="Query.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="equalTo Rounding">
+		<system-under-test>
+			<execution>
+				<query>
+					select top 2 [EventID], [Rank], [QuarterHour] from Event
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<column index="0" role="key"/>
+				<column index="1" role="value" type="numeric" rounding-style="round" rounding-step="100"/>
+				<column index="2" role="value" type="dateTime" rounding-style="floor" rounding-step="00:15:00"/>
+				<resultSet file="Query.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="equalTo Special Tolerance">
+		<system-under-test>
+			<execution>
+				<query>
+					select top 2 [EventID], [Cost], [Period], [QuarterHour], [Instant] from Event
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<column index="0" role="key"/>
+				<column index="1" role="value" type="numeric" tolerance="16%"/>
+				<column index="2" role="value" type="dateTime" tolerance="1.12:00:00"/>
+				<column index="3" role="value" type="dateTime" tolerance="00:15:00"/>
+				<column index="4" role="value" type="dateTime" tolerance="00:00:00.125"/>
 				<resultSet file="Query.csv"/>
 			</equalTo>
 		</assert>

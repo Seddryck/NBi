@@ -105,7 +105,7 @@ namespace NBi.Xml
                 // Use the Serialize method to store the object's state.
                 serializer.Serialize(writer, testSuite);
             }
-            Debug.Write(XmlSerializeFrom<TestSuiteXml>(testSuite));
+            //Debug.Write(XmlSerializeFrom<TestSuiteXml>(testSuite));
         }
 
         public TestXml DeserializeTest(string objectData)

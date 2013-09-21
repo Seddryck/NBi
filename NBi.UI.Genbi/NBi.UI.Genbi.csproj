@@ -357,6 +357,7 @@
     <Content Include="Icons\textfield_delete.png" />
     <Content Include="Icons\textfield_rename.png" />
     <Content Include="Icons\user.png" />
+    <None Include="Resources\NBi2.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

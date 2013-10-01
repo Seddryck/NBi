@@ -34,7 +34,7 @@
 		<assert>
 			<contain>
 				<one-column-query>
-					select top 3 distinct [GroupName] from [HumanResources].[Department]
+					select distinct [GroupName] from [HumanResources].[Department]
 				</one-column-query>
 			</contain>
 		</assert>

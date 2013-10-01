@@ -54,7 +54,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             sutXml.Item = item;
             var ctrXml = new EquivalentToXml();
             ctrXml.Query = new QueryXml();
-            ctrXml.Query.ConnectionString = "connection-string";
+            ctrXml.Query.ConnectionString = "Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly";
             ctrXml.Query.InlineQuery = "select * from one-column-table";
 
             var discoFactoStubFactory = new Mock<DiscoveryRequestFactory>();

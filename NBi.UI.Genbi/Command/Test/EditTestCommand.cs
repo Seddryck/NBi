@@ -22,7 +22,7 @@ namespace NBi.UI.Genbi.Command.Test
 		/// </summary>
 		public override void Refresh()
 		{
-			this.IsEnabled = presenter.SelectedTest != null;
+			this.IsEnabled = presenter.SelectedTest != null && presenter.SelectedTests!=null && presenter.SelectedTests.Count() == 1;
 		}
 
 		/// <summary>

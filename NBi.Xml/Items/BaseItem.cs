@@ -7,8 +7,10 @@ namespace NBi.Xml.Items
 {
     public abstract class BaseItem
     {
-        public DefaultXml Default { get; set; }
-        public SettingsXml Settings { get; set; }
+        [XmlIgnore()]
+        public virtual DefaultXml Default { get; set; }
+        [XmlIgnore()]
+        public virtual SettingsXml Settings { get; set; }
 
         [XmlAttribute("connectionString")]
         public string ConnectionString { get; set; }

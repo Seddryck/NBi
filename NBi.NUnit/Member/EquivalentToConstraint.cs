@@ -59,7 +59,7 @@ namespace NBi.NUnit.Member
         {
             if (Request != null)
             {
-                writer.WritePredicate(string.Format("On perspective \"{0}\", a {1} of \"{2}\" the members are identical to the predefined set"
+                writer.WritePredicate(string.Format("On perspective \"{0}\", the {1} of \"{2}\" are identical to the predefined set"
                                                             , Request.Perspective
                                                             , GetFunctionLabel(Request.Function)
                                                             , Request.Path));

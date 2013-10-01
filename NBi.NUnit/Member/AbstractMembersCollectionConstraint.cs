@@ -101,9 +101,9 @@ namespace NBi.NUnit.Member
             switch (function.ToLower())
             {
                 case "children":
-                    return "child";
+                    return "children";
                 case "members":
-                    return "member";
+                    return "members";
                 default:
                     return "?";
             }

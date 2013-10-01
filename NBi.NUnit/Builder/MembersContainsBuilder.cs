@@ -35,8 +35,9 @@ namespace NBi.NUnit.Builder
         protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(ContainXml ctrXml)
         {
             NBi.NUnit.Member.ContainConstraint ctr = null;
-
-            if (ctrXml.Items.Count == 1)
+            if (ctrXml.Query != null)
+                ctr = new NBi.NUnit.Member.ContainConstraint(ctrXml.Query.GetCommand());
+            else if (ctrXml.Items.Count == 1)
                 ctr = new NBi.NUnit.Member.ContainConstraint(ctrXml.Caption);
             else
                 ctr = new NBi.NUnit.Member.ContainConstraint(ctrXml.Items);

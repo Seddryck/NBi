@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using System.Linq;
 using NBi.Core;
 using NBi.Core.Analysis.Member;
@@ -9,19 +11,24 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
 {
-    public class EquivalentToConstraint : AbstractMembersConstraint
+    public class EquivalentToConstraint : AbstractMembersCollectionConstraint
     {
-        protected IEnumerable<string> Expected { get; set; }
+        /// <summary>
+        /// Construct a EquivalentToConstraint
+        /// </summary>
+        /// <param name="expected">The command to retrieve the list of expected items</param>
+        public EquivalentToConstraint(IEnumerable<string> expected)
+            : base(expected)
+        {
+        }
 
         /// <summary>
-        /// Construct a CollectionEquivalentConstraint
+        /// Construct a EquivalentToConstraint
         /// </summary>
-        /// <param name="expected"></param>
-        public EquivalentToConstraint(IEnumerable<string> expected)
-            : base()
+        /// <param name="expected">The list of expected items</param>
+        public EquivalentToConstraint(IDbCommand expected)
+            : base(expected)
         {
-            Expected = expected;
-            InternalConstraint = new CollectionEquivalentConstraint(expected.Select(str => StringComparerHelper.Build(str)).ToList());
         }
 
         #region Modifiers
@@ -39,6 +46,11 @@ namespace NBi.NUnit.Member
 
         #endregion
 
+        protected override NUnitCtr.Constraint BuildInternalConstraint()
+        {
+            return new CollectionEquivalentConstraint(ExpectedItems.Select(str => StringComparerHelper.Build(str)).ToList());
+        }
+
         /// <summary>
         /// Write a description of the constraint to a MessageWriter
         /// </summary>
@@ -47,11 +59,11 @@ namespace NBi.NUnit.Member
         {
             if (Request != null)
             {
-                writer.WritePredicate(string.Format("On perspective \"{0}\", a {1} of \"{2}\" the members are identical to the predefined set"
+                writer.WritePredicate(string.Format("On perspective \"{0}\", the {1} of \"{2}\" are identical to the predefined set"
                                                             , Request.Perspective
                                                             , GetFunctionLabel(Request.Function)
                                                             , Request.Path));
-                writer.WriteExpectedValue(Expected);
+                writer.WriteExpectedValue(ExpectedItems);
             }
         }
 
@@ -68,25 +80,7 @@ namespace NBi.NUnit.Member
                 writer.WriteActualValue(new NothingFoundMessage());
         }
 
-        protected string GetFunctionLabel(string function)
-        {
-            switch (function.ToLower())
-            {
-                case "children":
-                    return "child";
-                case "members":
-                    return "member";
-                default:
-                    return "?";
-            }
-        }
 
-        protected internal class NothingFoundMessage
-        {
-            public override string ToString()
-            {
-                return "nothing found";
-            }
-        }
+        
     }
 }

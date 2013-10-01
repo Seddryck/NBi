@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using NBi.Core;
 using NBi.Core.Analysis.Member;
@@ -9,20 +10,27 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
 {
-    public class SubsetOfConstraint : AbstractMembersConstraint
+    public class SubsetOfConstraint : AbstractMembersCollectionConstraint
     {
-        protected IEnumerable<string> Expected { get; set; }
+        /// <summary>
+        /// Construct a EquivalentToConstraint
+        /// </summary>
+        /// <param name="expected">The command to retrieve the list of expected items</param>
+        public SubsetOfConstraint(IEnumerable<string> expected)
+            : base(expected)
+        {
+        }
 
         /// <summary>
-        /// Construct a CollectionSubsetConstraint
+        /// Construct a EquivalentToConstraint
         /// </summary>
-        /// <param name="expected"></param>
-        public SubsetOfConstraint(IEnumerable<string> expected)
-            : base()
+        /// <param name="expected">The list of expected items</param>
+        public SubsetOfConstraint(IDbCommand expected)
+            : base(expected)
         {
-            Expected = expected;
-            InternalConstraint = new CollectionSubsetConstraint(expected.Select(str => StringComparerHelper.Build(str)).ToList());
         }
+
+        
 
         #region Modifiers
         /// <summary>
@@ -39,6 +47,11 @@ namespace NBi.NUnit.Member
 
         #endregion
 
+        protected override NUnitCtr.Constraint BuildInternalConstraint()
+        {
+            return new CollectionSubsetConstraint(ExpectedItems.Select(str => StringComparerHelper.Build(str)).ToList());
+        }
+
         /// <summary>
         /// Write a description of the constraint to a MessageWriter
         /// </summary>
@@ -51,7 +64,7 @@ namespace NBi.NUnit.Member
                                                             , Request.Perspective
                                                             , GetFunctionLabel(Request.Function)
                                                             , Request.Path));
-                writer.WriteExpectedValue(Expected);
+                writer.WriteExpectedValue(ExpectedItems);
             }
         }
 
@@ -66,27 +79,6 @@ namespace NBi.NUnit.Member
             }
             else
                 writer.WriteActualValue(new NothingFoundMessage());
-        }
-
-        protected string GetFunctionLabel(string function)
-        {
-            switch (function.ToLower())
-            {
-                case "children":
-                    return "child";
-                case "members":
-                    return "member";
-                default:
-                    return "?";
-            }
-        }
-
-        protected internal class NothingFoundMessage
-        {
-            public override string ToString()
-            {
-                return "nothing found";
-            }
         }
     }
 }

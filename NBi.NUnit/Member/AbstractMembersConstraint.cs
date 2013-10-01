@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Linq;
+using NBi.Core;
 using NBi.Core.Analysis.Member;
-using NBi.Core.Analysis.Metadata;
-using NBi.Core.Analysis.Metadata.Adomd;
 using NBi.Core.Analysis.Request;
+using NBi.Core.ResultSet;
+using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
 {
     public abstract class AbstractMembersConstraint : NUnitCtr.Constraint
     {
-        private MembersAdomdEngine commandFactory;
-        protected virtual NUnitCtr.Constraint InternalConstraint {get; set;}
+        private MembersAdomdEngine membersEngine;
+        private NUnitCtr.Constraint internalConstraint;
+        private bool isInitialized=false;
         
         public IComparer Comparer { get; set; }
         
@@ -23,26 +27,26 @@ namespace NBi.NUnit.Member
         public MembersDiscoveryRequest Request { get; protected set; }
 
         /// <summary>
-        /// Engine dedicated to MetadataExtractor acquisition
+        /// Engine dedicated to Members acquisition
         /// </summary>
-        protected internal MembersAdomdEngine CommandFactory
+        protected internal MembersAdomdEngine MembersEngine
         {
             get
             {
-                if (commandFactory == null)
-                    commandFactory = new MembersAdomdEngine();
-                return commandFactory;
+                if (membersEngine == null)
+                    membersEngine = new MembersAdomdEngine();
+                return membersEngine;
             }
             set
             {
                 if (value == null)
                     throw new ArgumentNullException();
-                commandFactory = value;
+                membersEngine = value;
             }
         }
 
         /// <summary>
-        /// Construct a CollectionContainsConstraint
+        /// Construct a AbstractMembersConstraint
         /// </summary>
         /// <param name="expected"></param>
         public AbstractMembersConstraint()
@@ -64,25 +68,48 @@ namespace NBi.NUnit.Member
         #region Specific NUnit
         public override bool Matches(object actual)
         {
+            if (!isInitialized)
+                InitializeMatching();
+                
             if (actual is MembersDiscoveryRequest)
                 return Process((MembersDiscoveryRequest)actual);
             else if (actual is MemberResult)
             {
                 this.actual = actual;
-                var ctr = InternalConstraint;
+                var ctr = internalConstraint;
                 if (ctr is NUnitCtr.CollectionItemsEqualConstraint)
                     ctr = ((NUnitCtr.CollectionItemsEqualConstraint)ctr).Using(Comparer);
-                var res = ctr.Matches(actual);
+                var res = DoMatch(ctr);
                 return res;
             }
             else
                 throw new ArgumentException();
         }
 
+        protected virtual bool DoMatch(NUnitCtr.Constraint ctr)
+        {
+            return ctr.Matches(actual);
+        }
+
+
+        private void InitializeMatching()
+        {
+            PreInitializeMatching();
+            internalConstraint = BuildInternalConstraint();
+            isInitialized = true;
+        }
+
+        protected virtual void PreInitializeMatching()
+        {
+            
+        }
+
+        protected abstract NUnitCtr.Constraint BuildInternalConstraint();
+
         protected bool Process(MembersDiscoveryRequest actual)
         {
             Request = actual;
-            var engine = CommandFactory;
+            var engine = MembersEngine;
             MemberResult result = engine.GetMembers(Request);
             return this.Matches(result);
         }

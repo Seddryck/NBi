@@ -34,7 +34,11 @@ namespace NBi.NUnit.Builder
 
         protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(SubsetOfXml ctrXml)
         {
-            var ctr = new NBi.NUnit.Member.SubsetOfConstraint(ctrXml.Items);
+            NBi.NUnit.Member.SubsetOfConstraint ctr;
+            if (ctrXml.Query != null)
+                ctr = new NBi.NUnit.Member.SubsetOfConstraint(ctrXml.Query.GetCommand());
+            else
+                ctr = new NBi.NUnit.Member.SubsetOfConstraint(ctrXml.Items);
 
             //Ignore-case if requested
             if (ctrXml.IgnoreCase)

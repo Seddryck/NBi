@@ -35,7 +35,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meMock.Object;
 
-            var equivalentConstraint = new EquivalentToConstraint(exp) { CommandFactory = me };
+            var equivalentConstraint = new EquivalentToConstraint(exp) { MembersEngine = me };
 
             //Method under test
             string assertionText = null;

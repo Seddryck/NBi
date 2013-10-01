@@ -81,6 +81,7 @@
     <Compile Include="Builder\MembersCountBuilder.cs" />
     <Compile Include="Builder\ExecutionEqualToBuilder.cs" />
     <Compile Include="Member\AbstractMembersConstraint.cs" />
+    <Compile Include="Member\AbstractMembersCollectionConstraint.cs" />
     <Compile Include="Member\EquivalentToConstraint.cs" />
     <Compile Include="Member\SubsetOfConstraint.cs" />
     <Compile Include="Structure\AbstractCollectionConstraint.cs" />

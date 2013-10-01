@@ -4,6 +4,9 @@
 		<default apply-to="system-under-test">
 			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
 		</default>
+		<default apply-to="assert">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+		</default>
 	</settings>
 	<test name="Members of department bellow 'Corporate' are in the following list" uid="0001">
 		<system-under-test>
@@ -20,6 +23,20 @@
 				<item>Research and Development</item>
 				<item>Sales and Marketing</item>
 			</equivalentTo>
+		</assert>
+	</test>
+	<test name="Members of department bellow 'Corporate' are in the following list" uid="0001">
+		<system-under-test>
+			<members children-of="Corporate">
+				<hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contain>
+				<one-column-query>
+					select top 3 distinct [GroupName] from [HumanResources].[Department]
+				</one-column-query>
+			</contain>
 		</assert>
 	</test>
 </testSuite>

@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using NBi.Core;
-using NBi.Xml.Settings;
-using System.IO;
 
 namespace NBi.Xml.Items
 {
@@ -36,6 +36,16 @@ namespace NBi.Xml.Items
                 throw new ExternalDependencyNotFoundException(file);
             var query = System.IO.File.ReadAllText(file, Encoding.UTF8);
             return query;
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        public virtual IDbCommand GetCommand()
+        {
+            var conn = new ConnectionFactory().Get(GetConnectionString());
+            var cmd = conn.CreateCommand();
+            cmd.CommandText = GetQuery();
+
+            return cmd;
         }
 
         

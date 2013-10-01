@@ -32,11 +32,11 @@
 			</members>
 		</system-under-test>
 		<assert>
-			<contain>
+			<equivalentTo>
 				<one-column-query>
 					select distinct [GroupName] from [HumanResources].[Department]
 				</one-column-query>
-			</contain>
+			</equivalentTo>
 		</assert>
 	</test>
 </testSuite>

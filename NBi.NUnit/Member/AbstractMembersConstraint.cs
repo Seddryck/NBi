@@ -15,10 +15,9 @@ namespace NBi.NUnit.Member
 {
     public abstract class AbstractMembersConstraint : NUnitCtr.Constraint
     {
-
-        protected IDbCommand expectedCommand;
-        private MembersAdomdEngine commandFactory;
-        protected virtual NUnitCtr.Constraint InternalConstraint {get; set;}
+        private MembersAdomdEngine membersEngine;
+        private NUnitCtr.Constraint internalConstraint;
+        private bool isInitialized=false;
         
         public IComparer Comparer { get; set; }
         
@@ -28,26 +27,26 @@ namespace NBi.NUnit.Member
         public MembersDiscoveryRequest Request { get; protected set; }
 
         /// <summary>
-        /// Engine dedicated to MetadataExtractor acquisition
+        /// Engine dedicated to Members acquisition
         /// </summary>
-        protected internal MembersAdomdEngine CommandFactory
+        protected internal MembersAdomdEngine MembersEngine
         {
             get
             {
-                if (commandFactory == null)
-                    commandFactory = new MembersAdomdEngine();
-                return commandFactory;
+                if (membersEngine == null)
+                    membersEngine = new MembersAdomdEngine();
+                return membersEngine;
             }
             set
             {
                 if (value == null)
                     throw new ArgumentNullException();
-                commandFactory = value;
+                membersEngine = value;
             }
         }
 
         /// <summary>
-        /// Construct a CollectionContainsConstraint
+        /// Construct a AbstractMembersConstraint
         /// </summary>
         /// <param name="expected"></param>
         public AbstractMembersConstraint()
@@ -69,69 +68,51 @@ namespace NBi.NUnit.Member
         #region Specific NUnit
         public override bool Matches(object actual)
         {
-            if (expectedCommand != null)
-                BuildConstraint(expectedCommand);
-
+            if (!isInitialized)
+                InitializeMatching();
+                
             if (actual is MembersDiscoveryRequest)
                 return Process((MembersDiscoveryRequest)actual);
             else if (actual is MemberResult)
             {
                 this.actual = actual;
-                var ctr = InternalConstraint;
+                var ctr = internalConstraint;
                 if (ctr is NUnitCtr.CollectionItemsEqualConstraint)
                     ctr = ((NUnitCtr.CollectionItemsEqualConstraint)ctr).Using(Comparer);
-                var res = ctr.Matches(actual);
+                var res = DoMatch(ctr);
                 return res;
             }
             else
                 throw new ArgumentException();
         }
 
-        private void BuildConstraint(IDbCommand command)
+        protected virtual bool DoMatch(NUnitCtr.Constraint ctr)
         {
-            IEnumerable<string> expected = GetMembersFromResultSet(command);
-            InternalConstraint = new CollectionEquivalentConstraint(expected.Select(str => StringComparerHelper.Build(str)).ToList());
+            return ctr.Matches(actual);
         }
+
+
+        private void InitializeMatching()
+        {
+            PreInitializeMatching();
+            internalConstraint = BuildInternalConstraint();
+            isInitialized = true;
+        }
+
+        protected virtual void PreInitializeMatching()
+        {
+            
+        }
+
+        protected abstract NUnitCtr.Constraint BuildInternalConstraint();
 
         protected bool Process(MembersDiscoveryRequest actual)
         {
             Request = actual;
-            var engine = CommandFactory;
+            var engine = MembersEngine;
             MemberResult result = engine.GetMembers(Request);
             return this.Matches(result);
         }
-
-        protected IEnumerable<string> GetMembersFromResultSet(Object obj)
-        {
-            var rs = ResultSetBuilder.Build(obj);
-
-            var members = new List<string>();
-            foreach (DataRow row in rs.Rows)
-                members.Add(row.ItemArray[0].ToString());
-
-            return members;
-        }
-
-        /// <summary>
-        /// Engine dedicated to ResultSet acquisition
-        /// </summary>
-        protected IResultSetBuilder resultSetBuilder;
-        protected internal IResultSetBuilder ResultSetBuilder
-        {
-            get
-            {
-                if (resultSetBuilder == null)
-                    resultSetBuilder = new ResultSetBuilder();
-                return resultSetBuilder;
-            }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException();
-                resultSetBuilder = value;
-            }
-        }
-
 
         #endregion
 

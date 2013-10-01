@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using NBi.Core;
 using NBi.Core.Analysis.Member;
@@ -10,27 +11,33 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
 {
-    public class ContainConstraint : AbstractMembersConstraint
+    public class ContainConstraint : AbstractMembersCollectionConstraint
     {
-        protected IEnumerable<string> Expected {get; set;}
+        /// <summary>
+        /// Construct a CollectionEquivalentConstraint
+        /// </summary>
+        /// <param name="expected">A unique expected member</param>
+        public ContainConstraint(string expected)
+            : this(new List<string>() {expected})
+        {
+        }
         
         /// <summary>
-        /// Construct a CollectionContainsConstraint specific for Members
+        /// Construct a EquivalentToConstraint
         /// </summary>
-        /// <param name="expected"></param>
-        public ContainConstraint(string expected) : base()
+        /// <param name="expected">The command to retrieve the list of expected items</param>
+        public ContainConstraint(IEnumerable<string> expected)
+            : base(expected)
         {
-            Expected = new List<string>() {expected};
         }
 
         /// <summary>
-        /// Construct a CollectionContainsConstraint specific for Members
+        /// Construct a EquivalentToConstraint
         /// </summary>
-        /// <param name="expected"></param>
-        public ContainConstraint(IEnumerable<string> expected)
-            : base()
+        /// <param name="expected">The list of expected items</param>
+        public ContainConstraint(IDbCommand expected)
+            : base(expected)
         {
-            Expected = expected;
         }
 
         #region Modifiers
@@ -47,34 +54,28 @@ namespace NBi.NUnit.Member
         }
 
         #endregion
-        
-        public override bool Matches(object actual)
+
+        protected override NUnitCtr.Constraint BuildInternalConstraint()
         {
-            if (actual is MembersDiscoveryRequest)
-                return Process((MembersDiscoveryRequest)actual);
-            else if (actual is MemberResult)
+            NUnitCtr.Constraint ctr = null;
+            foreach (var item in ExpectedItems)
             {
-                this.actual = actual;
-                NUnitCtr.Constraint ctr = null;
-                foreach (var item in Expected)
-                {
-                    var localCtr = new NUnitCtr.CollectionContainsConstraint(StringComparerHelper.Build(item));
-                    var usingCtr = localCtr.Using(Comparer);
+                var localCtr = new NUnitCtr.CollectionContainsConstraint(StringComparerHelper.Build(item));
+                var usingCtr = localCtr.Using(Comparer);
 
-                    if (ctr != null)
-                        ctr = new NUnitCtr.AndConstraint(ctr, usingCtr);
-                    else
-                        ctr = usingCtr;
-                }
-
-                IResolveConstraint exp = ctr;
-                var multipleConstraint = exp.Resolve();
-                var res = multipleConstraint.Matches(actual);
-                
-                return res;
+                if (ctr != null)
+                    ctr = new NUnitCtr.AndConstraint(ctr, usingCtr);
+                else
+                    ctr = usingCtr;
             }
-            else
-                throw new ArgumentException();
+            return ctr;
+        }
+
+        protected override bool DoMatch(NUnitCtr.Constraint ctr)
+        {
+            IResolveConstraint exp = ctr;
+            var multipleConstraint = exp.Resolve();
+            return multipleConstraint.Matches(actual);
         }
 
         /// <summary>
@@ -89,7 +90,7 @@ namespace NBi.NUnit.Member
                                                             , Request.Perspective
                                                             , GetFunctionLabel(Request.Function)
                                                             , Request.Path));
-                writer.WriteExpectedValue(Expected);
+                writer.WriteExpectedValue(ExpectedItems);
             }
             
         }
@@ -107,28 +108,5 @@ namespace NBi.NUnit.Member
                 writer.WriteActualValue(new NothingFoundMessage());
         }
 
-
-        protected string GetFunctionLabel(string function)
-        {
-            switch (function.ToLower())
-            {
-                case "children":
-                    return "child";
-                case "members":
-                    return "member";
-                default:
-                    return "?";
-            }
-        }
-
-        protected internal class NothingFoundMessage
-        {
-            public override string ToString()
-            {
-                return "nothing found";
-            }
-        }
-
-       
     }
 }

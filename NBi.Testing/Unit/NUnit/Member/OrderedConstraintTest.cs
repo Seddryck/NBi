@@ -102,7 +102,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meStub.Object;
 
-            var orderedConstraint = new OrderedConstraint() { CommandFactory = me };
+            var orderedConstraint = new OrderedConstraint() { MembersEngine = me };
             orderedConstraint = orderedConstraint.Alphabetical;
 
             //Method under test
@@ -305,7 +305,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meStub.Object;
 
-            var orderedConstraint = new OrderedConstraint() { CommandFactory = me };
+            var orderedConstraint = new OrderedConstraint() { MembersEngine = me };
             orderedConstraint.Specific(new List<object>() { "B", "A" });
 
             //var assertionText = orderedConstraint.CreatePredicate();
@@ -352,7 +352,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meMock.Object;
 
-            var orderedConstraint = new OrderedConstraint() { CommandFactory = me };
+            var orderedConstraint = new OrderedConstraint() { MembersEngine = me };
 
             //Method under test
             orderedConstraint.Matches(disco);

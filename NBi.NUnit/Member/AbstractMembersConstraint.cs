@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Linq;
+using NBi.Core;
 using NBi.Core.Analysis.Member;
-using NBi.Core.Analysis.Metadata;
-using NBi.Core.Analysis.Metadata.Adomd;
 using NBi.Core.Analysis.Request;
+using NBi.Core.ResultSet;
+using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
 {
     public abstract class AbstractMembersConstraint : NUnitCtr.Constraint
     {
+
+        protected IDbCommand expectedCommand;
         private MembersAdomdEngine commandFactory;
         protected virtual NUnitCtr.Constraint InternalConstraint {get; set;}
         
@@ -64,6 +69,9 @@ namespace NBi.NUnit.Member
         #region Specific NUnit
         public override bool Matches(object actual)
         {
+            if (expectedCommand != null)
+                BuildConstraint(expectedCommand);
+
             if (actual is MembersDiscoveryRequest)
                 return Process((MembersDiscoveryRequest)actual);
             else if (actual is MemberResult)
@@ -79,6 +87,12 @@ namespace NBi.NUnit.Member
                 throw new ArgumentException();
         }
 
+        private void BuildConstraint(IDbCommand command)
+        {
+            IEnumerable<string> expected = GetMembersFromResultSet(command);
+            InternalConstraint = new CollectionEquivalentConstraint(expected.Select(str => StringComparerHelper.Build(str)).ToList());
+        }
+
         protected bool Process(MembersDiscoveryRequest actual)
         {
             Request = actual;
@@ -86,6 +100,38 @@ namespace NBi.NUnit.Member
             MemberResult result = engine.GetMembers(Request);
             return this.Matches(result);
         }
+
+        protected IEnumerable<string> GetMembersFromResultSet(Object obj)
+        {
+            var rs = ResultSetBuilder.Build(obj);
+
+            var members = new List<string>();
+            foreach (DataRow row in rs.Rows)
+                members.Add(row.ItemArray[0].ToString());
+
+            return members;
+        }
+
+        /// <summary>
+        /// Engine dedicated to ResultSet acquisition
+        /// </summary>
+        protected IResultSetBuilder resultSetBuilder;
+        protected internal IResultSetBuilder ResultSetBuilder
+        {
+            get
+            {
+                if (resultSetBuilder == null)
+                    resultSetBuilder = new ResultSetBuilder();
+                return resultSetBuilder;
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException();
+                resultSetBuilder = value;
+            }
+        }
+
 
         #endregion
 

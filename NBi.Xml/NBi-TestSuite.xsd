@@ -441,15 +441,18 @@
 							</xs:element>
 							<xs:element name="equivalentTo">
 								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="item" minOccurs="0" maxOccurs="unbounded">
-											<xs:complexType>
-												<xs:simpleContent>
-													<xs:extension base="xs:string"/>
-												</xs:simpleContent>
-											</xs:complexType>
-										</xs:element>
-									</xs:sequence>
+									<xs:choice>
+										<xs:sequence>
+											<xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string"/>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+										</xs:sequence>
+										<xs:element name="one-column-query" type ="query-type"/>
+									</xs:choice>
 									<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
 									<xs:attribute name="not" type="xs:boolean" use="optional" />
 								</xs:complexType>

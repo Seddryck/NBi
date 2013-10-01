@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using System.Linq;
 using NBi.Core;
 using NBi.Core.Analysis.Member;
@@ -22,6 +24,16 @@ namespace NBi.NUnit.Member
         {
             Expected = expected;
             InternalConstraint = new CollectionEquivalentConstraint(expected.Select(str => StringComparerHelper.Build(str)).ToList());
+        }
+
+        /// <summary>
+        /// Construct a CollectionEquivalentConstraint
+        /// </summary>
+        /// <param name="expected"></param>
+        public EquivalentToConstraint(IDbCommand expected)
+            : base()
+        {
+            expectedCommand = expected;
         }
 
         #region Modifiers

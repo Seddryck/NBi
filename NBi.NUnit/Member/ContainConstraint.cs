@@ -78,34 +78,9 @@ namespace NBi.NUnit.Member
             return multipleConstraint.Matches(actual);
         }
 
-        /// <summary>
-        /// Write the constraint description to a MessageWriter
-        /// </summary>
-        /// <param name="writer">The writer on which the description is displayed</param>
-        public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
+        protected override string GetPredicate()
         {
-            if (Request != null)
-            {
-                writer.WritePredicate(string.Format("On perspective \"{0}\", a {1} of \"{2}\" containing a member with caption"
-                                                            , Request.Perspective
-                                                            , GetFunctionLabel(Request.Function)
-                                                            , Request.Path));
-                writer.WriteExpectedValue(ExpectedItems);
-            }
-            
-        }
-
-        public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
-        {
-            if (actual is MemberResult && ((MemberResult)actual).Count() > 0 && ((MemberResult)actual).Count()<=15)
-                writer.WriteActualValue((IEnumerable)actual);
-            else if (actual is MemberResult && ((MemberResult)actual).Count() > 0 && ((MemberResult)actual).Count() > 15)
-            {
-                writer.WriteActualValue(((IEnumerable<NBi.Core.Analysis.Member.Member>)actual).Take(10));
-                writer.WriteActualValue(string.Format(" ... and {0} others.", ((MemberResult)actual).Count() - 10));
-            }
-            else
-                writer.WriteActualValue(new NothingFoundMessage());
+            return string.Format("the {0} of \"{1}\" contain elements of the following set:", GetFunctionLabel(Request.Function), Request.Path);
         }
 
     }

@@ -24,7 +24,7 @@ namespace NBi.Testing.Unit.Service.RunnerConfig
                     @"TestSuites\Serie\Alpha\",
                     "ts");
 
-            Assert.That(builder.ConfigFullPath, Is.EqualTo(@"C:\QA\TestSuites\Serie\Alpha\ts.config"));
+            Assert.That(builder.ConfigFullPath, Is.EqualTo(@"C:\QA\ts.config"));
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace NBi.Testing.Unit.Service.RunnerConfig
                     @"TestSuites\Serie\Alpha\",
                     "ts");
 
-            Assert.That(builder.RunnerProjectFullPath, Is.EqualTo(@"C:\QA\TestSuites\Serie\Alpha\ts.nunitproj"));
+            Assert.That(builder.RunnerProjectFullPath, Is.EqualTo(@"C:\QA\TestSuites\Serie\Alpha\ts.nunit"));
         }
 
         [Test]

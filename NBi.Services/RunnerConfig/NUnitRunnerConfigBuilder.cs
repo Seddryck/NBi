@@ -7,7 +7,7 @@ namespace NBi.Service.RunnerConfig
     class NUnitRunnerConfigBuilder : AbstractRunnerConfigBuilder
     {
         public NUnitRunnerConfigBuilder()
-            : base("NBi.config", "NUnit.nunitproj")
+            : base("NBi.config", "NUnit.nunit")
         {
 
         }
@@ -20,7 +20,7 @@ namespace NBi.Service.RunnerConfig
 
         protected override string CalculateRunnerProjectFullPath()
         {
-            return base.CalculateRunnerProjectFullPath() + ".nunitproj";
+            return base.CalculateRunnerProjectFullPath() + ".nunit";
         }
 
         protected override string CalculateConfigFullPath()

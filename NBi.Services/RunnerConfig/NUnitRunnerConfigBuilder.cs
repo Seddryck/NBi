@@ -25,7 +25,7 @@ namespace NBi.Service.RunnerConfig
 
         protected override string CalculateConfigFullPath()
         {
-            return BasePath + TestSuite + Path.GetFileNameWithoutExtension(this.Filename) + ".config";
+            return BasePath + Path.GetFileNameWithoutExtension(this.Filename) + ".config";
         }
 
     }

@@ -1,10 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using NBi.Service.RunnerConfig;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.Configs;
-using NBi.UI.Genbi.Interface.RunnerConfig;
-using NBi.UI.Genbi.Stateful;
 
 namespace NBi.UI.Genbi.Presenter
 {
@@ -60,16 +59,89 @@ namespace NBi.UI.Genbi.Presenter
         protected override void OnPropertyChanged(string propertyName)
         {
             base.OnPropertyChanged(propertyName);
-            //TODO When properties are changed, call commands refresh
             switch (propertyName)
             {
-                case "State":
+                case "RootPath":
+                    if (CheckPath(propertyName, RootPath))
+                        SetDefaultPaths();
+                    break;
+                case "FrameworkPath":
+                    CheckPath(propertyName, FrameworkPath);
+                    break;
+                case "TestSuiteFile":
+                    CheckFile(propertyName, TestSuiteFile);
                     break;
                 default:
                     break;
             }
             CreateConfigsCommand.Refresh();
         }
+
+
+        private bool CheckPath(string propertyName, string path)
+        {
+            if (!IsValidPath(path))
+                SendWarning(propertyName, "Invalid");
+            else
+                SendValidation(propertyName);
+
+            return IsValidPath(path);
+        }
+
+        private bool IsValidPath(string path)
+        {
+            return 
+                string.IsNullOrEmpty(path) 
+                || 
+                (
+                    path.Intersect(Path.GetInvalidPathChars()).Count() == 0 
+                    && Path.IsPathRooted(path) 
+                    && Directory.Exists(path)
+                );
+        }
+
+
+        private void CheckFile(string propertyName, string file)
+        {
+            try
+            {
+                Path.GetDirectoryName(file);
+            }
+            catch (ArgumentException ex)
+            {
+                SendWarning(propertyName, "Invalid path for directory of");
+                return;
+            }
+
+
+            if (Path.GetFileName(file).Length == 0)
+                SendWarning(propertyName, "No filename given for");
+            else if (Path.GetExtension(file) != ".nbits")
+                SendWarning(propertyName, "Expected extension was 'nbits' for");
+            else
+                SendValidation(propertyName);
+        }
+
+        private void SetDefaultPaths()
+        {
+            if (string.IsNullOrEmpty(FrameworkPath) || !FrameworkPath.StartsWith(RootPath))
+                FrameworkPath = RootPath;
+
+            if (string.IsNullOrEmpty(TestSuiteFile) || !TestSuiteFile.StartsWith(RootPath))
+            {
+                if (string.IsNullOrEmpty(TestSuiteFile))
+                    TestSuiteFile = RootPath;
+                else
+                    if (RootPath.EndsWith(Path.PathSeparator.ToString()))
+                        TestSuiteFile = RootPath + Path.GetFileName(TestSuiteFile);
+                    else
+                        TestSuiteFile = RootPath + @"\" + Path.GetFileName(TestSuiteFile);
+            }
+        }
+
+
+        public Action<string, string> SendWarning;
+        public Action<string> SendValidation;
 
         internal void Create(string frameworkPath, string rootPath, string testSuitePath, bool isNUnit, bool isGallio)
         {

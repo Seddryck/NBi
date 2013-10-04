@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Linq;
+using NBi.Core;
 using NBi.Core.Analysis.Member;
 using NBi.Core.ResultSet;
 using NUnit.Framework.Constraints;
@@ -112,9 +113,24 @@ namespace NBi.NUnit.Member
                                                             , Request.Perspective
                                                             , GetPredicate()));
                 writer.WriteExpectedValue(ExpectedItems);
+                
+                var info = new ListComparisonFormatter()
+                    .Format
+                    (
+                        new ListComparer()
+                            .Compare
+                            (
+                                ((MemberResult)actual).ToCaptions()
+                                , ExpectedItems
+                                , GetComparisonType()
+                            ).Sample()
+                    );
+
+                writer.WriteLine(info.ToString());
             }
         }
 
+        protected abstract ListComparer.Comparison GetComparisonType();
         protected abstract string GetPredicate();
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)

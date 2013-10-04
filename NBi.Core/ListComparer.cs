@@ -61,15 +61,17 @@ namespace NBi.Core
                 UnexpectedCount = unexpected==null ? 0 :unexpected.Count();
             }
 
-            public void Sample()
+            public Result Sample()
             {
-                Sample(ROWS_FOR_SAMPLE);
+                return Sample(ROWS_FOR_SAMPLE);
             }
 
-            public void Sample(int count)
+            public Result Sample(int count)
             {
                 Missing = Missing.Take(count);
                 Unexpected = Unexpected.Take(count);
+
+                return this;
             }
         }
 

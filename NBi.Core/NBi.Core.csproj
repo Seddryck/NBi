@@ -180,7 +180,6 @@
     <Compile Include="Query\QueryEngineFactory.cs" />
     <Compile Include="Query\QuerySqlEngine.cs" />
     <Compile Include="ResultSet\IRow.cs" />
-    <Compile Include="ResultSet\NonMatchingValueRow.cs" />
     <Compile Include="ResultSet\Comparer\NumericComparer.cs" />
     <Compile Include="ResultSet\PersistanceChoice.cs" />
     <Compile Include="ResultSet\ResultSet.cs" />

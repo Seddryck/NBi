@@ -83,5 +83,10 @@ namespace NBi.NUnit.Member
             return string.Format("the {0} of \"{1}\" contain elements of the following set:", GetFunctionLabel(Request.Function), Request.Path);
         }
 
+        protected override ListComparer.Comparison GetComparisonType()
+        {
+            return ListComparer.Comparison.MissingItems;
+        }
+
     }
 }

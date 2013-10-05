@@ -57,5 +57,10 @@ namespace NBi.NUnit.Member
             return string.Format("all the {0} of \"{1}\" are strictly defined in following set:", GetFunctionLabel(Request.Function), Request.Path);
         }
 
+        protected override ListComparer.Comparison GetComparisonType()
+        {
+            return ListComparer.Comparison.UnexpectedItems;
+        }
+
     }
 }

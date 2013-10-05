@@ -109,6 +109,8 @@
     <Compile Include="Unit\Core\Assemblies\Resource\Enumeration.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\Klass.cs" />
     <Compile Include="Unit\Core\Assemblies\TypeConverterTest.cs" />
+    <Compile Include="Unit\Core\ListComparerTest.cs" />
+    <Compile Include="Unit\Core\ListComparisonFormatterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\BaseComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\BooleanComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\DateTimeRoundingTest.cs" />

@@ -11,5 +11,13 @@ namespace NBi.Core.Analysis.Member
         {
             this.Add(new Member(caption));
         }
+
+        public IEnumerable<string> ToCaptions()
+        {
+            var list = new List<string>();
+            this.ForEach(item => list.Add(item.Caption));
+
+            return list;
+        }
     }
 }

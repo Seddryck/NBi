@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+		</default>
+	</settings>
+	<test name="Hello World" uid="0001">
+		<system-under-test>
+			<members>
+				<hierarchy dimension="my-dimension" perspective="my-perspective" caption="my-hierarchy"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<equivalentTo>
+				<item>Hello</item>
+				<item>World</item>
+			</equivalentTo>
+		</assert>
+	</test>
+	<test name="Hello World from Query" uid="0002">
+		<system-under-test>
+			<members>
+				<hierarchy dimension="my-dimension" perspective="my-perspective" caption="my-hierarchy"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<equivalentTo>
+				<one-column-query>
+					select 'Hello' union select 'World'
+				</one-column-query>
+			</equivalentTo>
+		</assert>
+	</test>
+</testSuite>

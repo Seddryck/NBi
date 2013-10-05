@@ -43,6 +43,7 @@ namespace NBi.UI.Genbi.View.RunnerConfig
         private void OpenDialog_Click(object sender, EventArgs e)
         {
             var folderBrowserDialog = new FolderBrowserDialog();
+            folderBrowserDialog.SelectedPath = Path;
             DialogResult result = folderBrowserDialog.ShowDialog();
             if (result == DialogResult.OK)
                 path.Text = folderBrowserDialog.SelectedPath;

@@ -93,6 +93,16 @@ namespace NBi.UI.Genbi.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap NBi2 {
+            get {
+                object obj = ResourceManager.GetObject("NBi2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap note_delete {
             get {
                 object obj = ResourceManager.GetObject("note_delete", resourceCulture);

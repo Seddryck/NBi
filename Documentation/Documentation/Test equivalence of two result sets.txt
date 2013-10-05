@@ -55,30 +55,13 @@ The easiest way to express this is the usage of a result set embedded in your te
 
 Note that the *numeric values* must be written with an international format (a dot (".") to separate the decimal part).
 
-!!! Specific values *(improved in v1.2)*
-if you want to specify a cell with a *null value*, simply write an empty tag or specify (null) in your tag.
-{code:xml}
-<cell/>
-or
-<cell></cell>
-or
-<cell>(null)</cell>
-{code:xml}
+!!! Special and Generic values *(improved in v1.3)*
+With NBi, you can also check your cell's value against special values such as null, empty or any value. This is detailed in the article about [Special and Generic values].
 
-If you want to specify that *any non-null value* will be a valid result, you can specify "(value)" in your xml element
-{code:xml}
-<cell>(value)</cell>
-{code:xml}
-
-If you want to specify that *an empty value* (string with length of 0 characters) will be a valid result, you can specify "(empty)" in your xml element
-{code:xml}
-<cell>(empty)</cell>
-{code:xml}
-
-!!! Keys and Values *(improved in v1.2)*
+!!! Keys and Values
 By default, NBi will take the assumption that the first column is a key (text) and the other columns are values (numeric without tolerance). This will influence the comparison result. If you want to override this configuration, you should read [Result set's comparison configuration]. 
 
-*Since version 1.2,* NBi is also able to manage dateTime and boolean formats without tricks in SQL queries, see more at [Result set's comparison configuration]
+NBi is also able to manage dateTime and boolean formats without tricks in SQL queries, see more at [Result set's comparison configuration]
 
 !!! External CSV file
 You also have the opportunity to specify that the result set is defined in an external file (useful for large result set)
@@ -95,3 +78,15 @@ Finally, the third choice is to compare the result set of the query under test t
 </equalTo>
 {code:xml}
 Naturally, you can also use other way to specify the parameters of your query (file reference, connectionString default, …)
+
+!! Improve performance by parallelization of queries
+Since v1.3, by default NBi will run your two queries (system-under-test and assertion) in parallel (and not anymore by serializing them). This usually improve performances because the two queries are usually on different systems.
+
+When parallelization is activated, this can influence the output of result sets in the console or output windows. This output is only visible when the trace level is set to 4 (see [Enable and display trace messages]). The output of the two result sets could be mixed. This will not influence the test execution but your debugging experience can suffer. We recommend to inactivate the parallelization of queries when setting the trace level to 4.
+
+If you want to inactivate this feature, you must specify it in the _settings_ of your test-suite and it will affect the whole test-suite. 
+{code:xml}
+<settings>
+    <parallelize-queries>false</parallelize-queries>
+</settings>
+{code:xml}

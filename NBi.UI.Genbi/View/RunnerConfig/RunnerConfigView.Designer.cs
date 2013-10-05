@@ -35,6 +35,7 @@
             this.buildGallio = new System.Windows.Forms.CheckBox();
             this.apply = new System.Windows.Forms.Button();
             this.cancel = new System.Windows.Forms.Button();
+            this.warning = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // testSuiteFile
@@ -97,7 +98,7 @@
             // apply
             // 
             this.apply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.apply.Location = new System.Drawing.Point(282, 151);
+            this.apply.Location = new System.Drawing.Point(282, 150);
             this.apply.Name = "apply";
             this.apply.Size = new System.Drawing.Size(75, 23);
             this.apply.TabIndex = 6;
@@ -108,7 +109,7 @@
             // 
             this.cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancel.Location = new System.Drawing.Point(363, 151);
+            this.cancel.Location = new System.Drawing.Point(363, 150);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(75, 23);
             this.cancel.TabIndex = 5;
@@ -116,11 +117,21 @@
             this.cancel.UseVisualStyleBackColor = true;
             this.cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
+            // warning
+            // 
+            this.warning.AutoSize = true;
+            this.warning.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.warning.Location = new System.Drawing.Point(138, 109);
+            this.warning.Name = "warning";
+            this.warning.Size = new System.Drawing.Size(0, 13);
+            this.warning.TabIndex = 7;
+            // 
             // RunnerConfigView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(450, 186);
+            this.ClientSize = new System.Drawing.Size(450, 185);
+            this.Controls.Add(this.warning);
             this.Controls.Add(this.apply);
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.buildGallio);
@@ -145,5 +156,6 @@
         private System.Windows.Forms.CheckBox buildGallio;
         private System.Windows.Forms.Button apply;
         private System.Windows.Forms.Button cancel;
+        private System.Windows.Forms.Label warning;
     }
 }

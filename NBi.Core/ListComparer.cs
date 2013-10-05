@@ -68,8 +68,11 @@ namespace NBi.Core
 
             public Result Sample(int count)
             {
-                Missing = Missing.Take(count);
-                Unexpected = Unexpected.Take(count);
+                if (Missing!=null)
+                    Missing = Missing.Take(count);
+
+                if (Unexpected !=null)
+                    Unexpected = Unexpected.Take(count);
 
                 return this;
             }

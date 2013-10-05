@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestSuiteView));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.testCasesControl = new NBi.UI.Genbi.View.TestSuiteGenerator.TestCasesControl();
@@ -313,7 +314,7 @@
             // generateToolStripMenuItem1
             // 
             this.generateToolStripMenuItem1.Name = "generateToolStripMenuItem1";
-            this.generateToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.generateToolStripMenuItem1.Size = new System.Drawing.Size(121, 22);
             this.generateToolStripMenuItem1.Text = "Generate";
             this.generateToolStripMenuItem1.Click += new System.EventHandler(this.generateToolStripMenuItem1_Click);
             // 
@@ -368,7 +369,7 @@
             this.openTestCasesToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openTestCasesToolStripButton.Name = "openTestCasesToolStripButton";
             this.openTestCasesToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.openTestCasesToolStripButton.Text = "toolStripTestCasesOpen";
+            this.openTestCasesToolStripButton.Text = "Open test cases ...";
             // 
             // toolStripSeparator1
             // 
@@ -382,7 +383,7 @@
             this.openTemplateToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openTemplateToolStripButton.Name = "openTemplateToolStripButton";
             this.openTemplateToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.openTemplateToolStripButton.Text = "Open template";
+            this.openTemplateToolStripButton.Text = "Open template ...";
             // 
             // saveAsTemplateToolStripButton
             // 
@@ -391,7 +392,7 @@
             this.saveAsTemplateToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveAsTemplateToolStripButton.Name = "saveAsTemplateToolStripButton";
             this.saveAsTemplateToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.saveAsTemplateToolStripButton.Text = "Save as template";
+            this.saveAsTemplateToolStripButton.Text = "Save template as ...";
             // 
             // toolStripSeparator4
             // 
@@ -405,7 +406,7 @@
             this.generateTestsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.generateTestsToolStripButton.Name = "generateTestsToolStripButton";
             this.generateTestsToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.generateTestsToolStripButton.Text = "toolStripButton1";
+            this.generateTestsToolStripButton.Text = "Generate tests";
             // 
             // undoGenerateTestsToolStripButton
             // 
@@ -437,7 +438,7 @@
             this.openTestSuiteToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openTestSuiteToolStripButton.Name = "openTestSuiteToolStripButton";
             this.openTestSuiteToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.openTestSuiteToolStripButton.Text = "Open Test Suite";
+            this.openTestSuiteToolStripButton.Text = "Open test suite ...";
             // 
             // saveAsTestSuiteToolStripButton
             // 
@@ -446,7 +447,7 @@
             this.saveAsTestSuiteToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveAsTestSuiteToolStripButton.Name = "saveAsTestSuiteToolStripButton";
             this.saveAsTestSuiteToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.saveAsTestSuiteToolStripButton.Text = "Save As Test Suite";
+            this.saveAsTestSuiteToolStripButton.Text = "Save test suite as ...";
             // 
             // toolStripSeparator2
             // 
@@ -461,6 +462,7 @@
             this.Controls.Add(this.mainToolStrip);
             this.Controls.Add(this.menuStrip);
             this.Controls.Add(this.splitContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.Name = "TestSuiteView";
             this.Text = "Genbi";

@@ -52,7 +52,7 @@ namespace NBi.Testing.Unit.NUnit.Member
             Assert.That(assertionText, Is.StringContaining("perspective-name").And
                                             .StringContaining("dimension-caption").And
                                             .StringContaining("hierarchy-caption").And
-                                            .StringContaining("identical").And
+                                            .StringContaining("equivalent to").And
                                             .StringContaining("Expected member 1").And
                                             .StringContaining("Expected member 2"));
         }

@@ -48,7 +48,10 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             TestListPresenter.PropertyChanged += (sender, e) => TestSuitePresenter.RefreshCommands();
 
             TestSuitePresenter.TestSuiteLoaded += (sender, e) =>
-                SettingsPresenter.Refresh();
+                {
+                    SettingsPresenter.Refresh();
+                    TestListPresenter.Refresh();
+                };
         }
 
 
@@ -79,6 +82,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             CommandManager.Instance.Bindings.Add(this.TestListPresenter.UndoGenerateTestsXmlCommand, undoGenerateTestsToolStripButton);
             CommandManager.Instance.Bindings.Add(this.TestListPresenter.DeleteTestCommand, testListControl.DeleteCommand);
             CommandManager.Instance.Bindings.Add(this.TestListPresenter.DisplayTestCommand, testListControl.DisplayCommand);
+            CommandManager.Instance.Bindings.Add(this.TestListPresenter.AddCategoryCommand, testListControl.AddCategoryCommand);
 
             //Test-suite
             CommandManager.Instance.Bindings.Add(this.TestSuitePresenter.OpenTestSuiteCommand, openTestSuiteToolStripMenuItem);

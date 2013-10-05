@@ -40,7 +40,20 @@ namespace NBi.UI.Genbi.View.RunnerConfig
                 testSuiteFile.DataBindings.Add("Path", presenter, "TestSuiteFile", false, DataSourceUpdateMode.OnPropertyChanged);
                 buildNUnit.DataBindings.Add("Checked", presenter, "IsBuildNUnit", false, DataSourceUpdateMode.OnPropertyChanged);
                 buildGallio.DataBindings.Add("Checked", presenter, "IsBuildGallio", false, DataSourceUpdateMode.OnPropertyChanged);
+
+                presenter.SendWarning = DisplayWarning;
+                presenter.SendValidation = DisplayValidation;
             }
+        }
+
+        private void DisplayWarning(string item, string message)
+        {
+            warning.Text = message + " " + item;
+        }
+
+        private void DisplayValidation(string item)
+        {
+            warning.Text = string.Empty;
         }
 
         private void Cancel_Click(object sender, EventArgs e)

@@ -99,5 +99,25 @@ namespace NBi.Testing.Unit.Core
             Assert.That(res.Unexpected.ElementAt(0), Is.EqualTo("z"));
 
         }
+
+        [Test]
+        public void Sample_LessThan10Items_DontThrowException()
+        {
+            var listComparer = new ListComparer();
+            var res = listComparer.Compare(
+                new List<string> { "a", "b", "c", "d", "e", "f", "g", "h" },
+                new List<string> { "z" },
+                ListComparer.Comparison.Both
+                );
+
+            var sampledRes = res.Sample(2);
+            
+            Assert.That(sampledRes.Missing.Count(), Is.EqualTo(2));
+            Assert.That(sampledRes.MissingCount, Is.GreaterThan(2));
+
+            Assert.That(sampledRes.Unexpected.Count(), Is.EqualTo(1));
+            Assert.That(sampledRes.UnexpectedCount, Is.EqualTo(1));
+
+        }
     }
 }

@@ -37,6 +37,9 @@ namespace NBi.NUnit.Builder
         protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(ExistsXml ctrXml)
         {
             var ctr = new ExistsConstraint();
+            //Ignore-case if requested
+            if (ctrXml.IgnoreCase)
+                ctr = ctr.IgnoreCase;
             return ctr;
         }
 

@@ -18,7 +18,7 @@ namespace NBi.Xml.Settings
         public List<ReferenceXml> References { get; set; }
 
         [XmlElement("parallelize-queries")]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public virtual bool ParallelizeQueries { get; set; }
 
         public enum DefaultScope

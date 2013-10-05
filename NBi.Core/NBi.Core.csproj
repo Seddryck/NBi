@@ -144,6 +144,8 @@
     <Compile Include="Analysis\Metadata\Field.cs" />
     <Compile Include="Assemblies\AssemblyManager.cs" />
     <Compile Include="Assemblies\TypeConverter.cs" />
+    <Compile Include="ListComparisonFormatter.cs" />
+    <Compile Include="ListComparer.cs" />
     <Compile Include="NBiTraceSwitch.cs" />
     <Compile Include="Query\ListBuilder.cs" />
     <Compile Include="ExternalDependencyNotFoundException.cs" />
@@ -180,7 +182,6 @@
     <Compile Include="Query\QueryEngineFactory.cs" />
     <Compile Include="Query\QuerySqlEngine.cs" />
     <Compile Include="ResultSet\IRow.cs" />
-    <Compile Include="ResultSet\NonMatchingValueRow.cs" />
     <Compile Include="ResultSet\Comparer\NumericComparer.cs" />
     <Compile Include="ResultSet\PersistanceChoice.cs" />
     <Compile Include="ResultSet\ResultSet.cs" />

@@ -176,5 +176,61 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
             var comparer = new NumericComparer();
             Assert.Throws<ArgumentException>(delegate { comparer.Compare(12, 11, "1,1%"); });
         }
+
+        [Test]
+        public void Compare_TwelveToIntervalTenToFourteen_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(12, "[10;14]");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_TwelveToIntervalTenToTwelveClosed_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(12, "[10;12]");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_TwelveToIntervalTenToTwelveClosedWithSpaces_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(12, " [-10 ; 12  ] ");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_TwelveToIntervalTenToTwelveOpen_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(12, "[10;12[");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_TwelveToIntervalTwelveOpenToFourteen_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(12, "]12;14]");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_TwelveToIntervalTenToInfinity_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(12, "[10;+INF]");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_TwelveToIntervalNegativeInfinityToFourteen_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(12, "[-inf;14]");
+            Assert.That(result.AreEqual, Is.True);
+        }
     }
 }

@@ -46,7 +46,7 @@ namespace NBi.Core.ResultSet.Comparer
             if (y is string && ((string)y) == "(null)")
                 y = null;
 
-            if (EqualByPlaceholder(x, y))
+            if (EqualByGeneric(x, y))
                 return ComparerResult.Equality;
 
             var eq = EqualByNull(x, y);
@@ -68,7 +68,7 @@ namespace NBi.Core.ResultSet.Comparer
             return null;
         }
 
-        protected bool EqualByPlaceholder(object x, object y)
+        protected bool EqualByGeneric(object x, object y)
         {
             if (x is string && ((string)x) == "(value)")
                 return y != null && IsValidObject(y);

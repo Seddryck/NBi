@@ -189,7 +189,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         public void Compare_TwelveToIntervalTenToTwelveClosed_True()
         {
             var comparer = new NumericComparer();
-            var result = comparer.Compare(12, "[10;12]");
+            var result = comparer.Compare("[10;12]", 12);
             Assert.That(result.AreEqual, Is.True);
         }
 
@@ -197,7 +197,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         public void Compare_TwelveToIntervalTenToTwelveClosedWithSpaces_True()
         {
             var comparer = new NumericComparer();
-            var result = comparer.Compare(12, " [-10 ; 12  ] ");
+            var result = comparer.Compare(" [-10 ; 12  ] ", 12);
             Assert.That(result.AreEqual, Is.True);
         }
 
@@ -205,7 +205,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         public void Compare_TwelveToIntervalTenToTwelveOpen_False()
         {
             var comparer = new NumericComparer();
-            var result = comparer.Compare(12, "[10;12[");
+            var result = comparer.Compare("[10;12[", 12);
             Assert.That(result.AreEqual, Is.False);
         }
 
@@ -213,15 +213,23 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         public void Compare_TwelveToIntervalTwelveOpenToFourteen_False()
         {
             var comparer = new NumericComparer();
-            var result = comparer.Compare(12, "]12;14]");
+            var result = comparer.Compare("]12;14]", 12);
             Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_TwelveToIntervalTenHalfToFourteenHalf_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare("]10.5;14.5]", 12);
+            Assert.That(result.AreEqual, Is.True);
         }
 
         [Test]
         public void Compare_TwelveToIntervalTenToInfinity_True()
         {
             var comparer = new NumericComparer();
-            var result = comparer.Compare(12, "[10;+INF]");
+            var result = comparer.Compare("[10;+INF]", 12);
             Assert.That(result.AreEqual, Is.True);
         }
 
@@ -229,7 +237,55 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         public void Compare_TwelveToIntervalNegativeInfinityToFourteen_True()
         {
             var comparer = new NumericComparer();
-            var result = comparer.Compare(12, "[-inf;14]");
+            var result = comparer.Compare("[-inf;14]", 12);
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_TwelveToIntervalPositive_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare("(positive)", 12);
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_TwelveToIntervalPositiveSymbol_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare("(0+)", -12);
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_TwelveToIntervalNegative_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare("(-)", -12);
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_TwelveToIntervalGreaterOrEqualToEighteen_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare("(>=18)", 12);
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_TwelveToIntervalGreaterOrEqualToEighteenHalf_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare("(>=18.5)", 12);
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_TwelveToIntervalLessThanEighteen_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare("(<18)", 12);
             Assert.That(result.AreEqual, Is.True);
         }
     }

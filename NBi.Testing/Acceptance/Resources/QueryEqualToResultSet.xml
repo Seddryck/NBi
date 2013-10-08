@@ -134,7 +134,7 @@
 					</row>
 					<row>
 						<cell>CY 2006</cell>
-						<cell>[1000;1100]</cell>
+						<cell>[1000.5;1100.36]</cell>
 					</row>
 					<row>
 						<cell>CY 2007</cell>
@@ -143,6 +143,42 @@
 					<row>
 						<cell>CY 2008</cell>
 						<cell>]0;900]</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="'Reseller Orders' count, year by year, between 2005 and 2008 with intervals generic" uid="0003">
+		<system-under-test>
+			<execution>
+				<query name="MDX Except">
+					SELECT
+					[Measures].[Reseller Order Count] ON 0,
+					{[Date].[Calendar Year].[CY 2005]:[Date].[Calendar Year].[CY 2008]} ON 1
+					FROM
+					[Adventure Works]
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<column index="1" role="value" type="numeric" tolerance="10"/>
+				<resultSet>
+					<row>
+						<cell>CY 2005</cell>
+						<cell>360</cell>
+					</row>
+					<row>
+						<cell>CY 2006</cell>
+						<cell>(0+)</cell>
+					</row>
+					<row>
+						<cell>CY 2007</cell>
+						<cell>(>1500.25)</cell>
+					</row>
+					<row>
+						<cell>CY 2008</cell>
+						<cell>(absolutely-positive)</cell>
 					</row>
 				</resultSet>
 			</equalTo>

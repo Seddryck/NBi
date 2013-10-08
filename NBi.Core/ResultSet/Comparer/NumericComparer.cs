@@ -19,14 +19,25 @@ namespace NBi.Core.ResultSet.Comparer
 
         protected override ComparerResult CompareObjects(object x, object y)
         {
-            if (!(y is string && Interval.IsValid(y)))
-                return CompareObjects(x, y, new NumericAbsoluteTolerance(0));
-            else
+            var builder = new IntervalBuilder(x);
+            builder.Build();
+            if (builder.IsValid())
                 return CompareDecimals
                     (
-                        new Interval((string)y)
+                        builder.GetInterval()
+                        , Convert.ToDecimal(y, NumberFormatInfo.InvariantInfo)
+                    ); 
+
+            builder = new IntervalBuilder(y);
+            builder.Build();
+            if (builder.IsValid())
+                return CompareDecimals
+                    (
+                        builder.GetInterval()
                         , Convert.ToDecimal(x, NumberFormatInfo.InvariantInfo)
-                    );
+                    ); 
+            
+            return CompareObjects(x, y, new NumericAbsoluteTolerance(0));
         }
 
         protected override ComparerResult CompareObjects(object x, object y, Rounding rounding)
@@ -58,19 +69,28 @@ namespace NBi.Core.ResultSet.Comparer
 
         protected ComparerResult CompareObjects(object x, object y, NumericTolerance tolerance)
         {
-            if (!(x is string && Interval.IsValid(x)))
-            {
-                var rxDecimal = Convert.ToDecimal(x, NumberFormatInfo.InvariantInfo);
-                var ryDecimal = Convert.ToDecimal(y, NumberFormatInfo.InvariantInfo);
-
-                return CompareDecimals(rxDecimal, ryDecimal, tolerance);
-            }
-            else
+            var builder = new IntervalBuilder(x);
+            builder.Build();
+            if (builder.IsValid())
                 return CompareDecimals
                     (
-                        new Interval((string)x)
+                        builder.GetInterval()
                         , Convert.ToDecimal(y, NumberFormatInfo.InvariantInfo)
-                    );            
+                    ); 
+
+            builder = new IntervalBuilder(y);
+            builder.Build();
+            if (builder.IsValid())
+                return CompareDecimals
+                    (
+                        builder.GetInterval()
+                        , Convert.ToDecimal(x, NumberFormatInfo.InvariantInfo)
+                    ); 
+
+            var rxDecimal = Convert.ToDecimal(x, NumberFormatInfo.InvariantInfo);
+            var ryDecimal = Convert.ToDecimal(y, NumberFormatInfo.InvariantInfo);
+
+            return CompareDecimals(rxDecimal, ryDecimal, tolerance);               
         }
 
         protected ComparerResult CompareDecimals(decimal x, decimal y, NumericTolerance tolerance)

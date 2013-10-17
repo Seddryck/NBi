@@ -144,6 +144,8 @@
     <Compile Include="Analysis\Metadata\Field.cs" />
     <Compile Include="Assemblies\AssemblyManager.cs" />
     <Compile Include="Assemblies\TypeConverter.cs" />
+    <Compile Include="ResultSet\EndPoint.cs" />
+    <Compile Include="ResultSet\IntervalBuilder.cs" />
     <Compile Include="ListComparisonFormatter.cs" />
     <Compile Include="ListComparer.cs" />
     <Compile Include="NBiTraceSwitch.cs" />
@@ -174,6 +176,7 @@
     <Compile Include="ResultSet\Comparer\Tolerance.cs" />
     <Compile Include="ResultSet\DataRowBasedResultSetComparer.cs" />
     <Compile Include="ResultSet\DataRowKeysComparer.cs" />
+    <Compile Include="ResultSet\Interval.cs" />
     <Compile Include="ResultSet\LineFormatter.cs" />
     <Compile Include="ResultSet\ICell.cs" />
     <Compile Include="ResultSet\IColumnDefinition.cs" />

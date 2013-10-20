@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Linq;
 using NBi.Core;
 using NBi.Core.Analysis.Member;
 using NBi.Core.ResultSet;

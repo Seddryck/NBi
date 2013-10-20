@@ -34,7 +34,7 @@ namespace NBi.NUnit.Builder
 
             IEnumerable<QueryParameterXml> parameters=null;
             if (executionXml.BaseItem is QueryXml)
-                parameters = ((QueryXml)executionXml.BaseItem).Parameters;
+                parameters = ((QueryXml)executionXml.BaseItem).GetParameters();
 
             var cmd = commandBuilder.Build(connectionString, commandText, parameters);
 

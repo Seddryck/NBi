@@ -29,6 +29,16 @@ namespace NBi.Xml.Items
             Parameters = new List<QueryParameterXml>();
         }
 
+        public List<QueryParameterXml> GetParameters()
+        {
+            var list = Parameters;
+            foreach (var param in Default.Parameters)
+                if (!Parameters.Exists(p => p.Name == param.Name))
+                    list.Add(param);
+
+            return list;
+        }
+
         public override string GetQuery()
         {
             //if Sql is specified then return it

@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using NBi.Core;
 using NBi.Xml.Constraints;
+using NBi.Xml.Items;
 using NBi.Xml.Systems;
 
 namespace NBi.NUnit.Builder
@@ -24,12 +25,18 @@ namespace NBi.NUnit.Builder
             SystemUnderTest = InstantiateSystemUnderTest(SystemUnderTestXml);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         protected virtual IDbCommand InstantiateSystemUnderTest(ExecutionXml executionXml)
         {
-            var conn = new ConnectionFactory().Get(executionXml.Item.GetConnectionString());
-            var cmd = conn.CreateCommand();
-            cmd.CommandText = executionXml.Item.GetQuery();
+            var commandBuilder = new CommandBuilder();
+
+            var connectionString = executionXml.Item.GetConnectionString();
+            var commandText = executionXml.Item.GetQuery();
+
+            IEnumerable<QueryParameterXml> parameters=null;
+            if (executionXml.BaseItem is QueryXml)
+                parameters = ((QueryXml)executionXml.BaseItem).Parameters;
+
+            var cmd = commandBuilder.Build(connectionString, commandText, parameters);
 
             return cmd;
         }

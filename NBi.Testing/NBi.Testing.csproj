@@ -86,6 +86,7 @@
     <Compile Include="Integration\Core\Query\QueryAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\Query\QueryParserTest.cs" />
     <Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
+    <Compile Include="Integration\NUnit\Builder\CommandBuilderTest.cs" />
     <Compile Include="Integration\NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Members\EquivalentToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Query\EqualToConstraintTest.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Unit\Core\Assemblies\TypeConverterTest.cs" />
     <Compile Include="Unit\Core\ListComparerTest.cs" />
     <Compile Include="Unit\Core\ListComparisonFormatterTest.cs" />
+    <Compile Include="Unit\Core\Query\DbTypeBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\BaseComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\BooleanComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\DateTimeRoundingTest.cs" />
@@ -184,7 +186,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Integration\Core\Analysis\Query\" />
-    <Folder Include="Unit\Core\Query\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Acceptance\Resources\ResellerOrderCountByYearBefore2006.csv">

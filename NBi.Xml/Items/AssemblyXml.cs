@@ -21,11 +21,11 @@ namespace NBi.Xml.Items
         public bool Static { get; set; }
 
         [XmlElement("parameter")]
-        public List<ParameterXml> Parameters { get; set; }
+        public List<AssemblyParameterXml> Parameters { get; set; }
 
         public AssemblyXml()
         {
-            Parameters = new List<ParameterXml>();
+            Parameters = new List<AssemblyParameterXml>();
         }
 
         //public override object Instantiate()
@@ -62,7 +62,7 @@ namespace NBi.Xml.Items
         {
             var dico = new Dictionary<string, object>();
             
-            foreach (ParameterXml param in this.Parameters)
+            foreach (AssemblyParameterXml param in this.Parameters)
             {
                 dico.Add(param.Name, param.Value);
             }

@@ -63,6 +63,7 @@
     <Compile Include="Items\ColumnsXml.cs" />
     <Compile Include="Items\ExcludeXml.cs" />
     <Compile Include="Items\PatternXml.cs" />
+    <Compile Include="Items\QueryParameterXml.cs" />
     <Compile Include="Items\TablesXml.cs" />
     <Compile Include="Items\TableXml.cs" />
     <Compile Include="Items\MeasuresXml.cs" />
@@ -94,7 +95,7 @@
     <Compile Include="Constraints\CountXml.cs" />
     <Compile Include="Constraints\EqualToXml.cs" />
     <Compile Include="Items\AssemblyXml.cs" />
-    <Compile Include="Items\ParameterXml.cs" />
+    <Compile Include="Items\AssemblyParameterXml.cs" />
     <Compile Include="Systems\MembersXml.cs" />
     <Compile Include="Constraints\SyntacticallyCorrectXml.cs" />
     <Compile Include="Constraints\FasterThanXml.cs" />

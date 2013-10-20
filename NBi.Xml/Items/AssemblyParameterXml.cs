@@ -6,7 +6,7 @@ using NBi.Core;
 
 namespace NBi.Xml.Items
 {
-    public class ParameterXml
+    public class AssemblyParameterXml
     {
         [XmlAttribute("name")]
         public string Name { get; set; }

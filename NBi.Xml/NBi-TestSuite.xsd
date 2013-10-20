@@ -77,6 +77,18 @@
 		<xs:attribute name="method" type="xs:string" use="required" />
 	</xs:complexType>
 	<xs:complexType name="query-type" mixed="true">
+		<xs:sequence>
+			<xs:element name="parameter" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="name" type="xs:string" use="required" />
+							<xs:attribute name="sql-type" type="xs:string" use="optional" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="optional" />
 		<xs:attribute name="file" type="xs:string" use="optional" />
 		<xs:attribute name="connectionString" type="xs:string" use="optional" />

@@ -238,4 +238,73 @@
 			</equalTo>
 		</assert>
 	</test>
+	<test name="SQL Without Parameters">
+		<system-under-test>
+			<execution>
+				<query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+					select 
+						[Name], [CountryRegionCode] 
+					from
+						[Sales].[SalesTerritory] 
+					where
+						[Group]='Europe'
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo keys="all">
+				<resultSet>
+					<row>
+						<cell>France</cell>
+						<cell>FR</cell>
+					</row>
+					<row>
+						<cell>Germany</cell>
+						<cell>DE</cell>
+					</row>
+					<row>
+						<cell>United Kingdom</cell>
+						<cell>GB</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="SQL With Parameters">
+		<system-under-test>
+			<execution>
+				<query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+					select
+					[Name], [CountryRegionCode]
+					from
+					[Sales].[SalesTerritory]
+					where
+					[Group]=@Area
+				<parameter name="@Area">Europe</parameter>
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo keys="all">
+				<resultSet>
+					<row>
+						<cell>France</cell>
+						<cell>FR</cell>
+					</row>
+					<row>
+						<cell>Germany</cell>
+						<cell>DE</cell>
+					</row>
+					<row>
+						<cell>United Kingdom</cell>
+						<cell>GB</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
 </testSuite>

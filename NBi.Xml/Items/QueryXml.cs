@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -19,6 +20,14 @@ namespace NBi.Xml.Items
 
         [XmlText]
         public string InlineQuery { get; set; }
+
+        [XmlElement("parameter")]
+        public List<QueryParameterXml> Parameters { get; set; }
+
+        public QueryXml()
+        {
+            Parameters = new List<QueryParameterXml>();
+        }
 
         public override string GetQuery()
         {

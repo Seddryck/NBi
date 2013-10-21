@@ -61,6 +61,7 @@
     <Compile Include="GroupXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
+    <Compile Include="Items\QueryVariableXml.cs" />
     <Compile Include="Items\ExcludeXml.cs" />
     <Compile Include="Items\PatternXml.cs" />
     <Compile Include="Items\QueryParameterXml.cs" />

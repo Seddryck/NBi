@@ -232,5 +232,17 @@ namespace NBi.Testing.Unit.Xml.Settings
             Assert.That(parameters.Count, Is.EqualTo(3));
         }
 
+        [Test]
+        public void DeserializeStructurePerspective_SettingsWithVariables_True()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithVariables");
+
+            var parameters = ((QueryXml)ts.Tests[testNr].Systems[0].BaseItem).GetVariables();
+            Assert.That(parameters.Count, Is.EqualTo(3));
+        }
+
     }
 }

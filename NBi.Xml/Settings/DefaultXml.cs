@@ -15,9 +15,13 @@ namespace NBi.Xml.Settings
         [XmlElement("parameter")]
         public List<QueryParameterXml> Parameters { get; set; }
 
+        [XmlElement("variable")]
+        public List<QueryVariableXml> Variables { get; set; }
+
         public DefaultXml()
         {
             Parameters = new List<QueryParameterXml>();
+            Variables = new List<QueryVariableXml>();
         }
 
     }

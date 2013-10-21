@@ -18,6 +18,7 @@
 											</xs:complexType>
 										</xs:element>
 										<xs:element type="parameter-type" minOccurs="0" maxOccurs="unbounded" name="parameter"/>
+										<xs:element type="variable-type" minOccurs="0" maxOccurs="unbounded" name="variable"/>
 									</xs:sequence>
 									<xs:attribute name="apply-to" use="required">
 										<xs:simpleType>
@@ -85,9 +86,17 @@
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
+	<xs:complexType name="variable-type">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="name" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
 	<xs:complexType name="query-type" mixed="true">
 		<xs:sequence>
 			<xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
+			<xs:element name="variable" minOccurs="0" maxOccurs="unbounded" type="variable-type" />
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="optional" />
 		<xs:attribute name="file" type="xs:string" use="optional" />

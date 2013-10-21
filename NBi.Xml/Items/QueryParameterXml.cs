@@ -17,10 +17,10 @@ namespace NBi.Xml.Items
             }
             set
             {
-                value = value.Trim();
+                //value = value.Trim();
                 
-                if (!value.StartsWith("@"))
-                    value = "@" + value;
+                //if (!value.StartsWith("@"))
+                //    value = "@" + value;
 
                 name = value;
             }

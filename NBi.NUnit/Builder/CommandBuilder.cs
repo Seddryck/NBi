@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
+using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core;
 using NBi.Core.Query;
 using NBi.Xml.Items;
@@ -21,6 +23,12 @@ namespace NBi.NUnit.Builder
                 foreach (var p in parameters)
                 {
                     var param = cmd.CreateParameter();
+
+                    if (cmd is AdomdCommand && p.Name.StartsWith("@"))
+                        p.Name = p.Name.Substring(1, p.Name.Length - 1);
+                    if (cmd is SqlCommand && !p.Name.StartsWith("@") && char.IsLetter(p.Name[0]))
+                        p.Name = "@" + p.Name;
+
                     param.ParameterName = p.Name;
                     param.Value = p.StringValue;
                     var dbType = new DbTypeBuilder().Build(p.SqlType);

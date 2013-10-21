@@ -24,6 +24,9 @@ namespace NBi.Xml.Items
         [XmlElement("parameter")]
         public List<QueryParameterXml> Parameters { get; set; }
 
+        [XmlElement("variable")]
+        public List<QueryVariableXml> Variables { get; set; }
+
         public QueryXml()
         {
             Parameters = new List<QueryParameterXml>();
@@ -35,6 +38,16 @@ namespace NBi.Xml.Items
             foreach (var param in Default.Parameters)
                 if (!Parameters.Exists(p => p.Name == param.Name))
                     list.Add(param);
+
+            return list;
+        }
+
+        public List<QueryVariableXml> GetVariables()
+        {
+            var list = Variables;
+            foreach (var variable in Default.Variables)
+                if (!Variables.Exists(p => p.Name == variable.Name))
+                    list.Add(variable);
 
             return list;
         }

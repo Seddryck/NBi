@@ -20,6 +20,8 @@ namespace NBi.UI.Genbi.Presenter
             this.OpenTestCasesCommand = new OpenTestCasesCommand(this);
             this.RenameVariableCommand = new RenameVariableCommand(this, window);
             this.RemoveVariableCommand = new RemoveVariableCommand(this);
+            this.MoveLeftVariableCommand = new MoveLeftVariableCommand(this);
+            this.MoveRightVariableCommand = new MoveRightVariableCommand(this);
 
             this.testCasesManager = testCasesManager;
             TestCases = testCases;
@@ -29,6 +31,8 @@ namespace NBi.UI.Genbi.Presenter
         public ICommand OpenTestCasesCommand { get; private set; }
         public ICommand RenameVariableCommand { get; private set; }
         public ICommand RemoveVariableCommand { get; private set; }
+        public ICommand MoveLeftVariableCommand { get; private set; }
+        public ICommand MoveRightVariableCommand { get; private set; }
 
         #region Bindable properties
 
@@ -68,10 +72,14 @@ namespace NBi.UI.Genbi.Presenter
                 case "Variables":
                     this.RenameVariableCommand.Refresh();
                     this.RemoveVariableCommand.Refresh();
+                    this.MoveLeftVariableCommand.Refresh();
+                    this.MoveRightVariableCommand.Refresh();
                     break;
                 case "VariableSelectedIndex":
                     this.RenameVariableCommand.Refresh();
                     this.RemoveVariableCommand.Refresh();
+                    this.MoveLeftVariableCommand.Refresh();
+                    this.MoveRightVariableCommand.Refresh();
                     break;
                 default:
                     break;
@@ -81,7 +89,12 @@ namespace NBi.UI.Genbi.Presenter
         internal void LoadCsv(string fullPath)
         {
             testCasesManager.ReadFromCsv(fullPath);
+            Reload();
+            OnPropertyChanged("Variables");
+        }
 
+        private void Reload()
+        {
             var dtReader = new DataTableReader(testCasesManager.Content);
 
             //Reset the state of the DataTable
@@ -92,14 +105,13 @@ namespace NBi.UI.Genbi.Presenter
             TestCases.RejectChanges();
 
             //Load it
-            TestCases.Load(dtReader, LoadOption.PreserveChanges); 
+            TestCases.Load(dtReader, LoadOption.PreserveChanges);
             OnPropertyChanged("TestCases");
 
             //Take care of variables
             Variables.Clear();
             foreach (var v in testCasesManager.Variables)
                 Variables.Add(v);
-            OnPropertyChanged("Variables");
         }
 
         internal void Rename(int index, string newName)
@@ -130,7 +142,23 @@ namespace NBi.UI.Genbi.Presenter
         {
             return !string.IsNullOrEmpty(variableName) && Variables.Contains(variableName);
         }
-        
-        
+
+        internal bool IsFirst()
+        {
+            return VariableSelectedIndex == 0;
+        }
+
+        internal bool IsLast()
+        {
+            return VariableSelectedIndex == Variables.Count - 1;
+        }
+
+        internal void Move(int selectedIndex, int newPosition)
+        {
+            testCasesManager.MoveVariable(Variables[VariableSelectedIndex], newPosition);
+            Reload();
+            VariableSelectedIndex = newPosition;
+            OnPropertyChanged("Variables");
+        }
     }
 }

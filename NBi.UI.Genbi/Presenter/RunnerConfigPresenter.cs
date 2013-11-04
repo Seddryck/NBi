@@ -107,7 +107,7 @@ namespace NBi.UI.Genbi.Presenter
             {
                 Path.GetDirectoryName(file);
             }
-            catch (ArgumentException ex)
+            catch (ArgumentException)
             {
                 SendWarning(propertyName, "Invalid path for directory of");
                 return;

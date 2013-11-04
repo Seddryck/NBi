@@ -34,10 +34,10 @@
             this.testsListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.bindingTests = new System.Windows.Forms.BindingSource(this.components);
             this.useGrouping = new System.Windows.Forms.CheckBox();
-            this.addCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testsListMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingTests)).BeginInit();
             this.SuspendLayout();
@@ -60,7 +60,7 @@
             this.testsList.FormattingEnabled = true;
             this.testsList.Location = new System.Drawing.Point(0, 26);
             this.testsList.Name = "testsList";
-            this.testsList.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.testsList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.testsList.Size = new System.Drawing.Size(578, 290);
             this.testsList.TabIndex = 21;
             this.testsList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TestsList_MouseDown);
@@ -79,15 +79,21 @@
             // 
             this.deleteTestToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.note_delete;
             this.deleteTestToolStripMenuItem.Name = "deleteTestToolStripMenuItem";
-            this.deleteTestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteTestToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.deleteTestToolStripMenuItem.Text = "Delete test";
             // 
             // editTestToolStripMenuItem
             // 
             this.editTestToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.note_edit;
             this.editTestToolStripMenuItem.Name = "editTestToolStripMenuItem";
-            this.editTestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editTestToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.editTestToolStripMenuItem.Text = "Edit test";
+            // 
+            // addCategoryToolStripMenuItem
+            // 
+            this.addCategoryToolStripMenuItem.Name = "addCategoryToolStripMenuItem";
+            this.addCategoryToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.addCategoryToolStripMenuItem.Text = "Add category";
             // 
             // label1
             // 
@@ -108,12 +114,6 @@
             this.useGrouping.TabIndex = 24;
             this.useGrouping.Text = "Use grouping";
             this.useGrouping.UseVisualStyleBackColor = true;
-            // 
-            // addCategoryToolStripMenuItem
-            // 
-            this.addCategoryToolStripMenuItem.Name = "addCategoryToolStripMenuItem";
-            this.addCategoryToolStripMenuItem.Size = new System.Drawing.Size(32, 19);
-            this.addCategoryToolStripMenuItem.Text = "Add category";
             // 
             // TestListControl
             // 

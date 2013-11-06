@@ -16,7 +16,7 @@ namespace NBi.Xml.Settings
         public List<QueryParameterXml> Parameters { get; set; }
 
         [XmlElement("variable")]
-        public List<QueryVariableXml> Variables { get; set; }
+        public List<QueryTemplateVariableXml> Variables { get; set; }
 
         public DefaultXml(SettingsXml.DefaultScope applyTo) : this()
         {
@@ -26,7 +26,7 @@ namespace NBi.Xml.Settings
         public DefaultXml()
         {
             Parameters = new List<QueryParameterXml>();
-            Variables = new List<QueryVariableXml>();
+            Variables = new List<QueryTemplateVariableXml>();
         }
 
     }

@@ -14,12 +14,12 @@ namespace NBi.Core.Query
             return Build(connectionString, query, parameters, null);
         }
 
-        public IDbCommand Build(string connectionString, string query, IEnumerable<IQueryVariable> variables)
+        public IDbCommand Build(string connectionString, string query, IEnumerable<IQueryTemplateVariable> variables)
         {
             return Build(connectionString, query, null, variables);
         }
 
-        public IDbCommand Build(string connectionString, string query, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryVariable> variables)
+        public IDbCommand Build(string connectionString, string query, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> variables)
         {
             var conn = new ConnectionFactory().Get(connectionString);
             var cmd = conn.CreateCommand();
@@ -57,7 +57,7 @@ namespace NBi.Core.Query
             return cmd;
         }
 
-        private string ApplyVariablesToTemplate(string template, IEnumerable<IQueryVariable> variables)
+        private string ApplyVariablesToTemplate(string template, IEnumerable<IQueryTemplateVariable> variables)
         {
             var templateEngine = new StringTemplateEngine(template, variables);
             return templateEngine.Build();

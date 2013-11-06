@@ -151,7 +151,7 @@
     <Compile Include="Query\CommandBuilder.cs" />
     <Compile Include="Query\DbTypeBuilder.cs" />
     <Compile Include="Query\IQueryParameter.cs" />
-    <Compile Include="Query\IQueryVariable.cs" />
+    <Compile Include="Query\IQueryTemplateVariable.cs" />
     <Compile Include="ResultSet\EndPoint.cs" />
     <Compile Include="ResultSet\IntervalBuilder.cs" />
     <Compile Include="ListComparisonFormatter.cs" />

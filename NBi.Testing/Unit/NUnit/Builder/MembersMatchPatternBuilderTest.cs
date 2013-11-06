@@ -15,7 +15,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Unit.NUnit.Builder
 {
     [TestFixture]
-    public class MembersCountBuilderTest
+    public class MembersMatchPatternBuilderTest
     {
 
         #region SetUp & TearDown
@@ -51,7 +51,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = new MembersXml();
             var item = new HierarchyXml();
             sutXml.Item = item;
-            var ctrXml = new CountXml();
+            var ctrXml = new MatchPatternXml();
 
             var discoFactoStubFactory = new Mock<DiscoveryRequestFactory>();
             discoFactoStubFactory.Setup(dfs => 
@@ -67,166 +67,12 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     .Returns(new MembersDiscoveryRequest());
             var discoFactoStub = discoFactoStubFactory.Object;
 
-            var builder = new MembersCountBuilder(discoFactoStub);
+            var builder = new MembersMatchPatternBuilder(discoFactoStub);
             builder.Setup(sutXml, ctrXml);
             builder.Build();
             var ctr = builder.GetConstraint();
 
-            Assert.That(ctr, Is.InstanceOf<CountConstraint>());
-        }
-
-        [Test]
-        public void GetSystemUnderTest_ConnectionStringInReference_CorrectlyInitialized()
-        {
-            var sutXml = new MembersXml();
-
-            var item = new HierarchyXml();
-            sutXml.Item = item;
-            item.Perspective = "perspective";
-            item.Dimension = "dimension";
-            item.Caption = "hierarchy";
-            item.ConnectionString = "@ref-connStr";
-
-            var settingsXml = new SettingsXml();
-            settingsXml.References.Add(new ReferenceXml() {Name="ref-connStr", ConnectionString="connectionString-ref"});
-            sutXml.Settings = settingsXml;
-
-            var ctrXml = new CountXml();
-
-            var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();
-            discoFactoMockFactory.Setup(dfs =>
-                dfs.Build(
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<List<string>>(),
-                    It.IsAny<List<PatternValue>>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>()))
-                    .Returns(new MembersDiscoveryRequest());
-            var discoFactoMock = discoFactoMockFactory.Object;
-
-            var builder = new MembersCountBuilder(discoFactoMock);
-            builder.Setup(sutXml, ctrXml);
-            builder.Build();
-            var sut = builder.GetSystemUnderTest();
-
-            Assert.That(sut, Is.InstanceOf<MembersDiscoveryRequest>());
-            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString-ref", It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<List<PatternValue>>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), null));
-        }
-
-        [Test]
-        public void GetSystemUnderTest_ConnectionStringInDefault_CorrectlyInitialized()
-        {           
-            var sutXml = new MembersXml();
-            
-            var item = new HierarchyXml();
-            sutXml.Item = item;
-            item.Perspective = "perspective";
-            item.Dimension = "dimension";
-            item.Caption = "hierarchy";
-
-            var defXml = new DefaultXml();
-            defXml.ConnectionString = "connectionString-default";
-            sutXml.Default = defXml;
-
-            var ctrXml = new CountXml();
-
-            var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();
-            discoFactoMockFactory.Setup(dfs =>
-                dfs.Build(
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<List<string>>(),
-                    It.IsAny<List<PatternValue>>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>()))
-                    .Returns(new MembersDiscoveryRequest());
-            var discoFactoMock = discoFactoMockFactory.Object;
-
-            var builder = new MembersCountBuilder(discoFactoMock);
-            builder.Setup(sutXml, ctrXml);
-            builder.Build();
-            var sut = builder.GetSystemUnderTest();
-
-            Assert.That(sut, Is.InstanceOf<MembersDiscoveryRequest>());
-            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString-default", It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<List<PatternValue>>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), null));
-        }
-
-        [Test]
-        public void GetSystemUnderTest_BuildWithHierarchy_CorrectCallToDiscoverFactory()
-        {
-            var sutXml = new MembersXml();
-            sutXml.ChildrenOf = "memberCaption";
-            var item = new HierarchyXml();
-            sutXml.Item = item;
-            item.ConnectionString = "connectionString";
-            item.Perspective = "perspective";
-            item.Dimension="dimension";
-            item.Caption = "hierarchy";
-            var ctrXml = new CountXml();
-
-            var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();
-            discoFactoMockFactory.Setup(dfs =>
-                dfs.Build(
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<List<string>>(),
-                    It.IsAny<List<PatternValue>>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>()))
-                    .Returns(new MembersDiscoveryRequest());
-            var discoFactoMock = discoFactoMockFactory.Object;
-
-            var builder = new MembersCountBuilder(discoFactoMock);
-            builder.Setup(sutXml, ctrXml);
-            builder.Build();
-            var sut = builder.GetSystemUnderTest();
-
-            Assert.That(sut, Is.InstanceOf<MembersDiscoveryRequest>());
-            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", "memberCaption", It.IsAny<List<string>>(), It.IsAny<List<PatternValue>>(), "perspective", "dimension", "hierarchy", null));
-        }
-
-        [Test]
-        public void GetSystemUnderTest_BuildWithLevel_CorrectCallToDiscoverFactory()
-        {
-            var sutXml = new MembersXml();
-            sutXml.ChildrenOf = "memberCaption";
-            var item = new LevelXml();
-            sutXml.Item = item;
-            item.ConnectionString = "connectionString";
-            item.Perspective = "perspective";
-            item.Dimension = "dimension";
-            item.Hierarchy = "hierarchy";
-            item.Caption = "level";
-            var ctrXml = new CountXml();
-
-            var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();
-            discoFactoMockFactory.Setup(dfs =>
-                dfs.Build(
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<List<string>>(),
-                    It.IsAny<List<PatternValue>>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>()))
-                    .Returns(new MembersDiscoveryRequest());
-            var discoFactoMock = discoFactoMockFactory.Object;
-
-            var builder = new MembersCountBuilder(discoFactoMock);
-            builder.Setup(sutXml, ctrXml);
-            builder.Build();
-            var sut = builder.GetSystemUnderTest();
-
-            Assert.That(sut, Is.InstanceOf<MembersDiscoveryRequest>());
-            discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", "memberCaption", It.IsAny<List<string>>(), It.IsAny<List<PatternValue>>(), "perspective", "dimension", "hierarchy", "level"));
+            Assert.That(ctr, Is.InstanceOf<MatchPatternConstraint>());
         }
     }
 }

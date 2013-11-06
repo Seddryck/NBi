@@ -572,7 +572,7 @@ namespace NBi.Testing.Unit.NUnit
         }
 
         [Test]
-        public void Instantiate_StructureExists_ArgumentException()
+        public void Instantiate_StructureExists_TestCase()
         {
             var sutXml = new StructureXml();
             var ctrXml = new ExistsXml();
@@ -585,6 +585,40 @@ namespace NBi.Testing.Unit.NUnit
 
             var testCaseFactory = new TestCaseFactory();
             testCaseFactory.Register(typeof(StructureXml), typeof(ExistsXml), builder);
+
+            var tc = testCaseFactory.Instantiate(sutXml, ctrXml);
+
+            Assert.That(tc, Is.Not.Null);
+            builderMockFactory.VerifyAll();
+        }
+
+
+        [Test]
+        public void IsHandling_MembersMatchPattern_True()
+        {
+            var sutXml = new MembersXml();
+            var ctrXml = new MatchPatternXml();
+            var testCaseFactory = new TestCaseFactory();
+
+            var actual = testCaseFactory.IsHandling(sutXml.GetType(), ctrXml.GetType());
+
+            Assert.That(actual, Is.True);
+        }
+
+        [Test]
+        public void Instantiate_MembersMatchPattern_TestCase()
+        {
+            var sutXml = new MembersXml();
+            var ctrXml = new MatchPatternXml();
+            var builderMockFactory = new Mock<ITestCaseBuilder>();
+            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml));
+            builderMockFactory.Setup(b => b.Build());
+            builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new object());
+            builderMockFactory.Setup(b => b.GetConstraint()).Returns(new MatchPatternConstraint());
+            var builder = builderMockFactory.Object;
+
+            var testCaseFactory = new TestCaseFactory();
+            testCaseFactory.Register(typeof(MembersXml), typeof(MatchPatternXml), builder);
 
             var tc = testCaseFactory.Instantiate(sutXml, ctrXml);
 

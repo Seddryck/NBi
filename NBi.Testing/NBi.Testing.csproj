@@ -140,6 +140,7 @@
     <Compile Include="Unit\NUnit\Builder\MembersCountBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Member\CountConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Member\MatchPatternConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\EquivalentToConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\SubsetOfConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Query\FasterThanConstraintTest.cs" />

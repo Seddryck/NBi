@@ -318,7 +318,7 @@
 					$cube_name$
 					where
 						[Group]='Europe'
-					<variable name="cube_name">  [Sales].[SalesTerritory] </variable>
+					<variable name="cube_name"> from [Sales].[SalesTerritory] </variable>
 				</query>
 			</execution>
 		</system-under-test>

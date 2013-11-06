@@ -307,4 +307,38 @@
 			</equalTo>
 		</assert>
 	</test>
+	<test name="SQL With templates variables">
+		<system-under-test>
+			<execution>
+				<query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+					select
+						[Name], [CountryRegionCode]
+					$cube_name$
+					where
+						[Group]='Europe'
+					<variable name="cube_name">  [Sales].[SalesTerritory] </variable>
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo keys="all">
+				<resultSet>
+					<row>
+						<cell>France</cell>
+						<cell>FR</cell>
+					</row>
+					<row>
+						<cell>Germany</cell>
+						<cell>DE</cell>
+					</row>
+					<row>
+						<cell>United Kingdom</cell>
+						<cell>GB</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
 </testSuite>

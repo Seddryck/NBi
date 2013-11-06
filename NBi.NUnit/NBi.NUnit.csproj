@@ -65,7 +65,6 @@
     <Compile Include="Builder\AbstractTestCaseBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
-    <Compile Include="Builder\CommandBuilder.cs" />
     <Compile Include="Builder\MetadataDiscoveryRequestBuilder.cs" />
     <Compile Include="Builder\MembersSubsetOfBuilder.cs" />
     <Compile Include="Builder\MembersEquivalentToBuilder.cs" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using NBi.Core.Query;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
@@ -32,11 +33,14 @@ namespace NBi.NUnit.Builder
             var connectionString = executionXml.Item.GetConnectionString();
             var commandText = executionXml.Item.GetQuery();
 
-            IEnumerable<QueryParameterXml> parameters=null;
+            IEnumerable<IQueryParameter> parameters=null;
+            IEnumerable<IQueryVariable> variables = null;
             if (executionXml.BaseItem is QueryXml)
+            { 
                 parameters = ((QueryXml)executionXml.BaseItem).GetParameters();
-
-            var cmd = commandBuilder.Build(connectionString, commandText, parameters);
+                variables = ((QueryXml)executionXml.BaseItem).GetVariables();
+            }
+            var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables);
 
             return cmd;
         }

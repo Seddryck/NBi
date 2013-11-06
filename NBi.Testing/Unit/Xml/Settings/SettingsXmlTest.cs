@@ -65,9 +65,10 @@ namespace NBi.Testing.Unit.Xml.Settings
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithDefault");
 
-            Assert.That(ts.Settings.Defaults.Count, Is.EqualTo(1));
-            Assert.That(ts.Settings.Defaults[testNr].ApplyTo, Is.EqualTo(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest));
-            Assert.That(ts.Settings.Defaults[testNr].ConnectionString, Is.Not.Null.And.Not.Empty);
+            Assert.That(ts.Settings.Defaults.Count, Is.EqualTo(2)); //(One empty and one initialized)
+            var sutDefault = ts.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
+            Assert.That(sutDefault.ConnectionString, Is.Not.Null.And.Not.Empty);
+            Assert.That(sutDefault.Parameters, Is.Not.Null);
         }
 
         [Test]
@@ -94,14 +95,14 @@ namespace NBi.Testing.Unit.Xml.Settings
         }
 
         [Test]
-        public void DeserializeEqualToResultSet_SettingsWithoutDefault_NoDefaultLoaded()
+        public void DeserializeEqualToResultSet_SettingsWithoutDefault_NoDefaultLoadedButAreAutomaticallyCreated()
         {
             //int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithoutDefault");
 
-            Assert.That(ts.Settings.Defaults.Count, Is.EqualTo(0));
+            Assert.That(ts.Settings.Defaults.Count, Is.EqualTo(2));
         }
 
         [Test]
@@ -116,14 +117,16 @@ namespace NBi.Testing.Unit.Xml.Settings
         }
 
         [Test]
-        public void DeserializeEqualToResultSet_SettingsWithoutDefault_DefaultEqualToNull()
+        public void DeserializeEqualToResultSet_SettingsWithoutDefault_DefaultEqualToEmptyDefaultAndNotNull()
         {
             //int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithoutDefault");
 
-            Assert.That(ts.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest), Is.Null);
+            Assert.That(ts.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest), Is.Not.Null);
+            Assert.That(ts.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest).ConnectionString, Is.Null);
+            Assert.That(ts.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest).Parameters, Has.Count.EqualTo(0));
         }
 
         [Test]

@@ -4,18 +4,29 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using Microsoft.AnalysisServices.AdomdClient;
-using NBi.Core;
-using NBi.Core.Query;
-using NBi.Xml.Items;
 
-namespace NBi.NUnit.Builder
+namespace NBi.Core.Query
 {
-    internal class CommandBuilder
+    public class CommandBuilder
     {
-        public IDbCommand Build(string connectionString, string query, IEnumerable<QueryParameterXml> parameters)
+        public IDbCommand Build(string connectionString, string query, IEnumerable<IQueryParameter> parameters)
+        {
+            return Build(connectionString, query, parameters, null);
+        }
+
+        public IDbCommand Build(string connectionString, string query, IEnumerable<IQueryVariable> variables)
+        {
+            return Build(connectionString, query, null, variables);
+        }
+
+        public IDbCommand Build(string connectionString, string query, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryVariable> variables)
         {
             var conn = new ConnectionFactory().Get(connectionString);
             var cmd = conn.CreateCommand();
+
+            if (variables != null && variables.Count() > 0)
+                query = ApplyVariablesToTemplate(query, variables);
+                       
             cmd.CommandText = query;
 
             if (parameters!=null && parameters.Count()>0)
@@ -45,5 +56,12 @@ namespace NBi.NUnit.Builder
 
             return cmd;
         }
+
+        private string ApplyVariablesToTemplate(string template, IEnumerable<IQueryVariable> variables)
+        {
+            var templateEngine = new StringTemplateEngine(template, variables);
+            return templateEngine.Build();
+        }
+
     }
 }

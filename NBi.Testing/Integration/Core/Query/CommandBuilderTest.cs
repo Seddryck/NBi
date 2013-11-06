@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NBi.NUnit.Builder;
+using NBi.Core.Query;
 using NBi.Xml.Items;
 using NUnit.Framework;
 
-namespace NBi.Testing.Integration.NUnit.Builder
+namespace NBi.Testing.Integration.Core.Query
 {
     [TestFixture]
     public class CommandBuilderTest

@@ -18,6 +18,11 @@ namespace NBi.Xml.Settings
         [XmlElement("variable")]
         public List<QueryVariableXml> Variables { get; set; }
 
+        public DefaultXml(SettingsXml.DefaultScope applyTo) : this()
+        {
+            ApplyTo = applyTo;
+        }
+
         public DefaultXml()
         {
             Parameters = new List<QueryParameterXml>();

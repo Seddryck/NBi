@@ -34,7 +34,7 @@ namespace NBi.NUnit.Builder
             var commandText = executionXml.Item.GetQuery();
 
             IEnumerable<IQueryParameter> parameters=null;
-            IEnumerable<IQueryVariable> variables = null;
+            IEnumerable<IQueryTemplateVariable> variables = null;
             if (executionXml.BaseItem is QueryXml)
             { 
                 parameters = ((QueryXml)executionXml.BaseItem).GetParameters();

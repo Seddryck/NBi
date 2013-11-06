@@ -25,7 +25,7 @@ namespace NBi.Xml.Items
         public List<QueryParameterXml> Parameters { get; set; }
 
         [XmlElement("variable")]
-        public List<QueryVariableXml> Variables { get; set; }
+        public List<QueryTemplateVariableXml> Variables { get; set; }
 
         public QueryXml()
         {
@@ -42,7 +42,7 @@ namespace NBi.Xml.Items
             return list;
         }
 
-        public List<QueryVariableXml> GetVariables()
+        public List<QueryTemplateVariableXml> GetVariables()
         {
             var list = Variables;
             foreach (var variable in Default.Variables)

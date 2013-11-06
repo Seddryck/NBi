@@ -5,7 +5,7 @@ using NBi.Core.Query;
 
 namespace NBi.Xml.Items
 {
-    public class QueryVariableXml : IQueryVariable
+    public class QueryTemplateVariableXml : IQueryTemplateVariable
     {
         [XmlAttribute("name")]
         public string Name { get; set; }

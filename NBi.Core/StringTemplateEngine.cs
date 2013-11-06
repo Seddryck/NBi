@@ -9,9 +9,9 @@ namespace NBi.Core
     public class StringTemplateEngine
     {
         public string Template { get; private set; }
-        public IEnumerable<IQueryVariable> Variables { get; private set; }
+        public IEnumerable<IQueryTemplateVariable> Variables { get; private set; }
 
-        public StringTemplateEngine(string template, IEnumerable<IQueryVariable> variables)
+        public StringTemplateEngine(string template, IEnumerable<IQueryTemplateVariable> variables)
         {
             Template = template;
             Variables = variables;
@@ -21,7 +21,7 @@ namespace NBi.Core
         {
             var template = new Template(Template, '$', '$');
 
-            foreach (IQueryVariable variable in Variables)
+            foreach (IQueryTemplateVariable variable in Variables)
                 template.Add(variable.Name, variable.Value);
 
             var str = template.Render();

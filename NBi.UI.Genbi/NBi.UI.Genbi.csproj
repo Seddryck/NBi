@@ -90,6 +90,7 @@
     <Compile Include="Command\Settings\RemoveReferenceCommand.cs" />
     <Compile Include="Command\Template\OpenTemplateCommand.cs" />
     <Compile Include="Command\Template\SaveTemplateCommand.cs" />
+    <Compile Include="Command\TestCases\MoveVariableCommand.cs" />
     <Compile Include="Command\TestCases\OpenTestCasesCommand.cs" />
     <Compile Include="Command\TestSuite\OpenTestSuiteCommand.cs" />
     <Compile Include="Command\TestSuite\SaveAsTestSuiteCommand.cs" />
@@ -372,6 +373,8 @@
     <Content Include="Icons\textfield_delete.png" />
     <Content Include="Icons\textfield_rename.png" />
     <Content Include="Icons\user.png" />
+    <None Include="Resources\text_padding_right.png" />
+    <None Include="Resources\text_padding_left.png" />
     <None Include="Resources\NBi2.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -29,5 +29,15 @@ namespace NBi.Xml
             else
                 return Name.ToString();
         }
+
+        internal IEnumerable<TestXml> GetAllTests()
+        {
+            var allTests = new List<TestXml>();
+            allTests.AddRange(this.Tests);
+            foreach (var group in Groups)
+                allTests.AddRange(group.GetAllTests());
+
+            return allTests;
+        }
     }
 }

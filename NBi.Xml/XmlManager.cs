@@ -62,21 +62,23 @@ namespace NBi.Xml
             }
 
             //Apply defaults
-            foreach (var test in TestSuite.Tests)
-            {
-                foreach (var sut in test.Systems)
-                {
-                    sut.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.SystemUnderTest);
-                    sut.Settings = TestSuite.Settings;
-                }
-                foreach (var ctr in test.Constraints)
-                {
-                    ctr.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.Assert);
-                    ctr.Settings = TestSuite.Settings;
-                }
-            }
-
+            foreach (var test in TestSuite.GetAllTests())
+                ApplyDefaultSettings(test);
             
+        }
+
+        private void ApplyDefaultSettings(TestXml test)
+        {
+            foreach (var sut in test.Systems)
+            {
+                sut.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.SystemUnderTest);
+                sut.Settings = TestSuite.Settings;
+            }
+            foreach (var ctr in test.Constraints)
+            {
+                ctr.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.Assert);
+                ctr.Settings = TestSuite.Settings;
+            }
         }
 
         protected internal void ReassignXml()

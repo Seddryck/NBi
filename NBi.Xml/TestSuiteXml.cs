@@ -48,5 +48,17 @@ namespace NBi.Xml
             }
         }
 
+        public IEnumerable<TestXml> GetAllTests()
+        {
+            var allTests = new List<TestXml>();
+            allTests.AddRange(this.Tests);
+            foreach (var group in Groups)
+                allTests.AddRange(group.GetAllTests());
+
+            return allTests;
+        }
+
+        
+
     }
 }

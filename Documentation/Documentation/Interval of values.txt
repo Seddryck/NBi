@@ -1,0 +1,87 @@
+! Interval of values
+For the moment the intervals are only defined for numerical values (not for date and time values).
+
+An interval can only be assigned to a cell belonging to a column defined as a value (so an interval can't be assigned to key columns).
+
+An interval is a range of possible values for a _cell_. If you know that the value of you cell for Calendar Year 2006 must be somewhere between 100 and 500, you can specify it in NBi with the following syntax:
+
+{code:xml}
+<row>
+	<cell>CY 2006</cell>
+	<cell>[100;500]</cell>
+</row>
+{code:xml}
+
+You can use open or closed left and right bounds. The syntax here under assign a range staring just after 100 and ending at 500 included.
+
+{code:xml}
+<row>
+	<cell>CY 2006</cell>
+	<cell>]100;500]</cell>
+</row>
+{code:xml}
+
+!! Infinite
+
+Some intervals cover all the values greater than one million or lower than -200. In this case, the lower or upper bound is defined as the positive or negative infinite. To represent an infinite value in NBi, you can use the syntax _-INF_ or _+INF_
+
+Following intervals are valid:
+
+{code:xml}
+<row>
+	<cell>CY 2006</cell>
+	<cell>[1000000;+INF]</cell>
+</row>
+
+<row>
+	<cell>CY 2006</cell>
+	<cell>[-INF;-200]</cell>
+</row>
+{code:xml}
+
+Note that for infinite the notion of open or closed bound is not relevant.
+
+!! Special intervals
+
+For readability of your test it's sometimes useful to use a more readable syntax to define a few specific intervals. Following short-cut are authorized and understood by NBi
+
+|| Description || Standard interval || literal short-cut || numeric short-cut
+| Greater than 0  | ]0;+INF] | (absolutely-positive) | (+)
+| Greater or equal to 0 | [0;+INF] | (positive) | (0+)
+| Less than 0 | [-INF;0[ | (absolutely-negative) | (-)
+| Less or equal to 0 | [-INF;0] | (negative) | (-0)
+
+{code:xml}
+<row>
+	<cell>CY 2006</cell>
+	<cell>(positive)</cell>
+</row>
+
+<row>
+	<cell>CY 2006</cell>
+	<cell>(0+)</cell>
+</row>
+
+<row>
+	<cell>CY 2006</cell>
+	<cell>[0;+INF]</cell>
+</row>
+{code:xml}
+
+You can also avoid the usage of the _-INF_ or _+INF_ by using the short-cut version making usage of symbols greater and less than.
+
+The two notations bellow are identical to represent all values greater than 500
+
+{code:xml}
+<row>
+	<cell>CY 2006</cell>
+	<cell>]500;+INF]</cell>
+</row>
+
+<row>
+	<cell>CY 2006</cell>
+	<cell>(>500)</cell>
+</row>
+{code:xml}
+
+Usage of following symbol (between brakets) is also authorized by NBi: < , <= , > , >= . Note that for symbols < , <= you'll need to make usage of the CDATA container of Xml to avoid misunderstanding with an opening xml element.

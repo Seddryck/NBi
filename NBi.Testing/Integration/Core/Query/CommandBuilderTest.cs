@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NBi.NUnit.Builder;
+using NBi.Core.Query;
 using NBi.Xml.Items;
 using NUnit.Framework;
 
-namespace NBi.Testing.Integration.NUnit.Builder
+namespace NBi.Testing.Integration.Core.Query
 {
     [TestFixture]
     public class CommandBuilderTest
@@ -105,7 +105,7 @@ namespace NBi.Testing.Integration.NUnit.Builder
                 {
                     new QueryParameterXml()
                     {
-                        Name="@Param",
+                        Name="Param",
                         StringValue = "2"
                     }
                 }
@@ -147,6 +147,41 @@ namespace NBi.Testing.Integration.NUnit.Builder
 
             Assert.That(dr.Read(), Is.True);
             Assert.That(dr.GetValue(1), Is.EqualTo("Canada"));
+            Assert.That(dr.Read(), Is.False);
+        }
+
+        [Test, Category("Mdx")]
+        public void BuildMdx_WithUselessParameter_CorrectResultSet()
+        {
+            var commandBuilder = new CommandBuilder();
+            var cmd = commandBuilder.Build(
+                ConnectionStringReader.GetAdomd(),
+                "select " +
+                    "[Measures].[Order Count] on 0, " +
+                    "strToMember(@Param) on 1 "+
+                "from "+ 
+                    "[Adventure Works]",
+
+                new List<QueryParameterXml>() 
+                {
+                    new QueryParameterXml()
+                    {
+                        Name="@Param",
+                        StringValue = "[Product].[Model Name].[Bike Wash]"
+                    },
+                    new QueryParameterXml()
+                    {
+                        Name="UnusedParam",
+                        StringValue = "Useless"
+                    }
+                }
+                );
+
+            cmd.Connection.Open();
+            var dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+
+            Assert.That(dr.Read(), Is.True);
+            Assert.That(dr.GetValue(0), Is.EqualTo("Bike Wash"));
             Assert.That(dr.Read(), Is.False);
         }
     }

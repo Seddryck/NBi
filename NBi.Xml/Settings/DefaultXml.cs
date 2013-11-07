@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
+using NBi.Xml.Items;
 
 namespace NBi.Xml.Settings
 {
@@ -10,6 +11,23 @@ namespace NBi.Xml.Settings
 
         [XmlElement ("connectionString")]
         public string ConnectionString { get; set; }
+
+        [XmlElement("parameter")]
+        public List<QueryParameterXml> Parameters { get; set; }
+
+        [XmlElement("variable")]
+        public List<QueryTemplateVariableXml> Variables { get; set; }
+
+        public DefaultXml(SettingsXml.DefaultScope applyTo) : this()
+        {
+            ApplyTo = applyTo;
+        }
+
+        public DefaultXml()
+        {
+            Parameters = new List<QueryParameterXml>();
+            Variables = new List<QueryTemplateVariableXml>();
+        }
 
     }
 }

@@ -157,6 +157,7 @@ namespace NBi.Core.Query
                 catch (SqlException ex)
                 { throw new ConnectionException(ex, connectionString); }
 
+                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
                 // capture time before execution
                 DateTime timeBefore = DateTime.Now;
                 var adapter = new SqlDataAdapter(command);

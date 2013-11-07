@@ -1,18 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: query equalTo query" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+		</default>
+		<default apply-to="assert">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+		</default>
+	</settings>
 	<test name="'Reseller Order Count' by year before 2006" uid="0001">
 		<system-under-test>
 			<execution>
 				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
-					WITH MEMBER 
-						[Measures].[Reseller Order Count Divided by 7] 
-					AS 
-						[Measures].[Reseller Order Count]/7
+					WITH MEMBER
+					[Measures].[Reseller Order Count Divided by 7]
+					AS
+					[Measures].[Reseller Order Count]/7
 					SELECT
-						[Measures].[Reseller Order Count Divided by 7] ON 0,
-						EXCEPT({[Date].[Calendar Year].Children},{[Date].[Calendar Year].[CY 2010]}) ON 1
+					[Measures].[Reseller Order Count Divided by 7] ON 0,
+					EXCEPT({[Date].[Calendar Year].Children},{[Date].[Calendar Year].[CY 2010]}) ON 1
 					FROM
-						[Adventure Works]
+					[Adventure Works]
 				</query>
 			</execution>
 		</system-under-test>
@@ -20,7 +28,7 @@
 			<equalTo>
 				<column index="0" role="key" type="text"/>
 				<column index="1" role="value" type="numeric" tolerance="0.01"/>
-				<query connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+				<query>
 					SELECT 'CY 2005', 366.0/7
 					UNION ALL SELECT 'CY 2006', 1015.0/7
 					UNION ALL SELECT 'CY 2007', 1521.0/7
@@ -35,10 +43,10 @@
 			<execution>
 				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
 					select
-						[Measures].[Internet Order Count] on 0,
-						[Date].[Date].Children  on 1
+					[Measures].[Internet Order Count] on 0,
+					[Date].[Date].Children  on 1
 					from
-						[Adventure Works]
+					[Adventure Works]
 				</query>
 			</execution>
 		</system-under-test>
@@ -46,12 +54,81 @@
 			<equalTo>
 				<query connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
 					select
-						[Measures].[Internet Order Count] on 0,
-						[Date].[Date].Children  on 1
+					[Measures].[Internet Order Count] on 0,
+					[Date].[Date].Children  on 1
 					from
-						[Adventure Works]
+					[Adventure Works]
 				</query>
 			</equalTo>
 		</assert>
 	</test>
+	<group name="group">
+		<test name="Test Select 1" uid="0001">
+			<category>Shared</category>
+			<system-under-test>
+				<execution>
+					<query>
+						<![CDATA[
+					SELECT 'OK'
+					]]>
+					</query>
+				</execution>
+			</system-under-test>
+			<assert>
+				<equalTo>
+					<resultSet>
+						<row>
+							<cell>OK</cell>
+						</row>
+					</resultSet>
+				</equalTo>
+			</assert>
+		</test>
+		<group name="group">
+			<test name="Test Select 1" uid="0001">
+				<category>Shared</category>
+				<system-under-test>
+					<execution>
+						<query>
+							<![CDATA[
+							SELECT 'OK'
+							]]>
+						</query>
+					</execution>
+				</system-under-test>
+				<assert>
+					<equalTo>
+						<resultSet>
+							<row>
+								<cell>OK</cell>
+							</row>
+						</resultSet>
+					</equalTo>
+				</assert>
+			</test>
+			<group name="group">
+				<test name="Test Select 1" uid="0001">
+					<category>Shared</category>
+					<system-under-test>
+						<execution>
+							<query>
+								<![CDATA[
+									SELECT 'OK'
+									]]>
+							</query>
+						</execution>
+					</system-under-test>
+					<assert>
+						<equalTo>
+							<resultSet>
+								<row>
+									<cell>OK</cell>
+								</row>
+							</resultSet>
+						</equalTo>
+					</assert>
+				</test>
+			</group>
+		</group>
+	</group>
 </testSuite>

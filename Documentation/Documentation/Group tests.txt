@@ -1,6 +1,6 @@
 ! Group tests
 *New in version 1.3*
-For edition purpose, especially when you've a test-suite with more than 100 tests, it's sometimes usefull to group tests. This can be achieved with the xml element named _group_. You can include a few tests in a _group_ element. If you're using an advanced IDE, such as Visual Studio, it will be possible to toggle off/on this group of tests when editing them. You can also create _group_ elements under _group_ elements and so on. The only attribute of this xml element _group_ is named _name_. This attribute will the editor specify the name of the group.
+For edition purpose, especially when you've a test-suite with more than 100 tests, it's sometimes usefull to group tests. This can be achieved with the xml element named _group_. You can include a few tests in a _group_ element. If you're using an advanced IDE, such as Visual Studio, it will be possible to toggle off/on this group of tests when editing them. You can also create _group_ elements under _group_ elements and so on. The only attribute of this xml element _group_ is named _name_ and will let the editor specify a display name for the group.
 
 This feature has absolutely no influence at runtime. Meaning, that this will not influence the way the tests are named or presented by NUnit.
 
@@ -91,4 +91,26 @@ The sample here under makes usage of several groups and groups under groups.
 		</group>
 	</group>
 </testSuite>
+{code:xml}
+
+Note that if, at the same level, you've tests and groups then you must ensure that all the tests are located above the first group of this level. It means that if you've, at a given level, three tests and two groups, the three tests must appear above the two groups.
+
+This configuration is valid
+
+{code:xml}
+<test/>
+<test/>
+<test/>
+<group/>
+<group/>
+{code:xml}
+
+This one is not valid
+
+{code:xml}
+<test/>
+<group/>
+<test/>
+<test/>
+<group/>
 {code:xml}

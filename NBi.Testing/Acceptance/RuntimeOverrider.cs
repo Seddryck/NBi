@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using NBi.NUnit.Runtime;
-using NBi.nbits;
+using NBi.Xml;
 
 namespace NBi.Testing.Acceptance
 {
@@ -38,7 +38,7 @@ namespace NBi.Testing.Acceptance
             }
 
             [Ignore]
-            public override void ExecuteTestCases(Testnbits test)
+            public override void ExecuteTestCases(TestXml test)
             {
                 base.ExecuteTestCases(test);
             }
@@ -75,7 +75,7 @@ namespace NBi.Testing.Acceptance
 
             //Execute the NUnit TestCases one by one
             foreach (var testCaseData in tests)
-                t.ExecuteTestCases((Testnbits)testCaseData.Arguments[0]);
+                t.ExecuteTestCases((TestXml)testCaseData.Arguments[0]);
             
         }
     }

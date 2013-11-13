@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using NBi.NUnit.Runtime;
-using NBi.Xml;
+using NBi.nbits;
 
 namespace NBi.Testing.Acceptance
 {
@@ -38,7 +38,7 @@ namespace NBi.Testing.Acceptance
             }
 
             [Ignore]
-            public override void ExecuteTestCases(TestXml test)
+            public override void ExecuteTestCases(Testnbits test)
             {
                 base.ExecuteTestCases(test);
             }
@@ -46,25 +46,25 @@ namespace NBi.Testing.Acceptance
         
         //By Acceptance Test Suite (file) create a Test Case
         [Test]
-        [TestCase("AssemblyEqualToResultSet.xml")]
-        [TestCase("QueryEqualToCsv.xml")]
-        [TestCase("QueryEqualToQuery.xml")]
-        [TestCase("QueryEqualToResultSet.xml")]
-        [TestCase("QueryEqualToResultSetWithNull.xml")]
-        [TestCase("QueryWithReference.xml")]
-        [TestCase("Ordered.xml")]
-        [TestCase("Count.xml")]
-        [TestCase("Contain.xml")]
-        [TestCase("ContainStructure.xml")]
-        [TestCase("fasterThan.xml")]
-        [TestCase("SyntacticallyCorrect.xml")]
-        [TestCase("Exists.xml")]
-        [TestCase("LinkedTo.xml")]
-        [TestCase("SubsetOfStructure.xml")]
-        [TestCase("EquivalentToStructure.xml")]
-        [TestCase("SubsetOfMembers.xml")]
-        [TestCase("EquivalentToMembers.xml")]
-        [TestCase("MatchPatternMembers.xml")]
+        [TestCase("AssemblyEqualToResultSet.nbits")]
+        [TestCase("QueryEqualToCsv.nbits")]
+        [TestCase("QueryEqualToQuery.nbits")]
+        [TestCase("QueryEqualToResultSet.nbits")]
+        [TestCase("QueryEqualToResultSetWithNull.nbits")]
+        [TestCase("QueryWithReference.nbits")]
+        [TestCase("Ordered.nbits")]
+        [TestCase("Count.nbits")]
+        [TestCase("Contain.nbits")]
+        [TestCase("ContainStructure.nbits")]
+        [TestCase("fasterThan.nbits")]
+        [TestCase("SyntacticallyCorrect.nbits")]
+        [TestCase("Exists.nbits")]
+        [TestCase("LinkedTo.nbits")]
+        [TestCase("SubsetOfStructure.nbits")]
+        [TestCase("EquivalentToStructure.nbits")]
+        [TestCase("SubsetOfMembers.nbits")]
+        [TestCase("EquivalentToMembers.nbits")]
+        [TestCase("MatchPatternMembers.nbits")]
         public void RunTestSuite(string filename)
         {
             var t = new TestSuiteOverrider(filename);
@@ -75,7 +75,7 @@ namespace NBi.Testing.Acceptance
 
             //Execute the NUnit TestCases one by one
             foreach (var testCaseData in tests)
-                t.ExecuteTestCases((TestXml)testCaseData.Arguments[0]);
+                t.ExecuteTestCases((Testnbits)testCaseData.Arguments[0]);
             
         }
     }

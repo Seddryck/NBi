@@ -12,7 +12,7 @@ An interval is a range of possible values for a _cell_. If you know that the val
 </row>
 {code:xml}
 
-You can use open or closed left and right bounds. The syntax here under assign a range staring just after 100 and ending at 500 included.
+You can use open or closed left and right bounds to specify if the bounds are contained or not in your interval. The sample here under assign a range starting just after 100 and ending at 500 included.
 
 {code:xml}
 <row>
@@ -70,7 +70,7 @@ For readability of your test it's sometimes useful to use a more readable syntax
 
 You can also avoid the usage of the _-INF_ or _+INF_ by using the short-cut version making usage of symbols greater and less than.
 
-The two notations bellow are identical to represent all values greater than 500
+The two notations bellow are identical to represent all values greater than 500.
 
 {code:xml}
 <row>

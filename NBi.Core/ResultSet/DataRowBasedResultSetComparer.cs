@@ -199,7 +199,7 @@ namespace NBi.Core.ResultSet
                                     if (Settings.IsRounding(i))
                                         result = dateTimeComparer.Compare(rx[i], ry[i], Settings.GetRounding(i));
                                     else
-                                        result = dateTimeComparer.Compare(rx[i], ry[i]);
+                                        result = dateTimeComparer.Compare(rx[i], ry[i], Settings.GetTolerance(i));
                                 }
                                 //Boolean
                                 else if (Settings.IsBoolean(i))

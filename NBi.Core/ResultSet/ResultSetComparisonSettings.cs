@@ -84,24 +84,24 @@ namespace NBi.Core.ResultSet
 			return false;
 		}
 
-        public bool IsRounding(int index)
-        {
-            return ColumnsDef.Any(
-                    c => c.Index == index
-                    && c.Role == ColumnRole.Value
-                    && c.RoundingStyle != Comparer.Rounding.RoundingStyle.None
-                    && !string.IsNullOrEmpty(c.RoundingStep));
-        }
+		public bool IsRounding(int index)
+		{
+			return ColumnsDef.Any(
+					c => c.Index == index
+					&& c.Role == ColumnRole.Value
+					&& c.RoundingStyle != Comparer.Rounding.RoundingStyle.None
+					&& !string.IsNullOrEmpty(c.RoundingStep));
+		}
 
-        public Rounding GetRounding(int index)
-        {
-            if (!IsRounding(index))
-                return null;
+		public Rounding GetRounding(int index)
+		{
+			if (!IsRounding(index))
+				return null;
 
-            return RoundingFactory.Build(ColumnsDef.Single(
-                    c => c.Index == index
-                    && c.Role == ColumnRole.Value));
-        }
+			return RoundingFactory.Build(ColumnsDef.Single(
+					c => c.Index == index
+					&& c.Role == ColumnRole.Value));
+		}
 
 		public ColumnRole GetColumnRole(int index)
 		{
@@ -164,13 +164,15 @@ namespace NBi.Core.ResultSet
 				return null;
 			
 			var col = ColumnsDef.FirstOrDefault(c => c.Index == index);
-			if (col == null)
-				return DefaultTolerance;
-
-			if (col.IsToleranceSpecified)
-				return ToleranceFactory.Build(col);
-			else
-				return DefaultTolerance;
+			if (col == null || !col.IsToleranceSpecified)
+			{
+				if (IsNumeric(index))
+					return DefaultTolerance;
+				else
+					return DateTimeTolerance.ZeroTolerance;
+			}
+				
+			return ToleranceFactory.Build(col);          
 		}
 
 		public int GetLastColumnIndex()
@@ -238,11 +240,11 @@ namespace NBi.Core.ResultSet
 		}
 
 		public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, ICollection<IColumnDefinition> columnsDef)
-            : this(keysDef, valuesDef, new NumericAbsoluteTolerance(0), columnsDef)
+			: this(keysDef, valuesDef, new NumericAbsoluteTolerance(0), columnsDef)
 		{
 		}
 
-        public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, NumericTolerance defaultTolerance)
+		public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, NumericTolerance defaultTolerance)
 			: this(keysDef, valuesDef, defaultTolerance, null)
 		{
 		}

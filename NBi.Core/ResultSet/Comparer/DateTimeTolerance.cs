@@ -7,6 +7,12 @@ namespace NBi.Core.ResultSet.Comparer
     {
         public TimeSpan TimeSpan {get;set;}
 
+        private DateTimeTolerance()
+            : base(0.ToString())
+        {
+            this.TimeSpan = new TimeSpan(0);
+        }
+
         public DateTimeTolerance(TimeSpan value)
             : base(value.ToString())
         {
@@ -14,6 +20,14 @@ namespace NBi.Core.ResultSet.Comparer
                 throw new ArgumentException("The parameter 'step' must be a value greater than zero.", "step");
 
             this.TimeSpan = value;
+        }
+
+        public static DateTimeTolerance ZeroTolerance
+        {
+            get
+            {
+                return new DateTimeTolerance();
+            }
         }
     }
 }

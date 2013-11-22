@@ -1,0 +1,33 @@
+Features tagged *v1.1* are only available in the release 1.1-RC
+
+! How to
+* [Manually create my first test suite with NBi|Create manually my first test suite with NBi]
+* [Run a test suite with NUnit GUI]
+* [Run a test suite with Gallio]
+* [Share binaries between test-suites] (useful for build servers)
+
+! Currently supported features 
+* SSAS & SQL
+** Query execution
+*** [Test equivalence of two result sets]
+*** [Test performance] *(improved in v1.1)*
+*** [Test syntax]
+*** [Get a query from an assembly] *v1.1*
+* SSAS
+** Cube structure
+*** [Test the availability of an element in the cube's structure] (measure, measure-group, level, hierarchy, dimension, perspective)
+*** [Test availability of one or more elements in the cube structure] *v1.1*
+*** [Test the relation between a dimension and a measure-group] *v1.1*
+** Dimension membership
+*** [Test the members' count at any level of a dimension or hierarchy]
+*** [Test ordering of members at any level of a dimension or hierarchy]
+*** [Test availability of a member at any level of a dimension or hierarchy]
+*** [Test availability of one or more members in a hierarchy or level] *v1.1*
+* Manage test cases
+** [Group tests cases by categories (manual or automatic)]
+** [Author and updates]
+** [Provide a description to your test]
+** [Ignore a test]
+** [Manage connection strings] *v1.1*
+* Tool to assist in the creation of a test suite
+** [Generate new tests based on a template] *v1.1*

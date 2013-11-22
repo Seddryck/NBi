@@ -59,9 +59,7 @@ namespace NBi.Testing.Unit.Xml.Settings
 
         [Test]
         public void DeserializeEqualToResultSet_SettingsWithDefault_DefaultLoaded()
-        {
-            int testNr = 0;
-            
+        {           
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithDefault");
 

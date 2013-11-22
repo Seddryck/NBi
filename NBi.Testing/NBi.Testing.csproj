@@ -1,372 +1,352 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6AEEBCF9-90B3-4594-B015-8BBBE9E126EF}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NBi.Testing</RootNamespace>
-    <AssemblyName>NBi.Testing</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\Release\</OutputPath>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>../../../../../../../Program%20Files/Microsoft.NET/ADOMD.NET/100/Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
-    </Reference>
-    <Reference Include="Moq">
-      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.core">
-      <HintPath>..\packages\NUnit.Runners.2.6.2\tools\lib\nunit.core.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.core.interfaces">
-      <HintPath>..\packages\NUnit.Runners.2.6.2\tools\lib\nunit.core.interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="Acceptance\Resources\AssemblyClass.cs" />
-    <Compile Include="Acceptance\RuntimeOverrider.cs" />
-    <Compile Include="Acceptance\TestSuiteRunner.cs" />
-    <Compile Include="ConnectionStringReader.cs" />
-    <Compile Include="DiskOnFile.cs" />
-    <Compile Include="Integration\Core\Analysis\Member\MembersCommandTest.cs" />
-    <Compile Include="Integration\Core\Analysis\Metadata\Adomd\AdomdDiscoveryCommandTest.cs" />
-    <Compile Include="Integration\Core\Analysis\Metadata\Adomd\ColumnDiscoveryCommandTest.cs" />
-    <Compile Include="Integration\Core\Analysis\Metadata\Adomd\TableDiscoveryCommandTest.cs" />
-    <Compile Include="Integration\Core\Analysis\Request\DiscoveryRequestFactoryTest.cs" />
-    <Compile Include="Integration\Core\Analysis\MembersAdomdEngineTest.cs" />
-    <Compile Include="Integration\Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />
-    <Compile Include="Integration\Core\Query\QueryAdomdEngineTest.cs" />
-    <Compile Include="Integration\Core\Query\QueryParserTest.cs" />
-    <Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
-    <Compile Include="Integration\Core\Query\CommandBuilderTest.cs" />
-    <Compile Include="Integration\NUnit\EqualToConstraintTest.cs" />
-    <Compile Include="Integration\NUnit\Members\EquivalentToConstraintTest.cs" />
-    <Compile Include="Integration\NUnit\Query\EqualToConstraintTest.cs" />
-    <Compile Include="Integration\NUnit\Query\FasterThanConstraintTest.cs" />
-    <Compile Include="Integration\NUnit\Structure\ContainConstraintTest.cs" />
-    <Compile Include="Integration\NUnit\Structure\SubsetOfConstraintTest.cs" />
-    <Compile Include="Integration\NUnit\Structure\EquivalentToConstraintTest.cs" />
-    <Compile Include="Integration\NUnit\Structure\LinkedToConstraintTest.cs" />
-    <Compile Include="Integration\NUnit\Structure\ExistsConstraintTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommandTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\Adomd\HierarchyDiscoveryCommandTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureDiscoveryCommandTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\CubeMetadataTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvReaderTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvWriterTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbReaderTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbWriterTest.cs" />
-    <Compile Include="Unit\Core\ConnectionExceptionTest.cs" />
-    <Compile Include="Unit\Core\Assemblies\AssemblyManagerTest.cs" />
-    <Compile Include="Unit\Core\Assemblies\Resource\StaticKlass.cs" />
-    <Compile Include="Unit\Core\Assemblies\Resource\Enumeration.cs" />
-    <Compile Include="Unit\Core\Assemblies\Resource\Klass.cs" />
-    <Compile Include="Unit\Core\Assemblies\TypeConverterTest.cs" />
-    <Compile Include="Unit\Core\ListComparerTest.cs" />
-    <Compile Include="Unit\Core\ListComparisonFormatterTest.cs" />
-    <Compile Include="Unit\Core\Query\DbTypeBuilderTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Comparer\BaseComparerTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Comparer\BooleanComparerTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Comparer\DateTimeRoundingTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Comparer\DateTimeComparerTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Comparer\NumericRoundingTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Comparer\TextComparerTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Comparer\NumericComparerTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\DataRowBasedResultSetComparerTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\LineFormatterTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\ResultSetComparisonSettingsTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\ResultSetCsvReaderTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\ResultSetTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\ResultSetWriterTest.cs" />
-    <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
-    <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\MembersMatchPatternBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\MembersEquivalentToBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\StructureEquivalentToBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\QuerySyntacticallyCorrectBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\QueryFasterThanBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\ExecutionEqualsToBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\StructureExistsBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\MembersContainsBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\MembersOrderedBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\MembersCountBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Member\CountConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\Member\MatchPatternConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\Member\EquivalentToConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\Member\SubsetOfConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\Query\FasterThanConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\Member\ContainsConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\Member\OrderedConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\Runtime\TestSuiteTest.cs" />
-    <Compile Include="Unit\NUnit\Structure\ContainConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\Structure\SubsetOfConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\Structure\EquivalentToConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\Structure\ExistsConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\Query\SyntacticallyCorrectConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\Query\EqualToConstraintTest.cs" />
-    <Compile Include="Properties\ProjectAssemblyInfo.cs" />
-    <Compile Include="Unit\Service\RunnerConfig\GallioRunnerConfigBuilderTest.cs" />
-    <Compile Include="Unit\Service\RunnerConfig\NUnitRunnerConfigBuilderTest.cs" />
-    <Compile Include="Unit\Service\RunnerConfig\RunnerConfigManagerTest.cs" />
-    <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\MatchPatternXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\EquivalentToXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\SubsetOfXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\LinkedToXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\FasterThanXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
-    <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
-    <Compile Include="Unit\Xml\GroupXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\ColumnXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\PerspectiveXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\QueryXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\TableXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\HierarchiesXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\HierarchyXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\AssemblyXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\MeasureXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\OrderedXmlTest.cs" />
-    <Compile Include="Unit\Xml\IgnoreXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\ContainXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\CountXmlTest.cs" />
-    <Compile Include="Unit\Xml\Systems\MembersXmlTest.cs" />
-    <Compile Include="Unit\Xml\Systems\StructureXmlTest.cs" />
-    <Compile Include="Unit\Xml\Settings\SettingsXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\EqualToXmlTest.cs" />
-    <Compile Include="Unit\Xml\TestXmlTest.cs" />
-    <Compile Include="Unit\NUnit\ConstraintFactoryTest.cs" />
-    <Compile Include="Unit\Xml\Systems\ExecutionXmlTest.cs" />
-    <Compile Include="Unit\Xml\XmlManagerTest.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Integration\Core\Analysis\Query\" />
-    <Folder Include="Integration\NUnit\Builder\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Acceptance\Resources\ResellerOrderCountByYearBefore2006.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <None Include="ConnectionString.config">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <EmbeddedResource Include="Integration\NUnit\Resources\NonEmptyAmountByYear.csv" />
-    <None Include="packages.config" />
-    <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataCsvSample.csv" />
-    <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataExcelSample.xls" />
-    <EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject-Saved.nbi" />
-    <EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject.nbi" />
-  </ItemGroup>
-  <ItemGroup>
-    <MyOptionalItems Include="ConnectionString.user.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\TableXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\ColumnXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\HierarchiesXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Core\ResultSet\Resources\ResultDataSet.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\LinkedToXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\HierarchyXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\AssemblyXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\DescriptionXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\TestXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultAssert.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\ExistsXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\QueryFileEuro.mdx" />
-    <EmbeddedResource Include="Unit\Xml\Resources\MeasureXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\IgnoreXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\OrderedXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\ContainXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\CountXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\MembersXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\StructureXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithReference.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithoutDefault.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefault.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\EqualToXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidSyntax.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SelectAllProducts.sql" />
-    <EmbeddedResource Include="Unit\Xml\Resources\QueryFile.sql" />
-    <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerSample.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\FasterThanXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SubsetOfXmlTestSuite.xml" />
-    <!--Acceptance Ressources-->
-    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToResultSet.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToCsv.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToQuery.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToResultSetWithNull.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Ordered.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Count.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Contain.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\FasterThan.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\SyntacticallyCorrect.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Exists.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\AssemblyEqualToResultSet.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\ContainStructure.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\LinkedTo.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\SubsetOfStructure.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\EquivalentToStructure.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\SubsetOfMembers.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\EquivalentToMembers.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\QueryWithReference.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
-      <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
-      <Name>NBi.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.NUnit.Runtime\NBi.NUnit.Runtime.csproj">
-      <Project>{5aa137a9-c158-4a4f-b07d-3df787618c24}</Project>
-      <Name>NBi.NUnit.Runtime</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.NUnit\NBi.NUnit.csproj">
-      <Project>{66314704-aa76-4153-80d8-ca2c5ff06976}</Project>
-      <Name>NBi.NUnit</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.Services\NBi.Service.csproj">
-      <Project>{a9c7e50a-1d3d-4c6d-9c56-8ea8925fe2d6}</Project>
-      <Name>NBi.Service</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.UI\NBi.UI.csproj">
-      <Project>{18ed64e4-7d72-4a2c-9cd8-46f732d287ed}</Project>
-      <Name>NBi.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
-      <Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>
-      <Name>NBi.Xml</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\GroupXmlTestSuite.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithoutParallelQueries.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithParallelQueriesSetTrue.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithParallelQueriesSetFalse.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\EquivalentToXmlTestSuite.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\QueryXmlTestSuite.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithParameters.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\MatchPatternXmlTestSuite.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithVariables.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Acceptance\Resources\MatchPatternMembers.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProductVersion>8.0.30703</ProductVersion>
+		<SchemaVersion>2.0</SchemaVersion>
+		<ProjectGuid>{6AEEBCF9-90B3-4594-B015-8BBBE9E126EF}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<RootNamespace>NBi.Testing</RootNamespace>
+		<AssemblyName>NBi.Testing</AssemblyName>
+		<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+		<FileAlignment>512</FileAlignment>
+		<SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+		<RestorePackages>true</RestorePackages>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>bin\Debug\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<PlatformTarget>x86</PlatformTarget>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DebugType>pdbonly</DebugType>
+		<Optimize>true</Optimize>
+		<OutputPath>bin\Release\</OutputPath>
+		<DefineConstants>TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<PlatformTarget>x86</PlatformTarget>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+		<PlatformTarget>x64</PlatformTarget>
+		<OutputPath>bin\x64\Debug\</OutputPath>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+		<PlatformTarget>x64</PlatformTarget>
+		<OutputPath>bin\x64\Release\</OutputPath>
+	</PropertyGroup>
+	<ItemGroup>
+		<Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+			<HintPath>../../../../../../../Program%20Files/Microsoft.NET/ADOMD.NET/100/Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
+		</Reference>
+		<Reference Include="Moq">
+			<HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+		</Reference>
+		<Reference Include="nunit.core">
+			<HintPath>..\packages\NUnit.Runners.2.6.2\tools\lib\nunit.core.dll</HintPath>
+		</Reference>
+		<Reference Include="nunit.core.interfaces">
+			<HintPath>..\packages\NUnit.Runners.2.6.2\tools\lib\nunit.core.interfaces.dll</HintPath>
+		</Reference>
+		<Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+		</Reference>
+		<Reference Include="System" />
+		<Reference Include="System.Core" />
+		<Reference Include="System.Xml.Linq" />
+		<Reference Include="System.Data.DataSetExtensions" />
+		<Reference Include="Microsoft.CSharp" />
+		<Reference Include="System.Data" />
+		<Reference Include="System.Xml" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="..\AssemblyInfo.cs">
+			<Link>Properties\AssemblyInfo.cs</Link>
+		</Compile>
+		<Compile Include="Acceptance\Resources\AssemblyClass.cs" />
+		<Compile Include="Acceptance\RuntimeOverrider.cs" />
+		<Compile Include="Acceptance\TestSuiteRunner.cs" />
+		<Compile Include="ConnectionStringReader.cs" />
+		<Compile Include="DiskOnFile.cs" />
+		<Compile Include="Integration\Core\Analysis\Member\MembersCommandTest.cs" />
+		<Compile Include="Integration\Core\Analysis\Metadata\Adomd\AdomdDiscoveryCommandTest.cs" />
+		<Compile Include="Integration\Core\Analysis\Metadata\Adomd\ColumnDiscoveryCommandTest.cs" />
+		<Compile Include="Integration\Core\Analysis\Metadata\Adomd\TableDiscoveryCommandTest.cs" />
+		<Compile Include="Integration\Core\Analysis\Request\DiscoveryRequestFactoryTest.cs" />
+		<Compile Include="Integration\Core\Analysis\MembersAdomdEngineTest.cs" />
+		<Compile Include="Integration\Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />
+		<Compile Include="Integration\Core\Query\QueryAdomdEngineTest.cs" />
+		<Compile Include="Integration\Core\Query\QueryParserTest.cs" />
+		<Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
+		<Compile Include="Integration\Core\Query\CommandBuilderTest.cs" />
+		<Compile Include="Integration\NUnit\EqualToConstraintTest.cs" />
+		<Compile Include="Integration\NUnit\Members\EquivalentToConstraintTest.cs" />
+		<Compile Include="Integration\NUnit\Query\EqualToConstraintTest.cs" />
+		<Compile Include="Integration\NUnit\Query\FasterThanConstraintTest.cs" />
+		<Compile Include="Integration\NUnit\Structure\ContainConstraintTest.cs" />
+		<Compile Include="Integration\NUnit\Structure\SubsetOfConstraintTest.cs" />
+		<Compile Include="Integration\NUnit\Structure\EquivalentToConstraintTest.cs" />
+		<Compile Include="Integration\NUnit\Structure\LinkedToConstraintTest.cs" />
+		<Compile Include="Integration\NUnit\Structure\ExistsConstraintTest.cs" />
+		<Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommandTest.cs" />
+		<Compile Include="Unit\Core\Analysis\Metadata\Adomd\HierarchyDiscoveryCommandTest.cs" />
+		<Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureDiscoveryCommandTest.cs" />
+		<Compile Include="Unit\Core\Analysis\Metadata\CubeMetadataTest.cs" />
+		<Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvReaderTest.cs" />
+		<Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvWriterTest.cs" />
+		<Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbReaderTest.cs" />
+		<Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbWriterTest.cs" />
+		<Compile Include="Unit\Core\ConnectionExceptionTest.cs" />
+		<Compile Include="Unit\Core\Assemblies\AssemblyManagerTest.cs" />
+		<Compile Include="Unit\Core\Assemblies\Resource\StaticKlass.cs" />
+		<Compile Include="Unit\Core\Assemblies\Resource\Enumeration.cs" />
+		<Compile Include="Unit\Core\Assemblies\Resource\Klass.cs" />
+		<Compile Include="Unit\Core\Assemblies\TypeConverterTest.cs" />
+		<Compile Include="Unit\Core\ListComparerTest.cs" />
+		<Compile Include="Unit\Core\ListComparisonFormatterTest.cs" />
+		<Compile Include="Unit\Core\Query\DbTypeBuilderTest.cs" />
+		<Compile Include="Unit\Core\ResultSet\Comparer\BaseComparerTest.cs" />
+		<Compile Include="Unit\Core\ResultSet\Comparer\BooleanComparerTest.cs" />
+		<Compile Include="Unit\Core\ResultSet\Comparer\DateTimeRoundingTest.cs" />
+		<Compile Include="Unit\Core\ResultSet\Comparer\DateTimeComparerTest.cs" />
+		<Compile Include="Unit\Core\ResultSet\Comparer\NumericRoundingTest.cs" />
+		<Compile Include="Unit\Core\ResultSet\Comparer\TextComparerTest.cs" />
+		<Compile Include="Unit\Core\ResultSet\Comparer\NumericComparerTest.cs" />
+		<Compile Include="Unit\Core\ResultSet\DataRowBasedResultSetComparerTest.cs" />
+		<Compile Include="Unit\Core\ResultSet\LineFormatterTest.cs" />
+		<Compile Include="Unit\Core\ResultSet\ResultSetComparisonSettingsTest.cs" />
+		<Compile Include="Unit\Core\ResultSet\ResultSetCsvReaderTest.cs" />
+		<Compile Include="Unit\Core\ResultSet\ResultSetTest.cs" />
+		<Compile Include="Unit\Core\ResultSet\ResultSetWriterTest.cs" />
+		<Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
+		<Compile Include="Unit\Core\ResultSetManagerTest.cs" />
+		<Compile Include="Unit\NUnit\Builder\MembersMatchPatternBuilderTest.cs" />
+		<Compile Include="Unit\NUnit\Builder\MembersEquivalentToBuilderTest.cs" />
+		<Compile Include="Unit\NUnit\Builder\StructureEquivalentToBuilderTest.cs" />
+		<Compile Include="Unit\NUnit\Builder\QuerySyntacticallyCorrectBuilderTest.cs" />
+		<Compile Include="Unit\NUnit\Builder\QueryFasterThanBuilderTest.cs" />
+		<Compile Include="Unit\NUnit\Builder\ExecutionEqualsToBuilderTest.cs" />
+		<Compile Include="Unit\NUnit\Builder\StructureExistsBuilderTest.cs" />
+		<Compile Include="Unit\NUnit\Builder\MembersContainsBuilderTest.cs" />
+		<Compile Include="Unit\NUnit\Builder\MembersOrderedBuilderTest.cs" />
+		<Compile Include="Unit\NUnit\Builder\MembersCountBuilderTest.cs" />
+		<Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
+		<Compile Include="Unit\NUnit\Member\CountConstraintTest.cs" />
+		<Compile Include="Unit\NUnit\Member\MatchPatternConstraintTest.cs" />
+		<Compile Include="Unit\NUnit\Member\EquivalentToConstraintTest.cs" />
+		<Compile Include="Unit\NUnit\Member\SubsetOfConstraintTest.cs" />
+		<Compile Include="Unit\NUnit\Query\FasterThanConstraintTest.cs" />
+		<Compile Include="Unit\NUnit\Member\ContainsConstraintTest.cs" />
+		<Compile Include="Unit\NUnit\Member\OrderedConstraintTest.cs" />
+		<Compile Include="Unit\NUnit\Runtime\TestSuiteTest.cs" />
+		<Compile Include="Unit\NUnit\Structure\ContainConstraintTest.cs" />
+		<Compile Include="Unit\NUnit\Structure\SubsetOfConstraintTest.cs" />
+		<Compile Include="Unit\NUnit\Structure\EquivalentToConstraintTest.cs" />
+		<Compile Include="Unit\NUnit\Structure\ExistsConstraintTest.cs" />
+		<Compile Include="Unit\NUnit\Query\SyntacticallyCorrectConstraintTest.cs" />
+		<Compile Include="Unit\NUnit\Query\EqualToConstraintTest.cs" />
+		<Compile Include="Properties\ProjectAssemblyInfo.cs" />
+		<Compile Include="Unit\Service\RunnerConfig\GallioRunnerConfigBuilderTest.cs" />
+		<Compile Include="Unit\Service\RunnerConfig\NUnitRunnerConfigBuilderTest.cs" />
+		<Compile Include="Unit\Service\RunnerConfig\RunnerConfigManagerTest.cs" />
+		<Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
+		<Compile Include="Unit\Xml\Constraints\MatchPatternXmlTest.cs" />
+		<Compile Include="Unit\Xml\Constraints\EquivalentToXmlTest.cs" />
+		<Compile Include="Unit\Xml\Constraints\SubsetOfXmlTest.cs" />
+		<Compile Include="Unit\Xml\Constraints\LinkedToXmlTest.cs" />
+		<Compile Include="Unit\Xml\Constraints\FasterThanXmlTest.cs" />
+		<Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
+		<Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
+		<Compile Include="Unit\Xml\GroupXmlTest.cs" />
+		<Compile Include="Unit\Xml\Items\ColumnXmlTest.cs" />
+		<Compile Include="Unit\Xml\Items\PerspectiveXmlTest.cs" />
+		<Compile Include="Unit\Xml\Items\QueryXmlTest.cs" />
+		<Compile Include="Unit\Xml\Items\TableXmlTest.cs" />
+		<Compile Include="Unit\Xml\Items\HierarchiesXmlTest.cs" />
+		<Compile Include="Unit\Xml\Items\HierarchyXmlTest.cs" />
+		<Compile Include="Unit\Xml\Items\AssemblyXmlTest.cs" />
+		<Compile Include="Unit\Xml\Items\MeasureXmlTest.cs" />
+		<Compile Include="Unit\Xml\Constraints\OrderedXmlTest.cs" />
+		<Compile Include="Unit\Xml\IgnoreXmlTest.cs" />
+		<Compile Include="Unit\Xml\Constraints\ContainXmlTest.cs" />
+		<Compile Include="Unit\Xml\Constraints\CountXmlTest.cs" />
+		<Compile Include="Unit\Xml\Systems\MembersXmlTest.cs" />
+		<Compile Include="Unit\Xml\Systems\StructureXmlTest.cs" />
+		<Compile Include="Unit\Xml\Settings\SettingsXmlTest.cs" />
+		<Compile Include="Unit\Xml\Constraints\EqualToXmlTest.cs" />
+		<Compile Include="Unit\Xml\TestXmlTest.cs" />
+		<Compile Include="Unit\NUnit\ConstraintFactoryTest.cs" />
+		<Compile Include="Unit\Xml\Systems\ExecutionXmlTest.cs" />
+		<Compile Include="Unit\Xml\XmlManagerTest.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Integration\Core\Analysis\Query\" />
+		<Folder Include="Integration\NUnit\Builder\" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Acceptance\Resources\ResellerOrderCountByYearBefore2006.csv">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<None Include="ConnectionString.config">
+			<SubType>Designer</SubType>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<EmbeddedResource Include="Integration\NUnit\Resources\NonEmptyAmountByYear.csv" />
+		<None Include="packages.config" />
+		<EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataCsvSample.csv" />
+		<EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataExcelSample.xls" />
+		<EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject-Saved.nbi" />
+		<EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject.nbi" />
+	</ItemGroup>
+	<ItemGroup>
+		<MyOptionalItems Include="ConnectionString.user.config" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Unit\Xml\Resources\TableXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\ColumnXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\HierarchiesXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Core\ResultSet\Resources\ResultDataSet.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\LinkedToXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\HierarchyXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\AssemblyXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\DescriptionXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\TestXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultAssert.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\ExistsXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\QueryFileEuro.mdx" />
+		<EmbeddedResource Include="Unit\Xml\Resources\MeasureXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\IgnoreXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\OrderedXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\ContainXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\CountXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\MembersXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\StructureXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithReference.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithoutDefault.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefault.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\EqualToXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidSyntax.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\SelectAllProducts.sql" />
+		<EmbeddedResource Include="Unit\Xml\Resources\QueryFile.sql" />
+		<EmbeddedResource Include="Unit\Xml\Resources\XmlManagerSample.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\FasterThanXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\SubsetOfXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\GroupXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithoutParallelQueries.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithParallelQueriesSetTrue.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithParallelQueriesSetFalse.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\EquivalentToXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\QueryXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithParameters.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\MatchPatternXmlTestSuite.xml" />
+		<EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithVariables.xml" />
+		<!--Acceptance Ressources-->
+		<EmbeddedResource Include="Acceptance\Resources\QueryEqualToResultSet.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Acceptance\Resources\QueryEqualToCsv.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Acceptance\Resources\QueryEqualToQuery.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Acceptance\Resources\QueryEqualToResultSetWithNull.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Acceptance\Resources\Ordered.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Acceptance\Resources\Count.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Acceptance\Resources\Contain.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Acceptance\Resources\FasterThan.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Acceptance\Resources\SyntacticallyCorrect.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Acceptance\Resources\Exists.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Acceptance\Resources\AssemblyEqualToResultSet.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Acceptance\Resources\ContainStructure.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Acceptance\Resources\LinkedTo.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Acceptance\Resources\SubsetOfStructure.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Acceptance\Resources\EquivalentToStructure.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Acceptance\Resources\SubsetOfMembers.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Acceptance\Resources\EquivalentToMembers.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Acceptance\Resources\QueryWithReference.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Acceptance\Resources\MatchPatternMembers.nbits">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
+			<Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
+			<Name>NBi.Core</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\NBi.NUnit.Runtime\NBi.NUnit.Runtime.csproj">
+			<Project>{5aa137a9-c158-4a4f-b07d-3df787618c24}</Project>
+			<Name>NBi.NUnit.Runtime</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\NBi.NUnit\NBi.NUnit.csproj">
+			<Project>{66314704-aa76-4153-80d8-ca2c5ff06976}</Project>
+			<Name>NBi.NUnit</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\NBi.Services\NBi.Service.csproj">
+			<Project>{a9c7e50a-1d3d-4c6d-9c56-8ea8925fe2d6}</Project>
+			<Name>NBi.Service</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\NBi.UI\NBi.UI.csproj">
+			<Project>{18ed64e4-7d72-4a2c-9cd8-46f732d287ed}</Project>
+			<Name>NBi.UI</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
+			<Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>
+			<Name>NBi.Xml</Name>
+		</ProjectReference>
+	</ItemGroup>
+	
+	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+	<Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+	<!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+	   Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
   </Target>-->
-  <Target Name="CopyOptionalFiles" AfterTargets="Build">
-    <Message Text="Copy optional files" />
-    <CreateItem Include="@(MyOptionalItems)">
-      <Output ItemName="ItemsThatNeedToBeCopied" TaskParameter="Include" />
-    </CreateItem>
-    <Copy SourceFiles="@(ItemsThatNeedToBeCopied)" DestinationFolder="$(OutputPath)" Condition="Exists('%(RootDir)%(Directory)%(Filename)%(Extension)')" />
-  </Target>
+	<Target Name="CopyOptionalFiles" AfterTargets="Build">
+		<Message Text="Copy optional files" />
+		<CreateItem Include="@(MyOptionalItems)">
+			<Output ItemName="ItemsThatNeedToBeCopied" TaskParameter="Include" />
+		</CreateItem>
+		<Copy SourceFiles="@(ItemsThatNeedToBeCopied)" DestinationFolder="$(OutputPath)" Condition="Exists('%(RootDir)%(Directory)%(Filename)%(Extension)')" />
+	</Target>
 </Project>

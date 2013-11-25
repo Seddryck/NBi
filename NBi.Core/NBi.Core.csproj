@@ -153,6 +153,13 @@
     <Compile Include="Query\IQueryParameter.cs" />
     <Compile Include="Query\IQueryTemplateVariable.cs" />
     <Compile Include="ResultSet\EndPoint.cs" />
+    <Compile Include="ResultSet\Formatter\ClassicalFormatter.cs" />
+    <Compile Include="ResultSet\Formatter\Column.cs" />
+    <Compile Include="ResultSet\Formatter\Header.cs" />
+    <Compile Include="ResultSet\Formatter\HeaderFormatter.cs" />
+    <Compile Include="ResultSet\Formatter\IFormatter.cs" />
+    <Compile Include="ResultSet\Formatter\ColumnFormatter.cs" />
+    <Compile Include="ResultSet\Formatter\CellFormatter.cs" />
     <Compile Include="ResultSet\IntervalBuilder.cs" />
     <Compile Include="ListComparisonFormatter.cs" />
     <Compile Include="ListComparer.cs" />

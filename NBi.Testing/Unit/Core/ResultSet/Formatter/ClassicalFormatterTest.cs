@@ -1,18 +1,17 @@
-﻿#region Using directives
-using System;
+﻿using System;
 using System.Data;
+using System.Linq;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Comparer;
+using NBi.Core.ResultSet.Formatter;
 using NUnit.Framework;
-#endregion
 
-namespace NBi.Testing.Unit.Core.ResultSet
+namespace NBi.Testing.Unit.Core.ResultSet.Formatter
 {
-    [TestFixture]
-    public class LineFormatterTest
+    class ClassicalFormatterTest
     {
         [Test]
-        public void GetText_ShortColumn_NoException()
+        public void Tabulize_Empty_CorrectLength()
         {
             // Design Dummy Column
             DataColumn colKey = new DataColumn("BusinessKey");
@@ -30,6 +29,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             table.Columns.Add(colKey);
             table.Columns.Add(colValue);
 
+            // Design dummy rows
             var row = table.NewRow();
             row[0]  = "Alpha";
             row[1] = 77.005;
@@ -38,15 +38,29 @@ namespace NBi.Testing.Unit.Core.ResultSet
             row[0] = "Beta";
             row[1] = 103.5;
             table.Rows.Add(row);
-            
-            
-            ICellFormatter cf = LineFormatter.BuildHeader(table, 0);
 
-            // This must not throw an exception when the header is bigger that requested size
-            cf.GetText(4);
-            Assert.Pass();
+            var formatter = new ClassicalFormatter();
+            var text = formatter.Tabulize(table.Rows.Cast<DataRow>());
+            var lines = text.Replace("\n", "").Split('\r');
+
+            //Remove non-tabular rows
+            var tabularLines = lines.ToList();
+            tabularLines.RemoveAt(0);
+            tabularLines.RemoveAt(tabularLines.Count()-1);
+
+            //Check that each row is starting and ending by a "|"
+            foreach (var line in tabularLines)
+            {
+                Assert.That(line.StartsWith("|"));
+                Assert.That(line.EndsWith("|"));
+            }
+
+            //Check that each row has the same length
+            foreach (var line in tabularLines)
+            {
+                Assert.That(line.Length, Is.EqualTo(32));
+            }
+
         }
-
-        
     }
 }

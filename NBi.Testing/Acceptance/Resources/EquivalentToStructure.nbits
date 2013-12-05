@@ -5,7 +5,7 @@
 			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
 		</default>
 	</settings>
-	<test name="The dimension 'employee' is equivalent to the list of 18 hierarchies defined" uid="0000">
+	<test name="The list of hierarchies contained into the dimension 'employee' is equivalent to this list of 18 hierarchies" uid="0000">
 		<system-under-test>
 			<structure>
 				<hierarchies dimension="Employee" perspective="Adventure Works"/>
@@ -31,6 +31,19 @@
 				<item>Status</item>
 				<item>Title</item>
 				<item>Vacation Hours</item>
+			</equivalentTo>
+		</assert>
+	</test>
+	<test name="The list of measures into the measure-group 'employee' is equivalent to this list of measures" uid="0001">
+		<system-under-test>
+			<structure>
+				<measures display-folder="" measure-group="Exchange Rates" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<equivalentTo>
+				<item>End of Day Rate</item>
+				<item>Average Rate</item>
 			</equivalentTo>
 		</assert>
 	</test>

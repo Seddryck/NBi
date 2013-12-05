@@ -34,10 +34,10 @@
 			</equivalentTo>
 		</assert>
 	</test>
-	<test name="The list of measures into the measure-group 'employee' is equivalent to this list of measures" uid="0001">
+	<test name="The list of measures into the measure-group 'Exchange Rates' is equivalent to this list of measures" uid="0001">
 		<system-under-test>
 			<structure>
-				<measures display-folder="" measure-group="Exchange Rates" perspective="Adventure Works"/>
+				<measures display-folder="" measure-group = "Exchange Rates" perspective="Adventure Works"/>
 			</structure>
 		</system-under-test>
 		<assert>

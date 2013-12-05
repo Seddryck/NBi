@@ -17,7 +17,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
             var exp = new string[] { "Expected level 1", "Expected level 2" };
             var request = new DiscoveryRequestFactory().BuildDirect(
                         "connectionString",
-                        DiscoveryTarget.Hierarchies,
+                        DiscoveryTarget.Levels,
                         new List<IFilter>()
                             {
                                 new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)

@@ -42,7 +42,7 @@ namespace NBi.Xml.Items
             else
                 connectionString = string.Format("{0};Roles=\"{1}\";", connectionString, newRoles);
 
-            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("ConnectionString string used '{0}'", connectionString);
+            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("ConnectionString string used '{0}'", connectionString));
 
             return connectionString;
         }

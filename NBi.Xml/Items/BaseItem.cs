@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
+using NBi.Core;
 using NBi.Xml.Settings;
 
 namespace NBi.Xml.Items
@@ -29,7 +31,7 @@ namespace NBi.Xml.Items
             return connectionString;
         }
 
-        protected internal string ReplaceRoles(string connectionString, string newRoles)
+        protected string ReplaceRoles(string connectionString, string newRoles)
         {
             string pattern = "Roles(\\s)*=(\\s)*(?<RolesValue>([^;]*))";
             RegexOptions options = RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled;
@@ -39,6 +41,8 @@ namespace NBi.Xml.Items
                 connectionString = reg.Replace(connectionString, string.Format("Roles=\"{0}\";", newRoles));
             else
                 connectionString = string.Format("{0};Roles=\"{1}\";", connectionString, newRoles);
+
+            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("ConnectionString string used '{0}'", connectionString);
 
             return connectionString;
         }

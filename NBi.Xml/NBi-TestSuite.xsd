@@ -104,7 +104,7 @@
 		<xs:attribute name="name" type="xs:string" use="optional" />
 		<xs:attribute name="file" type="xs:string" use="optional" />
 		<xs:attribute name="connectionString" type="xs:string" use="optional" />
-		<xs:attribute name="connectionString-ref" type="xs:string" use="optional" />
+		<xs:attribute name="roles" type="xs:string" use="optional" />
 	</xs:complexType>
 	<xs:complexType name="perspective-type">
 		<xs:attribute name="caption" type="xs:string" use="required" />

@@ -149,6 +149,8 @@
     <Compile Include="Assemblies\AssemblyManager.cs" />
     <Compile Include="Assemblies\TypeConverter.cs" />
     <Compile Include="Query\CommandBuilder.cs" />
+    <Compile Include="Query\FormattedResults.cs" />
+    <Compile Include="Query\IQueryFormat.cs" />
     <Compile Include="Query\DbTypeBuilder.cs" />
     <Compile Include="Query\IQueryParameter.cs" />
     <Compile Include="Query\IQueryTemplateVariable.cs" />

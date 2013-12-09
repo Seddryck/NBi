@@ -12,11 +12,19 @@ namespace NBi.Core.Format
         {
             var regex = string.Empty;
 
-            //Decimal Separator
-            regex = string.Format(@"\{0}", format.DecimalSeparator);
+            if (format.DecimalDigits == 0)
+            {
+                //No decimal
+                regex = string.Format(@"$");
+            }
+            else
+            { 
+                //Decimal Separator
+                regex = string.Format(@"\{0}", format.DecimalSeparator);
 
-            //Decimal digits
-            regex = string.Format(@"{0}[0-9]{{{1}}}$", regex, format.DecimalDigits);
+                //Decimal digits
+                regex = string.Format(@"{0}[0-9]{{{1}}}$", regex, format.DecimalDigits);
+            }
 
             //Group Separator
             if (string.IsNullOrEmpty(format.GroupSeparator))

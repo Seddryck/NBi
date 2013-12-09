@@ -169,6 +169,7 @@
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
     <Compile Include="Unit\Xml\GroupXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\BaseItemTest.cs" />
     <Compile Include="Unit\Xml\Items\ColumnXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\FormatXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\PerspectiveXmlTest.cs" />

@@ -65,6 +65,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("SubsetOfMembers.nbits")]
         [TestCase("EquivalentToMembers.nbits")]
         [TestCase("MatchPatternMembers.nbits")]
+        [TestCase("ResultSetMatchPattern.nbits")]
         public void RunTestSuite(string filename)
         {
             var t = new TestSuiteOverrider(filename);

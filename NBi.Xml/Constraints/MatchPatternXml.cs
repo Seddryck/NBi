@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Xml.Serialization;
-using NBi.Xml.Items;
-using NBi.Xml.Settings;
+using NBi.Xml.Items.Format;
 
 namespace NBi.Xml.Constraints
 {
@@ -13,10 +10,18 @@ namespace NBi.Xml.Constraints
         [XmlElement("regex")]
         public string Regex { get; set; }
 
+        [XmlElement("numeric-format")]
+        public NumericFormatXml NumericFormat { get; set; }
+
+        [XmlElement("currency-format")]
+        public CurrencyFormatXml CurrencyFormat { get; set; }
+
         public MatchPatternXml()
         {
             
         }
 
+
+        
     }
 }

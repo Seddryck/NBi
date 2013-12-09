@@ -2,6 +2,7 @@
 using System.Data;
 using System.Linq;
 using NBi.Core;
+using NBi.Core.Format;
 using NBi.NUnit.Query;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
@@ -33,9 +34,17 @@ namespace NBi.NUnit.Builder
 
         protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(MatchPatternXml matchPatternXml)
         {
+            var regexBuilder = new RegexBuilder();
+
             var ctr = new MatchPatternConstraint();
             if (!string.IsNullOrEmpty(matchPatternXml.Regex))
                 ctr = ctr.Regex(matchPatternXml.Regex);
+
+            if (matchPatternXml.NumericFormat != null)
+                ctr = ctr.Regex(regexBuilder.Build(matchPatternXml.NumericFormat));
+
+            if (matchPatternXml.CurrencyFormat != null)
+                ctr = ctr.Regex(regexBuilder.Build(matchPatternXml.CurrencyFormat));
             
             return ctr;
         }

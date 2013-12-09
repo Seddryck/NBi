@@ -74,6 +74,22 @@ namespace NBi.Testing.Unit.Core.Format
         }
 
         [Test]
+        public void Build_NumericFormatWithoutDecimal_CorrectRegex()
+        {
+            var builder = new RegexBuilder();
+            var result = builder.Build(
+                    new NumericFormatXml()
+                    {
+                        DecimalDigits = 0,
+                        GroupSeparator = ""
+                    }
+                );
+
+            Assert.That(result, Is.EqualTo(@"^?[0-9]*$"));
+            Assert.That("1125", Is.StringMatching(result));
+        }
+
+        [Test]
         public void Build_CurrencyFormat_CorrectRegex()
         {
             var builder = new RegexBuilder();

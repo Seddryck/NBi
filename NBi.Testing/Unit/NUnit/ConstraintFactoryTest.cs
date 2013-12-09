@@ -281,7 +281,7 @@ namespace NBi.Testing.Unit.NUnit
         }
 
         [Test]
-        public void Instantiate_QueryContains_TestCase()
+        public void Instantiate_QueryContains_ArgumentException()
         {
             var sutXml = new ExecutionXml();
             var ctrXml = new ContainXml();
@@ -370,7 +370,7 @@ namespace NBi.Testing.Unit.NUnit
         }
 
         [Test]
-        public void Instantiate_QueryCount_TestCase()
+        public void Instantiate_QueryCount_ArgumentException()
         {
             var sutXml = new ExecutionXml();
             var ctrXml = new CountXml();
@@ -448,7 +448,7 @@ namespace NBi.Testing.Unit.NUnit
         }
 
         [Test]
-        public void Instantiate_QueryOrdered_TestCase()
+        public void Instantiate_QueryOrdered_ArgumentException()
         {
             var sutXml = new ExecutionXml();
             var ctrXml = new OrderedXml();
@@ -527,7 +527,7 @@ namespace NBi.Testing.Unit.NUnit
         }
 
         [Test]
-        public void Instantiate_QueryExists_TestCase()
+        public void Instantiate_QueryExists_ArgumentException()
         {
             var sutXml = new ExecutionXml();
             var ctrXml = new ExistsXml();
@@ -614,11 +614,45 @@ namespace NBi.Testing.Unit.NUnit
             builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml));
             builderMockFactory.Setup(b => b.Build());
             builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new object());
-            builderMockFactory.Setup(b => b.GetConstraint()).Returns(new MatchPatternConstraint());
+            builderMockFactory.Setup(b => b.GetConstraint()).Returns(new NBi.NUnit.Member.MatchPatternConstraint());
             var builder = builderMockFactory.Object;
 
             var testCaseFactory = new TestCaseFactory();
             testCaseFactory.Register(typeof(MembersXml), typeof(MatchPatternXml), builder);
+
+            var tc = testCaseFactory.Instantiate(sutXml, ctrXml);
+
+            Assert.That(tc, Is.Not.Null);
+            builderMockFactory.VerifyAll();
+        }
+
+        [Test]
+        public void IsHandling_ExecutionMatchPattern_True()
+        {
+            var sutXml = new ExecutionXml();
+            var ctrXml = new MatchPatternXml();
+            var testCaseFactory = new TestCaseFactory();
+
+            var actual = testCaseFactory.IsHandling(sutXml.GetType(), ctrXml.GetType());
+
+            Assert.That(actual, Is.True);
+        }
+
+        [Test]
+        public void Instantiate_ExecutionMatchPattern_TestCase()
+        {
+            var sutXml = new ExecutionXml();
+            var ctrXml = new MatchPatternXml();
+
+            var builderMockFactory = new Mock<ITestCaseBuilder>();
+            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml));
+            builderMockFactory.Setup(b => b.Build());
+            builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new SqlCommand());
+            builderMockFactory.Setup(b => b.GetConstraint()).Returns(new NBi.NUnit.Query.MatchPatternConstraint());
+            var builder = builderMockFactory.Object;
+
+            var testCaseFactory = new TestCaseFactory();
+            testCaseFactory.Register(typeof(ExecutionXml), typeof(MatchPatternXml), builder);
 
             var tc = testCaseFactory.Instantiate(sutXml, ctrXml);
 

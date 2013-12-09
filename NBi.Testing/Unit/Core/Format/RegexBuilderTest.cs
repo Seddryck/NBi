@@ -90,6 +90,21 @@ namespace NBi.Testing.Unit.Core.Format
         }
 
         [Test]
+        public void Build_NumericFormatWithoutDecimalByWithDefaultGroupSeparator_CorrectRegex()
+        {
+            var builder = new RegexBuilder();
+            var result = builder.Build(
+                    new NumericFormatXml()
+                    {
+                        DecimalDigits = 0
+                    }
+                );
+
+            Assert.That(result, Is.EqualTo(@"^?[0-9]{1,3}(?:\,?[0-9]{3})*$"));
+            Assert.That("1,125", Is.StringMatching(result));
+        }
+
+        [Test]
         public void Build_CurrencyFormat_CorrectRegex()
         {
             var builder = new RegexBuilder();

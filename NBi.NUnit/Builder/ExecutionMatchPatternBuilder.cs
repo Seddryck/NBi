@@ -40,10 +40,10 @@ namespace NBi.NUnit.Builder
             if (!string.IsNullOrEmpty(matchPatternXml.Regex))
                 ctr = ctr.Regex(matchPatternXml.Regex);
 
-            if (matchPatternXml.NumericFormat != null)
+            if (matchPatternXml.NumericFormat != null && !matchPatternXml.NumericFormat.IsEmpty)
                 ctr = ctr.Regex(regexBuilder.Build(matchPatternXml.NumericFormat));
 
-            if (matchPatternXml.CurrencyFormat != null)
+            if (matchPatternXml.CurrencyFormat != null && !matchPatternXml.CurrencyFormat.IsEmpty)
                 ctr = ctr.Regex(regexBuilder.Build(matchPatternXml.CurrencyFormat));
             
             return ctr;

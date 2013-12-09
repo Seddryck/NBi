@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using NBi.Xml.Items.Format;
+using NBi.Xml.Settings;
 
 namespace NBi.Xml.Constraints
 {
-    public class MatchPatternXml : AbstractConstraintXml
+    public class MatchPatternXml : AbstractConstraintXml, IReferenceFriendly
     {
-
         [XmlElement("regex")]
         public string Regex { get; set; }
 
@@ -18,10 +19,14 @@ namespace NBi.Xml.Constraints
 
         public MatchPatternXml()
         {
-            
+            NumericFormat = new NumericFormatXml(true);
+            CurrencyFormat = new CurrencyFormatXml(true);
         }
 
-
-        
+        public void AssignReferences(IEnumerable<ReferenceXml> references)
+        {
+            NumericFormat.AssignReferences(references);
+            CurrencyFormat.AssignReferences(references);
+        }
     }
 }

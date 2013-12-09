@@ -26,6 +26,7 @@ namespace NBi.NUnit
 			Register (typeof(ExecutionXml), typeof(FasterThanXml), new ExecutionFasterThanBuilder());
 			Register (typeof(ExecutionXml), typeof(SyntacticallyCorrectXml),new ExecutionSyntacticallyCorrectBuilder());
 			Register (typeof(ExecutionXml), typeof(EqualToXml),new ExecutionEqualToBuilder());
+			Register(typeof(ExecutionXml), typeof(MatchPatternXml), new ExecutionMatchPatternBuilder());
 			
 			Register (typeof(MembersXml), typeof(CountXml) ,new MembersCountBuilder());
 			Register(typeof(MembersXml), typeof(OrderedXml), new MembersOrderedBuilder());

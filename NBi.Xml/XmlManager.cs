@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Specialized;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using NBi.Xml.Constraints;
 
 namespace NBi.Xml
 {
@@ -78,6 +78,8 @@ namespace NBi.Xml
             {
                 ctr.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.Assert);
                 ctr.Settings = TestSuite.Settings;
+                if (ctr is IReferenceFriendly && TestSuite.Settings != null)
+                    ((IReferenceFriendly)ctr).AssignReferences(TestSuite.Settings.References);
             }
         }
 

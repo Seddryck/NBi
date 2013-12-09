@@ -4,8 +4,16 @@
 		<default apply-to="system-under-test">
 			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049</connectionString>
 		</default>
+		<reference name="Standard">
+			<currency-format
+					currency-pattern="$n"
+					currency-symbol="$"
+					decimal-digits="2"
+					decimal-separator="."
+					group-separator=","/>
+		</reference>
 	</settings>
-	<test name="'Reseller Order Count' by year before 2006" uid="0001">
+	<test name="Amount using the regex defined localy" uid="0001">
 		<system-under-test>
 			<execution>
 				<query name="MDX Except">
@@ -23,7 +31,7 @@
 			</matchPattern>
 		</assert>
 	</test>
-	<test name="'Reseller Order Count' by year before 2006" uid="0001">
+	<test name="Amount using the currency-format defined localy" uid="0001">
 		<system-under-test>
 			<execution>
 				<query name="MDX Except">
@@ -43,6 +51,25 @@
 					decimal-digits="2"
 					decimal-separator="."
 					group-separator=","/>
+			</matchPattern>
+		</assert>
+	</test>
+	<test name="Amount using the currency-format defined in the reference" uid="0001">
+		<system-under-test>
+			<execution>
+				<query name="MDX Except">
+					SELECT
+					[Measures].[Amount] ON 0,
+					non empty([Date].[Calendar].[Calendar Year]) ON 1
+					FROM
+					[Adventure Works]
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<matchPattern>
+				<currency-format
+					ref="Standard"/>
 			</matchPattern>
 		</assert>
 	</test>

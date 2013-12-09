@@ -54,6 +54,7 @@
     <Compile Include="Bases\BaseQueryXml.cs" />
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
     <Compile Include="Constraints\ContainXml.cs" />
+    <Compile Include="Constraints\IReferenceFriendly.cs" />
     <Compile Include="Constraints\MatchPatternXml.cs" />
     <Compile Include="Constraints\EquivalentToXml.cs" />
     <Compile Include="Constraints\SubsetOfXml.cs" />

@@ -128,6 +128,7 @@
     <Compile Include="Unit\Core\ResultSet\ResultSetWriterTest.cs" />
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ExecutionMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersEquivalentToBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureEquivalentToBuilderTest.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Unit\NUnit\Query\FasterThanConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\ContainsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\OrderedConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Query\MatchPatternConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Runtime\TestSuiteTest.cs" />
     <Compile Include="Unit\NUnit\Structure\ContainConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Structure\SubsetOfConstraintTest.cs" />

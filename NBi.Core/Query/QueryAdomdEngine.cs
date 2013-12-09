@@ -124,6 +124,73 @@ namespace NBi.Core.Query
         }
 
         /// <summary>
+        /// Method exposed by the interface IQueryExecutorFormat to execute a test of execution and get the result of the query executed and also the time needed to retrieve this result
+        /// </summary>
+        /// <returns>The result of  execution of the query</returns>
+        public virtual CellSet ExecuteCellSet()
+        {
+            float i;
+            return ExecuteCellSet(out i);
+        }
+
+        /// <summary>
+        /// Method exposed by the interface IQueryExecutorFormat to execute a test of execution and get the result of the query executed and also the time needed to retrieve this result
+        /// </summary>
+        /// <returns>The result of  execution of the query</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        public virtual CellSet ExecuteCellSet(out float elapsedSec)
+        {
+            // Open the connection
+            using (var connection = new AdomdConnection())
+            {
+                var connectionString = command.Connection.ConnectionString;
+                try
+                { connection.ConnectionString = connectionString; }
+                catch (ArgumentException ex)
+                { throw new ConnectionException(ex, connectionString); }
+                //TODO
+                //try
+                //    {connection.Open();}
+                //catch (AdomdException ex)
+                //    {throw new ConnectionException(ex);}
+
+                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
+                // capture time before execution
+                DateTime timeBefore = DateTime.Now;
+                CellSet cellSet = null;
+
+                try
+                {
+                    if (command.Connection.State != ConnectionState.Open)
+                        command.Connection.Open();
+                    cellSet = command.ExecuteCellSet();
+                }
+                catch (AdomdConnectionException ex)
+                {
+                    throw new ConnectionException(ex, connectionString);
+                }
+                catch (AdomdErrorResponseException ex)
+                {
+                    throw new ConnectionException(ex, connectionString);
+                }
+                finally
+                {
+                    if (command.Connection.State == ConnectionState.Open)
+                        command.Connection.Close();
+                }
+
+                // capture time after execution
+                DateTime timeAfter = DateTime.Now;
+
+                // setting query runtime
+                elapsedSec = (float)timeAfter.Subtract(timeBefore).TotalSeconds;
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+
+                return cellSet;
+            }
+        }
+
+        /// <summary>
         /// Method exposed by the interface IQueryParser to execute a test of syntax on a MDX or SQL statement
         /// </summary>
         /// <remarks>This method makes usage the scommand behaviour named 'SchemaOnly' to not effectively execute the query but check the validity of this query</remarks>

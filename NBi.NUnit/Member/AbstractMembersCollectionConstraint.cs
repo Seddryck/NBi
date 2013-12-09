@@ -46,17 +46,7 @@ namespace NBi.NUnit.Member
             expectedItems = expected;
         }
 
-        #region Modifiers
-        /// <summary>
-        /// Flag the constraint to ignore case and return self.
-        /// </summary>
-        protected void IgnoreCase()
-        {
-            Comparer = new NBi.Core.Analysis.Member.Member.ComparerByCaption(false);
-        }
-
-        #endregion
-        
+       
         #region Specific NUnit
 
         protected override void PreInitializeMatching()

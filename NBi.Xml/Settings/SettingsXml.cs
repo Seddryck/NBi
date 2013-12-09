@@ -84,7 +84,7 @@ namespace NBi.Xml.Settings
 
             foreach (var reference in References)
             {
-                if (reference.ConnectionString.StartsWith("@"))
+                if (!string.IsNullOrEmpty(reference.ConnectionString) && reference.ConnectionString.StartsWith("@"))
                 {
                     if (connectionStrings.Count == 0)
                         throw new ArgumentOutOfRangeException(string.Format("No connectionString is provided through the config file. The connection string named '{0}' has not been found and cannot be created as a reference.", reference.ConnectionString));

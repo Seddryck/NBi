@@ -25,6 +25,13 @@ namespace NBi.NUnit.Query
             }
         }
 
+        protected IQueryFormat GetEngine(IDbCommand actual)
+        {
+            if (engine == null)
+                engine = new QueryEngineFactory().GetFormat(actual);
+            return engine;
+        }
+
         #region Modifiers
         /// <summary>
         /// Set the regex pattern
@@ -94,7 +101,7 @@ namespace NBi.NUnit.Query
         /// <returns></returns>
         public bool Process(IDbCommand actual)
         {
-            FormattedResults result = engine.GetFormats();
+            FormattedResults result = GetEngine(actual).GetFormats();
 
             return this.Matches(result);
         }

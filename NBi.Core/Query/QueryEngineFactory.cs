@@ -84,6 +84,30 @@ namespace NBi.Core.Query
         }
         #endregion
 
+        #region Executor
+        /// <summary>
+        /// Get an engine to execute and retrieve format of the result of a query. The engine returned is based on the type of the command.
+        /// </summary>
+        /// <param name="cmd">The command to execute and generating a result</param>
+        /// <returns>An engine able to execute and return the resuly of the query</returns>
+        public IQueryFormat GetFormat(IDbCommand cmd)
+        {
+            return (IQueryFormat)Get(cmd);
+        }
+
+        /// <summary>
+        /// Get an engine to execute and retrieve format of the result of a query. The engine returned is based on the type of the connectionString.
+        /// </summary>
+        /// <param name="query">The query statement  to execute and generating a result</param>
+        /// <param name="connectionString">The connectionString that will be used to parse this query</param>
+        /// <returns>An engine able to execute and return the resuly of the query based on the connectionString</returns>
+        public virtual IQueryFormat GetFormat(string query, string connectionString)
+        {
+            var cmd = BuildCommand(query, connectionString);
+            return (IQueryFormat)Get(cmd);
+        }
+        #endregion
+
         /// <summary>
         /// Retrieve the engine on base of the type of the command
         /// </summary>
@@ -116,5 +140,7 @@ namespace NBi.Core.Query
 
             return cmd;
         }
+
+        
     }
 }

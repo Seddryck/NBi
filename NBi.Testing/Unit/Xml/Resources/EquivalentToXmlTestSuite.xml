@@ -5,7 +5,7 @@
 			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
 		</default>
 	</settings>
-	<test name="Hello World" uid="0001">
+	<test name="Manage Items" uid="0001">
 		<system-under-test>
 			<members>
 				<hierarchy dimension="my-dimension" perspective="my-perspective" caption="my-hierarchy"/>
@@ -18,7 +18,7 @@
 			</equivalentTo>
 		</assert>
 	</test>
-	<test name="Hello World from Query" uid="0002">
+	<test name="Manage one-column-query" uid="0002">
 		<system-under-test>
 			<members>
 				<hierarchy dimension="my-dimension" perspective="my-perspective" caption="my-hierarchy"/>
@@ -29,6 +29,18 @@
 				<one-column-query>
 					select 'Hello' union select 'World'
 				</one-column-query>
+			</equivalentTo>
+		</assert>
+	</test>
+	<test name="Manage predefined items" uid="0003">
+		<system-under-test>
+			<members>
+				<hierarchy dimension="my-dimension" perspective="my-perspective" caption="my-hierarchy"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<equivalentTo>
+				<predefined type="days-of-week" language="en"/>
 			</equivalentTo>
 		</assert>
 	</test>

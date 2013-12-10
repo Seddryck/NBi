@@ -1,11 +1,9 @@
 ﻿#region Using directives
 using System.IO;
 using System.Reflection;
-using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Members;
 using NBi.Xml;
 using NBi.Xml.Constraints;
-using NBi.Xml.Items;
 using NUnit.Framework;
 #endregion
 
@@ -70,6 +68,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Items, Has.Count.EqualTo(2));
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Items[0], Is.EqualTo("Hello"));
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Items[1], Is.EqualTo("World"));
+            Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).GetItems(), Has.Count.EqualTo(2));
         }
 
         [Test]
@@ -83,6 +82,20 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EquivalentToXml>());
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Query, Is.Not.Null);
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Query.GetQuery(), Is.StringContaining("Hello").And.StringContaining("World"));
+        }
+
+        [Test]
+        public void DeserializeEquivalentTo_PredefinedItems_DaysOfWeek()
+        {
+            int testNr = 2;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EquivalentToXml>());
+            Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).PredefinedItems, Is.Not.Null);
+            Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).PredefinedItems.Type, Is.EqualTo(PredefinedMembers.DaysOfWeek));
+            Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).PredefinedItems.Language, Is.EqualTo("en"));
         }
     }
 }

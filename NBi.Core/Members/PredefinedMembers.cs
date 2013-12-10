@@ -6,9 +6,9 @@ namespace NBi.Core.Members
 {
     public enum PredefinedMembers
     {
-        [XmlEnum(Name = "weekdays")]
+        [XmlEnum(Name = "days-of-week")]
         DaysOfWeek = 1,
-        [XmlEnum(Name = "months")]
+        [XmlEnum(Name = "months-of-year")]
         MonthsOfYear = 2
     }
 }

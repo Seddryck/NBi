@@ -459,6 +459,7 @@
 													</xs:simpleContent>
 												</xs:complexType>
 											</xs:element>
+											<xs:element name="predefined" type="predefined-type" minOccurs="0" maxOccurs="1"/>
 										</xs:sequence>
 										<xs:element name="one-column-query" type ="query-type"/>
 									</xs:choice>
@@ -478,6 +479,7 @@
 													<xs:extension base="xs:string"/>
 												</xs:simpleContent>
 											</xs:complexType>
+											<xs:element name="predefined" type="predefined-type" minOccurs="0" maxOccurs="1"/>
 										</xs:element>
 									</xs:sequence>
 									<xs:element name="one-column-query" type ="query-type"/>
@@ -497,6 +499,7 @@
 														<xs:extension base="xs:string"/>
 													</xs:simpleContent>
 												</xs:complexType>
+												<xs:element name="predefined" type="predefined-type" minOccurs="0" maxOccurs="1"/>
 											</xs:element>
 										</xs:sequence>
 										<xs:element name="one-column-query" type ="query-type"/>
@@ -563,14 +566,14 @@
 							</xs:complexType>
 						</xs:element>
 						<xs:element name="matchPattern">
-								<xs:complexType>
-									<xs:choice>
-										<xs:element name="regex" minOccurs="0" maxOccurs="1"/>
-										<xs:element name="numeric-format" type="numeric-format-type" minOccurs="0" maxOccurs="1"/>
-										<xs:element name="currency-format" type="currency-format-type" minOccurs="0" maxOccurs="1"/>
-									</xs:choice>
-								</xs:complexType>
-							</xs:element>
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="regex" minOccurs="0" maxOccurs="1"/>
+									<xs:element name="numeric-format" type="numeric-format-type" minOccurs="0" maxOccurs="1"/>
+									<xs:element name="currency-format" type="currency-format-type" minOccurs="0" maxOccurs="1"/>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
 					</xs:choice>
 				</xs:complexType>
 			</xs:element>
@@ -588,10 +591,10 @@
 		<xs:attribute name="name" type="xs:string" use="required" />
 	</xs:complexType>
 	<xs:complexType name="numeric-format-type">
-			<xs:attribute name="ref" use="optional"/>
-			<xs:attribute name="decimal-digits" use="optional"/>
-			<xs:attribute name="decimal-separator" use="optional"/>
-			<xs:attribute name="group-separator" use="optional"/>
+		<xs:attribute name="ref" use="optional"/>
+		<xs:attribute name="decimal-digits" use="optional"/>
+		<xs:attribute name="decimal-separator" use="optional"/>
+		<xs:attribute name="group-separator" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="currency-format-type">
 		<xs:complexContent>
@@ -609,5 +612,16 @@
 				</xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="predefined-type">
+		<xs:attribute name="language" type="xs:string" use="required" />
+		<xs:attribute name="type" use="required" >
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="days-of-week"/>
+					<xs:enumeration value="months-of-year"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
 	</xs:complexType>
 </xs:schema>

@@ -7,23 +7,8 @@ using NBi.Xml.Settings;
 
 namespace NBi.Xml.Constraints
 {
-    public class ContainXml : AbstractConstraintXml
+    public class ContainXml : AbstractConstraintForCollectionXml
     {
-        public override DefaultXml Default
-        {
-            get { return base.Default; }
-            set
-            {
-                base.Default = value;
-                if (Query != null)
-                    Query.Default = value;
-            }
-        }
-        
-        [XmlAttribute("ignore-case")]
-        [DefaultValue(false)]
-        public bool IgnoreCase { get; set; }
-
         [XmlIgnore]
         public string Caption 
         { 
@@ -43,17 +28,5 @@ namespace NBi.Xml.Constraints
                     throw new InvalidOperationException();
             }  
         }
-
-        [XmlElement("item")]
-        public List<string> Items { get; set; }
-
-        [XmlElement("one-column-query")]
-        public QueryXml Query { get; set; }
-
-        public ContainXml()
-        {
-            Items = new List<string>();
-        }
-
     }
 }

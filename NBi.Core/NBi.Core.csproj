@@ -152,6 +152,12 @@
     <Compile Include="Format\ICurrencyFormat.cs" />
     <Compile Include="Format\INumericFormat.cs" />
     <Compile Include="Format\RegexBuilder.cs" />
+    <Compile Include="Members\BaseBuilder.cs" />
+    <Compile Include="Members\IPredefinedMembersBuilder.cs" />
+    <Compile Include="Members\MonthsOfYearBuilder.cs" />
+    <Compile Include="Members\DaysOfWeekBuilder.cs" />
+    <Compile Include="Members\PredefinedMembersFactory.cs" />
+    <Compile Include="Members\PredefinedMembers.cs" />
     <Compile Include="Query\CommandBuilder.cs" />
     <Compile Include="Query\FormattedResults.cs" />
     <Compile Include="Query\IQueryFormat.cs" />

@@ -158,6 +158,14 @@
     <Compile Include="Members\Predefined\DaysOfWeekBuilder.cs" />
     <Compile Include="Members\Predefined\PredefinedMembersFactory.cs" />
     <Compile Include="Members\Predefined\PredefinedMembers.cs" />
+    <Compile Include="Members\Ranges\BaseBuilder.cs" />
+    <Compile Include="Members\Ranges\DateRangeBuilder.cs" />
+    <Compile Include="Members\Ranges\DateRange.cs" />
+    <Compile Include="Members\Ranges\IntegerRange.cs" />
+    <Compile Include="Members\Ranges\IntegerRangeBuilder.cs" />
+    <Compile Include="Members\Ranges\IRange.cs" />
+    <Compile Include="Members\Ranges\IRangeMembersBuilder.cs" />
+    <Compile Include="Members\Ranges\RangeMembersFactory.cs" />
     <Compile Include="Query\CommandBuilder.cs" />
     <Compile Include="Query\FormattedResults.cs" />
     <Compile Include="Query\IQueryFormat.cs" />

@@ -17,6 +17,7 @@ namespace NBi.Core.Members.Ranges
 
         private void RegisterDefaults()
         {
+            Register(typeof(IntegerRangeWithPattern), new IntegerRangeWithPatternBuilder());
             Register(typeof(IntegerRange), new IntegerRangeBuilder());
             Register(typeof(DateRange), new DateRangeBuilder());
         }

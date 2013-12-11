@@ -159,6 +159,8 @@
     <Compile Include="Members\Predefined\PredefinedMembersFactory.cs" />
     <Compile Include="Members\Predefined\PredefinedMembers.cs" />
     <Compile Include="Members\Ranges\BaseBuilder.cs" />
+    <Compile Include="Members\Ranges\IntegerRangeWithPatternBuilder.cs" />
+    <Compile Include="Members\Ranges\IntegerRangeWithPattern.cs" />
     <Compile Include="Members\Ranges\DateRangeBuilder.cs" />
     <Compile Include="Members\Ranges\DateRange.cs" />
     <Compile Include="Members\Ranges\IntegerRange.cs" />

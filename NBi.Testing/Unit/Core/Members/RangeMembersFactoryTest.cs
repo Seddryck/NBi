@@ -75,6 +75,26 @@ namespace NBi.Testing.Unit.Core.Members
         }
 
         [Test]
+        public void Instantiate_IntegerFrom1To52WithPrefixPattern_ListFromWeek1ToWeek52()
+        {
+            var integerRange = new IntegerRangeWithPattern()
+            {
+                Start = 1,
+                End = 52,
+                Step = 1,
+                Pattern="Week ",
+                Position=IntegerRangeWithPattern.PositionValue.Prefix
+            };
+
+            var factory = new RangeMembersFactory();
+            var values = factory.Instantiate(integerRange).ToList();
+
+            Assert.That(values[0], Is.EqualTo("Week 1"));
+            Assert.That(values[51], Is.EqualTo("Week 52"));
+            Assert.That(values.Count, Is.EqualTo(52));
+        }
+
+        [Test]
         public void Instantiate_DateFrom1stJanuaryTo31December2013_ListWithAllDays()
         {
             var dateRange = new DateRange()

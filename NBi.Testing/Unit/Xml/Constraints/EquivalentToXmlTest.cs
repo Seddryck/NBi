@@ -1,7 +1,7 @@
 ﻿#region Using directives
 using System.IO;
 using System.Reflection;
-using NBi.Core.Members;
+using NBi.Core.Members.Predefined;
 using NBi.Xml;
 using NBi.Xml.Constraints;
 using NUnit.Framework;

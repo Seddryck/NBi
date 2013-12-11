@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace NBi.Core.Members
+namespace NBi.Core.Members.Predefined
 {
     public class PredefinedMembersFactory
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace NBi.Core.Members
+namespace NBi.Core.Members.Predefined
 {
-    internal abstract class BaseBuilder : NBi.Core.Members.IPredefinedMembersBuilder
+    internal abstract class BaseBuilder : IPredefinedMembersBuilder
     {
         public CultureInfo Culture { get; protected set;}
         protected IEnumerable<string> Result { get; set; }

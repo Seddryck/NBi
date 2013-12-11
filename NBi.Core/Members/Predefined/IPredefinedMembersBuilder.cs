@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace NBi.Core.Members
+namespace NBi.Core.Members.Predefined
 {
     public interface IPredefinedMembersBuilder
     {

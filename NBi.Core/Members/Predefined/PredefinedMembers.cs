@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace NBi.Core.Members
+namespace NBi.Core.Members.Predefined
 {
     public enum PredefinedMembers
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using NBi.Core.Members;
+using NBi.Core.Members.Predefined;
 
 namespace NBi.Xml.Items
 {

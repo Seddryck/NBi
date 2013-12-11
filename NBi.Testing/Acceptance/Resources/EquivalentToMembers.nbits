@@ -25,17 +25,15 @@
 			</equivalentTo>
 		</assert>
 	</test>
-	<test name="Members of department bellow 'Corporate' are in the following list" uid="0001">
+	<test name="Members of hierarchy 'Month Of Year' are standard members" uid="0001">
 		<system-under-test>
-			<members children-of="Corporate">
-				<hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"/>
+			<members children-of="All">
+				<hierarchy caption="Month Of Year" dimension="Date" perspective="Adventure Works"/>
 			</members>
 		</system-under-test>
 		<assert>
 			<equivalentTo>
-				<one-column-query>
-					select distinct [GroupName] from [HumanResources].[Department]
-				</one-column-query>
+				<predefined type="months-of-year" language="en"/>
 			</equivalentTo>
 		</assert>
 	</test>

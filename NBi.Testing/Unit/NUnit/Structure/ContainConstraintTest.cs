@@ -287,7 +287,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
             Assert.That(assertionText, Is.StringContaining("perspective-name").And
                                             .StringContaining("dimension-caption").And
                                             .StringContaining("hierarchies").And
-                                            .Not.StringContaining("Expected h1"));
+                                            .StringContaining("Expected h1"));
         }
       
     }

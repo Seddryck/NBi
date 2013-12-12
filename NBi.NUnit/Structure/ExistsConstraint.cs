@@ -52,7 +52,7 @@ namespace NBi.NUnit.Structure
             }
         }
 
-        protected override CollectionItemsEqualConstraint InternalConstraint
+        protected override Constraint InternalConstraint
         {
             get
             {

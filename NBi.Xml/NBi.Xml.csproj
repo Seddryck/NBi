@@ -70,6 +70,9 @@
     <Compile Include="Items\ExcludeXml.cs" />
     <Compile Include="Items\PatternXml.cs" />
     <Compile Include="Items\QueryParameterXml.cs" />
+    <Compile Include="Items\Ranges\PatternIntegerRangeXml.cs" />
+    <Compile Include="Items\Ranges\IntegerRangeXml.cs" />
+    <Compile Include="Items\Ranges\DateRangeXml.cs" />
     <Compile Include="Items\TablesXml.cs" />
     <Compile Include="Items\TableXml.cs" />
     <Compile Include="Items\MeasuresXml.cs" />

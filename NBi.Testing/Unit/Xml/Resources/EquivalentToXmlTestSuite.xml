@@ -44,4 +44,40 @@
 			</equivalentTo>
 		</assert>
 	</test>
+	<test name="Manage integer range" uid="0004">
+		<system-under-test>
+			<members>
+				<hierarchy dimension="my-dimension" perspective="my-perspective" caption="my-hierarchy"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<equivalentTo>
+				<range-integer start="1" end="10" step="2"/>
+			</equivalentTo>
+		</assert>
+	</test>
+	<test name="Manage date range" uid="0004">
+		<system-under-test>
+			<members>
+				<hierarchy dimension="my-dimension" perspective="my-perspective" caption="my-hierarchy"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<equivalentTo>
+				<range-date start="2013-01-01" end="2013-12-31" culture="en" format="dd/MM/yyyy"/>
+			</equivalentTo>
+		</assert>
+	</test>
+	<test name="Manage integer and pattern range" uid="0005">
+		<system-under-test>
+			<members>
+				<hierarchy dimension="my-dimension" perspective="my-perspective" caption="my-hierarchy"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<equivalentTo>
+				<range-integer-pattern start="1" end="52" pattern="Week " position="suffix"/>
+			</equivalentTo>
+		</assert>
+	</test>
 </testSuite>

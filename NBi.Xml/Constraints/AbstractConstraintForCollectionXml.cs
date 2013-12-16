@@ -31,7 +31,7 @@ namespace NBi.Xml.Constraints
         public List<string> Items { get; set; }
 
         [XmlElement("predefined")]
-        public PredefinedItems PredefinedItems { get; set; }
+        public PredefinedItemsXml PredefinedItems { get; set; }
 
         [XmlElement("range-integer")]
         public IntegerRangeXml IntegerRange { get; set; }
@@ -43,7 +43,7 @@ namespace NBi.Xml.Constraints
         public PatternIntegerRangeXml PatternIntegerRange { get; set; }
 
         [XmlIgnore]
-        public IRange Range
+        public RangeXml Range
         {
             get
             {
@@ -54,6 +54,15 @@ namespace NBi.Xml.Constraints
                 if (DateRange != null)
                     return DateRange;
                 return null;
+            }
+            set
+            {
+                if (value is PatternIntegerRangeXml)
+                    PatternIntegerRange = (PatternIntegerRangeXml)value;
+                if (value is IntegerRangeXml)
+                    IntegerRange = (IntegerRangeXml)value;
+                if (value is DateRangeXml)
+                    DateRange = (DateRangeXml)value;
             }
         }
 
@@ -67,6 +76,8 @@ namespace NBi.Xml.Constraints
                 list.AddRange(Items);
             if (PredefinedItems != null)
                 list.AddRange(PredefinedItems.GetItems());
+            if (Range != null)
+                list.AddRange(Range.GetItems());
 
             return list;
         }

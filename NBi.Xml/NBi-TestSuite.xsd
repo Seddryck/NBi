@@ -459,7 +459,12 @@
 													</xs:simpleContent>
 												</xs:complexType>
 											</xs:element>
-											<xs:element name="predefined" type="predefined-type" minOccurs="0" maxOccurs="1"/>
+											<xs:choice minOccurs="0">
+												<xs:element name="predefined" type="predefined-type"/>
+												<xs:element name="range-integer" type="range-integer-type"/>
+												<xs:element name="range-date" type="range-date-type"/>
+												<xs:element name="range-integer-pattern" type="range-integer-pattern-type"/>
+											</xs:choice>
 										</xs:sequence>
 										<xs:element name="one-column-query" type ="query-type"/>
 									</xs:choice>
@@ -480,7 +485,12 @@
 												</xs:simpleContent>
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="predefined" type="predefined-type" minOccurs="0" maxOccurs="1"/>
+										<xs:choice minOccurs="0">
+											<xs:element name="predefined" type="predefined-type"/>
+											<xs:element name="range-integer" type="range-integer-type"/>
+											<xs:element name="range-date" type="range-date-type"/>
+											<xs:element name="range-integer-pattern" type="range-integer-pattern-type"/>
+										</xs:choice>
 									</xs:sequence>
 									<xs:element name="one-column-query" type ="query-type"/>
 								</xs:choice>
@@ -500,7 +510,12 @@
 													</xs:simpleContent>
 												</xs:complexType>
 											</xs:element>
-											<xs:element name="predefined" type="predefined-type" minOccurs="0" maxOccurs="1"/>
+											<xs:choice minOccurs="0">
+												<xs:element name="predefined" type="predefined-type"/>
+												<xs:element name="range-integer" type="range-integer-type"/>
+												<xs:element name="range-date" type="range-date-type"/>
+												<xs:element name="range-integer-pattern" type="range-integer-pattern-type"/>
+											</xs:choice>
 										</xs:sequence>
 										<xs:element name="one-column-query" type ="query-type"/>
 									</xs:choice>
@@ -623,5 +638,31 @@
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="range-integer-type">
+		<xs:attribute name="start" type="xs:integer" use="required" />
+		<xs:attribute name="end" type="xs:integer" use="required" />
+		<xs:attribute name="step" type="xs:integer" use="optional" />
+	</xs:complexType>
+	<xs:complexType name="range-integer-pattern-type">
+		<xs:complexContent>
+			<xs:extension base="range-integer-type">
+				<xs:attribute name="pattern" type="xs:string" use="required" />
+				<xs:attribute name="position" use="required" >
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="suffix"/>
+							<xs:enumeration value="prefix"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="range-date-type">
+		<xs:attribute name="start" type="xs:date" use="required" />
+		<xs:attribute name="end" type="xs:date" use="required" />
+		<xs:attribute name="culture" type="xs:string" use="required" />
+		<xs:attribute name="format" type="xs:string" use="required" />
 	</xs:complexType>
 </xs:schema>

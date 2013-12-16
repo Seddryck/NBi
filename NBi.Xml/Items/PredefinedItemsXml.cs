@@ -6,7 +6,7 @@ using NBi.Core.Members.Predefined;
 
 namespace NBi.Xml.Items
 {
-    public class PredefinedItems
+    public class PredefinedItemsXml
     {
         [XmlAttribute("type")]
         public PredefinedMembers Type { get; set; }

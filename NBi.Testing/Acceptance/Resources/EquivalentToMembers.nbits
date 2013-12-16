@@ -37,4 +37,40 @@
 			</equivalentTo>
 		</assert>
 	</test>
+	<test name="Members of hierarchy 'Sales Order Line' are integers between 1 and 8" uid="0003">
+		<system-under-test>
+			<members children-of="All">
+				<hierarchy caption="Sales Order Line" dimension="Internet Sales Order Details" perspective="Adventure Works"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<equivalentTo>
+				<range-integer start="1" end="8"/>
+			</equivalentTo>
+		</assert>
+	</test>
+	<test name="Members of hierarchy 'Date' are dates between 1st of January 2005 and 31th of December 2010" uid="0004">
+		<system-under-test>
+			<members children-of="All">
+				<hierarchy caption="Date" dimension="Date" perspective="Adventure Works"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<equivalentTo>
+				<range-date start="2005-01-01" end="2010-12-31" culture="en" format="MMMM d, yyyy"/>
+			</equivalentTo>
+		</assert>
+	</test>
+	<test name="Members of hierarchy 'Calendar' (level 'Calendar Year') are values between 'CY 2005' and 'CY 2010'" uid="0004">
+		<system-under-test>
+			<members>
+				<level caption="Calendar Year" hierarchy="Calendar" dimension="date" perspective="Adventure Works"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<equivalentTo>
+				<range-integer-pattern start="2005" end="2010" pattern="CY " position="prefix"/>
+			</equivalentTo>
+		</assert>
+	</test>
 </testSuite>

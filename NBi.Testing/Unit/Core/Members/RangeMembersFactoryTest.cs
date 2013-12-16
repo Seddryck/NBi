@@ -38,6 +38,12 @@ namespace NBi.Testing.Unit.Core.Members
         }
         #endregion
 
+        private class IntegerPatternRange : IntegerRange, IPatternDecorator
+        {
+            public string Pattern {get; set;}
+            public PositionValue Position { get; set; }
+        }
+
         [Test]
         public void Instantiate_IntegerFrom3To10_ListFrom3To10()
         {
@@ -77,13 +83,13 @@ namespace NBi.Testing.Unit.Core.Members
         [Test]
         public void Instantiate_IntegerFrom1To52WithPrefixPattern_ListFromWeek1ToWeek52()
         {
-            var integerRange = new IntegerRangeWithPattern()
+            var integerRange = new IntegerPatternRange()
             {
                 Start = 1,
                 End = 52,
                 Step = 1,
                 Pattern="Week ",
-                Position=IntegerRangeWithPattern.PositionValue.Prefix
+                Position= PositionValue.Prefix
             };
 
             var factory = new RangeMembersFactory();

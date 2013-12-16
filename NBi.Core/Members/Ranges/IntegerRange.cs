@@ -7,8 +7,8 @@ namespace NBi.Core.Members.Ranges
 {
     public class IntegerRange : IRange
     {
-        public int Start { get; set; }
-        public int End { get; set; }
-        public int Step { get; set; }
+        public virtual int Start { get; set; }
+        public virtual int End { get; set; }
+        public virtual int Step { get; set; }
     }
 }

@@ -159,10 +159,13 @@
     <Compile Include="Members\Predefined\PredefinedMembersFactory.cs" />
     <Compile Include="Members\Predefined\PredefinedMembers.cs" />
     <Compile Include="Members\Ranges\BaseBuilder.cs" />
-    <Compile Include="Members\Ranges\IntegerRangeWithPatternBuilder.cs" />
-    <Compile Include="Members\Ranges\IntegerRangeWithPattern.cs" />
-    <Compile Include="Members\Ranges\DateRangeBuilder.cs" />
+    <Compile Include="Members\Ranges\CompositeBuilder.cs" />
+    <Compile Include="Members\Ranges\BaseDecoratorBuilder.cs" />
     <Compile Include="Members\Ranges\DateRange.cs" />
+    <Compile Include="Members\Ranges\IDecoratorBuilder.cs" />
+    <Compile Include="Members\Ranges\PatternDecoratorBuilder.cs" />
+    <Compile Include="Members\Ranges\IPatternDecorator.cs" />
+    <Compile Include="Members\Ranges\DateRangeBuilder.cs" />
     <Compile Include="Members\Ranges\IntegerRange.cs" />
     <Compile Include="Members\Ranges\IntegerRangeBuilder.cs" />
     <Compile Include="Members\Ranges\IRange.cs" />

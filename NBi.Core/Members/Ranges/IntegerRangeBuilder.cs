@@ -7,11 +7,11 @@ namespace NBi.Core.Members.Ranges
 {
     internal class IntegerRangeBuilder : BaseBuilder
     {
-        protected new IntegerRange Range
+        protected new IIntegerRange Range
         {
             get
             {
-                return (IntegerRange)base.Range;
+                return (IIntegerRange)base.Range;
             }
         }
 

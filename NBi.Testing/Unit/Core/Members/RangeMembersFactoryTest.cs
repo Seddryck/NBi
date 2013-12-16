@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using System.Linq;
 using NBi.Core.Members.Ranges;
 using NUnit.Framework;
 
@@ -38,8 +37,27 @@ namespace NBi.Testing.Unit.Core.Members
         }
         #endregion
 
-        private class IntegerPatternRange : IntegerRange, IPatternDecorator
+        private class IntegerRange : IIntegerRange
         {
+            public int Start { get; set; }
+            public int End { get; set; }
+            public int Step { get; set; }
+        }
+
+        private class DateRange : IDateRange
+        {
+            public DateTime Start { get; set; }
+            public DateTime End { get; set; }
+            public CultureInfo Culture { get; set; }
+            public string Format { get; set; }
+        }
+
+        private class IntegerPatternRange : IIntegerRange, IPatternDecorator
+        {
+            public int Start { get; set; }
+            public int End { get; set; }
+            public int Step { get; set; }
+            
             public string Pattern {get; set;}
             public PositionValue Position { get; set; }
         }

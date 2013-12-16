@@ -7,11 +7,11 @@ namespace NBi.Core.Members.Ranges
 {
     internal class DateRangeBuilder : BaseBuilder
     {
-        protected new DateRange Range
+        protected new IDateRange Range
         {
             get
             {
-                return (DateRange)base.Range;
+                return (IDateRange)base.Range;
             }
         }
 

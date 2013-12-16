@@ -161,12 +161,12 @@
     <Compile Include="Members\Ranges\BaseBuilder.cs" />
     <Compile Include="Members\Ranges\CompositeBuilder.cs" />
     <Compile Include="Members\Ranges\BaseDecoratorBuilder.cs" />
-    <Compile Include="Members\Ranges\DateRange.cs" />
+    <Compile Include="Members\Ranges\IDateRange.cs" />
     <Compile Include="Members\Ranges\IDecoratorBuilder.cs" />
     <Compile Include="Members\Ranges\PatternDecoratorBuilder.cs" />
     <Compile Include="Members\Ranges\IPatternDecorator.cs" />
     <Compile Include="Members\Ranges\DateRangeBuilder.cs" />
-    <Compile Include="Members\Ranges\IntegerRange.cs" />
+    <Compile Include="Members\Ranges\IIntegerRange.cs" />
     <Compile Include="Members\Ranges\IntegerRangeBuilder.cs" />
     <Compile Include="Members\Ranges\IRange.cs" />
     <Compile Include="Members\Ranges\IRangeMembersBuilder.cs" />

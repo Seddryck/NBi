@@ -17,13 +17,13 @@ namespace NBi.Core.Members.Ranges
 
         private void RegisterDefaults()
         {
-            Register(new Type[] { typeof(IntegerRange), typeof(IPatternDecorator) }
+            Register(new Type[] { typeof(IIntegerRange), typeof(IPatternDecorator) }
                 , new CompositeBuilder(
                     new IntegerRangeBuilder()
                     , new List<IDecoratorBuilder>() { new PatternDecoratorBuilder() }
                     ));
-            Register(typeof(IntegerRange), new IntegerRangeBuilder());
-            Register(typeof(DateRange), new DateRangeBuilder());
+            Register(typeof(IIntegerRange), new IntegerRangeBuilder());
+            Register(typeof(IDateRange), new DateRangeBuilder());
         }
 
         /// <summary>

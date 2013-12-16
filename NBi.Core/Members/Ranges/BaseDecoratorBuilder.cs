@@ -5,30 +5,30 @@ using System.Linq;
 
 namespace NBi.Core.Members.Ranges
 {
-    internal abstract class BaseBuilder : IRangeMembersBuilder
+    internal abstract class BaseDecoratorBuilder : IDecoratorBuilder
     {
         protected IRange Range { get; set; }
         protected IEnumerable<string> Result { get; set; }
         private bool isSetup = false;
         private bool isBuild = false;
 
-        public virtual void Setup(IRange range)
+        public void Setup(IRange range)
         {
             Result = null;
             Range = range;
             isBuild = false;
             isSetup = true;
-        }       
+        }
 
-        public virtual void Build()
+        public void Apply(IEnumerable<string> values)
         {
             if (!isSetup)
                 throw new InvalidOperationException();
-            InternalBuild();
+            Result = InternalApply(values);
             isBuild = true;
         }
 
-        protected abstract void InternalBuild();
+        protected abstract IEnumerable<string> InternalApply(IEnumerable<string> values);
 
         public IEnumerable<string> GetResult()
         {

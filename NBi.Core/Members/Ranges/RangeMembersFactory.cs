@@ -17,7 +17,11 @@ namespace NBi.Core.Members.Ranges
 
         private void RegisterDefaults()
         {
-            Register(typeof(IntegerRangeWithPattern), new IntegerRangeWithPatternBuilder());
+            Register(new Type[] { typeof(IntegerRange), typeof(IPatternDecorator) }
+                , new CompositeBuilder(
+                    new IntegerRangeBuilder()
+                    , new List<IDecoratorBuilder>() { new PatternDecoratorBuilder() }
+                    ));
             Register(typeof(IntegerRange), new IntegerRangeBuilder());
             Register(typeof(DateRange), new DateRangeBuilder());
         }
@@ -30,27 +34,62 @@ namespace NBi.Core.Members.Ranges
         /// <param name="builder">Instance of builder deicated for these types of System Under Test and Constraint</param>
         public void Register(Type rangeType, IRangeMembersBuilder builder)
         {
-            if (IsHandling(rangeType))
-                registrations.FirstOrDefault(reg => reg.Type == rangeType).Builder = builder;
+            Register(new List<Type>() { rangeType }, builder);
+        }
+
+        /// <summary>
+        /// Register a new builder for corresponding types. If a builder was already existing for this association, it's replaced by the new one
+        /// </summary>
+        /// <param name="sutType">Type of System Under Test</param>
+        /// <param name="ctrType">Type of Constraint</param>
+        /// <param name="builder">Instance of builder deicated for these types of System Under Test and Constraint</param>
+        public void Register(IEnumerable<Type> rangeTypes, IRangeMembersBuilder builder)
+        {
+            if (IsHandling(rangeTypes))
+                registrations.FirstOrDefault(reg => reg.Match(rangeTypes)).Builder = builder;
             else
-                registrations.Add(new BuilderRegistration(rangeType, builder));
+                registrations.Add(new BuilderRegistration(rangeTypes, builder));
         }
 
         private bool IsHandling(Type rangeType)
         {
-            var existing = registrations.FirstOrDefault(reg => reg.Type == rangeType);
+            return (IsHandling(new List<Type>() {rangeType}));
+        }
+
+        private bool IsHandling(IEnumerable<Type> rangeTypes)
+        {
+            var existing = registrations.FirstOrDefault(reg => reg.Match(rangeTypes));
             return (existing != null);
         }
 
         private class BuilderRegistration
         {
-            public Type Type { get; set; }
+            public IEnumerable<Type> Types { get; set; }
             public IRangeMembersBuilder Builder { get; set; }
+
+            public BuilderRegistration(IEnumerable<Type> rangeTypes, IRangeMembersBuilder builder)
+            {
+                Types = rangeTypes;
+                Builder = builder;
+            }
 
             public BuilderRegistration(Type rangeType, IRangeMembersBuilder builder)
             {
-                Type = rangeType;
+                Types = new List<Type>() {rangeType};
                 Builder = builder;
+            }
+
+            public bool Match(IEnumerable<Type> rangeTypes)
+            {
+                return rangeTypes.ToList().TrueForAll(rt => this.Match(rt));
+            }
+
+            public bool Match(Type rangeType)
+            {
+                return Types.ToList().TrueForAll(
+                    type => 
+                        type.IsAssignableFrom(rangeType)
+                   );
             }
         }
 
@@ -69,7 +108,7 @@ namespace NBi.Core.Members.Ranges
             IRangeMembersBuilder builder = null;
 
             //Look for registration ...
-            var registration = registrations.FirstOrDefault(reg => reg.Type == range.GetType());
+            var registration = registrations.FirstOrDefault(reg => reg.Match(range.GetType()));
             if (registration == null)
                 throw new ArgumentException(string.Format("'{0}' has no builder registred.", range.GetType().Name, "range"));
 

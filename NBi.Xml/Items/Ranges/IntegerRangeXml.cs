@@ -6,7 +6,7 @@ using NBi.Core.Members.Ranges;
 
 namespace NBi.Xml.Items.Ranges
 {
-    public class IntegerRangeXml : IIntegerRange
+    public class IntegerRangeXml : RangeXml, IIntegerRange
     {
         [XmlAttribute("start")]
         public int Start { get; set; }

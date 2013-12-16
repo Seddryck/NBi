@@ -6,7 +6,7 @@ using NBi.Core.Members.Ranges;
 
 namespace NBi.Xml.Items.Ranges
 {
-    public class DateRangeXml : IDateRange
+    public class DateRangeXml : RangeXml, IDateRange
     {
         [XmlAttribute("start")]
         public DateTime Start { get; set; }

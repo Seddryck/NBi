@@ -5,6 +5,7 @@ using System.Linq;
 using NBi.Core.Analysis.Metadata;
 using NBi.Core.Analysis.Metadata.Adomd;
 using NBi.Core.Analysis.Request;
+using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Structure
@@ -12,7 +13,10 @@ namespace NBi.NUnit.Structure
     public abstract class AbstractStructureConstraint : NUnitCtr.Constraint
     {
         private AdomdDiscoveryCommandFactory commandFactory;
-        protected virtual NUnitCtr.CollectionItemsEqualConstraint InternalConstraint {get; set;}
+
+        //Internal Constraint is not necessary an CollectionItemsEqualConstraint
+        //By expl, for ContainConstraint we've a collection of constrain and not just one constraint
+        protected virtual NUnitCtr.Constraint InternalConstraint {get; set;}
         
         public IComparer Comparer { get; set; }
         
@@ -69,7 +73,10 @@ namespace NBi.NUnit.Structure
             {
                 this.actual = actual;
                 var ctr = InternalConstraint;
-                ctr = ctr.Using(Comparer);
+                if (InternalConstraint is CollectionItemsEqualConstraint)
+                    //Only the type CollectionItemsEqualConstraint is supporting Using()
+                    //Others constraint are mostly a composition of constraints and the comparer is applied to each constraint.
+                    ctr = ((CollectionItemsEqualConstraint)ctr).Using(Comparer);
                 var res = ctr.Matches(actual);
                 return res;
             }

@@ -30,7 +30,5 @@ namespace NBi.Xml.Constraints
             }  
         }
 
-        [XmlElement("members")]
-        public MembersXml Members { get; set; }
     }
 }

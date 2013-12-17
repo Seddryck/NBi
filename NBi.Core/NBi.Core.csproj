@@ -230,6 +230,7 @@
     <Compile Include="ProgressStatusEventArgs.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="StringComparerHelper.cs" />
+    <Compile Include="StringHelper.cs" />
     <Compile Include="StringTemplateEngine.cs" />
   </ItemGroup>
   <ItemGroup>

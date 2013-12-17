@@ -104,11 +104,55 @@ namespace NBi.NUnit.Structure
             else
             {
                 Investigate();
+                
                 if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() > 0)
                     base.WriteActualValueTo(writer);
                 else
                     writer.WriteActualValue(new WriterHelper.NothingFoundMessage());
+
+                var closeMatch = GetCloseMatch();
+                if (!string.IsNullOrEmpty(closeMatch))
+                {
+                    writer.WriteMessageLine("");
+                    writer.WriteMessageLine("");
+                    writer.WriteMessageLine(string.Format("The value '{0}' is close to your expectation.", closeMatch));
+                    writer.DisplayStringDifferences(Expected, closeMatch, -1, false, true);
+                }
             }
+        }
+
+        protected virtual string GetCloseMatch()
+        {
+            var closestDistance = int.MaxValue;
+            var closestValue = string.Empty;
+
+            foreach (IField value in ((IEnumerable<IField>)actual))
+            {
+                var dist = value.Caption.LevenshteinDistance(Expected);
+                if ( closestDistance > dist )
+                {
+                    closestDistance = dist;
+                    closestValue = value.Caption;
+                }
+            }
+
+            if (closestDistance <= 3)
+                return closestValue;
+
+            foreach (IField value in ((IEnumerable<IField>)actual))
+            {
+                var dist = value.Caption.RemoveDiacritics().LevenshteinDistance(Expected.RemoveDiacritics());
+                if (closestDistance > dist)
+                {
+                    closestDistance = dist;
+                    closestValue = value.Caption;
+                }
+            }
+
+            if (closestDistance <= 3)
+                return closestValue;
+
+            return string.Empty;
         }
 
         

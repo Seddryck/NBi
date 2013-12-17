@@ -43,7 +43,7 @@ namespace NBi.NUnit.Builder
                 ctr = new NBi.NUnit.Member.SubsetOfConstraint(disco);
             }
             else
-                ctr = new NBi.NUnit.Member.SubsetOfConstraint(ctrXml.Items);
+                ctr = new NBi.NUnit.Member.SubsetOfConstraint(ctrXml.GetItems());
 
             //Ignore-case if requested
             if (ctrXml.IgnoreCase)

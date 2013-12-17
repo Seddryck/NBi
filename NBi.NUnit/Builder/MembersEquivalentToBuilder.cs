@@ -38,7 +38,7 @@ namespace NBi.NUnit.Builder
             if (ctrXml.Query != null)
                 ctr = new NBi.NUnit.Member.EquivalentToConstraint(ctrXml.Query.GetCommand());
             else
-                ctr = new NBi.NUnit.Member.EquivalentToConstraint(ctrXml.Items);
+                ctr = new NBi.NUnit.Member.EquivalentToConstraint(ctrXml.GetItems());
 
             //Ignore-case if requested
             if (ctrXml.IgnoreCase)

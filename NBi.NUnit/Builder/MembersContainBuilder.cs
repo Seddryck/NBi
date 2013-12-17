@@ -37,10 +37,10 @@ namespace NBi.NUnit.Builder
             NBi.NUnit.Member.ContainConstraint ctr = null;
             if (ctrXml.Query != null)
                 ctr = new NBi.NUnit.Member.ContainConstraint(ctrXml.Query.GetCommand());
-            else if (ctrXml.Items.Count == 1)
+            else if (ctrXml.GetItems().Count() == 1)
                 ctr = new NBi.NUnit.Member.ContainConstraint(ctrXml.Caption);
             else
-                ctr = new NBi.NUnit.Member.ContainConstraint(ctrXml.Items);
+                ctr = new NBi.NUnit.Member.ContainConstraint(ctrXml.GetItems());
 
             //Ignore-case if requested
             if (ctrXml.IgnoreCase)

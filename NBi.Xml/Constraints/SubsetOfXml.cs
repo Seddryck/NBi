@@ -11,7 +11,5 @@ namespace NBi.Xml.Constraints
     public class SubsetOfXml : AbstractConstraintForCollectionXml
     {
 
-        [XmlElement("members")]
-        public MembersXml Members { get; set; }
     }
 }

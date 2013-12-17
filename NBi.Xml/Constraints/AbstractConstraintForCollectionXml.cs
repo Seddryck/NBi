@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
-using NBi.Core.Members.Ranges;
 using NBi.Xml.Items;
 using NBi.Xml.Items.Ranges;
 using NBi.Xml.Settings;
+using NBi.Xml.Systems;
 
 namespace NBi.Xml.Constraints
 {
@@ -68,6 +68,9 @@ namespace NBi.Xml.Constraints
 
         [XmlElement("one-column-query")]
         public QueryXml Query { get; set; }
+
+        [XmlElement("members")]
+        public MembersXml Members { get; set; }
 
         public IEnumerable<string> GetItems()
         {

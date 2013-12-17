@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using NBi.Core;
 using NBi.Core.Analysis.Member;
+using NBi.Core.Analysis.Request;
 using NBi.Core.ResultSet;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
@@ -15,6 +16,7 @@ namespace NBi.NUnit.Member
     {
 
         private readonly IDbCommand commandToRetrieveExpectedItems;
+        private readonly MembersDiscoveryRequest membersDiscoveryRequest;
         private IEnumerable<string> expectedItems;
 
         protected IEnumerable<string> ExpectedItems
@@ -27,7 +29,7 @@ namespace NBi.NUnit.Member
         
 
         /// <summary>
-        /// Construct a CollectionContainsConstraint
+        /// Construct a AbstractMembersConstraint
         /// </summary>
         /// <param name="expected">The command to retrieve the list of expected items</param>
         public AbstractMembersCollectionConstraint(IDbCommand expected)
@@ -37,13 +39,23 @@ namespace NBi.NUnit.Member
         }
 
         /// <summary>
-        /// Construct a CollectionEquivalentConstraint
+        /// Construct a AbstractMembersConstraint
         /// </summary>
         /// <param name="expected">The list of expected items</param>
         public AbstractMembersCollectionConstraint(IEnumerable<string> expected)
             : base()
         {
             expectedItems = expected;
+        }
+
+        /// <summary>
+        /// Construct a AbstractMembersConstraint
+        /// </summary>
+        /// <param name="expected">The request to discover members in a hierarchy or level</param>
+        public AbstractMembersCollectionConstraint(MembersDiscoveryRequest expected)
+            : base()
+        {
+            membersDiscoveryRequest = expected;
         }
 
        
@@ -53,6 +65,8 @@ namespace NBi.NUnit.Member
         {
             if (commandToRetrieveExpectedItems != null)
                 expectedItems = GetMembersFromResultSet(commandToRetrieveExpectedItems);
+            if (membersDiscoveryRequest != null)
+                expectedItems = GetMembersFromDiscoveryRequest(membersDiscoveryRequest);
         }
 
 
@@ -64,6 +78,15 @@ namespace NBi.NUnit.Member
             foreach (DataRow row in rs.Rows)
                 members.Add(row.ItemArray[0].ToString());
 
+            return members;
+        }
+
+        protected IEnumerable<string> GetMembersFromDiscoveryRequest(MembersDiscoveryRequest disco)
+        {
+            var engine = new MembersAdomdEngine();
+            var results = engine.GetMembers(disco);
+
+            var members = results.ToCaptions();
             return members;
         }
 

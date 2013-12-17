@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using NBi.Xml.Items;
 using NBi.Xml.Settings;
+using NBi.Xml.Systems;
 
 namespace NBi.Xml.Constraints
 {
@@ -30,6 +31,8 @@ namespace NBi.Xml.Constraints
         [XmlElement("one-column-query")]
         public QueryXml Query { get; set; }
 
+        [XmlElement("members")]
+        public MembersXml Members { get; set; }
 
         public EquivalentToXml()
         {

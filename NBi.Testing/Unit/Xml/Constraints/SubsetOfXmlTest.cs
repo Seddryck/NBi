@@ -2,6 +2,8 @@
 using System.Reflection;
 using NBi.Xml;
 using NBi.Xml.Constraints;
+using NBi.Xml.Items;
+using NBi.Xml.Systems;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Xml.Constraints
@@ -61,6 +63,22 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(((SubsetOfXml)ts.Tests[testNr].Constraints[0]).Items, Has.Count.EqualTo(2));
             Assert.That(((SubsetOfXml)ts.Tests[testNr].Constraints[0]).Items[0], Is.EqualTo("First hierarchy"));
             Assert.That(((SubsetOfXml)ts.Tests[testNr].Constraints[0]).Items[1], Is.EqualTo("Second hierarchy"));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_SubsetOfMembers()
+        {
+            int testNr = 3;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(((SubsetOfXml)ts.Tests[testNr].Constraints[0]).Members, Is.InstanceOfType<MembersXml>());
+
+            var members = ((SubsetOfXml)ts.Tests[testNr].Constraints[0]).Members;
+            Assert.That(members.ChildrenOf, Is.EqualTo("All"));
+            Assert.That(((HierarchyXml)(members.BaseItem)).Caption, Is.EqualTo("myHierarchy"));
         }
     }
 }

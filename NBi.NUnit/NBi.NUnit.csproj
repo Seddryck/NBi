@@ -75,7 +75,7 @@
     <Compile Include="Builder\StructureLinkedToBuilder.cs" />
     <Compile Include="Builder\StructureExistsBuilder.cs" />
     <Compile Include="Builder\StructureContainBuilder.cs" />
-    <Compile Include="Builder\MembersContainsBuilder.cs" />
+    <Compile Include="Builder\MembersContainBuilder.cs" />
     <Compile Include="Builder\MembersOrderedBuilder.cs" />
     <Compile Include="Builder\ExecutionSyntacticallyCorrectBuilder.cs" />
     <Compile Include="Builder\ExecutionFasterThanBuilder.cs" />

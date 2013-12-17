@@ -113,6 +113,8 @@
     <Compile Include="Unit\Core\Format\RegexBuilderTest.cs" />
     <Compile Include="Unit\Core\ListComparerTest.cs" />
     <Compile Include="Unit\Core\ListComparisonFormatterTest.cs" />
+    <Compile Include="Unit\Core\Members\RangeMembersFactoryTest.cs" />
+    <Compile Include="Unit\Core\Members\PredefinedMembersFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\DbTypeBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\BaseComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\BooleanComparerTest.cs" />

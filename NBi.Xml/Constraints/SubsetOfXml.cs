@@ -8,37 +8,10 @@ using NBi.Xml.Systems;
 
 namespace NBi.Xml.Constraints
 {
-    public class SubsetOfXml : AbstractConstraintXml
+    public class SubsetOfXml : AbstractConstraintForCollectionXml
     {
-        public override DefaultXml Default
-        {
-            get { return base.Default; }
-            set
-            {
-                base.Default = value;
-                if (Query != null)
-                    Query.Default = value;
-            }
-        }
-        
-        [XmlAttribute("ignore-case")]
-        [DefaultValue(false)]
-        public bool IgnoreCase { get; set; }
-
-        [XmlElement("item")]
-        public List<string> Items { get; set; }
-
-        [XmlElement("one-column-query")]
-        public QueryXml Query { get; set; }
 
         [XmlElement("members")]
         public MembersXml Members { get; set; }
-
-
-        public SubsetOfXml()
-        {
-            Items = new List<string>();
-        }
-
     }
 }

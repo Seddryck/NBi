@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using Moq;
 using NBi.Core.Analysis.Member;
 using NBi.Core.Analysis.Request;
+using NBi.Core.Members.Predefined;
 using NBi.NUnit.Builder;
 using NBi.NUnit.Member;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
-using NBi.Xml.Settings;
+using NBi.Xml.Items.Ranges;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 #endregion
@@ -87,6 +88,68 @@ namespace NBi.Testing.Unit.NUnit.Builder
             sutXml.Item = item;
             var ctrXml = new EquivalentToXml();
             ctrXml.Items = new List<string>() { "Hello", "World" };
+
+            var discoFactoStubFactory = new Mock<DiscoveryRequestFactory>();
+            discoFactoStubFactory.Setup(dfs =>
+                dfs.Build(
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<List<string>>(),
+                    It.IsAny<List<PatternValue>>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>()))
+                    .Returns(new MembersDiscoveryRequest());
+            var discoFactoStub = discoFactoStubFactory.Object;
+
+            var builder = new MembersEquivalentToBuilder(discoFactoStub);
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var ctr = builder.GetConstraint();
+
+            Assert.That(ctr, Is.InstanceOf<EquivalentToConstraint>());
+        }
+
+        [Test]
+        public void GetConstraint_BuildWithPredefinedItems_CorrectConstraint()
+        {
+            var sutXml = new MembersXml();
+            var item = new HierarchyXml();
+            sutXml.Item = item;
+            var ctrXml = new EquivalentToXml();
+            ctrXml.PredefinedItems = new PredefinedItemsXml() { Type=PredefinedMembers.DaysOfWeek, Language = "en" };
+
+            var discoFactoStubFactory = new Mock<DiscoveryRequestFactory>();
+            discoFactoStubFactory.Setup(dfs =>
+                dfs.Build(
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<List<string>>(),
+                    It.IsAny<List<PatternValue>>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>()))
+                    .Returns(new MembersDiscoveryRequest());
+            var discoFactoStub = discoFactoStubFactory.Object;
+
+            var builder = new MembersEquivalentToBuilder(discoFactoStub);
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var ctr = builder.GetConstraint();
+
+            Assert.That(ctr, Is.InstanceOf<EquivalentToConstraint>());
+        }
+
+        [Test]
+        public void GetConstraint_BuildWithRange_CorrectConstraint()
+        {
+            var sutXml = new MembersXml();
+            var item = new HierarchyXml();
+            sutXml.Item = item;
+            var ctrXml = new EquivalentToXml();
+            ctrXml.Range = new IntegerRangeXml() { Start = 1, End = 10, Step = 2 };
 
             var discoFactoStubFactory = new Mock<DiscoveryRequestFactory>();
             discoFactoStubFactory.Setup(dfs =>

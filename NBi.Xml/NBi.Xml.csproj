@@ -51,6 +51,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Constraints\AbstractConstraintForCollectionXml.cs" />
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
     <Compile Include="Constraints\ContainXml.cs" />
     <Compile Include="Constraints\IReferenceFriendly.cs" />
@@ -64,10 +65,15 @@
     <Compile Include="Items\ColumnsXml.cs" />
     <Compile Include="Items\Format\CurrencyFormatXml.cs" />
     <Compile Include="Items\Format\NumericFormatXml.cs" />
+    <Compile Include="Items\PredefinedItemsXml.cs" />
     <Compile Include="Items\QueryTemplateVariableXml.cs" />
     <Compile Include="Items\ExcludeXml.cs" />
     <Compile Include="Items\PatternXml.cs" />
     <Compile Include="Items\QueryParameterXml.cs" />
+    <Compile Include="Items\Ranges\PatternIntegerRangeXml.cs" />
+    <Compile Include="Items\Ranges\IntegerRangeXml.cs" />
+    <Compile Include="Items\Ranges\DateRangeXml.cs" />
+    <Compile Include="Items\Ranges\RangeXml.cs" />
     <Compile Include="Items\TablesXml.cs" />
     <Compile Include="Items\TableXml.cs" />
     <Compile Include="Items\MeasuresXml.cs" />

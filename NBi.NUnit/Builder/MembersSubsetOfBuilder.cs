@@ -37,6 +37,11 @@ namespace NBi.NUnit.Builder
             NBi.NUnit.Member.SubsetOfConstraint ctr;
             if (ctrXml.Query != null)
                 ctr = new NBi.NUnit.Member.SubsetOfConstraint(ctrXml.Query.GetCommand());
+            else if (ctrXml.Members != null)
+            {
+                var disco = InstantiateMembersDiscovery(ctrXml.Members);
+                ctr = new NBi.NUnit.Member.SubsetOfConstraint(disco);
+            }
             else
                 ctr = new NBi.NUnit.Member.SubsetOfConstraint(ctrXml.Items);
 

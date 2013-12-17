@@ -14,7 +14,7 @@ namespace NBi.NUnit.Member
     public class ContainConstraint : AbstractMembersCollectionConstraint
     {
         /// <summary>
-        /// Construct a CollectionEquivalentConstraint
+        /// Construct a ContainConstraint
         /// </summary>
         /// <param name="expected">A unique expected member</param>
         public ContainConstraint(string expected)
@@ -23,7 +23,7 @@ namespace NBi.NUnit.Member
         }
         
         /// <summary>
-        /// Construct a EquivalentToConstraint
+        /// Construct a ContainConstraint
         /// </summary>
         /// <param name="expected">The command to retrieve the list of expected items</param>
         public ContainConstraint(IEnumerable<string> expected)
@@ -32,13 +32,23 @@ namespace NBi.NUnit.Member
         }
 
         /// <summary>
-        /// Construct a EquivalentToConstraint
+        /// Construct a ContainConstraint
         /// </summary>
         /// <param name="expected">The list of expected items</param>
         public ContainConstraint(IDbCommand expected)
             : base(expected)
         {
         }
+        
+        /// <summary>
+        /// Construct a ContainConstraint
+        /// </summary>
+        /// <param name="expected">The request to discover members in a hierarchy or level</param>
+        public ContainConstraint(MembersDiscoveryRequest expected)
+            : base(expected)
+        {
+        }
+        
 
         #region Modifiers
         /// <summary>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using NBi.Core;
+using NBi.Core.Analysis.Request;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
 
@@ -24,6 +25,15 @@ namespace NBi.NUnit.Member
         /// </summary>
         /// <param name="expected">The list of expected items</param>
         public EquivalentToConstraint(IDbCommand expected)
+            : base(expected)
+        {
+        }
+
+        /// <summary>
+        /// Construct a EquivalentToConstraint
+        /// </summary>
+        /// <param name="expected">The request to discover members in a hierarchy or level</param>
+        public EquivalentToConstraint(MembersDiscoveryRequest expected)
             : base(expected)
         {
         }

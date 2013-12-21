@@ -141,5 +141,23 @@ namespace NBi.Core.ResultSet.Comparer
             }
             return result;
         }
+
+        internal static bool IsValidInterval(object value)
+        {
+            if (!(value is string))
+                return false;
+
+            var valueString = ((string)value).Replace(" ","");
+
+            if (valueString.StartsWith("(") && valueString.EndsWith(")"))
+                return true;
+
+            if (valueString.StartsWith("[") || valueString.StartsWith("]")
+                && valueString.EndsWith("[") || valueString.EndsWith("]")
+                && valueString.Contains(";"))
+                return true;
+
+            return false;
+        }
     }
 }

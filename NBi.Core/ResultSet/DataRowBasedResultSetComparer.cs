@@ -295,9 +295,9 @@ namespace NBi.Core.ResultSet
                     if (settings.IsNumeric(i) && IsNumericField(dr.Table.Columns[i]))
                         continue;
 
-                    if (settings.IsNumeric(i) && !BaseComparer.IsValidNumeric(dr[i]))
+                    if (settings.IsNumeric(i) && !(BaseComparer.IsValidNumeric(dr[i]) || BaseComparer.IsValidInterval(dr[i])))
                     {                   
-                        var exception = string.Format("The column with an index of {0} is expecting a numeric value but the first row of your result set contains a value '{1}' not recognized as a valid numeric value."
+                        var exception = string.Format("The column with an index of {0} is expecting a numeric value but the first row of your result set contains a value '{1}' not recognized as a valid numeric value or a valid interval."
                             , i, dr[i].ToString());
 
                         if (BaseComparer.IsValidNumeric(dr[i].ToString().Replace(",", ".")))

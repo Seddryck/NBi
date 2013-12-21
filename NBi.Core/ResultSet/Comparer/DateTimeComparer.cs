@@ -7,6 +7,18 @@ namespace NBi.Core.ResultSet.Comparer
     class DateTimeComparer : BaseComparer
     {
 
+        protected string Culture { get; private set; }
+
+        public DateTimeComparer()
+        {
+            Culture = "fr-fr";
+        }
+
+        protected DateTimeComparer(string culture)
+        {
+            Culture = culture;
+        }
+
         protected override ComparerResult CompareObjects(object x, object y)
         {
             var rxDateTime = ConvertToDate(x);
@@ -119,7 +131,7 @@ namespace NBi.Core.ResultSet.Comparer
             if (!result)
             {
                 result = DateTime.TryParse(value,
-                    new CultureInfo("fr-fr").DateTimeFormat,
+                    new CultureInfo(Culture).DateTimeFormat,
                     DateTimeStyles.AllowWhiteSpaces,
                     out dateTime);
             }

@@ -7,7 +7,7 @@ namespace NBi.Core.ResultSet
 	{
 		public EndPoint Left { get; set; }
 		public EndPoint Right { get; set; }
-        
+		
 		public Interval(EndPoint left, EndPoint right)
 		{
 			Left = left;
@@ -32,6 +32,11 @@ namespace NBi.Core.ResultSet
 		public bool Contains(decimal value)
 		{
 			return Contains(Convert.ToDouble(value));
-		}		
+		}
+
+        public override string ToString()
+        {
+            return string.Format("{0};{1}", Left.ToString(), Right.ToString());
+        }
 	}
 }

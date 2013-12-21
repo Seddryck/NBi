@@ -124,6 +124,7 @@
     <Compile Include="Unit\Core\ResultSet\Comparer\TextComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\NumericComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\DataRowBasedResultSetComparerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\IntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\LineFormatterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetComparisonSettingsTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetCsvReaderTest.cs" />

@@ -93,38 +93,38 @@ namespace NBi.Core.ResultSet.Comparer
             return CompareDecimals(rxDecimal, ryDecimal, tolerance);               
         }
 
-        protected ComparerResult CompareDecimals(decimal x, decimal y, NumericTolerance tolerance)
+        protected ComparerResult CompareDecimals(decimal expected, decimal actual, NumericTolerance tolerance)
         {
             if (tolerance is NumericAbsoluteTolerance)
-                return CompareDecimals(x, y, (NumericAbsoluteTolerance)tolerance);
+                return CompareDecimals(expected, actual, (NumericAbsoluteTolerance)tolerance);
 
             if (tolerance is NumericPercentageTolerance)
-                return CompareDecimals(x, y, (NumericPercentageTolerance)tolerance);
+                return CompareDecimals(expected, actual, (NumericPercentageTolerance)tolerance);
 
             throw new ArgumentException();
         }
 
-        protected ComparerResult CompareDecimals(decimal x, decimal y, NumericAbsoluteTolerance tolerance)
+        protected ComparerResult CompareDecimals(decimal expected, decimal actual, NumericAbsoluteTolerance tolerance)
         {
             //Compare decimals (with tolerance)
-            if (IsEqual(x, y, tolerance.Value))
+            if (IsEqual(expected, actual, tolerance.Value))
                 return ComparerResult.Equality;
 
-            return new ComparerResult(x.ToString(NumberFormatInfo.InvariantInfo));
+            return new ComparerResult(expected.ToString(NumberFormatInfo.InvariantInfo));
         }
 
-        protected ComparerResult CompareDecimals(decimal x, decimal y, NumericPercentageTolerance tolerance)
+        protected ComparerResult CompareDecimals(decimal expected, decimal actual, NumericPercentageTolerance tolerance)
         {
             //Compare decimals (with tolerance)
-            if (IsEqual(x, y, x * tolerance.Value))
+            if (IsEqual(expected, actual, expected * tolerance.Value))
                 return ComparerResult.Equality;
 
-            return new ComparerResult(x.ToString(NumberFormatInfo.InvariantInfo));
+            return new ComparerResult(expected.ToString(NumberFormatInfo.InvariantInfo));
         }
 
-        protected ComparerResult CompareDecimals(Interval interval, decimal y)
+        protected ComparerResult CompareDecimals(Interval interval, decimal actual)
         {
-            if (interval.Contains(y))
+            if (interval.Contains(actual))
                 return ComparerResult.Equality;
 
             return new ComparerResult(interval.ToString());

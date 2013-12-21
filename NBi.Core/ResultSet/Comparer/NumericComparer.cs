@@ -127,7 +127,7 @@ namespace NBi.Core.ResultSet.Comparer
             if (interval.Contains(y))
                 return ComparerResult.Equality;
 
-            return new ComparerResult(y.ToString(NumberFormatInfo.InvariantInfo));
+            return new ComparerResult(interval.ToString());
         }
 
         protected bool IsEqual(decimal x, decimal y, decimal tolerance)

@@ -63,19 +63,23 @@ namespace NBi.Core.ResultSet
 			if (split[0].Substring(1, split[0].Length - 1).ToLower() == "-inf")
 				left = new LeftEndPointNegativeInfinity();
 			else
-				left = new EndPoint(
-						Double.Parse(split[0].Substring(1, split[0].Length - 1), CultureInfo.InvariantCulture.NumberFormat)
-						, split[0].StartsWith("[")
-					);
+				if (split[0].StartsWith("["))
+					left = new LeftEndPointClosed(
+							Double.Parse(split[0].Substring(1, split[0].Length - 1), CultureInfo.InvariantCulture.NumberFormat));
+				else
+					left = new LeftEndPointOpen(
+							Double.Parse(split[0].Substring(1, split[0].Length - 1), CultureInfo.InvariantCulture.NumberFormat));
 
 			if (split[1].Substring(0, split[1].Length - 1).ToLower() == "+inf"
 				|| split[1].Substring(0, split[1].Length - 1).ToLower() == "inf")
 				right = new RightEndPointPositiveInfinity();
 			else
-				right = new EndPoint(
-							Double.Parse(split[1].Substring(0, split[1].Length - 1), CultureInfo.InvariantCulture.NumberFormat)
-							, split[1].EndsWith("]")
-						);
+				if (split[1].EndsWith("]"))
+					right = new RightEndPointClosed(
+							Double.Parse(split[1].Substring(0, split[1].Length - 1), CultureInfo.InvariantCulture.NumberFormat));
+				else
+					right = new RightEndPointOpen(
+							Double.Parse(split[1].Substring(0, split[1].Length - 1), CultureInfo.InvariantCulture.NumberFormat));
 
 			return new Interval(left, right);
 		}
@@ -88,16 +92,16 @@ namespace NBi.Core.ResultSet
 			{
 				case "positive":
 				case "0+":
-					return new Interval(new EndPointClosed(0), new RightEndPointPositiveInfinity());
+					return new Interval(new LeftEndPointClosed(0), new RightEndPointPositiveInfinity());
 				case "negative":
 				case "-0":
-					return new Interval(new LeftEndPointNegativeInfinity(), new EndPointClosed(0));
+					return new Interval(new LeftEndPointNegativeInfinity(), new RightEndPointClosed(0));
 				case "absolutely-positive": 
 				case "+": 
-					return new Interval(new EndPointOpen(0), new RightEndPointPositiveInfinity());
+					return new Interval(new LeftEndPointOpen(0), new RightEndPointPositiveInfinity());
 				case "absolutely-negative": 
 				case "-": 
-					return new Interval(new LeftEndPointNegativeInfinity(), new EndPointOpen(0));
+					return new Interval(new LeftEndPointNegativeInfinity(), new RightEndPointOpen(0));
 			}
 
 			double d;
@@ -106,9 +110,9 @@ namespace NBi.Core.ResultSet
 				switch (value.Substring(0,1))
 				{
 					case ">":
-						return new Interval(new EndPointOpen(d), new RightEndPointPositiveInfinity());
+						return new Interval(new LeftEndPointOpen(d), new RightEndPointPositiveInfinity());
 					case "<":
-						return new Interval(new LeftEndPointNegativeInfinity(), new EndPointOpen(d));
+						return new Interval(new LeftEndPointNegativeInfinity(), new RightEndPointOpen(d));
 				}
 			}
 			else if (double.TryParse(value.Substring(2, value.Length - 2), out d))
@@ -116,9 +120,9 @@ namespace NBi.Core.ResultSet
 				switch (value.Substring(0,2))
 				{
 					case ">=":
-						return new Interval(new EndPointClosed(d), new RightEndPointPositiveInfinity());
+						return new Interval(new LeftEndPointClosed(d), new RightEndPointPositiveInfinity());
 					case "<=":
-						return new Interval(new LeftEndPointNegativeInfinity(), new EndPointClosed(d));
+						return new Interval(new LeftEndPointNegativeInfinity(), new RightEndPointClosed(d));
 				}
 			}
 

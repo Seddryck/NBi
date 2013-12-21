@@ -133,7 +133,7 @@
 				<resultSet>
 					<row>
 						<cell>CY 2005</cell>
-						<cell>360</cell>
+						<cell>[-INF;372[</cell>
 					</row>
 					<row>
 						<cell>CY 2006</cell>
@@ -145,7 +145,7 @@
 					</row>
 					<row>
 						<cell>CY 2008</cell>
-						<cell>]0;900]</cell>
+						<cell>894</cell>
 					</row>
 				</resultSet>
 			</equalTo>

@@ -158,6 +158,7 @@
     <Compile Include="Unit\Service\RunnerConfig\GallioRunnerConfigBuilderTest.cs" />
     <Compile Include="Unit\Service\RunnerConfig\NUnitRunnerConfigBuilderTest.cs" />
     <Compile Include="Unit\Service\RunnerConfig\RunnerConfigManagerTest.cs" />
+    <Compile Include="Unit\Service\StringTemplateEngineTest.cs" />
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
     <Compile Include="Unit\Xml\Constraints\MatchPatternXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\EquivalentToXmlTest.cs" />
@@ -206,6 +207,7 @@
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataExcelSample.xls" />
     <EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject-Saved.nbi" />
     <EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject.nbi" />
+    <EmbeddedResource Include="Unit\Service\Resources\Ordered.nbitt" />
   </ItemGroup>
   <ItemGroup>
     <MyOptionalItems Include="ConnectionString.user.config" />

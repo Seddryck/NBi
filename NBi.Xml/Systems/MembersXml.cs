@@ -24,6 +24,22 @@ namespace NBi.Xml.Systems
         [XmlElement("exclude")]
         public ExcludeXml Exclude { get; set; }
 
+        [XmlIgnore]
+        public bool ExcludeSpecified
+        {
+            get
+            {
+                return !(
+                            Exclude == null 
+                            || (
+                                    (Exclude.Items==null || Exclude.Items.Count == 0) 
+                                    && (Exclude.Patterns==null || Exclude.Patterns.Count == 0)
+                                )
+                         );
+            }
+            set { return; }
+        }
+
         public override BaseItem BaseItem
         {
             get

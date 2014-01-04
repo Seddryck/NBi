@@ -207,7 +207,8 @@
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataExcelSample.xls" />
     <EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject-Saved.nbi" />
     <EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject.nbi" />
-    <EmbeddedResource Include="Unit\Service\Resources\Ordered.nbitt" />
+    <EmbeddedResource Include="Unit\Service\Resources\OrderedLight.nbitt" />
+    <EmbeddedResource Include="Unit\Service\Resources\OrderedFull.nbitt" />
   </ItemGroup>
   <ItemGroup>
     <MyOptionalItems Include="ConnectionString.user.config" />

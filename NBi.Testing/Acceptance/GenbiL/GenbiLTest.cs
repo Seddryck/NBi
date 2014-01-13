@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using NBi.genbiL;
+using NBi.GenbiL;
 using NUnit.Framework;
 
 namespace NBi.Testing.Acceptance.GenbiL

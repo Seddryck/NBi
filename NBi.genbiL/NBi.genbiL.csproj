@@ -7,11 +7,12 @@
     <ProjectGuid>{DFB8AA0E-A144-49E3-976B-AD03BF2A55E7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NBi.genbiL</RootNamespace>
-    <AssemblyName>NBi.genbiL</AssemblyName>
+    <RootNamespace>NBi.GenbiL</RootNamespace>
+    <AssemblyName>NBi.GenbiL</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Sprache">
+      <HintPath>..\packages\Sprache.1.10.0.35\lib\net40\Sprache.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,15 +44,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AxisType.cs" />
+    <Compile Include="CaseRemoveSentence.cs" />
+    <Compile Include="DefaultType.cs" />
+    <Compile Include="ICaseSentence.cs" />
+    <Compile Include="ISentence.cs" />
+    <Compile Include="ISettingSentence.cs" />
+    <Compile Include="ISuiteSentence.cs" />
+    <Compile Include="Parsing\Sentence.cs" />
+    <Compile Include="Parsing\Setting.cs" />
+    <Compile Include="SettingDefaultSentence.cs" />
+    <Compile Include="Parsing\Suite.cs" />
+    <Compile Include="Sentence.cs" />
+    <Compile Include="SettingReferenceSentence.cs" />
+    <Compile Include="SuiteSentence.cs" />
+    <Compile Include="TemplateLoadSentence.cs" />
     <Compile Include="GenerationState.cs" />
+    <Compile Include="CaseLoadSentence.cs" />
+    <Compile Include="LoadType.cs" />
+    <Compile Include="Parsing\Case.cs" />
+    <Compile Include="Parsing\Template.cs" />
+    <Compile Include="Parsing\Grammar.cs" />
+    <Compile Include="Parsing\Keyword.cs" />
     <Compile Include="TestSuiteGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="genbiL.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Services\NBi.Service.csproj">
@@ -60,7 +79,11 @@
       <Name>NBi.Xml</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

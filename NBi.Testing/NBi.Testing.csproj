@@ -59,6 +59,9 @@
     <Reference Include="nunit.core.interfaces">
       <HintPath>..\packages\NUnit.Runners.2.6.2\tools\lib\nunit.core.interfaces.dll</HintPath>
     </Reference>
+    <Reference Include="Sprache">
+      <HintPath>..\packages\Sprache.1.10.0.35\lib\net40\Sprache.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -121,6 +124,11 @@
     <Compile Include="Unit\Core\ResultSet\ResultSetWriterTest.cs" />
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
+    <Compile Include="Unit\GenbiL\Parser\CaseParserTest.cs" />
+    <Compile Include="Unit\GenbiL\Parser\SentenceTest.cs" />
+    <Compile Include="Unit\GenbiL\Parser\SuiteParserTest.cs" />
+    <Compile Include="Unit\GenbiL\Parser\SettingParserTest.cs" />
+    <Compile Include="Unit\GenbiL\Parser\TemplateParserTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureEquivalentToBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\QuerySyntacticallyCorrectBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\QueryFasterThanBuilderTest.cs" />
@@ -289,9 +297,9 @@
       <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
       <Name>NBi.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NBi.genbiL\NBi.genbiL.csproj">
+    <ProjectReference Include="..\NBi.genbiL\NBi.GenbiL.csproj">
       <Project>{dfb8aa0e-a144-49e3-976b-ad03bf2a55e7}</Project>
-      <Name>NBi.genbiL</Name>
+      <Name>NBi.GenbiL</Name>
     </ProjectReference>
     <ProjectReference Include="..\NBi.NUnit.Runtime\NBi.NUnit.Runtime.csproj">
       <Project>{5aa137a9-c158-4a4f-b07d-3df787618c24}</Project>

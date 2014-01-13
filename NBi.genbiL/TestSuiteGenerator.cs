@@ -5,7 +5,7 @@ using System.Xml;
 using NBi.Service;
 using NBi.Xml;
 
-namespace NBi.genbiL
+namespace NBi.GenbiL
 {
     public class TestSuiteGenerator
     {

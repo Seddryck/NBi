@@ -31,7 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Service", "NBi.Services
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.UI.Genbi", "NBi.UI.Genbi\NBi.UI.Genbi.csproj", "{28B43C12-C599-49CD-B712-92B5590A6F20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.genbiL", "NBi.genbiL\NBi.genbiL.csproj", "{DFB8AA0E-A144-49E3-976B-AD03BF2A55E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.GenbiL", "NBi.genbiL\NBi.GenbiL.csproj", "{DFB8AA0E-A144-49E3-976B-AD03BF2A55E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

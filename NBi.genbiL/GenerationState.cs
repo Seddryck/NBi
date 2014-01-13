@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-namespace NBi.genbiL
+namespace NBi.GenbiL
 {
     class GenerationState
     {

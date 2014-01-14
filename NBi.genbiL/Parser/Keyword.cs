@@ -1,0 +1,19 @@
+﻿using System;
+using System.Linq;
+using Sprache;
+
+namespace NBi.GenbiL.Parser
+{
+    class Keyword
+    {
+        public static readonly Parser<string> Case = Parse.IgnoreCase("Case").Text().Token();
+        public static readonly Parser<string> Template = Parse.IgnoreCase("Template").Text().Token();
+        public static readonly Parser<string> Setting = Parse.IgnoreCase("Setting").Text().Token();
+        public static readonly Parser<string> Suite = Parse.IgnoreCase("Suite").Text().Token();
+
+        public static readonly Parser<string> Load = Parse.IgnoreCase("Load").Text().Token();
+        public static readonly Parser<string> Remove = Parse.IgnoreCase("Remove").Text().Token();
+        public static readonly Parser<string> Generate = Parse.IgnoreCase("Generate").Text().Token();
+        public static readonly Parser<string> Save = Parse.IgnoreCase("Save").Text().Token();
+    }
+}

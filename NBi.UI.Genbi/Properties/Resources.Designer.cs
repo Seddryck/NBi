@@ -93,6 +93,16 @@ namespace NBi.UI.Genbi.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap NBi2 {
+            get {
+                object obj = ResourceManager.GetObject("NBi2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap note_delete {
             get {
                 object obj = ResourceManager.GetObject("note_delete", resourceCulture);
@@ -216,6 +226,26 @@ namespace NBi.UI.Genbi.Properties {
         internal static System.Drawing.Bitmap tag_blue_delete {
             get {
                 object obj = ResourceManager.GetObject("tag_blue_delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap text_padding_left {
+            get {
+                object obj = ResourceManager.GetObject("text_padding_left", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap text_padding_right {
+            get {
+                object obj = ResourceManager.GetObject("text_padding_right", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

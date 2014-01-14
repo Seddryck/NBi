@@ -43,6 +43,18 @@ namespace NBi.Service
                 return variables;
             }
         }
+
+        public void MoveVariable(string variableName, int newPosition)
+        {
+            if(!variables.Contains(variableName))
+                throw new ArgumentOutOfRangeException("variableName");
+            //Move the variable
+            var oldPosition = variables.IndexOf(variableName);
+            variables.RemoveAt(oldPosition);
+            variables.Insert(newPosition, variableName);
+            //move the column
+            content.Columns[oldPosition].SetOrdinal(newPosition);
+        }
             
     }
 }

@@ -13,18 +13,18 @@ namespace NBi.UI.Genbi.Command.TestsXml
 			this.presenter = presenter;
 		}
 
-        public override void Refresh()
-        {
-            this.IsEnabled = presenter.IsUndo;
-        }
+		public override void Refresh()
+		{
+			this.IsEnabled = presenter.IsUndo;
+		}
 
-        /// <summary>
-        /// Executes the command logics.
-        /// </summary>
-        public override void Invoke()
-        {
-            presenter.Undo();
-        }
+		/// <summary>
+		/// Executes the command logics.
+		/// </summary>
+		public override void Invoke()
+		{
+			presenter.Undo();
+		}
 
 	}
 }

@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using NBi.Core;
-using NBi.Xml.Settings;
-using System.IO;
 
 namespace NBi.Xml.Items
 {
@@ -19,6 +20,37 @@ namespace NBi.Xml.Items
 
         [XmlText]
         public string InlineQuery { get; set; }
+
+        [XmlElement("parameter")]
+        public List<QueryParameterXml> Parameters { get; set; }
+
+        [XmlElement("variable")]
+        public List<QueryTemplateVariableXml> Variables { get; set; }
+
+        public QueryXml()
+        {
+            Parameters = new List<QueryParameterXml>();
+        }
+
+        public List<QueryParameterXml> GetParameters()
+        {
+            var list = Parameters;
+            foreach (var param in Default.Parameters)
+                if (!Parameters.Exists(p => p.Name == param.Name))
+                    list.Add(param);
+
+            return list;
+        }
+
+        public List<QueryTemplateVariableXml> GetVariables()
+        {
+            var list = Variables;
+            foreach (var variable in Default.Variables)
+                if (!Variables.Exists(p => p.Name == variable.Name))
+                    list.Add(variable);
+
+            return list;
+        }
 
         public override string GetQuery()
         {
@@ -36,6 +68,16 @@ namespace NBi.Xml.Items
                 throw new ExternalDependencyNotFoundException(file);
             var query = System.IO.File.ReadAllText(file, Encoding.UTF8);
             return query;
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        public virtual IDbCommand GetCommand()
+        {
+            var conn = new ConnectionFactory().Get(GetConnectionString());
+            var cmd = conn.CreateCommand();
+            cmd.CommandText = GetQuery();
+
+            return cmd;
         }
 
         

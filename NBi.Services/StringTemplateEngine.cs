@@ -25,17 +25,23 @@ namespace NBi.Service
             var tests = new List<TestXml>();
             int count=0;
 
+            var template = new Template(TemplateXml, '$', '$');
+            
+            var dynNames = GetDynamicNames();
+            var dynValues = GetDynamicValues();
+            for (int i = 0; i < dynNames.Count(); i++)
+                template.Add(dynNames[i], dynValues[i]);
+
             foreach (var row in table)
             {
                 count++;
-                Template template = new Template(TemplateXml, '$', '$');
-                for (int i = 0; i < Variables.Count(); i++)
-                    template.Add(Variables[i], row[i]);
 
-                var dynNames = GetDynamicNames();
-                var dynValues = GetDynamicValues();
-                for (int i = 0; i < dynNames.Count(); i++)
-                    template.Add(dynNames[i], dynValues[i]);
+                for (int i = 0; i < Variables.Count(); i++)
+                { 
+                    if (count!=1)
+                        template.Remove(Variables[i]); 
+                    template.Add(Variables[i], row[i]);
+                }
 
                 var str = template.Render();
 
@@ -62,7 +68,7 @@ namespace NBi.Service
             return (T)XmlDeserializeFromString(objectData, typeof(T));
         }
 
-        protected internal string XmlSerializeFrom<T>(T objectData)
+        protected internal static string XmlSerializeFrom<T>(T objectData)
         {
             return SerializeFrom(objectData, typeof(T));
         }
@@ -80,14 +86,23 @@ namespace NBi.Service
             return result;
         }
 
-        protected string SerializeFrom(object objectData, Type type)
+        protected static string SerializeFrom(object objectData, Type type)
         {
             var serializer = new XmlSerializer(type);
             var result = string.Empty;
             using (var writer = new StringWriter())
             {
                 // Use the Serialize method to store the object's state.
-                serializer.Serialize(writer, objectData);
+                try
+                {
+                    serializer.Serialize(writer, objectData);
+                }
+                catch (Exception e)
+                {
+                    
+                    throw e;
+                }
+                
                 result = writer.ToString();
             }
             return result;

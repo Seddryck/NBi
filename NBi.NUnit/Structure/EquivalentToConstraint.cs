@@ -49,13 +49,13 @@ namespace NBi.NUnit.Structure
             {
                 var description = new DescriptionStructureHelper();
                 var filterExpression = description.GetFilterExpression(Request.GetAllFilters());
-                var nextTargetExpression = description.GetNextTargetPluralExpression(Request.Target);
+                var nextTargetExpression = description.GetTargetPluralExpression(Request.Target);
                 var expectationExpression = new StringBuilder();
                 foreach (string item in Expected)
                     expectationExpression.AppendFormat("<{0}>, ", item);
                 expectationExpression.Remove(expectationExpression.Length - 2, 2);
 
-                writer.WritePredicate(string.Format("find the exact list of {0} named '{1}' contained {2}",
+                writer.WritePredicate(string.Format("find an exact list of {0} named '{1}' contained {2}",
                     nextTargetExpression,
                     expectationExpression,
                     filterExpression));

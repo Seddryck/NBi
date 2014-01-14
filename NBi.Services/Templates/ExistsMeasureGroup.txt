@@ -1,5 +1,5 @@
 ﻿<test name="A measure-group named '$measuregroup$' exists in perspective '$perspective$'.">
-	<description>Verify that the measure-group named '$measuregroup$' exists throw perspective '$perspective$' and is visible for end-users</description>
+	<description>Verify that the measure-group named '$measuregroup$' exists through the perspective '$perspective$' and is visible for end-users</description>
 	<edition author="$username$" created="$now$"/>
 	<system-under-test>
 		<structure>	

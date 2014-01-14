@@ -11,6 +11,7 @@ namespace NBi.Service
     {
         private const string TEMPLATE_DIRECTORY = "NBi.Service.Templates.";
         private const string TEMPLATE_DEFAULT = "ExistsDimension";
+        public string Code { get; private set; }
 
         public TemplateManager()
         {
@@ -64,6 +65,7 @@ namespace NBi.Service
                     value = reader.ReadToEnd();
                 }
             }
+            Code = value;
             return value;
         }
 
@@ -74,6 +76,7 @@ namespace NBi.Service
             {
                 tpl = stream.ReadToEnd();
             }
+            Code = tpl;
             return tpl;
         }
     }

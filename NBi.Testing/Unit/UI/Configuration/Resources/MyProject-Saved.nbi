@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project>
+  <directories root="C:\Users\Seddryck\Documents\TestCCH\">
+    <directory key="Metadata" path="Metadata" file="Metadata.xls" />
+    <directory key="Query" path="Query" />
+	<directory key="Expect" path="Expect" />
+	<directory key="Actual" path="Actual" />
+	<directory key="TestSuite" path="TestSuite" />
+  </directories>
+  <connectionStrings>
+    <adomd key="Expect">Data Source=localhost;Catalog="Finances Analysis";</adomd>
+    <oledb key="Expect">Provider=MSOLAP.4;Data Source=localhost;Catalog="Finances Analysis";</oledb>
+    <oledb key="Actual">Provider=MSOLAP.4;Data Source=localhost;Catalog="Finances Analysis";</oledb>
+  </connectionStrings>
+</project>

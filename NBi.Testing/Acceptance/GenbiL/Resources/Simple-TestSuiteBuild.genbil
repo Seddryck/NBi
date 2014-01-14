@@ -1,0 +1,7 @@
+﻿case load file 'Acceptance\GenbiL\Resources\dimension.csv';
+case remove column 'useless';
+template load predefined 'ExistsDimension';
+setting reference 'noway' connectionString 'youyou';;
+setting default assert connectionString 'youyou';
+suite generate;
+suite save 'Acceptance\GenbiL\Resources\Simple-TestSuiteBuild.nbits';

@@ -125,7 +125,7 @@
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\CaseParserTest.cs" />
-    <Compile Include="Unit\GenbiL\Parser\SentenceTest.cs" />
+    <Compile Include="Unit\GenbiL\Parser\RecipeParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\SuiteParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\SettingParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\TemplateParserTest.cs" />
@@ -188,9 +188,9 @@
     <EmbeddedResource Include="Acceptance\Resources\ResellerOrderCountByYearBefore2006.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="Acceptance\GenbiL\Resources\dimension.csv">
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\dimension.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </EmbeddedResource>
     <None Include="ConnectionString.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -323,9 +323,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Acceptance\GenbiL\Resources\Simple-TestSuiteBuild.xml">
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\Simple-TestSuiteBuild.genbil">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

@@ -6,15 +6,12 @@ using NUnit.Framework;
 
 namespace NBi.Testing.Acceptance.GenbiL
 {
-    
-
-
     [TestFixture]
     public class GenbiLTest
     {
         private const string TEST_SUITE_NAME="Simple-TestSuiteBuild";
-        private string DefintionFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + ".xml"; } }
-        private string TargetFilename { get { return TEST_SUITE_NAME + ".nbits"; } }
+        private string DefintionFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + ".genbil"; } }
+        private string TargetFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + ".nbits"; } }
 
         #region SetUp & TearDown
         //Called only at instance creation

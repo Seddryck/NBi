@@ -1,5 +1,5 @@
 ﻿<test name="A dimension named '$dimension$' exists in perspective '$perspective$'.">
-	<description>Verify that the dimension named '$dimension$' exists throw perspective '$perspective$' and is visible for end-users</description>
+	<description>Verify that the dimension named '$dimension$' exists through the perspective '$perspective$' and is visible for end-users</description>
 	<edition author="$username$" created="$now$"/>
 	<system-under-test>
 		<structure>	

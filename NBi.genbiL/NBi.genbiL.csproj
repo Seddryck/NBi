@@ -44,30 +44,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AxisType.cs" />
-    <Compile Include="CaseRemoveSentence.cs" />
-    <Compile Include="DefaultType.cs" />
-    <Compile Include="ICaseSentence.cs" />
-    <Compile Include="ISentence.cs" />
-    <Compile Include="ISettingSentence.cs" />
-    <Compile Include="ISuiteSentence.cs" />
-    <Compile Include="Parsing\Sentence.cs" />
-    <Compile Include="Parsing\Setting.cs" />
-    <Compile Include="SettingDefaultSentence.cs" />
-    <Compile Include="Parsing\Suite.cs" />
-    <Compile Include="Sentence.cs" />
-    <Compile Include="SettingReferenceSentence.cs" />
-    <Compile Include="SuiteSentence.cs" />
-    <Compile Include="TemplateLoadSentence.cs" />
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Action\AxisType.cs" />
+    <Compile Include="Action\Case\RemoveCaseAction.cs" />
+    <Compile Include="Action\DefaultType.cs" />
+    <Compile Include="Action\Case\ICaseAction.cs" />
+    <Compile Include="Action\IAction.cs" />
+    <Compile Include="Action\Setting\ISettingAction.cs" />
+    <Compile Include="Action\Suite\SaveSuiteAction.cs" />
+    <Compile Include="Action\Suite\ISuiteAction.cs" />
+    <Compile Include="Parser\Recipe.cs" />
+    <Compile Include="Parser\Setting.cs" />
+    <Compile Include="Action\Setting\DefaultAction.cs" />
+    <Compile Include="Parser\Suite.cs" />
+    <Compile Include="Action\Setting\ReferenceAction.cs" />
+    <Compile Include="Action\Suite\GenerateSuiteAction.cs" />
+    <Compile Include="Action\Template\LoadTemplateAction.cs" />
     <Compile Include="GenerationState.cs" />
-    <Compile Include="CaseLoadSentence.cs" />
-    <Compile Include="LoadType.cs" />
-    <Compile Include="Parsing\Case.cs" />
-    <Compile Include="Parsing\Template.cs" />
-    <Compile Include="Parsing\Grammar.cs" />
-    <Compile Include="Parsing\Keyword.cs" />
+    <Compile Include="Action\Case\LoadCaseAction.cs" />
+    <Compile Include="Action\LoadType.cs" />
+    <Compile Include="Parser\Case.cs" />
+    <Compile Include="Parser\Template.cs" />
+    <Compile Include="Parser\Grammar.cs" />
+    <Compile Include="Parser\Keyword.cs" />
+    <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="TestSuiteGenerator.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Services\NBi.Service.csproj">

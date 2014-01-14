@@ -26,6 +26,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             return measureGroups;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         internal IEnumerable<MeasureGroupRow> Discover(IEnumerable<IFilter> filters)
         {
             var measureGroups = new List<MeasureGroupRow>();

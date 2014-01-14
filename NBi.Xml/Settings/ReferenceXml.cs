@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using NBi.Xml.Items.Format;
 
 namespace NBi.Xml.Settings
 {
@@ -9,6 +10,15 @@ namespace NBi.Xml.Settings
 
         [XmlElement("connectionString")]
         public string ConnectionString { get; set; }
+
+        [XmlElement("regex")]
+        public string Regex { get; set; }
+
+        [XmlElement("numeric-format")]
+        public NumericFormatXml NumericFormat { get; set; }
+
+        [XmlElement("currency-format")]
+        public CurrencyFormatXml CurrencyFormat { get; set; }
 
     }
 }

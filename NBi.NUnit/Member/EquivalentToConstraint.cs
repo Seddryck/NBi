@@ -1,27 +1,41 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using NBi.Core;
-using NBi.Core.Analysis.Member;
+using NBi.Core.Analysis.Request;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
 {
-    public class EquivalentToConstraint : AbstractMembersConstraint
+    public class EquivalentToConstraint : AbstractMembersCollectionConstraint
     {
-        protected IEnumerable<string> Expected { get; set; }
+        /// <summary>
+        /// Construct a EquivalentToConstraint
+        /// </summary>
+        /// <param name="expected">The command to retrieve the list of expected items</param>
+        public EquivalentToConstraint(IEnumerable<string> expected)
+            : base(expected)
+        {
+        }
 
         /// <summary>
-        /// Construct a CollectionEquivalentConstraint
+        /// Construct a EquivalentToConstraint
         /// </summary>
-        /// <param name="expected"></param>
-        public EquivalentToConstraint(IEnumerable<string> expected)
-            : base()
+        /// <param name="expected">The list of expected items</param>
+        public EquivalentToConstraint(IDbCommand expected)
+            : base(expected)
         {
-            Expected = expected;
-            InternalConstraint = new CollectionEquivalentConstraint(expected.Select(str => StringComparerHelper.Build(str)).ToList());
+        }
+
+        /// <summary>
+        /// Construct a EquivalentToConstraint
+        /// </summary>
+        /// <param name="expected">The request to discover members in a hierarchy or level</param>
+        public EquivalentToConstraint(MembersDiscoveryRequest expected)
+            : base(expected)
+        {
         }
 
         #region Modifiers
@@ -39,54 +53,21 @@ namespace NBi.NUnit.Member
 
         #endregion
 
-        /// <summary>
-        /// Write a description of the constraint to a MessageWriter
-        /// </summary>
-        /// <param name="writer"></param>
-        public override void WriteDescriptionTo(MessageWriter writer)
+        protected override NUnitCtr.Constraint BuildInternalConstraint()
         {
-            if (Request != null)
-            {
-                writer.WritePredicate(string.Format("On perspective \"{0}\", a {1} of \"{2}\" the members are identical to the predefined set"
-                                                            , Request.Perspective
-                                                            , GetFunctionLabel(Request.Function)
-                                                            , Request.Path));
-                writer.WriteExpectedValue(Expected);
-            }
+            return new CollectionEquivalentConstraint(ExpectedItems.Select(str => StringComparerHelper.Build(str)).ToList());
         }
 
-        public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
+        protected override string GetPredicate()
         {
-            if (actual is MemberResult && ((MemberResult)actual).Count() > 0 && ((MemberResult)actual).Count() <= 15)
-                writer.WriteActualValue((IEnumerable)actual);
-            else if (actual is MemberResult && ((MemberResult)actual).Count() > 0 && ((MemberResult)actual).Count() > 15)
-            {
-                writer.WriteActualValue(((IEnumerable<NBi.Core.Analysis.Member.Member>)actual).Take(10));
-                writer.WriteActualValue(string.Format(" ... and {0} others.", ((MemberResult)actual).Count() - 10));
-            }
-            else
-                writer.WriteActualValue(new NothingFoundMessage());
+            return string.Format("the {0} of \"{1}\" are strictly equivalent to the following set:", GetFunctionLabel(Request.Function), Request.Path);
         }
 
-        protected string GetFunctionLabel(string function)
-        {
-            switch (function.ToLower())
-            {
-                case "children":
-                    return "child";
-                case "members":
-                    return "member";
-                default:
-                    return "?";
-            }
-        }
 
-        protected internal class NothingFoundMessage
+        protected override ListComparer.Comparison GetComparisonType()
         {
-            public override string ToString()
-            {
-                return "nothing found";
-            }
+            return ListComparer.Comparison.Both;
         }
+        
     }
 }

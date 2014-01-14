@@ -34,7 +34,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meMock.Object;
 
-            var containsConstraint = new SubsetOfConstraint(exp) { CommandFactory = me };
+            var containsConstraint = new SubsetOfConstraint(exp) { MembersEngine = me };
 
             //Method under test
             string assertionText = null;

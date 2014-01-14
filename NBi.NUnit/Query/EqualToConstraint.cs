@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
+using System.Diagnostics;
 using System.Linq;
+using NBi.Core;
 using NBi.Core.ResultSet;
 using NUnitCtr = NUnit.Framework.Constraints;
 
@@ -13,6 +14,8 @@ namespace NBi.NUnit.Query
         
         
         protected Object expect;
+
+        protected bool parallelizeQueries = false;
 
         protected ResultSet expectedResultSet;
         protected ResultSet actualResultSet;
@@ -103,6 +106,19 @@ namespace NBi.NUnit.Query
             return this;
         }
 
+        public EqualToConstraint Parallel()
+        {
+            this.parallelizeQueries = true;
+            return this;
+        }
+
+        public EqualToConstraint Sequential()
+        {
+            this.parallelizeQueries = false;
+            return this;
+        }
+
+
         /// <summary>
         /// Handle an IDbCommand and compare it to a predefined resultset
         /// </summary>
@@ -122,8 +138,10 @@ namespace NBi.NUnit.Query
         protected bool doMatch(ResultSet actual)
         {
             actualResultSet = actual;
-                       
-            expectedResultSet = GetResultSet(expect);
+
+            //This is needed if we don't use //ism
+            if (expectedResultSet ==  null)
+                expectedResultSet = GetResultSet(expect);
 
             result = Engine.Compare(actualResultSet, expectedResultSet);
 
@@ -151,8 +169,32 @@ namespace NBi.NUnit.Query
         /// <returns></returns>
         public bool Process(IDbCommand actual)
         {
-            var rsActual = GetResultSet(actual);
+            ResultSet rsActual = null;
+            if (parallelizeQueries)
+            {
+                rsActual = ProcessParallel(actual);
+            }
+            else
+                rsActual = GetResultSet(actual);
+            
             return this.Matches(rsActual);
+        }
+
+        public ResultSet ProcessParallel(IDbCommand actual)
+        {
+            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Queries exectued in parallel."));
+            
+            ResultSet rsActual = null;
+            System.Threading.Tasks.Parallel.Invoke(
+                () => {
+                        rsActual = GetResultSet(actual);
+                      },
+                () => {
+                        expectedResultSet = GetResultSet(expect);
+                      }
+            );
+            
+            return rsActual;
         }
 
         protected ResultSet GetResultSet(Object obj)
@@ -251,6 +293,11 @@ namespace NBi.NUnit.Query
         {
             var writer = new ResultSetCsvWriter(System.IO.Path.GetDirectoryName(path));
             writer.Write(System.IO.Path.GetFileName(path), resultSet);
+        }
+
+        internal bool IsParallelizeQueries()
+        {
+            return parallelizeQueries;
         }
     }
 }

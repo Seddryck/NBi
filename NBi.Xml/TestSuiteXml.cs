@@ -16,9 +16,13 @@ namespace NBi.Xml
         [XmlElement("test", Order = 2)]
         public List<TestXml> Tests { get; set; }
 
+        [XmlElement("group", Order = 3)]
+        public List<GroupXml> Groups { get; set; }
+
         public TestSuiteXml()
         {
             Tests = new List<TestXml>();
+            Groups = new List<GroupXml>();
             Settings = new SettingsXml();
         }
 
@@ -43,6 +47,18 @@ namespace NBi.Xml
                     this.Tests.Add(test);
             }
         }
+
+        public IEnumerable<TestXml> GetAllTests()
+        {
+            var allTests = new List<TestXml>();
+            allTests.AddRange(this.Tests);
+            foreach (var group in Groups)
+                allTests.AddRange(group.GetAllTests());
+
+            return allTests;
+        }
+
+        
 
     }
 }

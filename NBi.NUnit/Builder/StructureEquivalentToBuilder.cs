@@ -35,7 +35,7 @@ namespace NBi.NUnit.Builder
 
         protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(EquivalentToXml ctrXml)
         {
-            var ctr = new NBi.NUnit.Structure.EquivalentToConstraint(ctrXml.Items);
+            var ctr = new NBi.NUnit.Structure.EquivalentToConstraint(ctrXml.GetItems());
         
             //Ignore-case if requested
             if (ctrXml.IgnoreCase)

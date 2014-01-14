@@ -32,8 +32,8 @@
             this.copyright = new System.Windows.Forms.Label();
             this.closeButton = new System.Windows.Forms.Button();
             this.description = new System.Windows.Forms.RichTextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -42,7 +42,7 @@
             this.productName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.productName.AutoSize = true;
             this.productName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.productName.Location = new System.Drawing.Point(79, 92);
+            this.productName.Location = new System.Drawing.Point(175, 91);
             this.productName.Name = "productName";
             this.productName.Size = new System.Drawing.Size(73, 13);
             this.productName.TabIndex = 0;
@@ -53,7 +53,7 @@
             this.productVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.productVersion.AutoSize = true;
             this.productVersion.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.productVersion.Location = new System.Drawing.Point(79, 108);
+            this.productVersion.Location = new System.Drawing.Point(175, 107);
             this.productVersion.Name = "productVersion";
             this.productVersion.Size = new System.Drawing.Size(42, 13);
             this.productVersion.TabIndex = 1;
@@ -64,7 +64,7 @@
             this.copyright.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.copyright.AutoSize = true;
             this.copyright.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.copyright.Location = new System.Drawing.Point(79, 124);
+            this.copyright.Location = new System.Drawing.Point(175, 123);
             this.copyright.Name = "copyright";
             this.copyright.Size = new System.Drawing.Size(52, 13);
             this.copyright.TabIndex = 2;
@@ -84,39 +84,39 @@
             // 
             // description
             // 
-            this.description.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.description.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.description.BackColor = System.Drawing.Color.White;
             this.description.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.description.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.description.Location = new System.Drawing.Point(82, 142);
+            this.description.Location = new System.Drawing.Point(14, 194);
             this.description.Margin = new System.Windows.Forms.Padding(5);
             this.description.Name = "description";
             this.description.ReadOnly = true;
             this.description.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.description.Size = new System.Drawing.Size(365, 169);
+            this.description.Size = new System.Drawing.Size(343, 157);
             this.description.TabIndex = 5;
             this.description.Text = "";
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pictureBox1.Image = null;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 87);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(61, 58);
-            this.pictureBox1.TabIndex = 8;
-            this.pictureBox1.TabStop = false;
-            // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.panel1.BackgroundImage = null;
+            this.panel1.BackColor = System.Drawing.Color.DarkGoldenrod;
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(461, 78);
             this.panel1.TabIndex = 6;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.pictureBox1.Image = global::NBi.UI.Genbi.Properties.Resources.NBi2;
+            this.pictureBox1.InitialImage = global::NBi.UI.Genbi.Properties.Resources.NBi2;
+            this.pictureBox1.Location = new System.Drawing.Point(12, 87);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(157, 99);
+            this.pictureBox1.TabIndex = 8;
+            this.pictureBox1.TabStop = false;
             // 
             // AboutBox
             // 

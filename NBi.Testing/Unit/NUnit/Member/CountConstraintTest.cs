@@ -188,7 +188,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meStub.Object;
 
-            var countConstraint = new CountConstraint() { CommandFactory = me };
+            var countConstraint = new CountConstraint() { MembersEngine = me };
             countConstraint.Exactly(10);
 
             //Method under test
@@ -236,7 +236,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meStub.Object;
 
-            var countConstraint = new CountConstraint() { CommandFactory = me };
+            var countConstraint = new CountConstraint() { MembersEngine = me };
             countConstraint.MoreThan(10);
 
             //Method under test
@@ -284,7 +284,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meStub.Object;
 
-            var countConstraint = new CountConstraint() { CommandFactory = me };
+            var countConstraint = new CountConstraint() { MembersEngine = me };
             countConstraint.LessThan(1);
 
             //Method under test
@@ -331,7 +331,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 .Returns(members);
             var me = meStub.Object;
 
-            var countConstraint = new CountConstraint() { CommandFactory = me };
+            var countConstraint = new CountConstraint() { MembersEngine = me };
             countConstraint = countConstraint.MoreThan(8);
             countConstraint = countConstraint.LessThan(12);
 

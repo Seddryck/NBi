@@ -479,7 +479,57 @@ namespace NBi.Testing.Unit.NUnit.Structure
             Console.WriteLine(assertionText);
             Assert.That(assertionText, Is.StringContaining("nothing found"));
         }
-        
+
+        [Test]
+        public void WriteTo_FailingAssertionForDimensionWithMinorMistake_TextContainsTheSuggestionOfValue()
+        {
+            var request = new DiscoveryRequestFactory().BuildDirect(
+                        "connectionString",
+                        DiscoveryTarget.Dimensions,
+                        new List<IFilter>()
+                            {
+                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
+                                , new CaptionFilter("expected-dimension-caption", DiscoveryTarget.Dimensions)
+                        });
+
+
+            var commandExactStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandExactStub.Setup(f => f.Execute())
+                .Returns(new List<Dimension>());
+
+            var commandExternalStub = new Mock<AdomdDiscoveryCommand>("connectionString");
+            commandExternalStub.Setup(f => f.Execute())
+                 .Returns(new List<Dimension>() 
+                    { 
+                        new Dimension("Dimension", "expected-dimension-catpion") , //two letters permutted
+                        new Dimension("Toto", "Toto") 
+                    });
+
+            var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
+            factoryStub.Setup(f => f.BuildExact(request))
+                .Returns(commandExactStub.Object);
+
+            factoryStub.Setup(f => f.BuildExternal(It.IsAny<MetadataDiscoveryRequest>()))
+                .Returns(commandExternalStub.Object);
+            var factory = factoryStub.Object;
+
+            var existsConstraint = new ExistsConstraint() { CommandFactory = factory };
+
+            //Method under test
+            string assertionText = null;
+            try
+            {
+                Assert.That(request, existsConstraint);
+            }
+            catch (AssertionException ex)
+            {
+                assertionText = ex.Message;
+            }
+
+            //Test conclusion   
+            Console.WriteLine(assertionText);
+            Assert.That(assertionText, Is.StringContaining("The value 'expected-dimension-catpion' is close to your expectation."));
+        }
 
        
     }

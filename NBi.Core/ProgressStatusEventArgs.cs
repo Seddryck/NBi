@@ -1,6 +1,8 @@
-﻿namespace NBi.Core
+﻿using System;
+
+namespace NBi.Core
 {
-    public class ProgressStatusEventArgs
+    public class ProgressStatusEventArgs : EventArgs
     {
         public string Status {get; set; }
         public ProgressInfo Progress {get; set;}

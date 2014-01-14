@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using NBi.Core;
 using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Comparer;
 using NBi.NUnit.Query;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
@@ -61,11 +62,16 @@ namespace NBi.NUnit.Builder
             ResultSetComparisonSettings settings = new ResultSetComparisonSettings(
                 ConstraintXml.KeysDef,
                 ConstraintXml.ValuesDef,
-                ConstraintXml.Tolerance,
+                ToleranceFactory.BuildNumeric(ConstraintXml.Tolerance),
                 ConstraintXml.ColumnsDef
                 );
 
             ctr.Using(settings);
+
+            if (ConstraintXml.ParallelizeQueries)
+                ctr = ctr.Parallel();
+            else
+                ctr = ctr.Sequential();
 
             //Manage persistance
             //EqualToConstraint.PersistanceItems persi = 0;
@@ -79,13 +85,5 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
-        protected override IDbCommand InstantiateSystemUnderTest(ExecutionXml queryXml)
-        {
-            var conn = new ConnectionFactory().Get(queryXml.Item.GetConnectionString());
-                var cmd = conn.CreateCommand();
-                cmd.CommandText = queryXml.Item.GetQuery();
-
-                return cmd;
-        }
     }
 }

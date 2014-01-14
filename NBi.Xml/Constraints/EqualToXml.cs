@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core;
 using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Comparer;
 using NBi.Xml.Items;
 using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Settings;
@@ -13,6 +14,21 @@ namespace NBi.Xml.Constraints
 {
     public class EqualToXml : AbstractConstraintXml
     {
+
+        public EqualToXml()
+        {
+            parallelizeQueries = false;
+        }
+
+        internal  EqualToXml(bool parallelizeQueries)
+        {
+            this.parallelizeQueries = parallelizeQueries;
+        }
+
+        internal EqualToXml(SettingsXml settings)
+        {
+            this.Settings = settings;
+        }
 
         public override DefaultXml Default
         {
@@ -60,10 +76,10 @@ namespace NBi.Xml.Constraints
             protected set { isToleranceSpecified = value; }
         }
 
-        protected decimal tolerance;
+        protected string tolerance;
         [XmlAttribute("tolerance")]
-        [DefaultValue(0)]
-        public decimal Tolerance
+        [DefaultValue("")]
+        public string Tolerance
         {
             get
             { return tolerance; }
@@ -94,9 +110,10 @@ namespace NBi.Xml.Constraints
 
         public ResultSetComparisonSettings GetSettings()
         {
-            return new ResultSetComparisonSettings(KeysDef, ValuesDef, Tolerance, ColumnsDef);
+            return new ResultSetComparisonSettings(KeysDef, ValuesDef, ToleranceFactory.BuildNumeric(Tolerance), ColumnsDef);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public virtual IDbCommand GetCommand()
         {
             if (Query==null)
@@ -109,6 +126,14 @@ namespace NBi.Xml.Constraints
             return cmd;
         }
 
-        
+        private readonly bool parallelizeQueries;
+        public bool ParallelizeQueries
+        {
+            get
+            {
+                return parallelizeQueries || Settings.ParallelizeQueries;
+            }
+        }
+              
     }
 }

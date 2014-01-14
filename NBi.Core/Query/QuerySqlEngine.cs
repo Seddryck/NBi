@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Linq;
 
 namespace NBi.Core.Query
 {
@@ -19,6 +20,7 @@ namespace NBi.Core.Query
             this.command = command;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public void CleanCache()
         {
             
@@ -93,6 +95,7 @@ namespace NBi.Core.Query
         /// </summary>
         /// <remarks>This method makes usage the set statement named SET FMTONLY to not effectively execute the query but check the validity of this query</remarks>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public ParserResult Parse()
         {
             ParserResult res = null;
@@ -138,6 +141,7 @@ namespace NBi.Core.Query
             return Execute(out i);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public DataSet Execute(out float elapsedSec)
         {
             // Open the connection
@@ -153,9 +157,10 @@ namespace NBi.Core.Query
                 catch (SqlException ex)
                 { throw new ConnectionException(ex, connectionString); }
 
+                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
                 // capture time before execution
                 DateTime timeBefore = DateTime.Now;
-                var adapter = new SqlDataAdapter(command.CommandText, connection);
+                var adapter = new SqlDataAdapter(command);
                 var ds = new DataSet();
                 
                 adapter.SelectCommand.CommandTimeout = 0;

@@ -23,6 +23,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             return perspectives;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         internal IEnumerable<PerspectiveRow> Discover(IEnumerable<IFilter> filters)
         {
             var perspectives = new List<PerspectiveRow>();

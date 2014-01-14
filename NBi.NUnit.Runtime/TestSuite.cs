@@ -98,8 +98,6 @@ namespace NBi.NUnit.Runtime
 
         public IEnumerable<TestCaseData> GetTestCases()
         {
-            TestSuiteManager.Load(TestSuiteFinder.Find());
-
             //Find configuration of NBi
             if (ConfigurationFinder != null)
                 ApplyConfig(ConfigurationFinder.Find());
@@ -108,37 +106,57 @@ namespace NBi.NUnit.Runtime
             if (ConnectionStringsFinder != null)
                 TestSuiteManager.ConnectionStrings = ConnectionStringsFinder.Find();
 
+            //Build the Test suite
+            TestSuiteManager.Load(TestSuiteFinder.Find());
+
             return BuildTestCases();
         }
   
-        private IEnumerable<TestCaseData> BuildTestCases()
+        internal IEnumerable<TestCaseData> BuildTestCases()
         {
             List<TestCaseData> testCasesNUnit = new List<TestCaseData>();
 
-            foreach (var test in TestSuiteManager.TestSuite.Tests)
+            testCasesNUnit.AddRange(BuildTestCases(TestSuiteManager.TestSuite.Tests));
+            testCasesNUnit.AddRange(BuildTestCases(TestSuiteManager.TestSuite.Groups));
+
+            return testCasesNUnit;
+        }
+
+        private IEnumerable<TestCaseData> BuildTestCases(IEnumerable<TestXml> tests)
+        {
+            var testCases = new List<TestCaseData>(tests.Count());
+
+            foreach (var test in tests)
             {
                 TestCaseData testCaseDataNUnit = new TestCaseData(test);
                 testCaseDataNUnit.SetName(test.GetName());
                 testCaseDataNUnit.SetDescription(test.Description);
                 foreach (var category in test.Categories)
-                {
-                    testCaseDataNUnit.SetCategory(category);
-                }
+                    testCaseDataNUnit.SetCategory(CategoryHelper.Format(category));
 
                 //Assign auto-categories
                 if (EnableAutoCategories)
                 {
                     foreach (var system in test.Systems)
                         foreach (var category in system.GetAutoCategories())
-                        {
-                            var noSpecialCharCategory = category.Replace("-", "_");
-                            testCaseDataNUnit.SetCategory(noSpecialCharCategory);
-                        }
+                            testCaseDataNUnit.SetCategory(CategoryHelper.Format(category));
                 }
 
-                testCasesNUnit.Add(testCaseDataNUnit);
+                testCases.Add(testCaseDataNUnit);
             }
-            return testCasesNUnit;
+            return testCases;
+        }
+
+        private IEnumerable<TestCaseData> BuildTestCases(IEnumerable<GroupXml> groups)
+        {
+            var testCases = new List<TestCaseData>();
+
+            foreach (var group in groups)
+            {
+                testCases.AddRange(BuildTestCases(group.Tests));
+                testCases.AddRange(BuildTestCases(group.Groups));
+            }
+            return testCases;
         }
 
         public void ApplyConfig(NBiSection config)

@@ -160,6 +160,30 @@ namespace NBi.Testing.Unit.Core
         }
 
         [Test]
+        public void Get_ConnectionStringSqlClientNativeProvider_OleDbConnection()
+        {
+            //Call the method to test
+            var connStr = "Provider=SQLNCLI10.1;Data Source=ds;Initial Catalog=ic;Integrated Security=SSPI;";
+            var actual = new ConnectionFactory().Get(connStr);
+
+            //Assertion
+            Assert.That(actual, Is.InstanceOf<OleDbConnection>());
+            Assert.That(actual.ConnectionString, Is.EqualTo(connStr));
+        }
+
+        [Test]
+        public void Get_ConnectionStringOleDbProvider_OleDbConnection()
+        {
+            //Call the method to test
+            var connStr = "Provider=OleDb.1;Data Source=ds;Initial Catalog=ic;Integrated Security=SSPI;";
+            var actual = new ConnectionFactory().Get(connStr);
+
+            //Assertion
+            Assert.That(actual, Is.InstanceOf<OleDbConnection>());
+            Assert.That(actual.ConnectionString, Is.EqualTo(connStr));
+        }
+
+        [Test]
         public void Get_ConnectionStringEmptypProvider_SqlConnection()
         {
             //Call the method to test

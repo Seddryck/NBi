@@ -13,7 +13,7 @@ namespace NBi.Service
         private const string DefaultAssertName = "Default - Assert";
         private const string ReferenceFormatName = "Reference - {0}";
 
-        protected DefaultXml DefaultSut
+        public DefaultXml DefaultSut
         {
             get
             {
@@ -28,7 +28,7 @@ namespace NBi.Service
             }
         }
 
-        protected DefaultXml DefaultAssert
+        public DefaultXml DefaultAssert
         {
             get
             {

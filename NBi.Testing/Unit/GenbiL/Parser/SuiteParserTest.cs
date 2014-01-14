@@ -18,6 +18,18 @@ namespace NBi.Testing.Unit.GenbiL.Parser
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<GenerateSuiteAction>());
+            Assert.That(((GenerateSuiteAction)result).Grouping, Is.False);
+        }
+
+        [Test]
+        public void SentenceParser_SuiteGenerateGrouping_ValidGenerateSuiteAction()
+        {
+            var input = "suite generate grouping;";
+            var result = Suite.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<GenerateSuiteAction>());
+            Assert.That(((GenerateSuiteAction)result).Grouping, Is.True);
         }
 
         [Test]

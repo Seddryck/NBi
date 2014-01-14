@@ -11,7 +11,8 @@ namespace NBi.GenbiL.Parser
         readonly static Parser<ISuiteAction> GenerateParser =
         (
                 from generate in Keyword.Generate
-                select new GenerateSuiteAction()
+                from grouping in Parse.IgnoreCase("grouping").Token().Return(true).XOr(Parse.Return(false))
+                select new GenerateSuiteAction(grouping)
         );
 
         readonly static Parser<ISuiteAction> SaveParser =

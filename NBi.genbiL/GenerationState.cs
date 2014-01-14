@@ -1,14 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using NBi.Service;
 
 namespace NBi.GenbiL
 {
-    class GenerationState
+    public class GenerationState
     {
-        public DataTable TestCases { get; set; }
-        public IEnumerable<string> Variables { get; set; }
-        public string Template { get; set; }
+        public TestCasesManager TestCases { get; private set; }
+        public TemplateManager Template { get; private set; }
+        public SettingsManager Settings { get; private set; }
+        public TestListManager List { get; private set; }
+        public TestSuiteManager Suite { get; private set; }
+
+        public GenerationState()
+        {
+            TestCases = new TestCasesManager();
+            Template = new TemplateManager();
+            Settings = new SettingsManager();
+            List = new TestListManager();
+            Suite = new TestSuiteManager();
+        }
     }
 }

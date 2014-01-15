@@ -5,299 +5,300 @@ using System.Linq;
 
 namespace NBi.Core.Analysis.Metadata
 {
-    public class MetadataExcelOleDbReader : MetadataExcelOleDbAbstract, IMetadataReader
-    {
+	public class MetadataExcelOleDbReader : MetadataExcelOleDbAbstract, IMetadataReader
+	{
 
-        public string SheetRange { get; set; }
+		public string SheetRange { get; set; }
 
-        protected DataTable _dataTable;
-        protected DataTable DataTable
-        {
-            get
-            {
-                if (_dataTable == null)
-                    _dataTable = LoadDataTable();
-                return _dataTable;
-            }
-        }
+		protected DataTable _dataTable;
+		protected DataTable DataTable
+		{
+			get
+			{
+				if (_dataTable == null)
+					_dataTable = LoadDataTable();
+				return _dataTable;
+			}
+		}
 
-        protected int _reservedColumnsCount;
-        protected List<string> _tracks;
-        public IEnumerable<string> Tracks
-        {
-            get { return _tracks; }
-        }
-
-
-        public MetadataExcelOleDbReader(string filename) : base(filename) { }
+		protected int _reservedColumnsCount;
+		protected List<string> _tracks;
+		public IEnumerable<string> Tracks
+		{
+			get { return _tracks; }
+		}
 
 
-        public MetadataExcelOleDbReader(string filename, string sheetname) : base(filename, sheetname) { }
-        
-        
-        public MetadataExcelOleDbReader(string filename, string sheetname, string sheetRange) : base(filename,sheetname)
-        {
-            SheetRange = sheetRange;
-        }
+		public MetadataExcelOleDbReader(string filename) : base(filename) { }
 
-        public CubeMetadata Read(string track)
-        {
-            CubeMetadata metadata=new CubeMetadata();
 
-            RaiseProgressStatus((string.Format("Processing Xls file for track {0}", track)));
+		public MetadataExcelOleDbReader(string filename, string sheetname) : base(filename, sheetname) { }
+		
+		
+		public MetadataExcelOleDbReader(string filename, string sheetname, string sheetRange) : base(filename,sheetname)
+		{
+			SheetRange = sheetRange;
+		}
 
-            int i = 0;
-            foreach (DataRow row in DataTable.Rows)
-	        {
-                i++;
-                RaiseProgressStatus("Loading row {0} of {1}", i, DataTable.Rows.Count);
-                var trackPos = _tracks.IndexOf(track) + _reservedColumnsCount;
-                var r = GetMetadata(row, trackPos);
+		public CubeMetadata Read(string track)
+		{
+			CubeMetadata metadata=new CubeMetadata();
 
-                LoadMetadata(r, true, ref metadata);
-            }
+			RaiseProgressStatus((string.Format("Processing Xls file for track {0}", track)));
 
-            RaiseProgressStatus("Xls file processed");
+			int i = 0;
+			foreach (DataRow row in DataTable.Rows)
+			{
+				i++;
+				RaiseProgressStatus("Loading row {0} of {1}", i, DataTable.Rows.Count);
+				var trackPos = _tracks.IndexOf(track) + _reservedColumnsCount;
+				var r = GetMetadata(row, trackPos);
 
-            return metadata;
-        }
+				LoadMetadata(r, true, ref metadata);
+			}
 
-        public CubeMetadata Read()
-        {
-            CubeMetadata metadata = new CubeMetadata();
+			RaiseProgressStatus("Xls file processed");
 
-            RaiseProgressStatus("Processing Xls file");
-            int i = 0;
-            foreach (DataRow row in DataTable.Rows)
-            {
-                i++;
-                RaiseProgressStatus("Loading row {0} of {1}", i, DataTable.Rows.Count);
-                var r = GetMetadata(row);
+			return metadata;
+		}
 
-                LoadMetadata(r, false, ref metadata);
-            }
-            RaiseProgressStatus("Xls file processed");
+		public CubeMetadata Read()
+		{
+			CubeMetadata metadata = new CubeMetadata();
 
-            return metadata;
-        }
+			RaiseProgressStatus("Processing Xls file");
+			int i = 0;
+			foreach (DataRow row in DataTable.Rows)
+			{
+				i++;
+				RaiseProgressStatus("Loading row {0} of {1}", i, DataTable.Rows.Count);
+				var r = GetMetadata(row);
 
-        private void LoadMetadata(XlsMetadata r, bool filter, ref CubeMetadata metadata)
-        {
-            MeasureGroup mg = null;
+				LoadMetadata(r, false, ref metadata);
+			}
+			RaiseProgressStatus("Xls file processed");
 
-            if ((!filter) || r.isChecked)
-            {
-                metadata.Perspectives.AddOrIgnore(r.perspectiveName);
-                var perspective = metadata.Perspectives[r.perspectiveName];
+			return metadata;
+		}
 
-                if (perspective.MeasureGroups.ContainsKey(r.measureGroupName))
-                {
-                    mg = perspective.MeasureGroups[r.measureGroupName];
-                }
-                else
-                {
-                    mg = new MeasureGroup(r.measureGroupName);
-                    perspective.MeasureGroups.Add(mg);
-                }
+		private void LoadMetadata(XlsMetadata r, bool filter, ref CubeMetadata metadata)
+		{
+			MeasureGroup mg = null;
 
-                if (!mg.Measures.ContainsKey(r.measureUniqueName))
-                {
-                    mg.Measures.Add(r.measureUniqueName, r.measureCaption, r.measureDisplayFolder);
-                }
+			if ((!filter) || r.isChecked)
+			{
+				metadata.Perspectives.AddOrIgnore(r.perspectiveName);
+				var perspective = metadata.Perspectives[r.perspectiveName];
 
-                Dimension dim = null;
+				if (perspective.MeasureGroups.ContainsKey(r.measureGroupName))
+				{
+					mg = perspective.MeasureGroups[r.measureGroupName];
+				}
+				else
+				{
+					mg = new MeasureGroup(r.measureGroupName);
+					perspective.MeasureGroups.Add(mg);
+				}
 
-                if (perspective.Dimensions.ContainsKey(r.dimensionUniqueName))
-                {
-                    dim = perspective.Dimensions[r.dimensionUniqueName];
-                }
-                else
-                {
-                    dim = new Dimension(r.dimensionUniqueName, r.dimensionCaption, new HierarchyCollection());
-                    perspective.Dimensions.Add(dim);
-                }
+				if (!mg.Measures.ContainsKey(r.measureUniqueName))
+				{
+					mg.Measures.Add(r.measureUniqueName, r.measureCaption, r.measureDisplayFolder);
+				}
 
-                if (!dim.Hierarchies.ContainsKey(r.hierarchyUniqueName))
-                {
-                    var hierarchy = new Hierarchy(r.hierarchyUniqueName, r.hierarchyCaption, string.Empty);
-                    dim.Hierarchies.Add(r.hierarchyUniqueName, hierarchy);
-                }
+				Dimension dim = null;
 
-                if (r.levelUniqueName != null)
-                {
-                    if (!dim.Hierarchies[r.hierarchyUniqueName].Levels.ContainsKey(r.levelUniqueName))
-                    {
-                        var level = new Level(r.levelUniqueName, r.levelCaption, r.levelNumber);
-                        dim.Hierarchies[r.hierarchyUniqueName].Levels.Add(r.levelUniqueName, level);
-                    }
+				if (perspective.Dimensions.ContainsKey(r.dimensionUniqueName))
+				{
+					dim = perspective.Dimensions[r.dimensionUniqueName];
+				}
+				else
+				{
+					dim = new Dimension(r.dimensionUniqueName, r.dimensionCaption, new HierarchyCollection());
+					perspective.Dimensions.Add(dim);
+				}
 
-                    if (!string.IsNullOrEmpty(r.propertyUniqueName))
-                    {
-                        if (!dim.Hierarchies[r.hierarchyUniqueName].Levels[r.levelUniqueName].Properties.ContainsKey(r.propertyUniqueName))
-                        {
-                            var prop = new Property(r.propertyUniqueName, r.propertyCaption);
-                            dim.Hierarchies[r.hierarchyUniqueName].Levels[r.levelUniqueName].Properties.Add(r.propertyUniqueName, prop);
-                        }
-                    }
-                }
-                if (!mg.LinkedDimensions.ContainsKey(r.dimensionUniqueName))
-                    mg.LinkedDimensions.Add(dim);
-            }
-        }
+				if (!dim.Hierarchies.ContainsKey(r.hierarchyUniqueName))
+				{
+					var hierarchy = new Hierarchy(r.hierarchyUniqueName, r.hierarchyCaption, string.Empty);
+					dim.Hierarchies.Add(r.hierarchyUniqueName, hierarchy);
+				}
 
-        protected DataTable LoadDataTable()
-        {
-            RaiseProgressStatus("Reading Xls file");
-            var dt = new DataTable("Metadata");
-        
-            using (var conn = new OleDbConnection())
-            {
-                conn.ConnectionString = GetConnectionString(Filename);
-                conn.Open();
+				if (r.levelUniqueName != null)
+				{
+					if (!dim.Hierarchies[r.hierarchyUniqueName].Levels.ContainsKey(r.levelUniqueName))
+					{
+						var level = new Level(r.levelUniqueName, r.levelCaption, r.levelNumber);
+						dim.Hierarchies[r.hierarchyUniqueName].Levels.Add(r.levelUniqueName, level);
+					}
 
-                string commandText = null;
-                if (string.IsNullOrEmpty(SheetRange))
-                    commandText = string.Format("SELECT * FROM [{0}$]", SheetName);
-                else
-                    commandText = string.Format("SELECT * FROM [{0}]${1}", SheetName, SheetRange);
+					if (!string.IsNullOrEmpty(r.propertyUniqueName))
+					{
+						if (!dim.Hierarchies[r.hierarchyUniqueName].Levels[r.levelUniqueName].Properties.ContainsKey(r.propertyUniqueName))
+						{
+							var prop = new Property(r.propertyUniqueName, r.propertyCaption);
+							dim.Hierarchies[r.hierarchyUniqueName].Levels[r.levelUniqueName].Properties.Add(r.propertyUniqueName, prop);
+						}
+					}
+				}
+				if (!mg.LinkedDimensions.ContainsKey(r.dimensionUniqueName))
+					mg.LinkedDimensions.Add(dim);
+			}
+		}
 
-                using (var cmd = new OleDbCommand(commandText, conn))
-                {
+		protected DataTable LoadDataTable()
+		{
+			RaiseProgressStatus("Reading Xls file");
+			var dt = new DataTable("Metadata");
+		
+			using (var conn = new OleDbConnection())
+			{
+				conn.ConnectionString = GetConnectionString(Filename);
+				conn.Open();
 
-                    var adapter = new OleDbDataAdapter();
-                    adapter.SelectCommand = cmd;
-                    adapter.FillSchema(dt, SchemaType.Source);
-                    adapter.Fill(dt);
-                }
-            }
-            return dt;
-        }
+				string commandText = null;
+				if (string.IsNullOrEmpty(SheetRange))
+					commandText = string.Format("SELECT * FROM [{0}$]", SheetName);
+				else
+                    commandText = string.Format("SELECT * FROM [{0}]${1}", SheetName, string.IsNullOrEmpty(SheetRange) ? "A1:AZ1" : SheetRange);
 
+				using (var cmd = new OleDbCommand(commandText, conn))
+				{
+
+					var adapter = new OleDbDataAdapter();
+					adapter.SelectCommand = cmd;
+					adapter.FillSchema(dt, SchemaType.Source);
+					adapter.Fill(dt);
+				}
+			}
+			return dt;
+		}
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public void GetTracks()
-        {
-            var dt = new DataTable("Track");
+		{
+			var dt = new DataTable("Track");
 
-            using (var conn = new OleDbConnection())
-            {
-                conn.ConnectionString = GetConnectionString(Filename);
-                conn.Open();
+			using (var conn = new OleDbConnection())
+			{
+				conn.ConnectionString = GetConnectionString(Filename);
+				conn.Open();
 
-                var commandText = string.Format("SELECT * FROM [{0}$A1:AZ1]", SheetName, SheetRange);
+				var commandText = string.Format("SELECT * FROM [{0}${1}]", SheetName, SheetRange);
 
-                using (var cmd = new OleDbCommand(commandText, conn))
-                {
+				using (var cmd = new OleDbCommand(commandText, conn))
+				{
 
-                    var adapter = new OleDbDataAdapter();
-                    adapter.SelectCommand = cmd;
-                    adapter.FillSchema(dt, SchemaType.Source);
-                    adapter.Fill(dt);
-                }
-            }
+					var adapter = new OleDbDataAdapter();
+					adapter.SelectCommand = cmd;
+					adapter.FillSchema(dt, SchemaType.Source);
+					adapter.Fill(dt);
+				}
+			}
 
-            _reservedColumnsCount = 0;
-            _tracks = new List<string>();
-            foreach (DataColumn col in dt.Columns)
-            {
-                if (!MetadataFileFormat.GetReservedColumnNames().Contains(col.ColumnName))
-                    _tracks.Add(col.ColumnName);
-                else
-                    _reservedColumnsCount++;
-            }
-        }
+			_reservedColumnsCount = 0;
+			_tracks = new List<string>();
+			foreach (DataColumn col in dt.Columns)
+			{
+				if (!MetadataFileFormat.GetReservedColumnNames().Contains(col.ColumnName))
+					_tracks.Add(col.ColumnName);
+				else
+					_reservedColumnsCount++;
+			}
+		}
 
-        protected XlsMetadata GetMetadata(DataRow row, int trackPos)
-        {
-            var res = GetMetadataBasic(row);
+		protected XlsMetadata GetMetadata(DataRow row, int trackPos)
+		{
+			var res = GetMetadataBasic(row);
 
-            if (trackPos>=0)
-                res.isChecked = !row.IsNull(trackPos);
-            return res;
-        }
+			if (trackPos>=0)
+				res.isChecked = !row.IsNull(trackPos);
+			return res;
+		}
 
-        protected XlsMetadata GetMetadata(DataRow row)
-        {
-            return GetMetadata(row, -1);
-        }
+		protected XlsMetadata GetMetadata(DataRow row)
+		{
+			return GetMetadata(row, -1);
+		}
 
-        protected XlsMetadata GetMetadataBasic(DataRow row)
-        {
-            var xlsMetadata = new XlsMetadata();
+		protected XlsMetadata GetMetadataBasic(DataRow row)
+		{
+			var xlsMetadata = new XlsMetadata();
 
-            xlsMetadata.perspectiveName = (string)row[0];
-            
-            xlsMetadata.measureGroupName = row.IsNull("MeasureGroup") ? string.Empty : (string)row["MeasureGroup"];
-            
-            if (row.Table.Columns.IndexOf("Measure") > 0)
-                xlsMetadata.measureCaption = (string)row["Measure"];
-            if (row.Table.Columns.IndexOf("MeasureCaption") > 0)
-                xlsMetadata.measureCaption = (string)row["MeasureCaption"];
-            
-            if(row.Table.Columns.IndexOf("MeasureUniqueName")>0)
-                xlsMetadata.measureUniqueName = (string)row["MeasureUniqueName"];
-            else
-                xlsMetadata.measureUniqueName = "[" + (string)row["Measure"] + "]";
+			xlsMetadata.perspectiveName = (string)row[0];
+			
+			xlsMetadata.measureGroupName = row.IsNull("MeasureGroup") ? string.Empty : (string)row["MeasureGroup"];
+			
+			if (row.Table.Columns.IndexOf("Measure") > 0)
+				xlsMetadata.measureCaption = (string)row["Measure"];
+			if (row.Table.Columns.IndexOf("MeasureCaption") > 0)
+				xlsMetadata.measureCaption = (string)row["MeasureCaption"];
+			
+			if(row.Table.Columns.IndexOf("MeasureUniqueName")>0)
+				xlsMetadata.measureUniqueName = (string)row["MeasureUniqueName"];
+			else
+				xlsMetadata.measureUniqueName = "[" + (string)row["Measure"] + "]";
 
-            if (row.Table.Columns.IndexOf("MeasureDisplayFolder") > 0)
-                xlsMetadata.measureUniqueName = (string)row["MeasureDisplayFolder"];
+			if (row.Table.Columns.IndexOf("MeasureDisplayFolder") > 0)
+				xlsMetadata.measureUniqueName = (string)row["MeasureDisplayFolder"];
 
-            if (row.Table.Columns.IndexOf("DimensionCaption") > 0)
-                xlsMetadata.dimensionCaption = (string)row["DimensionCaption"];
-            else
-                xlsMetadata.dimensionCaption = ((string)row["Dimension"]).Replace("[", "").Replace("]", "");
+			if (row.Table.Columns.IndexOf("DimensionCaption") > 0)
+				xlsMetadata.dimensionCaption = (string)row["DimensionCaption"];
+			else
+				xlsMetadata.dimensionCaption = ((string)row["Dimension"]).Replace("[", "").Replace("]", "");
 
-            if (row.Table.Columns.IndexOf("Dimension") > 0)
-                xlsMetadata.dimensionUniqueName = (string)row["Dimension"];
-            if (row.Table.Columns.IndexOf("DimensionUniqueName") > 0)
-                xlsMetadata.dimensionUniqueName = (string)row["DimensionUniqueName"];
+			if (row.Table.Columns.IndexOf("Dimension") > 0)
+				xlsMetadata.dimensionUniqueName = (string)row["Dimension"];
+			if (row.Table.Columns.IndexOf("DimensionUniqueName") > 0)
+				xlsMetadata.dimensionUniqueName = (string)row["DimensionUniqueName"];
 
-            if (row.Table.Columns.IndexOf("DimensionAttribute") > 0)
-            {
-                xlsMetadata.hierarchyCaption = (string)row["DimensionAttribute"];
-                xlsMetadata.hierarchyUniqueName = "[" + (string)row["DimensionAttribute"] + "]";
-            }
-            if (row.Table.Columns.IndexOf("HierarchyCaption") > 0)
-                xlsMetadata.hierarchyCaption = (string)row["HierarchyCaption"];
-            if (row.Table.Columns.IndexOf("HierarchyUniqueName") > 0)
-                xlsMetadata.hierarchyUniqueName = (string)row["HierarchyUniqueName"];
+			if (row.Table.Columns.IndexOf("DimensionAttribute") > 0)
+			{
+				xlsMetadata.hierarchyCaption = (string)row["DimensionAttribute"];
+				xlsMetadata.hierarchyUniqueName = "[" + (string)row["DimensionAttribute"] + "]";
+			}
+			if (row.Table.Columns.IndexOf("HierarchyCaption") > 0)
+				xlsMetadata.hierarchyCaption = (string)row["HierarchyCaption"];
+			if (row.Table.Columns.IndexOf("HierarchyUniqueName") > 0)
+				xlsMetadata.hierarchyUniqueName = (string)row["HierarchyUniqueName"];
 
-            if (row.Table.Columns.IndexOf("LevelCaption") > 0)
-                xlsMetadata.levelCaption = (string)row["LevelCaption"];
-            if (row.Table.Columns.IndexOf("LevelUniqueName") > 0)
-                xlsMetadata.levelUniqueName = (string)row["LevelUniqueName"];
-            if (row.Table.Columns.IndexOf("LevelNumber") > 0)
-                xlsMetadata.levelNumber = int.Parse(row["LevelNumber"].ToString());
+			if (row.Table.Columns.IndexOf("LevelCaption") > 0)
+				xlsMetadata.levelCaption = (string)row["LevelCaption"];
+			if (row.Table.Columns.IndexOf("LevelUniqueName") > 0)
+				xlsMetadata.levelUniqueName = (string)row["LevelUniqueName"];
+			if (row.Table.Columns.IndexOf("LevelNumber") > 0)
+				xlsMetadata.levelNumber = int.Parse(row["LevelNumber"].ToString());
 
-            if (row.Table.Columns.IndexOf("PropertyCaption") > 0)
-                if (!row.IsNull("PropertyCaption"))
-                    xlsMetadata.propertyCaption = (string)row["PropertyCaption"];
-            if (row.Table.Columns.IndexOf("PropertyUniqueName") > 0)
-                if (!row.IsNull("PropertyUniqueName"))
-                    xlsMetadata.propertyUniqueName = (string)row["PropertyUniqueName"];
+			if (row.Table.Columns.IndexOf("PropertyCaption") > 0)
+				if (!row.IsNull("PropertyCaption"))
+					xlsMetadata.propertyCaption = (string)row["PropertyCaption"];
+			if (row.Table.Columns.IndexOf("PropertyUniqueName") > 0)
+				if (!row.IsNull("PropertyUniqueName"))
+					xlsMetadata.propertyUniqueName = (string)row["PropertyUniqueName"];
 
-            return xlsMetadata;
-        }
+			return xlsMetadata;
+		}
 
-        protected struct XlsMetadata
-        {
-            public string perspectiveName;
-            public string measureGroupName;
-            public string measureCaption;
-            public string measureUniqueName;
-            public string measureDisplayFolder;
-            public string dimensionCaption;
-            public string dimensionUniqueName;
-            public string hierarchyCaption;
-            public string hierarchyUniqueName;
-            public string levelCaption;
-            public string levelUniqueName;
-            public int levelNumber;
-            public string propertyCaption;
-            public string propertyUniqueName;
-            public bool isChecked;
-        }
+		protected struct XlsMetadata
+		{
+			public string perspectiveName;
+			public string measureGroupName;
+			public string measureCaption;
+			public string measureUniqueName;
+			public string measureDisplayFolder;
+			public string dimensionCaption;
+			public string dimensionUniqueName;
+			public string hierarchyCaption;
+			public string hierarchyUniqueName;
+			public string levelCaption;
+			public string levelUniqueName;
+			public int levelNumber;
+			public string propertyCaption;
+			public string propertyUniqueName;
+			public bool isChecked;
+		}
 
-       
+	   
 
 
-    }
+	}
 }

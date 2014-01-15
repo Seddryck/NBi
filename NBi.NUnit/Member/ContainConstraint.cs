@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using NBi.Core;
 using NBi.Core.Analysis.Member;
@@ -10,28 +11,44 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Member
 {
-    public class ContainConstraint : AbstractMembersConstraint
+    public class ContainConstraint : AbstractMembersCollectionConstraint
     {
-        protected IEnumerable<string> Expected {get; set;}
+        /// <summary>
+        /// Construct a ContainConstraint
+        /// </summary>
+        /// <param name="expected">A unique expected member</param>
+        public ContainConstraint(string expected)
+            : this(new List<string>() {expected})
+        {
+        }
         
         /// <summary>
-        /// Construct a CollectionContainsConstraint specific for Members
+        /// Construct a ContainConstraint
         /// </summary>
-        /// <param name="expected"></param>
-        public ContainConstraint(string expected) : base()
+        /// <param name="expected">The command to retrieve the list of expected items</param>
+        public ContainConstraint(IEnumerable<string> expected)
+            : base(expected)
         {
-            Expected = new List<string>() {expected};
         }
 
         /// <summary>
-        /// Construct a CollectionContainsConstraint specific for Members
+        /// Construct a ContainConstraint
         /// </summary>
-        /// <param name="expected"></param>
-        public ContainConstraint(IEnumerable<string> expected)
-            : base()
+        /// <param name="expected">The list of expected items</param>
+        public ContainConstraint(IDbCommand expected)
+            : base(expected)
         {
-            Expected = expected;
         }
+        
+        /// <summary>
+        /// Construct a ContainConstraint
+        /// </summary>
+        /// <param name="expected">The request to discover members in a hierarchy or level</param>
+        public ContainConstraint(MembersDiscoveryRequest expected)
+            : base(expected)
+        {
+        }
+        
 
         #region Modifiers
         /// <summary>
@@ -47,88 +64,39 @@ namespace NBi.NUnit.Member
         }
 
         #endregion
-        
-        public override bool Matches(object actual)
+
+        protected override NUnitCtr.Constraint BuildInternalConstraint()
         {
-            if (actual is MembersDiscoveryRequest)
-                return Process((MembersDiscoveryRequest)actual);
-            else if (actual is MemberResult)
+            NUnitCtr.Constraint ctr = null;
+            foreach (var item in ExpectedItems)
             {
-                this.actual = actual;
-                NUnitCtr.Constraint ctr = null;
-                foreach (var item in Expected)
-                {
-                    var localCtr = new NUnitCtr.CollectionContainsConstraint(StringComparerHelper.Build(item));
-                    var usingCtr = localCtr.Using(Comparer);
+                var localCtr = new NUnitCtr.CollectionContainsConstraint(StringComparerHelper.Build(item));
+                var usingCtr = localCtr.Using(Comparer);
 
-                    if (ctr != null)
-                        ctr = new NUnitCtr.AndConstraint(ctr, usingCtr);
-                    else
-                        ctr = usingCtr;
-                }
-
-                IResolveConstraint exp = ctr;
-                var multipleConstraint = exp.Resolve();
-                var res = multipleConstraint.Matches(actual);
-                
-                return res;
+                if (ctr != null)
+                    ctr = new NUnitCtr.AndConstraint(ctr, usingCtr);
+                else
+                    ctr = usingCtr;
             }
-            else
-                throw new ArgumentException();
+            return ctr;
         }
 
-        /// <summary>
-        /// Write the constraint description to a MessageWriter
-        /// </summary>
-        /// <param name="writer">The writer on which the description is displayed</param>
-        public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
+        protected override bool DoMatch(NUnitCtr.Constraint ctr)
         {
-            if (Request != null)
-            {
-                writer.WritePredicate(string.Format("On perspective \"{0}\", a {1} of \"{2}\" containing a member with caption"
-                                                            , Request.Perspective
-                                                            , GetFunctionLabel(Request.Function)
-                                                            , Request.Path));
-                writer.WriteExpectedValue(Expected);
-            }
-            
+            IResolveConstraint exp = ctr;
+            var multipleConstraint = exp.Resolve();
+            return multipleConstraint.Matches(actual);
         }
 
-        public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
+        protected override string GetPredicate()
         {
-            if (actual is MemberResult && ((MemberResult)actual).Count() > 0 && ((MemberResult)actual).Count()<=15)
-                writer.WriteActualValue((IEnumerable)actual);
-            else if (actual is MemberResult && ((MemberResult)actual).Count() > 0 && ((MemberResult)actual).Count() > 15)
-            {
-                writer.WriteActualValue(((IEnumerable<NBi.Core.Analysis.Member.Member>)actual).Take(10));
-                writer.WriteActualValue(string.Format(" ... and {0} others.", ((MemberResult)actual).Count() - 10));
-            }
-            else
-                writer.WriteActualValue(new NothingFoundMessage());
+            return string.Format("the {0} of \"{1}\" contain elements of the following set:", GetFunctionLabel(Request.Function), Request.Path);
         }
 
-
-        protected string GetFunctionLabel(string function)
+        protected override ListComparer.Comparison GetComparisonType()
         {
-            switch (function.ToLower())
-            {
-                case "children":
-                    return "child";
-                case "members":
-                    return "member";
-                default:
-                    return "?";
-            }
+            return ListComparer.Comparison.MissingItems;
         }
 
-        protected internal class NothingFoundMessage
-        {
-            public override string ToString()
-            {
-                return "nothing found";
-            }
-        }
-
-       
     }
 }

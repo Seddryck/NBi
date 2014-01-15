@@ -11,25 +11,28 @@ using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.Presenter
 {
-    class TestCasesPresenter : BasePresenter<ITestCasesView>
+    class TestCasesPresenter : PresenterBase
     {
         private readonly TestCasesManager testCasesManager;
 
-        public TestCasesPresenter(ITestCasesView testCasesView, RenameVariableWindow window,TestCasesManager testCasesManager)
-            : base(testCasesView)
+        public TestCasesPresenter(RenameVariableWindow window,TestCasesManager testCasesManager, DataTable testCases, BindingList<string> variables)
         {
             this.OpenTestCasesCommand = new OpenTestCasesCommand(this);
             this.RenameVariableCommand = new RenameVariableCommand(this, window);
             this.RemoveVariableCommand = new RemoveVariableCommand(this);
+            this.MoveLeftVariableCommand = new MoveLeftVariableCommand(this);
+            this.MoveRightVariableCommand = new MoveRightVariableCommand(this);
 
             this.testCasesManager = testCasesManager;
-            TestCases = new DataTable();
-            Variables = new BindingList<string>();
+            TestCases = testCases;
+            Variables = variables;
         }
 
         public ICommand OpenTestCasesCommand { get; private set; }
         public ICommand RenameVariableCommand { get; private set; }
         public ICommand RemoveVariableCommand { get; private set; }
+        public ICommand MoveLeftVariableCommand { get; private set; }
+        public ICommand MoveRightVariableCommand { get; private set; }
 
         #region Bindable properties
 
@@ -69,10 +72,14 @@ namespace NBi.UI.Genbi.Presenter
                 case "Variables":
                     this.RenameVariableCommand.Refresh();
                     this.RemoveVariableCommand.Refresh();
+                    this.MoveLeftVariableCommand.Refresh();
+                    this.MoveRightVariableCommand.Refresh();
                     break;
                 case "VariableSelectedIndex":
                     this.RenameVariableCommand.Refresh();
                     this.RemoveVariableCommand.Refresh();
+                    this.MoveLeftVariableCommand.Refresh();
+                    this.MoveRightVariableCommand.Refresh();
                     break;
                 default:
                     break;
@@ -82,12 +89,11 @@ namespace NBi.UI.Genbi.Presenter
         internal void LoadCsv(string fullPath)
         {
             testCasesManager.ReadFromCsv(fullPath);
-
-            ReloadTestCases();
-            ReloadVariables();
+            Reload();
+            OnPropertyChanged("Variables");
         }
 
-        private void ReloadTestCases()
+        private void Reload()
         {
             var dtReader = new DataTableReader(testCasesManager.Content);
 
@@ -99,47 +105,60 @@ namespace NBi.UI.Genbi.Presenter
             TestCases.RejectChanges();
 
             //Load it
-            TestCases.Load(dtReader, LoadOption.PreserveChanges); 
+            TestCases.Load(dtReader, LoadOption.PreserveChanges);
             OnPropertyChanged("TestCases");
-        }
-  
-        private void ReloadVariables()
-        {
+
+            //Take care of variables
             Variables.Clear();
             foreach (var v in testCasesManager.Variables)
                 Variables.Add(v);
-            OnPropertyChanged("Variables");
         }
 
         internal void Rename(int index, string newName)
         {
-            testCasesManager.Variables[index] = newName;
+            Variables[index] = newName;
             OnPropertyChanged("Variables");
-            testCasesManager.Content.Columns[index].ColumnName = newName;
+            TestCases.Columns[index].ColumnName = newName;
         }
 
         internal void Remove(int index)
         {
-            testCasesManager.Variables.RemoveAt(index);
+            Variables.RemoveAt(index);
             OnPropertyChanged("Variables");
-            testCasesManager.Content.Columns.RemoveAt(index);
+            TestCases.Columns.RemoveAt(index);
         }
 
         internal bool IsRenamable()
         {
-            return testCasesManager.Variables.Count > 0;
+            return Variables.Count > 0;
         }
 
         internal bool IsDeletable()
         {
-            return testCasesManager.Variables.Count > 1;
+            return Variables.Count > 1;
         }
 
         internal bool IsValidVariableName(string variableName)
         {
-            return !string.IsNullOrEmpty(variableName) && testCasesManager.Variables.Contains(variableName);
+            return !string.IsNullOrEmpty(variableName) && Variables.Contains(variableName);
         }
-        
-        
+
+        internal bool IsFirst()
+        {
+            return VariableSelectedIndex == 0;
+        }
+
+        internal bool IsLast()
+        {
+            return VariableSelectedIndex == Variables.Count - 1;
+        }
+
+        internal void Move(int selectedIndex, int newPosition)
+        {
+            testCasesManager.MoveVariable(Variables[VariableSelectedIndex], newPosition);
+            Reload();
+            VariableSelectedIndex = newPosition;
+            OnPropertyChanged("Variables");
+        }
     }
 }

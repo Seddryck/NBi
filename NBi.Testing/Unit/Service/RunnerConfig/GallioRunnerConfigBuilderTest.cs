@@ -99,6 +99,7 @@ namespace NBi.Testing.Unit.Service.RunnerConfig
             filePersisterMockFactory.VerifyAll();
         }
 
+        [Test]
         public void Build_Parameters_CopyDllOnce()
         {
             var filePersisterMockFactory = new Mock<IFilePersister>();
@@ -126,6 +127,7 @@ namespace NBi.Testing.Unit.Service.RunnerConfig
                 ), Times.Once());
         }
 
+        [Test]
         public void Build_Parameters_CopyCorrectDllToCorrectLocation()
         {
             var filePersisterMockFactory = new Mock<IFilePersister>();

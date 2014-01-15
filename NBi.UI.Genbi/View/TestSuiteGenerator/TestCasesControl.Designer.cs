@@ -30,11 +30,13 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.remove = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.variables = new System.Windows.Forms.ComboBox();
-            this.rename = new System.Windows.Forms.Button();
             this.csvContent = new System.Windows.Forms.DataGridView();
+            this.moveRight = new System.Windows.Forms.Button();
+            this.moveLeft = new System.Windows.Forms.Button();
+            this.remove = new System.Windows.Forms.Button();
+            this.rename = new System.Windows.Forms.Button();
             this.bindingCsv = new System.Windows.Forms.BindingSource(this.components);
             this.bindingColumnNames = new System.Windows.Forms.BindingSource(this.components);
             this.panel1.SuspendLayout();
@@ -47,6 +49,8 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.moveRight);
+            this.panel1.Controls.Add(this.moveLeft);
             this.panel1.Controls.Add(this.remove);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.variables);
@@ -55,16 +59,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(452, 31);
             this.panel1.TabIndex = 18;
-            // 
-            // remove
-            // 
-            this.remove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.remove.Image = global::NBi.UI.Genbi.Properties.Resources.textfield_delete;
-            this.remove.Location = new System.Drawing.Point(311, 2);
-            this.remove.Name = "remove";
-            this.remove.Size = new System.Drawing.Size(24, 24);
-            this.remove.TabIndex = 18;
-            this.remove.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -82,19 +76,9 @@
             this.variables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.variables.FormattingEnabled = true;
             this.variables.Location = new System.Drawing.Point(87, 3);
-            this.variables.Name = "columnHeaderChoice";
+            this.variables.Name = "variables";
             this.variables.Size = new System.Drawing.Size(189, 21);
             this.variables.TabIndex = 16;
-            // 
-            // rename
-            // 
-            this.rename.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rename.Image = global::NBi.UI.Genbi.Properties.Resources.textfield_rename;
-            this.rename.Location = new System.Drawing.Point(282, 2);
-            this.rename.Name = "rename";
-            this.rename.Size = new System.Drawing.Size(24, 24);
-            this.rename.TabIndex = 14;
-            this.rename.UseVisualStyleBackColor = true;
             // 
             // csvContent
             // 
@@ -107,13 +91,53 @@
             this.csvContent.Size = new System.Drawing.Size(452, 249);
             this.csvContent.TabIndex = 17;
             // 
-            // VariablesControl
+            // moveRight
+            // 
+            this.moveRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.moveRight.Image = global::NBi.UI.Genbi.Properties.Resources.text_padding_right;
+            this.moveRight.Location = new System.Drawing.Point(371, 3);
+            this.moveRight.Name = "moveRight";
+            this.moveRight.Size = new System.Drawing.Size(24, 24);
+            this.moveRight.TabIndex = 20;
+            this.moveRight.UseVisualStyleBackColor = true;
+            // 
+            // moveLeft
+            // 
+            this.moveLeft.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.moveLeft.Image = global::NBi.UI.Genbi.Properties.Resources.text_padding_left;
+            this.moveLeft.Location = new System.Drawing.Point(341, 3);
+            this.moveLeft.Name = "moveLeft";
+            this.moveLeft.Size = new System.Drawing.Size(24, 24);
+            this.moveLeft.TabIndex = 19;
+            this.moveLeft.UseVisualStyleBackColor = true;
+            // 
+            // remove
+            // 
+            this.remove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.remove.Image = global::NBi.UI.Genbi.Properties.Resources.textfield_delete;
+            this.remove.Location = new System.Drawing.Point(311, 2);
+            this.remove.Name = "remove";
+            this.remove.Size = new System.Drawing.Size(24, 24);
+            this.remove.TabIndex = 18;
+            this.remove.UseVisualStyleBackColor = true;
+            // 
+            // rename
+            // 
+            this.rename.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rename.Image = global::NBi.UI.Genbi.Properties.Resources.textfield_rename;
+            this.rename.Location = new System.Drawing.Point(282, 2);
+            this.rename.Name = "rename";
+            this.rename.Size = new System.Drawing.Size(24, 24);
+            this.rename.TabIndex = 14;
+            this.rename.UseVisualStyleBackColor = true;
+            // 
+            // TestCasesControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.csvContent);
-            this.Name = "VariablesControl";
+            this.Name = "TestCasesControl";
             this.Size = new System.Drawing.Size(457, 286);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -135,6 +159,8 @@
         protected internal System.Windows.Forms.BindingSource bindingCsv;
         protected internal System.Windows.Forms.BindingSource bindingColumnNames;
         public System.Windows.Forms.Button remove;
+        public System.Windows.Forms.Button moveLeft;
+        public System.Windows.Forms.Button moveRight;
 
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using NBi.Xml.Constraints;
 
 namespace NBi.Xml
 {
@@ -61,21 +62,25 @@ namespace NBi.Xml
             }
 
             //Apply defaults
-            foreach (var test in TestSuite.Tests)
-            {
-                foreach (var sut in test.Systems)
-                {
-                    sut.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.SystemUnderTest);
-                    sut.Settings = TestSuite.Settings;
-                }
-                foreach (var ctr in test.Constraints)
-                {
-                    ctr.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.Assert);
-                    ctr.Settings = TestSuite.Settings;
-                }
-            }
-
+            foreach (var test in TestSuite.GetAllTests())
+                ApplyDefaultSettings(test);
             
+        }
+
+        private void ApplyDefaultSettings(TestXml test)
+        {
+            foreach (var sut in test.Systems)
+            {
+                sut.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.SystemUnderTest);
+                sut.Settings = TestSuite.Settings;
+            }
+            foreach (var ctr in test.Constraints)
+            {
+                ctr.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.Assert);
+                ctr.Settings = TestSuite.Settings;
+                if (ctr is IReferenceFriendly && TestSuite.Settings != null)
+                    ((IReferenceFriendly)ctr).AssignReferences(TestSuite.Settings.References);
+            }
         }
 
         protected internal void ReassignXml()
@@ -104,6 +109,7 @@ namespace NBi.Xml
                 // Use the Serialize method to store the object's state.
                 serializer.Serialize(writer, testSuite);
             }
+            //Debug.Write(XmlSerializeFrom<TestSuiteXml>(testSuite));
         }
 
         public TestXml DeserializeTest(string objectData)

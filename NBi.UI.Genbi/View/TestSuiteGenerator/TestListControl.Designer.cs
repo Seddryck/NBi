@@ -32,8 +32,9 @@
             this.progressBarTest = new System.Windows.Forms.ProgressBar();
             this.testsList = new System.Windows.Forms.ListBox();
             this.testsListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.deleteTest = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.bindingTests = new System.Windows.Forms.BindingSource(this.components);
             this.useGrouping = new System.Windows.Forms.CheckBox();
@@ -59,6 +60,7 @@
             this.testsList.FormattingEnabled = true;
             this.testsList.Location = new System.Drawing.Point(0, 26);
             this.testsList.Name = "testsList";
+            this.testsList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.testsList.Size = new System.Drawing.Size(578, 290);
             this.testsList.TabIndex = 21;
             this.testsList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TestsList_MouseDown);
@@ -66,25 +68,32 @@
             // testsListMenu
             // 
             this.testsListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.deleteTest,
-            this.editTestToolStripMenuItem});
+            this.deleteTestToolStripMenuItem,
+            this.editTestToolStripMenuItem,
+            this.addCategoryToolStripMenuItem});
             this.testsListMenu.Name = "deleteTest";
-            this.testsListMenu.Size = new System.Drawing.Size(130, 48);
+            this.testsListMenu.Size = new System.Drawing.Size(146, 70);
             this.testsListMenu.Text = "Delete test";
             // 
-            // deleteTest
+            // deleteTestToolStripMenuItem
             // 
-            this.deleteTest.Image = global::NBi.UI.Genbi.Properties.Resources.note_delete;
-            this.deleteTest.Name = "deleteTest";
-            this.deleteTest.Size = new System.Drawing.Size(129, 22);
-            this.deleteTest.Text = "Delete test";
+            this.deleteTestToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.note_delete;
+            this.deleteTestToolStripMenuItem.Name = "deleteTestToolStripMenuItem";
+            this.deleteTestToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.deleteTestToolStripMenuItem.Text = "Delete test";
             // 
             // editTestToolStripMenuItem
             // 
             this.editTestToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.note_edit;
             this.editTestToolStripMenuItem.Name = "editTestToolStripMenuItem";
-            this.editTestToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.editTestToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.editTestToolStripMenuItem.Text = "Edit test";
+            // 
+            // addCategoryToolStripMenuItem
+            // 
+            this.addCategoryToolStripMenuItem.Name = "addCategoryToolStripMenuItem";
+            this.addCategoryToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.addCategoryToolStripMenuItem.Text = "Add category";
             // 
             // label1
             // 
@@ -129,10 +138,11 @@
         private System.Windows.Forms.ListBox testsList;
         protected internal System.Windows.Forms.BindingSource bindingTests;
         private System.Windows.Forms.ContextMenuStrip testsListMenu;
-        private System.Windows.Forms.ToolStripMenuItem deleteTest;
+        private System.Windows.Forms.ToolStripMenuItem deleteTestToolStripMenuItem;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem editTestToolStripMenuItem;
         protected internal System.Windows.Forms.CheckBox useGrouping;
+        private System.Windows.Forms.ToolStripMenuItem addCategoryToolStripMenuItem;
 
 
     }

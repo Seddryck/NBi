@@ -25,6 +25,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
             return columns;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         internal IEnumerable<ColumnRow> Discover(IEnumerable<IFilter> filters)
         {
             var columns = new List<ColumnRow>();

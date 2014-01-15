@@ -52,5 +52,21 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             }
         }
 
+        public Button MoveLeftCommand
+        {
+            get
+            {
+                return moveLeft;
+            }
+        }
+
+        public Button MoveRightCommand
+        {
+            get
+            {
+                return moveRight;
+            }
+        }
+
     }
 }

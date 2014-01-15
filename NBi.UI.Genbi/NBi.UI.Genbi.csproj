@@ -48,6 +48,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.TextEditor, Version=3.2.1.6466, Culture=neutral, PublicKeyToken=4d61825e8dd49f1a, processorArchitecture=MSIL">
       <HintPath>..\packages\ICSharpCode.TextEditor.3.2.1.6466\lib\Net20\ICSharpCode.TextEditor.dll</HintPath>
@@ -74,6 +77,7 @@
     <Compile Include="Command\CommandBase.cs" />
     <Compile Include="Command\CommandBindings.cs" />
     <Compile Include="Command\CommandManager.cs" />
+    <Compile Include="Command\Configs\CreateConfigsCommand.cs" />
     <Compile Include="Command\DelegateCommand.cs" />
     <Compile Include="Command\Delegates.cs" />
     <Compile Include="Command\FindAndReplaceCommand.cs" />
@@ -87,12 +91,14 @@
     <Compile Include="Command\Settings\RemoveReferenceCommand.cs" />
     <Compile Include="Command\Template\OpenTemplateCommand.cs" />
     <Compile Include="Command\Template\SaveTemplateCommand.cs" />
+    <Compile Include="Command\TestCases\MoveVariableCommand.cs" />
     <Compile Include="Command\TestCases\OpenTestCasesCommand.cs" />
     <Compile Include="Command\TestSuite\OpenTestSuiteCommand.cs" />
     <Compile Include="Command\TestSuite\SaveAsTestSuiteCommand.cs" />
     <Compile Include="Command\TestsXml\ClearTestListCommand.cs" />
     <Compile Include="Command\TestsXml\GenerateTestListCommand.cs" />
     <Compile Include="Command\TestsXml\UndoGenerateTestListCommand.cs" />
+    <Compile Include="Command\Test\AddCategoryTestCommand.cs" />
     <Compile Include="Command\Test\DeleteTestCommand.cs" />
     <Compile Include="Command\Test\EditTestCommand.cs" />
     <Compile Include="Command\ToolStripCommandBinding.cs" />
@@ -112,7 +118,6 @@
     <Compile Include="Interface\TestSuiteGenerator\Events\VariableRemoveEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\TemplatePersistEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\FilePersistEventArgs.cs" />
-    <Compile Include="Presenter\BasePresenter.cs" />
     <Compile Include="Presenter\MacroPresenter.cs" />
     <Compile Include="Presenter\DocumentPresenterBase.cs" />
     <Compile Include="Presenter\FindAndReplacePresenter.cs" />
@@ -121,7 +126,8 @@
     <Compile Include="Presenter\RunnerConfigPresenter.cs" />
     <Compile Include="Presenter\TemplatePresenter.cs" />
     <Compile Include="Presenter\TestCasesPresenter.cs" />
-    <Compile Include="Presenter\TestListGenerationResult.cs" />
+    <Compile Include="Stateful\LargeBindingList.cs" />
+    <Compile Include="Stateful\TestListGenerationResult.cs" />
     <Compile Include="Presenter\TestListPresenter.cs" />
     <Compile Include="Presenter\TestSuitePresenter.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -130,6 +136,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Interface\RunnerConfig\IRunnerConfigView.cs" />
+    <Compile Include="Stateful\TestSuiteState.cs" />
     <Compile Include="View\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,12 +162,17 @@
     <Compile Include="View\RunnerConfig\PathControl.Designer.cs">
       <DependentUpon>PathControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\RunnerConfig\RunnerConfigViewAdapter.cs" />
     <Compile Include="View\RunnerConfig\RunnerConfigView.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="View\RunnerConfig\RunnerConfigView.Designer.cs">
       <DependentUpon>RunnerConfigView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\NewCategoryWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\NewCategoryWindow.Designer.cs">
+      <DependentUpon>NewCategoryWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="View\TestSuiteGenerator\NewReferenceWindow.cs">
       <SubType>Form</SubType>
@@ -259,6 +271,10 @@
     <EmbeddedResource Include="View\RunnerConfig\RunnerConfigView.resx">
       <DependentUpon>RunnerConfigView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\TestSuiteGenerator\NewCategoryWindow.resx">
+      <DependentUpon>NewCategoryWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\TestSuiteGenerator\DisplayTestView.resx">
       <DependentUpon>DisplayTestView.cs</DependentUpon>
     </EmbeddedResource>
@@ -338,6 +354,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="favicon.ico" />
     <Content Include="Icons\accept.png" />
     <Content Include="Icons\cancel.png" />
     <Content Include="Icons\control_play.png" />
@@ -362,6 +379,9 @@
     <Content Include="Icons\textfield_delete.png" />
     <Content Include="Icons\textfield_rename.png" />
     <Content Include="Icons\user.png" />
+    <None Include="Resources\text_padding_right.png" />
+    <None Include="Resources\text_padding_left.png" />
+    <None Include="Resources\NBi2.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

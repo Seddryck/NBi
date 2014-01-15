@@ -29,7 +29,8 @@ namespace NBi.Core
         protected string InterpretProviderName(string provider)
         {
             if (provider.ToLowerInvariant().StartsWith("msolap")) return "Adomd";
-            if (provider.ToLowerInvariant().StartsWith("sqlncli")) return "OleDb";         
+            if (provider.ToLowerInvariant().StartsWith("sqlncli")) return "OleDb";
+            if (provider.ToLowerInvariant().StartsWith("oledb")) return "OleDb";
             if (provider.StartsWith("Driver={")) return "Odbc";
 
             return null;

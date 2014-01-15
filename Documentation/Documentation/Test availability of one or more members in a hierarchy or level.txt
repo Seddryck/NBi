@@ -1,10 +1,9 @@
 ! Test availability of one or more members in a hierarchy or level.
-_*This feature is only available in version 1.1 and next*_
 !! System under test
 If you're not familiar with the way to specify a test on members of a dimension, read first the article about [Tests on dimension's members].
 !! Assertion
 !!! One unique member
-The assertion consists in a check that one of the members in a hierarchy or level has a given caption. So we need to specify that we'll perform an assertion of type "contain":
+The assertion consists in a check that one of the members in a hierarchy (or level) has a given caption. To achieve this goal, we need to specify that we'll perform an assertion of type _contain_:
 {code:xml}
 <test>
     <assert>
@@ -12,11 +11,11 @@ The assertion consists in a check that one of the members in a hierarchy or leve
     </assert>
 </test>
 {code:xml}
-Then we need to stipulate the caption to look for:
+Then we need to stipulate the caption to look for. We'll achieve this by filling the attribute _caption_ with the analyzed caption (here MyMember).
 {code:xml}
 <contain caption="MyMember"/>
 {code:xml}
-If we're checking that the hierarchy named "MyHierarchy" has effectively a member named "MyMember":
+*Full sample:* If we're checking that the hierarchy named "MyHierarchy" has effectively a member named "MyMember":
 {code:xml}
 <test>
     <system-under-test>
@@ -31,9 +30,9 @@ If we're checking that the hierarchy named "MyHierarchy" has effectively a membe
 </test>
 {code:xml}
 !!! Several members
-You can also check in one unique test that two members are part of a hierarchy or level. 
-From a unit testing point of view you can argue that it’s probably not a good idea for the granularity of the report. On the other hand, you can use this feature to be sure that predefined value not coming from our main source (as N/A, Unknown, Not defined, (All)) are effectively in your cube. Anyway NBi let you do this. 
-Your system-under-test is not changed but in your assert you’ll need to define one element named _item_ by member that you’ll check:
+You can also check in a unique test that two or more members are part of a hierarchy (or level). 
+From a unit testing point of view you can argue that it’s probably not a good idea to ensure a correct granularity of the report. On the other hand, you can use this feature to be sure that a whole set of predefined value not coming from our main source (as N/A, Unknown, Not defined, (All)) are effectively available in your cube. Anyway, NBi support this feature. 
+Based on sample above, your system-under-test is not modified but in your assert you’ll need to define one xml element named _item_ by member that you’ll check. If you're checking the availaibility of three members named _My first member_, _My second member_ and _My third member_, you'll need to write following test:
 {code:xml}
     <assert>
         <contain>
@@ -45,7 +44,9 @@ Your system-under-test is not changed but in your assert you’ll need to define o
 {code:xml}
 The test will only succeed if all the members defined in your assertion are effectively in the hierarchy (or level).
 !!! All members belong to a predefined list
-Imagine that you’ve a hierarchy sex. You know that you can have male and female, other values are not expected. With assertions explained above you would need to check that both members are effectively available. It could happen that you’ve only loaded men (or women). In this case, your assertion with members of hierarchy “sex” contain “female” will fail … but your data warehouse is correctly loaded! You probably want to check that members of this hierarchy are not different than “male” and “female”. The assertion subsetOf is there for you.
+Imagine that you’ve a hierarchy _gender_. You know that the only two choices are _male_ and _female_, other values are not expected and should fail your test. You won't be able to assert the test with the assertions defined above. 
+First case, it could happen that you’ve only loaded men (or women). In this case, your assertion with members of hierarchy _gender_ abou the fact this hierarchy effectively contains _female_ will fail … but your data warehouse is correctly loaded! You probably want to check that members of this hierarchy are not different than _male_ and _female_ and not the _male_ and _female_ are available. The assertion subsetOf is there for this case.
+With the assertion _subsetOf_, you can ensure that the members are not outside a predefined set of value, but you'll not ensure that all of them are available.
 {code:xml}
     <assert>
         <subsetOf>
@@ -54,9 +55,9 @@ Imagine that you’ve a hierarchy sex. You know that you can have male and female,
         </subsetOf>
     </assert>
 {code:xml}
-This test will only succeed if all the members of your hierarchy are value provided in the list of item. If you’ve only one of these two member, the test will not fail.
+This test will only succeed if all the members of your hierarchy are value provided in the list of item. If you’ve any member of your hierarchy not included in the two members provided in your assertion, the test will fail. The test will not fail if your hierarchy contain only one of the the members provided in the assertion.
 !! You know exactly all the members
-In some case, you know exactly the content of your hierarchy or level. In this case, you’ll probably want to test that the whole hierarchy is correctly loaded in your cube.
+In some case, you know exactly the content of your hierarchy or level. In this case, you’ll probably want to test that the whole hierarchy is correctly loaded in your cube. This can be achieved with the usage of the assertion _equivalentTo_. You'll need to provide a list of _item_ with the corresponding to the list of members expected.
 {code:xml}
     <assert>
         <equivalentTo>
@@ -65,5 +66,26 @@ In some case, you know exactly the content of your hierarchy or level. In this c
         </equivalentTo>
     </assert>
 {code:xml}
-The test will only succeed if your hierarchy has exactly two members which are “Male” and “Female”. If you’ve more or less or different items, this test will fail.
-Note that this test is equivalent to two assertions “contain” (one for “male” and another for female) and one assertion “subsetOf” (for “male” and “female”). It’s just a matter of readability versus reporting facility.
+The test will only succeed if your hierarchy has exactly two members named _Male_ and _Female_. If you’ve more or less or different items, this test will fail.
+*Note that this test is equivalent to two assertions _contain_ (one for _Male_ and another for _Female_) and one assertion _subsetOf_ (for _Male_ and _Female_). It’s just a matter of readability versus reporting and investigation facilities.*
+!! Dynamic list of members in your assertion
+*New in v1.3*
+Until now, we've learnt how to perform assertions against a static list of members. Since version 1.3, it's also possible to have a dynamic list of members retrieved from a query (Sql, Mdx or DAX).
+This can be useful if you've a list of members stored in a relational database and that this list is in a constant evolution (customers, malls, ...). To achieve this, you'll need to provide a _one-column-query_ in place of the list of _item_. This _one-column_query_ is just a standard _query_ xml element where only the first column of the resultSet will be used by NBi. You can define this xml element as:
+{code:xml}
+    <assert>
+        <equivalentTo>
+            <one-column-query>
+                select displayName from Customer
+	    </one-column-query>
+        </equivalentTo>
+    </assert>
+{code:xml}
+The query will be executed and the first column of the resultSet will be used to build the list of expected members. Then, the assertion will perform exactly as previously defined for a static list of members.
+!! Display the difference
+*New in 1.3*
+If your test has failed, NBi will provide you a list of missing and/or unexpected items according to the assertion performed
+* For _equivalentTo_: missing and unexpected items
+* For _contain_: missing items
+* For _subsetOf_: unexpected items
+This list will be limited to 10 items maximum.

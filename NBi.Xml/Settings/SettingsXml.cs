@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
 
@@ -16,6 +17,10 @@ namespace NBi.Xml.Settings
         [XmlElement("reference")]
         public List<ReferenceXml> References { get; set; }
 
+        [XmlElement("parallelize-queries")]
+        [DefaultValue(true)]
+        public virtual bool ParallelizeQueries { get; set; }
+
         public enum DefaultScope
         {
             [XmlEnum(Name = "system-under-test")]
@@ -28,8 +33,12 @@ namespace NBi.Xml.Settings
         {
             var def = Defaults.SingleOrDefault(d => d.ApplyTo == scope);
             //Don't throw exception ... generating lot of issues!
-            //if (def == null)
-            //    throw new ArgumentOutOfRangeException(string.Format("No default for '{0}' existing in test suite's settings.", Enum.GetName(typeof(DefaultScope), scope)));
+            //in place create it (and also add it to the collection)
+            if (def == null)
+            { 
+                def=new DefaultXml(scope);
+                Defaults.Add(def);
+            }
             return def;           
         }
 
@@ -53,13 +62,14 @@ namespace NBi.Xml.Settings
         {
             Defaults = new List<DefaultXml>();
             References = new List<ReferenceXml>();
+            ParallelizeQueries = false;
         }
 
         internal void GetValuesFromConfig(NameValueCollection connectionStrings)
         {
             foreach (var def in Defaults)
             {
-                if (def.ConnectionString.StartsWith("@"))
+                if (!string.IsNullOrEmpty(def.ConnectionString) && def.ConnectionString.StartsWith("@"))
                 {
                     if (connectionStrings.Count == 0)
                         throw new ArgumentOutOfRangeException(string.Format("No connectionString is provided through the config file. The default connection string stipulated in nbits file is trying to reference a connection string named '{0}'", def.ConnectionString));
@@ -74,7 +84,7 @@ namespace NBi.Xml.Settings
 
             foreach (var reference in References)
             {
-                if (reference.ConnectionString.StartsWith("@"))
+                if (!string.IsNullOrEmpty(reference.ConnectionString) && reference.ConnectionString.StartsWith("@"))
                 {
                     if (connectionStrings.Count == 0)
                         throw new ArgumentOutOfRangeException(string.Format("No connectionString is provided through the config file. The connection string named '{0}' has not been found and cannot be created as a reference.", reference.ConnectionString));
@@ -85,6 +95,14 @@ namespace NBi.Xml.Settings
 
                     reference.ConnectionString = connectionStrings.Get(key);
                 }
+            }
+        }
+
+        public static SettingsXml Empty
+        {
+            get
+            {
+                return new SettingsXml();
             }
         }
     }

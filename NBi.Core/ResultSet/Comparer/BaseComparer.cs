@@ -4,13 +4,101 @@ using System.Linq;
 
 namespace NBi.Core.ResultSet.Comparer
 {
-    public class BaseComparer
+    abstract class BaseComparer
     {
-        public bool IsValidNumeric(object value)
+        public ComparerResult Compare(object x, object y)
+        {
+            var eq = CompareBasic(x,y);
+            if (eq != null)
+                return eq;
+
+            return CompareObjects(x,y);
+        }
+
+        public ComparerResult Compare(object x, object y, Rounding rounding)
+        {
+            var eq = CompareBasic(x, y);
+            if (eq != null)
+                return eq;
+
+            return CompareObjects(x, y, rounding);
+        }
+
+        public ComparerResult Compare(object x, object y, Tolerance tolerance)
+        {
+            var eq = CompareBasic(x, y);
+            if (eq != null)
+                return eq;
+
+            return CompareObjects(x, y, tolerance);
+        }
+
+        protected abstract bool IsValidObject (object x);
+        protected abstract ComparerResult CompareObjects(object x, object y);
+        protected abstract ComparerResult CompareObjects(object x, object y, Tolerance tolerance);
+        protected abstract ComparerResult CompareObjects(object x, object y, Rounding rounding);
+
+        protected ComparerResult CompareBasic(object x, object y)
+        {
+            if (x is string && ((string)x) == "(null)")
+                x = null;
+
+            if (y is string && ((string)y) == "(null)")
+                y = null;
+
+            if (EqualByGeneric(x, y))
+                return ComparerResult.Equality;
+
+            var eq = EqualByNull(x, y);
+            if (eq != null)
+                return eq;
+
+            return null;
+        }
+
+
+        private ComparerResult EqualByNull(object x, object y)
+        {
+            if (x == null && y == null)
+                return ComparerResult.Equality;
+
+            if (x == null || y == null)
+                return new ComparerResult("(null)");
+
+            return null;
+        }
+
+        protected bool EqualByGeneric(object x, object y)
+        {
+            if (x is string && ((string)x) == "(value)")
+                return y != null && IsValidObject(y);
+
+            if (y is string && ((string)y) == "(value)")
+                return x != null && IsValidObject(x);
+
+            if (x is string && ((string)x) == "(any)")
+                return y == null || IsValidObject(y);
+
+            if (y is string && ((string)y) == "(any)")
+                return x == null || IsValidObject(x);
+
+            return false;
+        }
+
+        
+        public static bool IsValidNumeric(object value)
         {
             if (value is string && ((string)value) == "(value)")
                 return true;
 
+            if (value is string && ((string)value) == "(any)")
+                return true;
+
+            return IsParsableNumeric(value);
+        }
+
+        protected static bool IsParsableNumeric(object value)
+        {
             decimal num = 0;
             var result = Decimal.TryParse(value.ToString()
                                 , NumberStyles.AllowLeadingSign | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowDecimalPoint
@@ -34,7 +122,7 @@ namespace NBi.Core.ResultSet.Comparer
             return result;
         }
 
-        public bool IsValidDateTime(string value)
+        public static bool IsValidDateTime(string value)
         {
             if (value == "(value)")
                 return true;
@@ -52,6 +140,24 @@ namespace NBi.Core.ResultSet.Comparer
                                 , out dateTime);
             }
             return result;
+        }
+
+        internal static bool IsValidInterval(object value)
+        {
+            if (!(value is string))
+                return false;
+
+            var valueString = ((string)value).Replace(" ","");
+
+            if (valueString.StartsWith("(") && valueString.EndsWith(")"))
+                return true;
+
+            if (valueString.StartsWith("[") || valueString.StartsWith("]")
+                && valueString.EndsWith("[") || valueString.EndsWith("]")
+                && valueString.Contains(";"))
+                return true;
+
+            return false;
         }
     }
 }

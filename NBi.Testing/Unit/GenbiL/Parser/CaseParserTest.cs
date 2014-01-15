@@ -31,5 +31,17 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.InstanceOf<RemoveCaseAction>());
             Assert.That(((RemoveCaseAction)result).VariableName, Is.EqualTo("perspective"));
         }
+
+        [Test]
+        public void SentenceParser_CaseRenameColumnString_ValidCaseRemoveColumn()
+        {
+            var input = "case rename column 'perspective' into 'new perspective'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<RenameCaseAction>());
+            Assert.That(((RenameCaseAction)result).OldVariableName, Is.EqualTo("perspective"));
+            Assert.That(((RenameCaseAction)result).NewVariableName, Is.EqualTo("new perspective"));
+        }
     }
 }

@@ -32,11 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestSuiteView));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.testCasesControl = new NBi.UI.Genbi.View.TestSuiteGenerator.TestCasesControl();
-            this.templateControl = new NBi.UI.Genbi.View.TestSuiteGenerator.TemplateControl();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.settingsControl = new NBi.UI.Genbi.View.TestSuiteGenerator.SettingsControl();
-            this.testListControl = new NBi.UI.Genbi.View.TestSuiteGenerator.TestListControl();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.sourceFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openTestCasesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,8 +54,6 @@
             this.toolTipRemove = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipRename = new System.Windows.Forms.ToolTip(this.components);
             this.mainToolStrip = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.macroToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openTestCasesToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.openTemplateToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -71,7 +65,13 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.openTestSuiteToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveAsTestSuiteToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.macroToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playMacroToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testCasesControl = new NBi.UI.Genbi.View.TestSuiteGenerator.TestCasesControl();
+            this.templateControl = new NBi.UI.Genbi.View.TestSuiteGenerator.TemplateControl();
+            this.settingsControl = new NBi.UI.Genbi.View.TestSuiteGenerator.SettingsControl();
+            this.testListControl = new NBi.UI.Genbi.View.TestSuiteGenerator.TestListControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -125,25 +125,6 @@
             this.splitContainer2.SplitterDistance = 277;
             this.splitContainer2.TabIndex = 0;
             // 
-            // testCasesControl
-            // 
-            this.testCasesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.testCasesControl.Location = new System.Drawing.Point(0, 0);
-            this.testCasesControl.Name = "testCasesControl";
-            this.testCasesControl.Size = new System.Drawing.Size(458, 277);
-            this.testCasesControl.TabIndex = 20;
-            this.testCasesControl.TabStop = false;
-            this.testCasesControl.Window = null;
-            // 
-            // templateControl
-            // 
-            this.templateControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.templateControl.Location = new System.Drawing.Point(0, 0);
-            this.templateControl.Name = "templateControl";
-            this.templateControl.Size = new System.Drawing.Size(458, 227);
-            this.templateControl.TabIndex = 21;
-            this.templateControl.TabStop = false;
-            // 
             // splitContainer3
             // 
             this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -162,24 +143,6 @@
             this.splitContainer3.SplitterDistance = 96;
             this.splitContainer3.TabIndex = 0;
             // 
-            // settingsControl
-            // 
-            this.settingsControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.settingsControl.Location = new System.Drawing.Point(0, 0);
-            this.settingsControl.Name = "settingsControl";
-            this.settingsControl.Size = new System.Drawing.Size(576, 96);
-            this.settingsControl.TabIndex = 20;
-            this.settingsControl.TabStop = false;
-            // 
-            // testListControl
-            // 
-            this.testListControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.testListControl.Location = new System.Drawing.Point(0, 0);
-            this.testListControl.Name = "testListControl";
-            this.testListControl.Size = new System.Drawing.Size(576, 408);
-            this.testListControl.TabIndex = 22;
-            this.testListControl.TabStop = false;
-            // 
             // menuStrip
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -187,8 +150,8 @@
             this.templateToolStripMenuItem,
             this.testsToolStripMenuItem,
             this.testSuiteToolStripMenuItem,
-            this.configProjectFilesToolStripMenuItem,
             this.macroToolStripMenuItem,
+            this.configProjectFilesToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -381,10 +344,6 @@
             // 
             // openTemplateToolStripButton
             // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
-            // 
-            // 
             this.openTemplateToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.openTemplateToolStripButton.Image = global::NBi.UI.Genbi.Properties.Resources.script_open;
             this.openTemplateToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -401,36 +360,10 @@
             this.saveAsTemplateToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.saveAsTemplateToolStripButton.Text = "Save template as ...";
             // 
-            // macroToolStripMenuItem
-            // 
-            this.macroToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.playMacroToolStripMenuItem});
-            this.macroToolStripMenuItem.Name = "macroToolStripMenuItem";
-            this.macroToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
-            this.macroToolStripMenuItem.Text = "Macro";
-            // 
-            // openTestCasesToolStripButton
+            // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
-            // 
-            // openTemplateToolStripButton
-            // 
-            this.openTemplateToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.openTemplateToolStripButton.Image = global::NBi.UI.Genbi.Properties.Resources.script_open;
-            this.openTemplateToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.openTemplateToolStripButton.Name = "openTemplateToolStripButton";
-            this.openTemplateToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.openTemplateToolStripButton.Text = "Open template";
-            // 
-            // saveAsTemplateToolStripButton
-            // 
-            this.saveAsTemplateToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.saveAsTemplateToolStripButton.Image = global::NBi.UI.Genbi.Properties.Resources.script_save;
-            this.saveAsTemplateToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveAsTemplateToolStripButton.Name = "saveAsTemplateToolStripButton";
-            this.saveAsTemplateToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.saveAsTemplateToolStripButton.Text = "Save as template";
             // 
             // generateTestsToolStripButton
             // 
@@ -482,12 +415,62 @@
             this.saveAsTestSuiteToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.saveAsTestSuiteToolStripButton.Text = "Save test suite as ...";
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // macroToolStripMenuItem
+            // 
+            this.macroToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.playMacroToolStripMenuItem});
+            this.macroToolStripMenuItem.Name = "macroToolStripMenuItem";
+            this.macroToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.macroToolStripMenuItem.Text = "Macro";
+            // 
             // playMacroToolStripMenuItem
             // 
             this.playMacroToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.control_play;
             this.playMacroToolStripMenuItem.Name = "playMacroToolStripMenuItem";
             this.playMacroToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.playMacroToolStripMenuItem.Text = "Play ...";
+            // 
+            // testCasesControl
+            // 
+            this.testCasesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.testCasesControl.Location = new System.Drawing.Point(0, 0);
+            this.testCasesControl.Name = "testCasesControl";
+            this.testCasesControl.Size = new System.Drawing.Size(458, 277);
+            this.testCasesControl.TabIndex = 20;
+            this.testCasesControl.TabStop = false;
+            this.testCasesControl.Window = null;
+            // 
+            // templateControl
+            // 
+            this.templateControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.templateControl.Location = new System.Drawing.Point(0, 0);
+            this.templateControl.Name = "templateControl";
+            this.templateControl.Size = new System.Drawing.Size(458, 227);
+            this.templateControl.TabIndex = 21;
+            this.templateControl.TabStop = false;
+            // 
+            // settingsControl
+            // 
+            this.settingsControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.settingsControl.Location = new System.Drawing.Point(0, 0);
+            this.settingsControl.Name = "settingsControl";
+            this.settingsControl.Size = new System.Drawing.Size(576, 96);
+            this.settingsControl.TabIndex = 20;
+            this.settingsControl.TabStop = false;
+            // 
+            // testListControl
+            // 
+            this.testListControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.testListControl.Location = new System.Drawing.Point(0, 0);
+            this.testListControl.Name = "testListControl";
+            this.testListControl.Size = new System.Drawing.Size(576, 408);
+            this.testListControl.TabIndex = 22;
+            this.testListControl.TabStop = false;
             // 
             // TestSuiteView
             // 

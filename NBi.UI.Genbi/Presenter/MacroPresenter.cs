@@ -6,10 +6,10 @@ using NBi.UI.Genbi.Interface;
 
 namespace NBi.UI.Genbi.Presenter
 {
-    class MacroPresenter : BasePresenter<IMacroView>
+    class MacroPresenter : PresenterBase
     {
-        public MacroPresenter(IMacroView macroView)
-            : base(macroView)
+        public MacroPresenter()
+            : base()
         {
             this.PlayMacroCommand = new PlayMacroCommand();
         }

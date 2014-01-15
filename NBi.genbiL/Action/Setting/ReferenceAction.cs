@@ -22,11 +22,10 @@ namespace NBi.GenbiL.Action.Setting
             if (Variable.ToLower() != "ConnectionString".ToLower())
                 throw new ArgumentException("Currently you must define the variable as ConnectionString. Other options are not supported!");
             
-            var name = string.Format("Reference - {0}", Name);
-            if (state.Settings.Exists(name))
-                state.Settings.SetValue(name, Value);
+            if (state.Settings.Exists(Name))
+                state.Settings.SetValue(Name, Value);
             else
-                state.Settings.Add(name, Value);
+                state.Settings.Add(Name, Value);
         }
     }
 }

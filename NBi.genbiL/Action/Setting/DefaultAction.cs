@@ -22,21 +22,19 @@ namespace NBi.GenbiL.Action.Setting
             if (Variable.ToLower() != "ConnectionString".ToLower())
                 throw new ArgumentException("Currently you must define the variable as ConnectionString. Other options are not supported!");
 
-            DefaultXml @default = null;
             var name = string.Empty;
             switch (DefaultType)
             {
-                case DefaultType.SystemUnderTest: @default = state.Settings.DefaultSut; name= "Default - System-under-test";
+                case DefaultType.SystemUnderTest: name= "Default - System-Under-Test";
                     break;
-                case DefaultType.Assert: @default = state.Settings.DefaultAssert; name= "Default - Assert";
+                case DefaultType.Assert: name= "Default - Assert";
                     break;
                 default:
                     break;
             }
-            if (@default == null)
-                state.Settings.Add(name, Value);
-            else
-                @default.ConnectionString = Value;
+
+            var @default = state.Settings.GetSettings().First(set => set.Name == name);
+            @default.Value = Value;
         }
     }
 }

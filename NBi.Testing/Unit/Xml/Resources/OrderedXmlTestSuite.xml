@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="level's members are ordered alphabetically">
+		<system-under-test>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<ordered
+			/>
+		</assert>
+	</test>
+	<test name="level's members are ordered descending">
+		<system-under-test>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<ordered
+				descending="true"
+			/>
+		</assert>
+	</test>
+	<test name="level's members are ordered chronologically">
+		<system-under-test>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<ordered
+				rule="chronological"
+			/>
+		</assert>
+	</test>
+	<test name="level's members are ordered specifically">
+		<system-under-test>
+			<members>
+				<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<ordered
+				rule="specific"
+			>
+				<rule-definition>
+					<item>Leopold</item>
+					<item>Albert</item>
+					<item>Baudoin</item>
+				</rule-definition>
+			</ordered>
+		</assert>
+	</test>
+</testSuite>

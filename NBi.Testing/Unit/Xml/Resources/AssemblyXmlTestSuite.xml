@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="My first test case" uid="0001">
+		<system-under-test>
+			<execution>
+				<assembly path="NBi.Testing.dll" class="NBi.Testing.Unit.Acceptance.Resource.AssemblyClass" method="GetSelectString"/>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>FirstValue</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="My first test case" uid="0001">
+		<system-under-test>
+			<execution>
+				<assembly path="NBi.Testing.dll" class="NBi.Testing.Unit.Acceptance.Resource.AssemblyClass" method="GetSelectStringWithString">
+					<parameter name="MyString">FirstValue</parameter>
+				</assembly>	
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>FirstValue</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="My first test case" uid="0001">
+		<system-under-test>
+			<execution>
+				<assembly path="NBi.Testing.dll" class="NBi.Testing.Unit.Acceptance.Resource.AssemblyClass" method="GetSelectStringWithDecimal">
+					<parameter name="MyDecimal">10.52</parameter>
+				</assembly>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>10.52</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="My first test case" uid="0001">
+		<system-under-test>
+			<execution>
+				<assembly path="NBi.Testing.dll" class="NBi.Testing.Unit.Acceptance.Resource.AssemblyClass" method="GetSelectStringWithEnum">
+					<parameter name="MyEnum">Beta</parameter>
+				</assembly>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>Beta</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="My first test case" uid="0001">
+		<system-under-test>
+			<execution>
+				<assembly path="NBi.Testing.dll" class="NBi.Testing.Unit.Acceptance.Resource.AssemblyClass" method="GetSelectStringWithDateTime">
+					<parameter name="MyDateTime">2012-10-16 10:15</parameter>
+				</assembly>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>2012-10-16 10:15:00</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+</testSuite>

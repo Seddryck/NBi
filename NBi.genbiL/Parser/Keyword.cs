@@ -13,10 +13,12 @@ namespace NBi.GenbiL.Parser
 
         public static readonly Parser<string> Load = Parse.IgnoreCase("Load").Text().Token();
         public static readonly Parser<string> Remove = Parse.IgnoreCase("Remove").Text().Token();
+        public static readonly Parser<string> Move = Parse.IgnoreCase("Move").Text().Token();
         public static readonly Parser<string> Rename = Parse.IgnoreCase("Rename").Text().Token();
         public static readonly Parser<string> Generate = Parse.IgnoreCase("Generate").Text().Token();
         public static readonly Parser<string> Save = Parse.IgnoreCase("Save").Text().Token();
 
         public static readonly Parser<string> Into = Parse.IgnoreCase("Into").Text().Token();
+        public static readonly Parser<string> To = Parse.IgnoreCase("To").Text().Token();
     }
 }

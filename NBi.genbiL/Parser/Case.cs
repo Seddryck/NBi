@@ -43,11 +43,21 @@ namespace NBi.GenbiL.Parser
                 select new RenameCaseAction(oldVariableName, newVariableName)
         );
 
+        readonly static Parser<ICaseAction> CaseMoveParser =
+        (
+                from move in Keyword.Move
+                from axisType in Parse.IgnoreCase("Column").Token()
+                from variableName in Grammar.QuotedTextual
+                from intoKeyword in Keyword.To
+                from relativePosition in Parse.IgnoreCase("Left").Return(-1).Or(Parse.IgnoreCase("Left").Return(1)).Token()
+                select new MoveCaseAction(variableName, relativePosition)
+        );
+
         public readonly static Parser<IAction> Parser =
         (
-                from load in Keyword.Case
-                from text in CaseLoadParser.Or(CaseRemoveParser).Or(CaseRenameParser)
-                select text
+                from @case in Keyword.Case
+                from action in CaseLoadParser.Or(CaseRemoveParser).Or(CaseRenameParser).Or(CaseMoveParser)
+                select action
         );
     }
 }

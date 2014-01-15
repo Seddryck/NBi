@@ -74,7 +74,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(((SubsetOfXml)ts.Tests[testNr].Constraints[0]).Members, Is.InstanceOfType<MembersXml>());
+            Assert.That(((SubsetOfXml)ts.Tests[testNr].Constraints[0]).Members, Is.InstanceOf<MembersXml>());
 
             var members = ((SubsetOfXml)ts.Tests[testNr].Constraints[0]).Members;
             Assert.That(members.ChildrenOf, Is.EqualTo("All"));

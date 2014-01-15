@@ -4,9 +4,10 @@ using System.Linq;
 
 namespace NBi.Core.ResultSet.Comparer
 {
-    class TextComparer
+    class TextComparer : BaseComparer
     {
-        public ComparerResult Compare(object x, object y)
+
+        protected override ComparerResult CompareObjects(object x, object y)
         {
             var rxText = x.ToString();
             var ryText = y.ToString();
@@ -18,6 +19,16 @@ namespace NBi.Core.ResultSet.Comparer
             return new ComparerResult(string.IsNullOrEmpty(rxText) ? "(empty)" : rxText);
         }
 
+        protected override ComparerResult CompareObjects(object x, object y, Tolerance tolerance)
+        {
+            throw new NotImplementedException("You cannot compare with a text comparer and a tolerance.");
+        }
+
+        protected override ComparerResult CompareObjects(object x, object y, Rounding rounding)
+        {
+            throw new NotImplementedException("You cannot compare with a text comparer and a rounding.");
+        }
+        
         protected bool IsEqual(string x, string y)
         {
             //quick check
@@ -31,6 +42,12 @@ namespace NBi.Core.ResultSet.Comparer
                 return true;
 
             return false;
+        }
+
+
+        protected override bool IsValidObject(object x)
+        {
+            return true;
         }
     }
 }

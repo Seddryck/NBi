@@ -15,7 +15,8 @@ namespace NBi.Core.Analysis.Request.FactoryValidations
 
         protected override bool IsApplicable()
         {
-            return GetSpecificFilter(DiscoveryTarget.DisplayFolders) != null && GetSpecificFilter(DiscoveryTarget.Dimensions) == null;
+            return (GetSpecificFilter(DiscoveryTarget.DisplayFolders) != null && GetSpecificFilter(DiscoveryTarget.Dimensions) == null)
+                && Target!=DiscoveryTarget.Measures;
         }
 
         internal override void GenerateException()

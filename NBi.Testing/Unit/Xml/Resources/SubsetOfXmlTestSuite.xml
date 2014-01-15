@@ -41,4 +41,18 @@
 			</subsetOf>
 		</assert>
 	</test>
+	<test name="hierarchies contain elements belonging to the set defined ... check items">
+		<system-under-test>
+			<members children-of="All">
+				<hierarchy caption="hierarchy" dimension="dimension" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<subsetOf>
+				<members children-of="All">
+					<hierarchy caption="myHierarchy" dimension="myDimension" perspective="myPerspective"/>
+				</members>
+			</subsetOf>
+		</assert>
+	</test>
 </testSuite>

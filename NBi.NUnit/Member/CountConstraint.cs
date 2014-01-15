@@ -10,9 +10,9 @@ namespace NBi.NUnit.Member
 {
     public class CountConstraint : AbstractMembersConstraint
     {
-        private int? exactly { get; set; }
-        private int? moreThan { get; set; }
-        private int? lessThan { get; set; }
+        private int? exactly;
+        private int? moreThan;
+        private int? lessThan;
 
         /// <summary>
         /// .ctor, define the default engine used by this constraint
@@ -21,7 +21,7 @@ namespace NBi.NUnit.Member
         {
         }
 
-        protected NUnitCtr.Constraint BuildInternalConstraint()
+        protected override NUnitCtr.Constraint BuildInternalConstraint()
         {
             NUnitCtr.Constraint ctr = null;
 
@@ -70,36 +70,11 @@ namespace NBi.NUnit.Member
             return this;
         }
 
-        protected override NUnitCtr.Constraint InternalConstraint
+        protected override bool DoMatch(NUnitCtr.Constraint ctr)
         {
-            get
-            {
-                if (base.InternalConstraint == null)
-                    base.InternalConstraint = BuildInternalConstraint();
-                return base.InternalConstraint;
-            }
-            set
-            {
-                base.InternalConstraint = value;
-            }
-        }
-
-        public override bool Matches(object actual)
-        {
-            if (actual is MembersDiscoveryRequest)
-                return Process((MembersDiscoveryRequest)actual);
-            else if (actual is MemberResult)
-            {
-                this.actual = actual;
-                var ctr = InternalConstraint;
-                
-                IResolveConstraint exp = ctr;
-                var multipleConstraint = exp.Resolve();
-                var res = multipleConstraint.Matches(((MemberResult)actual).Count);
-                return res;
-            }
-            else
-                throw new ArgumentException();
+            IResolveConstraint exp = ctr;
+            var multipleConstraint = exp.Resolve();
+            return multipleConstraint.Matches(((MemberResult)actual).Count);
         }
 
         /// <summary>

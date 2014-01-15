@@ -1,5 +1,7 @@
-﻿using System.Xml.Serialization;
+﻿using System.ComponentModel;
+using System.Xml.Serialization;
 using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Comparer;
 
 namespace NBi.Xml.Items.ResultSet
 {
@@ -12,26 +14,23 @@ namespace NBi.Xml.Items.ResultSet
         [XmlAttribute("type")]
         public ColumnType Type{get; set;}
 
-        protected bool isToleranceSpecified;
         [XmlIgnore()]
         public bool IsToleranceSpecified
         {
-            get { return isToleranceSpecified; }
-            set { isToleranceSpecified = value; }
+            get { return !string.IsNullOrEmpty(Tolerance); }
         }
 
-        protected decimal tolerance;
         [XmlAttribute("tolerance")]
-        public decimal Tolerance
-        {
-            get
-            { return tolerance; }
+        [DefaultValue("")]
+        public string Tolerance { get; set; }
 
-            set
-            {
-                tolerance = value;
-                isToleranceSpecified = true;
-            }
-        }
+        [XmlAttribute("rounding-style")]
+        [DefaultValue(Rounding.RoundingStyle.None)]
+        public Rounding.RoundingStyle RoundingStyle {get; set;}
+        
+        [XmlAttribute("rounding-step")]
+        [DefaultValue("")]
+        public string RoundingStep {get; set;}
+        
     }
 }

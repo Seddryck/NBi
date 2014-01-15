@@ -33,7 +33,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
         }
 
         [Test]
-        public void SentenceParser_CaseRenameColumnString_ValidCaseRemoveColumn()
+        public void SentenceParser_CaseRenameColumnString_ValidCaseRenameColumn()
         {
             var input = "case rename column 'perspective' into 'new perspective'";
             var result = Case.Parser.Parse(input);
@@ -42,6 +42,19 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.InstanceOf<RenameCaseAction>());
             Assert.That(((RenameCaseAction)result).OldVariableName, Is.EqualTo("perspective"));
             Assert.That(((RenameCaseAction)result).NewVariableName, Is.EqualTo("new perspective"));
+        }
+
+
+        [Test]
+        public void SentenceParser_CaseMoveColumnString_ValidCaseMoveColumn()
+        {
+            var input = "case move column 'perspective' to left";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<MoveCaseAction>());
+            Assert.That(((MoveCaseAction)result).VariableName, Is.EqualTo("perspective"));
+            Assert.That(((MoveCaseAction)result).RelativePosition, Is.EqualTo(-1));
         }
     }
 }

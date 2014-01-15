@@ -6,6 +6,7 @@ setting reference 'noway' connectionString 'youyou';
 setting default assert connectionString 'youyou';
 suite generate;
 
+case move column 'perspective' to left;
 template load predefined 'SubsetOfDimensions';
 suite generate grouping;
 

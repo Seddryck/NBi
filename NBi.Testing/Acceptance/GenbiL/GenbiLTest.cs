@@ -66,11 +66,15 @@ namespace NBi.Testing.Acceptance.GenbiL
                 Assert.Inconclusive("Test Suite not generated!");
 
             var content = File.ReadAllText(TargetFilename);
-            Assert.That(content, Is.StringContaining("<dimension"));
+            Assert.That(content, Is.StringContaining("<dimension "));
             Assert.That(content, Is.StringContaining("caption=\"first-dimension\""));
             Assert.That(content, Is.StringContaining("caption=\"second-dimension\""));
             Assert.That(content, Is.StringContaining("perspective=\"first-perspective\""));
             Assert.That(content, Is.StringContaining("exist"));
+
+            Assert.That(content, Is.StringContaining("<dimensions "));
+            Assert.That(content, Is.StringContaining("<subsetOf"));
+            
         }
     }
 }

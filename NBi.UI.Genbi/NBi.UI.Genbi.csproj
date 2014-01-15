@@ -80,6 +80,7 @@
     <Compile Include="Command\FindCommand.cs" />
     <Compile Include="Command\ICommand.cs" />
     <Compile Include="Command\ICommandBinding.cs" />
+    <Compile Include="Command\Macro\PlayMacroCommand.cs" />
     <Compile Include="Command\ReplaceAllCommand.cs" />
     <Compile Include="Command\ReplaceCommand.cs" />
     <Compile Include="Command\Settings\AddReferenceCommand.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Command\TestCases\RemoveVariableCommand.cs" />
     <Compile Include="Command\TestCases\RenameVariableCommand.cs" />
     <Compile Include="IBootstrapper.cs" />
+    <Compile Include="Interface\IMacroView.cs" />
     <Compile Include="Interface\ITemplateView.cs" />
     <Compile Include="Interface\ITestCasesView.cs" />
     <Compile Include="Interface\ISettingsView.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="Interface\TestSuiteGenerator\Events\TemplatePersistEventArgs.cs" />
     <Compile Include="Interface\TestSuiteGenerator\Events\FilePersistEventArgs.cs" />
     <Compile Include="Presenter\BasePresenter.cs" />
+    <Compile Include="Presenter\MacroPresenter.cs" />
     <Compile Include="Presenter\DocumentPresenterBase.cs" />
     <Compile Include="Presenter\FindAndReplacePresenter.cs" />
     <Compile Include="Presenter\PresenterBase.cs" />
@@ -302,6 +305,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NBi.genbiL\NBi.GenbiL.csproj">
+      <Project>{dfb8aa0e-a144-49e3-976b-ad03bf2a55e7}</Project>
+      <Name>NBi.GenbiL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NBi.Services\NBi.Service.csproj">
       <Project>{a9c7e50a-1d3d-4c6d-9c56-8ea8925fe2d6}</Project>
       <Name>NBi.Service</Name>
@@ -329,12 +336,11 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Command\Variable\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Icons\accept.png" />
     <Content Include="Icons\cancel.png" />
+    <Content Include="Icons\control_play.png" />
     <Content Include="Icons\csv_open.png" />
     <Content Include="Icons\find.png" />
     <Content Include="Icons\folder_page.png" />

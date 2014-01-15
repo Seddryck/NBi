@@ -11,14 +11,15 @@ using NBi.UI.Genbi.Presenter;
 
 namespace NBi.UI.Genbi.View.TestSuiteGenerator
 {
-    partial class TestSuiteView : Form, ITestCasesView, ITemplateView, ISettingsView, ITestsGenerationView, ITestSuiteView
+    partial class TestSuiteView : Form, ITestCasesView, ITemplateView, ISettingsView, ITestsGenerationView, ITestSuiteView, IMacroView
     {
 
         private TestCasesPresenter TestCasesPresenter {get; set;}
         private TemplatePresenter TemplatePresenter { get; set; }
         private SettingsPresenter SettingsPresenter { get; set; }
         private TestListPresenter TestListPresenter { get; set; }
-        private TestSuitePresenter TestSuitePresenter { get; set; } 
+        private TestSuitePresenter TestSuitePresenter { get; set; }
+        private MacroPresenter MacroPresenter { get; set; }
 
 
         public TestSuiteView()
@@ -28,6 +29,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             SettingsPresenter = new SettingsPresenter(this, new SettingsManager());
             TestListPresenter = new TestListPresenter(this, new TestListManager());
             TestSuitePresenter = new TestSuitePresenter(this, new TestSuiteManager());
+            MacroPresenter = new MacroPresenter(this);
 
             InitializeComponent();
             DeclareBindings();
@@ -108,6 +110,8 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
 
             CommandManager.Instance.Bindings.Add(this.TestSuitePresenter.SaveAsTestSuiteCommand, saveAsTestSuiteToolStripMenuItem);
             CommandManager.Instance.Bindings.Add(this.TestSuitePresenter.SaveAsTestSuiteCommand, saveAsTestSuiteToolStripButton);
+
+            CommandManager.Instance.Bindings.Add(this.MacroPresenter.PlayMacroCommand, playMacroToolStripMenuItem);
         }
 
         private void UnbindPresenter()

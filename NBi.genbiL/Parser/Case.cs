@@ -33,10 +33,20 @@ namespace NBi.GenbiL.Parser
                 select new RemoveCaseAction(variableName)
         );
 
+        readonly static Parser<ICaseAction> CaseRenameParser =
+        (
+                from remove in Keyword.Rename
+                from axisType in Parse.IgnoreCase("Column").Token()
+                from oldVariableName in Grammar.QuotedTextual
+                from intoKeyword in Keyword.Into
+                from newVariableName in Grammar.QuotedTextual
+                select new RenameCaseAction(oldVariableName, newVariableName)
+        );
+
         public readonly static Parser<IAction> Parser =
         (
                 from load in Keyword.Case
-                from text in CaseLoadParser.Or(CaseRemoveParser)
+                from text in CaseLoadParser.Or(CaseRemoveParser).Or(CaseRenameParser)
                 select text
         );
     }

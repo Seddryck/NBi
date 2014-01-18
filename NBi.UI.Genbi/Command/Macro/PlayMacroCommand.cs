@@ -33,24 +33,29 @@ namespace NBi.UI.Genbi.Command.Macro
 			DialogResult result = openFileDialog.ShowDialog();
 			if (result == DialogResult.OK)
 			{
-				var generator = new TestSuiteGenerator();
-				generator.Load(openFileDialog.FileName);
-				try 
-				{
-                    window.Show();
-                    generator.ActionInfoEvent += ActionInfo;
-					generator.Execute();
-                    generator.ActionInfoEvent -= ActionInfo;
-				}
-				catch (Exception ex)
-				{
-					ShowException(String.Format("Exception generated during execution of the macro.\r\n\r\n{0}", ex.Message));
-					return;
-				}
-
-				ShowInform(String.Format("Macro has been executed succesfully."));
+                Execute(openFileDialog.FileName);
 			}
 		}
+
+        public void Execute(string filename)
+        {
+            var generator = new TestSuiteGenerator();
+            generator.Load(filename);
+            try
+            {
+                window.Show();
+                generator.ActionInfoEvent += ActionInfo;
+                generator.Execute();
+                generator.ActionInfoEvent -= ActionInfo;
+            }
+            catch (Exception ex)
+            {
+                ShowException(String.Format("Exception generated during execution of the macro.\r\n\r\n{0}", ex.Message));
+                return;
+            }
+
+            ShowInform(String.Format("Macro has been executed succesfully."));
+        }
 
         protected virtual void ActionInfo(object sender, TestSuiteGenerator.ActionInfoEventArgs e)
         {

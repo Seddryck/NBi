@@ -21,7 +21,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         private SettingsPresenter SettingsPresenter { get; set; }
         private TestListPresenter TestListPresenter { get; set; }
         private TestSuitePresenter TestSuitePresenter { get; set; }
-        private MacroPresenter MacroPresenter { get; set; }
+        public MacroPresenter MacroPresenter { get; private set; }
 
 
         public TestSuiteView()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using NBi.UI.Genbi.Command.Macro;
 using NBi.UI.Genbi.View.RunnerConfig;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
 
@@ -28,11 +29,11 @@ namespace NBi.UI.Genbi
 
             if (args != null && args.Length != 0)
             {
-                var testSuiteToOpen = args[0];
-                //TODO dispatcher.Open(testSuiteToOpen);
+                var macroToExecute = args[0];
+                ((PlayMacroCommand)masterView.MacroPresenter.PlayMacroCommand).Execute(macroToExecute);
             }
-
-            Application.Run(masterView);
+            else
+                Application.Run(masterView);
         }
     }
 }

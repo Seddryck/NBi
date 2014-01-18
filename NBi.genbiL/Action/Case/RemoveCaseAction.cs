@@ -18,5 +18,13 @@ namespace NBi.GenbiL.Action.Case
             state.TestCases.Variables.Remove(VariableName);
             state.TestCases.Content.Columns.Remove(VariableName);
         }
+
+        public string Display
+        {
+            get
+            {
+                return string.Format("Removing column '{0}'", VariableName);
+            }
+        }
     }
 }

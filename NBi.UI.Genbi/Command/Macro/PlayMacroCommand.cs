@@ -2,13 +2,16 @@
 using System.Linq;
 using System.Windows.Forms;
 using NBi.GenbiL;
+using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.Command.Macro
 {
 	class PlayMacroCommand: CommandBase
 	{
-		public PlayMacroCommand()
+        private readonly MacroWindow window;
+        public PlayMacroCommand(MacroWindow window)
 		{
+            this.window = window;
 		}
 
 		/// <summary>
@@ -33,8 +36,11 @@ namespace NBi.UI.Genbi.Command.Macro
 				var generator = new TestSuiteGenerator();
 				generator.Load(openFileDialog.FileName);
 				try 
-				{	        
+				{
+                    window.Show();
+                    generator.ActionInfoEvent += ActionInfo;
 					generator.Execute();
+                    generator.ActionInfoEvent -= ActionInfo;
 				}
 				catch (Exception ex)
 				{
@@ -44,7 +50,11 @@ namespace NBi.UI.Genbi.Command.Macro
 
 				ShowInform(String.Format("Macro has been executed succesfully."));
 			}
-			
 		}
+
+        protected virtual void ActionInfo(object sender, TestSuiteGenerator.ActionInfoEventArgs e)
+        {
+            window.AppendText(e.Message);
+        }
 	}
 }

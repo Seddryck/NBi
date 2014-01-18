@@ -20,5 +20,15 @@ namespace NBi.GenbiL.Action.Suite
             state.Suite.DefineTests(state.List.GetTests());
             state.Suite.SaveAs(Filename);
         }
+
+        public string Display
+        {
+            get
+            {
+                return string.Format("Saving TestSuite to '{0}'"
+                    , Filename
+                    );
+            }
+        }
     }
 }

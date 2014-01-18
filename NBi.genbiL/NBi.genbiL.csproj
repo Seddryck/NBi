@@ -57,6 +57,7 @@
     <Compile Include="Action\Setting\ISettingAction.cs" />
     <Compile Include="Action\Suite\SaveSuiteAction.cs" />
     <Compile Include="Action\Suite\ISuiteAction.cs" />
+    <Compile Include="Action\Template\ITemplateAction.cs" />
     <Compile Include="Parser\Recipe.cs" />
     <Compile Include="Parser\Setting.cs" />
     <Compile Include="Action\Setting\DefaultAction.cs" />

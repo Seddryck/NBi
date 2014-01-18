@@ -47,8 +47,11 @@ namespace NBi.GenbiL
         {
             var state = new GenerationState();
             foreach (var action in actions)
+            {
+                OnActionInfoEvent(new ActionInfoEventArgs(action.Display));
                 action.Execute(state);
-
+            }
+                
             return state;
         }
 
@@ -57,6 +60,35 @@ namespace NBi.GenbiL
         {
             var xmlManager = new XmlManager();
             xmlManager.Persist(filename, testSuite);
+        }
+
+        public class ActionInfoEventArgs : EventArgs
+        {
+            public ActionInfoEventArgs(string message)
+            {
+                Message = message;
+            }
+            public string Message { get; set; }
+        }
+
+        public event EventHandler<ActionInfoEventArgs> ActionInfoEvent;
+
+        protected virtual void OnActionInfoEvent(ActionInfoEventArgs e)
+        {
+            // Make a temporary copy of the event to avoid possibility of 
+            // a race condition if the last subscriber unsubscribes 
+            // immediately after the null check and before the event is raised.
+            EventHandler<ActionInfoEventArgs> handler = ActionInfoEvent;
+
+            // Event will be null if there are no subscribers 
+            if (handler != null)
+            {
+                // Format the string to send inside the CustomEventArgs parameter
+                e.Message += String.Format(" at {0}", DateTime.Now.ToString());
+
+                // Use the () operator to raise the event.
+                handler(this, e);
+            }
         }
     }
 }

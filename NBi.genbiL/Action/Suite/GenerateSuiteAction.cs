@@ -18,5 +18,15 @@ namespace NBi.GenbiL.Action.Suite
             state.Suite.DefineSettings(state.Settings.GetSettings());
             state.Suite.DefineTests(state.List.GetTests());
         }
+
+        public string Display
+        {
+            get
+            {
+                return string.Format("Generating Tests {0} grouping option"
+                    , Grouping ? "with" : "without"
+                    );
+            }
+        }
     }
 }

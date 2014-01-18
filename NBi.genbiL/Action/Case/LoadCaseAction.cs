@@ -17,5 +17,15 @@ namespace NBi.GenbiL.Action.Case
             state.TestCases.ReadFromCsv(Filename);
         }
 
+        public string Display
+        {
+            get
+            {
+                return string.Format("Loading TestCases from CSV file '{0}'"
+                    , Filename);
+            }
+        }
+       
+
     }
 }

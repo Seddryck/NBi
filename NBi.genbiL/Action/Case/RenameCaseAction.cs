@@ -21,5 +21,13 @@ namespace NBi.GenbiL.Action.Case
             state.TestCases.Variables[index] = NewVariableName;
             state.TestCases.Content.Columns[index].ColumnName = OldVariableName;
         }
+
+        public string Display
+        {
+            get
+            {
+                return string.Format("Renaming column '{0}' into '{1}'", OldVariableName, NewVariableName);
+            }
+        }
     }
 }

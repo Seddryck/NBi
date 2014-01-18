@@ -36,5 +36,17 @@ namespace NBi.GenbiL.Action.Setting
             var @default = state.Settings.GetSettings().First(set => set.Name == name);
             @default.Value = Value;
         }
+
+        public string Display
+        {
+            get
+            {
+                return string.Format("Create {0} default value for {1} and defining it to '{2}'"
+                    , DefaultType==Action.DefaultType.SystemUnderTest ? "System-Under-Test" : "Assert"
+                    , Variable
+                    , Value
+                    );
+            }
+        }
     }
 }

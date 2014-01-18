@@ -27,5 +27,17 @@ namespace NBi.GenbiL.Action.Setting
             else
                 state.Settings.Add(Name, Value);
         }
+
+        public string Display
+        {
+            get
+            {
+                return string.Format("Create reference named '{0}' with value for {1} and defining it to '{2}'"
+                    , Name
+                    , Variable
+                    , Value
+                    );
+            }
+        }
     }
 }

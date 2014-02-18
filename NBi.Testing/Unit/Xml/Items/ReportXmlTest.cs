@@ -68,10 +68,26 @@ namespace NBi.Testing.Unit.Xml.Items
             var report = (ReportXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
 
             Assert.That(report, Is.Not.Null);
-            Assert.That(report.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"));
+            Assert.That(report.Source, Is.EqualTo(@"Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"));
             Assert.That(report.Path, Is.EqualTo("/AdventureWorks Sample Reports/"));
             Assert.That(report.Name, Is.EqualTo("Currency_List"));
             Assert.That(report.Dataset, Is.EqualTo("currency"));
+            Assert.That(report.GetConnectionString(), Is.EqualTo(@"Data Source=tadam;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"));
+        }
+
+        [Test]
+        public void Deserialize_ReportWithoutConnectionString_ReportXmlUsingDefaultConnectionString()
+        {
+            int testNr = 1;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ExecutionXml>());
+            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem, Is.TypeOf<ReportXml>());
+            var report = (ReportXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
+
+            Assert.That(report.GetConnectionString(), Is.EqualTo(@"Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"));
         }
 
         [Test]

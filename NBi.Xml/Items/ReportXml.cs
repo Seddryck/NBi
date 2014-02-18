@@ -9,9 +9,9 @@ using NBi.Core.Report;
 namespace NBi.Xml.Items
 {
     public class ReportXml : QueryableXml
-    { 
-        [XmlAttribute("connectionString")]
-        public string ConnectionString { get; set; }
+    {
+        [XmlAttribute("source")]
+        public string Source { get; set; }
         
         [XmlAttribute("path")]
         public string Path { get; set; }
@@ -33,7 +33,7 @@ namespace NBi.Xml.Items
         public override string GetQuery()
         {
             var request = new DatabaseRequest(
-                    ConnectionString
+                    Source
                     , Path
                     , Name
                     , Dataset
@@ -59,7 +59,7 @@ namespace NBi.Xml.Items
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public virtual IDbCommand GetCommand()
         {
-            var conn = new ConnectionFactory().Get(ConnectionString);
+            var conn = new ConnectionFactory().Get(GetConnectionString());
             var cmd = conn.CreateCommand();
             cmd.CommandText = GetQuery();
 

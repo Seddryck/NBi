@@ -110,10 +110,11 @@
 		<xs:sequence>
 			<xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
 		</xs:sequence>
-		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="source" type="xs:string"/>
 		<xs:attribute name="path" type="xs:string"/>
-		<xs:attribute name="connectionString" type="xs:string"/>
+		<xs:attribute name="name" type="xs:string"/>
 		<xs:attribute name="dataset" type="xs:string"/>
+		<xs:attribute name="connectionString" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="perspective-type">
 		<xs:attribute name="caption" type="xs:string" use="required" />

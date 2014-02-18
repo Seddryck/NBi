@@ -14,6 +14,7 @@ namespace NBi.Xml.Systems
         
         [XmlElement(Type = typeof(QueryXml), ElementName = "query"),
         XmlElement(Type = typeof(AssemblyXml), ElementName = "assembly"),
+        XmlElement(Type = typeof(ReportXml), ElementName = "report"),
         ]
         public virtual QueryableXml Item { get; set; }
 

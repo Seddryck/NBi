@@ -63,6 +63,7 @@
     <Compile Include="GroupXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
+    <Compile Include="Items\ReportXml.cs" />
     <Compile Include="Items\Format\CurrencyFormatXml.cs" />
     <Compile Include="Items\Format\NumericFormatXml.cs" />
     <Compile Include="Items\PredefinedItemsXml.cs" />

@@ -91,6 +91,7 @@
     <Compile Include="Integration\Core\Query\QueryParserTest.cs" />
     <Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
     <Compile Include="Integration\Core\Query\CommandBuilderTest.cs" />
+    <Compile Include="Integration\Core\Report\DatabaseParserTest.cs" />
     <Compile Include="Integration\NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Members\EquivalentToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Query\EqualToConstraintTest.cs" />
@@ -208,7 +209,6 @@
   <ItemGroup>
     <Folder Include="Integration\Core\Analysis\Query\" />
     <Folder Include="Integration\NUnit\Builder\" />
-    <Folder Include="Unit\Core\Query\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Acceptance\Resources\ResellerOrderCountByYearBefore2006.csv">

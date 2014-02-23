@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="decoration with setup and cleanup">
+		<setup>
+			<reset  table="NewUsers"
+					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorks2012;Integrated Security=true"/>
+			<load   table="NewUsers"
+					file ="NewUsers.csv"
+					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorks2012;Integrated Security=true"/>
+		</setup>
+		<system-under-test>
+			<execution>
+				<query>
+					select * from [NewUsers]
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>Nikola Tesla</cell>
+					</row>
+					<row>
+						<cell>Leonardo Da Vinci</cell>
+					</row>
+					<row>
+						<cell>John von Neumann</cell>
+					</row>
+					<row>
+						<cell>Albert Einstein</cell>
+					</row>
+					<row>
+						<cell>Stephen Hawking</cell>
+					</row>
+					<row>
+						<cell>Galileo Galilei</cell>
+					</row>
+					<row>
+						<cell>Charles Darwin</cell>
+					</row>
+					<row>
+						<cell>Benjamin Franklin</cell>
+					</row>
+					<row>
+						<cell>William Shakespeare</cell>
+					</row>
+					<row>
+						<cell>Johann Wolfgang von Goethe</cell>
+					</row>
+					<row>
+						<cell>Leonhard Euler</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+		<cleanup>
+			<reset  table="NewUsers"
+					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorks2012;Integrated Security=true"/>
+		</cleanup>
+	</test>
+	
+</testSuite>

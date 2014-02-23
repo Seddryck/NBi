@@ -7,14 +7,14 @@ using System.Reflection;
 
 namespace NBi.Core.Report
 {
-    public class DatabaseParser
+    public class DatabaseParser : IParser
     {
         public string ExtractQuery(IQueryRequest request)
         {
             using (var conn = new SqlConnection())
             {
                 //create connection and define sql query
-                conn.ConnectionString = request.ConnectionString;
+                conn.ConnectionString = request.Source;
                 var cmd = new SqlCommand();
                 cmd.Connection = conn;
                 cmd.CommandText = ReadQueryFromContent();

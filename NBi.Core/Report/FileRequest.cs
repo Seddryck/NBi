@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace NBi.Core.Report
 {
-    public class DatabaseRequest : IQueryRequest
+    public class FileRequest : IQueryRequest
     {
-        private readonly string source;
         private readonly string reportPath;
         private readonly string reportName;
         private readonly string dataSetName;
@@ -16,7 +14,7 @@ namespace NBi.Core.Report
         {
             get
             {
-                return source;
+                throw new InvalidOperationException();
             }
         }
 
@@ -24,7 +22,10 @@ namespace NBi.Core.Report
         {
             get
             {
-                return reportPath;
+                if (reportName.EndsWith(Path.DirectorySeparatorChar.ToString()))
+                    return reportPath;
+                else
+                    return reportPath + Path.DirectorySeparatorChar;
             }
         }
 
@@ -32,7 +33,10 @@ namespace NBi.Core.Report
         {
             get
             {
-                return reportName;
+                if (reportName.EndsWith(".rdl"))
+                    return reportName;
+                else
+                    return reportName + ".rdl";
             }
         }
 
@@ -44,9 +48,8 @@ namespace NBi.Core.Report
             }
         }
 
-        public DatabaseRequest(string connectionString, string reportPath, string reportName, string dataSetName)
+        public FileRequest(string reportPath, string reportName, string dataSetName)
         {
-            this.source = connectionString;
             this.reportPath = reportPath;
             this.reportName = reportName;
             this.dataSetName = dataSetName;

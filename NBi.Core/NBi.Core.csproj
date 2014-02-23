@@ -177,9 +177,13 @@
     <Compile Include="Query\DbTypeBuilder.cs" />
     <Compile Include="Query\IQueryParameter.cs" />
     <Compile Include="Query\IQueryTemplateVariable.cs" />
+    <Compile Include="Report\FileRequest.cs" />
     <Compile Include="Report\DatabaseParser.cs" />
     <Compile Include="Report\DatabaseRequest.cs" />
+    <Compile Include="Report\FileParser.cs" />
+    <Compile Include="Report\IParser.cs" />
     <Compile Include="Report\IQueryRequest.cs" />
+    <Compile Include="Report\ParserFactory.cs" />
     <Compile Include="ResultSet\EndPoint.cs" />
     <Compile Include="ResultSet\IntervalBuilder.cs" />
     <Compile Include="ListComparisonFormatter.cs" />

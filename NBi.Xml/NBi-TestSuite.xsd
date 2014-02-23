@@ -203,6 +203,23 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:complexType name="decoration-type">
+		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="reset" type="reset-type" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="load" type="load-type" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="reset-type">
+		<xs:attribute name="connectionString" use="optional"/>
+		<xs:attribute name="table" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="load-type" >
+		<xs:complexContent>
+			<xs:extension base="reset-type">
+				<xs:attribute name="file" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 	<xs:complexType name="test-type">
 		<xs:sequence>
 			<xs:element name="ignore" minOccurs="0" maxOccurs="1">
@@ -247,6 +264,7 @@
 					</xs:simpleContent>
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="setup" type="decoration-type" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="system-under-test" minOccurs="1" maxOccurs="unbounded">
 				<xs:complexType>
 					<xs:choice>
@@ -560,6 +578,7 @@
 					</xs:choice>
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="cleanup" type="decoration-type" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required" />
 		<xs:attribute name="uid" type="xs:unsignedByte" use="optional" />

@@ -32,14 +32,21 @@ namespace NBi.Xml.Items
 
         public override string GetQuery()
         {
-            var request = new DatabaseRequest(
+            var parser = ParserFactory.GetParser(
                     Source
                     , Path
                     , Name
                     , Dataset
                 );
 
-            var parser = new DatabaseParser();
+            var request = ParserFactory.GetRequest(
+                    Source
+                    , Settings.BasePath
+                    , Path
+                    , Name
+                    , Dataset
+                );
+
             var query = parser.ExtractQuery(request);
 
             return query;

@@ -121,6 +121,7 @@
     <Compile Include="Unit\Core\Members\RangeMembersFactoryTest.cs" />
     <Compile Include="Unit\Core\Members\PredefinedMembersFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\DbTypeBuilderTest.cs" />
+    <Compile Include="Unit\Core\Report\FileParserTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\BaseComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\BooleanComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\DateTimeRoundingTest.cs" />
@@ -227,6 +228,9 @@
     <EmbeddedResource Include="Acceptance\Resources\BusinessEntity.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="Acceptance\Resources\AdventureWorks Sample Reports\Store_Contacts.rdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ConnectionString.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -237,6 +241,8 @@
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataExcelSample.xls" />
     <EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject-Saved.nbi" />
     <EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject.nbi" />
+    <EmbeddedResource Include="Unit\Core\Report\Resources\Currency_Rates.rdl" />
+    <EmbeddedResource Include="Unit\Core\Report\Resources\Currency_List.rdl" />
   </ItemGroup>
   <ItemGroup>
     <MyOptionalItems Include="ConnectionString.user.config" />

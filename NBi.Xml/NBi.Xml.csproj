@@ -60,6 +60,12 @@
     <Compile Include="Constraints\SubsetOfXml.cs" />
     <Compile Include="Constraints\ExistsXml.cs" />
     <Compile Include="Constraints\LinkedToXml.cs" />
+    <Compile Include="Decoration\CleanupXml.cs" />
+    <Compile Include="Decoration\Command\DecorationCommandXml.cs" />
+    <Compile Include="Decoration\Command\LoadXml.cs" />
+    <Compile Include="Decoration\Command\ResetXml.cs" />
+    <Compile Include="Decoration\DecorationXml.cs" />
+    <Compile Include="Decoration\SetupXml.cs" />
     <Compile Include="GroupXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />

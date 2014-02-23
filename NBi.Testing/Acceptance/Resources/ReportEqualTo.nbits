@@ -5,7 +5,7 @@
 			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
 		</default>
 	</settings>
-	<test name="Validate the different business entities" uid="0001">
+	<!--<test name="Validate the different business entities" uid="0001">
 		<system-under-test>
 			<execution>
 				<report source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"
@@ -53,6 +53,24 @@
 						<cell>1 (11) 500 555-0132</cell>
 					</row>
 				</resultSet>
+			</equalTo>
+		</assert>
+	</test>-->
+	<test name="Validate the different business entities" uid="0001">
+		<system-under-test>
+			<execution>
+				<report
+						path="AdventureWorks Sample Reports\"
+						name="Store_Contacts"
+						dataset="Stores"
+				/>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<column index="0" role="key" type="text"/>
+				<column index="1" role="value" type="text"/>
+				<resultSet file="BusinessEntity.csv"/>
 			</equalTo>
 		</assert>
 	</test>

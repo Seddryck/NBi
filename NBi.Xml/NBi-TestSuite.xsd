@@ -25,6 +25,7 @@
 											<xs:restriction base="xs:string">
 												<xs:enumeration value="system-under-test"/>
 												<xs:enumeration value="assert"/>
+												<xs:enumeration value="setup-cleanup"/>
 											</xs:restriction>
 										</xs:simpleType>
 									</xs:attribute>

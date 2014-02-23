@@ -7,6 +7,6 @@ namespace NBi.Core.DataManipulation
 {
     public interface IDataManipulationCommand
     {
-        string ConnectionString { get; set; }
+        string ConnectionString { get; }
     }
 }

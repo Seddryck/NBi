@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Reflection;
 using NBi.Xml;
-using NBi.Xml.Constraints;
 using NBi.Xml.Decoration;
+using NBi.Xml.Decoration.Command;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Xml.Decoration
@@ -74,6 +74,53 @@ namespace NBi.Testing.Unit.Xml.Decoration
             // Check the properties of the object.
             Assert.That(ts.Tests[testNr].Cleanup.Commands, Has.Count.EqualTo(1));
         }
+
+        [Test]
+        public void Deserialize_SampleFile_LoadCommand()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Setup.Commands[1], Is.TypeOf<LoadXml>());
+            var cmd = ts.Tests[testNr].Setup.Commands[1] as LoadXml;
+            Assert.That(cmd.ConnectionString, Is.EqualTo(ConnectionStringReader.GetLocalSqlClient()));
+            Assert.That(cmd.TableName, Is.EqualTo("NewUsers"));
+            Assert.That(cmd.FileName, Is.EqualTo("NewUsers.csv"));
+        }
+
+
+        [Test]
+        public void Deserialize_SampleFile_ResetCommand()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Setup.Commands[0], Is.TypeOf<ResetXml>());
+            var cmd = ts.Tests[testNr].Setup.Commands[0] as ResetXml;
+            Assert.That(cmd.ConnectionString, Is.EqualTo(ConnectionStringReader.GetLocalSqlClient()));
+            Assert.That(cmd.TableName, Is.EqualTo("NewUsers"));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ConnectionStringFromDefaults()
+        {
+            int testNr = 1;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Setup.Commands[0], Is.TypeOf<ResetXml>());
+            var cmd = ts.Tests[testNr].Setup.Commands[0] as ResetXml;
+            Assert.That(cmd.ConnectionString, Is.EqualTo(ConnectionStringReader.GetLocalSqlClient()));
+        }
+
 
     }
 }

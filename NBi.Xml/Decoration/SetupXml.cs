@@ -7,6 +7,5 @@ namespace NBi.Xml.Decoration
 {
     public class SetupXml : DecorationXml
     {
-        
     }
 }

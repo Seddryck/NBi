@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="setup-cleanup">
+			<connectionString>Data Source=(local)\SQL2012;Initial Catalog=AdventureWorks2012;Integrated Security=true</connectionString>
+		</default>
+	</settings>
 	<test name="decoration with setup and cleanup">
 		<setup>
 			<reset  table="NewUsers"
@@ -59,5 +64,21 @@
 					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorks2012;Integrated Security=true"/>
 		</cleanup>
 	</test>
-	
+	<test name="decoration with setup using default connectionString">
+		<setup>
+			<reset  table="NewUsers"/>
+		</setup>
+		<system-under-test>
+			<execution>
+				<query>
+					select * from [NewUsers]
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet />
+			</equalTo>
+		</assert>
+	</test>
 </testSuite>

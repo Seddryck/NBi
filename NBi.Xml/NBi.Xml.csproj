@@ -60,6 +60,7 @@
     <Compile Include="Constraints\SubsetOfXml.cs" />
     <Compile Include="Constraints\ExistsXml.cs" />
     <Compile Include="Constraints\LinkedToXml.cs" />
+    <Compile Include="Constraints\EvaluateRowsXml.cs" />
     <Compile Include="GroupXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
@@ -93,6 +94,8 @@
     <Compile Include="Items\AbstractMembersItem.cs" />
     <Compile Include="Items\BaseItem.cs" />
     <Compile Include="Items\QueryXml.cs" />
+    <Compile Include="Items\Validate\ExpressionXml.cs" />
+    <Compile Include="Items\Validate\VariableXml.cs" />
     <Compile Include="Settings\UpdateXml.cs" />
     <Compile Include="Settings\EditionXml.cs" />
     <Compile Include="Settings\DescriptionXml.cs" />

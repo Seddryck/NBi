@@ -1,0 +1,13 @@
+﻿case  load  file  'Acceptance\GenbiL\Resources\dimension.csv';
+case  remove  column 'useless';;
+case  rename  column  'dimensionY'  into  'dimension' ;
+template load predefined 'ExistsDimension';
+setting reference 'noway' connectionString 'youyou';
+setting default assert connectionString 'youyou';
+suite generate;
+
+case move column 'perspective' to left;
+template load predefined 'SubsetOfDimensions';
+suite generate grouping;
+
+suite save 'Acceptance\GenbiL\Resources\Simple-TestSuiteBuild.nbits';

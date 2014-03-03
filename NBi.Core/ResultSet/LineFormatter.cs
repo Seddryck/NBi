@@ -16,6 +16,9 @@ namespace NBi.Core.ResultSet
 
         public static ICellFormatter BuildHeader(DataTable table, int columnIndex)
         {
+            if (table.Columns[columnIndex].ExtendedProperties.Count == 0)
+                return null;
+
             var role = (ColumnRole)table.Columns[columnIndex].ExtendedProperties["NBi::Role"];
             var type = (ColumnType)table.Columns[columnIndex].ExtendedProperties["NBi::Type"];
             var tolerance = (Tolerance)table.Columns[columnIndex].ExtendedProperties["NBi::Tolerance"];

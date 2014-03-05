@@ -204,8 +204,15 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:complexType name="check-type">
+		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="service-running" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="decoration-type">
 		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="service-start" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="service-stop" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="reset" type="reset-type" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="load" type="load-type" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
@@ -220,6 +227,10 @@
 				<xs:attribute name="file" use="required"/>
 			</xs:extension>
 		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="service-type" >
+		<xs:attribute name="name" use="required"/>
+		<xs:attribute name="timeout-milliseconds" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="test-type">
 		<xs:sequence>
@@ -265,6 +276,7 @@
 					</xs:simpleContent>
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="check" type="check-type" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="setup" type="decoration-type" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="system-under-test" minOccurs="1" maxOccurs="unbounded">
 				<xs:complexType>

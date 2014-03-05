@@ -6,7 +6,7 @@ namespace NBi.Core.DataManipulation.SqlServer
 {
     class SqlServerDataManipulationFactory : IDataManipulationFactory
     {
-        public IDataManipulationImplementation Get(IDataManipulationCommand command)
+        public IDecorationCommandImplementation Get(IDataManipulationCommand command)
         {
             if (command is ILoadCommand)
                 return new BulkLoadCommand(command as ILoadCommand);

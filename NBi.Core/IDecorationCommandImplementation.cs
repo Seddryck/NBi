@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.DataManipulation
+namespace NBi.Core
 {
-    public interface IDataManipulationImplementation
+    public interface IDecorationCommandImplementation
     {
         void Execute();
     }

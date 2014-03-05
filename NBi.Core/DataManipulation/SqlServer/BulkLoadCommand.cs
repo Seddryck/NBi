@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace NBi.Core.DataManipulation.SqlServer
 {
-    class BulkLoadCommand : IDataManipulationImplementation
+    class BulkLoadCommand : IDecorationCommandImplementation
 	{
 		private readonly string connectionString;
 		private readonly string tableName;

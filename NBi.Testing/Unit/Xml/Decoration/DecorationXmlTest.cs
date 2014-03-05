@@ -121,6 +121,27 @@ namespace NBi.Testing.Unit.Xml.Decoration
             Assert.That(cmd.ConnectionString, Is.EqualTo(ConnectionStringReader.GetLocalSqlClient()));
         }
 
+        [Test]
+        public void Deserialize_SampleFile_StartAndStopService()
+        {
+            int testNr = 2;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Setup.Commands[0], Is.TypeOf<ServiceStartXml>());
+            var cmd = ts.Tests[testNr].Setup.Commands[0] as ServiceStartXml;
+            Assert.That(cmd.TimeOut, Is.EqualTo(5000)); //Default value
+            Assert.That(cmd.ServiceName, Is.EqualTo("MyService")); 
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Cleanup.Commands[0], Is.TypeOf<ServiceStopXml>());
+            var cmdCleanup = ts.Tests[testNr].Cleanup.Commands[0] as ServiceStopXml;
+            Assert.That(cmdCleanup.TimeOut, Is.EqualTo(15000)); //Value Specified
+            Assert.That(cmdCleanup.ServiceName, Is.EqualTo("MyService")); 
+        }
+
 
     }
 }

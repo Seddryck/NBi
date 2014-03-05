@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace NBi.Core.DataManipulation.SqlServer
 {
-	class TruncateCommand : IDataManipulationImplementation
+	class TruncateCommand : IDecorationCommandImplementation
 	{
 		private readonly string connectionString;
 		private readonly string tableName;

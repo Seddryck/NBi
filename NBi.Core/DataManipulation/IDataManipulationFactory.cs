@@ -5,6 +5,6 @@ namespace NBi.Core.DataManipulation
 {
     interface IDataManipulationFactory
     {
-        IDataManipulationImplementation Get(IDataManipulationCommand command);
+        IDecorationCommandImplementation Get(IDataManipulationCommand command);
     }
 }

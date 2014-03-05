@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NBi.Core.DataManipulation
 {
-    public interface IDataManipulationCommand
+    public interface IDataManipulationCommand : IDecorationCommand
     {
         string ConnectionString { get; }
     }

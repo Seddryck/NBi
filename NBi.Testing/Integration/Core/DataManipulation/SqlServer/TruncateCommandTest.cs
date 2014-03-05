@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Linq;
+using System.ServiceProcess;
 using Moq;
 using NBi.Core.DataManipulation;
 using NBi.Core.DataManipulation.SqlServer;
@@ -12,6 +13,8 @@ namespace NBi.Testing.Integration.Core.DataManipulation.SqlServer
     [Category("Local SQL instance")]
     public class TruncateCommandTest
 	{
+        private const string SERVICE_NAME = "MSSQL$SQL2012";
+
         private int CountElementsInTable(string tableName, string connectionString)
         {
             int count = -1;
@@ -24,6 +27,14 @@ namespace NBi.Testing.Integration.Core.DataManipulation.SqlServer
                 count = (int)cmd.ExecuteScalar();
             }
             return count;
+        }
+
+        [SetUp]
+        public void EnsureLocalSqlServerRunning()
+        {
+            var service = new ServiceController(SERVICE_NAME);
+            if (service.Status != ServiceControllerStatus.Running)
+                Assert.Ignore("Local SQL Server not started.");
         }
 
         public void CreateTemporaryTable(string tableName, string connectionString)

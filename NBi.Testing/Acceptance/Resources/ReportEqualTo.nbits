@@ -5,7 +5,10 @@
 			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
 		</default>
 	</settings>
-	<!--<test name="Validate the different business entities" uid="0001">
+	<test name="Validate the different business entities" uid="0001">
+		<check>
+			<service-running name="MSSQL$SQL2012"/>
+		</check>
 		<system-under-test>
 			<execution>
 				<report source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"
@@ -24,6 +27,9 @@
 		</assert>
 	</test>
 	<test name="Detail of the contact of StoreID equalTo 300" uid="0001">
+		<check>
+			<service-running name="MSSQL$SQL2012"/>
+		</check>
 		<system-under-test>
 			<execution>
 				<report source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"
@@ -55,7 +61,7 @@
 				</resultSet>
 			</equalTo>
 		</assert>
-	</test>-->
+	</test>
 	<test name="Validate the different business entities" uid="0001">
 		<system-under-test>
 			<execution>

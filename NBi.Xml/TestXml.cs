@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using NBi.Xml.Constraints;
+using NBi.Xml.Decoration;
+using NBi.Xml.Decoration.Command;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 
@@ -11,6 +13,7 @@ namespace NBi.Xml
 {
     public class TestXml
     {
+
         [XmlAttribute("name")]
         public string Name { get; set; }
         
@@ -74,14 +77,20 @@ namespace NBi.Xml
         [DefaultValue(0)]
         public int Timeout { get; set; }
 
-        [XmlArray("system-under-test", Order = 5),
+        [XmlElement("check", Order = 5)]
+        public CheckXml Check;
+
+        [XmlElement("setup", Order = 6)]
+        public SetupXml Setup;
+
+        [XmlArray("system-under-test", Order = 7),
         XmlArrayItem(Type = typeof(ExecutionXml), ElementName = "execution"),
         XmlArrayItem(Type = typeof(MembersXml), ElementName = "members"),
         XmlArrayItem(Type = typeof(StructureXml), ElementName = "structure"),
         ]
         public List<AbstractSystemUnderTestXml> Systems;
 
-        [XmlArray("assert", Order = 6),
+        [XmlArray("assert", Order = 8),
         XmlArrayItem(Type = typeof(SyntacticallyCorrectXml), ElementName = "syntacticallyCorrect"),
         XmlArrayItem(Type = typeof(FasterThanXml), ElementName = "fasterThan"),
         XmlArrayItem(Type = typeof(EqualToXml), ElementName = "equalTo"),
@@ -97,11 +106,17 @@ namespace NBi.Xml
         ]
         public List<AbstractConstraintXml> Constraints;
 
+        [XmlElement("cleanup", Order = 9)]
+        public CleanupXml Cleanup;
+
         public TestXml()
         {
             Constraints = new List<AbstractConstraintXml>();
             Systems = new List<AbstractSystemUnderTestXml>();
             Categories = new List<string>();
+            Setup = new SetupXml();
+            Cleanup = new CleanupXml();
+            Check = new CheckXml();
         }
 
         public TestXml(TestStandaloneXml standalone)
@@ -111,6 +126,8 @@ namespace NBi.Xml
             this.IgnoreElement = standalone.IgnoreElement;
             this.Categories = standalone.Categories;
             this.Constraints = standalone.Constraints;
+            this.Setup = standalone.Setup;
+            this.Cleanup = standalone.Cleanup;
             this.Systems = standalone.Systems;
             this.UniqueIdentifier = standalone.UniqueIdentifier;
             this.Edition = standalone.Edition;

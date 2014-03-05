@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Reflection;
@@ -7,6 +8,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using NBi.Xml.Constraints;
+using NBi.Xml.Decoration.Command;
 
 namespace NBi.Xml
 {
@@ -80,6 +82,14 @@ namespace NBi.Xml
                 ctr.Settings = TestSuite.Settings;
                 if (ctr is IReferenceFriendly && TestSuite.Settings != null)
                     ((IReferenceFriendly)ctr).AssignReferences(TestSuite.Settings.References);
+            }
+
+            var decorationCommands = new List<DecorationCommandXml>();
+            decorationCommands.AddRange(test.Setup.Commands);
+            decorationCommands.AddRange(test.Cleanup.Commands);
+            foreach (var cmd in decorationCommands)
+            {
+                cmd.Settings = TestSuite.Settings;
             }
         }
 

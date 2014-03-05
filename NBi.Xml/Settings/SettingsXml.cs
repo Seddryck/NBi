@@ -26,7 +26,9 @@ namespace NBi.Xml.Settings
             [XmlEnum(Name = "system-under-test")]
             SystemUnderTest,
             [XmlEnum(Name = "assert")]
-            Assert
+            Assert,
+            [XmlEnum(Name = "setup-cleanup")]
+            Decoration
         }
 
         public DefaultXml GetDefault(DefaultScope scope)

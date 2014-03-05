@@ -51,6 +51,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -74,6 +75,7 @@
     <Compile Include="Analysis\Request\MetadataLinkedToDiscoveryRequest.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\TableNotNullIfColumn.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\ValidationFilter.cs" />
+    <Compile Include="IDecorationCheckImplementation.cs" />
     <Compile Include="CsvReader.cs" />
     <Compile Include="Analysis\Metadata\Adomd\AdomdDiscoveryCommandFactory.cs" />
     <Compile Include="Analysis\Metadata\Adomd\LinkedToDiscoveryCommand.cs" />
@@ -151,6 +153,15 @@
     <Compile Include="Analysis\Metadata\Field.cs" />
     <Compile Include="Assemblies\AssemblyManager.cs" />
     <Compile Include="Assemblies\TypeConverter.cs" />
+    <Compile Include="DataManipulation\IDataManipulationCommand.cs" />
+    <Compile Include="DataManipulation\IDataManipulationFactory.cs" />
+    <Compile Include="IDecorationCommandImplementation.cs" />
+    <Compile Include="DataManipulation\IResetCommand.cs" />
+    <Compile Include="DataManipulation\ILoadCommand.cs" />
+    <Compile Include="DataManipulation\SqlServer\BulkLoadCommand.cs" />
+    <Compile Include="DataManipulation\DataManipulationFactory.cs" />
+    <Compile Include="DataManipulation\SqlServer\SqlServerDataManipulationFactory.cs" />
+    <Compile Include="DecorationFactory.cs" />
     <Compile Include="Evaluate\ExpressionEvaluationResult.cs" />
     <Compile Include="Evaluate\ExpressionComparable.cs" />
     <Compile Include="Evaluate\IColumnVariable.cs" />
@@ -165,6 +176,8 @@
     <Compile Include="Format\ICurrencyFormat.cs" />
     <Compile Include="Format\INumericFormat.cs" />
     <Compile Include="Format\RegexBuilder.cs" />
+    <Compile Include="IDecorationCheck.cs" />
+    <Compile Include="IDecorationCommand.cs" />
     <Compile Include="Members\Predefined\BaseBuilder.cs" />
     <Compile Include="Members\Predefined\IPredefinedMembersBuilder.cs" />
     <Compile Include="Members\Predefined\MonthsOfYearBuilder.cs" />
@@ -265,10 +278,22 @@
     <Compile Include="StringComparerHelper.cs" />
     <Compile Include="StringHelper.cs" />
     <Compile Include="StringTemplateEngine.cs" />
+    <Compile Include="DataManipulation\SqlServer\TruncateCommand.cs" />
+    <Compile Include="WindowsService\IWindowsServiceCheck.cs" />
+    <Compile Include="WindowsService\WindowsServiceCheck.cs" />
+    <Compile Include="WindowsService\WindowsServiceCheckFactory.cs" />
+    <Compile Include="WindowsService\IWindowsServiceRunningCheck.cs" />
+    <Compile Include="WindowsService\IWindowsServiceCommand.cs" />
+    <Compile Include="WindowsService\IWindowsServiceStopCommand.cs" />
+    <Compile Include="WindowsService\IWindowsServiceBase.cs" />
+    <Compile Include="WindowsService\IWindowsServiceStartCommand.cs" />
+    <Compile Include="WindowsService\WindowsServiceCommand.cs" />
+    <Compile Include="WindowsService\WindowsServiceCommandFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

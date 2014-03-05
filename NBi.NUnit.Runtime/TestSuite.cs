@@ -5,7 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NBi.Core;
+using NBi.Core.DataManipulation;
 using NBi.Xml;
+using NBi.Xml.Decoration;
 using NUnit.Framework;
 using NUnitCtr = NUnit.Framework.Constraints;
 
@@ -51,6 +53,8 @@ namespace NBi.NUnit.Runtime
                 Assert.Ignore(test.IgnoreReason);
             else
             {
+                ExecuteChecks(test.Check);
+                ExecuteSetup(test.Setup);
                 foreach (var tc in test.Systems)
                 {
                     foreach (var ctr in test.Constraints)
@@ -59,7 +63,66 @@ namespace NBi.NUnit.Runtime
                         AssertTestCase(testCase.SystemUnderTest, testCase.Constraint, test.Content);
                     }
                 }
+                ExecuteCleanup(test.Cleanup);
             }
+        }
+
+        private void ExecuteChecks(CheckXml check)
+        {
+            foreach (var predicate in check.Predicates)
+            {
+                var impl = new DecorationFactory().Get(predicate);
+                var isVerified = impl.Validate();
+                if (!isVerified)
+                    Assert.Ignore("This test has been ignored because following check wasn't successful: {0}", impl.Message);
+            }
+        }
+
+        private void ExecuteSetup(SetupXml setup)
+        {
+            try
+            {
+                foreach (var command in setup.Commands)
+                {
+                    var impl = new DecorationFactory().Get(command);
+                    impl.Execute();
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleExceptionDuringSetup(ex);
+            }
+        }
+
+        protected virtual void HandleExceptionDuringSetup(Exception ex)
+        {
+            var message = string.Format("Exception during the setup of the test: {0}", ex.Message);
+            Trace.WriteLineIf(NBiTraceSwitch.TraceWarning, message);
+            //If failure during setup then the test is failed!
+            Assert.Fail(message);
+        }
+
+        private void ExecuteCleanup(CleanupXml cleanup)
+        {
+            try
+            {
+                foreach (var command in cleanup.Commands)
+                {
+                    var impl = new DecorationFactory().Get(command);
+                    impl.Execute();
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleExceptionDuringCleanup(ex);
+            }
+        }
+
+        protected virtual void HandleExceptionDuringCleanup(Exception ex)
+        {
+            var message = string.Format("Exception during the cleanup of the test: {0}", ex.Message);
+            Trace.WriteLineIf(NBiTraceSwitch.TraceWarning, message);
+            Trace.WriteLineIf(NBiTraceSwitch.TraceWarning, "Next cleanup functions are skipped.");
         }
 
         public virtual void ExecuteTest(string testSuiteXml)

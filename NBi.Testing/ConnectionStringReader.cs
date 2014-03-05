@@ -50,5 +50,11 @@ namespace NBi.Testing
         {
             return Get("AdomdTabular");
         }
+
+
+        internal static string GetLocalSqlClient()
+        {
+            return Get("LocalSqlClient");
+        }
     }
 }

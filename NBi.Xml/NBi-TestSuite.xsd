@@ -25,6 +25,7 @@
 											<xs:restriction base="xs:string">
 												<xs:enumeration value="system-under-test"/>
 												<xs:enumeration value="assert"/>
+												<xs:enumeration value="setup-cleanup"/>
 											</xs:restriction>
 										</xs:simpleType>
 									</xs:attribute>
@@ -211,6 +212,34 @@
 			<xs:enumeration value="boolean"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:complexType name="check-type">
+		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="service-running" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="decoration-type">
+		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="service-start" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="service-stop" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="reset" type="reset-type" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="load" type="load-type" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="reset-type">
+		<xs:attribute name="connectionString" use="optional"/>
+		<xs:attribute name="table" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="load-type" >
+		<xs:complexContent>
+			<xs:extension base="reset-type">
+				<xs:attribute name="file" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="service-type" >
+		<xs:attribute name="name" use="required"/>
+		<xs:attribute name="timeout-milliseconds" use="optional"/>
+	</xs:complexType>
 	<xs:complexType name="test-type">
 		<xs:sequence>
 			<xs:element name="ignore" minOccurs="0" maxOccurs="1">
@@ -255,6 +284,8 @@
 					</xs:simpleContent>
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="check" type="check-type" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="setup" type="decoration-type" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="system-under-test" minOccurs="1" maxOccurs="unbounded">
 				<xs:complexType>
 					<xs:choice>
@@ -585,6 +616,7 @@
 					</xs:choice>
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="cleanup" type="decoration-type" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required" />
 		<xs:attribute name="uid" type="xs:unsignedByte" use="optional" />

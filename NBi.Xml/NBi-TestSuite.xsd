@@ -203,6 +203,14 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:simpleType name="column-type-enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="numeric"/>
+			<xs:enumeration value="text"/>
+			<xs:enumeration value="dateTime"/>
+			<xs:enumeration value="boolean"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:complexType name="test-type">
 		<xs:sequence>
 			<xs:element name="ignore" minOccurs="0" maxOccurs="1">
@@ -303,16 +311,7 @@
 														</xs:simpleType>
 													</xs:attribute>
 													<xs:attribute name="tolerance" type="xs:string" use="optional" />
-													<xs:attribute name="type" use="optional">
-														<xs:simpleType>
-															<xs:restriction base="xs:string">
-																<xs:enumeration value="numeric"/>
-																<xs:enumeration value="text"/>
-																<xs:enumeration value="dateTime"/>
-																<xs:enumeration value="boolean"/>
-															</xs:restriction>
-														</xs:simpleType>
-													</xs:attribute>
+													<xs:attribute name="type" type="column-type-enum" use="optional"/>
 													<xs:attribute name="rounding-style" use="optional">
 														<xs:simpleType>
 															<xs:restriction base="xs:string">
@@ -378,6 +377,32 @@
 										</xs:restriction>
 									</xs:simpleType>
 								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="evaluate-rows">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="variable" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attribute name="column-index" type="xs:integer" use="required"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="expression" minOccurs="1" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attribute name="column-index" type="xs:integer" use="required"/>
+													<xs:attribute name="type" type="column-type-enum" use="optional"/>
+													<xs:attribute name="tolerance" type="xs:string" use="optional" />
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
 						<xs:element name="syntacticallyCorrect">
@@ -549,14 +574,14 @@
 							</xs:complexType>
 						</xs:element>
 						<xs:element name="matchPattern">
-								<xs:complexType>
-									<xs:choice>
-										<xs:element name="regex" minOccurs="0" maxOccurs="1"/>
-										<xs:element name="numeric-format" type="numeric-format-type" minOccurs="0" maxOccurs="1"/>
-										<xs:element name="currency-format" type="currency-format-type" minOccurs="0" maxOccurs="1"/>
-									</xs:choice>
-								</xs:complexType>
-							</xs:element>
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="regex" minOccurs="0" maxOccurs="1"/>
+									<xs:element name="numeric-format" type="numeric-format-type" minOccurs="0" maxOccurs="1"/>
+									<xs:element name="currency-format" type="currency-format-type" minOccurs="0" maxOccurs="1"/>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
 					</xs:choice>
 				</xs:complexType>
 			</xs:element>
@@ -574,10 +599,10 @@
 		<xs:attribute name="name" type="xs:string" use="required" />
 	</xs:complexType>
 	<xs:complexType name="numeric-format-type">
-			<xs:attribute name="ref" use="optional"/>
-			<xs:attribute name="decimal-digits" use="optional"/>
-			<xs:attribute name="decimal-separator" use="optional"/>
-			<xs:attribute name="group-separator" use="optional"/>
+		<xs:attribute name="ref" use="optional"/>
+		<xs:attribute name="decimal-digits" use="optional"/>
+		<xs:attribute name="decimal-separator" use="optional"/>
+		<xs:attribute name="group-separator" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="currency-format-type">
 		<xs:complexContent>
@@ -597,38 +622,38 @@
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="members-type">
-				<xs:sequence>
-					<xs:choice>
-						<xs:element name="hierarchy" type="hierarchy-type"/>
-						<xs:element name="level" type="level-type"/>
-					</xs:choice>
-					<xs:element name="exclude" minOccurs="0">
-						<xs:complexType>
-							<xs:sequence>
-								<xs:element name="item" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-								<xs:element name="items" minOccurs="0" maxOccurs="unbounded">
-									<xs:complexType>
-										<xs:simpleContent>
-											<xs:extension base="xs:string">
-												<xs:attribute name="pattern" use="required">
-													<xs:simpleType>
-														<xs:restriction base="xs:string">
-															<xs:enumeration value="start-with"/>
-															<xs:enumeration value="exact"/>
-															<xs:enumeration value="contain"/>
-															<xs:enumeration value="end-with"/>
-														</xs:restriction>
-													</xs:simpleType>
-												</xs:attribute>
-											</xs:extension>
-										</xs:simpleContent>
-									</xs:complexType>
-								</xs:element>
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
-				</xs:sequence>
-				<xs:attribute name="children-of" type="xs:string" use="optional" />
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="hierarchy" type="hierarchy-type"/>
+				<xs:element name="level" type="level-type"/>
+			</xs:choice>
+			<xs:element name="exclude" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="item" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="items" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+										<xs:attribute name="pattern" use="required">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="start-with"/>
+													<xs:enumeration value="exact"/>
+													<xs:enumeration value="contain"/>
+													<xs:enumeration value="end-with"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:attribute>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="children-of" type="xs:string" use="optional" />
 	</xs:complexType>
 	<xs:complexType name="predefined-type">
 		<xs:attribute name="language" type="xs:string" use="required" />

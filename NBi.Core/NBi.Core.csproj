@@ -46,6 +46,9 @@
     <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>../../../../../../../Program%20Files/Microsoft.NET/ADOMD.NET/100/Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
     </Reference>
+    <Reference Include="NCalc">
+      <HintPath>..\packages\ncalc.1.3.8\lib\NCalc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -148,6 +151,16 @@
     <Compile Include="Analysis\Metadata\Field.cs" />
     <Compile Include="Assemblies\AssemblyManager.cs" />
     <Compile Include="Assemblies\TypeConverter.cs" />
+    <Compile Include="Evaluate\ExpressionEvaluationResult.cs" />
+    <Compile Include="Evaluate\ExpressionComparable.cs" />
+    <Compile Include="Evaluate\IColumnVariable.cs" />
+    <Compile Include="Evaluate\ExpressionComparer.cs" />
+    <Compile Include="Evaluate\IColumnExpression.cs" />
+    <Compile Include="Evaluate\InvalidExpressionException.cs" />
+    <Compile Include="Evaluate\RowEvaluationResult.cs" />
+    <Compile Include="Evaluate\ValuedExpression.cs" />
+    <Compile Include="Evaluate\IEvaluationRowsDefinition.cs" />
+    <Compile Include="Evaluate\RowValidator.cs" />
     <Compile Include="Format\CurrencyPattern.cs" />
     <Compile Include="Format\ICurrencyFormat.cs" />
     <Compile Include="Format\INumericFormat.cs" />
@@ -177,6 +190,7 @@
     <Compile Include="Query\DbTypeBuilder.cs" />
     <Compile Include="Query\IQueryParameter.cs" />
     <Compile Include="Query\IQueryTemplateVariable.cs" />
+    <Compile Include="ResultSet\Comparer\ComparerFactory.cs" />
     <Compile Include="ResultSet\EndPoint.cs" />
     <Compile Include="ResultSet\IntervalBuilder.cs" />
     <Compile Include="ListComparisonFormatter.cs" />

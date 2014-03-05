@@ -56,5 +56,10 @@ namespace NBi.Testing
         {
             return Get("LocalSqlClient");
         }
+        internal static string GetReportServerDatabase()
+        {
+            return Get("ReportServerDatabase");
+        }
+
     }
 }

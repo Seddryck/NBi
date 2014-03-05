@@ -95,6 +95,7 @@
     <Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
     <Compile Include="Integration\Core\Query\CommandBuilderTest.cs" />
     <Compile Include="Integration\Core\WindowsService\WindowsServiceCheckTest.cs" />
+    <Compile Include="Integration\Core\Report\DatabaseParserTest.cs" />
     <Compile Include="Integration\Core\WindowsService\WindowsServiceCommandTest.cs" />
     <Compile Include="Integration\NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Members\EquivalentToConstraintTest.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Unit\Core\Members\RangeMembersFactoryTest.cs" />
     <Compile Include="Unit\Core\Members\PredefinedMembersFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\DbTypeBuilderTest.cs" />
+    <Compile Include="Unit\Core\Report\FileParserTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\BaseComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\BooleanComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\DateTimeRoundingTest.cs" />
@@ -195,6 +197,7 @@
     <Compile Include="Unit\Xml\GroupXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\BaseItemTest.cs" />
     <Compile Include="Unit\Xml\Items\ColumnXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\ReportXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\FormatXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\PerspectiveXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\QueryXmlTest.cs" />
@@ -230,6 +233,15 @@
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\dimension.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\ReportEqualTo.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\BusinessEntity.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="Acceptance\Resources\AdventureWorks Sample Reports\Store_Contacts.rdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ConnectionString.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -241,6 +253,8 @@
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataExcelSample.xls" />
     <EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject-Saved.nbi" />
     <EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject.nbi" />
+    <EmbeddedResource Include="Unit\Core\Report\Resources\Currency_Rates.rdl" />
+    <EmbeddedResource Include="Unit\Core\Report\Resources\Currency_List.rdl" />
   </ItemGroup>
   <ItemGroup>
     <MyOptionalItems Include="ConnectionString.user.config" />
@@ -383,6 +397,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\Resources\MatchPatternXmlWithReferenceTestSuite.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\ReportXmlTestSuite.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\Resources\EvaluateRowsXmlTestSuite.xml" />

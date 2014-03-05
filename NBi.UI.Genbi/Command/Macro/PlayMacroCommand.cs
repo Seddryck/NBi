@@ -2,13 +2,16 @@
 using System.Linq;
 using System.Windows.Forms;
 using NBi.GenbiL;
+using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.Command.Macro
 {
 	class PlayMacroCommand: CommandBase
 	{
-		public PlayMacroCommand()
+        private readonly MacroWindow window;
+        public PlayMacroCommand(MacroWindow window)
 		{
+            this.window = window;
 		}
 
 		/// <summary>
@@ -30,21 +33,33 @@ namespace NBi.UI.Genbi.Command.Macro
 			DialogResult result = openFileDialog.ShowDialog();
 			if (result == DialogResult.OK)
 			{
-				var generator = new TestSuiteGenerator();
-				generator.Load(openFileDialog.FileName);
-				try 
-				{	        
-					generator.Execute();
-				}
-				catch (Exception ex)
-				{
-					ShowException(String.Format("Exception generated during execution of the macro.\r\n\r\n{0}", ex.Message));
-					return;
-				}
-
-				ShowInform(String.Format("Macro has been executed succesfully."));
+                Execute(openFileDialog.FileName);
 			}
-			
 		}
+
+        public void Execute(string filename)
+        {
+            var generator = new TestSuiteGenerator();
+            generator.Load(filename);
+            try
+            {
+                window.Show();
+                generator.ActionInfoEvent += ActionInfo;
+                generator.Execute();
+                generator.ActionInfoEvent -= ActionInfo;
+            }
+            catch (Exception ex)
+            {
+                ShowException(String.Format("Exception generated during execution of the macro.\r\n\r\n{0}", ex.Message));
+                return;
+            }
+
+            ShowInform(String.Format("Macro has been executed succesfully."));
+        }
+
+        protected virtual void ActionInfo(object sender, TestSuiteGenerator.ActionInfoEventArgs e)
+        {
+            window.AppendText(e.Message);
+        }
 	}
 }

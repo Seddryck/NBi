@@ -21,5 +21,13 @@ namespace NBi.GenbiL.Action.Case
 
             state.TestCases.MoveVariable(VariableName, currentPosition + RelativePosition);
         }
+
+        public string Display
+        {
+            get
+            {
+                return string.Format("Moving column '{0}' to the {1}", VariableName, RelativePosition==1 ? "right": "left");
+            }
+        }
     }
 }

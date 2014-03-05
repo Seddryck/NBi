@@ -1,5 +1,3 @@
-Features tagged *v1.1* are only available in the release 1.1-RC
-
 ! How to
 * [Manually create my first test suite with NBi|Create manually my first test suite with NBi]
 * [Run a test suite with NUnit GUI]
@@ -7,27 +5,41 @@ Features tagged *v1.1* are only available in the release 1.1-RC
 * [Share binaries between test-suites] (useful for build servers)
 
 ! Currently supported features 
-* SSAS & SQL
+* SSAS, SQL and DAX
 ** Query execution
 *** [Test equivalence of two result sets]
-*** [Test performance] *(improved in v1.1)*
-*** [Test syntax]
-*** [Get a query from an assembly] *v1.1*
+**** [Special and Generic values]
+**** [Result set's comparison configuration]
+**** [Tolerances and roundings]
+**** [Interval of values]
+*** [Test the format of the query's result] *new in v1.4*
+*** [Test performance] 
+*** [Test syntax] 
+*** Define a query
+**** [Query's parameters]
+**** [Query's template-variables]
+**** [Get a query from an assembly]
 * SSAS
-** Cube structure
-*** [Test the availability of an element in the cube's structure] (measure, measure-group, level, hierarchy, dimension, perspective)
-*** [Test availability of one or more elements in the cube structure] *v1.1*
-*** [Test the relation between a dimension and a measure-group] *v1.1*
-** Dimension membership
+** Cube/Tabular structure
+*** [Test the availability of an element in the cube or tabular structure|Test the availability of an element in the cube's structure] (measure, measure-group, level, hierarchy, dimension, perspective, table and column for tabular models)
+*** [Test availability of one or more elements in the cube structure] (measure, measure-group, level, hierarchy, dimension, perspective, table and column for tabular models)
+*** [Test the relation between a dimension and a measure-group] _(not supported for tabular models)_
+** [Tests on dimension's members]
 *** [Test the members' count at any level of a dimension or hierarchy]
 *** [Test ordering of members at any level of a dimension or hierarchy]
-*** [Test availability of a member at any level of a dimension or hierarchy]
-*** [Test availability of one or more members in a hierarchy or level] *v1.1*
+*** [Test availability of one or more members in a hierarchy or level]
+*** [Test that members are matching a pattern]
+*** [Compare actual members with members of another instance of the cube] *new in v1.4*
+*** [Compare actual members to a range of members (integers/dates) or predfined lists] *new in v1.4*
 * Manage test cases
 ** [Group tests cases by categories (manual or automatic)]
+** [Group tests for edition|Group tests]
 ** [Author and updates]
 ** [Provide a description to your test]
 ** [Ignore a test]
-** [Manage connection strings] *v1.1*
+** [Manage connection strings]
+** [Manage the role for execution of a query] *new in v1.4*
+** [Enable and display trace messages]
 * Tool to assist in the creation of a test suite
-** [Generate new tests based on a template] *v1.1*
+** [Generate new tests based on a template]
+** [Genbi macro language] *new in v1.4*

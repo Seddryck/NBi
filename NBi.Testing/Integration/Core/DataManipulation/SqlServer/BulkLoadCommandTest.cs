@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Linq;
+using System.ServiceProcess;
 using Moq;
 using NBi.Core.DataManipulation;
 using NBi.Core.DataManipulation.SqlServer;
@@ -12,7 +13,8 @@ namespace NBi.Testing.Integration.Core.DataManipulation.SqlServer
     [Category("Local SQL instance")]
     public class BulkLoadCommandTest
 	{
-		private const string FILE_CSV = "Load.csv";
+        private const string SERVICE_NAME = "MSSQL$SQL2012";
+        private const string FILE_CSV = "Load.csv";
         private string FileName { get; set;}
 
         
@@ -34,6 +36,14 @@ namespace NBi.Testing.Integration.Core.DataManipulation.SqlServer
                 cmd.CommandText = string.Format("insert into {0} values ('No name');", tableName);
                 cmd.ExecuteNonQuery();
             }
+        }
+
+        [SetUp]
+        public void EnsureLocalSqlServerRunning()
+        {
+            var service = new ServiceController(SERVICE_NAME);
+            if (service.Status != ServiceControllerStatus.Running)
+                Assert.Ignore("Local SQL Server not started.");
         }
 
         private int CountElementsInTable(string tableName, string connectionString)

@@ -65,7 +65,7 @@ namespace NBi.Testing.Integration.Core.Report
             Assert.That(query, 
                 Is.StringContaining("SELECT").And
                 .StringContaining("[CurrencyAlternateKey]").And
-                .StringContaining("[AdventureWorksDW2012].[dbo].[DimCurrency]"));
+                .StringContaining("[DimCurrency]"));
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace NBi.Testing.Integration.Core.Report
 
             var parser = new DatabaseParser();
             var ex = Assert.Throws<ArgumentException>(()=> parser.ExtractQuery(request));
-            Assert.That(ex.Message, Is.StringContaining("'Currency'"));
+            Assert.That(ex.Message, Is.StringContaining("'Currency_List'"));
         }
 
         [Test]

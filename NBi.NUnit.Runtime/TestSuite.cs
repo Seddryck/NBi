@@ -53,6 +53,7 @@ namespace NBi.NUnit.Runtime
                 Assert.Ignore(test.IgnoreReason);
             else
             {
+                ExecuteChecks(test.Check);
                 ExecuteSetup(test.Setup);
                 foreach (var tc in test.Systems)
                 {
@@ -66,13 +67,24 @@ namespace NBi.NUnit.Runtime
             }
         }
 
+        private void ExecuteChecks(CheckXml check)
+        {
+            foreach (var predicate in check.Predicates)
+            {
+                var impl = new DecorationFactory().Get(predicate);
+                var isVerified = impl.Validate();
+                if (!isVerified)
+                    Assert.Ignore("This test has been ignored because following check wasn't successful: {0}", impl.Message);
+            }
+        }
+
         private void ExecuteSetup(SetupXml setup)
         {
             try
             {
                 foreach (var command in setup.Commands)
                 {
-                    var impl = new DataManipulationFactory().Get(command);
+                    var impl = new DecorationFactory().Get(command);
                     impl.Execute();
                 }
             }
@@ -96,7 +108,7 @@ namespace NBi.NUnit.Runtime
             {
                 foreach (var command in cleanup.Commands)
                 {
-                    var impl = new DataManipulationFactory().Get(command);
+                    var impl = new DecorationFactory().Get(command);
                     impl.Execute();
                 }
             }

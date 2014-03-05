@@ -40,6 +40,10 @@ namespace NBi.NUnit.Builder
                 parameters = ((QueryXml)executionXml.BaseItem).GetParameters();
                 variables = ((QueryXml)executionXml.BaseItem).GetVariables();
             }
+            if (executionXml.BaseItem is ReportXml)
+            {
+                parameters = ((ReportXml)executionXml.BaseItem).GetParameters();
+            }
             var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables);
 
             return cmd;

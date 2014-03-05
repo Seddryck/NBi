@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+		</default>
+	</settings>
+	<!--<test name="Validate the different business entities" uid="0001">
+		<system-under-test>
+			<execution>
+				<report source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"
+						path="/AdventureWorks 2012/"
+						name="Store_Contacts"
+						dataset="Stores"
+				/>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<column index="0" role="key" type="text"/>
+				<column index="1" role="value" type="text"/>
+				<resultSet file="BusinessEntity.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="Detail of the contact of StoreID equalTo 300" uid="0001">
+		<system-under-test>
+			<execution>
+				<report source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"
+						path="/AdventureWorks 2012/"
+						name="Store_Contacts"
+						dataset="StoreContacts"
+				>
+					<parameter name="StoreID">300</parameter>
+				</report>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<column index="0" role="key" type="text"/>
+				<column index="1" role="value" type="text"/>
+				<column index="2" role="value" type="text"/>
+				<column index="3" role="value" type="text"/>
+				<column index="4" role="value" type="text"/>
+				<column index="5" role="value" type="text"/>
+				<resultSet>
+					<row>
+						<cell>300</cell>
+						<cell>Nationwide Supply</cell>
+						<cell>Owner</cell>
+						<cell>Pilar</cell>
+						<cell>Ackerman</cell>
+						<cell>1 (11) 500 555-0132</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>-->
+	<test name="Validate the different business entities" uid="0001">
+		<system-under-test>
+			<execution>
+				<report
+						path="AdventureWorks Sample Reports\"
+						name="Store_Contacts"
+						dataset="Stores"
+				/>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<column index="0" role="key" type="text"/>
+				<column index="1" role="value" type="text"/>
+				<resultSet file="BusinessEntity.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+</testSuite>

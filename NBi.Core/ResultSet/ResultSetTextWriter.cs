@@ -96,7 +96,8 @@ namespace NBi.Core.ResultSet
             for (int i = 0; i < fieldLength.Count; i++)
             {
                 var displayHeader = LineFormatter.BuildHeader(rows.ElementAt(0).Table, i);
-                sbHeader.AppendFormat("| {0} ", displayHeader.GetText(fieldLength[i]));
+                if (displayHeader!=null)
+                    sbHeader.AppendFormat("| {0} ", displayHeader.GetText(fieldLength[i]));
             }
             sbHeader.Append("|");
             output.Add(sbHeader.ToString());

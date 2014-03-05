@@ -66,6 +66,7 @@
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
     <Compile Include="Builder\ExecutionMatchPatternBuilder.cs" />
+    <Compile Include="Builder\ExecutionEvaluateRowsBuilder.cs" />
     <Compile Include="Builder\MembersMatchPatternBuilder.cs" />
     <Compile Include="Builder\MetadataDiscoveryRequestBuilder.cs" />
     <Compile Include="Builder\MembersSubsetOfBuilder.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Member\MatchPatternConstraint.cs" />
     <Compile Include="Member\EquivalentToConstraint.cs" />
     <Compile Include="Member\SubsetOfConstraint.cs" />
+    <Compile Include="Query\EvaluateRowsConstraint.cs" />
     <Compile Include="Query\MatchPatternConstraint.cs" />
     <Compile Include="Structure\AbstractCollectionConstraint.cs" />
     <Compile Include="Structure\AbstractStructureConstraint.cs" />
@@ -111,7 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
-      <Project>{3F730647-FE31-4907-8A6E-A0C4A0C970EA}</Project>
+      <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
       <Name>NBi.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">

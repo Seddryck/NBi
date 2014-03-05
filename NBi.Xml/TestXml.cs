@@ -92,7 +92,8 @@ namespace NBi.Xml
         XmlArrayItem(Type = typeof(LinkedToXml), ElementName = "linkedTo"),
         XmlArrayItem(Type = typeof(SubsetOfXml), ElementName = "subsetOf"),
         XmlArrayItem(Type = typeof(EquivalentToXml), ElementName = "equivalentTo"),
-        XmlArrayItem(Type = typeof(MatchPatternXml), ElementName = "matchPattern")
+        XmlArrayItem(Type = typeof(MatchPatternXml), ElementName = "matchPattern"),
+        XmlArrayItem(Type = typeof(EvaluateRowsXml), ElementName = "evaluate-rows"),
         ]
         public List<AbstractConstraintXml> Constraints;
 

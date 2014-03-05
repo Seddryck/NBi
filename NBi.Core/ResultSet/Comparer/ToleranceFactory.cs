@@ -12,16 +12,43 @@ namespace NBi.Core.ResultSet.Comparer
             if (columnDefinition.Role != ColumnRole.Value)
                 throw new ArgumentException("The ColumnDefinition must have have a role defined as 'Value' and is defined as 'Key'", "columnDefinition");
 
+            return Build(columnDefinition.Type, columnDefinition.Tolerance);
+        }
+
+        public static Tolerance Build(ColumnType type, string value)
+        {
             Tolerance tolerance=null;
-            switch (columnDefinition.Type)
+            switch (type)
             {
                 case ColumnType.Text:
                     break;
                 case ColumnType.Numeric:
-                    tolerance = BuildNumeric(columnDefinition.Tolerance);
+                    tolerance = BuildNumeric(value);
                     break;
                 case ColumnType.DateTime:
-                    tolerance = new DateTimeTolerance(TimeSpan.Parse(columnDefinition.Tolerance));
+                    tolerance = new DateTimeTolerance(TimeSpan.Parse(value));
+                    break;
+                case ColumnType.Boolean:
+                    break;
+                default:
+                    break;
+            }
+
+            return tolerance;
+        }
+
+        public static Tolerance None(ColumnType type)
+        {
+            Tolerance tolerance = null;
+            switch (type)
+            {
+                case ColumnType.Text:
+                    break;
+                case ColumnType.Numeric:
+                    tolerance = BuildNumeric("0");
+                    break;
+                case ColumnType.DateTime:
+                    tolerance = new DateTimeTolerance(TimeSpan.Parse("0"));
                     break;
                 case ColumnType.Boolean:
                     break;

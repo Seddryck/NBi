@@ -5,7 +5,7 @@ using NBi.Core.DataManipulation;
 
 namespace NBi.Xml.Decoration.Command
 {
-    public class LoadXml : DecorationCommandXml, ILoadCommand
+    public class LoadXml : DataManipulationAbstractXml, ILoadCommand
     {
         [XmlAttribute("table")]
         public string TableName { get; set; }

@@ -7,7 +7,7 @@ namespace NBi.Core.DataManipulation
 {
     public class DataManipulationFactory
     {
-        public IDataManipulationImplementation Get(IDataManipulationCommand command)
+        public IDecorationCommandImplementation Get(IDataManipulationCommand command)
         {
             var connectionFactory = new ConnectionFactory();
             var connection = connectionFactory.Get(command.ConnectionString);

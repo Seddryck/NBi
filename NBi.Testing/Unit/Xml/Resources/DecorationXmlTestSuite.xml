@@ -2,16 +2,16 @@
 <testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="setup-cleanup">
-			<connectionString>Data Source=(local)\SQL2012;Initial Catalog=AdventureWorks2012;Integrated Security=true</connectionString>
+			<connectionString>Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true</connectionString>
 		</default>
 	</settings>
 	<test name="decoration with setup and cleanup">
 		<setup>
 			<reset  table="NewUsers"
-					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorks2012;Integrated Security=true"/>
+					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"/>
 			<load   table="NewUsers"
 					file ="NewUsers.csv"
-					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorks2012;Integrated Security=true"/>
+					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"/>
 		</setup>
 		<system-under-test>
 			<execution>
@@ -80,5 +80,25 @@
 				<resultSet />
 			</equalTo>
 		</assert>
+	</test>
+	<test name="decoration with setup/cleanup and service-start and service-stop">
+		<setup>
+			<service-start name="MyService"/>
+		</setup>
+		<system-under-test>
+			<execution>
+				<query>
+					select * from [NewUsers]
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet />
+			</equalTo>
+		</assert>
+		<cleanup>
+			<service-stop name="MyService" timeout-milliseconds="15000"/>
+		</cleanup>
 	</test>
 </testSuite>

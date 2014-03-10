@@ -66,7 +66,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("EquivalentToMembers.nbits")]
         [TestCase("MatchPatternMembers.nbits")]
         [TestCase("ResultSetMatchPattern.nbits")]
-        [TestCase("ValidateQuery.nbits")]
+        [TestCase("EvaluateRows.nbits")]
         [TestCase("ReportEqualTo.nbits")]
         public void RunTestSuite(string filename)
         {

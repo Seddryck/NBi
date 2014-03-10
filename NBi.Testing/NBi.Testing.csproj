@@ -408,7 +408,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\DecorationXmlTestSuite.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Acceptance\Resources\ValidateQuery.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\EvaluateRows.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

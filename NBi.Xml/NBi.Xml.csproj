@@ -61,9 +61,9 @@
     <Compile Include="Constraints\ExistsXml.cs" />
     <Compile Include="Constraints\LinkedToXml.cs" />
     <Compile Include="Constraints\EvaluateRowsXml.cs" />
-    <Compile Include="Decoration\CheckXml.cs" />
-    <Compile Include="Decoration\Check\DecorationCheckXml.cs" />
-    <Compile Include="Decoration\Check\ServiceRunningXml.cs" />
+    <Compile Include="Decoration\ConditionXml.cs" />
+    <Compile Include="Decoration\Condition\DecorationConditionXml.cs" />
+    <Compile Include="Decoration\Condition\ServiceRunningXml.cs" />
     <Compile Include="Decoration\CleanupXml.cs" />
     <Compile Include="Decoration\Command\DataManipulationAbstractXml.cs" />
     <Compile Include="Decoration\Command\ServiceAbstractXml.cs" />

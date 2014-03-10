@@ -2,13 +2,13 @@
 using System.Reflection;
 using NBi.Xml;
 using NBi.Xml.Decoration;
-using NBi.Xml.Decoration.Check;
+using NBi.Xml.Decoration.Condition;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Xml.Decoration
 {
     [TestFixture]
-    public class CheckXmlTest
+    public class ConditionXmlTest
     {
 
         protected TestSuiteXml DeserializeSample()
@@ -18,7 +18,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
 
             // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.CheckXmlTestSuite.xml"))
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.ConditionXmlTestSuite.xml"))
             using (StreamReader reader = new StreamReader(stream))
             {
                 manager.Read(reader);
@@ -35,7 +35,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Check, Is.TypeOf<CheckXml>());
+            Assert.That(ts.Tests[testNr].Condition, Is.TypeOf<ConditionXml>());
         }
 
 
@@ -48,7 +48,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Check.Predicates, Has.Count.EqualTo(2));
+            Assert.That(ts.Tests[testNr].Condition.Predicates, Has.Count.EqualTo(2));
         }
 
         [Test]
@@ -60,14 +60,14 @@ namespace NBi.Testing.Unit.Xml.Decoration
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Check.Predicates[0], Is.TypeOf<ServiceRunningXml>());
-            var check = ts.Tests[testNr].Check.Predicates[0] as ServiceRunningXml;
+            Assert.That(ts.Tests[testNr].Condition.Predicates[0], Is.TypeOf<ServiceRunningXml>());
+            var check = ts.Tests[testNr].Condition.Predicates[0] as ServiceRunningXml;
             Assert.That(check.TimeOut, Is.EqualTo(5000)); //Default value
             Assert.That(check.ServiceName, Is.EqualTo("MyService")); 
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Check.Predicates[1], Is.TypeOf<ServiceRunningXml>());
-            var check2 = ts.Tests[testNr].Check.Predicates[1] as ServiceRunningXml;
+            Assert.That(ts.Tests[testNr].Condition.Predicates[1], Is.TypeOf<ServiceRunningXml>());
+            var check2 = ts.Tests[testNr].Condition.Predicates[1] as ServiceRunningXml;
             Assert.That(check2.TimeOut, Is.EqualTo(1000)); //Value Specified
             Assert.That(check2.ServiceName, Is.EqualTo("MyService2")); 
         }

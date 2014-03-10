@@ -77,8 +77,8 @@ namespace NBi.Xml
         [DefaultValue(0)]
         public int Timeout { get; set; }
 
-        [XmlElement("check", Order = 5)]
-        public CheckXml Check;
+        [XmlElement("condition", Order = 5)]
+        public ConditionXml Condition;
 
         [XmlElement("setup", Order = 6)]
         public SetupXml Setup;
@@ -116,7 +116,7 @@ namespace NBi.Xml
             Categories = new List<string>();
             Setup = new SetupXml();
             Cleanup = new CleanupXml();
-            Check = new CheckXml();
+            Condition = new ConditionXml();
         }
 
         public TestXml(TestStandaloneXml standalone)

@@ -191,7 +191,7 @@
     <Compile Include="Unit\Xml\Constraints\LinkedToXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\FasterThanXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
-    <Compile Include="Unit\Xml\Decoration\CheckXmlTest.cs" />
+    <Compile Include="Unit\Xml\Decoration\ConditionXmlTest.cs" />
     <Compile Include="Unit\Xml\Decoration\DecorationXmlTest.cs" />
     <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
     <Compile Include="Unit\Xml\GroupXmlTest.cs" />
@@ -413,7 +413,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\CheckXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\ConditionXmlTestSuite.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

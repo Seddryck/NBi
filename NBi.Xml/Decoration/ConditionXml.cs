@@ -2,20 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using NBi.Xml.Decoration.Check;
-using NBi.Xml.Decoration.Command;
+using NBi.Xml.Decoration.Condition;
 
 namespace NBi.Xml.Decoration
 {
-    public class CheckXml
+    public class ConditionXml
     {
         [XmlElement(Type = typeof(ServiceRunningXml), ElementName = "service-running")
         ]
-        public List<DecorationCheckXml> Predicates { get; set; }
+        public List<DecorationConditionXml> Predicates { get; set; }
 
-        public CheckXml()
+        public ConditionXml()
         {
-            Predicates = new List<DecorationCheckXml>();
+            Predicates = new List<DecorationConditionXml>();
         }
     }
 }

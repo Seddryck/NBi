@@ -4,9 +4,9 @@ using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core.WindowsService;
 
-namespace NBi.Xml.Decoration.Check
+namespace NBi.Xml.Decoration.Condition
 {
-    public class ServiceRunningXml : DecorationCheckXml, IWindowsServiceRunningCheck
+    public class ServiceRunningXml : DecorationConditionXml, IWindowsServiceRunningCheck
     {
         [XmlAttribute("name")]
         public string ServiceName { get; set; }

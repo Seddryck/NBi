@@ -6,9 +6,9 @@
 		</default>
 	</settings>
 	<test name="Validate the different business entities" uid="0001">
-		<check>
+		<condition>
 			<service-running name="MSSQL$SQL2012"/>
-		</check>
+		</condition>
 		<system-under-test>
 			<execution>
 				<report source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"
@@ -27,9 +27,9 @@
 		</assert>
 	</test>
 	<test name="Detail of the contact of StoreID equalTo 300" uid="0001">
-		<check>
+		<condition>
 			<service-running name="MSSQL$SQL2012"/>
-		</check>
+		</condition>
 		<system-under-test>
 			<execution>
 				<report source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"

@@ -6,10 +6,10 @@
 		</default>
 	</settings>
 	<test name="decoration with setup and cleanup">
-		<check>
+		<condition>
 			<service-running name="MyService"/>
 			<service-running name="MyService2" timeout-milliseconds="1000"/>
-		</check>
+		</condition>
 		<system-under-test>
 			<execution>
 				<query>

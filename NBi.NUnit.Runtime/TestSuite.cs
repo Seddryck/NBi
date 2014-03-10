@@ -53,7 +53,7 @@ namespace NBi.NUnit.Runtime
                 Assert.Ignore(test.IgnoreReason);
             else
             {
-                ExecuteChecks(test.Check);
+                ExecuteChecks(test.Condition);
                 ExecuteSetup(test.Setup);
                 foreach (var tc in test.Systems)
                 {
@@ -67,7 +67,7 @@ namespace NBi.NUnit.Runtime
             }
         }
 
-        private void ExecuteChecks(CheckXml check)
+        private void ExecuteChecks(ConditionXml check)
         {
             foreach (var predicate in check.Predicates)
             {

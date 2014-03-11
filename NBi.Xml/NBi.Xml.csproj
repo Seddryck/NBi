@@ -54,6 +54,7 @@
     <Compile Include="Constraints\AbstractConstraintForCollectionXml.cs" />
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
     <Compile Include="Constraints\ContainXml.cs" />
+    <Compile Include="Constraints\SuccessfulXml.cs" />
     <Compile Include="Constraints\IReferenceFriendly.cs" />
     <Compile Include="Constraints\MatchPatternXml.cs" />
     <Compile Include="Constraints\EquivalentToXml.cs" />

@@ -314,6 +314,7 @@
 									<xs:element name="query" type ="query-type"/>
 									<xs:element name="report" type ="report-type"/>
 									<xs:element name="assembly" type ="assembly-type"/>
+									<xs:element name="etl" type ="etl-type"/>
 								</xs:choice>
 							</xs:complexType>
 						</xs:element>
@@ -632,6 +633,8 @@
 									<xs:element name="currency-format" type="currency-format-type" minOccurs="0" maxOccurs="1"/>
 								</xs:choice>
 							</xs:complexType>
+						</xs:element>
+						<xs:element name="successful">
 						</xs:element>
 					</xs:choice>
 				</xs:complexType>

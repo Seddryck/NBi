@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
+	<test name="Etl is successful" uid="0001">
+		<system-under-test>
+			<execution>
+				<etl path="Etl\" name="Sample.dtsx"/>
+			</execution>
+		</system-under-test>
+		<assert>
+			<successful/>
+		</assert>
+	</test>
+	<test name="Etl is faster than 10 seconds" uid="0002">
+		<system-under-test>
+			<execution>
+				<etl path="Etl\" name="Sample.dtsx"/>
+			</execution>
+		</system-under-test>
+		<assert>
+			<fasterThan max-time-milliSeconds="10000"/>
+		</assert>
+	</test>
+</testSuite>

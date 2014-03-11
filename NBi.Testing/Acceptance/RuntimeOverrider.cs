@@ -68,6 +68,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("ResultSetMatchPattern.nbits")]
         [TestCase("ValidateQuery.nbits")]
         [TestCase("ReportEqualTo.nbits")]
+        [TestCase("Etl.nbits")]
         public void RunTestSuite(string filename)
         {
             var t = new TestSuiteOverrider(filename);

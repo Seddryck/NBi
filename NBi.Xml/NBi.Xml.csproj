@@ -66,6 +66,7 @@
     <Compile Include="Decoration\Check\ServiceRunningXml.cs" />
     <Compile Include="Decoration\CleanupXml.cs" />
     <Compile Include="Decoration\Command\DataManipulationAbstractXml.cs" />
+    <Compile Include="Decoration\Command\EtlRunXml.cs" />
     <Compile Include="Decoration\Command\ServiceAbstractXml.cs" />
     <Compile Include="Decoration\Command\DecorationCommandXml.cs" />
     <Compile Include="Decoration\Command\LoadXml.cs" />
@@ -77,6 +78,9 @@
     <Compile Include="GroupXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
+    <Compile Include="Items\EtlParameterXml.cs" />
+    <Compile Include="Items\ParameterXml.cs" />
+    <Compile Include="Items\EtlXml.cs" />
     <Compile Include="Items\ReportXml.cs" />
     <Compile Include="Items\Format\CurrencyFormatXml.cs" />
     <Compile Include="Items\Format\NumericFormatXml.cs" />

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Data;
 using System.Linq;
-using NBi.Core;
-using NBi.NUnit.Query;
+using NBi.NUnit.Execution;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
 
@@ -35,10 +33,10 @@ namespace NBi.NUnit.Builder
         {
             var ctr = new FasterThanConstraint();
             ctr = ctr.MaxTimeMilliSeconds(fasterThanXml.MaxTimeMilliSeconds);
-            if (fasterThanXml.CleanCache)
-                ctr = ctr.CleanCache();
-            if (fasterThanXml.TimeOutMilliSeconds > 0)
-                ctr = ctr.TimeOutMilliSeconds(fasterThanXml.TimeOutMilliSeconds);
+            //if (fasterThanXml.CleanCache)
+            //    ctr = ctr.CleanCache();
+            //if (fasterThanXml.TimeOutMilliSeconds > 0)
+            //    ctr = ctr.TimeOutMilliSeconds(fasterThanXml.TimeOutMilliSeconds);
             return ctr;
         }
     }

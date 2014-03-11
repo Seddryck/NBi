@@ -164,6 +164,8 @@
     <Compile Include="Unit\NUnit\Builder\MembersOrderedBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersCountBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Execution\SuccessfulConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Execution\FasterThanConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\CountConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\MatchPatternConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\EquivalentToConstraintTest.cs" />

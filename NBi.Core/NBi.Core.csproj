@@ -83,6 +83,7 @@
     <Compile Include="Analysis\Request\MetadataLinkedToDiscoveryRequest.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\TableNotNullIfColumn.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\ValidationFilter.cs" />
+    <Compile Include="IExecutionResult.cs" />
     <Compile Include="Etl\EtlRunnerFactory.cs" />
     <Compile Include="Etl\EtlRunResult.cs" />
     <Compile Include="Etl\IEtl.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Etl\IntegrationService\EtlSqlServerRunner.cs" />
     <Compile Include="Etl\IntegrationService\PackageEvents.cs" />
     <Compile Include="Etl\IntegrationService\SsisEtlRunnerFactory.cs" />
+    <Compile Include="ExecutionFactory.cs" />
     <Compile Include="IDecorationCheckImplementation.cs" />
     <Compile Include="CsvReader.cs" />
     <Compile Include="Analysis\Metadata\Adomd\AdomdDiscoveryCommandFactory.cs" />
@@ -197,6 +199,8 @@
     <Compile Include="Format\RegexBuilder.cs" />
     <Compile Include="IDecorationCheck.cs" />
     <Compile Include="IDecorationCommand.cs" />
+    <Compile Include="IExecutable.cs" />
+    <Compile Include="IExecution.cs" />
     <Compile Include="Members\Predefined\BaseBuilder.cs" />
     <Compile Include="Members\Predefined\IPredefinedMembersBuilder.cs" />
     <Compile Include="Members\Predefined\MonthsOfYearBuilder.cs" />

@@ -11,7 +11,8 @@ namespace NBi.Xml.Decoration
         [XmlElement(Type = typeof(LoadXml), ElementName = "load"),
         XmlElement(Type = typeof(ResetXml), ElementName = "reset"),
         XmlElement(Type = typeof(ServiceStartXml), ElementName = "service-start"),
-        XmlElement(Type = typeof(ServiceStopXml), ElementName = "service-stop")
+        XmlElement(Type = typeof(ServiceStopXml), ElementName = "service-stop"),
+        XmlElement(Type = typeof(EtlRunXml), ElementName = "etl-run")
         ]
         public List<DecorationCommandXml> Commands { get; set; }
 

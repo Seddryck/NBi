@@ -23,11 +23,12 @@ namespace NBi.NUnit
 		/// </summary>
 		private void RegisterDefault()
 		{
-			Register (typeof(ExecutionXml), typeof(FasterThanXml), new ExecutionFasterThanBuilder());
+			Register (typeof(ExecutionXml), typeof(FasterThanXml), new ExecutionFasterThanChooser());
 			Register (typeof(ExecutionXml), typeof(SyntacticallyCorrectXml),new ExecutionSyntacticallyCorrectBuilder());
 			Register (typeof(ExecutionXml), typeof(EqualToXml),new ExecutionEqualToBuilder());
 			Register(typeof(ExecutionXml), typeof(MatchPatternXml), new ExecutionMatchPatternBuilder());
             Register(typeof(ExecutionXml), typeof(EvaluateRowsXml), new ExecutionEvaluateRowsBuilder());
+            Register(typeof(ExecutionXml), typeof(SuccessfulXml), new ExecutionNonQuerySuccessfulBuilder());
 			
 			Register (typeof(MembersXml), typeof(CountXml) ,new MembersCountBuilder());
 			Register(typeof(MembersXml), typeof(OrderedXml), new MembersOrderedBuilder());
@@ -57,24 +58,45 @@ namespace NBi.NUnit
 				registrations.Add(new BuilderRegistration(sutType, ctrType, builder));
 		}
 
+        internal void Register(Type sutType, Type ctrType, ITestCaseBuilderChooser chooser)
+        {
+            if (IsHandling(sutType, ctrType))
+                registrations.FirstOrDefault(reg => reg.SystemUnderTestType.Equals(sutType) && reg.ConstraintType.Equals(ctrType)).Chooser = chooser;
+            else
+                registrations.Add(new BuilderRegistration(sutType, ctrType, chooser));
+        }
+
 		internal bool IsHandling(Type sutType, Type ctrType)
 		{
 			var existing = registrations.FirstOrDefault(reg => reg.SystemUnderTestType.Equals(sutType) && reg.ConstraintType.Equals(ctrType));
 			return (existing != null);
 		}
 
-		private class BuilderRegistration
+		internal class BuilderRegistration
 		{
 			public Type SystemUnderTestType {get; set;}
 			public Type ConstraintType {get; set;}
 			public ITestCaseBuilder Builder {get; set;}
+            public ITestCaseBuilderChooser Chooser { get; set; }
+
+            private BuilderRegistration(Type sutType, Type ctrType)
+            {
+                SystemUnderTestType = sutType;
+                ConstraintType = ctrType;
+            }
 
 			public BuilderRegistration (Type sutType, Type ctrType, ITestCaseBuilder builder)
+                : this(sutType, ctrType)
 			{
-				SystemUnderTestType = sutType;
-				ConstraintType =ctrType;
 				Builder = builder;
 			}
+
+            public BuilderRegistration (Type sutType, Type ctrType, ITestCaseBuilderChooser chooser)
+                : this (sutType, ctrType)
+            {
+                Chooser = chooser;
+                Chooser.Target = this;
+            }
 		}
 
 		/// <summary>
@@ -96,6 +118,10 @@ namespace NBi.NUnit
 			var registration = registrations.FirstOrDefault(reg => sutXml.GetType()==reg.SystemUnderTestType && ctrXml.GetType() == reg.ConstraintType);
 			if (registration == null)
 				throw new ArgumentException(string.Format("'{0}' is not an expected type for a constraint for a system under test '{1}'.", ctrXml.GetType().Name, sutXml.GetType().Name));
+
+            //Apply the chooser if needed
+            if (registration.Builder == null)
+                registration.Chooser.Choose(sutXml, ctrXml);
 
 			//Get Builder and initiate it
 			builder = registration.Builder;

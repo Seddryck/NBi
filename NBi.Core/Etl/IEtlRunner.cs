@@ -5,8 +5,8 @@ using System.Text;
 
 namespace NBi.Core.Etl
 {
-    public interface IEtlRunner
+    public interface IEtlRunner: IExecution
     {
-        EtlRunResult Execute();
+        IExecutionResult Execute();
     }
 }

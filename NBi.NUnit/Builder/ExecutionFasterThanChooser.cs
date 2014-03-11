@@ -13,9 +13,9 @@ namespace NBi.NUnit.Builder
         public void Choose(AbstractSystemUnderTestXml sut, AbstractConstraintXml ctr)
         {
             if (sut.BaseItem is IExecutable)
-                Target.Builder = new ExecutionFasterThanBuilder();
-            else
                 Target.Builder = new ExecutionNonQueryFasterThanBuilder();
+            else
+                Target.Builder = new ExecutionFasterThanBuilder();
         }
     }
 }

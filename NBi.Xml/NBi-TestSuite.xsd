@@ -107,6 +107,14 @@
 		<xs:attribute name="connectionString" type="xs:string" use="optional" />
 		<xs:attribute name="roles" type="xs:string" use="optional" />
 	</xs:complexType>
+	<xs:complexType name="etl-type">
+		<xs:sequence>
+			<xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
+		</xs:sequence>
+		<xs:attribute name="server" type="xs:string"/>
+		<xs:attribute name="path" type="xs:string"/>
+		<xs:attribute name="name" type="xs:string"/>
+	</xs:complexType>
 	<xs:complexType name="report-type">
 		<xs:sequence>
 			<xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
@@ -233,6 +241,7 @@
 			<xs:element name="service-stop" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="reset" type="reset-type" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="load" type="load-type" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="reset-type">

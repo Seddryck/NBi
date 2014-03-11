@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace NBi.Core.Etl
 {
-    public interface IEtl
+    public interface IEtl: IExecutable
     {
         string Server { get; set; }
         string Path { get; set; }

@@ -14,7 +14,7 @@ namespace NBi.Core.Etl.IntegrationService
             Etl = etl;
         }
 
-        public EtlRunResult Execute()
+        public IExecutionResult Execute()
         {
             var app = new Application();
             var package = Load(Etl, app);

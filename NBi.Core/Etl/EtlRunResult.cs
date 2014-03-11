@@ -4,9 +4,17 @@ using Microsoft.SqlServer.Dts.Runtime;
 
 namespace NBi.Core.Etl
 {
-    public class EtlRunResult
+    public class EtlRunResult: IExecutionResult
     {
-        public bool IsSuccess { get; private set; }
+        private readonly bool isSuccess;
+        public bool IsSuccess
+        {
+            get
+            {
+                return isSuccess;
+            }
+        }
+
         public bool IsFailure
         {
             get
@@ -15,11 +23,39 @@ namespace NBi.Core.Etl
             }
         }
 
-        public string Message { get; private set; }
+        private readonly string message;
+        public string Message
+        {
+            get
+            {
+                return message;
+            }
+        }
+
+        private readonly TimeSpan timeElapsed;
+        public TimeSpan TimeElapsed
+        {
+            get
+            {
+                return timeElapsed;
+            }
+        }
 
         protected EtlRunResult(bool isSuccess)
         {
-            IsSuccess = isSuccess;
+            this.isSuccess = isSuccess;
+        }
+
+        protected EtlRunResult(bool isSuccess, TimeSpan timeElapsed)
+        {
+            this.isSuccess = isSuccess;
+            this.timeElapsed = timeElapsed;
+        }
+
+        protected EtlRunResult(bool isSuccess, string message)
+        {
+            this.isSuccess = isSuccess;
+            this.message = message;
         }
 
         public static EtlRunResult Build(DTSExecResult result, string message)
@@ -38,7 +74,7 @@ namespace NBi.Core.Etl
 
         public static EtlRunResult Failure(string message)
         {
-            return new EtlRunResult(false) {Message=message};
+            return new EtlRunResult(false, message);
         }
 
         public static EtlRunResult Success()

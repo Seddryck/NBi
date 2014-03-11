@@ -6,6 +6,7 @@ using NBi.Core.Etl;
 using NBi.Xml;
 using NBi.Xml.Decoration.Command;
 using NBi.Xml.Items;
+using NBi.Xml.Systems;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Xml.Items
@@ -93,13 +94,29 @@ namespace NBi.Testing.Unit.Xml.Items
         [Test]
         public void Deserialize_EtlFromFileInSystemUnderTest_EtlXml()
         {
-            int testNr = 1;
+            int testNr = 2;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Systems[0], Is.InstanceOf<EtlXml>());
-            var etl = ts.Tests[testNr].Systems[0] as EtlXml;
+            Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
+            var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
+
+            Assert.That(etl, Is.Not.Null);
+            Assert.That(etl.Path, Is.EqualTo(@"/Etl/"));
+            Assert.That(etl.Name, Is.EqualTo("Sample.dtsx"));
+        }
+
+        [Test]
+        public void Deserialize_EtlFromSqlServerInSystemUnderTest_EtlXml()
+        {
+            int testNr = 3;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
+            var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
 
             Assert.That(etl, Is.Not.Null);
             Assert.That(etl.Server, Is.EqualTo("."));

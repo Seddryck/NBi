@@ -10,7 +10,7 @@ namespace NBi.Core.Query
     /// Engine wrapping the System.Data.SqlClient namespace for execution of NBi tests
     /// <remarks>Instances of this class are built by the means of the <see>QueryEngineFactory</see></remarks>
     /// </summary>
-    internal class QuerySqlEngine : IQueryExecutor, IQueryPerformance, IQueryParser, IQueryEnginable
+    internal class QuerySqlEngine : IQueryExecutor, IQueryPerformance, IQueryParser, IQueryEnginable, IQueryFormat
     {
         protected readonly SqlCommand command;
 
@@ -102,7 +102,7 @@ namespace NBi.Core.Query
 
             using (var conn = new SqlConnection(command.Connection.ConnectionString))
             {
-                var fullSql = string.Format(@"SET FMTONLY ON {0} SET FMTONLY OFF", command.CommandText);
+                var fullSql = string.Format(@"SET FMTONLY ON; {0} SET FMTONLY OFF;", command.CommandText);
 
                 try
                 {
@@ -175,6 +175,19 @@ namespace NBi.Core.Query
 
                 return ds;
             }
+        }
+
+        public FormattedResults GetFormats()
+        {
+            var dataSet = Execute();
+            var formattedResults = new FormattedResults();
+
+            foreach (DataRow row in dataSet.Tables[0].Rows)
+            {
+                foreach (var item in row.ItemArray)
+                    formattedResults.Add(item.ToString());
+            }
+            return formattedResults;
         }
     }
 }

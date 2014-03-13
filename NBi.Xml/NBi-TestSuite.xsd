@@ -67,7 +67,7 @@
 	</xs:element>
 	<xs:complexType name="assembly-type">
 		<xs:sequence>
-			<xs:element name="parameter" minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="method-parameter" minOccurs="0" maxOccurs="unbounded">
 				<xs:complexType>
 					<xs:simpleContent>
 						<xs:extension base="xs:string">

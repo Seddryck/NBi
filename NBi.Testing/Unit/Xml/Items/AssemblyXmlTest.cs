@@ -73,7 +73,7 @@ namespace NBi.Testing.Unit.Xml.Items
             Assert.That(assembly.Path, Is.EqualTo("NBi.Testing.dll"));
             Assert.That(assembly.Klass, Is.EqualTo("NBi.Testing.Unit.Acceptance.Resource.AssemblyClass"));
             Assert.That(assembly.Method, Is.EqualTo("GetSelectString"));
-            Assert.That(assembly.Parameters, Has.Count.EqualTo(0));
+            Assert.That(assembly.MethodParameters, Has.Count.EqualTo(0));
         }
 
         [Test]
@@ -89,11 +89,11 @@ namespace NBi.Testing.Unit.Xml.Items
             var assembly = (AssemblyXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
 
             Assert.That(assembly, Is.Not.Null);
-            Assert.That(assembly.Parameters, Is.Not.Null);
-            Assert.That(assembly.Parameters, Has.Count.EqualTo(1));
+            Assert.That(assembly.MethodParameters, Is.Not.Null);
+            Assert.That(assembly.MethodParameters, Has.Count.EqualTo(1));
 
-            Assert.That(assembly.Parameters[0].Name, Is.EqualTo("MyString"));
-            Assert.That(assembly.Parameters[0].Value, Is.EqualTo("FirstValue"));
+            Assert.That(assembly.MethodParameters[0].Name, Is.EqualTo("MyString"));
+            Assert.That(assembly.MethodParameters[0].Value, Is.EqualTo("FirstValue"));
         }
 
         [Test]
@@ -109,11 +109,11 @@ namespace NBi.Testing.Unit.Xml.Items
             var assembly = (AssemblyXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
 
             Assert.That(assembly, Is.Not.Null);
-            Assert.That(assembly.Parameters, Is.Not.Null);
-            Assert.That(assembly.Parameters, Has.Count.EqualTo(1));
+            Assert.That(assembly.MethodParameters, Is.Not.Null);
+            Assert.That(assembly.MethodParameters, Has.Count.EqualTo(1));
 
-            Assert.That(assembly.Parameters[0].Name, Is.EqualTo("MyDecimal"));
-            Assert.That(assembly.Parameters[0].Value, Is.EqualTo("10.52"));
+            Assert.That(assembly.MethodParameters[0].Name, Is.EqualTo("MyDecimal"));
+            Assert.That(assembly.MethodParameters[0].Value, Is.EqualTo("10.52"));
         }
 
         [Test]
@@ -129,11 +129,11 @@ namespace NBi.Testing.Unit.Xml.Items
             var assembly = (AssemblyXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
 
             Assert.That(assembly, Is.Not.Null);
-            Assert.That(assembly.Parameters, Is.Not.Null);
-            Assert.That(assembly.Parameters, Has.Count.EqualTo(1));
+            Assert.That(assembly.MethodParameters, Is.Not.Null);
+            Assert.That(assembly.MethodParameters, Has.Count.EqualTo(1));
 
-            Assert.That(assembly.Parameters[0].Name, Is.EqualTo("MyEnum"));
-            Assert.That(assembly.Parameters[0].Value, Is.EqualTo("Beta"));
+            Assert.That(assembly.MethodParameters[0].Name, Is.EqualTo("MyEnum"));
+            Assert.That(assembly.MethodParameters[0].Value, Is.EqualTo("Beta"));
         }
 
         [Test]
@@ -149,11 +149,11 @@ namespace NBi.Testing.Unit.Xml.Items
             var assembly = (AssemblyXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
 
             Assert.That(assembly, Is.Not.Null);
-            Assert.That(assembly.Parameters, Is.Not.Null);
-            Assert.That(assembly.Parameters, Has.Count.EqualTo(1));
+            Assert.That(assembly.MethodParameters, Is.Not.Null);
+            Assert.That(assembly.MethodParameters, Has.Count.EqualTo(1));
 
-            Assert.That(assembly.Parameters[0].Name, Is.EqualTo("MyDateTime"));
-            Assert.That(assembly.Parameters[0].Value, Is.EqualTo("2012-10-16 10:15"));
+            Assert.That(assembly.MethodParameters[0].Name, Is.EqualTo("MyDateTime"));
+            Assert.That(assembly.MethodParameters[0].Value, Is.EqualTo("2012-10-16 10:15"));
         }
 
 

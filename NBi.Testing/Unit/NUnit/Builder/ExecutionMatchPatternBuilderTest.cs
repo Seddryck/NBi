@@ -1,9 +1,11 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using System.Data;
 using Moq;
 using NBi.NUnit.Builder;
 using NBi.NUnit.Query;
 using NBi.Xml.Constraints;
+using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 #endregion
@@ -46,6 +48,8 @@ namespace NBi.Testing.Unit.NUnit.Builder
         {
             var sutXmlStubFactory = new Mock<ExecutionXml>();
             sutXmlStubFactory.Setup(s => s.Item.GetQuery()).Returns("query");
+            sutXmlStubFactory.Setup(s => s.Item.GetParameters()).Returns(new List<QueryParameterXml>());
+            sutXmlStubFactory.Setup(s => s.Item.GetVariables()).Returns(new List<QueryTemplateVariableXml>());
             var sutXml = sutXmlStubFactory.Object;
 
             var ctrXml = new MatchPatternXml();
@@ -63,6 +67,9 @@ namespace NBi.Testing.Unit.NUnit.Builder
         {
             var sutXmlStubFactory = new Mock<ExecutionXml>();
             sutXmlStubFactory.Setup(s => s.Item.GetQuery()).Returns("query");
+            sutXmlStubFactory.Setup(s => s.Item.GetParameters()).Returns(new List<QueryParameterXml>());
+            sutXmlStubFactory.Setup(s => s.Item.GetVariables()).Returns(new List<QueryTemplateVariableXml>());
+            
             var sutXml = sutXmlStubFactory.Object;
 
             var ctrXml = new MatchPatternXml();

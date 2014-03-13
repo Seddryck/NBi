@@ -20,49 +20,20 @@ namespace NBi.Xml.Items
         [XmlAttribute("static")]
         public bool Static { get; set; }
 
-        [XmlElement("parameter")]
-        public List<AssemblyParameterXml> Parameters { get; set; }
+        [XmlElement("method-parameter")]
+        public List<AssemblyParameterXml> MethodParameters { get; set; }
 
         public AssemblyXml()
         {
-            Parameters = new List<AssemblyParameterXml>();
+            MethodParameters = new List<AssemblyParameterXml>();
         }
 
-        //public override object Instantiate()
-        //{
-        //    var am = new AssemblyManager();
-        //    object execRes = null;
-        //    if (Static)
-        //    {
-        //        var type = am.GetStatic(Path, Klass);
-        //        execRes = am.ExecuteStatic(type, Method, GetParameters());
-        //    }
-        //    else
-        //    {
-        //        var classInstance = am.GetInstance(Path, Klass, null);
-        //        execRes = am.Execute(classInstance, Method, GetParameters());
-        //    }
-            
-        //    //If we're trying to create a queryXml then we need to instiante it!
-        //    if (GetConnectionString() != null && execRes is string) //It means that we've a query
-        //    {
-        //        var queryXml = new QueryXml()
-        //        {
-        //            InlineQuery = (string)execRes,
-        //            ConnectionString = GetConnectionString()
-        //        };
-        //        return queryXml.Instantiate();
-        //    }
 
-        //    return execRes;
-        //}
-
-
-        protected Dictionary<string, object> GetParameters()
+        protected Dictionary<string, object> GetMethodParameters()
         {
             var dico = new Dictionary<string, object>();
-            
-            foreach (AssemblyParameterXml param in this.Parameters)
+
+            foreach (AssemblyParameterXml param in this.MethodParameters)
             {
                 dico.Add(param.Name, param.Value);
             }
@@ -76,12 +47,12 @@ namespace NBi.Xml.Items
             if (Static)
             {
                 var type = assemblyManager.GetStatic(Path, Klass);
-                methodExecution = assemblyManager.ExecuteStatic(type, Method, GetParameters());
+                methodExecution = assemblyManager.ExecuteStatic(type, Method, GetMethodParameters());
             }
             else
             {
                 var classInstance = assemblyManager.GetInstance(Path, Klass, null);
-                methodExecution = assemblyManager.Execute(classInstance, Method, GetParameters());
+                methodExecution = assemblyManager.Execute(classInstance, Method, GetMethodParameters());
             }
 
             if (methodExecution is string) //It means that we've a query

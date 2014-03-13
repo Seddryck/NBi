@@ -122,6 +122,7 @@ namespace NBi.Xml.Constraints
             var conn = new ConnectionFactory().Get(Query.GetConnectionString());
             var cmd = conn.CreateCommand();
             cmd.CommandText = Query.GetQuery();
+            
 
             return cmd;
         }

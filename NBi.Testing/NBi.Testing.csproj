@@ -208,7 +208,6 @@
   <ItemGroup>
     <Folder Include="Integration\Core\Analysis\Query\" />
     <Folder Include="Integration\NUnit\Builder\" />
-    <Folder Include="Unit\Core\Query\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Acceptance\Resources\ResellerOrderCountByYearBefore2006.csv">
@@ -218,6 +217,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\dimension.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\QueryWithParameters.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="ConnectionString.config">
@@ -324,6 +326,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\EquivalentToMembers.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\QueryWithReference.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

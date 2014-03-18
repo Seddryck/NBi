@@ -15,6 +15,12 @@ namespace NBi.Xml.Items
         [XmlIgnore()]
         public virtual SettingsXml Settings { get; set; }
 
+        public BaseItem()
+        {
+            Default = new DefaultXml();
+            Settings = new SettingsXml();
+        }
+
         [XmlAttribute("connectionString")]
         public string ConnectionString { get; set; }
 

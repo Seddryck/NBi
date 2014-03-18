@@ -41,7 +41,9 @@ namespace NBi.Core.Query
                         p.Name = "@" + p.Name;
 
                     param.ParameterName = p.Name;
-                    param.Value = p.StringValue;
+
+                    var stringWithoutSpecialChars = p.StringValue.Replace("\n", "").Replace("\t", "").Replace("\n", "").Trim();
+                    param.Value = stringWithoutSpecialChars;
                     var dbType = new DbTypeBuilder().Build(p.SqlType);
                     if (dbType != null)
                     {

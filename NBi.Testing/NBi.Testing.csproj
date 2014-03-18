@@ -233,6 +233,9 @@
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\dimension.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\QueryWithParameters.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\ReportEqualTo.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -349,6 +352,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\EquivalentToMembers.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\QueryWithReference.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

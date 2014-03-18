@@ -20,7 +20,7 @@
 		<system-under-test>
 			<execution>
 				<assembly path="NBi.Testing.dll" class="NBi.Testing.Unit.Acceptance.Resource.AssemblyClass" method="GetSelectStringWithString">
-					<parameter name="MyString">FirstValue</parameter>
+					<method-parameter name="MyString">FirstValue</method-parameter>
 				</assembly>	
 			</execution>
 		</system-under-test>
@@ -38,7 +38,7 @@
 		<system-under-test>
 			<execution>
 				<assembly path="NBi.Testing.dll" class="NBi.Testing.Unit.Acceptance.Resource.AssemblyClass" method="GetSelectStringWithDecimal">
-					<parameter name="MyDecimal">10.52</parameter>
+					<method-parameter name="MyDecimal">10.52</method-parameter>
 				</assembly>
 			</execution>
 		</system-under-test>
@@ -56,7 +56,7 @@
 		<system-under-test>
 			<execution>
 				<assembly path="NBi.Testing.dll" class="NBi.Testing.Unit.Acceptance.Resource.AssemblyClass" method="GetSelectStringWithEnum">
-					<parameter name="MyEnum">Beta</parameter>
+					<method-parameter name="MyEnum">Beta</method-parameter>
 				</assembly>
 			</execution>
 		</system-under-test>
@@ -74,7 +74,7 @@
 		<system-under-test>
 			<execution>
 				<assembly path="NBi.Testing.dll" class="NBi.Testing.Unit.Acceptance.Resource.AssemblyClass" method="GetSelectStringWithDateTime">
-					<parameter name="MyDateTime">2012-10-16 10:15</parameter>
+					<method-parameter name="MyDateTime">2012-10-16 10:15</method-parameter>
 				</assembly>
 			</execution>
 		</system-under-test>

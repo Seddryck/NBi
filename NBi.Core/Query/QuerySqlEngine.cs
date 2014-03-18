@@ -64,6 +64,9 @@ namespace NBi.Core.Query
             }
 
             Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
+            foreach (SqlParameter param in command.Parameters)
+                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("{0} => {1}", param.ParameterName, param.Value));
+
             command.CommandTimeout = timeout / 1000;
 
             tsStart = DateTime.Now;
@@ -102,6 +105,10 @@ namespace NBi.Core.Query
 
             using (var conn = new SqlConnection(command.Connection.ConnectionString))
             {
+                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
+                foreach (SqlParameter param in command.Parameters)
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("{0} => {1}", param.ParameterName, param.Value));
+
                 var fullSql = string.Format(@"SET FMTONLY ON; {0} SET FMTONLY OFF;", command.CommandText);
 
                 try
@@ -158,6 +165,9 @@ namespace NBi.Core.Query
                 { throw new ConnectionException(ex, connectionString); }
 
                 Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
+                foreach (SqlParameter param in command.Parameters)
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("{0} => {1}", param.ParameterName, param.Value));
+
                 // capture time before execution
                 DateTime timeBefore = DateTime.Now;
                 var adapter = new SqlDataAdapter(command);

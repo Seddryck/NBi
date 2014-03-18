@@ -1,12 +1,14 @@
 ﻿using System;
-using System.Data;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using NBi.Core;
+using NBi.Core.Query;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Comparer;
 using NBi.NUnit.Query;
 using NBi.Xml.Constraints;
+using NBi.Xml.Items;
 using NBi.Xml.Systems;
 
 namespace NBi.NUnit.Builder
@@ -39,7 +41,19 @@ namespace NBi.NUnit.Builder
             
             if (ConstraintXml.GetCommand() != null)
             {
-                ctr = new EqualToConstraint(ConstraintXml.GetCommand());
+                var commandText = ConstraintXml.GetCommand().CommandText;
+                var connectionString = ConstraintXml.GetCommand().Connection.ConnectionString;
+                IEnumerable<IQueryParameter> parameters = null;
+                IEnumerable<IQueryTemplateVariable> variables = null;
+                if (ConstraintXml.Query != null)
+                {
+                    parameters = ConstraintXml.Query.GetParameters();
+                    variables = ConstraintXml.Query.GetVariables();
+                }
+
+                var commandBuilder = new CommandBuilder();
+                var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables);
+                ctr = new EqualToConstraint(cmd);
             }
             else if (ConstraintXml.ResultSet != null)
             {

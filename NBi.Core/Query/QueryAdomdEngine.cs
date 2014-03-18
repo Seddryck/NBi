@@ -95,7 +95,8 @@ namespace NBi.Core.Query
 				Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
 				// capture time before execution
 				DateTime timeBefore = DateTime.Now;
-				var adapter = new AdomdDataAdapter(command.CommandText, connection);
+				command.Connection = connection;
+				var adapter = new AdomdDataAdapter(command);
 				var ds = new DataSet();
 				
 				adapter.SelectCommand.CommandTimeout = 0;
@@ -225,6 +226,11 @@ namespace NBi.Core.Query
 				
 				using (AdomdCommand cmdIn = new AdomdCommand(command.CommandText, connection))
 				{
+					foreach (AdomdParameter param in command.Parameters)
+					{
+						var p = param.Clone();
+						cmdIn.Parameters.Add(p);
+					}
 					try
 					{
 						cmdIn.ExecuteReader(CommandBehavior.SchemaOnly);

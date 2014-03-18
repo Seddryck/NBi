@@ -9,7 +9,7 @@
 		<system-under-test>
 			<execution>
 				<assembly path="NBi.Testing.dll" class="NBi.Testing.Acceptance.Resources.AssemblyClass" method="GetSelectMdx">
-					<parameter name="calendarYear">CY 2008</parameter>
+					<method-parameter name="calendarYear">CY 2008</method-parameter>
 				</assembly>
 			</execution>
 		</system-under-test>
@@ -28,9 +28,9 @@
 		<system-under-test>
 			<execution>
 				<assembly path="NBi.Testing.dll" class="NBi.Testing.Acceptance.Resources.AssemblyClass" method="GetSelectMdxWithTwoParams">
-					<parameter name="year">2006</parameter>
-					<parameter name="measure">OrderCount</parameter>
-				</assembly>
+					<method-parameter name="year">2006</method-parameter>
+					<method-parameter name="measure">OrderCount</method-parameter>
+			</assembly>
 			</execution>
 		</system-under-test>
 		<assert>

@@ -3,69 +3,69 @@
 	<xs:element name="testSuite">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="settings" minOccurs="0" maxOccurs="1">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="default" minOccurs="0" maxOccurs="2">
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="connectionString" minOccurs="0" maxOccurs="1">
-											<xs:complexType>
-												<xs:simpleContent>
-													<xs:extension base="xs:string">
-													</xs:extension>
-												</xs:simpleContent>
-											</xs:complexType>
-										</xs:element>
-										<xs:element type="parameter-type" minOccurs="0" maxOccurs="unbounded" name="parameter"/>
-										<xs:element type="variable-type" minOccurs="0" maxOccurs="unbounded" name="variable"/>
-									</xs:sequence>
-									<xs:attribute name="apply-to" use="required">
-										<xs:simpleType>
-											<xs:restriction base="xs:string">
-												<xs:enumeration value="system-under-test"/>
-												<xs:enumeration value="assert"/>
-												<xs:enumeration value="setup-cleanup"/>
-											</xs:restriction>
-										</xs:simpleType>
-									</xs:attribute>
-								</xs:complexType>
-							</xs:element>
-							<xs:element name="reference" minOccurs="0" maxOccurs="unbounded">
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="connectionString" minOccurs="0" maxOccurs="1">
-											<xs:complexType>
-												<xs:simpleContent>
-													<xs:extension base="xs:string">
-													</xs:extension>
-												</xs:simpleContent>
-											</xs:complexType>
-										</xs:element>
-										<xs:element name="regex" minOccurs="0" maxOccurs="1"/>
-										<xs:element name="numeric-format" type="numeric-format-type" minOccurs="0" maxOccurs="1"/>
-										<xs:element name="currency-format" type="currency-format-type" minOccurs="0" maxOccurs="1"/>
-									</xs:sequence>
-									<xs:attribute name="name" type="xs:string" use="required"/>
-								</xs:complexType>
-							</xs:element>
-							<xs:element name="parallelize-queries" minOccurs="0" maxOccurs="1">
-								<xs:complexType>
-									<xs:simpleContent>
-										<xs:extension base="xs:boolean">
-										</xs:extension>
-									</xs:simpleContent>
-								</xs:complexType>
-							</xs:element>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
+				<xs:element name="settings" type="settings-type" minOccurs="0" maxOccurs="1"/>
 				<xs:element name="test" type="test-type" minOccurs="0" maxOccurs="unbounded" />
 				<xs:element name="group" type="group-type" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 			<xs:attribute name="name" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
+	<xs:complexType name="settings-type">
+		<xs:sequence>
+			<xs:element name="default" minOccurs="0" maxOccurs="4">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="connectionString" minOccurs="0" maxOccurs="1">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element type="parameter-type" minOccurs="0" maxOccurs="unbounded" name="parameter"/>
+						<xs:element type="variable-type" minOccurs="0" maxOccurs="unbounded" name="variable"/>
+					</xs:sequence>
+					<xs:attribute name="apply-to" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="everywhere"/>
+								<xs:enumeration value="system-under-test"/>
+								<xs:enumeration value="assert"/>
+								<xs:enumeration value="setup-cleanup"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="reference" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="connectionString" minOccurs="0" maxOccurs="1">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="regex" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="numeric-format" type="numeric-format-type" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="currency-format" type="currency-format-type" minOccurs="0" maxOccurs="1"/>
+					</xs:sequence>
+					<xs:attribute name="name" type="xs:string" use="required"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="parallelize-queries" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:boolean">
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="assembly-type">
 		<xs:sequence>
 			<xs:element name="method-parameter" minOccurs="0" maxOccurs="unbounded">

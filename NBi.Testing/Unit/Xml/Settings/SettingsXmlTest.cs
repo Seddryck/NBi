@@ -245,5 +245,33 @@ namespace NBi.Testing.Unit.Xml.Settings
             Assert.That(parameters.Count, Is.EqualTo(3));
         }
 
+        [Test]
+        public void DeserializeStructurePerspective_SettingsWithDefaultEverywhere_True()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithDefaultEverywhere");
+
+            //The connections string is overriden where needed
+            Assert.That(((QueryXml)ts.Tests[testNr].Systems[0].BaseItem).GetConnectionString(), Is.EqualTo("My Connection String"));
+            Assert.That(((QueryXml)ts.Tests[testNr].Constraints[0].BaseItem).GetConnectionString(), Is.EqualTo("My Connection String from Everywhere"));
+
+            //The param is copied everywhere
+            Assert.That(((QueryXml)ts.Tests[testNr].Systems[0].BaseItem).GetParameters().Find(p => p.Name == "paramEverywhere").StringValue, Is.EqualTo("120"));
+            Assert.That(((QueryXml)ts.Tests[testNr].Constraints[0].BaseItem).GetParameters().Find(p => p.Name == "paramEverywhere").StringValue, Is.EqualTo("120"));
+
+            //The param is not overriden
+            Assert.That(((QueryXml)ts.Tests[testNr].Systems[0].BaseItem).GetParameters().Find(p => p.Name == "paramToOverride").StringValue, Is.EqualTo("Alpha"));
+            //The param is overriden
+            Assert.That(((QueryXml)ts.Tests[testNr].Constraints[0].BaseItem).GetParameters().Find(p => p.Name == "paramToOverride").StringValue, Is.EqualTo("80"));
+
+            //The param is not overriden
+            Assert.That(((QueryXml)ts.Tests[testNr].Systems[0].BaseItem).GetParameters().Find(p => p.Name == "paramToOverrideTwice").StringValue, Is.EqualTo("3"));
+            //The param is overriden
+            Assert.That(((QueryXml)ts.Tests[testNr].Constraints[0].BaseItem).GetParameters().Find(p => p.Name == "paramToOverrideTwice").StringValue, Is.EqualTo("1"));
+
+        }
+
     }
 }

@@ -5,9 +5,9 @@ using NBi.Core.DataManipulation;
 
 namespace NBi.Xml.Decoration.Command
 {
-    public class LoadXml : DataManipulationAbstractXml, ILoadCommand
+    public class TableLoadXml : DataManipulationAbstractXml, ILoadCommand
     {
-        [XmlAttribute("table")]
+        [XmlAttribute("name")]
         public string TableName { get; set; }
         
         [XmlAttribute("file")]

@@ -27,8 +27,19 @@ namespace NBi.Xml.Items
             }
         }
 
+        private string sqlType;
         [XmlAttribute("sql-type")]
-        public string SqlType { get; set; }
+        public string SqlType
+        {
+            get
+            {
+                return sqlType;
+            }
+            set
+            {
+                sqlType = value;
+            }
+        }
 
         [XmlText]
         public string StringValue { get; set; }
@@ -38,7 +49,8 @@ namespace NBi.Xml.Items
             TypeConverter converter = TypeDescriptor.GetConverter(typeof(T));
             if (converter != null)
             {
-                return (T)converter.ConvertFrom(StringValue);
+                var stringWithoutSpecialChars = StringValue.Replace("\n", "").Replace("\t", "").Replace("\n", "").Trim();
+                return (T)converter.ConvertFrom(stringWithoutSpecialChars);
             }
             else
                 throw new InvalidOperationException();

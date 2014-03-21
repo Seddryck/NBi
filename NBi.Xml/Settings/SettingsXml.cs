@@ -23,6 +23,8 @@ namespace NBi.Xml.Settings
 
         public enum DefaultScope
         {
+            [XmlEnum(Name = "everywhere")]
+            Everywhere,
             [XmlEnum(Name = "system-under-test")]
             SystemUnderTest,
             [XmlEnum(Name = "assert")]
@@ -41,6 +43,23 @@ namespace NBi.Xml.Settings
                 def=new DefaultXml(scope);
                 Defaults.Add(def);
             }
+
+            //Add the defaults from "everywhere", if they are not overriden in the scope
+            var defEverywhere = Defaults.SingleOrDefault(d => d.ApplyTo == DefaultScope.Everywhere);
+            if (defEverywhere != null)
+            {
+                if (string.IsNullOrEmpty(def.ConnectionString))
+                    def.ConnectionString = defEverywhere.ConnectionString;
+
+                foreach (var param in defEverywhere.Parameters)
+                    if (def.Parameters.SingleOrDefault(p => p.Name == param.Name) == null)
+                        def.Parameters.Add(param);
+
+                foreach (var variable in defEverywhere.Variables)
+                    if (def.Variables.SingleOrDefault(v => v.Name == variable.Name) == null)
+                        def.Variables.Add(variable);
+            }
+
             return def;           
         }
 

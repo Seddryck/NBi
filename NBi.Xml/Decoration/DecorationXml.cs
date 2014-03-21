@@ -8,8 +8,8 @@ namespace NBi.Xml.Decoration
 {
     public abstract class DecorationXml
     {
-        [XmlElement(Type = typeof(LoadXml), ElementName = "load"),
-        XmlElement(Type = typeof(ResetXml), ElementName = "reset"),
+        [XmlElement(Type = typeof(TableLoadXml), ElementName = "table-load"),
+        XmlElement(Type = typeof(TableResetXml), ElementName = "table-reset"),
         XmlElement(Type = typeof(ServiceStartXml), ElementName = "service-start"),
         XmlElement(Type = typeof(ServiceStopXml), ElementName = "service-stop")
         ]

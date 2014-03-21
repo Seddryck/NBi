@@ -229,17 +229,17 @@
 		<xs:sequence minOccurs="1" maxOccurs="unbounded">
 			<xs:element name="service-start" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="service-stop" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element name="reset" type="reset-type" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element name="load" type="load-type" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="table-reset" type="table-reset-type" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="table-load" type="table-load-type" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="reset-type">
+	<xs:complexType name="table-reset-type">
 		<xs:attribute name="connectionString" use="optional"/>
-		<xs:attribute name="table" use="required"/>
+		<xs:attribute name="name" use="required"/>
 	</xs:complexType>
-	<xs:complexType name="load-type" >
+	<xs:complexType name="table-load-type" >
 		<xs:complexContent>
-			<xs:extension base="reset-type">
+			<xs:extension base="table-reset-type">
 				<xs:attribute name="file" use="required"/>
 			</xs:extension>
 		</xs:complexContent>

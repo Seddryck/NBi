@@ -8,20 +8,34 @@ namespace NBi.GenbiL.Parser
 {
     class Case
     {
-        public static readonly Parser<LoadType> LoadTypeParser =
+        public static readonly Parser<LoadType> LoadTypeFileParser =
             Parse.IgnoreCase("file").Return(LoadType.File)
+                .Token();
+
+        public static readonly Parser<LoadType> LoadTypeQueryParser =
+            Parse.IgnoreCase("query").Return(LoadType.Query)
                 .Token();
 
         public static readonly Parser<AxisType> AxisTypeParser =
             Parse.IgnoreCase("column").Return(AxisType.Column)
                 .Token();
 
-        readonly static Parser<ICaseAction> CaseLoadParser =
+        readonly static Parser<ICaseAction> CaseLoadFileParser =
         (
                 from load in Keyword.Load
-                from loadType in LoadTypeParser
+                from loadType in LoadTypeFileParser
                 from filename in Grammar.QuotedTextual
-                select new LoadCaseAction(filename)
+                select new LoadCaseFromFileAction(filename)
+        );
+
+        readonly static Parser<ICaseAction> CaseLoadQueryParser =
+        (
+                from load in Keyword.Load
+                from loadType in LoadTypeQueryParser
+                from filename in Grammar.QuotedTextual
+                from onKeyword in Keyword.On
+                from connectionString in Grammar.QuotedTextual
+                select new LoadCaseFromQueryAction(filename, connectionString)
         );
 
 
@@ -48,7 +62,7 @@ namespace NBi.GenbiL.Parser
                 from move in Keyword.Move
                 from axisType in Parse.IgnoreCase("Column").Token()
                 from variableName in Grammar.QuotedTextual
-                from intoKeyword in Keyword.To
+                from toKeyword in Keyword.To
                 from relativePosition in Parse.IgnoreCase("Left").Return(-1).Or(Parse.IgnoreCase("Left").Return(1)).Token()
                 select new MoveCaseAction(variableName, relativePosition)
         );
@@ -56,7 +70,7 @@ namespace NBi.GenbiL.Parser
         public readonly static Parser<IAction> Parser =
         (
                 from @case in Keyword.Case
-                from action in CaseLoadParser.Or(CaseRemoveParser).Or(CaseRenameParser).Or(CaseMoveParser)
+                from action in CaseLoadFileParser.Or(CaseLoadQueryParser).Or(CaseRemoveParser).Or(CaseRenameParser).Or(CaseMoveParser)
                 select action
         );
     }

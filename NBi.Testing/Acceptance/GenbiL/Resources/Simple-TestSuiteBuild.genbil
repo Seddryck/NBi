@@ -10,4 +10,8 @@ case move column 'perspective' to left;
 template load predefined 'SubsetOfDimensions';
 suite generate grouping;
 
+case load query 'Acceptance\GenbiL\Resources\hierarchy.sql' on 'Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly';
+template load predefined 'ExistsHierarchy';
+suite generate;
+
 suite save 'Acceptance\GenbiL\Resources\Simple-TestSuiteBuild.nbits';

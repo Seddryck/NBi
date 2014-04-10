@@ -74,7 +74,11 @@ namespace NBi.Testing.Acceptance.GenbiL
 
             Assert.That(content, Is.StringContaining("<dimensions "));
             Assert.That(content, Is.StringContaining("<subsetOf"));
-            
+
+            Assert.That(content, Is.StringContaining("<hierarchy "));
+            Assert.That(content, Is.StringContaining("caption=\"first-hierarchy\""));
+            Assert.That(content, Is.StringContaining("caption=\"second-hierarchy\""));
+            Assert.That(content, Is.StringContaining("dimension=\"first-dimension\""));           
         }
     }
 }

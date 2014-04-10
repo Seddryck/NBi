@@ -63,14 +63,36 @@ namespace NBi.GenbiL.Parser
                 from axisType in Parse.IgnoreCase("Column").Token()
                 from variableName in Grammar.QuotedTextual
                 from toKeyword in Keyword.To
-                from relativePosition in Parse.IgnoreCase("Left").Return(-1).Or(Parse.IgnoreCase("Left").Return(1)).Token()
+                from relativePosition in Parse.IgnoreCase("Left").Return(-1).Or(Parse.IgnoreCase("Right").Return(1)).Token()
                 select new MoveCaseAction(variableName, relativePosition)
+        );
+
+        readonly static Parser<ICaseAction> CaseFilterOutParser =
+        (
+                from filter in Keyword.Filter
+                from outKeyword in Keyword.Out
+                from text in Grammar.QuotedTextual
+                from onKeyword in Keyword.On
+                from axisType in Parse.IgnoreCase("Column").Token()
+                from variableName in Grammar.QuotedTextual
+                select new FilterOutCaseAction(text, variableName)
+        );
+
+        readonly static Parser<ICaseAction> CaseFilterInParser =
+        (
+                from filter in Keyword.Filter
+                from inKeyword in Keyword.In
+                from text in Grammar.QuotedTextual
+                from onKeyword in Keyword.On
+                from axisType in Parse.IgnoreCase("Column").Token()
+                from variableName in Grammar.QuotedTextual
+                select new FilterInCaseAction(text, variableName)
         );
 
         public readonly static Parser<IAction> Parser =
         (
                 from @case in Keyword.Case
-                from action in CaseLoadFileParser.Or(CaseLoadQueryParser).Or(CaseRemoveParser).Or(CaseRenameParser).Or(CaseMoveParser)
+                from action in CaseLoadFileParser.Or(CaseLoadQueryParser).Or(CaseRemoveParser).Or(CaseRenameParser).Or(CaseMoveParser).Or(CaseFilterOutParser).Or(CaseFilterInParser)
                 select action
         );
     }

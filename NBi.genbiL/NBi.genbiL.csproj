@@ -48,6 +48,9 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Action\AxisType.cs" />
+    <Compile Include="Action\Case\FilterInCaseAction.cs" />
+    <Compile Include="Action\Case\FilterCaseAction.cs" />
+    <Compile Include="Action\Case\FilterOutCaseAction.cs" />
     <Compile Include="Action\Case\LoadCaseFromQueryAction.cs" />
     <Compile Include="Action\Case\MoveCaseAction.cs" />
     <Compile Include="Action\Case\RenameCaseAction.cs" />

@@ -72,6 +72,40 @@ namespace NBi.Service
             //move the column
             content.Columns[oldPosition].SetOrdinal(newPosition);
         }
-            
+
+
+        public void FilterOut(string variableName, string text)
+        {
+            if (!variables.Contains(variableName))
+                throw new ArgumentOutOfRangeException("variableName");
+
+            var index = variables.IndexOf(variableName);
+
+            var i = 0;
+            while(i<content.Rows.Count)
+            {
+                if (content.Rows[i][index].ToString() == text)
+                    content.Rows[i].Delete();
+                i++;
+            }
+            content.AcceptChanges();
+        }
+
+        public void FilterIn(string variableName, string text)
+        {
+            if (!variables.Contains(variableName))
+                throw new ArgumentOutOfRangeException("variableName");
+
+            var index = variables.IndexOf(variableName);
+
+            var i = 0;
+            while (i < content.Rows.Count)
+            {
+                if (content.Rows[i][index].ToString() != text)
+                    content.Rows[i].Delete();
+                i++;
+            }
+            content.AcceptChanges();
+        }
     }
 }

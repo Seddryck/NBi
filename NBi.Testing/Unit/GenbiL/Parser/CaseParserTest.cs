@@ -56,7 +56,6 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(((RenameCaseAction)result).NewVariableName, Is.EqualTo("new perspective"));
         }
 
-
         [Test]
         public void SentenceParser_CaseMoveColumnString_ValidCaseMoveColumn()
         {
@@ -67,6 +66,30 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.InstanceOf<MoveCaseAction>());
             Assert.That(((MoveCaseAction)result).VariableName, Is.EqualTo("perspective"));
             Assert.That(((MoveCaseAction)result).RelativePosition, Is.EqualTo(-1));
+        }
+
+        [Test]
+        public void SentenceParser_CaseFilterOut_ValidFilterOutAction()
+        {
+            var input = "case filter out 'hidden-perspective' on column 'perspective';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<FilterOutCaseAction>());
+            Assert.That(((FilterCaseAction)result).Text, Is.EqualTo("hidden-perspective"));
+            Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseFilterIn_ValidFilterOutAction()
+        {
+            var input = "case filter in 'keep-perspective' on column 'perspective';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<FilterInCaseAction>());
+            Assert.That(((FilterCaseAction)result).Text, Is.EqualTo("keep-perspective"));
+            Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
         }
     }
 }

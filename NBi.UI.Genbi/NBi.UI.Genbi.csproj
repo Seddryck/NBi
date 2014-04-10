@@ -93,6 +93,7 @@
     <Compile Include="Command\Template\SaveTemplateCommand.cs" />
     <Compile Include="Command\TestCases\MoveVariableCommand.cs" />
     <Compile Include="Command\TestCases\OpenTestCasesCommand.cs" />
+    <Compile Include="Command\TestCases\OpenTestCasesQueryCommand.cs" />
     <Compile Include="Command\TestSuite\OpenTestSuiteCommand.cs" />
     <Compile Include="Command\TestSuite\SaveAsTestSuiteCommand.cs" />
     <Compile Include="Command\TestsXml\ClearTestListCommand.cs" />
@@ -185,6 +186,12 @@
     </Compile>
     <Compile Include="View\TestSuiteGenerator\NewReferenceWindow.Designer.cs">
       <DependentUpon>NewReferenceWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\OpenQueryWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\OpenQueryWindow.Designer.cs">
+      <DependentUpon>OpenQueryWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="View\TestSuiteGenerator\TestSuiteView.cs">
       <SubType>Form</SubType>
@@ -289,6 +296,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\TestSuiteGenerator\NewReferenceWindow.resx">
       <DependentUpon>NewReferenceWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TestSuiteGenerator\OpenQueryWindow.resx">
+      <DependentUpon>OpenQueryWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\TestSuiteGenerator\OpenTemplateWindow.resx">
       <DependentUpon>OpenTemplateWindow.cs</DependentUpon>

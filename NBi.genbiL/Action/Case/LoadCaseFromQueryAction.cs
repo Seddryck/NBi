@@ -4,24 +4,27 @@ using NBi.Service;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class LoadCaseAction : ICaseAction
+    public class LoadCaseFromQueryAction : ICaseAction
     {
         public string Filename { get; set; }
-        public LoadCaseAction(string filename)
+        public string ConnectionString { get; set; }
+
+        public LoadCaseFromQueryAction(string filename, string connectionString)
         {
             Filename = filename;
+            ConnectionString = connectionString;
         }
 
         public virtual void Execute(GenerationState state)
         {
-            state.TestCases.ReadFromCsv(Filename);
+            state.TestCases.ReadFromQueryFile(Filename, ConnectionString);
         }
 
         public string Display
         {
             get
             {
-                return string.Format("Loading TestCases from CSV file '{0}'"
+                return string.Format("Loading TestCases from query written in '{0}'"
                     , Filename);
             }
         }

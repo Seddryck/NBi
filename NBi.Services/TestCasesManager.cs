@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 using System.Linq;
 using NBi.Core;
+using NBi.Core.Query;
 
 namespace NBi.Service
 {
@@ -21,6 +20,24 @@ namespace NBi.Service
             var csvReader = new CsvReader(filename, true);
             content = csvReader.Read();          
 
+            variables.Clear();
+            foreach (DataColumn col in Content.Columns)
+                variables.Add(col.ColumnName);
+        }
+
+        public void ReadFromQueryFile(string queryFile, string connectionString)
+        {
+            var query = System.IO.File.ReadAllText(queryFile);
+            ReadFromQuery(query, connectionString);
+        }
+
+        public void ReadFromQuery(string query, string connectionString)
+        {
+            var queryEngineFactory = new QueryEngineFactory();
+            var queryEngine = queryEngineFactory.GetExecutor(query, connectionString);
+            var ds = queryEngine.Execute();
+            content = ds.Tables[0];
+                
             variables.Clear();
             foreach (DataColumn col in Content.Columns)
                 variables.Add(col.ColumnName);

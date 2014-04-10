@@ -27,7 +27,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             var result = Recipe.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Has.Some.Matches(Is.InstanceOf<LoadCaseAction>()));
+            Assert.That(result, Has.Some.Matches(Is.InstanceOf<LoadCaseFromFileAction>()));
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<RemoveCaseAction>()));
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<LoadTemplateAction>()));
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<ReferenceAction>()));

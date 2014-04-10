@@ -17,8 +17,20 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             var result = Case.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<LoadCaseAction>());
-            Assert.That(((LoadCaseAction)result).Filename, Is.EqualTo("filename.csv"));
+            Assert.That(result, Is.InstanceOf<LoadCaseFromFileAction>());
+            Assert.That(((LoadCaseFromFileAction)result).Filename, Is.EqualTo("filename.csv"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseLoadQueryString_ValidCaseLoadSentence()
+        {
+            var input = "case load query 'filename.sql' on 'connStr';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<LoadCaseFromQueryAction>());
+            Assert.That(((LoadCaseFromQueryAction)result).Filename, Is.EqualTo("filename.sql"));
+            Assert.That(((LoadCaseFromQueryAction)result).ConnectionString, Is.EqualTo("connStr"));
         }
 
         [Test]

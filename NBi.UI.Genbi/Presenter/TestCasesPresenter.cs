@@ -15,10 +15,11 @@ namespace NBi.UI.Genbi.Presenter
     {
         private readonly TestCasesManager testCasesManager;
 
-        public TestCasesPresenter(RenameVariableWindow window,TestCasesManager testCasesManager, DataTable testCases, BindingList<string> variables)
+        public TestCasesPresenter(RenameVariableWindow renameVariablewindow, OpenQueryWindow openQueryWindow, TestCasesManager testCasesManager, DataTable testCases, BindingList<string> variables)
         {
             this.OpenTestCasesCommand = new OpenTestCasesCommand(this);
-            this.RenameVariableCommand = new RenameVariableCommand(this, window);
+            this.OpenTestCasesQueryCommand = new OpenTestCasesQueryCommand(this, openQueryWindow);
+            this.RenameVariableCommand = new RenameVariableCommand(this, renameVariablewindow);
             this.RemoveVariableCommand = new RemoveVariableCommand(this);
             this.MoveLeftVariableCommand = new MoveLeftVariableCommand(this);
             this.MoveRightVariableCommand = new MoveRightVariableCommand(this);
@@ -29,6 +30,7 @@ namespace NBi.UI.Genbi.Presenter
         }
 
         public ICommand OpenTestCasesCommand { get; private set; }
+        public ICommand OpenTestCasesQueryCommand { get; private set; }
         public ICommand RenameVariableCommand { get; private set; }
         public ICommand RemoveVariableCommand { get; private set; }
         public ICommand MoveLeftVariableCommand { get; private set; }
@@ -89,6 +91,13 @@ namespace NBi.UI.Genbi.Presenter
         internal void LoadCsv(string fullPath)
         {
             testCasesManager.ReadFromCsv(fullPath);
+            Reload();
+            OnPropertyChanged("Variables");
+        }
+
+        internal void LoadQuery(string fullPath, string connectionString)
+        {
+            testCasesManager.ReadFromQueryFile(fullPath, connectionString);
             Reload();
             OnPropertyChanged("Variables");
         }

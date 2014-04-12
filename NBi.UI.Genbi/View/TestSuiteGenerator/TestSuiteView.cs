@@ -27,7 +27,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         public TestSuiteView()
         {
             State = new TestSuiteState();
-            TestCasesPresenter = new TestCasesPresenter(new RenameVariableWindow(), new OpenQueryWindow(), new TestCasesManager(), State.TestCases, State.Variables);
+            TestCasesPresenter = new TestCasesPresenter(new RenameVariableWindow(), new OpenQueryWindow(), new FilterWindow(), new TestCasesManager(), State.TestCases, State.Variables);
             TemplatePresenter = new TemplatePresenter(new TemplateManager(), State.Template);
             SettingsPresenter = new SettingsPresenter(new SettingsManager(), State.Settings);
             TestListPresenter = new TestListPresenter(new TestListManager(), State.Tests, State.TestCases, State.Variables, State.Template);
@@ -67,6 +67,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.RenameVariableCommand, testCasesControl.RenameCommand);
             CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.MoveLeftVariableCommand, testCasesControl.MoveLeftCommand);
             CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.MoveRightVariableCommand, testCasesControl.MoveRightCommand);
+            CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.FilterCommand, testCasesControl.FilterCommand);
 
             //Template
             CommandManager.Instance.Bindings.Add(this.TemplatePresenter.OpenTemplateCommand, openTemplateToolStripMenuItem);

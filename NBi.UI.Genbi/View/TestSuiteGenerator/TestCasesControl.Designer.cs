@@ -33,6 +33,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.variables = new System.Windows.Forms.ComboBox();
             this.csvContent = new System.Windows.Forms.DataGridView();
+            this.filter = new System.Windows.Forms.Button();
             this.moveRight = new System.Windows.Forms.Button();
             this.moveLeft = new System.Windows.Forms.Button();
             this.remove = new System.Windows.Forms.Button();
@@ -49,6 +50,7 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.filter);
             this.panel1.Controls.Add(this.moveRight);
             this.panel1.Controls.Add(this.moveLeft);
             this.panel1.Controls.Add(this.remove);
@@ -90,6 +92,16 @@
             this.csvContent.Name = "csvContent";
             this.csvContent.Size = new System.Drawing.Size(452, 249);
             this.csvContent.TabIndex = 17;
+            // 
+            // filter
+            // 
+            this.filter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.filter.Image = global::NBi.UI.Genbi.Properties.Resources.funnel;
+            this.filter.Location = new System.Drawing.Point(401, 3);
+            this.filter.Name = "filter";
+            this.filter.Size = new System.Drawing.Size(24, 24);
+            this.filter.TabIndex = 21;
+            this.filter.UseVisualStyleBackColor = true;
             // 
             // moveRight
             // 
@@ -161,6 +173,7 @@
         public System.Windows.Forms.Button remove;
         public System.Windows.Forms.Button moveLeft;
         public System.Windows.Forms.Button moveRight;
+        public System.Windows.Forms.Button filter;
 
     }
 }

@@ -68,5 +68,12 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             }
         }
 
+        public Button FilterCommand
+        {
+            get
+            {
+                return filter;
+            }
+        }
     }
 }

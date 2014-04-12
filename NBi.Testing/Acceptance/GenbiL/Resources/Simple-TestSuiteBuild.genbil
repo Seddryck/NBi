@@ -11,12 +11,12 @@ template load predefined 'SubsetOfDimensions';
 suite generate grouping;
 
 case load query 'Acceptance\GenbiL\Resources\hierarchy.sql' on 'Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly';
-case filter out 'third-hierarchy' on column 'hierarchy';
+case filter on column 'hierarchy' values not equal 'third-hierarchy' ;
 template load predefined 'ExistsHierarchy';
 suite generate;
 
 template load predefined 'SubsetOfHierarchies';
-case filter in 'first-dimension' on column 'dimension';
+case filter on column 'dimension' values like 'first-%' ;
 case move column 'dimension' to right;
 case move column 'perspective' to left;
 case move column 'dimension' to left;

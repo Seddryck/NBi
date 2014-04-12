@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using NBi.Core;
 using NBi.Core.Query;
 
@@ -9,6 +10,8 @@ namespace NBi.Service
 {
     public class TestCasesManager
     {
+        private Func<string, string, bool> compare;
+
         public TestCasesManager()
         {
             variables = new List<string>();
@@ -73,39 +76,51 @@ namespace NBi.Service
             content.Columns[oldPosition].SetOrdinal(newPosition);
         }
 
-
-        public void FilterOut(string variableName, string text)
+        public void Filter(string variableName, Operator @operator, bool negation, string text)
         {
             if (!variables.Contains(variableName))
                 throw new ArgumentOutOfRangeException("variableName");
 
+            AssignCompare(@operator);
+
             var index = variables.IndexOf(variableName);
 
-            var i = 0;
-            while(i<content.Rows.Count)
+            foreach (DataRow row in content.Rows)
             {
-                if (content.Rows[i][index].ToString() == text)
-                    content.Rows[i].Delete();
-                i++;
+                if (compare(row[index].ToString(), text)==negation)
+                    row.Delete();
             }
             content.AcceptChanges();
         }
 
-        public void FilterIn(string variableName, string text)
+        private void AssignCompare(Operator @operator)
         {
-            if (!variables.Contains(variableName))
-                throw new ArgumentOutOfRangeException("variableName");
-
-            var index = variables.IndexOf(variableName);
-
-            var i = 0;
-            while (i < content.Rows.Count)
+            switch (@operator)
             {
-                if (content.Rows[i][index].ToString() != text)
-                    content.Rows[i].Delete();
-                i++;
+                case Operator.Equal:
+                    compare = (a,b) => a==b;
+                    break;
+                case Operator.Like:
+                    compare = Like;
+                    break;
+                default:
+                    break;
             }
-            content.AcceptChanges();
+        }
+
+        private bool Like(string value, string pattern)
+        {
+            //Turn a SQL-like-pattern into regex, by turning '%' into '.*'
+            //Doesn't handle SQL's underscore into single character wild card '.{1,1}',
+            //        or the way SQL uses square brackets for escaping.
+            //(Note the same concept could work for DOS-style wildcards (* and ?)
+            var regex = new Regex("^" + pattern
+                           .Replace(".", "\\.")
+                           .Replace("%", ".*")
+                           .Replace("\\.*", "\\%")
+                           + "$");
+
+            return regex.IsMatch(value);
         }
     }
 }

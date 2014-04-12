@@ -15,7 +15,7 @@ namespace NBi.UI.Genbi.Presenter
     {
         private readonly TestCasesManager testCasesManager;
 
-        public TestCasesPresenter(RenameVariableWindow renameVariablewindow, OpenQueryWindow openQueryWindow, TestCasesManager testCasesManager, DataTable testCases, BindingList<string> variables)
+        public TestCasesPresenter(RenameVariableWindow renameVariablewindow, OpenQueryWindow openQueryWindow, FilterWindow filterWindow, TestCasesManager testCasesManager, DataTable testCases, BindingList<string> variables)
         {
             this.OpenTestCasesCommand = new OpenTestCasesCommand(this);
             this.OpenTestCasesQueryCommand = new OpenTestCasesQueryCommand(this, openQueryWindow);
@@ -23,6 +23,7 @@ namespace NBi.UI.Genbi.Presenter
             this.RemoveVariableCommand = new RemoveVariableCommand(this);
             this.MoveLeftVariableCommand = new MoveLeftVariableCommand(this);
             this.MoveRightVariableCommand = new MoveRightVariableCommand(this);
+            this.FilterCommand = new FilterCommand(this, filterWindow);
 
             this.testCasesManager = testCasesManager;
             TestCases = testCases;
@@ -35,6 +36,7 @@ namespace NBi.UI.Genbi.Presenter
         public ICommand RemoveVariableCommand { get; private set; }
         public ICommand MoveLeftVariableCommand { get; private set; }
         public ICommand MoveRightVariableCommand { get; private set; }
+        public ICommand FilterCommand { get; private set; }
 
         #region Bindable properties
 
@@ -76,6 +78,7 @@ namespace NBi.UI.Genbi.Presenter
                     this.RemoveVariableCommand.Refresh();
                     this.MoveLeftVariableCommand.Refresh();
                     this.MoveRightVariableCommand.Refresh();
+                    this.FilterCommand.Refresh();
                     break;
                 case "VariableSelectedIndex":
                     this.RenameVariableCommand.Refresh();
@@ -121,6 +124,9 @@ namespace NBi.UI.Genbi.Presenter
             Variables.Clear();
             foreach (var v in testCasesManager.Variables)
                 Variables.Add(v);
+
+            if (VariableSelectedIndex < 0 && Variables.Count > 0)
+                VariableSelectedIndex = 0;
         }
 
         internal void Rename(int index, string newName)
@@ -168,6 +174,13 @@ namespace NBi.UI.Genbi.Presenter
             Reload();
             VariableSelectedIndex = newPosition;
             OnPropertyChanged("Variables");
+        }
+
+        internal void Filter(int selectedIndex, Operator @operator, bool negation, string text)
+        {
+            testCasesManager.Filter(Variables[VariableSelectedIndex], @operator, negation, text);
+            Reload();
+            OnPropertyChanged("TestCases");
         }
     }
 }

@@ -91,6 +91,7 @@
     <Compile Include="Command\Settings\RemoveReferenceCommand.cs" />
     <Compile Include="Command\Template\OpenTemplateCommand.cs" />
     <Compile Include="Command\Template\SaveTemplateCommand.cs" />
+    <Compile Include="Command\TestCases\FilterCommand.cs" />
     <Compile Include="Command\TestCases\MoveVariableCommand.cs" />
     <Compile Include="Command\TestCases\OpenTestCasesCommand.cs" />
     <Compile Include="Command\TestCases\OpenTestCasesQueryCommand.cs" />
@@ -168,6 +169,12 @@
     </Compile>
     <Compile Include="View\RunnerConfig\RunnerConfigView.Designer.cs">
       <DependentUpon>RunnerConfigView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\FilterWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\FilterWindow.Designer.cs">
+      <DependentUpon>FilterWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="View\TestSuiteGenerator\MacroWindow.cs">
       <SubType>Form</SubType>
@@ -284,6 +291,9 @@
     <EmbeddedResource Include="View\RunnerConfig\RunnerConfigView.resx">
       <DependentUpon>RunnerConfigView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\TestSuiteGenerator\FilterWindow.resx">
+      <DependentUpon>FilterWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\TestSuiteGenerator\MacroWindow.resx">
       <DependentUpon>MacroWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -380,6 +390,7 @@
     <Content Include="Icons\csv_open.png" />
     <Content Include="Icons\find.png" />
     <Content Include="Icons\folder_page.png" />
+    <Content Include="Icons\funnel.png" />
     <Content Include="Icons\note_delete.png" />
     <Content Include="Icons\note_edit.png" />
     <Content Include="Icons\note_invalid.png" />

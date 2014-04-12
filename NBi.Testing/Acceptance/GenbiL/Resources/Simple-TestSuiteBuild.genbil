@@ -15,11 +15,22 @@ case filter on column 'hierarchy' values not equal 'third-hierarchy' ;
 template load predefined 'ExistsHierarchy';
 suite generate;
 
-template load predefined 'SubsetOfHierarchies';
+case load query
+{
+	select 'first-hierarchy' as hierarchy, 'first-dimension' as dimension, 'first-perspective' as perspective
+	union all 
+	select 'second-hierarchy' as hierarchy, 'first-dimension' as dimension, 'first-perspective' as perspective
+	union all 
+	select 'third-hierarchy' as hierarchy, 'first-dimension' as dimension, 'first-perspective' as perspective
+	union all 
+	select 'fourth-hierarchy' as hierarchy, 'second-dimension' as dimension, 'first-perspective' as perspective
+}
+on 'Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly';
 case filter on column 'dimension' values like 'first-%' ;
 case move column 'dimension' to right;
 case move column 'perspective' to left;
 case move column 'dimension' to left;
+template load predefined 'SubsetOfHierarchies';
 suite generate grouping;
 
 

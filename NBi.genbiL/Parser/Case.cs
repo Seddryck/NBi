@@ -10,46 +10,58 @@ namespace NBi.GenbiL.Parser
 {
     class Case
     {
-        public static readonly Parser<LoadType> LoadTypeFileParser =
+        readonly static  Parser<LoadType> loadTypeFileParser =
             Parse.IgnoreCase("file").Return(LoadType.File)
                 .Token();
 
-        public static readonly Parser<LoadType> LoadTypeQueryParser =
+        readonly static Parser<LoadType> loadTypeQueryParser =
             Parse.IgnoreCase("query").Return(LoadType.Query)
                 .Token();
 
-        public static readonly Parser<AxisType> AxisTypeParser =
+        readonly static Parser<AxisType> axisTypeParser =
             Parse.IgnoreCase("column").Return(AxisType.Column)
                 .Token();
 
-        readonly static Parser<ICaseAction> CaseLoadFileParser =
+        readonly static Parser<ICaseAction> caseLoadFileParser =
         (
                 from load in Keyword.Load
-                from loadType in LoadTypeFileParser
+                from loadType in loadTypeFileParser
                 from filename in Grammar.QuotedTextual
                 select new LoadCaseFromFileAction(filename)
         );
 
-        readonly static Parser<ICaseAction> CaseLoadQueryParser =
+        readonly static Parser<ICaseAction> caseLoadQueryFileParser =
         (
                 from load in Keyword.Load
-                from loadType in LoadTypeQueryParser
+                from loadType in loadTypeQueryParser
                 from filename in Grammar.QuotedTextual
                 from onKeyword in Keyword.On
                 from connectionString in Grammar.QuotedTextual
-                select new LoadCaseFromQueryAction(filename, connectionString)
+                select new LoadCaseFromQueryFileAction(filename, connectionString)
         );
 
+        readonly static Parser<ICaseAction> caseLoadQueryParser =
+        (
+                from load in Keyword.Load
+                from loadType in loadTypeQueryParser
+                from query in Grammar.CurlyBraceTextual
+                from onKeyword in Keyword.On
+                from connectionString in Grammar.QuotedTextual
+                select new LoadCaseFromQueryAction(query, connectionString)
+        );
 
-        readonly static Parser<ICaseAction> CaseRemoveParser =
+        readonly static Parser<ICaseAction> caseLoadParser =
+            caseLoadFileParser.Or(caseLoadQueryFileParser).Or(caseLoadQueryParser);
+
+        readonly static Parser<ICaseAction> caseRemoveParser =
         (
                 from remove in Keyword.Remove
-                from axisType in AxisTypeParser
+                from axisType in axisTypeParser
                 from variableName in Grammar.QuotedTextual
                 select new RemoveCaseAction(variableName)
         );
 
-        readonly static Parser<ICaseAction> CaseRenameParser =
+        readonly static Parser<ICaseAction> caseRenameParser =
         (
                 from remove in Keyword.Rename
                 from axisType in Parse.IgnoreCase("Column").Token()
@@ -59,7 +71,7 @@ namespace NBi.GenbiL.Parser
                 select new RenameCaseAction(oldVariableName, newVariableName)
         );
 
-        readonly static Parser<ICaseAction> CaseMoveParser =
+        readonly static Parser<ICaseAction> caseMoveParser =
         (
                 from move in Keyword.Move
                 from axisType in Parse.IgnoreCase("Column").Token()
@@ -69,7 +81,7 @@ namespace NBi.GenbiL.Parser
                 select new MoveCaseAction(variableName, relativePosition)
         );
 
-        readonly static Parser<ICaseAction> CaseFilterParser =
+        readonly static Parser<ICaseAction> caseFilterParser =
         (
                 from filter in Keyword.Filter
                 from onKeyword in Keyword.On
@@ -82,10 +94,11 @@ namespace NBi.GenbiL.Parser
                 select new FilterCaseAction(variableName, @operator, text, negation.IsDefined)
         );
 
+
         public readonly static Parser<IAction> Parser =
         (
                 from @case in Keyword.Case
-                from action in CaseLoadFileParser.Or(CaseLoadQueryParser).Or(CaseRemoveParser).Or(CaseRenameParser).Or(CaseMoveParser).Or(CaseFilterParser)
+                from action in caseLoadParser.Or(caseRemoveParser).Or(caseRenameParser).Or(caseMoveParser).Or(caseFilterParser)
                 select action
         );
     }

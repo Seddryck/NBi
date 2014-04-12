@@ -23,14 +23,26 @@ namespace NBi.Testing.Unit.GenbiL.Parser
         }
 
         [Test]
-        public void SentenceParser_CaseLoadQueryString_ValidCaseLoadSentence()
+        public void SentenceParser_CaseLoadQueryFileString_ValidCaseLoadSentence()
         {
             var input = "case load query 'filename.sql' on 'connStr';";
             var result = Case.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<LoadCaseFromQueryFileAction>());
+            Assert.That(((LoadCaseFromQueryFileAction)result).Filename, Is.EqualTo("filename.sql"));
+            Assert.That(((LoadCaseFromQueryFileAction)result).ConnectionString, Is.EqualTo("connStr"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseLoadQueryString_ValidCaseLoadSentence()
+        {
+            var input = "case load query \r\n {select distinct myField from myTable} \r\non 'connStr';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<LoadCaseFromQueryAction>());
-            Assert.That(((LoadCaseFromQueryAction)result).Filename, Is.EqualTo("filename.sql"));
+            Assert.That(((LoadCaseFromQueryAction)result).Query, Is.EqualTo("select distinct myField from myTable"));
             Assert.That(((LoadCaseFromQueryAction)result).ConnectionString, Is.EqualTo("connStr"));
         }
 

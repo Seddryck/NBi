@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Linq;
 using NBi.GenbiL.Action;
 using NBi.GenbiL.Action.Case;
+using NBi.Service;
 using Sprache;
 
 namespace NBi.GenbiL.Parser
@@ -67,32 +69,23 @@ namespace NBi.GenbiL.Parser
                 select new MoveCaseAction(variableName, relativePosition)
         );
 
-        readonly static Parser<ICaseAction> CaseFilterOutParser =
+        readonly static Parser<ICaseAction> CaseFilterParser =
         (
                 from filter in Keyword.Filter
-                from outKeyword in Keyword.Out
-                from text in Grammar.QuotedTextual
                 from onKeyword in Keyword.On
                 from axisType in Parse.IgnoreCase("Column").Token()
                 from variableName in Grammar.QuotedTextual
-                select new FilterOutCaseAction(text, variableName)
-        );
-
-        readonly static Parser<ICaseAction> CaseFilterInParser =
-        (
-                from filter in Keyword.Filter
-                from inKeyword in Keyword.In
+                from valuesKeyword in Keyword.Values
+                from negation in Keyword.Not.Optional()
+                from @operator in Parse.IgnoreCase("Equal").Return(Operator.Equal).Or(Parse.IgnoreCase("Like").Return(Operator.Like)).Token()
                 from text in Grammar.QuotedTextual
-                from onKeyword in Keyword.On
-                from axisType in Parse.IgnoreCase("Column").Token()
-                from variableName in Grammar.QuotedTextual
-                select new FilterInCaseAction(text, variableName)
+                select new FilterCaseAction(variableName, @operator, text, negation.IsDefined)
         );
 
         public readonly static Parser<IAction> Parser =
         (
                 from @case in Keyword.Case
-                from action in CaseLoadFileParser.Or(CaseLoadQueryParser).Or(CaseRemoveParser).Or(CaseRenameParser).Or(CaseMoveParser).Or(CaseFilterOutParser).Or(CaseFilterInParser)
+                from action in CaseLoadFileParser.Or(CaseLoadQueryParser).Or(CaseRemoveParser).Or(CaseRenameParser).Or(CaseMoveParser).Or(CaseFilterParser)
                 select action
         );
     }

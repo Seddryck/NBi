@@ -46,6 +46,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             this.cancel.TabIndex = 0;
             this.cancel.Text = "&Cancel";
             this.cancel.UseVisualStyleBackColor = true;
+            this.cancel.Click += new System.EventHandler(this.cancel_Click);
             // 
             // apply
             // 
@@ -57,6 +58,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             this.apply.TabIndex = 1;
             this.apply.Text = "Apply";
             this.apply.UseVisualStyleBackColor = true;
+            this.apply.Click += new System.EventHandler(this.apply_Click);
             // 
             // variableLabel
             // 
@@ -74,6 +76,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             this.variable.Name = "variable";
             this.variable.Size = new System.Drawing.Size(290, 20);
             this.variable.TabIndex = 3;
+            this.variable.TextChanged += new System.EventHandler(this.variable_TextChanged);
             // 
             // RenameVariableWindow
             // 

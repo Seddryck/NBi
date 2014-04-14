@@ -1,0 +1,41 @@
+﻿﻿<?xml version="1.0"?>
+<SyntaxDefinition name = "SQL" extensions = ".sql">
+	<Digits name = "Digits" bold = "true" italic = "false" color = "Blue"/>
+	<RuleSets>
+		<RuleSet ignorecase = "true">
+			<Delimiters>&amp;&lt;&gt;~!%^*()-+=|\#/{}[]:;"' , .?</Delimiters>
+			<Span name = "String" bold = "false" italic = "false" color = "Blue" stopateol = "true">
+				<Begin>'</Begin>
+				<End>'</End>
+			</Span>
+			<KeyWords name = "OperatorKeywords" bold="true" italic="false" color="DarkCyan">
+				<Key word = "select" />
+				<Key word = "from" />
+				<Key word = "where" />
+				<Key word = "update" />
+				<Key word = "delete" />
+				<Key word = "insert" />
+				<Key word = "into" />
+				<Key word = "create" />
+				<Key word = "table" />
+				<Key word = "view" />
+				<Key word = "set" />
+				<Key word = "as" />
+				<Key word = "is" />
+				<Key word = "not" />
+				<Key word = "null" />
+				<Key word = "left" />
+				<Key word = "right" />
+				<Key word = "inner" />
+				<Key word = "outer" />
+				<Key word = "join" />
+				<Key word = "on" />
+				<Key word = "group" />
+				<Key word = "order" />
+				<Key word = "values" />
+				<Key word = "having" />
+				<Key word = "by" />
+			</KeyWords>
+		</RuleSet>
+	</RuleSets>
+</SyntaxDefinition>

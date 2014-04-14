@@ -20,6 +20,21 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             set { variable.Text = value; }
         }
 
+        private void apply_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void variable_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cancel_Click(object sender, EventArgs e)
+        {
+
+        }
+
 
         
 

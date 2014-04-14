@@ -5,7 +5,7 @@ using ICSharpCode.TextEditor.Document;
 
 namespace NBi.UI.Genbi.View.TestSuiteGenerator.XmlEditor
 {
-    public class XmlTextEditorBase : TextEditorControl
+    class XmlTextEditorBase : NbiTextEditor
     {
         // Methods
         public XmlTextEditorBase()

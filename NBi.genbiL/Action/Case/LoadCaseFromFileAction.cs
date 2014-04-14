@@ -4,10 +4,10 @@ using NBi.Service;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class LoadCaseAction : ICaseAction
+    public class LoadCaseFromFileAction : ICaseAction
     {
         public string Filename { get; set; }
-        public LoadCaseAction(string filename)
+        public LoadCaseFromFileAction(string filename)
         {
             Filename = filename;
         }

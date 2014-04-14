@@ -91,8 +91,14 @@
     <Compile Include="Command\Settings\RemoveReferenceCommand.cs" />
     <Compile Include="Command\Template\OpenTemplateCommand.cs" />
     <Compile Include="Command\Template\SaveTemplateCommand.cs" />
+    <Compile Include="Command\TestCases\AddConnectionStringCommand.cs" />
+    <Compile Include="Command\TestCases\RemoveConnectionStringCommand.cs" />
+    <Compile Include="Command\TestCases\EditConnectionStringCommand.cs" />
+    <Compile Include="Command\TestCases\FilterCommand.cs" />
     <Compile Include="Command\TestCases\MoveVariableCommand.cs" />
     <Compile Include="Command\TestCases\OpenTestCasesCommand.cs" />
+    <Compile Include="Command\TestCases\OpenTestCasesQueryCommand.cs" />
+    <Compile Include="Command\TestCases\RunQueryCommand.cs" />
     <Compile Include="Command\TestSuite\OpenTestSuiteCommand.cs" />
     <Compile Include="Command\TestSuite\SaveAsTestSuiteCommand.cs" />
     <Compile Include="Command\TestsXml\ClearTestListCommand.cs" />
@@ -168,11 +174,26 @@
     <Compile Include="View\RunnerConfig\RunnerConfigView.Designer.cs">
       <DependentUpon>RunnerConfigView.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\TestSuiteGenerator\ConnectionStringWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\ConnectionStringWindow.Designer.cs">
+      <DependentUpon>ConnectionStringWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\FilterWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\FilterWindow.Designer.cs">
+      <DependentUpon>FilterWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\TestSuiteGenerator\MacroWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="View\TestSuiteGenerator\MacroWindow.Designer.cs">
       <DependentUpon>MacroWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\NbiTextEditor.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="View\TestSuiteGenerator\NewCategoryWindow.cs">
       <SubType>Form</SubType>
@@ -185,6 +206,18 @@
     </Compile>
     <Compile Include="View\TestSuiteGenerator\NewReferenceWindow.Designer.cs">
       <DependentUpon>NewReferenceWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\OpenQueryWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\OpenQueryWindow.Designer.cs">
+      <DependentUpon>OpenQueryWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\SqlEditor\SqlTextEditorBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\TestSuiteGenerator\SqlEditor\SqlTextEditor.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="View\TestSuiteGenerator\TestSuiteView.cs">
       <SubType>Form</SubType>
@@ -277,6 +310,12 @@
     <EmbeddedResource Include="View\RunnerConfig\RunnerConfigView.resx">
       <DependentUpon>RunnerConfigView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\TestSuiteGenerator\ConnectionStringWindow.resx">
+      <DependentUpon>ConnectionStringWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TestSuiteGenerator\FilterWindow.resx">
+      <DependentUpon>FilterWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\TestSuiteGenerator\MacroWindow.resx">
       <DependentUpon>MacroWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -289,6 +328,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\TestSuiteGenerator\NewReferenceWindow.resx">
       <DependentUpon>NewReferenceWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TestSuiteGenerator\OpenQueryWindow.resx">
+      <DependentUpon>OpenQueryWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\TestSuiteGenerator\OpenTemplateWindow.resx">
       <DependentUpon>OpenTemplateWindow.cs</DependentUpon>
@@ -366,10 +408,15 @@
     <Content Include="favicon.ico" />
     <Content Include="Icons\accept.png" />
     <Content Include="Icons\cancel.png" />
+    <Content Include="Icons\control.png" />
     <Content Include="Icons\control_play.png" />
     <Content Include="Icons\csv_open.png" />
+    <Content Include="Icons\database--minus.png" />
+    <Content Include="Icons\database--pencil.png" />
+    <Content Include="Icons\database--plus.png" />
     <Content Include="Icons\find.png" />
     <Content Include="Icons\folder_page.png" />
+    <Content Include="Icons\funnel.png" />
     <Content Include="Icons\note_delete.png" />
     <Content Include="Icons\note_edit.png" />
     <Content Include="Icons\note_invalid.png" />
@@ -383,6 +430,7 @@
     <Content Include="Icons\page_undo.png" />
     <Content Include="Icons\script_open.png" />
     <Content Include="Icons\script_save.png" />
+    <Content Include="Icons\sql.png" />
     <Content Include="Icons\tag_blue_add.png" />
     <Content Include="Icons\tag_blue_delete.png" />
     <Content Include="Icons\textfield_delete.png" />

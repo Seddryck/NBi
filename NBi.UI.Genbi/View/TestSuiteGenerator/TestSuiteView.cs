@@ -27,7 +27,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         public TestSuiteView()
         {
             State = new TestSuiteState();
-            TestCasesPresenter = new TestCasesPresenter(new RenameVariableWindow(), new TestCasesManager(), State.TestCases, State.Variables);
+            TestCasesPresenter = new TestCasesPresenter(new RenameVariableWindow(), new OpenQueryWindow(), new FilterWindow(), new ConnectionStringWindow(), new TestCasesManager(), State.TestCases, State.Variables, State.ConnectionStringNames);
             TemplatePresenter = new TemplatePresenter(new TemplateManager(), State.Template);
             SettingsPresenter = new SettingsPresenter(new SettingsManager(), State.Settings);
             TestListPresenter = new TestListPresenter(new TestListManager(), State.Tests, State.TestCases, State.Variables, State.Template);
@@ -61,11 +61,17 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             //TestCases & Variables
             CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.OpenTestCasesCommand, openTestCasesToolStripMenuItem);
+            CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.OpenTestCasesQueryCommand, openTestCasesQueryToolStripMenuItem);
             CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.OpenTestCasesCommand, openTestCasesToolStripButton);
             CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.RemoveVariableCommand, testCasesControl.RemoveCommand);
             CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.RenameVariableCommand, testCasesControl.RenameCommand);
             CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.MoveLeftVariableCommand, testCasesControl.MoveLeftCommand);
             CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.MoveRightVariableCommand, testCasesControl.MoveRightCommand);
+            CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.FilterCommand, testCasesControl.FilterCommand);
+            CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.AddConnectionStringCommand, testCasesControl.AddConnectionStringCommand);
+            CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.RemoveConnectionStringCommand, testCasesControl.RemoveConnectionStringCommand);
+            CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.EditConnectionStringCommand, testCasesControl.EditConnectionStringCommand);
+            CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.RunQueryCommand, testCasesControl.RunQueryCommand);
 
             //Template
             CommandManager.Instance.Bindings.Add(this.TemplatePresenter.OpenTemplateCommand, openTemplateToolStripMenuItem);
@@ -113,6 +119,11 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         {
             var view = Bootstrapper.GetRunnerConfigView();
             view.ShowDialog(this);
+        }
+
+        private void menuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
 
 

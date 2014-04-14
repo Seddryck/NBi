@@ -52,6 +52,7 @@
     <Compile Include="Dto\Schema.cs" />
     <Compile Include="Dto\Setting.cs" />
     <Compile Include="Dto\Style.cs" />
+    <Compile Include="Operator.cs" />
     <Compile Include="RunnerConfig\AbstractRunnerConfigBuilder.cs" />
     <Compile Include="TestCasesManager.cs" />
     <Compile Include="Dto\Test.cs" />

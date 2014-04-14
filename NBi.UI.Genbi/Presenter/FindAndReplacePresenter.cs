@@ -1,11 +1,11 @@
 ﻿using NBi.UI.Genbi.Command;
-using NBi.UI.Genbi.View.TestSuiteGenerator.XmlEditor;
+using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.Presenter
 {
     class FindAndReplacePresenter : PresenterBase
     {
-        public FindAndReplacePresenter(XmlTextEditor editor)
+        public FindAndReplacePresenter(NbiTextEditor editor)
         {
             this.FindCommand = new FindCommand(this, editor);
             this.CancelFindCommand = new CancelFindCommand(editor);

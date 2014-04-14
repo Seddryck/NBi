@@ -48,6 +48,9 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Action\AxisType.cs" />
+    <Compile Include="Action\Case\LoadCaseFromQueryAction.cs" />
+    <Compile Include="Action\Case\FilterCaseAction.cs" />
+    <Compile Include="Action\Case\LoadCaseFromQueryFileAction.cs" />
     <Compile Include="Action\Case\MoveCaseAction.cs" />
     <Compile Include="Action\Case\RenameCaseAction.cs" />
     <Compile Include="Action\Case\RemoveCaseAction.cs" />
@@ -66,7 +69,7 @@
     <Compile Include="Action\Suite\GenerateSuiteAction.cs" />
     <Compile Include="Action\Template\LoadTemplateAction.cs" />
     <Compile Include="GenerationState.cs" />
-    <Compile Include="Action\Case\LoadCaseAction.cs" />
+    <Compile Include="Action\Case\LoadCaseFromFileAction.cs" />
     <Compile Include="Action\LoadType.cs" />
     <Compile Include="Parser\Case.cs" />
     <Compile Include="Parser\Template.cs" />

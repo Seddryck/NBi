@@ -47,6 +47,8 @@
             this.testSuiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openTestSuiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsTestSuiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.macroToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.playMacroToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configProjectFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,8 +68,7 @@
             this.openTestSuiteToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveAsTestSuiteToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.macroToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.playMacroToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openTestCasesQueryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testCasesControl = new NBi.UI.Genbi.View.TestSuiteGenerator.TestCasesControl();
             this.templateControl = new NBi.UI.Genbi.View.TestSuiteGenerator.TemplateControl();
             this.settingsControl = new NBi.UI.Genbi.View.TestSuiteGenerator.SettingsControl();
@@ -163,6 +164,7 @@
             // 
             this.sourceFileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openTestCasesToolStripMenuItem,
+            this.openTestCasesQueryToolStripMenuItem,
             this.saveCsvAsToolStripMenuItem});
             this.sourceFileToolStripMenuItem.Name = "sourceFileToolStripMenuItem";
             this.sourceFileToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
@@ -174,7 +176,7 @@
             this.openTestCasesToolStripMenuItem.Name = "openTestCasesToolStripMenuItem";
             this.openTestCasesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.O)));
-            this.openTestCasesToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.openTestCasesToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.openTestCasesToolStripMenuItem.Text = "Open Csv ...";
             // 
             // saveCsvAsToolStripMenuItem
@@ -182,7 +184,7 @@
             this.saveCsvAsToolStripMenuItem.Name = "saveCsvAsToolStripMenuItem";
             this.saveCsvAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-            this.saveCsvAsToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.saveCsvAsToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.saveCsvAsToolStripMenuItem.Text = "Save Csv As ...";
             this.saveCsvAsToolStripMenuItem.Visible = false;
             // 
@@ -268,6 +270,21 @@
             this.saveAsTestSuiteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveAsTestSuiteToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.saveAsTestSuiteToolStripMenuItem.Text = "Save As ...";
+            // 
+            // macroToolStripMenuItem
+            // 
+            this.macroToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.playMacroToolStripMenuItem});
+            this.macroToolStripMenuItem.Name = "macroToolStripMenuItem";
+            this.macroToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.macroToolStripMenuItem.Text = "Macro";
+            // 
+            // playMacroToolStripMenuItem
+            // 
+            this.playMacroToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.control_play;
+            this.playMacroToolStripMenuItem.Name = "playMacroToolStripMenuItem";
+            this.playMacroToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.playMacroToolStripMenuItem.Text = "Play ...";
             // 
             // configProjectFilesToolStripMenuItem
             // 
@@ -420,20 +437,13 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
-            // macroToolStripMenuItem
+            // openTestCasesQueryToolStripMenuItem
             // 
-            this.macroToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.playMacroToolStripMenuItem});
-            this.macroToolStripMenuItem.Name = "macroToolStripMenuItem";
-            this.macroToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
-            this.macroToolStripMenuItem.Text = "Macro";
-            // 
-            // playMacroToolStripMenuItem
-            // 
-            this.playMacroToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.control_play;
-            this.playMacroToolStripMenuItem.Name = "playMacroToolStripMenuItem";
-            this.playMacroToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.playMacroToolStripMenuItem.Text = "Play ...";
+            this.openTestCasesQueryToolStripMenuItem.Name = "openTestCasesQueryToolStripMenuItem";
+            this.openTestCasesQueryToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Q)));
+            this.openTestCasesQueryToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.openTestCasesQueryToolStripMenuItem.Text = "Open Query ...";
             // 
             // testCasesControl
             // 
@@ -549,5 +559,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem macroToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem playMacroToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openTestCasesQueryToolStripMenuItem;
     }
 }

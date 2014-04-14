@@ -1,14 +1,14 @@
 using NBi.UI.Genbi.Presenter;
-using NBi.UI.Genbi.View.TestSuiteGenerator.XmlEditor;
+using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.Command
 {
 	class ReplaceCommand : CommandBase
 	{
 		private readonly FindAndReplacePresenter presenter;
-		private readonly XmlTextEditor editor;
+        private readonly NbiTextEditor editor;
 
-		public ReplaceCommand(FindAndReplacePresenter presenter, XmlTextEditor editor)
+        public ReplaceCommand(FindAndReplacePresenter presenter, NbiTextEditor editor)
 		{
 			this.presenter = presenter;
 			this.editor = editor;

@@ -2,7 +2,7 @@
 !! Tolerance
 A tolerance can only be assigned to column defined as a _value_ (so tolerance can't be assigned to _key_ columns) and is supported for column of types _numeric_ and _dateTime_. 
 
-!!!Absolute tolerance
+!!! Absolute tolerance
 If you apply a tolerance of 0.001 to a numeric column, two rows (with same keys) will be considered as equal if the absolute difference between them is less or equal to 0.001.
 
 This is especially helpful in Business Intelligence when you need to compare two queries and you don’t bother about small differences. Another case in Business Intelligence is also when you customers give you some hints about values expected in reports, they are usually a bit imprecise. 

@@ -1,13 +1,14 @@
 ﻿using NBi.UI.Genbi.Presenter;
+using NBi.UI.Genbi.View.TestSuiteGenerator;
 using NBi.UI.Genbi.View.TestSuiteGenerator.XmlEditor;
 
 namespace NBi.UI.Genbi.Command
 {
 	class FindAndReplaceCommand : CommandBase
 	{
-		private readonly XmlTextEditor editor;
+		private readonly NbiTextEditor editor;
 
-		public FindAndReplaceCommand(XmlTextEditor editor)
+		public FindAndReplaceCommand(NbiTextEditor editor)
 		{
 			this.editor = editor;
 		}

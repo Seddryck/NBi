@@ -3,19 +3,16 @@ using System.Drawing;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
 
-namespace NBi.UI.Genbi.View.TestSuiteGenerator.XmlEditor
+namespace NBi.UI.Genbi.View.TestSuiteGenerator.SqlEditor
 {
-    class XmlTextEditorBase : NbiTextEditor
+    class SqlTextEditorBase : NbiTextEditor
     {
         // Methods
-        public XmlTextEditorBase()
+        public SqlTextEditorBase()
         {
-            base.Document.HighlightingStrategy = HighlightingStrategyFactory.CreateHighlightingStrategy("XML");
-            base.Document.FoldingManager.FoldingStrategy = new XmlFoldingStrategy();
-            base.Document.FormattingStrategy = new XmlFormattingStrategy();
+            base.Document.HighlightingStrategy = HighlightingStrategyFactory.CreateHighlightingStrategy("SQL");
             base.TextEditorProperties = InitializeProperties();
-            base.Document.FoldingManager.UpdateFoldings(string.Empty, null);
-            base.ActiveTextAreaControl.TextArea.Enabled = false;
+            base.ActiveTextAreaControl.TextArea.Enabled = true;
         }
 
         private static ITextEditorProperties InitializeProperties()

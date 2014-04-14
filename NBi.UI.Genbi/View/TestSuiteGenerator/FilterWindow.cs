@@ -10,7 +10,8 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         public FilterWindow()
         {
             InitializeComponent();
-            @operator.SelectedIndex = 0;
+            if (@operator.Items.Count>0)
+                @operator.SelectedIndex = 0;
         }
 
         public Operator Operator

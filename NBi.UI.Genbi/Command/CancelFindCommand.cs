@@ -1,12 +1,12 @@
-using NBi.UI.Genbi.View.TestSuiteGenerator.XmlEditor;
+using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.Command
 {
 	 class CancelFindCommand : CommandBase
 	{
-		private readonly XmlTextEditor editor;
+         private readonly NbiTextEditor editor;
 
-		public CancelFindCommand(XmlTextEditor editor)
+        public CancelFindCommand(NbiTextEditor editor)
 		{
 			this.editor = editor;
 		}

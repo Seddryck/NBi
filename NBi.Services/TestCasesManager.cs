@@ -16,6 +16,7 @@ namespace NBi.Service
         {
             variables = new List<string>();
             content = new DataTable();
+            connectionStrings = new Dictionary<string, string>();
         }
 
         public void ReadFromCsv(string filename)
@@ -62,6 +63,33 @@ namespace NBi.Service
             {
                 return variables;
             }
+        }
+
+        private readonly Dictionary<string,string> connectionStrings;
+        public Dictionary<string, string> ConnectionStrings
+        {
+            get
+            {
+                return connectionStrings;
+            }
+        }
+
+        public List<string> ConnectionStringNames
+        {
+            get
+            {
+                return ConnectionStrings.Keys.ToList();
+            }
+        }
+
+        public void RenameVariable(int index, string newName)
+        {
+            if (variables.Count<=index)
+                throw new ArgumentOutOfRangeException("index");
+            //Rename the variable
+            variables[index]=newName;
+            //Rename the column
+            content.Columns[index].ColumnName=newName;
         }
 
         public void MoveVariable(string variableName, int newPosition)
@@ -121,6 +149,30 @@ namespace NBi.Service
                            + "$");
 
             return regex.IsMatch(value);
+        }
+
+        public void AddConnectionStrings(string name, string value)
+        {
+            if (connectionStrings.Keys.Contains(name))
+                throw new ArgumentException("name");
+
+            connectionStrings.Add(name, value);
+        }
+
+        public void RemoveConnectionStrings(string name)
+        {
+            if (!connectionStrings.Keys.Contains(name))
+                throw new ArgumentException("name");
+
+            connectionStrings.Remove(name);
+        }
+
+        public void EditConnectionStrings(string name, string newValue)
+        {
+            if (!connectionStrings.Keys.Contains(name))
+                throw new ArgumentException("name");
+
+            connectionStrings[name] = newValue;
         }
     }
 }

@@ -7,15 +7,14 @@ using ICSharpCode.TextEditor.Document;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Presenter;
 
-namespace NBi.UI.Genbi.View.TestSuiteGenerator.XmlEditor
+namespace NBi.UI.Genbi.View.TestSuiteGenerator.SqlEditor
 {
-    class XmlTextEditor : XmlTextEditorBase
+    class SqlTextEditor : SqlTextEditorBase
     {
-        
-
-        // Methods
-        public XmlTextEditor() : base()
-        {   
+        public SqlTextEditor() : base()
+        {
+            
         }
+
     }
 }

@@ -63,6 +63,16 @@ namespace NBi.UI.Genbi.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap control {
+            get {
+                object obj = ResourceManager.GetObject("control", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap control_play {
             get {
                 object obj = ResourceManager.GetObject("control_play", resourceCulture);
@@ -76,6 +86,36 @@ namespace NBi.UI.Genbi.Properties {
         internal static System.Drawing.Bitmap csv_open {
             get {
                 object obj = ResourceManager.GetObject("csv_open", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap database__minus {
+            get {
+                object obj = ResourceManager.GetObject("database--minus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap database__pencil {
+            get {
+                object obj = ResourceManager.GetObject("database--pencil", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap database__plus {
+            get {
+                object obj = ResourceManager.GetObject("database--plus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -226,6 +266,16 @@ namespace NBi.UI.Genbi.Properties {
         internal static System.Drawing.Bitmap script_save {
             get {
                 object obj = ResourceManager.GetObject("script_save", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sql {
+            get {
+                object obj = ResourceManager.GetObject("sql", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

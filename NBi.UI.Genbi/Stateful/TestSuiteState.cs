@@ -10,6 +10,7 @@ namespace NBi.UI.Genbi.Stateful
     class TestSuiteState
     {
         public BindingList<string> Variables { get; private set; }
+        public BindingList<string> ConnectionStringNames { get; private set; }
         public DataTable TestCases { get; private set; }
         public string Template { get; private set; }
         public LargeBindingList<Test> Tests { get; private set; }
@@ -18,6 +19,7 @@ namespace NBi.UI.Genbi.Stateful
         public TestSuiteState()
         {
             Variables = new BindingList<string>();
+            ConnectionStringNames = new BindingList<string>();
             TestCases = new DataTable();
             Tests = new LargeBindingList<Test>();
             Settings = new BindingList<Setting>();

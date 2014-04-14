@@ -13,6 +13,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         public RenameVariableWindow Window { get; set;}
         private BindingSource testCasesBindingSource;
         private BindingSource variablesBindingSource;
+        private BindingSource connectionStringNamesBindingSource;
 
         public TestCasesControl()
         {
@@ -33,6 +34,16 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
 
                 variables.DataBindings.Add("SelectedIndex", presenter, "VariableSelectedIndex", true, DataSourceUpdateMode.OnValidation);
                 variables.SelectedIndexChanged += (s, args) => variables.DataBindings["SelectedIndex"].WriteValue();
+
+                connectionStringNamesBindingSource = new BindingSource();
+                connectionStringNamesBindingSource.DataSource = presenter.ConnectionStringNames;
+                connectionStringNames.DataSource = connectionStringNamesBindingSource;
+
+                connectionStringNames.DataBindings.Add("SelectedIndex", presenter, "ConnectionStringSelectedIndex", true, DataSourceUpdateMode.OnValidation);
+                connectionStringNames.SelectedIndexChanged += (s, args) => connectionStringNames.DataBindings["SelectedIndex"].WriteValue();
+
+                sqlEditor.DataBindings.Add("Text", presenter, "Query", true, DataSourceUpdateMode.OnPropertyChanged);
+                presenter.PropertyChanged += (sender, e) => { sqlEditor.Text = presenter.Query; };
             }
         }
 
@@ -73,6 +84,39 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             get
             {
                 return filter;
+            }
+        }
+
+        public Button AddConnectionStringCommand
+        {
+            get
+            {
+                return addConnectionString;
+            }
+        }
+
+        public Button RemoveConnectionStringCommand
+        {
+            get
+            {
+                return removeConnectionString;
+            }
+        }
+
+        public Button EditConnectionStringCommand
+        {
+            get
+            {
+                return editConnectionString;
+            }
+        }
+
+
+        public Button RunQueryCommand
+        {
+            get
+            {
+                return runQuery;
             }
         }
     }

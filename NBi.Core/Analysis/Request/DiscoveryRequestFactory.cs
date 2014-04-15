@@ -27,6 +27,7 @@ namespace NBi.Core.Analysis.Request
                     new MeasureNotNull(filters),
                     new DimensionNotNullIfHierarchy(target, filters),
                     new HierarchyNotNullIfLevel(target, filters),
+                    new LevelNotNullIfProperty(target, filters),
                     new TableNotNullIfColumn(target, filters)
                 }
             );

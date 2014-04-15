@@ -376,5 +376,52 @@ namespace NBi.Testing.Unit.NUnit.Builder
             Assert.Throws<DiscoveryRequestFactoryException>(delegate { builder.Build(); });
         }
 
+        //**********************
+        //       Properties
+        //**********************
+
+
+        [Test]
+        public void GetSystemUnderTest_CorrectPropertyTarget_Success()
+        {
+            //Buiding object used during test
+            var ctrXmlStubFactory = new Mock<ContainXml>();
+            var ctrXml = ctrXmlStubFactory.Object;
+
+            var sutXml = new StructureXml();
+            sutXml.Item = new PropertiesXml();
+            sutXml.Item.ConnectionString = "ConnectionString";
+            ((PropertiesXml)sutXml.Item).Perspective = "Perspective";
+            ((PropertiesXml)sutXml.Item).Dimension = "Dimension";
+            ((PropertiesXml)sutXml.Item).Hierarchy = "Hierarchy";
+            ((PropertiesXml)sutXml.Item).Level = "Level";
+            var builder = new StructureContainBuilder();
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var sut = builder.GetSystemUnderTest();
+
+            //Assertion
+            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
+        }
+
+        [Test]
+        public void GetSystemUnderTest_InCorrectPropertyTargetWithoutLevel_ThrowException()
+        {
+            //Buiding object used during test
+            var ctrXmlStubFactory = new Mock<ContainXml>();
+            var ctrXml = ctrXmlStubFactory.Object;
+
+            var sutXml = new StructureXml();
+            sutXml.Item = new PropertiesXml();
+            sutXml.Item.ConnectionString = "ConnectionString";
+            ((PropertiesXml)sutXml.Item).Perspective = "Perspective";
+            ((PropertiesXml)sutXml.Item).Dimension = "Dimension";
+            ((PropertiesXml)sutXml.Item).Hierarchy = "Hierarchy";
+
+            var builder = new StructureContainBuilder();
+            builder.Setup(sutXml, ctrXml);
+            //Assertion
+            Assert.Throws<DiscoveryRequestFactoryException>(delegate { builder.Build(); });
+        }
     }
 }

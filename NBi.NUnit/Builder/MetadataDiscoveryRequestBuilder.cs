@@ -31,6 +31,8 @@ namespace NBi.NUnit.Builder
                 return DiscoveryTarget.Measures;
             if (item is MeasureGroupsXml || item is MeasureGroupXml)
                 return DiscoveryTarget.MeasureGroups;
+            if (item is PropertiesXml || item is PropertyXml)
+                return DiscoveryTarget.Properties;
             if (item is LevelsXml || item is LevelXml)
                 return DiscoveryTarget.Levels;
             if (item is HierarchiesXml || item is HierarchyXml)

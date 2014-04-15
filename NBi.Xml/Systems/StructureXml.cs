@@ -13,12 +13,14 @@ namespace NBi.Xml.Systems
         XmlElement(Type = typeof(DimensionXml), ElementName = "dimension"),
         XmlElement(Type = typeof(HierarchyXml), ElementName = "hierarchy"),
         XmlElement(Type = typeof(LevelXml), ElementName = "level"),
+        XmlElement(Type = typeof(PropertyXml), ElementName = "property"),
         XmlElement(Type = typeof(PerspectivesXml), ElementName = "perspectives"),
         XmlElement(Type = typeof(MeasureGroupsXml), ElementName = "measure-groups"),
         XmlElement(Type = typeof(MeasuresXml), ElementName = "measures"),
         XmlElement(Type = typeof(DimensionsXml), ElementName = "dimensions"),
         XmlElement(Type = typeof(HierarchiesXml), ElementName = "hierarchies"),
         XmlElement(Type = typeof(LevelsXml), ElementName = "levels"),
+        XmlElement(Type = typeof(PropertiesXml), ElementName = "properties"),
         XmlElement(Type = typeof(TableXml), ElementName = "table"),
         XmlElement(Type = typeof(ColumnXml), ElementName = "column")
         ]

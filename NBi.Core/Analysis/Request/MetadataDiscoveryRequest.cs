@@ -32,6 +32,8 @@ namespace NBi.Core.Analysis.Request
                     return depths[1];
                 case DiscoveryTarget.Levels:
                     return depths[2];
+                case DiscoveryTarget.Properties:
+                    return depths[3];
                 default:
                     return string.Empty;
             }

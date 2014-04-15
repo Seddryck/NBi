@@ -5,6 +5,17 @@
 			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
 		</default>
 	</settings>
+	<test name="In dimension 'Customers', hierarchy 'State-Provinces', level 'State-Provinces' a property 'capital' is not existing " uid="0001">
+		<edition author="Cédric L. Charlier"/>
+		<system-under-test>
+			<structure>
+				<property caption="capital" level="State-Province" dimension="Customer" hierarchy="State-Province" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists not="true"/>
+		</assert>
+	</test>
 	<test name="In dimension 'Customers', hierarchy 'State-Provinces', a level 'State-Provinces' is existing " uid="0001">
 		<edition author="Cédric L. Charlier"/>
 		<system-under-test>

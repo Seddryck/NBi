@@ -157,6 +157,13 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:complexType name="property-type">
+		<xs:complexContent>
+			<xs:extension base="level-type">
+				<xs:attribute name="level" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 	<xs:complexType name="table-type">
 		<xs:complexContent>
 			<xs:extension base="perspective-type">
@@ -209,6 +216,13 @@
 			<xs:extension base="dimensions-type">
 				<xs:attribute name="dimension" type="xs:string" use="required" />
 				<xs:attribute name="hierarchy" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="properties-type">
+		<xs:complexContent>
+			<xs:extension base="levels-type">
+				<xs:attribute name="level" type="xs:string" use="required" />
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -316,6 +330,7 @@
 									<xs:element name="dimension" type="dimension-type"/>
 									<xs:element name="hierarchy" type="hierarchy-type"/>
 									<xs:element name="level" type="level-type"/>
+									<xs:element name="property" type="property-type"/>
 									<xs:element name="table" type="table-type"/>
 									<xs:element name="column" type="column-type"/>
 									<xs:element name="perspectives" type="perspectives-type"/>
@@ -324,6 +339,7 @@
 									<xs:element name="dimensions" type="dimensions-type"/>
 									<xs:element name="hierarchies" type="hierarchies-type"/>
 									<xs:element name="levels" type="levels-type"/>
+									<xs:element name="properties" type="properties-type"/>
 								</xs:choice>
 							</xs:complexType>
 						</xs:element>

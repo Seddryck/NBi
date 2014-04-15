@@ -51,7 +51,7 @@ namespace NBi.NUnit
         /// <returns>true, if the query defined in parameter is syntatically correct else false</returns>
         public override bool Matches(object actual)
         {
-            if (actual.GetType() == typeof(SqlCommand) || actual.GetType() == typeof(OleDbCommand) || actual.GetType() == typeof(AdomdCommand) )
+            if (actual is IDbCommand)
                 return doMatch((IDbCommand)actual);
             else
                 return false;               

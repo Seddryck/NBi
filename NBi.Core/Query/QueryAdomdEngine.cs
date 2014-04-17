@@ -36,6 +36,11 @@ namespace NBi.Core.Query
 			bool isTimeout = false;
 			DateTime tsStart, tsStop = DateTime.Now;
 
+			Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
+			foreach (AdomdParameter param in command.Parameters)
+				Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("{0} => {1}", param.ParameterName, param.Value));
+
+
 			if (command.Connection.State == ConnectionState.Closed)
 				command.Connection.Open();
 
@@ -93,6 +98,9 @@ namespace NBi.Core.Query
 				//    {throw new ConnectionException(ex);}
 
 				Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
+				foreach (AdomdParameter param in command.Parameters)
+					Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("{0} => {1}", param.ParameterName, param.Value));
+
 				// capture time before execution
 				DateTime timeBefore = DateTime.Now;
 				command.Connection = connection;
@@ -156,6 +164,9 @@ namespace NBi.Core.Query
 				//    {throw new ConnectionException(ex);}
 
 				Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
+				foreach (AdomdParameter param in command.Parameters)
+					Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("{0} => {1}", param.ParameterName, param.Value));
+
 				// capture time before execution
 				DateTime timeBefore = DateTime.Now;
 				CellSet cellSet = null;
@@ -211,6 +222,10 @@ namespace NBi.Core.Query
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
 		public virtual ParserResult Parse()
 		{
+			Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
+			foreach (AdomdParameter param in command.Parameters)
+				Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("{0} => {1}", param.ParameterName, param.Value));
+
 			ParserResult res = null;
 
 			using (var connection = new AdomdConnection())

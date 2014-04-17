@@ -7,9 +7,9 @@
 	</settings>
 	<test name="decoration with setup and cleanup">
 		<setup>
-			<reset  table="NewUsers"
+			<table-reset  name="NewUsers"
 					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"/>
-			<load   table="NewUsers"
+			<table-load   name="NewUsers"
 					file ="NewUsers.csv"
 					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"/>
 		</setup>
@@ -60,13 +60,13 @@
 			</equalTo>
 		</assert>
 		<cleanup>
-			<reset  table="NewUsers"
+			<table-reset  name="NewUsers"
 					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorks2012;Integrated Security=true"/>
 		</cleanup>
 	</test>
 	<test name="decoration with setup using default connectionString">
 		<setup>
-			<reset  table="NewUsers"/>
+			<table-reset  name="NewUsers"/>
 		</setup>
 		<system-under-test>
 			<execution>

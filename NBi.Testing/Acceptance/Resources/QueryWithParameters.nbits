@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012'</connectionString>
+		</default>
+		<reference name="SqlAdvenureWorks2012">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+		</reference>
+	</settings>
+	<test name="Faster Than for SQL with parameter" uid="0001">
+		<system-under-test>
+			<execution>
+				<query  connectionString="@SqlAdvenureWorks2012">
+					with cte as (
+					SELECT 'CY 2005' as t
+					UNION ALL SELECT 'CY 2006'
+					UNION ALL SELECT 'CY 2007'
+					UNION ALL SELECT 'CY 2008'
+					)
+					select * from cte where t>@min
+					<parameter name="min">CY 2005</parameter>
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<fasterThan max-time-milliSeconds="1000"/>
+		</assert>
+	</test>
+	<test name="Faster Than for Mdx with parameter" uid="0001">
+		<system-under-test>
+			<execution>
+				<query name="MDX">
+					SELECT
+					[Measures].[Reseller Order Count] ON 0,
+					STRTOMEMBER(@YearMember) ON 1
+					FROM
+					[Adventure Works]
+					<parameter name="YearMember">
+						[Date].[Calendar Year].[CY 2006]
+					</parameter>
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<fasterThan max-time-milliSeconds="5000"/>
+		</assert>
+	</test>
+	<!--<test name="Syntactically correct for SQL with parameter" uid="0001" ignore="true">
+		<system-under-test>
+			<execution>
+				<query  connectionString="@SqlAdvenureWorks2012">
+					with cte as (
+					SELECT 'CY 2005' as t
+					UNION ALL SELECT 'CY 2006'
+					UNION ALL SELECT 'CY 2007'
+					UNION ALL SELECT 'CY 2008'
+					)
+					select * from cte where t>@min
+					<parameter name="min">CY 2005</parameter>
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<syntacticallyCorrect/>
+		</assert>
+	</test>-->
+	<test name="Syntactically correct for Mdx with parameter" uid="0001">
+		<system-under-test>
+			<execution>
+				<query name="MDX">
+					SELECT
+					[Measures].[Reseller Order Count] ON 0,
+					STRTOMEMBER(@YearMember) ON 1
+					FROM
+					[Adventure Works]
+					<parameter name="YearMember">
+						[Date].[Calendar Year].[CY 2006]
+					</parameter>
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<syntacticallyCorrect/>
+		</assert>
+	</test>
+	<test name="MatchPattern for Mdx with parameter" uid="0001">
+		<system-under-test>
+			<execution>
+				<query name="MDX">
+					SELECT
+					{} ON 0,
+					EXCEPT([Date].[Calendar Year].Members, STRTOMEMBER(@YearMember)) ON 1
+					FROM
+					[Adventure Works]
+					<parameter name="YearMember">
+						[Date].[Calendar Year].[CY 2010]
+					</parameter>
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<matchPattern>
+				<regex>^CY\s200[5-9]$</regex>
+			</matchPattern>
+		</assert>
+	</test>
+	<test name="MatchPattern for Sql with parameter" uid="0001">
+		<system-under-test>
+			<execution>
+				<query  connectionString="@SqlAdvenureWorks2012">
+					with cte as (
+					SELECT 'CY 2005' as t
+					UNION ALL SELECT 'CY 2006'
+					UNION ALL SELECT 'CY 2007'
+					UNION ALL SELECT 'CY 2008'
+					)
+					select * from cte where t>@min
+					<parameter name="min">CY 2005</parameter>
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<matchPattern>
+				<regex>^CY\s200[6-8]$</regex>
+			</matchPattern>
+		</assert>
+	</test>
+	<test name="Compare Mdx with parameter to Sql with parameter" uid="0001">
+		<system-under-test>
+			<execution>
+				<query name="MDX">
+					SELECT
+					[Measures].[Reseller Order Count] ON 0,
+					STRTOMEMBER(@YearMember) ON 1
+					FROM
+					[Adventure Works]
+					<parameter name="YearMember">
+						[Date].[Calendar Year].[CY 2006]
+					</parameter>
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<column index="0" role="key" type="text"/>
+				<column index="1" role="value" type="numeric" tolerance="0.01"/>
+
+				<query connectionString="@SqlAdvenureWorks2012">
+					<![CDATA[
+					WITH cte as
+					(
+					SELECT 'CY 2005' as nYear, 366.0 as Total
+					UNION ALL SELECT 'CY 2006', 1015.0
+					UNION ALL SELECT 'CY 2007', 1521.0
+					UNION ALL SELECT 'CY 2008', 894.0
+					UNION ALL SELECT 'CY 2009', NULL
+					UNION ALL SELECT 'CY 2010', NULL
+					)
+					select * from cte where nYear>@yearBefore and nYear<@yearAfter
+					]]>
+					<parameter name="yearBefore">CY 2005</parameter>
+					<parameter name="yearAfter">CY 2007</parameter>
+				</query>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="Compare Sql with parameter to Mdx with parameter" uid="0002">
+		<system-under-test>
+			<execution>
+				<query connectionString="@SqlAdvenureWorks2012">
+					<![CDATA[
+					WITH cte as
+					(
+					SELECT 'CY 2005' as nYear, 366.0 as Total
+					UNION ALL SELECT 'CY 2006', 1015.0
+					UNION ALL SELECT 'CY 2007', 1521.0
+					UNION ALL SELECT 'CY 2008', 894.0
+					UNION ALL SELECT 'CY 2009', NULL
+					UNION ALL SELECT 'CY 2010', NULL
+					)
+					select * from cte where nYear>@yearBefore and nYear<@yearAfter
+					]]>
+					<parameter name="yearBefore">CY 2005</parameter>
+					<parameter name="yearAfter">CY 2007</parameter>
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<column index="0" role="key" type="text"/>
+				<column index="1" role="value" type="numeric" tolerance="0.01"/>
+				<query name="MDX" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012'">
+					SELECT
+					[Measures].[Reseller Order Count] ON 0,
+					STRTOMEMBER(@YearMember) ON 1
+					FROM
+					[Adventure Works]
+					<parameter name="YearMember">
+						[Date].[Calendar Year].[CY 2006]
+					</parameter>
+				</query>
+				
+			</equalTo>
+		</assert>
+	</test>
+</testSuite>

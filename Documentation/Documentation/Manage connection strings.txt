@@ -1,0 +1,154 @@
+! Manage connection strings
+!! Basic usage
+All system-under-tests need a connection string. The basic way to provide this connection string is to stipulate it directly in the test definition.
+{code:xml}
+<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
+	<test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">
+		<system-under-test>
+			<execution>
+				<query connectionString="Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1049">
+					...
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet file="ResellerOrderCountByYearBefore2006.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+</testSuite>
+{code:xml}
+!! Default connection string
+When you’ve more than a few tests, it becomes difficult to manage and really boring to repeat the same connection string for every test. In this case the more efficient way to manage the connection string is to specify a default vale in the settings of your test suite. To achieve this, create a xml element named _settings_ at the top of your test suite definition and define the default connection string for yours system-under-tests.
+{code:xml}
+<testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1049</connectionString>
+		</default>
+	</settings>
+	<test name="...">
+		...
+	</test>
+</testSuite>
+{code:xml}
+When, this setting has been setup, it’s not needed anymore to repeat the connection string on all your tests. Just let the _connectionString_ attribute empty and the framework will automatically apply the connection string defined in the element _settings_. You can define one default value for the system-under-tests and another for the asserts. It’s especially useful if you’re comparing the results of two queries, one applied on your cube and another on the underlying sql database.
+Note that if you’ve a _settings_ element including a default value for a connection string and that you’ve define a value in the attribute _connectionString_ of one of your test, the specific value provided in the test will be use (and not the default) . So even with a default set at the test-suite level, you can override this setting in a specific test. In this sample, the first test use the default connection string for system-under-tests and the second will use the specific connectionString provided in the test.
+{code:xml}
+<testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1049</connectionString>
+		</default>
+	</settings>
+	<test name="'Reseller Order Count' by year before 2006 (csv) on 2008" uid="0001">
+		<system-under-test>
+			<execution>
+				<query>
+					...
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet file="ResellerOrderCountByYearBefore2006.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="'Reseller Order Count' by year before 2006 (csv) on 2012" uid="0001">
+		<system-under-test>
+			<execution>
+				<query connectionString="Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2012';">
+					...
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet file="ResellerOrderCountByYearBefore2006.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+</testSuite>
+{code:xml}
+!! Reference connection string
+It becomes more tricky when your test suite is querying more than one database. It’s the case when you compare the results of queries on your cube to the results on your operational databases. You probably have more than one source (operational database), and so you cannot apply the default value to all your connection strings. Anyway, you probably don’t want to repeat one of your connection strings on every tests. That’s where reference are useful. In your element _settings_ at the test-suite level, you can define references where you can specify a connection string. Each reference has a name uniquely identifying this reference.
+{code:xml}
+<settings>
+	<reference name="first-ref">
+		<connectionString>My First Connection String</connectionString>
+	</reference>
+	<reference name="second-ref">
+		<connectionString>My Second Connection String</connectionString>
+	</reference>
+</settings>
+{code:xml}
+When you’ve defined some references in your test-suite, you can use them in your tests by applying the attribute _connectionString_ with the name of your reference prefixed by an arrobas (@) . The framework will automatically apply the value of the referenced connection string to your test.In this sample, the first test use the first referenced connection string and the second test the second referenced connection string.
+{code:xml}
+<test name="'Reseller Order Count' by year before 2006 (csv) on 2008" uid="0001">
+	<system-under-test>
+		<execution>
+			<query connectionString="@first-ref">
+				...
+			</query>
+		</execution>
+	</system-under-test>
+	<assert>
+		<equalTo>
+			<resultSet file="ResellerOrderCountByYearBefore2006.csv"/>
+		</equalTo>
+	</assert>
+</test>
+<test name="'Reseller Order Count' by year before 2006 (csv) on 2012" uid="0001">
+	<system-under-test>
+		<execution>
+			<query connectionString="@second-ref">
+				...
+			</query>
+		</execution>
+	</system-under-test>
+	<assert>
+		<equalTo>
+			<resultSet file="ResellerOrderCountByYearBefore2006.csv"/>
+		</equalTo>
+	</assert>
+</test>
+{code:xml}
+At the opposite of default connection strings which are specific for system-under-tests and asserts, references can be used in both elements.
+!! External management (config file)
+If you want to use your test suite in different stages (Development, test, production, …), you’ll probably want to configure different connection strings depending on the targeted stage.  To avoid to have to edit your test suite for each environment and so have different nbits file, you can externalize the management of connection strings to the config file. In definitive you’ll have one unique nbits file with your test-suite definition and one config file (containing the connection strings) by stage.
+To achieve this, in the settings of your test-suite, at the place where you usually write your connection string, you’ll need to specify an alias (prefixed by an arrobas (@)). 
+{code:xml}
+<settings>
+	<default apply-to="system-under-test">
+		<connectionString>@default-sut</connectionString>
+	</default>
+	<reference name="first-ref">
+		<connectionString>@ref-one</connectionString>
+	</reference>
+	<reference name="second-ref">
+		<connectionString>@ref-two</connectionString>
+	</reference>
+</settings>
+{code:xml}
+This alias (without the arrobas) must be used in your config file to specify the connection string that will be used. The definition of connection strings must be done in the standard connectionStrings element. You can naturally define several alias and this can be done for default and reference connection strings.
+{code:xml}
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<configSections>
+		<section name="nbi" type="NBi.NUnit.Runtime.NBiSection, NBi.NUnit.Runtime"/>
+	</configSections>
+	<nbi testSuite="SubDirectory\myTestSuite.nbits"/>
+	<connectionStrings>
+		<clear />
+		<add name="def-sut" 
+			connectionString="..." />
+		<add name="ref-one" 
+			connectionString="..." />
+		<add name="ref-two" 
+			connectionString="..." />
+	</connectionStrings>
+</configuration>
+{code:xml}

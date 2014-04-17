@@ -32,6 +32,8 @@ namespace NBi.UI.Genbi.Command.TestCases
         public override void Invoke()
         {
             window.IsNameEditable = true;
+            if (string.IsNullOrEmpty(window.NameId))
+                window.NameId="default";
             DialogResult result = window.ShowDialog();
             if (result == DialogResult.OK)
                 presenter.AddConnectionString(window.NameId, window.Value);

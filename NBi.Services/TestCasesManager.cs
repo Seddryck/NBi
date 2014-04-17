@@ -29,6 +29,12 @@ namespace NBi.Service
                 variables.Add(col.ColumnName);
         }
 
+        public string GetQueryFileContent(string queryFile)
+        {
+            var query = System.IO.File.ReadAllText(queryFile);
+            return query;
+        }
+
         public void ReadFromQueryFile(string queryFile, string connectionString)
         {
             var query = System.IO.File.ReadAllText(queryFile);

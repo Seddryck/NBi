@@ -27,7 +27,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         public TestSuiteView()
         {
             State = new TestSuiteState();
-            TestCasesPresenter = new TestCasesPresenter(new RenameVariableWindow(), new OpenQueryWindow(), new FilterWindow(), new ConnectionStringWindow(), new TestCasesManager(), State.TestCases, State.Variables, State.ConnectionStringNames);
+            TestCasesPresenter = new TestCasesPresenter(new RenameVariableWindow(), new FilterWindow(), new ConnectionStringWindow(), new TestCasesManager(), State.TestCases, State.Variables, State.ConnectionStringNames);
             TemplatePresenter = new TemplatePresenter(new TemplateManager(), State.Template);
             SettingsPresenter = new SettingsPresenter(new SettingsManager(), State.Settings);
             TestListPresenter = new TestListPresenter(new TestListManager(), State.Tests, State.TestCases, State.Variables, State.Template);

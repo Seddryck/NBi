@@ -2,8 +2,10 @@
 {project:description}
 The main goal of this framework is to let users create tests with a declarative approach based on an Xml syntax. By the means of NBi, you don't need to develop C# code to specify your tests! Either, you don't need Visual Studio to compile your test suite. Just create an Xml file and let the framework interpret it and play your tests. The framework is designed as an add-on of NUnit but with the possibility to port it easily to other testing frameworks.
 
+[image:NBi Main.png]
+
 !! Documentation
-[Documentation] is now updated for release *1.0*, including a serie of "how to" for beginners and the usage of some elements in NBi syntax to manage test cases (description, ignore, edition, category).
+[Documentation] is now updated for release *1.5* (new features and improvements are explicitly identified). This documentation includes a list of "how to" for beginners and the usage of some elements in NBi syntax to manage test cases (description, ignore, edition, category). 
 
 ! How to
 * [Manually create my first test suite with NBi|Create manually my first test suite with NBi]
@@ -12,27 +14,49 @@ The main goal of this framework is to let users create tests with a declarative 
 * [Share binaries between test-suites] (useful for build servers)
 
 ! Currently supported features 
-* SSAS & SQL
-** Query execution
+* SSAS, SQL and DAX
+** Query's result-set
 *** [Test equivalence of two result sets]
-*** [Test performance] *(improved in v1.1)*
+**** [Special and Generic values]
+**** [Result set's comparison configuration]
+**** [Tolerances and roundings]
+**** [Interval of values]
+*** [Test calculations in a result set] *new in v1.5*
+*** [Test the format of the query's result]  
+** Query's execution
+*** [Test performance] 
 *** [Test syntax]
-*** [Get a query from an assembly] *v1.1*
+** Define a query
+*** [Query's parameters] *fixed in v1.4.1 and v1.5*
+*** [Query's template-variables]
+*** [Get a query from an assembly]
+*** [Get a query from a report] *new in v1.5*
 * SSAS
-** Cube structure
-*** [Test the availability of an element in the cube's structure] (measure, measure-group, level, hierarchy, dimension, perspective)
-*** [Test availability of one or more elements in the cube structure] *v1.1*
-*** [Test the relation between a dimension and a measure-group] *v1.1*
-** Dimension membership
+** Cube/Tabular structure
+*** [Test the availability of an element in the cube or tabular structure|Test the availability of an element in the cube's structure] (measure, measure-group, level, hierarchy, dimension, perspective, table and column for tabular models)
+*** [Test availability of one or more elements in the cube structure] (measure, measure-group, level, hierarchy, dimension, perspective, table and column for tabular models)
+*** [Test the relation between a dimension and a measure-group] _(not supported for tabular models)_
+** [Tests on dimension's members]
 *** [Test the members' count at any level of a dimension or hierarchy]
 *** [Test ordering of members at any level of a dimension or hierarchy]
-*** [Test availability of a member at any level of a dimension or hierarchy]
-*** [Test availability of one or more members in a hierarchy or level] *v1.1*
-* Manage test cases
+*** [Test availability of one or more members in a hierarchy or level]
+*** [Test that members are matching a pattern]
+*** [Compare actual members with members of another instance of the cube]
+*** [Compare actual members to a range of members (integers/dates) or predefined lists]
+* Manage and prepare test cases
+** [Manage connection strings]
+** [Defaults and references]  *improved in v1.5*
+** [Setup and Cleanup]  *new in v1.5*
+** [Condition]  *new in v1.5*
+** [Manage the role for execution of a query]
+* Metadata about test cases
 ** [Group tests cases by categories (manual or automatic)]
+** [Group tests for edition|Group tests]
 ** [Author and updates]
 ** [Provide a description to your test]
 ** [Ignore a test]
-** [Manage connection strings] *v1.1*
+* Debugging test cases
+** [Enable and display trace messages]
 * Tool to assist in the creation of a test suite
-** [Generate new tests based on a template] *v1.1*
+** [Generate new tests based on a template]
+** [Genbi macro language]

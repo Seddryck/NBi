@@ -68,8 +68,8 @@
     <Compile Include="Decoration\Command\DataManipulationAbstractXml.cs" />
     <Compile Include="Decoration\Command\ServiceAbstractXml.cs" />
     <Compile Include="Decoration\Command\DecorationCommandXml.cs" />
-    <Compile Include="Decoration\Command\LoadXml.cs" />
-    <Compile Include="Decoration\Command\ResetXml.cs" />
+    <Compile Include="Decoration\Command\TableLoadXml.cs" />
+    <Compile Include="Decoration\Command\TableResetXml.cs" />
     <Compile Include="Decoration\Command\ServiceStartXml.cs" />
     <Compile Include="Decoration\Command\ServiceStopXml.cs" />
     <Compile Include="Decoration\DecorationXml.cs" />

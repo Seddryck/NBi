@@ -5,9 +5,9 @@ using NBi.Core.DataManipulation;
 
 namespace NBi.Xml.Decoration.Command
 {
-    public class ResetXml : DataManipulationAbstractXml, IResetCommand
+    public class TableResetXml : DataManipulationAbstractXml, IResetCommand
     {
-        [XmlAttribute("table")]
+        [XmlAttribute("name")]
         public string TableName {get; set;}
         
     }

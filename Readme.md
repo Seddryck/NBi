@@ -10,6 +10,9 @@ Binaries for the different releases are hosted exclusively on [Codeplex](http://
 ## Documentation ##
 The documentation is available online and is hosted on [Codeplex](http://nbi.codeplex.com)
 
+## Licenses ##
+NBi is available with two licenses: MS-PL and OSL. You're free to choose which one convains the best to your project. NBi is also using several OSS projects as librairies. All these projects and their licenses are available in the folder License. 
+
 ## Bugs, issues and requests for features ##
 The list of bugs and feature's requests is hosted on [Codeplex](http://nbi.codeplex.com)
 
@@ -24,3 +27,6 @@ NBi has around 1000 automated tests, asserting a lot of feature before each rele
 - Unit: These tests are never contacting an external resource and tests maximum the code of one class. Usage of stubs, fakes and mocks is welcome.
 
 In order to be able to build the software on different machines, the database and cube used during tests must always be Adventure Works 2008R2. In order to facilitate the integration, NBi is connected by default to the online SQL database hosted on Azure (Unfortunatelly no equivalent for SSAS). If you want to overrides the connection settings for executing the tests on your own environement just create a file named ConnectionString.user.config in the folder NBi.Testing and copy the content from the file ConnectionString.config into it before adjusting for your environement.
+
+## Tracking ##
+This OSS project is tracked by [Ohloh](http://www.ohloh.net/p/NBi)

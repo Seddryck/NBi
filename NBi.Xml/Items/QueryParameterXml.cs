@@ -21,20 +21,6 @@ namespace NBi.Xml.Items
                 sqlType = value;
             }
         }
-        [XmlText]
-        public string StringValue { get; set; }
-
-        public T GetValue<T>()
-        {
-            TypeConverter converter = TypeDescriptor.GetConverter(typeof(T));
-            if (converter != null)
-            {
-                var stringWithoutSpecialChars = StringValue.Replace("\n", "").Replace("\t", "").Replace("\n", "").Trim();
-                return (T)converter.ConvertFrom(stringWithoutSpecialChars);
-            }
-            else
-                throw new InvalidOperationException();
-        }
 
 
     }

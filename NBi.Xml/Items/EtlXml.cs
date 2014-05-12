@@ -18,7 +18,7 @@ namespace NBi.Xml.Items
         public string Name { get; set; }
 
         [XmlIgnore]
-        public List<EtlParameter> Parameters
+        public new List<EtlParameter> Parameters
         {
             get
             {

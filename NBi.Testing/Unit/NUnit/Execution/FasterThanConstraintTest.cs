@@ -30,7 +30,7 @@ namespace NBi.Testing.Unit.NUnit.Execution
         public void Matches_IsFasterThanMax_True()
         {
             var stub = new Mock<IExecution>();
-            stub.Setup(e => e.Execute())
+            stub.Setup(e => e.Run())
                 .Returns(Mock.Of<IExecutionResult>( r => r.TimeElapsed==new TimeSpan(0,0,0,0,100)));
             var engine = stub.Object;
             
@@ -44,7 +44,7 @@ namespace NBi.Testing.Unit.NUnit.Execution
         public void Matches_IsSlowerThanMax_False()
         {
             var stub = new Mock<IExecution>();
-            stub.Setup(e => e.Execute())
+            stub.Setup(e => e.Run())
                 .Returns(Mock.Of<IExecutionResult>(r => r.TimeElapsed == new TimeSpan(0, 0, 0, 100, 0)));
             var engine = stub.Object;
 

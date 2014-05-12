@@ -5,7 +5,7 @@
 			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
 		</default>
 	</settings>
-	<test name="From file" uid="0001">
+	<test name="From file" uid="0000">
 		<setup>
 			<etl-run path="/Etl/" name="Sample.dtsx"/>
 		</setup>
@@ -32,7 +32,7 @@
 			</equalTo>
 		</assert>
 	</test>
-	<test name="From SQL Server" uid="0002">
+	<test name="From SQL Server" uid="0001">
 		<setup>
 			<etl-run server="." path="Etl\" name="Sample"/>
 		</setup>
@@ -69,10 +69,39 @@
 			<successful/>
 		</assert>
 	</test>
-	<test name="From File in System-under-tst" uid="0002">
+	<test name="From File in System-under-tst" uid="0003">
 		<system-under-test>
 			<execution>
 				<etl server="." path="Etl\" name="Sample"/>
+			</execution>
+		</system-under-test>
+		<assert>
+			<fasterThan max-time-milliSeconds="10000"/>
+		</assert>
+	</test>
+	<test name="With parameters" uid="0004">
+		<system-under-test>
+			<execution>
+				<etl path="Etl\" name="Sample">
+					<parameter name="param1">value1</parameter>
+					<parameter name="param2">value2</parameter>
+				</etl>
+			</execution>
+		</system-under-test>
+		<assert>
+			<fasterThan max-time-milliSeconds="10000"/>
+		</assert>
+	</test>
+	<test name="With parameters" uid="0005">
+		<setup>
+			<etl-run path="/Etl/" name="Sample.dtsx">
+				<parameter name="param1">value1</parameter>
+				<parameter name="param2">value2</parameter>
+			</etl-run>
+		</setup>
+		<system-under-test>
+			<execution>
+				<query file="foo.sql"/>
 			</execution>
 		</system-under-test>
 		<assert>

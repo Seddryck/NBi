@@ -91,6 +91,7 @@
     <Compile Include="Integration\Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\BulkLoadCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\TruncateCommandTest.cs" />
+    <Compile Include="Integration\Core\Etl\IntegrationService\EtlFileRunnerTest.cs" />
     <Compile Include="Integration\Core\Query\QueryAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\Query\QueryParserTest.cs" />
     <Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
@@ -164,6 +165,8 @@
     <Compile Include="Unit\NUnit\Builder\MembersOrderedBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersCountBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Execution\SuccessfulConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Execution\FasterThanConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\CountConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\MatchPatternConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\EquivalentToConstraintTest.cs" />
@@ -186,6 +189,7 @@
     <Compile Include="Unit\Service\TestCasesManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\SucessfulXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\EvaluateRowsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\MatchPatternXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\EquivalentToXmlTest.cs" />
@@ -199,6 +203,7 @@
     <Compile Include="Unit\Xml\GroupXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\BaseItemTest.cs" />
     <Compile Include="Unit\Xml\Items\ColumnXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\EtlXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\ReportXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\FormatXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\PerspectiveXmlTest.cs" />
@@ -247,12 +252,19 @@
     <None Include="Acceptance\Resources\AdventureWorks Sample Reports\Store_Contacts.rdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <EmbeddedResource Include="Acceptance\Resources\Etl.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Etl\Sample.dtsx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <None Include="ConnectionString.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Integration\NUnit\Resources\NonEmptyAmountByYear.csv" />
     <EmbeddedResource Include="Integration\Core\DataManipulation\Load.csv" />
+    <EmbeddedResource Include="Integration\Core\Etl\IntegrationService\Resources\Sample.dtsx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataCsvSample.csv" />
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataExcelSample.xls" />
@@ -426,6 +438,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\EtlXmlTestSuite.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\SuccessfulXmlTestSuite.xml" />
+     </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>

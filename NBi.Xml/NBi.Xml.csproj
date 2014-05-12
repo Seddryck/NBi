@@ -54,6 +54,7 @@
     <Compile Include="Constraints\AbstractConstraintForCollectionXml.cs" />
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
     <Compile Include="Constraints\ContainXml.cs" />
+    <Compile Include="Constraints\SuccessfulXml.cs" />
     <Compile Include="Constraints\IReferenceFriendly.cs" />
     <Compile Include="Constraints\MatchPatternXml.cs" />
     <Compile Include="Constraints\EquivalentToXml.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Decoration\Condition\ServiceRunningXml.cs" />
     <Compile Include="Decoration\CleanupXml.cs" />
     <Compile Include="Decoration\Command\DataManipulationAbstractXml.cs" />
+    <Compile Include="Decoration\Command\EtlRunXml.cs" />
     <Compile Include="Decoration\Command\ServiceAbstractXml.cs" />
     <Compile Include="Decoration\Command\DecorationCommandXml.cs" />
     <Compile Include="Decoration\Command\TableLoadXml.cs" />
@@ -79,6 +81,9 @@
     <Compile Include="Items\ColumnsXml.cs" />
     <Compile Include="Items\PropertiesXml.cs" />
     <Compile Include="Items\PropertyXml.cs" />
+    <Compile Include="Items\EtlParameterXml.cs" />
+    <Compile Include="Items\ParameterXml.cs" />
+    <Compile Include="Items\EtlXml.cs" />
     <Compile Include="Items\ReportXml.cs" />
     <Compile Include="Items\Format\CurrencyFormatXml.cs" />
     <Compile Include="Items\Format\NumericFormatXml.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NBi.Core.DataManipulation;
+using NBi.Core.Etl;
 using NBi.Core.WindowsService;
 
 namespace NBi.Core
@@ -17,6 +18,11 @@ namespace NBi.Core
             if (command is IDataManipulationCommand)
             {
                 return new DataManipulationFactory().Get(command as IDataManipulationCommand);
+            }
+
+            if (command is IEtlRunCommand)
+            {
+                return new EtlRunnerFactory().Get(command as IEtlRunCommand);
             }
 
             throw new ArgumentException();

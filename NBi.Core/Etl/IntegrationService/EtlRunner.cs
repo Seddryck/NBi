@@ -14,7 +14,7 @@ namespace NBi.Core.Etl.IntegrationService
             Etl = etl;
         }
 
-        public IExecutionResult Execute()
+        public IExecutionResult Run()
         {
             var app = new Application();
             var package = Load(Etl, app);
@@ -23,8 +23,13 @@ namespace NBi.Core.Etl.IntegrationService
 
             var events = new PackageEvents();
             var pkgResults = package.Execute(null, null, events, null, null);
-            return EtlRunResult.Build(pkgResults, events.Message);
+            var result = (ExecResult)pkgResults;
+            return EtlRunResult.Build(result, events);
+        }
 
+        public void Execute()
+        {
+            Run();
         }
 
         protected abstract Package Load(IEtl etl, Application app);

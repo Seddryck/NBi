@@ -1,6 +1,7 @@
 ﻿using System.Data.SqlClient;
 using Moq;
 using NBi.Core.Query;
+using NBi.NUnit.Query;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.NUnit.Query
@@ -34,7 +35,7 @@ namespace NBi.Testing.Unit.NUnit.Query
                 .Returns(ParserResult.NoParsingError());
             IQueryParser qp = mock.Object;
 
-            var syntacticallyCorrectConstraint = new NBi.NUnit.SyntacticallyCorrectConstraint() { Engine = qp };
+            var syntacticallyCorrectConstraint = new SyntacticallyCorrectConstraint() { Engine = qp };
 
             //Method under test
             syntacticallyCorrectConstraint.Matches(new SqlCommand());
@@ -52,7 +53,7 @@ namespace NBi.Testing.Unit.NUnit.Query
                 .Returns(ParserResult.NoParsingError());
             IQueryParser qp = mock.Object;
 
-            var syntacticallyCorrectConstraint = new NBi.NUnit.SyntacticallyCorrectConstraint() { Engine = qp };
+            var syntacticallyCorrectConstraint = new SyntacticallyCorrectConstraint() { Engine = qp };
 
             //Method under test
             var res = syntacticallyCorrectConstraint.Matches(new SqlCommand());
@@ -70,7 +71,7 @@ namespace NBi.Testing.Unit.NUnit.Query
                 .Returns(new ParserResult(new string[]{"parsing error"}));
             IQueryParser qp = mock.Object;
 
-            var syntacticallyCorrectConstraint = new NBi.NUnit.SyntacticallyCorrectConstraint() { Engine = qp };
+            var syntacticallyCorrectConstraint = new SyntacticallyCorrectConstraint() { Engine = qp };
 
             //Method under test
             var res = syntacticallyCorrectConstraint.Matches(new SqlCommand());

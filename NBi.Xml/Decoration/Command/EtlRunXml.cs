@@ -19,12 +19,25 @@ namespace NBi.Xml.Decoration.Command
         public string Name { get; set; }
 
 
+        [XmlIgnore]
+        public List<EtlParameter> Parameters
+        {
+            get
+            {
+                return InternalParameters.ToList<EtlParameter>();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         [XmlElement("parameter")]
-        public List<EtlParameter> Parameters { get; set; }
+        public List<EtlParameterXml> InternalParameters { get; set; }
 
         public EtlRunXml()
         {
-            Parameters = new List<EtlParameter>();
+            InternalParameters = new List<EtlParameterXml>();
         }
     }
 }

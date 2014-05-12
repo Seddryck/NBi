@@ -19,7 +19,8 @@ namespace NBi.Xml.Items
             TypeConverter converter = TypeDescriptor.GetConverter(typeof(T));
             if (converter != null)
             {
-                return (T)converter.ConvertFrom(StringValue);
+                var stringWithoutSpecialChars = StringValue.Replace("\n", "").Replace("\t", "").Replace("\n", "").Trim();
+                return (T)converter.ConvertFrom(stringWithoutSpecialChars);
             }
             else
                 throw new InvalidOperationException();

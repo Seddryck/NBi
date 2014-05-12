@@ -23,7 +23,7 @@ namespace NBi.Xml.Items
         public string Dataset { get; set; }
 
         [XmlElement("parameter")]
-        public List<QueryParameterXml> Parameters { get; set; }
+        public new List<QueryParameterXml> Parameters { get; set; }
 
         public ReportXml()
         {
@@ -53,7 +53,7 @@ namespace NBi.Xml.Items
         }
 
 
-        public List<QueryParameterXml> GetParameters()
+        public new List<QueryParameterXml> GetParameters()
         {
             var list = Parameters;
             foreach (var param in Default.Parameters)

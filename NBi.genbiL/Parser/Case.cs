@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Linq;
 using NBi.GenbiL.Action;
 using NBi.GenbiL.Action.Case;
 using NBi.Service;

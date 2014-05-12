@@ -1,10 +1,8 @@
 ﻿using System;
-using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using NBi.Core.Report;
-using NBi.Xml;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Core.Report

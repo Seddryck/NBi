@@ -83,6 +83,8 @@
     <Compile Include="Analysis\Request\MetadataLinkedToDiscoveryRequest.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\TableNotNullIfColumn.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\ValidationFilter.cs" />
+    <Compile Include="Etl\ExecResult.cs" />
+    <Compile Include="Etl\IPackageEvents.cs" />
     <Compile Include="IExecutionResult.cs" />
     <Compile Include="Etl\EtlRunnerFactory.cs" />
     <Compile Include="Etl\EtlRunResult.cs" />

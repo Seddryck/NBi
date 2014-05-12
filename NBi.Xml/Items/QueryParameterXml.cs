@@ -6,27 +6,8 @@ using NBi.Core.Query;
 
 namespace NBi.Xml.Items
 {
-    public class QueryParameterXml : IQueryParameter
+    public class QueryParameterXml: ParameterXml, IQueryParameter
     {
-        private string name;
-        [XmlAttribute("name")]
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-            set
-            {
-                //value = value.Trim();
-                
-                //if (!value.StartsWith("@"))
-                //    value = "@" + value;
-
-                name = value;
-            }
-        }
-
         private string sqlType;
         [XmlAttribute("sql-type")]
         public string SqlType
@@ -40,7 +21,6 @@ namespace NBi.Xml.Items
                 sqlType = value;
             }
         }
-
         [XmlText]
         public string StringValue { get; set; }
 
@@ -55,5 +35,7 @@ namespace NBi.Xml.Items
             else
                 throw new InvalidOperationException();
         }
+
+
     }
 }

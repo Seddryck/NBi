@@ -2,6 +2,7 @@
 using System.Data;
 using System.Linq;
 using NBi.Core.Query;
+using NBi.NUnit.Query;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;

@@ -105,6 +105,14 @@
 		<xs:attribute name="connectionString" type="xs:string" use="optional" />
 		<xs:attribute name="roles" type="xs:string" use="optional" />
 	</xs:complexType>
+	<xs:complexType name="etl-type">
+		<xs:sequence>
+			<xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
+		</xs:sequence>
+		<xs:attribute name="server" type="xs:string"/>
+		<xs:attribute name="path" type="xs:string"/>
+		<xs:attribute name="name" type="xs:string"/>
+	</xs:complexType>
 	<xs:complexType name="report-type">
 		<xs:sequence>
 			<xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
@@ -245,6 +253,7 @@
 			<xs:element name="service-stop" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="table-reset" type="table-reset-type" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="table-load" type="table-load-type" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="table-reset-type">
@@ -317,6 +326,7 @@
 									<xs:element name="query" type ="query-type"/>
 									<xs:element name="report" type ="report-type"/>
 									<xs:element name="assembly" type ="assembly-type"/>
+									<xs:element name="etl" type ="etl-type"/>
 								</xs:choice>
 							</xs:complexType>
 						</xs:element>
@@ -637,6 +647,8 @@
 									<xs:element name="currency-format" type="currency-format-type" minOccurs="0" maxOccurs="1"/>
 								</xs:choice>
 							</xs:complexType>
+						</xs:element>
+						<xs:element name="successful">
 						</xs:element>
 					</xs:choice>
 				</xs:complexType>

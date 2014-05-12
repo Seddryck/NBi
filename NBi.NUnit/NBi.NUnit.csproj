@@ -65,8 +65,13 @@
     <Compile Include="Builder\AbstractTestCaseBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
+    <Compile Include="Builder\AbstractExecutionNonQueryBuilder.cs" />
+    <Compile Include="Builder\ExecutionFasterThanChooser.cs" />
+    <Compile Include="Builder\ExecutionNonQuerySuccessfulBuilder.cs" />
+    <Compile Include="Builder\ExecutionNonQueryFasterThanBuilder.cs" />
     <Compile Include="Builder\ExecutionMatchPatternBuilder.cs" />
     <Compile Include="Builder\ExecutionEvaluateRowsBuilder.cs" />
+    <Compile Include="Builder\ITestCaseBuilderChooser.cs" />
     <Compile Include="Builder\MembersMatchPatternBuilder.cs" />
     <Compile Include="Builder\MetadataDiscoveryRequestBuilder.cs" />
     <Compile Include="Builder\MembersSubsetOfBuilder.cs" />
@@ -83,6 +88,8 @@
     <Compile Include="Builder\ITestCaseBuilder.cs" />
     <Compile Include="Builder\MembersCountBuilder.cs" />
     <Compile Include="Builder\ExecutionEqualToBuilder.cs" />
+    <Compile Include="Execution\FasterThanConstraint.cs" />
+    <Compile Include="Execution\SuccessfulConstraint.cs" />
     <Compile Include="Member\AbstractMembersConstraint.cs" />
     <Compile Include="Member\AbstractMembersCollectionConstraint.cs" />
     <Compile Include="Member\MatchPatternConstraint.cs" />

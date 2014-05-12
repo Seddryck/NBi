@@ -58,14 +58,14 @@ namespace NBi.Core.Etl
             this.message = message;
         }
 
-        public static EtlRunResult Build(DTSExecResult result, string message)
+        public static EtlRunResult Build(ExecResult result, IPackageEvents events)
         {
             switch (result)
             {
-                case DTSExecResult.Failure:
-                    return Failure(message);
-                case DTSExecResult.Success:
-                    return Success();
+                case ExecResult.Failure:
+                    return Failure(events.Message);
+                case ExecResult.Success:
+                    return Success(events.ExecutionTime);
                 default:
                     break;
             }
@@ -77,9 +77,9 @@ namespace NBi.Core.Etl
             return new EtlRunResult(false, message);
         }
 
-        public static EtlRunResult Success()
+        public static EtlRunResult Success(TimeSpan executionTime)
         {
-            return new EtlRunResult(true);
+            return new EtlRunResult(true, executionTime);
         }
     }
 }

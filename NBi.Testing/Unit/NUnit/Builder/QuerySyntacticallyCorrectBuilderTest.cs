@@ -1,8 +1,8 @@
 ﻿#region Using directives
 using System.Data;
 using Moq;
-using NBi.NUnit;
 using NBi.NUnit.Builder;
+using NBi.NUnit.Query;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
 using NUnit.Framework;

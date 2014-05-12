@@ -30,7 +30,7 @@ namespace NBi.Testing.Unit.NUnit.Execution
         public void Matches_IsSuccessful_True()
         {
             var stub = new Mock<IExecution>();
-            stub.Setup(e => e.Execute())
+            stub.Setup(e => e.Run())
                 .Returns(Mock.Of<IExecutionResult>(r => r.IsSuccess == true));
             var engine = stub.Object;
 
@@ -43,7 +43,7 @@ namespace NBi.Testing.Unit.NUnit.Execution
         public void Matches_IsFailure_False()
         {
             var stub = new Mock<IExecution>();
-            stub.Setup(e => e.Execute())
+            stub.Setup(e => e.Run())
                 .Returns(Mock.Of<IExecutionResult>(r => r.IsSuccess == false));
             var engine = stub.Object;
 

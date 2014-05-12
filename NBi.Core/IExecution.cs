@@ -7,6 +7,6 @@ namespace NBi.Core
 {
     public interface IExecution
     {
-        IExecutionResult Execute();
+        IExecutionResult Run();
     }
 }

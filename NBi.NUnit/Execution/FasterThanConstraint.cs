@@ -46,7 +46,7 @@ namespace NBi.NUnit.Execution
         /// <returns>true, if the query defined in parameter is executed in less that expected else false</returns>
         public bool doMatch(IExecution actual)
         {
-            Result = actual.Execute();
+            Result = actual.Run();
             return 
                 (
                     Result.TimeElapsed.TotalMilliseconds < maxTimeMilliSeconds

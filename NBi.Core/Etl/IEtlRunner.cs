@@ -5,8 +5,7 @@ using System.Text;
 
 namespace NBi.Core.Etl
 {
-    public interface IEtlRunner: IExecution
+    public interface IEtlRunner: IExecution, IDecorationCommandImplementation
     {
-        IExecutionResult Execute();
     }
 }

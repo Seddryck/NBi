@@ -32,7 +32,7 @@ namespace NBi.NUnit.Execution
 
         protected bool doMatch(IExecution actual)
         {
-            Result = actual.Execute();
+            Result = actual.Run();
             return Result.IsSuccess;
         }
 

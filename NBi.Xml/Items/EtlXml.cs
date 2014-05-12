@@ -17,12 +17,25 @@ namespace NBi.Xml.Items
         [XmlAttribute("name")]
         public string Name { get; set; }
 
+        [XmlIgnore]
+        public List<EtlParameter> Parameters
+        {
+            get
+            {
+                return InternalParameters.ToList<EtlParameter>();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         [XmlElement("parameter")]
-        public List<EtlParameter> Parameters { get; set; }
+        public List<EtlParameterXml> InternalParameters { get; set; }
 
         public EtlXml()
         {
-            Parameters = new List<EtlParameter>();
+            InternalParameters = new List<EtlParameterXml>();
         }
 
         public override string GetQuery()

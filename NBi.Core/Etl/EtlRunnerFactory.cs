@@ -12,5 +12,6 @@ namespace NBi.Core.Etl
             var runner = factory.Get(etl);
             return runner;
         }
+
     }
 }

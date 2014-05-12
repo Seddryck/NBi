@@ -123,5 +123,41 @@ namespace NBi.Testing.Unit.Xml.Items
             Assert.That(etl.Path, Is.EqualTo(@"Etl\"));
             Assert.That(etl.Name, Is.EqualTo("Sample"));
         }
+
+        [Test]
+        public void Deserialize_WithParameters_EtlXml()
+        {
+            int testNr = 4;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
+            var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
+            var parameters = etl.Parameters;
+
+            Assert.That(parameters, Is.Not.Null);
+            Assert.That(parameters, Has.Count.EqualTo(2));
+            Assert.That(parameters, Has.Member(new EtlParameter("param1", "value1")));
+            Assert.That(parameters, Has.Member(new EtlParameter("param2", "value2")));
+        }
+
+        [Test]
+        public void Deserialize_SetupWithParameters_EtlXml()
+        {
+            int testNr = 5;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Setup.Commands[0], Is.InstanceOf<EtlRunXml>());
+            var etl = ts.Tests[testNr].Setup.Commands[0] as EtlRunXml;
+            var parameters = etl.Parameters;
+
+            Assert.That(parameters, Is.Not.Null);
+            Assert.That(parameters, Has.Count.EqualTo(2));
+            Assert.That(parameters, Has.Member(new EtlParameter("param1", "value1")));
+            Assert.That(parameters, Has.Member(new EtlParameter("param2", "value2")));
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace NBi.Xml.Items
         public string Hierarchy { get; set; }
 
         [XmlIgnore]
-        protected string ParentPath { get { return string.Format("[{0}].[{1}]", Dimension, Hierarchy); } }
+        protected virtual string ParentPath { get { return string.Format("[{0}].[{1}]", Dimension, Hierarchy); } }
 
         [XmlIgnore]
         protected override string Path { get { return string.Format("{0}.[{1}]", ParentPath, Caption); } }

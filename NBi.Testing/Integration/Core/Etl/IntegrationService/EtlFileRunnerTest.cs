@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Linq;
 using Moq;
 using NBi.Core.Etl;
 using NBi.Core.Etl.IntegrationService;
@@ -69,7 +68,7 @@ namespace NBi.Testing.Integration.Core.Etl.IntegrationService
                 );
             
             var runner = new EtlFileRunner(etl);
-            var result = runner.Execute();
+            var result = runner.Run();
 
             Assert.That(result.IsSuccess, Is.True);
         }
@@ -88,11 +87,11 @@ namespace NBi.Testing.Integration.Core.Etl.IntegrationService
             var param = new EtlParameterXml();
             param.Name="DestinationPath";
             param.StringValue = destPath;
-            etl.Parameters.Add(param);
+            etl.InternalParameters.Add(param);
             
 
             var runner = new EtlFileRunner(etl);
-            var result = runner.Execute();
+            var result = runner.Run();
 
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(File.Exists(destPath), Is.True);
@@ -112,10 +111,10 @@ namespace NBi.Testing.Integration.Core.Etl.IntegrationService
             var param = new EtlParameterXml();
             param.Name = "DestinationPath";
             param.StringValue = destPath;
-            etl.Parameters.Add(param);
+            etl.InternalParameters.Add(param);
 
             var runner = new EtlFileRunner(etl);
-            var result = runner.Execute();
+            var result = runner.Run();
 
             Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Message, Is.StringContaining("invalid characters"));

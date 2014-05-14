@@ -43,10 +43,10 @@ namespace NBi.NUnit.Builder
         {
             if (xml.Item is QueryableXml)
             {
-                var commandText = xml.Item.GetQuery();
+                var commandText = (xml.Item as QueryableXml).GetQuery();
                 var connectionString = xml.Item.GetConnectionString();
-                var parameters = xml.Item.GetParameters();
-                var variables = xml.Item.GetVariables();
+                var parameters = (xml.Item as QueryableXml).GetParameters();
+                var variables = (xml.Item as QueryableXml).GetVariables();
 
                 var commandBuilder = new CommandBuilder();
                 var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables);

@@ -6,7 +6,7 @@ using NBi.Core.Etl;
 
 namespace NBi.Xml.Items
 {
-    public class EtlXml: QueryableXml, IEtl 
+    public class EtlXml: ExecutableXml, IEtl 
     {
         [XmlAttribute("server")]
         public string Server { get; set; }
@@ -18,7 +18,7 @@ namespace NBi.Xml.Items
         public string Name { get; set; }
 
         [XmlIgnore]
-        public new List<EtlParameter> Parameters
+        public List<EtlParameter> Parameters
         {
             get
             {
@@ -38,9 +38,9 @@ namespace NBi.Xml.Items
             InternalParameters = new List<EtlParameterXml>();
         }
 
-        public override string GetQuery()
-        {
-            throw new NotImplementedException();
-        }
+        //public override string GetQuery()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

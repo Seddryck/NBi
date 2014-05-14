@@ -44,7 +44,7 @@ namespace NBi.Testing.Unit.Xml.Systems
                 using (StreamReader reader = new StreamReader(stream))
                    expectedContent = reader.ReadToEnd();
             
-            Assert.AreEqual(expectedContent, testCase.Item.GetQuery());
+            Assert.AreEqual(expectedContent, (testCase.Item as QueryableXml).GetQuery());
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             // Check the properties of the object.
             Assert.That(((QueryXml)systemUnderTest.Item).File, Is.Not.Null.And.Not.Empty);
             Assert.That(((QueryXml)systemUnderTest.Item).InlineQuery, Is.Null);
-            Assert.That(systemUnderTest.Item.GetQuery(), Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
+            Assert.That(((QueryXml)systemUnderTest.Item).GetQuery(), Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
             
         }
 
@@ -99,7 +99,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             // A Stream is needed to read the text file from the assembly.
             string expectedContent = "select [measure].[price €/Kg] on 0;";
 
-            Assert.AreEqual(expectedContent, testCase.Item.GetQuery());
+            Assert.AreEqual(expectedContent, ((QueryableXml)testCase.Item).GetQuery());
         }
        
     }

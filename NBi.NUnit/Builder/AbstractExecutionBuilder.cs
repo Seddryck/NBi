@@ -31,7 +31,7 @@ namespace NBi.NUnit.Builder
             var commandBuilder = new CommandBuilder();
 
             var connectionString = executionXml.Item.GetConnectionString();
-            var commandText = executionXml.Item.GetQuery();
+            var commandText = (executionXml.Item as QueryableXml).GetQuery();
 
             IEnumerable<IQueryParameter> parameters=null;
             IEnumerable<IQueryTemplateVariable> variables = null;

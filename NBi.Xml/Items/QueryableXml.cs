@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items
 {
-    public abstract class QueryableXml : BaseItem
+    public abstract class QueryableXml : ExecutableXml
     {       
         public abstract string GetQuery();
 

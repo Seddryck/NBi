@@ -4,6 +4,7 @@ using Moq;
 using NBi.NUnit.Builder;
 using NBi.NUnit.Query;
 using NBi.Xml.Constraints;
+using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 #endregion
@@ -46,8 +47,11 @@ namespace NBi.Testing.Unit.NUnit.Builder
         {
             //Buiding object used during test
             var sutXmlStubFactory = new Mock<ExecutionXml>();
-            sutXmlStubFactory.Setup(s => s.Item.GetQuery()).Returns("query");
+            var itemXmlStubFactory = new Mock<QueryableXml>();
+            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
             var sutXml = sutXmlStubFactory.Object;
+            sutXml.Item = itemXmlStubFactory.Object;
 
             var ctrXml = new SyntacticallyCorrectXml();
 
@@ -66,8 +70,11 @@ namespace NBi.Testing.Unit.NUnit.Builder
         {
             //Buiding object used during test
             var sutXmlStubFactory = new Mock<ExecutionXml>();
-            sutXmlStubFactory.Setup(s => s.Item.GetQuery()).Returns("query");
+            var itemXmlStubFactory = new Mock<QueryableXml>();
+            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
             var sutXml = sutXmlStubFactory.Object;
+            sutXml.Item = itemXmlStubFactory.Object;
 
             var ctrXml = new SyntacticallyCorrectXml();
 

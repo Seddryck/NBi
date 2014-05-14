@@ -17,7 +17,7 @@ namespace NBi.Xml.Systems
         XmlElement(Type = typeof(ReportXml), ElementName = "report"),
         XmlElement(Type = typeof(EtlXml), ElementName = "etl"),
         ]
-        public virtual QueryableXml Item { get; set; }
+        public virtual ExecutableXml Item { get; set; }
 
         public override BaseItem BaseItem
         {

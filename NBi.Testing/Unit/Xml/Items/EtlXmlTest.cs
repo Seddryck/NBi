@@ -72,6 +72,7 @@ namespace NBi.Testing.Unit.Xml.Items
             Assert.That(etl.Server, Is.Null.Or.Empty);
             Assert.That(etl.Path, Is.EqualTo("/Etl/"));
             Assert.That(etl.Name, Is.EqualTo("Sample.dtsx"));
+            Assert.That(etl.Password, Is.EqualTo("p@ssw0rd"));
         }
 
         [Test]

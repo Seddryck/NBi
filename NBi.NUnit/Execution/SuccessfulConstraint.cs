@@ -40,8 +40,13 @@ namespace NBi.NUnit.Execution
         {
             var sb = new System.Text.StringBuilder();
             sb.AppendLine();
+            sb.AppendFormat("Successful execution of the etl.");
             sb.AppendLine();
-            writer.WriteExpectedValue("Successful execution of the etl.");
+            writer.WritePredicate(sb.ToString());
+        }
+
+        public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
+        {
             writer.WriteActualValue(string.Format("Failure during execution of the etl: {0}", Result.Message));
         }
     }

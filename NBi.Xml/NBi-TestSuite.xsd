@@ -112,6 +112,7 @@
 		<xs:attribute name="server" type="xs:string"/>
 		<xs:attribute name="path" type="xs:string"/>
 		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="password" type="xs:string"/>
 	</xs:complexType>
 	<xs:complexType name="report-type">
 		<xs:sequence>

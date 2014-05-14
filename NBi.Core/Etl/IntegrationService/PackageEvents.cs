@@ -13,9 +13,9 @@ namespace NBi.Core.Etl.IntegrationService
         public override bool OnError(DtsObject source, int errorCode, string subComponent, string description, string helpFile, int helpContext, string idofInterfaceWithError)
         {
             if (string.IsNullOrEmpty(subComponent))
-                Message = string.Format("[{1}] - {0}", description, errorCode);
+                Message = string.Format("{0}\r\n[{2}] - {1}", Message, description, errorCode);
             else
-                Message = string.Format("[{2}] in {0} - {1}", subComponent, description, errorCode);
+                Message = string.Format("{0}\r\n[{3}] in {1} - {2}", Message, subComponent, description, errorCode);
 
             return base.OnError(source, errorCode, subComponent, description, helpFile, helpContext, idofInterfaceWithError);
         }

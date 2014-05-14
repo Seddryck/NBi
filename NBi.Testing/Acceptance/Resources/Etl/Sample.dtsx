@@ -11,8 +11,9 @@
   DTS:LocaleID="2060"
   DTS:ObjectName="Sample"
   DTS:PackageType="5"
-  DTS:VersionBuild="17"
-  DTS:VersionGUID="{0612B0E3-60DC-4795-A8BF-C0D9F9FD9649}">
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="20"
+  DTS:VersionGUID="{8C6FD79C-F118-4C4A-AE09-C8AB23B801FD}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:ConnectionManagers>
@@ -65,10 +66,16 @@
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectionString="Data Source=mhknbn2kdz.database.windows.net;User ID=sqlfamily;Initial Catalog=AdventureWorks2012;Provider=SQLNCLI11.1;Auto Translate=False;">
-          <DTS:Password
-            DTS:Name="Password"
-            Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAu3nQT9HnB02GUIQ37YSm7gAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAACaWM9ikMFMxhuTyp31f/6BhWeTK6mk5lE7SRPAb5+KwAAAAAOgAAAAAIAACAAAADUMznB2MDgu5CsmnaO2JiUryabF4n/yUXRrQlYqtPbhSAAAABpxposvu8KcNAtAOiKbMQwwir7b19T7uaSZleeC4nCV0AAAACiJsY0KaZzzRA41dpOLf8v2svDmdwKv6G0+H3W+04U+tYulr3lHbJ1TTTjQgZb5fi7XHrccaaxlwmSLNY/t5kz</DTS:Password>
+          <EncryptedData
+            Type="http://www.w3.org/2001/04/xmlenc#Element"
+            Salt="Ix7q7epKgg=="
+            IV="lkp7t76AgxM=" xmlns="http://www.w3.org/2001/04/xmlenc#">
+            <EncryptionMethod
+              Algorithm="http://www.w3.org/2001/04/xmlenc#tripledes-cbc" />
+            <CipherData>
+              <CipherValue>lkp7t76AgxOwV33ALifpWryq76I2WqtU6bm4tlrppQ8pQGw0NCAeajhU59AMHyg2zKg8K8K9L0ENC66HSIPCUbI1ok07RNQVBmJq7bwmCwnOMRPqH+tUyingL5JHldWbXMZ6mXBh00c0DkS0OvJPrhFHQVoLVu07S5TFh842p80=</CipherValue>
+            </CipherData>
+          </EncryptedData>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>

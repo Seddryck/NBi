@@ -64,6 +64,7 @@ namespace NBi.Testing.Integration.Core.Etl.IntegrationService
                 e.Server == string.Empty
                 && e.Path == @"Etl\"
                 && e.Name == "Sample.dtsx"
+                && e.Password=="p@ssw0rd"
                 && e.Parameters == new List<EtlParameter>()
                 );
             
@@ -84,6 +85,7 @@ namespace NBi.Testing.Integration.Core.Etl.IntegrationService
             var etl = new EtlXml();
             etl.Path = @"Etl\";
             etl.Name = "Sample.dtsx";
+            etl.Password = "p@ssw0rd";
             var param = new EtlParameterXml();
             param.Name="DestinationPath";
             param.StringValue = destPath;
@@ -108,6 +110,7 @@ namespace NBi.Testing.Integration.Core.Etl.IntegrationService
             var etl = new EtlXml();
             etl.Path = @"Etl\";
             etl.Name = "Sample.dtsx";
+            etl.Password = "p@ssw0rd";
             var param = new EtlParameterXml();
             param.Name = "DestinationPath";
             param.StringValue = destPath;

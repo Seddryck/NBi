@@ -9,6 +9,7 @@ namespace NBi.Core.Etl
         string Server { get; set; }
         string Path { get; set; }
         string Name { get; set; }
+        string Password { get; set; }
 
         List<EtlParameter> Parameters { get; }
     }

@@ -17,6 +17,9 @@ namespace NBi.Xml.Items
         [XmlAttribute("name")]
         public string Name { get; set; }
 
+        [XmlAttribute("password")]
+        public string Password { get; set; }
+
         [XmlIgnore]
         public List<EtlParameter> Parameters
         {

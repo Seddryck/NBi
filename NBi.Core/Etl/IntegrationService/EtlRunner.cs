@@ -17,6 +17,8 @@ namespace NBi.Core.Etl.IntegrationService
         public IExecutionResult Run()
         {
             var app = new Application();
+            if (!string.IsNullOrEmpty(Etl.Password))
+                app.PackagePassword = Etl.Password;
             var package = Load(Etl, app);
 
             Parameterize(Etl.Parameters, ref package);

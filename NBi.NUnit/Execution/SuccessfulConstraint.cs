@@ -39,9 +39,10 @@ namespace NBi.NUnit.Execution
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
             var sb = new System.Text.StringBuilder();
-            sb.AppendLine("Execution wasn't successful.");
-            sb.AppendLine(Result.Message);
-            writer.WritePredicate(sb.ToString());
+            sb.AppendLine();
+            sb.AppendLine();
+            writer.WriteExpectedValue("Successful execution of the etl.");
+            writer.WriteActualValue(string.Format("Failure during execution of the etl: {0}", Result.Message));
         }
     }
 }

@@ -257,6 +257,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Etl\Sample.dtsx">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="ConnectionString.config">
       <SubType>Designer</SubType>
@@ -443,8 +444,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\Resources\SuccessfulXmlTestSuite.xml" />
-     </ItemGroup>
-
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>

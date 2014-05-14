@@ -7,7 +7,7 @@
 	</settings>
 	<test name="From file" uid="0000">
 		<setup>
-			<etl-run path="/Etl/" name="Sample.dtsx"/>
+			<etl-run path="/Etl/" name="Sample.dtsx" password="p@ssw0rd"/>
 		</setup>
 		<system-under-test>
 			<execution>
@@ -92,7 +92,7 @@
 			<fasterThan max-time-milliSeconds="10000"/>
 		</assert>
 	</test>
-	<test name="With parameters" uid="0005">
+	<test name="Setup with parameters" uid="0005">
 		<setup>
 			<etl-run path="/Etl/" name="Sample.dtsx">
 				<parameter name="param1">value1</parameter>

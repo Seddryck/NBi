@@ -46,11 +46,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
         [Test]
         public void GetConstraint_Build_CorrectConstraint()
         {
-            var sutXmlStubFactory = new Mock<ExecutionXml>();
-            sutXmlStubFactory.Setup(s => s.Item.GetQuery()).Returns("query");
-            sutXmlStubFactory.Setup(s => s.Item.GetParameters()).Returns(new List<QueryParameterXml>());
-            sutXmlStubFactory.Setup(s => s.Item.GetVariables()).Returns(new List<QueryTemplateVariableXml>());
+            var sutXmlStubFactory = new Mock<ExecutionXml>(); 
+            var itemXmlStubFactory = new Mock<QueryableXml>();
+            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            itemXmlStubFactory.Setup(i => i.GetParameters()).Returns(new List<QueryParameterXml>());
+            itemXmlStubFactory.Setup(i => i.GetVariables()).Returns(new List<QueryTemplateVariableXml>());
+            sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
             var sutXml = sutXmlStubFactory.Object;
+            sutXml.Item = itemXmlStubFactory.Object;
 
             var ctrXml = new MatchPatternXml();
 
@@ -66,11 +69,13 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetSystemUnderTest_Build_CorrectIDbCommand()
         {
             var sutXmlStubFactory = new Mock<ExecutionXml>();
-            sutXmlStubFactory.Setup(s => s.Item.GetQuery()).Returns("query");
-            sutXmlStubFactory.Setup(s => s.Item.GetParameters()).Returns(new List<QueryParameterXml>());
-            sutXmlStubFactory.Setup(s => s.Item.GetVariables()).Returns(new List<QueryTemplateVariableXml>());
-            
+            var itemXmlStubFactory = new Mock<QueryableXml>();
+            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            itemXmlStubFactory.Setup(i => i.GetParameters()).Returns(new List<QueryParameterXml>());
+            itemXmlStubFactory.Setup(i => i.GetVariables()).Returns(new List<QueryTemplateVariableXml>());
+            sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
             var sutXml = sutXmlStubFactory.Object;
+            sutXml.Item = itemXmlStubFactory.Object;
 
             var ctrXml = new MatchPatternXml();
 

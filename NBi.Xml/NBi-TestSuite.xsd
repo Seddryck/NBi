@@ -110,9 +110,14 @@
 			<xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
 		</xs:sequence>
 		<xs:attribute name="server" type="xs:string"/>
+		<xs:attribute name="catalog" type="xs:string"/>
+		<xs:attribute name="folder" type="xs:string"/>
+		<xs:attribute name="project" type="xs:string"/>
 		<xs:attribute name="path" type="xs:string"/>
 		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="username" type="xs:string"/>
 		<xs:attribute name="password" type="xs:string"/>
+		<xs:attribute name="bits-32" type="xs:boolean"/>
 	</xs:complexType>
 	<xs:complexType name="report-type">
 		<xs:sequence>

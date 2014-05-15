@@ -46,7 +46,7 @@ namespace NBi.Testing.Integration.Core.Etl.IntegrationService
             catch (Exception ex)
             {
                 isIntegrationServiceStarted = false;
-                Console.WriteLine("Test fixture 'EtlDtsWindowsRunnerTest' is skipped: {0}", ex.Message);
+                IgnoreMessage=string.Format("Test fixture 'EtlDtsWindowsRunnerTest' is skipped: {0}", ex.Message);
             }
             
         }
@@ -62,7 +62,7 @@ namespace NBi.Testing.Integration.Core.Etl.IntegrationService
         public void SetupTest()
         {
             if (!isIntegrationServiceStarted)
-                Assert.Ignore("Integration Service not started.");
+                Assert.Ignore();
         }
 
         //Called after each test
@@ -74,6 +74,7 @@ namespace NBi.Testing.Integration.Core.Etl.IntegrationService
         private bool CheckIfIntegrationServiceStarted()
         {
             var pname = Process.GetProcesses().Where(p => p.ProcessName.Contains("MsDtsSrvr"));
+            IgnoreMessage = "Integration Service not started.";
             return pname.Count() > 0;
         }
         #endregion
@@ -94,5 +95,7 @@ namespace NBi.Testing.Integration.Core.Etl.IntegrationService
 
             Assert.That(result.IsSuccess, Is.False);
         }
+
+        public string IgnoreMessage { get; set; }
     }
 }

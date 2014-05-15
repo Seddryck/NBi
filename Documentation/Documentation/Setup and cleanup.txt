@@ -1,0 +1,70 @@
+! Setup and Cleanup
+With the mean of the two elements _setup_ and _cleanup_, you're able to define commands that will be executed before or after the test execution. This could be really useful to load some data in tables or clean these tables before you effectively run your test.
+
+The xml element _setup_ must be located before the xml element _system-under-test_. In the same way, the xml element _cleanup_ must be located after the xml element _assert_.
+
+{code:xml}
+<test>
+	<setup>
+		...
+	</setup>
+	<system-under-test>
+		...
+	</system-under-test>
+	<assert>
+		...
+	</assert>
+	<cleanup>
+		...
+	</cleanup>
+</test>
+{code:xml}
+
+!! Available commands
+!!! Data Manipulation on Tables
+The following commands are only available on a Sql Server.
+* _table-reset_: this command will let you delete all the rows of a table (truncation). 
+* _table-load_: this command will let you fill a table on base of a csv file (bulk load). The xml attribute named _file_ expects the name of the csv file to load.
+For all of them, The xml attribute named _name_ expects the name of the table to reset. 
+
+{code:xml}
+<setup>
+	<table-reset  name="NewUsers"
+		connectionString="..."/>
+	<table-load   name="NewUsers"
+		file ="NewUsers.csv"
+		connectionString="..."/>
+</setup>
+{code:xml}
+
+If you want, you can also reference a connection-string in the xml attribute _connectionString_. If you want to avoid to repeat this connection-string within all your commands, you can create a default value for the connectionString in the settings at the top of your test-suite. the _apply-to_ value must be set to to _setup-cleanup_.
+
+{code:xml}
+<settings>
+	<default apply-to="setup-cleanup">
+		<connectionString>Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true</connectionString>
+	</default>
+</settings>
+{code:xml}
+
+!!! Windows Services
+These commands will be executed on the server running the test-suite and start or stop a Windows Service. For both of the commands, if the service is already started/stopped, this command will have no influence (and will not failed).
+
+* _service-start_: this command will let you start a windows service.
+* _service-stop_: this command will let you stop a windows service. 
+For both commands, the xml attribute _name_ specify the name of the windows service and the attribute _timeout-milliseconds_ is setting a maximum time to elapse before the command has effectively been applied or before raising an exception. This attribute is optional but a default value of 5 seconds is applied in case this attribute is not specified.
+
+{code:xml}
+<setup>
+	<service-start name="MyService"/>
+</setup>
+...
+<cleanup>
+	<service-stop name="MyService" timeout-milliseconds="15000"/>
+</cleanup>
+{code:xml}
+
+!! Failures
+If one of the commands requested during the setup is failing then the test will be considered as failed and will report the exception raised during the setup. On the other hand if one of the commands executed during the cleanup has failed this will not influence the result of your test.
+
+In both case, commands after the failed command will not be executed.

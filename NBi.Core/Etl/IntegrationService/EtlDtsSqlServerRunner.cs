@@ -4,9 +4,9 @@ using Microsoft.SqlServer.Dts.Runtime;
 
 namespace NBi.Core.Etl.IntegrationService
 {
-    class EtlSqlServerRunner : EtlRunner
+    class EtlDtsSqlServerRunner : EtlDtsRunner
     {
-        public EtlSqlServerRunner(IEtl etl)
+        public EtlDtsSqlServerRunner(IEtl etl)
             : base(etl)
         {
 
@@ -21,9 +21,11 @@ namespace NBi.Core.Etl.IntegrationService
             var packageName = etl.Path + etl.Name;
             if (!packageName.ToLower().EndsWith(".dtsx"))
                 packageName += ".dtsx";
-            
-            var package = app.LoadFromDtsServer(packageName, server, null);
+
+            var events = new PackageEvents();
+            var package = app.LoadFromSqlServer(packageName, server, etl.UserName, etl.Password, events);
             return package;                
         }
     }
 }
+    

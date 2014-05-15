@@ -108,4 +108,34 @@
 			<fasterThan max-time-milliSeconds="10000"/>
 		</assert>
 	</test>
+	<test name="From Sql Server with SQL Server authentication" uid="0006">
+		<system-under-test>
+			<execution>
+				<etl server="." path="/Etl/" name="Sample" username="sa" password="p@ssw0rd"/>
+			</execution>
+		</system-under-test>
+		<assert>
+			<fasterThan max-time-milliSeconds="10000"/>
+		</assert>
+	</test>
+	<test name="From SSISDB Catalog" uid="0007">
+		<system-under-test>
+			<execution>
+				<etl server="." catalog="SSISDB" folder="Folder" project="Project" name="Sample"/>
+			</execution>
+		</system-under-test>
+		<assert>
+			<fasterThan max-time-milliSeconds="10000"/>
+		</assert>
+	</test>
+	<test name="From SSISDB Catalog with 32 bits" uid="0008">
+		<system-under-test>
+			<execution>
+				<etl server="." catalog="SSISDB" folder="Folder" project="Project" name="Sample" bits-32="true"/>
+			</execution>
+		</system-under-test>
+		<assert>
+			<fasterThan max-time-milliSeconds="10000"/>
+		</assert>
+	</test>
 </testSuite>

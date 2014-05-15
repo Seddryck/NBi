@@ -160,5 +160,61 @@ namespace NBi.Testing.Unit.Xml.Items
             Assert.That(parameters, Has.Member(new EtlParameter("param1", "value1")));
             Assert.That(parameters, Has.Member(new EtlParameter("param2", "value2")));
         }
+
+        [Test]
+        public void Deserialize_FromSqlServerWithSqlServerAutentication_EtlXml()
+        {
+            int testNr = 6;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
+            var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
+
+            Assert.That(etl, Is.Not.Null);
+            Assert.That(etl.Server, Is.EqualTo("."));
+            Assert.That(etl.Path, Is.EqualTo(@"/Etl/"));
+            Assert.That(etl.Name, Is.EqualTo("Sample"));
+            Assert.That(etl.UserName, Is.EqualTo(@"sa"));
+            Assert.That(etl.Password, Is.EqualTo("p@ssw0rd"));
+
+        }
+
+        [Test]
+        public void Deserialize_FromCatalog_EtlXml()
+        {
+            int testNr = 7;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
+            var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
+
+            Assert.That(etl, Is.Not.Null);
+            Assert.That(etl.Server, Is.EqualTo("."));
+            Assert.That(etl.Catalog, Is.EqualTo(@"SSISDB"));
+            Assert.That(etl.Folder, Is.EqualTo(@"Folder"));
+            Assert.That(etl.Project, Is.EqualTo(@"Project"));
+            Assert.That(etl.Name, Is.EqualTo("Sample"));
+            Assert.That(etl.Is32Bits, Is.False);
+
+        }
+
+        [Test]
+        public void Deserialize_FromCatalogWith32Bits_EtlXml()
+        {
+            int testNr = 8;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
+            var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
+
+            Assert.That(etl, Is.Not.Null);
+            Assert.That(etl.Is32Bits, Is.True);
+        }
     }
 }

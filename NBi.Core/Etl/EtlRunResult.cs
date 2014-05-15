@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Microsoft.SqlServer.Dts.Runtime;
+using Microsoft.SqlServer.Management.IntegrationServices;
 
 namespace NBi.Core.Etl
 {
@@ -66,6 +67,20 @@ namespace NBi.Core.Etl
                     return Failure(events.Message);
                 case ExecResult.Success:
                     return Success(events.ExecutionTime);
+                default:
+                    break;
+            }
+            throw new ArgumentException();
+        }
+
+        public static EtlRunResult Build(Operation.ServerOperationStatus status, IEnumerable<string> messages, DateTimeOffset? startTime, DateTimeOffset? endTime)
+        {
+            switch (status)
+            {
+                case Operation.ServerOperationStatus.Failed:
+                    return Failure(String.Join("\r\n",messages));
+                case Operation.ServerOperationStatus.Success:
+                    return Success(endTime.Value.Subtract(startTime.Value));
                 default:
                     break;
             }

@@ -32,14 +32,23 @@ namespace NBi.Testing.Integration.Core.Etl.IntegrationService
             Directory.CreateDirectory("ETL");
             var pkg = DiskOnFile.CreatePhysicalFile(@"Etl\Sample.dtsx", "NBi.Testing.Integration.Core.Etl.IntegrationService.Resources.Sample.dtsx");
 
-            //Move the Etl to SQL Server Integration Services
-            Application app = new Application();
-            Package p = app.LoadPackage(pkg, null);
+            try
+            {
+                //Move the Etl to SQL Server Integration Services
+                Application app = new Application();
+                Package p = app.LoadPackage(pkg, null);
 
-            // Save the package to the SQL Server msdb folder, which is
-            // also the MSDB folder in the Integration Services service, or as a row in the
-            //sysssispackages table.
-            app.SaveToSqlServerAs(p, null, "nbi\\nbi-sample", ".\\sql2014", null, null);
+                // Save the package to the SQL Server msdb folder, which is
+                // also the MSDB folder in the Integration Services service, or as a row in the
+                //sysssispackages table.
+                app.SaveToSqlServerAs(p, null, "nbi\\nbi-sample", ".\\sql2014", null, null);
+            }
+            catch (Exception ex)
+            {
+                isIntegrationServiceStarted = false;
+                Console.WriteLine("Test fixture 'EtlDtsWindowsRunnerTest' is skipped: {0}", ex.Message);
+            }
+            
         }
 
         //Called only at instance destruction

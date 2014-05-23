@@ -94,5 +94,18 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(test.Categories, Has.Member("Third Level"));
         }
 
+        [Test]
+        public void Deserialize_SampleFile_GroupNames()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            var test = ts.Groups[1].Groups[0].Tests[0];
+            Assert.That(test.GroupNames, Has.Count.EqualTo(2));
+            Assert.That(test.GroupNames, Has.Member("My second tests' group"));
+            Assert.That(test.GroupNames, Has.Member("group in group"));
+        }
+
     }
 }

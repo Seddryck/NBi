@@ -118,6 +118,7 @@ namespace NBi.Xml
             Setup = new SetupXml();
             Cleanup = new CleanupXml();
             Condition = new ConditionXml();
+            GroupNames = new List<string>();
         }
 
         public TestXml(TestStandaloneXml standalone)
@@ -195,5 +196,8 @@ namespace NBi.Xml
         {
             Categories.AddRange(categories);
         }
+
+        [XmlIgnore()]
+        public IList<string> GroupNames { get; private set; }
     }
 }

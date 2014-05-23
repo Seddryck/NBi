@@ -190,5 +190,10 @@ namespace NBi.Xml
                 return Name.ToString();
         }
 
+
+        internal void AddInheritedCategories(List<string> categories)
+        {
+            Categories.AddRange(categories);
+        }
     }
 }

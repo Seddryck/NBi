@@ -80,6 +80,19 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(ts.Groups[1].Groups.Count, Is.EqualTo(1));
         }
 
+        [Test]
+        public void Deserialize_SampleFile_CategoryInheritence()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            var test = ts.Groups[1].Groups[0].Tests[0];
+            Assert.That(test.Categories, Has.Count.EqualTo(3));
+            Assert.That(test.Categories, Has.Member("First Level"));
+            Assert.That(test.Categories, Has.Member("Second Level"));
+            Assert.That(test.Categories, Has.Member("Third Level"));
+        }
 
     }
 }

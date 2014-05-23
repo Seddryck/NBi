@@ -10,14 +10,18 @@ namespace NBi.Xml
         [XmlAttribute("name")]
         public string Name { get; set; }
 
-        [XmlElement("test", Order = 1)]
+        [XmlElement("category", Order = 1)]
+        public List<string> Categories;
+
+        [XmlElement("test", Order = 2)]
         public List<TestXml> Tests { get; set; }
 
-        [XmlElement("group", Order = 2)]
+        [XmlElement("group", Order = 3)]
         public List<GroupXml> Groups { get; set; }
 
         public GroupXml()
         {
+            Categories = new List<string>();
             Tests = new List<TestXml>();
             Groups = new List<GroupXml>();
         }
@@ -33,11 +37,22 @@ namespace NBi.Xml
         internal IEnumerable<TestXml> GetAllTests()
         {
             var allTests = new List<TestXml>();
+            Tests.ForEach(t => t.AddInheritedCategories(Categories));
             allTests.AddRange(this.Tests);
             foreach (var group in Groups)
+            {
+                group.AddInheritedCategories(Categories);
                 allTests.AddRange(group.GetAllTests());
+            }
+                
 
             return allTests;
         }
+
+        internal void AddInheritedCategories(List<string> categories)
+        {
+            Categories.AddRange(categories);
+        }
+
     }
 }

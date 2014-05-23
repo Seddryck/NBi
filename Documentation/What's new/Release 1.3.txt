@@ -1,0 +1,35 @@
+! What's new ?
+
+!! Enhancements and new features
+
+* Performances have been improved with an option to execute two queries to be compared in parallel. Previously, if both of them needed 5 seconds to deliver their result-sets, the test would take around 10 seconds. Now, the two queries are executed in parallel and resulting in a test executed in 5 seconds.
+* Usage of parameters to provide values to a query
+* Usage of template-variables to update dynamically a query
+* You can compare your hierarchy's members to a dynamic list of members retrieved by a query. Meaning that you can compare the result available in your cube to a SQL query on your source-system.
+* A test to check that members'caption of a hierarchy or level are matching with a regular expression
+* Added a feature to compare values in a result sets to a range of values (intervals) and not to a unique value.
+* The opportunity to define a tolerance for dateTime value columns
+* Added a feature to define a tolerance in % of the expected value (for numeric columns)
+* Added a feature to define a tolerance based on rounding option (for numeric and dateTime columns)
+* Added a feautre to compare a value to a generic value named (any). This generic value accept null and not null values.
+* "yes" and "no" are now valid values for a boolean
+* You can group your tests in the xml test suite. When editing your xml, you can toggle the group to display or hide the set of tests grouped. This feature has no influence when executing the tests.
+* The possibility to move a column at left or right in Genbi 
+* We've improved the user-experience when analyzing the reasons of a failed test when running tests on members.
+* Genbi lets you select some tests and add easily a category to them
+
+!! Bug fixes
+* A few user-experience enhancements in Genbi and a few bugs found in Beta1, Beta2 and RC
+* A bug about usage of element _measures_ and attribute _display-folder_ in the same test.
+
+! What's cool
+NBi has been presented ([url:Slides|https://dl.dropboxusercontent.com/u/15809175/JSS2013%20-%20BI%20Agile%20-%20v1.2.pptx)]) by Florian Eiden ([url:blog|http://fleid.net/] | [url:Twitter|https://twitter.com/Fleid_Bi]) during the "Journées SQL Server 2013" (SQL Server Days) at Paris. Thanks to Florian.
+
+! What's next ?
+Main ideas:
+* Tolerance for text columns (accent, distance, ...)
+* Compare hierarchy's members to those of another instance of your cube (non-regression)
+* Compare members to predefined lists (weekday names, month names, ...)
+* Validate SSAS format of a measure
+* Log the result-set of queries in CSV files
+and many more ideas ...

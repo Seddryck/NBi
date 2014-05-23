@@ -33,5 +33,19 @@ namespace NBi.NUnit.Runtime
                 this["enableAutoCategories"] = value;
             }
         }
+
+        // Create a "remoteOnly" attribute.
+        [ConfigurationProperty("enableGroupAsCategory", IsRequired = false, DefaultValue = true)]
+        public bool EnableGroupAsCategory
+        {
+            get
+            {
+                return (bool)this["enableGroupAsCategory"];
+            }
+            set
+            {
+                this["enableGroupAsCategory"] = value;
+            }
+        }
     }
 }

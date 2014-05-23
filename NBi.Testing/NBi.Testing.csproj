@@ -313,7 +313,9 @@
     <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerSample.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\FasterThanXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SubsetOfXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\GroupXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\GroupXmlTestSuite.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithoutParallelQueries.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithParallelQueriesSetTrue.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithParallelQueriesSetFalse.xml" />

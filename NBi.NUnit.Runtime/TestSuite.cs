@@ -22,6 +22,7 @@ namespace NBi.NUnit.Runtime
     public class TestSuite
     {
         public bool EnableAutoCategories { get; set; }
+        public bool EnableGroupAsCategory { get; set; }
 
         internal XmlManager TestSuiteManager { get; private set; }
         internal TestSuiteFinder TestSuiteFinder { get; set; }
@@ -204,6 +205,12 @@ namespace NBi.NUnit.Runtime
                         foreach (var category in system.GetAutoCategories())
                             testCaseDataNUnit.SetCategory(CategoryHelper.Format(category));
                 }
+                //Assign auto-categories
+                if (EnableGroupAsCategory)
+                {
+                    foreach (var groupName in test.GroupNames)
+                        testCaseDataNUnit.SetCategory(CategoryHelper.Format(groupName));
+                }
 
                 testCases.Add(testCaseDataNUnit);
             }
@@ -225,6 +232,7 @@ namespace NBi.NUnit.Runtime
         public void ApplyConfig(NBiSection config)
         {
             EnableAutoCategories = config.EnableAutoCategories;
+            EnableGroupAsCategory = config.EnableGroupAsCategory;
         }
 
 
@@ -246,5 +254,6 @@ namespace NBi.NUnit.Runtime
 
             return fullName;
         }
+
     }
 }

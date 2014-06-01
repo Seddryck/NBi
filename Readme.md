@@ -19,19 +19,21 @@ The list of bugs and feature's requests is hosted on [Codeplex](http://nbi.codep
 ## Continuous Integration ##
 A continuous integration service is available on AppVeyor at https://ci.appveyor.com/project/CdricLCharlier/nbi/ 
 Note that all the tests are not executed on this environment due to limitations in the availability of some components.
+
 - Unit tests are always executed
 - Integration tests are executed if the corresponding component is available
--- Database Engine: Yes. Due to the usage of an Azure database to run these tests, these tests are enabled on the CI platform
--- OLAP Engine: No
--- ETL Engine (SSIS): No
--- Windows Service: No (but planned to integrate them)
--- Local Database: No (but planned to integrate them)
--- Report Server: No (but planned to integrate them)
+    - Database Engine: Yes. Due to the usage of an Azure database to run these tests, these tests are enabled on the CI platform
+    - OLAP Engine: No
+    - ETL Engine (SSIS): No
+    - Windows Service: No (but planned to integrate them)
+    - Local Database: No (but planned to integrate them)
+    - Report Server: No (but planned to integrate them)
 - Acceptance tests are excluded
 
 [![Build status](https://ci.appveyor.com/api/projects/status/td7fd7lbl3aqxi3i)](https://ci.appveyor.com/project/CdricLCharlier/nbi)
 
 Two artefacts are provided by this CI:
+
 - Framework.zip contains the dll needed to run tests written with NBi
 - UI.zip contains the exe and dlls needed to run Genbi
 
@@ -49,4 +51,5 @@ In order to be able to build the software on different machines, the database an
 
 ## Tracking ##
 This OSS project is tracked by [Ohloh](http://www.ohloh.net/p/NBi)
+
 [![Project Stats](https://www.ohloh.net/p/nbi/widgets/project_thin_badge.gif)](https://www.ohloh.net/p/YOUR_PROJECT)

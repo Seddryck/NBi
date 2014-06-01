@@ -22,7 +22,7 @@ namespace NBi.Core.Report
         {
             get
             {
-                if (reportName.EndsWith(Path.DirectorySeparatorChar.ToString()))
+                if (reportPath.EndsWith(Path.DirectorySeparatorChar.ToString()))
                     return reportPath;
                 else
                     return reportPath + Path.DirectorySeparatorChar;

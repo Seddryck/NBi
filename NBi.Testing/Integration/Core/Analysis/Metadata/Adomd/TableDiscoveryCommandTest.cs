@@ -9,6 +9,7 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
     public class TableDiscoveryCommandTest
     {
         [Test]
+        [Category("Olap")]
         public void Execute_OnPerspectiveNamedInternetOperation_ListStructureContainingTenTables()
         {
             var request = new MetadataDiscoveryRequest();

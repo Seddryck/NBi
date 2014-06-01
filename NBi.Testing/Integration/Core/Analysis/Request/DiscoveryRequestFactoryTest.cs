@@ -9,6 +9,7 @@ namespace NBi.Testing.Integration.Core.Analysis.Request
     public class DiscoveryRequestFactoryTest
     {
         [Test]
+        [Category("Olap")]
         public void Build_MemberCaptionFilled_MemberCaptionIsSet()
         {
             var facto = new DiscoveryRequestFactory();

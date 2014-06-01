@@ -41,7 +41,7 @@ namespace NBi.Testing.Integration.NUnit.Members
 		#endregion
 
 
-		[Test, Category("Sql"), Category("Mdx")]
+		[Test, Category("Olap")]
 		public void Matches_SqlQueryAndMembers_Succesful()
 		{
 			var command = new SqlCommand();

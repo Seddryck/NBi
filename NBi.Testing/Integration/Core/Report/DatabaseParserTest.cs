@@ -7,6 +7,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Integration.Core.Report
 {
     [TestFixture]
+    [Category("ReportServerDB")]
     public class DatabaseParserTest
     {
 
@@ -48,8 +49,6 @@ namespace NBi.Testing.Integration.Core.Report
         #endregion
 
         [Test]
-        [Category("Sql")]
-        [Category("ReportServer Database")]
         public void ExtractQuery_ExistingReportAndDataSet_CorrectQueryReturned()
         {
             var request = new NBi.Core.Report.DatabaseRequest(
@@ -69,8 +68,6 @@ namespace NBi.Testing.Integration.Core.Report
         }
 
         [Test]
-        [Category("Sql")]
-        [Category("ReportServer Database")]
         public void ExtractQuery_NonExistingDataSetOneExisting_CorrectExceptionReturned()
         {
             var request = new NBi.Core.Report.DatabaseRequest(
@@ -86,8 +83,6 @@ namespace NBi.Testing.Integration.Core.Report
         }
 
         [Test]
-        [Category("Sql")]
-        [Category("ReportServer Database")]
         public void ExtractQuery_NonExistingDataSetMoreThanOneExisting_CorrectExceptionReturned()
         {
             var request = new NBi.Core.Report.DatabaseRequest(
@@ -103,8 +98,6 @@ namespace NBi.Testing.Integration.Core.Report
         }
 
         [Test]
-        [Category("Sql")]
-        [Category("ReportServer Database")]
         public void ExtractQuery_NonExistingReport_CorrectExceptionReturned()
         {
             var request = new NBi.Core.Report.DatabaseRequest(

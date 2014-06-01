@@ -8,6 +8,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Integration.Core.Analysis
 {
     [TestFixture]
+    [Category ("Olap")]
     public class MembersAdomdEngineTest
     {
 

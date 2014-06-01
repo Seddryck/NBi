@@ -41,8 +41,9 @@ namespace NBi.Testing.Integration.NUnit
         }
         #endregion
 
-        
+
         [Test]
+        [Category("Olap")]
         public void Matches_MdxQueryAndResulSetWithoutKeyValuesInfo_Matching()
         {
             //Buiding object used during test
@@ -67,6 +68,7 @@ namespace NBi.Testing.Integration.NUnit
         }
 
         [Test]
+        [Category("Olap")]
         public void Matches_MdxQueryAndResulSetWithCorrectSettings_Matching()
         {
             //Buiding object used during test
@@ -97,6 +99,7 @@ namespace NBi.Testing.Integration.NUnit
         }
 
         [Test]
+        [Category("Olap")]
         public void Matches_MdxQueryAndDecimalResulSetWithCorrectSettings_Matching()
         {
             //Buiding object used during test
@@ -126,6 +129,7 @@ namespace NBi.Testing.Integration.NUnit
         }
 
         [Test]
+        [Category("Olap")]
         public void Matches_MdxQueryAndSameQueryWithCorrectSettings_Matching()
         {
             //Buiding object used during test
@@ -150,6 +154,7 @@ namespace NBi.Testing.Integration.NUnit
         }
 
         [Test]
+        [Category("Olap")]
         public void Matches_MdxQueryAndSlighltyDifferentQueryWithCorrectSettings_NotMatching()
         {
             //Buiding object used during test
@@ -175,6 +180,7 @@ namespace NBi.Testing.Integration.NUnit
         }
 
         [Test]
+        [Category("Olap")]
         public void Matches_MdxQueryAndSlighltyDifferentQueryWithCorrectSettingsAndTolerance_Matching()
         {
             //Buiding object used during test
@@ -211,6 +217,7 @@ namespace NBi.Testing.Integration.NUnit
 
         [Test]
         [Category("Sql")]
+        [Category("Olap")]
         public void Matches_MdxQueryAndSqlQueryWithCorrectSettings_Matching()
         {
             //Buiding object used during test
@@ -250,6 +257,7 @@ namespace NBi.Testing.Integration.NUnit
         }
 
         [Test]
+        [Category("Olap")]
         public void Matches_MdxQueryAndResulSetCsvFile_Matching()
         {
             //Buiding object used during test
@@ -268,6 +276,7 @@ namespace NBi.Testing.Integration.NUnit
         }
 
         [Test]
+        [Category("Olap")]
         public void Matches_MdxQueryWithNullComparedToSqlWithNull_Matching()
         {
             //Buiding object used during test
@@ -295,6 +304,7 @@ namespace NBi.Testing.Integration.NUnit
         }
 
         [Test]
+        [Category("Olap")]
         public void Matches_MdxQueryWithNullComparedToSqlWithValue_NonMatching()
         {
             //Buiding object used during test

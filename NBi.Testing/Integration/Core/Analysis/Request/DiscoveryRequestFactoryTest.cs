@@ -6,10 +6,10 @@ using NUnit.Framework;
 namespace NBi.Testing.Integration.Core.Analysis.Request
 {
     [TestFixture]
+    [Category("Olap")]
     public class DiscoveryRequestFactoryTest
     {
         [Test]
-        [Category("Olap")]
         public void Build_MemberCaptionFilled_MemberCaptionIsSet()
         {
             var facto = new DiscoveryRequestFactory();

@@ -119,40 +119,33 @@ namespace NBi.Testing.Unit.Core.Members
         }
 
         [Test]
-        public void Instantiate_DateFrom1stJanuaryTo31December2013_ListWithAllDays()
+        [TestCase("en")]
+        [TestCase("en-us")]
+        [TestCase("fr")]
+        [TestCase("fr-be")]
+        [TestCase("fr-fr")]
+        [TestCase("nl")]
+        [TestCase("nl-be")]
+        [TestCase("de")]
+        public void Instantiate_DateFrom1stJanuaryTo31December2013_ListWithAllDays(string cultureTag)
         {
-            var dateRange = new DateRange()
-            {
-                Start = new DateTime(2013,1,1),
-                End = new DateTime(2013, 12, 31),
-                Culture = new CultureInfo("en")
-            };
-
-            var factory = new RangeMembersFactory();
-            var values = factory.Instantiate(dateRange).ToList();
-
-            Assert.That(values.Count, Is.EqualTo(365));
-            Assert.That(values[0], Is.EqualTo("1/1/2013"));
-            Assert.That(values[364], Is.EqualTo("12/31/2013"));
-            
-        }
-
-        [Test]
-        public void Instantiate_DateFrom1stJanuaryTo31December2013InFrench_ListWithAllDays()
-        {
+            var culture = new CultureInfo(cultureTag);
             var dateRange = new DateRange()
             {
                 Start = new DateTime(2013, 1, 1),
                 End = new DateTime(2013, 12, 31),
-                Culture = new CultureInfo("fr-be")
+                Culture = culture
             };
 
             var factory = new RangeMembersFactory();
             var values = factory.Instantiate(dateRange).ToList();
 
             Assert.That(values.Count, Is.EqualTo(365));
-            Assert.That(values[0], Is.EqualTo("1/01/2013"));
-            Assert.That(values[364], Is.EqualTo("31/12/2013"));
+
+            var januaryFirst = new DateTime(2013, 1, 1).ToString(culture.DateTimeFormat.ShortDatePattern);
+            Assert.That(values[0], Is.EqualTo(januaryFirst));
+            var decemberLast = new DateTime(2013, 12, 31).ToString(culture.DateTimeFormat.ShortDatePattern);
+            Assert.That(values[364], Is.EqualTo(decemberLast));
 
         }
 

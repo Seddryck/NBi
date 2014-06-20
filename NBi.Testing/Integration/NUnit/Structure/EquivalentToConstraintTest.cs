@@ -8,6 +8,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Integration.NUnit.Structure
 {
     [TestFixture]
+    [Category("Olap")]
     public class EquivalentToConstraintTest
     {
 

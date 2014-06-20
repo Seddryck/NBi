@@ -8,6 +8,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Integration.Core.Analysis
 {
     [TestFixture]
+    [Category ("Olap")]
     public class MembersAdomdEngineTest
     {
 
@@ -39,6 +40,7 @@ namespace NBi.Testing.Integration.Core.Analysis
         #endregion
 
         [Test]
+        [Category("Olap")]
         public void GetMembers_ByLevel_ReturnListMembersWithCorrectCaptions()
         {
             //Buiding object used during test

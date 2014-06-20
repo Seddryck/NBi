@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Integration.Core.WindowsService
 {
     [TestFixture]
-    [Category("Windows Service")]
+    [Category("WindowsService")]
     public class WindowsServiceCommandTest
     {
         public const string SERVICE_NAME = "SQLWriter";

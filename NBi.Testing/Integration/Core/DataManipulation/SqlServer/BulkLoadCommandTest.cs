@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Integration.Core.DataManipulation.SqlServer
 {
     [TestFixture]
-    [Category("Local SQL instance")]
+    [Category("LocalSQL")]
     public class BulkLoadCommandTest
 	{
         private const string SERVICE_NAME = "MSSQL$SQL2012";

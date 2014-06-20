@@ -164,6 +164,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_ChronologicalCorrectlyOrdered_Validated()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("fr-be");
             var members = new MemberResult();
             members.Add("20/10/2010");
             members.Add("5/2/2011");
@@ -182,6 +183,7 @@ namespace NBi.Testing.Unit.NUnit.Member
         [Test]
         public void Matches_ChronologicalNotCorrectlyOrdered_Failed()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("fr-be");
             var members = new MemberResult();
             members.Add("20/10/2010");
             members.Add("3/10/2011");

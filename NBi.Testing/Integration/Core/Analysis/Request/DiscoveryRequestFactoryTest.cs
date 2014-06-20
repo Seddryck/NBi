@@ -6,6 +6,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Integration.Core.Analysis.Request
 {
     [TestFixture]
+    [Category("Olap")]
     public class DiscoveryRequestFactoryTest
     {
         [Test]

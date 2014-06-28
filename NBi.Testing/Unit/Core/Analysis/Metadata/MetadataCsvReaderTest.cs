@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Reflection;
 using System.Text;
 using NBi.Core.Analysis.Metadata;
 using NUnit.Framework;
@@ -13,7 +14,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
         {
             var header = GetHeader();
             var testContent = header + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n";
-            var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ReadCSV.csv");
+            var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), string.Format("ReadCSV-{0}.csv", MethodInfo.GetCurrentMethod()));
             if (File.Exists(testFilename))
                 File.Delete(testFilename);
             File.AppendAllText(testFilename, testContent, Encoding.UTF8);
@@ -35,7 +36,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
                 + "\"p1\";\"mg1\";\"m1\";\"[m1]\";\"df\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 + "\"p2\";\"mg2\";\"m2\";\"[m2]\";\"df\";\"d2\";\"[d2]\";\"h2\";\"[h2]\";\"l2\";\"[l2]\";\"0\";\"p2\";\"[p2]\"\r\n"
                 ;
-            var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ReadCSV.csv");
+            var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), string.Format("ReadCSV-{0}.csv", MethodInfo.GetCurrentMethod()));
             if (File.Exists(testFilename))
                 File.Delete(testFilename);
             File.AppendAllText(testFilename, testContent, Encoding.UTF8);
@@ -59,7 +60,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
                 + "\"p\";\"mg1\";\"m1\";\"[m1]\";\"df\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 + "\"p\";\"mg2\";\"m2\";\"[m2]\";\"df\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 ;
-            var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ReadCSV.csv");
+            var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), string.Format("ReadCSV-{0}.csv", MethodInfo.GetCurrentMethod()));
             if (File.Exists(testFilename))
                 File.Delete(testFilename);
             File.AppendAllText(testFilename, testContent, Encoding.UTF8);
@@ -83,7 +84,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
                 + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d2\";\"[d2]\";\"h2\";\"[h2]\";\"l2\";\"[l2]\";\"1\";\"p2\";\"[p2]\"\r\n"
                 ;
-            var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ReadCSV.csv");
+            var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), string.Format("ReadCSV-{0}.csv", MethodInfo.GetCurrentMethod()));
             if (File.Exists(testFilename))
                 File.Delete(testFilename);
             File.AppendAllText(testFilename, testContent, Encoding.UTF8);
@@ -109,7 +110,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
                 + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d1\";\"[d1]\";\"h2\";\"[h2]\";\"l2\";\"[l2]\";\"1\";\"p2\";\"[p2]\"\r\n"
                 ;
-            var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ReadCSV.csv");
+            var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), string.Format("ReadCSV-{0}.csv", MethodInfo.GetCurrentMethod()));
             if (File.Exists(testFilename))
                 File.Delete(testFilename);
             File.AppendAllText(testFilename, testContent, Encoding.UTF8);
@@ -136,7 +137,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
                 + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l2\";\"[l2]\";\"1\";\"p2\";\"[p2]\"\r\n"
                 ;
-            var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ReadCSV.csv");
+            var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), string.Format("ReadCSV-{0}.csv", MethodInfo.GetCurrentMethod()));
             if (File.Exists(testFilename))
                 File.Delete(testFilename);
             File.AppendAllText(testFilename, testContent, Encoding.UTF8);
@@ -165,7 +166,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
         {
             var header = GetHeader();
             var testContent = header + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"\";\"\"\r\n";
-            var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ReadCSV.csv");
+            var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), string.Format("ReadCSV-{0}.csv", MethodInfo.GetCurrentMethod()));
             if (File.Exists(testFilename))
                 File.Delete(testFilename);
             File.AppendAllText(testFilename, testContent, Encoding.UTF8);
@@ -190,9 +191,10 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
                 + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p2\";\"[p2]\"\r\n"
                 ;
-            var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ReadCSV.csv");
+            var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), string.Format("ReadCSV-{0}.csv", MethodInfo.GetCurrentMethod()));
             if (File.Exists(testFilename))
                 File.Delete(testFilename);
+            
             File.AppendAllText(testFilename, testContent, Encoding.UTF8);
 
             //set the object to test
@@ -217,7 +219,7 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
                 + "\"p\";\"mg\";\"m1\";\"[m1]\";\"df\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 + "\"p\";\"mg\";\"m2\";\"[m2]\";\"df\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 ;
-            var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ReadCSV.csv");
+            var testFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), string.Format("ReadCSV-{0}.csv", MethodInfo.GetCurrentMethod()));
             if (File.Exists(testFilename))
                 File.Delete(testFilename);
             File.AppendAllText(testFilename, testContent, Encoding.UTF8);

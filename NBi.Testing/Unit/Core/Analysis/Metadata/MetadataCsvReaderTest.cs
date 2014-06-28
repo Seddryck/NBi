@@ -171,8 +171,6 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
                 File.Delete(testFilename);
             File.AppendAllText(testFilename, testContent, Encoding.UTF8);
 
-            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV.csv");
-
             //set the object to test
             var mcr = new MetadataCsvReader(testFilename);
             var metadata = mcr.Read();

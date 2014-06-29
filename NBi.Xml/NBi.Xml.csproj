@@ -62,6 +62,9 @@
     <Compile Include="Constraints\ExistsXml.cs" />
     <Compile Include="Constraints\LinkedToXml.cs" />
     <Compile Include="Constraints\EvaluateRowsXml.cs" />
+    <Compile Include="Decoration\Command\CubeProcessXml.cs" />
+    <Compile Include="Decoration\Command\DimensionProcessXml.cs" />
+    <Compile Include="Decoration\Command\MeasureGroupProcessXml.cs" />
     <Compile Include="Decoration\ConditionXml.cs" />
     <Compile Include="Decoration\Condition\DecorationConditionXml.cs" />
     <Compile Include="Decoration\Condition\ServiceRunningXml.cs" />

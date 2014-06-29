@@ -204,6 +204,7 @@
     <Compile Include="Unit\Xml\Constraints\FasterThanXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\Decoration\ConditionXmlTest.cs" />
+    <Compile Include="Unit\Xml\Decoration\CubeProcessXmlTest.cs" />
     <Compile Include="Unit\Xml\Decoration\DecorationXmlTest.cs" />
     <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
     <Compile Include="Unit\Xml\GroupXmlTest.cs" />
@@ -458,6 +459,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Acceptance\Resources\Etl\Password for ETL.txt" />
+    <EmbeddedResource Include="Unit\Xml\Resources\CubeProcessXmlTestSuite.xml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

@@ -12,7 +12,8 @@ namespace NBi.Xml.Decoration
         XmlElement(Type = typeof(TableResetXml), ElementName = "table-reset"),
         XmlElement(Type = typeof(ServiceStartXml), ElementName = "service-start"),
         XmlElement(Type = typeof(ServiceStopXml), ElementName = "service-stop"),
-        XmlElement(Type = typeof(EtlRunXml), ElementName = "etl-run")
+        XmlElement(Type = typeof(EtlRunXml), ElementName = "etl-run"),
+        XmlElement(Type = typeof(CubeProcessXml), ElementName = "cube-process")
         ]
         public List<DecorationCommandXml> Commands { get; set; }
 

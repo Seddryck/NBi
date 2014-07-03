@@ -14,11 +14,11 @@ namespace NBi.Xml
 {
     public class XmlManager
     {
-        public virtual TestSuiteXml TestSuite {get; protected set;}
+        public virtual TestSuiteXml TestSuite { get; protected set; }
         public virtual NameValueCollection ConnectionStrings { get; set; }
-        protected bool isValid; 
+        protected bool isValid;
 
-        public XmlManager() 
+        public XmlManager()
         {
             docXml = new XmlDocument();
             ConnectionStrings = new NameValueCollection();
@@ -26,21 +26,27 @@ namespace NBi.Xml
 
         public virtual void Load(string filename)
         {
-            if (!this.Validate(filename))
+            Load(filename, false);
+        }
+
+        public virtual void Load(string filename, bool isDtdProcessing)
+        {
+            if (!this.Validate(filename, isDtdProcessing))
                 throw new ArgumentException("The test suite is not valid. Check with the XSD");
 
-            
-            using (StreamReader reader = new StreamReader(filename))
-            {
-                Read(reader);
-            }
+            //Create the XmlReaderSettings
+            var settings = BuildXmlReaderSettings(isDtdProcessing);
+            // Create the XmlReader object.
+            using (var xmlReader = XmlReader.Create(filename, settings))
+                Read(xmlReader);
 
             //Apply Settings hacks
             var basePath = System.IO.Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar;
             TestSuite.Settings.BasePath = basePath;
             TestSuite.Settings.GetValuesFromConfig(ConnectionStrings);
 
-            docXml.Load(filename);
+            using (var xmlReader = XmlReader.Create(filename, settings))
+                docXml.Load(xmlReader);
             ReassignXml();
         }
 
@@ -60,13 +66,37 @@ namespace NBi.Xml
             using (reader)
             {
                 // Use the Deserialize method to restore the object's state.
-                TestSuite = (TestSuiteXml)serializer.Deserialize(reader); 
+                TestSuite = (TestSuiteXml)serializer.Deserialize(reader);
             }
 
             //Apply defaults
             foreach (var test in TestSuite.GetAllTests())
                 ApplyDefaultSettings(test);
-            
+
+        }
+
+        public void Read(XmlReader reader)
+        {
+            //Add the attributes that should only be used during read phase
+            //These attributes are kept for compatibility with previous versions
+            //They should never been used during write process
+            var attrs = new SpecificReadAttributes();
+            attrs.Build();
+
+            // Create an instance of the XmlSerializer specifying type and read-attributes.
+            XmlSerializer serializer = new XmlSerializer(typeof(TestSuiteXml), attrs);
+
+
+            using (reader)
+            {
+                // Use the Deserialize method to restore the object's state.
+                TestSuite = (TestSuiteXml)serializer.Deserialize(reader);
+            }
+
+            //Apply defaults
+            foreach (var test in TestSuite.GetAllTests())
+                ApplyDefaultSettings(test);
+
         }
 
         private void ApplyDefaultSettings(TestXml test)
@@ -94,7 +124,7 @@ namespace NBi.Xml
         }
 
         protected internal void ReassignXml()
-        {           
+        {
             //Get the Xml content of the tests define in the testSuite
             var testNodes = docXml.GetElementsByTagName("test");
             for (int i = 0; i < TestSuite.Tests.Count; i++)
@@ -168,24 +198,9 @@ namespace NBi.Xml
             return result;
         }
 
-        protected bool Validate(string filename)
+        protected bool Validate(string filename, bool isDtdProcessing)
         {
-            // Set the validation settings.
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.ValidationType = ValidationType.Schema;
-            //Removed for Issue#2 on Codeplex
-            //settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation;
-            settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings;
-            settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
-
-            //Get the Schema
-            // A Stream is needed to read the XSD document contained in the assembly.
-            using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Xml.NBi-TestSuite.xsd"))
-            {
-                settings.Schemas.Add("http://NBi/TestSuite", XmlReader.Create(stream));
-                settings.Schemas.Compile();
-            }
+            var settings = BuildXmlReaderSettings(isDtdProcessing);
 
             isValid = true;
 
@@ -196,11 +211,52 @@ namespace NBi.Xml
             // Create the XmlReader object.
             XmlReader reader = XmlReader.Create(filename, settings);
 
-            // Parse the file. 
-            while (reader.Read()) ;
-            //The validationeventhandler is the only thing that would set _isValid to false
-
+            try
+            {
+                // Parse the file. 
+                while (reader.Read()) ;
+                //The validationeventhandler and the catch are the only thing that will set isValid to false
+            }
+            catch (Exception ex)
+            {
+                isValid = false;
+                if (ex is XmlException)
+                    if (ex.Message.Contains("For security reasons DTD is prohibited"))
+                        Console.WriteLine("DTD is prohibited. To activate it, set the flag allow-dtd-processing to true in the config file associated to this test-suite");
+                Console.WriteLine(ex.Message);
+            }
             return isValid;
+        }
+
+        private XmlReaderSettings BuildXmlReaderSettings(bool isDtdProcessing)
+        {
+            // Set the validation settings.
+            XmlReaderSettings settings = new XmlReaderSettings();
+            settings.ValidationType = ValidationType.Schema;
+            //Removed for Issue#2 on Codeplex
+            //settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation;
+            settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings;
+            settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
+            //Allow DTD processing
+            if (isDtdProcessing)
+                settings.DtdProcessing = DtdProcessing.Parse;
+            else
+                settings.DtdProcessing = DtdProcessing.Prohibit;
+
+            // Supply the credentials necessary to access the DTD file stored on the network.
+            XmlUrlResolver resolver = new XmlUrlResolver();
+            resolver.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            settings.XmlResolver = resolver;
+
+            //Get the Schema
+            // A Stream is needed to read the XSD document contained in the assembly.
+            using (Stream stream = Assembly.GetExecutingAssembly()
+                                           .GetManifestResourceStream("NBi.Xml.NBi-TestSuite.xsd"))
+            {
+                settings.Schemas.Add("http://NBi/TestSuite", XmlReader.Create(stream));
+                settings.Schemas.Compile();
+            }
+            return settings;
         }
 
         private void ValidationCallBack(Object sender, ValidationEventArgs args)
@@ -216,7 +272,7 @@ namespace NBi.Xml
             isValid = false; //Validation failed
         }
 
-        
+
 
     }
 }

@@ -61,5 +61,19 @@ namespace NBi.NUnit.Runtime
                 this["allowDtdProcessing"] = value;
             }
         }
+
+        // Create a "remoteOnly" attribute.
+        [ConfigurationProperty("enableGroupAsCategory", IsRequired = false, DefaultValue = true)]
+        public bool EnableGroupAsCategory
+        {
+            get
+            {
+                return (bool)this["enableGroupAsCategory"];
+            }
+            set
+            {
+                this["enableGroupAsCategory"] = value;
+            }
+        }
     }
 }

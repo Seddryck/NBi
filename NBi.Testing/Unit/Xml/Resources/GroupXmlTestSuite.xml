@@ -59,6 +59,7 @@
 		</test>
 	</group>
 	<group name="My second tests' group">
+    <category>First Level</category>
 		<test name="the modifier 'Not' is available in assert Contain (Members)">
 			<system-under-test>
 				<members>
@@ -70,7 +71,9 @@
 			</assert>
 		</test>
 		<group name="group in group">
+      <category>Second Level</category>
 			<test name="the modifier 'Not' is available in assert Contain (Members)">
+        <category>Third Level</category>
 				<system-under-test>
 					<members>
 						<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>

@@ -6,6 +6,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Integration.Core.Query
 {
     [TestFixture]
+    [Category("Olap")]
     public class QueryAdomdEngineTest
     {
         [Test]

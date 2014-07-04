@@ -13,6 +13,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Integration.Core.Etl.IntegrationService
 {
     [TestFixture]
+    [Category("Etl")]
     public class EtlDtsWindowsRunnerTest
     {
         
@@ -80,7 +81,6 @@ namespace NBi.Testing.Integration.Core.Etl.IntegrationService
         #endregion
 
         [Test]
-        [Category("Integration Service")]
         public void Execute_ExistingDataCollectorPackage_Failure()
         {
             var etl = Mock.Of<IEtl>( e =>

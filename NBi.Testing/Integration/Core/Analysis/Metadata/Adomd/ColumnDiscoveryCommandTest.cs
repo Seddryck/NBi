@@ -9,6 +9,7 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
     public class ColumnDiscoveryCommandTest
     {
         [Test]
+        [Category("Olap")]
         public void Execute_OnTableNamedCurrency_ListStructureContainingThreeColumns()
         {
             var request = new MetadataDiscoveryRequest();

@@ -12,6 +12,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Integration.Core.Etl.IntegrationService
 {
     [TestFixture]
+    [Category ("Etl")]
     public class EtlFileRunnerTest
     {
         
@@ -57,7 +58,6 @@ namespace NBi.Testing.Integration.Core.Etl.IntegrationService
         #endregion
 
         [Test]
-        [Category("Integration Service")]
         public void Execute_ExistingSamplePackage_Success()
         {
             var etl = Mock.Of<IEtl>( e =>
@@ -75,7 +75,6 @@ namespace NBi.Testing.Integration.Core.Etl.IntegrationService
         }
 
         [Test]
-        [Category("Integration Service")]
         public void Execute_ExistingSamplePackageWithParameter_SuccessAndParameterUsed()
         {
             var destPath = DiskOnFile.GetDirectoryPath() + "SampleFile.txt";
@@ -100,7 +99,6 @@ namespace NBi.Testing.Integration.Core.Etl.IntegrationService
          }
 
         [Test]
-        [Category("Integration Service")]
         public void Execute_ExistingSamplePackageWithParameterWithInvalidValue_FailureWithMessage()
         {
             var destPath = DiskOnFile.GetDirectoryPath() + @"\/.txt";

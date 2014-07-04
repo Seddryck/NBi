@@ -23,6 +23,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             {
                 manager.Read(reader);
             }
+            manager.ApplyDefaultSettings();
             return manager.TestSuite;
         }
         

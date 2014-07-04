@@ -52,6 +52,7 @@ namespace NBi.Testing.Unit.Xml.Items
             {
                 manager.Read(reader);
             }
+            manager.ApplyDefaultSettings();
             return manager.TestSuite;
         }
 

@@ -44,3 +44,4 @@ NBi.ncrunchsolution
 .nuget/[Nn]u[Gg]et.exe
 *.vsp
 *.psess
+Thumbs.db

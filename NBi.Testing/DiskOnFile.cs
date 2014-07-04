@@ -25,8 +25,16 @@ namespace NBi.Testing
         /// <returns>The fullpath of the file created</returns>
         public static string CreatePhysicalFile(string filename, string resource)
         {
+            //if filename starts by a directory separator remove it
+            if (filename.StartsWith(Path.DirectorySeparatorChar.ToString()))
+                filename = filename.Substring(1);
+            
             //Build the fullpath for the file to read
             var fullpath = GetDirectoryPath() + filename;
+
+            //create the directory if needed
+            if (!Directory.Exists(Path.GetDirectoryName(fullpath)))
+                Directory.CreateDirectory(Path.GetDirectoryName(fullpath));
 
             //delete it if already existing
             if (File.Exists(fullpath))

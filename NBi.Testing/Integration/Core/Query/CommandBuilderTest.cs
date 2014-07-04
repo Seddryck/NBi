@@ -150,7 +150,8 @@ namespace NBi.Testing.Integration.Core.Query
             Assert.That(dr.Read(), Is.False);
         }
 
-        [Test, Category("Mdx")]
+        [Test]
+        [Category("Olap")]
         public void BuildMdx_WithUselessParameter_CorrectResultSet()
         {
             var commandBuilder = new CommandBuilder();

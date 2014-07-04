@@ -79,6 +79,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("EvaluateRows.nbits")]
         [TestCase("ReportEqualTo.nbits")]
         [TestCase("Etl.nbits")]
+        [Category ("Acceptance")]
         public void RunTestSuite(string filename)
         {
             var t = new TestSuiteOverrider(filename);

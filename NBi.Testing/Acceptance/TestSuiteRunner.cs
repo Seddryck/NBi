@@ -11,6 +11,7 @@ namespace NBi.Testing.Acceptance
         /// <remarks>Yes I know it's a bit tricky</remarks>
         /// </summary>
         [Test]
+        [Category ("Acceptance")]
         public void RunAllAcceptanceTests()
         {
             //Define the name of itself

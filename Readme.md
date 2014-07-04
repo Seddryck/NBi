@@ -1,4 +1,4 @@
-![Parsley](https://github.com/Seddryck/nbi/raw/master/NBi-logo-white.jpg)
+![Logo](https://github.com/Seddryck/nbi/raw/master/NBi-logo-white.jpg)
 # NBi #
 NBi is a **testing framework** (add-on to NUnit) for Microsoft **Business Intelligence** platform and Data Access.
 
@@ -8,13 +8,34 @@ The main goal of this framework is to let users create tests with a declarative 
 Binaries for the different releases are hosted exclusively on [Codeplex](http://nbi.codeplex.com)
 
 ## Documentation ##
-The documentation is available online and is hosted on [Codeplex](http://nbi.codeplex.com)
+The documentation is available on-line and is hosted on [Codeplex](http://nbi.codeplex.com)
 
 ## Licenses ##
 NBi is available with two licenses: MS-PL and OSL. You're free to choose which one convains the best to your project. NBi is also using several OSS projects as librairies. All these projects and their licenses are available in the folder License. 
 
 ## Bugs, issues and requests for features ##
 The list of bugs and feature's requests is hosted on [Codeplex](http://nbi.codeplex.com)
+
+## Continuous Integration ##
+A continuous integration service is available on AppVeyor at https://ci.appveyor.com/project/CdricLCharlier/nbi/ 
+Note that all the tests are not executed on this environment due to limitations in the availability of some components.
+
+- Unit tests are always executed
+- Integration tests are executed if the corresponding component is available
+    - Database Engine: Yes. Due to the usage of an Azure database to run these tests, these tests are enabled on the CI platform
+    - OLAP Engine: No
+    - ETL Engine (SSIS): No
+    - Windows Service: No (but planned to integrate them)
+    - Local Database: No (but planned to integrate them)
+    - Report Server: No (but planned to integrate them)
+- Acceptance tests are excluded
+
+[![Build status](https://ci.appveyor.com/api/projects/status/td7fd7lbl3aqxi3i)](https://ci.appveyor.com/project/CdricLCharlier/nbi)
+
+Two artefacts are provided by this CI:
+
+- Framework.zip contains the dll needed to run tests written with NBi
+- UI.zip contains the exe and dlls needed to run Genbi
 
 ## Code ##
 NBi is using **Mercurial** as DCVS and the code is hosted on [Codeplex](http://nbi.codeplex.com) and [Bitbucket](http://bitbucket.org/Seddryck/nbi). A mirror copy is hosted on [GitHub](http://github.com/Seddryck/nbi) with the help of the plugin HgGit and is compatible with Git.
@@ -30,3 +51,5 @@ In order to be able to build the software on different machines, the database an
 
 ## Tracking ##
 This OSS project is tracked by [Ohloh](http://www.ohloh.net/p/NBi)
+
+[![Project Stats](https://www.ohloh.net/p/nbi/widgets/project_thin_badge.gif)](https://www.ohloh.net/p/YOUR_PROJECT)

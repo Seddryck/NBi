@@ -6,7 +6,9 @@ using NUnit.Framework;
 
 namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
 {
+
     [TestFixture]
+    [Category("Olap")]
     public class AdomdDiscoveryCommandTest
     {
         [Test]

@@ -11,11 +11,15 @@ namespace NBi.Testing.Unit.Core.Report
     public class FileParserTest
     {
 
+        private string ReportFileDirectory { get; set; }
+
         #region SetUp & TearDown
         //Called only at instance creation
         [TestFixtureSetUp]
         public void SetupMethods()
         {
+            CreateReportFile("Currency_List");
+            CreateReportFile("Currency_Rates");
         }
 
         //Called only at instance destruction
@@ -28,8 +32,7 @@ namespace NBi.Testing.Unit.Core.Report
         [SetUp]
         public void SetupTest()
         {
-            CreateReportFile("Currency_List");
-            CreateReportFile("Currency_Rates");
+            
         }
 
         //Called after each test
@@ -43,24 +46,16 @@ namespace NBi.Testing.Unit.Core.Report
         protected void CreateReportFile(string filename)
         {
             string file = @"\Temp\" + filename + ".rdl";
-            if (File.Exists(file))
-                File.Delete(file);
-
-            // A Stream is needed to read the XML document.
-            using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Core.Report.Resources." + filename + ".rdl"))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                File.WriteAllText(file, reader.ReadToEnd());
-            }
-            
+            var resource = "NBi.Testing.Unit.Core.Report.Resources." + filename + ".rdl";
+            var physicalFilename = DiskOnFile.CreatePhysicalFile(file, resource);
+            ReportFileDirectory = Path.GetDirectoryName(physicalFilename) + Path.DirectorySeparatorChar.ToString();
         }
 
         [Test]
         public void ExtractQuery_ExistingReportAndDataSet_CorrectQueryReturned()
         {
             var request = new NBi.Core.Report.FileRequest(
-                    @"\Temp\"
+                    ReportFileDirectory
                     , "Currency_List"
                     , "Currency"
                 );
@@ -78,7 +73,7 @@ namespace NBi.Testing.Unit.Core.Report
         public void ExtractQuery_NonExistingDataSetOneExisting_CorrectExceptionReturned()
         {
             var request = new NBi.Core.Report.FileRequest(
-                    @"\Temp\"
+                    ReportFileDirectory
                     , "Currency_List"
                     , "Non Existing"
                 );
@@ -92,7 +87,7 @@ namespace NBi.Testing.Unit.Core.Report
         public void ExtractQuery_NonExistingDataSetMoreThanOneExisting_CorrectExceptionReturned()
         {
             var request = new NBi.Core.Report.FileRequest(
-                    @"\Temp\"
+                    ReportFileDirectory
                     , "Currency_Rates"
                     , "Non Existing"
                 );
@@ -106,7 +101,7 @@ namespace NBi.Testing.Unit.Core.Report
         public void ExtractQuery_NonExistingReport_CorrectExceptionReturned()
         {
             var request = new NBi.Core.Report.FileRequest(
-                    @"\Temp\"
+                    ReportFileDirectory
                     , "Not Existing"
                     , "DataSet1"
                 );

@@ -8,6 +8,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Integration.Core.Analysis.Member
 {
     [TestFixture]
+    [Category ("Olap")]
     public class MembersCommandTest
     {
         [Test]

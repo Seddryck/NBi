@@ -9,6 +9,7 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata
     public class MetadataAdomdExtractorTest
     {
         [Test]
+        [Category("Olap")]
         public void GetMetadata_ExistingCube_ListOfMetadata()
         {
             var me = new MetadataAdomdExtractor(ConnectionStringReader.GetAdomd());

@@ -174,7 +174,7 @@ namespace NBi.NUnit.Runtime
 
             //Build the Test suite
             var testSuiteFilename = TestSuiteFinder.Find();
-            TestSuiteManager.Load(testSuiteFilename, settingsFilename, AllowDtdProcessing);
+            TestSuiteManager.Load(testSuiteFilename, SettingsFilename, AllowDtdProcessing);
 
             return BuildTestCases();
         }

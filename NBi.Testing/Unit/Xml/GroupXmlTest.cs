@@ -22,6 +22,7 @@ namespace NBi.Testing.Unit.Xml
             {
                 manager.Read(reader);
             }
+            manager.ApplyDefaultSettings();
             return manager.TestSuite;
         }
 

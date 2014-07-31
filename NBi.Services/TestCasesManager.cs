@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq;
 using System.Text.RegularExpressions;
 using NBi.Core;
 using NBi.Core.Query;
+using NBi.Service.Dto;
 
 namespace NBi.Service
 {
@@ -14,7 +16,7 @@ namespace NBi.Service
 
         public TestCasesManager()
         {
-            variables = new List<string>();
+            variables = new List<VariableInfo>();
             content = new DataTable();
             connectionStrings = new Dictionary<string, string>();
         }
@@ -26,7 +28,22 @@ namespace NBi.Service
 
             variables.Clear();
             foreach (DataColumn col in Content.Columns)
-                variables.Add(col.ColumnName);
+            {
+                var v = new VariableInfo(col.ColumnName);
+                var uniqueValues = content.DefaultView.ToTable(true, col.ColumnName).AsEnumerable().Select(x => x[0].ToString().ToLower()).ToList();
+                if (IsBooleanColumn(uniqueValues))
+                    v.Type = VariableType.Boolean;
+                variables.Add(v);
+            }
+        }
+
+        protected virtual bool IsBooleanColumn(List<string> values)
+        {
+            var booleans = new string[] { "true", "false", "(none)" };
+            var withoutNonBoolean = values.Except(booleans).Count() == 0;
+            var withBoolean = values.Intersect(booleans).Count() > 0;
+
+            return withBoolean && withoutNonBoolean;
         }
 
         public string GetQueryFileContent(string queryFile)
@@ -50,7 +67,12 @@ namespace NBi.Service
                 
             variables.Clear();
             foreach (DataColumn col in Content.Columns)
-                variables.Add(col.ColumnName);
+            {
+                var v = new VariableInfo(col.ColumnName);
+                if (col.DataType is Boolean)
+                    v.Type = VariableType.Boolean;
+                variables.Add(v);
+            }
         }
 
         private DataTable content;
@@ -62,8 +84,8 @@ namespace NBi.Service
             }
         }
 
-        private readonly List<string> variables;
-        public IList<string> Variables
+        private readonly List<VariableInfo> variables;
+        public IList<VariableInfo> Variables
         {
             get
             {

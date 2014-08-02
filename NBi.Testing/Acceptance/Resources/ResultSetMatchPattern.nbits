@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: resulSet match pattern" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049</connectionString>
+		</default>
+		<reference name="Standard">
+			<currency-format
+					currency-pattern="$n"
+					currency-symbol="$"
+					decimal-digits="2"
+					decimal-separator="."
+					group-separator=","/>
+		</reference>
+	</settings>
+	<test name="Amount using the regex defined localy" uid="0001">
+		<system-under-test>
+			<execution>
+				<query name="MDX Except">
+					SELECT  
+						[Measures].[Amount] ON 0, 
+						non empty([Date].[Calendar].[Calendar Year]) ON 1 
+					FROM 
+						[Adventure Works]
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<matchPattern>
+				<regex>^\$?[0-9]{1,3}(?:,?[0-9]{3})*\.[0-9]{2}$</regex>
+			</matchPattern>
+		</assert>
+	</test>
+	<test name="Amount using the currency-format defined localy" uid="0001">
+		<system-under-test>
+			<execution>
+				<query name="MDX Except">
+					SELECT
+					[Measures].[Amount] ON 0,
+					non empty([Date].[Calendar].[Calendar Year]) ON 1
+					FROM
+					[Adventure Works]
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<matchPattern>
+				<currency-format
+					currency-pattern="$n"
+					currency-symbol="$"
+					decimal-digits="2"
+					decimal-separator="."
+					group-separator=","/>
+			</matchPattern>
+		</assert>
+	</test>
+	<test name="Amount using the currency-format defined in the reference" uid="0001">
+		<system-under-test>
+			<execution>
+				<query name="MDX Except">
+					SELECT
+					[Measures].[Amount] ON 0,
+					non empty([Date].[Calendar].[Calendar Year]) ON 1
+					FROM
+					[Adventure Works]
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<matchPattern>
+				<currency-format
+					ref="Standard"/>
+			</matchPattern>
+		</assert>
+	</test>
+	<test name="'Reseller Orders' count, year by year, between 2005 and 2008" uid="0001">
+		<system-under-test>
+			<execution>
+				<query name="MDX Except">
+					SELECT
+					[Measures].[Reseller Order Count] ON 0,
+					{[Date].[Calendar Year].[CY 2005]:[Date].[Calendar Year].[CY 2008]} ON 1
+					FROM
+					[Adventure Works]
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<matchPattern>
+				<numeric-format
+					decimal-digits="0"/>
+			</matchPattern>
+		</assert>
+	</test>
+</testSuite>

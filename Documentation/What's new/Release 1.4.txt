@@ -1,0 +1,36 @@
+The release 1.4 includes some improvements in the scope of members comparison, security role management and automation of tests cases generation (genbi). Please reports all the bugs to the issues tracker to ensure they are fixed ... even if they are minor issues. 
+
+! What's new ?
+
+!! Enhancements and new features
+* Compare actual members with members of another instance of the cube
+* Compare actual members to a range of members (integers/dates) or predefined lists
+* Specify a role when querying a SSAS cube
+* Test the format of the query's result
+* 'Genbi macro language' aka genbiL lets you automate the building of your test suites with Genbi.
+
+More information in the [url:documentation section|http://nbi.codeplex.com/documentation] of the website.
+
+!! Bug fixes
+* A few user-experience enhancements in Genbi and a few minor bugs
+
+! What's cool
+The [url:video recording|www.youtube.com/watch?v=uf6loeaTytM] of the presentation of NBi, by Florian Eiden ([url:Blog|http://fleid.net/] | [url:Twitter|https://twitter.com/Fleid_Bi]) during the "Journées SQL Server 2013" (SQL Server Days) at Paris, is on-line. The session about NBi is starting after 50 minutes.
+
+! What's next ?
+
+I'm working on a Release 2.0, the goals are:
+* Lot of internal refactoring meaning easier to integrate new features
+* Compatible with NUnit 3.0 meaning easier to setup a test suite !
+* Easier to port it to another test framework than NUnit (xUnit, Fixie, ...)
+* Easier to create a Visual Studio Add-in
+* Easier to write helpers to compare resultSets
+I'm also investigating if we couldn't provide a Visual Studio add-in by the means of [url:BI Helper|http://bihelper.codeplex.com]. Feedback on this idea are welcome.
+Will also try to integrate FubuDocs to the project to manage documentation.
+Naturally this Release 2.0 has a big constraint linked to the availability of NUnit 3.0 (currently still not available) so no planned date for the moment.
+
+I'm not working on a Release 1.5:
+* All (huge) ideas that I'd like to include in a new releases have for prerequisiste the refactoring of release 2.0
+* ... but if anyone has an interesting idea, I'd be pleased to integrate it in a release 1.5
+
+I'm also working on a way to automatically create structure tests from a [url:Midwhay|http://github.com/Seddryck/Midwhay] description of a cube.

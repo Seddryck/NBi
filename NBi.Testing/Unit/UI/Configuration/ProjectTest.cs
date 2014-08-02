@@ -2,6 +2,7 @@
 using System.IO;
 using NBi.UI.Configuration;
 using NUnit.Framework;
+using System.Reflection;
 #endregion
 
 namespace NBi.Testing.Unit.UI.Configuration
@@ -9,19 +10,21 @@ namespace NBi.Testing.Unit.UI.Configuration
     [TestFixture]
     public class ProjectTest
     {
-
+        protected string ProjectFilename { get; set; }
         #region SetUp & TearDown
         //Called only at instance creation
         [TestFixtureSetUp]
         public void SetupMethods()
         {
-
+            ProjectFilename = DiskOnFile.CreatePhysicalFile("MyProject.nbi", "NBi.Testing.Unit.UI.Configuration.Resources.MyProject.nbi");
         }
 
         //Called only at instance destruction
         [TestFixtureTearDown]
         public void TearDownMethods()
         {
+            if (File.Exists(DiskOnFile.GetDirectoryPath() + @"\MyProject.nbi"))
+                File.Delete(DiskOnFile.GetDirectoryPath() + @"\MyProject.nbi");
         }
 
         //Called before each test
@@ -34,19 +37,15 @@ namespace NBi.Testing.Unit.UI.Configuration
         [TearDown]
         public void TearDownTest()
         {
-            if (File.Exists(DiskOnFile.GetDirectoryPath() + @"\MyProject.nbi"))
-                File.Delete(DiskOnFile.GetDirectoryPath() + @"\MyProject.nbi");
+
         }
         #endregion
 
         [Test]
         public void Load_CorrectFile_DirectoriesLoaded()
         {
-            //Buiding object used during test
-            var filename = DiskOnFile.CreatePhysicalFile("MyProject.nbi", "NBi.Testing.Unit.UI.Configuration.Resources.MyProject.nbi");
-
             //Call the method to test
-            Project.Load(filename);
+            Project.Load(ProjectFilename);
 
             //Assertion
             Assert.That(Project.Directories.Root, Is.EqualTo(@"C:\Users\Seddryck\Documents\TestCCH\"));
@@ -55,16 +54,13 @@ namespace NBi.Testing.Unit.UI.Configuration
         [Test]
         public void Load_CorrectFile_DirectoryLoaded()
         {
-            //Buiding object used during test
-            var filename = DiskOnFile.CreatePhysicalFile("MyProject.nbi", "NBi.Testing.Unit.UI.Configuration.Resources.MyProject.nbi");
-
             //Call the method to test
-            Project.Load(filename);
+            Project.Load(ProjectFilename);
 
             //Assertion
-            Assert.That(Project.Directories[DirectoryCollection.DirectoryType.Metadata].FullFileName, 
+            Assert.That(Project.Directories[DirectoryCollection.DirectoryType.Metadata].FullFileName,
                 Is.EqualTo(@"C:\Users\Seddryck\Documents\TestCCH\Metadata\metadata.xls"));
-            Assert.That(Project.Directories[DirectoryCollection.DirectoryType.Query].FullFileName, 
+            Assert.That(Project.Directories[DirectoryCollection.DirectoryType.Query].FullFileName,
                 Is.EqualTo(@"C:\Users\Seddryck\Documents\TestCCH\Query\"));
             Assert.That(Project.Directories[DirectoryCollection.DirectoryType.Expect].FullFileName,
                 Is.EqualTo(@"C:\Users\Seddryck\Documents\TestCCH\Expect\"));
@@ -77,15 +73,12 @@ namespace NBi.Testing.Unit.UI.Configuration
         [Test]
         public void Load_CorrectFile_ConnectionStringLoaded()
         {
-            //Buiding object used during test
-            var filename = DiskOnFile.CreatePhysicalFile("MyProject.nbi", "NBi.Testing.Unit.UI.Configuration.Resources.MyProject.nbi");
-
             //Call the method to test
-            Project.Load(filename);
+            Project.Load(ProjectFilename);
 
             //Assertion
             Assert.That(Project.ConnectionStrings[
-                ConnectionStringCollection.ConnectionClass.Adomd, 
+                ConnectionStringCollection.ConnectionClass.Adomd,
                 ConnectionStringCollection.ConnectionType.Expect
                 ].Value,
                 Is.EqualTo("Data Source=localhost;Catalog=\"Finances Analysis\";"));
@@ -107,7 +100,7 @@ namespace NBi.Testing.Unit.UI.Configuration
         public void Save_Root_CorrectFileContent()
         {
             //Buiding object used during test
-            var filename = DiskOnFile.GetDirectoryPath() + @"\MyProject.nbi";
+            var filename = DiskOnFile.GetDirectoryPath() + @"\MyProject-" + MethodBase.GetCurrentMethod().Name + ".nbi";
 
             Project.Directories.Root = @"C:\Root\Root\";
             Project.Directories[DirectoryCollection.DirectoryType.Metadata].Path = @"C:\MetadataPath\";
@@ -129,7 +122,7 @@ namespace NBi.Testing.Unit.UI.Configuration
         public void Save_DirectoryPathAndFile_CorrectFileContent()
         {
             //Buiding object used during test
-            var filename = DiskOnFile.GetDirectoryPath() + @"\MyProject.nbi";
+            var filename = DiskOnFile.GetDirectoryPath() + @"\MyProject-" + MethodBase.GetCurrentMethod().Name + ".nbi";
 
             Project.Directories[DirectoryCollection.DirectoryType.Metadata].Path = @"C:\MetadataPath\";
             Project.Directories[DirectoryCollection.DirectoryType.Metadata].File = @"MetadataFile.xls";
@@ -151,7 +144,7 @@ namespace NBi.Testing.Unit.UI.Configuration
         public void Save_DirectoryPath_CorrectFileContent()
         {
             //Buiding object used during test
-            var filename = DiskOnFile.GetDirectoryPath() + @"\MyProject.nbi";
+            var filename = DiskOnFile.GetDirectoryPath() + @"\MyProject-" + MethodBase.GetCurrentMethod().Name + ".nbi";
 
             Project.Directories[DirectoryCollection.DirectoryType.Metadata].Path = @"C:\MetadataPath\";
             Project.Directories[DirectoryCollection.DirectoryType.Metadata].File = @"";
@@ -172,7 +165,7 @@ namespace NBi.Testing.Unit.UI.Configuration
         public void Save_ConnectionStringOledbExpect_CorrectFileContent()
         {
             //Buiding object used during test
-            var filename = DiskOnFile.GetDirectoryPath() + @"\MyProject.nbi";
+            var filename = DiskOnFile.GetDirectoryPath() + @"\MyProject-" + MethodBase.GetCurrentMethod().Name + ".nbi";
 
             Project.ConnectionStrings[
                 ConnectionStringCollection.ConnectionClass.Oledb,
@@ -196,7 +189,7 @@ namespace NBi.Testing.Unit.UI.Configuration
         public void Save_ConnectionStringAdomdExpect_CorrectFileContent()
         {
             //Buiding object used during test
-            var filename = DiskOnFile.GetDirectoryPath() + @"\MyProject.nbi";
+            var filename = DiskOnFile.GetDirectoryPath() + @"\MyProject-" + MethodBase.GetCurrentMethod().Name + ".nbi";
 
             Project.ConnectionStrings[
                 ConnectionStringCollection.ConnectionClass.Adomd,
@@ -219,7 +212,7 @@ namespace NBi.Testing.Unit.UI.Configuration
         public void Save_ConnectionStringOledbActual_CorrectFileContent()
         {
             //Buiding object used during test
-            var filename = DiskOnFile.GetDirectoryPath() + @"\MyProject.nbi";          
+            var filename = DiskOnFile.GetDirectoryPath() + @"\MyProject-" + MethodBase.GetCurrentMethod().Name + ".nbi";
 
             Project.ConnectionStrings[
                 ConnectionStringCollection.ConnectionClass.Oledb,

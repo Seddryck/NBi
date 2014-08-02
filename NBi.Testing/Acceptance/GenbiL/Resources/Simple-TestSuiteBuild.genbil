@@ -2,8 +2,8 @@
 case  remove  column 'useless';;
 case  rename  column  'dimensionY'  into  'dimension' ;
 template load predefined 'ExistsDimension';
-setting reference 'noway' connectionString 'youyou';
-setting default assert connectionString 'youyou';
+setting reference 'noway' connectionString 'youyou-reference-noway';
+setting default assert connectionString 'youyou-default-assert';
 suite generate;
 
 case move column 'perspective' to left;

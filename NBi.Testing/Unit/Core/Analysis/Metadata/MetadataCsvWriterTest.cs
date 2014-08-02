@@ -2,6 +2,7 @@
 using System.Text;
 using NBi.Core.Analysis.Metadata;
 using NUnit.Framework;
+using System.Reflection;
 
 namespace NBi.Testing.Unit.Core.Analysis.Metadata
 {
@@ -13,12 +14,12 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
         {
             var header = GetHeader();
             var expectedContent = header + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n";
-            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV.csv");
+            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV-" + MethodBase.GetCurrentMethod() + ".csv");
             if (File.Exists(expectedFilename))
                 File.Delete(expectedFilename);
             File.AppendAllText(expectedFilename, expectedContent, Encoding.UTF8);
 
-            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV.csv");
+            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV-" + MethodBase.GetCurrentMethod() + ".csv");
 
             var metadata = new CubeMetadata();
             var p = new Perspective("p");
@@ -49,12 +50,12 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
         {
             var header = GetHeader();
             var expectedContent = header + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"\";\"\"\r\n";
-            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV.csv");
+            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV-" + MethodBase.GetCurrentMethod() + ".csv");
             if (File.Exists(expectedFilename))
                 File.Delete(expectedFilename);
             File.AppendAllText(expectedFilename, expectedContent, Encoding.UTF8);
 
-            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV.csv");
+            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV-" + MethodBase.GetCurrentMethod() + ".csv");
 
             var metadata = new CubeMetadata();
             var p = new Perspective("p");
@@ -86,12 +87,12 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
                 + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p2\";\"[p2]\"\r\n"
                 ;
-            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV.csv");
+            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV-" + MethodBase.GetCurrentMethod() + ".csv");
             if (File.Exists(expectedFilename))
                 File.Delete(expectedFilename);
             File.AppendAllText(expectedFilename, expectedContent, Encoding.UTF8);
 
-            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV.csv");
+            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV-" + MethodBase.GetCurrentMethod() + ".csv");
 
             var metadata = new CubeMetadata();
             var p = new Perspective("p");
@@ -127,12 +128,12 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
                 + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d\";\"[d]\";\"h1\";\"[h1]\";\"l2\";\"[l2]\";\"1\";\"p2\";\"[p2]\"\r\n"
                 ;
-            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV.csv");
+            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV-" + MethodBase.GetCurrentMethod() + ".csv");
             if (File.Exists(expectedFilename))
                 File.Delete(expectedFilename);
             File.AppendAllText(expectedFilename, expectedContent, Encoding.UTF8);
 
-            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV.csv");
+            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV-" + MethodBase.GetCurrentMethod() + ".csv");
 
             var metadata = new CubeMetadata();
             var p = new Perspective("p");
@@ -170,12 +171,12 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
                 + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d1\";\"[d1]\";\"h2\";\"[h2]\";\"l2\";\"[l2]\";\"1\";\"p2\";\"[p2]\"\r\n"
                 ;
-            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV.csv");
+            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV-" + MethodBase.GetCurrentMethod() + ".csv");
             if (File.Exists(expectedFilename))
                 File.Delete(expectedFilename);
             File.AppendAllText(expectedFilename, expectedContent, Encoding.UTF8);
 
-            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV.csv");
+            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV-" + MethodBase.GetCurrentMethod() + ".csv");
 
             var metadata = new CubeMetadata();
             var p = new Perspective("p");
@@ -215,12 +216,12 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
                 + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 + "\"p\";\"mg\";\"m2\";\"[m2]\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 ;
-            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV.csv");
+            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV-" + MethodBase.GetCurrentMethod() + ".csv");
             if (File.Exists(expectedFilename))
                 File.Delete(expectedFilename);
             File.AppendAllText(expectedFilename, expectedContent, Encoding.UTF8);
 
-            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV.csv");
+            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV-" + MethodBase.GetCurrentMethod() + ".csv");
 
             var metadata = new CubeMetadata();
             var p = new Perspective("p");
@@ -256,12 +257,12 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
                 + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 + "\"p\";\"mg\";\"m1\";\"[m1]\";\"d2\";\"[d2]\";\"h2\";\"[h2]\";\"l2\";\"[l2]\";\"1\";\"p2\";\"[p2]\"\r\n"
                 ;
-            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV.csv");
+            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV-" + MethodBase.GetCurrentMethod() + ".csv");
             if (File.Exists(expectedFilename))
                 File.Delete(expectedFilename);
             File.AppendAllText(expectedFilename, expectedContent, Encoding.UTF8);
 
-            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV.csv");
+            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV-" + MethodBase.GetCurrentMethod() + ".csv");
 
             var metadata = new CubeMetadata();
             var p = new Perspective("p");
@@ -303,12 +304,12 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
                 + "\"p\";\"mg1\";\"m1\";\"[m1]\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 + "\"p\";\"mg2\";\"m2\";\"[m2]\";\"d2\";\"[d2]\";\"h2\";\"[h2]\";\"l2\";\"[l2]\";\"0\";\"p2\";\"[p2]\"\r\n"
                 ;
-            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV.csv");
+            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV-" + MethodBase.GetCurrentMethod() + ".csv");
             if (File.Exists(expectedFilename))
                 File.Delete(expectedFilename);
             File.AppendAllText(expectedFilename, expectedContent, Encoding.UTF8);
 
-            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV.csv");
+            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV-" + MethodBase.GetCurrentMethod() + ".csv");
 
             var metadata = new CubeMetadata();
             var p = new Perspective("p");
@@ -354,12 +355,12 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
                 + "\"p\";\"mg1\";\"m1\";\"[m1]\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 + "\"p\";\"mg2\";\"m2\";\"[m2]\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 ;
-            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV.csv");
+            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV-" + MethodBase.GetCurrentMethod() + ".csv");
             if (File.Exists(expectedFilename))
                 File.Delete(expectedFilename);
             File.AppendAllText(expectedFilename, expectedContent, Encoding.UTF8);
 
-            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV.csv");
+            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV-" + MethodBase.GetCurrentMethod() + ".csv");
 
             var metadata = new CubeMetadata();
             var p = new Perspective("p");
@@ -398,12 +399,12 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
                 + "\"p1\";\"mg1\";\"m1\";\"[m1]\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 + "\"p2\";\"mg1\";\"m1\";\"[m1]\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 ;
-            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV.csv");
+            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV-" + MethodBase.GetCurrentMethod() + ".csv");
             if (File.Exists(expectedFilename))
                 File.Delete(expectedFilename);
             File.AppendAllText(expectedFilename, expectedContent, Encoding.UTF8);
 
-            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV.csv");
+            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV-" + MethodBase.GetCurrentMethod() + ".csv");
 
             var metadata = new CubeMetadata();
             var pe1 = new Perspective("p1");
@@ -441,12 +442,12 @@ namespace NBi.Testing.Unit.Core.Analysis.Metadata
                 + "\"p1\";\"mg1\";\"m1\";\"[m1]\";\"d1\";\"[d1]\";\"h1\";\"[h1]\";\"l1\";\"[l1]\";\"0\";\"p1\";\"[p1]\"\r\n"
                 + "\"p2\";\"mg2\";\"m2\";\"[m2]\";\"d2\";\"[d2]\";\"h2\";\"[h2]\";\"l2\";\"[l2]\";\"0\";\"p2\";\"[p2]\"\r\n"
                 ;
-            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV.csv");
+            var expectedFilename = Path.Combine(DiskOnFile.GetDirectoryPath(), "ExpectedCSV-" + MethodBase.GetCurrentMethod() + ".csv");
             if (File.Exists(expectedFilename))
                 File.Delete(expectedFilename);
             File.AppendAllText(expectedFilename, expectedContent, Encoding.UTF8);
 
-            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV.csv");
+            var filename = Path.Combine(DiskOnFile.GetDirectoryPath(), @"ActualCSV-" + MethodBase.GetCurrentMethod() + ".csv");
 
             var metadata = new CubeMetadata();
             var pe1 = new Perspective("p1");

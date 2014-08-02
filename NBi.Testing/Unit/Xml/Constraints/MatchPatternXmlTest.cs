@@ -22,6 +22,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             {
                 manager.Read(reader);
             }
+            manager.ApplyDefaultSettings();
             return manager.TestSuite;
         }
         

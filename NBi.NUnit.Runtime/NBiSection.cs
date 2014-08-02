@@ -21,6 +21,20 @@ namespace NBi.NUnit.Runtime
         }
 
         // Create a "remoteOnly" attribute.
+        [ConfigurationProperty("settings", IsRequired = false)]
+        public string SettingsFilename
+        {
+            get
+            {
+                return (string)this["settings"];
+            }
+            set
+            {
+                this["settings"] = value;
+            }
+        }
+
+        // Create a "remoteOnly" attribute.
         [ConfigurationProperty("enableAutoCategories", IsRequired = false, DefaultValue=true)]
         public bool EnableAutoCategories
         {
@@ -31,6 +45,20 @@ namespace NBi.NUnit.Runtime
             set
             {
                 this["enableAutoCategories"] = value;
+            }
+        }
+
+        // Create a "remoteOnly" attribute.
+        [ConfigurationProperty("allowDtdProcessing", IsRequired = false, DefaultValue = false)]
+        public bool AllowDtdProcessing
+        {
+            get
+            {
+                return (bool)this["allowDtdProcessing"];
+            }
+            set
+            {
+                this["allowDtdProcessing"] = value;
             }
         }
 

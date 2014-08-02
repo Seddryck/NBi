@@ -18,6 +18,8 @@ namespace NBi.Testing.Unit.Core.Report
         [TestFixtureSetUp]
         public void SetupMethods()
         {
+            CreateReportFile("Currency_List");
+            CreateReportFile("Currency_Rates");
         }
 
         //Called only at instance destruction
@@ -30,8 +32,7 @@ namespace NBi.Testing.Unit.Core.Report
         [SetUp]
         public void SetupTest()
         {
-            CreateReportFile("Currency_List");
-            CreateReportFile("Currency_Rates");
+            
         }
 
         //Called after each test

@@ -282,6 +282,8 @@
     <EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject.nbi" />
     <EmbeddedResource Include="Unit\Core\Report\Resources\Currency_Rates.rdl" />
     <EmbeddedResource Include="Unit\Core\Report\Resources\Currency_List.rdl" />
+    <EmbeddedResource Include="Unit\Service\Resources\OrderedLight.nbitt" />
+    <EmbeddedResource Include="Unit\Service\Resources\OrderedFull.nbitt" />
   </ItemGroup>
   <ItemGroup>
     <MyOptionalItems Include="ConnectionString.user.config" />

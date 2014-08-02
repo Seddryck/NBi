@@ -67,6 +67,26 @@ namespace NBi.Testing.Unit.Service
             Assert.That(content, Is.Not.StringContaining("descending=\"false\""));
             Assert.That(content, Is.Not.StringContaining("<rule-definition"));
             Assert.That(content, Is.Not.StringContaining("<exclude"));
+            
+        }
+
+        [Test]
+        public void Build_OrderedLightTemplate_ConditionSetupCleanupAreNotAvailable()
+        {
+            var template = ReadTemplateFile("OrderedLight");
+            var variables = new string[] { "perspective", "dimension", "hierarchy", "order" };
+            var data = new List<List<List<object>>>();
+            data.Add(BuildCase(new string[] { "myPerspective", "myDimension", "myHierarchy", "numerical" }));
+
+            var engine = new StringTemplateEngine(template, variables);
+            var testSuite = engine.Build(data);
+            var test = testSuite.ElementAt(0);
+
+            //Test the content serialized
+            var content = test.Content;
+            Assert.That(content, Is.Not.StringContaining("<setup"));
+            Assert.That(content, Is.Not.StringContaining("<condition"));
+            Assert.That(content, Is.Not.StringContaining("<cleanup"));
         }
 
         [Test]

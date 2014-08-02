@@ -11,6 +11,7 @@ namespace NBi.Service
     public class StringTemplateEngine
     {
         public string TemplateXml { get; private set; }
+        protected Template Template { get; private set; }
         public string PreProcessedTemplate { get; private set; }
         public string[] Variables { get; private set; }
 
@@ -22,28 +23,15 @@ namespace NBi.Service
 
         public IEnumerable<TestXml> Build(List<List<List<object>>> table)
         {
+            InitializeTemplate();
             var tests = new List<TestXml>();
+
+            //For each row, we need to fill the variables and render the template. 
             int count=0;
-
-            var template = new Template(TemplateXml, '$', '$');
-            
-            var dynNames = GetDynamicNames();
-            var dynValues = GetDynamicValues();
-            for (int i = 0; i < dynNames.Count(); i++)
-                template.Add(dynNames[i], dynValues[i]);
-
             foreach (var row in table)
             {
                 count++;
-
-                for (int i = 0; i < Variables.Count(); i++)
-                { 
-                    if (count!=1)
-                        template.Remove(Variables[i]); 
-                    template.Add(Variables[i], row[i]);
-                }
-
-                var str = template.Render();
+                var str = BuildTestString(row);
 
                 TestStandaloneXml test = null;
                 try
@@ -54,13 +42,43 @@ namespace NBi.Service
                 {
                     throw new TemplateExecutionException(ex.Message);
                 }
-                
+
+                //Cleanup the variables in the template for next iteration.
+                foreach (var variable in Variables)
+                    Template.Remove(variable);
+
                 test.Content = XmlSerializeFrom<TestStandaloneXml>(test);
                 tests.Add(test);
                 InvokeProgress(new ProgressEventArgs(count, table.Count()));
             }
             
             return tests;
+        }
+
+        internal void InitializeTemplate()
+        {
+            Template = new Template(TemplateXml, '$', '$');
+
+            //Populate the "dynamic" variables once (The value is the same for all render that will occur).
+            var dynNames = GetDynamicNames();
+            var dynValues = GetDynamicValues();
+            for (int i = 0; i < dynNames.Count(); i++)
+                Template.Add(dynNames[i], dynValues[i]);
+        }
+
+        internal string BuildTestString(List<List<object>> values)
+        {
+            for (int i = 0; i < Variables.Count(); i++)
+            { 
+                // If the variable is not initialized or if it's value is "(none)" then we skip it.
+                if (!(values[i].Count() == 0 || (values[i].Count == 1 && (values[i][0].ToString() == "(none)" || values[i][0].ToString()==string.Empty))))
+                    Template.Add(Variables[i], values[i]);
+                else
+                    Template.Add(Variables[i], null);      
+            }
+
+            var str = Template.Render();
+            return str;
         }
 
         protected internal T XmlDeserializeFromString<T>(string objectData)

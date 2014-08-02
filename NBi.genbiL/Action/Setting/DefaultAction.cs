@@ -33,8 +33,7 @@ namespace NBi.GenbiL.Action.Setting
                     break;
             }
 
-            var @default = state.Settings.GetSettings().First(set => set.Name == name);
-            @default.Value = Value;
+            state.Settings.SetValue(name, Value);
         }
 
         public string Display

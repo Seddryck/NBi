@@ -199,5 +199,49 @@ namespace NBi.Xml
 
         [XmlIgnore()]
         public IList<string> GroupNames { get; private set; }
+
+        [XmlIgnore]
+        public bool ConditionSpecified
+        {
+            get
+            {
+                return !(
+                            Condition == null
+                            || (
+                                    (Condition.Predicates == null || Condition.Predicates.Count == 0)
+                               )
+                         );
+            }
+            set { return; }
+        }
+        [XmlIgnore]
+        public bool SetupSpecified
+        {
+            get
+            {
+                return !(
+                            Setup == null
+                            || (
+                                    (Setup.Commands == null || Setup.Commands.Count == 0)
+                               )
+                         );
+            }
+            set { return; }
+        }
+
+        [XmlIgnore]
+        public bool CleanupSpecified
+        {
+            get
+            {
+                return !(
+                            Cleanup == null
+                            || (
+                                    (Cleanup.Commands == null || Cleanup.Commands.Count == 0)
+                               )
+                         );
+            }
+            set { return; }
+        }
     }
 }

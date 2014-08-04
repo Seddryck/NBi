@@ -84,7 +84,7 @@ namespace NBi.Testing.Acceptance
         [Category ("Acceptance")]
         public void RunPositiveTestSuite(string filename)
         {
-            var t = new TestSuiteOverrider(filename);
+            var t = new TestSuiteOverrider(@"Positive\" + filename);
             
             //First retrieve the NUnit TestCases with base class (NBi.NUnit.Runtime)
             //These NUnit TestCases are defined in the Test Suite file
@@ -124,7 +124,6 @@ namespace NBi.Testing.Acceptance
                             Assert.That(ex.Message, Is.EqualTo(reader.ReadToEnd()));
                         }
                     }
-                    
                 }
             }
         }

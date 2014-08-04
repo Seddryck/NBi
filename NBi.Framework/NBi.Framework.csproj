@@ -57,6 +57,7 @@
     <Compile Include="FailureMessage\Formatter\TextCellFormatter.cs" />
     <Compile Include="FailureMessage\IFailureMessage.cs" />
     <Compile Include="FailureMessage\TableHeaderFormatter.cs" />
+    <Compile Include="FailureMessage\CompareTableMarkdownLogBuilder.cs" />
     <Compile Include="FailureMessage\TableMarkdownLogBuilder.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="FailureMessage\EqualToMessage.cs" />

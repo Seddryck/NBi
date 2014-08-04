@@ -253,7 +253,7 @@
     <Folder Include="Integration\NUnit\Builder\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Acceptance\Resources\ResellerOrderCountByYearBefore2006.csv">
+    <EmbeddedResource Include="Acceptance\Resources\Csv\ResellerOrderCountByYearBefore2006.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\ResultSetMatchPattern.nbits">
@@ -268,7 +268,7 @@
     <EmbeddedResource Include="Acceptance\Resources\Positive\ReportEqualTo.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\BusinessEntity.csv">
+    <EmbeddedResource Include="Acceptance\Resources\Csv\BusinessEntity.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Acceptance\Resources\AdventureWorks Sample Reports\Store_Contacts.rdl">

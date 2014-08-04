@@ -22,7 +22,7 @@
 			<equalTo>
 				<column index="0" role="key" type="text"/>
 				<column index="1" role="value" type="text"/>
-				<resultSet file="BusinessEntity.csv"/>
+				<resultSet file="..\Csv\BusinessEntity.csv"/>
 			</equalTo>
 		</assert>
 	</test>
@@ -76,7 +76,7 @@
 			<equalTo>
 				<column index="0" role="key" type="text"/>
 				<column index="1" role="value" type="text"/>
-				<resultSet file="BusinessEntity.csv"/>
+				<resultSet file="..\Csv\BusinessEntity.csv"/>
 			</equalTo>
 		</assert>
 	</test>

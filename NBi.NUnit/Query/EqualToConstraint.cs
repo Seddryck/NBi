@@ -6,6 +6,7 @@ using System.Linq;
 using NBi.Core;
 using NBi.Core.ResultSet;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Framework.FailureMessage;
 
 namespace NBi.NUnit.Query
 {
@@ -31,6 +32,23 @@ namespace NBi.NUnit.Query
         protected string filename;
 
         protected ResultSetCompareResult result;
+        private EqualToMessage failure;
+        protected EqualToMessage Failure
+        {
+            get
+            {
+                if (failure == null)
+                    failure = BuildFailure();
+                return failure;
+            }
+        }
+
+        protected EqualToMessage BuildFailure()
+        {
+            var msg = new EqualToMessage();
+            msg.Build(expectedResultSet.Rows.Cast<DataRow>(), actualResultSet.Rows.Cast<DataRow>(), result);
+            return msg;
+        }
      
         /// <summary>
         /// Engine dedicated to ResultSet comparaison
@@ -208,12 +226,14 @@ namespace NBi.NUnit.Query
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
-            FormatResultSet(writer, expectedResultSet);
+            writer.WriteLine();
+            writer.WriteLine(Failure.RenderExpected());
         }
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
         {
-            FormatResultSet(writer, actualResultSet);
+            writer.WriteLine();
+            writer.WriteLine(Failure.RenderActual());
         }
 
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
@@ -222,71 +242,8 @@ namespace NBi.NUnit.Query
             writer.WriteLine();
             writer.WriteLine();
             base.WriteMessageTo(writer);
-            DisplayDifferences(writer, result);
-        }
-
-        protected void DisplayDifferences(NUnitCtr.MessageWriter writer, ResultSetCompareResult compareResult)
-        {
-            if (compareResult.Unexpected.Count > 0)
-            {
-                writer.WriteLine("  Unexpected rows:");
-                writer.WriteLine();
-                FormatResultSet(writer, compareResult.Unexpected, false);
-                writer.WriteLine();
-            }
-
-            if (compareResult.Missing.Count > 0)
-            {
-                writer.WriteLine("  Missing rows:");
-                writer.WriteLine();
-                FormatResultSet(writer, compareResult.Missing, false);
-                writer.WriteLine();
-            }
-
-            if (compareResult.Duplicated.Count > 0)
-            {
-                writer.WriteLine("  Duplicated rows:");
-                writer.WriteLine();
-                FormatResultSet(writer, compareResult.Duplicated, true);
-                writer.WriteLine();
-            }
-
-            if (compareResult.NonMatchingValue.Count > 0)
-            {
-                writer.WriteLine("  Non matching value rows:");
-                writer.WriteLine();
-                FormatResultSet(writer, compareResult.NonMatchingValue, true);
-                writer.WriteLine();
-            }
-
-        }
-       
-
-        
-
-        protected virtual void FormatResultSet(NUnitCtr.MessageWriter writer, ResultSetCompareResult.Sample sample, bool compare)
-        {
-            var textCreator = new ResultSetTextWriter();
-            var output = textCreator.BuildContent(sample.Rows, sample.Count, compare);
-            foreach (var line in output)
-                writer.WriteLine(line);                
-        }
-
-
-        
-
-        protected virtual ColumnRole GetColumnRole(IEnumerable<DataRow> rows, int columnIndex)
-        {
-            return (ColumnRole)rows.ElementAt(0).Table.Columns[columnIndex].ExtendedProperties["NBi::Role"];
-        }
-
-        protected virtual void FormatResultSet(NUnitCtr.MessageWriter writer, ResultSet resultSet)
-        {
-            var rows = resultSet.Rows.Cast<DataRow>().ToList();
-            var textCreator = new ResultSetTextWriter();
-            var output = textCreator.BuildContent(rows, rows.Count(), false);
-            foreach (var line in output)
-                writer.WriteLine(line);
+            writer.WriteLine();
+            writer.WriteLine(Failure.RenderCompared());
         }
 
         private void doPersist(ResultSet resultSet, string path)

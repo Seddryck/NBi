@@ -256,16 +256,16 @@
     <EmbeddedResource Include="Acceptance\Resources\ResellerOrderCountByYearBefore2006.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\ResultSetMatchPattern.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\ResultSetMatchPattern.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\dimension.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\QueryWithParameters.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryWithParameters.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\ReportEqualTo.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\ReportEqualTo.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\BusinessEntity.csv">
@@ -274,7 +274,7 @@
     <None Include="Acceptance\Resources\AdventureWorks Sample Reports\Store_Contacts.rdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Acceptance\Resources\Etl.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\Etl.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Etl\Sample.dtsx">
@@ -346,62 +346,62 @@
     <EmbeddedResource Include="Unit\Xml\Resources\MatchPatternXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithVariables.xml" />
     <!--Acceptance Ressources-->
-    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToResultSet.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToResultSet.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToCsv.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToCsv.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToQuery.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToQuery.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToResultSetWithNull.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToResultSetWithNull.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Ordered.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\Ordered.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Count.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\Count.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Contain.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\Contain.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\FasterThan.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\FasterThan.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\SyntacticallyCorrect.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\SyntacticallyCorrect.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Exists.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\Exists.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\AssemblyEqualToResultSet.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\AssemblyEqualToResultSet.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\ContainStructure.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\ContainStructure.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\LinkedTo.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\LinkedTo.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\SubsetOfStructure.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\SubsetOfStructure.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\EquivalentToStructure.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\EquivalentToStructure.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\SubsetOfMembers.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\SubsetOfMembers.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\EquivalentToMembers.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\EquivalentToMembers.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\QueryWithReference.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryWithReference.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\MatchPatternMembers.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\MatchPatternMembers.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
@@ -460,7 +460,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\DecorationXmlTestSuite.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Acceptance\Resources\EvaluateRows.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\EvaluateRows.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

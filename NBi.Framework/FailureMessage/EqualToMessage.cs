@@ -31,23 +31,23 @@ namespace NBi.Framework.FailureMessage
             compareResult = compareResult ?? ResultSetCompareResult.Build(new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>());
             
             expected = BuildTable(expectedRows);
-            actual = BuildTable(expectedRows);
+            actual = BuildTable(actualRows);
             compared = BuildNonEmptyTable(compareResult.Unexpected.Rows, "Unexpected");
             compared.Append(BuildNonEmptyTable(compareResult.Missing.Rows ?? new List<DataRow>(), "Missing"));
             compared.Append(BuildNonEmptyTable(compareResult.Duplicated.Rows ?? new List<DataRow>(), "Duplicated"));
-            compared.Append(BuildNonEmptyTable(compareResult.NonMatchingValue.Rows ?? new List<DataRow>(), "Non matching value"));
+            compared.Append(BuildCompareTable(compareResult.NonMatchingValue.Rows ?? new List<DataRow>(), "Non matching value"));
         }
 
         private MarkdownContainer BuildTable(IEnumerable<DataRow> rows)
         {
-            return BuildTable(rows, string.Empty);
+            var tableBuilder = new TableMarkdownLogBuilder();
+            return BuildTable(tableBuilder, rows, string.Empty);
         }
 
-        private MarkdownContainer BuildTable(IEnumerable<DataRow> rows, string title)
+        private MarkdownContainer BuildTable(TableMarkdownLogBuilder tableBuilder, IEnumerable<DataRow> rows, string title)
         {
             rows = rows ?? new List<DataRow>();
             
-            var tableBuilder = new TableMarkdownLogBuilder();
             var table = tableBuilder.Build(rows.Take(rows.Count() > maxRowCount ? sampleRowCount : rows.Count()));
 
             var container = new MarkdownContainer();
@@ -70,11 +70,22 @@ namespace NBi.Framework.FailureMessage
             return container;
         }
 
+
+
         private MarkdownContainer BuildNonEmptyTable(IEnumerable<DataRow> rows, string title)
         {
             var tableBuilder = new TableMarkdownLogBuilder();
             if (rows.Count() > 0)
-                return BuildTable(rows, title);
+                return BuildTable(tableBuilder, rows, title);
+            else
+                return new MarkdownContainer();
+        }
+
+        private MarkdownContainer BuildCompareTable(IEnumerable<DataRow> rows, string title)
+        {
+            var tableBuilder = new CompareTableMarkdownLogBuilder();
+            if (rows.Count() > 0)
+                return BuildTable(tableBuilder, rows, title);
             else
                 return new MarkdownContainer();
         }

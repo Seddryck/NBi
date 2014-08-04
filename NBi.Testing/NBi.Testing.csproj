@@ -167,7 +167,6 @@
     <Compile Include="Unit\Framework\FailureMessage\Formatter\CellFormatterTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\TableHeaderFormatterTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\TableMarkdownLogBuilderTest.cs" />
-    <Compile Include="Unit\Framework\FailureMessage\Threading.cs" />
     <Compile Include="Unit\NUnit\Builder\ExecutionMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersEquivalentToBuilderTest.cs" />

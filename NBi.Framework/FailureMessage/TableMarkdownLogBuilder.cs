@@ -33,8 +33,47 @@ namespace NBi.Framework.FailureMessage
 
         protected Table BuildNonEmptyTable(IEnumerable<DataRow> dataRows)
         {
+            List<ColumnType> columnTypes;
+            var headers = BuildColumns(dataRows, out columnTypes);
+            var rows = BuildRows(dataRows, columnTypes);
+
+            return new Table() { Columns = headers, Rows = rows };
+        }
+
+        protected virtual List<TableRow> BuildRows(IEnumerable<DataRow> dataRows, List<ColumnType> columnTypes)
+        {
+            var rows = new List<TableRow>();
+            foreach (DataRow dataRow in dataRows)
+            {
+                var cells = new List<TableCell>();
+                for (int i = 0; i < dataRow.Table.Columns.Count; i++)
+                {
+                    var text = GetText(columnTypes, dataRow, i);
+                    cells.Add(new TableCell() { Text = text });
+                }
+
+                rows.Add(new TableRow() { Cells = cells });
+            }
+            return rows;
+        }
+
+        protected string GetText(List<ColumnType> columnTypes, DataRow dataRow, int i)
+        {
+            var factory = new CellFormatterFactory();
+            var formatter = factory.GetObject(columnTypes[i]);
+
+            var text = string.Empty;
+            if (dataRow.IsNull(i))
+                text = formatter.Format(DBNull.Value);
+            else
+                text = formatter.Format(dataRow.ItemArray[i]);
+            return text;
+        }
+
+        private List<TableColumn> BuildColumns(IEnumerable<DataRow> dataRows, out List<ColumnType> columnTypes)
+        {
             var headers = new List<TableColumn>();
-            var columnTypes = new List<ColumnType>();
+            columnTypes = new List<ColumnType>();
             foreach (DataColumn dataColumn in dataRows.ElementAt(0).Table.Columns)
             {
                 var formatter = new TableHeaderFormatter();
@@ -57,29 +96,8 @@ namespace NBi.Framework.FailureMessage
                 }
                 headers.Add(new TableColumn() { HeaderCell = new TableCell() { Text = header } });
             }
-                
 
-            var rows = new List<TableRow>();
-            foreach (DataRow dataRow in dataRows)
-            {
-                var cells = new List<TableCell>();
-                for (int i = 0; i < dataRow.Table.Columns.Count; i++)
-                {
-                    var factory = new CellFormatterFactory();
-                    var formatter = factory.GetObject(columnTypes[i]);
-                    
-                    var text = string.Empty;
-                    if (dataRow.IsNull(i))
-                        text = formatter.Format(DBNull.Value);
-                    else
-                        text = formatter.Format(dataRow.ItemArray[i]);
-                    cells.Add(new TableCell() { Text =  text});
-                }
-                    
-                rows.Add(new TableRow() { Cells = cells });
-            }
-
-            return new Table() { Columns = headers, Rows = rows };
+            return headers;
         }
     }
 }

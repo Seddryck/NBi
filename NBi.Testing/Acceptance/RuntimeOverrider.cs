@@ -2,6 +2,8 @@
 using NBi.NUnit.Runtime;
 using NBi.Xml;
 using NUnit.Framework;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace NBi.Testing.Acceptance
 {
@@ -80,7 +82,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("ReportEqualTo.nbits")]
         [TestCase("Etl.nbits")]
         [Category ("Acceptance")]
-        public void RunTestSuite(string filename)
+        public void RunPositiveTestSuite(string filename)
         {
             var t = new TestSuiteOverrider(filename);
             
@@ -92,6 +94,39 @@ namespace NBi.Testing.Acceptance
             foreach (var testCaseData in tests)
                 t.ExecuteTestCases((TestXml)testCaseData.Arguments[0]);
             
+        }
+
+        [Test]
+        [TestCase("QueryEqualToQuery.nbits")]
+        public void RunNegativeTestSuite(string filename)
+        {
+            var t = new TestSuiteOverrider(@"Negative\" + filename);
+
+            //First retrieve the NUnit TestCases with base class (NBi.NUnit.Runtime)
+            //These NUnit TestCases are defined in the Test Suite file
+            var tests = t.GetTestCases();
+
+            //Execute the NUnit TestCases one by one
+            foreach (var testCaseData in tests)
+            {
+                try
+                {
+                    t.ExecuteTestCases((TestXml)testCaseData.Arguments[0]);
+                    Assert.Fail("The test named '{0}' and defined in '{1}' should have failed but it hasn't.", ((TestXml)testCaseData.Arguments[0]).Name, filename);
+                }
+                catch (CustomStackTraceAssertionException ex)
+                {
+                    using (Stream stream = Assembly.GetExecutingAssembly()
+                                           .GetManifestResourceStream("NBi.Testing.Acceptance.Resources.Negative." + filename.Replace(".nbits",".txt")))
+                    {
+                        using (StreamReader reader = new StreamReader(stream))
+                        {
+                            Assert.That(ex.Message, Is.EqualTo(reader.ReadToEnd()));
+                        }
+                    }
+                    
+                }
+            }
         }
     }
 }

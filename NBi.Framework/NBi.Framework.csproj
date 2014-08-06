@@ -49,6 +49,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="FailureMessage\ItemsMessage.cs" />
     <Compile Include="FailureMessage\Formatter\BooleanCellFormatter.cs" />
     <Compile Include="FailureMessage\Formatter\CellFormatter.cs" />
     <Compile Include="FailureMessage\Formatter\CellFormatterFactory.cs" />
@@ -56,11 +57,11 @@
     <Compile Include="FailureMessage\Formatter\NumericCellFormatter.cs" />
     <Compile Include="FailureMessage\Formatter\TextCellFormatter.cs" />
     <Compile Include="FailureMessage\IFailureMessage.cs" />
-    <Compile Include="FailureMessage\TableHeaderFormatter.cs" />
-    <Compile Include="FailureMessage\CompareTableMarkdownLogBuilder.cs" />
-    <Compile Include="FailureMessage\TableMarkdownLogBuilder.cs" />
+    <Compile Include="FailureMessage\Helper\TableHeaderHelper.cs" />
+    <Compile Include="FailureMessage\Helper\CompareTableHelper.cs" />
+    <Compile Include="FailureMessage\Helper\TableHelper.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
-    <Compile Include="FailureMessage\EqualToMessage.cs" />
+    <Compile Include="FailureMessage\DataRowsMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

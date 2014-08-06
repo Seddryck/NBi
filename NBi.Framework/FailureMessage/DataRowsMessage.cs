@@ -9,22 +9,14 @@ using NBi.Framework.FailureMessage.Helper;
 
 namespace NBi.Framework.FailureMessage
 {
-    public class DataRowsMessage : IFailureMessage
+    public class DataRowsMessage : SampledFailureMessage<DataRow>
     {
-        protected readonly int maxRowCount;
-        protected readonly int sampleRowCount;
-
-        protected MarkdownContainer expected;
-        protected MarkdownContainer actual;
-        protected MarkdownContainer compared;
-
-        public DataRowsMessage() : this(10,15)
+        public DataRowsMessage() : base(10,15)
         { }
 
         public DataRowsMessage(int sampleRowCount, int maxRowCount)
+            : base(sampleRowCount, maxRowCount)
         {
-            this.sampleRowCount = sampleRowCount;
-            this.maxRowCount = maxRowCount;
         }
 
         public void Build(IEnumerable<DataRow> expectedRows, IEnumerable<DataRow> actualRows, ResultSetCompareResult compareResult)
@@ -49,7 +41,7 @@ namespace NBi.Framework.FailureMessage
         {
             rows = rows ?? new List<DataRow>();
             
-            var table = tableBuilder.Build(rows.Take(rows.Count() > maxRowCount ? sampleRowCount : rows.Count()));
+            var table = tableBuilder.Build(Sample(rows));
 
             var container = new MarkdownContainer();
 
@@ -62,9 +54,9 @@ namespace NBi.Framework.FailureMessage
             container.Append(BuildRowCount(rows.Count()));
             container.Append(table);
 
-            if (rows.Count() > maxRowCount)
+            if (IsSampled(rows))
             {
-                var rowsSkipped = string.Format("{0} (of {1}) rows have been skipped for display purpose.", rows.Count() - sampleRowCount, rows.Count());
+                var rowsSkipped = string.Format("{0} (of {1}) rows have been skipped for display purpose.", CountExcludedRows(rows), rows.Count());
                 container.Append(rowsSkipped.ToMarkdownParagraph());
             }
 
@@ -98,19 +90,5 @@ namespace NBi.Framework.FailureMessage
             return (sbInfo.ToString().ToMarkdownParagraph());
         }
 
-        public string RenderExpected()
-        {
-            return expected.ToMarkdown();
-        }
-
-        public string RenderActual()
-        {
-            return actual.ToMarkdown();
-        }
-
-        public string RenderCompared()
-        {
-            return compared.ToMarkdown();
-        }
     }
 }

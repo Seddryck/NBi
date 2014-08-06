@@ -8,21 +8,14 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage
 {
-    public class ItemsMessage : IFailureMessage
+    public class ItemsMessage : SampledFailureMessage<string>
     {
-        protected readonly int maxItemCount;
-        protected readonly int sampleItemCount;
-
-        protected MarkdownContainer expected;
-        protected MarkdownContainer actual;
-        protected MarkdownContainer compared;
-
-        public ItemsMessage() : this(10,15)
+        public ItemsMessage()
+            : base(10, 15)
         { }
         public ItemsMessage(int sampleItemCount, int maxItemCount)
+            : base(sampleItemCount, maxItemCount)
         {
-            this.sampleItemCount = sampleItemCount;
-            this.maxItemCount = maxItemCount;
         }
 
         public void Build(IEnumerable<string> expectedItems, IEnumerable<string> actualItems, ListComparer.Result result)
@@ -39,13 +32,13 @@ namespace NBi.Framework.FailureMessage
 
         private MarkdownContainer BuildList(IEnumerable<string> items)
         {
-            var sampledItems = items.Take(items.Count() > maxItemCount ? sampleItemCount : items.Count()).ToList();
+            var sampledItems = Sample(items).ToList();
 
             var container = new MarkdownContainer();
             container.Append(string.Format("Set of {0} item{1}", items.Count(), items.Count() > 1 ? "s" : string.Empty).ToMarkdownParagraph());
             container.Append(sampledItems.ToMarkdownBulletedList());
-            if (items.Count() > sampledItems.Count())
-                container.Append(string.Format("... and {0} others not displayed.", items.Count() - sampledItems.Count()).ToMarkdownParagraph());
+            if (IsSampled(items))
+                container.Append(string.Format("... and {0} others not displayed.", CountExcludedRows(items)).ToMarkdownParagraph());
 
             return container;
         }
@@ -68,20 +61,5 @@ namespace NBi.Framework.FailureMessage
                 return BuildList(items, title);
         }
 
-
-        public string RenderExpected()
-        {
-            return expected.ToMarkdown();
-        }
-
-        public string RenderActual()
-        {
-            return actual.ToMarkdown();
-        }
-
-        public string RenderCompared()
-        {
-            return compared.ToMarkdown();
-        }
     }
 }

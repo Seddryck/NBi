@@ -1,0 +1,35 @@
+﻿Expected: 
+
+On perspective "Adventure Works", the children of "[Department].[Departments].[Corporate]" are strictly equivalent to the following set:  
+
+* Inventory Management
+* Manufacturing
+* Quality Assurance
+* Research and Development
+* Unexpected item 1
+* Unexpected item 2
+* Sales and Marketing
+
+But was: Set of 6 items
+
+* Executive General and Administration
+* Inventory Management
+* Manufacturing
+* Quality Assurance
+* Research and Development
+* Sales and Marketing
+
+Missing items (1 of 1)
+----------------------
+
+* Executive General and Administration
+
+Unexpected items (2 of 2)
+-------------------------
+
+* Unexpected item 1
+* Unexpected item 2
+
+
+
+  

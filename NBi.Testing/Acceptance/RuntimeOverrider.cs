@@ -57,31 +57,31 @@ namespace NBi.Testing.Acceptance
         
         //By Acceptance Test Suite (file) create a Test Case
         [Test]
-        //[TestCase("AssemblyEqualToResultSet.nbits")]
-        //[TestCase("QueryEqualToCsv.nbits")]
-        //[TestCase("QueryEqualToQuery.nbits")]
-        //[TestCase("QueryEqualToResultSet.nbits")]
-        //[TestCase("QueryEqualToResultSetWithNull.nbits")]
-        //[TestCase("QueryWithReference.nbits")]
-        //[TestCase("Ordered.nbits")]
-        //[TestCase("Count.nbits")]
-        //[TestCase("Contain.nbits")]
-        //[TestCase("ContainStructure.nbits")]
-        //[TestCase("fasterThan.nbits")]
-        //[TestCase("SyntacticallyCorrect.nbits")]
-        //[TestCase("Exists.nbits")]
-        //[TestCase("LinkedTo.nbits")]
-        //[TestCase("SubsetOfStructure.nbits")]
-        //[TestCase("EquivalentToStructure.nbits")]
-        //[TestCase("SubsetOfMembers.nbits")]
-        //[TestCase("EquivalentToMembers.nbits")]
-        //[TestCase("MatchPatternMembers.nbits")]
-        //[TestCase("ResultSetMatchPattern.nbits")]
-        //[TestCase("QueryWithParameters.nbits")]
-        //[TestCase("EvaluateRows.nbits")]
-        //[TestCase("ReportEqualTo.nbits")]
-        //[TestCase("Etl.nbits")]
-        //[Category ("Acceptance")]
+        [TestCase("AssemblyEqualToResultSet.nbits")]
+        [TestCase("QueryEqualToCsv.nbits")]
+        [TestCase("QueryEqualToQuery.nbits")]
+        [TestCase("QueryEqualToResultSet.nbits")]
+        [TestCase("QueryEqualToResultSetWithNull.nbits")]
+        [TestCase("QueryWithReference.nbits")]
+        [TestCase("Ordered.nbits")]
+        [TestCase("Count.nbits")]
+        [TestCase("Contain.nbits")]
+        [TestCase("ContainStructure.nbits")]
+        [TestCase("fasterThan.nbits")]
+        [TestCase("SyntacticallyCorrect.nbits")]
+        [TestCase("Exists.nbits")]
+        [TestCase("LinkedTo.nbits")]
+        [TestCase("SubsetOfStructure.nbits")]
+        [TestCase("EquivalentToStructure.nbits")]
+        [TestCase("SubsetOfMembers.nbits")]
+        [TestCase("EquivalentToMembers.nbits")]
+        [TestCase("MatchPatternMembers.nbits")]
+        [TestCase("ResultSetMatchPattern.nbits")]
+        [TestCase("QueryWithParameters.nbits")]
+        [TestCase("EvaluateRows.nbits")]
+        [TestCase("ReportEqualTo.nbits")]
+        [TestCase("Etl.nbits")]
+        [Category("Acceptance")]
         public void RunPositiveTestSuite(string filename)
         {
             var t = new TestSuiteOverrider(@"Positive\" + filename);
@@ -97,7 +97,9 @@ namespace NBi.Testing.Acceptance
         }
 
         [Test]
-        [TestCase("QueryEqualToQuery.nbits")]
+        [TestCase("EquivalentToMembers.nbits")]
+        //[TestCase("QueryEqualToQuery.nbits")]
+        [Category("Acceptance")]
         public void RunNegativeTestSuite(string filename)
         {
             var t = new TestSuiteOverrider(@"Negative\" + filename);
@@ -109,18 +111,26 @@ namespace NBi.Testing.Acceptance
             //Execute the NUnit TestCases one by one
             foreach (var testCaseData in tests)
             {
+                var testXml = (TestXml)testCaseData.Arguments[0];
                 try
                 {
-                    t.ExecuteTestCases((TestXml)testCaseData.Arguments[0]);
-                    Assert.Fail("The test named '{0}' and defined in '{1}' should have failed but it hasn't.", ((TestXml)testCaseData.Arguments[0]).Name, filename);
+                    t.ExecuteTestCases(testXml);
+                    Assert.Fail("The test named '{0}' (uid={1}) and defined in '{2}' should have failed but it hasn't."
+                        , testXml.Name
+                        , testXml.UniqueIdentifier
+                        , filename);
                 }
                 catch (CustomStackTraceAssertionException ex)
                 {
                     using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Acceptance.Resources.Negative." + filename.Replace(".nbits",".txt")))
+                                           .GetManifestResourceStream(
+                                                "NBi.Testing.Acceptance.Resources.Negative." 
+                                                + filename.Replace(".nbits",string.Empty) 
+                                                + "-" + testXml.UniqueIdentifier + ".txt"))
                     {
                         using (StreamReader reader = new StreamReader(stream))
                         {
+                            Debug.WriteLine(ex.Message);
                             Assert.That(ex.Message, Is.EqualTo(reader.ReadToEnd()));
                         }
                     }

@@ -163,10 +163,11 @@
     <Compile Include="Unit\Core\ResultSet\ResultSetWriterTest.cs" />
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
-    <Compile Include="Unit\Framework\FailureMessage\EqualToMessageTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\DataRowsMessageTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\ItemsMessageTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Formatter\CellFormatterTest.cs" />
-    <Compile Include="Unit\Framework\FailureMessage\TableHeaderFormatterTest.cs" />
-    <Compile Include="Unit\Framework\FailureMessage\TableMarkdownLogBuilderTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Helper\TableHeaderHelperTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Helper\TableHelperTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ExecutionMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersEquivalentToBuilderTest.cs" />
@@ -282,6 +283,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Negative\QueryEqualToQuery.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\EquivalentToMembers.nbits">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="ConnectionString.config">
@@ -483,7 +488,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Acceptance\Resources\Etl\Password for ETL.txt" />
-    <EmbeddedResource Include="Acceptance\Resources\Negative\QueryEqualToQuery.txt" />
+    <EmbeddedResource Include="Acceptance\Resources\Negative\EquivalentToMembers-0001.txt" />
+    <EmbeddedResource Include="Acceptance\Resources\Negative\QueryEqualToQuery-0001.txt" />
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsExternal.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteForExternalSettings.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteWithIncludeTestSuite.xml" />

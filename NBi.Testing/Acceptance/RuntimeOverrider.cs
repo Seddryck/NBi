@@ -97,8 +97,8 @@ namespace NBi.Testing.Acceptance
         }
 
         [Test]
-        [TestCase("EquivalentToMembers.nbits")]
-        [TestCase("QueryEqualToQuery.nbits")]
+        [TestCase("DataRowsMessage.nbits")]
+        [TestCase("ItemsMessage.nbits")]
         [Category("Acceptance")]
         public void RunNegativeTestSuite(string filename)
         {

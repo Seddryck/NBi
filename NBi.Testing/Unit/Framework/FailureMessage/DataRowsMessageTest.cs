@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace NBi.Testing.Unit.Framework.FailureMessage
 {
-    public class EqualToMessageTest
+    public class DataRowsMessageTest
     {
-
+        #region Helpers
         private IEnumerable<DataRow> GetDataRows(int count)
         {
             var dataSet = new DataSet();
@@ -25,7 +25,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
 
             return dataTable.Rows.Cast<DataRow>();
         }
-
+        #endregion
 
         [Test]
         public void RenderExpected_MoreThanMaxRowsCount_ReturnCorrectNumberOfRowsOnTop()
@@ -38,7 +38,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < 20; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
-            var msg = new EqualToMessage();
+            var msg = new DataRowsMessage();
             msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -57,7 +57,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < 1; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
-            var msg = new EqualToMessage();
+            var msg = new DataRowsMessage();
             msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -77,7 +77,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < 20; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
-            var msg = new EqualToMessage();
+            var msg = new DataRowsMessage();
             msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -99,7 +99,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < rowCount; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
-            var msg = new EqualToMessage();
+            var msg = new DataRowsMessage();
             msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -119,7 +119,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < 22; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
-            var msg = new EqualToMessage();
+            var msg = new DataRowsMessage();
             msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -142,7 +142,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < rowCount; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
-            var msg = new EqualToMessage();
+            var msg = new DataRowsMessage();
             msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
 
@@ -171,7 +171,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
                 );
 
 
-            var msg = new EqualToMessage();
+            var msg = new DataRowsMessage();
             msg.Build(null, null, compared);
             var value = msg.RenderCompared();
 
@@ -200,7 +200,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
                 );
 
 
-            var msg = new EqualToMessage();
+            var msg = new DataRowsMessage();
             msg.Build(null, null, compared);
             var value = msg.RenderCompared();
 

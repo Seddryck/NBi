@@ -56,10 +56,11 @@
     <Compile Include="FailureMessage\Formatter\DateTimeCellFormatter.cs" />
     <Compile Include="FailureMessage\Formatter\NumericCellFormatter.cs" />
     <Compile Include="FailureMessage\Formatter\TextCellFormatter.cs" />
-    <Compile Include="FailureMessage\IFailureMessage.cs" />
+    <Compile Include="FailureMessage\FailureMessage.cs" />
     <Compile Include="FailureMessage\Helper\TableHeaderHelper.cs" />
     <Compile Include="FailureMessage\Helper\CompareTableHelper.cs" />
     <Compile Include="FailureMessage\Helper\TableHelper.cs" />
+    <Compile Include="FailureMessage\SampledFailureMessage.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="FailureMessage\DataRowsMessage.cs" />
   </ItemGroup>

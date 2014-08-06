@@ -35,8 +35,14 @@ namespace NBi.Framework.FailureMessage
             var sampledItems = Sample(items).ToList();
 
             var container = new MarkdownContainer();
-            container.Append(string.Format("Set of {0} item{1}", items.Count(), items.Count() > 1 ? "s" : string.Empty).ToMarkdownParagraph());
-            container.Append(sampledItems.ToMarkdownBulletedList());
+            if (items.Count() > 0)
+            {
+                container.Append(string.Format("Set of {0} item{1}", items.Count(), items.Count() > 1 ? "s" : string.Empty).ToMarkdownParagraph());
+                container.Append(sampledItems.ToMarkdownBulletedList());
+            }
+            else
+                container.Append("An empty set.".ToMarkdownParagraph());
+                
             if (IsSampled(items))
                 container.Append(string.Format("... and {0} others not displayed.", CountExcludedRows(items)).ToMarkdownParagraph());
 

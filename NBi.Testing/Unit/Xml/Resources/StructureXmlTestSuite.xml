@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="hierarchy contains level with caption xyz (explicitely not ignoring case)">
+		<system-under-test>
+			<structure>
+				<hierarchy caption="hierarchy" dimension="dimension" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<contains
+				caption="xYz"
+				ignore-case="true"
+			/>
+		</assert>
+	</test>
+	<test name="MeasureGroup contains a measure named xYz without display folder">
+		<system-under-test>
+			<structure>
+				<measure-group caption="MeasureGroupName" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<contains
+				caption="xYz"
+			/>
+		</assert>
+	</test>
+	<test name="level with caption xyz (explicitely not ignoring case) exists under dimension.hierarchy">
+		<system-under-test>
+			<structure>
+				<level caption="xYz" hierarchy="hierarchy" dimension="dimension" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists
+				ignore-case="true"
+			/>
+		</assert>
+	</test>
+	<test name="Measure xYz exists in displayFolder root">
+		<system-under-test>
+			<structure>
+				<measure caption="xYz" display-folder="" measure-group="MeasureGroupName" perspective="Perspective" connectionString="ConnectionString" />
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists
+			/>
+		</assert>
+	</test>
+</testSuite>

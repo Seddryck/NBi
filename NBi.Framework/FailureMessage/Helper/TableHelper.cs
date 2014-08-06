@@ -10,9 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework.FailureMessage
+namespace NBi.Framework.FailureMessage.Helper
 {
-    public class TableMarkdownLogBuilder
+    public class TableHelper
     {
         public MarkdownContainer Build(IEnumerable<DataRow> dataRows)
         {
@@ -76,7 +76,7 @@ namespace NBi.Framework.FailureMessage
             columnTypes = new List<ColumnType>();
             foreach (DataColumn dataColumn in dataRows.ElementAt(0).Table.Columns)
             {
-                var formatter = new TableHeaderFormatter();
+                var formatter = new TableHeaderHelper();
 
                 var header = string.Empty;
                 if (dataColumn.ExtendedProperties.Count == 0)

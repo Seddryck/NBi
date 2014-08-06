@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework.FailureMessage
+namespace NBi.Framework.FailureMessage.Helper
 {
-    public class TableHeaderFormatter
+    public class TableHeaderHelper
     {
 
         public virtual string GetText(ColumnRole role, ColumnType type, Tolerance tolerance, Rounding rounding)

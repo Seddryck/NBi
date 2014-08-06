@@ -10,9 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework.FailureMessage
+namespace NBi.Framework.FailureMessage.Helper
 {
-    public class CompareTableMarkdownLogBuilder : TableMarkdownLogBuilder
+    public class CompareTableHelper : TableHelper
     {
         protected override List<TableRow> BuildRows(IEnumerable<DataRow> dataRows, List<ColumnType> columnTypes)
         {

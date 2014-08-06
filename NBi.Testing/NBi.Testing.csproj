@@ -282,10 +282,10 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Negative\QueryEqualToQuery.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Negative\DataRowsMessage.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Negative\EquivalentToMembers.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage.nbits">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -488,9 +488,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Acceptance\Resources\Etl\Password for ETL.txt" />
-    <EmbeddedResource Include="Acceptance\Resources\Negative\EquivalentToMembers-0002.txt" />
-    <EmbeddedResource Include="Acceptance\Resources\Negative\EquivalentToMembers-0001.txt" />
-    <EmbeddedResource Include="Acceptance\Resources\Negative\QueryEqualToQuery-0001.txt" />
+    <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage-0002.txt" />
+    <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage-0001.txt" />
+    <EmbeddedResource Include="Acceptance\Resources\Negative\DataRowsMessage-0001.txt" />
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsExternal.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteForExternalSettings.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteWithIncludeTestSuite.xml" />

@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using MarkdownLog;
 using NBi.Core.ResultSet;
+using NBi.Framework.FailureMessage.Helper;
 
 namespace NBi.Framework.FailureMessage
 {
-    public class EqualToMessage : IFailureMessage
+    public class DataRowsMessage : IFailureMessage
     {
         protected readonly int maxRowCount;
         protected readonly int sampleRowCount;
@@ -17,10 +18,10 @@ namespace NBi.Framework.FailureMessage
         protected MarkdownContainer actual;
         protected MarkdownContainer compared;
 
-        public EqualToMessage() : this(10,15)
+        public DataRowsMessage() : this(10,15)
         { }
 
-        public EqualToMessage(int sampleRowCount, int maxRowCount)
+        public DataRowsMessage(int sampleRowCount, int maxRowCount)
         {
             this.sampleRowCount = sampleRowCount;
             this.maxRowCount = maxRowCount;
@@ -40,11 +41,11 @@ namespace NBi.Framework.FailureMessage
 
         private MarkdownContainer BuildTable(IEnumerable<DataRow> rows)
         {
-            var tableBuilder = new TableMarkdownLogBuilder();
+            var tableBuilder = new TableHelper();
             return BuildTable(tableBuilder, rows, string.Empty);
         }
 
-        private MarkdownContainer BuildTable(TableMarkdownLogBuilder tableBuilder, IEnumerable<DataRow> rows, string title)
+        private MarkdownContainer BuildTable(TableHelper tableBuilder, IEnumerable<DataRow> rows, string title)
         {
             rows = rows ?? new List<DataRow>();
             
@@ -70,11 +71,9 @@ namespace NBi.Framework.FailureMessage
             return container;
         }
 
-
-
         private MarkdownContainer BuildNonEmptyTable(IEnumerable<DataRow> rows, string title)
         {
-            var tableBuilder = new TableMarkdownLogBuilder();
+            var tableBuilder = new TableHelper();
             if (rows.Count() > 0)
                 return BuildTable(tableBuilder, rows, title);
             else
@@ -83,7 +82,7 @@ namespace NBi.Framework.FailureMessage
 
         private MarkdownContainer BuildCompareTable(IEnumerable<DataRow> rows, string title)
         {
-            var tableBuilder = new CompareTableMarkdownLogBuilder();
+            var tableBuilder = new CompareTableHelper();
             if (rows.Count() > 0)
                 return BuildTable(tableBuilder, rows, title);
             else

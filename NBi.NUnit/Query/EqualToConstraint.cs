@@ -32,8 +32,8 @@ namespace NBi.NUnit.Query
         protected string filename;
 
         protected ResultSetCompareResult result;
-        private EqualToMessage failure;
-        protected EqualToMessage Failure
+        private DataRowsMessage failure;
+        protected DataRowsMessage Failure
         {
             get
             {
@@ -43,9 +43,9 @@ namespace NBi.NUnit.Query
             }
         }
 
-        protected EqualToMessage BuildFailure()
+        protected DataRowsMessage BuildFailure()
         {
-            var msg = new EqualToMessage();
+            var msg = new DataRowsMessage();
             msg.Build(expectedResultSet.Rows.Cast<DataRow>(), actualResultSet.Rows.Cast<DataRow>(), result);
             return msg;
         }

@@ -98,7 +98,7 @@ namespace NBi.Testing.Acceptance
 
         [Test]
         [TestCase("EquivalentToMembers.nbits")]
-        //[TestCase("QueryEqualToQuery.nbits")]
+        [TestCase("QueryEqualToQuery.nbits")]
         [Category("Acceptance")]
         public void RunNegativeTestSuite(string filename)
         {
@@ -130,7 +130,7 @@ namespace NBi.Testing.Acceptance
                     {
                         using (StreamReader reader = new StreamReader(stream))
                         {
-                            Debug.WriteLine(ex.Message);
+                            //Debug.WriteLine(ex.Message);
                             Assert.That(ex.Message, Is.EqualTo(reader.ReadToEnd()));
                         }
                     }

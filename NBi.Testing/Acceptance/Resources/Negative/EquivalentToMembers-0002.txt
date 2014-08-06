@@ -1,4 +1,4 @@
-﻿On perspective "Adventure Works", the children of "[Department].[Departments].[Corporate]" are strictly equivalent to the following set:  
+﻿On perspective "Adventure Works", all the children of "[Department].[Departments].[Corporate]" are strictly defined in following set:  
 
   Expected: 
 Set of 7 items
@@ -23,13 +23,6 @@ Set of 6 items
    * Sales and Marketing
 
 
-
-Missing items:
---------------
-
-Set of 1 item
-
-   * Executive General and Administration
 
 Unexpected items:
 -----------------

@@ -56,11 +56,13 @@
     <Compile Include="Action\Case\RemoveCaseAction.cs" />
     <Compile Include="Action\DefaultType.cs" />
     <Compile Include="Action\Case\ICaseAction.cs" />
+    <Compile Include="Action\EmptyAction.cs" />
     <Compile Include="Action\IAction.cs" />
     <Compile Include="Action\Setting\ISettingAction.cs" />
     <Compile Include="Action\Suite\SaveSuiteAction.cs" />
     <Compile Include="Action\Suite\ISuiteAction.cs" />
     <Compile Include="Action\Template\ITemplateAction.cs" />
+    <Compile Include="Parser\Comment.cs" />
     <Compile Include="Parser\Recipe.cs" />
     <Compile Include="Parser\Setting.cs" />
     <Compile Include="Action\Setting\DefaultAction.cs" />

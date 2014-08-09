@@ -84,6 +84,10 @@
     <Compile Include="Analysis\Metadata\Column.cs" />
     <Compile Include="Analysis\Metadata\Table.cs" />
     <Compile Include="Analysis\Metadata\TableCollection.cs" />
+    <Compile Include="Analysis\Process\CubeProcessFactory.cs" />
+    <Compile Include="Analysis\Process\ICubeProcess.cs" />
+    <Compile Include="Analysis\Process\ICubeProcessCommand.cs" />
+    <Compile Include="Analysis\Process\ICubeProcessor.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\LevelNotNullIfProperty.cs" />
     <Compile Include="Analysis\Request\MetadataLinkedToDiscoveryRequest.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\TableNotNullIfColumn.cs" />

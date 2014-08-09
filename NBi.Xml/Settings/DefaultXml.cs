@@ -12,6 +12,9 @@ namespace NBi.Xml.Settings
         [XmlElement ("connectionString")]
         public string ConnectionString { get; set; }
 
+        [XmlElement("olap-connectionString")]
+        public string OlapConnectionString { get; set; }
+
         [XmlElement("parameter")]
         public List<QueryParameterXml> Parameters { get; set; }
 

@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="setup-cleanup">
+			<connectionString>Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true</connectionString>
+		</default>
+	</settings>
+	<test name="process whole cube before executing query">
+		<setup>
+			<cube-process cube="MyCube"
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033"/>
+		</setup>
+		<system-under-test>
+			<execution>
+				<query>
+					select [Measures].[myMeasure] on 0 from [NewUsers]
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>1000</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="process two dimensions in parallel before executing query">
+		<setup>
+			<cube-process cube="MyCube"
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033">
+				<dimension name="First dimension"/>
+				<dimension name="Second dimension"/>
+			</cube-process>
+		</setup>
+		<system-under-test>
+			<execution>
+				<query>
+					select [Measures].[myMeasure] on 0, [First dimension].[MyAttribute].children from [NewUsers] where [Second dimension].[MyAttribute].[MyMember]
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>Alpha</cell>
+						<cell>300</cell>
+					</row>
+					<row>
+						<cell>Beta</cell>
+						<cell>100</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="process a measure-group (all partitions) before executing query">
+		<setup>
+			<cube-process cube="MyCube"
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033">
+				<measure-group name="MyMeasureGroup"/>
+			</cube-process>
+		</setup>
+		<system-under-test>
+			<execution>
+				<query>
+					select [Measures].[myMeasure] on 0, [First dimension].[MyAttribute].children from [NewUsers] where [Second dimension].[MyAttribute].[MyMember]
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>Alpha</cell>
+						<cell>300</cell>
+					</row>
+					<row>
+						<cell>Beta</cell>
+						<cell>100</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="process six partitions of a measure-group before executing query">
+		<setup>
+			<cube-process cube="MyCube"
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033">
+				<measure-group name="MyMeasureGroup" partitions="1-3;7;9-12;10-11"/>
+			</cube-process>
+		</setup>
+		<system-under-test>
+			<execution>
+				<query>
+					select [Measures].[myMeasure] on 0, [First dimension].[MyAttribute].children from [NewUsers] where [Second dimension].[MyAttribute].[MyMember]
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>Alpha</cell>
+						<cell>300</cell>
+					</row>
+					<row>
+						<cell>Beta</cell>
+						<cell>100</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+</testSuite>

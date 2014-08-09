@@ -45,3 +45,4 @@ NBi.ncrunchsolution
 *.vsp
 *.psess
 Thumbs.db
+*.rej

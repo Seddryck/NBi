@@ -46,3 +46,4 @@ NBi.ncrunchsolution
 *.psess
 Thumbs.db
 *.rej
+*.diff

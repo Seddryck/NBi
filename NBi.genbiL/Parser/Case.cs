@@ -93,11 +93,18 @@ namespace NBi.GenbiL.Parser
                 select new FilterCaseAction(variableName, @operator, text, negation.IsDefined)
         );
 
+        readonly static Parser<ICaseAction> caseFilterDistinctParser =
+        (
+                from filter in Keyword.Filter
+                from onKeyword in Keyword.Distinct
+                select new FilterDistinctCaseAction()
+        );
+
 
         public readonly static Parser<IAction> Parser =
         (
                 from @case in Keyword.Case
-                from action in caseLoadParser.Or(caseRemoveParser).Or(caseRenameParser).Or(caseMoveParser).Or(caseFilterParser)
+                from action in caseLoadParser.Or(caseRemoveParser).Or(caseRenameParser).Or(caseMoveParser).Or(caseFilterParser).Or(caseFilterDistinctParser)
                 select action
         );
     }

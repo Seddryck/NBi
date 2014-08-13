@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NBi.Core.Analysis.Process
 {
-    public interface ICubeProcessCommand : IDecorationCommand
+    public interface ICubeProcessCommand : IDecorationCommand , ICubeProcess
     {
 
     }

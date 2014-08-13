@@ -4,22 +4,56 @@ using System.Linq;
 using System.Text;
 using NBi.Xml.Settings;
 using System.Xml.Serialization;
+using NBi.Core.Analysis.Process;
 
 namespace NBi.Xml.Decoration.Command
 {
-    public class CubeProcessXml : DecorationCommandXml
+    public class CubeProcessXml : DecorationCommandXml, ICubeProcess
     {
         [XmlAttribute("connectionString")]
         public string SpecificConnectionString { get; set; }
+
+        [XmlAttribute("database")]
+        public string Database { get; set; }
 
         [XmlAttribute("cube")]
         public string Cube { get; set; }
 
         [XmlElement("dimension", Order = 1)]
-        public List<DimensionProcessXml> Dimensions { get; set; }
+        public List<DimensionProcessXml> InternalDimensions { get; set; }
+
+        [XmlIgnore()]
+        public IEnumerable<IDimensionProcess> Dimensions 
+        {
+            get
+            {
+                return InternalDimensions.Cast<IDimensionProcess>();
+            }
+        }
 
         [XmlElement("measure-group", Order = 2)]
-        public List<MeasureGroupProcessXml> MeasureGroups  { get; set; }
+        public List<MeasureGroupProcessXml> InternalMeasureGroups  { get; set; }
+
+        [XmlIgnore()]
+        public IEnumerable<IMeasureGroupProcess> MeasureGroups
+        {
+            get
+            {
+                return InternalMeasureGroups.Cast<IMeasureGroupProcess>();
+            }
+        }
+
+        [XmlElement("partition", Order = 3)]
+        public List<PartitionProcessXml> InternalPartitions { get; set; }
+
+        [XmlIgnore()]
+        public IEnumerable<IPartitionProcess> Partitions
+        {
+            get
+            {
+                return InternalPartitions.Cast<IPartitionProcess>();
+            }
+        }
 
         [XmlIgnore]
         public string ConnectionString
@@ -49,14 +83,15 @@ namespace NBi.Xml.Decoration.Command
         { 
             get
             {
-                return (Dimensions.Count == 0 && MeasureGroups.Count == 0);
+                return (Dimensions.Count() == 0 && MeasureGroups.Count() == 0);
             }
         }
 
         public CubeProcessXml()
         {
-            Dimensions = new List<DimensionProcessXml>();
-            MeasureGroups = new List<MeasureGroupProcessXml>();
+            InternalDimensions = new List<DimensionProcessXml>();
+            InternalMeasureGroups = new List<MeasureGroupProcessXml>();
+            InternalPartitions = new List<PartitionProcessXml>();
         }
     }
 }

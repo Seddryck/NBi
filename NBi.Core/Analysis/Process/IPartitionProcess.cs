@@ -5,8 +5,8 @@ using System.Text;
 
 namespace NBi.Core.Analysis.Process
 {
-    public interface ICubeProcessor : IExecution, IDecorationCommandImplementation
+    public interface IPartitionProcess : IObjectProcess
     {
-
+        
     }
 }

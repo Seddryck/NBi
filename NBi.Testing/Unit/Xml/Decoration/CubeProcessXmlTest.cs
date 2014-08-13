@@ -89,7 +89,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             var cubeProcess = ts.Tests[testNr].Setup.Commands[0] as CubeProcessXml;
 
             Assert.That(cubeProcess.Dimensions, Has.Count.EqualTo(2));
-            Assert.That(List.Map(cubeProcess.Dimensions).Property("Name"), Is.EquivalentTo(new string[] {"First dimension", "Second dimension"}));
+            Assert.That(List.Map(cubeProcess.InternalDimensions).Property("Name"), Is.EquivalentTo(new string[] {"First dimension", "Second dimension"}));
         }
 
         [Test]
@@ -119,8 +119,8 @@ namespace NBi.Testing.Unit.Xml.Decoration
             // Check the properties of the object.
             var cubeProcess = ts.Tests[testNr].Setup.Commands[0] as CubeProcessXml;
 
-            Assert.That(cubeProcess.MeasureGroups[0].IsAllPartitions, Is.True);
-            Assert.That(cubeProcess.MeasureGroups[0].Name, Is.EqualTo("MyMeasureGroup"));
+            Assert.That(cubeProcess.InternalMeasureGroups[0].IsAllPartitions, Is.True);
+            Assert.That(cubeProcess.InternalMeasureGroups[0].Name, Is.EqualTo("MyMeasureGroup"));
         }
 
         [Test]
@@ -134,9 +134,9 @@ namespace NBi.Testing.Unit.Xml.Decoration
             // Check the properties of the object.
             var cubeProcess = ts.Tests[testNr].Setup.Commands[0] as CubeProcessXml;
 
-            Assert.That(cubeProcess.MeasureGroups[0].IsAllPartitions, Is.False);
-            Assert.That(cubeProcess.MeasureGroups[0].Partitions, Is.Unique);
-            Assert.That(cubeProcess.MeasureGroups[0].Partitions, Is.EquivalentTo(new int[]{1,2,3,7,9,10,11,12}));
+            Assert.That(cubeProcess.InternalMeasureGroups[0].IsAllPartitions, Is.False);
+            Assert.That(cubeProcess.InternalMeasureGroups[0].Partitions, Is.Unique);
+            Assert.That(cubeProcess.InternalMeasureGroups[0].Partitions, Is.EquivalentTo(new int[]{1,2,3,7,9,10,11,12}));
         }
 
 

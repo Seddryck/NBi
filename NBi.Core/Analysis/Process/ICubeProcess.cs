@@ -8,7 +8,11 @@ namespace NBi.Core.Analysis.Process
     public interface ICubeProcess
     {
         string Cube { get; set; }
-        string ConnectionString { get; set; }
+        IEnumerable<IDimensionProcess> Dimensions { get; }
+        IEnumerable<IMeasureGroupProcess> MeasureGroups { get; }
+        IEnumerable<IPartitionProcess> Partitions { get; }
+        string ConnectionString { get; }
+        string Database { get; }
 
     }
 }

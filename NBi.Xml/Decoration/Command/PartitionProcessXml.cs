@@ -7,9 +7,9 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Decoration.Command
 {
-    public class DimensionProcessXml : IDimensionProcess
+    public class PartitionProcessXml : IPartitionProcess
     {
         [XmlAttribute("name")]
-        public string Name {get; set;}
+        public string Name { get; set; }
     }
 }

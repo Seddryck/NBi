@@ -10,9 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NBi.Core</RootNamespace>
     <AssemblyName>NBi.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,14 +32,17 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\Debug\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\Release\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr4.StringTemplate">
@@ -60,6 +65,9 @@
     <Reference Include="Microsoft.SqlServer.Smo, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="NCalc">
       <HintPath>..\packages\ncalc.1.3.8\lib\NCalc.dll</HintPath>
+    </Reference>
+    <Reference Include="SamoSsas">
+      <HintPath>..\packages\Samossas.1.0.0\lib\net45\SamoSsas.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -84,10 +92,15 @@
     <Compile Include="Analysis\Metadata\Column.cs" />
     <Compile Include="Analysis\Metadata\Table.cs" />
     <Compile Include="Analysis\Metadata\TableCollection.cs" />
+    <Compile Include="Analysis\Process\Agent\SamoSsasAgent.cs" />
     <Compile Include="Analysis\Process\CubeProcessFactory.cs" />
     <Compile Include="Analysis\Process\ICubeProcess.cs" />
     <Compile Include="Analysis\Process\ICubeProcessCommand.cs" />
     <Compile Include="Analysis\Process\ICubeProcessor.cs" />
+    <Compile Include="Analysis\Process\IDimensionProcess.cs" />
+    <Compile Include="Analysis\Process\IPartitionProcess.cs" />
+    <Compile Include="Analysis\Process\IMeasureGroupProcess.cs" />
+    <Compile Include="Analysis\Process\IObjectProcess.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\LevelNotNullIfProperty.cs" />
     <Compile Include="Analysis\Request\MetadataLinkedToDiscoveryRequest.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\TableNotNullIfColumn.cs" />

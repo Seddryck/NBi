@@ -2,6 +2,8 @@
 using NBi.NUnit.Runtime;
 using NBi.Xml;
 using NUnit.Framework;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace NBi.Testing.Acceptance
 {
@@ -79,10 +81,10 @@ namespace NBi.Testing.Acceptance
         [TestCase("EvaluateRows.nbits")]
         [TestCase("ReportEqualTo.nbits")]
         [TestCase("Etl.nbits")]
-        [Category ("Acceptance")]
-        public void RunTestSuite(string filename)
+        [Category("Acceptance")]
+        public void RunPositiveTestSuite(string filename)
         {
-            var t = new TestSuiteOverrider(filename);
+            var t = new TestSuiteOverrider(@"Positive\" + filename);
             
             //First retrieve the NUnit TestCases with base class (NBi.NUnit.Runtime)
             //These NUnit TestCases are defined in the Test Suite file
@@ -92,6 +94,48 @@ namespace NBi.Testing.Acceptance
             foreach (var testCaseData in tests)
                 t.ExecuteTestCases((TestXml)testCaseData.Arguments[0]);
             
+        }
+
+        [Test]
+        [TestCase("DataRowsMessage.nbits")]
+        [TestCase("ItemsMessage.nbits")]
+        [Category("Acceptance")]
+        public void RunNegativeTestSuite(string filename)
+        {
+            var t = new TestSuiteOverrider(@"Negative\" + filename);
+
+            //First retrieve the NUnit TestCases with base class (NBi.NUnit.Runtime)
+            //These NUnit TestCases are defined in the Test Suite file
+            var tests = t.GetTestCases();
+
+            //Execute the NUnit TestCases one by one
+            foreach (var testCaseData in tests)
+            {
+                var testXml = (TestXml)testCaseData.Arguments[0];
+                try
+                {
+                    t.ExecuteTestCases(testXml);
+                    Assert.Fail("The test named '{0}' (uid={1}) and defined in '{2}' should have failed but it hasn't."
+                        , testXml.Name
+                        , testXml.UniqueIdentifier
+                        , filename);
+                }
+                catch (CustomStackTraceAssertionException ex)
+                {
+                    using (Stream stream = Assembly.GetExecutingAssembly()
+                                           .GetManifestResourceStream(
+                                                "NBi.Testing.Acceptance.Resources.Negative." 
+                                                + filename.Replace(".nbits",string.Empty) 
+                                                + "-" + testXml.UniqueIdentifier + ".txt"))
+                    {
+                        using (StreamReader reader = new StreamReader(stream))
+                        {
+                            //Debug.WriteLine(ex.Message);
+                            Assert.That(ex.Message, Is.EqualTo(reader.ReadToEnd()));
+                        }
+                    }
+                }
+            }
         }
     }
 }

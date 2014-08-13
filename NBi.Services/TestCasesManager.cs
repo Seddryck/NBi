@@ -157,6 +157,17 @@ namespace NBi.Service
             return regex.IsMatch(value);
         }
 
+
+        public void FilterDistinct()
+        {
+            var distinctRows = Content.AsEnumerable().Distinct(System.Data.DataRowComparer.Default).ToList();
+            var distinctTable = distinctRows.CopyToDataTable();
+            var dataReader = distinctTable.CreateDataReader();
+            Content.Clear();
+            Content.Load(dataReader, LoadOption.PreserveChanges);
+            Content.AcceptChanges();
+        }
+
         public void AddConnectionStrings(string name, string value)
         {
             if (connectionStrings.Keys.Contains(name))
@@ -180,5 +191,6 @@ namespace NBi.Service
 
             connectionStrings[name] = newValue;
         }
+
     }
 }

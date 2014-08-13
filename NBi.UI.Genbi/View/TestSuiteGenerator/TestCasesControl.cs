@@ -87,6 +87,14 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             }
         }
 
+        public Button FilterDistinctCommand
+        {
+            get
+            {
+                return filterDistinct;
+            }
+        }
+
         public Button AddConnectionStringCommand
         {
             get

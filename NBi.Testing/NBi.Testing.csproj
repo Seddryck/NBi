@@ -10,10 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NBi.Testing</RootNamespace>
     <AssemblyName>NBi.Testing</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,6 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,16 +35,23 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\Debug\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\Release\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MarkdownLog, Version=0.9.0.19, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MarkdownLog.0.9.0\lib\portable-windows8+net45\MarkdownLog.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>../../../../../../../Program%20Files/Microsoft.NET/ADOMD.NET/100/Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
@@ -154,7 +163,11 @@
     <Compile Include="Unit\Core\ResultSet\ResultSetWriterTest.cs" />
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
-    <Compile Include="Unit\GenbiL\Parser\CommentParserTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\DataRowsMessageTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\ItemsMessageTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Formatter\CellFormatterTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Helper\TableHeaderHelperTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Helper\TableHelperTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ExecutionMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersEquivalentToBuilderTest.cs" />
@@ -241,31 +254,38 @@
     <Folder Include="Integration\NUnit\Builder\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Acceptance\Resources\ResellerOrderCountByYearBefore2006.csv">
+    <EmbeddedResource Include="Acceptance\Resources\Csv\ResellerOrderCountByYearBefore2006.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\ResultSetMatchPattern.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\ResultSetMatchPattern.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\dimension.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\QueryWithParameters.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryWithParameters.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\ReportEqualTo.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\ReportEqualTo.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\BusinessEntity.csv">
+    <EmbeddedResource Include="Acceptance\Resources\Csv\BusinessEntity.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Acceptance\Resources\AdventureWorks Sample Reports\Store_Contacts.rdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Acceptance\Resources\Etl.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\Etl.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Etl\Sample.dtsx">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\DataRowsMessage.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage.nbits">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -331,62 +351,62 @@
     <EmbeddedResource Include="Unit\Xml\Resources\MatchPatternXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithVariables.xml" />
     <!--Acceptance Ressources-->
-    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToResultSet.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToResultSet.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToCsv.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToCsv.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToQuery.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToQuery.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\QueryEqualToResultSetWithNull.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToResultSetWithNull.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Ordered.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\Ordered.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Count.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\Count.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Contain.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\Contain.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\FasterThan.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\FasterThan.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\SyntacticallyCorrect.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\SyntacticallyCorrect.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Exists.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\Exists.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\AssemblyEqualToResultSet.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\AssemblyEqualToResultSet.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\ContainStructure.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\ContainStructure.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\LinkedTo.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\LinkedTo.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\SubsetOfStructure.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\SubsetOfStructure.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\EquivalentToStructure.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\EquivalentToStructure.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\SubsetOfMembers.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\SubsetOfMembers.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\EquivalentToMembers.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\EquivalentToMembers.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\QueryWithReference.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryWithReference.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\MatchPatternMembers.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\MatchPatternMembers.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
@@ -394,6 +414,10 @@
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
       <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
       <Name>NBi.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NBi.Framework\NBi.Framework.csproj">
+      <Project>{1ad339dc-60e0-4334-86cf-60eeafeaa6e4}</Project>
+      <Name>NBi.Framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\NBi.genbiL\NBi.GenbiL.csproj">
       <Project>{dfb8aa0e-a144-49e3-976b-ad03bf2a55e7}</Project>
@@ -441,7 +465,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\DecorationXmlTestSuite.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Acceptance\Resources\EvaluateRows.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\EvaluateRows.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
@@ -464,6 +488,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Acceptance\Resources\Etl\Password for ETL.txt" />
+    <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage-0002.txt" />
+    <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage-0001.txt" />
+    <EmbeddedResource Include="Acceptance\Resources\Negative\DataRowsMessage-0001.txt" />
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsExternal.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteForExternalSettings.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteWithIncludeTestSuite.xml" />

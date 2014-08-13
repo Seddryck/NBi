@@ -53,11 +53,11 @@ namespace NBi.Core
             public IEnumerable<string> Missing { get; private set; }
             public IEnumerable<string> Unexpected { get; private set; }
 
-            internal Result(IEnumerable<string> missing, IEnumerable<string> unexpected)
+            public Result(IEnumerable<string> missing, IEnumerable<string> unexpected)
             {
-                Missing = missing;
+                Missing = missing ?? new List<string>();
                 MissingCount = missing==null ? 0 : missing.Count();
-                Unexpected = unexpected;
+                Unexpected = unexpected ?? new List<string>();
                 UnexpectedCount = unexpected==null ? 0 :unexpected.Count();
             }
 

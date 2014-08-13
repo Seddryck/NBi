@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestCasesControl));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -304,7 +305,7 @@
             // filterDistinct
             // 
             this.filterDistinct.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.filterDistinct.Image = global::NBi.UI.Genbi.Properties.Resources.funnel;
+            this.filterDistinct.Image = ((System.Drawing.Image)(resources.GetObject("filterDistinct.Image")));
             this.filterDistinct.Location = new System.Drawing.Point(550, 2);
             this.filterDistinct.Margin = new System.Windows.Forms.Padding(4);
             this.filterDistinct.Name = "filterDistinct";

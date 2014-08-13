@@ -22,6 +22,7 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<string> Into = Parse.IgnoreCase("Into").Text().Token();
         public static readonly Parser<string> To = Parse.IgnoreCase("To").Text().Token();
         public static readonly Parser<string> On = Parse.IgnoreCase("On").Text().Token();
+        public static readonly Parser<string> Distinct = Parse.IgnoreCase("Distinct").Text().Token();
         public static readonly Parser<string> In = Parse.IgnoreCase("In").Text().Token();
         public static readonly Parser<string> Out = Parse.IgnoreCase("Out").Text().Token();
         public static readonly Parser<string> Not = Parse.IgnoreCase("Not").Text().Token();

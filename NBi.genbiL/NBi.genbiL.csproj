@@ -48,6 +48,7 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Action\AxisType.cs" />
+    <Compile Include="Action\Case\FilterDistinctCaseAction.cs" />
     <Compile Include="Action\Case\LoadCaseFromQueryAction.cs" />
     <Compile Include="Action\Case\FilterCaseAction.cs" />
     <Compile Include="Action\Case\LoadCaseFromQueryFileAction.cs" />

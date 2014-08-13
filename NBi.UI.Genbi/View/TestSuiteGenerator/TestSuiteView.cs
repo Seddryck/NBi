@@ -68,6 +68,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.MoveLeftVariableCommand, testCasesControl.MoveLeftCommand);
             CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.MoveRightVariableCommand, testCasesControl.MoveRightCommand);
             CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.FilterCommand, testCasesControl.FilterCommand);
+            CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.FilterDistinctCommand, testCasesControl.FilterDistinctCommand);
             CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.AddConnectionStringCommand, testCasesControl.AddConnectionStringCommand);
             CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.RemoveConnectionStringCommand, testCasesControl.RemoveConnectionStringCommand);
             CommandManager.Instance.Bindings.Add(this.TestCasesPresenter.EditConnectionStringCommand, testCasesControl.EditConnectionStringCommand);

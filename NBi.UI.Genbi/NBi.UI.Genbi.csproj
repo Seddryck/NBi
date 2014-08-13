@@ -92,6 +92,7 @@
     <Compile Include="Command\Template\OpenTemplateCommand.cs" />
     <Compile Include="Command\Template\SaveTemplateCommand.cs" />
     <Compile Include="Command\TestCases\AddConnectionStringCommand.cs" />
+    <Compile Include="Command\TestCases\FilterDistinctCommand.cs" />
     <Compile Include="Command\TestCases\RemoveConnectionStringCommand.cs" />
     <Compile Include="Command\TestCases\EditConnectionStringCommand.cs" />
     <Compile Include="Command\TestCases\FilterCommand.cs" />

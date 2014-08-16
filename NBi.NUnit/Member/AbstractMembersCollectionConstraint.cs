@@ -29,13 +29,17 @@ namespace NBi.NUnit.Member
         }
 
         private ItemsMessage failure;
-        protected ItemsMessage Failure
+        protected internal ItemsMessage Failure
         {
             get
             {
                 if (failure == null)
                     failure = BuildFailure();
                 return failure;
+            }
+            set
+            {
+                failure = value;
             }
         }
 

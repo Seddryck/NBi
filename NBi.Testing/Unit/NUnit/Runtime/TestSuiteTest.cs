@@ -210,7 +210,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             }
             catch (CustomStackTraceErrorException ex)
             {
-                Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.Message);
                 Assert.That(ex.Message, Is.StringContaining("Filename"));
             }
             catch (Exception ex)

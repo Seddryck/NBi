@@ -13,17 +13,17 @@ namespace NBi.Framework.FailureMessage
         protected MarkdownContainer compared;
 
 
-        public string RenderExpected()
+        public virtual string RenderExpected()
         {
             return expected.ToMarkdown();
         }
 
-        public string RenderActual()
+        public virtual string RenderActual()
         {
             return actual.ToMarkdown();
         }
 
-        public string RenderCompared()
+        public virtual string RenderCompared()
         {
             return compared.ToMarkdown();
         }

@@ -13,51 +13,6 @@ namespace NBi.Testing.Unit.NUnit.Member
     public class EquivalentToConstraintTest
     {
         [Test]
-        public void WriteTo_FailingAssertionForListOfLevels_TextContainsFewKeyInfo()
-        {
-            var exp = new string[] { "Expected member 1", "Expected member 2" };
-            var cmd = new DiscoveryRequestFactory().Build(
-                        "connectionString",
-                        "member-caption",
-                        "perspective-name",
-                        "dimension-caption", "hierarchy-caption", null);
-
-
-            var memberStub = new Mock<NBi.Core.Analysis.Member.Member>();
-            var member1 = memberStub.Object;
-            var member2 = memberStub.Object;
-            var members = new MemberResult();
-            members.Add(member1);
-            members.Add(member2);
-
-            var meMock = new Mock<MembersAdomdEngine>();
-            meMock.Setup(engine => engine.GetMembers(cmd))
-                .Returns(members);
-            var me = meMock.Object;
-
-            var equivalentConstraint = new EquivalentToConstraint(exp) { MembersEngine = me };
-
-            //Method under test
-            string assertionText = null;
-            try
-            {
-                Assert.That(cmd, equivalentConstraint);
-            }
-            catch (AssertionException ex)
-            {
-                assertionText = ex.Message;
-            }
-
-            //Test conclusion            
-            Assert.That(assertionText, Is.StringContaining("perspective-name").And
-                                            .StringContaining("dimension-caption").And
-                                            .StringContaining("hierarchy-caption").And
-                                            .StringContaining("equivalent to").And
-                                            .StringContaining("Expected member 1").And
-                                            .StringContaining("Expected member 2"));
-        }
-
-        [Test]
         public void Matches_OneCaptionContainedInMembers_Validated()
         {
             //Buiding object used during test

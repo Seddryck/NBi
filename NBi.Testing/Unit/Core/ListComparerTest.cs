@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NBi.Core;
@@ -35,7 +36,7 @@ namespace NBi.Testing.Unit.Core
                 );
 
             Assert.That(res.Missing, Is.Not.Null);
-            Assert.That(res.Unexpected, Is.Null);
+            Assert.That(res.Unexpected, Is.Null.Or.Empty);
 
         }
 
@@ -49,7 +50,7 @@ namespace NBi.Testing.Unit.Core
                 ListComparer.Comparison.UnexpectedItems
                 );
 
-            Assert.That(res.Missing, Is.Null);
+            Assert.That(res.Missing, Is.Null.Or.Empty);
             Assert.That(res.Unexpected, Is.Not.Null);
 
         }

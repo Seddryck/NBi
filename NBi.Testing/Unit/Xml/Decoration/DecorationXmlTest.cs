@@ -144,5 +144,24 @@ namespace NBi.Testing.Unit.Xml.Decoration
         }
 
 
+        [Test]
+        public void Deserialize_SampleFile_ParentSetup()
+        {
+            int groupNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Groups[groupNr].Tests, Has.Count.EqualTo(2));
+            foreach (var test in ts.Groups[groupNr].Tests)
+            {
+                Assert.That(test.Setup.Commands, Has.Count.EqualTo(2));
+                Assert.That(test.Setup.Commands[0], Is.InstanceOf<ServiceStartXml>());
+                Assert.That(test.Setup.Commands[1], Is.InstanceOf<TableLoadXml>());
+            }
+        }
+
+
     }
 }

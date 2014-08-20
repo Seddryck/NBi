@@ -11,7 +11,7 @@ using NBi.Xml.Systems;
 
 namespace NBi.Xml
 {
-    public class TestXml
+    public class TestXml : InheritanceTestXml
     {
 
         [XmlAttribute("name")]
@@ -71,7 +71,11 @@ namespace NBi.Xml
         public EditionXml Edition;
 
         [XmlElement("category", Order = 4)]
-        public List<string> Categories;
+        public List<string> Categories
+        {
+            get { return categories; }
+            set { categories = value; }
+        }
 
         [XmlAttribute("timeout")]
         [DefaultValue(0)]
@@ -81,7 +85,11 @@ namespace NBi.Xml
         public ConditionXml Condition;
 
         [XmlElement("setup", Order = 6)]
-        public SetupXml Setup;
+        public SetupXml Setup
+        {
+            get { return setup; }
+            set { setup = value; }
+        }
 
         [XmlArray("system-under-test", Order = 7),
         XmlArrayItem(Type = typeof(ExecutionXml), ElementName = "execution"),
@@ -108,15 +116,16 @@ namespace NBi.Xml
         public List<AbstractConstraintXml> Constraints;
 
         [XmlElement("cleanup", Order = 9)]
-        public CleanupXml Cleanup;
+        public CleanupXml Cleanup
+        {
+            get { return cleanup; }
+            set { cleanup = value; }
+        }
 
-        public TestXml()
+        public TestXml() : base()
         {
             Constraints = new List<AbstractConstraintXml>();
             Systems = new List<AbstractSystemUnderTestXml>();
-            Categories = new List<string>();
-            Setup = new SetupXml();
-            Cleanup = new CleanupXml();
             Condition = new ConditionXml();
             GroupNames = new List<string>();
         }
@@ -189,12 +198,6 @@ namespace NBi.Xml
                 return base.ToString();
             else
                 return Name.ToString();
-        }
-
-
-        internal void AddInheritedCategories(List<string> categories)
-        {
-            Categories.AddRange(categories);
         }
 
         [XmlIgnore()]

@@ -77,6 +77,7 @@
     <Compile Include="Decoration\DecorationXml.cs" />
     <Compile Include="Decoration\SetupXml.cs" />
     <Compile Include="GroupXml.cs" />
+    <Compile Include="InheritanceTestXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
     <Compile Include="Items\ExecutableXml.cs" />

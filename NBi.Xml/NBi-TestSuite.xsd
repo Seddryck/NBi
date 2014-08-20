@@ -668,6 +668,8 @@
   <xs:complexType name="group-type">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">
       <xs:element name="category" type="category-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="setup" type="decoration-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="cleanup" type="decoration-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="test" type="test-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="group" type="group-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>

@@ -22,9 +22,14 @@ namespace NBi.Xml.Decoration.Command
         [XmlAttribute("parallel")]
         public bool Parallel { get; set; }
 
+        [DefaultValue(false)]
+        [XmlAttribute("run-once")]
+        public bool RunOnce { get; set; }
+
         public CommandGroupXml()
         {
             Parallel = true;
+            RunOnce = false;
             Commands = new List<DecorationCommandXml>();
         }
     }

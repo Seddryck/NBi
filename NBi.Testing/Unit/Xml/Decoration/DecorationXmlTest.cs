@@ -172,6 +172,19 @@ namespace NBi.Testing.Unit.Xml.Decoration
         }
 
         [Test]
+        public void Deserialize_OneTaskWithoutRunOnceAttributeExplicitelySet_TasksAreNotRunOnce()
+        {
+            int testNr = 3;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            var commandGroup = ts.Tests[testNr].Setup.Commands[0] as CommandGroupXml;
+            Assert.That(commandGroup.RunOnce, Is.False);
+        }
+
+        [Test]
         public void Deserialize_TasksAndCommandsPermutted_AllTasksAndCommandsAreLoaded()
         {
             int testNr = 4;
@@ -181,6 +194,17 @@ namespace NBi.Testing.Unit.Xml.Decoration
 
             // Check the properties of the object.
             Assert.That(ts.Tests[testNr].Setup.Commands, Has.Count.EqualTo(5));
+        }
+
+        [Test]
+        public void Deserialize_SecondGroupWithRunOnceSetTrue_SecondGroupWithRunOnce()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            var group = ts.Groups[1].Setup.Commands[0] as CommandGroupXml;
+            Assert.That(group.RunOnce, Is.True);
         }
 
         [Test]

@@ -143,6 +143,45 @@ namespace NBi.Testing.Unit.Xml.Decoration
             Assert.That(cmdCleanup.ServiceName, Is.EqualTo("MyService")); 
         }
 
+        [Test]
+        public void Deserialize_ThreeCommandsInOneTask_TaskContainsThreeCommands()
+        {
+            int testNr = 3;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Setup.Commands, Has.Count.EqualTo(1));
+            Assert.That(ts.Tests[testNr].Setup.Commands[0], Is.TypeOf<CommandGroupXml>());
+            var commandGroup = ts.Tests[testNr].Setup.Commands[0] as CommandGroupXml;
+            Assert.That(commandGroup.Commands, Has.Count.EqualTo(3));
+        }
+
+        [Test]
+        public void Deserialize_OneTaskWithoutParallelAttributeExplicitelySet_TasksAreParallel()
+        {
+            int testNr = 3;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            var commandGroup = ts.Tests[testNr].Setup.Commands[0] as CommandGroupXml;
+            Assert.That(commandGroup.Parallel, Is.True);
+        }
+
+        [Test]
+        public void Deserialize_TasksAndCommandsPermutted_AllTasksAndCommandsAreLoaded()
+        {
+            int testNr = 4;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Setup.Commands, Has.Count.EqualTo(5));
+        }
 
         [Test]
         public void Deserialize_SampleFile_ParentSetup()

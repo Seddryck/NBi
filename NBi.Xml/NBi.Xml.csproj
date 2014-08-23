@@ -76,6 +76,7 @@
     <Compile Include="Decoration\Command\ServiceStopXml.cs" />
     <Compile Include="Decoration\DecorationXml.cs" />
     <Compile Include="Decoration\SetupXml.cs" />
+    <Compile Include="Decoration\Command\CommandGroupXml.cs" />
     <Compile Include="GroupXml.cs" />
     <Compile Include="InheritanceTestXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />

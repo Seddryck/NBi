@@ -101,6 +101,55 @@
       <service-stop name="MyService" timeout-milliseconds="15000"/>
     </cleanup>
   </test>
+  <test name="Tasks">
+    <setup>
+      <tasks>
+        <table-load name="myTableBar" file="bar.csv"/>
+        <table-load name="myTableFoo" file="foo.csv"/>
+        <table-reset name="myTableDumb"/>
+      </tasks>
+    </setup>
+    <system-under-test>
+      <execution>
+        <query>
+          select * from [myTableBar] cross join [myTableFoo]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet />
+      </equalTo>
+    </assert>
+  </test>
+  <test name="Tasks more advanced">
+    <setup>
+      <tasks>
+        <table-reset name="myTableBar"/>
+        <table-reset name="myTableFoo"/>
+      </tasks>
+      <service-start name="myServiceBar"/>
+      <tasks>
+        <service-start name="myServiceBar"/>
+        <table-load name="myTableBar" file="bar.csv"/>
+        <table-load name="myTableFoo" file="foo.csv"/>
+      </tasks>
+      <service-stop name="myServiceFoo"/>
+      <service-start name="myServiceDumb"/>
+    </setup>
+    <system-under-test>
+      <execution>
+        <query>
+          select * from [myTableBar] cross join [myTableFoo]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet />
+      </equalTo>
+    </assert>
+  </test>
   <group name="Group of tests">
     <setup>
       <service-start name="myService"/>

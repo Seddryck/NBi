@@ -9,5 +9,7 @@ namespace NBi.Core
     {
         List<IDecorationCommand> Commands { get; set; }
         bool Parallel { get; set; }
+        bool RunOnce { get; set; }
+        bool HasRun { get; set; }
     }
 }

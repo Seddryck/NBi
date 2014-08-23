@@ -8,9 +8,9 @@
       <connectionString>Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true</connectionString>
     </default>
   </settings>
-  <test name="decoration with setup and cleanup">
+  <group name="Check decorations">
     <setup>
-      <tasks>
+      <tasks run-once="true">
         <table-reset  name="NewUsers"/>
         <table-reset  name="NewKeyDates"/>
       </tasks>
@@ -23,39 +23,65 @@
 				/>
       </tasks>
     </setup>
-    <system-under-test>
-      <execution>
-        <query>
-          select
-          [FullName]
-          , [Date] as BirthDate
-          from
-          [NewUsers]
-          inner join
-          [NewKeyDates] on
-          [NewUsers].[UserKey] = [NewKeyDates].[UserKey]
-          and [NewKeyDates].[Event] = 'Birth'
-          where
-          [UserKey] in (1,2)
-        </query>
-      </execution>
-    </system-under-test>
-    <assert>
-      <equalTo>
-        <resultSet>
-          <row>
-            <cell>Nikola Tesla</cell>
-            <cell>1859-07-10</cell>
-          </row>
-          <row>
-            <cell>Leonardo Da Vinci</cell>
-            <cell>1456-04-15</cell>
-          </row>
-        </resultSet>
-      </equalTo>
-    </assert>
-    <cleanup>
-      <table-reset  name="NewUsers"/>
-    </cleanup>
-  </test>
+    <test name="decoration with setup and cleanup">
+      <system-under-test>
+        <execution>
+          <query>
+            select
+            [FullName]
+            , [Date] as BirthDate
+            from
+            [NewUsers]
+            inner join
+            [NewKeyDates] on
+            [NewUsers].[UserKey] = [NewKeyDates].[UserKey]
+            and [NewKeyDates].[Event] = 'Birth'
+            where
+            [UserKey] in (1,2)
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet>
+            <row>
+              <cell>Nikola Tesla</cell>
+              <cell>1859-07-10</cell>
+            </row>
+            <row>
+              <cell>Leonardo Da Vinci</cell>
+              <cell>1456-04-15</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+      <cleanup>
+        <table-reset  name="NewKeyDates"/>
+      </cleanup>
+    </test>
+    <test name="decoration with setup and cleanup">
+      <system-under-test>
+        <execution>
+          <query>
+            select
+              count(*)
+            from
+              [NewUsers]
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet>
+            <row>
+              <cell>20</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+      <cleanup>
+        <table-reset  name="NewUsers"/>
+      </cleanup>
+    </test>
+  </group>
 </testSuite>

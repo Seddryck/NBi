@@ -10,6 +10,11 @@ namespace NBi.Core
     {
         public IDecorationCommandImplementation Get(IDecorationCommand command)
         {
+            if (command is IGroupCommand)
+            {
+                return new GroupCommandFactory().Get(command as IGroupCommand);
+            }
+            
             if (command is IWindowsServiceCommand)
             {
                 return new WindowsServiceCommandFactory().Get(command as IWindowsServiceCommand);

@@ -87,8 +87,19 @@ namespace NBi.NUnit.Runtime
             {
                 foreach (var command in setup.Commands)
                 {
-                    var impl = new DecorationFactory().Get(command);
-                    impl.Execute();
+                    var skip = false;
+                    if (command is IGroupCommand)
+                    {
+                        var groupCommand = (command as IGroupCommand);
+                        if (groupCommand.RunOnce)
+                            skip = groupCommand.HasRun;
+                    }
+
+                    if (!skip)
+                    {
+                        var impl = new DecorationFactory().Get(command);
+                        impl.Execute();
+                    }
                 }
             }
             catch (Exception ex)

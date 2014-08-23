@@ -189,4 +189,44 @@
       </assert>
     </test>
   </group>
+  <group name="Run-Once">
+    <setup>
+      <tasks run-once="true">
+        <table-reset name="NewUsers"/>
+        <table-load name="NewUsers" file="NewUsers.csv"/>
+      </tasks>
+    </setup>
+    <test name="my run-once test">
+      <system-under-test>
+        <execution>
+          <query>
+            select * from [NewUsers]
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <query>
+            select * from [NewUsers]
+          </query>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="my run-once second test">
+      <system-under-test>
+        <execution>
+          <query>
+            select top 1 * from [NewUsers]
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <query>
+            select top 1 * from [NewUsers]
+          </query>
+        </equalTo>
+      </assert>
+    </test>
+  </group>
 </testSuite>

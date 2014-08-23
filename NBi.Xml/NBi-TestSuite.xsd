@@ -281,7 +281,8 @@
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
-    <xs:attribute name="parallel" use="optional"/>
+    <xs:attribute name="parallel" use="optional" type="xs:boolean"/>
+    <xs:attribute name="run-once" use="optional" type="xs:boolean"/>
   </xs:complexType>
   <xs:complexType name="table-reset-type">
     <xs:attribute name="connectionString" use="optional"/>

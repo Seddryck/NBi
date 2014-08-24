@@ -188,7 +188,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             }
             catch (Exception ex)
             {
-                Assert.Fail("The exception should have been an CustomStackTraceErrorException but was {0}.", new object[] { ex.GetType().FullName });
+                Assert.Fail("The exception should have been an CustomStackTraceErrorException but was {0}.\r\n{1}", new object[] { ex.GetType().FullName, ex.StackTrace });
             }
         }
 
@@ -215,7 +215,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             }
             catch (Exception ex)
             {
-                Assert.Fail("The exception should have been a CustomStackTraceErrorException but was {0}.", new object[] { ex.GetType().FullName });
+                Assert.Fail("The exception should have been a CustomStackTraceErrorException but was {0}.\r\n{1}", new object[] { ex.GetType().FullName, ex.StackTrace });
             }
         }
 

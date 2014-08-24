@@ -272,7 +272,7 @@
     <EmbeddedResource Include="Acceptance\Resources\Csv\BusinessEntity.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="Acceptance\Resources\AdventureWorks Sample Reports\Store_Contacts.rdl">
+    <None Include="Acceptance\Resources\Positive\AdventureWorks Sample Reports\Store_Contacts.rdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Acceptance\Resources\Positive\Etl.nbits">

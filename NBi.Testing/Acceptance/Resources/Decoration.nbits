@@ -4,9 +4,6 @@
     <default apply-to="setup-cleanup">
       <connectionString>Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true</connectionString>
     </default>
-    <default apply-to="setup-cleanup">
-      <connectionString>Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true</connectionString>
-    </default>
   </settings>
   <group name="Check decorations">
     <setup>

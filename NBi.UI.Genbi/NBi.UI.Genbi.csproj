@@ -95,6 +95,7 @@
     <Compile Include="Command\Template\OpenTemplateCommand.cs" />
     <Compile Include="Command\Template\SaveTemplateCommand.cs" />
     <Compile Include="Command\TestCases\AddConnectionStringCommand.cs" />
+    <Compile Include="Command\TestCases\FilterDistinctCommand.cs" />
     <Compile Include="Command\TestCases\RemoveConnectionStringCommand.cs" />
     <Compile Include="Command\TestCases\EditConnectionStringCommand.cs" />
     <Compile Include="Command\TestCases\FilterCommand.cs" />
@@ -419,6 +420,7 @@
     <Content Include="Icons\database--plus.png" />
     <Content Include="Icons\find.png" />
     <Content Include="Icons\folder_page.png" />
+    <Content Include="Icons\funnel-distinct.png" />
     <Content Include="Icons\funnel.png" />
     <Content Include="Icons\note_delete.png" />
     <Content Include="Icons\note_edit.png" />

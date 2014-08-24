@@ -136,5 +136,15 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Like));
             Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
         }
+
+        [Test]
+        public void SentenceParser_CaseFilterDistinct_ValidFilterAction()
+        {
+            var input = "case filter distinct";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<FilterDistinctCaseAction>());
+        }
     }
 }

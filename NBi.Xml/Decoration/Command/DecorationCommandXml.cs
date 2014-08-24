@@ -8,6 +8,6 @@ namespace NBi.Xml.Decoration.Command
     public abstract class DecorationCommandXml : IDecorationCommand
     {
         [XmlIgnore()]
-        public Settings.SettingsXml Settings { get; set; }
+        public virtual Settings.SettingsXml Settings { get; set; }
     }
 }

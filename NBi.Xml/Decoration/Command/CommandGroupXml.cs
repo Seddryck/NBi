@@ -5,10 +5,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using NBi.Core;
 
 namespace NBi.Xml.Decoration.Command
 {
-    public class CommandGroupXml : DecorationCommandXml
+    public class CommandGroupXml : DecorationCommandXml, IGroupCommand
     {
         [XmlElement(Type = typeof(TableLoadXml), ElementName = "table-load"),
         XmlElement(Type = typeof(TableResetXml), ElementName = "table-reset"),
@@ -16,7 +17,31 @@ namespace NBi.Xml.Decoration.Command
         XmlElement(Type = typeof(ServiceStopXml), ElementName = "service-stop"),
         XmlElement(Type = typeof(EtlRunXml), ElementName = "etl-run")
         ]
-        public List<DecorationCommandXml> Commands { get; set; }
+        public List<DecorationCommandXml> InternalCommands { get; set; }
+
+        [XmlIgnore]
+        public List<IDecorationCommand> Commands
+        {
+            get
+            {
+                return InternalCommands.Cast<IDecorationCommand>().ToList();
+            }
+            set
+            {
+                InternalCommands = value.Cast<DecorationCommandXml>().ToList();
+            }
+        }
+
+        [XmlIgnore()]
+        public override Settings.SettingsXml Settings
+        {   get { return base.Settings; }
+            set
+            {
+                base.Settings = value;
+                foreach (var cmd in InternalCommands)
+                    cmd.Settings = value;
+            }
+        }
 
         [DefaultValue(true)]
         [XmlAttribute("parallel")]
@@ -26,11 +51,15 @@ namespace NBi.Xml.Decoration.Command
         [XmlAttribute("run-once")]
         public bool RunOnce { get; set; }
 
+        [XmlIgnore]
+        public bool HasRun { get; set; }
+
         public CommandGroupXml()
         {
             Parallel = true;
             RunOnce = false;
-            Commands = new List<DecorationCommandXml>();
+            HasRun = false;
+            InternalCommands = new List<DecorationCommandXml>();
         }
     }
 }

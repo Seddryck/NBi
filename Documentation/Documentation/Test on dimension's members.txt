@@ -1,0 +1,97 @@
+! Tests on dimension's members
+!! System under test
+In order to let you check something about members of a dimension (more precisely on a hierarchy or level), you need to stipulate where you'll be looking for. This is done by creating a tag named "members" under the node "system-under-test".
+{code:xml}
+<test>
+    <system-under-test>
+        <members/>
+    </system-under-test>
+</test>
+{code:xml}
+
+Into this node "members", you'll need to specify on which element your test will apply. This is done by filling the xml element named "hierarchy" or "level". By example, here under, we're looking for a member in the level 'State-Province' of hierarchy 'Customer Geography' in dimension 'Customer'.
+[image:Dimension Customer.png]
+{code:xml}
+<system-under-test>
+	<members>
+		<level caption="State-Province" hierarchy="Customer Geography" dimension="Customer" perspective="Adventure Works"/>
+	</members>
+</system-under-test>
+{code:xml}
+If we want to perform a test on all members of this hierarchy, including coutries, states, cities, postal code and customers, you can position your test on the hierarchy
+{code:xml}
+<system-under-test>
+	<members>
+		<hierarchy caption="Customer Geography" dimension="Customer" perspective="Adventure Works"/>
+	</members>
+</system-under-test>
+{code:xml}
+
+For attribute hierarchy, as customer, the difference between a test on the hierarchy or on the level will be the member 'All' available in the hierarchy but not at the level.
+
+Finally, the last information needed is the connectionString to reach your cube. This information must be provided by the means of the xml attribute named "connectionString" (or via [a default value|Manage connection strings]).
+{code:xml}
+<system-under-test>
+	<members>
+		<hierarchy caption="Customer" dimension="Customer" perspective="Adventure Works"
+			connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"
+		/>
+	</members>
+</system-under-test>
+{code:xml}
+
+!!! Exclude some members *(version 1.2 and after)*
+When building a cube, you often receive specific requirements about some members, especially "Unknown", "Not Applicable" etc. If you have a requirement such as "members must be ordered alphabetically but the member 'Unknown' must be at the bottom of the list", it's really helpful to be able to exclude some mebers from your cube. The way to achieve this with NBi is to add an xml element named 'exclude' at the same level of your xml element hierarchy or level.
+{code:xml}
+<system-under-test>
+	<members>
+		<hierarchy .../>
+                <exclude />
+	</members>
+</system-under-test>
+{code:xml}
+
+If you know the unique-name of the member you can directly reference the item to exclude by specifying its unique-name. You can add more than one member to exlcude.
+{code:xml}
+<system-under-test>
+	<members>
+		<level caption="Country" hierarchy="Customer Geography" dimension="Customer" perspective="Adventure Works"/>
+                <exclude>
+                   <item>France</item>
+                   <item>Germany</item>
+                </exclude>
+	</members>
+</system-under-test>
+{code:xml}
+
+Sometimes you don't know this unique-name, or you want to remove a list of members with the same caption. In this case you can make usage of the xml element named 'items' and the pattern 'exact'
+{code:xml}
+<system-under-test>
+	<members>
+		<level caption="Country" hierarchy="Customer Geography" dimension="Customer" perspective="Adventure Works"/>
+                <exclude>
+                   <items pattern="exact">United Kingdom</item>
+                </exclude>
+	</members>
+</system-under-test>
+{code:xml}
+
+If you want to remove all the members starting, ending or containing a specific pattern, you can also do this with the xml element named 'items' choosing the correct pattern (start-with, end-with or contain).
+{code:xml}
+<system-under-test>
+	<members>
+		<hierarchy caption="Country" hierarchy="Customer Geography" dimension="Customer" perspective="Adventure Works"/>
+                <exclude>
+                   <items pattern="start-with">John</item>
+                   <items pattern="end-with">iams</item>
+                   <items pattern="contain">hson</item>
+                </exclude>
+	</members>
+</system-under-test>
+{code:xml}
+
+!! Assertions applicable to dimension's members
+*** [Test the members' count at any level of a dimension or hierarchy]
+*** [Test ordering of members at any level of a dimension or hierarchy]
+*** [Test availability of a member at any level of a dimension or hierarchy]
+*** [Test availability of one or more members in a hierarchy or level]

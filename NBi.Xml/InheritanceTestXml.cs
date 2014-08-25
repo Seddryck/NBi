@@ -37,7 +37,7 @@ namespace NBi.Xml
                 else
                 {
                     for (int i = 0; i < decoration.Commands.Count; i++)
-                        obj.Commands.Insert(0, decoration.Commands[i]);
+                        obj.Commands.Insert(i, decoration.Commands[i]);
                 }
         }
     }

@@ -11,7 +11,7 @@ namespace NBi.Xml.Decoration.Command
         [XmlAttribute("connectionString")]
         public string SpecificConnectionString { get; set; }
 
-
+        [XmlIgnore]
         public string ConnectionString
         {
             get

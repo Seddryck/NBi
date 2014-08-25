@@ -136,6 +136,7 @@
     <Compile Include="Unit\Core\Assemblies\Resource\Enumeration.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\Klass.cs" />
     <Compile Include="Unit\Core\Assemblies\TypeConverterTest.cs" />
+    <Compile Include="Unit\Core\GroupCommandFactoryTest.cs" />
     <Compile Include="Unit\Core\Etl\SsisEtlRunnerFactoryTest.cs" />
     <Compile Include="Unit\Core\Evaluate\RowValidatorTest.cs" />
     <Compile Include="Unit\Core\DataManipulation\DataManipulationFactoryTest.cs" />
@@ -289,6 +290,15 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\Decoration.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="Acceptance\Resources\Positive\KeyDates.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Acceptance\Resources\Positive\Users.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ConnectionString.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -462,7 +472,9 @@
     <EmbeddedResource Include="Unit\Xml\Resources\EvaluateRowsXmlTestSuite.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\DecorationXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\DecorationXmlTestSuite.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Acceptance\Resources\Positive\EvaluateRows.nbits">
@@ -478,7 +490,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\EtlXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\EtlXmlTestSuite.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\Resources\SuccessfulXmlTestSuite.xml" />

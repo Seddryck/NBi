@@ -10,9 +10,9 @@ namespace NBi.Core.DataManipulation.SqlServer
 		private readonly string tableName;
 		private readonly string fileName;
 
-		public BulkLoadCommand(ILoadCommand command)
+        public BulkLoadCommand(ILoadCommand command, SqlConnection connection)
 		{
-			connectionString = command.ConnectionString;
+            connectionString = connection.ConnectionString;
 			tableName = command.TableName;
 			fileName = command.FileName;
 		}

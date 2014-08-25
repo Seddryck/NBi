@@ -10,9 +10,9 @@ namespace NBi.Core.DataManipulation.SqlServer
 		private readonly string connectionString;
 		private readonly string tableName;
 
-		public TruncateCommand(IResetCommand command)
+		public TruncateCommand(IResetCommand command, SqlConnection connection)
 		{
-			connectionString = command.ConnectionString;
+            connectionString = connection.ConnectionString;
 			tableName = command.TableName;
 		}
 

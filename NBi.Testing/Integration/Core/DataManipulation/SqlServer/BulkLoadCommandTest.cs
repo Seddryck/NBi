@@ -77,7 +77,7 @@ namespace NBi.Testing.Integration.Core.DataManipulation.SqlServer
                 );
 
             //Apply the test
-			var cmd = new BulkLoadCommand(info);
+            var cmd = new BulkLoadCommand(info, new SqlConnection(ConnectionStringReader.GetLocalSqlClient()));
             cmd.Execute();
 
             //Execute Query on temporary table to knwo the new count of elements

@@ -81,6 +81,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("EvaluateRows.nbits")]
         [TestCase("ReportEqualTo.nbits")]
         [TestCase("Etl.nbits")]
+        [TestCase("Decoration.nbits")]
         [Category("Acceptance")]
         public void RunPositiveTestSuite(string filename)
         {

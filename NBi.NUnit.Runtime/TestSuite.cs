@@ -87,8 +87,24 @@ namespace NBi.NUnit.Runtime
             {
                 foreach (var command in setup.Commands)
                 {
-                    var impl = new DecorationFactory().Get(command);
-                    impl.Execute();
+                    var skip = false;
+                    if (command is IGroupCommand)
+                    {
+                        var groupCommand = (command as IGroupCommand);
+                        if (groupCommand.RunOnce)
+                            skip = groupCommand.HasRun;
+                    }
+
+                    if (!skip)
+                    {
+                        var impl = new DecorationFactory().Get(command);
+                        impl.Execute();
+                        if (command is IGroupCommand)
+                        {
+                            var groupCommand = (command as IGroupCommand);
+                            groupCommand.HasRun=true;
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -100,6 +116,8 @@ namespace NBi.NUnit.Runtime
         protected virtual void HandleExceptionDuringSetup(Exception ex)
         {
             var message = string.Format("Exception during the setup of the test: {0}", ex.Message);
+            message += "\r\n" + ex.InnerException.Message;
+            message += "\r\n" + ex.InnerException.StackTrace;
             Trace.WriteLineIf(NBiTraceSwitch.TraceWarning, message);
             //If failure during setup then the test is failed!
             Assert.Fail(message);

@@ -188,6 +188,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.InnerException.StackTrace);
                 Assert.Fail("The exception should have been an CustomStackTraceErrorException but was {0}.", new object[] { ex.GetType().FullName });
             }
         }

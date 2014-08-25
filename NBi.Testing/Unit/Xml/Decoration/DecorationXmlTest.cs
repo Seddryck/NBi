@@ -88,8 +88,8 @@ namespace NBi.Testing.Unit.Xml.Decoration
             Assert.That(ts.Tests[testNr].Setup.Commands[1], Is.TypeOf<TableLoadXml>());
             var cmd = ts.Tests[testNr].Setup.Commands[1] as TableLoadXml;
             Assert.That(cmd.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));
-            Assert.That(cmd.TableName, Is.EqualTo("NewUsers"));
-            Assert.That(cmd.FileName, Is.EqualTo("NewUsers.csv"));
+            Assert.That(cmd.TableName, Is.EqualTo("Users"));
+            Assert.That(cmd.InternalFileName, Is.EqualTo("Users.csv"));
         }
 
 
@@ -105,7 +105,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             Assert.That(ts.Tests[testNr].Setup.Commands[0], Is.TypeOf<TableResetXml>());
             var cmd = ts.Tests[testNr].Setup.Commands[0] as TableResetXml;
             Assert.That(cmd.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));
-            Assert.That(cmd.TableName, Is.EqualTo("NewUsers"));
+            Assert.That(cmd.TableName, Is.EqualTo("Users"));
         }
 
         [Test]

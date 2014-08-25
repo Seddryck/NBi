@@ -7,16 +7,16 @@
   </settings>
   <test name="decoration with setup and cleanup">
     <setup>
-      <table-reset  name="NewUsers"
+      <table-reset  name="Users"
 					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"/>
-      <table-load   name="NewUsers"
-					file ="NewUsers.csv"
+      <table-load   name="Users"
+					file ="Users.csv"
 					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"/>
     </setup>
     <system-under-test>
       <execution>
         <query>
-          select * from [NewUsers]
+          select * from [Users]
         </query>
       </execution>
     </system-under-test>
@@ -60,18 +60,17 @@
       </equalTo>
     </assert>
     <cleanup>
-      <table-reset  name="NewUsers"
-					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorks2012;Integrated Security=true"/>
+      <table-reset  name="Users"/>
     </cleanup>
   </test>
   <test name="decoration with setup using default connectionString">
     <setup>
-      <table-reset  name="NewUsers"/>
+      <table-reset  name="Users"/>
     </setup>
     <system-under-test>
       <execution>
         <query>
-          select * from [NewUsers]
+          select * from [Users]
         </query>
       </execution>
     </system-under-test>
@@ -88,7 +87,7 @@
     <system-under-test>
       <execution>
         <query>
-          select * from [NewUsers]
+          select * from [Users]
         </query>
       </execution>
     </system-under-test>
@@ -161,7 +160,7 @@
       <system-under-test>
         <execution>
           <query>
-            select * from [NewUsers]
+            select * from [Users]
           </query>
         </execution>
       </system-under-test>
@@ -178,7 +177,7 @@
       <system-under-test>
         <execution>
           <query>
-            select * from [NewUsers]
+            select * from [Users]
           </query>
         </execution>
       </system-under-test>
@@ -200,14 +199,14 @@
       <system-under-test>
         <execution>
           <query>
-            select * from [NewUsers]
+            select * from [Users]
           </query>
         </execution>
       </system-under-test>
       <assert>
         <equalTo>
           <query>
-            select * from [NewUsers]
+            select * from [Users]
           </query>
         </equalTo>
       </assert>
@@ -216,14 +215,14 @@
       <system-under-test>
         <execution>
           <query>
-            select top 1 * from [NewUsers]
+            select top 1 * from [Users]
           </query>
         </execution>
       </system-under-test>
       <assert>
         <equalTo>
           <query>
-            select top 1 * from [NewUsers]
+            select top 1 * from [Users]
           </query>
         </equalTo>
       </assert>

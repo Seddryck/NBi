@@ -99,6 +99,11 @@ namespace NBi.NUnit.Runtime
                     {
                         var impl = new DecorationFactory().Get(command);
                         impl.Execute();
+                        if (command is IGroupCommand)
+                        {
+                            var groupCommand = (command as IGroupCommand);
+                            groupCommand.HasRun=true;
+                        }
                     }
                 }
             }

@@ -272,10 +272,10 @@
     <EmbeddedResource Include="Acceptance\Resources\Decoration.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="Acceptance\Resources\NewKeyDates.csv">
+    <None Include="Acceptance\Resources\KeyDates.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Acceptance\Resources\NewUsers.csv">
+    <None Include="Acceptance\Resources\Users.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="ConnectionString.config">

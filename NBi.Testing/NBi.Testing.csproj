@@ -284,6 +284,11 @@
     <EmbeddedResource Include="Unit\Core\Report\Resources\Currency_List.rdl" />
     <EmbeddedResource Include="Unit\Service\Resources\OrderedLight.nbitt" />
     <EmbeddedResource Include="Unit\Service\Resources\OrderedFull.nbitt" />
+    <EmbeddedResource Include="Unit\Core\Report\Resources\EmployeeSalesDetail.rsd" />
+    <EmbeddedResource Include="Unit\Core\Report\Resources\EmployeeSalesYearOverYear.rsd" />
+    <EmbeddedResource Include="Unit\Core\Report\Resources\Employee_Sales_Summary.rdl" />
+    <EmbeddedResource Include="Unit\Core\Report\Resources\EmpSalesMonth.rsd" />
+    <EmbeddedResource Include="Unit\Core\Report\Resources\SalesEmployees.rsd" />
   </ItemGroup>
   <ItemGroup>
     <MyOptionalItems Include="ConnectionString.user.config" />

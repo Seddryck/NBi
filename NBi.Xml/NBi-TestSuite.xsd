@@ -261,12 +261,28 @@
   </xs:complexType>
   <xs:complexType name="decoration-type">
     <xs:sequence minOccurs="1" maxOccurs="unbounded">
-      <xs:element name="service-start" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="service-stop" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="table-reset" type="table-reset-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="table-load" type="table-load-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:choice>
+        <xs:element name="service-start" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="service-stop" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="table-reset" type="table-reset-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="table-load" type="table-load-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="tasks" type="tasks-type" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:choice>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="tasks-type">
+    <xs:sequence minOccurs="1" maxOccurs="unbounded">
+      <xs:choice>
+        <xs:element name="service-start" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="service-stop" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="table-reset" type="table-reset-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="table-load" type="table-load-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="parallel" use="optional" type="xs:boolean"/>
+    <xs:attribute name="run-once" use="optional" type="xs:boolean"/>
   </xs:complexType>
   <xs:complexType name="table-reset-type">
     <xs:attribute name="connectionString" use="optional"/>
@@ -668,6 +684,8 @@
   <xs:complexType name="group-type">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">
       <xs:element name="category" type="category-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="setup" type="decoration-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="cleanup" type="decoration-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="test" type="test-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="group" type="group-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>

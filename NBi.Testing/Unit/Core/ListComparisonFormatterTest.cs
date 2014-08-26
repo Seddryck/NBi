@@ -38,7 +38,7 @@ namespace NBi.Testing.Unit.Core
             var formatter = new ListComparisonFormatter();
             var display = formatter.Format(res).ToString();
 
-            Assert.That(display, Is.Not.StringContaining("nexpected"));
+            Assert.That(display, Is.StringContaining("No unexpected"));
 
         }
 

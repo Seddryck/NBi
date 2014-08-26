@@ -23,6 +23,7 @@ namespace NBi.UI.Genbi.Presenter
             this.MoveLeftVariableCommand = new MoveLeftVariableCommand(this);
             this.MoveRightVariableCommand = new MoveRightVariableCommand(this);
             this.FilterCommand = new FilterCommand(this, filterWindow);
+            this.FilterDistinctCommand = new FilterDistinctCommand(this);
             this.AddConnectionStringCommand = new AddConnectionStringCommand(this, connectionStringWindow);
             this.RemoveConnectionStringCommand = new RemoveConnectionStringCommand(this);
             this.EditConnectionStringCommand = new EditConnectionStringCommand(this, connectionStringWindow);
@@ -43,6 +44,7 @@ namespace NBi.UI.Genbi.Presenter
         public ICommand MoveLeftVariableCommand { get; private set; }
         public ICommand MoveRightVariableCommand { get; private set; }
         public ICommand FilterCommand { get; private set; }
+        public ICommand FilterDistinctCommand { get; private set; }
         public ICommand AddConnectionStringCommand { get; private set; }
         public ICommand RemoveConnectionStringCommand { get; private set; }
         public ICommand EditConnectionStringCommand { get; private set; }
@@ -110,6 +112,7 @@ namespace NBi.UI.Genbi.Presenter
             switch (propertyName)
             {
                 case "TestCases":
+                    this.FilterDistinctCommand.Refresh();
                     break;
                 case "Variables":
                     this.RenameVariableCommand.Refresh();
@@ -243,7 +246,12 @@ namespace NBi.UI.Genbi.Presenter
             Reload();
             OnPropertyChanged("TestCases");
         }
-
+        internal void FilterDistinct()
+        {
+            testCasesManager.FilterDistinct();
+            Reload();
+            OnPropertyChanged("TestCases");
+        }
         internal void AddConnectionString(string name, string value)
         {
             testCasesManager.AddConnectionStrings(name, value);
@@ -267,5 +275,8 @@ namespace NBi.UI.Genbi.Presenter
             testCasesManager.ReadFromQuery(Query, ConnectionStringSelectedValue);
             Reload();
         }
+
+
+
     }
 }

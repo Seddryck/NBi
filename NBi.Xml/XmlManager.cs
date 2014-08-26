@@ -77,7 +77,7 @@ namespace NBi.Xml
             //ensure the file is existing
             if (!File.Exists(settingsFilename))
                 throw new ArgumentException(string.Format("The file '{0}' has been referenced for settings by the configuration file but this file hasn't been not found!", settingsFilename));
-
+                
             //Create an empty XmlRoot
             XmlRootAttribute xmlRoot = new XmlRootAttribute();
             xmlRoot.ElementName = "settings";

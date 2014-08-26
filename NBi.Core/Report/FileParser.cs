@@ -17,12 +17,16 @@ namespace NBi.Core.Report
             //Load the xml
             var docXml = new XmlDocument();
             docXml.Load(fullPath);
+            var root = docXml.FirstChild;
+            if (root.NodeType == XmlNodeType.XmlDeclaration)
+                root = root.NextSibling;
 
             //Check that the data set exist
             var xpath = string.Format("//rd:Report/rd:DataSets/rd:DataSet[@Name=\"{0}\"]", request.DataSetName);
+            //var xpath = "//Report";
 
             var nsmgr = new XmlNamespaceManager(docXml.NameTable);
-            nsmgr.AddNamespace("rd", "http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition");
+            nsmgr.AddNamespace("rd", root.GetNamespaceOfPrefix(string.Empty));
 
             var node = docXml.SelectSingleNode(xpath, nsmgr);
             if (node == null)
@@ -41,20 +45,33 @@ namespace NBi.Core.Report
             if (node == null)
                 throw new ArgumentException(string.Format("The data set named '{0}' has been found but no command text or shared dataset reference has been found", request.DataSetName));
 
+            var sharedDataSetName = node.InnerText + ".rsd";
+            return ExtractQueryFromSharedDataSet(string.Format("{0}{1}", request.ReportPath, sharedDataSetName));
+            
+        }
+
+        protected string ExtractQueryFromSharedDataSet(string fullPath)
+        {
             //If it's a shared dataset then we need to file the correspoding file
-            var sharedDataSetName = node.InnerText + ".rds";
-            fullPath = string.Format("{0}{1}", request.ReportPath, sharedDataSetName);
             if (!File.Exists(fullPath))
-                throw new ArgumentException(string.Format("Cannot find the file for the shared dataSet named '{0}'", sharedDataSetName));
+                throw new ArgumentException(string.Format("Cannot find the file for the shared dataSet at '{0}'", fullPath));
 
             //If the file is found then we need to select the query inside the file
+            var docXml = new XmlDocument();
             docXml.Load(fullPath);
-            xpath = string.Format("//rd:SharedDataSet/rd:DataSet[@Name=\"\"]/rd:Query/rd:CommandText");
-            node = docXml.SelectSingleNode(xpath, nsmgr);
+
+            var root = docXml.FirstChild;
+            if (root.NodeType == XmlNodeType.XmlDeclaration)
+                root = root.NextSibling;
+
+            var xpath = string.Format("//rd:SharedDataSet/rd:DataSet[@Name=\"\"]/rd:Query/rd:CommandText");
+            var nsmgr = new XmlNamespaceManager(docXml.NameTable);
+            nsmgr.AddNamespace("rd", root.GetNamespaceOfPrefix(string.Empty));
+            var node = docXml.SelectSingleNode(xpath, nsmgr);
             if (node != null)
                 return node.InnerText;
 
-            throw new ArgumentException(string.Format("Cannot find the command text in the shared dataSet named '{0}'", sharedDataSetName));
+            throw new ArgumentException(string.Format("Cannot find the command text in the shared dataSet at '{0}'", fullPath));
         }
 
 

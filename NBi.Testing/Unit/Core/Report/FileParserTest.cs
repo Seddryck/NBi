@@ -20,6 +20,11 @@ namespace NBi.Testing.Unit.Core.Report
         {
             CreateReportFile("Currency_List");
             CreateReportFile("Currency_Rates");
+            CreateReportFile("Employee_Sales_Summary");
+            CreateSharedDataSet("EmployeeSalesDetail");
+            CreateSharedDataSet("EmployeeSalesYearOverYear");
+            CreateSharedDataSet("EmpSalesMonth");
+            CreateSharedDataSet("SalesEmployees");
         }
 
         //Called only at instance destruction
@@ -47,6 +52,14 @@ namespace NBi.Testing.Unit.Core.Report
         {
             string file = @"\Temp\" + filename + ".rdl";
             var resource = "NBi.Testing.Unit.Core.Report.Resources." + filename + ".rdl";
+            var physicalFilename = DiskOnFile.CreatePhysicalFile(file, resource);
+            ReportFileDirectory = Path.GetDirectoryName(physicalFilename) + Path.DirectorySeparatorChar.ToString();
+        }
+
+        protected void CreateSharedDataSet(string filename)
+        {
+            string file = @"\Temp\" + filename + ".rsd";
+            var resource = "NBi.Testing.Unit.Core.Report.Resources." + filename + ".rsd";
             var physicalFilename = DiskOnFile.CreatePhysicalFile(file, resource);
             ReportFileDirectory = Path.GetDirectoryName(physicalFilename) + Path.DirectorySeparatorChar.ToString();
         }
@@ -109,6 +122,24 @@ namespace NBi.Testing.Unit.Core.Report
             var parser = new FileParser();
             var ex = Assert.Throws<ArgumentException>(() => parser.ExtractQuery(request));
             Assert.That(ex.Message, Is.StringContaining("No report found"));
+        }
+
+        [Test]
+        public void ExtractQuery_ExistingReportAndSharedDataSet_CorrectQueryReturned()
+        {
+            var request = new NBi.Core.Report.FileRequest(
+                    ReportFileDirectory
+                    , "Employee_Sales_Summary"
+                    , "SalesEmployees2008R2"
+                );
+
+            var parser = new FileParser();
+            var query = parser.ExtractQuery(request);
+
+            Assert.That(query,
+                Is.StringContaining("SELECT").And
+                .StringContaining("[Sales].[SalesPerson]").And
+                .StringContaining("[HumanResources].[Employee]"));
         }
     }
 }

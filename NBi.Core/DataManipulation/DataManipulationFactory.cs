@@ -9,6 +9,7 @@ namespace NBi.Core.DataManipulation
     {
         public IDecorationCommandImplementation Get(IDataManipulationCommand command)
         {
+
             var connectionFactory = new ConnectionFactory();
             var connection = connectionFactory.Get(command.ConnectionString);
             IDataManipulationFactory factory = null;
@@ -17,7 +18,7 @@ namespace NBi.Core.DataManipulation
                 factory = new SqlServerDataManipulationFactory();
 
             if (factory != null)
-                return factory.Get(command);
+                return factory.Get(command, connection);
 
             throw new ArgumentException();
         }

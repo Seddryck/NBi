@@ -111,5 +111,35 @@ namespace NBi.Testing.Integration.Core.Report
             var ex = Assert.Throws<ArgumentException>(() => parser.ExtractQuery(request));
             Assert.That(ex.Message, Is.StringContaining("No report found"));
         }
+
+        public void ExtractQuery_SharedDataSet_CorrectQuery()
+        {
+            var request = new NBi.Core.Report.DatabaseRequest(
+                    ConnectionStringReader.GetReportServerDatabase()
+                    , "/AdventureWorks 2012/"
+                    , "Employee_Sales_Summary"
+                    , "SalesEmployees2008R2"
+                );
+
+            var parser = new DatabaseParser();
+            var query = parser.ExtractQuery(request);
+
+            Assert.That(query,
+                Is.StringContaining("SELECT"));
+        }
+
+        public void ExtractQuery_NonExistingSharedDataSet_CorrectQuery()
+        {
+            var request = new NBi.Core.Report.DatabaseRequest(
+                    ConnectionStringReader.GetReportServerDatabase()
+                    , "/AdventureWorks 2012/"
+                    , "Employee_Sales_Summary"
+                    , "NonExisting"
+                );
+
+            var parser = new DatabaseParser();
+            var ex = Assert.Throws<ArgumentException>(() => parser.ExtractQuery(request));
+            Assert.That(ex.Message, Is.StringContaining("Quota").And.StringContaining("2008R2"));
+        }
     }
 }

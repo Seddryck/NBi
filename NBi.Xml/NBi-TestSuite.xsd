@@ -454,7 +454,7 @@
                     </xs:restriction>
                   </xs:simpleType>
                 </xs:attribute>
-                <xs:attribute name="tolerance" type="xs:decimal" use="optional" />
+                <xs:attribute name="tolerance" type="xs:string" use="optional" />
                 <xs:attribute name="persistance" use="optional" >
                   <xs:simpleType>
                     <xs:restriction base="xs:string">

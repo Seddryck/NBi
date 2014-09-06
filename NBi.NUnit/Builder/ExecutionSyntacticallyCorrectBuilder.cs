@@ -38,22 +38,22 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        protected override IDbCommand InstantiateSystemUnderTest(ExecutionXml xml)
-        {
-            if (xml.Item is QueryableXml)
-            {
-                var commandText = (xml.Item as QueryableXml).GetQuery();
-                var connectionString = xml.Item.GetConnectionString();
-                var parameters = (xml.Item as QueryableXml).GetParameters();
-                var variables = (xml.Item as QueryableXml).GetVariables();
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        //protected override IDbCommand InstantiateSystemUnderTest(ExecutionXml xml)
+        //{
+        //    if (xml.Item is QueryableXml)
+        //    {
+        //        var commandText = (xml.Item as QueryableXml).GetQuery();
+        //        var connectionString = xml.Item.GetConnectionString();
+        //        var parameters = (xml.Item as QueryableXml).GetParameters();
+        //        var variables = (xml.Item as QueryableXml).GetVariables();
 
-                var commandBuilder = new CommandBuilder();
-                var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables);
-                return cmd;
-            }
-            throw new ArgumentException();
-        }
+        //        var commandBuilder = new CommandBuilder();
+        //        var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables);
+        //        return cmd;
+        //    }
+        //    throw new ArgumentException();
+        //}
 
     }
 }

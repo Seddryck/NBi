@@ -1,0 +1,84 @@
+! Defaults and references
+Defaults and references are a generic case of the feature about [Manage connection strings]. The goal of these features is to avoid repetition of common value for all (or a part) of your tests. You store at one place (in the _settings_ element) the values for information that you'll use in your tests. The big advantage is the centralization: you must change the values at one place and not everywhere in your test-suite.
+
+The difference between the two concepts is that a _default_ will inject an information into your test if no value is provided for this information by your test. If a value is provided for this information, the _default_ will be ignored. A _reference_ must be explicitly called from your test. If you don't call the reference from your test, the value of this information will not be used in your test. 
+!! Default
+!!! Scope
+A default must be assigned to a scope. The scope delimits where this default value will be applicable. The valid choice are:
+* everywhere
+* system-under-test
+* assert
+* setup-cleanup
+If a _default_ is specified for the scope _everywhere_ and for any other scope, the value of everywhere will be override by the value provided for the specific scope. This let you define a value for _assert_ and _system-under-test_ but another value specific to _setup-cleanup_ by defining a default for _everywhere_ and another one for _setup-cleanup_.
+!!! Values configurable in a default
+There are three kind of values configurable in a _default_ section. The first one is the _connection-string_ applicable to the tests, more information is available in [Manage connection strings].
+
+In addition, you can also configure values for [Query's parameters] and [Query's template-variables] used in Sql and Mdx queries. Note that the sql-type of a parameter can be changed when you're overriding it in a scope. In addition to override the default value of a parameter in a more limited scope, you can always override the parameter for a specific test by defining a value inside the test.
+
+The sample here under configures values for a connection-string that will be used everywhere except in system-under-test where another value is provided. A parameter named _paramEverywhere_ will also be used in both system-under-test and assertions, the second parameter named _paramToOverride_ will also have a different values in the system-under-test and assertion.
+
+{code:xml}
+<settings>
+    <default apply-to="everywhere">
+        <connectionString>My Connection String from Everywhere</connectionString>
+        <parameter name="paramEverywhere">120</parameter>
+        <parameter name="paramToOverride" sql-type="Int">60</parameter>
+    </default>
+    <default apply-to="system-under-test">
+        <connectionString>My Connection String</connectionString>
+        <parameter name="paramToOverride" sql-type="varchar(10)">Alpha</parameter>
+    </default>
+</settings>
+{code:xml}
+
+In the following test, the values _Alpha_, _120_ and _My Connection String_ (defined in the settings above) will be used to execute the query defined in the system-under-test.
+
+{code:xml}
+<test name="My first test case" uid="0001">
+    <system-under-test>
+        <execution>
+            <query name="Select first product">
+                    SELECT * FROM Product Where FieldOne=@paramToOverride and FieldTwo<>@paramEverywhere;
+            </query>
+        </execution>
+    </system-under-test>
+    <assert>
+         ...
+    </assert>
+</test>
+{code:xml}
+
+!! Reference
+A reference is different than a default because it must be explicitly referenced. In the sample above, we've never explicitly said to NBi that we want it looking in the default to get values, its automatic. On the opposite it's impossible for us to define two values for the connection-strings, one used for the first 50 tests and the other one used for the last 20. A _reference_ is there to manage these cases.
+
+When creating a _reference_, you're defining a _name_ that will be used in your test to specify which _reference_ needs to be used in this test. In the test, you must use the symbol @ to specify that the value must come from reference.
+
+The sample here under creates two references named _first-ref_ and _second-ref_ and the test defined under them calls the value from the reference _second-ref_.
+{code:xml}
+<settings>
+    <reference name="first-ref">
+        <connectionString>My First Connection String</connectionString>
+    </reference>
+    <reference name="second-ref">
+        <connectionString>My Second Connection String</connectionString>
+    </reference>
+</settings>
+<test name="My first test case" uid="0001">
+    <system-under-test>
+        <execution>
+            <query name="Select first product" connectionString="@second-ref">
+                SELECT TOP 2 * FROM Product;
+            </query>
+        </execution>
+    </system-under-test>
+    <assert>
+    ...
+    </assert>
+</test>
+{code:xml}
+!!! Values configurable in a reference
+In a reference you can configure values for
+* connection-string (more info in [Manage connection strings])
+* regex
+* numeric-format
+* currency-format

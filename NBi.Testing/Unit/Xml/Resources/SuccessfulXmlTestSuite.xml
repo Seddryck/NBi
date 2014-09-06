@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="Read correctly parameters of the Faster than constraint">
+		<system-under-test>
+			<execution>
+				<query connectionString="connectionString">
+					select * from myTable
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<successful/>
+		</assert>
+	</test>
+</testSuite>

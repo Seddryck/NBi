@@ -1,0 +1,13 @@
+! Manage the role for execution of a query.
+It's a common practice in BI to have different views according to the user connected. The views are linked to the _roles_ defined in SSAS. When testing an environment it's useful to define the _role_ for which the case is defined. This can be done in any query targeting an SSAS environment. 
+NBi supports this case by providing an xml attribute named _roles_ in any query. You can specify the role in this attribute and NBi will connect to your cube with this role for the execution of the query.
+
+{code:xml}
+<query ref="OlapQA" roles="minimal">
+     ...
+<query>
+{code:xml}
+
+Note that the user executing the test needs to be in all the roles that the testing is targeting or the test won't execute and raise a failure.
+
+If you want, you can define more than one role for the context of execution. You just need to separate them by a semi-column (;).

@@ -188,7 +188,10 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             }
             catch (Exception ex)
             {
-                Assert.Fail("The exception should have been an CustomStackTraceErrorException but was {0}.\r\n{1}", new object[] { ex.GetType().FullName, ex.StackTrace });
+                if (ex.InnerException==null)
+                    Assert.Fail("The exception should have been an CustomStackTraceErrorException but was {0}.\r\n{1}", new object[] { ex.GetType().FullName, ex.StackTrace });
+                else
+                    Assert.Fail("The exception should have been an CustomStackTraceErrorException but was something else. The inner exception is {0}.\r\n{1}", new object[] { ex.InnerException.GetType().FullName, ex.InnerException.StackTrace });
             }
         }
 
@@ -215,7 +218,10 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             }
             catch (Exception ex)
             {
-                Assert.Fail("The exception should have been a CustomStackTraceErrorException but was {0}.\r\n{1}", new object[] { ex.GetType().FullName, ex.StackTrace });
+                if (ex.InnerException == null)
+                    Assert.Fail("The exception should have been an CustomStackTraceErrorException but was {0}.\r\n{1}", new object[] { ex.GetType().FullName, ex.StackTrace });
+                else
+                    Assert.Fail("The exception should have been an CustomStackTraceErrorException but was something else. The inner exception is {0}.\r\n{1}", new object[] { ex.InnerException.GetType().FullName, ex.InnerException.StackTrace });
             }
         }
 

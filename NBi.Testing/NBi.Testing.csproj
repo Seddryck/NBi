@@ -502,7 +502,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\ConditionXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\ConditionXmlTestSuite.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\hierarchy.sql">

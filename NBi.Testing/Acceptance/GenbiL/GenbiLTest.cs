@@ -69,6 +69,7 @@ namespace NBi.Testing.Acceptance.GenbiL
             Assert.That(content, Is.StringContaining("<dimension "));
             Assert.That(content, Is.StringContaining("caption=\"first-dimension\""));
             Assert.That(content, Is.StringContaining("caption=\"second-dimension\""));
+            Assert.That(content, Is.Not.StringContaining("caption=\"exclude-dimension\""));
             Assert.That(content, Is.StringContaining("perspective=\"first-perspective\""));
             Assert.That(content, Is.StringContaining("exist"));
 

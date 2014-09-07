@@ -119,12 +119,12 @@ namespace NBi.Service
 
             var index = variables.IndexOf(variableName);
 
-            foreach (DataRow row in content.Rows)
-            {
-                if (compare(row[index].ToString(), text)==negation)
-                    row.Delete();
-            }
-            content.AcceptChanges();
+            var filteredRows = Content.AsEnumerable().Where(row => compare(row[index].ToString(), text) != negation);
+            var filteredTable = filteredRows.CopyToDataTable();
+            var dataReader = filteredTable.CreateDataReader();
+            Content.Clear();
+            Content.Load(dataReader, LoadOption.PreserveChanges);
+            Content.AcceptChanges();
         }
 
         private void AssignCompare(Operator @operator)

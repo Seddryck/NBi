@@ -69,6 +69,7 @@ namespace NBi.Testing.Acceptance.GenbiL
             Assert.That(content, Is.StringContaining("<dimension "));
             Assert.That(content, Is.StringContaining("caption=\"first-dimension\""));
             Assert.That(content, Is.StringContaining("caption=\"second-dimension\""));
+            Assert.That(content, Is.Not.StringContaining("caption=\"exclude-dimension\""));
             Assert.That(content, Is.StringContaining("perspective=\"first-perspective\""));
             Assert.That(content, Is.StringContaining("exist"));
 
@@ -78,6 +79,11 @@ namespace NBi.Testing.Acceptance.GenbiL
             Assert.That(content, Is.StringContaining("<default"));
             Assert.That(content, Is.StringContaining("apply-to=\"assert\""));
             Assert.That(content, Is.StringContaining("<connectionString>youyou-default-assert</connectionString>"));
+
+            Assert.That(content, Is.StringContaining("<default"));
+            Assert.That(content, Is.StringContaining("apply-to=\"system-under-test\""));
+            Assert.That(content, Is.StringContaining("<connectionString>youyou-default-sut</connectionString>"));
+            Assert.That(content, Is.Not.StringContaining("name=\"System-Under-Test\""));
 
             Assert.That(content, Is.StringContaining("<reference"));
             Assert.That(content, Is.StringContaining("name=\"noway\""));

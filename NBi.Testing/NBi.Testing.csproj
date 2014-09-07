@@ -273,7 +273,22 @@
     <EmbeddedResource Include="Acceptance\Resources\Csv\BusinessEntity.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="Acceptance\Resources\Positive\AdventureWorks Sample Reports\Store_Contacts.rdl">
+    <None Include="Acceptance\Resources\Reports\EmployeeSalesDetail.rsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Acceptance\Resources\Reports\EmployeeSalesYearOverYear.rsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Acceptance\Resources\Reports\Employee_Sales_Summary.rdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Acceptance\Resources\Reports\EmpSalesMonth.rsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Acceptance\Resources\Reports\SalesEmployees.rsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Acceptance\Resources\Reports\Store_Contacts.rdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Acceptance\Resources\Positive\Etl.nbits">
@@ -487,7 +502,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\ConditionXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\ConditionXmlTestSuite.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\hierarchy.sql">

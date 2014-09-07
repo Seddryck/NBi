@@ -25,7 +25,7 @@ namespace NBi.GenbiL.Action.Setting
             var name = string.Empty;
             switch (DefaultType)
             {
-                case DefaultType.SystemUnderTest: name= "Default - System-Under-Test";
+                case DefaultType.SystemUnderTest: name = "Default - System-under-test";
                     break;
                 case DefaultType.Assert: name= "Default - Assert";
                     break;

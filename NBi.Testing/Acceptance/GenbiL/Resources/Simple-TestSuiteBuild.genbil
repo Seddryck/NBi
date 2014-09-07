@@ -3,10 +3,12 @@ from a query*/
 case  load  file  'Acceptance\GenbiL\Resources\dimension.csv';
 case  remove  column 'useless';;
 case  rename  column  'dimensionY'  into  'dimension' ;
+case filter on column 'dimension' values not like 'exclude%';
 template load 
 	predefined 'ExistsDimension';
 setting reference 'noway' connectionString 'youyou-reference-noway';
 setting default assert connectionString 'youyou-default-assert';
+setting default sut connectionString 'youyou-default-sut';
 suite generate;
 
 //Second generation

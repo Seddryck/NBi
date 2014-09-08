@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
+		</default>
+		<default apply-to="assert">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+		</default>
+	</settings>
+	<test name="In dimension Customers, the members of level named 'State-Provinces' contain 'Washington'" uid="0001">
+		<system-under-test>
+			<members>
+				<level caption="State-Province" dimension="Customer" hierarchy="State-Province" perspective="Adventure Works"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contain caption="Washington"/>
+		</assert>
+	</test>
+	<test name="In dimension Customers the country 'Canada' has a child 'Ontario'" uid="0002">
+		<system-under-test>
+			<members children-of="Canada">
+				<level caption="Country" dimension="Customer" hierarchy="Customer Geography" perspective="Adventure Works"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contain caption="Ontario"/>
+		</assert>
+	</test>
+	<test name="First zone of [Employee].[Sick Leave Hours] is 20 to 33" uid="0003">
+		<system-under-test>
+			<members>
+				<hierarchy dimension="Employee" caption="Sick Leave Hours" perspective="Adventure Works"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contain caption="20 - 33"/>
+		</assert>
+	</test>
+	<test name="Organization 'All' member is named [All Organizations]" uid="0004">
+		<system-under-test>
+			<members>
+				<hierarchy dimension="Organization" caption="Currency Code" perspective="Adventure Works"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contain caption="All Organizations"/>
+		</assert>
+	</test>
+	<test name="Dimension 'Currency' contains 'Croatian Kuna' in the hierarchy 'CurrencyName' (without space)">
+		<category>Tabular</category>
+		<system-under-test>
+			<members>
+				<hierarchy caption="CurrencyName" dimension="Currency" perspective="Internet Operation"
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"
+				/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contain caption="Croatian Kuna"/>
+		</assert>
+	</test>
+	<test name="Members of department bellow 'Corporate' are in the following list" uid="81">
+		<category>MultiDimensional</category>
+		<system-under-test>
+			<members children-of="Corporate">
+				<hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contain>
+				<one-column-query>
+					select distinct top 3 [GroupName] from [HumanResources].[Department] 
+				</one-column-query>
+			</contain>
+		</assert>
+	</test>
+</testSuite>

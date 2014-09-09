@@ -78,7 +78,7 @@ namespace NBi.Core.Etl
             switch (status)
             {
                 case Operation.ServerOperationStatus.Failed:
-                    return Failure(String.Join("\r\n",messages));
+                    return Failure(String.Join(Environment.NewLine,messages));
                 case Operation.ServerOperationStatus.Success:
                     return Success(endTime.Value.Subtract(startTime.Value));
                 default:

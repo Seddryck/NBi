@@ -18,7 +18,9 @@ namespace NBi.Core.Etl.IntegrationService
 
         public void Execute()
         {
-            Run();
+            var result = Run();
+            if (result.IsFailure)
+                throw new Exception(result.Message);
         }
     }
 }

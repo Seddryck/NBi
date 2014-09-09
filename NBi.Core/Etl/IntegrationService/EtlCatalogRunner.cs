@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Linq;
 using Microsoft.SqlServer.Management.IntegrationServices;
+using System.Collections.Generic;
 
 namespace NBi.Core.Etl.IntegrationService
 {
@@ -36,6 +37,7 @@ namespace NBi.Core.Etl.IntegrationService
             Catalog catalog;
             PackageInfo package;
             GetPackage(integrationServices, out catalog, out package);
+            
 
             var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
             setValueParameters.Add(new PackageInfo.ExecutionValueParameterSet
@@ -44,6 +46,8 @@ namespace NBi.Core.Etl.IntegrationService
                 ParameterName = "SYNCHRONIZED",
                 ParameterValue = 1
             });
+            var parameters = Parameterize(Etl.Parameters);
+            parameters.ToList().ForEach(p => setValueParameters.Add(p));
 
             long executionIdentifier = package.Execute(Etl.Is32Bits, null, setValueParameters);
 
@@ -95,6 +99,20 @@ namespace NBi.Core.Etl.IntegrationService
             {
                 var names = String.Join(", ", project.Packages.Select(p => p.Name));
                 throw new ArgumentOutOfRangeException("Name", String.Format("The package named '{0}' hasn't been found on the project '{1}'. List of existing packages: {2}.", Etl.Name, Etl.Project, names));
+            }
+        }
+
+        protected virtual IEnumerable<PackageInfo.ExecutionValueParameterSet> Parameterize(IEnumerable<EtlParameter> parameters)
+        {
+            foreach (var param in parameters)
+            {
+                var execParam = new PackageInfo.ExecutionValueParameterSet()
+                {
+                    ObjectType = 30,
+                    ParameterName = param.Name,
+                    ParameterValue = param.StringValue
+                };
+                yield return execParam;
             }
         }
 

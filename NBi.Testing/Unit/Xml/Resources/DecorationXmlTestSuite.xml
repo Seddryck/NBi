@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="setup-cleanup">
+      <connectionString>Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true</connectionString>
+    </default>
+  </settings>
+  <test name="decoration with setup and cleanup">
+    <setup>
+      <table-reset  name="Users"
+					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"/>
+      <table-load   name="Users"
+					file ="Users.csv"
+					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"/>
+    </setup>
+    <system-under-test>
+      <execution>
+        <query>
+          select * from [Users]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet>
+          <row>
+            <cell>Nikola Tesla</cell>
+          </row>
+          <row>
+            <cell>Leonardo Da Vinci</cell>
+          </row>
+          <row>
+            <cell>John von Neumann</cell>
+          </row>
+          <row>
+            <cell>Albert Einstein</cell>
+          </row>
+          <row>
+            <cell>Stephen Hawking</cell>
+          </row>
+          <row>
+            <cell>Galileo Galilei</cell>
+          </row>
+          <row>
+            <cell>Charles Darwin</cell>
+          </row>
+          <row>
+            <cell>Benjamin Franklin</cell>
+          </row>
+          <row>
+            <cell>William Shakespeare</cell>
+          </row>
+          <row>
+            <cell>Johann Wolfgang von Goethe</cell>
+          </row>
+          <row>
+            <cell>Leonhard Euler</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+    <cleanup>
+      <table-reset  name="Users"/>
+    </cleanup>
+  </test>
+  <test name="decoration with setup using default connectionString">
+    <setup>
+      <table-reset  name="Users"/>
+    </setup>
+    <system-under-test>
+      <execution>
+        <query>
+          select * from [Users]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet />
+      </equalTo>
+    </assert>
+  </test>
+  <test name="decoration with setup/cleanup and service-start and service-stop">
+    <setup>
+      <service-start name="MyService"/>
+    </setup>
+    <system-under-test>
+      <execution>
+        <query>
+          select * from [Users]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet />
+      </equalTo>
+    </assert>
+    <cleanup>
+      <service-stop name="MyService" timeout-milliseconds="15000"/>
+    </cleanup>
+  </test>
+  <test name="Tasks">
+    <setup>
+      <tasks>
+        <table-load name="myTableBar" file="bar.csv"/>
+        <table-load name="myTableFoo" file="foo.csv"/>
+        <table-reset name="myTableDumb"/>
+      </tasks>
+    </setup>
+    <system-under-test>
+      <execution>
+        <query>
+          select * from [myTableBar] cross join [myTableFoo]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet />
+      </equalTo>
+    </assert>
+  </test>
+  <test name="Tasks more advanced">
+    <setup>
+      <tasks>
+        <table-reset name="myTableBar"/>
+        <table-reset name="myTableFoo"/>
+      </tasks>
+      <service-start name="myServiceBar"/>
+      <tasks>
+        <service-start name="myServiceBar"/>
+        <table-load name="myTableBar" file="bar.csv"/>
+        <table-load name="myTableFoo" file="foo.csv"/>
+      </tasks>
+      <service-stop name="myServiceFoo"/>
+      <service-start name="myServiceDumb"/>
+    </setup>
+    <system-under-test>
+      <execution>
+        <query>
+          select * from [myTableBar] cross join [myTableFoo]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet />
+      </equalTo>
+    </assert>
+  </test>
+  <group name="Group of tests">
+    <setup>
+      <service-start name="myService"/>
+    </setup>
+    <test name="First test of group">
+      <setup>
+        <table-load name="myTableBar" file="bar.csv"/>
+      </setup>
+      <system-under-test>
+        <execution>
+          <query>
+            select * from [Users]
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet />
+        </equalTo>
+      </assert>
+    </test>
+    <test name="First test of group">
+      <setup>
+        <table-load name="myTableBar" file="bar.csv"/>
+      </setup>
+      <system-under-test>
+        <execution>
+          <query>
+            select * from [Users]
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet />
+        </equalTo>
+      </assert>
+    </test>
+  </group>
+  <group name="Run-Once">
+    <setup>
+      <tasks run-once="true">
+        <table-reset name="NewUsers"/>
+        <table-load name="NewUsers" file="NewUsers.csv"/>
+      </tasks>
+    </setup>
+    <test name="my run-once test">
+      <system-under-test>
+        <execution>
+          <query>
+            select * from [Users]
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <query>
+            select * from [Users]
+          </query>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="my run-once second test">
+      <system-under-test>
+        <execution>
+          <query>
+            select top 1 * from [Users]
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <query>
+            select top 1 * from [Users]
+          </query>
+        </equalTo>
+      </assert>
+    </test>
+  </group>
+  <group name="file manipulation">
+    <test name="file delete">
+      <setup>
+        <file-delete path="Temp\" name="toto.xls"/>
+      </setup>
+      <system-under-test>
+        <execution>
+          <query>select * from table</query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <syntacticallyCorrect/>
+      </assert>
+    </test>
+    <test name="file move">
+      <setup>
+        <file-move original-path="Backup\" path="Temp\" name="toto.xls"/>
+      </setup>
+      <system-under-test>
+        <execution>
+          <query>select * from table</query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <syntacticallyCorrect/>
+      </assert>
+    </test>
+  </group>
+</testSuite>

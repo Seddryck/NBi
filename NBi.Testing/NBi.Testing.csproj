@@ -293,6 +293,7 @@
     </None>
     <EmbeddedResource Include="Acceptance\Resources\Positive\Etl.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Etl\Sample.dtsx">
       <SubType>Designer</SubType>

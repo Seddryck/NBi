@@ -67,6 +67,9 @@
     <Compile Include="Constraints\ExistsXml.cs" />
     <Compile Include="Constraints\LinkedToXml.cs" />
     <Compile Include="Constraints\EvaluateRowsXml.cs" />
+    <Compile Include="Decoration\Command\FileMoveXml.cs" />
+    <Compile Include="Decoration\Command\FileManipulationAbstractXml.cs" />
+    <Compile Include="Decoration\Command\FileDeleteXml.cs" />
     <Compile Include="Decoration\ConditionXml.cs" />
     <Compile Include="Decoration\Condition\DecorationConditionXml.cs" />
     <Compile Include="Decoration\Condition\ServiceRunningXml.cs" />

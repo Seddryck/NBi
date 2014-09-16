@@ -102,6 +102,13 @@
     <Compile Include="Etl\IntegrationService\EtlDtsRunner.cs" />
     <Compile Include="Etl\IntegrationService\EtlDtsSqlServerRunner.cs" />
     <Compile Include="Etl\IPackageEvents.cs" />
+    <Compile Include="FileManipulation\FileManipulationFactory.cs" />
+    <Compile Include="FileManipulation\IFileManipulationFactory.cs" />
+    <Compile Include="FileManipulation\IFileManipulationCommand.cs" />
+    <Compile Include="FileManipulation\IDeleteCommand.cs" />
+    <Compile Include="FileManipulation\DeleteCommand.cs" />
+    <Compile Include="FileManipulation\MoveCommand.cs" />
+    <Compile Include="FileManipulation\IMoveCommand.cs" />
     <Compile Include="GroupCommand.cs" />
     <Compile Include="GroupCommandFactory.cs" />
     <Compile Include="IExecutionResult.cs" />

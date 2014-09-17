@@ -228,4 +228,21 @@
       </assert>
     </test>
   </group>
+  <group name="process manipulation">
+    <test name="process run">
+      <setup>
+        <batch-run path="Batches\" name="build.sql" connectionString="Data source=(local);Initial Catalog=MyDB"/>
+        <batch-run name="import.sql"/>
+      </setup>
+      <system-under-test>
+        <execution>
+          <query>select * from table</query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <syntacticallyCorrect/>
+      </assert>
+    </test>
+  </group>
+
 </testSuite>

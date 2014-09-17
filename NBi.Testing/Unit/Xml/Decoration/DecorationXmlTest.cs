@@ -4,6 +4,7 @@ using NBi.Xml;
 using NBi.Xml.Decoration;
 using NBi.Xml.Decoration.Command;
 using NUnit.Framework;
+using NBi.Core.Batch;
 
 namespace NBi.Testing.Unit.Xml.Decoration
 {
@@ -223,6 +224,38 @@ namespace NBi.Testing.Unit.Xml.Decoration
                 Assert.That(test.Setup.Commands[0], Is.InstanceOf<ServiceStartXml>());
                 Assert.That(test.Setup.Commands[1], Is.InstanceOf<TableLoadXml>());
             }
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_BatchRun()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            int groupNr = ts.Groups.Count - 1;
+
+            // Check the properties of the object.
+            var command = ts.Groups[groupNr].Tests[0].Setup.Commands[0];
+
+            Assert.That(command, Is.TypeOf<BatchRunXml>());
+            var batchRun = command as IBatchRunCommand;
+            Assert.That(batchRun.FullPath, Is.EqualTo(@"Batches\build.sql"));
+            Assert.That(batchRun.ConnectionString, Is.EqualTo("Data source=(local);Initial Catalog=MyDB"));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_BatchRunWithoutOptional()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            int groupNr = ts.Groups.Count - 1;
+
+            // Check the properties of the object.
+            var command = ts.Groups[groupNr].Tests[0].Setup.Commands[1];
+
+            Assert.That(command, Is.TypeOf<BatchRunXml>());
+            var batchRun = command as IBatchRunCommand;
+            Assert.That(batchRun.FullPath, Is.EqualTo(@"import.sql"));
+            Assert.That(batchRun.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));
         }
 
 

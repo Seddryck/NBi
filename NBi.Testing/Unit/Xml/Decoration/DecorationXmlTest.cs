@@ -4,6 +4,7 @@ using NBi.Xml;
 using NBi.Xml.Decoration;
 using NBi.Xml.Decoration.Command;
 using NUnit.Framework;
+using NBi.Core.Process;
 
 namespace NBi.Testing.Unit.Xml.Decoration
 {
@@ -223,6 +224,39 @@ namespace NBi.Testing.Unit.Xml.Decoration
                 Assert.That(test.Setup.Commands[0], Is.InstanceOf<ServiceStartXml>());
                 Assert.That(test.Setup.Commands[1], Is.InstanceOf<TableLoadXml>());
             }
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ProcessRun()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            int groupNr = ts.Groups.Count-1;
+
+            // Check the properties of the object.
+            var command = ts.Groups[groupNr].Tests[0].Setup.Commands[0];
+
+            Assert.That(command, Is.TypeOf<ProcessRunXml>());
+            var move = command as IRunCommand;
+            Assert.That(move.FullPath, Is.EqualTo(@"Batches\clean.exe"));
+            Assert.That(move.Argument, Is.EqualTo("-all"));
+            Assert.That(move.TimeOut, Is.EqualTo(1000));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ProcessRunWithoutOptionalArguments()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            int groupNr = ts.Groups.Count - 1;
+
+            // Check the properties of the object.
+            var command = ts.Groups[groupNr].Tests[0].Setup.Commands[1];
+
+            Assert.That(command, Is.TypeOf<ProcessRunXml>());
+            var move = command as IRunCommand;
+            Assert.That(move.FullPath, Is.EqualTo(@"load.exe"));
+            Assert.That(move.TimeOut, Is.EqualTo(0));
         }
 
 

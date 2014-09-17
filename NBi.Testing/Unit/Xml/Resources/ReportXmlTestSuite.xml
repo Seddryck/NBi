@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+		</default>
+	</settings>
+	<test name="No parameter" uid="0001">
+		<system-under-test>
+			<execution>
+				<report source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"
+						path="/AdventureWorks Sample Reports/"
+						name="Currency_List"
+						dataset="currency"
+						connectionString="Data Source=tadam;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				/>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>EURO</cell>
+					</row>
+					<row>
+						<cell>American Dollar</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="Two parameters" uid="0002">
+		<system-under-test>
+			<execution>
+				<report source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"
+						path="/AdventureWorks Sample Reports/"
+						name="Currency Rates"
+						dataset="DataSet1"
+				>
+					<parameter name="FirstDate">10/10/2006</parameter>
+					<parameter name="Currencies">EURO, American Dollar</parameter>
+				</report>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>EURO</cell>
+					</row>
+					<row>
+						<cell>American Dollar</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+</testSuite>

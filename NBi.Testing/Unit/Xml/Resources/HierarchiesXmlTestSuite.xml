@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="With dimension attribute">
+		<system-under-test>
+			<structure>
+				<hierarchies dimension="dimension" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<subsetOf>
+				<item>First hierarchy</item>
+				<item>Second hierarchy</item>
+			</subsetOf>
+		</assert>
+	</test>
+	<test name="With display-folder attribute">
+		<system-under-test>
+			<structure>
+				<hierarchies display-folder="display-folder" dimension="dimension" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<subsetOf>
+				<item>First hierarchy</item>
+				<item>Second hierarchy</item>
+			</subsetOf>
+		</assert>
+	</test>
+	<test name="Without display-folder attribute" >
+		<system-under-test>
+			<structure>
+				<hierarchies dimension="dimension" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<subsetOf>
+				<item>First hierarchy</item>
+				<item>Second hierarchy</item>
+			</subsetOf>
+		</assert>
+	</test>
+	<test name="With display-folder root attribute">
+		<system-under-test>
+			<structure>
+				<hierarchies display-folder="" dimension="dimension" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<subsetOf>
+				<item>First hierarchy</item>
+				<item>Second hierarchy</item>
+			</subsetOf>
+		</assert>
+	</test>
+</testSuite>

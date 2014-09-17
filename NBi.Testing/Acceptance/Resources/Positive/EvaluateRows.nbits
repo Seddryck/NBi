@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+		</default>
+	</settings>
+	<test name="Validation calculation of LineTotal" uid="0001">
+		<system-under-test>
+			<execution>
+				<query>
+					select top 100
+						SalesOrderID
+						, [CarrierTrackingNumber]
+						, OrderQty
+						, UnitPrice
+						, UnitPriceDiscount
+						, LineTotal
+					from
+						Sales.SalesOrderDetail
+					where
+						UnitPriceDiscount>0
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<evaluate-rows>
+				<variable column-index="2">OrderQuantity</variable>
+				<variable column-index="3">UnitPrice</variable>
+				<variable column-index="4">UnitDiscount</variable>
+				<expression column-index="5" type="numeric" tolerance="0.01">= OrderQuantity*(UnitPrice-(UnitPrice*UnitDiscount))</expression>
+			</evaluate-rows>
+		</assert>
+	</test>
+</testSuite>

@@ -1,0 +1,76 @@
+! Query's template-variables
+*New in v1.3*
+
+You can use template-variables to dynamically build the statement of you SQL, MDX or DAX queries. Unlike a [Parameters in queries|parameters], a template-variable input is treated as a portion of executable code. 
+
+When possible we highly recommend to use the parameters and not the template-values. The template-variables are more flexible to build dynamically your queries but can obfuscate your tests.
+
+When creating a query with template-values, you identify the template-values by putting dollar signs ($) before and after the template-variable's name name. For example, $Year$ would be a valid template-variables name. 
+
+In your test definition, in addition of the element _query_, you'll also need to describe your template-variable by defining its name and value within an element named _variable_.
+
+{code:xml}
+<query>
+	select * from Customer where CustomerKey $OperatorVar$ (1,2,3)
+	<variable name="OperatorVar">
+		not in
+	</variable>
+</query>
+{code:xml}
+
+The query executed by NBi will be 
+
+{code:sql}
+select * from Customer where CustomerKey not in (1,2,3)
+{code:sql}
+
+!! Template-variables defined at the test-suite level
+
+Sometimes you want to define a few template-variables at the test-suite level. It's useful when these template-variables are used in more than one query and their values are constant through the test-suite. This can be achieved by the usage of the element _parameter_ in the _default_ of the _settings_.
+
+Within the code snippet here under we're defining a template-variable named _Clause_. This _Clause_ applies a slicer to limit the cube to the years 2010 to 2013.
+
+{code:xml}
+<settings>
+	<default apply-to="system-under-test">
+		<variable name="Clause">
+			([DimTime].[Year].[2010]:[DimTime].[Year].[2013])
+		</variable>
+	</default>
+</settings>
+{code:xml}
+
+This template-variable can be used in the following two queries without problems:
+{code:xml}
+<test>
+	...
+	<query>
+		select
+			$Clause$ on 0,
+			[Measures].[My Value] on 1
+		from
+			[my cube]
+	</query>
+	...
+</test>
+<test>
+	...
+	<query>
+		select
+			[Measures].[My Value] on 0
+		from
+			[my cube]
+		where
+			$Clause$
+	</query>
+	...
+</test>
+{code:xml}
+
+If a template-variable is defined at the test-suite level and at the query level, the definition at the query level will be used.
+
+If a template-variable is not used within a query but is provided to this query, this template-variable is simply not used by NBi (so it's not a problem).
+
+
+
+

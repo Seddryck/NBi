@@ -1,0 +1,60 @@
+! Test performances of a SQL or MDX query
+For this kind of test, you'll need to define your system under test as a "query" and your assertion as a "fasterThan" constraint. 
+
+NBi will *effectively execute* your query. It means that if your query is a truncate or an insert, this will be executed and the content of your database will be updated. No transaction will be roll-backed or anything.
+
+The query will also be executed until its end. It means that if your query was expected to run fasterThan 10 seconds but take effectively more than 20 seconds, your test will take 20 seconds to execute and not 10.
+
+This kind of test is not dedicated for replace load tests or massive performance assertions. You’ll only test one unique query in isolation. The goal is really to ensure that this query is not suddenly really slow (because of a missing index, …)
+
+!! System Under Test
+If you’re not familiar with how to setup a system-under-test as a query, please read first the documentation about [Test equivalence of two result sets]
+!! Assert
+Once you system under test is defined, you'll need to specify that you want to assert the syntax of your query. This done by the xml element named _fasterThan_ . You must specify the maximum time for this query in milli-seconds in the attribute max-time-milliSeconds.
+{code:xml}
+<assert>
+	<fasterThan max-time-milliSeconds="1000"/>
+</assert>
+{code:xml}
+
+{code:xml}
+<test name="A fast query MDX">
+    <system-under-test>
+        <execution>
+            <query name="MDX" connectionString="Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033">
+                SELECT
+                    [Measures].[Reseller Order Count] ON 0,
+                    EXCEPT({[Date].[Calendar Year].Children},{[Date].[Calendar Year].[CY 2006]}) ON 1
+                FROM
+                    [Adventure Works]
+            </query>
+        </execution>
+     </system-under-test>
+     <assert>
+        <fasterThan max-time-milliSeconds="1000"/>
+     </assert>
+</test>			
+{code:xml}
+!!! Clean the cache
+It’s also possible to specify that the cache must be cleaned before the test. The time needed to clean the cache is not included in the measurement of your query’s execution but time needed to create your execution plan is also included.
+!!! Timeout *(v1.1)*
+By default, the query will continue to execute even after the failure of the test. If you've created a test with a _fasterThan_ attribute set to 1000ms and your query takes 5000ms to finish, your test will stay during 5s and report that you expected 1000ms but it needed 5000ms.
+This can be really embarrasing when you've some queries really slower than expected, just imagine that some of your queries execute during more than 20 minutes when you was expected less than 20 seconds? It will considerably slow down your whole test-suite. It's now possible to break query's execution after a specified elapsed time using the attribute _timeOut-MilliSeconds_. The test will be reported has failed if the timeout is triggered.
+{code:xml}
+<test name="A fast query MDX">
+    <system-under-test>
+        <execution>
+            <query name="MDX" connectionString="Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033">
+                SELECT
+                    [Measures].[Reseller Order Count] ON 0,
+                    EXCEPT({[Date].[Calendar Year].Children},{[Date].[Calendar Year].[CY 2006]}) ON 1
+                FROM
+                    [Adventure Works]
+            </query>
+        </execution>
+     </system-under-test>
+     <assert>
+        <fasterThan max-time-milliSeconds="1000" timeOut-MilliSeconds="5000"/>
+     </assert>
+</test>	
+{code:xml}

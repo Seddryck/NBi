@@ -1,0 +1,74 @@
+! Compare actual members to a range of members (integers/dates) or predefined lists
+These features are dedicated to the comparison of members' list and are especially useful in some specific cases. The predefined lists will let you use common members values, currently weekdays and months. Ranges are dedicated to compare members' list to huge list of dates or integers without defining them one by one.
+!! Ranges
+!!! Integer
+In this sample, we want to check that our hierarchy's members are effectively a list of integer starting from 0 to 99. Without the range feature, you'd have to create 100 xml elements contained in an equivalentTo element such as
+{code:xml}
+<assert>
+    <equivalentTo>
+        <item>0</item>
+        <item>1</item>
+            ...
+        <item>99</item>
+    </equivalentTo>
+</assert>
+{code:xml}
+
+A bit daunting to write. The range xml element let you describe this in a more readable and sustainable way. You have to create a _range-integer_ xml element with two attributes *_start_* and *_end_*. Both _start_ and _end_ are included.
+{code:xml}
+<assert>
+    <equivalentTo>
+        <range-integer start="0" end="99"/>
+    </equivalentTo>
+</assert>
+{code:xml}
+
+!!! Step
+You can also specify a *_step_* (as an additional attribute). If you want to only have the even numbers between 0 and 99, you just need to define a _step_ of 2.
+{code:xml}
+<assert>
+    <equivalentTo>
+        <range-integer start="0" end="99" step="2"/>
+    </equivalentTo>
+</assert>
+{code:xml}
+
+!!! Add a constant string to your range of integer
+This feature is helpful when you need to generate members such as "CY 2009", "CY 2010" and "CY 2011" or "Store 1", "Store 2", ... Using the basics of the _range-integer_ element described above you can quickly build the *_range-integer-pattern_* attribute. In addition to the previously defined attributes _start_, _end_ and _step_, you must also specify a _pattern_ and a _position_. 
+
+The *_pattern_* states the constant string that you'll insert next to your integer. In the sample described above the patterns are respectively "CY " and "Store ". 
+
+The *_position_* attribute states where the pattern will be inserted. Two options are available suffix and prefix. In both samples above the correct value would be "prefix".
+
+{code:xml}
+<assert>
+    <equivalentTo>
+        <range-integer-pattern start="2005" end="2010" pattern="CY " position="prefix"/>
+    </equivalentTo>
+</assert>
+{code:xml}
+
+!!! Dates
+
+The same feature than described for integers is available for dates. In addition, to the _start_ and _end_ attributes, you must also specify a _culture_ and a _format_ attributes (the _step_ attribute is not supported) and use the element *_range-date_*
+
+The *_format_* attribute will let you describe how the date will be formatted. The supported formats are those described by Microsoft at [http://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx] and [http://msdn.microsoft.com/en-us/library/8kb3ddd4(v=vs.110).aspx]. 
+
+The attribute named *_culture_* let you specify in which language the weekdays and months will be rendered. The culture is described as a two letter code representing the language. A complete description of the culture supported is provided by Microsoft at [http://msdn.microsoft.com/en-us/goglobal/bb896001.aspx]. NBi is expecting a value from this table, more specifically a 2 or 4 letters code available in the column named "Culture Name".
+
++Some samples:+ The 19th of September 1995 will render differently according to the format and culture selected  
+* with a format equal to "dd/MM/yy" independently of the culture selected, the output will be "19/09/95"
+* with a format equal to "d-MMM-yyyy" and a culture equivalent to "English", the output will be "19-SEP-1995"
+* with a format equal to "dddd, dd MMMM" and a culture equivalent to "English", the output will be "Tuesday, 19 September"
+* with a format equal to "dddd, dd MMMM" and a culture equivalent to "French", the output will be "Mardi, 19 Septembre"
+* with a format equal to "d" and a culture equivalent to "English", the output will be "9/15/1995"
+
+{code:xml}
+<assert>
+    <equivalentTo>
+        <range-date start="2005-01-01" end="2010-12-31" culture="en" format="MMMM d, yyyy"/>
+    </equivalentTo>
+</assert>
+{code:xml}
+
+Pay attention, that the _start_ and _end_ attributes are expecting dates with the universal format "yyyy-mm-dd" independently of the _format_ attribute!

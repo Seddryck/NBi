@@ -5,8 +5,8 @@ using System.Text;
 
 namespace NBi.Core.FileManipulation
 {
-    public interface IMoveCommand : IFileManipulationCommand
+    public interface ICopyCommand : IFileManipulationCommand
     {
-        string OriginalFullPath { get; }
+        string SourceFullPath { get; }
     }
 }

@@ -253,10 +253,10 @@ namespace NBi.Testing.Unit.Xml.Decoration
             // Check the properties of the object.
             var command = ts.Groups[groupNr].Tests[1].Setup.Commands[0];
 
-            Assert.That(command, Is.TypeOf<FileMoveXml>());
-            var move = command as IMoveCommand;
+            Assert.That(command, Is.TypeOf<FileCopyXml>());
+            var move = command as ICopyCommand;
             Assert.That(move.FullPath, Is.EqualTo(@"Temp\toto.xls"));
-            Assert.That(move.OriginalFullPath, Is.EqualTo(@"Backup\toto.xls"));
+            Assert.That(move.SourceFullPath, Is.EqualTo(@"Backup\toto.xls"));
         }
 
 

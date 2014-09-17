@@ -228,4 +228,20 @@
       </assert>
     </test>
   </group>
+  <group name="process manipulation">
+    <test name="process run">
+      <setup>
+        <process-run path="Batches\" name="clean.exe" timeout-milliseconds="1000" arguments="-all"/>
+        <process-run name="load.exe"/>
+      </setup>
+      <system-under-test>
+        <execution>
+          <query>select * from table</query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <syntacticallyCorrect/>
+      </assert>
+    </test>
+  </group>
 </testSuite>

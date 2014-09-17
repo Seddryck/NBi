@@ -27,7 +27,7 @@ namespace NBi.Testing.Integration.Core.FileManipulation
         public void Execute_ExistingFile_FileIsCopied()
         {
             var existingFile = @"Temp\Text.txt";
-            var targetFile = @"Target\TextCopy.txt";
+            var targetFile = @"Temp\Target\TextCopy.txt";
             File.WriteAllText(existingFile, "a little text");
 
             var copyInfo = Mock.Of<ICopyCommand>
@@ -48,7 +48,7 @@ namespace NBi.Testing.Integration.Core.FileManipulation
         public void Execute_NonExistingFile_ExternalDependencyNotFound()
         {
             var nonExistingFile = @"Temp\nonExistingFile.txt";
-            var targetFile = @"Target\TextCopy.txt";
+            var targetFile = @"Temp\Target\TextCopy.txt";
 
             var copyInfo = Mock.Of<ICopyCommand>
             (

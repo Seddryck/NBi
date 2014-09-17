@@ -97,6 +97,12 @@
     <Compile Include="Analysis\Request\MetadataLinkedToDiscoveryRequest.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\TableNotNullIfColumn.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\ValidationFilter.cs" />
+    <Compile Include="Batch\BatchFactory.cs" />
+    <Compile Include="Batch\SqlServer\SqlServerBatchFactory.cs" />
+    <Compile Include="Batch\SqlServer\BatchRunCommand.cs" />
+    <Compile Include="Batch\IBatchCommand.cs" />
+    <Compile Include="Batch\IBatchFatory.cs" />
+    <Compile Include="Batch\IBatchRunCommand.cs" />
     <Compile Include="Etl\ExecResult.cs" />
     <Compile Include="Etl\IntegrationService\EtlCatalogRunner.cs" />
     <Compile Include="Etl\IntegrationService\EtlDtsRunner.cs" />

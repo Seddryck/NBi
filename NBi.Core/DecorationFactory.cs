@@ -3,6 +3,7 @@ using System.Linq;
 using NBi.Core.DataManipulation;
 using NBi.Core.Etl;
 using NBi.Core.WindowsService;
+using NBi.Core.Batch;
 
 namespace NBi.Core
 {
@@ -23,6 +24,11 @@ namespace NBi.Core
             if (command is IDataManipulationCommand)
             {
                 return new DataManipulationFactory().Get(command as IDataManipulationCommand);
+            }
+
+            if (command is IBatchCommand)
+            {
+                return new BatchFactory().Get(command as IBatchCommand);
             }
 
             if (command is IEtlRunCommand)

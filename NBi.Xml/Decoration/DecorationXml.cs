@@ -8,7 +8,9 @@ namespace NBi.Xml.Decoration
 {
     public abstract class DecorationXml
     {
-        [XmlElement(Type = typeof(TableLoadXml), ElementName = "table-load"),
+        [
+        XmlElement(Type = typeof(BatchRunXml), ElementName = "batch-run"),
+        XmlElement(Type = typeof(TableLoadXml), ElementName = "table-load"),
         XmlElement(Type = typeof(TableResetXml), ElementName = "table-reset"),
         XmlElement(Type = typeof(ServiceStartXml), ElementName = "service-start"),
         XmlElement(Type = typeof(ServiceStopXml), ElementName = "service-stop"),

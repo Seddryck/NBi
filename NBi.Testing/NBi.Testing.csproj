@@ -106,6 +106,7 @@
     <Compile Include="Integration\Core\DataManipulation\SqlServer\TruncateCommandTest.cs" />
     <Compile Include="Integration\Core\Etl\IntegrationService\EtlDtsWindowsRunnerTest.cs" />
     <Compile Include="Integration\Core\Etl\IntegrationService\EtlFileRunnerTest.cs" />
+    <Compile Include="Integration\Core\Process\ProcessRunCommandTest.cs" />
     <Compile Include="Integration\Core\Query\QueryAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\Query\QueryParserTest.cs" />
     <Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
@@ -321,6 +322,8 @@
     <EmbeddedResource Include="Integration\NUnit\Resources\NonEmptyAmountByYear.csv" />
     <EmbeddedResource Include="Integration\Core\DataManipulation\Load.csv" />
     <EmbeddedResource Include="Integration\Core\Etl\IntegrationService\Resources\Sample.dtsx" />
+    <EmbeddedResource Include="Integration\Core\Resources\MyBatch.cmd" />
+    <EmbeddedResource Include="Integration\Core\Resources\MyInvalidBatch.cmd" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataCsvSample.csv" />
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataExcelSample.xls" />

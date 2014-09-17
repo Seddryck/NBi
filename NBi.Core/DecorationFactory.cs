@@ -3,6 +3,7 @@ using System.Linq;
 using NBi.Core.DataManipulation;
 using NBi.Core.Etl;
 using NBi.Core.WindowsService;
+using NBi.Core.Process;
 
 namespace NBi.Core
 {
@@ -28,6 +29,11 @@ namespace NBi.Core
             if (command is IEtlRunCommand)
             {
                 return new EtlRunnerFactory().Get(command as IEtlRunCommand);
+            }
+
+            if (command is IProcessCommand)
+            {
+                return new ProcessCommandFactory().Get(command as IProcessCommand);
             }
 
             throw new ArgumentException();

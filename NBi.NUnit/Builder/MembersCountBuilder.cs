@@ -35,13 +35,13 @@ namespace NBi.NUnit.Builder
         protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(CountXml ctrXml)
         {
             var ctr = new NBi.NUnit.Member.CountConstraint();
-            if (ctrXml.Specification.IsExactlySpecified)
+            if (ctrXml.ExactlySpecified)
                 ctr = ctr.Exactly(ctrXml.Exactly);
 
-            if (ctrXml.Specification.IsMoreThanSpecified)
+            if (ctrXml.MoreThanSpecified)
                 ctr = ctr.MoreThan(ctrXml.MoreThan);
 
-            if (ctrXml.Specification.IsLessThanSpecified)
+            if (ctrXml.LessThanSpecified)
                 ctr = ctr.LessThan(ctrXml.LessThan);
             return ctr;
         }

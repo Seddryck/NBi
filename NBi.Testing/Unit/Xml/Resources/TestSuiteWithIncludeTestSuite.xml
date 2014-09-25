@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE testSuite [
+<!ENTITY includeSecondTest SYSTEM "TestSuiteIncludedTestSuite.xml">
+]>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="My first test case" uid="0001">
+		<system-under-test>
+			<execution>
+				<query name="Select first product" connectionString="Data Source=.;Initial Cataloging;Integrated Security=True">
+					SELECT TOP 1 * FROM Product;
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<syntacticallyCorrect />
+		</assert>
+	</test>
+	&includeSecondTest;
+</testSuite>

@@ -9,11 +9,21 @@ namespace NBi.Xml.Items.Format
 {
     public class CurrencyFormatXml : NumericFormatXml, ICurrencyFormat
     {
+        private string currencySymbol;
         [XmlAttribute("currency-symbol")]
-        public string CurrencySymbol { get; set; }
+        public string CurrencySymbol
+        {
+            get { return currencySymbol; }
+            set { currencySymbol = value; isEmpty = false; }
+        }
 
+        private CurrencyPattern currencyPattern;
         [XmlAttribute("currency-pattern")]
-        public CurrencyPattern CurrencyPattern { get; set; }
+        public CurrencyPattern CurrencyPattern
+        {
+            get { return currencyPattern; }
+            set { currencyPattern = value; isEmpty = false; }
+        }
 
         public CurrencyFormatXml() : base()
         {

@@ -11,6 +11,7 @@ namespace NBi.Service
     {
         private Dictionary<string, TestCaseManager> dico;
         private string focus;
+        private const string NO_NAME = "_noname";
 
         public TestCaseCollectionManager()
         {
@@ -20,6 +21,9 @@ namespace NBi.Service
 
         public TestCaseManager Item(string name)
         {
+            if (string.IsNullOrEmpty(name))
+                name = NO_NAME;
+
             if (!dico.Keys.Contains(name))
                 dico.Add(name, new TestCaseManager());
 
@@ -108,7 +112,7 @@ namespace NBi.Service
             if (!dico[firstSet].Content.Columns.Contains(matchingColumn))
                 throw new ArgumentException(String.Format("The test case set named '{0}' doesn't contain a column named '{1}'.", firstSet, matchingColumn));
 
-            if (!dico[firstSet].Content.Columns.Contains(matchingColumn))
+            if (!dico[secondSet].Content.Columns.Contains(matchingColumn))
                 throw new ArgumentException(String.Format("The test case set named '{0}' doesn't contain a column named '{1}'.", secondSet, matchingColumn));
 
             Func<DataRow, DataRow, bool> matchingRow = (a, b) => a[matchingColumn].Equals(b[matchingColumn]);

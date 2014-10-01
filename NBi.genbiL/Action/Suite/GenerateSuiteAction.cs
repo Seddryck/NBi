@@ -14,7 +14,7 @@ namespace NBi.GenbiL.Action.Suite
 
         public void Execute(GenerationState state)
         {
-            state.List.Build(state.Template.Code, state.TestCases.Variables.ToArray(), state.TestCases.Content, Grouping);
+            state.List.Build(state.Template.Code, state.TestCaseCollection.Focus.Variables.ToArray(), state.TestCaseCollection.Focus.Content, Grouping);
             state.Suite.DefineSettings(state.Settings.GetSettings());
             state.Suite.DefineTests(state.List.GetTests());
         }

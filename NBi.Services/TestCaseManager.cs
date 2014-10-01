@@ -12,11 +12,10 @@ namespace NBi.Service
     {
         private Func<string, string, bool> compare;
 
-        public TestCaseManager()
+        internal TestCaseManager()
         {
             variables = new List<string>();
             content = new DataTable();
-            connectionStrings = new Dictionary<string, string>();
         }
 
         public void ReadFromCsv(string filename)
@@ -68,23 +67,6 @@ namespace NBi.Service
             get
             {
                 return variables;
-            }
-        }
-
-        private readonly Dictionary<string,string> connectionStrings;
-        public Dictionary<string, string> ConnectionStrings
-        {
-            get
-            {
-                return connectionStrings;
-            }
-        }
-
-        public List<string> ConnectionStringNames
-        {
-            get
-            {
-                return ConnectionStrings.Keys.ToList();
             }
         }
 
@@ -166,30 +148,6 @@ namespace NBi.Service
             Content.Clear();
             Content.Load(dataReader, LoadOption.PreserveChanges);
             Content.AcceptChanges();
-        }
-
-        public void AddConnectionStrings(string name, string value)
-        {
-            if (connectionStrings.Keys.Contains(name))
-                throw new ArgumentException("name");
-
-            connectionStrings.Add(name, value);
-        }
-
-        public void RemoveConnectionStrings(string name)
-        {
-            if (!connectionStrings.Keys.Contains(name))
-                throw new ArgumentException("name");
-
-            connectionStrings.Remove(name);
-        }
-
-        public void EditConnectionStrings(string name, string newValue)
-        {
-            if (!connectionStrings.Keys.Contains(name))
-                throw new ArgumentException("name");
-
-            connectionStrings[name] = newValue;
         }
 
     }

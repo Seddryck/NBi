@@ -17,7 +17,7 @@ namespace NBi.GenbiL.Action.Case
 
         public virtual void Execute(GenerationState state)
         {
-            state.TestCases.ReadFromQuery(Query, ConnectionString);
+            state.TestCaseCollection.Focus.ReadFromQuery(Query, ConnectionString);
         }
 
         public string Display

@@ -15,8 +15,8 @@ namespace NBi.GenbiL.Action.Case
 
         public void Execute(GenerationState state)
         {
-            state.TestCases.Variables.Remove(VariableName);
-            state.TestCases.Content.Columns.Remove(VariableName);
+            state.TestCaseCollection.Focus.Variables.Remove(VariableName);
+            state.TestCaseCollection.Focus.Content.Columns.Remove(VariableName);
         }
 
         public string Display

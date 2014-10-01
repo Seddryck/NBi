@@ -146,5 +146,42 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<FilterDistinctCaseAction>());
         }
+
+        public void SentenceParser_CaseFocus_ValidFocusAction()
+        {
+            var input = "case focus on 'alpha'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<FocusCaseAction>());
+        }
+
+        public void SentenceParser_CaseCross_ValidCrossAction()
+        {
+            var input = "case cross 'alpha' with 'beta'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<CrossCaseAction>());
+
+            var crossCase = result as CrossCaseAction;
+            Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
+            Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
+            Assert.That(crossCase.MatchingColumn, Is.Null.Or.Empty);
+        }
+
+        public void SentenceParser_CaseCrossOnColumn_ValidCrossAction()
+        {
+            var input = "case cross 'alpha' with 'beta' on 'myKey'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<CrossCaseAction>());
+
+            var crossCase = result as CrossCaseAction;
+            Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
+            Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
+            Assert.That(crossCase.MatchingColumn, Is.EqualTo("myKey"));
+        }
     }
 }

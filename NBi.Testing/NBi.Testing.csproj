@@ -208,6 +208,7 @@
     <Compile Include="Unit\Service\RunnerConfig\NUnitRunnerConfigBuilderTest.cs" />
     <Compile Include="Unit\Service\RunnerConfig\RunnerConfigManagerTest.cs" />
     <Compile Include="Unit\Service\StringTemplateEngineTest.cs" />
+    <Compile Include="Unit\Service\TestCaseCollectionManagerTest.cs" />
     <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />

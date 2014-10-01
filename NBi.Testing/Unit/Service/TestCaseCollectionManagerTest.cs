@@ -102,6 +102,21 @@ namespace NBi.Testing.Unit.Service
         }
 
         [Test]
+        public void Cross_ThreeTimesTwoOnItself_SixRowsFiveColumns()
+        {
+            var manager = new TestCaseCollectionManager();
+            var tc1 = manager.Item("alpha");
+            Load(tc1.Content, new string[] { "a11,a12", "a21,a22", "a31,a32" }, "alpha1,alpha2");
+            var tc2 = manager.Item("beta");
+            Load(tc2.Content, new string[] { "b11,b12,b13", "b21,b22,b23" }, "beta1,beta2,beta3");
+
+            manager.Cross("alpha", "beta");
+            //The focus hasn't moved ... so still on tc1
+            Assert.That(tc1.Content.Rows, Has.Count.EqualTo(6));
+            Assert.That(tc1.Content.Columns, Has.Count.EqualTo(5));
+        }
+
+        [Test]
         public void Cross_ThreeTimesTwoWithOneCommonColumnName_SixRowsFourColumns()
         {
             var manager = new TestCaseCollectionManager();

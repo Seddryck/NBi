@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Unit.Service
 {
     [TestFixture]
-    public class TestCasesManagerTest
+    public class TestCaseManagerTest
     {
         [Test]
         public void Filter_Equal_CorrectNewContent()

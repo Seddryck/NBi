@@ -19,7 +19,7 @@ namespace NBi.GenbiL.Action.Case
         {
             var index = state.TestCaseCollection.Focus.Variables.ToList().FindIndex(v => v == OldVariableName);
             state.TestCaseCollection.Focus.Variables[index] = NewVariableName;
-            state.TestCaseCollection.Focus.Content.Columns[index].ColumnName = OldVariableName;
+            state.TestCaseCollection.Focus.Content.Columns[index].ColumnName = NewVariableName;
         }
 
         public string Display

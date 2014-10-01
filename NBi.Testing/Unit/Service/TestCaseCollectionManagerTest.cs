@@ -50,6 +50,15 @@ namespace NBi.Testing.Unit.Service
         }
 
         [Test]
+        public void Item_NullName_DifferentElements()
+        {
+            var manager = new TestCaseCollectionManager();
+            var tc1 = manager.Item(null);
+
+            Assert.That(tc1, Is.Not.Null);
+        }
+
+        [Test]
         public void Focus_TwoElementsCreatedSetFocusNeverCalled_FirstElement()
         {
             var manager = new TestCaseCollectionManager();

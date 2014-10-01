@@ -143,6 +143,9 @@ namespace NBi.Service
             Focus.Content.Clear();
             Focus.Content.Load(dataReader, LoadOption.PreserveChanges);
             Focus.Content.AcceptChanges();
+            Focus.Variables.Clear();
+            foreach (DataColumn column in Focus.Content.Columns)
+                Focus.Variables.Add(column.ColumnName);
         }
 
 

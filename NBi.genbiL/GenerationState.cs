@@ -7,7 +7,7 @@ namespace NBi.GenbiL
 {
     public class GenerationState
     {
-        public TestCasesManager TestCases { get; private set; }
+        public TestCaseManager TestCases { get; private set; }
         public TemplateManager Template { get; private set; }
         public SettingsManager Settings { get; private set; }
         public TestListManager List { get; private set; }
@@ -15,7 +15,7 @@ namespace NBi.GenbiL
 
         public GenerationState()
         {
-            TestCases = new TestCasesManager();
+            TestCases = new TestCaseManager();
             Template = new TemplateManager();
             Settings = new SettingsManager();
             List = new TestListManager();

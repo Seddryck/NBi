@@ -12,7 +12,7 @@ namespace NBi.Testing.Unit.Service
         [Test]
         public void Filter_Equal_CorrectNewContent()
         {
-            var manager = new TestCasesManager();
+            var manager = new TestCaseManager();
             //Setup content;
             manager.Content.Columns.Add(new DataColumn("columnName"));
             manager.Variables.Add("columnName");
@@ -34,7 +34,7 @@ namespace NBi.Testing.Unit.Service
         [Test]
         public void Filter_NotEqual_CorrectNewContent()
         {
-            var manager = new TestCasesManager();
+            var manager = new TestCaseManager();
             //Setup content;
             manager.Content.Columns.Add(new DataColumn("columnName"));
             manager.Variables.Add("columnName");
@@ -56,7 +56,7 @@ namespace NBi.Testing.Unit.Service
         [Test]
         public void Filter_LikeStart_CorrectNewContent()
         {
-            var manager = new TestCasesManager();
+            var manager = new TestCaseManager();
             //Setup content;
             manager.Content.Columns.Add(new DataColumn("columnName"));
             manager.Variables.Add("columnName");
@@ -78,7 +78,7 @@ namespace NBi.Testing.Unit.Service
         [Test]
         public void Filter_LikeEnd_CorrectNewContent()
         {
-            var manager = new TestCasesManager();
+            var manager = new TestCaseManager();
             //Setup content;
             manager.Content.Columns.Add(new DataColumn("columnName"));
             manager.Variables.Add("columnName");
@@ -100,7 +100,7 @@ namespace NBi.Testing.Unit.Service
         [Test]
         public void Filter_LikeContain_CorrectNewContent()
         {
-            var manager = new TestCasesManager();
+            var manager = new TestCaseManager();
             //Setup content;
             manager.Content.Columns.Add(new DataColumn("columnName"));
             manager.Variables.Add("columnName");
@@ -122,7 +122,7 @@ namespace NBi.Testing.Unit.Service
         [Test]
         public void Filter_LikeContainBounded_CorrectNewContent()
         {
-            var manager = new TestCasesManager();
+            var manager = new TestCaseManager();
             //Setup content;
             manager.Content.Columns.Add(new DataColumn("columnName"));
             manager.Variables.Add("columnName");
@@ -144,7 +144,7 @@ namespace NBi.Testing.Unit.Service
         [Test]
         public void Filter_LikeContainComplex_CorrectNewContent()
         {
-            var manager = new TestCasesManager();
+            var manager = new TestCaseManager();
             //Setup content;
             manager.Content.Columns.Add(new DataColumn("columnName"));
             manager.Variables.Add("columnName");
@@ -166,7 +166,7 @@ namespace NBi.Testing.Unit.Service
         [Test]
         public void Filter_Distinct_CorrectNewContent()
         {
-            var manager = new TestCasesManager();
+            var manager = new TestCaseManager();
             //Setup content;
             manager.Content.Columns.Add(new DataColumn("columnName"));
             manager.Variables.Add("columnName");

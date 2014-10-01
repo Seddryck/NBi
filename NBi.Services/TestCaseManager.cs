@@ -8,11 +8,11 @@ using NBi.Core.Query;
 
 namespace NBi.Service
 {
-    public class TestCasesManager
+    public class TestCaseManager
     {
         private Func<string, string, bool> compare;
 
-        public TestCasesManager()
+        public TestCaseManager()
         {
             variables = new List<string>();
             content = new DataTable();

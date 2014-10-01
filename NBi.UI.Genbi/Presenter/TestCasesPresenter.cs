@@ -12,9 +12,9 @@ namespace NBi.UI.Genbi.Presenter
 {
     class TestCasesPresenter : PresenterBase
     {
-        private readonly TestCasesManager testCasesManager;
+        private readonly TestCaseManager testCasesManager;
 
-        public TestCasesPresenter(RenameVariableWindow renameVariablewindow, FilterWindow filterWindow, ConnectionStringWindow connectionStringWindow, TestCasesManager testCasesManager, DataTable testCases, BindingList<string> variables, BindingList<string> connectionStringNames)
+        public TestCasesPresenter(RenameVariableWindow renameVariablewindow, FilterWindow filterWindow, ConnectionStringWindow connectionStringWindow, TestCaseManager testCasesManager, DataTable testCases, BindingList<string> variables, BindingList<string> connectionStringNames)
         {
             this.OpenTestCasesCommand = new OpenTestCasesCommand(this);
             this.OpenTestCasesQueryCommand = new OpenTestCasesQueryCommand(this);

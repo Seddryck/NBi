@@ -10,7 +10,7 @@ namespace NBi.Testing.Acceptance.GenbiL
     public class GenbiLTest
     {
         private const string TEST_SUITE_NAME="Simple-TestSuiteBuild";
-        private string DefintionFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + ".genbil"; } }
+        private string DefinitionFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + ".genbil"; } }
         private string TargetFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + ".nbits"; } }
 
         #region SetUp & TearDown
@@ -49,7 +49,7 @@ namespace NBi.Testing.Acceptance.GenbiL
         public void Run_SimpleTestSuiteBuild_FileGenerated()
         {
             var generator = new TestSuiteGenerator();
-            generator.Load(DefintionFilename);
+            generator.Load(DefinitionFilename);
             generator.Execute();
 
             Assert.That(File.Exists(TargetFilename));
@@ -59,7 +59,7 @@ namespace NBi.Testing.Acceptance.GenbiL
         public void Run_SimpleTestSuiteBuild_FileIsCorrect()
         {
             var generator = new TestSuiteGenerator();
-            generator.Load(DefintionFilename);
+            generator.Load(DefinitionFilename);
             generator.Execute();
 
             if (!File.Exists(TargetFilename))
@@ -99,5 +99,6 @@ namespace NBi.Testing.Acceptance.GenbiL
             Assert.That(content, Is.StringContaining("<subsetOf"));
             Assert.That(content, Is.Not.StringContaining("<item>fourth-hierarchy</item>"));
         }
+
     }
 }

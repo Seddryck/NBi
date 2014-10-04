@@ -195,5 +195,18 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             var saveCase = result as SaveCaseAction;
             Assert.That(saveCase.Filename, Is.EqualTo("myfile.csv"));
         }
+
+        public void SentenceParser_CaseCopy_ValidCopyAction()
+        {
+            var input = "case copy 'master' to 'copied-to'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<CopyCaseAction>());
+
+            var copyCase = result as CopyCaseAction;
+            Assert.That(copyCase.From, Is.EqualTo("master"));
+            Assert.That(copyCase.To, Is.EqualTo("copied-to"));
+        }
     }
 }

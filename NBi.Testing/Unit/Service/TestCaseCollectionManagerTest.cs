@@ -11,6 +11,22 @@ namespace NBi.Testing.Unit.Service
 {
     public class TestCaseCollectionManagerTest
     {
+        private void Load(DataTable table, string[] rows, string columnNames)
+        {
+            var columns = columnNames.Split(',');
+            for (int i = 0; i < columns.Length; i++)
+                table.Columns.Add(new DataColumn(columns[i]));
+
+            foreach (var row in rows)
+            {
+                var newRow = table.NewRow();
+                newRow.ItemArray = row.Split(',');
+                table.Rows.Add(newRow);
+            }
+
+            table.AcceptChanges();
+        }
+        
         [Test]
         public void Item_EmptyCollection_ElementCreated()
         {
@@ -170,20 +186,48 @@ namespace NBi.Testing.Unit.Service
             Assert.That(focus.Content.Columns, Has.Count.EqualTo(4));
         }
 
-        private void Load(DataTable table, string[] rows, string columnNames)
+        [Test]
+        public void Copy_SimpleMaster_CopyIsEffectivelyDone()
         {
-            var columns = columnNames.Split(',');
-            for (int i = 0; i < columns.Length; i++)
-                table.Columns.Add(new DataColumn(columns[i]));
+            var manager = new TestCaseCollectionManager();
+            var master = manager.Item("master");
+            Load(master.Content, new string[] { "a11,a12", "a11,a22", "a21,a32" }, "alpha1,alpha2");
+           
+            manager.Copy("master", "copied");
+            var copied = manager.Item("copied");
 
-            foreach (var row in rows)
-            {
-                var newRow = table.NewRow();
-                newRow.ItemArray = row.Split(',');
-                table.Rows.Add(newRow);
-            }
+            for (int i = 0; i < master.Content.Rows.Count; i++)
+                Assert.That(copied.Content.Rows[i].ItemArray, Is.EqualTo(master.Content.Rows[i].ItemArray)); 
             
-            table.AcceptChanges();
+            Assert.That(copied.Content.Rows, Has.Count.EqualTo(master.Content.Rows.Count));
+        }
+
+        [Test]
+        public void Copy_SimpleMaster_CopyIsNotReferenceCopy()
+        {
+            var manager = new TestCaseCollectionManager();
+            var master = manager.Item("master");
+            Load(master.Content, new string[] { "a11,a12", "a11,a22", "a21,a32" }, "alpha1,alpha2");
+
+            manager.Copy("master", "copied");
+            var copied = manager.Item("copied");
+            manager.Item("master").Content.Clear();
+
+            Assert.That(master.Content.Rows, Has.Count.EqualTo(0));
+            Assert.That(copied.Content.Rows, Has.Count.GreaterThan(0));
+        }
+
+        [Test]
+        public void Copy_SimpleMasterWithCopiedAlreadyLoaded_CopyIsNotAllowed()
+        {
+            var manager = new TestCaseCollectionManager();
+            var master = manager.Item("master");
+            Load(master.Content, new string[] { "a11,a12", "a11,a22", "a21,a32" }, "alpha1,alpha2");
+            
+            var copied = manager.Item("copied");
+            Load(copied.Content, new string[] { "b11,b12", "b11,b22" }, "beta1,beta2");
+
+            Assert.Throws<ArgumentException>(delegate { manager.Copy("master", "copied"); });
         }
     }
 }

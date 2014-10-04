@@ -127,6 +127,15 @@ namespace NBi.GenbiL.Parser
                 select new SaveCaseAction(filename)
         );
 
+        readonly static Parser<ICaseAction> caseCopyParser =
+        (
+                from copy in Keyword.Copy
+                from @from in Grammar.QuotedTextual
+                from toKeyword in Keyword.To
+                from @to in Grammar.QuotedTextual
+                select new CopyCaseAction(@from, @to)
+        );
+
         readonly static Parser<ICaseAction> caseFilterDistinctParser =
         (
                 from filter in Keyword.Filter
@@ -148,6 +157,7 @@ namespace NBi.GenbiL.Parser
                                     .Or(caseCrossOnColumnParser)
                                     .Or(caseCrossFullParser)
                                     .Or(caseSaveParser)
+                                    .Or(caseCopyParser)
                 select action
         );
     }

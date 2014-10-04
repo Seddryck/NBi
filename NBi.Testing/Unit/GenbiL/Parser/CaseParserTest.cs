@@ -183,5 +183,17 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
             Assert.That(crossCase.MatchingColumn, Is.EqualTo("myKey"));
         }
+
+        public void SentenceParser_CaseSave_ValidSaveAction()
+        {
+            var input = "case save 'myfile.csv'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<SaveCaseAction>());
+
+            var saveCase = result as SaveCaseAction;
+            Assert.That(saveCase.Filename, Is.EqualTo("myfile.csv"));
+        }
     }
 }

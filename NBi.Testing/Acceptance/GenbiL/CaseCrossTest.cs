@@ -12,6 +12,7 @@ namespace NBi.Testing.Acceptance.GenbiL
         private const string TEST_SUITE_NAME="CaseCross-TestSuiteBuild";
         private string DefinitionFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + ".genbil"; } }
         private string TargetFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + ".nbits"; } }
+        private string CsvFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + ".csv"; } }
 
         #region SetUp & TearDown
         //Called only at instance creation
@@ -34,6 +35,9 @@ namespace NBi.Testing.Acceptance.GenbiL
         {
             if (File.Exists(TargetFilename))
                 File.Delete(TargetFilename);
+
+            if(File.Exists(CsvFilename))
+                File.Delete(CsvFilename);
         }
 
         //Called after each test
@@ -46,13 +50,23 @@ namespace NBi.Testing.Acceptance.GenbiL
         #endregion
 
         [Test]
-        public void Run_SimpleTestSuiteBuild_FileGenerated()
+        public void Run_CaseCrossTestSuiteBuild_FileGenerated()
         {
             var generator = new TestSuiteGenerator();
             generator.Load(DefinitionFilename);
             generator.Execute();
 
             Assert.That(File.Exists(TargetFilename));
+        }
+
+        [Test]
+        public void Run_SimpleTestSuiteBuild_CsvGenerated()
+        {
+            var generator = new TestSuiteGenerator();
+            generator.Load(DefinitionFilename);
+            generator.Execute();
+
+            Assert.That(File.Exists(CsvFilename));
         }
 
     }

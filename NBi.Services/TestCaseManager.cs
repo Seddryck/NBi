@@ -150,5 +150,11 @@ namespace NBi.Service
             Content.AcceptChanges();
         }
 
+        public void Save(string filename)
+        {
+            var csvWriter = new CsvWriter(true);
+            csvWriter.Write(Content, filename);
+        }
+
     }
 }

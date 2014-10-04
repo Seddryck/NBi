@@ -17,9 +17,9 @@ namespace NBi.GenbiL.Action.Case
 
         public void Execute(GenerationState state)
         {
-            var index = state.TestCaseCollection.Focus.Variables.ToList().FindIndex(v => v == OldVariableName);
-            state.TestCaseCollection.Focus.Variables[index] = NewVariableName;
-            state.TestCaseCollection.Focus.Content.Columns[index].ColumnName = NewVariableName;
+            var index = state.TestCaseCollection.Scope.Variables.ToList().FindIndex(v => v == OldVariableName);
+            state.TestCaseCollection.Scope.Variables[index] = NewVariableName;
+            state.TestCaseCollection.Scope.Content.Columns[index].ColumnName = NewVariableName;
         }
 
         public string Display

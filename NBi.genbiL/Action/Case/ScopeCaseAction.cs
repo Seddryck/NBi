@@ -4,11 +4,11 @@ using NBi.Service;
 
 namespace NBi.GenbiL.Action.Case
 {
-    class FocusCaseAction : ICaseAction
+    class ScopeCaseAction : ICaseAction
     {
         public string Name { get; set; }
         
-        public FocusCaseAction(string name)
+        public ScopeCaseAction(string name)
         {
             Name = name;
         }

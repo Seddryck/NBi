@@ -30,6 +30,7 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<string> Out = Parse.IgnoreCase("Out").Text().Token();
         public static readonly Parser<string> Not = Parse.IgnoreCase("Not").Text().Token();
         public static readonly Parser<string> With = Parse.IgnoreCase("With").Text().Token();
+        public static readonly Parser<string> As = Parse.IgnoreCase("As").Text().Token();
         public static readonly Parser<string> Values = Parse.IgnoreCase("Values").Text().Token();
     }
 }

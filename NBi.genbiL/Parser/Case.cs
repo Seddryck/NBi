@@ -123,6 +123,7 @@ namespace NBi.GenbiL.Parser
         readonly static Parser<ICaseAction> caseSaveParser =
         (
                 from save in Keyword.Save
+                from @as in Keyword.As
                 from filename in Grammar.QuotedTextual
                 select new SaveCaseAction(filename)
         );

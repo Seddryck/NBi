@@ -149,11 +149,11 @@ namespace NBi.Testing.Unit.GenbiL.Parser
 
         public void SentenceParser_CaseFocus_ValidFocusAction()
         {
-            var input = "case focus on 'alpha'";
+            var input = "case scope 'alpha'";
             var result = Case.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<FocusCaseAction>());
+            Assert.That(result, Is.InstanceOf<ScopeCaseAction>());
         }
 
         public void SentenceParser_CaseCross_ValidCrossAction()

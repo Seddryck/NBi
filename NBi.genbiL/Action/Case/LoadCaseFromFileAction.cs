@@ -14,7 +14,7 @@ namespace NBi.GenbiL.Action.Case
 
         public virtual void Execute(GenerationState state)
         {
-            state.TestCaseCollection.Focus.ReadFromCsv(Filename);
+            state.TestCaseCollection.Scope.ReadFromCsv(Filename);
         }
 
         public string Display

@@ -93,12 +93,11 @@ namespace NBi.GenbiL.Parser
                 select new FilterCaseAction(variableName, @operator, text, negation.IsDefined)
         );
 
-        readonly static Parser<ICaseAction> caseFocusParser =
+        readonly static Parser<ICaseAction> caseScopeParser =
         (
-                from focus in Keyword.Focus
-                from onKeyword in Keyword.On
+                from scope in Keyword.Scope
                 from name in Grammar.QuotedTextual
-                select new FocusCaseAction(name)
+                select new ScopeCaseAction(name)
         );
 
         readonly static Parser<ICaseAction> caseCrossFullParser =
@@ -138,7 +137,7 @@ namespace NBi.GenbiL.Parser
                                     .Or(caseMoveParser)
                                     .Or(caseFilterParser)
                                     .Or(caseFilterDistinctParser)
-                                    .Or(caseFocusParser)
+                                    .Or(caseScopeParser)
                                     .Or(caseCrossOnColumnParser)
                                     .Or(caseCrossFullParser)
                 select action

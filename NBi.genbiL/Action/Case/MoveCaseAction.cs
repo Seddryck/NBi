@@ -17,9 +17,9 @@ namespace NBi.GenbiL.Action.Case
 
         public void Execute(GenerationState state)
         {
-            var currentPosition = state.TestCaseCollection.Focus.Variables.IndexOf(VariableName);
+            var currentPosition = state.TestCaseCollection.Scope.Variables.IndexOf(VariableName);
 
-            state.TestCaseCollection.Focus.MoveVariable(VariableName, currentPosition + RelativePosition);
+            state.TestCaseCollection.Scope.MoveVariable(VariableName, currentPosition + RelativePosition);
         }
 
         public string Display

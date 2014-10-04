@@ -10,7 +10,7 @@ namespace NBi.Service
     public class TestCaseCollectionManager 
     {
         private Dictionary<string, TestCaseManager> dico;
-        private string focus;
+        private string scope;
         private const string NO_NAME = "_noname";
 
         public TestCaseCollectionManager()
@@ -28,7 +28,7 @@ namespace NBi.Service
                 dico.Add(name, new TestCaseManager());
 
             if (dico.Count == 1)
-                focus = name;
+                scope = name;
 
             return dico[name];
         }
@@ -50,11 +50,11 @@ namespace NBi.Service
             }
         }
 
-        public TestCaseManager Focus
+        public TestCaseManager Scope
         {
             get
             {
-                return Item(focus);
+                return Item(scope);
             }
         }
 
@@ -63,7 +63,7 @@ namespace NBi.Service
             if (!dico.Keys.Contains(name))
                 dico.Add(name, new TestCaseManager());
             
-            focus = name;
+            scope = name;
         }
 
         public void AddConnectionStrings(string name, string value)
@@ -140,12 +140,12 @@ namespace NBi.Service
             }
 
             var dataReader = table.CreateDataReader();
-            Focus.Content.Clear();
-            Focus.Content.Load(dataReader, LoadOption.PreserveChanges);
-            Focus.Content.AcceptChanges();
-            Focus.Variables.Clear();
-            foreach (DataColumn column in Focus.Content.Columns)
-                Focus.Variables.Add(column.ColumnName);
+            Scope.Content.Clear();
+            Scope.Content.Load(dataReader, LoadOption.PreserveChanges);
+            Scope.Content.AcceptChanges();
+            Scope.Variables.Clear();
+            foreach (DataColumn column in Scope.Content.Columns)
+                Scope.Variables.Add(column.ColumnName);
         }
 
 

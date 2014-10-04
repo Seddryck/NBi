@@ -65,7 +65,7 @@ namespace NBi.Testing.Unit.Service
             var tc1 = manager.Item("alpha");
             var tc2 = manager.Item("beta");
 
-            var focus = manager.Focus;
+            var focus = manager.Scope;
 
             Assert.That(focus, Is.EqualTo(tc1));
         }
@@ -78,7 +78,7 @@ namespace NBi.Testing.Unit.Service
             var tc2 = manager.Item("beta");
 
             manager.SetFocus("beta");
-            var focus = manager.Focus;
+            var focus = manager.Scope;
 
             Assert.That(focus, Is.EqualTo(tc2));
         }
@@ -95,7 +95,7 @@ namespace NBi.Testing.Unit.Service
             manager.SetFocus("gamma");
             manager.Cross("alpha", "beta");
 
-            var focus = manager.Focus;
+            var focus = manager.Scope;
 
             Assert.That(focus.Content.Rows, Has.Count.EqualTo(6));
             Assert.That(focus.Content.Columns, Has.Count.EqualTo(5));
@@ -128,7 +128,7 @@ namespace NBi.Testing.Unit.Service
             manager.SetFocus("gamma");
             manager.Cross("alpha", "beta");
 
-            var focus = manager.Focus;
+            var focus = manager.Scope;
 
             Assert.That(focus.Content.Rows, Has.Count.EqualTo(6));
             Assert.That(focus.Content.Columns, Has.Count.EqualTo(4));
@@ -146,7 +146,7 @@ namespace NBi.Testing.Unit.Service
             manager.SetFocus("gamma");
             manager.Cross("alpha", "beta", "alpha1");
 
-            var focus = manager.Focus;
+            var focus = manager.Scope;
 
             Assert.That(focus.Content.Rows, Has.Count.EqualTo(4));
             Assert.That(focus.Content.Columns, Has.Count.EqualTo(4));
@@ -164,7 +164,7 @@ namespace NBi.Testing.Unit.Service
             manager.SetFocus("gamma");
             manager.Cross("alpha", "beta", "alpha1");
 
-            var focus = manager.Focus;
+            var focus = manager.Scope;
 
             Assert.That(focus.Content.Rows, Has.Count.EqualTo(5));
             Assert.That(focus.Content.Columns, Has.Count.EqualTo(4));

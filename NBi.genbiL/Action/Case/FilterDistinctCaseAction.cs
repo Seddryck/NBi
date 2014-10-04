@@ -14,7 +14,7 @@ namespace NBi.GenbiL.Action.Case
 
         public void Execute(GenerationState state)
         {
-            state.TestCaseCollection.Focus.FilterDistinct();
+            state.TestCaseCollection.Scope.FilterDistinct();
         }
 
         public virtual string Display

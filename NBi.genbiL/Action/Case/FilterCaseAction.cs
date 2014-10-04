@@ -20,7 +20,7 @@ namespace NBi.GenbiL.Action.Case
         }
         public void Execute(GenerationState state)
         {
-            state.TestCaseCollection.Focus.Filter(Column, Operator, Negation, Text);
+            state.TestCaseCollection.Scope.Filter(Column, Operator, Negation, Text);
         }
 
         public virtual string Display

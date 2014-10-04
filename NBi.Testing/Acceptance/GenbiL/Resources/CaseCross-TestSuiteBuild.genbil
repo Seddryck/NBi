@@ -16,7 +16,7 @@ case cross 'dim' with 'hierarchy' on 'dimension';
 
 case copy 'combine' to 'ready';
 case scope 'ready';
-case save 'Acceptance\GenbiL\Resources\CaseCross-TestSuiteBuild.csv';
+case save as 'Acceptance\GenbiL\Resources\CaseCross-TestSuiteBuild.csv';
 
 template load predefined 'ExistsHierarchy';
 suite generate;

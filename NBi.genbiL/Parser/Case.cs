@@ -120,6 +120,13 @@ namespace NBi.GenbiL.Parser
                 select new CrossCaseAction(first, second, matchingColumn)
         );
 
+        readonly static Parser<ICaseAction> caseSaveParser =
+        (
+                from save in Keyword.Save
+                from filename in Grammar.QuotedTextual
+                select new SaveCaseAction(filename)
+        );
+
         readonly static Parser<ICaseAction> caseFilterDistinctParser =
         (
                 from filter in Keyword.Filter
@@ -140,6 +147,7 @@ namespace NBi.GenbiL.Parser
                                     .Or(caseScopeParser)
                                     .Or(caseCrossOnColumnParser)
                                     .Or(caseCrossFullParser)
+                                    .Or(caseSaveParser)
                 select action
         );
     }

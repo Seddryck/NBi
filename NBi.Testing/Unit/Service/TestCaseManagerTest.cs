@@ -163,6 +163,26 @@ namespace NBi.Testing.Unit.Service
             Assert.That(manager.Content.Rows[0][0], Is.EqualTo("matching"));
         }
 
+        public void Filter_EqualWithoutMatch_EmptyContent()
+        {
+            var manager = new TestCaseManager();
+            //Setup content;
+            manager.Content.Columns.Add(new DataColumn("columnName"));
+            manager.Variables.Add("columnName");
+            var nonMatchingRow1 = manager.Content.NewRow();
+            nonMatchingRow1[0] = "abc";
+            var nonMatchingRow2 = manager.Content.NewRow();
+            nonMatchingRow2[0] = "xyz";
+            manager.Content.Rows.Add(nonMatchingRow1);
+            manager.Content.Rows.Add(nonMatchingRow2);
+            manager.Content.AcceptChanges();
+
+            //Setup filter
+            manager.Filter("columnName", Operator.Equal, false, "matching");
+
+            Assert.That(manager.Content.Rows, Has.Count.EqualTo(0));
+        }
+
         [Test]
         public void Filter_Distinct_CorrectNewContent()
         {

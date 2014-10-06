@@ -21,7 +21,7 @@ namespace NBi.Service
         public void ReadFromCsv(string filename)
         {
             var csvReader = new CsvReader(filename, true);
-            content = csvReader.Read();          
+            content = csvReader.Read();
 
             variables.Clear();
             foreach (DataColumn col in Content.Columns)
@@ -46,7 +46,7 @@ namespace NBi.Service
             var queryEngine = queryEngineFactory.GetExecutor(query, connectionString);
             var ds = queryEngine.Execute();
             content = ds.Tables[0];
-                
+
             variables.Clear();
             foreach (DataColumn col in Content.Columns)
                 variables.Add(col.ColumnName);
@@ -72,17 +72,17 @@ namespace NBi.Service
 
         public void RenameVariable(int index, string newName)
         {
-            if (variables.Count<=index)
+            if (variables.Count <= index)
                 throw new ArgumentOutOfRangeException("index");
             //Rename the variable
-            variables[index]=newName;
+            variables[index] = newName;
             //Rename the column
-            content.Columns[index].ColumnName=newName;
+            content.Columns[index].ColumnName = newName;
         }
 
         public void MoveVariable(string variableName, int newPosition)
         {
-            if(!variables.Contains(variableName))
+            if (!variables.Contains(variableName))
                 throw new ArgumentOutOfRangeException("variableName");
             //Move the variable
             var oldPosition = variables.IndexOf(variableName);
@@ -101,11 +101,18 @@ namespace NBi.Service
 
             var index = variables.IndexOf(variableName);
 
+            DataTableReader dataReader = null;
             var filteredRows = Content.AsEnumerable().Where(row => compare(row[index].ToString(), text) != negation);
-            var filteredTable = filteredRows.CopyToDataTable();
-            var dataReader = filteredTable.CreateDataReader();
+            if (filteredRows.Count() > 0)
+            {
+                var filteredTable = filteredRows.CopyToDataTable();
+                dataReader = filteredTable.CreateDataReader();
+            }
+
             Content.Clear();
-            Content.Load(dataReader, LoadOption.PreserveChanges);
+            if (dataReader!=null)
+                Content.Load(dataReader, LoadOption.PreserveChanges);
+            
             Content.AcceptChanges();
         }
 
@@ -114,7 +121,7 @@ namespace NBi.Service
             switch (@operator)
             {
                 case Operator.Equal:
-                    compare = (a,b) => a==b;
+                    compare = (a, b) => a == b;
                     break;
                 case Operator.Like:
                     compare = Like;

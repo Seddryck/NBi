@@ -149,11 +149,17 @@ namespace NBi.Service
 
         public void FilterDistinct()
         {
-            var distinctRows = Content.AsEnumerable().Distinct(System.Data.DataRowComparer.Default).ToList();
-            var distinctTable = distinctRows.CopyToDataTable();
-            var dataReader = distinctTable.CreateDataReader();
+            DataTableReader dataReader = null;
+            var distinctRows = Content.AsEnumerable().Distinct(System.Data.DataRowComparer.Default);
+
+            if (distinctRows.Count() > 0)
+            {
+                var distinctTable = distinctRows.CopyToDataTable();
+                dataReader = distinctTable.CreateDataReader();
+            }
             Content.Clear();
-            Content.Load(dataReader, LoadOption.PreserveChanges);
+            if(dataReader!=null)
+                Content.Load(dataReader, LoadOption.PreserveChanges);
             Content.AcceptChanges();
         }
 

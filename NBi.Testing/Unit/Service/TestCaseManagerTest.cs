@@ -208,5 +208,20 @@ namespace NBi.Testing.Unit.Service
             Assert.That(manager.Content.Rows[0][0], Is.EqualTo("alpha"));
             Assert.That(manager.Content.Rows[1][0], Is.EqualTo("beta"));
         }
+
+        [Test]
+        public void Filter_Distinct_EmptyContent()
+        {
+            var manager = new TestCaseManager();
+            //Setup content;
+            manager.Content.Columns.Add(new DataColumn("columnName"));
+            manager.Variables.Add("columnName");
+            manager.Content.AcceptChanges();
+
+            //Setup filter
+            manager.FilterDistinct();
+
+            Assert.That(manager.Content.Rows, Has.Count.EqualTo(0));
+        }
     }
 }

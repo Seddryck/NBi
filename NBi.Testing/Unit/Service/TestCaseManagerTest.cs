@@ -163,6 +163,7 @@ namespace NBi.Testing.Unit.Service
             Assert.That(manager.Content.Rows[0][0], Is.EqualTo("matching"));
         }
 
+        [Test]
         public void Filter_EqualWithoutMatch_EmptyContent()
         {
             var manager = new TestCaseManager();

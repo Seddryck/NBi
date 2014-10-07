@@ -43,7 +43,7 @@ namespace NBi.Testing.Integration.Core.Report
 
         private bool CheckIfSqlServerStarted()
         {
-            var pname = Process.GetProcesses().Where(p => p.ProcessName.Contains("sqlservr"));
+            var pname = System.Diagnostics.Process.GetProcesses().Where(p => p.ProcessName.Contains("sqlservr"));
             return pname.Count() > 0;
         }
         #endregion

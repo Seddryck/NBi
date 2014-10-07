@@ -74,7 +74,7 @@ namespace NBi.Testing.Integration.Core.Etl.IntegrationService
 
         private bool CheckIfIntegrationServiceStarted()
         {
-            var pname = Process.GetProcesses().Where(p => p.ProcessName.Contains("MsDtsSrvr"));
+            var pname = System.Diagnostics.Process.GetProcesses().Where(p => p.ProcessName.Contains("MsDtsSrvr"));
             IgnoreMessage = "Integration Service not started.";
             return pname.Count() > 0;
         }

@@ -8,21 +8,20 @@ using NBi.Core.Query;
 
 namespace NBi.Service
 {
-    public class TestCasesManager
+    public class TestCaseManager
     {
         private Func<string, string, bool> compare;
 
-        public TestCasesManager()
+        internal TestCaseManager()
         {
             variables = new List<string>();
             content = new DataTable();
-            connectionStrings = new Dictionary<string, string>();
         }
 
         public void ReadFromCsv(string filename)
         {
             var csvReader = new CsvReader(filename, true);
-            content = csvReader.Read();          
+            content = csvReader.Read();
 
             variables.Clear();
             foreach (DataColumn col in Content.Columns)
@@ -47,7 +46,7 @@ namespace NBi.Service
             var queryEngine = queryEngineFactory.GetExecutor(query, connectionString);
             var ds = queryEngine.Execute();
             content = ds.Tables[0];
-                
+
             variables.Clear();
             foreach (DataColumn col in Content.Columns)
                 variables.Add(col.ColumnName);
@@ -71,36 +70,19 @@ namespace NBi.Service
             }
         }
 
-        private readonly Dictionary<string,string> connectionStrings;
-        public Dictionary<string, string> ConnectionStrings
-        {
-            get
-            {
-                return connectionStrings;
-            }
-        }
-
-        public List<string> ConnectionStringNames
-        {
-            get
-            {
-                return ConnectionStrings.Keys.ToList();
-            }
-        }
-
         public void RenameVariable(int index, string newName)
         {
-            if (variables.Count<=index)
+            if (variables.Count <= index)
                 throw new ArgumentOutOfRangeException("index");
             //Rename the variable
-            variables[index]=newName;
+            variables[index] = newName;
             //Rename the column
-            content.Columns[index].ColumnName=newName;
+            content.Columns[index].ColumnName = newName;
         }
 
         public void MoveVariable(string variableName, int newPosition)
         {
-            if(!variables.Contains(variableName))
+            if (!variables.Contains(variableName))
                 throw new ArgumentOutOfRangeException("variableName");
             //Move the variable
             var oldPosition = variables.IndexOf(variableName);
@@ -119,11 +101,18 @@ namespace NBi.Service
 
             var index = variables.IndexOf(variableName);
 
+            DataTableReader dataReader = null;
             var filteredRows = Content.AsEnumerable().Where(row => compare(row[index].ToString(), text) != negation);
-            var filteredTable = filteredRows.CopyToDataTable();
-            var dataReader = filteredTable.CreateDataReader();
+            if (filteredRows.Count() > 0)
+            {
+                var filteredTable = filteredRows.CopyToDataTable();
+                dataReader = filteredTable.CreateDataReader();
+            }
+
             Content.Clear();
-            Content.Load(dataReader, LoadOption.PreserveChanges);
+            if (dataReader!=null)
+                Content.Load(dataReader, LoadOption.PreserveChanges);
+            
             Content.AcceptChanges();
         }
 
@@ -132,7 +121,7 @@ namespace NBi.Service
             switch (@operator)
             {
                 case Operator.Equal:
-                    compare = (a,b) => a==b;
+                    compare = (a, b) => a == b;
                     break;
                 case Operator.Like:
                     compare = Like;
@@ -160,36 +149,24 @@ namespace NBi.Service
 
         public void FilterDistinct()
         {
-            var distinctRows = Content.AsEnumerable().Distinct(System.Data.DataRowComparer.Default).ToList();
-            var distinctTable = distinctRows.CopyToDataTable();
-            var dataReader = distinctTable.CreateDataReader();
+            DataTableReader dataReader = null;
+            var distinctRows = Content.AsEnumerable().Distinct(System.Data.DataRowComparer.Default);
+
+            if (distinctRows.Count() > 0)
+            {
+                var distinctTable = distinctRows.CopyToDataTable();
+                dataReader = distinctTable.CreateDataReader();
+            }
             Content.Clear();
-            Content.Load(dataReader, LoadOption.PreserveChanges);
+            if(dataReader!=null)
+                Content.Load(dataReader, LoadOption.PreserveChanges);
             Content.AcceptChanges();
         }
 
-        public void AddConnectionStrings(string name, string value)
+        public void Save(string filename)
         {
-            if (connectionStrings.Keys.Contains(name))
-                throw new ArgumentException("name");
-
-            connectionStrings.Add(name, value);
-        }
-
-        public void RemoveConnectionStrings(string name)
-        {
-            if (!connectionStrings.Keys.Contains(name))
-                throw new ArgumentException("name");
-
-            connectionStrings.Remove(name);
-        }
-
-        public void EditConnectionStrings(string name, string newValue)
-        {
-            if (!connectionStrings.Keys.Contains(name))
-                throw new ArgumentException("name");
-
-            connectionStrings[name] = newValue;
+            var csvWriter = new CsvWriter(true);
+            csvWriter.Write(Content, filename);
         }
 
     }

@@ -46,5 +46,27 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(((ReferenceAction)result).Name, Is.EqualTo("no way"));
             Assert.That(((ReferenceAction)result).Value, Is.EqualTo("youyou"));
         }
+
+        [Test]
+        public void SentenceParser_ParallelizeQueriesOn_ValidSentence()
+        {
+            var input = "setting set 'parallelize-queries' on;";
+            var result = Setting.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<ParallelizeQueriesAction>());
+            Assert.That(((ParallelizeQueriesAction)result).Value, Is.True);
+        }
+
+        [Test]
+        public void SentenceParser_ParallelizeQueriesOff_ValidSentence()
+        {
+            var input = "setting set 'parallelize-queries' off;";
+            var result = Setting.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<ParallelizeQueriesAction>());
+            Assert.That(((ParallelizeQueriesAction)result).Value, Is.False);
+        }
     }
 }

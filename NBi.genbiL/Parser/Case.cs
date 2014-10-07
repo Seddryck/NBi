@@ -93,6 +93,50 @@ namespace NBi.GenbiL.Parser
                 select new FilterCaseAction(variableName, @operator, text, negation.IsDefined)
         );
 
+        readonly static Parser<ICaseAction> caseScopeParser =
+        (
+                from scope in Keyword.Scope
+                from name in Grammar.QuotedTextual
+                select new ScopeCaseAction(name)
+        );
+
+        readonly static Parser<ICaseAction> caseCrossFullParser =
+        (
+                from cross in Keyword.Cross
+                from first in Grammar.QuotedTextual
+                from withKeyword in Keyword.With
+                from second in Grammar.QuotedTextual
+                select new CrossCaseAction(first, second)
+        );
+
+        readonly static Parser<ICaseAction> caseCrossOnColumnParser =
+        (
+                from cross in Keyword.Cross
+                from first in Grammar.QuotedTextual
+                from withKeyword in Keyword.With
+                from second in Grammar.QuotedTextual
+                from onKeyword in Keyword.On
+                from matchingColumn in Grammar.QuotedTextual
+                select new CrossCaseAction(first, second, matchingColumn)
+        );
+
+        readonly static Parser<ICaseAction> caseSaveParser =
+        (
+                from save in Keyword.Save
+                from @as in Keyword.As
+                from filename in Grammar.QuotedTextual
+                select new SaveCaseAction(filename)
+        );
+
+        readonly static Parser<ICaseAction> caseCopyParser =
+        (
+                from copy in Keyword.Copy
+                from @from in Grammar.QuotedTextual
+                from toKeyword in Keyword.To
+                from @to in Grammar.QuotedTextual
+                select new CopyCaseAction(@from, @to)
+        );
+
         readonly static Parser<ICaseAction> caseFilterDistinctParser =
         (
                 from filter in Keyword.Filter
@@ -104,7 +148,17 @@ namespace NBi.GenbiL.Parser
         public readonly static Parser<IAction> Parser =
         (
                 from @case in Keyword.Case
-                from action in caseLoadParser.Or(caseRemoveParser).Or(caseRenameParser).Or(caseMoveParser).Or(caseFilterParser).Or(caseFilterDistinctParser)
+                from action in caseLoadParser
+                                    .Or(caseRemoveParser)
+                                    .Or(caseRenameParser)
+                                    .Or(caseMoveParser)
+                                    .Or(caseFilterParser)
+                                    .Or(caseFilterDistinctParser)
+                                    .Or(caseScopeParser)
+                                    .Or(caseCrossOnColumnParser)
+                                    .Or(caseCrossFullParser)
+                                    .Or(caseSaveParser)
+                                    .Or(caseCopyParser)
                 select action
         );
     }

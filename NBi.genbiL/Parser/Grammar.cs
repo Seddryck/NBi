@@ -14,5 +14,11 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<string> Record = Textual.Or(BracketTextual);
         public static readonly Parser<IEnumerable<string>> RecordSequence = Record.DelimitedBy(Parse.Char(','));
         public static readonly Parser<char> Terminator = Parse.Char(';').Token();
+        public static readonly Parser<bool> Boolean = Parse.IgnoreCase("on").Return(true)
+                                                        .Or(Parse.IgnoreCase("yes").Return(true))
+                                                        .Or(Parse.IgnoreCase("true").Return(true))
+                                                        .Or(Parse.IgnoreCase("off").Return(false))
+                                                        .Or(Parse.IgnoreCase("no").Return(false))
+                                                        .Or(Parse.IgnoreCase("false").Return(false));
     }
 }

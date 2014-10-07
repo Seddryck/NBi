@@ -17,7 +17,7 @@ namespace NBi.GenbiL.Action.Case
 
         public virtual void Execute(GenerationState state)
         {
-            state.TestCases.ReadFromQueryFile(Filename, ConnectionString);
+            state.TestCaseCollection.Scope.ReadFromQueryFile(Filename, ConnectionString);
         }
 
         public string Display

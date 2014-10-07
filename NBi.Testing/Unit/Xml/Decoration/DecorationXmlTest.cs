@@ -236,7 +236,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             // Check the properties of the object.
             var command = ts.Groups[groupNr].Tests[0].Setup.Commands[0];
 
-            Assert.That(command, Is.TypeOf<ProcessRunXml>());
+            Assert.That(command, Is.TypeOf<ExeRunXml>());
             var move = command as IRunCommand;
             Assert.That(move.FullPath, Is.EqualTo(@"Batches\clean.exe"));
             Assert.That(move.Argument, Is.EqualTo("-all"));
@@ -253,7 +253,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             // Check the properties of the object.
             var command = ts.Groups[groupNr].Tests[0].Setup.Commands[1];
 
-            Assert.That(command, Is.TypeOf<ProcessRunXml>());
+            Assert.That(command, Is.TypeOf<ExeRunXml>());
             var move = command as IRunCommand;
             Assert.That(move.FullPath, Is.EqualTo(@"load.exe"));
             Assert.That(move.TimeOut, Is.EqualTo(0));

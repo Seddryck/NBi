@@ -10,7 +10,7 @@ using NBi.Core.Process;
 
 namespace NBi.Xml.Decoration.Command
 {
-    public class ProcessRunXml : DecorationCommandXml, IRunCommand
+    public class ExeRunXml : DecorationCommandXml, IRunCommand
     {
         [XmlAttribute("name")]
         public string Name { get; set; }
@@ -44,7 +44,7 @@ namespace NBi.Xml.Decoration.Command
         [DefaultValue(0)]
         public int TimeOut { get; set; }
 
-        public ProcessRunXml()
+        public ExeRunXml()
         {
             TimeOut = 0;
         }

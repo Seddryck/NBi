@@ -103,6 +103,7 @@
     <Compile Include="Integration\Core\Analysis\Request\DiscoveryRequestFactoryTest.cs" />
     <Compile Include="Integration\Core\Analysis\MembersAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />
+    <Compile Include="Integration\Core\CsvWriterTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\BulkLoadCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\TruncateCommandTest.cs" />
     <Compile Include="Integration\Core\Etl\IntegrationService\EtlDtsWindowsRunnerTest.cs" />

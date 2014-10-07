@@ -151,6 +151,7 @@ namespace NBi.Testing.Unit.Core
             }
         }
 
+        [Test]
         public void Write_OneRowDontNeedQuoting_CorrectlyNotQuoted()
         {
             var table = new DataTable();

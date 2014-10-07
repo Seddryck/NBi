@@ -34,7 +34,7 @@ namespace NBi.Core
 
         public void Write (DataTable table, string filename)
         {
-            using (StreamWriter writer = new StreamWriter(filename))
+            using (StreamWriter writer = new StreamWriter(filename, false, Encoding.UTF8))
             {
                 Write(table, writer);
             }

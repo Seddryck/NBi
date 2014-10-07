@@ -66,6 +66,8 @@
     <Compile Include="Action\EmptyAction.cs" />
     <Compile Include="Action\IAction.cs" />
     <Compile Include="Action\Setting\ISettingAction.cs" />
+    <Compile Include="Action\Setting\ParameterActionFactory.cs" />
+    <Compile Include="Action\Setting\ParallelizeQueriesAction.cs" />
     <Compile Include="Action\Suite\SaveSuiteAction.cs" />
     <Compile Include="Action\Suite\ISuiteAction.cs" />
     <Compile Include="Action\Template\ITemplateAction.cs" />

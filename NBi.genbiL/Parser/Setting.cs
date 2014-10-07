@@ -33,10 +33,18 @@ namespace NBi.GenbiL.Parser
                 select new ReferenceAction(name, variable, value)
         );
 
+        readonly static Parser<ISettingAction> ParameterParser =
+        (
+                from setKeyword in Keyword.Set
+                from name in Grammar.QuotedTextual.Token()
+                from value in Grammar.Boolean
+                select new ParameterActionFactory().Build(name.ToString(), value)
+        );
+
         public readonly static Parser<IAction> Parser =
         (
                 from setting in Keyword.Setting
-                from text in ReferenceParser.Or(DefaultParser)
+                from text in ReferenceParser.Or(DefaultParser).Or(ParameterParser)
                 select text
         );
     }

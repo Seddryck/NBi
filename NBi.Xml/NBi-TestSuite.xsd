@@ -266,6 +266,7 @@
         <xs:element name="service-stop" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="table-reset" type="table-reset-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="table-load" type="table-load-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="exe-run" type="exe-run-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-delete" type="file-delete-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
@@ -280,6 +281,7 @@
         <xs:element name="service-stop" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="table-reset" type="table-reset-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="table-load" type="table-load-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="exe-run" type="exe-run-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-delete" type="file-delete-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
@@ -309,6 +311,12 @@
         <xs:attribute name="source-path" use="required"/>
       </xs:extension>
     </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="exe-run-type" >
+    <xs:attribute name="name" use="required"/>
+    <xs:attribute name="path" use="optional"/>
+    <xs:attribute name="arguments" use="optional"/>
+    <xs:attribute name="timeout-milliseconds" use="optional"/>
   </xs:complexType>
   <xs:complexType name="service-type" >
     <xs:attribute name="name" use="required"/>

@@ -4,6 +4,7 @@ using NBi.Core.DataManipulation;
 using NBi.Core.Etl;
 using NBi.Core.WindowsService;
 using NBi.Core.FileManipulation;
+using NBi.Core.Process;
 
 namespace NBi.Core
 {
@@ -35,6 +36,13 @@ namespace NBi.Core
             {
                 return new FileManipulationFactory().Get(command as IFileManipulationCommand);
             }
+            
+            if (command is IProcessCommand)
+            {
+                return new ProcessCommandFactory().Get(command as IProcessCommand);
+            }
+
+
 
             throw new ArgumentException();
         }

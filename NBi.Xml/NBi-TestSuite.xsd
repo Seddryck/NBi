@@ -307,6 +307,7 @@
     <xs:attribute name="connectionString" use="optional"/>
     <xs:attribute name="path" use="optional"/>
     <xs:attribute name="name" use="required"/>
+  </xs:complexType>
   <xs:complexType name="file-delete-type">
     <xs:attribute name="path" use="required"/>
     <xs:attribute name="name" use="required"/>

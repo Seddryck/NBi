@@ -231,8 +231,8 @@
   <group name="process manipulation">
     <test name="process run">
       <setup>
-        <process-run path="Batches\" name="clean.exe" timeout-milliseconds="1000" arguments="-all"/>
-        <process-run name="load.exe"/>
+        <exe-run path="Batches\" name="clean.exe" timeout-milliseconds="1000" arguments="-all"/>
+        <exe-run name="load.exe"/>
       </setup>
       <system-under-test>
         <execution>

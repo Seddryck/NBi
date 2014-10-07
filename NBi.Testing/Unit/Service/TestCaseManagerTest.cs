@@ -7,12 +7,12 @@ using NUnit.Framework;
 namespace NBi.Testing.Unit.Service
 {
     [TestFixture]
-    public class TestCasesManagerTest
+    public class TestCaseManagerTest
     {
         [Test]
         public void Filter_Equal_CorrectNewContent()
         {
-            var manager = new TestCasesManager();
+            var manager = new TestCaseManager();
             //Setup content;
             manager.Content.Columns.Add(new DataColumn("columnName"));
             manager.Variables.Add("columnName");
@@ -34,7 +34,7 @@ namespace NBi.Testing.Unit.Service
         [Test]
         public void Filter_NotEqual_CorrectNewContent()
         {
-            var manager = new TestCasesManager();
+            var manager = new TestCaseManager();
             //Setup content;
             manager.Content.Columns.Add(new DataColumn("columnName"));
             manager.Variables.Add("columnName");
@@ -56,7 +56,7 @@ namespace NBi.Testing.Unit.Service
         [Test]
         public void Filter_LikeStart_CorrectNewContent()
         {
-            var manager = new TestCasesManager();
+            var manager = new TestCaseManager();
             //Setup content;
             manager.Content.Columns.Add(new DataColumn("columnName"));
             manager.Variables.Add("columnName");
@@ -78,7 +78,7 @@ namespace NBi.Testing.Unit.Service
         [Test]
         public void Filter_LikeEnd_CorrectNewContent()
         {
-            var manager = new TestCasesManager();
+            var manager = new TestCaseManager();
             //Setup content;
             manager.Content.Columns.Add(new DataColumn("columnName"));
             manager.Variables.Add("columnName");
@@ -100,7 +100,7 @@ namespace NBi.Testing.Unit.Service
         [Test]
         public void Filter_LikeContain_CorrectNewContent()
         {
-            var manager = new TestCasesManager();
+            var manager = new TestCaseManager();
             //Setup content;
             manager.Content.Columns.Add(new DataColumn("columnName"));
             manager.Variables.Add("columnName");
@@ -122,7 +122,7 @@ namespace NBi.Testing.Unit.Service
         [Test]
         public void Filter_LikeContainBounded_CorrectNewContent()
         {
-            var manager = new TestCasesManager();
+            var manager = new TestCaseManager();
             //Setup content;
             manager.Content.Columns.Add(new DataColumn("columnName"));
             manager.Variables.Add("columnName");
@@ -144,7 +144,7 @@ namespace NBi.Testing.Unit.Service
         [Test]
         public void Filter_LikeContainComplex_CorrectNewContent()
         {
-            var manager = new TestCasesManager();
+            var manager = new TestCaseManager();
             //Setup content;
             manager.Content.Columns.Add(new DataColumn("columnName"));
             manager.Variables.Add("columnName");
@@ -164,9 +164,30 @@ namespace NBi.Testing.Unit.Service
         }
 
         [Test]
+        public void Filter_EqualWithoutMatch_EmptyContent()
+        {
+            var manager = new TestCaseManager();
+            //Setup content;
+            manager.Content.Columns.Add(new DataColumn("columnName"));
+            manager.Variables.Add("columnName");
+            var nonMatchingRow1 = manager.Content.NewRow();
+            nonMatchingRow1[0] = "abc";
+            var nonMatchingRow2 = manager.Content.NewRow();
+            nonMatchingRow2[0] = "xyz";
+            manager.Content.Rows.Add(nonMatchingRow1);
+            manager.Content.Rows.Add(nonMatchingRow2);
+            manager.Content.AcceptChanges();
+
+            //Setup filter
+            manager.Filter("columnName", Operator.Equal, false, "matching");
+
+            Assert.That(manager.Content.Rows, Has.Count.EqualTo(0));
+        }
+
+        [Test]
         public void Filter_Distinct_CorrectNewContent()
         {
-            var manager = new TestCasesManager();
+            var manager = new TestCaseManager();
             //Setup content;
             manager.Content.Columns.Add(new DataColumn("columnName"));
             manager.Variables.Add("columnName");
@@ -187,6 +208,21 @@ namespace NBi.Testing.Unit.Service
             Assert.That(manager.Content.Rows, Has.Count.EqualTo(2));
             Assert.That(manager.Content.Rows[0][0], Is.EqualTo("alpha"));
             Assert.That(manager.Content.Rows[1][0], Is.EqualTo("beta"));
+        }
+
+        [Test]
+        public void Filter_Distinct_EmptyContent()
+        {
+            var manager = new TestCaseManager();
+            //Setup content;
+            manager.Content.Columns.Add(new DataColumn("columnName"));
+            manager.Variables.Add("columnName");
+            manager.Content.AcceptChanges();
+
+            //Setup filter
+            manager.FilterDistinct();
+
+            Assert.That(manager.Content.Rows, Has.Count.EqualTo(0));
         }
     }
 }

@@ -146,5 +146,67 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<FilterDistinctCaseAction>());
         }
+
+        public void SentenceParser_CaseFocus_ValidFocusAction()
+        {
+            var input = "case scope 'alpha'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<ScopeCaseAction>());
+        }
+
+        public void SentenceParser_CaseCross_ValidCrossAction()
+        {
+            var input = "case cross 'alpha' with 'beta'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<CrossCaseAction>());
+
+            var crossCase = result as CrossCaseAction;
+            Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
+            Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
+            Assert.That(crossCase.MatchingColumn, Is.Null.Or.Empty);
+        }
+
+        public void SentenceParser_CaseCrossOnColumn_ValidCrossAction()
+        {
+            var input = "case cross 'alpha' with 'beta' on 'myKey'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<CrossCaseAction>());
+
+            var crossCase = result as CrossCaseAction;
+            Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
+            Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
+            Assert.That(crossCase.MatchingColumn, Is.EqualTo("myKey"));
+        }
+
+        public void SentenceParser_CaseSave_ValidSaveAction()
+        {
+            var input = "case save as 'myfile.csv'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<SaveCaseAction>());
+
+            var saveCase = result as SaveCaseAction;
+            Assert.That(saveCase.Filename, Is.EqualTo("myfile.csv"));
+        }
+
+        public void SentenceParser_CaseCopy_ValidCopyAction()
+        {
+            var input = "case copy 'master' to 'copied-to'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<CopyCaseAction>());
+
+            var copyCase = result as CopyCaseAction;
+            Assert.That(copyCase.From, Is.EqualTo("master"));
+            Assert.That(copyCase.To, Is.EqualTo("copied-to"));
+        }
     }
 }

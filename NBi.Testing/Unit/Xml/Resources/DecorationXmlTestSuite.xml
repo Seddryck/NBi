@@ -231,6 +231,22 @@
   <group name="process manipulation">
     <test name="process run">
       <setup>
+        <exe-run path="Batches\" name="clean.exe" timeout-milliseconds="1000" arguments="-all"/>
+        <exe-run name="load.exe"/>
+      </setup>
+      <system-under-test>
+        <execution>
+          <query>select * from table</query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <syntacticallyCorrect/>
+      </assert>
+    </test>
+  </group>
+  <group name="sql manipulation">
+    <test name="sql run">
+      <setup>
         <sql-run path="Batches\" name="build.sql" connectionString="Data source=(local);Initial Catalog=MyDB"/>
         <sql-run name="import.sql"/>
       </setup>

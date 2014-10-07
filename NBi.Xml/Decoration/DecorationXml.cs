@@ -14,6 +14,9 @@ namespace NBi.Xml.Decoration
         XmlElement(Type = typeof(TableResetXml), ElementName = "table-reset"),
         XmlElement(Type = typeof(ServiceStartXml), ElementName = "service-start"),
         XmlElement(Type = typeof(ServiceStopXml), ElementName = "service-stop"),
+        XmlElement(Type = typeof(ExeRunXml), ElementName = "exe-run"),
+        XmlElement(Type = typeof(FileDeleteXml), ElementName = "file-delete"),
+        XmlElement(Type = typeof(FileCopyXml), ElementName = "file-copy"),
         XmlElement(Type = typeof(EtlRunXml), ElementName = "etl-run"),
         XmlElement(Type = typeof(CommandGroupXml), ElementName = "tasks")
         ]

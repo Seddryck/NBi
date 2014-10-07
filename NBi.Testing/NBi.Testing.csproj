@@ -89,6 +89,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Acceptance\GenbiL\CaseCrossTest.cs" />
     <Compile Include="Acceptance\GenbiL\GenbiLTest.cs" />
     <Compile Include="Acceptance\Resources\AssemblyClass.cs" />
     <Compile Include="Acceptance\RuntimeOverrider.cs" />
@@ -102,11 +103,15 @@
     <Compile Include="Integration\Core\Analysis\Request\DiscoveryRequestFactoryTest.cs" />
     <Compile Include="Integration\Core\Analysis\MembersAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />
+    <Compile Include="Integration\Core\CsvWriterTest.cs" />
     <Compile Include="Integration\Core\Batch\SqlServer\BatchCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\BulkLoadCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\TruncateCommandTest.cs" />
     <Compile Include="Integration\Core\Etl\IntegrationService\EtlDtsWindowsRunnerTest.cs" />
     <Compile Include="Integration\Core\Etl\IntegrationService\EtlFileRunnerTest.cs" />
+    <Compile Include="Integration\Core\FileManipulation\CopyCommandTest.cs" />
+    <Compile Include="Integration\Core\Process\ProcessRunCommandTest.cs" />
+    <Compile Include="Integration\Core\FileManipulation\DeleteCommandTest.cs" />
     <Compile Include="Integration\Core\Query\QueryAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\Query\QueryParserTest.cs" />
     <Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
@@ -137,6 +142,7 @@
     <Compile Include="Unit\Core\Assemblies\Resource\Enumeration.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\Klass.cs" />
     <Compile Include="Unit\Core\Assemblies\TypeConverterTest.cs" />
+    <Compile Include="Unit\Core\CsvWriterTest.cs" />
     <Compile Include="Unit\Core\GroupCommandFactoryTest.cs" />
     <Compile Include="Unit\Core\Etl\SsisEtlRunnerFactoryTest.cs" />
     <Compile Include="Unit\Core\Evaluate\RowValidatorTest.cs" />
@@ -209,7 +215,8 @@
     <Compile Include="Unit\Service\RunnerConfig\NUnitRunnerConfigBuilderTest.cs" />
     <Compile Include="Unit\Service\RunnerConfig\RunnerConfigManagerTest.cs" />
     <Compile Include="Unit\Service\StringTemplateEngineTest.cs" />
-    <Compile Include="Unit\Service\TestCasesManagerTest.cs" />
+    <Compile Include="Unit\Service\TestCaseCollectionManagerTest.cs" />
+    <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
     <Compile Include="Unit\Xml\Constraints\SucessfulXmlTest.cs" />
@@ -274,6 +281,9 @@
     <EmbeddedResource Include="Acceptance\Resources\Csv\BusinessEntity.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\CaseCross-TestSuiteBuild.genbil">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Reports\EmployeeSalesDetail.rsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -294,6 +304,7 @@
     </None>
     <EmbeddedResource Include="Acceptance\Resources\Positive\Etl.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Etl\Sample.dtsx">
       <SubType>Designer</SubType>
@@ -322,6 +333,8 @@
     <EmbeddedResource Include="Integration\NUnit\Resources\NonEmptyAmountByYear.csv" />
     <EmbeddedResource Include="Integration\Core\DataManipulation\Load.csv" />
     <EmbeddedResource Include="Integration\Core\Etl\IntegrationService\Resources\Sample.dtsx" />
+    <EmbeddedResource Include="Integration\Core\Resources\MyBatch.cmd" />
+    <EmbeddedResource Include="Integration\Core\Resources\MyInvalidBatch.cmd" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataCsvSample.csv" />
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataExcelSample.xls" />

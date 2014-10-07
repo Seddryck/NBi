@@ -229,43 +229,11 @@ namespace NBi.Testing.Unit.Xml.Decoration
         }
 
         [Test]
-        public void Deserialize_SampleFile_BatchRun()
-        {
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
-            int groupNr = ts.Groups.Count - 1;
-
-            // Check the properties of the object.
-            var command = ts.Groups[groupNr].Tests[0].Setup.Commands[0];
-
-            Assert.That(command, Is.TypeOf<SqlRunXml>());
-            var batchRun = command as IBatchRunCommand;
-            Assert.That(batchRun.FullPath, Is.EqualTo(@"Batches\build.sql"));
-            Assert.That(batchRun.ConnectionString, Is.EqualTo("Data source=(local);Initial Catalog=MyDB"));
-        }
-
-        [Test]
-        public void Deserialize_SampleFile_BatchRunWithoutOptional()
-        {
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
-            int groupNr = ts.Groups.Count - 1;
-
-            // Check the properties of the object.
-            var command = ts.Groups[groupNr].Tests[0].Setup.Commands[1];
-
-            Assert.That(command, Is.TypeOf<SqlRunXml>());
-            var batchRun = command as IBatchRunCommand;
-            Assert.That(batchRun.FullPath, Is.EqualTo(@"import.sql"));
-            Assert.That(batchRun.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));
-        }
-
-        [Test]
         public void Deserialize_SampleFile_ProcessRun()
         {
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
-            int groupNr = ts.Groups.Count-1;
+            int groupNr = 2;
 
             // Check the properties of the object.
             var command = ts.Groups[groupNr].Tests[0].Setup.Commands[0];
@@ -282,7 +250,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
         {
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
-            int groupNr = ts.Groups.Count - 1;
+            int groupNr = 2;
 
             // Check the properties of the object.
             var command = ts.Groups[groupNr].Tests[0].Setup.Commands[1];
@@ -293,10 +261,43 @@ namespace NBi.Testing.Unit.Xml.Decoration
             Assert.That(move.TimeOut, Is.EqualTo(0));
         }
 
+
+        [Test]
+        public void Deserialize_SampleFile_BatchRun()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            int groupNr = 3;
+
+            // Check the properties of the object.
+            var command = ts.Groups[groupNr].Tests[0].Setup.Commands[0];
+
+            Assert.That(command, Is.TypeOf<SqlRunXml>());
+            var batchRun = command as IBatchRunCommand;
+            Assert.That(batchRun.FullPath, Is.EqualTo(@"Batches\build.sql"));
+            Assert.That(batchRun.ConnectionString, Is.EqualTo("Data source=(local);Initial Catalog=MyDB"));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_BatchRunWithoutOptional()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            int groupNr = 3;
+
+            // Check the properties of the object.
+            var command = ts.Groups[groupNr].Tests[0].Setup.Commands[1];
+
+            Assert.That(command, Is.TypeOf<SqlRunXml>());
+            var batchRun = command as IBatchRunCommand;
+            Assert.That(batchRun.FullPath, Is.EqualTo(@"import.sql"));
+            Assert.That(batchRun.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));
+        }
+
         [Test]
         public void Deserialize_SampleFile_FileDelete()
         {
-            int groupNr = 2;
+            int groupNr = 4;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
@@ -313,7 +314,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
         [Test]
         public void Deserialize_SampleFile_FileMove()
         {
-            int groupNr = 2;
+            int groupNr = 4;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();

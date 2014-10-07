@@ -15,7 +15,7 @@ namespace NBi.Xml.Constraints
             set 
             {
                 _exactly = value;
-                Specification.IsExactlySpecified = true;
+                ExactlySpecified = true;
             }
         }
 
@@ -29,7 +29,7 @@ namespace NBi.Xml.Constraints
             set
             {
                 _moreThan = value;
-                Specification.IsMoreThanSpecified = true;
+                MoreThanSpecified = true;
             }
         }
 
@@ -43,24 +43,20 @@ namespace NBi.Xml.Constraints
             set
             {
                 _lessThan = value;
-                Specification.IsLessThanSpecified = true;
+                LessThanSpecified = true;
             }
         }
 
+        [XmlIgnore]
+        public bool LessThanSpecified { get; set; }
+        [XmlIgnore]
+        public bool MoreThanSpecified { get; set; }
+        [XmlIgnore]
+        public bool ExactlySpecified { get; set; }
+
         public CountXml()
         {
-            Specification = new SpecificationCount();
         }
 
-        [XmlIgnore()]
-        public SpecificationCount Specification { get; protected set; }
-
-
-        public class SpecificationCount
-        {
-            public bool IsExactlySpecified { get; internal set; }
-            public bool IsMoreThanSpecified { get; internal set; }
-            public bool IsLessThanSpecified { get; internal set; }
-        }
     }
 }

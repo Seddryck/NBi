@@ -17,6 +17,23 @@ namespace NBi.Xml.Constraints
         [XmlElement("currency-format")]
         public CurrencyFormatXml CurrencyFormat { get; set; }
 
+        [XmlIgnore]
+        public bool NumericFormatSpecified
+        {
+            get
+            {
+                return !NumericFormat.IsEmpty;
+            }
+        }
+        [XmlIgnore]
+        public bool CurrencyFormatSpecified
+        {
+            get
+            {
+                return !CurrencyFormat.IsEmpty;
+            }
+        }
+
         public MatchPatternXml()
         {
             NumericFormat = new NumericFormatXml(true);

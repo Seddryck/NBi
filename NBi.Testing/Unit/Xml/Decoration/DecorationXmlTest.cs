@@ -4,6 +4,7 @@ using NBi.Xml;
 using NBi.Xml.Decoration;
 using NBi.Xml.Decoration.Command;
 using NUnit.Framework;
+using NBi.Core.FileManipulation;
 
 namespace NBi.Testing.Unit.Xml.Decoration
 {
@@ -223,6 +224,39 @@ namespace NBi.Testing.Unit.Xml.Decoration
                 Assert.That(test.Setup.Commands[0], Is.InstanceOf<ServiceStartXml>());
                 Assert.That(test.Setup.Commands[1], Is.InstanceOf<TableLoadXml>());
             }
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_FileDelete()
+        {
+            int groupNr = 2;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            var command = ts.Groups[groupNr].Tests[0].Setup.Commands[0];
+
+            Assert.That(command, Is.TypeOf<FileDeleteXml>());
+            var delete = command as IDeleteCommand;
+            Assert.That(delete.FullPath, Is.EqualTo(@"Temp\toto.xls"));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_FileMove()
+        {
+            int groupNr = 2;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            var command = ts.Groups[groupNr].Tests[1].Setup.Commands[0];
+
+            Assert.That(command, Is.TypeOf<FileCopyXml>());
+            var move = command as ICopyCommand;
+            Assert.That(move.FullPath, Is.EqualTo(@"Temp\toto.xls"));
+            Assert.That(move.SourceFullPath, Is.EqualTo(@"Backup\toto.xls"));
         }
 
 

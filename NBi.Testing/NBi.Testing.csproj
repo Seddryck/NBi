@@ -108,6 +108,8 @@
     <Compile Include="Integration\Core\DataManipulation\SqlServer\TruncateCommandTest.cs" />
     <Compile Include="Integration\Core\Etl\IntegrationService\EtlDtsWindowsRunnerTest.cs" />
     <Compile Include="Integration\Core\Etl\IntegrationService\EtlFileRunnerTest.cs" />
+    <Compile Include="Integration\Core\FileManipulation\CopyCommandTest.cs" />
+    <Compile Include="Integration\Core\FileManipulation\DeleteCommandTest.cs" />
     <Compile Include="Integration\Core\Query\QueryAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\Query\QueryParserTest.cs" />
     <Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
@@ -300,6 +302,7 @@
     </None>
     <EmbeddedResource Include="Acceptance\Resources\Positive\Etl.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Etl\Sample.dtsx">
       <SubType>Designer</SubType>

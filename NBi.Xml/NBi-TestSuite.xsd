@@ -262,7 +262,7 @@
   <xs:complexType name="decoration-type">
     <xs:sequence minOccurs="1" maxOccurs="unbounded">
       <xs:choice>
-        <xs:element name="batch-run" type="batch-run-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="sql-run" type="sql-run-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="service-start" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="service-stop" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="table-reset" type="table-reset-type" minOccurs="0" maxOccurs="unbounded"/>
@@ -275,7 +275,7 @@
   <xs:complexType name="tasks-type">
     <xs:sequence minOccurs="1" maxOccurs="unbounded">
       <xs:choice>
-        <xs:element name="batch-run" type="batch-run-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="sql-run" type="sql-run-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="service-start" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="service-stop" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="table-reset" type="table-reset-type" minOccurs="0" maxOccurs="unbounded"/>
@@ -297,7 +297,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="batch-run-type" >
+  <xs:complexType name="sql-run-type" >
     <xs:attribute name="connectionString" use="optional"/>
     <xs:attribute name="path" use="optional"/>
     <xs:attribute name="name" use="required"/>

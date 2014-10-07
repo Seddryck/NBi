@@ -10,7 +10,7 @@ using NBi.Xml.Settings;
 
 namespace NBi.Xml.Decoration.Command
 {
-    public class BatchRunXml : DecorationCommandXml, IBatchRunCommand
+    public class SqlRunXml : DecorationCommandXml, IBatchRunCommand
     {
         [XmlAttribute("name")]
         public string Name { get; set; }
@@ -49,7 +49,7 @@ namespace NBi.Xml.Decoration.Command
             }
         }
 
-        public BatchRunXml()
+        public SqlRunXml()
         {
           
         }

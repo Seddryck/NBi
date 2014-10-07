@@ -236,7 +236,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             // Check the properties of the object.
             var command = ts.Groups[groupNr].Tests[0].Setup.Commands[0];
 
-            Assert.That(command, Is.TypeOf<BatchRunXml>());
+            Assert.That(command, Is.TypeOf<SqlRunXml>());
             var batchRun = command as IBatchRunCommand;
             Assert.That(batchRun.FullPath, Is.EqualTo(@"Batches\build.sql"));
             Assert.That(batchRun.ConnectionString, Is.EqualTo("Data source=(local);Initial Catalog=MyDB"));
@@ -252,7 +252,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             // Check the properties of the object.
             var command = ts.Groups[groupNr].Tests[0].Setup.Commands[1];
 
-            Assert.That(command, Is.TypeOf<BatchRunXml>());
+            Assert.That(command, Is.TypeOf<SqlRunXml>());
             var batchRun = command as IBatchRunCommand;
             Assert.That(batchRun.FullPath, Is.EqualTo(@"import.sql"));
             Assert.That(batchRun.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));

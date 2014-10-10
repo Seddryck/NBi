@@ -82,6 +82,8 @@ namespace NBi.Service
             get
             {
                 var settings = new SettingsXml();
+                if(settings ==null)
+                    settings = new SettingsXml();
                 if (DefaultSut!=null)
                     settings.Defaults.Add(DefaultSut);
                 if (DefaultAssert != null)

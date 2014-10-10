@@ -19,7 +19,7 @@ namespace NBi.Xml.Settings
 
         [XmlElement("parallelize-queries")]
         [DefaultValue(true)]
-        public virtual bool ParallelizeQueries { get; set; }
+        public bool ParallelizeQueries { get; set; }
 
         public enum DefaultScope
         {

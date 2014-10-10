@@ -98,6 +98,8 @@ namespace NBi.Testing.Acceptance.GenbiL
             Assert.That(content, Is.StringContaining("<hierarchies "));
             Assert.That(content, Is.StringContaining("<subsetOf"));
             Assert.That(content, Is.Not.StringContaining("<item>fourth-hierarchy</item>"));
+
+            Assert.That(content, Is.StringContaining("<parallelize-queries>true</parallelize-queries>"));
         }
 
     }

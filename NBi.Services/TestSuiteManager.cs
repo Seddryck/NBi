@@ -26,6 +26,11 @@ namespace NBi.Service
             }
         }
 
+        public void DefineSettings(SettingsXml settingsXml)
+        {
+            this.settingsXml = settingsXml;
+        }
+
         public IEnumerable<Setting> GetSettings()
         {
             var settings = new List<Setting>();

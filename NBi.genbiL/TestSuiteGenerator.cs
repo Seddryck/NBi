@@ -5,6 +5,7 @@ using NBi.GenbiL.Action;
 using NBi.GenbiL.Parser;
 using NBi.Xml;
 using Sprache;
+using System.IO;
 
 namespace NBi.GenbiL
 {
@@ -19,12 +20,26 @@ namespace NBi.GenbiL
 
         public void Load(string filename)
         {
-            Text = System.IO.File.ReadAllText(filename);
+            using(var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
+                Load(stream);
+        }
+
+        protected internal virtual void Load(Stream stream)
+        {
+            using (var reader = new StreamReader(stream, System.Text.Encoding.UTF8, true))
+                Text = reader.ReadToEnd();
         }
 
         public void Save(string filename)
         {
-            System.IO.File.WriteAllText(filename, Text);
+            using (var stream = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write))
+                Save(stream);
+        }
+
+        protected internal virtual void Save(Stream stream)
+        {
+            using (var writer = new StreamWriter(stream, System.Text.Encoding.UTF8))
+                writer.Write(Text);
         }
 
         public void WriteLine(string line)

@@ -15,7 +15,10 @@ namespace NBi.Testing.Integration.Core.Process
         #region setup & cleanup
 
         private const string BATCH_FILE = "MyBatch.cmd";
+        private const string INVALID_BATCH_FILE = "MyInvalidBatch.cmd";
         private const string TARGET_FILE = "output_file.txt";
+        private string FullPath { get; set; }
+        private string FullPathInvalid { get; set; }
 
         [SetUp]
         public void Setup()
@@ -23,9 +26,14 @@ namespace NBi.Testing.Integration.Core.Process
             if (File.Exists(BATCH_FILE))
                 File.Delete(BATCH_FILE);
 
-            DiskOnFile.CreatePhysicalFile(BATCH_FILE, "NBi.Testing.Integration.Core.Resources." + BATCH_FILE);
+            FullPath = DiskOnFile.CreatePhysicalFile(BATCH_FILE, "NBi.Testing.Integration.Core.Resources." + BATCH_FILE);
 
-            if (!File.Exists(BATCH_FILE))
+            if (File.Exists(INVALID_BATCH_FILE))
+                File.Delete(INVALID_BATCH_FILE);
+
+            FullPathInvalid = DiskOnFile.CreatePhysicalFile(INVALID_BATCH_FILE, "NBi.Testing.Integration.Core.Resources." + INVALID_BATCH_FILE);
+
+            if (!File.Exists(FullPath))
                 throw new FileNotFoundException("OUps");
             else
                 Console.WriteLine("BATCH: " + Path.GetFullPath(BATCH_FILE));
@@ -42,7 +50,7 @@ namespace NBi.Testing.Integration.Core.Process
             var processInfo = Mock.Of<IRunCommand>
             (
                 c =>c.Argument == string.Empty
-                  && c.FullPath == BATCH_FILE
+                  && c.FullPath == FullPath
                   && c.TimeOut == 1000
             );
 
@@ -58,7 +66,7 @@ namespace NBi.Testing.Integration.Core.Process
             var processInfo = Mock.Of<IRunCommand>
             (
                 c => c.Argument == string.Empty
-                  && c.FullPath == BATCH_FILE
+                  && c.FullPath == FullPathInvalid
                   && c.TimeOut == 1000
             );
 
@@ -72,7 +80,7 @@ namespace NBi.Testing.Integration.Core.Process
             var processInfo = Mock.Of<IRunCommand>
             (
                 c => c.Argument == string.Empty
-                  && c.FullPath == BATCH_FILE
+                  && c.FullPath == FullPath
                   && c.TimeOut == 0
             );
 

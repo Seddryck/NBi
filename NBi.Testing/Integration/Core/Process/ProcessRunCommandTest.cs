@@ -10,47 +10,55 @@ using System.IO;
 
 namespace NBi.Testing.Integration.Core.Process
 {
-    class ProcessRunCommandTest
+    public class ProcessRunCommandTest
     {
+        #region setup & cleanup
+
+        private const string BATCH_FILE = "MyBatch.cmd";
+        private const string TARGET_FILE = "output_file.txt";
+
+        [SetUp]
+        public void Setup()
+        {
+            if (File.Exists(BATCH_FILE))
+                File.Delete(BATCH_FILE);
+
+            DiskOnFile.CreatePhysicalFile(BATCH_FILE, "NBi.Testing.Integration.Core.Resources." + BATCH_FILE);
+
+            if (!File.Exists(BATCH_FILE))
+                throw new FileNotFoundException("OUps");
+            else
+                Console.WriteLine("BATCH: " + Path.GetFullPath(BATCH_FILE));
+
+            if (File.Exists(TARGET_FILE))
+                File.Delete(TARGET_FILE);
+        }
+
+        #endregion
+
         [Test]
         public void Execute_ExistingBatchWithoutArguments_Executed()
         {
-            var batch = @"MyBatch.cmd";
-            if (File.Exists(batch))
-                File.Delete(batch);
-
-            var target = "output_file.txt";
-            if (File.Exists(target))
-                File.Delete(target);
-
-            DiskOnFile.CreatePhysicalFile(batch, "NBi.Testing.Integration.Core.Resources." + batch);
-
             var processInfo = Mock.Of<IRunCommand>
             (
                 c =>c.Argument == string.Empty
-                  && c.FullPath == batch
+                  && c.FullPath == BATCH_FILE
                   && c.TimeOut == 1000
             );
 
             var command = new RunCommand(processInfo);
             command.Execute();
 
-            Assert.That(File.Exists(target), Is.True);
+            Assert.That(File.Exists(TARGET_FILE), Is.True);
         }
 
         [Test]
         public void Execute_InvalidBatchWithoutArguments_Exception()
         {
-            var batch = @"MyInvalidBatch.cmd";
-            if (File.Exists(batch))
-                File.Delete(batch);
-
-            DiskOnFile.CreatePhysicalFile(batch, "NBi.Testing.Integration.Core.Resources." + batch);
-
             var processInfo = Mock.Of<IRunCommand>
             (
                 c => c.Argument == string.Empty
-                  && c.FullPath == batch
+                  && c.FullPath == BATCH_FILE
                   && c.TimeOut == 1000
             );
 
@@ -61,16 +69,10 @@ namespace NBi.Testing.Integration.Core.Process
         [Test]
         public void Execute_InvalidBatchWithoutArgumentsNoWait_Success()
         {
-            var batch = @"MyInvalidBatch.cmd";
-            if (File.Exists(batch))
-                File.Delete(batch);
-
-            DiskOnFile.CreatePhysicalFile(batch, "NBi.Testing.Integration.Core.Resources." + batch);
-
             var processInfo = Mock.Of<IRunCommand>
             (
                 c => c.Argument == string.Empty
-                  && c.FullPath == batch
+                  && c.FullPath == BATCH_FILE
                   && c.TimeOut == 0
             );
 

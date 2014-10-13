@@ -1,0 +1,1 @@
+﻿case filter on column 'dimension' values not like '€%';

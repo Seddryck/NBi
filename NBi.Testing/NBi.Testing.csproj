@@ -119,6 +119,7 @@
     <Compile Include="Integration\Core\WindowsService\WindowsServiceCheckTest.cs" />
     <Compile Include="Integration\Core\Report\DatabaseParserTest.cs" />
     <Compile Include="Integration\Core\WindowsService\WindowsServiceCommandTest.cs" />
+    <Compile Include="Integration\GenbiL\TestSuiteGeneratorTest.cs" />
     <Compile Include="Integration\NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Members\EquivalentToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Query\EqualToConstraintTest.cs" />
@@ -335,6 +336,9 @@
     <EmbeddedResource Include="Integration\Core\Etl\IntegrationService\Resources\Sample.dtsx" />
     <EmbeddedResource Include="Integration\Core\Resources\MyBatch.cmd" />
     <EmbeddedResource Include="Integration\Core\Resources\MyInvalidBatch.cmd" />
+    <EmbeddedResource Include="Integration\GenbiL\Resources\Simple.genbil">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataCsvSample.csv" />
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataExcelSample.xls" />

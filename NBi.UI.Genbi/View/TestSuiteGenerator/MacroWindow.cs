@@ -18,7 +18,8 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
 
         public void AppendText(string message)
         {
-            actionInfoText.Text = actionInfoText.Text + message + "\r\n";
+            actionInfoText.AppendText(message + "\r\n");
+            actionInfoText.Refresh();
         }
     }
 }

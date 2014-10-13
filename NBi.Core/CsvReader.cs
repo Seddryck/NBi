@@ -12,14 +12,27 @@ namespace NBi.Core
         public event ProgressStatusHandler ProgressStatusChanged;
 
         public CsvDefinition Definition { get; private set; }
-        public string Filename { get; private set; }
-        public bool FirstLineIsColumnName { get; private set; }
+        public int BufferSize { get; private set; }
 
-        public CsvReader(string filename, bool firstLineIsColumnName)
+        public CsvReader()
+            : this(CsvDefinition.SemiColumnDoubleQuote(), 512)
         {
-            Filename = filename;
-            Definition = CsvDefinition.SemiColumnDoubleQuote();
-            FirstLineIsColumnName = firstLineIsColumnName;
+        }
+
+        public CsvReader(CsvDefinition csvDefinition)
+            : this(csvDefinition, 512)
+        {
+        }
+
+        public CsvReader(int bufferSize)
+            : this(CsvDefinition.SemiColumnDoubleQuote(), bufferSize)
+        {
+        }
+
+        public CsvReader(CsvDefinition csvDefinition, int bufferSize)
+        {
+            Definition = csvDefinition;
+            BufferSize = bufferSize;
         }
 
         public void RaiseProgressStatus(string status)
@@ -34,57 +47,75 @@ namespace NBi.Core
                 ProgressStatusChanged(this, new ProgressStatusEventArgs(string.Format(status, current, total), current, total));
         }
 
-        public DataTable Read()
+        public DataTable Read(string filename, bool firstLineIsColumnName)
+        {
+            using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            {
+                return Read(stream, firstLineIsColumnName);
+            }
+        }
+
+        protected internal DataTable Read(Stream stream, bool firstLineIsColumnName)
         {
             var table = new DataTable();
 
             RaiseProgressStatus("Processing CSV file");
             int i = 0;
 
-            int count = 0;
-            //Count the rows
-            using (StreamReader r = new StreamReader(Filename, Encoding.UTF8))
+            RaiseProgressStatus("Counting records");
+            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8, true))
             {
-                while (r.ReadLine() != null)
-                    count++;
-            }
-            count -= Convert.ToInt16(FirstLineIsColumnName);
-            
-            //Get first row to know the coutn of columns
-            var columnCount = 0;
-            var columnNames=new List<string>();
-            using (StreamReader sr = new StreamReader(Filename, Encoding.UTF8))
-            {
-                var firstLine = sr.ReadLine();
+                var count = CountRecordSeparator(reader, Definition.RecordSeparator, BufferSize);
+                count -= Convert.ToInt16(firstLineIsColumnName);
+                stream.Position = 0;
+                reader.DiscardBufferedData();
+
+                //Get first row to know the count of columns
+                RaiseProgressStatus("Defining fields");
+                var columnCount = 0;
+                var columnNames = new List<string>();
+                var firstLine = GetFirstRecord(reader, Definition.RecordSeparator, BufferSize);
                 columnCount = firstLine.Split(Definition.FieldSeparator).Length;
-                if (FirstLineIsColumnName)
+                if (firstLineIsColumnName)
                     columnNames.AddRange(SplitLine(firstLine));
-            }
-
-            //Correctly define the columns for the table
-            for (int c = 0; c < columnCount; c++)
-            {
-                if (columnNames.Count == 0)
-                    table.Columns.Add(string.Format("No name {0}", c.ToString()), typeof(string));
-                else
-                    table.Columns.Add(columnNames[c], typeof(string));
-            }
-
-            using (StreamReader sr = new StreamReader(Filename, Encoding.UTF8))
-            {
-                while (sr.Peek() >= 0)
+                
+                //Reset at 0, if this line is not the header
+                if(!firstLineIsColumnName)
                 {
-                    var line = sr.ReadLine();
-                    if (i >= Convert.ToInt16(FirstLineIsColumnName))
-                    {
-                        RaiseProgressStatus("Loading row {0} of {1}", i, count);
-                        var cells = SplitLine(line);
-                        var row = table.NewRow();
-                        row.ItemArray = cells;
-                        table.Rows.Add(row);
-                    }
-                    i++;
+                    stream.Position = 0;
+                    reader.DiscardBufferedData();
+                }
+                    
 
+                //Correctly define the columns for the table
+                for (int c = 0; c < columnCount; c++)
+                {
+                    if (columnNames.Count == 0)
+                        table.Columns.Add(string.Format("No name {0}", c.ToString()), typeof(string));
+                    else
+                        table.Columns.Add(columnNames[c], typeof(string));
+                }
+
+                //Parse the whole file
+
+                bool isLastRecord = false;
+                i = 1;
+                var pos = 0;
+
+                while (!isLastRecord)
+                {
+                    RaiseProgressStatus("Loading row {0} of {1}", i, count);
+                    var record = GetNextRecord(reader, Definition.RecordSeparator, BufferSize);
+                    pos += record.Length;
+                    reader.BaseStream.Seek(pos, SeekOrigin.Begin);
+                    isLastRecord = IsLastRecord(record);
+
+                    record = CleanRecord(record, Definition.RecordSeparator);
+
+                    var cells = SplitLine(record);
+                    var row = table.NewRow();
+                    row.ItemArray = cells;
+                    table.Rows.Add(row);
                 }
             }
             RaiseProgressStatus("CSV file processed");
@@ -96,9 +127,150 @@ namespace NBi.Core
         {
             var items = new List<string>();
             var list = new List<string>(row.Split(Definition.FieldSeparator));
-            list.ForEach(item => items.Add(item.Replace(Definition.TextQualifier.ToString(), "")));
+            list.ForEach(item => items.Add(RemoveTextQualifier(item)));
             return items.ToArray();
         }
 
+        protected internal string RemoveTextQualifier(string item)
+        {
+            if (string.IsNullOrEmpty(item))
+                return string.Empty;
+
+            if (item.Length == 1)
+                return item;
+
+            if (item[0] == Definition.TextQualifier && item[item.Length - 1] == Definition.TextQualifier)
+                return item.Substring(1, item.Length - 2);
+
+            return item;
+        }
+
+        protected internal int CountRecordSeparator(StreamReader reader, string recordSeparator, int bufferSize)
+        {
+            int i = 0;
+            int n = 0;
+            int j = 0;
+            bool separatorAtEnd = false;
+
+            do
+            {
+                char[] buffer = new char[bufferSize];
+                n = reader.Read(buffer, 0, bufferSize);
+                if (n > 0 && i == 0)
+                    i = 1;
+
+
+                foreach (var c in buffer)
+                {
+                    if (c != '\0')
+                    {
+                        separatorAtEnd = false;
+                        if (c == recordSeparator[j])
+                        {
+                            j++;
+                            if (j == recordSeparator.Length)
+                            {
+                                i++;
+                                j = 0;
+                                separatorAtEnd = true;
+                            }
+                        }
+                        else
+                            j = 0;
+                    }
+                }
+            } while (n > 0);
+
+            if (separatorAtEnd)
+                i -= 1;
+
+            return i;
+        }
+
+        protected internal string GetFirstRecord(StreamReader reader, string recordSeparator, int bufferSize)
+        {
+            var stringBuilder = new StringBuilder();
+            int n = 0;
+            int j = 0;
+
+            while (true)
+            {
+                char[] buffer = new char[bufferSize];
+                n = reader.Read(buffer, 0, bufferSize);
+
+                foreach (var c in buffer)
+                {
+
+                    if (c != '\0')
+                    {
+                        stringBuilder.Append(c);
+                        if (c == recordSeparator[j])
+                        {
+                            j++;
+                            if (j == recordSeparator.Length)
+                            {
+                                return stringBuilder.ToString();
+                                j = 0;
+                            }
+                        }
+                        else
+                            j = 0;
+                    }
+                    else
+                        return stringBuilder.ToString();
+                }
+            }
+        }
+
+        protected internal string GetNextRecord(StreamReader reader, string recordSeparator, int bufferSize)
+        {
+            int n = 0;
+            int j = 0;
+            var stringBuilder = new StringBuilder();
+
+            do
+            {
+                var buffer = new char[bufferSize];
+                n = reader.Read(buffer, 0, bufferSize);
+                foreach (var c in buffer)
+                {
+                    stringBuilder.Append(c);
+
+                    if (c == recordSeparator[j])
+                    {
+                        j++;
+                        if (j == recordSeparator.Length)
+                        {
+                            reader.DiscardBufferedData();
+                            return stringBuilder.ToString();
+                        }
+                            
+                    }
+                    else
+                        j = 0;
+                }
+            } while (n>0);
+            return stringBuilder.ToString();
+        }
+
+        protected internal string CleanRecord(string record, string recordSeparator)
+        {
+            int i = 0;
+            while (record.Length > i && record[record.Length - 1 - i] == '\0')
+                i++;
+
+            if (i > 0)
+                record = record.Remove(record.Length - i, i);
+
+            if (record.EndsWith(recordSeparator))
+                return record.Remove(record.Length - recordSeparator.Length, recordSeparator.Length);
+
+            return record;
+        }
+
+        protected internal bool IsLastRecord(string record)
+        {
+            return (String.IsNullOrEmpty(record) || record.EndsWith("\0"));
+        }
     }
 }

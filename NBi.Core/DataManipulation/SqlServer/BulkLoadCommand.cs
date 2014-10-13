@@ -42,8 +42,8 @@ namespace NBi.Core.DataManipulation.SqlServer
                 connection.Open();
 
                 // write the data in the "dataTable"
-                var fileReader = new CsvReader(filename, false);
-                var dataTable = fileReader.Read();
+                var fileReader = new CsvReader();
+                var dataTable = fileReader.Read(filename, false);
                 bulkCopy.WriteToServer(dataTable);
 
                 connection.Close();

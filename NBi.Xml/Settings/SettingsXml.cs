@@ -83,7 +83,7 @@ namespace NBi.Xml.Settings
         {
             Defaults = new List<DefaultXml>();
             References = new List<ReferenceXml>();
-            ParallelizeQueries = false;
+            ParallelizeQueries = true;
         }
 
         internal void GetValuesFromConfig(NameValueCollection connectionStrings)

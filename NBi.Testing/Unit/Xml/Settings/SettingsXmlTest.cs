@@ -71,6 +71,15 @@ namespace NBi.Testing.Unit.Xml.Settings
         }
 
         [Test]
+        public void Deserialize_SettingsWithoutTagParallelizeQueries_ParallelizeQueriesIsTrue()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithDefault");
+
+            Assert.That(ts.Settings.ParallelizeQueries, Is.True);
+        }
+
+        [Test]
         public void DeserializeEqualToResultSet_SettingsWithDefault_DefaultReplicatedForTest()
         {
             int testNr = 0;

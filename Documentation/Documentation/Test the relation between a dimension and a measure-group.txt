@@ -1,0 +1,55 @@
+! Test the relation between a dimension and a measure-group
+During the test of the structure of your cube, it’s useful to check that the dimensions, hierarchies, measures and other elements are effectively accessible by end-users. But it’s also interesting to check that dimensions and measure-groups are effectively linked together.
+For this kind of test, NBi proposes an assertion named _linkedTo_. To use it you must define a system-under-test with a structure test on a dimension or measure-group.
+{code:xml} 
+<system-under-test>
+	<structure>
+		<dimension caption="Customer" perspective="Adventure Works"/>
+	</structure>
+</system-under-test>
+{code:xml} 
+When done, you’ll need to define your assert as a linkedTo with the corresponding measure-group or dimension. Note that inside the linkedTo element you don’t need to specify the perspective of your dimension or measure-group. This information will be inferred from the system-under-test.
+{code:xml} 
+<assert>
+	<linkedTo>
+		<measure-group caption="Internet Sales"/>
+	</linkedTo>
+</assert>
+{code:xml} 
+Here under, you’ll find a sample for both elements (dimension linked to measure-group and measure-group linked to dimension).
+{code:xml} 
+<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033</connectionString>
+		</default>
+	</settings>
+	<test name="Dimension 'Customer' is linked to measure-group  'Internet Sales' throw perspective 'Adventure Works'" uid="0001">
+		<system-under-test>
+			<structure>
+				<dimension caption="Customer" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<linkedTo>
+				<measure-group caption="Internet Sales"/>
+			</linkedTo>
+		</assert>
+	</test>
+	<test name="Measure-group 'Internet Sales' is linked to dimension 'Internet Sales' throw perspective 'Adventure Works'" uid="0001">
+		<system-under-test>
+			<structure>
+				<measure-group caption="Internet Sales" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<linkedTo>
+				<dimension caption="Customer"/>
+			</linkedTo>
+		</assert>
+	</test>
+</testSuite>
+{code:xml} 
+
+

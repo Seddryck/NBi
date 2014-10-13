@@ -208,5 +208,29 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(copyCase.From, Is.EqualTo("master"));
             Assert.That(copyCase.To, Is.EqualTo("copied-to"));
         }
+
+        [Test]
+        public void SentenceParser_CaseAddColumnStringWithoutDefault_ValidCaseAddColumn()
+        {
+            var input = "case add column 'perspective'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<AddCaseAction>());
+            Assert.That(((AddCaseAction)result).VariableName, Is.EqualTo("perspective"));
+            Assert.That(((AddCaseAction)result).DefaultValue, Is.EqualTo("(none)"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseAddColumnStringWithDefault_ValidCaseAddColumn()
+        {
+            var input = "case add column 'perspective' values '2014-07-01'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<AddCaseAction>());
+            Assert.That(((AddCaseAction)result).VariableName, Is.EqualTo("perspective"));
+            Assert.That(((AddCaseAction)result).DefaultValue, Is.EqualTo("2014-07-01"));
+        }
     }
 }

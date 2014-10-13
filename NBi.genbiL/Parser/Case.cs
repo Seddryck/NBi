@@ -144,6 +144,24 @@ namespace NBi.GenbiL.Parser
                 select new FilterDistinctCaseAction()
         );
 
+        readonly static Parser<ICaseAction> caseAddParser =
+        (
+                from add in Keyword.Add
+                from axisType in axisTypeParser
+                from columnName in Grammar.QuotedTextual
+                select new AddCaseAction(columnName)
+        );
+
+        readonly static Parser<ICaseAction> caseAddWithDefaultParser =
+        (
+                from add in Keyword.Add
+                from axisType in axisTypeParser
+                from columnName in Grammar.QuotedTextual
+                from valuesKeyword in Keyword.Values
+                from defaultValue in Grammar.QuotedTextual
+                select new AddCaseAction(columnName, defaultValue)
+        );
+
 
         public readonly static Parser<IAction> Parser =
         (
@@ -159,6 +177,8 @@ namespace NBi.GenbiL.Parser
                                     .Or(caseCrossFullParser)
                                     .Or(caseSaveParser)
                                     .Or(caseCopyParser)
+                                    .Or(caseAddWithDefaultParser)
+                                    .Or(caseAddParser)
                 select action
         );
     }

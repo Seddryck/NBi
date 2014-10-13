@@ -206,7 +206,7 @@ namespace NBi.Testing.Unit.Xml.Settings
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithoutParallelQueries");
 
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ParallelizeQueries, Is.False);
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ParallelizeQueries, Is.True);
         }
 
         [Test]

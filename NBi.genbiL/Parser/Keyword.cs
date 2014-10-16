@@ -23,6 +23,7 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<string> Cross = Parse.IgnoreCase("Cross").Text().Token();
         public static readonly Parser<string> Copy = Parse.IgnoreCase("Copy").Text().Token();
         public static readonly Parser<string> Set = Parse.IgnoreCase("Set").Text().Token();
+        public static readonly Parser<string> Merge = Parse.IgnoreCase("Merge").Text().Token();
 
         public static readonly Parser<string> Into = Parse.IgnoreCase("Into").Text().Token();
         public static readonly Parser<string> To = Parse.IgnoreCase("To").Text().Token();

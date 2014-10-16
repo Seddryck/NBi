@@ -162,6 +162,16 @@ namespace NBi.GenbiL.Parser
                 select new AddCaseAction(columnName, defaultValue)
         );
 
+        readonly static Parser<ICaseAction> caseReplaceParser =
+        (
+                from replace in Keyword.Replace
+                from valuesKeyword in Keyword.Values
+                from inKeyword in Keyword.In
+                from columnName in Grammar.QuotedTextual
+                from byKeyword in Keyword.By
+                from newValue in Grammar.QuotedTextual
+                select new ReplaceCaseAction(columnName, newValue)
+        );
 
         public readonly static Parser<IAction> Parser =
         (
@@ -179,6 +189,7 @@ namespace NBi.GenbiL.Parser
                                     .Or(caseCopyParser)
                                     .Or(caseAddWithDefaultParser)
                                     .Or(caseAddParser)
+                                    .Or(caseReplaceParser)
                 select action
         );
     }

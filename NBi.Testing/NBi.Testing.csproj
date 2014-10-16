@@ -177,6 +177,7 @@
     <Compile Include="Unit\Framework\FailureMessage\Formatter\CellFormatterTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Helper\TableHeaderHelperTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Helper\TableHelperTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\ReplaceCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\AddCaseActionTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ExecutionMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersMatchPatternBuilderTest.cs" />

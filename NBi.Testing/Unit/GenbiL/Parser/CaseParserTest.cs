@@ -232,5 +232,18 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(((AddCaseAction)result).VariableName, Is.EqualTo("perspective"));
             Assert.That(((AddCaseAction)result).DefaultValue, Is.EqualTo("2014-07-01"));
         }
+
+        [Test]
+        public void SentenceParser_CaseReplaceWithoutWhen_ValidCaseReplaceColumn()
+        {
+            var input = "case replace values in 'perspective' by 'new value'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<ReplaceCaseAction>());
+            Assert.That(((ReplaceCaseAction)result).VariableName, Is.EqualTo("perspective"));
+            Assert.That(((ReplaceCaseAction)result).NewValue, Is.EqualTo("new value"));
+        }
+
     }
 }

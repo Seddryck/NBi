@@ -232,5 +232,16 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(((AddCaseAction)result).VariableName, Is.EqualTo("perspective"));
             Assert.That(((AddCaseAction)result).DefaultValue, Is.EqualTo("2014-07-01"));
         }
+
+        [Test]
+        public void SentenceParser_CaseMerge_ValidMergeAction()
+        {
+            var input = "case merge with 'scoped-value'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<MergeCaseAction>());
+            Assert.That(((MergeCaseAction)result).MergedScope, Is.EqualTo("scoped-value"));
+        }
     }
 }

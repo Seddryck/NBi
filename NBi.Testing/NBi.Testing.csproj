@@ -177,6 +177,7 @@
     <Compile Include="Unit\Framework\FailureMessage\Formatter\CellFormatterTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Helper\TableHeaderHelperTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Helper\TableHelperTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\AddCaseActionTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ExecutionMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersEquivalentToBuilderTest.cs" />
@@ -336,9 +337,7 @@
     <EmbeddedResource Include="Integration\Core\Etl\IntegrationService\Resources\Sample.dtsx" />
     <EmbeddedResource Include="Integration\Core\Resources\MyBatch.cmd" />
     <EmbeddedResource Include="Integration\Core\Resources\MyInvalidBatch.cmd" />
-    <EmbeddedResource Include="Integration\GenbiL\Resources\Simple.genbil">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Integration\GenbiL\Resources\Simple.genbil" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataCsvSample.csv" />
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataExcelSample.xls" />

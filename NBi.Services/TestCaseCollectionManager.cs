@@ -33,6 +33,14 @@ namespace NBi.Service
             return dico[name];
         }
 
+        public bool ItemExists(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                name = NO_NAME;
+
+            return dico.Keys.Contains(name);
+        }
+
         private readonly Dictionary<string, string> connectionStrings;
         public Dictionary<string, string> ConnectionStrings
         {

@@ -224,5 +224,81 @@ namespace NBi.Testing.Unit.Service
 
             Assert.That(manager.Content.Rows, Has.Count.EqualTo(0));
         }
+
+        [Test]
+        public void Filter_EqualMultipleValues_CorrectNewContent()
+        {
+            var manager = new TestCaseManager();
+            //Setup content;
+            manager.Content.Columns.Add(new DataColumn("columnName"));
+            manager.Variables.Add("columnName");
+            var matchingRow1 = manager.Content.NewRow();
+            matchingRow1[0] = "matching 1";
+            var matchingRow2 = manager.Content.NewRow();
+            matchingRow2[0] = "matching 2";
+            var nonMatchingRow = manager.Content.NewRow();
+            nonMatchingRow[0] = "xyz";
+            manager.Content.Rows.Add(matchingRow1);
+            manager.Content.Rows.Add(matchingRow2);
+            manager.Content.Rows.Add(nonMatchingRow);
+            manager.Content.AcceptChanges();
+
+            //Setup filter
+            manager.Filter("columnName", Operator.Equal, false, new [] {"matching 1", "matching 2"});
+
+            Assert.That(manager.Content.Rows, Has.Count.EqualTo(2));
+            Assert.That(manager.Content.Rows[0][0], Is.EqualTo("matching 1"));
+            Assert.That(manager.Content.Rows[1][0], Is.EqualTo("matching 2"));
+        }
+
+        [Test]
+        public void Filter_NotEqualMultipleValues_CorrectNewContent()
+        {
+            var manager = new TestCaseManager();
+            //Setup content;
+            manager.Content.Columns.Add(new DataColumn("columnName"));
+            manager.Variables.Add("columnName");
+            var matchingRow1 = manager.Content.NewRow();
+            matchingRow1[0] = "matching 1";
+            var matchingRow2 = manager.Content.NewRow();
+            matchingRow2[0] = "matching 2";
+            var nonMatchingRow = manager.Content.NewRow();
+            nonMatchingRow[0] = "xyz";
+            manager.Content.Rows.Add(matchingRow1);
+            manager.Content.Rows.Add(matchingRow2);
+            manager.Content.Rows.Add(nonMatchingRow);
+            manager.Content.AcceptChanges();
+
+            //Setup filter
+            manager.Filter("columnName", Operator.Equal, true, new[] { "matching 1", "matching 2" });
+
+            Assert.That(manager.Content.Rows, Has.Count.EqualTo(1));
+            Assert.That(manager.Content.Rows[0][0], Is.EqualTo("xyz"));
+        }
+
+        public void Filter_LikeMultipleValues_CorrectNewContent()
+        {
+            var manager = new TestCaseManager();
+            //Setup content;
+            manager.Content.Columns.Add(new DataColumn("columnName"));
+            manager.Variables.Add("columnName");
+            var matchingRow1 = manager.Content.NewRow();
+            matchingRow1[0] = "matching 1";
+            var matchingRow2 = manager.Content.NewRow();
+            matchingRow2[0] = "matching 2";
+            var nonMatchingRow = manager.Content.NewRow();
+            nonMatchingRow[0] = "xyz";
+            manager.Content.Rows.Add(matchingRow1);
+            manager.Content.Rows.Add(matchingRow2);
+            manager.Content.Rows.Add(nonMatchingRow);
+            manager.Content.AcceptChanges();
+
+            //Setup filter
+            manager.Filter("columnName", Operator.Like, false, new[] { "%1", "%2" });
+
+            Assert.That(manager.Content.Rows, Has.Count.EqualTo(2));
+            Assert.That(manager.Content.Rows[0][0], Is.EqualTo("matching 1"));
+            Assert.That(manager.Content.Rows[1][0], Is.EqualTo("matching 2"));
+        }
     }
 }

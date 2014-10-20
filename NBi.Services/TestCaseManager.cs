@@ -11,6 +11,7 @@ namespace NBi.Service
     public class TestCaseManager
     {
         private Func<string, string, bool> compare;
+        private Func<string, IEnumerable<string>, bool> compareMultiple;
 
         internal TestCaseManager()
         {
@@ -116,6 +117,30 @@ namespace NBi.Service
             Content.AcceptChanges();
         }
 
+        public void Filter(string variableName, Operator @operator, bool negation, IEnumerable<string> values)
+        {
+            if (!variables.Contains(variableName))
+                throw new ArgumentOutOfRangeException("variableName");
+
+            AssignCompareMultiple(@operator);
+
+            var index = variables.IndexOf(variableName);
+
+            DataTableReader dataReader = null;
+            var filteredRows = Content.AsEnumerable().Where(row => compareMultiple(row[index].ToString(), values) != negation);
+            if (filteredRows.Count() > 0)
+            {
+                var filteredTable = filteredRows.CopyToDataTable();
+                dataReader = filteredTable.CreateDataReader();
+            }
+
+            Content.Clear();
+            if (dataReader != null)
+                Content.Load(dataReader, LoadOption.PreserveChanges);
+
+            Content.AcceptChanges();
+        }
+
         private void AssignCompare(Operator @operator)
         {
             switch (@operator)
@@ -125,6 +150,21 @@ namespace NBi.Service
                     break;
                 case Operator.Like:
                     compare = Like;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void AssignCompareMultiple(Operator @operator)
+        {
+            switch (@operator)
+            {
+                case Operator.Equal:
+                    compareMultiple = Equal;
+                    break;
+                case Operator.Like:
+                    compareMultiple = Like;
                     break;
                 default:
                     break;
@@ -144,6 +184,22 @@ namespace NBi.Service
                            + "$");
 
             return regex.IsMatch(value);
+        }
+
+        private bool Like(string value, IEnumerable<string> patterns)
+        {
+            var result = false;
+            foreach (var pattern in patterns)
+	            result |= Like(value, pattern);
+            return result;
+        }
+
+        private bool Equal(string value, IEnumerable<string> patterns)
+        {
+            var result = true;
+            foreach (var pattern in patterns)
+	            result |= value==pattern;
+            return result;
         }
 
 

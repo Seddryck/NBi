@@ -89,7 +89,8 @@ namespace NBi.Testing.Unit.GenbiL.Parser
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<FilterCaseAction>());
-            Assert.That(((FilterCaseAction)result).Text, Is.EqualTo("hidden-perspective"));
+            Assert.That(((FilterCaseAction)result).Values, Has.Member("hidden-perspective"));
+            Assert.That(((FilterCaseAction)result).Values.Count(), Is.EqualTo(1));
             Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(false));
             Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
             Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
@@ -103,7 +104,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<FilterCaseAction>());
-            Assert.That(((FilterCaseAction)result).Text, Is.EqualTo("show-perspective"));
+            Assert.That(((FilterCaseAction)result).Values, Has.Member("show-perspective"));
             Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(true));
             Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
             Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
@@ -117,7 +118,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<FilterCaseAction>());
-            Assert.That(((FilterCaseAction)result).Text, Is.EqualTo("start%"));
+            Assert.That(((FilterCaseAction)result).Values, Has.Member("start%"));
             Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(false));
             Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Like));
             Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
@@ -131,7 +132,22 @@ namespace NBi.Testing.Unit.GenbiL.Parser
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<FilterCaseAction>());
-            Assert.That(((FilterCaseAction)result).Text, Is.EqualTo("%end"));
+            Assert.That(((FilterCaseAction)result).Values, Has.Member("%end"));
+            Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(true));
+            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Like));
+            Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseFilterMultiplesValues_ValidFilterAction()
+        {
+            var input = "case filter on column 'perspective' values not like '%end', 'start%'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<FilterCaseAction>());
+            Assert.That(((FilterCaseAction)result).Values, Has.Member("%end"));
+            Assert.That(((FilterCaseAction)result).Values, Has.Member("start%"));
             Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(true));
             Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Like));
             Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));

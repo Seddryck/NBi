@@ -196,7 +196,7 @@ namespace NBi.Service
 
         private bool Equal(string value, IEnumerable<string> patterns)
         {
-            var result = true;
+            var result = false;
             foreach (var pattern in patterns)
 	            result |= value==pattern;
             return result;

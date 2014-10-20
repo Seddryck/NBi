@@ -50,6 +50,7 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Action\AxisType.cs" />
+    <Compile Include="Action\Case\MergeCaseAction.cs" />
     <Compile Include="Action\Case\AddCaseAction.cs" />
     <Compile Include="Action\Case\CopyCaseAction.cs" />
     <Compile Include="Action\Case\CrossCaseAction.cs" />

@@ -162,6 +162,13 @@ namespace NBi.GenbiL.Parser
                 select new AddCaseAction(columnName, defaultValue)
         );
 
+        readonly static Parser<ICaseAction> caseMergeParser =
+        (
+                from add in Keyword.Merge
+                from withKeyword in Keyword.With
+                from scopeName in Grammar.QuotedTextual
+                select new MergeCaseAction(scopeName)
+        );
 
         public readonly static Parser<IAction> Parser =
         (
@@ -179,6 +186,7 @@ namespace NBi.GenbiL.Parser
                                     .Or(caseCopyParser)
                                     .Or(caseAddWithDefaultParser)
                                     .Or(caseAddParser)
+                                    .Or(caseMergeParser)
                 select action
         );
     }

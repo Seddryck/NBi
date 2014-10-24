@@ -28,7 +28,12 @@ namespace NBi.GenbiL.Action.Case
         {
             get
             {
-                return string.Format("Filtering on column '{0}' all instances {1}{2} '{3}'", Column, Negation ? "not " : string.Empty, GetOperatorText(Operator), Values);
+                return string.Format(
+                    "Filtering on column '{0}' all instances {1}{2} '{3}'"
+                    , Column
+                    , Negation ? "not " : string.Empty
+                    , GetOperatorText(Operator)
+                    , string.Join("', '", Values));
             }
         }
 

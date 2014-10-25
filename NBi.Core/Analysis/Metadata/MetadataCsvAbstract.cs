@@ -37,7 +37,7 @@ namespace NBi.Core.Analysis.Metadata
         protected MetadataCsvAbstract(string filename)
         {
             Filename = filename;
-            Definition = CsvDefinition.SemiColumnDoubleQuote();
+            Definition = CsvDefinition.SemiColumnDoubleQuote;
         }
 
         public void GetSheets()

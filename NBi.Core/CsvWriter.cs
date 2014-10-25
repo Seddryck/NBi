@@ -16,7 +16,7 @@ namespace NBi.Core
 
         public CsvWriter(bool firstLineIsColumnName)
         {
-            Definition = CsvDefinition.SemiColumnDoubleQuote();
+            Definition = CsvDefinition.SemiColumnDoubleQuote;
             FirstLineIsColumnName = firstLineIsColumnName;
         }
 

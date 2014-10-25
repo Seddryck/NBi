@@ -15,7 +15,7 @@ namespace NBi.Core
         public int BufferSize { get; private set; }
 
         public CsvReader()
-            : this(CsvDefinition.SemiColumnDoubleQuote(), 512)
+            : this(CsvDefinition.SemiColumnDoubleQuote, 512)
         {
         }
 
@@ -25,7 +25,7 @@ namespace NBi.Core
         }
 
         public CsvReader(int bufferSize)
-            : this(CsvDefinition.SemiColumnDoubleQuote(), bufferSize)
+            : this(CsvDefinition.SemiColumnDoubleQuote, bufferSize)
         {
         }
 

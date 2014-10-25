@@ -10,7 +10,7 @@ namespace NBi.Core.ResultSet
 
         public ResultSetCsvWriter(string persistancePath) :base(persistancePath)
         {
-            Definition = CsvDefinition.SemiColumnDoubleQuote();
+            Definition = CsvDefinition.SemiColumnDoubleQuote;
         }
 
         public ResultSetCsvWriter(string persistancePath, CsvDefinition definition) :base(persistancePath)

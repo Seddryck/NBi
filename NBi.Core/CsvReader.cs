@@ -105,17 +105,25 @@ namespace NBi.Core
                 while (!isLastRecord)
                 {
                     RaiseProgressStatus("Loading row {0} of {1}", i, count);
-                    var record = GetNextRecord(reader, Definition.RecordSeparator, BufferSize);
-                    pos += record.Length;
-                    reader.BaseStream.Seek(pos, SeekOrigin.Begin);
-                    isLastRecord = IsLastRecord(record);
-
-                    record = CleanRecord(record, Definition.RecordSeparator);
-
-                    var cells = SplitLine(record);
-                    var row = table.NewRow();
-                    row.ItemArray = cells;
-                    table.Rows.Add(row);
+                    var records = GetNextRecords(reader, Definition.RecordSeparator, BufferSize);
+                    foreach (var record in records)
+                    {
+                        i++;
+                        pos += record.Length;
+                        isLastRecord = IsLastRecord(record);
+                        var cleanRecord = CleanRecord(record, Definition.RecordSeparator);
+                        var cells = SplitLine(cleanRecord);
+                        var row = table.NewRow();
+                        row.ItemArray = cells;
+                        table.Rows.Add(row);
+                    }
+                    isLastRecord |= records.Count() == 0;
+                    if (!isLastRecord)
+                    {
+                        reader.DiscardBufferedData();
+                        reader.BaseStream.Seek(pos, SeekOrigin.Begin);
+                    }
+                        
                 }
             }
             RaiseProgressStatus("CSV file processed");
@@ -222,35 +230,60 @@ namespace NBi.Core
             }
         }
 
-        protected internal string GetNextRecord(StreamReader reader, string recordSeparator, int bufferSize)
+        protected internal IEnumerable<string> GetNextRecords(StreamReader reader, string recordSeparator, int bufferSize)
         {
             int n = 0;
             int j = 0;
             var stringBuilder = new StringBuilder();
+            var records = new List<string>();
+            var eof = false;
 
             do
             {
                 var buffer = new char[bufferSize];
                 n = reader.Read(buffer, 0, bufferSize);
-                foreach (var c in buffer)
-                {
-                    stringBuilder.Append(c);
 
-                    if (c == recordSeparator[j])
+                if (n > 0)
+                {
+                    foreach (var c in buffer)
                     {
-                        j++;
-                        if (j == recordSeparator.Length)
+                        stringBuilder.Append(c);
+
+                        if (c == '\0')
                         {
-                            reader.DiscardBufferedData();
-                            return stringBuilder.ToString();
+                            eof = true;
+                            break;
                         }
-                            
+
+
+                        if (c == recordSeparator[j])
+                        {
+                            j++;
+                            if (j == recordSeparator.Length)
+                            {
+                                records.Add(stringBuilder.ToString());
+                                stringBuilder.Clear();
+                                j = 0;
+                            }
+
+                        }
+                        else
+                            j = 0;
                     }
-                    else
-                        j = 0;
                 }
-            } while (n>0);
-            return stringBuilder.ToString();
+                else
+                {
+                    eof = true;
+                    stringBuilder.Append('\0');
+                }
+                    
+
+            } while (records.Count==0 && !eof);
+            
+            if (eof && stringBuilder.Length>0 && stringBuilder[0]!='\0')
+                records.Add(stringBuilder.ToString());
+
+            return records;
         }
 
         protected internal string CleanRecord(string record, string recordSeparator)

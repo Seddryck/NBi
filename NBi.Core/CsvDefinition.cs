@@ -19,14 +19,25 @@
             RecordSeparator = recordSeparator;
         }
 
-        public static CsvDefinition CommaDoubleQuote()
+        public CsvDefinition(char fieldSeparator, string recordSeparator)
+            : this(fieldSeparator, '\"', recordSeparator)
         {
-            return new CsvDefinition(',', '\"');
         }
 
-        public static CsvDefinition SemiColumnDoubleQuote()
+        public static CsvDefinition CommaDoubleQuote
         {
-            return new CsvDefinition(';', '\"');
+            get
+            {
+                return new CsvDefinition(',', '\"');
+            }
+        }
+
+        public static CsvDefinition SemiColumnDoubleQuote
+        {
+            get
+            {
+                return new CsvDefinition(';', '\"');
+            }
         }
 
     }

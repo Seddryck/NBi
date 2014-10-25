@@ -29,7 +29,7 @@ namespace NBi.Testing.Integration.Core
             table.AcceptChanges();
         }
 
-        private CsvDefinition Csv = CsvDefinition.SemiColumnDoubleQuote();
+        private CsvDefinition Csv = CsvDefinition.SemiColumnDoubleQuote;
 
         [Test]
         public void Write_OneRowWithEuroSymbol_CorrectlyWritten()

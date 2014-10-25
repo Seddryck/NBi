@@ -49,6 +49,9 @@ namespace NBi.Core
 
         public DataTable Read(string filename, bool firstLineIsColumnName)
         {
+            if (!File.Exists(filename))
+                throw new ExternalDependencyNotFoundException(filename);
+
             using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
             {
                 return Read(stream, firstLineIsColumnName);
@@ -63,7 +66,7 @@ namespace NBi.Core
             int i = 0;
 
             RaiseProgressStatus("Counting records");
-            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8, true))
+            using (StreamReader reader = new StreamReader(stream, Encoding.UTF7, true))
             {
                 var count = CountRecordSeparator(reader, Definition.RecordSeparator, BufferSize);
                 count -= Convert.ToInt16(firstLineIsColumnName);

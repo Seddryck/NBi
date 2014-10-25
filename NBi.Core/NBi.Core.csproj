@@ -322,7 +322,6 @@
     <Compile Include="ResultSet\ResultSetComparerException.cs" />
     <Compile Include="ResultSet\ResultSetComparisonSettings.cs" />
     <Compile Include="ResultSet\ResultSetCompareResult.cs" />
-    <Compile Include="ResultSet\ResultSetCsvReader.cs" />
     <Compile Include="ResultSet\IResultSetComparer.cs" />
     <Compile Include="ConnectionException.cs" />
     <Compile Include="ConnectionFactory.cs" />

@@ -35,9 +35,6 @@ namespace NBi.Core.ResultSet
         public void Load(DataTable table)
         {
             this.table = table;
-
-            //display for debug
-            ConsoleDisplay();
         }
 
         public void Load(IEnumerable<DataRow> rows)
@@ -47,6 +44,31 @@ namespace NBi.Core.ResultSet
 
             //display for debug
             ConsoleDisplay();
+        }
+
+        public void Load(string record)
+        {
+            table = new DataTable();
+            var fields = record.Split(';');
+
+            //if > 0 row
+            if (fields.Count() > 0)
+            {
+                //Build structure
+                for (int i = 0; i < fields.Length; i++)
+                    Columns.Add(string.Format("Column{0}", i), typeof(string));
+                
+                //load each row one by one
+                table.BeginLoadData();
+                //Transform (null) [string] into null
+                for (int i = 0; i < fields.Count(); i++)
+                {
+                    if (fields[i] != null && fields[i].ToString().ToLower() == "(null)".ToLower())
+                        fields[i] = null;
+                }
+                table.LoadDataRow(fields, LoadOption.OverwriteChanges);
+                table.EndLoadData();  
+            }
         }
 
         public void Load(IEnumerable<object[]> objects)

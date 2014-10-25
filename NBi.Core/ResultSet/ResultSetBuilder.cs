@@ -8,13 +8,13 @@ namespace NBi.Core.ResultSet
 {
     public class ResultSetBuilder : IResultSetBuilder
     {
-        private readonly CsvDefinition profile;
+        private readonly CsvProfile profile;
         public ResultSetBuilder()
-            : this(CsvDefinition.SemiColumnDoubleQuote)
+            : this(CsvProfile.SemiColumnDoubleQuote)
         {
         }
 
-        public ResultSetBuilder(CsvDefinition profile)
+        public ResultSetBuilder(CsvProfile profile)
         {
             this.profile = profile;
         }

@@ -11,25 +11,25 @@ namespace NBi.Core
     {
         public event ProgressStatusHandler ProgressStatusChanged;
 
-        public CsvDefinition Definition { get; private set; }
+        public CsvProfile Definition { get; private set; }
         public int BufferSize { get; private set; }
 
         public CsvReader()
-            : this(CsvDefinition.SemiColumnDoubleQuote, 512)
+            : this(CsvProfile.SemiColumnDoubleQuote, 512)
         {
         }
 
-        public CsvReader(CsvDefinition csvDefinition)
+        public CsvReader(CsvProfile csvDefinition)
             : this(csvDefinition, 512)
         {
         }
 
         public CsvReader(int bufferSize)
-            : this(CsvDefinition.SemiColumnDoubleQuote, bufferSize)
+            : this(CsvProfile.SemiColumnDoubleQuote, bufferSize)
         {
         }
 
-        public CsvReader(CsvDefinition csvDefinition, int bufferSize)
+        public CsvReader(CsvProfile csvDefinition, int bufferSize)
         {
             Definition = csvDefinition;
             BufferSize = bufferSize;

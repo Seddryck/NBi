@@ -10,7 +10,7 @@ namespace NBi.Core.Analysis.Metadata
     {
         public event ProgressStatusHandler ProgressStatusChanged;
 
-        public CsvDefinition Definition { get; private set; }
+        public CsvProfile Definition { get; private set; }
 
         public string Filename { get; private set; }
 
@@ -37,7 +37,7 @@ namespace NBi.Core.Analysis.Metadata
         protected MetadataCsvAbstract(string filename)
         {
             Filename = filename;
-            Definition = CsvDefinition.SemiColumnDoubleQuote;
+            Definition = CsvProfile.SemiColumnDoubleQuote;
         }
 
         public void GetSheets()

@@ -6,14 +6,14 @@ namespace NBi.Core.ResultSet
 {
     public class ResultSetCsvWriter : ResultSetAbstractWriter
     {
-        public CsvDefinition Definition { get; private set; }
+        public CsvProfile Definition { get; private set; }
 
         public ResultSetCsvWriter(string persistancePath) :base(persistancePath)
         {
-            Definition = CsvDefinition.SemiColumnDoubleQuote;
+            Definition = CsvProfile.SemiColumnDoubleQuote;
         }
 
-        public ResultSetCsvWriter(string persistancePath, CsvDefinition definition) :base(persistancePath)
+        public ResultSetCsvWriter(string persistancePath, CsvProfile definition) :base(persistancePath)
         {
             Definition = definition;
         }

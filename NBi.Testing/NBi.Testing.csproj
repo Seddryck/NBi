@@ -166,7 +166,6 @@
     <Compile Include="Unit\Core\ResultSet\IntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\LineFormatterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetComparisonSettingsTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\ResultSetCsvReaderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetWriterTest.cs" />
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />

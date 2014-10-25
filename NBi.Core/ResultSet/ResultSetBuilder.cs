@@ -47,9 +47,13 @@ namespace NBi.Core.ResultSet
 
         public virtual ResultSet Build(string path)
         {
-            var reader = new ResultSetCsvReader();
-            var rs = reader.Read(path);
+            var reader = new CsvReader();
+            var dataTable = reader.Read(path, false);
+
+            var rs = new ResultSet();
+            rs.Load(dataTable);
             return rs;
         }
+
     }
 }

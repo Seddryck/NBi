@@ -61,6 +61,8 @@ namespace NBi.NUnit.Builder
                 {
                     Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in external file!");
                     ctr = new EqualToConstraint(ConstraintXml.ResultSet.GetFile());
+                    if (ConstraintXml.Settings.CsvProfile != null)
+                        ctr=ctr.CsvProfile(ConstraintXml.Settings.CsvProfile);
                 }
                 else if (ConstraintXml.ResultSet.Rows!=null)
                 {

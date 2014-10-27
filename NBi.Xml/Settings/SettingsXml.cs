@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Xml.Serialization;
 
 namespace NBi.Xml.Settings
@@ -20,6 +22,18 @@ namespace NBi.Xml.Settings
         [XmlElement("parallelize-queries")]
         [DefaultValue(true)]
         public bool ParallelizeQueries { get; set; }
+
+        [XmlElement("csv-profile")]
+        public CsvProfileXml CsvProfile { get; set; }
+
+        public bool ShouldSerializeCsvProfile()
+        {
+            var value = 
+                CsvProfile.InternalFieldSeparator != GetDefaultValue<string>(x => x.InternalFieldSeparator)
+                || CsvProfile.InternalRecordSeparator != GetDefaultValue<string>(x => x.InternalRecordSeparator);
+
+            return value;
+        }
 
         public enum DefaultScope
         {
@@ -84,6 +98,7 @@ namespace NBi.Xml.Settings
             Defaults = new List<DefaultXml>();
             References = new List<ReferenceXml>();
             ParallelizeQueries = false;
+            CsvProfile = new CsvProfileXml();
         }
 
         internal void GetValuesFromConfig(NameValueCollection connectionStrings)
@@ -125,6 +140,60 @@ namespace NBi.Xml.Settings
             {
                 return new SettingsXml();
             }
+        }
+
+        public static T GetDefaultValue<T>(Expression<Func<CsvProfileXml, T>> propertySelector)
+        {
+            MemberExpression memberExpression = null;
+
+            switch (propertySelector.Body.NodeType)
+            {
+                case ExpressionType.MemberAccess:
+                    // This is the default case where the 
+                    // expression is simply member access.
+                    memberExpression
+                        = propertySelector.Body as MemberExpression;
+                    break;
+
+                case ExpressionType.Convert:
+                    // This case deals with conversions that 
+                    // may have occured due to typing.
+                    UnaryExpression unaryExpression
+                        = propertySelector.Body as UnaryExpression;
+
+                    if (unaryExpression != null)
+                    {
+                        memberExpression
+                            = unaryExpression.Operand as MemberExpression;
+                    }
+                    break;
+            }
+
+
+            MemberInfo member = memberExpression.Member;
+
+            // Check for field and property types. 
+            // All other types are not supported by attribute model.
+            switch (member.MemberType)
+            {
+                case MemberTypes.Property:
+                    break;
+                default:
+                    throw new Exception("Member is not property");
+            }
+
+            var property = (PropertyInfo)member;
+
+            var attribute = property
+                .GetCustomAttribute(typeof(DefaultValueAttribute))
+                    as DefaultValueAttribute;
+
+            if (attribute != null)
+            {
+                return (T)attribute.Value;
+            }
+            else
+                throw new ArgumentException();
         }
     }
 }

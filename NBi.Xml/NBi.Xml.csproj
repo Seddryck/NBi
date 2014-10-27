@@ -130,6 +130,7 @@
     <Compile Include="Items\QueryXml.cs" />
     <Compile Include="Items\Validate\ExpressionXml.cs" />
     <Compile Include="Items\Validate\VariableXml.cs" />
+    <Compile Include="Settings\CsvProfileXml.cs" />
     <Compile Include="Settings\UpdateXml.cs" />
     <Compile Include="Settings\EditionXml.cs" />
     <Compile Include="Settings\DescriptionXml.cs" />

@@ -538,6 +538,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Acceptance\Resources\Etl\Password for ETL.txt" />
+    <EmbeddedResource Include="Unit\Xml\Resources\CsvProfileXmlTestSuite.xml" />
     <EmbeddedResource Include="Integration\Core\Batch\Batch.sql" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage-0002.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage-0001.txt" />

@@ -21,8 +21,8 @@ namespace NBi.Service
 
         public void ReadFromCsv(string filename)
         {
-            var csvReader = new CsvReader(filename, true);
-            content = csvReader.Read();
+            var csvReader = new CsvReader();
+            content = csvReader.Read(filename, true);
 
             variables.Clear();
             foreach (DataColumn col in Content.Columns)

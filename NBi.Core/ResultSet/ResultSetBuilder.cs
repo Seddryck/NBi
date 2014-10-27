@@ -8,6 +8,17 @@ namespace NBi.Core.ResultSet
 {
     public class ResultSetBuilder : IResultSetBuilder
     {
+        private readonly CsvProfile profile;
+        public ResultSetBuilder()
+            : this(CsvProfile.SemiColumnDoubleQuote)
+        {
+        }
+
+        public ResultSetBuilder(CsvProfile profile)
+        {
+            this.profile = profile;
+        }
+
         public virtual ResultSet Build(Object obj)
         {
             //Console.WriteLine("Debug: {0} {1}", obj.GetType(), obj.ToString()); 
@@ -47,9 +58,13 @@ namespace NBi.Core.ResultSet
 
         public virtual ResultSet Build(string path)
         {
-            var reader = new ResultSetCsvReader();
-            var rs = reader.Read(path);
+            var reader = new CsvReader(profile);
+            var dataTable = reader.Read(path, false);
+
+            var rs = new ResultSet();
+            rs.Load(dataTable);
             return rs;
         }
+
     }
 }

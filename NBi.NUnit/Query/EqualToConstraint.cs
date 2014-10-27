@@ -17,6 +17,7 @@ namespace NBi.NUnit.Query
         protected Object expect;
 
         protected bool parallelizeQueries = false;
+        protected CsvProfile csvProfile;
 
         protected ResultSet expectedResultSet;
         protected ResultSet actualResultSet;
@@ -79,7 +80,13 @@ namespace NBi.NUnit.Query
             get
             {
                 if(_resultSetBuilder==null)
-                    _resultSetBuilder = new ResultSetBuilder();
+                {
+                    if (csvProfile==null)
+                        _resultSetBuilder = new ResultSetBuilder();
+                    else
+                        _resultSetBuilder = new ResultSetBuilder(csvProfile);
+                }
+                    
                 return _resultSetBuilder;
             }
             set
@@ -133,6 +140,12 @@ namespace NBi.NUnit.Query
         public EqualToConstraint Sequential()
         {
             this.parallelizeQueries = false;
+            return this;
+        }
+
+        public EqualToConstraint CsvProfile(CsvProfile profile)
+        {
+            this.csvProfile = profile;
             return this;
         }
 

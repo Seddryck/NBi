@@ -11,12 +11,12 @@ namespace NBi.Core
     {
         public event ProgressStatusHandler ProgressStatusChanged;
 
-        public CsvDefinition Definition { get; private set; }
+        public CsvProfile Definition { get; private set; }
         public bool FirstLineIsColumnName { get; private set; }
 
         public CsvWriter(bool firstLineIsColumnName)
         {
-            Definition = CsvDefinition.SemiColumnDoubleQuote();
+            Definition = CsvProfile.SemiColumnDoubleQuote;
             FirstLineIsColumnName = firstLineIsColumnName;
         }
 

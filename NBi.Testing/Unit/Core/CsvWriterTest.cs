@@ -28,7 +28,7 @@ namespace NBi.Testing.Unit.Core
             table.AcceptChanges();
         }
 
-        private CsvDefinition Csv = CsvDefinition.SemiColumnDoubleQuote();
+        private CsvProfile Csv = CsvProfile.SemiColumnDoubleQuote;
 
         [Test]
         public void Write_TwoRowsWithHeader_ThreeLines()

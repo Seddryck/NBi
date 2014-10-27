@@ -167,11 +167,11 @@
     <Compile Include="Unit\Core\ResultSet\IntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\LineFormatterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetComparisonSettingsTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\ResultSetCsvReaderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetWriterTest.cs" />
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
+    <Compile Include="Unit\Core\CsvReaderTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\DataRowsMessageTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\ItemsMessageTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Formatter\CellFormatterTest.cs" />
@@ -543,6 +543,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Acceptance\Resources\Etl\Password for ETL.txt" />
+    <EmbeddedResource Include="Unit\Xml\Resources\CsvProfileXmlTestSuite.xml" />
     <EmbeddedResource Include="Integration\Core\Batch\Batch.sql" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage-0002.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage-0001.txt" />

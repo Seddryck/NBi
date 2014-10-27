@@ -2,10 +2,13 @@
 {
     public class CsvProfile
     {
-        public char FieldSeparator { get; private set; }
-        public char TextQualifier { get; private set; }
-        public string RecordSeparator { get; private set; }
+        public virtual char FieldSeparator { get; set; }
+        public char TextQualifier { get; set; }
+        public virtual string RecordSeparator { get; set; }
 
+        protected CsvProfile()
+        {
+        }
 
         public CsvProfile(char fieldSeparator, char textQualifier)
             : this (fieldSeparator, textQualifier, "\r\n")
@@ -13,6 +16,7 @@
         }
 
         public CsvProfile(char fieldSeparator, char textQualifier, string recordSeparator)
+            : this()
         {
             FieldSeparator = fieldSeparator;
             TextQualifier = textQualifier;

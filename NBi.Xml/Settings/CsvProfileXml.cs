@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,14 +9,14 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Settings
 {
-    public class CsvProfileXml
+    public class CsvProfileXml : CsvProfile
     {
         [XmlAttribute("field-separator")]
         [DefaultValue(";")]
         public string InternalFieldSeparator { get; set; }
 
         [XmlIgnore]
-        public char FieldSeparator
+        public override char FieldSeparator
         {
             get
             {
@@ -37,7 +38,7 @@ namespace NBi.Xml.Settings
         public string InternalRecordSeparator { get; set; }
 
         [XmlIgnore]
-        public string RecordSeparator 
+        public override string RecordSeparator 
         {
             get
             {

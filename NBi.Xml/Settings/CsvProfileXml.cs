@@ -54,5 +54,13 @@ namespace NBi.Xml.Settings
                 InternalRecordSeparator = value;
             }
         }
+
+        public CsvProfileXml(char fieldSeparator, string recordSeparator)
+            : base(fieldSeparator, recordSeparator)
+        {}
+
+        public CsvProfileXml()
+            : base()
+        { }
     }
 }

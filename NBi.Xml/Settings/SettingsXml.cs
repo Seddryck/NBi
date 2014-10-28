@@ -98,7 +98,11 @@ namespace NBi.Xml.Settings
             Defaults = new List<DefaultXml>();
             References = new List<ReferenceXml>();
             ParallelizeQueries = true;
-            CsvProfile = new CsvProfileXml();
+            CsvProfile = new CsvProfileXml
+            (
+                GetDefaultValue<string>(x => x.InternalFieldSeparator)[0]
+                , GetDefaultValue<string>(x => x.InternalRecordSeparator)
+            );
         }
 
         internal void GetValuesFromConfig(NameValueCollection connectionStrings)

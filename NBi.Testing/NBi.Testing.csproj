@@ -273,9 +273,6 @@
     <EmbeddedResource Include="Acceptance\Resources\Positive\ResultSetMatchPattern.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\GenbiL\Resources\dimension.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryWithParameters.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -542,6 +539,9 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Acceptance\GenbiL\Resources\dimension.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="Acceptance\Resources\Etl\Password for ETL.txt" />
     <EmbeddedResource Include="Unit\Xml\Resources\CsvProfileXmlTestSuite.xml" />
     <EmbeddedResource Include="Integration\Core\Batch\Batch.sql" />

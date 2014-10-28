@@ -78,17 +78,14 @@ namespace NBi.Core
                 var columnCount = 0;
                 var columnNames = new List<string>();
                 var firstLine = GetFirstRecord(reader, Definition.RecordSeparator, BufferSize);
+                if (firstLine.EndsWith(Definition.RecordSeparator))
+                    firstLine = firstLine.Substring(0, firstLine.Length - Definition.RecordSeparator.Length);
                 columnCount = firstLine.Split(Definition.FieldSeparator).Length;
                 if (firstLineIsColumnName)
                     columnNames.AddRange(SplitLine(firstLine));
                 
-                //Reset at 0, if this line is not the header
-                if(!firstLineIsColumnName)
-                {
-                    stream.Position = 0;
-                    reader.DiscardBufferedData();
-                }
-                    
+                stream.Position = 0;
+                reader.DiscardBufferedData();
 
                 //Correctly define the columns for the table
                 for (int c = 0; c < columnCount; c++)
@@ -102,7 +99,7 @@ namespace NBi.Core
                 //Parse the whole file
 
                 bool isLastRecord = false;
-                i = 1;
+                i = 0;
                 var pos = 0;
 
                 while (!isLastRecord)
@@ -112,13 +109,16 @@ namespace NBi.Core
                     foreach (var record in records)
                     {
                         i++;
-                        pos += record.Length;
-                        isLastRecord = IsLastRecord(record);
-                        var cleanRecord = CleanRecord(record, Definition.RecordSeparator);
-                        var cells = SplitLine(cleanRecord);
-                        var row = table.NewRow();
-                        row.ItemArray = cells;
-                        table.Rows.Add(row);
+                        if (i!=1 || !firstLineIsColumnName)
+                        { 
+                            pos += record.Length;
+                            isLastRecord = IsLastRecord(record);
+                            var cleanRecord = CleanRecord(record, Definition.RecordSeparator);
+                            var cells = SplitLine(cleanRecord);
+                            var row = table.NewRow();
+                            row.ItemArray = cells;
+                            table.Rows.Add(row);
+                        }
                     }
                     isLastRecord |= records.Count() == 0;
                     if (!isLastRecord)

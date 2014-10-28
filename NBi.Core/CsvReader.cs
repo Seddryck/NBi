@@ -66,10 +66,21 @@ namespace NBi.Core
             int i = 0;
 
             RaiseProgressStatus("Counting records");
-            using (StreamReader reader = new StreamReader(stream, Encoding.UTF7, true))
+            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8, true))
             {
                 var count = CountRecordSeparator(reader, Definition.RecordSeparator, BufferSize);
                 count -= Convert.ToInt16(firstLineIsColumnName);
+                stream.Position = 0;
+                reader.DiscardBufferedData();
+
+                ////Check if the first byte is BOM or not
+                var encodingBytesCount = 0;
+                var buffer = new char[4];
+                reader.Read(buffer, 0, 4);
+                var startingString = new string(buffer);
+                if (startingString[0] == 65279)
+                    encodingBytesCount = 1;
+
                 stream.Position = 0;
                 reader.DiscardBufferedData();
 
@@ -78,14 +89,14 @@ namespace NBi.Core
                 var columnCount = 0;
                 var columnNames = new List<string>();
                 var firstLine = GetFirstRecord(reader, Definition.RecordSeparator, BufferSize);
+                if (encodingBytesCount>0)
+                    firstLine = firstLine.Substring(encodingBytesCount, firstLine.Length - encodingBytesCount);
                 if (firstLine.EndsWith(Definition.RecordSeparator))
                     firstLine = firstLine.Substring(0, firstLine.Length - Definition.RecordSeparator.Length);
                 columnCount = firstLine.Split(Definition.FieldSeparator).Length;
                 if (firstLineIsColumnName)
                     columnNames.AddRange(SplitLine(firstLine));
                 
-                stream.Position = 0;
-                reader.DiscardBufferedData();
 
                 //Correctly define the columns for the table
                 for (int c = 0; c < columnCount; c++)
@@ -98,9 +109,12 @@ namespace NBi.Core
 
                 //Parse the whole file
 
+                stream.Position = encodingBytesCount;
+                reader.DiscardBufferedData();
+
                 bool isLastRecord = false;
                 i = 0;
-                var pos = 0;
+                var pos = stream.Position;
 
                 while (!isLastRecord)
                 {

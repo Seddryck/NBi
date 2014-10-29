@@ -49,8 +49,8 @@ namespace NBi.NUnit.Member
             var compare = new ListComparer()
                         .Compare
                         (
-                            ((MemberResult)actual).ToCaptions()
-                            , ExpectedItems
+                            ExpectedItems
+                            , ((MemberResult)actual).ToCaptions()
                             , GetComparisonType()
                         );
 

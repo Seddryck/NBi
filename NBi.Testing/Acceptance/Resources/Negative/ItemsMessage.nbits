@@ -20,8 +20,8 @@
 				<item>Manufacturing</item>
 				<item>Quality Assurance</item>
 				<item>Research and Development</item>
-        <item>Unexpected item 1</item>
-        <item>Unexpected item 2</item>
+        <item>Missing item 1</item>
+        <item>Missing item 2</item>
 				<item>Sales and Marketing</item>
 			</equivalentTo>
 		</assert>
@@ -38,8 +38,8 @@
         <item>Manufacturing</item>
         <item>Quality Assurance</item>
         <item>Research and Development</item>
-        <item>Unexpected item 1</item>
-        <item>Unexpected item 2</item>
+        <item>Missing item 1</item>
+        <item>Missing item 2</item>
         <item>Sales and Marketing</item>
       </subsetOf>
     </assert>

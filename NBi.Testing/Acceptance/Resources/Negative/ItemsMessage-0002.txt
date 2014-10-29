@@ -7,8 +7,8 @@ Set of 7 items
    * Manufacturing
    * Quality Assurance
    * Research and Development
-   * Unexpected item 1
-   * Unexpected item 2
+   * Missing item 1
+   * Missing item 2
    * Sales and Marketing
 
 
@@ -24,11 +24,11 @@ Set of 6 items
 
 
 
-Unexpected items:
+Missing items:
 -----------------
 
 Set of 2 items
 
-   * Unexpected item 1
-   * Unexpected item 2
+   * Missing item 1
+   * Missing item 2
 

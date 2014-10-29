@@ -222,6 +222,8 @@ namespace NBi.NUnit.Runtime
                 testCaseDataNUnit.SetDescription(test.Description);
                 foreach (var category in test.Categories)
                     testCaseDataNUnit.SetCategory(CategoryHelper.Format(category));
+                foreach (var property in test.Traits)
+                    testCaseDataNUnit.SetProperty(property.Name, property.Value);
 
                 //Assign auto-categories
                 if (EnableAutoCategories)

@@ -77,28 +77,35 @@ namespace NBi.Xml
             set { categories = value; }
         }
 
+        [XmlElement("trait", Order = 5)]
+        public List<TraitXml> Traits
+        {
+            get { return traits; }
+            set { traits = value; }
+        }
+
         [XmlAttribute("timeout")]
         [DefaultValue(0)]
         public int Timeout { get; set; }
 
-        [XmlElement("condition", Order = 5)]
+        [XmlElement("condition", Order = 6)]
         public ConditionXml Condition;
 
-        [XmlElement("setup", Order = 6)]
+        [XmlElement("setup", Order = 7)]
         public SetupXml Setup
         {
             get { return setup; }
             set { setup = value; }
         }
 
-        [XmlArray("system-under-test", Order = 7),
+        [XmlArray("system-under-test", Order = 8),
         XmlArrayItem(Type = typeof(ExecutionXml), ElementName = "execution"),
         XmlArrayItem(Type = typeof(MembersXml), ElementName = "members"),
         XmlArrayItem(Type = typeof(StructureXml), ElementName = "structure"),
         ]
         public List<AbstractSystemUnderTestXml> Systems;
 
-        [XmlArray("assert", Order = 8),
+        [XmlArray("assert", Order = 9),
         XmlArrayItem(Type = typeof(SyntacticallyCorrectXml), ElementName = "syntacticallyCorrect"),
         XmlArrayItem(Type = typeof(FasterThanXml), ElementName = "fasterThan"),
         XmlArrayItem(Type = typeof(EqualToXml), ElementName = "equalTo"),
@@ -115,7 +122,7 @@ namespace NBi.Xml
         ]
         public List<AbstractConstraintXml> Constraints;
 
-        [XmlElement("cleanup", Order = 9)]
+        [XmlElement("cleanup", Order = 10)]
         public CleanupXml Cleanup
         {
             get { return cleanup; }
@@ -136,6 +143,7 @@ namespace NBi.Xml
             this.DescriptionElement = standalone.DescriptionElement;
             this.IgnoreElement = standalone.IgnoreElement;
             this.Categories = standalone.Categories;
+            this.Traits = standalone.Traits;
             this.Constraints = standalone.Constraints;
             this.Setup = standalone.Setup;
             this.Cleanup = standalone.Cleanup;

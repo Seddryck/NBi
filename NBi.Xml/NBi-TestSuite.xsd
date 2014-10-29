@@ -254,6 +254,13 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
+  <xs:complexType name="trait-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" use="required" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
   <xs:complexType name="condition-type">
     <xs:sequence minOccurs="1" maxOccurs="unbounded">
       <xs:element name="service-running" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
@@ -336,6 +343,7 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="category"  type="category-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="trait"  type="trait-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="condition" type="condition-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="setup" type="decoration-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="system-under-test" minOccurs="1" maxOccurs="unbounded">

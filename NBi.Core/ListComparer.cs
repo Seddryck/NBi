@@ -36,10 +36,10 @@ namespace NBi.Core
             IEnumerable<string> unexpected = null;
 
             if (comparaison.HasFlag(Comparison.MissingItems))
-                missing = y.Except(x, internalComparer).ToList();
+                missing = x.Except(y, internalComparer).ToList();
 
             if (comparaison.HasFlag(Comparison.UnexpectedItems))
-                unexpected = x.Except(y, internalComparer).ToList();
+                unexpected = y.Except(x, internalComparer).ToList();
 
             var res = new Result(missing, unexpected);
             return res;

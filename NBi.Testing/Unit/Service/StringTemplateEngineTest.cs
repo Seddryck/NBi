@@ -8,6 +8,8 @@ using NBi.Xml.Systems;
 using NBi.Xml.Constraints;
 using System.Reflection;
 using System.IO;
+using System.Threading;
+using System.Globalization;
 
 namespace NBi.Testing.Unit.Service
 {
@@ -37,6 +39,20 @@ namespace NBi.Testing.Unit.Service
                 caseBuilt.Add(new List<object>() { item });
 
             return caseBuilt;
+        }
+
+        private class StringTemplateEngineTesting : StringTemplateEngine
+        {
+            public StringTemplateEngineTesting()
+                : base(null, null)
+            {
+
+            }
+
+            public new string[] GetDynamicValues(DateTime now, int uid, string userName)
+            {
+                return base.GetDynamicValues(now, uid, userName);
+            }
         }
 
         [Test]
@@ -214,6 +230,44 @@ namespace NBi.Testing.Unit.Service
             Assert.That(result, Is.EqualTo("myDim ... <ignore>reason to ignore</ignore>"));
         }
 
+        [Test]
+        [TestCase("fr-fr")]
+        [TestCase("nl-be")]
+        [TestCase("fr-be")]
+        [TestCase("de-de")]
+        [TestCase("en-us")]
+        [TestCase("en-gb")]
+        public void GetDynamicValues_NowBefore10AM_CorrectValues(string culture)
+        {
+            var engine = new StringTemplateEngineTesting();
+            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(culture);
+            var values = engine.GetDynamicValues(new DateTime(2014, 09, 26, 9, 16, 55), 1, "toto");
 
+            Assert.That(values[0], Is.EqualTo("2014-09-26T09:16:55"));
+            //Console.WriteLine(values[1]);
+            Assert.That(DateTime.Parse(values[1]).TimeOfDay, Is.EqualTo(new TimeSpan(9, 16, 55)));
+            //Console.WriteLine(values[2]);
+            Assert.That(DateTime.Parse(values[2]), Is.EqualTo(new DateTime(2014, 09, 26)));
+        }
+
+        [Test]
+        [TestCase("fr-fr")]
+        [TestCase("nl-be")]
+        [TestCase("fr-be")]
+        [TestCase("de-de")]
+        [TestCase("en-us")]
+        [TestCase("en-gb")]
+        public void GetDynamicValues_NowAfter10AM_CorrectValues(string culture)
+        {
+            var engine = new StringTemplateEngineTesting();
+            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(culture);
+            var values = engine.GetDynamicValues(new DateTime(2014, 12, 03, 15, 5, 7), 1, "toto");
+
+            Assert.That(values[0], Is.EqualTo("2014-12-03T15:05:07"));
+            //Console.WriteLine(values[1]);
+            Assert.That(DateTime.Parse(values[1]).TimeOfDay, Is.EqualTo(new TimeSpan(15, 5, 7)));
+            //Console.WriteLine(values[2]);
+            Assert.That(DateTime.Parse(values[2]), Is.EqualTo(new DateTime(2014, 12, 03)));
+        }
     }
 }

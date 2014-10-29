@@ -89,6 +89,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Acceptance\GenbiL\CaseCrossTest.cs" />
     <Compile Include="Acceptance\GenbiL\GenbiLTest.cs" />
     <Compile Include="Acceptance\Resources\AssemblyClass.cs" />
     <Compile Include="Acceptance\RuntimeOverrider.cs" />
@@ -102,10 +103,15 @@
     <Compile Include="Integration\Core\Analysis\Request\DiscoveryRequestFactoryTest.cs" />
     <Compile Include="Integration\Core\Analysis\MembersAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />
+    <Compile Include="Integration\Core\CsvWriterTest.cs" />
+    <Compile Include="Integration\Core\Batch\SqlServer\BatchCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\BulkLoadCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\TruncateCommandTest.cs" />
     <Compile Include="Integration\Core\Etl\IntegrationService\EtlDtsWindowsRunnerTest.cs" />
     <Compile Include="Integration\Core\Etl\IntegrationService\EtlFileRunnerTest.cs" />
+    <Compile Include="Integration\Core\FileManipulation\CopyCommandTest.cs" />
+    <Compile Include="Integration\Core\Process\ProcessRunCommandTest.cs" />
+    <Compile Include="Integration\Core\FileManipulation\DeleteCommandTest.cs" />
     <Compile Include="Integration\Core\Query\QueryAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\Query\QueryParserTest.cs" />
     <Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
@@ -113,6 +119,7 @@
     <Compile Include="Integration\Core\WindowsService\WindowsServiceCheckTest.cs" />
     <Compile Include="Integration\Core\Report\DatabaseParserTest.cs" />
     <Compile Include="Integration\Core\WindowsService\WindowsServiceCommandTest.cs" />
+    <Compile Include="Integration\GenbiL\TestSuiteGeneratorTest.cs" />
     <Compile Include="Integration\NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Members\EquivalentToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Query\EqualToConstraintTest.cs" />
@@ -136,6 +143,7 @@
     <Compile Include="Unit\Core\Assemblies\Resource\Enumeration.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\Klass.cs" />
     <Compile Include="Unit\Core\Assemblies\TypeConverterTest.cs" />
+    <Compile Include="Unit\Core\CsvWriterTest.cs" />
     <Compile Include="Unit\Core\GroupCommandFactoryTest.cs" />
     <Compile Include="Unit\Core\Etl\SsisEtlRunnerFactoryTest.cs" />
     <Compile Include="Unit\Core\Evaluate\RowValidatorTest.cs" />
@@ -159,16 +167,19 @@
     <Compile Include="Unit\Core\ResultSet\IntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\LineFormatterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetComparisonSettingsTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\ResultSetCsvReaderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetWriterTest.cs" />
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
+    <Compile Include="Unit\Core\CsvReaderTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\DataRowsMessageTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\ItemsMessageTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Formatter\CellFormatterTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Helper\TableHeaderHelperTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Helper\TableHelperTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\FilterCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\MergeCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\AddCaseActionTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ExecutionMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersEquivalentToBuilderTest.cs" />
@@ -208,7 +219,8 @@
     <Compile Include="Unit\Service\RunnerConfig\NUnitRunnerConfigBuilderTest.cs" />
     <Compile Include="Unit\Service\RunnerConfig\RunnerConfigManagerTest.cs" />
     <Compile Include="Unit\Service\StringTemplateEngineTest.cs" />
-    <Compile Include="Unit\Service\TestCasesManagerTest.cs" />
+    <Compile Include="Unit\Service\TestCaseCollectionManagerTest.cs" />
+    <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
     <Compile Include="Unit\Xml\Constraints\SucessfulXmlTest.cs" />
@@ -262,9 +274,6 @@
     <EmbeddedResource Include="Acceptance\Resources\Positive\ResultSetMatchPattern.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\GenbiL\Resources\dimension.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryWithParameters.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -272,6 +281,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Csv\BusinessEntity.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\CaseCross-TestSuiteBuild.genbil">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Acceptance\Resources\Reports\EmployeeSalesDetail.rsd">
@@ -294,6 +306,7 @@
     </None>
     <EmbeddedResource Include="Acceptance\Resources\Positive\Etl.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Etl\Sample.dtsx">
       <SubType>Designer</SubType>
@@ -322,6 +335,9 @@
     <EmbeddedResource Include="Integration\NUnit\Resources\NonEmptyAmountByYear.csv" />
     <EmbeddedResource Include="Integration\Core\DataManipulation\Load.csv" />
     <EmbeddedResource Include="Integration\Core\Etl\IntegrationService\Resources\Sample.dtsx" />
+    <EmbeddedResource Include="Integration\Core\Resources\MyBatch.cmd" />
+    <EmbeddedResource Include="Integration\Core\Resources\MyInvalidBatch.cmd" />
+    <EmbeddedResource Include="Integration\GenbiL\Resources\Simple.genbil" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataCsvSample.csv" />
     <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataExcelSample.xls" />
@@ -524,8 +540,13 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Acceptance\GenbiL\Resources\dimension.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="Acceptance\Resources\Etl\Password for ETL.txt" />
     <EmbeddedResource Include="Unit\Xml\Resources\TraitXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\CsvProfileXmlTestSuite.xml" />
+    <EmbeddedResource Include="Integration\Core\Batch\Batch.sql" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage-0002.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage-0001.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\DataRowsMessage-0001.txt" />

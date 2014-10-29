@@ -4,6 +4,9 @@ using NBi.Xml;
 using NBi.Xml.Decoration;
 using NBi.Xml.Decoration.Command;
 using NUnit.Framework;
+using NBi.Core.FileManipulation;
+using NBi.Core.Batch;
+using NBi.Core.Process;
 
 namespace NBi.Testing.Unit.Xml.Decoration
 {
@@ -224,6 +227,107 @@ namespace NBi.Testing.Unit.Xml.Decoration
                 Assert.That(test.Setup.Commands[1], Is.InstanceOf<TableLoadXml>());
             }
         }
+
+        [Test]
+        public void Deserialize_SampleFile_ProcessRun()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            int groupNr = 2;
+
+            // Check the properties of the object.
+            var command = ts.Groups[groupNr].Tests[0].Setup.Commands[0];
+
+            Assert.That(command, Is.TypeOf<ExeRunXml>());
+            var move = command as IRunCommand;
+            Assert.That(move.FullPath, Is.EqualTo(@"Batches\clean.exe"));
+            Assert.That(move.Argument, Is.EqualTo("-all"));
+            Assert.That(move.TimeOut, Is.EqualTo(1000));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ProcessRunWithoutOptionalArguments()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            int groupNr = 2;
+
+            // Check the properties of the object.
+            var command = ts.Groups[groupNr].Tests[0].Setup.Commands[1];
+
+            Assert.That(command, Is.TypeOf<ExeRunXml>());
+            var move = command as IRunCommand;
+            Assert.That(move.FullPath, Is.EqualTo(@"load.exe"));
+            Assert.That(move.TimeOut, Is.EqualTo(0));
+        }
+
+
+        [Test]
+        public void Deserialize_SampleFile_BatchRun()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            int groupNr = 3;
+
+            // Check the properties of the object.
+            var command = ts.Groups[groupNr].Tests[0].Setup.Commands[0];
+
+            Assert.That(command, Is.TypeOf<SqlRunXml>());
+            var batchRun = command as IBatchRunCommand;
+            Assert.That(batchRun.FullPath, Is.EqualTo(@"Batches\build.sql"));
+            Assert.That(batchRun.ConnectionString, Is.EqualTo("Data source=(local);Initial Catalog=MyDB"));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_BatchRunWithoutOptional()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            int groupNr = 3;
+
+            // Check the properties of the object.
+            var command = ts.Groups[groupNr].Tests[0].Setup.Commands[1];
+
+            Assert.That(command, Is.TypeOf<SqlRunXml>());
+            var batchRun = command as IBatchRunCommand;
+            Assert.That(batchRun.FullPath, Is.EqualTo(@"import.sql"));
+            Assert.That(batchRun.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_FileDelete()
+        {
+            int groupNr = 4;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            var command = ts.Groups[groupNr].Tests[0].Setup.Commands[0];
+
+            Assert.That(command, Is.TypeOf<FileDeleteXml>());
+            var delete = command as IDeleteCommand;
+            Assert.That(delete.FullPath, Is.EqualTo(@"Temp\toto.xls"));
+        }
+
+        
+        [Test]
+        public void Deserialize_SampleFile_FileMove()
+        {
+            int groupNr = 4;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            var command = ts.Groups[groupNr].Tests[1].Setup.Commands[0];
+
+            Assert.That(command, Is.TypeOf<FileCopyXml>());
+            var move = command as ICopyCommand;
+            Assert.That(move.FullPath, Is.EqualTo(@"Temp\toto.xls"));
+            Assert.That(move.SourceFullPath, Is.EqualTo(@"Backup\toto.xls"));
+        }
+
 
 
     }

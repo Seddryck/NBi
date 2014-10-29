@@ -35,9 +35,9 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Check the properties of the object.
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<CountXml>());
             Assert.That(((CountXml)ts.Tests[testNr].Constraints[0]).Exactly, Is.EqualTo(10));
-            Assert.That(((CountXml)ts.Tests[testNr].Constraints[0]).Specification.IsExactlySpecified, Is.True);
-            Assert.That(((CountXml)ts.Tests[testNr].Constraints[0]).Specification.IsLessThanSpecified, Is.False);
-            Assert.That(((CountXml)ts.Tests[testNr].Constraints[0]).Specification.IsMoreThanSpecified, Is.False);
+            Assert.That(((CountXml)ts.Tests[testNr].Constraints[0]).ExactlySpecified, Is.True);
+            Assert.That(((CountXml)ts.Tests[testNr].Constraints[0]).LessThanSpecified, Is.False);
+            Assert.That(((CountXml)ts.Tests[testNr].Constraints[0]).MoreThanSpecified, Is.False);
         }
 
         [Test]
@@ -52,9 +52,37 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<CountXml>());
             Assert.That(((CountXml)ts.Tests[testNr].Constraints[0]).MoreThan, Is.EqualTo(10));
             Assert.That(((CountXml)ts.Tests[testNr].Constraints[0]).LessThan, Is.EqualTo(15));
-            Assert.That(((CountXml)ts.Tests[testNr].Constraints[0]).Specification.IsExactlySpecified, Is.False);
-            Assert.That(((CountXml)ts.Tests[testNr].Constraints[0]).Specification.IsLessThanSpecified, Is.True);
-            Assert.That(((CountXml)ts.Tests[testNr].Constraints[0]).Specification.IsMoreThanSpecified, Is.True);
+            Assert.That(((CountXml)ts.Tests[testNr].Constraints[0]).ExactlySpecified, Is.False);
+            Assert.That(((CountXml)ts.Tests[testNr].Constraints[0]).LessThanSpecified, Is.True);
+            Assert.That(((CountXml)ts.Tests[testNr].Constraints[0]).MoreThanSpecified, Is.True);
+        }
+
+        [Test]
+        public void Serialize_OnlyExactlySpecified_MoreThanLessThanNotSet()
+        {
+            var count = new CountXml();
+            count.Exactly = 10;
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom<CountXml>(count);
+
+            Assert.That(xml, Is.StringContaining("exactly"));
+            Assert.That(xml, Is.Not.StringContaining("more-than"));
+            Assert.That(xml, Is.Not.StringContaining("less-than"));
+        }
+
+        [Test]
+        public void Serialize_LessThanSpecified_LessThanSet()
+        {
+            var count = new CountXml();
+            count.LessThan = 10;
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom<CountXml>(count);
+
+            Assert.That(xml, Is.Not.StringContaining("exactly"));
+            Assert.That(xml, Is.Not.StringContaining("more-than"));
+            Assert.That(xml, Is.StringContaining("less-than"));
         }
     }
 }

@@ -89,7 +89,8 @@ namespace NBi.Testing.Unit.GenbiL.Parser
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<FilterCaseAction>());
-            Assert.That(((FilterCaseAction)result).Text, Is.EqualTo("hidden-perspective"));
+            Assert.That(((FilterCaseAction)result).Values, Has.Member("hidden-perspective"));
+            Assert.That(((FilterCaseAction)result).Values.Count(), Is.EqualTo(1));
             Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(false));
             Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
             Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
@@ -103,7 +104,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<FilterCaseAction>());
-            Assert.That(((FilterCaseAction)result).Text, Is.EqualTo("show-perspective"));
+            Assert.That(((FilterCaseAction)result).Values, Has.Member("show-perspective"));
             Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(true));
             Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
             Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
@@ -117,7 +118,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<FilterCaseAction>());
-            Assert.That(((FilterCaseAction)result).Text, Is.EqualTo("start%"));
+            Assert.That(((FilterCaseAction)result).Values, Has.Member("start%"));
             Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(false));
             Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Like));
             Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
@@ -131,7 +132,22 @@ namespace NBi.Testing.Unit.GenbiL.Parser
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<FilterCaseAction>());
-            Assert.That(((FilterCaseAction)result).Text, Is.EqualTo("%end"));
+            Assert.That(((FilterCaseAction)result).Values, Has.Member("%end"));
+            Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(true));
+            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Like));
+            Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseFilterMultiplesValues_ValidFilterAction()
+        {
+            var input = "case filter on column 'perspective' values not like '%end', 'start%'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<FilterCaseAction>());
+            Assert.That(((FilterCaseAction)result).Values, Has.Member("%end"));
+            Assert.That(((FilterCaseAction)result).Values, Has.Member("start%"));
             Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(true));
             Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Like));
             Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
@@ -145,6 +161,103 @@ namespace NBi.Testing.Unit.GenbiL.Parser
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<FilterDistinctCaseAction>());
+        }
+
+        public void SentenceParser_CaseFocus_ValidFocusAction()
+        {
+            var input = "case scope 'alpha'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<ScopeCaseAction>());
+        }
+
+        public void SentenceParser_CaseCross_ValidCrossAction()
+        {
+            var input = "case cross 'alpha' with 'beta'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<CrossCaseAction>());
+
+            var crossCase = result as CrossCaseAction;
+            Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
+            Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
+            Assert.That(crossCase.MatchingColumn, Is.Null.Or.Empty);
+        }
+
+        public void SentenceParser_CaseCrossOnColumn_ValidCrossAction()
+        {
+            var input = "case cross 'alpha' with 'beta' on 'myKey'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<CrossCaseAction>());
+
+            var crossCase = result as CrossCaseAction;
+            Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
+            Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
+            Assert.That(crossCase.MatchingColumn, Is.EqualTo("myKey"));
+        }
+
+        public void SentenceParser_CaseSave_ValidSaveAction()
+        {
+            var input = "case save as 'myfile.csv'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<SaveCaseAction>());
+
+            var saveCase = result as SaveCaseAction;
+            Assert.That(saveCase.Filename, Is.EqualTo("myfile.csv"));
+        }
+
+        public void SentenceParser_CaseCopy_ValidCopyAction()
+        {
+            var input = "case copy 'master' to 'copied-to'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<CopyCaseAction>());
+
+            var copyCase = result as CopyCaseAction;
+            Assert.That(copyCase.From, Is.EqualTo("master"));
+            Assert.That(copyCase.To, Is.EqualTo("copied-to"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseAddColumnStringWithoutDefault_ValidCaseAddColumn()
+        {
+            var input = "case add column 'perspective'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<AddCaseAction>());
+            Assert.That(((AddCaseAction)result).VariableName, Is.EqualTo("perspective"));
+            Assert.That(((AddCaseAction)result).DefaultValue, Is.EqualTo("(none)"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseAddColumnStringWithDefault_ValidCaseAddColumn()
+        {
+            var input = "case add column 'perspective' values '2014-07-01'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<AddCaseAction>());
+            Assert.That(((AddCaseAction)result).VariableName, Is.EqualTo("perspective"));
+            Assert.That(((AddCaseAction)result).DefaultValue, Is.EqualTo("2014-07-01"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseMerge_ValidMergeAction()
+        {
+            var input = "case merge with 'scoped-value'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<MergeCaseAction>());
+            Assert.That(((MergeCaseAction)result).MergedScope, Is.EqualTo("scoped-value"));
         }
     }
 }

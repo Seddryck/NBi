@@ -45,5 +45,6 @@ case move column 'dimension' to left;
 template load predefined 'SubsetOfHierarchies';
 suite generate grouping;
 
+setting set 'parallelize-queries' off;
 
 suite save 'Acceptance\GenbiL\Resources\Simple-TestSuiteBuild.nbits';

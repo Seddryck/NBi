@@ -141,13 +141,23 @@ namespace NBi.Service
         private int uid=0;
         protected string[] GetDynamicValues()
         {
+            return GetDynamicValues
+            (
+                DateTime.Now,
+                (++uid),
+                Environment.UserName
+            );
+        }
+
+        protected virtual string[] GetDynamicValues(DateTime now, int uid, string userName)
+        {
             return new string[]
             {
-                String.Format("{0}-{1:00}-{2:00}T{3}",DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.ToLongTimeString()),
-                DateTime.Now.ToLongTimeString(),
-                DateTime.Today.ToShortDateString(),
-                (++uid).ToString(),
-                Environment.UserName
+                String.Format("{0}-{1:00}-{2:00}T{3:00}:{4:00}:{5:00}",now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second),
+                now.ToLongTimeString(),
+                now.Date.ToShortDateString(),
+                (uid).ToString(),
+                userName
             };
         }
 

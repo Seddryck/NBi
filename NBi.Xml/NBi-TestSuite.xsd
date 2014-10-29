@@ -22,7 +22,12 @@
           </xs:simpleContent>
         </xs:complexType>
       </xs:element>
+      <xs:element name="csv-profile" type="csv-profile-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="csv-profile-type">
+    <xs:attribute name="field-separator" type="xs:string"/>
+    <xs:attribute name="record-separator" type="xs:string"/>
   </xs:complexType>
   <xs:complexType name ="default-type">
     <xs:sequence>
@@ -269,10 +274,14 @@
   <xs:complexType name="decoration-type">
     <xs:sequence minOccurs="1" maxOccurs="unbounded">
       <xs:choice>
+        <xs:element name="sql-run" type="sql-run-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="service-start" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="service-stop" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="table-reset" type="table-reset-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="table-load" type="table-load-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="exe-run" type="exe-run-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-delete" type="file-delete-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="tasks" type="tasks-type" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
@@ -281,10 +290,14 @@
   <xs:complexType name="tasks-type">
     <xs:sequence minOccurs="1" maxOccurs="unbounded">
       <xs:choice>
+        <xs:element name="sql-run" type="sql-run-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="service-start" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="service-stop" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="table-reset" type="table-reset-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="table-load" type="table-load-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="exe-run" type="exe-run-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-delete" type="file-delete-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
@@ -301,6 +314,28 @@
         <xs:attribute name="file" use="required"/>
       </xs:extension>
     </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="sql-run-type" >
+    <xs:attribute name="connectionString" use="optional"/>
+    <xs:attribute name="path" use="optional"/>
+    <xs:attribute name="name" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="file-delete-type">
+    <xs:attribute name="path" use="required"/>
+    <xs:attribute name="name" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="file-copy-type" >
+    <xs:complexContent>
+      <xs:extension base="file-delete-type">
+        <xs:attribute name="source-path" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="exe-run-type" >
+    <xs:attribute name="name" use="required"/>
+    <xs:attribute name="path" use="optional"/>
+    <xs:attribute name="arguments" use="optional"/>
+    <xs:attribute name="timeout-milliseconds" use="optional"/>
   </xs:complexType>
   <xs:complexType name="service-type" >
     <xs:attribute name="name" use="required"/>

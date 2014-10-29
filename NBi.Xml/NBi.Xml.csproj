@@ -67,6 +67,11 @@
     <Compile Include="Constraints\ExistsXml.cs" />
     <Compile Include="Constraints\LinkedToXml.cs" />
     <Compile Include="Constraints\EvaluateRowsXml.cs" />
+    <Compile Include="Decoration\Command\SqlRunXml.cs" />
+    <Compile Include="Decoration\Command\FileCopyXml.cs" />
+    <Compile Include="Decoration\Command\ExeRunXml.cs" />
+    <Compile Include="Decoration\Command\FileManipulationAbstractXml.cs" />
+    <Compile Include="Decoration\Command\FileDeleteXml.cs" />
     <Compile Include="Decoration\ConditionXml.cs" />
     <Compile Include="Decoration\Condition\DecorationConditionXml.cs" />
     <Compile Include="Decoration\Condition\ServiceRunningXml.cs" />
@@ -125,6 +130,7 @@
     <Compile Include="Items\QueryXml.cs" />
     <Compile Include="Items\Validate\ExpressionXml.cs" />
     <Compile Include="Items\Validate\VariableXml.cs" />
+    <Compile Include="Settings\CsvProfileXml.cs" />
     <Compile Include="Settings\TraitXml.cs" />
     <Compile Include="Settings\UpdateXml.cs" />
     <Compile Include="Settings\EditionXml.cs" />

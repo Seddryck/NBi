@@ -30,7 +30,12 @@ namespace NBi.UI.Genbi
             if (args != null && args.Length != 0)
             {
                 var macroToExecute = args[0];
-                ((PlayMacroCommand)masterView.MacroPresenter.PlayMacroCommand).Execute(macroToExecute);
+                //quiet mode?
+                var quiet = false;
+                if (args.Length > 1 && (args[1].ToLower() == "-quiet" || args[1].ToLower() == "-q"))
+                    quiet = true;
+
+                ((PlayMacroCommand)masterView.MacroPresenter.PlayMacroCommand).Execute(macroToExecute, quiet);
             }
             else
                 Application.Run(masterView);

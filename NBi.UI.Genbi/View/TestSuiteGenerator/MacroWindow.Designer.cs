@@ -36,18 +36,21 @@
             this.actionInfoText.CausesValidation = false;
             this.actionInfoText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.actionInfoText.Location = new System.Drawing.Point(0, 0);
+            this.actionInfoText.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.actionInfoText.Multiline = true;
             this.actionInfoText.Name = "actionInfoText";
             this.actionInfoText.ReadOnly = true;
-            this.actionInfoText.Size = new System.Drawing.Size(402, 380);
+            this.actionInfoText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.actionInfoText.Size = new System.Drawing.Size(536, 468);
             this.actionInfoText.TabIndex = 0;
             // 
             // MacroWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(402, 380);
+            this.ClientSize = new System.Drawing.Size(536, 468);
             this.Controls.Add(this.actionInfoText);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MacroWindow";
             this.Text = "Macro";
             this.ResumeLayout(false);

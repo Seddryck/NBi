@@ -41,7 +41,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator.XmlEditor
             properties.EnableFolding = true;
             properties.ShowVerticalRuler = false;
             properties.IsIconBarVisible = true;
-            properties.Encoding = System.Text.Encoding.Unicode;
+            properties.Encoding = System.Text.Encoding.UTF8;
             return properties;
         }
 

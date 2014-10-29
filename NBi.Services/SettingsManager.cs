@@ -77,44 +77,28 @@ namespace NBi.Service
             return Dictionary.Keys.ToArray();
         }
 
-        public SettingsXml Settings
+        private bool parallelizeQueries;
+        public void SetParallelizeQueries(bool value)
         {
-            get
-            {
-                var settings = new SettingsXml();
-                if (DefaultSut!=null)
-                    settings.Defaults.Add(DefaultSut);
-                if (DefaultAssert != null)
-                    settings.Defaults.Add(DefaultAssert);
+            parallelizeQueries = value;
+        }
 
-                return settings;
-            }
-            set
-            {
-                Dictionary = new Dictionary<string, string>();
-                Dictionary.Add(DefaultSutName, "");
-                Dictionary.Add(DefaultAssertName, "");
+        public SettingsXml GetSettingsXml()
+        {
+            var settings = new SettingsXml();
+            settings.ParallelizeQueries = parallelizeQueries;
+            if (DefaultSut!=null)
+                settings.Defaults.Add(DefaultSut);
+            if (DefaultAssert != null)
+                settings.Defaults.Add(DefaultAssert);
 
-                foreach (var settings in value.Defaults)
-                {
-                    switch (settings.ApplyTo)
-                    {
-                        case SettingsXml.DefaultScope.SystemUnderTest:
-                            SetValue(DefaultSutName, settings.ConnectionString);
-                            break;
-                        case SettingsXml.DefaultScope.Assert:
-                            SetValue(DefaultAssertName, settings.ConnectionString);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                foreach (var settings in value.References)
-                {
-                    Dictionary.Add(string.Format(ReferenceFormatName, settings.Name), settings.ConnectionString);
-                }
-                
+            foreach (var s in Dictionary)
+            {
+                if (!s.Key.StartsWith("Default"))
+                    settings.References.Add(new ReferenceXml() { Name = s.Key.Split(' ')[2], ConnectionString = s.Value });
             }
+
+            return settings;
         }
 
         public void Add(string name, string value)
@@ -150,9 +134,5 @@ namespace NBi.Service
             return list;
         }
 
-        public SettingsXml GetSettingsXml()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

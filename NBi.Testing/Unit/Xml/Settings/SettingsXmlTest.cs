@@ -7,6 +7,8 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NUnit.Framework;
+using NBi.Xml.Settings;
+using System;
 #endregion
 
 namespace NBi.Testing.Unit.Xml.Settings
@@ -68,6 +70,15 @@ namespace NBi.Testing.Unit.Xml.Settings
             var sutDefault = ts.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
             Assert.That(sutDefault.ConnectionString, Is.Not.Null.And.Not.Empty);
             Assert.That(sutDefault.Parameters, Is.Not.Null);
+        }
+
+        [Test]
+        public void Deserialize_SettingsWithoutTagParallelizeQueries_ParallelizeQueriesIsTrue()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithDefault");
+
+            Assert.That(ts.Settings.ParallelizeQueries, Is.True);
         }
 
         [Test]
@@ -197,7 +208,7 @@ namespace NBi.Testing.Unit.Xml.Settings
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithoutParallelQueries");
 
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ParallelizeQueries, Is.False);
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ParallelizeQueries, Is.True);
         }
 
         [Test]
@@ -274,5 +285,77 @@ namespace NBi.Testing.Unit.Xml.Settings
 
         }
 
+        [Test]
+        public void DeserializeCsvProfile_CsvProfileSetToCommaCarriageReturnLineFeed_True()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("CsvProfileXmlTestSuite");
+
+            //The Csv Profile is correctly set
+            var profile = ts.Settings.CsvProfile;
+            Assert.That(profile, Is.Not.Null);
+            Assert.That(profile.InternalFieldSeparator, Is.EqualTo("Tab"));
+            Assert.That(profile.FieldSeparator, Is.EqualTo('\t'));
+            Assert.That(profile.InternalRecordSeparator, Is.EqualTo("#Lf"));
+            Assert.That(profile.RecordSeparator, Is.EqualTo("#\n"));
+        }
+
+        [Test]
+        public void Serialize_CardinalForFieldSeparator_FieldSeparatorSpecified()
+        {
+            var profile = new CsvProfileXml();
+            profile.FieldSeparator = '#';
+            profile.RecordSeparator = "\r";
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
+
+            Assert.That(xml, Is.StringContaining("field-separator"));
+            Assert.That(xml, Is.StringContaining("#"));
+
+            Assert.That(xml, Is.StringContaining("record-separator"));
+            Assert.That(xml, Is.StringContaining("Cr"));
+        }
+
+        [Test]
+        public void Serialize_CrLfForRecordSeparator_RecordSeparatorNotSpecified()
+        {
+            var profile = new CsvProfileXml();
+            profile.FieldSeparator = '#';
+            profile.RecordSeparator = "\r\n";
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
+
+            Assert.That(xml, Is.Not.StringContaining("record-separator"));
+        }
+
+        [Test]
+        public void Serialize_SemiColumnForFieldSeparator_FieldSeparatorNotSpecified()
+        {
+            var profile = new CsvProfileXml();
+            profile.FieldSeparator = ';';
+            profile.RecordSeparator = "#";
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
+
+            Assert.That(xml, Is.Not.StringContaining("field-separator"));
+        }
+
+        [Test]
+        public void Serialize_SemiColumnAndCrLf_CsvProfileNotSpecified()
+        {
+            var settings = new SettingsXml();
+            settings.CsvProfile.FieldSeparator = ';';
+            settings.CsvProfile.RecordSeparator = "\r\n";
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom<SettingsXml>(settings);
+
+            Assert.That(xml, Is.Not.StringContaining("field-separator"));
+            Assert.That(xml, Is.Not.StringContaining("record-separator"));
+            Assert.That(xml, Is.Not.StringContaining("csv-profile"));
+        }
     }
 }

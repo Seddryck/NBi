@@ -89,8 +89,52 @@ namespace NBi.GenbiL.Parser
                 from valuesKeyword in Keyword.Values
                 from negation in Keyword.Not.Optional()
                 from @operator in Parse.IgnoreCase("Equal").Return(Operator.Equal).Or(Parse.IgnoreCase("Like").Return(Operator.Like)).Token()
-                from text in Grammar.QuotedTextual
+                from text in Grammar.QuotedRecordSequence
                 select new FilterCaseAction(variableName, @operator, text, negation.IsDefined)
+        );
+
+        readonly static Parser<ICaseAction> caseScopeParser =
+        (
+                from scope in Keyword.Scope
+                from name in Grammar.QuotedTextual
+                select new ScopeCaseAction(name)
+        );
+
+        readonly static Parser<ICaseAction> caseCrossFullParser =
+        (
+                from cross in Keyword.Cross
+                from first in Grammar.QuotedTextual
+                from withKeyword in Keyword.With
+                from second in Grammar.QuotedTextual
+                select new CrossCaseAction(first, second)
+        );
+
+        readonly static Parser<ICaseAction> caseCrossOnColumnParser =
+        (
+                from cross in Keyword.Cross
+                from first in Grammar.QuotedTextual
+                from withKeyword in Keyword.With
+                from second in Grammar.QuotedTextual
+                from onKeyword in Keyword.On
+                from matchingColumn in Grammar.QuotedTextual
+                select new CrossCaseAction(first, second, matchingColumn)
+        );
+
+        readonly static Parser<ICaseAction> caseSaveParser =
+        (
+                from save in Keyword.Save
+                from @as in Keyword.As
+                from filename in Grammar.QuotedTextual
+                select new SaveCaseAction(filename)
+        );
+
+        readonly static Parser<ICaseAction> caseCopyParser =
+        (
+                from copy in Keyword.Copy
+                from @from in Grammar.QuotedTextual
+                from toKeyword in Keyword.To
+                from @to in Grammar.QuotedTextual
+                select new CopyCaseAction(@from, @to)
         );
 
         readonly static Parser<ICaseAction> caseFilterDistinctParser =
@@ -100,11 +144,49 @@ namespace NBi.GenbiL.Parser
                 select new FilterDistinctCaseAction()
         );
 
+        readonly static Parser<ICaseAction> caseAddParser =
+        (
+                from add in Keyword.Add
+                from axisType in axisTypeParser
+                from columnName in Grammar.QuotedTextual
+                select new AddCaseAction(columnName)
+        );
+
+        readonly static Parser<ICaseAction> caseAddWithDefaultParser =
+        (
+                from add in Keyword.Add
+                from axisType in axisTypeParser
+                from columnName in Grammar.QuotedTextual
+                from valuesKeyword in Keyword.Values
+                from defaultValue in Grammar.QuotedTextual
+                select new AddCaseAction(columnName, defaultValue)
+        );
+
+        readonly static Parser<ICaseAction> caseMergeParser =
+        (
+                from add in Keyword.Merge
+                from withKeyword in Keyword.With
+                from scopeName in Grammar.QuotedTextual
+                select new MergeCaseAction(scopeName)
+        );
 
         public readonly static Parser<IAction> Parser =
         (
                 from @case in Keyword.Case
-                from action in caseLoadParser.Or(caseRemoveParser).Or(caseRenameParser).Or(caseMoveParser).Or(caseFilterParser).Or(caseFilterDistinctParser)
+                from action in caseLoadParser
+                                    .Or(caseRemoveParser)
+                                    .Or(caseRenameParser)
+                                    .Or(caseMoveParser)
+                                    .Or(caseFilterParser)
+                                    .Or(caseFilterDistinctParser)
+                                    .Or(caseScopeParser)
+                                    .Or(caseCrossOnColumnParser)
+                                    .Or(caseCrossFullParser)
+                                    .Or(caseSaveParser)
+                                    .Or(caseCopyParser)
+                                    .Or(caseAddWithDefaultParser)
+                                    .Or(caseAddParser)
+                                    .Or(caseMergeParser)
                 select action
         );
     }

@@ -56,7 +56,8 @@
     <Compile Include="Dto\Style.cs" />
     <Compile Include="Operator.cs" />
     <Compile Include="RunnerConfig\AbstractRunnerConfigBuilder.cs" />
-    <Compile Include="TestCasesManager.cs" />
+    <Compile Include="TestCaseCollectionManager.cs" />
+    <Compile Include="TestCaseManager.cs" />
     <Compile Include="Dto\Test.cs" />
     <Compile Include="RunnerConfig\FilePersister.cs" />
     <Compile Include="RunnerConfig\GallioRunnerConfigBuilder.cs" />

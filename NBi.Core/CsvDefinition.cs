@@ -1,24 +1,48 @@
 ﻿namespace NBi.Core
 {
-    public class CsvDefinition
+    public class CsvProfile
     {
-        public char FieldSeparator { get; private set; }
-        public char TextQualifier { get; private set; }
+        public virtual char FieldSeparator { get; set; }
+        public char TextQualifier { get; set; }
+        public virtual string RecordSeparator { get; set; }
 
-        public CsvDefinition(char fieldSeparator, char textQualifier)
+        protected CsvProfile()
+        {
+        }
+
+        public CsvProfile(char fieldSeparator, char textQualifier)
+            : this (fieldSeparator, textQualifier, "\r\n")
+        {
+        }
+
+        public CsvProfile(char fieldSeparator, char textQualifier, string recordSeparator)
+            : this()
         {
             FieldSeparator = fieldSeparator;
             TextQualifier = textQualifier;
+            RecordSeparator = recordSeparator;
         }
 
-        public static CsvDefinition CommaDoubleQuote()
+        public CsvProfile(char fieldSeparator, string recordSeparator)
+            : this(fieldSeparator, '\"', recordSeparator)
         {
-            return new CsvDefinition(',', '\"');
         }
 
-        public static CsvDefinition SemiColumnDoubleQuote()
+        public static CsvProfile CommaDoubleQuote
         {
-            return new CsvDefinition(';', '\"');
+            get
+            {
+                return new CsvProfile(',', '\"');
+            }
         }
+
+        public static CsvProfile SemiColumnDoubleQuote
+        {
+            get
+            {
+                return new CsvProfile(';', '\"');
+            }
+        }
+
     }
 }

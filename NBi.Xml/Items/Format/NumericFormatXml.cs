@@ -10,7 +10,7 @@ namespace NBi.Xml.Items.Format
 {
     public class NumericFormatXml : INumericFormat
     {
-        private readonly bool isEmpty = false;
+        protected bool isEmpty = false;
 
         public bool IsEmpty 
         {
@@ -53,17 +53,32 @@ namespace NBi.Xml.Items.Format
                 throw new IndexOutOfRangeException(string.Format("No reference named '{0}' has been defined.", value));
             return refChoice;
         }
-        
-        [XmlAttribute("decimal-digits")]
-        public int DecimalDigits { get; set; }
 
+        private int decimalDigits;
+        [XmlAttribute("decimal-digits")]
+        public int DecimalDigits
+        {
+            get { return decimalDigits; }
+            set { decimalDigits = value; isEmpty = false; }
+        }
+
+        private string decimalSeparator;
         [XmlAttribute("decimal-separator")]
         [DefaultValue(".")]
-        public string DecimalSeparator { get; set; }
+        public string DecimalSeparator
+        {
+            get { return decimalSeparator; }
+            set { decimalSeparator = value; isEmpty = false; }
+        }
 
+        private string groupSeparator;
         [XmlAttribute("group-separator")]
         [DefaultValue(",")]
-        public string GroupSeparator { get; set; }
+        public string GroupSeparator
+        {
+            get { return groupSeparator; }
+            set { groupSeparator = value; isEmpty = false; }
+        }
 
         public NumericFormatXml() : base()
         {

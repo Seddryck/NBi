@@ -35,8 +35,10 @@ namespace NBi.NUnit.Runtime
                 Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "No config file has been found!");
 
             // If no config file is registered then search the first "nbits" (NBi Test Suite) file
-            string assem = Path.GetFullPath((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath).Replace("%20", " "); 
-            string directory = Path.GetDirectoryName(assem);
+            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            var uri = new UriBuilder(codeBase);
+            string path = Uri.UnescapeDataString(uri.Path);
+            string directory = Path.GetDirectoryName(path);
             Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Looking for a 'nbits' files in directory '{0}'.", directory));
             var files = System.IO.Directory.GetFiles(directory, "*.nbits");
             if (files.Count() > 0)

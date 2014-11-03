@@ -168,7 +168,8 @@ namespace NBi.Testing.Unit.Core
                 var reader = new CsvReader();
                 using (var streamReader = new StreamReader(stream, Encoding.UTF8, true))
                 {
-                    var values = reader.GetNextRecords(streamReader, recordSeparator, bufferSize);
+                    var extraRead = string.Empty;
+                    var values = reader.GetNextRecords(streamReader, recordSeparator, bufferSize, string.Empty, out extraRead);
                     foreach (var value in values)
                     {
                         Assert.That(value, Is.StringStarting("abc"));
@@ -233,6 +234,21 @@ namespace NBi.Testing.Unit.Core
                 }
                 writer.Dispose();
             }
+        }
+
+        [Test]
+        [TestCase("abc", "123", 0)]
+        [TestCase("abc1", "123", 1)]
+        [TestCase("abc12", "123", 2)]
+        [TestCase("abc12a", "123", 0)]
+        [TestCase("", "123", 0)]
+        [TestCase("", "#", 0)]
+        [TestCase("abc", "#", 0)]
+        public void IdentifyPartialRecordSeparator_Csv_CorrectResult(string text, string recordSeparator, int result)
+        {
+            var reader = new CsvReader(20);
+            var value = reader.IdentifyPartialRecordSeparator(text, recordSeparator);
+            Assert.That(value, Is.EqualTo(result));
         }
     }
 }

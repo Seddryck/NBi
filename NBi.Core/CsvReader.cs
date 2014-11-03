@@ -108,39 +108,38 @@ namespace NBi.Core
                 }
 
                 //Parse the whole file
-
-                stream.Position = encodingBytesCount;
+                stream.Position = 0;
                 reader.DiscardBufferedData();
 
                 bool isLastRecord = false;
                 i = 0;
-                var pos = stream.Position;
+                var alreadyRead = string.Empty;
+                var extraRead = string.Empty;
 
                 while (!isLastRecord)
                 {
                     RaiseProgressStatus("Loading row {0} of {1}", i, count);
-                    var records = GetNextRecords(reader, Definition.RecordSeparator, BufferSize);
+                    var records = GetNextRecords(reader, Definition.RecordSeparator, BufferSize, alreadyRead, out extraRead);
                     foreach (var record in records)
                     {
+                        var recordToParse = record;
+                        
+                        if (i==0 && encodingBytesCount>0)
+                            recordToParse = recordToParse.Substring(encodingBytesCount, recordToParse.Length - encodingBytesCount);
+                        
                         i++;
                         if (i!=1 || !firstLineIsColumnName)
                         { 
-                            pos += record.Length;
-                            isLastRecord = IsLastRecord(record);
-                            var cleanRecord = CleanRecord(record, Definition.RecordSeparator);
+                            isLastRecord = IsLastRecord(recordToParse);
+                            var cleanRecord = CleanRecord(recordToParse, Definition.RecordSeparator);
                             var cells = SplitLine(cleanRecord);
                             var row = table.NewRow();
                             row.ItemArray = cells;
                             table.Rows.Add(row);
                         }
                     }
-                    isLastRecord |= records.Count() == 0;
-                    if (!isLastRecord)
-                    {
-                        reader.DiscardBufferedData();
-                        reader.BaseStream.Seek(pos, SeekOrigin.Begin);
-                    }
-                        
+                    alreadyRead = extraRead;
+                    isLastRecord |= records.Count() == 0;                       
                 }
             }
             RaiseProgressStatus("CSV file processed");
@@ -247,18 +246,23 @@ namespace NBi.Core
             }
         }
 
-        protected internal IEnumerable<string> GetNextRecords(StreamReader reader, string recordSeparator, int bufferSize)
+        protected internal IEnumerable<string> GetNextRecords(StreamReader reader, string recordSeparator, int bufferSize, string alreadyRead, out string extraRead)
         {
             int n = 0;
             int j = 0;
             var stringBuilder = new StringBuilder();
             var records = new List<string>();
             var eof = false;
+            
+            extraRead = string.Empty;
+            stringBuilder.Append(alreadyRead);
+            j = IdentifyPartialRecordSeparator(alreadyRead, recordSeparator);
 
             do
             {
                 var buffer = new char[bufferSize];
                 n = reader.Read(buffer, 0, bufferSize);
+                
 
                 if (n > 0)
                 {
@@ -300,7 +304,22 @@ namespace NBi.Core
             if (eof && stringBuilder.Length>0 && stringBuilder[0]!='\0')
                 records.Add(stringBuilder.ToString());
 
+            if (stringBuilder.Length > 0)
+                extraRead = stringBuilder.ToString();
+            
             return records;
+        }
+
+        internal int IdentifyPartialRecordSeparator(string text, string recordSeparator)
+        {
+            int i = Math.Min(recordSeparator.Length - 1, text.Length);
+            while(i>0)
+            {
+                if (text.EndsWith(recordSeparator.Substring(0, i)))
+                    return i;
+                i--;
+            }
+            return 0;
         }
 
         protected internal string CleanRecord(string record, string recordSeparator)

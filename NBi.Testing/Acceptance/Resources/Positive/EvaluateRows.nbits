@@ -68,7 +68,7 @@
     <assert>
       <evaluate-rows>
         <variable column-index="1">TotalDue</variable>
-        <expression column-index="1"> = if(TotalDue>10000,TotalDue,-1)</expression>
+        <expression column-index="1" type="numeric"> = if(TotalDue>10000,TotalDue,-1)</expression>
       </evaluate-rows>
     </assert>
   </test>

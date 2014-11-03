@@ -32,4 +32,44 @@
 			</evaluate-rows>
 		</assert>
 	</test>
+  <test name="Blog Post: Evaluate's expression">
+    <system-under-test>
+      <execution>
+        <query>
+          <![CDATA[
+          select
+          [FirstName] + ' ' + [LastName]
+          ,TotalDue
+          from
+          [Person].[Person] pers
+          inner join
+          (
+          select
+          [pers].[BusinessEntityID]
+          ,sum(TotalDue) as TotalDue
+          from
+          [Sales].[SalesOrderHeader] soh
+          inner join
+          [Sales].[Customer] cust
+          on [cust].[CustomerID] = [soh].[CustomerID]
+          inner join
+          [Person].[Person] pers
+          on [pers].[BusinessEntityID] = [cust].[PersonID]
+          group by
+          [pers].[BusinessEntityID]
+          having
+          sum(TotalDue)>10000
+          ) TotalDueByPerson
+          on [TotalDueByPerson].[BusinessEntityID]=[pers].[BusinessEntityID]
+          ]]>
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <evaluate-rows>
+        <variable column-index="1">TotalDue</variable>
+        <expression column-index="1"> = if(TotalDue>10000,TotalDue,-1)</expression>
+      </evaluate-rows>
+    </assert>
+  </test>
 </testSuite>

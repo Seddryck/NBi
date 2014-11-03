@@ -24,11 +24,10 @@ Set of 6 items
 
 
 
-Missing items:
+Unexpected items:
 -----------------
 
-Set of 2 items
+Set of 1 item
 
-   * Missing item 1
-   * Missing item 2
+   * Executive General and Administration
 

@@ -232,10 +232,7 @@ namespace NBi.Core
                         {
                             j++;
                             if (j == recordSeparator.Length)
-                            {
                                 return stringBuilder.ToString();
-                                j = 0;
-                            }
                         }
                         else
                             j = 0;

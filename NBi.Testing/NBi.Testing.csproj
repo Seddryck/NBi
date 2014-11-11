@@ -233,6 +233,9 @@
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\Decoration\ConditionXmlTest.cs" />
     <Compile Include="Unit\Xml\Decoration\DecorationXmlTest.cs" />
+    <Compile Include="Unit\Xml\Substitutions\ReturnXmlTest.cs" />
+    <Compile Include="Unit\Xml\Substitutions\StubXmlTest.cs" />
+    <Compile Include="Unit\Xml\Substitutions\FakeXmlTest.cs" />
     <Compile Include="Unit\Xml\TraitXmlTest.cs" />
     <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
     <Compile Include="Unit\Xml\GroupXmlTest.cs" />
@@ -540,6 +543,9 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\SubstitutionXmlTestSuite.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <None Include="Acceptance\GenbiL\Resources\dimension.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

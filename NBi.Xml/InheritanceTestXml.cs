@@ -1,5 +1,6 @@
 ﻿using NBi.Xml.Decoration;
 using NBi.Xml.Settings;
+using NBi.Xml.Substitutions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace NBi.Xml
         protected List<TraitXml> traits;
 
         protected SetupXml setup;
-
+        protected List<AbstractSubstitutionXml> substitutions;
         protected CleanupXml cleanup;
 
         public InheritanceTestXml()
@@ -22,6 +23,7 @@ namespace NBi.Xml
             categories = new List<string>();
             traits = new List<TraitXml>();
             setup = new SetupXml();
+            substitutions = new List<AbstractSubstitutionXml>();
             cleanup = new CleanupXml();
         }
 

@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="setup-cleanup">
+      <connectionString>Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true</connectionString>
+    </default>
+  </settings>
+  <test name="fake">
+    <substitution>
+      <fake>
+        <database-object name="ActiveCustomers" schema="rpt"/>
+        <code>
+          select * from DimCustomers;
+        </code>
+      </fake>
+    </substitution>
+    <system-under-test>
+      <execution>
+        <query>
+          select * from [ActiveCustomersInBelgium]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet>
+          <row>
+            <cell>Nikola Tesla</cell>
+          </row>
+          <row>
+            <cell>Leonardo Da Vinci</cell>
+          </row>
+          <row>
+            <cell>John von Neumann</cell>
+          </row>
+          <row>
+            <cell>Albert Einstein</cell>
+          </row>
+          <row>
+            <cell>Stephen Hawking</cell>
+          </row>
+          <row>
+            <cell>Galileo Galilei</cell>
+          </row>
+          <row>
+            <cell>Charles Darwin</cell>
+          </row>
+          <row>
+            <cell>Benjamin Franklin</cell>
+          </row>
+          <row>
+            <cell>William Shakespeare</cell>
+          </row>
+          <row>
+            <cell>Johann Wolfgang von Goethe</cell>
+          </row>
+          <row>
+            <cell>Leonhard Euler</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+    <cleanup>
+      <table-reset  name="Users"/>
+    </cleanup>
+  </test>
+  <test name="fake">
+    <substitution>
+      <stub>
+        <database-object name="ActiveCustomers" schema="rpt"/>
+        <return>
+          <resultSet>
+            <row>
+              <cell>Nikola Tesla</cell>
+            </row>
+          </resultSet>
+        </return>
+      </stub>
+    </substitution>
+    <system-under-test>
+      <execution>
+        <query>
+          select * from [ActiveCustomersInBelgium]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet>
+          <row>
+            <cell>Nikola Tesla</cell>
+          </row>
+          <row>
+            <cell>Leonardo Da Vinci</cell>
+          </row>
+          <row>
+            <cell>John von Neumann</cell>
+          </row>
+          <row>
+            <cell>Albert Einstein</cell>
+          </row>
+          <row>
+            <cell>Stephen Hawking</cell>
+          </row>
+          <row>
+            <cell>Galileo Galilei</cell>
+          </row>
+          <row>
+            <cell>Charles Darwin</cell>
+          </row>
+          <row>
+            <cell>Benjamin Franklin</cell>
+          </row>
+          <row>
+            <cell>William Shakespeare</cell>
+          </row>
+          <row>
+            <cell>Johann Wolfgang von Goethe</cell>
+          </row>
+          <row>
+            <cell>Leonhard Euler</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+    <cleanup>
+      <table-reset  name="Users"/>
+    </cleanup>
+  </test>
+</testSuite>

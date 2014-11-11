@@ -84,7 +84,7 @@
     <Compile Include="Decoration\Command\TableResetXml.cs" />
     <Compile Include="Decoration\Command\ServiceStartXml.cs" />
     <Compile Include="Decoration\Command\ServiceStopXml.cs" />
-    <Compile Include="Decoration\DecorationXml.cs" />
+    <Compile Include="Items\DecorationXml.cs" />
     <Compile Include="Decoration\SetupXml.cs" />
     <Compile Include="Decoration\Command\CommandGroupXml.cs" />
     <Compile Include="GroupXml.cs" />
@@ -140,6 +140,11 @@
     <Compile Include="Settings\ReferenceXml.cs" />
     <Compile Include="Settings\SettingsXml.cs" />
     <Compile Include="SpecificReadAttributes.cs" />
+    <Compile Include="Decoration\DatabaseObjectXml.cs" />
+    <Compile Include="Substitutions\FakeXml.cs" />
+    <Compile Include="Substitutions\ReturnXml.cs" />
+    <Compile Include="Substitutions\StubXml.cs" />
+    <Compile Include="Substitutions\AbstractSubstitutionXml.cs" />
     <Compile Include="Systems\AbstractSystemUnderTestXml.cs" />
     <Compile Include="Constraints\CountXml.cs" />
     <Compile Include="Constraints\EqualToXml.cs" />

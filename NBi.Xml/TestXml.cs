@@ -8,6 +8,7 @@ using NBi.Xml.Decoration;
 using NBi.Xml.Decoration.Command;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
+using NBi.Xml.Substitutions;
 
 namespace NBi.Xml
 {
@@ -98,14 +99,24 @@ namespace NBi.Xml
             set { setup = value; }
         }
 
-        [XmlArray("system-under-test", Order = 8),
+        [XmlArray("substitution", Order = 8),
+        XmlArrayItem(Type = typeof(FakeXml), ElementName = "fake"),
+        XmlArrayItem(Type = typeof(StubXml), ElementName = "stub"),
+        ]
+        public List<AbstractSubstitutionXml> Substitutions
+        {
+            get { return substitutions; }
+            set { substitutions = value; }
+        }
+
+        [XmlArray("system-under-test", Order = 9),
         XmlArrayItem(Type = typeof(ExecutionXml), ElementName = "execution"),
         XmlArrayItem(Type = typeof(MembersXml), ElementName = "members"),
         XmlArrayItem(Type = typeof(StructureXml), ElementName = "structure"),
         ]
         public List<AbstractSystemUnderTestXml> Systems;
 
-        [XmlArray("assert", Order = 9),
+        [XmlArray("assert", Order = 10),
         XmlArrayItem(Type = typeof(SyntacticallyCorrectXml), ElementName = "syntacticallyCorrect"),
         XmlArrayItem(Type = typeof(FasterThanXml), ElementName = "fasterThan"),
         XmlArrayItem(Type = typeof(EqualToXml), ElementName = "equalTo"),
@@ -122,7 +133,7 @@ namespace NBi.Xml
         ]
         public List<AbstractConstraintXml> Constraints;
 
-        [XmlElement("cleanup", Order = 10)]
+        [XmlElement("cleanup", Order = 11)]
         public CleanupXml Cleanup
         {
             get { return cleanup; }

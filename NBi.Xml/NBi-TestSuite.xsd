@@ -100,6 +100,25 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
+  <xs:complexType name="resultSet-type">
+    <xs:sequence>
+      <xs:element name="row" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="cell" minOccurs="1" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:simpleContent>
+                  <xs:extension base="xs:string">
+                  </xs:extension>
+                </xs:simpleContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="file" type="xs:string" use="optional" />
+  </xs:complexType>
   <xs:complexType name="query-type" mixed="true">
     <xs:sequence>
       <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
@@ -287,6 +306,34 @@
       </xs:choice>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="substitution-type">
+    <xs:choice>
+      <xs:element name="stub" type="stub-type" />
+      <xs:element name="fake" type="fake-type"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="stub-type">
+    <xs:sequence>
+      <xs:element name="database-object" type="database-object-type" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="return" type="return-type" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="return-type">
+    <xs:sequence>
+      <xs:element name="resultSet" type="resultSet-type" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="fake-type">
+    <xs:sequence>
+      <xs:element name="database-object" type="database-object-type" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="code" type="xs:string" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="database-object-type">
+    <xs:attribute name="name" use="required"/>
+    <xs:attribute name="schema" use="optional"/>
+    <xs:attribute name="connectionString" use="optional"/>
+  </xs:complexType>
   <xs:complexType name="tasks-type">
     <xs:sequence minOccurs="1" maxOccurs="unbounded">
       <xs:choice>
@@ -381,6 +428,7 @@
       <xs:element name="trait"  type="trait-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="condition" type="condition-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="setup" type="decoration-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="substitution" type="substitution-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="system-under-test" minOccurs="1" maxOccurs="unbounded">
         <xs:complexType>
           <xs:choice>
@@ -457,27 +505,7 @@
                       </xs:simpleContent>
                     </xs:complexType>
                   </xs:element>
-                  <xs:element name="resultSet" minOccurs="0" maxOccurs="1">
-                    <xs:complexType>
-                      <xs:sequence>
-                        <xs:element name="row" minOccurs="0" maxOccurs="unbounded">
-                          <xs:complexType>
-                            <xs:sequence>
-                              <xs:element name="cell" minOccurs="1" maxOccurs="unbounded">
-                                <xs:complexType>
-                                  <xs:simpleContent>
-                                    <xs:extension base="xs:string">
-                                    </xs:extension>
-                                  </xs:simpleContent>
-                                </xs:complexType>
-                              </xs:element>
-                            </xs:sequence>
-                          </xs:complexType>
-                        </xs:element>
-                      </xs:sequence>
-                      <xs:attribute name="file" type="xs:string" use="optional" />
-                    </xs:complexType>
-                  </xs:element>
+                  <xs:element name="resultSet" type="resultSet-type" minOccurs="0" maxOccurs="1"/>
                   <xs:element name="query" type="query-type" minOccurs="0" maxOccurs="1"/>
                 </xs:sequence>
                 <xs:attribute name="keys" use="optional" >

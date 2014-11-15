@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Common;
 using System.Xml;
 
 namespace NBi.Testing
@@ -66,5 +67,25 @@ namespace NBi.Testing
             return Get("IntegrationServerDatabase");
         }
 
+
+        internal static string GetLocalServer()
+        {
+            var conn = GetLocalSqlClient();
+            var builder = new DbConnectionStringBuilder();
+            builder.ConnectionString = conn.Replace("{", "\"").Replace("}", "\"");
+            var keys = builder.Keys;
+            var values = builder.Values;
+            return (string)builder["Data Source"];
+        }
+
+        internal static string GetLocalDatabase()
+        {
+            var conn = GetLocalSqlClient();
+            var builder = new DbConnectionStringBuilder();
+            builder.ConnectionString = conn.Replace("{", "\"").Replace("}", "\"");
+            var keys = builder.Keys;
+            var values = builder.Values;
+            return (string)builder["Initial Catalog"];
+        }
     }
 }

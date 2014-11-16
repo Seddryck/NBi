@@ -13,7 +13,10 @@ namespace NBi.Testing.Integration.Core.Fake.SqlServer
     [Category("LocalSQL")]
     public class ViewFakeTest
 	{
-        private const string SERVICE_NAME = "MSSQL$SQL2014";
+        private string ServiceName
+        {
+            get { return ConnectionStringReader.GetSqlServerServiceName(); }
+        }
         private const string INITIAL_SCRIPT = "SELECT top 100 [FirstName], [LastName] FROM [dbo].[DimCustomer]";
         private string FileName { get; set;}
 
@@ -36,7 +39,7 @@ namespace NBi.Testing.Integration.Core.Fake.SqlServer
         [SetUp]
         public void EnsureLocalSqlServerRunning()
         {
-            var service = new ServiceController(SERVICE_NAME);
+            var service = new ServiceController(ServiceName);
             if (service.Status != ServiceControllerStatus.Running)
                 Assert.Ignore("Local SQL Server not started.");
         }

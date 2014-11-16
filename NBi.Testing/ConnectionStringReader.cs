@@ -87,5 +87,10 @@ namespace NBi.Testing
             var values = builder.Values;
             return (string)builder["Initial Catalog"];
         }
+
+        internal static string GetSqlServerServiceName()
+        {
+            return Get("ServiceSqlServer");
+        }
     }
 }

@@ -117,6 +117,7 @@
     <Compile Include="Integration\Core\Etl\IntegrationService\EtlDtsWindowsRunnerTest.cs" />
     <Compile Include="Integration\Core\Etl\IntegrationService\EtlFileRunnerTest.cs" />
     <Compile Include="Integration\Core\Fake\SqlServer\StoredProcedureFakeTest.cs" />
+    <Compile Include="Integration\Core\Fake\SqlServer\UserDefinedFunctionFakeTest.cs" />
     <Compile Include="Integration\Core\Fake\SqlServer\ViewFakeTest.cs" />
     <Compile Include="Integration\Core\FileManipulation\CopyCommandTest.cs" />
     <Compile Include="Integration\Core\Process\ProcessRunCommandTest.cs" />

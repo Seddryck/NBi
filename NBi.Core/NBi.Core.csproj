@@ -113,7 +113,7 @@
     <Compile Include="Fake\UserDefinedFunctionFake.cs" />
     <Compile Include="Fake\ViewFake.cs" />
     <Compile Include="Fake\StoredProcedureFake.cs" />
-    <Compile Include="Fake\FakeManager.cs" />
+    <Compile Include="Fake\FakeProvider.cs" />
     <Compile Include="FileManipulation\FileManipulationFactory.cs" />
     <Compile Include="FileManipulation\IFileManipulationFactory.cs" />
     <Compile Include="FileManipulation\IFileManipulationCommand.cs" />

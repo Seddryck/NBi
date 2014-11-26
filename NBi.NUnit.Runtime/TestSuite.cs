@@ -10,6 +10,8 @@ using NBi.Xml;
 using NBi.Xml.Decoration;
 using NUnit.Framework;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Core.Fake;
+using NBi.Xml.Substitutions;
 
 namespace NBi.NUnit.Runtime
 {
@@ -30,6 +32,8 @@ namespace NBi.NUnit.Runtime
         internal TestSuiteFinder TestSuiteFinder { get; set; }
         internal ConnectionStringsFinder ConnectionStringsFinder { get; set; }
         internal ConfigurationFinder ConfigurationFinder { get; set; }
+
+        protected IList<IFakeInstance> Fakes {get; set;}
 
         public TestSuite()
         {
@@ -57,17 +61,54 @@ namespace NBi.NUnit.Runtime
             else
             {
                 ExecuteChecks(test.Condition);
-                ExecuteSetup(test.Setup);
-                foreach (var tc in test.Systems)
+                try
                 {
-                    foreach (var ctr in test.Constraints)
+                    ExecuteSetup(test.Setup);
+                    ExecuteSubstitues(test.Substitutions);
+                    foreach (var tc in test.Systems)
                     {
-                        var testCase = new TestCaseFactory().Instantiate(tc, ctr);
-                        AssertTestCase(testCase.SystemUnderTest, testCase.Constraint, test.Content);
+                        foreach (var ctr in test.Constraints)
+                        {
+                            var testCase = new TestCaseFactory().Instantiate(tc, ctr);
+                            AssertTestCase(testCase.SystemUnderTest, testCase.Constraint, test.Content);
+                        }
                     }
                 }
-                ExecuteCleanup(test.Cleanup);
+                finally
+                {
+                    RollbackSubstitues();
+                    ExecuteCleanup(test.Cleanup);
+                }
+                
             }
+        }
+
+        private void ExecuteSubstitues(List<AbstractSubstitutionXml> substitutions)
+        {
+            Fakes = new List<IFakeInstance>();
+            if (substitutions == null || substitutions.Count > 0)
+                return;
+            
+            var connStr = substitutions[0].DatabaseObject.GetConnectionString();
+
+            var provider = new FakeProvider(connStr);
+            foreach (var sub in substitutions)
+            {
+                var fake = provider.CreateInstance(sub.DatabaseObject.Schema, sub.DatabaseObject.Name);
+                fake.Initialize();
+                if (sub is FakeXml)
+                    fake.Fake((sub as FakeXml).Code);
+                //if (sub is StubXml)
+                //    fake.Fake((sub as StubXml).Return);
+                Fakes.Add(fake);
+            }
+                
+        }
+
+        private void RollbackSubstitues()
+        {
+            foreach (var fake in Fakes)
+                fake.Rollback();
         }
 
         private void ExecuteChecks(ConditionXml check)

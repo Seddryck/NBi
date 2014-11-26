@@ -1,28 +1,32 @@
 ﻿using Microsoft.SqlServer.Management.Smo;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NBi.Core.Fake
 {
-    public class FakeManager
+    public class FakeProvider
     {
         private string serverName;
         private string databaseName;
 
         public Database Database { get; private set; }
         
-        public FakeManager(string name)
-        {
-
-        }
-
-        public FakeManager(string serverName, string databaseName)
+        public FakeProvider(string serverName, string databaseName)
         {
             this.serverName = serverName;
             this.databaseName = databaseName;
+        }
+
+        public FakeProvider(string connStr)
+        {
+            var builder = new DbConnectionStringBuilder();
+            builder.ConnectionString = connStr.Replace("{", "\"").Replace("}", "\"");
+            serverName =  (string)builder["Data Source"];
+            databaseName = (string)builder["Initial Catalog"];
         }
 
         public IFakeInstance CreateInstance(string schema, string name)
@@ -40,10 +44,13 @@ namespace NBi.Core.Fake
         protected Database Connect(string serverName, string databaseName)
         {
             var server = new Server(serverName);
-            return server.Databases[databaseName];
+            if (server.Databases.Contains(databaseName))
+                return server.Databases[databaseName];
+            else
+                throw new ArgumentOutOfRangeException("databaseName", string.Format("No database named '{0}' found on the server '{1}'", databaseName,serverName);
         }
 
-        public ScriptSchemaObjectBase Find(Database database, string schema, string name)
+        protected ScriptSchemaObjectBase Find(Database database, string schema, string name)
         {
             var types = DatabaseObjectTypes.StoredProcedure | DatabaseObjectTypes.UserDefinedFunction | DatabaseObjectTypes.View;
             var table = database.EnumObjects(types);
@@ -52,10 +59,10 @@ namespace NBi.Core.Fake
                 if ((row[1] == schema || schema == null) && row[2] == name)
                     return BuildScriptSchemaObject(database, (string)row[0], (string)row[1], (string)row[2]);
 
-            throw new ArgumentOutOfRangeException();
+            throw new ArgumentException(string.Format("No object named '{0}' found in schema '{1}' for database '{2}'", name, schema, database.Name));
         }
 
-        private IFakeInstance BuildFakeInstance(ScriptSchemaObjectBase dbObject)
+        protected IFakeInstance BuildFakeInstance(ScriptSchemaObjectBase dbObject)
         {
             if (dbObject is StoredProcedure)
                 return new StoredProcedureFake(dbObject as StoredProcedure);

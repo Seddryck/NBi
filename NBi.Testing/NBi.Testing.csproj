@@ -279,6 +279,7 @@
   <ItemGroup>
     <Folder Include="Integration\Core\Analysis\Query\" />
     <Folder Include="Integration\NUnit\Builder\" />
+    <Folder Include="Unit\Core\Fake\SqlServer\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Acceptance\Resources\Csv\ResellerOrderCountByYearBefore2006.csv">

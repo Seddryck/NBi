@@ -46,7 +46,7 @@ namespace NBi.Core.Etl.IntegrationService
                 ParameterName = "SYNCHRONIZED",
                 ParameterValue = 1
             });
-            var parameters = Parameterize(Etl.Parameters);
+            var parameters = Parameterize(Etl.Parameters, package.Parameters, package.Name);
             parameters.ToList().ForEach(p => setValueParameters.Add(p));
 
             long executionIdentifier = package.Execute(Etl.Is32Bits, null, setValueParameters);
@@ -102,13 +102,17 @@ namespace NBi.Core.Etl.IntegrationService
             }
         }
 
-        protected virtual IEnumerable<PackageInfo.ExecutionValueParameterSet> Parameterize(IEnumerable<EtlParameter> parameters)
+        protected virtual IEnumerable<PackageInfo.ExecutionValueParameterSet> Parameterize(IEnumerable<EtlParameter> overridenParameters, ParameterCollection existingParameters, string packageName)
         {
-            foreach (var param in parameters)
+            foreach (var param in overridenParameters)
             {
+                if (!existingParameters.Contains(param.Name))
+                    throw new ArgumentOutOfRangeException("overridenParameters", string.Format("No parameter named '{0}' found in the package {1}, can't override its value for execution.", param.Name, packageName));
+
+                var existingParam = existingParameters[param.Name];
                 var execParam = new PackageInfo.ExecutionValueParameterSet()
                 {
-                    ObjectType = 30,
+                    ObjectType = existingParam.ObjectType,
                     ParameterName = param.Name,
                     ParameterValue = param.StringValue
                 };

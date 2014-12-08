@@ -54,6 +54,7 @@
     <Compile Include="Action\Case\AddCaseAction.cs" />
     <Compile Include="Action\Case\CopyCaseAction.cs" />
     <Compile Include="Action\Case\CrossCaseAction.cs" />
+    <Compile Include="Action\Case\HoldCaseAction.cs" />
     <Compile Include="Action\Case\SaveCaseAction.cs" />
     <Compile Include="Action\Case\ScopeCaseAction.cs" />
     <Compile Include="Action\Case\FilterDistinctCaseAction.cs" />

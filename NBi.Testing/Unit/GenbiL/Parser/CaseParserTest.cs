@@ -58,6 +58,29 @@ namespace NBi.Testing.Unit.GenbiL.Parser
         }
 
         [Test]
+        public void SentenceParser_CaseHoldColumnString_ValidCaseHoldColumn()
+        {
+            var input = "case hold column 'perspective'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<HoldCaseAction>());
+            Assert.That(((HoldCaseAction)result).Variables[0], Is.EqualTo("perspective"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseHoldColumnsString_ValidCaseHoldColumn()
+        {
+            var input = "case hold column 'perspective', 'dimension'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<HoldCaseAction>());
+            Assert.That(((HoldCaseAction)result).Variables, Has.Member("perspective"));
+            Assert.That(((HoldCaseAction)result).Variables, Has.Member("dimension"));
+        }
+
+        [Test]
         public void SentenceParser_CaseRenameColumnString_ValidCaseRenameColumn()
         {
             var input = "case rename column 'perspective' into 'new perspective'";
@@ -78,7 +101,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<MoveCaseAction>());
             Assert.That(((MoveCaseAction)result).VariableName, Is.EqualTo("perspective"));
-            Assert.That(((MoveCaseAction)result).RelativePosition, Is.EqualTo(-1));
+            Assert.That(((MoveCaseAction)result).Position, Is.EqualTo(-1));
         }
 
         [Test]

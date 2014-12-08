@@ -60,6 +60,14 @@ namespace NBi.GenbiL.Parser
                 select new RemoveCaseAction(variableName)
         );
 
+        readonly static Parser<ICaseAction> caseHoldParser =
+        (
+                from remove in Keyword.Hold
+                from axisType in axisTypeParser
+                from variables in Grammar.QuotedRecordSequence
+                select new HoldCaseAction(variables)
+        );
+
         readonly static Parser<ICaseAction> caseRenameParser =
         (
                 from remove in Keyword.Rename
@@ -175,6 +183,7 @@ namespace NBi.GenbiL.Parser
                 from @case in Keyword.Case
                 from action in caseLoadParser
                                     .Or(caseRemoveParser)
+                                    .Or(caseHoldParser)
                                     .Or(caseRenameParser)
                                     .Or(caseMoveParser)
                                     .Or(caseFilterParser)

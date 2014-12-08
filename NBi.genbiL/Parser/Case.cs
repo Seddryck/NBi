@@ -56,8 +56,8 @@ namespace NBi.GenbiL.Parser
         (
                 from remove in Keyword.Remove
                 from axisType in axisTypeParser
-                from variableName in Grammar.QuotedTextual
-                select new RemoveCaseAction(variableName)
+                from variableNames in Grammar.QuotedRecordSequence
+                select new RemoveCaseAction(variableNames)
         );
 
         readonly static Parser<ICaseAction> caseRenameParser =

@@ -58,6 +58,7 @@ namespace NBi.Testing.Acceptance
         //By Acceptance Test Suite (file) create a Test Case
         [Test]
         [TestCase("AssemblyEqualToResultSet.nbits")]
+        [TestCase("QueryEqualToWithParameter.nbits")]
         [TestCase("QueryEqualToCsv.nbits")]
         [TestCase("QueryEqualToQuery.nbits")]
         [TestCase("QueryEqualToResultSet.nbits")]

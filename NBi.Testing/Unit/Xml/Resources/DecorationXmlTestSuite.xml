@@ -193,6 +193,7 @@
       <tasks run-once="true">
         <table-reset name="NewUsers"/>
         <table-load name="NewUsers" file="NewUsers.csv"/>
+        <exe-run name="setup.exe" arguments="-p"/>
       </tasks>
     </setup>
     <test name="my run-once test">

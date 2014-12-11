@@ -211,6 +211,17 @@ namespace NBi.Testing.Unit.Xml.Decoration
         }
 
         [Test]
+        public void Deserialize_SecondGroupWithExeRun_SecondGroupWithExeRun()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            var group = ts.Groups[1].Setup.Commands[0] as CommandGroupXml;
+            Assert.That(group.Commands[2], Is.TypeOf<ExeRunXml>());
+        }
+
+        [Test]
         public void Deserialize_SampleFile_ParentSetup()
         {
             int groupNr = 0;

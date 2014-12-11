@@ -11,10 +11,15 @@ namespace NBi.Xml.Decoration.Command
 {
     public class CommandGroupXml : DecorationCommandXml, IGroupCommand
     {
-        [XmlElement(Type = typeof(TableLoadXml), ElementName = "table-load"),
+        [
+        XmlElement(Type = typeof(SqlRunXml), ElementName = "sql-run"),
+        XmlElement(Type = typeof(TableLoadXml), ElementName = "table-load"),
         XmlElement(Type = typeof(TableResetXml), ElementName = "table-reset"),
         XmlElement(Type = typeof(ServiceStartXml), ElementName = "service-start"),
         XmlElement(Type = typeof(ServiceStopXml), ElementName = "service-stop"),
+        XmlElement(Type = typeof(ExeRunXml), ElementName = "exe-run"),
+        XmlElement(Type = typeof(FileDeleteXml), ElementName = "file-delete"),
+        XmlElement(Type = typeof(FileCopyXml), ElementName = "file-copy"),
         XmlElement(Type = typeof(EtlRunXml), ElementName = "etl-run")
         ]
         public List<DecorationCommandXml> InternalCommands { get; set; }

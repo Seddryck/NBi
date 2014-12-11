@@ -139,7 +139,9 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
             
             //Assertion is generating an exception
-            Assert.Throws<ResultSetComparerException>(delegate { comparer.Compare(reference, actual); });
+            var ex = Assert.Throws<ResultSetComparerException>(delegate { comparer.Compare(reference, actual); });
+            Assert.That(ex.Message, Is.StringContaining("<Key1|1>"));
+            Assert.That(ex.Message, Is.StringContaining("<Key1|2>"));
         }
 
         [Test]

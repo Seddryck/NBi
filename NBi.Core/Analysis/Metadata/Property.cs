@@ -20,5 +20,11 @@ namespace NBi.Core.Analysis.Metadata
         {
             return new Property(UniqueName, Caption);
         }
+
+        public override string ToString()
+        {
+            return Caption.ToString();
+        }
+
     }
 }

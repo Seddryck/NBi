@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using NBi.Core.ResultSet.Comparer;
+using System.Text;
 
 namespace NBi.Core.ResultSet
 {
@@ -62,15 +63,37 @@ namespace NBi.Core.ResultSet
                 if (dict.ContainsKey(keysHashed))
                 {
                     throw new ResultSetComparerException(
-                        string.Format("The {0} data set has some duplicated keys. Check your keys definition or the result set defined in your {1}.", 
+                        string.Format("The {0} data set has some duplicated keys. Check your keys definition or the result set defined in your {1}. The duplicated hashcode is {2}.\r\nRow to insert:{3}.\r\nRow already inserted:{4}.", 
                             isSystemUnderTest ? "actual" : "expected",
-                            isSystemUnderTest ? "system-under-test" : "assertion"
+                            isSystemUnderTest ? "system-under-test" : "assertion",
+                            keysHashed,
+                            RowToString(row),
+                            RowToString(dict[keysHashed].DataRowObj)
                             )
                         );
                 }
 
                 dict.Add(keysHashed, hlpr);
             }
+        }
+
+        private string RowToString(DataRow row)
+        {
+            var sb = new StringBuilder();
+            sb.Append("<");
+            foreach (var obj in row.ItemArray)
+            {
+                if (obj==null)
+                    sb.Append("(null)");
+                else
+                    sb.Append(obj.ToString());
+                sb.Append("|");
+            }
+            if (sb.Length > 1)
+                sb.Remove(sb.Length-1, 1);
+            sb.Append(">");
+
+            return sb.ToString();
         }
 
         protected ResultSetCompareResult doCompare(DataTable x, DataTable y)

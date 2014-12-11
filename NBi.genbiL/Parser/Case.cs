@@ -56,8 +56,8 @@ namespace NBi.GenbiL.Parser
         (
                 from remove in Keyword.Remove
                 from axisType in axisTypeParser
-                from variableName in Grammar.QuotedTextual
-                select new RemoveCaseAction(variableName)
+                from variableNames in Grammar.QuotedRecordSequence
+                select new RemoveCaseAction(variableNames)
         );
 
         readonly static Parser<ICaseAction> caseHoldParser =
@@ -84,7 +84,11 @@ namespace NBi.GenbiL.Parser
                 from axisType in Parse.IgnoreCase("Column").Token()
                 from variableName in Grammar.QuotedTextual
                 from toKeyword in Keyword.To
-                from relativePosition in Parse.IgnoreCase("Left").Return(-1).Or(Parse.IgnoreCase("Right").Return(1)).Token()
+                from relativePosition in Parse.IgnoreCase("Left").Return(-1)
+                                                .Or(Parse.IgnoreCase("Right").Return(1))
+                                                .Or(Parse.IgnoreCase("First").Return(int.MinValue))
+                                                .Or(Parse.IgnoreCase("Last").Return(int.MaxValue))
+                                            .Token()
                 select new MoveCaseAction(variableName, relativePosition)
         );
 

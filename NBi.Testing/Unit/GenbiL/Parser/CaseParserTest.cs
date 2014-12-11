@@ -101,7 +101,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<MoveCaseAction>());
             Assert.That(((MoveCaseAction)result).VariableName, Is.EqualTo("perspective"));
-            Assert.That(((MoveCaseAction)result).Position, Is.EqualTo(-1));
+            Assert.That(((MoveCaseAction)result).RelativePosition, Is.EqualTo(-1));
         }
 
         [Test]

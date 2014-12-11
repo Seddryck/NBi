@@ -17,8 +17,15 @@ namespace NBi.Core
             var csb = new DbConnectionStringBuilder();
             csb.ConnectionString = connectionString;
 
-            string providerName= 
-                csb.ContainsKey("Provider") ? providerName = InterpretProviderName(csb["Provider"].ToString()) : providerName = "SqlClient";
+            string providerName = string.Empty;
+            if (csb.ContainsKey("Provider"))
+                providerName = InterpretProviderName(csb["Provider"].ToString());
+
+            if (string.IsNullOrEmpty(providerName) && csb.ContainsKey("Driver"))
+                providerName= "Odbc";
+
+            if (string.IsNullOrEmpty(providerName))
+                providerName="SqlClient";
 
             if (string.IsNullOrEmpty(providerName))
                 throw new ArgumentException(string.Format("No provider found for connectionString '{0}'", connectionString));
@@ -29,9 +36,8 @@ namespace NBi.Core
         protected string InterpretProviderName(string provider)
         {
             if (provider.ToLowerInvariant().StartsWith("msolap")) return "Adomd";
-            if (provider.ToLowerInvariant().StartsWith("sqlncli")) return "OleDb";
+            if (provider.ToLowerInvariant().StartsWith("sqlncli")) return "OleDb"; //Indeed OleDb it's not a mistake!
             if (provider.ToLowerInvariant().StartsWith("oledb")) return "OleDb";
-            if (provider.StartsWith("Driver={")) return "Odbc";
 
             return null;
         }

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: query equalTo with parameters" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="system-under-test">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <parameter name="@CurrencyCode" sql-type="varchar">AED</parameter>
+    </default>
+  </settings>
+  <test name="Test">
+    <system-under-test>
+      <execution>
+        <query>
+          <![CDATA[SELECT COUNT(*) From [Sales].[Currency] WHERE CurrencyCode = @CurrencyCode]]>
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet>
+          <row>
+            <cell>1</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+  </test>
+</testSuite>

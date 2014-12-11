@@ -134,6 +134,8 @@ namespace NBi.Testing.Acceptance
                             //Debug.WriteLine(ex.Message);
                             Assert.That(ex.Message, Is.EqualTo(reader.ReadToEnd()));
                         }
+                        Assert.That(ex.StackTrace, Is.Not.Null.Or.Empty);
+                        Assert.That(ex.StackTrace, Is.EqualTo(testXml.Content));
                     }
                 }
             }

@@ -22,10 +22,18 @@ namespace NBi.GenbiL.Parser
                 select new SaveSuiteAction(filename)
         );
 
+        readonly static Parser<ISuiteAction> IncludeParser =
+        (
+                from save in Keyword.Include
+                from file in Keyword.File
+                from filename in Grammar.QuotedTextual.Token()
+                select new IncludeSuiteAction(filename)
+        );
+
         public readonly static Parser<IAction> Parser =
         (
                 from load in Keyword.Suite
-                from text in GenerateParser.Or(SaveParser)
+                from text in GenerateParser.Or(SaveParser).Or(IncludeParser)
                 select text
         );
     }

@@ -54,7 +54,42 @@ namespace NBi.Testing.Unit.GenbiL.Parser
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<RemoveCaseAction>());
-            Assert.That(((RemoveCaseAction)result).VariableName, Is.EqualTo("perspective"));
+            Assert.That(((RemoveCaseAction)result).Variables[0], Is.EqualTo("perspective"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseRemoveColumnsString_ValidCaseRemoveColumn()
+        {
+            var input = "case remove column 'perspective', 'dimension'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<RemoveCaseAction>());
+            Assert.That(((RemoveCaseAction)result).Variables, Has.Member("perspective"));
+            Assert.That(((RemoveCaseAction)result).Variables, Has.Member("dimension"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseHoldColumnString_ValidCaseHoldColumn()
+        {
+            var input = "case hold column 'perspective'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<HoldCaseAction>());
+            Assert.That(((HoldCaseAction)result).Variables[0], Is.EqualTo("perspective"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseHoldColumnsString_ValidCaseHoldColumn()
+        {
+            var input = "case hold column 'perspective', 'dimension'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<HoldCaseAction>());
+            Assert.That(((HoldCaseAction)result).Variables, Has.Member("perspective"));
+            Assert.That(((HoldCaseAction)result).Variables, Has.Member("dimension"));
         }
 
         [Test]
@@ -70,7 +105,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
         }
 
         [Test]
-        public void SentenceParser_CaseMoveColumnString_ValidCaseMoveColumn()
+        public void SentenceParser_CaseMoveColumnStringLeft_ValidCaseMoveColumn()
         {
             var input = "case move column 'perspective' to left";
             var result = Case.Parser.Parse(input);
@@ -78,7 +113,43 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<MoveCaseAction>());
             Assert.That(((MoveCaseAction)result).VariableName, Is.EqualTo("perspective"));
-            Assert.That(((MoveCaseAction)result).RelativePosition, Is.EqualTo(-1));
+            Assert.That(((MoveCaseAction)result).Position, Is.EqualTo(-1));
+        }
+
+        [Test]
+        public void SentenceParser_CaseMoveColumnStringRight_ValidCaseMoveColumn()
+        {
+            var input = "case move column 'perspective' to right";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<MoveCaseAction>());
+            Assert.That(((MoveCaseAction)result).VariableName, Is.EqualTo("perspective"));
+            Assert.That(((MoveCaseAction)result).Position, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void SentenceParser_CaseMoveColumnStringFirst_ValidCaseMoveColumn()
+        {
+            var input = "case move column 'perspective' to first";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<MoveCaseAction>());
+            Assert.That(((MoveCaseAction)result).VariableName, Is.EqualTo("perspective"));
+            Assert.That(((MoveCaseAction)result).Position, Is.EqualTo(int.MinValue));
+        }
+
+        [Test]
+        public void SentenceParser_CaseMoveColumnStringLast_ValidCaseMoveColumn()
+        {
+            var input = "case move column 'perspective' to last";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<MoveCaseAction>());
+            Assert.That(((MoveCaseAction)result).VariableName, Is.EqualTo("perspective"));
+            Assert.That(((MoveCaseAction)result).Position, Is.EqualTo(int.MaxValue));
         }
 
         [Test]

@@ -66,6 +66,7 @@
       <xs:element name="regex" minOccurs="0" maxOccurs="1"/>
       <xs:element name="numeric-format" type="numeric-format-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="currency-format" type="currency-format-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="report" type="report-base-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
     <xs:attribute name="name" type="xs:string" use="required"/>
   </xs:complexType>
@@ -131,7 +132,7 @@
   </xs:complexType>
   <xs:complexType name="report-type">
     <xs:complexContent>
-      <xs:extension base="perspective-type">
+      <xs:extension base="report-base-type">
         <xs:sequence>
           <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
         </xs:sequence>

@@ -45,6 +45,24 @@ namespace NBi.Testing.Unit.Xml.Constraints
         [Test]
         public void Deserialize_SampleFile_MatchPatternNumericFormat()
         {
+            int testNr = 1;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("");
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<MatchPatternXml>());
+            var matchPatternConstraint = (MatchPatternXml)ts.Tests[testNr].Constraints[0];
+
+            Assert.That(matchPatternConstraint.NumericFormat, Is.Not.Null);
+            Assert.That(matchPatternConstraint.NumericFormat.GroupSeparator, Is.EqualTo(","));
+            Assert.That(matchPatternConstraint.NumericFormat.DecimalSeparator, Is.EqualTo("."));
+            Assert.That(matchPatternConstraint.NumericFormat.DecimalDigits, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_MatchPatternNumericFormatWithReference()
+        {
             int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
@@ -199,6 +217,27 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(node.ChildNodes[0].Attributes["decimal-digits"].Value, Is.EqualTo("0"));
             Assert.That(node.ChildNodes, Has.Count.EqualTo(1));
             Assert.That(node.ChildNodes[0].Attributes, Has.Count.EqualTo(3));
+        }
+
+        [Test]
+        public void DeserializeSerialize_SampleFile_MatchPatternNumericFormat()
+        {
+            int testNr = 1;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("");
+            var test = ts.Tests[testNr];
+
+            var manager = new XmlManager();
+            var str = manager.XmlSerializeFrom<TestXml>(test);
+
+            var xml = new System.Xml.XmlDocument();
+            xml.LoadXml(str);
+            var matchPattern = xml.ChildNodes[1].ChildNodes[1].FirstChild;
+            var numericFormat = matchPattern.FirstChild;
+
+            Assert.That(numericFormat.Attributes, Has.Count.EqualTo(1));
+            Assert.That(numericFormat.Attributes["decimal-digits"].Value, Is.EqualTo("3"));
         }
     }
 }

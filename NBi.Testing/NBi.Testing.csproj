@@ -224,6 +224,7 @@
     <Compile Include="Unit\Service\StringTemplateEngineTest.cs" />
     <Compile Include="Unit\Service\TestCaseCollectionManagerTest.cs" />
     <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
+    <Compile Include="Unit\Service\TestListManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
     <Compile Include="Unit\Xml\Constraints\SucessfulXmlTest.cs" />
@@ -401,7 +402,9 @@
     <EmbeddedResource Include="Unit\Xml\Resources\EquivalentToXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\QueryXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithParameters.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\MatchPatternXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\MatchPatternXmlTestSuite.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithVariables.xml" />
     <!--Acceptance Ressources-->
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToResultSet.nbits">

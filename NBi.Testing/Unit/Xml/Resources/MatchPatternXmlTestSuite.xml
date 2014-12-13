@@ -1,15 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
-	<test name="level counts exactly 10 members">
-		<system-under-test>
-			<members>
-				<level dimension="dimension" hierarchy="US Phone Number" caption="US Phone Number" perspective="Perspective" connectionString="ConnectionString"/>
-			</members>
-		</system-under-test>
-		<assert>
-			<matchPattern>
-				<regex>^[2-9]\d{2}-\d{3}-\d{4}$</regex>
-			</matchPattern>
-		</assert>
-	</test>
+  <test name="level counts exactly 10 members">
+    <system-under-test>
+      <members>
+        <level dimension="dimension" hierarchy="US Phone Number" caption="US Phone Number" perspective="Perspective" connectionString="ConnectionString"/>
+      </members>
+    </system-under-test>
+    <assert>
+      <matchPattern>
+        <regex>^[2-9]\d{2}-\d{3}-\d{4}$</regex>
+      </matchPattern>
+    </assert>
+  </test>
+  <test name="level counts exactly 10 members">
+    <system-under-test>
+      <execution>
+        <query>
+          select "100,000.50"
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <matchPattern>
+        <numeric-format group-separator="," decimal-separator ="." decimal-digits="3"/>
+      </matchPattern>
+    </assert>
+  </test>
 </testSuite>

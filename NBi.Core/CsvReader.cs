@@ -134,6 +134,17 @@ namespace NBi.Core
                             var cleanRecord = CleanRecord(recordToParse, Definition.RecordSeparator);
                             var cells = SplitLine(cleanRecord);
                             var row = table.NewRow();
+                            if (row.ItemArray.Length<cells.Length)
+                                throw new InvalidDataException
+                                (
+                                    string.Format
+                                    (
+                                        "The row {0} contains {1} more field{2} than expected."
+                                        , table.Rows.Count + 1 + Convert.ToInt32(firstLineIsColumnName)
+                                        , cells.Length - row.ItemArray.Length
+                                        , cells.Length - row.ItemArray.Length>1 ? "s" : string.Empty
+                                    )
+                                );
                             row.ItemArray = cells;
                             table.Rows.Add(row);
                         }

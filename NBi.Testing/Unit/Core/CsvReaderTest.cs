@@ -250,5 +250,29 @@ namespace NBi.Testing.Unit.Core
             var value = reader.IdentifyPartialRecordSeparator(text, recordSeparator);
             Assert.That(value, Is.EqualTo(result));
         }
+
+        [Test]
+        [TestCase("a;b;c\r\nd;e;f;g\r\n", 1, 1)]
+        [TestCase("a;b;c\r\nd;e;f\r\ng;h;i;j\r\n", 2, 1)]
+        [TestCase("a;b;c\r\nd;e;f\r\ng;h;i;j;k\r\n", 2, 2)]
+        public void Read_MoreFieldThanExpected_ExceptionMessage(string text, int rowNumber, int moreField)
+        {
+            using (var stream = new MemoryStream())
+            {
+                using (var writer = new StreamWriter(stream))
+                {
+                    writer.Write(text);
+                    writer.Flush();
+
+                    stream.Position = 0;
+
+                    var reader = new CsvReader(1024);
+
+                    var ex = Assert.Throws<InvalidDataException>(delegate { reader.Read(stream, true); });
+                    Assert.That(ex.Message, Is.StringContaining(string.Format("row {0} ", rowNumber+1)));
+                    Assert.That(ex.Message, Is.StringContaining(string.Format("{0} more", moreField)));
+                }
+            }
+        }
     }
 }

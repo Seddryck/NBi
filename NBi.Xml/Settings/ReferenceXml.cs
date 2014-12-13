@@ -1,5 +1,6 @@
 ﻿using System.Xml.Serialization;
 using NBi.Xml.Items.Format;
+using NBi.Xml.Items;
 
 namespace NBi.Xml.Settings
 {
@@ -19,6 +20,9 @@ namespace NBi.Xml.Settings
 
         [XmlElement("currency-format")]
         public CurrencyFormatXml CurrencyFormat { get; set; }
+
+        [XmlElement("report")]
+        public ReportBaseXml Report { get; set; }
 
     }
 }

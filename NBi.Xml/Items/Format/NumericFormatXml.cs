@@ -31,7 +31,7 @@ namespace NBi.Xml.Items.Format
             var refChoice = GetReference(references, value);
 
             if (refChoice.NumericFormat==null)
-                throw new NullReferenceException(string.Format("A reference named '{0}' has been defined, but it's numeric-format is not defined", value));
+                throw new NullReferenceException(string.Format("A reference named '{0}' has been found, but no element 'numeric-format' has been defined", value));
 
             Initialize(refChoice.NumericFormat);
         }

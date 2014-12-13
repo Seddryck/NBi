@@ -124,15 +124,21 @@
     <xs:attribute name="password" type="xs:string"/>
     <xs:attribute name="bits-32" type="xs:boolean"/>
   </xs:complexType>
-  <xs:complexType name="report-type">
-    <xs:sequence>
-      <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
-    </xs:sequence>
+  <xs:complexType name="report-base-type">
     <xs:attribute name="source" type="xs:string"/>
     <xs:attribute name="path" type="xs:string"/>
-    <xs:attribute name="name" type="xs:string"/>
-    <xs:attribute name="dataset" type="xs:string"/>
     <xs:attribute name="connectionString" type="xs:string" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="report-type">
+    <xs:complexContent>
+      <xs:extension base="perspective-type">
+        <xs:sequence>
+          <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="dataset" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="perspective-type">
     <xs:attribute name="caption" type="xs:string" use="required" />

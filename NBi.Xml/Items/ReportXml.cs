@@ -8,14 +8,8 @@ using NBi.Core.Report;
 
 namespace NBi.Xml.Items
 {
-    public class ReportXml : QueryableXml
+    public class ReportXml : ReportBaseXml
     {
-        [XmlAttribute("source")]
-        public string Source { get; set; }
-        
-        [XmlAttribute("path")]
-        public string Path { get; set; }
-
         [XmlAttribute("name")]
         public string Name { get; set; }
 

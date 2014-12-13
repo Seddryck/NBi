@@ -97,6 +97,7 @@
     <Compile Include="Items\EtlParameterXml.cs" />
     <Compile Include="Items\ParameterXml.cs" />
     <Compile Include="Items\EtlXml.cs" />
+    <Compile Include="Items\ReportBaseXml.cs" />
     <Compile Include="Items\ReportXml.cs" />
     <Compile Include="Items\Format\CurrencyFormatXml.cs" />
     <Compile Include="Items\Format\NumericFormatXml.cs" />

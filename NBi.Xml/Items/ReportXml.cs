@@ -5,11 +5,17 @@ using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core;
 using NBi.Core.Report;
+using NBi.Xml.Settings;
+using NBi.Xml.Constraints;
 
 namespace NBi.Xml.Items
 {
-    public class ReportXml : ReportBaseXml
+    public class ReportXml : ReportBaseXml, IReferenceFriendly
     {
+
+        [XmlAttribute("ref")]
+        public string Reference { get; set; }
+
         [XmlAttribute("name")]
         public string Name { get; set; }
 
@@ -65,6 +71,42 @@ namespace NBi.Xml.Items
             cmd.CommandText = GetQuery();
 
             return cmd;
+        }
+
+        public void AssignReferences(IEnumerable<ReferenceXml> references)
+        {
+            if (!string.IsNullOrEmpty(Reference))
+                InitializeFromReferences(references, Reference);
+        }
+
+        protected virtual void InitializeFromReferences(IEnumerable<ReferenceXml> references, string value)
+        {
+            var refChoice = GetReference(references, value);
+
+            if (refChoice.Report == null)
+                throw new NullReferenceException(string.Format("A reference named '{0}' has been found, but no element 'report' has been defined", value));
+
+            Initialize(refChoice.Report);
+        }
+
+        protected void Initialize(ReportBaseXml reference)
+        {
+            if (string.IsNullOrEmpty(Source))
+                Source = reference.Source;
+            
+            if (string.IsNullOrEmpty(Path))
+                Path = reference.Path;
+        }
+
+        protected ReferenceXml GetReference(IEnumerable<ReferenceXml> references, string value)
+        {
+            if (references == null || references.Count() == 0)
+                throw new InvalidOperationException("No reference has been defined for this constraint");
+
+            var refChoice = references.FirstOrDefault(r => r.Name == value);
+            if (refChoice == null)
+                throw new IndexOutOfRangeException(string.Format("No reference named '{0}' has been defined.", value));
+            return refChoice;
         }
     }
 }

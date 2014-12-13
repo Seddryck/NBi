@@ -4,6 +4,12 @@
 		<default apply-to="system-under-test">
 			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
 		</default>
+    <reference name="MainReports">
+      <report
+          source="http://reports.com/reports"
+          path = "Dashboard"
+      />
+    </reference>
 	</settings>
 	<test name="No parameter" uid="0001">
 		<system-under-test>
@@ -55,4 +61,28 @@
 			</equalTo>
 		</assert>
 	</test>
+  <test name="Reference" uid="0003">
+    <system-under-test>
+      <execution>
+        <report ref="MainReports"
+						name="Currency Rates"
+						dataset="DataSet1"
+				>
+          <parameter name="Currencies">EURO, American Dollar</parameter>
+        </report>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet>
+          <row>
+            <cell>EURO</cell>
+          </row>
+          <row>
+            <cell>American Dollar</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+  </test>
 </testSuite>

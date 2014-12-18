@@ -271,6 +271,21 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(crossCase.MatchingColumn, Is.EqualTo("myKey"));
         }
 
+        public void SentenceParser_CaseCrossWithVector_ValidCrossAction()
+        {
+            var input = "case cross 'alpha' with vector 'beta' values 'value1', 'value2'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<CrossVectorCaseAction>());
+
+            var crossCase = result as CrossVectorCaseAction;
+            Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
+            Assert.That(crossCase.VectorName, Is.EqualTo("beta"));
+            Assert.That(crossCase.Values, Has.Member("value1"));
+            Assert.That(crossCase.Values, Has.Member("value2"));
+        }
+
         public void SentenceParser_CaseSave_ValidSaveAction()
         {
             var input = "case save as 'myfile.csv'";

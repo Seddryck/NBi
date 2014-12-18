@@ -42,5 +42,16 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.InstanceOf<SaveSuiteAction>());
             Assert.That(((SaveSuiteAction)result).Filename, Is.EqualTo("filename.nbits"));
         }
+
+        [Test]
+        public void SentenceParser_SuiteIncludeFileString_ValidIncludeSuiteAction()
+        {
+            var input = "suite include file 'filename.nbitx';";
+            var result = Suite.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<IncludeSuiteAction>());
+            Assert.That(((IncludeSuiteAction)result).Filename, Is.EqualTo("filename.nbitx"));
+        }
     }
 }

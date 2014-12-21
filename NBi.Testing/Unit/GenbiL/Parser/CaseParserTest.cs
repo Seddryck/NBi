@@ -168,6 +168,38 @@ namespace NBi.Testing.Unit.GenbiL.Parser
         }
 
         [Test]
+        public void SentenceParser_CaseFilterEmpty_ValidFilterAction()
+        {
+            var input = "case filter on column 'perspective' values equal empty;";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<FilterCaseAction>());
+            Assert.That(((FilterCaseAction)result).Values, Has.Member(""));
+            Assert.That(((FilterCaseAction)result).Values.Count(), Is.EqualTo(1));
+            Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(false));
+            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
+            Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseFilterMixedQuotedAndNot_ValidFilterAction()
+        {
+            var input = "case filter on column 'perspective' values equal empty, 'alpha', none;";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<FilterCaseAction>());
+            Assert.That(((FilterCaseAction)result).Values, Has.Member(""));
+            Assert.That(((FilterCaseAction)result).Values, Has.Member("alpha"));
+            Assert.That(((FilterCaseAction)result).Values, Has.Member("(none)"));
+            Assert.That(((FilterCaseAction)result).Values.Count(), Is.EqualTo(3));
+            Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(false));
+            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
+            Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
+        }
+
+        [Test]
         public void SentenceParser_CaseFilterNotEqual_ValidFilterAction()
         {
             var input = "case filter on column 'perspective' values not equal 'show-perspective'";

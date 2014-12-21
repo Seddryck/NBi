@@ -11,9 +11,13 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<string> BracketTextual = Parse.CharExcept("[]").AtLeastOnce().Text().Contained(Parse.Char('['), Parse.Char(']')).Token();
         public static readonly Parser<string> CurlyBraceTextual = Parse.CharExcept("{}").AtLeastOnce().Text().Contained(Parse.Char('{'), Parse.Char('}')).Token();
         public static readonly Parser<string> QuotedTextual = Parse.CharExcept("'").AtLeastOnce().Text().Contained(Parse.Char('\''), Parse.Char('\'')).Token();
+        public static readonly Parser<string> Empty = Parse.IgnoreCase("Empty").Return("").Token();
+        public static readonly Parser<string> None = Parse.IgnoreCase("None").Return("(none)").Token();
+        public static readonly Parser<string> ExtendedQuotedTextual = Empty.Or(None).Or(QuotedTextual).Token();
         public static readonly Parser<string> Record = Textual.Or(BracketTextual);
         public static readonly Parser<IEnumerable<string>> RecordSequence = Record.DelimitedBy(Parse.Char(','));
         public static readonly Parser<IEnumerable<string>> QuotedRecordSequence = QuotedTextual.DelimitedBy(Parse.Char(','));
+        public static readonly Parser<IEnumerable<string>> ExtendedQuotedRecordSequence = ExtendedQuotedTextual.DelimitedBy(Parse.Char(','));
         public static readonly Parser<char> Terminator = Parse.Char(';').Token();
         public static readonly Parser<bool> Boolean = Parse.IgnoreCase("on").Return(true)
                                                         .Or(Parse.IgnoreCase("yes").Return(true))

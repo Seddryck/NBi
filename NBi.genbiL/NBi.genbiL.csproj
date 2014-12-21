@@ -51,6 +51,7 @@
     </Compile>
     <Compile Include="Action\AxisType.cs" />
     <Compile Include="Action\Case\CrossVectorCaseAction.cs" />
+    <Compile Include="Action\Case\ReplaceCaseAction.cs" />
     <Compile Include="Action\Case\MergeCaseAction.cs" />
     <Compile Include="Action\Case\AddCaseAction.cs" />
     <Compile Include="Action\Case\CopyCaseAction.cs" />

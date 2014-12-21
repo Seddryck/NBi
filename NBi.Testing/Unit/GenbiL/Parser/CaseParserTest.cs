@@ -345,5 +345,35 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.InstanceOf<MergeCaseAction>());
             Assert.That(((MergeCaseAction)result).MergedScope, Is.EqualTo("scoped-value"));
         }
+
+        [Test]
+        public void SentenceParser_CaseReplaceNoCondition_ValidReplaceAction()
+        {
+            var input = "case replace column 'alpha' with values 'my new value'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<ReplaceCaseAction>());
+            Assert.That(((ReplaceCaseAction)result).Column, Is.EqualTo("alpha"));
+            Assert.That(((ReplaceCaseAction)result).NewValue, Is.EqualTo("my new value"));
+        }
+
+        [Test]
+        [Ignore("Need the concept of Extended Quoted Textual that has been implemented in another branch.")]
+        public void SentenceParser_CaseReplaceWithcondition_ValidReplaceAction()
+        {
+            var input = "case replace column 'alpha' with values 'my new value' when values not equal 'foo', empty, 'bar';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<ReplaceCaseAction>());
+            Assert.That(((ReplaceCaseAction)result).Column, Is.EqualTo("alpha"));
+            Assert.That(((ReplaceCaseAction)result).NewValue, Is.EqualTo("my new value"));
+            Assert.That(((ReplaceCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
+            Assert.That(((ReplaceCaseAction)result).Negation, Is.True);
+            Assert.That(((ReplaceCaseAction)result).Values, Has.Member("foo"));
+            Assert.That(((ReplaceCaseAction)result).Values, Has.Member("bar"));
+            Assert.That(((ReplaceCaseAction)result).Values, Has.Member(""));
+        }
     }
 }

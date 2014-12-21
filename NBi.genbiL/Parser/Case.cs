@@ -194,6 +194,33 @@ namespace NBi.GenbiL.Parser
                 select new MergeCaseAction(scopeName)
         );
 
+        readonly static Parser<ICaseAction> caseReplaceSimpleParser =
+        (
+                from replace in Keyword.Replace
+                from axisType in Parse.IgnoreCase("Column").Token()
+                from variableName in Grammar.QuotedTextual
+                from withKeyword in Keyword.With
+                from valuesKeyword in Keyword.Values
+                from text in Grammar.QuotedTextual
+                select new ReplaceCaseAction(variableName, text)
+        );
+
+        readonly static Parser<ICaseAction> caseReplaceComplexParser =
+        (
+                from replace in Keyword.Replace
+                from axisType in Parse.IgnoreCase("Column").Token()
+                from variableName in Grammar.QuotedTextual
+                from withKeyword in Keyword.With
+                from valuesKeyword in Keyword.Values
+                from newValue in Grammar.QuotedTextual
+                from whenKeyword in Keyword.When
+                from valuesKeyword2 in Keyword.Values
+                from negation in Keyword.Not.Optional()
+                from @operator in Parse.IgnoreCase("Equal").Return(Operator.Equal).Or(Parse.IgnoreCase("Like").Return(Operator.Like)).Token()
+                from text in Grammar.QuotedRecordSequence
+                select new ReplaceCaseAction(variableName, newValue, @operator, text, negation.IsDefined)
+        );
+
         public readonly static Parser<IAction> Parser =
         (
                 from @case in Keyword.Case
@@ -213,6 +240,8 @@ namespace NBi.GenbiL.Parser
                                     .Or(caseAddWithDefaultParser)
                                     .Or(caseAddParser)
                                     .Or(caseMergeParser)
+                                    .Or(caseReplaceComplexParser)
+                                    .Or(caseReplaceSimpleParser)
                 select action
         );
     }

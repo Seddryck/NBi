@@ -101,7 +101,7 @@ namespace NBi.GenbiL.Parser
                 from valuesKeyword in Keyword.Values
                 from negation in Keyword.Not.Optional()
                 from @operator in Parse.IgnoreCase("Equal").Return(Operator.Equal).Or(Parse.IgnoreCase("Like").Return(Operator.Like)).Token()
-                from text in Grammar.QuotedRecordSequence
+                from text in Grammar.ExtendedQuotedRecordSequence
                 select new FilterCaseAction(variableName, @operator, text, negation.IsDefined)
         );
 

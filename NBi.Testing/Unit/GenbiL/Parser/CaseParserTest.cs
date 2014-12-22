@@ -446,5 +446,6 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(((ConcatenateCaseAction)result).ColumnName, Is.EqualTo("alpha"));
             Assert.That(((ConcatenateCaseAction)result).Valuables.Select(x => x.Display), Is.EquivalentTo(new[] { "value 'foo'" }));
         }
+
     }
 }

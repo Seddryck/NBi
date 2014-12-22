@@ -168,6 +168,38 @@ namespace NBi.Testing.Unit.GenbiL.Parser
         }
 
         [Test]
+        public void SentenceParser_CaseFilterEmpty_ValidFilterAction()
+        {
+            var input = "case filter on column 'perspective' values equal empty;";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<FilterCaseAction>());
+            Assert.That(((FilterCaseAction)result).Values, Has.Member(""));
+            Assert.That(((FilterCaseAction)result).Values.Count(), Is.EqualTo(1));
+            Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(false));
+            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
+            Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseFilterMixedQuotedAndNot_ValidFilterAction()
+        {
+            var input = "case filter on column 'perspective' values equal empty, 'alpha', none;";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<FilterCaseAction>());
+            Assert.That(((FilterCaseAction)result).Values, Has.Member(""));
+            Assert.That(((FilterCaseAction)result).Values, Has.Member("alpha"));
+            Assert.That(((FilterCaseAction)result).Values, Has.Member("(none)"));
+            Assert.That(((FilterCaseAction)result).Values.Count(), Is.EqualTo(3));
+            Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(false));
+            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
+            Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
+        }
+
+        [Test]
         public void SentenceParser_CaseFilterNotEqual_ValidFilterAction()
         {
             var input = "case filter on column 'perspective' values not equal 'show-perspective'";
@@ -344,6 +376,52 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<MergeCaseAction>());
             Assert.That(((MergeCaseAction)result).MergedScope, Is.EqualTo("scoped-value"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseReplaceNoCondition_ValidReplaceAction()
+        {
+            var input = "case replace column 'alpha' with values 'my new value'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<ReplaceCaseAction>());
+            Assert.That(((ReplaceCaseAction)result).Column, Is.EqualTo("alpha"));
+            Assert.That(((ReplaceCaseAction)result).NewValue, Is.EqualTo("my new value"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseReplaceWithcondition_ValidReplaceAction()
+        {
+            var input = "case replace column 'alpha' with values 'my new value' when values not equal 'foo', empty, 'bar';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<ReplaceCaseAction>());
+            Assert.That(((ReplaceCaseAction)result).Column, Is.EqualTo("alpha"));
+            Assert.That(((ReplaceCaseAction)result).NewValue, Is.EqualTo("my new value"));
+            Assert.That(((ReplaceCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
+            Assert.That(((ReplaceCaseAction)result).Negation, Is.True);
+            Assert.That(((ReplaceCaseAction)result).Values, Has.Member("foo"));
+            Assert.That(((ReplaceCaseAction)result).Values, Has.Member("bar"));
+            Assert.That(((ReplaceCaseAction)result).Values, Has.Member(""));
+        }
+
+        [Test]
+        public void SentenceParser_CaseReplaceSpecialWithcondition_ValidReplaceAction()
+        {
+            var input = "case replace column 'alpha' with values none when values not equal 'foo', empty, 'bar';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<ReplaceCaseAction>());
+            Assert.That(((ReplaceCaseAction)result).Column, Is.EqualTo("alpha"));
+            Assert.That(((ReplaceCaseAction)result).NewValue, Is.EqualTo("(none)"));
+            Assert.That(((ReplaceCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
+            Assert.That(((ReplaceCaseAction)result).Negation, Is.True);
+            Assert.That(((ReplaceCaseAction)result).Values, Has.Member("foo"));
+            Assert.That(((ReplaceCaseAction)result).Values, Has.Member("bar"));
+            Assert.That(((ReplaceCaseAction)result).Values, Has.Member(""));
         }
     }
 }

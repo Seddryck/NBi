@@ -225,5 +225,36 @@ namespace NBi.Service
             csvWriter.Write(Content, filename);
         }
 
+
+        public void Replace(string columnName, string newValue)
+        {
+            if (!variables.Contains(columnName))
+                throw new ArgumentException(string.Format("No column named '{0}' has been found.", columnName));
+
+            var index = variables.IndexOf(columnName);
+
+            foreach (DataRow row in Content.Rows)
+                row[index] = newValue;
+
+            Content.AcceptChanges();
+        }
+
+        public void Replace(string columnName, string newValue, Operator @operator, bool negation, IEnumerable<string> values)
+        {
+            if (!variables.Contains(columnName))
+                throw new ArgumentException(string.Format("No column named '{0}' has been found.", columnName));
+
+            AssignCompareMultiple(@operator);
+
+            var index = variables.IndexOf(columnName);
+
+            foreach (DataRow row in Content.Rows)
+            {
+                if (compareMultiple(row[index].ToString(), values) != negation)
+                    row[index] = newValue;
+            }
+
+            Content.AcceptChanges();
+        }
     }
 }

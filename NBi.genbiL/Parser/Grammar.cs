@@ -19,15 +19,20 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<IEnumerable<string>> RecordSequence = Record.DelimitedBy(Parse.Char(','));
         public static readonly Parser<IEnumerable<string>> QuotedRecordSequence = QuotedTextual.DelimitedBy(Parse.Char(','));
         public static readonly Parser<IEnumerable<string>> ExtendedQuotedRecordSequence = ExtendedQuotedTextual.DelimitedBy(Parse.Char(','));
-        public static readonly Parser<ValuableType> ValuableColumn = Parse.IgnoreCase("Columns").Or(Parse.IgnoreCase("Column")).Return(ValuableType.Column).Token();
-        public static readonly Parser<ValuableType> ValuableValue = Parse.IgnoreCase("Values").Or(Parse.IgnoreCase("Value")).Return(ValuableType.Value).Token();
-        public static readonly Parser<ValuableType> ValuableClass = ValuableColumn.Or(ValuableValue);
-        public static readonly Parser<IEnumerable<IValuable>> Valuables = 
+
+        public static readonly Parser<IEnumerable<IValuable>> ValuableColumns = 
         (
-            from valuableClass in Grammar.ValuableClass
-            from items in Grammar.ExtendedQuotedRecordSequence
-            select new ValuableBuilder().Build(valuableClass, items)
+            from valuableClass in Parse.IgnoreCase("Columns").Or(Parse.IgnoreCase("Column"))
+            from items in Grammar.QuotedRecordSequence
+            select new ValuableBuilder().Build(ValuableType.Column, items)
         );
+        public static readonly Parser<IEnumerable<IValuable>> ValuableValues = 
+        (
+            from valuableClass in Parse.IgnoreCase("Values").Or(Parse.IgnoreCase("Value"))
+            from items in Grammar.ExtendedQuotedRecordSequence
+            select new ValuableBuilder().Build(ValuableType.Value, items)
+        );
+        public static readonly Parser<IEnumerable<IValuable>> Valuables = ValuableColumns.Or(ValuableValues);
 
         public static readonly Parser<char> Terminator = Parse.Char(';').Token();
         public static readonly Parser<bool> Boolean = Parse.IgnoreCase("on").Return(true)

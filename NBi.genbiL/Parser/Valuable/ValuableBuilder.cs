@@ -12,15 +12,18 @@ namespace NBi.GenbiL.Parser.Valuable
         {
             foreach (var item in items)
             {
-                switch (type)
-                {
-                    case ValuableType.Value: yield return new Value(item);
-                        break;
-                    case ValuableType.Column: yield return new Column(item);
-                        break;
-                    default:
-                        throw new ArgumentException();
-                }
+                yield return Build(type, item);
+            }
+        }
+
+        public IValuable Build(ValuableType type, string item)
+        {
+            switch (type)
+            {
+                case ValuableType.Value: return new Value(item);
+                case ValuableType.Column: return new Column(item);
+                default:
+                    throw new ArgumentException();
             }
         }
     }

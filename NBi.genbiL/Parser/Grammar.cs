@@ -32,6 +32,20 @@ namespace NBi.GenbiL.Parser
             from items in Grammar.ExtendedQuotedRecordSequence
             select new ValuableBuilder().Build(ValuableType.Value, items)
         );
+        public static readonly Parser<IValuable> ValuableColumn =
+        (
+            from valuableClass in Parse.IgnoreCase("Columns").Or(Parse.IgnoreCase("Column"))
+            from item in Grammar.QuotedTextual
+            select new ValuableBuilder().Build(ValuableType.Column, item)
+        );
+        public static readonly Parser<IValuable> ValuableValue =
+        (
+            from valuableClass in Parse.IgnoreCase("Values").Or(Parse.IgnoreCase("Value"))
+            from item in Grammar.QuotedTextual
+            select new ValuableBuilder().Build(ValuableType.Value, item)
+        );
+
+
         public static readonly Parser<IEnumerable<IValuable>> Valuables = ValuableColumns.Or(ValuableValues);
 
         public static readonly Parser<char> Terminator = Parse.Char(';').Token();

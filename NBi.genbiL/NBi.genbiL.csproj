@@ -51,6 +51,7 @@
     </Compile>
     <Compile Include="Action\AxisType.cs" />
     <Compile Include="Action\Case\CrossVectorCaseAction.cs" />
+    <Compile Include="Action\Case\ConcatenateCaseAction.cs" />
     <Compile Include="Action\Case\ReplaceCaseAction.cs" />
     <Compile Include="Action\Case\MergeCaseAction.cs" />
     <Compile Include="Action\Case\AddCaseAction.cs" />
@@ -77,7 +78,9 @@
     <Compile Include="Action\Suite\SaveSuiteAction.cs" />
     <Compile Include="Action\Suite\ISuiteAction.cs" />
     <Compile Include="Action\Template\ITemplateAction.cs" />
+    <Compile Include="Parser\Valuable\Column.cs" />
     <Compile Include="Parser\Comment.cs" />
+    <Compile Include="Parser\Valuable\IValuable.cs" />
     <Compile Include="Parser\Recipe.cs" />
     <Compile Include="Parser\Setting.cs" />
     <Compile Include="Action\Setting\DefaultAction.cs" />
@@ -92,6 +95,8 @@
     <Compile Include="Parser\Template.cs" />
     <Compile Include="Parser\Grammar.cs" />
     <Compile Include="Parser\Keyword.cs" />
+    <Compile Include="Parser\Valuable\ValuableBuilder.cs" />
+    <Compile Include="Parser\Valuable\Value.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="TestSuiteGenerator.cs" />
   </ItemGroup>

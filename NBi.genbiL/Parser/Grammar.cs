@@ -45,7 +45,7 @@ namespace NBi.GenbiL.Parser
             select new ValuableBuilder().Build(ValuableType.Value, item)
         );
 
-
+        public static readonly Parser<IValuable> Valuable = ValuableColumn.Or(ValuableValue);
         public static readonly Parser<IEnumerable<IValuable>> Valuables = ValuableColumns.Or(ValuableValues);
 
         public static readonly Parser<char> Terminator = Parse.Char(';').Token();

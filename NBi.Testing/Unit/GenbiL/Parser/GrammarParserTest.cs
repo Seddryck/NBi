@@ -5,6 +5,7 @@ using NBi.GenbiL.Parser;
 using NBi.Service;
 using NUnit.Framework;
 using Sprache;
+using NBi.GenbiL.Parser.Valuable;
 
 namespace NBi.Testing.Unit.GenbiL.Parser
 {
@@ -53,6 +54,81 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Has.Member("alpha"));
             Assert.That(result, Has.Member("beta"));
             Assert.That(result.Count(), Is.EqualTo(4));
+        }
+
+        [Test]
+        public void Valuable_ColumnName_ReturnColumn()
+        {
+            var input = "column 'alpha'";
+            var result = Grammar.Valuables.Parse(input);
+
+            Assert.That(result.Count(), Is.EqualTo(1));
+            Assert.That(result.ElementAt(0), Is.TypeOf<Column>());
+            Assert.That(((Column)(result.ElementAt(0))).Name, Is.EqualTo("alpha"));
+        }
+
+        [Test]
+        public void Valuable_ColumnNameWithPluralAtColumn_ReturnColumn()
+        {
+            var input = "columns 'alpha'";
+            var result = Grammar.Valuables.Parse(input);
+
+            Assert.That(result.Count(), Is.EqualTo(1));
+            Assert.That(result.ElementAt(0), Is.TypeOf<Column>());
+            Assert.That(((Column)(result.ElementAt(0))).Name, Is.EqualTo("alpha"));
+        }
+
+        [Test]
+        public void Valuable_ThreeColumnNames_ReturnColumns()
+        {
+            var input = "column 'alpha','beta', 'gamma'";
+            var result = Grammar.Valuables.Parse(input);
+
+            
+
+            Assert.That(result.Count(), Is.EqualTo(3));
+            foreach (var item in result)
+                Assert.That(item, Is.TypeOf<Column>());
+
+            var names = result.Select(x => ((Column)x).Name);
+            Assert.That(names, Is.EquivalentTo(new[] { "alpha", "beta", "gamma" }));
+        }
+
+        [Test]
+        public void Valuable_ValueName_ReturnValue()
+        {
+            var input = "Value 'alpha'";
+            var result = Grammar.Valuables.Parse(input);
+
+            Assert.That(result.Count(), Is.EqualTo(1));
+            Assert.That(result.ElementAt(0), Is.TypeOf<Value>());
+            Assert.That(((Value)(result.ElementAt(0))).Text, Is.EqualTo("alpha"));
+        }
+
+        [Test]
+        public void Valuable_ValueNameWithPluralAtValue_ReturnValue()
+        {
+            var input = "Values 'alpha'";
+            var result = Grammar.Valuables.Parse(input);
+
+            Assert.That(result.Count(), Is.EqualTo(1));
+            Assert.That(result.ElementAt(0), Is.TypeOf<Value>());
+            Assert.That(((Value)(result.ElementAt(0))).Text, Is.EqualTo("alpha"));
+        }
+
+        [Test]
+        public void Valuable_ThreeValueNames_ReturnValues()
+        {
+            var input = "vAlues 'alpha','beta', 'gamma'";
+            var result = Grammar.Valuables.Parse(input);
+
+
+            Assert.That(result.Count(), Is.EqualTo(3));
+            foreach (var item in result)
+                Assert.That(item, Is.TypeOf<Value>());
+
+            var names = result.Select(x => ((Value)x).Text);
+            Assert.That(names, Is.EquivalentTo(new[] { "alpha", "beta", "gamma" }));
         }
 
     }

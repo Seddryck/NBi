@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="The Row-Count TestSuite" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+		</default>
+	</settings>
+	<test name="Equal" uid="0000">
+		<system-under-test>
+			<execution>
+				<query name="Select first departments">
+					select top 2 [DepartmentID], [Name], [GroupName] from [HumanResources].[Department] order by Name
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+      <row-count>
+        <equal>2</equal>
+      </row-count>
+		</assert>
+	</test>
+  <test name="Less-than" uid="0001">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select top 2 [DepartmentID], [Name], [GroupName] from [HumanResources].[Department] order by Name
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <row-count>
+        <less-than>3</less-than>
+      </row-count>
+    </assert>
+  </test>
+  <test name="More-than" uid="0002">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select top 2 [DepartmentID], [Name], [GroupName] from [HumanResources].[Department] order by Name
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <row-count>
+        <more-than not="true" or-equal="true">3</more-than>
+      </row-count>
+    </assert>
+  </test>
+</testSuite>

@@ -119,6 +119,7 @@ namespace NBi.Xml
         XmlArrayItem(Type = typeof(MatchPatternXml), ElementName = "matchPattern"),
         XmlArrayItem(Type = typeof(EvaluateRowsXml), ElementName = "evaluate-rows"),
         XmlArrayItem(Type = typeof(SuccessfulXml), ElementName = "successful"),
+        XmlArrayItem(Type = typeof(RowCountXml), ElementName = "row-count"),
         ]
         public List<AbstractConstraintXml> Constraints;
 

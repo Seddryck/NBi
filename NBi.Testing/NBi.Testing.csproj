@@ -231,6 +231,7 @@
     <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\RowCountXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\SucessfulXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\EvaluateRowsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\MatchPatternXmlTest.cs" />
@@ -551,6 +552,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\RowCountXmlTestSuite.xml" />
     <None Include="Acceptance\GenbiL\Resources\dimension.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

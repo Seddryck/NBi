@@ -659,5 +659,40 @@ namespace NBi.Testing.Unit.NUnit
             Assert.That(tc, Is.Not.Null);
             builderMockFactory.VerifyAll();
         }
+
+        [Test]
+        public void IsHandling_QueryRowCount_True()
+        {
+            var sutXml = new ExecutionXml();
+            var ctrXml = new RowCountXml();
+            var testCaseFactory = new TestCaseFactory();
+
+            var actual = testCaseFactory.IsHandling(sutXml.GetType(), ctrXml.GetType());
+
+            Assert.That(actual, Is.True);
+        }
+
+        [Test]
+        public void Instantiate_QueryRowCount_TestCase()
+        {
+            var sutXml = new ExecutionXml();
+            var ctrXml = new RowCountXml();
+
+            var builderMockFactory = new Mock<ITestCaseBuilder>();
+            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml));
+            builderMockFactory.Setup(b => b.Build());
+            builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new SqlCommand());
+            builderMockFactory.Setup(b => b.GetConstraint()).Returns(new NBi.NUnit.Execution.RowCountConstraint(null));
+            var builder = builderMockFactory.Object;
+
+            var testCaseFactory = new TestCaseFactory();
+            testCaseFactory.Register(typeof(ExecutionXml), typeof(RowCountXml), builder);
+
+            var tc = testCaseFactory.Instantiate(sutXml, ctrXml);
+
+            Assert.That(tc, Is.Not.Null);
+            builderMockFactory.VerifyAll();
+
+        }
     }
 }

@@ -71,6 +71,7 @@
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionNonQueryBuilder.cs" />
+    <Compile Include="Builder\ExecutionRowCountBuilder.cs" />
     <Compile Include="Builder\ExecutionFasterThanChooser.cs" />
     <Compile Include="Builder\ExecutionNonQuerySuccessfulBuilder.cs" />
     <Compile Include="Builder\ExecutionNonQueryFasterThanBuilder.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Builder\ITestCaseBuilder.cs" />
     <Compile Include="Builder\MembersCountBuilder.cs" />
     <Compile Include="Builder\ExecutionEqualToBuilder.cs" />
+    <Compile Include="Execution\RowCountConstraint.cs" />
     <Compile Include="Execution\FasterThanConstraint.cs" />
     <Compile Include="Execution\SuccessfulConstraint.cs" />
     <Compile Include="Member\AbstractMembersConstraint.cs" />

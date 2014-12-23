@@ -1,0 +1,49 @@
+! Group tests cases by categories (manual or automatic)
+NBi supports to assign categories to tests. The Category attribute provides an alternative to suites for dealing with groups of tests. 
+
+Both Gallio and NUnit test runners allow specifying a list of categories to be included in or excluded from the run. When categories are used, only the tests in the selected categories will be run. Those tests in categories that are not selected are not reported at all.
+
+For NUnit, This feature is accessible by use of the /include and /exclude arguments to the console runner and through a separate "Categories" tab in the gui. The gui provides a visual indication of which categories are selected at any time.
+
+!! Manually-defined categories
+To manually add a category to your test you must use the category element in your xml definition.
+{code:xml}
+<test name="test's name">
+    <category>Critical</category>
+    <system-under-test>
+        ...
+    </system-under-test>
+    <assert>
+        ...
+    </assert>
+</test>
+{code:xml}
+You can add several categories to your test by providing more than one category element. Following samples add two categories named "Critical" and "New feature release 5.2"
+{code:xml}
+<test name="test's name">
+    <category>Critical</category>
+    <category>New feature release 5.2</category>
+    <system-under-test>
+        ...
+    </system-under-test>
+    <assert>
+        ...
+    </assert>
+</test>
+{code:xml}
+!! Automatic categories
+According to our experience, it's usually helpful to add categories based on the type of test (structure, members, query) or based on the kind of item system-under-test (dimensions, hierarchies, ...) or all the tests related to a specific item (one dimension or one measure-group).
+
+NBi will automatically add a few of these categories to your test at runtime. It means that you haven't to add them to your tests but they are available in your test runner and are displayed in your reports. By default this feature is enabled but your disabled it in the config file of your test-suite.
+
+To specify that you don't want to automatically generate additional categories for your tests, add the following attribute to your config file: enableAutoCategories="false".
+{code:xml}
+<configuration>
+    <configSections>
+        <section name="nbi" type="NBi.NUnit.Runtime.NBiSection, NBi.NUnit.Runtime"/>
+    </configSections>
+    <nbi testSuite="SubDirectory\myTestSuite.nbits" enableAutoCategories="false"/>
+</configuration>
+{code:xml}
+
+Note that the framework NUnit doesn't support categories with an hyphen in the name. NBi will automatically replace all your hyphens by underscore to avoid any issue with your categories.	

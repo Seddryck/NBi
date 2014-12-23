@@ -12,9 +12,5 @@ namespace NBi.Xml.Constraints.Comparer
     {
         [XmlText]
         public int Value { get; set; }
-
-        [XmlAttribute("not")]
-        [DefaultValue(false)]
-        public bool Not { get; set; }
     }
 }

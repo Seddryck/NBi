@@ -720,6 +720,7 @@
                   <xs:element name="more-than" type="more-less-type" minOccurs="0" maxOccurs="1"/>
                   <xs:element name="equal" type="comparer-type" minOccurs="0" maxOccurs="1"/>
                 </xs:choice>
+                <xs:attribute name="not" type="xs:boolean" use="optional"/>
               </xs:complexType>
             </xs:element>
           </xs:choice>
@@ -838,9 +839,7 @@
   </xs:complexType>
   <xs:complexType name="comparer-type">
     <xs:simpleContent>
-      <xs:extension base="xs:positiveInteger">
-        <xs:attribute name="not" type="xs:boolean" use="optional" />
-      </xs:extension>
+      <xs:extension base="xs:positiveInteger"/>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="more-less-type">

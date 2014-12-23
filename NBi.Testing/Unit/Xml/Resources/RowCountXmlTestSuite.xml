@@ -41,9 +41,9 @@
         </query>
       </execution>
     </system-under-test>
-    <assert>
-      <row-count>
-        <more-than not="true" or-equal="true">3</more-than>
+    <assert  >
+      <row-count not="true">
+        <more-than or-equal="true">3</more-than>
       </row-count>
     </assert>
   </test>

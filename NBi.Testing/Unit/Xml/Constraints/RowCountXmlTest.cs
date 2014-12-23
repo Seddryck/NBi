@@ -66,6 +66,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<RowCountXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0].Not, Is.False);
         }
 
          [Test]
@@ -82,7 +83,6 @@ namespace NBi.Testing.Unit.Xml.Constraints
             
             var comparer = rowCount.Equal as AbstractComparerXml;
             Assert.That(comparer.Value, Is.EqualTo(2));
-            Assert.That(comparer.Not, Is.False);
         }
 
          [Test]
@@ -99,7 +99,6 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             var comparer = rowCount.Comparer as AbstractMoreLessThanXml;
             Assert.That(comparer.Value, Is.EqualTo(3));
-            Assert.That(comparer.Not, Is.False);
             Assert.That(comparer.OrEqual, Is.False);
         }
 
@@ -111,13 +110,13 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
             var rowCount = ts.Tests[testNr].Constraints[0] as RowCountXml;
+            Assert.That(rowCount.Not, Is.True);
             Assert.That(rowCount.MoreThan, Is.Not.Null);
             Assert.That(rowCount.MoreThan, Is.TypeOf<MoreThanXml>());
             Assert.That(rowCount.Comparer, Is.EqualTo(rowCount.MoreThan));
 
             var comparer = rowCount.Comparer as AbstractMoreLessThanXml;
             Assert.That(comparer.Value, Is.EqualTo(3));
-            Assert.That(comparer.Not, Is.True);
             Assert.That(comparer.OrEqual, Is.True);
         }
     }

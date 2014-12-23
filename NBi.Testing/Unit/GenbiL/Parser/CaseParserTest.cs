@@ -436,6 +436,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(((ConcatenateCaseAction)result).Valuables.Select(x => x.Display), Is.EquivalentTo(new[] {"column 'foo'", "column 'bar'"}));
         }
 
+        [Test]
         public void SentenceParser_CaseConcatenateValue_ValidConcatenateAction()
         {
             var input = "case concatenate column 'alpha' with value 'foo';";
@@ -446,5 +447,19 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(((ConcatenateCaseAction)result).ColumnName, Is.EqualTo("alpha"));
             Assert.That(((ConcatenateCaseAction)result).Valuables.Select(x => x.Display), Is.EquivalentTo(new[] { "value 'foo'" }));
         }
+
+        [Test]
+        public void SentenceParser_CaseSubstituteValue_ValidSubstituteAction()
+        {
+            var input = "case substitute into column 'beta' column 'alpha' with value 'foo';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<SubstituteCaseAction>());
+            Assert.That(((SubstituteCaseAction)result).ColumnName, Is.EqualTo("beta"));
+            Assert.That(((SubstituteCaseAction)result).OldText.Display, Is.EqualTo("column 'alpha'"));
+            Assert.That(((SubstituteCaseAction)result).NewText.Display, Is.EqualTo("value 'foo'"));
+        }
+
     }
 }

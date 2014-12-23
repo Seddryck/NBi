@@ -188,6 +188,7 @@
     <Compile Include="Unit\GenbiL\Action\Case\MergeCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\AddCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\GrammarParserTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ExecutionRowCountBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ExecutionMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersEquivalentToBuilderTest.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="Unit\NUnit\Builder\MembersOrderedBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersCountBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Execution\RowCountConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Execution\SuccessfulConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Execution\FasterThanConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\CountConstraintTest.cs" />
@@ -296,6 +298,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToWithParameter.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryRowCount.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Acceptance\Resources\Reports\EmployeeSalesDetail.rsd">

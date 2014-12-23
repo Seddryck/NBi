@@ -204,6 +204,18 @@ namespace NBi.GenbiL.Parser
                 select new ConcatenateCaseAction(columnName, valuables)
         );
 
+        readonly static Parser<ICaseAction> caseSubstituteParser =
+        (
+                from substitute in Keyword.Substitute
+                from intoKeyword in Keyword.Into
+                from axisType in Parse.IgnoreCase("Column").Token()
+                from columnName in Grammar.QuotedTextual
+                from oldText in Grammar.Valuable
+                from withKeyword in Keyword.With
+                from newText in Grammar.Valuable
+                select new SubstituteCaseAction(columnName, oldText, newText)
+        );
+
         readonly static Parser<ICaseAction> caseReplaceSimpleParser =
         (
                 from replace in Keyword.Replace
@@ -253,6 +265,7 @@ namespace NBi.GenbiL.Parser
                                     .Or(caseReplaceComplexParser)
                                     .Or(caseReplaceSimpleParser)
                                     .Or(caseConcatenateParser)
+                                    .Or(caseSubstituteParser)
                 select action
         );
     }

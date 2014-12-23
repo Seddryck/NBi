@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
+		</default>
+	</settings>
+	<test name="All departments have a correct format" uid="0001">
+		<system-under-test>
+			<members children-of="Corporate">
+				<level caption="Departments" hierarchy="Departments" dimension="Department" perspective="Adventure Works"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<matchPattern>
+				<regex>^\s*[a-zA-Z,\s]+\s*$</regex>
+			</matchPattern>
+		</assert>
+	</test>
+</testSuite>

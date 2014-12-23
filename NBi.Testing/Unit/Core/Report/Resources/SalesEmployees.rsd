@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition">
+  <DataSet Name="">
+    <Query>
+      <DataSourceReference>AdventureWorks2012</DataSourceReference>
+      <CommandText>SELECT s.[BusinessEntityID], p.[FirstName] + N' ' + p.LastName AS Employee, e.[JobTitle]
+FROM [Sales].[SalesPerson] s
+   INNER JOIN [HumanResources].[Employee] e ON e.[BusinessEntityID] = s.[BusinessEntityID]
+   INNER JOIN [Person].[Person] p ON p.[BusinessEntityID] = s.[BusinessEntityID]</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="BusinessEntityID">
+        <DataField>BusinessEntityID</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="Employee">
+        <DataField>Employee</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="JobTitle">
+        <DataField>JobTitle</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

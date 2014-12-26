@@ -10,8 +10,14 @@ using NBi.Xml.Constraints;
 
 namespace NBi.Xml.Items
 {
-    public class ReportXml : ReportBaseXml, IReferenceFriendly
+    public class ReportXml : QueryableXml, IReferenceFriendly
     {
+        [XmlAttribute("source")]
+        public string Source { get; set; }
+
+        [XmlAttribute("path")]
+        public string Path { get; set; }
+        
         [XmlAttribute("name")]
         public string Name { get; set; }
 
@@ -71,6 +77,11 @@ namespace NBi.Xml.Items
 
         public void AssignReferences(IEnumerable<ReferenceXml> references)
         {
+            if (string.IsNullOrEmpty(Source))
+                Source = Default.Report.Source;
+            if (string.IsNullOrEmpty(Path))
+                Path = Default.Report.Path;
+
             if (!string.IsNullOrEmpty(Source) && Source.StartsWith("@"))
                 Source = InitializeFromReferences(references, Source, "source");
             if (!string.IsNullOrEmpty(Path) && Path.StartsWith("@"))

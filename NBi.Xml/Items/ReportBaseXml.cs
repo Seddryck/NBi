@@ -8,7 +8,7 @@ using NBi.Core.Report;
 
 namespace NBi.Xml.Items
 {
-    public class ReportBaseXml : QueryableXml
+    public class ReportBaseXml
     {
         [XmlAttribute("source")]
         public string Source { get; set; }
@@ -16,9 +16,9 @@ namespace NBi.Xml.Items
         [XmlAttribute("path")]
         public string Path { get; set; }
 
-        public override string GetQuery()
+        public ReportBaseXml()
         {
-            throw new NotImplementedException();
+
         }
     }
 }

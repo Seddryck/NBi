@@ -128,6 +128,9 @@ namespace NBi.Xml
             {
                 sut.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.SystemUnderTest);
                 sut.Settings = TestSuite.Settings;
+                if (sut is IReferenceFriendly && TestSuite.Settings != null)
+                    ((IReferenceFriendly)sut).AssignReferences(TestSuite.Settings.References);
+                
             }
             foreach (var ctr in test.Constraints)
             {

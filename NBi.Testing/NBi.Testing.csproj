@@ -513,7 +513,9 @@
     <EmbeddedResource Include="Unit\Xml\Resources\MatchPatternXmlWithReferenceTestSuite.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\ReportXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\ReportXmlTestSuite.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\Resources\EvaluateRowsXmlTestSuite.xml" />

@@ -3,6 +3,10 @@
 	<settings>
 		<default apply-to="system-under-test">
 			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <report>
+        source="http://new.reports.com/reports"
+        path = "Details"
+      </report>
 		</default>
     <reference name="MainReports">
       <report
@@ -64,7 +68,32 @@
   <test name="Reference" uid="0003">
     <system-under-test>
       <execution>
-        <report ref="MainReports"
+        <report source="@MainReports"
+            path="@MainReports"
+						name="Currency Rates"
+						dataset="DataSet1"
+				>
+          <parameter name="Currencies">EURO, American Dollar</parameter>
+        </report>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet>
+          <row>
+            <cell>EURO</cell>
+          </row>
+          <row>
+            <cell>American Dollar</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+  </test>
+  <test name="Reference" uid="0004">
+    <system-under-test>
+      <execution>
+        <report
 						name="Currency Rates"
 						dataset="DataSet1"
 				>

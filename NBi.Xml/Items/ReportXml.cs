@@ -12,10 +12,6 @@ namespace NBi.Xml.Items
 {
     public class ReportXml : ReportBaseXml, IReferenceFriendly
     {
-
-        [XmlAttribute("ref")]
-        public string Reference { get; set; }
-
         [XmlAttribute("name")]
         public string Name { get; set; }
 
@@ -75,27 +71,27 @@ namespace NBi.Xml.Items
 
         public void AssignReferences(IEnumerable<ReferenceXml> references)
         {
-            if (!string.IsNullOrEmpty(Reference))
-                InitializeFromReferences(references, Reference);
+            if (!string.IsNullOrEmpty(Source) && Source.StartsWith("@"))
+                Source = InitializeFromReferences(references, Source, "source");
+            if (!string.IsNullOrEmpty(Path) && Path.StartsWith("@"))
+                Path = InitializeFromReferences(references, Path, "path");
         }
 
-        protected virtual void InitializeFromReferences(IEnumerable<ReferenceXml> references, string value)
+        protected virtual string InitializeFromReferences(IEnumerable<ReferenceXml> references, string refName, string attribute)
         {
-            var refChoice = GetReference(references, value);
+            if (refName.StartsWith("@"))
+                refName = refName.Substring(1);
+
+            var refChoice = GetReference(references, refName);
 
             if (refChoice.Report == null)
-                throw new NullReferenceException(string.Format("A reference named '{0}' has been found, but no element 'report' has been defined", value));
+                throw new NullReferenceException(string.Format("A reference named '{0}' has been found, but no element 'report' has been defined", refName));
 
-            Initialize(refChoice.Report);
-        }
-
-        protected void Initialize(ReportBaseXml reference)
-        {
-            if (string.IsNullOrEmpty(Source))
-                Source = reference.Source;
-            
-            if (string.IsNullOrEmpty(Path))
-                Path = reference.Path;
+            if (attribute=="source")
+                return refChoice.Report.Source;
+            if (attribute=="path")
+                return refChoice.Report.Path;
+            throw new ArgumentOutOfRangeException();
         }
 
         protected ReferenceXml GetReference(IEnumerable<ReferenceXml> references, string value)

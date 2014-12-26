@@ -138,7 +138,6 @@
         </xs:sequence>
         <xs:attribute name="name" type="xs:string"/>
         <xs:attribute name="dataset" type="xs:string"/>
-        <xs:attribute name="ref" type="xs:string"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

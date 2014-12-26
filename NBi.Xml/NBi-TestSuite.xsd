@@ -41,6 +41,7 @@
       </xs:element>
       <xs:element type="parameter-type" minOccurs="0" maxOccurs="unbounded" name="parameter"/>
       <xs:element type="variable-type" minOccurs="0" maxOccurs="unbounded" name="variable"/>
+      <xs:element type="report-base-type" minOccurs="0" maxOccurs="1" name="report"/>
     </xs:sequence>
     <xs:attribute name="apply-to" use="required">
       <xs:simpleType>

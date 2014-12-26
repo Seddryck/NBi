@@ -130,7 +130,7 @@ namespace NBi.Testing.Unit.Xml.Items
         [Test]
         public void Deserialize_ReportWithDefault_ReportXml()
         {
-            int testNr = 2;
+            int testNr = 3;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
@@ -142,6 +142,26 @@ namespace NBi.Testing.Unit.Xml.Items
             Assert.That(report, Is.Not.Null);
             Assert.That(report.Source, Is.EqualTo(@"http://new.reports.com/reports"));
             Assert.That(report.Path, Is.EqualTo("Details"));
+            Assert.That(report.Name, Is.EqualTo("Currency Rates"));
+            Assert.That(report.Dataset, Is.EqualTo("DataSet1"));
+            Assert.That(report.GetConnectionString(), Is.EqualTo(@"Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"));
+        }
+
+        [Test]
+        public void Deserialize_ReportWithMixDefaultReference_ReportXml()
+        {
+            int testNr = 4;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ExecutionXml>());
+            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem, Is.TypeOf<ReportXml>());
+            var report = (ReportXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
+
+            Assert.That(report, Is.Not.Null);
+            Assert.That(report.Source, Is.EqualTo(@"http://new.reports.com/reports"));
+            Assert.That(report.Path, Is.EqualTo("alternate"));
             Assert.That(report.Name, Is.EqualTo("Currency Rates"));
             Assert.That(report.Dataset, Is.EqualTo("DataSet1"));
             Assert.That(report.GetConnectionString(), Is.EqualTo(@"Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"));

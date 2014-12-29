@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<settings>
+	<default apply-to="system-under-test">
+		<connectionString>My Sut Default Connection String</connectionString>
+	</default>
+	<reference name="MyReference">
+		<connectionString>My Reference Connection String</connectionString>
+	</reference>
+</settings>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="NBi-TestSuite" xmlns="http://NBi/TestSuite" xmlns:mstns="http://NBi/TestSuite.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://NBi/TestSuite">
+  <xs:include schemaLocation="BaseType.xsd"/>
+  <xs:element name="testSuite">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="settings" type="settings-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="test" type="test-type" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element name="group" type="group-type" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="optional" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

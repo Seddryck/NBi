@@ -1,0 +1,87 @@
+! Test calculations in a result set
+In some result-sets, it's possible to check the result of one field based on the values of other fields of the same row. To illustrate this, imagine a result set with the UnitPrice and the Quantity for each product bought on a shop but also a third field returning the Price to pay. This last field is equal to UnitPrice multiplied by Quantity ... well at least you hope that it's the case for each line but you're not sure ... and you probably want to test it!
+
+This test will let you define an expression which must be validated by each row of the dataset returned by a query. If at least one row of the result set doesn't validate one of the expression defined in the test, the test is failed.
+
+!! System-under-test
+The system-under-test is a query, please reports to other tests for more information about how to define a query.
+
+!! Assert
+The assertion consists of an xml element _evaluate-rows_ embedding two xml elements defining the columns to check and the columns with pertinent values for these checks.
+{codexml}
+ assert  
+	evaluate-rows  
+                 variable ... 
+			...
+                 expression ... 
+	evaluate-rows  
+assert  
+{codexml}
+
+The xml element _variable_ contains information about a column that will be used in the calculation that you'll achieved. You must define for this column the column-index (reminder the first column has an index of 0) and the name of the variable (this name will be used in the calculations).
+{codexml}
+ assert  
+	evaluate-rows  
+		variable column-index=2OrderQuantityvariable
+		variable column-index=3UnitPricevariable
+		variable column-index=4UnitDiscountvariable
+                ...
+	evaluate-rows  
+assert  
+{codexml}
+
+The xml element _expression_ contains the expression that will be evaluated and the operator. 
+
+The operator defines the comparison that will be executed between the result of the evaluation of an expression and the corresponding cell in the result set. Currently you've the choice between two operators
+ = means that to validate the expression the result of the calculation must match with the value retrieved in the result set.
+ !=  means that to validate the expression the result of the calculation must differ with the value retrieved in the result set.
+
+The operator must be followed by a valid expression. An expression makes usage of the variables defined previously in your test and combines them with standard mathematical operators such as +,-,, but also more advanced functions such as Abs, Cos, Sin, ... The list of functions supported in an expression is defined in the documentation of the library used by NBi to cover this feature [documentation NCalchttpsncalc.codeplex.comwikipagetitle=functions&referringTitle=values]
+
+In addition, to the expression and the operator, you must specify the _column-index_. See above for more information.
+
+If you want you can also specify the _type_ returned by the expression (more info about types [Column’s typesResult set's comparison configuration]). It's also possible to specify a tolerance (more info about tolerance [ToleranceResult set's comparison configuration])
+
+{codexml}
+ assert  
+	evaluate-rows  
+		...
+		expression column-index=5 type=numeric tolerance=0.01
+                               = OrderQuantity(UnitPrice-(UnitPriceUnitDiscount))
+                expression
+	evaluate-rows  
+assert  
+{codexml}
+
+!! Full sample
+{codexml}
+test name=Validation calculation of LineTotal uid=0001
+		system-under-test
+			execution
+				query
+					select top 100
+						SalesOrderID
+						, [CarrierTrackingNumber]
+						, OrderQty
+						, UnitPrice
+						, UnitPriceDiscount
+						, LineTotal
+					from
+						Sales.SalesOrderDetail
+					where
+						UnitPriceDiscount0
+				query
+			execution
+		system-under-test
+		assert
+			evaluate-rows
+				variable column-index=2OrderQuantityvariable
+				variable column-index=3UnitPricevariable
+				variable column-index=4UnitDiscountvariable
+				expression column-index=5 type=numeric tolerance=0.01
+                                            = OrderQuantity(UnitPrice-(UnitPriceUnitDiscount))
+                                expression
+			evaluate-rows
+		assert
+	test
+{codexml}

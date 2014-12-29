@@ -294,24 +294,25 @@ namespace NBi.Xml
             if (xsdInfo!=null)
             {
                 settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings;
-                using (Stream stream = Assembly.GetExecutingAssembly()
-                                               .GetManifestResourceStream(xsdInfo.ResourceName))
-                {
-                    settings.Schemas.Add(xsdInfo.TargetNamespace, XmlReader.Create(stream));
-                    settings.Schemas.Compile();
-                }
+
+                foreach (var ressourceName in xsdInfo.ResourceNames)
+                    using (Stream stream = Assembly.GetExecutingAssembly()
+                                                   .GetManifestResourceStream(ressourceName))
+                        settings.Schemas.Add(xsdInfo.TargetNamespace, XmlReader.Create(stream));
+                
+                settings.Schemas.Compile();
             }
             return settings;
         }
 
         private class XsdInfo
         {
-            public string ResourceName { get; set; }
+            public IEnumerable<string> ResourceNames { get; set; }
             public string TargetNamespace { get; set; }
 
-            private XsdInfo(string resourceName, string targetNamespace)
+            private XsdInfo(IEnumerable<string> resourceNames, string targetNamespace)
             {
-                ResourceName = resourceName;
+                ResourceNames = resourceNames;
                 TargetNamespace= targetNamespace;
             }
 
@@ -319,7 +320,13 @@ namespace NBi.Xml
             {
                 get
                 {
-                    return new XsdInfo("NBi.Xml.NBi-TestSuite.xsd", "http://NBi/TestSuite");
+                    return new XsdInfo
+                    (
+                        new [] 
+                            {"NBi.Xml.Schema.BaseType.xsd"
+                            , "NBi.Xml.Schema.TestSuite.xsd"}
+                        , "http://NBi/TestSuite"
+                    );
                 }
             }
         }

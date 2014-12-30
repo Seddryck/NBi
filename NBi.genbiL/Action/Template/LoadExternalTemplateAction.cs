@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.IO;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.GenbiL.Action.Template
 {

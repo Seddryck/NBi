@@ -7,7 +7,7 @@ using NBi.Service.Dto;
 
 namespace NBi.UI.Genbi.Stateful
 {
-    class TestSuiteState
+    class ApplicationState
     {
         public BindingList<string> Variables { get; private set; }
         public BindingList<string> ConnectionStringNames { get; private set; }
@@ -16,7 +16,7 @@ namespace NBi.UI.Genbi.Stateful
         public LargeBindingList<Test> Tests { get; private set; }
         public BindingList<Setting> Settings { get; private set; }
 
-        public TestSuiteState()
+        public ApplicationState()
         {
             Variables = new BindingList<string>();
             ConnectionStringNames = new BindingList<string>();

@@ -2,6 +2,7 @@
 using System.Linq;
 using NBi.GenbiL.Action.Case;
 using System.IO;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.GenbiL.Action.Template
 {

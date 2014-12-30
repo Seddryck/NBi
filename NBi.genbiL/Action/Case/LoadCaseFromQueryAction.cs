@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NBi.Service;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.GenbiL.Action.Case
 {

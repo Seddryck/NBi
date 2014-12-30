@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NBi.Xml.Settings;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.GenbiL.Action.Setting
 {

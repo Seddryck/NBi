@@ -6,6 +6,7 @@ using NBi.GenbiL.Parser;
 using NBi.Xml;
 using Sprache;
 using System.IO;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.GenbiL
 {

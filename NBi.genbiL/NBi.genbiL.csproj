@@ -93,7 +93,7 @@
     <Compile Include="Action\Setting\ReferenceAction.cs" />
     <Compile Include="Action\Suite\GenerateSuiteAction.cs" />
     <Compile Include="Action\Template\LoadExternalTemplateAction.cs" />
-    <Compile Include="GenerationState.cs" />
+    <Compile Include="Stateful\GenerationState.cs" />
     <Compile Include="Action\Case\LoadCaseFromFileAction.cs" />
     <Compile Include="Action\LoadType.cs" />
     <Compile Include="Parser\Case.cs" />
@@ -103,6 +103,7 @@
     <Compile Include="Parser\Valuable\ValuableBuilder.cs" />
     <Compile Include="Parser\Valuable\Value.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Stateful\TemplateState.cs" />
     <Compile Include="TestSuiteGenerator.cs" />
   </ItemGroup>
   <ItemGroup>

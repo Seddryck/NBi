@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.IO;
 using NUnit.Framework;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.GenbiL.Action.Template
 {

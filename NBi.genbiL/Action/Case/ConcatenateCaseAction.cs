@@ -1,4 +1,5 @@
 ﻿using NBi.GenbiL.Parser.Valuable;
+using NBi.GenbiL.Stateful;
 using System;
 using System.Collections.Generic;
 using System.Data;

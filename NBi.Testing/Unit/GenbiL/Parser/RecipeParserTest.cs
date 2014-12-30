@@ -33,7 +33,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<LoadCaseFromFileAction>()));
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<RemoveCaseAction>()));
-            Assert.That(result, Has.Some.Matches(Is.InstanceOf<LoadTemplateAction>()));
+            Assert.That(result, Has.Some.Matches(Is.InstanceOf<LoadExternalTemplateAction>()));
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<ReferenceAction>()));
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<DefaultAction>()));
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<GenerateSuiteAction>()));

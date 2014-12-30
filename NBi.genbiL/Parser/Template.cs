@@ -13,14 +13,14 @@ namespace NBi.GenbiL.Parser
                 .Or(Parse.IgnoreCase("predefined").Return(LoadType.Predefined))
                 .Token();
 
-        readonly static  Parser<LoadTemplateAction> TemplateLoadParser =
+        readonly static Parser<ITemplateAction> TemplateLoadParser =
             (
                 from loadType in LoadTypeParser
                 from filename in Grammar.QuotedTextual
-                select new LoadTemplateAction(loadType, filename)
+                select new LoadTemplateActionBuilder().Build(loadType, filename)
             );
 
-        readonly static Parser<LoadTemplateAction> TemplateParser = 
+        readonly static Parser<ITemplateAction> TemplateParser = 
         (
                 from load in Keyword.Load
                 from text in TemplateLoadParser

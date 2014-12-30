@@ -6,6 +6,7 @@ using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.Template;
 using NBi.UI.Genbi.Interface;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
+using NBi.GenbiL.Action.Template;
 
 namespace NBi.UI.Genbi.Presenter
 {
@@ -74,21 +75,24 @@ namespace NBi.UI.Genbi.Presenter
 
         internal void LoadExternalTemplate(string fullPath)
         {
-            Template = templateManager.GetExternalTemplate(fullPath);
+            var action = new LoadExternalTemplateAction(fullPath);
+            action.Execute(State);
             IsModified = false;
             OnPropertyChanged("Template");
         }
 
         internal void LoadEmbeddedTemplate(string name)
         {
-            Template = templateManager.GetEmbeddedTemplate(name);
+            var action = new LoadPredefinedTemplateAction(name);
+            action.Execute(State);
             IsModified = false;
             OnPropertyChanged("Template");
         }
 
         internal void Save(string fullPath)
         {
-            templateManager.Persist(fullPath, Template);
+            var action = new SaveTemplateAction(fullPath);
+            action.Execute(State);
             IsModified = false;
             this.SaveTemplateCommand.Refresh();
         }

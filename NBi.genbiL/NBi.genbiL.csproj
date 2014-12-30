@@ -79,6 +79,10 @@
     <Compile Include="Action\Suite\SaveSuiteAction.cs" />
     <Compile Include="Action\Suite\ISuiteAction.cs" />
     <Compile Include="Action\Template\ITemplateAction.cs" />
+    <Compile Include="Action\Template\ListPredefinedTemplateAction.cs" />
+    <Compile Include="Action\Template\LoadPredefinedTemplateAction.cs" />
+    <Compile Include="Action\Template\LoadTemplateActionBuilder.cs" />
+    <Compile Include="Action\Template\SaveTemplateAction.cs" />
     <Compile Include="Parser\Valuable\Column.cs" />
     <Compile Include="Parser\Comment.cs" />
     <Compile Include="Parser\Valuable\IValuable.cs" />
@@ -88,7 +92,7 @@
     <Compile Include="Parser\Suite.cs" />
     <Compile Include="Action\Setting\ReferenceAction.cs" />
     <Compile Include="Action\Suite\GenerateSuiteAction.cs" />
-    <Compile Include="Action\Template\LoadTemplateAction.cs" />
+    <Compile Include="Action\Template\LoadExternalTemplateAction.cs" />
     <Compile Include="GenerationState.cs" />
     <Compile Include="Action\Case\LoadCaseFromFileAction.cs" />
     <Compile Include="Action\LoadType.cs" />

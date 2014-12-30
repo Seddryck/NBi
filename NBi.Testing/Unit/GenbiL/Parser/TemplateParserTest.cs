@@ -18,9 +18,9 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             var result = Template.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<LoadTemplateAction>());
-            Assert.That(((LoadTemplateAction)result).LoadType, Is.EqualTo(LoadType.File));
-            Assert.That(((LoadTemplateAction)result).Filename, Is.EqualTo("filename.nbitt"));
+            Assert.That(result, Is.AssignableTo<ITemplateAction>());
+            Assert.That(result, Is.InstanceOf<LoadExternalTemplateAction>());
+            Assert.That(((LoadExternalTemplateAction)result).Path, Is.EqualTo("filename.nbitt"));
         }
 
         [Test]
@@ -30,9 +30,9 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             var result = Template.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<LoadTemplateAction>());
-            Assert.That(((LoadTemplateAction)result).LoadType, Is.EqualTo(LoadType.Predefined));
-            Assert.That(((LoadTemplateAction)result).Filename, Is.EqualTo("SubsetOfHierarchy"));
+            Assert.That(result, Is.AssignableTo<ITemplateAction>());
+            Assert.That(result, Is.InstanceOf<LoadPredefinedTemplateAction>());
+            Assert.That(((LoadPredefinedTemplateAction)result).ResourceName, Is.EqualTo("SubsetOfHierarchy"));
         }
     }
 }

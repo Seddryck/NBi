@@ -26,13 +26,12 @@ namespace NBi.GenbiL.Action.Case
 
         public void Execute(GenerationState state)
         {
-            if (state.TestCaseCollection.Scope.Variables.Contains(VariableName))
+            if (state.TestCaseSetCollection.Scope.Variables.Contains(VariableName))
                 throw new ArgumentException(String.Format("Variable '{0}' already existing.", VariableName));
 
-            state.TestCaseCollection.Scope.Variables.Add(VariableName);
             var newColumn = new DataColumn(VariableName);
             newColumn.DefaultValue = DefaultValue;
-            state.TestCaseCollection.Scope.Content.Columns.Add(newColumn);
+            state.TestCaseSetCollection.Scope.Content.Columns.Add(newColumn);
         }
 
         public string Display

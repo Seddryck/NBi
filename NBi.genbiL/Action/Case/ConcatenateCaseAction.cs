@@ -20,12 +20,12 @@ namespace NBi.GenbiL.Action.Case
 
         public void Execute(GenerationState state)
         {
-            if (!state.TestCaseCollection.Scope.Variables.Contains(ColumnName))
+            if (!state.TestCaseSetCollection.Scope.Variables.Contains(ColumnName))
                 throw new ArgumentOutOfRangeException(String.Format("No column named '{0}' has been found.",ColumnName));
 
-            var index = state.TestCaseCollection.Scope.Variables.ToList().FindIndex(v => v == ColumnName);
+            var index = state.TestCaseSetCollection.Scope.Variables.ToList().FindIndex(v => v == ColumnName);
 
-            foreach (DataRow row in state.TestCaseCollection.Scope.Content.Rows)
+            foreach (DataRow row in state.TestCaseSetCollection.Scope.Content.Rows)
             {
                 if ((string)row[ColumnName] != "(none)")
                     foreach (var valuable in Valuables)

@@ -2,6 +2,7 @@
 using System.Linq;
 using NBi.Service;
 using NBi.GenbiL.Stateful;
+using NBi.Core;
 
 namespace NBi.GenbiL.Action.Case
 {
@@ -15,14 +16,15 @@ namespace NBi.GenbiL.Action.Case
         }
         public void Execute(GenerationState state)
         {
-            state.TestCaseCollection.Scope.Save(Filename);
+            var csvWriter = new CsvWriter(true);
+            csvWriter.Write(state.TestCaseSetCollection.Scope.Content, Filename);
         }
 
         public virtual string Display
         {
             get
             {
-                return string.Format("Saving the test cases into '{0}'", Filename);
+                return string.Format("Saving the test cases as '{0}'", Filename);
             }
         }
     }

@@ -1,31 +1,44 @@
 ﻿using NBi.GenbiL.Stateful;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NBi.GenbiL.Action.Case
 {
-    class CrossVectorCaseAction : ICaseAction
+    class CrossVectorCaseAction : CrossAbstractCaseAction
     {
-        public string FirstSet { get; set; }
         public string VectorName { get; set; }
         public IEnumerable<string> Values { get; set; }
 
         public CrossVectorCaseAction(string firstSet, string vectorName, IEnumerable<string> values)
+            :base(firstSet)
         {
-            FirstSet = firstSet;
             VectorName = vectorName;
             Values = values;
         }
 
-        public void Execute(GenerationState state)
+        protected override IDataReader CrossContent(GenerationState state)
         {
-            state.TestCaseCollection.Cross(FirstSet, VectorName, Values);
+            var vector = new DataTable();
+            vector.Columns.Add(VectorName);
+            foreach (var item in Values)
+            {
+                var row = vector.NewRow();
+                row.ItemArray = new[] { item };
+                vector.Rows.Add(row);
+            }
+
+            return CrossContent(
+                state.TestCaseSetCollection.Item(FirstSet).Content
+                , vector
+                , delegate { return true; } 
+            );
         }
 
-        public virtual string Display
+        public override string Display
         {
             get
             {

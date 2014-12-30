@@ -31,8 +31,7 @@ namespace NBi.GenbiL.Action.Case
         {
             foreach (var variableName in variableNames)
             {
-                state.TestCaseCollection.Scope.Variables.Remove(variableName);
-                state.TestCaseCollection.Scope.Content.Columns.Remove(variableName);
+                state.TestCaseSetCollection.Scope.Content.Columns.Remove(variableName);
             }
         }
 

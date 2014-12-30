@@ -7,7 +7,7 @@ namespace NBi.GenbiL.Stateful
 {
     public class GenerationState
     {
-        public TestCaseCollectionManager TestCaseCollection { get; private set; }
+        public TestCaseSetCollectionState TestCaseSetCollection { get; private set; }
         public TemplateState Template { get; private set; }
         public SettingsManager Settings { get; private set; }
         public TestListManager List { get; private set; }
@@ -15,7 +15,7 @@ namespace NBi.GenbiL.Stateful
 
         public GenerationState()
         {
-            TestCaseCollection = new TestCaseCollectionManager();
+            TestCaseSetCollection = new TestCaseSetCollectionState();
             Template = new TemplateState();
             Settings = new SettingsManager();
             List = new TestListManager();

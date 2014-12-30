@@ -170,6 +170,10 @@
     <Compile Include="Unit\Framework\FailureMessage\Formatter\CellFormatterTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Helper\TableHeaderHelperTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Helper\TableHelperTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\CopyCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\CrossCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\FilterDistinctCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\ReplaceConditionCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\SubstituteCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\ConcatenateCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\CrossVectorCaseActionTest.cs" />
@@ -180,6 +184,7 @@
     <Compile Include="Unit\GenbiL\Action\Case\FilterCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\MergeCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\AddCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Stateful\TestCaseSetCollectionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Template\ListPredefinedTeamplateActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Template\LoadPredefinedTemplateActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Template\LoadExternalTemplateActionTest.cs" />
@@ -225,8 +230,6 @@
     <Compile Include="Unit\Service\RunnerConfig\NUnitRunnerConfigBuilderTest.cs" />
     <Compile Include="Unit\Service\RunnerConfig\RunnerConfigManagerTest.cs" />
     <Compile Include="Unit\Service\StringTemplateEngineTest.cs" />
-    <Compile Include="Unit\Service\TestCaseCollectionManagerTest.cs" />
-    <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
     <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
     <Compile Include="Unit\Xml\Constraints\RowCountXmlTest.cs" />

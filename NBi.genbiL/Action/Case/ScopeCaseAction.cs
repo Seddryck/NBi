@@ -15,7 +15,7 @@ namespace NBi.GenbiL.Action.Case
         }
         public void Execute(GenerationState state)
         {
-            state.TestCaseCollection.SetFocus(Name);
+            state.TestCaseSetCollection.SetFocus(Name);
         }
 
         public virtual string Display

@@ -17,29 +17,26 @@ namespace NBi.Testing.Unit.GenbiL.Action.Case
         public void Execute_VectorWithTwoValues_OriginalSetDoubled()
         {
             var state = new GenerationState();
-            state.TestCaseCollection.Scope.Content.Columns.Add("firstColumn");
-            state.TestCaseCollection.Scope.Content.Columns.Add("secondColumn");
-            state.TestCaseCollection.Scope.Content.Columns.Add("thirdColumn");
-            state.TestCaseCollection.Scope.Variables.Add("firstColumn");
-            state.TestCaseCollection.Scope.Variables.Add("secondColumn");
-            state.TestCaseCollection.Scope.Variables.Add("thirdColumn");
-            var firstRow = state.TestCaseCollection.Scope.Content.NewRow();
+            state.TestCaseSetCollection.Scope.Content.Columns.Add("firstColumn");
+            state.TestCaseSetCollection.Scope.Content.Columns.Add("secondColumn");
+            state.TestCaseSetCollection.Scope.Content.Columns.Add("thirdColumn");
+            var firstRow = state.TestCaseSetCollection.Scope.Content.NewRow();
             firstRow[0] = "firstCell1";
             firstRow[1] = "secondCell1";
             firstRow[2] = "thirdCell1";
-            state.TestCaseCollection.Scope.Content.Rows.Add(firstRow);
-            var secondRow = state.TestCaseCollection.Scope.Content.NewRow();
+            state.TestCaseSetCollection.Scope.Content.Rows.Add(firstRow);
+            var secondRow = state.TestCaseSetCollection.Scope.Content.NewRow();
             secondRow[0] = "firstCell2";
             secondRow[1] = "secondCell2";
             secondRow[2] = "thirdCell2";
-            state.TestCaseCollection.Scope.Content.Rows.Add(secondRow);
+            state.TestCaseSetCollection.Scope.Content.Rows.Add(secondRow);
 
 
-            var action = new CrossVectorCaseAction(state.TestCaseCollection.CurrentScopeName, "fourthColumn", new [] {"Hello", "World"});
+            var action = new CrossVectorCaseAction(state.TestCaseSetCollection.CurrentScopeName, "fourthColumn", new [] {"Hello", "World"});
             action.Execute(state);
-            Assert.That(state.TestCaseCollection.Scope.Content.Columns, Has.Count.EqualTo(4));
-            Assert.That(state.TestCaseCollection.Scope.Variables[3], Is.EqualTo("fourthColumn"));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows, Has.Count.EqualTo(4));
+            Assert.That(state.TestCaseSetCollection.Scope.Content.Columns, Has.Count.EqualTo(4));
+            Assert.That(state.TestCaseSetCollection.Scope.Variables[3], Is.EqualTo("fourthColumn"));
+            Assert.That(state.TestCaseSetCollection.Scope.Content.Rows, Has.Count.EqualTo(4));
         }
 
 

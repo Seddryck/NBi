@@ -16,7 +16,7 @@ namespace NBi.GenbiL.Action.Setting
 
         public void Execute(GenerationState state)
         {
-            state.Settings.SetParallelizeQueries(Value);
+            state.Settings.ParallelizeQueries=Value;
         }
 
         public string Display

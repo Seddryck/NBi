@@ -20,7 +20,7 @@ namespace NBi.GenbiL.Parser
                 from target in SettingsTypeParser.Token()
                 from variable in Grammar.Textual.Token()
                 from value in Grammar.QuotedTextual.Token()
-                select new DefaultAction(target, variable, value)
+                select new DefaultAction(target, value)
         );
 
 
@@ -30,7 +30,7 @@ namespace NBi.GenbiL.Parser
                 from name in Grammar.QuotedTextual.Token()
                 from variable in Grammar.Textual.Token()
                 from value in Grammar.QuotedTextual.Token()
-                select new ReferenceAction(name, variable, value)
+                select new ReferenceAction(name, value)
         );
 
         readonly static Parser<ISettingAction> ParameterParser =

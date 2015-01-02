@@ -15,12 +15,12 @@ namespace NBi.GenbiL.Action.Case
             Filename = filename;
         }
 
-        protected virtual string GetQuery()
+        protected override string GetQuery()
         {
             return System.IO.File.ReadAllText(Filename);
         }
 
-        public string Display
+        public override string Display
         {
             get
             {

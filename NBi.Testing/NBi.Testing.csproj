@@ -184,6 +184,9 @@
     <Compile Include="Unit\GenbiL\Action\Case\FilterCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\MergeCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\AddCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Settings\DefaultActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Settings\ParallelizeQueriesActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Settings\ReferenceActionTest.cs" />
     <Compile Include="Unit\GenbiL\Stateful\TestCaseSetCollectionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Template\ListPredefinedTeamplateActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Template\LoadPredefinedTemplateActionTest.cs" />

@@ -34,7 +34,7 @@ namespace NBi.GenbiL.Action.Case
             return Query;
         }
 
-        public string Display
+        public virtual string Display
         {
             get
             {

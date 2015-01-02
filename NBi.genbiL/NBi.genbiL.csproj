@@ -106,6 +106,7 @@
     <Compile Include="Parser\Valuable\ValuableBuilder.cs" />
     <Compile Include="Parser\Valuable\Value.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Stateful\SettingsState.cs" />
     <Compile Include="Stateful\TemplateState.cs" />
     <Compile Include="Stateful\TestCaseSetState.cs" />
     <Compile Include="Stateful\TestCaseSetCollectionState.cs" />

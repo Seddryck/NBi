@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition">
+  <DataSet Name="">
+    <Query>
+      <DataSourceReference>AdventureWorks2012</DataSourceReference>
+      <DataSetParameters>
+        <DataSetParameter Name="@ReportYear">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>false</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:DbType>Object</rd:DbType>
+        </DataSetParameter>
+        <DataSetParameter Name="@ReportMonth">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>false</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:DbType>Object</rd:DbType>
+        </DataSetParameter>
+        <DataSetParameter Name="@EmployeeID">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>false</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:DbType>Object</rd:DbType>
+        </DataSetParameter>
+      </DataSetParameters>
+      <CommandText>SELECT PER.FirstName + ' ' + PER.LastName AS Employee, 
+   DATEPART(Year, SOH.OrderDate) AS [Year], 
+   DATEPART(Month, SOH.OrderDate) AS [MonthNumber], 
+   DATENAME(Month, SOH.OrderDate) AS [Month], 
+   PC.Name AS Category, SUM(DET.LineTotal) AS Sales
+FROM Sales.SalesOrderHeader SOH 
+   INNER JOIN [Sales].[SalesPerson] SP ON SP.[BusinessEntityID] = SOH.[SalesPersonID]
+   INNER JOIN Sales.SalesOrderDetail DET ON SOH.SalesOrderID = DET.SalesOrderID
+   INNER JOIN [HumanResources].[Employee] E ON SOH.[SalesPersonID] = E.[BusinessEntityID] 
+   INNER JOIN [Person].[Person] PER ON PER.[BusinessEntityID] = SP.[BusinessEntityID]
+   INNER JOIN Production.Product P ON DET.ProductID = P.ProductID 
+   INNER JOIN Production.ProductSubcategory PS ON P.ProductSubcategoryID = PS.ProductSubcategoryID 
+   INNER JOIN Production.ProductCategory PC ON PS.ProductCategoryID = PC.ProductCategoryID
+WHERE
+   (DATEPART(Year, SOH.OrderDate) &lt;= @ReportYear) 
+   AND (DATEPART(Month, SOH.OrderDate) = @ReportMonth)  
+   AND (SOH.SalesPersonID = @EmployeeID)
+GROUP BY PER.FirstName + ' ' + PER.LastName, 
+   DATEPART(Year, SOH.OrderDate), DATEPART(Month, SOH.OrderDate), 
+   DATENAME(Month, SOH.OrderDate), PC.Name</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="Employee">
+        <DataField>Employee</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Year">
+        <DataField>Year</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="MonthNumber">
+        <DataField>MonthNumber</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="Month">
+        <DataField>Month</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Category">
+        <DataField>Category</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Sales">
+        <DataField>Sales</DataField>
+        <rd:TypeName>System.Decimal</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

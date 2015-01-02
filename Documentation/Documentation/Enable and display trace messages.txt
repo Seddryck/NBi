@@ -1,0 +1,27 @@
+!Enable and display trace messages
+In the first versions of NBi, the output tab was automatically filled with information about the test execution. It was helpful when debugging tests but it was also slowing down considerably your test execution (especially when a query returned a lot of rows).
+Since version 1.2, you actually have to enable the trace information to be displayed in the output tab (with NUnit GUI) or in the test log (with Gallio). To achieve this with NUnit GUI, go to "Tools > Settings". In the pop-up, select the tree's element ,named "Gui >  Text Output" and check the flag "Trace Output". With Gallio, you don't need to change the settings of your runner.
+If you execute your test-suite you'll receive a few information about the test execution in the "output tab". These information are info (high level) about the location of your test or the query executed on the servers. If you want to receive more information about your test execution, you'll need to activate this in your config file by the means of the standard .Net trace switch. Open the config file of your test suite and add the following xml fragment bellow the section config of NBi:
+{code:xml}
+  <system.diagnostics>
+    <switches>
+      <add name="NBi" value="4" />
+    </switches>
+  </system.diagnostics>
+{code:xml}
+The value "4", meaning "Verbose", will display all information available in NBi, about your test execution. This can slow down considerably the execution of your test suite, be careful when using this configuration. If you use "3" meaning information, you'll receive only high level info and the impact on the performance will be minimal. Values "1" (Error) and "2" (Warning) will only display messages if internal errors occur in NBi. If this xml fragment is not present in your config file, NBi you'll use the value "3" (Information) by default.
+Full config file sample:
+{code:xml}
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <configSections>
+		<section name="nbi" type="NBi.NUnit.Runtime.NBiSection, NBi.NUnit.Runtime"/>
+	</configSections>
+	<nbi testSuite="SubDirectory\myTestSuite.nbits"/>
+  <system.diagnostics>
+    <switches>
+      <add name="NBi" value="3" />
+    </switches>
+  </system.diagnostics>
+</configuration>
+{code:xml}

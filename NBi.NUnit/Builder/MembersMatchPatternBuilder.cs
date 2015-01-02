@@ -32,7 +32,7 @@ namespace NBi.NUnit.Builder
             ConstraintXml = (MatchPatternXml)ctrXml;
         }
 
-        protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(MatchPatternXml ctrXml)
+        protected NBiConstraint InstantiateConstraint(MatchPatternXml ctrXml)
         {
             var ctr = new NBi.NUnit.Member.MatchPatternConstraint();
             if (!string.IsNullOrEmpty(ctrXml.Regex))

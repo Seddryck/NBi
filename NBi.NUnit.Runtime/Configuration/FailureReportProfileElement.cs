@@ -46,7 +46,7 @@ namespace NBi.NUnit.Runtime.Configuration
         {
             get
             {
-                return (SetType)this["expectedSet"];
+                return (FailureReportSetType)this["expectedSet"];
             }
             set
             {
@@ -59,7 +59,7 @@ namespace NBi.NUnit.Runtime.Configuration
         {
             get
             {
-                return (SetType)this["actualSet"];
+                return (FailureReportSetType)this["actualSet"];
             }
             set
             {
@@ -68,11 +68,11 @@ namespace NBi.NUnit.Runtime.Configuration
         }
 
         [ConfigurationProperty("sampleSet", IsRequired = false, DefaultValue = FailureReportSetType.Sample)]
-        public FailureReportSetType SampleSet
+        public FailureReportSetType AnalysisSet
         {
             get
             {
-                return (SetType)this["sampleSet"];
+                return (FailureReportSetType)this["sampleSet"];
             }
             set
             {

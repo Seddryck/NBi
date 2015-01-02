@@ -32,7 +32,7 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint(ConstraintXml);
         }
 
-        protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(ContainXml ctrXml)
+        protected NBiConstraint InstantiateConstraint(ContainXml ctrXml)
         {
             NBi.NUnit.Member.ContainConstraint ctr = null;
             if (ctrXml.Query != null)

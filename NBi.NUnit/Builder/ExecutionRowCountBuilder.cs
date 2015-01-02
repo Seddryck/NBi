@@ -38,7 +38,7 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint();
         }
 
-        protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint()
+        protected NBiConstraint InstantiateConstraint()
         {
             var childConstraint = BuildChildConstraint(ConstraintXml.Comparer);
             var ctr = new RowCountConstraint(childConstraint);

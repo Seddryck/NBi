@@ -7,11 +7,15 @@ using System.Text;
 namespace NBi.Framework.FailureMessage
 {
     public abstract class FailureMessage
-    {
+    {   
         protected MarkdownContainer expected;
         protected MarkdownContainer actual;
         protected MarkdownContainer compared;
 
+        protected FailureMessage()
+        {
+            
+        }
 
         public virtual string RenderExpected()
         {

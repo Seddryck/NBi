@@ -32,7 +32,7 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint();
         }
 
-        protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint()
+        protected NBiConstraint InstantiateConstraint()
         {
             EvaluateRowsConstraint ctr = null;
             ctr = new EvaluateRowsConstraint(ConstraintXml.Variables, ConstraintXml.Expressions);

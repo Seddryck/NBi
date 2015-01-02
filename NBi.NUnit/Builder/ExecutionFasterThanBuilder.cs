@@ -33,7 +33,7 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint(ConstraintXml);
         }
 
-        protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(FasterThanXml fasterThanXml)
+        protected NBiConstraint InstantiateConstraint(FasterThanXml fasterThanXml)
         {
             var ctr = new FasterThanConstraint();
             ctr = ctr.MaxTimeMilliSeconds(fasterThanXml.MaxTimeMilliSeconds);

@@ -1,4 +1,5 @@
-﻿using NBi.Core;
+﻿using Moq;
+using NBi.Core;
 using NBi.Framework.FailureMessage;
 using NUnit.Framework;
 using System;
@@ -29,7 +30,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < 20; i++)
                 list.Add(String.Format("Item {0:00}", i));
 
-            var msg = new ItemsMessage();
+            var msg = new ItemsMessage(FailureReportProfile.Default);
             msg.Build(list, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -43,7 +44,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             var list = new List<string>();
             list.Add("Item 01");
 
-            var msg = new ItemsMessage();
+            var msg = new ItemsMessage(FailureReportProfile.Default);
             msg.Build(list, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -58,7 +59,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < 20; i++)
                 list.Add(String.Format("Item {0:00}", i));
 
-            var msg = new ItemsMessage();
+            var msg = new ItemsMessage(FailureReportProfile.Default);
             msg.Build(list, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -76,7 +77,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < rowCount; i++)
                 list.Add(String.Format("Item {0:00}", i));
 
-            var msg = new ItemsMessage();
+            var msg = new ItemsMessage(FailureReportProfile.Default);
             msg.Build(list, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -86,13 +87,39 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
         }
 
         [Test]
+        public void RenderExpected_MoreThanSampleRowsAndMaxRowsCountWithSpecificFailureReportProfile_ReturnEachRowAndHeaderAndSeparation()
+        {
+            var rowCount = 120;
+            var threshold = rowCount - 20;
+            var max=threshold/2;
+
+            var list = new List<string>();
+            for (int i = 0; i < rowCount; i++)
+                list.Add(String.Format("Item {0:00}", i));
+
+            var profile = Mock.Of<IFailureReportProfile>(p =>
+                p.MaxSampleItem == max
+                && p.ThresholdSampleItem == threshold
+                && p.ExpectedSet == FailureReportSetType.Sample
+            );
+
+            var msg = new ItemsMessage(profile);
+            msg.Build(list, null, null);
+            var value = msg.RenderExpected();
+            var lines = value.Replace("\n", string.Empty).Split('\r');
+
+
+            Assert.That(lines.Count(l => l.Contains("*")), Is.EqualTo(max));
+        }
+
+        [Test]
         public void RenderExpected_MoreThanMaxRowsCount_ReturnCorrectCountOfSkippedRow()
         {
             var list = new List<string>();
             for (int i = 0; i < 22; i++)
                 list.Add(String.Format("Item {0:00}", i));
 
-            var msg = new ItemsMessage();
+            var msg = new ItemsMessage(FailureReportProfile.Default);
             msg.Build(list, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -111,7 +138,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < rowCount; i++)
                 list.Add(String.Format("Item {0:00}", i));
 
-            var msg = new ItemsMessage();
+            var msg = new ItemsMessage(FailureReportProfile.Default);
             msg.Build(list, null, null);
             var value = msg.RenderExpected();
 
@@ -132,7 +159,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
                 );
 
 
-            var msg = new ItemsMessage();
+            var msg = new ItemsMessage(FailureReportProfile.Default);
             msg.Build(null, null, compared);
             var value = msg.RenderCompared();
 
@@ -152,11 +179,12 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
                     , GetDataRows(unexpectedRowCount)
                 );
 
-            var msg = new ItemsMessage();
+            var msg = new ItemsMessage(FailureReportProfile.Default);
             msg.Build(null, null, compared);
             var value = msg.RenderCompared();
 
             Assert.That(value, Is.StringContaining(expectedText));
         }
+
     }
 }

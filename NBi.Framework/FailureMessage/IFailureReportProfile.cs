@@ -13,7 +13,7 @@ namespace NBi.Framework.FailureMessage
 
         FailureReportSetType ExpectedSet { get; set; }
         FailureReportSetType ActualSet { get; set; }
-        FailureReportSetType SampleSet { get; set; }
+        FailureReportSetType AnalysisSet { get; set; }
 
     }
 }

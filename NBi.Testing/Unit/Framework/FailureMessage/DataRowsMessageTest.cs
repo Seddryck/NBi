@@ -1,4 +1,5 @@
-﻿using NBi.Core.ResultSet;
+﻿using Moq;
+using NBi.Core.ResultSet;
 using NBi.Framework.FailureMessage;
 using NUnit.Framework;
 using System;
@@ -38,7 +39,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < 20; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
-            var msg = new DataRowsMessage();
+            var msg = new DataRowsMessage(FailureReportProfile.Default);
             msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -57,7 +58,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < 1; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
-            var msg = new DataRowsMessage();
+            var msg = new DataRowsMessage(FailureReportProfile.Default);
             msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -77,7 +78,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < 20; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
-            var msg = new DataRowsMessage();
+            var msg = new DataRowsMessage(FailureReportProfile.Default);
             msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -99,13 +100,104 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < rowCount; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
-            var msg = new DataRowsMessage();
+            var msg = new DataRowsMessage(FailureReportProfile.Default);
             msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
 
             Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(rowCount + 2));
+        }
+
+        [Test]
+        public void RenderExpected_MoreThanSampleRowsCountButLessThanMaxRowsCountWithSpecificProfile_ReturnEachRowAndHeaderAndSeparation()
+        {
+            var rowCount = 120;
+            var threshold = rowCount - 20;
+            var max = threshold / 2;
+
+            var dataSet = new DataSet();
+            var dataTable = new DataTable() { TableName = "MyTable" };
+            dataTable.Columns.Add(new DataColumn("Id"));
+            dataTable.Columns.Add(new DataColumn("Numeric value"));
+            dataTable.Columns.Add(new DataColumn("Boolean value"));
+            for (int i = 0; i < rowCount; i++)
+                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+
+            var profile = Mock.Of<IFailureReportProfile>(p =>
+                p.MaxSampleItem == max
+                && p.ThresholdSampleItem == threshold
+                && p.ExpectedSet == FailureReportSetType.Sample
+            );
+
+            var msg = new DataRowsMessage(profile);
+            msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
+            var value = msg.RenderExpected();
+            var lines = value.Replace("\n", string.Empty).Split('\r');
+
+
+            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(max + 2));
+        }
+
+        [Test]
+        public void RenderExpected_MoreThanSampleRowsCountButLessThanMaxRowsCountWithSpecificProfileFull_ReturnEachRowAndHeaderAndSeparation()
+        {
+            var rowCount = 120;
+            var threshold = rowCount - 20;
+            var max = threshold / 2;
+
+            var dataSet = new DataSet();
+            var dataTable = new DataTable() { TableName = "MyTable" };
+            dataTable.Columns.Add(new DataColumn("Id"));
+            dataTable.Columns.Add(new DataColumn("Numeric value"));
+            dataTable.Columns.Add(new DataColumn("Boolean value"));
+            for (int i = 0; i < rowCount; i++)
+                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+
+            var profile = Mock.Of<IFailureReportProfile>(p =>
+                p.MaxSampleItem == max
+                && p.ThresholdSampleItem == threshold
+                && p.ExpectedSet == FailureReportSetType.Full
+            );
+
+            var msg = new DataRowsMessage(profile);
+            msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
+            var value = msg.RenderExpected();
+            var lines = value.Replace("\n", string.Empty).Split('\r');
+
+
+            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(rowCount + 2));
+        }
+
+        [Test]
+        public void RenderExpected_MoreThanSampleRowsCountButLessThanMaxRowsCountWithSpecificProfileNone_ReturnEachRowAndHeaderAndSeparation()
+        {
+            var rowCount = 120;
+            var threshold = rowCount - 20;
+            var max = threshold / 2;
+
+            var dataSet = new DataSet();
+            var dataTable = new DataTable() { TableName = "MyTable" };
+            dataTable.Columns.Add(new DataColumn("Id"));
+            dataTable.Columns.Add(new DataColumn("Numeric value"));
+            dataTable.Columns.Add(new DataColumn("Boolean value"));
+            for (int i = 0; i < rowCount; i++)
+                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+
+            var profile = Mock.Of<IFailureReportProfile>(p =>
+                p.MaxSampleItem == max
+                && p.ThresholdSampleItem == threshold
+                && p.ExpectedSet == FailureReportSetType.None
+            );
+
+            var msg = new DataRowsMessage(profile);
+            msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
+            var value = msg.RenderExpected();
+            var lines = value.Replace("\n", string.Empty).Split('\r');
+
+
+            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(0));
+            Assert.That(lines, Has.All.EqualTo(string.Empty));
         }
 
         [Test]
@@ -119,7 +211,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < 22; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
-            var msg = new DataRowsMessage();
+            var msg = new DataRowsMessage(FailureReportProfile.Default);
             msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -142,7 +234,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < rowCount; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
-            var msg = new DataRowsMessage();
+            var msg = new DataRowsMessage(FailureReportProfile.Default);
             msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
 
@@ -171,7 +263,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
                 );
 
 
-            var msg = new DataRowsMessage();
+            var msg = new DataRowsMessage(FailureReportProfile.Default);
             msg.Build(null, null, compared);
             var value = msg.RenderCompared();
 
@@ -200,7 +292,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
                 );
 
 
-            var msg = new DataRowsMessage();
+            var msg = new DataRowsMessage(FailureReportProfile.Default);
             msg.Build(null, null, compared);
             var value = msg.RenderCompared();
 

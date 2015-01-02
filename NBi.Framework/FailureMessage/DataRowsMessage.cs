@@ -11,37 +11,33 @@ namespace NBi.Framework.FailureMessage
 {
     public class DataRowsMessage : SampledFailureMessage<DataRow>
     {
-        public DataRowsMessage() : base(10,15)
+        public DataRowsMessage(IFailureReportProfile profile)
+            : base (profile)
         { }
-
-        public DataRowsMessage(int sampleRowCount, int maxRowCount)
-            : base(sampleRowCount, maxRowCount)
-        {
-        }
 
         public void Build(IEnumerable<DataRow> expectedRows, IEnumerable<DataRow> actualRows, ResultSetCompareResult compareResult)
         {
             compareResult = compareResult ?? ResultSetCompareResult.Build(new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>());
             
-            expected = BuildTable(expectedRows);
-            actual = BuildTable(actualRows);
-            compared = BuildNonEmptyTable(compareResult.Unexpected.Rows, "Unexpected");
-            compared.Append(BuildNonEmptyTable(compareResult.Missing.Rows ?? new List<DataRow>(), "Missing"));
-            compared.Append(BuildNonEmptyTable(compareResult.Duplicated.Rows ?? new List<DataRow>(), "Duplicated"));
-            compared.Append(BuildCompareTable(compareResult.NonMatchingValue.Rows ?? new List<DataRow>(), "Non matching value"));
+            expected = BuildTable(expectedRows, Profile.ExpectedSet);
+            actual = BuildTable(actualRows, Profile.ActualSet);
+            compared = BuildNonEmptyTable(compareResult.Unexpected.Rows, "Unexpected", Profile.AnalysisSet);
+            compared.Append(BuildNonEmptyTable(compareResult.Missing.Rows ?? new List<DataRow>(), "Missing", Profile.AnalysisSet));
+            compared.Append(BuildNonEmptyTable(compareResult.Duplicated.Rows ?? new List<DataRow>(), "Duplicated", Profile.AnalysisSet));
+            compared.Append(BuildCompareTable(compareResult.NonMatchingValue.Rows ?? new List<DataRow>(), "Non matching value", Profile.AnalysisSet));
         }
 
-        private MarkdownContainer BuildTable(IEnumerable<DataRow> rows)
+        private MarkdownContainer BuildTable(IEnumerable<DataRow> rows, FailureReportSetType sampling)
         {
             var tableBuilder = new TableHelper();
-            return BuildTable(tableBuilder, rows, string.Empty);
+            return BuildTable(tableBuilder, rows, string.Empty, sampling);
         }
 
-        private MarkdownContainer BuildTable(TableHelper tableBuilder, IEnumerable<DataRow> rows, string title)
+        private MarkdownContainer BuildTable(TableHelper tableBuilder, IEnumerable<DataRow> rows, string title, FailureReportSetType sampling)
         {
             rows = rows ?? new List<DataRow>();
-            
-            var table = tableBuilder.Build(Sample(rows));
+
+            var table = tableBuilder.Build(Sample(rows, sampling));
 
             var container = new MarkdownContainer();
 
@@ -63,20 +59,20 @@ namespace NBi.Framework.FailureMessage
             return container;
         }
 
-        private MarkdownContainer BuildNonEmptyTable(IEnumerable<DataRow> rows, string title)
+        private MarkdownContainer BuildNonEmptyTable(IEnumerable<DataRow> rows, string title, FailureReportSetType sampling)
         {
             var tableBuilder = new TableHelper();
             if (rows.Count() > 0)
-                return BuildTable(tableBuilder, rows, title);
+                return BuildTable(tableBuilder, rows, title, sampling);
             else
                 return new MarkdownContainer();
         }
 
-        private MarkdownContainer BuildCompareTable(IEnumerable<DataRow> rows, string title)
+        private MarkdownContainer BuildCompareTable(IEnumerable<DataRow> rows, string title, FailureReportSetType sampling)
         {
             var tableBuilder = new CompareTableHelper();
             if (rows.Count() > 0)
-                return BuildTable(tableBuilder, rows, title);
+                return BuildTable(tableBuilder, rows, title, sampling);
             else
                 return new MarkdownContainer();
         }

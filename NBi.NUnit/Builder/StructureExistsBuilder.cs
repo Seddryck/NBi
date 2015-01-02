@@ -34,7 +34,7 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint(ConstraintXml);
         }
 
-        protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(ExistsXml ctrXml)
+        protected NBiConstraint InstantiateConstraint(ExistsXml ctrXml)
         {
             var ctr = new ExistsConstraint();
             //Ignore-case if requested

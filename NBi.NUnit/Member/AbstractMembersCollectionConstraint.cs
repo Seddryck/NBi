@@ -18,6 +18,7 @@ namespace NBi.NUnit.Member
 
         private readonly IDbCommand commandToRetrieveExpectedItems;
         private readonly MembersDiscoveryRequest membersDiscoveryRequest;
+        
         private IEnumerable<string> expectedItems;
 
         protected IEnumerable<string> ExpectedItems
@@ -45,7 +46,7 @@ namespace NBi.NUnit.Member
 
         protected ItemsMessage BuildFailure()
         {
-            var msg = new ItemsMessage();
+            var msg = new ItemsMessage(Configuration.FailureReportProfile);
             var compare = new ListComparer()
                         .Compare
                         (

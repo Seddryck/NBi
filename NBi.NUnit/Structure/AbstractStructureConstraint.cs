@@ -10,7 +10,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Structure
 {
-    public abstract class AbstractStructureConstraint : NUnitCtr.Constraint
+    public abstract class AbstractStructureConstraint : NBiConstraint
     {
         private AdomdDiscoveryCommandFactory commandFactory;
 

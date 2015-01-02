@@ -49,6 +49,8 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="FailureMessage\FailureReportSetType.cs" />
+    <Compile Include="FailureMessage\IFailureReportProfile.cs" />
     <Compile Include="FailureMessage\ItemsMessage.cs" />
     <Compile Include="FailureMessage\Formatter\BooleanCellFormatter.cs" />
     <Compile Include="FailureMessage\Formatter\CellFormatter.cs" />

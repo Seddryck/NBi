@@ -1,0 +1,24 @@
+﻿case scope 'dim';
+case  load  file  'Acceptance\GenbiL\Resources\dimension.csv';
+case  remove  column 'useless';
+case  rename  column  'dimensionY'  into  'dimension' ;
+case filter on column 'dimension' values not like 'exclude%';
+
+case scope 'hierarchy';
+case load query 
+	'Acceptance\GenbiL\Resources\hierarchy.sql' 
+	on 'Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly';
+case filter on column 'hierarchy' values not equal 'third-hierarchy' ;
+case remove column 'perspective';
+
+case scope 'combine';
+case cross 'dim' with 'hierarchy' on 'dimension';
+
+case copy 'combine' to 'ready';
+case scope 'ready';
+case save as 'Acceptance\GenbiL\Resources\CaseCross-TestSuiteBuild.csv';
+
+template load predefined 'ExistsHierarchy';
+suite generate;
+
+suite save 'Acceptance\GenbiL\Resources\CaseCross-TestSuiteBuild.nbits';

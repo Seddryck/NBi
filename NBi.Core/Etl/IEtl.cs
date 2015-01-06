@@ -21,5 +21,7 @@ namespace NBi.Core.Etl
         string Project { get; set; }
 
         bool Is32Bits { get; set; }
+
+        int Timeout { get; set; }
     }
 }

@@ -45,4 +45,16 @@
 			</equalTo>
 		</assert>
 	</test>
+  <test name="Etl is successful with timeout" uid="0004">
+    <system-under-test>
+      <execution>
+        <etl path="Etl\" name="Sample.dtsx" password="p@ssw0rd" timeout="10000">
+          <parameter name="DestinationPath">C:\toto-timeout.txt</parameter>
+        </etl>
+      </execution>
+    </system-under-test>
+    <assert>
+      <successful/>
+    </assert>
+  </test>
 </testSuite>

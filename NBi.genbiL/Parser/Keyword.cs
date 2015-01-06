@@ -25,6 +25,10 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<string> Copy = Parse.IgnoreCase("Copy").Text().Token();
         public static readonly Parser<string> Set = Parse.IgnoreCase("Set").Text().Token();
         public static readonly Parser<string> Merge = Parse.IgnoreCase("Merge").Text().Token();
+        public static readonly Parser<string> Include = Parse.IgnoreCase("Include").Text().Token();
+        public static readonly Parser<string> Replace = Parse.IgnoreCase("Replace").Text().Token();
+        public static readonly Parser<string> Concatenate = Parse.IgnoreCase("Concatenate").Text().Token();
+        public static readonly Parser<string> Substitute = Parse.IgnoreCase("Substitute").Text().Token();
 
         public static readonly Parser<string> Into = Parse.IgnoreCase("Into").Text().Token();
         public static readonly Parser<string> To = Parse.IgnoreCase("To").Text().Token();
@@ -36,5 +40,9 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<string> With = Parse.IgnoreCase("With").Text().Token();
         public static readonly Parser<string> As = Parse.IgnoreCase("As").Text().Token();
         public static readonly Parser<string> Values = Parse.IgnoreCase("Values").Text().Token();
+        public static readonly Parser<string> Vector = Parse.IgnoreCase("Vector").Text().Token();
+        public static readonly Parser<string> File = Parse.IgnoreCase("File").Text().Token();
+        public static readonly Parser<string> Folder = Parse.IgnoreCase("Folder").Text().Token();
+        public static readonly Parser<string> When = Parse.IgnoreCase("When").Text().Token();
     }
 }

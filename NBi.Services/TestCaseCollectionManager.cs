@@ -12,6 +12,13 @@ namespace NBi.Service
         private Dictionary<string, TestCaseManager> dico;
         private string scope;
         private const string NO_NAME = "_noname";
+        public string CurrentScopeName
+        {
+            get
+            {
+                return scope;
+            }
+        }
 
         public TestCaseCollectionManager()
         {
@@ -187,6 +194,23 @@ namespace NBi.Service
             Item(to).Variables.Clear();
             foreach (DataColumn col in Item(to).Content.Columns)
                 Item(to).Variables.Add(col.ColumnName);
+        }
+
+        public void Cross(string firstSet, string vectorName, IEnumerable<string> values)
+        {
+            if (!dico.Keys.Contains(firstSet))
+                throw new ArgumentException(String.Format("The test case set named '{0}' doesn't exist.", firstSet), "firstSet");
+
+            var vector = new DataTable();
+            vector.Columns.Add(vectorName);
+            foreach (var item in values)
+            {
+                var row = vector.NewRow();
+                row.ItemArray = new[] { item };
+                vector.Rows.Add(row);
+            }
+
+            CrossContent(dico[firstSet].Content, vector, delegate { return true; });
         }
     }
 }

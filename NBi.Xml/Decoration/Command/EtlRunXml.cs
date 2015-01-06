@@ -36,6 +36,9 @@ namespace NBi.Xml.Decoration.Command
         [XmlAttribute("bits-32")]
         public bool Is32Bits { get; set; }
 
+        [XmlAttribute("timeout")]
+        public int Timeout { get; set; }
+
         [XmlIgnore]
         public List<EtlParameter> Parameters
         {

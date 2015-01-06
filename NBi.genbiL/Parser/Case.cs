@@ -101,7 +101,7 @@ namespace NBi.GenbiL.Parser
                 from valuesKeyword in Keyword.Values
                 from negation in Keyword.Not.Optional()
                 from @operator in Parse.IgnoreCase("Equal").Return(Operator.Equal).Or(Parse.IgnoreCase("Like").Return(Operator.Like)).Token()
-                from text in Grammar.QuotedRecordSequence
+                from text in Grammar.ExtendedQuotedRecordSequence
                 select new FilterCaseAction(variableName, @operator, text, negation.IsDefined)
         );
 
@@ -130,6 +130,18 @@ namespace NBi.GenbiL.Parser
                 from onKeyword in Keyword.On
                 from matchingColumn in Grammar.QuotedTextual
                 select new CrossCaseAction(first, second, matchingColumn)
+        );
+
+        readonly static Parser<ICaseAction> caseCrossVectorParser =
+        (
+                from cross in Keyword.Cross
+                from first in Grammar.QuotedTextual
+                from withKeyword in Keyword.With
+                from vectorKeyword in Keyword.Vector
+                from vectorName in Grammar.QuotedTextual
+                from valuesKeyword in Keyword.Values
+                from values in Grammar.QuotedRecordSequence
+                select new CrossVectorCaseAction(first, vectorName, values)
         );
 
         readonly static Parser<ICaseAction> caseSaveParser =
@@ -182,6 +194,55 @@ namespace NBi.GenbiL.Parser
                 select new MergeCaseAction(scopeName)
         );
 
+        readonly static Parser<ICaseAction> caseConcatenateParser =
+        (
+                from concatenate in Keyword.Concatenate
+                from axisType in Parse.IgnoreCase("Column").Token()
+                from columnName in Grammar.QuotedTextual
+                from withKeyword in Keyword.With
+                from valuables in Grammar.Valuables
+                select new ConcatenateCaseAction(columnName, valuables)
+        );
+
+        readonly static Parser<ICaseAction> caseSubstituteParser =
+        (
+                from substitute in Keyword.Substitute
+                from intoKeyword in Keyword.Into
+                from axisType in Parse.IgnoreCase("Column").Token()
+                from columnName in Grammar.QuotedTextual
+                from oldText in Grammar.Valuable
+                from withKeyword in Keyword.With
+                from newText in Grammar.Valuable
+                select new SubstituteCaseAction(columnName, oldText, newText)
+        );
+
+        readonly static Parser<ICaseAction> caseReplaceSimpleParser =
+        (
+                from replace in Keyword.Replace
+                from axisType in Parse.IgnoreCase("Column").Token()
+                from variableName in Grammar.QuotedTextual
+                from withKeyword in Keyword.With
+                from valuesKeyword in Keyword.Values
+                from text in Grammar.ExtendedQuotedTextual
+                select new ReplaceCaseAction(variableName, text)
+        );
+
+        readonly static Parser<ICaseAction> caseReplaceComplexParser =
+        (
+                from replace in Keyword.Replace
+                from axisType in Parse.IgnoreCase("Column").Token()
+                from variableName in Grammar.QuotedTextual
+                from withKeyword in Keyword.With
+                from valuesKeyword in Keyword.Values
+                from newValue in Grammar.ExtendedQuotedTextual
+                from whenKeyword in Keyword.When
+                from valuesKeyword2 in Keyword.Values
+                from negation in Keyword.Not.Optional()
+                from @operator in Parse.IgnoreCase("Equal").Return(Operator.Equal).Or(Parse.IgnoreCase("Like").Return(Operator.Like)).Token()
+                from text in Grammar.ExtendedQuotedRecordSequence
+                select new ReplaceCaseAction(variableName, newValue, @operator, text, negation.IsDefined)
+        );
+
         public readonly static Parser<IAction> Parser =
         (
                 from @case in Keyword.Case
@@ -195,11 +256,16 @@ namespace NBi.GenbiL.Parser
                                     .Or(caseScopeParser)
                                     .Or(caseCrossOnColumnParser)
                                     .Or(caseCrossFullParser)
+                                    .Or(caseCrossVectorParser)
                                     .Or(caseSaveParser)
                                     .Or(caseCopyParser)
                                     .Or(caseAddWithDefaultParser)
                                     .Or(caseAddParser)
                                     .Or(caseMergeParser)
+                                    .Or(caseReplaceComplexParser)
+                                    .Or(caseReplaceSimpleParser)
+                                    .Or(caseConcatenateParser)
+                                    .Or(caseSubstituteParser)
                 select action
         );
     }

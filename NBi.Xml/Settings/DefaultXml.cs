@@ -21,6 +21,13 @@ namespace NBi.Xml.Settings
         [XmlElement("report")]
         public ReportBaseXml Report { get; set; }
 
+        [XmlIgnore]
+        public bool ReportSpecified
+        {
+            get { return !string.IsNullOrEmpty(Report.Path) || !string.IsNullOrEmpty(Report.Source); }
+            set { return; }
+        }
+
         public DefaultXml(SettingsXml.DefaultScope applyTo) : this()
         {
             ApplyTo = applyTo;

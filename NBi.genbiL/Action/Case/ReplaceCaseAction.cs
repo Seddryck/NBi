@@ -44,7 +44,7 @@ namespace NBi.GenbiL.Action.Case
                         , Column
                         , NewValue);
 
-                if (Values == null || Values.Count() > 0)
+                if (Values != null && Values.Count() > 0)
                     display += string.Format(
                         " when values {0}{1} '{2}'"
                         , Negation ? "not " : string.Empty

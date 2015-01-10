@@ -49,7 +49,11 @@ namespace NBi.Core.Etl.IntegrationService
             var parameters = Parameterize(Etl.Parameters, package.Parameters, package.Name);
             parameters.ToList().ForEach(p => setValueParameters.Add(p));
 
-            long executionIdentifier = package.Execute(Etl.Is32Bits, null, setValueParameters);
+            long executionIdentifier = -1;
+            if (Etl.Timeout==0)
+                executionIdentifier = package.Execute(Etl.Is32Bits, null, setValueParameters);
+            else
+                executionIdentifier = package.Execute(Etl.Is32Bits, null, setValueParameters, Etl.Timeout);
 
             var execution = catalog.Executions[executionIdentifier];
 

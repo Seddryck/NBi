@@ -33,7 +33,7 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint(ConstraintXml);
         }
 
-        protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(MatchPatternXml matchPatternXml)
+        protected NBiConstraint InstantiateConstraint(MatchPatternXml matchPatternXml)
         {
             var regexBuilder = new RegexBuilder();
 

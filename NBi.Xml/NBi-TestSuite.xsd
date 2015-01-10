@@ -41,6 +41,7 @@
       </xs:element>
       <xs:element type="parameter-type" minOccurs="0" maxOccurs="unbounded" name="parameter"/>
       <xs:element type="variable-type" minOccurs="0" maxOccurs="unbounded" name="variable"/>
+      <xs:element type="report-base-type" minOccurs="0" maxOccurs="1" name="report"/>
     </xs:sequence>
     <xs:attribute name="apply-to" use="required">
       <xs:simpleType>
@@ -66,6 +67,7 @@
       <xs:element name="regex" minOccurs="0" maxOccurs="1"/>
       <xs:element name="numeric-format" type="numeric-format-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="currency-format" type="currency-format-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="report" type="report-base-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
     <xs:attribute name="name" type="xs:string" use="required"/>
   </xs:complexType>
@@ -123,16 +125,23 @@
     <xs:attribute name="username" type="xs:string"/>
     <xs:attribute name="password" type="xs:string"/>
     <xs:attribute name="bits-32" type="xs:boolean"/>
+    <xs:attribute name="timeout" type="xs:positiveInteger"/>
   </xs:complexType>
-  <xs:complexType name="report-type">
-    <xs:sequence>
-      <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
-    </xs:sequence>
+  <xs:complexType name="report-base-type">
     <xs:attribute name="source" type="xs:string"/>
     <xs:attribute name="path" type="xs:string"/>
-    <xs:attribute name="name" type="xs:string"/>
-    <xs:attribute name="dataset" type="xs:string"/>
     <xs:attribute name="connectionString" type="xs:string" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="report-type">
+    <xs:complexContent>
+      <xs:extension base="report-base-type">
+        <xs:sequence>
+          <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="dataset" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="perspective-type">
     <xs:attribute name="caption" type="xs:string" use="required" />
@@ -712,7 +721,16 @@
                 </xs:choice>
               </xs:complexType>
             </xs:element>
-            <xs:element name="successful">
+            <xs:element name="successful"/>
+            <xs:element name="row-count">
+              <xs:complexType>
+                <xs:choice>
+                  <xs:element name="less-than" type="more-less-type" minOccurs="0" maxOccurs="1"/>
+                  <xs:element name="more-than" type="more-less-type" minOccurs="0" maxOccurs="1"/>
+                  <xs:element name="equal" type="comparer-type" minOccurs="0" maxOccurs="1"/>
+                </xs:choice>
+                <xs:attribute name="not" type="xs:boolean" use="optional"/>
+              </xs:complexType>
             </xs:element>
           </xs:choice>
         </xs:complexType>
@@ -827,5 +845,17 @@
     <xs:attribute name="end" type="xs:date" use="required" />
     <xs:attribute name="culture" type="xs:string" use="required" />
     <xs:attribute name="format" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="comparer-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:positiveInteger"/>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="more-less-type">
+    <xs:complexContent>
+      <xs:extension base="comparer-type">
+        <xs:attribute name="or-equal" type="xs:boolean" use="optional" />
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 </xs:schema>

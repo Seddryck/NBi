@@ -18,6 +18,16 @@ namespace NBi.Xml.Settings
         [XmlElement("variable")]
         public List<QueryTemplateVariableXml> Variables { get; set; }
 
+        [XmlElement("report")]
+        public ReportBaseXml Report { get; set; }
+
+        [XmlIgnore]
+        public bool ReportSpecified
+        {
+            get { return !string.IsNullOrEmpty(Report.Path) || !string.IsNullOrEmpty(Report.Source); }
+            set { return; }
+        }
+
         public DefaultXml(SettingsXml.DefaultScope applyTo) : this()
         {
             ApplyTo = applyTo;
@@ -27,6 +37,7 @@ namespace NBi.Xml.Settings
         {
             Parameters = new List<QueryParameterXml>();
             Variables = new List<QueryTemplateVariableXml>();
+            Report = new ReportBaseXml();
         }
 
     }

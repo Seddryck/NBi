@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.NUnit.Runtime.Configuration;
+using System;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.IO;

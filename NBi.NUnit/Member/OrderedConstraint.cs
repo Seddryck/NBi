@@ -5,6 +5,7 @@ using NBi.Core.Analysis.Member;
 using NBi.Core.Analysis.Request;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Framework;
 
 namespace NBi.NUnit.Member
 {
@@ -17,8 +18,7 @@ namespace NBi.NUnit.Member
 		/// Construct a CollectionContainsConstraint specific for Members
 		/// </summary>
 		/// <param name="expected"></param>
-		public OrderedConstraint()
-			: base()
+        public OrderedConstraint()
 		{
 			Comparer = new AlphabeticalComparer();
 		}

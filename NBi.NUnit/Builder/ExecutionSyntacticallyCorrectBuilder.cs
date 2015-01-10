@@ -32,7 +32,7 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint(ConstraintXml);
         }
 
-        protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(SyntacticallyCorrectXml syntacticallyCorrectXml)
+        protected NBiConstraint InstantiateConstraint(SyntacticallyCorrectXml syntacticallyCorrectXml)
         {
             var ctr = new SyntacticallyCorrectConstraint();
             return ctr;

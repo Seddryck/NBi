@@ -10,6 +10,9 @@ using NBi.Xml;
 using NBi.Xml.Decoration;
 using NUnit.Framework;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.NUnit.Runtime.Configuration;
+using NBi.Framework.FailureMessage;
+using NBi.Framework;
 
 namespace NBi.NUnit.Runtime
 {
@@ -25,6 +28,7 @@ namespace NBi.NUnit.Runtime
         public bool EnableGroupAsCategory { get; set; }
         public bool AllowDtdProcessing { get; set; }
         public string SettingsFilename { get; set; }
+        public ITestConfiguration Configuration { get; set; }
 
         internal XmlManager TestSuiteManager { get; private set; }
         internal TestSuiteFinder TestSuiteFinder { get; set; }
@@ -62,7 +66,8 @@ namespace NBi.NUnit.Runtime
                 {
                     foreach (var ctr in test.Constraints)
                     {
-                        var testCase = new TestCaseFactory().Instantiate(tc, ctr);
+                        var factory = new TestCaseFactory(Configuration);
+                        var testCase = factory.Instantiate(tc, ctr);
                         AssertTestCase(testCase.SystemUnderTest, testCase.Constraint, test.Content);
                     }
                 }
@@ -262,6 +267,7 @@ namespace NBi.NUnit.Runtime
             EnableGroupAsCategory = config.EnableGroupAsCategory;
             AllowDtdProcessing = config.AllowDtdProcessing;
             SettingsFilename = config.SettingsFilename;
+            Configuration = new TestConfiguration(config.FailureReportProfile);
         }
 
 

@@ -2,10 +2,11 @@
 using System.Xml.Serialization;
 using NBi.Xml.Items;
 using NBi.Xml.Settings;
+using NBi.Xml.Constraints;
 
 namespace NBi.Xml.Systems
 {
-    public class ExecutionXml : AbstractSystemUnderTestXml
+    public class ExecutionXml : AbstractSystemUnderTestXml, IReferenceFriendly
     {       
         public virtual bool IsQuery()
         {
@@ -37,6 +38,11 @@ namespace NBi.Xml.Systems
         {
             return new string[] { "Execution" };
         }
-       
+
+        public void AssignReferences(IEnumerable<ReferenceXml> references)
+        {
+            if (Item is IReferenceFriendly)
+                ((IReferenceFriendly)Item).AssignReferences(references);
+        }
     }
 }

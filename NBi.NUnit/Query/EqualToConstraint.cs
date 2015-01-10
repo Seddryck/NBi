@@ -7,10 +7,11 @@ using NBi.Core;
 using NBi.Core.ResultSet;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework.FailureMessage;
+using NBi.Framework;
 
 namespace NBi.NUnit.Query
 {
-    public class EqualToConstraint : NUnitCtr.Constraint
+    public class EqualToConstraint : NBiConstraint
     {
         
         
@@ -46,7 +47,7 @@ namespace NBi.NUnit.Query
 
         protected DataRowsMessage BuildFailure()
         {
-            var msg = new DataRowsMessage();
+            var msg = new DataRowsMessage(Configuration.FailureReportProfile);
             msg.Build(expectedResultSet.Rows.Cast<DataRow>(), actualResultSet.Rows.Cast<DataRow>(), result);
             return msg;
         }

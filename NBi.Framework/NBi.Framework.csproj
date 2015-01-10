@@ -35,7 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MarkdownLog">
-      <HintPath>..\packages\MarkdownLog.0.9.0\lib\portable-windows8+net45\MarkdownLog.dll</HintPath>
+      <HintPath>..\packages\MarkdownLog.0.9.3\lib\portable-windows8+net45\MarkdownLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,6 +49,10 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="TestConfiguration.cs" />
+    <Compile Include="FailureMessage\FailureReportProfile.cs" />
+    <Compile Include="FailureMessage\FailureReportSetType.cs" />
+    <Compile Include="FailureMessage\IFailureReportProfile.cs" />
     <Compile Include="FailureMessage\ItemsMessage.cs" />
     <Compile Include="FailureMessage\Formatter\BooleanCellFormatter.cs" />
     <Compile Include="FailureMessage\Formatter\CellFormatter.cs" />
@@ -61,17 +65,18 @@
     <Compile Include="FailureMessage\Helper\CompareTableHelper.cs" />
     <Compile Include="FailureMessage\Helper\TableHelper.cs" />
     <Compile Include="FailureMessage\SampledFailureMessage.cs" />
+    <Compile Include="ITestConfiguration.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="FailureMessage\DataRowsMessage.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
       <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
       <Name>NBi.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

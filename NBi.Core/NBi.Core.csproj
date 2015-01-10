@@ -106,6 +106,7 @@
     <Compile Include="Batch\IBatchRunCommand.cs" />
     <Compile Include="Etl\ExecResult.cs" />
     <Compile Include="Etl\IntegrationService\EtlCatalogRunner.cs" />
+    <Compile Include="Etl\IntegrationService\PackageInfoExtensions.cs" />
     <Compile Include="Etl\IntegrationService\EtlDtsRunner.cs" />
     <Compile Include="Etl\IntegrationService\EtlDtsSqlServerRunner.cs" />
     <Compile Include="Etl\IPackageEvents.cs" />

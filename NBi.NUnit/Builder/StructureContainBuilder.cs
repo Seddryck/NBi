@@ -33,7 +33,7 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint(ConstraintXml);
         }
 
-        protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(ContainXml ctrXml)
+        protected NBiConstraint InstantiateConstraint(ContainXml ctrXml)
         {
             var ctr = new NBi.NUnit.Structure.ContainConstraint(ctrXml.GetItems());
             //Ignore-case if requested

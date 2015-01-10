@@ -32,7 +32,7 @@ namespace NBi.NUnit.Builder
             ConstraintXml = (CountXml)ctrXml;
         }
 
-        protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(CountXml ctrXml)
+        protected NBiConstraint InstantiateConstraint(CountXml ctrXml)
         {
             var ctr = new NBi.NUnit.Member.CountConstraint();
             if (ctrXml.ExactlySpecified)

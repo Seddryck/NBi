@@ -8,7 +8,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Query
 {
-    public class SyntacticallyCorrectConstraint : NUnitCtr.Constraint
+    public class SyntacticallyCorrectConstraint : NBiConstraint
     {
         /// <summary>
         /// Engine dedicated to query parsing

@@ -34,7 +34,7 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint(ConstraintXml);
         }
 
-        protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(LinkedToXml ctrXml)
+        protected NBiConstraint InstantiateConstraint(LinkedToXml ctrXml)
         {
             var ctr = new LinkedToConstraint(ctrXml.Item.Caption);
             return ctr;

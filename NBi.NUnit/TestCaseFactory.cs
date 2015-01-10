@@ -4,16 +4,24 @@ using NBi.NUnit.Builder;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
 using System.Linq;
-using NUnit.Framework.Constraints;
+using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Framework;
 
 namespace NBi.NUnit
 {
 	public class TestCaseFactory
 	{
-		private readonly ICollection<BuilderRegistration> registrations;
+        private readonly ICollection<BuilderRegistration> registrations;
+        private readonly ITestConfiguration configuration;
 
-		public TestCaseFactory()
+        public TestCaseFactory()
+            : this(TestConfiguration.Default)
+        {
+        }
+
+        public TestCaseFactory(ITestConfiguration configuration)
 		{
+            this.configuration = configuration;
 			registrations = new List<BuilderRegistration>();
 			RegisterDefault();
 		}
@@ -29,6 +37,7 @@ namespace NBi.NUnit
 			Register(typeof(ExecutionXml), typeof(MatchPatternXml), new ExecutionMatchPatternBuilder());
             Register(typeof(ExecutionXml), typeof(EvaluateRowsXml), new ExecutionEvaluateRowsBuilder());
             Register(typeof(ExecutionXml), typeof(SuccessfulXml), new ExecutionNonQuerySuccessfulBuilder());
+            Register(typeof(ExecutionXml), typeof(RowCountXml), new ExecutionRowCountBuilder());
 			
 			Register (typeof(MembersXml), typeof(CountXml) ,new MembersCountBuilder());
 			Register(typeof(MembersXml), typeof(OrderedXml), new MembersOrderedBuilder());
@@ -125,16 +134,16 @@ namespace NBi.NUnit
 
 			//Get Builder and initiate it
 			builder = registration.Builder;
-			builder.Setup(sutXml, ctrXml);
+			builder.Setup(sutXml, ctrXml, configuration);
 			
 			//Build
 			builder.Build();
-			var ctr = builder.GetConstraint();
+            NUnitCtr.Constraint ctr = builder.GetConstraint();
 			var sut = builder.GetSystemUnderTest();
 
 			//Apply negation if needed
 			if (ctrXml.Not)
-				ctr = new NotConstraint(ctr);
+                ctr = new NUnitCtr.NotConstraint(ctr);
 
 			return new TestCase(sut, ctr);
 		}

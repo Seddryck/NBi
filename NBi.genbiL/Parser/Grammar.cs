@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sprache;
+using NBi.GenbiL.Parser.Valuable;
 
 namespace NBi.GenbiL.Parser
 {
@@ -18,6 +19,35 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<IEnumerable<string>> RecordSequence = Record.DelimitedBy(Parse.Char(','));
         public static readonly Parser<IEnumerable<string>> QuotedRecordSequence = QuotedTextual.DelimitedBy(Parse.Char(','));
         public static readonly Parser<IEnumerable<string>> ExtendedQuotedRecordSequence = ExtendedQuotedTextual.DelimitedBy(Parse.Char(','));
+
+        public static readonly Parser<IEnumerable<IValuable>> ValuableColumns = 
+        (
+            from valuableClass in Parse.IgnoreCase("Columns").Or(Parse.IgnoreCase("Column"))
+            from items in Grammar.QuotedRecordSequence
+            select new ValuableBuilder().Build(ValuableType.Column, items)
+        );
+        public static readonly Parser<IEnumerable<IValuable>> ValuableValues = 
+        (
+            from valuableClass in Parse.IgnoreCase("Values").Or(Parse.IgnoreCase("Value"))
+            from items in Grammar.ExtendedQuotedRecordSequence
+            select new ValuableBuilder().Build(ValuableType.Value, items)
+        );
+        public static readonly Parser<IValuable> ValuableColumn =
+        (
+            from valuableClass in Parse.IgnoreCase("Columns").Or(Parse.IgnoreCase("Column"))
+            from item in Grammar.QuotedTextual
+            select new ValuableBuilder().Build(ValuableType.Column, item)
+        );
+        public static readonly Parser<IValuable> ValuableValue =
+        (
+            from valuableClass in Parse.IgnoreCase("Values").Or(Parse.IgnoreCase("Value"))
+            from item in Grammar.QuotedTextual
+            select new ValuableBuilder().Build(ValuableType.Value, item)
+        );
+
+        public static readonly Parser<IValuable> Valuable = ValuableColumn.Or(ValuableValue);
+        public static readonly Parser<IEnumerable<IValuable>> Valuables = ValuableColumns.Or(ValuableValues);
+
         public static readonly Parser<char> Terminator = Parse.Char(';').Token();
         public static readonly Parser<bool> Boolean = Parse.IgnoreCase("on").Return(true)
                                                         .Or(Parse.IgnoreCase("yes").Return(true))

@@ -7,7 +7,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Query
 {
-    public class MatchPatternConstraint : NUnitCtr.Constraint
+    public class MatchPatternConstraint : NBiConstraint
     {
         private string regex;
         private readonly FormattedResults invalidMembers = new FormattedResults();

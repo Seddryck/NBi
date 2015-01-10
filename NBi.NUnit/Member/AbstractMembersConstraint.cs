@@ -4,10 +4,12 @@ using System.Linq;
 using NBi.Core.Analysis.Member;
 using NBi.Core.Analysis.Request;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Framework;
+
 
 namespace NBi.NUnit.Member
 {
-    public abstract class AbstractMembersConstraint : NUnitCtr.Constraint
+    public abstract class AbstractMembersConstraint : NBiConstraint
     {
         private MembersAdomdEngine membersEngine;
         private NUnitCtr.Constraint internalConstraint;

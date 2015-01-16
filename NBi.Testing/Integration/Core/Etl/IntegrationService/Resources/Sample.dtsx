@@ -2,20 +2,20 @@
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="3/10/2014 9:02:45 PM"
-  DTS:CreationName="SSIS.Package.3"
+  DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="ENDEAVOUR"
   DTS:CreatorName="ENDEAVOUR\Seddryck"
   DTS:DTSID="{F5B1977A-1D1C-4EE1-B4CD-8D565DEF20DF}"
-  DTS:ExecutableType="SSIS.Package.3"
-  DTS:LastModifiedProductVersion="11.0.3360.12"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2344.23"
   DTS:LocaleID="2060"
   DTS:ObjectName="Sample"
   DTS:PackageType="5"
   DTS:ProtectionLevel="2"
-  DTS:VersionBuild="20"
-  DTS:VersionGUID="{8C6FD79C-F118-4C4A-AE09-C8AB23B801FD}">
+  DTS:VersionBuild="22"
+  DTS:VersionGUID="{9B597E1B-D6AF-4505-A446-8A86AD2D26D4}">
   <DTS:Property
-    DTS:Name="PackageFormatVersion">6</DTS:Property>
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Flat File Connection Manager]"
@@ -68,12 +68,12 @@
           DTS:ConnectionString="Data Source=mhknbn2kdz.database.windows.net;User ID=sqlfamily;Initial Catalog=AdventureWorks2012;Provider=SQLNCLI11.1;Auto Translate=False;">
           <EncryptedData
             Type="http://www.w3.org/2001/04/xmlenc#Element"
-            Salt="Ix7q7epKgg=="
-            IV="lkp7t76AgxM=" xmlns="http://www.w3.org/2001/04/xmlenc#">
+            Salt="CMPYc0VWrw=="
+            IV="2klhvJEdt7Y=" xmlns="http://www.w3.org/2001/04/xmlenc#">
             <EncryptionMethod
               Algorithm="http://www.w3.org/2001/04/xmlenc#tripledes-cbc" />
             <CipherData>
-              <CipherValue>lkp7t76AgxOwV33ALifpWryq76I2WqtU6bm4tlrppQ8pQGw0NCAeajhU59AMHyg2zKg8K8K9L0ENC66HSIPCUbI1ok07RNQVBmJq7bwmCwnOMRPqH+tUyingL5JHldWbXMZ6mXBh00c0DkS0OvJPrhFHQVoLVu07S5TFh842p80=</CipherValue>
+              <CipherValue>2klhvJEdt7ZJf8bMoMAfyNYZ+G068pVqAKXqOblz7UdzChe0ZwureDqlU9RV6lKETaO8ZNyPTx0tmh6nAknErQ5FrBHhN3GOTYSvqRNJC0wvyidYP2q81WHVjMKotHlzXzXZtGKhydWhd+jQE2o6eOUbhDCqqBxODOwO1Jaf2SY=</CipherValue>
             </CipherData>
           </EncryptedData>
         </DTS:ConnectionManager>
@@ -91,14 +91,35 @@
         DTS:Name="ParameterValue">C:\Temp\Toto2.txt</DTS:Property>
     </DTS:PackageParameter>
   </DTS:PackageParameters>
-  <DTS:Variables />
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7F150CDA-C7D3-4847-A6F8-3DC147A953EB}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Limit">
+      <DTS:VariableValue
+        DTS:DataType="8">*</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7E722EF0-4C92-482F-8E2B-66B335B0BB33}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;select &quot; +  @[User::Limit] + &quot; from [Sales].[Currency]&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Query">
+      <DTS:VariableValue
+        DTS:DataType="8">select * from [Sales].[Currency]</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
   <DTS:Executables>
     <DTS:Executable
       DTS:refId="Package\Currency to flat file"
-      DTS:CreationName="SSIS.Pipeline.3"
+      DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
       DTS:DTSID="{79DBFFA9-6F13-4E11-9709-44BC9A65B717}"
-      DTS:ExecutableType="SSIS.Pipeline.3"
+      DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
       DTS:ObjectName="Currency to flat file"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
@@ -109,7 +130,7 @@
           <components>
             <component
               refId="Package\Currency to flat file\Flat File Destination"
-              componentClassID="{8DA75FED-1B7C-407D-B2AD-2B24209CCCA4}"
+              componentClassID="Microsoft.FlatFileDestination"
               contactInfo="Flat File Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Flat File Destination"
               localeId="2060"
@@ -171,7 +192,7 @@
             </component>
             <component
               refId="Package\Currency to flat file\OLE DB Source"
-              componentClassID="{165A526D-D5DE-47FF-96A6-F8274C19826B}"
+              componentClassID="Microsoft.OLEDBSource"
               contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
               description="OLE DB Source"
               name="OLE DB Source"
@@ -194,11 +215,11 @@
                   dataType="System.String"
                   description="The SQL command to be executed."
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
                 <property
                   dataType="System.String"
                   description="The variable that contains the SQL command to be executed."
-                  name="SqlCommandVariable"></property>
+                  name="SqlCommandVariable">User::Query</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the column code page to use when code page information is unavailable from the data source."
@@ -211,7 +232,7 @@
                   dataType="System.Int32"
                   description="Specifies the mode used to access the database."
                   name="AccessMode"
-                  typeConverter="AccessMode">0</property>
+                  typeConverter="AccessMode">3</property>
                 <property
                   dataType="System.String"
                   description="The mappings between the parameters in the SQL command and variables."
@@ -320,7 +341,7 @@
 <!--If you manually edit this section and make a mistake, you can delete it. -->
 <!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
-  Version="sql11">
+  Version="sql12">
   <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
@@ -328,9 +349,9 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
         <NodeLayout
-          Size="171,42"
+          Size="169.6,41.6"
           Id="Package\Currency to flat file"
-          TopLeft="422,164" />
+          TopLeft="5.5,5.49999999999995" />
       </GraphLayout>
     </LayoutInfo>
   </Package>
@@ -338,49 +359,35 @@
     design-time-name="Package\Currency to flat file">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="152,42"
+          Size="150.4,41.6"
           Id="Package\Currency to flat file\OLE DB Source"
-          TopLeft="415,124" />
+          TopLeft="15.9,5.49999999999995" />
         <NodeLayout
-          Size="174,42"
+          Size="171.2,41.6"
           Id="Package\Currency to flat file\Flat File Destination"
-          TopLeft="424,217" />
+          TopLeft="5.50000000000001,107.1" />
         <EdgeLayout
           Id="Package\Currency to flat file.Paths[OLE DB Source Output]"
-          TopLeft="491,166">
+          TopLeft="91.1,47.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="20,51"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="20,43.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,21.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,21.5"
-                    Point2="0,25.5"
-                    Point3="4,25.5" />
-                  <mssgle:LineSegment
-                    End="16,25.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="16,25.5"
-                    Point2="20,25.5"
-                    Point3="20,29.5" />
-                  <mssgle:LineSegment
-                    End="20,43.5" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-10.56447265625,30.5,41.1289453125,9.568359375"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>

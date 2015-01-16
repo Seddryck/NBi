@@ -120,5 +120,37 @@ namespace NBi.Testing.Integration.Core.Etl.IntegrationService
             Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Message, Is.StringContaining("invalid characters"));
         }
+
+        [Test]
+        public void Execute_ExistingSamplePackageWithVariable_SuccessAndParameterUsed()
+        {
+            var limitValue = 5;
+            var destPath = DiskOnFile.GetDirectoryPath() + "VariableFile.txt";
+            if (File.Exists(destPath))
+                File.Delete(destPath);
+
+            var etl = new EtlXml();
+            etl.Path = @"Etl\";
+            etl.Name = "Sample.dtsx";
+            etl.Password = "p@ssw0rd";
+            var param = new EtlParameterXml();
+            param.Name = "DestinationPath";
+            param.StringValue = destPath;
+            etl.InternalParameters.Add(param);
+
+            var variable = new EtlParameterXml();
+            variable.Name = "User::Limit";
+            variable.StringValue = String.Format("top {0} *", limitValue);
+            etl.InternalParameters.Add(variable);
+
+            var runner = new EtlFileRunner(etl);
+            var result = runner.Run();
+
+            Assert.That(result.IsSuccess, Is.True);
+            Assert.That(File.Exists(destPath), Is.True);
+
+            var content = File.ReadAllLines(destPath);
+            Assert.That(content.Count(), Is.EqualTo(limitValue+1));
+        }
     }
 }

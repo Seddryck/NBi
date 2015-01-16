@@ -1,0 +1,49 @@
+! Ignore a test
+During your test session it can be helpful to ignore a few tests. The ignore attribute is an attribute to not run a test for a period of time. The person marks either a Test or a TestFixture with the Ignore Attribute. The test runner (Gallio or NUnit) sees the attribute and does not run the test or tests. The progress bar will turn yellow if a test is not run and the test will be mentioned in the reports that it was not run. 
+
+*Note that even if the test is ignored the NBi syntax must be respected*. If the xml syntax is not verified the test-suite will not be loaded!
+
+!! As a specific element
+The most efficient way to specify the ignore information is to make usage of the "ignore" element available in the NBi syntax. If this element is available in your test case then this test case will be ignored.
+{code:xml}
+<test name="test's name" uid="0001">
+    <ignore/>
+    <system-under-test>
+        ...
+    </system-under-test>
+    <assert>
+       ...
+    </assert>
+</test>
+{code:xml}
+
+You can also specify why this test should be ignored. This information will be displayed in the test report. To do this add a text to the ignore element.
+{code:xml}
+<test name="test's name" uid="0001">
+    <ignore>
+       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore 
+       magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
+       consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+       Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    <ignore>
+    <system-under-test>
+        ...
+    </system-under-test>
+    <assert>
+        ...
+    </assert>
+</test>
+{code:xml}
+
+!! As an attribute of the test
+An alternative is to make usage of the attribute named "ignore" at the level of the "test" element. You can specify if the test must be ignored (true) or not (false).
+{code:xml}
+<test name="test's name" uid="0001" ignore="true">
+    <system-under-test>
+        ...
+    </system-under-test>
+    <assert>
+        ...
+    </assert>
+</test>
+{code:xml}

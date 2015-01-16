@@ -1,0 +1,106 @@
+! Query's parameters
+*New in v1.3*
+
+You can use parameters to pass values to SQL or MDX statements, providing type checking and validation. Unlike a [template-value], a parameter input is treated as a literal value, not as executable code. 
+
+Parameterized queries can also improve query execution performance, because they help the database server accurately match the incoming command with a proper cached query plan. This also helps guard against "SQL injection" attacks, in which an attacker inserts a command that compromises security on the server into an SQL statement. In addition to the security and performance benefits, parameterized commands provide a convenient method for organizing values passed to a data source.
+
+Note that this feature is only available if you're using System.Data.SqlClient or System.Data.AdomdClient.
+
+When creating a parameterized query, you identify the parameter name by prefixing the name with the at sign (@). For example, @Year would be a valid parameter name. 
+
+In your test definition, in addition of the element _query_, you'll also need to describe your parameter by defining its name, sql-type (for SQL but not for MDX) and value within an element named _parameter_.
+
+{code:xml}
+<query>
+	select * from Customer where CustomerKey=@CustKeyParam
+	<parameter
+		name="CustKeyParam" sql-type="Int">
+		145
+	</parameter>
+</query>
+{code:xml}
+
+The query executed by NBi will be 
+
+{code:sql}
+select * from Customer where CustomerKey=145
+{code:sql}
+
+!! Parameters and Adomd
+
+With an *AdomdClient connection (DAX or MDX)*, you don't need to specify the sql-type. Note that the usage of parameters for MDX queries is not straightforward and the documentation not really exhaustive. MDX supports only parameters for literal or scalar values. 
+
+{code:xml}
+<query>
+	select [Measures].members on 0, 
+       Filter(Customer.[Customer Geography].Country.members, 
+              Customer.[Customer Geography].CurrentMember.Name =
+              @CountryName) on 1
+    from [Adventure Works]
+	<parameter name="CountryName">
+		'United Kingdom'
+	</parameter>
+</query>
+{code:xml}
+
+To create a parameter that references a member, set, or tuple, you would have to use a function such as StrToMember or StrToSet.
+{code:xml}
+<query>
+	SELECT 
+		NON EMPTY [Dim Unit].[All Units].[Category Name].Members ON 0 
+	FROM 
+		[MY CUBE]
+	WHERE 
+		(StrToMember(@CompanyId),StrToMember(@Location))
+	<parameter name="CompanyId">
+		[Dim Company].&125
+	</parameter>
+	<parameter name="Location">
+		[Dim Location].[Country].[Canada]
+	</parameter>
+</query>
+{code:xml}
+
+!! Sql-type
+
+With an *SqlClient connection (SQL)*, the attribute sql-type is optional but it's highly recommended to use it. It will save you from pitfalls with SQL Server trying to guess by itself the type of your parameter. When specifying the value of the sql-type, you'll need to provide the SQL type such as varchar(50) or int or bit (and not the corresponding C# type string, byte or boolean). For sql-types such as varchar or char or decimal the additional parameters (size, precision, ...) between brackets will also be considered by NBi.
+
+!! Value for a date
+
+To provide a value for a date parameter, we recommend the universal format (YYYY-MM-DD). Bellow the 26th of December 2013 is provided as a parameter value for the parameter @
+{code:xml}
+<parameter
+	name="MyDate" sql-type="Date">
+	2013-12-26
+</parameter>
+{code:xml}
+
+!! Parameters defined at the test-suite level
+
+Sometimes you want to define a few parameters at the test-suite level. It's useful when these parameters are used in more than one query and their values are constant through the test-suite. This can be achieved by the usage of the element _parameter_ in the _default_ of the _settings_.
+
+Within the code snippet here under we're defining twice a parameter named location. The first one is defined for all queries in used to define the system-under-test and is a MDX parameter with the value _[Dim Location].[Country].[Canada]_. The second parameter is an SQL parameter and its value is simply _"Canada"_. All the queries defined within an _assert_ will try to use this attribute with this value.
+
+{code:xml}
+<settings>
+	<default apply-to="system-under-test">
+		<parameter name="Location">
+			[Dim Location].[Country].[Canada]
+		</parameter>
+	</default>
+	<default apply-to="assert">
+		<parameter name="Location" sql-type="varchar(50)">
+			Canada
+		</parameter>
+	</default>
+</settings>
+{code:xml}
+
+If a parameter is defined at the test-suite level and at the query level, the definition at the query level will be used.
+
+If a parameter is not defined in a query but is provided to this query, this parameter is simply not used by SQL Server (so it's not a problem).
+
+
+
+

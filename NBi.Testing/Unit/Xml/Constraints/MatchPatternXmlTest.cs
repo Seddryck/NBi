@@ -61,6 +61,24 @@ namespace NBi.Testing.Unit.Xml.Constraints
         }
 
         [Test]
+        public void Deserialize_SampleFile_MatchPatternNumericFormatWithoutReference()
+        {
+            int testNr = 1;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("WithReference");
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<MatchPatternXml>());
+            var matchPatternConstraint = (MatchPatternXml)ts.Tests[testNr].Constraints[0];
+
+            Assert.That(matchPatternConstraint.NumericFormat, Is.Not.Null);
+            Assert.That(matchPatternConstraint.NumericFormat.DecimalDigits, Is.EqualTo(2));
+            Assert.That(matchPatternConstraint.NumericFormat.DecimalSeparator, Is.EqualTo("."));
+            Assert.That(matchPatternConstraint.NumericFormat.GroupSeparator, Is.EqualTo(""));
+        }
+
+        [Test]
         public void Serialize_MatchPatternWithRegex_RegexButNoOtherElement()
         {
             var matchPattern = new MatchPatternXml();

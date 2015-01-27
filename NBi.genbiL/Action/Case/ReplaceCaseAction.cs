@@ -11,9 +11,6 @@ namespace NBi.GenbiL.Action.Case
     {
         public string Column { get; set; }
         public string NewValue { get; set; }
-        public IEnumerable<string> Values { get; set; }
-        public bool Negation { get; set; }
-        public Operator Operator { get; set; }
 
         public ReplaceCaseAction(string column, string newValue)
         {
@@ -21,15 +18,6 @@ namespace NBi.GenbiL.Action.Case
             NewValue = newValue;
         }
 
-        public ReplaceCaseAction(string column, string newValue, Operator @operator, IEnumerable<string> values, bool negation)
-            : this(column, newValue)
-             {
-            Values = values;
-            Operator = @operator;
-            Negation = negation;
-}
-            
-            
         public void Execute(GenerationState state)
         {
             var scope = state.TestCaseSetCollection.Scope;
@@ -50,43 +38,18 @@ namespace NBi.GenbiL.Action.Case
 
         protected virtual bool Condition(DataRow row, int columnIndex)
         {
-            if (Values==null || Values.Count()==0)
-                state.TestCaseCollection.Scope.Replace(Column, NewValue);
-            else
-                state.TestCaseCollection.Scope.Replace(Column, NewValue, Operator, Negation, Values);
+            return true;
         }
 
         public virtual string Display
         {
             get
             {
-                var display = string.Format(
+                return string.Format(
                         "Replacing content of column '{0}' with value '{1}'"
                         , Column
                         , NewValue);
-
-                if (Values != null && Values.Count() > 0)
-                    display += string.Format(
-                        " when values {0}{1} '{2}'"
-                        , Negation ? "not " : string.Empty
-                        , GetOperatorText(Operator)
-                        , string.Join("', '", Values));
-
-                return display;
             }
-        }
-        private string GetOperatorText(Operator @operator)
-        {
-            switch (@operator)
-            {
-                case Operator.Equal:
-                    return "equal to";
-                case Operator.Like:
-                    return "like";
-                default:
-                    break;
-            }
-            throw new ArgumentException();
         }
     }
 }

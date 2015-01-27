@@ -6,19 +6,22 @@ using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.Template;
 using NBi.UI.Genbi.Interface;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
+using NBi.GenbiL.Action.Template;
+using NBi.GenbiL;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.UI.Genbi.Presenter
 {
     class TemplatePresenter : PresenterBase
     {
-        private readonly TemplateManager templateManager;
+        private readonly GenerationState state;
         public bool IsModified {get; private set;}
 
-        public TemplatePresenter(TemplateManager templateManager, string template)
+        public TemplatePresenter(GenerationState state)
         {
             EmbeddedTemplateLabels = new BindingList<string>();
 
-            this.templateManager = templateManager;
+            this.state = state;
             ReloadEmbeddedTemplateLabels();
 
             var window = new OpenTemplateWindow(EmbeddedTemplateLabels);
@@ -27,7 +30,7 @@ namespace NBi.UI.Genbi.Presenter
             OpenTemplateCommand = new OpenTemplateCommand(this, window);
             SaveTemplateCommand = new SaveTemplateCommand(this);
 
-            Template = template;
+            Template = string.Empty;
             IsModified = false;
             SaveTemplateCommand.Refresh();
         }
@@ -45,8 +48,6 @@ namespace NBi.UI.Genbi.Presenter
             get { return GetValue<string>("Template"); }
             set { SetValue("Template", value); }
         }
-
-        //public string Template { get; set; }
         #endregion
 
         protected override void OnPropertyChanged(string propertyName)
@@ -68,27 +69,36 @@ namespace NBi.UI.Genbi.Presenter
         private void ReloadEmbeddedTemplateLabels()
         {
             EmbeddedTemplateLabels.Clear();
-            foreach (var label in templateManager.GetEmbeddedLabels())
+            if (state.Template.PredefinedLabels.Count()==0)
+            {
+                var action = new ListPredefinedTemplateAction();
+                action.Execute(state);
+            }
+
+            foreach (var label in state.Template.PredefinedLabels)
                 EmbeddedTemplateLabels.Add(label);
         }
 
         internal void LoadExternalTemplate(string fullPath)
         {
-            Template = templateManager.GetExternalTemplate(fullPath);
+            var action = new LoadExternalTemplateAction(fullPath);
+            action.Execute(state);
             IsModified = false;
             OnPropertyChanged("Template");
         }
 
         internal void LoadEmbeddedTemplate(string name)
         {
-            Template = templateManager.GetEmbeddedTemplate(name);
+            var action = new LoadPredefinedTemplateAction(name);
+            action.Execute(state);
             IsModified = false;
             OnPropertyChanged("Template");
         }
 
         internal void Save(string fullPath)
         {
-            templateManager.Persist(fullPath, Template);
+            var action = new SaveTemplateAction(fullPath);
+            action.Execute(state);
             IsModified = false;
             this.SaveTemplateCommand.Refresh();
         }

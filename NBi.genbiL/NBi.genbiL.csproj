@@ -50,6 +50,9 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Action\AxisType.cs" />
+    <Compile Include="Action\Case\CrossAbstractCaseAction.cs" />
+    <Compile Include="Action\Case\CrossFullCaseAction.cs" />
+    <Compile Include="Action\Case\ReplaceConditionalCaseAction.cs" />
     <Compile Include="Action\Case\SubstituteCaseAction.cs" />
     <Compile Include="Action\Case\CrossVectorCaseAction.cs" />
     <Compile Include="Action\Case\ConcatenateCaseAction.cs" />
@@ -57,14 +60,14 @@
     <Compile Include="Action\Case\MergeCaseAction.cs" />
     <Compile Include="Action\Case\AddCaseAction.cs" />
     <Compile Include="Action\Case\CopyCaseAction.cs" />
-    <Compile Include="Action\Case\CrossCaseAction.cs" />
+    <Compile Include="Action\Case\CrossColumnMatchingCaseAction.cs" />
     <Compile Include="Action\Case\HoldCaseAction.cs" />
     <Compile Include="Action\Case\SaveCaseAction.cs" />
     <Compile Include="Action\Case\ScopeCaseAction.cs" />
     <Compile Include="Action\Case\FilterDistinctCaseAction.cs" />
-    <Compile Include="Action\Case\LoadCaseFromQueryAction.cs" />
+    <Compile Include="Action\Case\LoadFromQueryCaseAction.cs" />
     <Compile Include="Action\Case\FilterCaseAction.cs" />
-    <Compile Include="Action\Case\LoadCaseFromQueryFileAction.cs" />
+    <Compile Include="Action\Case\LoadFromQueryFileCaseAction.cs" />
     <Compile Include="Action\Case\MoveCaseAction.cs" />
     <Compile Include="Action\Case\RenameCaseAction.cs" />
     <Compile Include="Action\Case\RemoveCaseAction.cs" />
@@ -79,6 +82,10 @@
     <Compile Include="Action\Suite\SaveSuiteAction.cs" />
     <Compile Include="Action\Suite\ISuiteAction.cs" />
     <Compile Include="Action\Template\ITemplateAction.cs" />
+    <Compile Include="Action\Template\ListPredefinedTemplateAction.cs" />
+    <Compile Include="Action\Template\LoadPredefinedTemplateAction.cs" />
+    <Compile Include="Action\Template\LoadTemplateActionBuilder.cs" />
+    <Compile Include="Action\Template\SaveTemplateAction.cs" />
     <Compile Include="Parser\Valuable\Column.cs" />
     <Compile Include="Parser\Comment.cs" />
     <Compile Include="Parser\Valuable\IValuable.cs" />
@@ -88,9 +95,9 @@
     <Compile Include="Parser\Suite.cs" />
     <Compile Include="Action\Setting\ReferenceAction.cs" />
     <Compile Include="Action\Suite\GenerateSuiteAction.cs" />
-    <Compile Include="Action\Template\LoadTemplateAction.cs" />
-    <Compile Include="GenerationState.cs" />
-    <Compile Include="Action\Case\LoadCaseFromFileAction.cs" />
+    <Compile Include="Action\Template\LoadExternalTemplateAction.cs" />
+    <Compile Include="Stateful\GenerationState.cs" />
+    <Compile Include="Action\Case\LoadFromFileCaseAction.cs" />
     <Compile Include="Action\LoadType.cs" />
     <Compile Include="Parser\Case.cs" />
     <Compile Include="Parser\Template.cs" />
@@ -99,9 +106,17 @@
     <Compile Include="Parser\Valuable\ValuableBuilder.cs" />
     <Compile Include="Parser\Valuable\Value.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Stateful\SettingsState.cs" />
+    <Compile Include="Stateful\TemplateState.cs" />
+    <Compile Include="Stateful\TestCaseSetState.cs" />
+    <Compile Include="Stateful\TestCaseSetCollectionState.cs" />
     <Compile Include="TestSuiteGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
+      <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
+      <Name>NBi.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NBi.Services\NBi.Service.csproj">
       <Project>{a9c7e50a-1d3d-4c6d-9c56-8ea8925fe2d6}</Project>
       <Name>NBi.Service</Name>

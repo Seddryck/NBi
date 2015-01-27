@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.GenbiL.Stateful;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,13 +29,10 @@ namespace NBi.GenbiL.Action.Case
 
         public void Execute(GenerationState state)
         {
-            var variablesDeleted = state.TestCaseCollection.Scope.Variables.Except(variableNames).ToList();
+            var variablesDeleted = state.TestCaseSetCollection.Scope.Variables.Except(variableNames).ToList();
 
             foreach (var variable in variablesDeleted)
-            {
-                state.TestCaseCollection.Scope.Variables.Remove(variable);
-                state.TestCaseCollection.Scope.Content.Columns.Remove(variable);
-            }
+                state.TestCaseSetCollection.Scope.Content.Columns.Remove(variable);
         }
 
         public string Display

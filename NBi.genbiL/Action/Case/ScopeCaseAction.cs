@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NBi.Service;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.GenbiL.Action.Case
 {
@@ -14,7 +15,7 @@ namespace NBi.GenbiL.Action.Case
         }
         public void Execute(GenerationState state)
         {
-            state.TestCaseCollection.SetFocus(Name);
+            state.TestCaseSetCollection.SetFocus(Name);
         }
 
         public virtual string Display

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.GenbiL.Stateful;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace NBi.GenbiL.Action.Suite
         
         public void Execute(GenerationState state)
         {
-            state.Suite.DefineSettings(state.Settings.GetSettingsXml());
+            //TODO state.Suite.DefineSettings(state.Settings.GetSettingsXml());
             state.Suite.DefineTests(state.List.GetTests());
             state.Suite.SaveAs(Filename);
         }

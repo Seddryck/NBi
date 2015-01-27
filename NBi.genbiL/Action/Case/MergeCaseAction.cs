@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.GenbiL.Stateful;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -18,12 +19,12 @@ namespace NBi.GenbiL.Action.Case
 
         public void Execute(GenerationState state)
         {
-            if (!state.TestCaseCollection.ItemExists(MergedScope))
+            if (!state.TestCaseSetCollection.ItemExists(MergedScope))
                 throw new ArgumentException(String.Format("Scope '{0}' doesn't exist.", MergedScope));
 
-            var dr = state.TestCaseCollection.Item(MergedScope).Content.CreateDataReader();
-            state.TestCaseCollection.Scope.Content.Load(dr, LoadOption.PreserveChanges);
-            state.TestCaseCollection.Scope.Content.AcceptChanges();
+            var dr = state.TestCaseSetCollection.Item(MergedScope).Content.CreateDataReader();
+            state.TestCaseSetCollection.Scope.Content.Load(dr, LoadOption.PreserveChanges);
+            state.TestCaseSetCollection.Scope.Content.AcceptChanges();
         }
 
         public string Display

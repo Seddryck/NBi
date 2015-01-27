@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Linq;
 using NBi.Service;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class LoadCaseFromQueryFileAction : ICaseAction
+    public class LoadFromQueryFileCaseAction : LoadFromQueryCaseAction
     {
         public string Filename { get; set; }
-        public string ConnectionString { get; set; }
 
-        public LoadCaseFromQueryFileAction(string filename, string connectionString)
+        public LoadFromQueryFileCaseAction(string filename, string connectionString)
+            : base(string.Empty, connectionString)
         {
             Filename = filename;
-            ConnectionString = connectionString;
         }
 
-        public virtual void Execute(GenerationState state)
+        protected override string GetQuery()
         {
-            state.TestCaseCollection.Scope.ReadFromQueryFile(Filename, ConnectionString);
+            return System.IO.File.ReadAllText(Filename);
         }
 
-        public string Display
+        public override string Display
         {
             get
             {

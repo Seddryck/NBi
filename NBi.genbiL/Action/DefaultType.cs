@@ -8,6 +8,8 @@ namespace NBi.GenbiL.Action
     public enum DefaultType
     {
         SystemUnderTest = 0,
-        Assert = 1
+        Assert = 1,
+        SetupCleanup = 2,
+        Everywhere=3
     }
 }

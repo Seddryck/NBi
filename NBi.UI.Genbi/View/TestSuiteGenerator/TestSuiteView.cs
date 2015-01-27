@@ -9,13 +9,14 @@ using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Interface;
 using NBi.UI.Genbi.Presenter;
 using NBi.UI.Genbi.Stateful;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.UI.Genbi.View.TestSuiteGenerator
 {
     partial class TestSuiteView : Form
     {
 
-        private TestSuiteState State { get; set; }
+        private ApplicationState State { get; set; }
         private TestCasesPresenter TestCasesPresenter {get; set;}
         private TemplatePresenter TemplatePresenter { get; set; }
         private SettingsPresenter SettingsPresenter { get; set; }
@@ -26,9 +27,9 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
 
         public TestSuiteView()
         {
-            State = new TestSuiteState();
+            State = new ApplicationState();
             TestCasesPresenter = new TestCasesPresenter(new RenameVariableWindow(), new FilterWindow(), new ConnectionStringWindow(), new TestCaseCollectionManager(), State.TestCases, State.Variables, State.ConnectionStringNames);
-            TemplatePresenter = new TemplatePresenter(new TemplateManager(), State.Template);
+            TemplatePresenter = new TemplatePresenter(new GenerationState());
             SettingsPresenter = new SettingsPresenter(new SettingsManager(), State.Settings);
             TestListPresenter = new TestListPresenter(new TestListManager(), State.Tests, State.TestCases, State.Variables, State.Template);
             TestSuitePresenter = new TestSuitePresenter(new TestSuiteManager(), State.Tests, State.Settings);

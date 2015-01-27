@@ -146,7 +146,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Interface\RunnerConfig\IRunnerConfigView.cs" />
-    <Compile Include="Stateful\TestSuiteState.cs" />
+    <Compile Include="Stateful\ApplicationState.cs" />
     <Compile Include="View\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>

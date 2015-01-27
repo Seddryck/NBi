@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.GenbiL.Stateful;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,19 +23,25 @@ namespace NBi.GenbiL.Action.Case
             Position = position;
         }
 
-
         public void Execute(GenerationState state)
         {
-            var currentPosition = state.TestCaseCollection.Scope.Variables.IndexOf(VariableName);
+
+            if (!state.TestCaseSetCollection.Scope.Variables.Contains(VariableName))
+                throw new ArgumentOutOfRangeException("variableName");
+
+            var currentPosition = state.TestCaseSetCollection.Scope.Content.Columns.IndexOf(VariableName);
+            var newPosition = 0;
 
             if (Position != int.MinValue && Position != int.MaxValue)
-                state.TestCaseCollection.Scope.MoveVariable(VariableName, currentPosition + Position);
+                newPosition = currentPosition + Position;
 
             if (Position == int.MinValue)
-                state.TestCaseCollection.Scope.MoveVariable(VariableName, 0);
+                newPosition = 0;
 
             if (Position == int.MaxValue)
-                state.TestCaseCollection.Scope.MoveVariable(VariableName, state.TestCaseCollection.Scope.Variables.Count-1);
+                newPosition = state.TestCaseSetCollection.Scope.Variables.Count-1;
+            //move the column
+            state.TestCaseSetCollection.Scope.Content.Columns[currentPosition].SetOrdinal(newPosition);
         }
 
         public string Display

@@ -18,8 +18,8 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             var result = Case.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<LoadCaseFromFileAction>());
-            Assert.That(((LoadCaseFromFileAction)result).Filename, Is.EqualTo("filename.csv"));
+            Assert.That(result, Is.InstanceOf<LoadFromFileCaseAction>());
+            Assert.That(((LoadFromFileCaseAction)result).Filename, Is.EqualTo("filename.csv"));
         }
 
         [Test]
@@ -29,9 +29,9 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             var result = Case.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<LoadCaseFromQueryFileAction>());
-            Assert.That(((LoadCaseFromQueryFileAction)result).Filename, Is.EqualTo("filename.sql"));
-            Assert.That(((LoadCaseFromQueryFileAction)result).ConnectionString, Is.EqualTo("connStr"));
+            Assert.That(result, Is.InstanceOf<LoadFromQueryFileCaseAction>());
+            Assert.That(((LoadFromQueryFileCaseAction)result).Filename, Is.EqualTo("filename.sql"));
+            Assert.That(((LoadFromQueryFileCaseAction)result).ConnectionString, Is.EqualTo("connStr"));
         }
 
         [Test]
@@ -41,9 +41,9 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             var result = Case.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<LoadCaseFromQueryAction>());
-            Assert.That(((LoadCaseFromQueryAction)result).Query, Is.EqualTo("select distinct myField from myTable"));
-            Assert.That(((LoadCaseFromQueryAction)result).ConnectionString, Is.EqualTo("connStr"));
+            Assert.That(result, Is.InstanceOf<LoadFromQueryCaseAction>());
+            Assert.That(((LoadFromQueryCaseAction)result).Query, Is.EqualTo("select distinct myField from myTable"));
+            Assert.That(((LoadFromQueryCaseAction)result).ConnectionString, Is.EqualTo("connStr"));
         }
 
         [Test]
@@ -281,9 +281,9 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             var result = Case.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<CrossCaseAction>());
+            Assert.That(result, Is.InstanceOf<CrossColumnMatchingCaseAction>());
 
-            var crossCase = result as CrossCaseAction;
+            var crossCase = result as CrossColumnMatchingCaseAction;
             Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
             Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
             Assert.That(crossCase.MatchingColumn, Is.Null.Or.Empty);
@@ -295,9 +295,9 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             var result = Case.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<CrossCaseAction>());
+            Assert.That(result, Is.InstanceOf<CrossColumnMatchingCaseAction>());
 
-            var crossCase = result as CrossCaseAction;
+            var crossCase = result as CrossColumnMatchingCaseAction;
             Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
             Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
             Assert.That(crossCase.MatchingColumn, Is.EqualTo("myKey"));
@@ -397,14 +397,14 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             var result = Case.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<ReplaceCaseAction>());
-            Assert.That(((ReplaceCaseAction)result).Column, Is.EqualTo("alpha"));
-            Assert.That(((ReplaceCaseAction)result).NewValue, Is.EqualTo("my new value"));
-            Assert.That(((ReplaceCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
-            Assert.That(((ReplaceCaseAction)result).Negation, Is.True);
-            Assert.That(((ReplaceCaseAction)result).Values, Has.Member("foo"));
-            Assert.That(((ReplaceCaseAction)result).Values, Has.Member("bar"));
-            Assert.That(((ReplaceCaseAction)result).Values, Has.Member(""));
+            Assert.That(result, Is.InstanceOf<ReplaceConditionalCaseAction>());
+            Assert.That(((ReplaceConditionalCaseAction)result).Column, Is.EqualTo("alpha"));
+            Assert.That(((ReplaceConditionalCaseAction)result).NewValue, Is.EqualTo("my new value"));
+            Assert.That(((ReplaceConditionalCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
+            Assert.That(((ReplaceConditionalCaseAction)result).Negation, Is.True);
+            Assert.That(((ReplaceConditionalCaseAction)result).Values, Has.Member("foo"));
+            Assert.That(((ReplaceConditionalCaseAction)result).Values, Has.Member("bar"));
+            Assert.That(((ReplaceConditionalCaseAction)result).Values, Has.Member(""));
         }
 
         [Test]
@@ -414,14 +414,14 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             var result = Case.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<ReplaceCaseAction>());
-            Assert.That(((ReplaceCaseAction)result).Column, Is.EqualTo("alpha"));
-            Assert.That(((ReplaceCaseAction)result).NewValue, Is.EqualTo("(none)"));
-            Assert.That(((ReplaceCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
-            Assert.That(((ReplaceCaseAction)result).Negation, Is.True);
-            Assert.That(((ReplaceCaseAction)result).Values, Has.Member("foo"));
-            Assert.That(((ReplaceCaseAction)result).Values, Has.Member("bar"));
-            Assert.That(((ReplaceCaseAction)result).Values, Has.Member(""));
+            Assert.That(result, Is.InstanceOf<ReplaceConditionalCaseAction>());
+            Assert.That(((ReplaceConditionalCaseAction)result).Column, Is.EqualTo("alpha"));
+            Assert.That(((ReplaceConditionalCaseAction)result).NewValue, Is.EqualTo("(none)"));
+            Assert.That(((ReplaceConditionalCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
+            Assert.That(((ReplaceConditionalCaseAction)result).Negation, Is.True);
+            Assert.That(((ReplaceConditionalCaseAction)result).Values, Has.Member("foo"));
+            Assert.That(((ReplaceConditionalCaseAction)result).Values, Has.Member("bar"));
+            Assert.That(((ReplaceConditionalCaseAction)result).Values, Has.Member(""));
         }
 
         [Test]

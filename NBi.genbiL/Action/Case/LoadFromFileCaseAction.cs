@@ -1,20 +1,28 @@
 ﻿using System;
 using System.Linq;
 using NBi.Service;
+using NBi.GenbiL.Stateful;
+using NBi.Core;
+using System.Data;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class LoadCaseFromFileAction : ICaseAction
+    public class LoadFromFileCaseAction : ICaseAction
     {
         public string Filename { get; set; }
-        public LoadCaseFromFileAction(string filename)
+        public LoadFromFileCaseAction(string filename)
         {
             Filename = filename;
         }
 
         public virtual void Execute(GenerationState state)
         {
-            state.TestCaseCollection.Scope.ReadFromCsv(Filename);
+            var csvReader = new CsvReader();
+            var dataTable = csvReader.Read(Filename, true);
+            var dataReader = dataTable.CreateDataReader();
+
+            state.TestCaseSetCollection.Scope.Content.Load(dataReader, LoadOption.PreserveChanges);
+            state.TestCaseSetCollection.Scope.Content.AcceptChanges();
         }
 
         public string Display

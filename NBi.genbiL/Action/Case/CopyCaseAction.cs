@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NBi.GenbiL.Stateful;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,14 +21,25 @@ namespace NBi.GenbiL.Action.Case
 
         public void Execute(GenerationState state)
         {
-            state.TestCaseCollection.Copy(From, To);
+            if (!state.TestCaseSetCollection.ItemExists(From))
+                throw new ArgumentException(String.Format("The test case set named '{0}' doesn't exist.", From), "from");
+
+            if (state.TestCaseSetCollection.ItemExists(To))
+                throw new ArgumentException(String.Format("The test case set named '{0}' already exists. The copy command cannot be performed on an existing test cases set", To), "to");
+
+            var dataReader = state.TestCaseSetCollection.Item(From).Content.CreateDataReader();
+
+            var target = state.TestCaseSetCollection.Item(To);
+            target.Content.Clear();
+            target.Content.Load(dataReader, LoadOption.PreserveChanges);
+            target.Content.AcceptChanges();
         }
 
         public virtual string Display
         {
             get
             {
-                return string.Format("Copying test cases set '{0}' to '{1}'", From, To);
+                return string.Format("Copying set of test cases from '{0}' to '{1}'", From, To);
             }
         }
     }

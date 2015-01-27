@@ -26,7 +26,7 @@ namespace NBi.GenbiL.Parser
                 from load in Keyword.Load
                 from loadType in loadTypeFileParser
                 from filename in Grammar.QuotedTextual
-                select new LoadCaseFromFileAction(filename)
+                select new LoadFromFileCaseAction(filename)
         );
 
         readonly static Parser<ICaseAction> caseLoadQueryFileParser =
@@ -36,7 +36,7 @@ namespace NBi.GenbiL.Parser
                 from filename in Grammar.QuotedTextual
                 from onKeyword in Keyword.On
                 from connectionString in Grammar.QuotedTextual
-                select new LoadCaseFromQueryFileAction(filename, connectionString)
+                select new LoadFromQueryFileCaseAction(filename, connectionString)
         );
 
         readonly static Parser<ICaseAction> caseLoadQueryParser =
@@ -46,7 +46,7 @@ namespace NBi.GenbiL.Parser
                 from query in Grammar.CurlyBraceTextual
                 from onKeyword in Keyword.On
                 from connectionString in Grammar.QuotedTextual
-                select new LoadCaseFromQueryAction(query, connectionString)
+                select new LoadFromQueryCaseAction(query, connectionString)
         );
 
         readonly static Parser<ICaseAction> caseLoadParser =
@@ -118,7 +118,7 @@ namespace NBi.GenbiL.Parser
                 from first in Grammar.QuotedTextual
                 from withKeyword in Keyword.With
                 from second in Grammar.QuotedTextual
-                select new CrossCaseAction(first, second)
+                select new CrossFullCaseAction(first, second)
         );
 
         readonly static Parser<ICaseAction> caseCrossOnColumnParser =
@@ -129,7 +129,7 @@ namespace NBi.GenbiL.Parser
                 from second in Grammar.QuotedTextual
                 from onKeyword in Keyword.On
                 from matchingColumn in Grammar.QuotedTextual
-                select new CrossCaseAction(first, second, matchingColumn)
+                select new CrossColumnMatchingCaseAction(first, second, matchingColumn)
         );
 
         readonly static Parser<ICaseAction> caseCrossVectorParser =
@@ -227,7 +227,7 @@ namespace NBi.GenbiL.Parser
                 select new ReplaceCaseAction(variableName, text)
         );
 
-        readonly static Parser<ICaseAction> caseReplaceComplexParser =
+        readonly static Parser<ICaseAction> caseReplaceConditionalParser =
         (
                 from replace in Keyword.Replace
                 from axisType in Parse.IgnoreCase("Column").Token()
@@ -240,7 +240,7 @@ namespace NBi.GenbiL.Parser
                 from negation in Keyword.Not.Optional()
                 from @operator in Parse.IgnoreCase("Equal").Return(Operator.Equal).Or(Parse.IgnoreCase("Like").Return(Operator.Like)).Token()
                 from text in Grammar.ExtendedQuotedRecordSequence
-                select new ReplaceCaseAction(variableName, newValue, @operator, text, negation.IsDefined)
+                select new ReplaceConditionalCaseAction(variableName, newValue, @operator, text, negation.IsDefined)
         );
 
         public readonly static Parser<IAction> Parser =
@@ -262,7 +262,7 @@ namespace NBi.GenbiL.Parser
                                     .Or(caseAddWithDefaultParser)
                                     .Or(caseAddParser)
                                     .Or(caseMergeParser)
-                                    .Or(caseReplaceComplexParser)
+                                    .Or(caseReplaceConditionalParser)
                                     .Or(caseReplaceSimpleParser)
                                     .Or(caseConcatenateParser)
                                     .Or(caseSubstituteParser)

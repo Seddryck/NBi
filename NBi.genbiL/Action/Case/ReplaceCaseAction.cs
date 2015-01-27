@@ -2,6 +2,8 @@
 using System.Linq;
 using NBi.Service;
 using System.Collections.Generic;
+using NBi.GenbiL.Stateful;
+using System.Data;
 
 namespace NBi.GenbiL.Action.Case
 {
@@ -21,13 +23,32 @@ namespace NBi.GenbiL.Action.Case
 
         public ReplaceCaseAction(string column, string newValue, Operator @operator, IEnumerable<string> values, bool negation)
             : this(column, newValue)
-        {
+             {
             Values = values;
             Operator = @operator;
             Negation = negation;
+}
+            
+            
+        public void Execute(GenerationState state)
+        {
+            var scope = state.TestCaseSetCollection.Scope;
+
+            if (!scope.Variables.Contains(Column))
+                throw new ArgumentException(string.Format("No column named '{0}' has been found.", Column));
+
+            var index = scope.Content.Columns.IndexOf(Column);
+
+            foreach (DataRow row in scope.Content.Rows)
+            {
+                if (Condition(row, index))
+                    row[index] = NewValue;
+            }
+
+            scope.Content.AcceptChanges();
         }
 
-        public void Execute(GenerationState state)
+        protected virtual bool Condition(DataRow row, int columnIndex)
         {
             if (Values==null || Values.Count()==0)
                 state.TestCaseCollection.Scope.Replace(Column, NewValue);

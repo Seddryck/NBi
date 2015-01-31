@@ -40,7 +40,7 @@ namespace NBi.Xml
             {
                 if (test is TestStandaloneXml)
                 {
-                    var t = new TestXml((TestStandaloneXml)test);
+                    var t = (test as TestStandaloneXml).ToTest();
                     this.Tests.Add(t);
                 }
                 else

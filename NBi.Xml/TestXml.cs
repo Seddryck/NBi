@@ -138,21 +138,6 @@ namespace NBi.Xml
             GroupNames = new List<string>();
         }
 
-        public TestXml(TestStandaloneXml standalone)
-        {
-            this.Name = standalone.Name;
-            this.DescriptionElement = standalone.DescriptionElement;
-            this.IgnoreElement = standalone.IgnoreElement;
-            this.Categories = standalone.Categories;
-            this.Traits = standalone.Traits;
-            this.Constraints = standalone.Constraints;
-            this.Setup = standalone.Setup;
-            this.Cleanup = standalone.Cleanup;
-            this.Systems = standalone.Systems;
-            this.UniqueIdentifier = standalone.UniqueIdentifier;
-            this.Edition = standalone.Edition;
-        }
-
         public string GetName()
         {
             string newName = Name;
@@ -255,5 +240,6 @@ namespace NBi.Xml
             }
             set { return; }
         }
+
     }
 }

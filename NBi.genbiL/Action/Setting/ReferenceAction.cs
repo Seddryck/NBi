@@ -28,7 +28,7 @@ namespace NBi.GenbiL.Action.Setting
         {
             get
             {
-                return string.Format("Create reference named '{0}' with value with connectionString defined as '{2}'"
+                return string.Format("Create reference named '{0}' with value with connectionString defined as '{1}'"
                     , Name
                     , Value
                     );

@@ -25,6 +25,7 @@ namespace NBi.GenbiL.Action.Case
             var ds = queryEngine.Execute();
 
             var dr = ds.Tables[0].CreateDataReader();
+            state.TestCaseSetCollection.Scope.Content.Reset();
             state.TestCaseSetCollection.Scope.Content.Load(dr, LoadOption.PreserveChanges);
             state.TestCaseSetCollection.Scope.Content.AcceptChanges();
         }

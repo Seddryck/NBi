@@ -21,6 +21,7 @@ namespace NBi.GenbiL.Action.Case
             var dataTable = csvReader.Read(Filename, true);
             var dataReader = dataTable.CreateDataReader();
 
+            state.TestCaseSetCollection.Scope.Content.Reset();
             state.TestCaseSetCollection.Scope.Content.Load(dataReader, LoadOption.PreserveChanges);
             state.TestCaseSetCollection.Scope.Content.AcceptChanges();
         }

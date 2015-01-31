@@ -167,15 +167,15 @@ namespace NBi.Xml
 
         public void Persist(string filename, TestSuiteXml testSuite)
         {
+            using (var writer = new StreamWriter(filename, false, Encoding.UTF8))
+                Persist(writer, testSuite);
+        }
+
+        public void Persist(StreamWriter streamWriter, TestSuiteXml testSuite)
+        {
             // Create an instance of the XmlSerializer specifying type and namespace.
             var serializer = new XmlSerializer(typeof(TestSuiteXml));
-
-            using (var writer = new StreamWriter(filename, false, Encoding.UTF8))
-            {
-                // Use the Serialize method to store the object's state.
-                serializer.Serialize(writer, testSuite);
-            }
-            //Debug.Write(XmlSerializeFrom<TestSuiteXml>(testSuite));
+            serializer.Serialize(streamWriter, testSuite);
         }
 
         public TestXml DeserializeTest(string objectData)

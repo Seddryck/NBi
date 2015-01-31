@@ -33,26 +33,34 @@ namespace NBi.Service
                 count++;
                 var str = BuildTestString(row);
 
-                TestStandaloneXml test = null;
-                try
-                {
-                    test = XmlDeserializeFromString<TestStandaloneXml>(str);
-                }
-                catch (InvalidOperationException ex)
-                {
-                    throw new TemplateExecutionException(ex.Message);
-                }
+                TestStandaloneXml test = BuildTestStandaloneXml(str);
 
                 //Cleanup the variables in the template for next iteration.
                 foreach (var variable in Variables)
                     Template.Remove(variable);
 
-                test.Content = XmlSerializeFrom<TestStandaloneXml>(test);
-                tests.Add(test);
+                var serializer = new Serializer();
+                test.Content = serializer.XmlSerializeFrom<TestStandaloneXml>(test);
+                tests.Add(test.ToTest());
                 InvokeProgress(new ProgressEventArgs(count, table.Count()));
             }
             
             return tests;
+        }
+
+        public TestStandaloneXml BuildTestStandaloneXml(string str)
+        {
+            TestStandaloneXml test = null;
+            try
+            {
+                var serializer = new Serializer();
+                test = serializer.XmlDeserializeFromString<TestStandaloneXml>(str);
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new TemplateExecutionException(ex.Message);
+            }
+            return test;
         }
 
         internal void InitializeTemplate()
@@ -79,51 +87,6 @@ namespace NBi.Service
 
             var str = Template.Render();
             return str;
-        }
-
-        protected internal T XmlDeserializeFromString<T>(string objectData)
-        {
-            return (T)XmlDeserializeFromString(objectData, typeof(T));
-        }
-
-        protected internal static string XmlSerializeFrom<T>(T objectData)
-        {
-            return SerializeFrom(objectData, typeof(T));
-        }
-
-        protected object XmlDeserializeFromString(string objectData, Type type)
-        {
-            var serializer = new XmlSerializer(type);
-            object result;
-
-            using (TextReader reader = new StringReader(objectData))
-            {
-                result = serializer.Deserialize(reader);
-            }
-
-            return result;
-        }
-
-        protected static string SerializeFrom(object objectData, Type type)
-        {
-            var serializer = new XmlSerializer(type);
-            var result = string.Empty;
-            using (var writer = new StringWriter())
-            {
-                // Use the Serialize method to store the object's state.
-                try
-                {
-                    serializer.Serialize(writer, objectData);
-                }
-                catch (Exception e)
-                {
-                    
-                    throw e;
-                }
-                
-                result = writer.ToString();
-            }
-            return result;
         }
 
         protected string[] GetDynamicNames()

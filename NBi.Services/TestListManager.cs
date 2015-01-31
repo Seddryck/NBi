@@ -153,7 +153,8 @@ namespace NBi.Service
             if (!categories.Contains(categoryName))
             {
                 categories.Add(categoryName);
-                test.Reference.Content = StringTemplateEngine.XmlSerializeFrom<TestStandaloneXml>((TestStandaloneXml)test.Reference);
+                var serializer = new Serializer();
+                test.Reference.Content = serializer.XmlSerializeFrom<TestStandaloneXml>((TestStandaloneXml)test.Reference);
             }
                 
         }
@@ -247,5 +248,6 @@ namespace NBi.Service
             }
             return result;
         }
+
     }
 }

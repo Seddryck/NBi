@@ -56,6 +56,7 @@
     <Compile Include="Dto\Style.cs" />
     <Compile Include="Operator.cs" />
     <Compile Include="RunnerConfig\AbstractRunnerConfigBuilder.cs" />
+    <Compile Include="Serializer.cs" />
     <Compile Include="TestCaseCollectionManager.cs" />
     <Compile Include="TestCaseManager.cs" />
     <Compile Include="Dto\Test.cs" />

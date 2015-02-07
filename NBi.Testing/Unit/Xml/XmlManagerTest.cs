@@ -27,10 +27,11 @@ namespace NBi.Testing.Unit.Xml
             manager.Load(filename);
 
             Assert.That(manager.TestSuite.Tests[0].Content, Is.Not.Null);
+            Assert.That(manager.TestSuite.Tests[0].Content, Is.StringEnding("</test>"));
         }
 
         [Test]
-        public void Load_InvalidFile_Successfully()
+        public void Load_InvalidFile_ThrowException()
         {
             var filename = DiskOnFile.CreatePhysicalFile("TestSuiteInvalidSyntax.xml", "NBi.Testing.Unit.Xml.Resources.XmlManagerInvalidSyntax.xml");
 

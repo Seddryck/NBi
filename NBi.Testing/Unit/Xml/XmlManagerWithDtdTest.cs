@@ -1,6 +1,7 @@
 ﻿using System;
 using NBi.Xml;
 using NUnit.Framework;
+using System.Xml;
 
 namespace NBi.Testing.Unit.Xml
 {
@@ -12,8 +13,8 @@ namespace NBi.Testing.Unit.Xml
         [SetUp]
         public void Setup()
         {
-            DiskOnFile.CreatePhysicalFile("TestSuiteIncludedTestSuite.xml", "NBi.Testing.Unit.Xml.Resources.TestSuiteIncludedTestSuite.xml");
-            filename = DiskOnFile.CreatePhysicalFile("TestSuiteWithIncludeTestSuite.xml", "NBi.Testing.Unit.Xml.Resources.TestSuiteWithIncludeTestSuite.xml");
+            DiskOnFile.CreatePhysicalFile("TestSuiteIncludedTestSuite.nbiinclude", "NBi.Testing.Unit.Xml.Resources.TestSuiteIncludedTestSuite.xml");
+            filename = DiskOnFile.CreatePhysicalFile("TestSuiteWithIncludeTestSuite.nbits", "NBi.Testing.Unit.Xml.Resources.TestSuiteWithIncludeTestSuite.xml");
         }
             
         [Test]
@@ -38,7 +39,7 @@ namespace NBi.Testing.Unit.Xml
         public void Load_ValidFileButWithoutDtdProcessingSetToTrue_Successfully()
         {
             var manager = new XmlManager();
-            Assert.Throws<ArgumentException>(delegate { manager.Load(filename, false); });
+            Assert.Throws<XmlException>(delegate { manager.Load(filename, false); });
         }
     }
 }

@@ -17,16 +17,17 @@ namespace NBi.Xml
     {
         public virtual TestSuiteXml TestSuite { get; protected set; }
         public virtual NameValueCollection ConnectionStrings { get; set; }
-        protected bool isValid;
+        private readonly IList<XmlSchemaException> validationExceptions;
         private readonly XmlDocument docXml;
 
         public XmlManager()
         {
             docXml = new XmlDocument();
             ConnectionStrings = new NameValueCollection();
+            validationExceptions = new List<XmlSchemaException>();
         }
 
-        #region "Load methods"
+        #region Load methods
 
         public virtual void Load(string testSuiteFilename)
         {
@@ -83,7 +84,7 @@ namespace NBi.Xml
 
         #endregion
 
-        #region "Read methods"
+        #region Read methods
 
         internal void Read(StreamReader reader)
         {
@@ -102,7 +103,7 @@ namespace NBi.Xml
             // Create an instance of the XmlSerializer specifying type and read-attributes.
             try
             {
-                isValid = true;
+                validationExceptions.Clear();
                 XmlSerializer serializer = new XmlSerializer(typeof(TestSuiteXml), attrs);
 
                 // Use the Deserialize method to restore the object's state.
@@ -110,22 +111,34 @@ namespace NBi.Xml
             }
             catch (InvalidOperationException ex)
             {
-                isValid = false;
                 if (ex.InnerException is XmlSchemaException)
+                {
+                    validationExceptions.Add(ex.InnerException as XmlSchemaException);
                     if (ex.Message.Contains("For security reasons DTD is prohibited"))
                         Console.WriteLine("DTD is prohibited. To activate it, set the flag allow-dtd-processing to true in the config file associated to this test-suite");
+                }
+                    
                 Console.WriteLine(ex.Message);
             }
-            
-            if (!isValid)
+
+            if (validationExceptions.Count>0)
             {
-                throw new ArgumentException("The test suite is not valid. Check with the XSD.");
+                var message = "The test suite is not valid. Check with the XSD.";
+                message += string.Format(" {0} error{1} {2} been found during the validation of the test-suite:\r\n"
+                                                , validationExceptions.Count
+                                                , validationExceptions.Count>1 ? "s" : string.Empty
+                                                , validationExceptions.Count>1 ? "have" : "has");
+
+                foreach (var error in validationExceptions)
+                    message += string.Format("\tAt line {0}: {1}\r\n", error.LineNumber, error.Message);
+
+                throw new ArgumentException(message);
             }
         }
 
         #endregion
 
-        #region "BuildXmlReader methods"
+        #region BuildXmlReader methods
 
         /// <summary>
         /// Protected methods to build an XmlReaderSettings with the expected values for xml validation, dtd processing, Url Resolution, schemas settings
@@ -140,7 +153,15 @@ namespace NBi.Xml
             //Define the type/level of validation
             settings.ValidationType = ValidationType.Schema;
             settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings;
-            settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
+            settings.ValidationEventHandler += delegate(object sender, ValidationEventArgs args)
+            {
+                if (args.Severity == XmlSeverityType.Warning)
+                    Console.WriteLine("Validation warning: " + args.Message);
+                else
+                    Console.WriteLine("Validation error: " + args.Message);
+
+                validationExceptions.Add(args.Exception);
+            };
 
             //Allow DTD processing
             settings.DtdProcessing = isDtdProcessing ? DtdProcessing.Parse : DtdProcessing.Prohibit;
@@ -184,30 +205,9 @@ namespace NBi.Xml
             return xmlReader;
         }
 
-        protected XmlReader BuildXmlReaderForSettings(string filename, bool isDtdProcessing)
-        {
-            var xmlReaderSettings = BuildXmlReaderBaseSettings(isDtdProcessing);
-
-            //define XSD schemas to add 
-            var schemaSet = AddSchemas(new[] 
-                                            {"NBi.Xml.Schema.BaseType.xsd"
-                                            , "NBi.Xml.Schema.Settings.xsd"}
-                                        , "http://NBi/TestSuite");
-
-            xmlReaderSettings.Schemas = schemaSet;
-
-            var xmlReader = XmlReader.Create(filename, xmlReaderSettings);
-            return xmlReader;
-        }
-
         #endregion
 
-        internal void ApplyDefaultSettings()
-        {
-            //Apply defaults
-            foreach (var test in TestSuite.GetAllTests())
-                ApplyDefaultSettings(test);
-        }
+        #region Load settings
 
         protected virtual SettingsXml LoadSettings(string settingsFilename)
         {
@@ -233,6 +233,32 @@ namespace NBi.Xml
             }
 
             return settings;
+        }
+
+        protected XmlReader BuildXmlReaderForSettings(string filename, bool isDtdProcessing)
+        {
+            var xmlReaderSettings = BuildXmlReaderBaseSettings(isDtdProcessing);
+
+            //define XSD schemas to add 
+            var schemaSet = AddSchemas(new[] 
+                                            {"NBi.Xml.Schema.BaseType.xsd"
+                                            , "NBi.Xml.Schema.Settings.xsd"}
+                                        , "http://NBi/TestSuite");
+
+            xmlReaderSettings.Schemas = schemaSet;
+
+            var xmlReader = XmlReader.Create(filename, xmlReaderSettings);
+            return xmlReader;
+        }
+
+        #endregion
+
+        #region ApplyDefaultSettings methods
+        internal void ApplyDefaultSettings()
+        {
+            //Apply defaults
+            foreach (var test in TestSuite.GetAllTests())
+                ApplyDefaultSettings(test);
         }
 
         private void ApplyDefaultSettings(TestXml test)
@@ -261,6 +287,8 @@ namespace NBi.Xml
                 cmd.Settings = TestSuite.Settings;
             }
         }
+
+        #endregion
 
         protected internal void ReassignXml()
         {
@@ -336,21 +364,12 @@ namespace NBi.Xml
             return result;
         }
 
-
-
-
-
         private void ValidationCallBack(Object sender, ValidationEventArgs args)
         {
             //This is only called on error
             // Display any warnings or errors.
 
-            if (args.Severity == XmlSeverityType.Warning)
-                Console.WriteLine("Warning: Matching schema not found.  No validation occurred." + args.Message);
-            else
-                Console.WriteLine("Validation error: " + args.Message);
-
-            isValid = false; //Validation failed
+            //Validation failed
         }
 
 

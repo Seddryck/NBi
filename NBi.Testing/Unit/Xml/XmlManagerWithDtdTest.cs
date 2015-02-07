@@ -13,8 +13,10 @@ namespace NBi.Testing.Unit.Xml
         [SetUp]
         public void Setup()
         {
-            DiskOnFile.CreatePhysicalFile("TestSuiteIncludedTestSuite.nbiinclude", "NBi.Testing.Unit.Xml.Resources.TestSuiteIncludedTestSuite.xml");
+            var includedFilename = DiskOnFile.CreatePhysicalFile("TestSuiteIncludedTestSuite.nbiinclude", "NBi.Testing.Unit.Xml.Resources.TestSuiteIncludedTestSuite.xml");
+            Console.WriteLine("Included file created at '{0}'", includedFilename);
             filename = DiskOnFile.CreatePhysicalFile("TestSuiteWithIncludeTestSuite.nbits", "NBi.Testing.Unit.Xml.Resources.TestSuiteWithIncludeTestSuite.xml");
+            Console.WriteLine("Main file created at '{0}'", filename);
         }
             
         [Test]

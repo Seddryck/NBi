@@ -29,7 +29,7 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint(ConstraintXml);
         }
 
-        protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(SuccessfulXml successfulXml)
+        protected NBiConstraint InstantiateConstraint(SuccessfulXml successfulXml)
         {
             var ctr = new SuccessfulConstraint();
             return ctr;

@@ -30,7 +30,15 @@ namespace NBi.Core.Etl.IntegrationService
         {
             foreach (var param in parameters)
             {
-                package.Parameters[param.Name].Value = param.StringValue;
+                if (package.Parameters.Contains(param.Name))
+                    package.Parameters[param.Name].Value = param.StringValue;
+                else
+                {
+                    if (package.Variables.Contains(param.Name))
+                        package.Variables[param.Name].Value = param.StringValue;
+                    else
+                        throw new ArgumentOutOfRangeException("param.Name", string.Format("No parameter or variable named '{0}' found in the package {1}, can't override its value for execution.", param.Name, package.Name));
+                }
             }
         }
     }

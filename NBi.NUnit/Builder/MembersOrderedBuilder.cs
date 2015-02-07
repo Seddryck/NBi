@@ -32,7 +32,7 @@ namespace NBi.NUnit.Builder
             ConstraintXml = (OrderedXml)ctrXml;
         }
 
-        protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(OrderedXml ctrXml)
+        protected NBiConstraint InstantiateConstraint(OrderedXml ctrXml)
         {
             var ctr = new NBi.NUnit.Member.OrderedConstraint();
             if (ctrXml.Descending)

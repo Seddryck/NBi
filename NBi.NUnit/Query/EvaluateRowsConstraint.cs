@@ -8,7 +8,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Query
 {
-    public class EvaluateRowsConstraint : NUnitCtr.Constraint
+    public class EvaluateRowsConstraint : NBiConstraint
     {
         
         

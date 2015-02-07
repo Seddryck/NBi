@@ -2,11 +2,11 @@
 using System.Configuration;
 using System.Linq;
 
-namespace NBi.NUnit.Runtime
+namespace NBi.NUnit.Runtime.Configuration
 {
     public class NBiSection : ConfigurationSection
     {
-        // Create a "remoteOnly" attribute.
+        // Create a "testSuite" attribute.
         [ConfigurationProperty("testSuite", IsRequired = true)]
         public string TestSuiteFilename
         {
@@ -20,7 +20,7 @@ namespace NBi.NUnit.Runtime
             }
         }
 
-        // Create a "remoteOnly" attribute.
+        // Create a "settings" attribute.
         [ConfigurationProperty("settings", IsRequired = false)]
         public string SettingsFilename
         {
@@ -34,7 +34,7 @@ namespace NBi.NUnit.Runtime
             }
         }
 
-        // Create a "remoteOnly" attribute.
+        // Create a "enableAutoCategories" attribute.
         [ConfigurationProperty("enableAutoCategories", IsRequired = false, DefaultValue=true)]
         public bool EnableAutoCategories
         {
@@ -48,7 +48,7 @@ namespace NBi.NUnit.Runtime
             }
         }
 
-        // Create a "remoteOnly" attribute.
+        // Create a "allowDtdProcessing" attribute.
         [ConfigurationProperty("allowDtdProcessing", IsRequired = false, DefaultValue = false)]
         public bool AllowDtdProcessing
         {
@@ -62,7 +62,7 @@ namespace NBi.NUnit.Runtime
             }
         }
 
-        // Create a "remoteOnly" attribute.
+        // Create a "enableGroupAsCategory" attribute.
         [ConfigurationProperty("enableGroupAsCategory", IsRequired = false, DefaultValue = true)]
         public bool EnableGroupAsCategory
         {
@@ -73,6 +73,19 @@ namespace NBi.NUnit.Runtime
             set
             {
                 this["enableGroupAsCategory"] = value;
+            }
+        }
+
+        [ConfigurationProperty("failureReportProfile", IsRequired = false)]
+        public FailureReportProfileElement FailureReportProfile
+        {
+            get
+            {
+                return (FailureReportProfileElement)this["failureReportProfile"];
+            }
+            set
+            {
+                this["failureReportProfile"] = value;
             }
         }
     }

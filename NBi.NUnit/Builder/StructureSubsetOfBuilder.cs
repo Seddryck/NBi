@@ -34,7 +34,7 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint(ConstraintXml);
         }
 
-        protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint(SubsetOfXml ctrXml)
+        protected NBiConstraint InstantiateConstraint(SubsetOfXml ctrXml)
         {
             var ctr = new NBi.NUnit.Structure.SubsetOfConstraint(ctrXml.GetItems());
 

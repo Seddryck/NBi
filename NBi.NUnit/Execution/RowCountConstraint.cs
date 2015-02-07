@@ -6,7 +6,7 @@ using System.Data;
 
 namespace NBi.NUnit.Execution
 {
-    public class RowCountConstraint : NUnitCtr.Constraint
+    public class RowCountConstraint : NBiConstraint
     {
         /// <summary>
         /// Store for the result of the engine's execution

@@ -4,7 +4,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Execution
 {
-    public class FasterThanConstraint : NUnitCtr.Constraint
+    public class FasterThanConstraint : NBiConstraint
     {
         /// <summary>
         /// Store for the result of the engine's execution

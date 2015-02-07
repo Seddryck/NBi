@@ -5,6 +5,7 @@ using NBi.Core.Analysis.Member;
 using NBi.Core.Analysis.Request;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Framework;
 
 namespace NBi.NUnit.Member
 {
@@ -17,7 +18,6 @@ namespace NBi.NUnit.Member
         /// .ctor, define the default engine used by this constraint
         /// </summary>
         public MatchPatternConstraint()
-            : base()
         {
         }
 

@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Unit.Xml
 {
     [TestFixture]
-    public class XmlManagerWithExternalSettings
+    public class XmlManagerWithExternalSettingsTest
     {
         private string testSuite { get; set; }
         private string settings { get; set; }

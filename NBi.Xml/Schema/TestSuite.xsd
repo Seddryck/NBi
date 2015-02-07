@@ -1,6 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema id="NBi-TestSuite" xmlns="http://NBi/TestSuite" xmlns:mstns="http://NBi/TestSuite.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://NBi/TestSuite">
-  <xs:include schemaLocation="BaseType.xsd"/>
+<xs:schema id="NBi-TestSuite" 
+           xmlns="http://NBi/TestSuite" 
+           xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           elementFormDefault="qualified" 
+           targetNamespace="http://NBi/TestSuite">
+  <xs:include schemaLocation="Test.xsd"/>
+  <xs:include schemaLocation="Settings.xsd"/>
+  <xs:include schemaLocation="Cleanup.xsd"/>
+  <xs:include schemaLocation="Setup.xsd"/>
   <xs:element name="testSuite">
     <xs:complexType>
       <xs:sequence>

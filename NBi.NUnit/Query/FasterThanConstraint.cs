@@ -5,7 +5,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Query
 {
-    public class FasterThanConstraint : NUnitCtr.Constraint
+    public class FasterThanConstraint : NBiConstraint
     {
         protected IQueryPerformance engine;
         /// <summary>

@@ -102,6 +102,7 @@
     <Compile Include="Member\MatchPatternConstraint.cs" />
     <Compile Include="Member\EquivalentToConstraint.cs" />
     <Compile Include="Member\SubsetOfConstraint.cs" />
+    <Compile Include="NBiConstraint.cs" />
     <Compile Include="Query\EvaluateRowsConstraint.cs" />
     <Compile Include="Query\MatchPatternConstraint.cs" />
     <Compile Include="Structure\AbstractCollectionConstraint.cs" />

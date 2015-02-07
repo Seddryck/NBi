@@ -35,7 +35,7 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint();
         }
 
-        protected global::NUnit.Framework.Constraints.Constraint InstantiateConstraint()
+        protected NBiConstraint InstantiateConstraint()
         {
             EqualToConstraint ctr = null;
             

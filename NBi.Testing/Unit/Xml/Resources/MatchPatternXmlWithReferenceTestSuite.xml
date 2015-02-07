@@ -8,11 +8,11 @@
 				group-separator=" "/>
 		</reference>
 	</settings>
-	<test name="level counts exactly 10 members">
+	<test name="match pattern reference 3,space">
 		<system-under-test>
-			<members>
-				<level dimension="dimension" hierarchy="US Phone Number" caption="US Phone Number" perspective="Perspective" connectionString="ConnectionString"/>
-			</members>
+      <execution>
+        <query>select '10.25'</query>
+      </execution>
 		</system-under-test>
 		<assert>
 			<matchPattern>
@@ -20,4 +20,19 @@
 			</matchPattern>
 		</assert>
 	</test>
+  <test name="match pattern 2.none">
+    <system-under-test>
+      <execution>
+        <query>select '10.25'</query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <matchPattern>
+        <numeric-format
+				  decimal-digits="2"
+				  decimal-separator="."
+				  group-separator=""/>
+      </matchPattern>
+    </assert>
+  </test>
 </testSuite>

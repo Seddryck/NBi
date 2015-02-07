@@ -9,7 +9,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Execution
 {
-    public class SuccessfulConstraint : NUnitCtr.Constraint
+    public class SuccessfulConstraint : NBiConstraint
     {
         
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using NBi.UI.Genbi.Presenter;
+﻿using NBi.GenbiL.Action.Case;
+using NBi.UI.Genbi.Presenter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,8 @@ namespace NBi.UI.Genbi.Command.TestCases
         /// </summary>
         public override void Invoke()
         {
-            presenter.FilterDistinct();
+            var filterDistinct = new FilterDistinctCaseAction();
+            filterDistinct.Execute(presenter.State);
         }
     }
 }

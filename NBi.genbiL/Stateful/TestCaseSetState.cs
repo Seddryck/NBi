@@ -19,7 +19,7 @@ namespace NBi.GenbiL.Stateful
         }
 
         private readonly List<string> variables;
-        public IReadOnlyList<string> Variables
+        public IList<string> Variables
         {
             get
             {

@@ -16,7 +16,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
     partial class TestSuiteView : Form
     {
 
-        private ApplicationState State { get; set; }
+        private GenerationState State { get; set; }
         private TestCasesPresenter TestCasesPresenter {get; set;}
         private TemplatePresenter TemplatePresenter { get; set; }
         private SettingsPresenter SettingsPresenter { get; set; }
@@ -27,12 +27,12 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
 
         public TestSuiteView()
         {
-            State = new ApplicationState();
-            TestCasesPresenter = new TestCasesPresenter(new RenameVariableWindow(), new FilterWindow(), new ConnectionStringWindow(), new TestCaseCollectionManager(), State.TestCases, State.Variables, State.ConnectionStringNames);
-            TemplatePresenter = new TemplatePresenter(new GenerationState());
-            SettingsPresenter = new SettingsPresenter(new SettingsManager(), State.Settings);
-            TestListPresenter = new TestListPresenter(new TestListManager(), State.Tests, State.TestCases, State.Variables, State.Template);
-            TestSuitePresenter = new TestSuitePresenter(new TestSuiteManager(), State.Tests, State.Settings);
+            State = new GenerationState();
+            TestCasesPresenter = new TestCasesPresenter(new RenameVariableWindow(), new FilterWindow(), new ConnectionStringWindow(), State);
+            TemplatePresenter = new TemplatePresenter(State);
+            SettingsPresenter = new SettingsPresenter(State);
+            TestListPresenter = new TestListPresenter(State);
+            TestSuitePresenter = new TestSuitePresenter(State);
             MacroPresenter = new MacroPresenter();
 
             InitializeComponent();
@@ -53,7 +53,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             TestSuitePresenter.TestSuiteLoaded += (sender, e) =>
                 {
                     SettingsPresenter.Refresh();
-                    TestListPresenter.Refresh();
+                    //TODO TestListPresenter.Refresh();
                 };
         }
 

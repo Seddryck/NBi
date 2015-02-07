@@ -3,6 +3,8 @@ using System.Linq;
 using System.Windows.Forms;
 using NBi.UI.Genbi.Presenter;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
+using NBi.GenbiL.Action.Case;
+using System.Collections.Generic;
 
 namespace NBi.UI.Genbi.Command.TestCases
 {
@@ -33,7 +35,14 @@ namespace NBi.UI.Genbi.Command.TestCases
         {
             DialogResult result = window.ShowDialog();
             if (result == DialogResult.OK)
-                presenter.Filter(presenter.VariableSelectedIndex, window.Operator, window.Negation, window.FilterText);
+            {
+                var index = presenter.VariableSelectedIndex;
+                var variable = presenter.State.TestCaseSetCollection.Scope.Variables[index];
+                var filterValues = new List<string>();
+                filterValues.Add(window.FilterText);
+                var filter = new FilterCaseAction(variable, window.Operator, filterValues, window.Negation);
+                filter.Execute(presenter.State);
+            }
         }
     }
 }

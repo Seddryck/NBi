@@ -27,12 +27,12 @@ namespace NBi.UI.Genbi.Command.TestsXml
 		/// </summary>
 		public override void Invoke()
 		{
-			var message = presenter.Generate();
+			//var message = presenter.State.Suite.();
 
-			if (message.IsSuccess)
-				ShowInform(message.Message);
-			else
-				ShowException(message.Message);
+            //if (message.IsSuccess)
+            //    ShowInform(message.Message);
+            //else
+            //    ShowException(message.Message);
 				
 		}
 	}

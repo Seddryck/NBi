@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace NBi.GenbiL.Action.Case
 {
-    class FilterCaseAction : ICaseAction
+    public class FilterCaseAction : ICaseAction
     {
         public IEnumerable<string> Values { get; set; }
         public string Column { get; set; }

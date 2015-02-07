@@ -12,6 +12,7 @@ namespace NBi.GenbiL.Stateful
         public TemplateState Template { get; private set; }
         public SettingsState Settings { get; private set; }
         public TestSuiteXml Suite { get; private set; }
+        public ConnectionStringManager ConnectionStrings { get; private set; }
 
         public GenerationState()
         {

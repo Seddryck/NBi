@@ -10,15 +10,20 @@ using NBi.UI.Genbi.Command.Test;
 using NBi.UI.Genbi.Command.TestsXml;
 using NBi.UI.Genbi.Stateful;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.UI.Genbi.Presenter
 {
     class TestListPresenter : PresenterBase
     {
-        private readonly TestListManager testListManager;
+        private readonly GenerationState state;
+        public GenerationState State
+        {
+            get { return state; }
+        }
         public bool IsUndo { get; private set; }
 
-        public TestListPresenter(TestListManager testListManager, LargeBindingList<Test> tests, DataTable testCases, BindingList<string> variables, string template)
+        public TestListPresenter(GenerationState state)
         {
             this.ClearTestsXmlCommand = new ClearTestListCommand(this);
             this.GenerateTestsXmlCommand = new GenerateTestListCommand(this);
@@ -27,28 +32,13 @@ namespace NBi.UI.Genbi.Presenter
             this.DisplayTestCommand = new EditTestCommand(this, new DisplayTestView());
             this.AddCategoryCommand = new AddCategoryTestCommand(this, new NewCategoryWindow());
 
-
-            this.testListManager = testListManager;
-
-            Tests = tests;
-            TestCases = testCases;
-            Variables = variables;
-            Template = template;
-
-            testListManager.Progressed += (sender, e) => 
-            {
-                var newValue = Math.Min(100, 100 * e.Done / e.Total);
-                if (newValue - Progress >= 5 || (newValue==0 && Progress!=0) || (newValue==100 && Progress!=100))
-                    Progress = newValue; 
-            };
-        }
-
-        public TestListManager Manager 
-        { 
-            get
-            {
-                return testListManager;
-            }
+            this.state = state;
+            //testListManager.Progressed += (sender, e) => 
+            //{
+            //    var newValue = Math.Min(100, 100 * e.Done / e.Total);
+            //    if (newValue - Progress >= 5 || (newValue==0 && Progress!=0) || (newValue==100 && Progress!=100))
+            //        Progress = newValue; 
+            //};
         }
 
         public ICommand ClearTestsXmlCommand { get; private set; }
@@ -144,63 +134,63 @@ namespace NBi.UI.Genbi.Presenter
             }
         }
 
-        internal TestListGenerationResult Generate()
-        {
-            TestListGenerationResult message = null;
-            try
-            {
-                Progress = 0;
-                OnGenerationStarted(EventArgs.Empty);
-                testListManager.Build(Template, Variables.ToArray(), TestCases, UseGrouping);
-                Progress = 100;
-                IsUndo = true;
-                ReloadTests();
-                message = TestListGenerationResult.Success(Tests.Count);
-            }
-            catch (ExpectedVariableNotFoundException)
-            {
-                message = TestListGenerationResult.Failure("The template has at least one variable which wasn't supplied by the test cases provider (CSV file). Check the name of the variables.");
-            }
-            catch (TemplateExecutionException ex)
-            {
-                message = TestListGenerationResult.Failure(ex.Message);
-            }
-            finally
-            {
-                OnGenerationEnded(EventArgs.Empty);
-            }
+        //internal TestListGenerationResult Generate()
+        //{
+        //    TestListGenerationResult message = null;
+        //    try
+        //    {
+        //        Progress = 0;
+        //        OnGenerationStarted(EventArgs.Empty);
+        //        //TODO testListManager.Build(Template, Variables.ToArray(), TestCases, UseGrouping);
+        //        Progress = 100;
+        //        IsUndo = true;
+        //        ReloadTests();
+        //        message = TestListGenerationResult.Success(Tests.Count);
+        //    }
+        //    catch (ExpectedVariableNotFoundException)
+        //    {
+        //        message = TestListGenerationResult.Failure("The template has at least one variable which wasn't supplied by the test cases provider (CSV file). Check the name of the variables.");
+        //    }
+        //    catch (TemplateExecutionException ex)
+        //    {
+        //        message = TestListGenerationResult.Failure(ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        OnGenerationEnded(EventArgs.Empty);
+        //    }
 
-            return message;
-        }
+        //    return message;
+        //}
 
         internal void Clear()
         {
-            testListManager.Clear();
-            IsUndo = false;
+            //testListManager.Clear();
+            //IsUndo = false;
             ReloadTests();
         }
 
         internal void Undo()
         {
-            testListManager.Undo();
+            //testListManager.Undo();
             IsUndo = false;
             ReloadTests();
         }
 
         internal void AddCategory(string categoryName)
         {
-            foreach (var test in SelectedTests)
-                testListManager.AddCategory(test, categoryName);
+            //foreach (var test in SelectedTests)
+            //    testListManager.AddCategory(test, categoryName);
             
-            ReloadTests();
+            //ReloadTests();
         }
 
         public void ReloadTests()
         {
-            var tests = testListManager.GetTests();
+            //var tests = testListManager.GetTests();
 
-            Tests.Clear();
-            Tests.AddRange(tests);
+            //Tests.Clear();
+            //Tests.AddRange(tests);
             //foreach (var test in tests)
             //    Tests.Add(test);
             OnPropertyChanged("Tests");
@@ -222,22 +212,6 @@ namespace NBi.UI.Genbi.Presenter
             EventHandler<EventArgs> handler = GenerationEnded;
             if (handler != null)
                 handler(this, e);
-        }
-
-        internal void Refresh()
-        {
-            testListManager.SetTests(Tests);
-        }
-
-
-        internal IEnumerable<char> GetCategoryForbiddenChars()
-        {
-            return testListManager.GetCategoryForbiddenChars();
-        }
-
-        internal IEnumerable<string> GetExistingCategories()
-        {
-            return testListManager.GetExistingCategories();
         }
 
 

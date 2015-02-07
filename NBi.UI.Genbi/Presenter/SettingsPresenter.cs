@@ -7,22 +7,25 @@ using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.Settings;
 using NBi.UI.Genbi.Interface;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.UI.Genbi.Presenter
 {
     class SettingsPresenter : PresenterBase
     {
-        private readonly SettingsManager settingsManager;
-        private string previousSelection;
+        private readonly GenerationState state;
+        public GenerationState State
+        {
+            get { return state; }
+        }
 
-        public SettingsPresenter(SettingsManager settingsManager, BindingList<Setting> settings)
+        public SettingsPresenter(GenerationState state)
             : base()
         {
             AddReferenceCommand = new AddReferenceCommand(this, new NewReferenceWindow());
             RemoveReferenceCommand = new RemoveReferenceCommand(this);
 
-            this.settingsManager = settingsManager;
-            Settings = settings;
+            Settings = new BindingList<Setting>(); //TODO
             Refresh();
         }
 
@@ -40,7 +43,7 @@ namespace NBi.UI.Genbi.Presenter
             set 
             {
                 SetValue("SettingsNameSelected", value);
-                previousSelection = SettingsNameSelected;
+                //TODO previousSelection = SettingsNameSelected;
             }
         }
 
@@ -65,7 +68,7 @@ namespace NBi.UI.Genbi.Presenter
             switch (propertyName)
             {
                 case "SettingsNameSelected":
-                    UpdateValue(previousSelection, SettingsValue);
+                    //TODO UpdateValue(previousSelection, SettingsValue);
                     DisplayValue(SettingsNameSelected);
                     RemoveReferenceCommand.Refresh();
                     break;
@@ -113,7 +116,8 @@ namespace NBi.UI.Genbi.Presenter
 
         public bool IsValidReferenceName(string name)
         {
-            return settingsManager.IsValidReferenceName(name);
+            //TODO return settingsManager.IsValidReferenceName(name);
+            return true;
         }
 
         internal bool IsReferenceSelected()
@@ -137,9 +141,9 @@ namespace NBi.UI.Genbi.Presenter
         internal void Refresh()
         {
             SettingsNames = new BindingList<string>((Settings.Select<Setting, string>(s => s.Name)).ToList());
-            previousSelection = SettingsNames[0];
-            SettingsNameSelected = SettingsNames[0];
-            DisplayValue(previousSelection);
+            //TODO previousSelection = SettingsNames[0];
+            //TODO SettingsNameSelected = SettingsNames[0];
+            //TODO DisplayValue(previousSelection);
         }
     }
 }

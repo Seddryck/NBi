@@ -19,7 +19,7 @@ namespace NBi.UI.Genbi.Command.TestsXml
 		/// </summary>
 		public override void Refresh()
 		{
-			this.IsEnabled = presenter.Tests.Count > 0;
+			this.IsEnabled = presenter.State.Suite.Tests.Count > 0;
 		}
 
 		/// <summary>

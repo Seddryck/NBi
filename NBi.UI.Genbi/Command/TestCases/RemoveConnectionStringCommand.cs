@@ -30,7 +30,7 @@ namespace NBi.UI.Genbi.Command.TestCases
         {
             DialogResult result = MessageBox.Show("Are you sure you want to delete the selected connection-string?", "Remove connection-string", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
-                presenter.RemoveConnectionString();
+                presenter.State.ConnectionStrings.Remove(presenter.ConnectionStringSelectedName);
         }
     }
 }

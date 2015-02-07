@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using NBi.UI.Genbi.Presenter;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
+using NBi.GenbiL.Action.Case;
 
 namespace NBi.UI.Genbi.Command.TestCases
 {
@@ -28,7 +29,9 @@ namespace NBi.UI.Genbi.Command.TestCases
         /// </summary>
         public override void Invoke()
         {
-            presenter.RunQuery();
+            //TODO get the connStrig
+            var loadQuery = new LoadFromQueryCaseAction(presenter.Query, "");
+            loadQuery.Execute(presenter.State);
             ShowInform("Query executed and test-cases loaded!");
         }
     }

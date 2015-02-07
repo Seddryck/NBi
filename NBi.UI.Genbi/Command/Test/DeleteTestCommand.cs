@@ -31,8 +31,8 @@ namespace NBi.UI.Genbi.Command.Test
 				throw new InvalidOperationException("No test selected. Impossible to delete it.");
 
 			Debug.WriteLine("{0} elements to remove", presenter.SelectedTests.Count());
-			foreach (var test in presenter.SelectedTests)
-				presenter.Manager.Remove(test);
+            //foreach (var test in presenter.SelectedTests)
+            //    presenter.Manager.Remove(test);
 			
 			presenter.ReloadTests();
 		}

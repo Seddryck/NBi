@@ -510,10 +510,6 @@
       <Project>{a9c7e50a-1d3d-4c6d-9c56-8ea8925fe2d6}</Project>
       <Name>NBi.Service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NBi.UI\NBi.UI.csproj">
-      <Project>{18ed64e4-7d72-4a2c-9cd8-46f732d287ed}</Project>
-      <Name>NBi.UI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
       <Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>
       <Name>NBi.Xml</Name>

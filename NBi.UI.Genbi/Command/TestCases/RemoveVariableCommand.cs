@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NBi.UI.Genbi.Presenter;
+using NBi.GenbiL.Action.Case;
 
 namespace NBi.UI.Genbi.Command.TestCases
 {
@@ -26,7 +27,9 @@ namespace NBi.UI.Genbi.Command.TestCases
 		/// </summary>
 		public override void Invoke()
 		{
-			presenter.Remove(presenter.VariableSelectedIndex);
+			var index = presenter.VariableSelectedIndex;
+            var remove = new RemoveCaseAction(presenter.State.TestCaseSetCollection.Scope.Variables[index]);
+            remove.Execute(presenter.State);
 		}
 	}
 }

@@ -49,6 +49,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ConnectionStringManager.cs" />
     <Compile Include="Dto\Document.cs" />
     <Compile Include="Dto\DocumentBase.cs" />
     <Compile Include="Dto\Schema.cs" />
@@ -57,7 +58,6 @@
     <Compile Include="Operator.cs" />
     <Compile Include="RunnerConfig\AbstractRunnerConfigBuilder.cs" />
     <Compile Include="Serializer.cs" />
-    <Compile Include="TestCaseCollectionManager.cs" />
     <Compile Include="TestCaseManager.cs" />
     <Compile Include="Dto\Test.cs" />
     <Compile Include="RunnerConfig\FilePersister.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NBi.UI.Genbi.Presenter;
+using NBi.GenbiL.Action.Case;
 
 namespace NBi.UI.Genbi.Command.TestCases
 {
@@ -34,7 +35,9 @@ namespace NBi.UI.Genbi.Command.TestCases
         /// </summary>
         public override void Invoke()
         {
-            presenter.Move(presenter.VariableSelectedIndex, presenter.VariableSelectedIndex-1);
+            var index = presenter.VariableSelectedIndex;
+            var move = new MoveCaseAction(presenter.State.TestCaseSetCollection.Scope.Variables[index], index-1);
+            move.Execute(presenter.State);
         }
     }
 
@@ -58,7 +61,9 @@ namespace NBi.UI.Genbi.Command.TestCases
         /// </summary>
         public override void Invoke()
         {
-            presenter.Move(presenter.VariableSelectedIndex, presenter.VariableSelectedIndex + 1);
+            var index = presenter.VariableSelectedIndex;
+            var move = new MoveCaseAction(presenter.State.TestCaseSetCollection.Scope.Variables[index], index + 1);
+            move.Execute(presenter.State);
         }
     }
 }

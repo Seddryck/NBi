@@ -6,23 +6,25 @@ using NBi.Service.Dto;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.TestSuite;
 using NBi.UI.Genbi.Interface;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.UI.Genbi.Presenter
 {
     class TestSuitePresenter : PresenterBase
     {
-        private readonly TestSuiteManager testSuiteManager;
+        private readonly GenerationState state;
+        public GenerationState State
+        {
+            get { return state; }
+        }
 
-        public TestSuitePresenter(TestSuiteManager testSuiteManager, BindingList<Test> tests, BindingList<Setting> settings)
+        public TestSuitePresenter(GenerationState state)
             : base()
         {
-            this.testSuiteManager = testSuiteManager;
-
-
             this.OpenTestSuiteCommand = new OpenTestSuiteCommand(this);
             this.SaveAsTestSuiteCommand = new SaveAsTestSuiteCommand(this);
-            this.Tests = tests;
-            this.Settings = settings;
+            this.Tests = new BindingList<Test>(); //TODO State.Suite.Tests
+            this.Settings = new BindingList<Setting>();//TODO State.Suite.Tests
         }
 
         public ICommand OpenTestSuiteCommand { get; private set; }
@@ -61,25 +63,18 @@ namespace NBi.UI.Genbi.Presenter
 
         internal void Load(string fullPath)
         {
-            testSuiteManager.Open(fullPath);
+            //testSuiteManager.Open(fullPath);
 
-            Tests.Clear();
-            foreach (var test in testSuiteManager.GetTests())
-                Tests.Add(test);
+            //Tests.Clear();
+            //foreach (var test in testSuiteManager.GetTests())
+            //    Tests.Add(test);
 
-            Settings.Clear();
-            foreach (var setting in testSuiteManager.GetSettings())
-                Settings.Add(setting);
+            //Settings.Clear();
+            //foreach (var setting in testSuiteManager.GetSettings())
+            //    Settings.Add(setting);
 
-            this.SaveAsTestSuiteCommand.Refresh();
-            OnTestSuiteLoaded(EventArgs.Empty);
-        }
-
-        internal void Save(string fullPath)
-        {
-            testSuiteManager.DefineSettings(Settings);
-            testSuiteManager.DefineTests(Tests);
-            testSuiteManager.SaveAs(fullPath);
+            //this.SaveAsTestSuiteCommand.Refresh();
+            //OnTestSuiteLoaded(EventArgs.Empty);
         }
 
         public event EventHandler<EventArgs> TestSuiteLoaded;

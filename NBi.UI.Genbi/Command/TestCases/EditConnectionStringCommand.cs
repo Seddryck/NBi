@@ -36,7 +36,7 @@ namespace NBi.UI.Genbi.Command.TestCases
             window.Value = presenter.ConnectionStringSelectedValue;
             DialogResult result = window.ShowDialog();
             if (result == DialogResult.OK)
-                presenter.EditConnectionString(window.Value);
+                presenter.State.ConnectionStrings.Edit(window.NameId, window.Value);
             
         }
     }

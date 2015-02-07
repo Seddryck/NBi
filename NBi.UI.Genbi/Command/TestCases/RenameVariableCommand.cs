@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using NBi.UI.Genbi.Presenter;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
+using NBi.GenbiL.Action.Case;
 
 namespace NBi.UI.Genbi.Command.TestCases
 {
@@ -32,7 +33,11 @@ namespace NBi.UI.Genbi.Command.TestCases
 		{
 			DialogResult result = window.ShowDialog();
 			if (result == DialogResult.OK)
-				presenter.Rename(presenter.VariableSelectedIndex, window.NewName);
+            {
+                var index = presenter.VariableSelectedIndex;
+                var rename = new RenameCaseAction(presenter.State.TestCaseSetCollection.Scope.Variables[index], window.NewName);
+                rename.Execute(presenter.State);
+            }
 		}
 	}
 }

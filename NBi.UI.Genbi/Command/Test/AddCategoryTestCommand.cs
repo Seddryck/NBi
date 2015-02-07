@@ -30,8 +30,8 @@ namespace NBi.UI.Genbi.Command.Test
 		/// </summary>
 		public override void Invoke()
 		{
-            window.ForbiddenChars = presenter.GetCategoryForbiddenChars();
-            window.ExistingCategories = presenter.GetExistingCategories();
+            //window.ForbiddenChars = presenter.GetCategoryForbiddenChars();
+            //window.ExistingCategories = presenter.GetExistingCategories();
 			DialogResult result = window.ShowDialog();
 			if (result == DialogResult.OK)
 			{

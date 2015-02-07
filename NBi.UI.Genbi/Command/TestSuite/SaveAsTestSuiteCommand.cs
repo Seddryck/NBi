@@ -34,7 +34,7 @@ namespace NBi.UI.Genbi.Command.TestSuite
 			DialogResult result = saveAsDialog.ShowDialog();
 			if (result == DialogResult.OK)
 			{
-				presenter.Save(saveAsDialog.FileName);
+				//TODO presenter.State.Suite.Save(saveAsDialog.FileName);
 				ShowInform(String.Format("Test-suite '{0}' persisted.", saveAsDialog.FileName));
 			}
 				

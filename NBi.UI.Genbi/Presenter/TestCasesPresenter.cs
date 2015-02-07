@@ -7,14 +7,21 @@ using NBi.Service;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.TestCases;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
+using NBi.GenbiL.Stateful;
+using NBi.GenbiL.Action.Case;
 
 namespace NBi.UI.Genbi.Presenter
 {
     class TestCasesPresenter : PresenterBase
     {
-        private readonly TestCaseCollectionManager testCaseCollectionManager;
+        private readonly GenerationState state;
+        public GenerationState State
+        {
+            get { return state; }
+        }
+        private readonly ConnectionStringManager ConnectionStringManager;
 
-        public TestCasesPresenter(RenameVariableWindow renameVariablewindow, FilterWindow filterWindow, ConnectionStringWindow connectionStringWindow, TestCaseCollectionManager testCaseCollectionManager, DataTable testCases, BindingList<string> variables, BindingList<string> connectionStringNames)
+        public TestCasesPresenter(RenameVariableWindow renameVariablewindow, FilterWindow filterWindow, ConnectionStringWindow connectionStringWindow, GenerationState state)
         {
             this.OpenTestCasesCommand = new OpenTestCasesCommand(this);
             this.OpenTestCasesQueryCommand = new OpenTestCasesQueryCommand(this);
@@ -29,10 +36,10 @@ namespace NBi.UI.Genbi.Presenter
             this.EditConnectionStringCommand = new EditConnectionStringCommand(this, connectionStringWindow);
             this.RunQueryCommand = new RunQueryCommand(this);
 
-            this.testCaseCollectionManager = testCaseCollectionManager;
-            TestCases = testCases;
-            Variables = variables;
-            ConnectionStringNames = connectionStringNames;
+            this.state = state;
+            TestCases = state.TestCaseSetCollection.Scope.Content;
+            Variables = new BindingList<string>(state.TestCaseSetCollection.Scope.Variables);
+            //ConnectionStringNames = State.ConnectionStrings.Names;
             ConnectionStringSelectedIndex = -1;
             VariableSelectedIndex = -1;
         }
@@ -83,7 +90,7 @@ namespace NBi.UI.Genbi.Presenter
 
         public string ConnectionStringSelectedValue
         {
-            get { return testCaseCollectionManager.ConnectionStrings[ConnectionStringSelectedName]; }
+            get { return State.ConnectionStrings.Get(ConnectionStringSelectedName); }
         }
 
         public string Query
@@ -145,68 +152,23 @@ namespace NBi.UI.Genbi.Presenter
             }
         }
 
-        internal void LoadCsv(string fullPath)
+        public void Reload()
         {
-            testCaseCollectionManager.Scope.ReadFromCsv(fullPath);
-            Reload();
-            OnPropertyChanged("Variables");
-        }
-
-        internal void LoadQuery(string fullPath)
-        {
-            Query = testCaseCollectionManager.Scope.GetQueryFileContent(fullPath);
-            OnPropertyChanged("Query");
-        }
-
-        private void Reload()
-        {
-            var dtReader = new DataTableReader(testCaseCollectionManager.Scope.Content);
-
-            //Reset the state of the DataTable
-            //Remove the Sort Order or you'll be in troubles when loading the datatable
-            TestCases.DefaultView.Sort = String.Empty;
-            TestCases.Rows.Clear();
-            TestCases.Columns.Clear();
-            TestCases.RejectChanges();
-
-            //Load it
-            TestCases.Load(dtReader, LoadOption.PreserveChanges);
-            OnPropertyChanged("TestCases");
-
-            //Take care of variables
-            Variables.Clear();
-            foreach (var v in testCaseCollectionManager.Scope.Variables)
-                Variables.Add(v);
-
-            if (VariableSelectedIndex < 0 && Variables.Count > 0)
-                VariableSelectedIndex = 0;
+            //
         }
 
         private void ReloadConnectionStrings()
         {
-            //Take care of variables
-            ConnectionStringNames.Clear();
-            foreach (var connStr in testCaseCollectionManager.ConnectionStringNames)
-                ConnectionStringNames.Add(connStr);
+     //       //Take care of variables
+     //       ConnectionStringNames.Clear();
+     //       foreach (var connStr in ConnectionStringManager.Names)
+     //e           ConnectionStringNames.Add(connStr);
 
-            if (ConnectionStringSelectedIndex < 0 && ConnectionStringNames.Count > 0)
-                ConnectionStringSelectedIndex = 0;
+     //       if (ConnectionStringSelectedIndex < 0 && ConnectionStringNames.Count > 0)
+     //           ConnectionStringSelectedIndex = 0;
         }
 
-        internal void Rename(int index, string newName)
-        {
-            testCaseCollectionManager.Scope.RenameVariable(index, newName);
-            Reload();
-            OnPropertyChanged("Variables");
-        }
-
-        internal void Remove(int index)
-        {
-            Variables.RemoveAt(index);
-            OnPropertyChanged("Variables");
-            TestCases.Columns.RemoveAt(index);
-        }
-
+        
         internal bool IsRenamable()
         {
             return Variables.Count > 0;
@@ -231,52 +193,5 @@ namespace NBi.UI.Genbi.Presenter
         {
             return VariableSelectedIndex == Variables.Count - 1;
         }
-
-        internal void Move(int selectedIndex, int newPosition)
-        {
-            testCaseCollectionManager.Scope.MoveVariable(Variables[VariableSelectedIndex], newPosition);
-            Reload();
-            VariableSelectedIndex = newPosition;
-            OnPropertyChanged("Variables");
-        }
-
-        internal void Filter(int selectedIndex, Operator @operator, bool negation, string text)
-        {
-            testCaseCollectionManager.Scope.Filter(Variables[VariableSelectedIndex], @operator, negation, text);
-            Reload();
-            OnPropertyChanged("TestCases");
-        }
-        internal void FilterDistinct()
-        {
-            testCaseCollectionManager.Scope.FilterDistinct();
-            Reload();
-            OnPropertyChanged("TestCases");
-        }
-        internal void AddConnectionString(string name, string value)
-        {
-            testCaseCollectionManager.AddConnectionStrings(name, value);
-            OnPropertyChanged("ConnectionStringNames");
-        }
-
-        internal void RemoveConnectionString()
-        {
-            testCaseCollectionManager.RemoveConnectionStrings(ConnectionStringSelectedName);
-            OnPropertyChanged("ConnectionStringNames");
-        }
-
-        internal void EditConnectionString(string newValue)
-        {
-            testCaseCollectionManager.EditConnectionStrings(ConnectionStringSelectedName, newValue);
-            OnPropertyChanged("ConnectionStringNames");
-        }
-
-        internal void RunQuery()
-        {
-            testCaseCollectionManager.Scope.ReadFromQuery(Query, ConnectionStringSelectedValue);
-            Reload();
-        }
-
-
-
     }
 }

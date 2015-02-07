@@ -36,7 +36,7 @@ namespace NBi.UI.Genbi.Command.TestCases
                 window.NameId="default";
             DialogResult result = window.ShowDialog();
             if (result == DialogResult.OK)
-                presenter.AddConnectionString(window.NameId, window.Value);
+                presenter.State.ConnectionStrings.Add(window.NameId, window.Value);
         }
     }
 }

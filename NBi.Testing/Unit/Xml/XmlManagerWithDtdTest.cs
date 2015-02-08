@@ -20,7 +20,6 @@ namespace NBi.Testing.Unit.Xml
         }
             
         [Test]
-        [Ignore("It's a problem of dll copied by NUnit at another place than expected. Too boring and useless to fix.")]
         public void Load_ValidFile_Success()
         {
             var manager = new XmlManager();
@@ -30,9 +29,22 @@ namespace NBi.Testing.Unit.Xml
         }
 
         [Test]
-        [Ignore("It's a problem of dll copied by NUnit at another place than expected. Too boring and useless to fix.")]
         public void Load_ValidFile_TwoTestsLoaded()
         {
+            var manager = new XmlManager();
+            manager.Load(filename, true);
+
+            Assert.That(manager.TestSuite.Tests, Has.Count.EqualTo(2));
+        }
+
+        [Test]
+        public void Load_ValidFileInSubFolder_TwoTestsLoaded()
+        {
+            var includedFilename = DiskOnFile.CreatePhysicalFile(@"Dtd\TestSuiteIncludedTestSuite.xml", "NBi.Testing.Unit.Xml.Resources.TestSuiteIncludedTestSuite.xml");
+            Console.WriteLine("Included file created at '{0}'", includedFilename);
+            filename = DiskOnFile.CreatePhysicalFile(@"Dtd\TestSuiteWithIncludeTestSuite.nbits", "NBi.Testing.Unit.Xml.Resources.TestSuiteWithIncludeTestSuite.xml");
+            Console.WriteLine("Main file created at '{0}'", filename);
+
             var manager = new XmlManager();
             manager.Load(filename, true);
 

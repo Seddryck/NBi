@@ -19,6 +19,7 @@ namespace NBi.Xml
         public virtual NameValueCollection ConnectionStrings { get; set; }
         private readonly IList<XmlSchemaException> validationExceptions;
         private readonly XmlDocument docXml;
+        private string basePath;
 
         public XmlManager()
         {
@@ -41,6 +42,9 @@ namespace NBi.Xml
 
         public virtual void Load(string testSuiteFilename, string settingsFilename, bool isDtdProcessing)
         {
+            //define the basePath
+            basePath = System.IO.Path.GetDirectoryName(testSuiteFilename) + Path.DirectorySeparatorChar;
+            
             //ensure the file is existing
             if (!File.Exists(testSuiteFilename))
                 throw new ArgumentException(string.Format("No test-suite has been found at the location '{0}'.", testSuiteFilename));
@@ -50,20 +54,12 @@ namespace NBi.Xml
                 // Create the XmlReader object for validation
                 using (var xmlReader = BuildXmlReader(streamReader, isDtdProcessing))
                 {
+                    
                     Read(xmlReader);
                 }
             }
 
-            //We need to create a third object xmlReader for loading the docXml that will be used 
-            //to display the test definition in the stacktrace.
-            // But before we need to rewind underlying stream of the StreamReader
-            using (var streamReader = new StreamReader(testSuiteFilename, Encoding.UTF8, true))
-            {
-                using (var xmlReader = BuildXmlReader(streamReader, isDtdProcessing))
-                    docXml.Load(xmlReader);
-            }
-
-            //Apply Settings hacks
+            //Load the settings eventually define in another file or in the config file.
             if (!string.IsNullOrEmpty(settingsFilename))
             {
                 var settings = LoadSettings(settingsFilename);
@@ -73,12 +69,20 @@ namespace NBi.Xml
             {
                 TestSuite.Settings.GetValuesFromConfig(ConnectionStrings);
             }
-            //Define basePath
-            var basePath = System.IO.Path.GetDirectoryName(testSuiteFilename) + Path.DirectorySeparatorChar;
+            
+            //Apply the basePath
             TestSuite.Settings.BasePath = basePath;
 
+            //Copy/Paste the default settings to each test.
             ApplyDefaultSettings();
 
+            //We need to create a second object xmlReader for loading the docXml that will be used 
+            //to display the test definition in the stacktrace.
+            using (var streamReader = new StreamReader(testSuiteFilename, Encoding.UTF8, true))
+            {
+                using (var xmlReader = BuildXmlReader(streamReader, isDtdProcessing))
+                    docXml.Load(xmlReader);
+            }
             ReassignXml();
         }
 
@@ -167,7 +171,7 @@ namespace NBi.Xml
             settings.DtdProcessing = isDtdProcessing ? DtdProcessing.Parse : DtdProcessing.Prohibit;
 
             // Supply the credentials necessary to access the DTD file stored on the network.
-            XmlUrlResolver resolver = new XmlUrlResolver();
+            var resolver = new LocalXmlUrlResolver(basePath);
             resolver.Credentials = System.Net.CredentialCache.DefaultCredentials;
             settings.XmlResolver = resolver;
 

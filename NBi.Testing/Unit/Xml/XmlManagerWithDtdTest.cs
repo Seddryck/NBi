@@ -55,7 +55,8 @@ namespace NBi.Testing.Unit.Xml
         public void Load_ValidFileButWithoutDtdProcessingSetToTrue_Successfully()
         {
             var manager = new XmlManager();
-            Assert.Throws<XmlException>(delegate { manager.Load(filename, false); });
+            var ex = Assert.Throws<ArgumentException>(delegate { manager.Load(filename, false); });
+            Assert.That(ex.Message, Is.StringContaining("DTD is prohibited. To activate it, set the flag allow-dtd-processing to true in the config file associated to this test-suite"));
         }
     }
 }

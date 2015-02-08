@@ -2,6 +2,7 @@
 using NBi.Xml;
 using NUnit.Framework;
 using System.Xml;
+using System.IO;
 
 namespace NBi.Testing.Unit.Xml
 {
@@ -9,11 +10,12 @@ namespace NBi.Testing.Unit.Xml
     public class XmlManagerWithDtdTest
     {
         private string filename { get; set; }
+        private string includedFilename { get; set; }
         
         [SetUp]
         public void Setup()
         {
-            var includedFilename = DiskOnFile.CreatePhysicalFile("TestSuiteIncludedTestSuite.xml", "NBi.Testing.Unit.Xml.Resources.TestSuiteIncludedTestSuite.xml");
+            includedFilename = DiskOnFile.CreatePhysicalFile("TestSuiteIncludedTestSuite.xml", "NBi.Testing.Unit.Xml.Resources.TestSuiteIncludedTestSuite.xml");
             Console.WriteLine("Included file created at '{0}'", includedFilename);
             filename = DiskOnFile.CreatePhysicalFile("TestSuiteWithIncludeTestSuite.nbits", "NBi.Testing.Unit.Xml.Resources.TestSuiteWithIncludeTestSuite.xml");
             Console.WriteLine("Main file created at '{0}'", filename);
@@ -40,7 +42,14 @@ namespace NBi.Testing.Unit.Xml
         [Test]
         public void Load_ValidFileInSubFolder_TwoTestsLoaded()
         {
-            var includedFilename = DiskOnFile.CreatePhysicalFile(@"Dtd\TestSuiteIncludedTestSuite.xml", "NBi.Testing.Unit.Xml.Resources.TestSuiteIncludedTestSuite.xml");
+            //Delete the eventually existing file
+            if (File.Exists(filename))
+                File.Delete(filename);
+            if (File.Exists(includedFilename))
+                File.Delete(includedFilename);
+
+            //Recreate them in a subdirectory
+            includedFilename = DiskOnFile.CreatePhysicalFile(@"Dtd\TestSuiteIncludedTestSuite.xml", "NBi.Testing.Unit.Xml.Resources.TestSuiteIncludedTestSuite.xml");
             Console.WriteLine("Included file created at '{0}'", includedFilename);
             filename = DiskOnFile.CreatePhysicalFile(@"Dtd\TestSuiteWithIncludeTestSuite.nbits", "NBi.Testing.Unit.Xml.Resources.TestSuiteWithIncludeTestSuite.xml");
             Console.WriteLine("Main file created at '{0}'", filename);

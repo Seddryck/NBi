@@ -137,6 +137,7 @@
     <Compile Include="Items\QueryXml.cs" />
     <Compile Include="Items\Validate\ExpressionXml.cs" />
     <Compile Include="Items\Validate\VariableXml.cs" />
+    <Compile Include="LocalXmlUrlResolver.cs" />
     <Compile Include="Settings\CsvProfileXml.cs" />
     <Compile Include="Settings\TraitXml.cs" />
     <Compile Include="Settings\UpdateXml.cs" />

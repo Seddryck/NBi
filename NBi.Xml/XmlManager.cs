@@ -54,7 +54,6 @@ namespace NBi.Xml
                 // Create the XmlReader object for validation
                 using (var xmlReader = BuildXmlReader(streamReader, isDtdProcessing))
                 {
-                    
                     Read(xmlReader);
                 }
             }
@@ -115,14 +114,16 @@ namespace NBi.Xml
             }
             catch (InvalidOperationException ex)
             {
-                if (ex.InnerException is XmlSchemaException)
+                if (ex.InnerException is XmlException)
                 {
-                    validationExceptions.Add(ex.InnerException as XmlSchemaException);
-                    if (ex.Message.Contains("For security reasons DTD is prohibited"))
-                        Console.WriteLine("DTD is prohibited. To activate it, set the flag allow-dtd-processing to true in the config file associated to this test-suite");
+                    if (ex.InnerException.Message.Contains("For security reasons DTD is prohibited"))
+                    {
+                        var msg = "DTD is prohibited. To activate it, set the flag allow-dtd-processing to true in the config file associated to this test-suite";
+                        Console.WriteLine(msg);
+                        var dtdException = new XmlSchemaException(msg);
+                        validationExceptions.Add(dtdException);
+                    }
                 }
-                    
-                Console.WriteLine(ex.Message);
             }
 
             if (validationExceptions.Count>0)

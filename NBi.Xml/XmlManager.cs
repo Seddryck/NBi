@@ -368,16 +368,5 @@ namespace NBi.Xml
             }
             return result;
         }
-
-        private void ValidationCallBack(Object sender, ValidationEventArgs args)
-        {
-            //This is only called on error
-            // Display any warnings or errors.
-
-            //Validation failed
-        }
-
-
-
     }
 }

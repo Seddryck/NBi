@@ -1,0 +1,1 @@
+echo text > output_file.txt

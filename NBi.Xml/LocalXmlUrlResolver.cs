@@ -15,7 +15,7 @@ namespace NBi.Xml
         public LocalXmlUrlResolver(string path)
             : base()
         {
-            if (!path.EndsWith(Path.DirectorySeparatorChar.ToString()))
+            if (!string.IsNullOrEmpty(path) && !path.EndsWith(Path.DirectorySeparatorChar.ToString()))
                 path += Path.DirectorySeparatorChar;
             this.path = path;
         }

@@ -323,34 +323,6 @@ namespace NBi.Xml
             //Debug.Write(XmlSerializeFrom<TestSuiteXml>(testSuite));
         }
 
-        public TestXml DeserializeTest(string objectData)
-        {
-            return XmlDeserializeFromString<TestXml>(objectData);
-        }
-
-        protected internal T XmlDeserializeFromString<T>(string objectData)
-        {
-            return (T)XmlDeserializeFromString(objectData, typeof(T));
-        }
-
-        protected object XmlDeserializeFromString(string objectData, Type type)
-        {
-            var serializer = new XmlSerializer(type);
-            object result;
-
-            using (TextReader reader = new StringReader(objectData))
-            {
-                result = serializer.Deserialize(reader);
-            }
-
-            return result;
-        }
-
-        public string SerializeTest(TestXml objectData)
-        {
-            return XmlSerializeFrom<TestXml>(objectData);
-        }
-
         protected internal string XmlSerializeFrom<T>(T objectData)
         {
             return SerializeFrom(objectData, typeof(T));

@@ -9,7 +9,12 @@ namespace NBi.Core.Etl.IntegrationService
         public EtlDtsSqlServerRunner(IEtl etl)
             : base(etl)
         {
+            var argumentNullExceptionSentence = "You must specify a value for parameter '{0}' when using an EtlDtsSqlServerRunner";
+            if (string.IsNullOrEmpty(Etl.UserName))
+                throw new ArgumentNullException("UserName", string.Format(argumentNullExceptionSentence, "UserName"));
 
+            if (string.IsNullOrEmpty(Etl.Password))
+                throw new ArgumentNullException("Password", string.Format(argumentNullExceptionSentence, "Password"));
         }
 
         protected override Package Load(IEtl etl, Application app)

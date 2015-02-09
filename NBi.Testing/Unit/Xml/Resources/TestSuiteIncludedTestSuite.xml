@@ -11,7 +11,4 @@
 		<assert>
 			<syntacticallyCorrect />
 		</assert>
-		<assert>
-			<fasterThan max-time-milliSeconds="5000" />
-		</assert>
 	</test>

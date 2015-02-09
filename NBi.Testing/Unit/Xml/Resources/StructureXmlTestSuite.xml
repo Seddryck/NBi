@@ -7,7 +7,7 @@
 			</structure>
 		</system-under-test>
 		<assert>
-			<contains
+			<contain
 				caption="xYz"
 				ignore-case="true"
 			/>
@@ -20,7 +20,7 @@
 			</structure>
 		</system-under-test>
 		<assert>
-			<contains
+			<contain
 				caption="xYz"
 			/>
 		</assert>

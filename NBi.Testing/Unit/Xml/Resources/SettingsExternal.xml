@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<settings>
+<settings xmlns="http://NBi/TestSuite">
 	<default apply-to="system-under-test">
 		<connectionString>My Sut Default Connection String</connectionString>
 	</default>

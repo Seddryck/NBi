@@ -155,18 +155,18 @@ namespace NBi.NUnit.Runtime
             Trace.WriteLineIf(NBiTraceSwitch.TraceWarning, "Next cleanup functions are skipped.");
         }
 
-        public virtual void ExecuteTest(string testSuiteXml)
-        {
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, testSuiteXml);
+        //public virtual void ExecuteTest(string testSuiteXml)
+        //{
+        //    Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, testSuiteXml);
 
-            byte[] byteArray = Encoding.ASCII.GetBytes(testSuiteXml);
-            var stream = new MemoryStream(byteArray);
-            var sr = new StreamReader(stream);
+        //    byte[] byteArray = Encoding.ASCII.GetBytes(testSuiteXml);
+        //    var stream = new MemoryStream(byteArray);
+        //    var sr = new StreamReader(stream);
 
-            TestSuiteManager.Read(sr);
-            foreach (var test in TestSuiteManager.TestSuite.Tests)
-                ExecuteTestCases(test);
-        }
+        //    TestSuiteManager.Read(sr);
+        //    foreach (var test in TestSuiteManager.TestSuite.Tests)
+        //        ExecuteTestCases(test);
+        //}
 
         /// <summary>
         /// Handles the standard assertion and if needed rethrow a new AssertionException with a modified stacktrace

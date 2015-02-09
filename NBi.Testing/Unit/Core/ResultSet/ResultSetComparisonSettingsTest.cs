@@ -124,12 +124,38 @@ namespace NBi.Testing.Unit.Core.ResultSet
             Assert.That(actual.IsNumeric(9), Is.True);
         }
 
-        private ResultSetComparisonSettings BuildSettings()
+        [Test]
+        public void IsNumeric_EqualToAndColumnsDefinedWithValuesDefaultType_CorrectResult()
+        {
+            //Get the Settings
+            var xml = BuildEqualToXml();
+            xml.ValuesDefaultType = ColumnType.DateTime;
+            //get settings
+            var actual = xml.GetSettings();
+            //Set the columnCount
+            actual.ApplyTo(10);
+
+            //Assertion
+            Assert.That(actual.IsNumeric(0), Is.False);
+            Assert.That(actual.IsNumeric(1), Is.True);
+            Assert.That(actual.IsNumeric(2), Is.False); //By Default a Key column is Textual
+            Assert.That(actual.IsDateTime(2), Is.False); //By Default a Key column is Textual
+            Assert.That(actual.IsBoolean(2), Is.False); //By Default a Key column is Textual
+            Assert.That(actual.IsNumeric(3), Is.False);
+            Assert.That(actual.IsNumeric(4), Is.True);
+            Assert.That(actual.IsNumeric(8), Is.False);
+            Assert.That(actual.IsNumeric(9), Is.False); //The default type for a Value column is dateTime
+            Assert.That(actual.IsDateTime(9), Is.True); //The default type for a Value column is dateTime
+        }
+
+        private EqualToXml BuildEqualToXml()
         {
             //Buiding object used during test
             var xml = new EqualToXml();
             //default values/def
             xml.KeysDef = ResultSetComparisonSettings.KeysChoice.AllExpectLast;
+            //default values/def
+            xml.ValuesDefaultType = ColumnType.Numeric;
             //default tolerance
             xml.Tolerance = "100";
 
@@ -163,7 +189,13 @@ namespace NBi.Testing.Unit.Core.ResultSet
             cols.Add(col4Xml);
             cols.Add(colIgnoreXml);
             xml.columnsDef = cols;
+            
+            return xml;
+        }
 
+        private ResultSetComparisonSettings BuildSettings()
+        {
+            var xml = BuildEqualToXml();
             //get settings
             var settings = xml.GetSettings();
 

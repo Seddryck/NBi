@@ -506,6 +506,16 @@
                     </xs:restriction>
                   </xs:simpleType>
                 </xs:attribute>
+                <xs:attribute name="values-default-type" use="optional" >
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:enumeration value="text"/>
+                      <xs:enumeration value="numeric"/>
+                      <xs:enumeration value="dateTime"/>
+                      <xs:enumeration value="boolean"/>
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:attribute>
                 <xs:attribute name="tolerance" type="xs:string" use="optional" />
                 <xs:attribute name="persistance" use="optional" >
                   <xs:simpleType>

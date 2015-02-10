@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<settings>
+		<reference name="Standard">
+			<numeric-format
+				decimal-digits="3"
+				decimal-separator=","
+				group-separator=" "/>
+		</reference>
+	</settings>
+	<test name="match pattern reference 3,space">
+		<system-under-test>
+      <execution>
+        <query>select '10.25'</query>
+      </execution>
+		</system-under-test>
+		<assert>
+			<matchPattern>
+				<numeric-format ref="Standard"/>
+			</matchPattern>
+		</assert>
+	</test>
+  <test name="match pattern 2.none">
+    <system-under-test>
+      <execution>
+        <query>select '10.25'</query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <matchPattern>
+        <numeric-format
+				  decimal-digits="2"
+				  decimal-separator="."
+				  group-separator=""/>
+      </matchPattern>
+    </assert>
+  </test>
+</testSuite>

@@ -40,7 +40,7 @@ namespace NBi.Testing.Unit.Core.Etl
         [Test]
         public void Get_FilePackage_ReturnsEtlFileRunner()
         {
-            var etl = Mock.Of<IEtl>(e => e.Path=="\\Etl\\" && e.Path=="mySample.dtsx");
+            var etl = Mock.Of<IEtl>(e => e.Path=="\\Etl\\" && e.Name=="mySample.dtsx");
             
             var factory = new SsisEtlRunnerFactory();
 

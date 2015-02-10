@@ -10,8 +10,6 @@ namespace NBi.Core.Etl.IntegrationService
         public EtlDtsRunner(IEtl etl) : base(etl) 
         {
             var argumentNullExceptionSentence = "You must specify a value for parameter '{0}' when using an EtlDtsRunner";
-            if (string.IsNullOrEmpty(Etl.Server))
-                throw new ArgumentNullException("Server", string.Format(argumentNullExceptionSentence, "Server"));
 
             if (string.IsNullOrEmpty(Etl.Path))
                 throw new ArgumentNullException("Path", string.Format(argumentNullExceptionSentence, "Path"));

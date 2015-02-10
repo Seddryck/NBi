@@ -10,6 +10,9 @@ namespace NBi.Core.Etl.IntegrationService
             : base(etl)
         {
             var argumentNullExceptionSentence = "You must specify a value for parameter '{0}' when using an EtlDtsSqlServerRunner";
+            if (string.IsNullOrEmpty(Etl.Server))
+                throw new ArgumentNullException("Server", string.Format(argumentNullExceptionSentence, "Server"));
+
             if (string.IsNullOrEmpty(Etl.UserName))
                 throw new ArgumentNullException("UserName", string.Format(argumentNullExceptionSentence, "UserName"));
 

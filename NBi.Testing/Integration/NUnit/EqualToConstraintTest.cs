@@ -263,7 +263,7 @@ namespace NBi.Testing.Integration.NUnit
             //Buiding object used during test
             var filename = DiskOnFile.CreatePhysicalFile("NonEmptyAmountByYear.csv", "NBi.Testing.Integration.NUnit.Resources.NonEmptyAmountByYear.csv");
 
-            var ctr = new EqualToConstraint(filename);
+            var ctr = new EqualToConstraint(new ResultSetFile(filename, ResultSetFileType.Csv));
 
             var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));

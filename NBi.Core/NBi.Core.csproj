@@ -339,6 +339,8 @@
     <Compile Include="Analysis\MdxBuilder.cs" />
     <Compile Include="Query\QueryOleDbEngine.cs" />
     <Compile Include="ResultSet\ResultSetDifference.cs" />
+    <Compile Include="ResultSet\ResultSetFile.cs" />
+    <Compile Include="ResultSet\ResultSetFileType.cs" />
     <Compile Include="ResultSet\ResultSetTextWriter.cs" />
     <Compile Include="ResultSet\ResultSetXmlWriter.cs" />
     <Compile Include="Query\IQueryParser.cs" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core;
 using NBi.Core.ResultSet;
+using System.ComponentModel;
 
 namespace NBi.Xml.Items.ResultSet
 {
@@ -20,15 +21,21 @@ namespace NBi.Xml.Items.ResultSet
         [XmlAttribute("file")]
         public string File { get; set; }
 
-        public string GetFile()
+        [XmlAttribute("type")]
+        [DefaultValue(ResultSetFileType.Csv)]
+        public ResultSetFileType Type { get; set; }
+
+        public ResultSetFile GetFile()
         {
-            var file = string.Empty;
+            var path = string.Empty;
             if (Path.IsPathRooted(File))
-                file = File;
+                path = File;
             else
-                file = Settings.BasePath + File;
-            if (!System.IO.File.Exists(file))
-                throw new ExternalDependencyNotFoundException(file);
+                path = Settings.BasePath + File;
+            if (!System.IO.File.Exists(path))
+                throw new ExternalDependencyNotFoundException(path);
+
+            var file = new ResultSetFile(path, Type);
 
             return file;
         }
@@ -36,6 +43,7 @@ namespace NBi.Xml.Items.ResultSet
         public ResultSetXml()
         {
             _rows = new List<RowXml>();
+            Type = ResultSetFileType.Csv;
         } 
 
     }

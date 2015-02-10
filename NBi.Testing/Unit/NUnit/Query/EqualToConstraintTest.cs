@@ -49,22 +49,23 @@ namespace NBi.Testing.Unit.NUnit.Query
             rsExpect.Load("x;y;2");
             var cmd = new SqlCommand();
 
+            var file = new ResultSetFile("my path for expectation", ResultSetFileType.Csv);
+
             var rsbMock = new Mock<IResultSetBuilder>();
             rsbMock.Setup(engine => engine.Build(cmd))
                 .Returns(rsActual);
-            rsbMock.Setup(engine => engine.Build("my path for expectation"))
+            rsbMock.Setup(engine => engine.Build(file))
                 .Returns(rsExpect);
             var rsb = rsbMock.Object;
 
-            var equalToConstraint = new EqualToConstraint("my path for expectation") {ResultSetBuilder = rsb };
+            var equalToConstraint = new EqualToConstraint(file) {ResultSetBuilder = rsb };
 
             //Method under test
             equalToConstraint.Matches(cmd);
 
-            //Test conclusion            
-            //Test conclusion            
+            //Test conclusion                
             rsbMock.Verify(engine => engine.Build(cmd), Times.Once());
-            rsbMock.Verify(engine => engine.Build("my path for expectation"), Times.Once());
+            rsbMock.Verify(engine => engine.Build(file), Times.Once());
         }
         
 
@@ -80,7 +81,7 @@ namespace NBi.Testing.Unit.NUnit.Query
             var rsbStub = new Mock<IResultSetBuilder>();
             rsbStub.Setup(engine => engine.Build(It.IsAny<IDbCommand>()))
                 .Returns(rsActual);
-            rsbStub.Setup(engine => engine.Build(It.IsAny<string>()))
+            rsbStub.Setup(engine => engine.Build(It.IsAny<ResultSetFile>()))
                 .Returns(rsExpect);                   
 
             var rsbFake = rsbStub.Object;
@@ -90,7 +91,8 @@ namespace NBi.Testing.Unit.NUnit.Query
                 .Returns(ResultSetCompareResult.NotMatching);
             var rsc = rscMock.Object;
 
-            var equalToConstraint = new EqualToConstraint("my path for expectation") {ResultSetBuilder = rsbFake, Engine = rsc };
+            var file = new ResultSetFile("my path for expectation", ResultSetFileType.Csv);
+            var equalToConstraint = new EqualToConstraint(file) { ResultSetBuilder = rsbFake, Engine = rsc };
 
             //Method under test
             equalToConstraint.Matches(cmd);

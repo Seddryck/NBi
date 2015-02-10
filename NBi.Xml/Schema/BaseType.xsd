@@ -573,6 +573,14 @@
                         </xs:element>
                       </xs:sequence>
                       <xs:attribute name="file" type="xs:string" use="optional" />
+                      <xs:attribute name="type" use="optional">
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:enumeration value="csv"/>
+                            <xs:enumeration value="xml"/>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:attribute>
                     </xs:complexType>
                   </xs:element>
                   <xs:element name="query" type="query-type" minOccurs="0" maxOccurs="1"/>

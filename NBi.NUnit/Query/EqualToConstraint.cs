@@ -98,7 +98,7 @@ namespace NBi.NUnit.Query
             }
         }
         
-        public EqualToConstraint (string value)
+        public EqualToConstraint (ResultSetFile value)
         {
             this.expect = value;
         }

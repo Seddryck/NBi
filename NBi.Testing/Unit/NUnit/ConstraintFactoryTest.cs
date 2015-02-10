@@ -10,6 +10,7 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 using NBi.Framework;
+using NBi.Core.ResultSet;
 
 namespace NBi.Testing.Unit.NUnit
 {
@@ -212,7 +213,8 @@ namespace NBi.Testing.Unit.NUnit
             builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default));
             builderMockFactory.Setup(b => b.Build());
             builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new SqlCommand());
-            builderMockFactory.Setup(b => b.GetConstraint()).Returns(new EqualToConstraint("value"));
+            var ctr = new EqualToConstraint(new ResultSetFile("value", ResultSetFileType.Csv));
+            builderMockFactory.Setup(b => b.GetConstraint()).Returns(ctr);
             var builder = builderMockFactory.Object;
 
             var testCaseFactory = new TestCaseFactory();

@@ -15,29 +15,29 @@ namespace NBi.NUnit.Runtime.Configuration
         }
             
 
-        [ConfigurationProperty("max-sample-item", IsRequired = false, DefaultValue = 10)]
+        [ConfigurationProperty("max-sample-items", IsRequired = false, DefaultValue = 10)]
         public int MaxSampleItem
         {
             get
             {
-                return (int)this["max-sample-item"];
+                return (int)this["max-sample-items"];
             }
             set
             {
-                this["max-sample-item"] = value;
+                this["max-sample-items"] = value;
             }
         }
 
-        [ConfigurationProperty("threshold-sample-item", IsRequired = false, DefaultValue = 15)]
+        [ConfigurationProperty("threshold-sample-items", IsRequired = false, DefaultValue = 15)]
         public int ThresholdSampleItem
         {
             get
             {
-                return (int)this["threshold-sample-item"];
+                return (int)this["threshold-sample-items"];
             }
             set
             {
-                this["threshold-sample-item"] = value;
+                this["threshold-sample-items"] = value;
             }
         }
 

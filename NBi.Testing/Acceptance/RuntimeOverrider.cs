@@ -96,7 +96,6 @@ namespace NBi.Testing.Acceptance
             //Execute the NUnit TestCases one by one
             foreach (var testCaseData in tests)
                 t.ExecuteTestCases((TestXml)testCaseData.Arguments[0]);
-            
         }
 
         [Test]

@@ -67,16 +67,16 @@ namespace NBi.NUnit.Runtime.Configuration
             }
         }
 
-        [ConfigurationProperty("sample-set", IsRequired = false, DefaultValue = FailureReportSetType.Sample)]
+        [ConfigurationProperty("analysis-set", IsRequired = false, DefaultValue = FailureReportSetType.Sample)]
         public FailureReportSetType AnalysisSet
         {
             get
             {
-                return (FailureReportSetType)this["sample-set"];
+                return (FailureReportSetType)this["analysis-set"];
             }
             set
             {
-                this["sample-set"] = value;
+                this["analysis-set"] = value;
             }
         }
     }

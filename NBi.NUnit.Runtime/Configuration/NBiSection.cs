@@ -1,9 +1,14 @@
-﻿using System;
+﻿using NBi.NUnit.Runtime.Configuration;
+using System;
 using System.Configuration;
 using System.Linq;
 
 namespace NBi.NUnit.Runtime
 {
+    /// I know that the namespace is not correct, it's just to ensure compatibility with the previous release.
+    /// <summary>
+    /// Handle configuration information
+    /// </summary>
     public class NBiSection : ConfigurationSection
     {
         // Create a "testSuite" attribute.

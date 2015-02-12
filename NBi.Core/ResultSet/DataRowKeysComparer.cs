@@ -9,13 +9,13 @@ namespace NBi.Core.ResultSet
     public class DataRowKeysComparer : IEqualityComparer<DataRow>
     {
         private readonly ResultSetComparisonSettings settings;
-               
+
         public DataRowKeysComparer(ResultSetComparisonSettings settings, int columnCount)
         {
             this.settings = settings;
             settings.ApplyTo(columnCount);
         }
-        
+
         public bool Equals(DataRow x, DataRow y)
         {
             if (!CheckKeysExist(x))
@@ -56,20 +56,38 @@ namespace NBi.Core.ResultSet
             keysHashed = 0;
             valuesHashed = 0;
 
-            for (int i=0; i < row.Table.Columns.Count; i++)
+            for (int i = 0; i < row.Table.Columns.Count; i++)
             {
-                var value = row[i];
-
-                string v = null;
-                if (value is IConvertible)
-                    v = ((IConvertible)value).ToString(CultureInfo.InvariantCulture);
-                else
-                    v = value.ToString();
-
-                valuesHashed = (valuesHashed * 397) ^ v.GetHashCode();
-
                 if (settings.IsKey(i))
                 {
+                    var value = row[i];
+
+                    string v = null;
+
+                    var isDateTime = settings.IsDateTime(i);
+                    if (isDateTime && value is DateTime)
+                    {
+                        v = string.Format("{0:yyyy-MM-dd HH:mm:ss}", ((DateTime)value));
+                    }
+                    else if (isDateTime && value is string)
+                    {
+                        DateTime dateTime;
+                        if (DateTime.TryParse(((string)value),
+                                CultureInfo.InvariantCulture.DateTimeFormat,
+                                DateTimeStyles.AllowWhiteSpaces,
+                                out dateTime))
+                            v = string.Format("{0:yyyy-MM-dd HH:mm:ss}", dateTime);
+                        else
+                            v = (string)value;
+
+                    }
+                    else if (value is IConvertible)
+                        v = ((IConvertible)value).ToString(CultureInfo.InvariantCulture);
+                    else
+                        v = value.ToString();
+
+                    valuesHashed = (valuesHashed * 397) ^ v.GetHashCode();
+
                     keysHashed = (keysHashed * 397) ^ v.GetHashCode();
                 }
             }

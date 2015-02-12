@@ -435,6 +435,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\Contain.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\FasterThan.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

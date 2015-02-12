@@ -15,68 +15,68 @@ namespace NBi.NUnit.Runtime.Configuration
         }
             
 
-        [ConfigurationProperty("maxSampleItem", IsRequired = false, DefaultValue = 10)]
+        [ConfigurationProperty("max-sample-item", IsRequired = false, DefaultValue = 10)]
         public int MaxSampleItem
         {
             get
             {
-                return (int)this["maxSampleItem"];
+                return (int)this["max-sample-item"];
             }
             set
             {
-                this["maxSampleItem"] = value;
+                this["max-sample-item"] = value;
             }
         }
 
-        [ConfigurationProperty("thresholdSampleItem", IsRequired = false, DefaultValue = 15)]
+        [ConfigurationProperty("threshold-sample-item", IsRequired = false, DefaultValue = 15)]
         public int ThresholdSampleItem
         {
             get
             {
-                return (int)this["thresholdSampleItem"];
+                return (int)this["threshold-sample-item"];
             }
             set
             {
-                this["thresholdSampleItem"] = value;
+                this["threshold-sample-item"] = value;
             }
         }
 
-        [ConfigurationProperty("expectedSet", IsRequired = false, DefaultValue = FailureReportSetType.Sample)]
+        [ConfigurationProperty("expected-set", IsRequired = false, DefaultValue = FailureReportSetType.Sample)]
         public FailureReportSetType ExpectedSet
         {
             get
             {
-                return (FailureReportSetType)this["expectedSet"];
+                return (FailureReportSetType)this["expected-set"];
             }
             set
             {
-                this["expectedSet"] = value;
+                this["expected-set"] = value;
             }
         }
 
-        [ConfigurationProperty("actualSet", IsRequired = false, DefaultValue = FailureReportSetType.Sample)]
+        [ConfigurationProperty("actual-set", IsRequired = false, DefaultValue = FailureReportSetType.Sample)]
         public FailureReportSetType ActualSet
         {
             get
             {
-                return (FailureReportSetType)this["actualSet"];
+                return (FailureReportSetType)this["actual-set"];
             }
             set
             {
-                this["actualSet"] = value;
+                this["actual-set"] = value;
             }
         }
 
-        [ConfigurationProperty("sampleSet", IsRequired = false, DefaultValue = FailureReportSetType.Sample)]
+        [ConfigurationProperty("sample-set", IsRequired = false, DefaultValue = FailureReportSetType.Sample)]
         public FailureReportSetType AnalysisSet
         {
             get
             {
-                return (FailureReportSetType)this["sampleSet"];
+                return (FailureReportSetType)this["sample-set"];
             }
             set
             {
-                this["sampleSet"] = value;
+                this["sample-set"] = value;
             }
         }
     }

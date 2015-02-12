@@ -81,16 +81,16 @@ namespace NBi.NUnit.Runtime
             }
         }
 
-        [ConfigurationProperty("failureReportProfile", IsRequired = false)]
+        [ConfigurationProperty("failure-report-profile", IsRequired = false)]
         public FailureReportProfileElement FailureReportProfile
         {
             get
             {
-                return (FailureReportProfileElement)this["failureReportProfile"];
+                return (FailureReportProfileElement)this["failure-report-profile"];
             }
             set
             {
-                this["failureReportProfile"] = value;
+                this["failure-report-profile"] = value;
             }
         }
     }

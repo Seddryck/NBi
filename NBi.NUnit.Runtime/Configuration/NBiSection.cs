@@ -2,7 +2,7 @@
 using System.Configuration;
 using System.Linq;
 
-namespace NBi.NUnit.Runtime.Configuration
+namespace NBi.NUnit.Runtime
 {
     public class NBiSection : ConfigurationSection
     {

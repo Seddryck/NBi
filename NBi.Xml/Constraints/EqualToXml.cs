@@ -18,14 +18,17 @@ namespace NBi.Xml.Constraints
         public EqualToXml()
         {
             parallelizeQueries = false;
+            ValuesDefaultType = ColumnType.Numeric;
         }
 
         internal  EqualToXml(bool parallelizeQueries)
+            : this()
         {
             this.parallelizeQueries = parallelizeQueries;
         }
 
         internal EqualToXml(SettingsXml settings)
+            : this()
         {
             this.Settings = settings;
         }
@@ -67,6 +70,10 @@ namespace NBi.Xml.Constraints
         [XmlAttribute("values")]
         [DefaultValue(ResultSetComparisonSettings.ValuesChoice.AllExpectFirst)]
         public ResultSetComparisonSettings.ValuesChoice ValuesDef { get; set; }
+
+        [XmlAttribute("values-default-type")]
+        [DefaultValue(ColumnType.Numeric)]
+        public ColumnType ValuesDefaultType { get; set; }
 
         protected bool isToleranceSpecified;
         [XmlIgnore()]
@@ -110,7 +117,7 @@ namespace NBi.Xml.Constraints
 
         public ResultSetComparisonSettings GetSettings()
         {
-            return new ResultSetComparisonSettings(KeysDef, ValuesDef, ToleranceFactory.BuildNumeric(Tolerance), ColumnsDef);
+            return new ResultSetComparisonSettings(KeysDef, ValuesDef, ValuesDefaultType, ToleranceFactory.BuildNumeric(Tolerance), ColumnsDef);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]

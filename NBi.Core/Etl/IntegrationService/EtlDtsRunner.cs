@@ -7,7 +7,16 @@ namespace NBi.Core.Etl.IntegrationService
 {
     abstract class EtlDtsRunner : EtlRunner
     {
-        public EtlDtsRunner(IEtl etl) : base(etl) {}
+        public EtlDtsRunner(IEtl etl) : base(etl) 
+        {
+            var argumentNullExceptionSentence = "You must specify a value for parameter '{0}' when using an EtlDtsRunner";
+
+            if (string.IsNullOrEmpty(Etl.Path))
+                throw new ArgumentNullException("Path", string.Format(argumentNullExceptionSentence, "Path"));
+
+            if (string.IsNullOrEmpty(Etl.Name))
+                throw new ArgumentNullException("Name", string.Format(argumentNullExceptionSentence, "Name"));
+        }
 
         public override IExecutionResult Run()
         {

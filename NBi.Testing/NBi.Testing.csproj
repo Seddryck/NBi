@@ -264,7 +264,7 @@
     <Compile Include="Unit\Xml\TestXmlTest.cs" />
     <Compile Include="Unit\NUnit\ConstraintFactoryTest.cs" />
     <Compile Include="Unit\Xml\Systems\ExecutionXmlTest.cs" />
-    <Compile Include="Unit\Xml\XmlManagerWithExternalSettings.cs" />
+    <Compile Include="Unit\Xml\XmlManagerWithExternalSettingsTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerWithDtdTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerTest.cs" />
   </ItemGroup>
@@ -435,7 +435,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\Contain.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\FasterThan.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -560,6 +559,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidSyntaxMultiple.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\RowCountXmlTestSuite.xml" />
     <None Include="Acceptance\GenbiL\Resources\dimension.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

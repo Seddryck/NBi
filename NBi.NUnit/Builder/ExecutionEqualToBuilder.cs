@@ -75,11 +75,12 @@ namespace NBi.NUnit.Builder
                 throw new ArgumentException();
 
             //Manage settings for comparaison
-            ResultSetComparisonSettings settings = new ResultSetComparisonSettings(
-                ConstraintXml.KeysDef,
-                ConstraintXml.ValuesDef,
-                ToleranceFactory.BuildNumeric(ConstraintXml.Tolerance),
-                ConstraintXml.ColumnsDef
+            var settings = new ResultSetComparisonSettings(
+                    ConstraintXml.KeysDef,
+                    ConstraintXml.ValuesDef,
+                    ConstraintXml.ValuesDefaultType,
+                    ToleranceFactory.BuildNumeric(ConstraintXml.Tolerance),
+                    ConstraintXml.ColumnsDef
                 );
 
             ctr.Using(settings);

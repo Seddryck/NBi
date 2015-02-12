@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="NBi-Settings" 
+           xmlns="http://NBi/TestSuite" 
+           xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           elementFormDefault="qualified" 
+           targetNamespace="http://NBi/TestSuite">
+  <xs:include schemaLocation="BaseType.xsd"/>
+  <xs:element name="settings" type="settings-type"/>
+</xs:schema>

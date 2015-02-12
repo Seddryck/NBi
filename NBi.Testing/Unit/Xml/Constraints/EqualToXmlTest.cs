@@ -200,5 +200,30 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[4].Tolerance, Is.EqualTo("00:00:00.125"));
         }
 
+        [Test]
+        public void DeserializeEqualToQuery_QueryFile8_ValuesDefaulTypeWithoutSpecificValueRead()
+        {
+            int testNr = 8;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ValuesDefaultType, Is.EqualTo(ColumnType.Numeric));
+        }
+
+        [Test]
+        public void DeserializeEqualToQuery_QueryFile8_ValuesDefaulTypeRead()
+        {
+            int testNr = 9;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ValuesDefaultType, Is.EqualTo(ColumnType.DateTime));
+        }
     }
 }

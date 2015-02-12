@@ -28,6 +28,7 @@ namespace NBi.Core.ResultSet
 
 		public KeysChoice KeysDef { get; set; }
 		private ValuesChoice ValuesDef { get; set; }
+        private ColumnType ValuesDefaultType { get; set; }
 		private ICollection<IColumnDefinition> ColumnsDef { get; set; }
 		private NumericTolerance DefaultTolerance { get; set; }
 
@@ -127,36 +128,29 @@ namespace NBi.Core.ResultSet
 
 		public bool IsNumeric(int index)
 		{
-			if (ColumnsDef.Any(c => c.Index == index && c.Type != ColumnType.Numeric))
-				return false;
-
-			if (ColumnsDef.Any(c => c.Index == index && c.Type == ColumnType.Numeric))
-				return true;
-
-			return IsValue(index);
+            return IsType(index, ColumnType.Numeric);
 		}
 
 		public bool IsDateTime(int index)
 		{
-			if (ColumnsDef.Any(c => c.Index == index && c.Type != ColumnType.DateTime))
-				return false;
-
-			if (ColumnsDef.Any(c => c.Index == index && c.Type == ColumnType.DateTime))
-				return true;
-
-			return false;
-		}
+            return IsType(index, ColumnType.DateTime);
+        }
 
 		public bool IsBoolean(int index)
 		{
-			if (ColumnsDef.Any(c => c.Index == index && c.Type != ColumnType.Boolean))
-				return false;
-
-			if (ColumnsDef.Any(c => c.Index == index && c.Type == ColumnType.Boolean))
-				return true;
-
-			return false;
+            return IsType(index, ColumnType.Boolean);
 		}
+
+        private bool IsType(int index, ColumnType type)
+        {
+            if (ColumnsDef.Any(c => c.Index == index && c.Type != type))
+                return false;
+
+            if (ColumnsDef.Any(c => c.Index == index && c.Type == type))
+                return true;
+
+            return (IsValue(index) && ValuesDefaultType == type);
+        }
 
 		public Tolerance GetTolerance(int index)
 		{
@@ -234,25 +228,26 @@ namespace NBi.Core.ResultSet
 		//}
 
 		public ResultSetComparisonSettings(int columnsCount, KeysChoice keysDef, ValuesChoice valuesDef)
-			: this(keysDef, valuesDef, new NumericAbsoluteTolerance(0), null)
+            : this(keysDef, valuesDef, ColumnType.Numeric, new NumericAbsoluteTolerance(0), null)
 		{
 			ApplyTo(columnsCount);
 		}
 
 		public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, ICollection<IColumnDefinition> columnsDef)
-			: this(keysDef, valuesDef, new NumericAbsoluteTolerance(0), columnsDef)
+            : this(keysDef, valuesDef, ColumnType.Numeric, new NumericAbsoluteTolerance(0), columnsDef)
 		{
 		}
 
 		public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, NumericTolerance defaultTolerance)
-			: this(keysDef, valuesDef, defaultTolerance, null)
+			: this(keysDef, valuesDef, ColumnType.Numeric, defaultTolerance, null)
 		{
 		}
 
-		public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, NumericTolerance defaultTolerance, ICollection<IColumnDefinition> columnsDef)
+		public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, ColumnType valuesDefaultType, NumericTolerance defaultTolerance, ICollection<IColumnDefinition> columnsDef)
 		{
 			KeysDef = keysDef;
 			ValuesDef = valuesDef;
+            ValuesDefaultType = valuesDefaultType;
 			DefaultTolerance = defaultTolerance;
 			if (columnsDef != null)
 				ColumnsDef = columnsDef;

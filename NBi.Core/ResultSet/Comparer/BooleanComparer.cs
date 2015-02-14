@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.ResultSet.Converter;
+using System;
 using System.Globalization;
 using System.Linq;
 
@@ -6,20 +7,22 @@ namespace NBi.Core.ResultSet.Comparer
 {
     class BooleanComparer : BaseComparer
     {
+        private readonly IConverter<ThreeStateBoolean> converter;
+
+        public BooleanComparer()
+        {
+            converter = new BooleanConverter();
+        }
+
         protected override ComparerResult CompareObjects(object x, object y)
         {
-            var xThreeState = IntParsing(x);
-            if (xThreeState == ThreeState.Unknown)
-                xThreeState = StringParsing(x);
-
-            var yThreeState = IntParsing(y);
-            if (yThreeState == ThreeState.Unknown)
-                yThreeState = StringParsing(y);
+            var xThreeState = converter.Convert(x);
+            var yThreeState = converter.Convert(y);
 
             if (IsEqual(xThreeState, yThreeState))
                 return ComparerResult.Equality;
 
-            return new ComparerResult(ThreeStateToString(xThreeState, x.ToString()));
+            return new ComparerResult(x.ToString());
         }
 
         protected override ComparerResult CompareObjects(object x, object y, Tolerance tolerance)
@@ -29,57 +32,12 @@ namespace NBi.Core.ResultSet.Comparer
 
         protected override ComparerResult CompareObjects(object x, object y, Rounding rounding)
         {
-            throw new NotImplementedException("You cannot compare with a boolean comparer and a rounding.");
+            throw new NotImplementedException("You cannot compare two booleans with a rounding.");
         }
 
-
-        protected ThreeState IntParsing(object obj)
+        protected bool IsEqual(ThreeStateBoolean x, ThreeStateBoolean y)
         {
-            if (IsParsableNumeric(obj))
-            {
-                var dec = Convert.ToDecimal(obj, NumberFormatInfo.InvariantInfo);
-                if (dec == new decimal(0))
-                    return ThreeState.False;
-                if (dec == new decimal(1))
-                    return ThreeState.True;   
-            }
-            return ThreeState.Unknown;
-        }
-
-
-        protected ThreeState StringParsing(object obj)
-        {
-            var str= obj.ToString().ToLowerInvariant();
-            if (str == "false" || str=="no")
-                return ThreeState.False;
-            if (str == "true" || str == "yes")
-                return ThreeState.True;
-            return ThreeState.Unknown;
-        }
-
-        protected enum ThreeState
-        {
-            Unknown = -1,
-            False = 0,
-            True= 1
-        };
-
-
-        protected string ThreeStateToString(ThreeState ts, string value)
-        {
-            switch (ts)
-            {
-                case ThreeState.False:
-                    return "false";
-                case ThreeState.True:
-                    return "true";
-            }
-            return value;
-        }
-
-        protected bool IsEqual(ThreeState x, ThreeState y)
-        {
-            if (x == ThreeState.Unknown || y == ThreeState.Unknown)
+            if (x == ThreeStateBoolean.Unknown || y == ThreeStateBoolean.Unknown)
                 return false;
 
             //quick check
@@ -88,7 +46,7 @@ namespace NBi.Core.ResultSet.Comparer
 
         protected override bool IsValidObject(object x)
         {
-            return (x is Boolean || IsValidNumeric(x) || StringParsing(x) != ThreeState.Unknown);
+            return converter.IsValid(x);
         }
     }
 }

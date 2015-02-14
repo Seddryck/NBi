@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.ResultSet.Converter;
+using System;
 using System.Globalization;
 using System.Linq;
 
@@ -86,41 +87,7 @@ namespace NBi.Core.ResultSet.Comparer
         }
 
         
-        public static bool IsValidNumeric(object value)
-        {
-            if (value is string && ((string)value) == "(value)")
-                return true;
-
-            if (value is string && ((string)value) == "(any)")
-                return true;
-
-            return IsParsableNumeric(value);
-        }
-
-        protected static bool IsParsableNumeric(object value)
-        {
-            decimal num = 0;
-            var result = Decimal.TryParse(value.ToString()
-                                , NumberStyles.AllowLeadingSign | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowDecimalPoint
-                                , CultureInfo.InvariantCulture
-                                , out num);
-            //The first method is not enough, you can have cases where this method returns false but the value is effectively a numeric. The problem is in the .ToString() on the object where you apply the regional settings for the numeric values.
-            //The second method gives a better result but unfortunately generates an exception.
-            if (!result)
-            {
-                try
-                {
-                    num = Convert.ToDecimal(value, NumberFormatInfo.InvariantInfo);
-                    result = true;
-                }
-                catch (Exception)
-                {
-
-                    result = false;
-                }
-            }
-            return result;
-        }
+        
 
         public static bool IsValidDateTime(string value)
         {

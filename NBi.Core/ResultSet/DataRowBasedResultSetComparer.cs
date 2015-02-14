@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using NBi.Core.ResultSet.Comparer;
 using System.Text;
+using NBi.Core.ResultSet.Converter;
 
 namespace NBi.Core.ResultSet
 {
@@ -318,12 +319,13 @@ namespace NBi.Core.ResultSet
                     if (settings.IsNumeric(i) && IsNumericField(dr.Table.Columns[i]))
                         continue;
 
-                    if (settings.IsNumeric(i) && !(BaseComparer.IsValidNumeric(dr[i]) || BaseComparer.IsValidInterval(dr[i])))
+                    var numericConverter = new NumericConverter();
+                    if (settings.IsNumeric(i) && !(numericConverter.IsValid(dr[i]) || BaseComparer.IsValidInterval(dr[i])))
                     {                   
                         var exception = string.Format("The column with an index of {0} is expecting a numeric value but the first row of your result set contains a value '{1}' not recognized as a valid numeric value or a valid interval."
                             , i, dr[i].ToString());
 
-                        if (BaseComparer.IsValidNumeric(dr[i].ToString().Replace(",", ".")))
+                        if (numericConverter.IsValid(dr[i].ToString().Replace(",", ".")))
                             exception += " Aren't you trying to use a comma (',' ) as a decimal separator? NBi requires that the decimal separator must be a '.'.";
 
                         throw new ResultSetComparerException(exception);

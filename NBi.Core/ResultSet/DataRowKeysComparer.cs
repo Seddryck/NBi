@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.ResultSet.Converter;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
@@ -9,13 +10,13 @@ namespace NBi.Core.ResultSet
     public class DataRowKeysComparer : IEqualityComparer<DataRow>
     {
         private readonly ResultSetComparisonSettings settings;
-               
+
         public DataRowKeysComparer(ResultSetComparisonSettings settings, int columnCount)
         {
             this.settings = settings;
             settings.ApplyTo(columnCount);
         }
-        
+
         public bool Equals(DataRow x, DataRow y)
         {
             if (!CheckKeysExist(x))
@@ -56,23 +57,33 @@ namespace NBi.Core.ResultSet
             keysHashed = 0;
             valuesHashed = 0;
 
-            for (int i=0; i < row.Table.Columns.Count; i++)
+            for (int i = 0; i < row.Table.Columns.Count; i++)
             {
-                var value = row[i];
+                var value = FormatValue(i, row[i]);
+                if (settings.IsKey(i))
+                    keysHashed = (keysHashed * 397) ^ value.GetHashCode();
+                else
+                    valuesHashed = (valuesHashed * 397) ^ value.GetHashCode();
+            }
+        }
 
-                string v = null;
+        internal object FormatValue(int columnIndex, object value)
+        {
+            object v = null;
+            if (settings.IsNumeric(columnIndex))
+                v = new NumericConverter().Convert(value);
+            else if (settings.IsDateTime(columnIndex))
+                v = new DateTimeConverter().Convert(value);
+            else if (settings.IsBoolean(columnIndex))
+                v = new BooleanConverter().Convert(value);
+            else
+            {
                 if (value is IConvertible)
                     v = ((IConvertible)value).ToString(CultureInfo.InvariantCulture);
                 else
                     v = value.ToString();
-
-                valuesHashed = (valuesHashed * 397) ^ v.GetHashCode();
-
-                if (settings.IsKey(i))
-                {
-                    keysHashed = (keysHashed * 397) ^ v.GetHashCode();
-                }
             }
+            return v;
         }
     }
 }

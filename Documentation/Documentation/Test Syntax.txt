@@ -1,0 +1,36 @@
+! Test syntax of a SQL or MDX query
+For this kind of test, you'll need to define your system under test as a "query" and your assertion as an "syntacticallyCorrect" constraint. 
+
+NBi will *not execute* your query but will ask SQL Server to check the syntax of your mdx or sql query. It means that if your query is a truncate or an insert, don't panic your query will not be executed, the content of your database will not be updated even temporary. To achieve this, NBI doesn't make usage of transactions.
+
+The test result will also indicate the errors (if any) returned by SQL Server when parsing your query.
+!! System Under Test
+If you’re not familiar with how to setup a system-under-test as a query, please read first the documentation about [Test equivalence of two result sets]
+!! Assert
+Once you system under test is defined, you'll need to specify that you want to assert the syntax of your query. This done by the xml element named _syntacticallyCorrect _ 
+{code:xml}
+<assert>
+	<syntacticallyCorrect/>
+</assert>
+{code:xml}
+
+A whole sample would be:
+{code:xml}
+
+<test name="…">
+    <system-under-test>
+        <execution>
+            <query name="MDX" connectionString="Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033">
+                SELECT
+                    [Measures].[Reseller Order Count] ON 0,
+                    EXCEPT({[Date].[Calendar Year].Children},{[Date].[Calendar Year].[CY 2006]}) ON 1
+                FROM
+                    [Adventure Works]
+            </query>
+        </execution>
+    </system-under-test>
+    <assert>
+        <syntacticallyCorrect/>
+    </assert>
+</test>
+{code:xml}

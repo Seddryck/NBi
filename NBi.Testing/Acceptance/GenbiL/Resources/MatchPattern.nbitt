@@ -1,0 +1,15 @@
+﻿<test name="match pattern 2.none">
+    <system-under-test>
+      <execution>
+        <query>select '10.25'</query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <matchPattern>
+        <numeric-format
+				  decimal-digits="$decimalDigit$"
+				  decimal-separator="$decimalSeparator$"
+				  group-separator="$thousandSeparator$"/>
+      </matchPattern>
+    </assert>
+  </test>

@@ -57,10 +57,9 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>if not exist "$(TargetDir)Xsd\"(md "$(TargetDir)Xsd\")
-$(TargetPath) "$(TargetDir)Schema\TestSuite.xsd" "$(TargetDir)Xsd\NBi-TestSuite.xsd" -q
-$(TargetPath) "$(TargetDir)Schema\Test.xsd" "$(TargetDir)Xsd\NBi-Test.xsd" -q
-$(TargetPath) "$(TargetDir)Schema\Settings.xsd" "$(TargetDir)Xsd\NBi-Settings.xsd" -q</PostBuildEvent>
+    <PostBuildEvent>$(TargetPath) "$(TargetDir)Schema\TestSuite.xsd" "$(TargetDir)NBi-TestSuite.xsd" -q
+$(TargetPath) "$(TargetDir)Schema\Test.xsd" "$(TargetDir)NBi-Test.xsd" -q
+$(TargetPath) "$(TargetDir)Schema\Settings.xsd" "$(TargetDir)NBi-Settings.xsd" -q</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

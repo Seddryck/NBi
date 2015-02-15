@@ -374,4 +374,31 @@
 			</equalTo>
 		</assert>
 	</test>
+  <test name="SQL With dates as Keys">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select cast ('2015-12-16' as date), 412.25
+          union all select cast ('2015-12-17' as date), 725.0
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo keys="first">
+        <column index="0" type="dateTime" role="key"/>
+        <resultSet>
+          <row>
+            <cell>2015-12-16</cell>
+            <cell>412.250</cell>
+          </row>
+          <row>
+            <cell>2015-12-17</cell>
+            <cell>725</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+  </test>
 </testSuite>

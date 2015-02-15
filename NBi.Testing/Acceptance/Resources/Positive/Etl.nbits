@@ -57,4 +57,18 @@
       <successful/>
     </assert>
   </test>
+  <test name="Etl is successful with dateTime variable" uid="0005">
+    <system-under-test>
+      <execution>
+        <etl path="Acceptance\Resources\Etl\" name="DateTime.dtsx" password="p@ssw0rd">
+          <parameter name="TestDate">2014-12-02 16:11</parameter>
+          <parameter name="TestInt32">1210</parameter>
+          <parameter name="TestByte">1</parameter>
+        </etl>
+      </execution>
+    </system-under-test>
+    <assert>
+      <successful/>
+    </assert>
+  </test>
 </testSuite>

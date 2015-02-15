@@ -44,11 +44,13 @@ namespace NBi.Core.Etl.IntegrationService
                 else
                 {
                     if (package.Variables.Contains(param.Name))
-                        package.Variables[param.Name].Value = param.StringValue;
+                        package.Variables[param.Name].Value = DefineValue(param.StringValue, package.Variables[param.Name].DataType);
                     else
                         throw new ArgumentOutOfRangeException("param.Name", string.Format("No parameter or variable named '{0}' found in the package {1}, can't override its value for execution.", param.Name, package.Name));
                 }
             }
         }
+
+        
     }
 }

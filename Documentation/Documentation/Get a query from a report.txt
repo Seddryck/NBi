@@ -1,0 +1,63 @@
+! Get a query from a report
+NBi is able to extract queries from SSRS reports and use them in your tests. Other features related to queries execution are fully applicable to query extracted from reports you can definitively make usage of [Query's parameters] and [Query's template-variables].
+
+To extract the queries from your report you can choose to connect to a ReportingServer database or try to parse to a rdl file on a disk. In both cases you need to specify the xml element _report_ in place of the xml element named _query_
+
+{codexml}
+system-under-test
+	execution
+		report ... 
+	execution
+system-under-test
+{codexml}
+
+Before trying to achieve this, you must know that a report may contain more than one query. In consequence, it's always needed to specify which query you want to extract from the report. This can be done by using the xml attribute named _dataset_ in the corresponding xml element.
+
+!! From ReportingServer database
+To extract from a ReportingServer database, you must specify the _source_ as the connection-string to connect to this ReportingServer database. 
+{codexml}
+report source=Data Source=(local)SQL2012;Initial Catalog=ReportServer;Integrated Security=True; ...
+{codexml}
+
+Don't be confused with the attribute _connectionString_ defining the database on which you will apply your query. This connection-string is optional and can be replaced by a _default_ value or a _reference_ specified in the _settings_.
+{codexml}
+report connectionString=... 
+{codexml}
+
+Finally, you must define which report you'll want to extract e the means of the attributes path and name. The path is referencing the folder and sub-folders of the report and name it's displayname on the portal. Note that the leading and final  on the path are mandatory.
+{codexml}
+report source=Data Source=(local)SQL2012;Initial Catalog=ReportServer;Integrated Security=True;
+		path=AdventureWorks 2012
+		name=Store_Contacts
+		dataset=Stores
+
+{codexml}
+
+!! From a rdl file on a disk
+The difference with the ReportingServer database is expressed on the attribute _source_ which must be unspecified. The _path_ will be expressed from the test-suite file and will have a final .
+{codexml}
+report
+	path=AdventureWorks Sample Reports
+	name=Store_Contacts
+	dataset=Stores
+
+{codexml}
+
+!! From SSRS Web Service
+Will be introduced on a next release.
+
+!! Full sample
+The following code extracts the query from a report named _Store_Contacts_, in directory_AdventureWorks 2012_ hosted on a ReportingServer database. The query is available in the dataset named _StoreContacts_ and NBi applies a value of 300 to the parameter named _StoreID_ when executing the query on a database with a connectionString referenced in the default settings applying to a system-under-test.
+{codexml}
+system-under-test
+	execution
+		report source=Data Source=(local)SQL2012;Initial Catalog=ReportServer;Integrated Security=True;
+			path=AdventureWorks 2012
+			name=Store_Contacts
+			dataset=StoreContacts
+		
+			parameter name=StoreID300parameter
+		report
+	execution
+system-under-test
+{codexml}

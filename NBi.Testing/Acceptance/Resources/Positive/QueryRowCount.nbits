@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
+	<test name="Count of SalesTerritory is more-than or equal to 2" uid="0001">
+		<system-under-test>
+			<execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select
+          [Name], [CountryRegionCode]
+          from
+          [Sales].[SalesTerritory]
+          where
+          [Group]='Europe'
+        </query>
+			</execution>
+		</system-under-test>
+		<assert>
+      <row-count>
+        <more-than>2</more-than>
+      </row-count>
+		</assert>
+	</test>
+  <test name="Count of SalesTerritory is less-than or equal to 3" uid="0001">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select
+          [Name], [CountryRegionCode]
+          from
+          [Sales].[SalesTerritory]
+          where
+          [Group]='Europe'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <row-count>
+        <less-than or-equal="true">3</less-than>
+      </row-count>
+    </assert>
+  </test>
+  <test name="Count of SalesTerritory is equal to 3" uid="0001">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select
+          [Name], [CountryRegionCode]
+          from
+          [Sales].[SalesTerritory]
+          where
+          [Group]='Europe'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <row-count>
+        <equal>3</equal>
+      </row-count>
+    </assert>
+  </test>
+  <test name="Count of SalesTerritory is equal to 3" uid="0001">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select
+          [Name], [CountryRegionCode]
+          from
+          [Sales].[SalesTerritory]
+          where
+          [Group]='Europe'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <row-count not="true">
+        <equal>4</equal>
+      </row-count>
+    </assert>
+  </test>
+</testSuite>

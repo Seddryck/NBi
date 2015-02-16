@@ -93,6 +93,7 @@
     <Compile Include="Integration\Core\Analysis\Member\MembersCommandTest.cs" />
     <Compile Include="Integration\Core\Analysis\Metadata\Adomd\AdomdDiscoveryCommandTest.cs" />
     <Compile Include="Integration\Core\Analysis\Metadata\Adomd\ColumnDiscoveryCommandTest.cs" />
+    <Compile Include="Integration\Core\Analysis\Metadata\Adomd\SetDiscoveryCommandTest.cs" />
     <Compile Include="Integration\Core\Analysis\Metadata\Adomd\TableDiscoveryCommandTest.cs" />
     <Compile Include="Integration\Core\Analysis\Request\DiscoveryRequestFactoryTest.cs" />
     <Compile Include="Integration\Core\Analysis\MembersAdomdEngineTest.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Integration\NUnit\Structure\EquivalentToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\LinkedToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\ExistsConstraintTest.cs" />
+    <Compile Include="Unit\Core\Analysis\Metadata\Adomd\SetDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\HierarchyDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureDiscoveryCommandTest.cs" />

@@ -87,10 +87,14 @@
     <Compile Include="Analysis\Member\PatternValue.cs" />
     <Compile Include="Analysis\Metadata\Adomd\ColumnRow.cs" />
     <Compile Include="Analysis\Metadata\Adomd\ColumnDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\SetRow.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\SetDiscoveryCommand.cs" />
     <Compile Include="Analysis\Metadata\Adomd\TableDiscoveryCommand.cs" />
     <Compile Include="Analysis\Metadata\Adomd\TableRow.cs" />
     <Compile Include="Analysis\Metadata\ColumnCollection.cs" />
     <Compile Include="Analysis\Metadata\Column.cs" />
+    <Compile Include="Analysis\Metadata\SetCollection.cs" />
+    <Compile Include="Analysis\Metadata\Set.cs" />
     <Compile Include="Analysis\Metadata\Table.cs" />
     <Compile Include="Analysis\Metadata\TableCollection.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\LevelNotNullIfProperty.cs" />

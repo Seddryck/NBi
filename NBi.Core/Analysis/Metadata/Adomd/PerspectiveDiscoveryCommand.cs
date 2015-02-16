@@ -80,7 +80,7 @@ namespace NBi.Core.Analysis.Metadata.Adomd
         protected override string Build(CaptionFilter filter)
         {
             if (filter.Target==DiscoveryTarget.Perspectives)
-                    return string.Format("CUBE_NAME='{0}'", filter.Value);
+                    return string.Format("[CUBE_NAME]='{0}'", filter.Value);
 
             return string.Empty;
         }

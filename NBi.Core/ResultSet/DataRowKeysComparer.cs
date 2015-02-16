@@ -52,18 +52,43 @@ namespace NBi.Core.ResultSet
             return hash;
         }
 
-        public void GetHashCode64_KeysValues(DataRow row, out Int64 keysHashed, out Int64 valuesHashed)
+        //public void GetHashCode64_KeysValues(DataRow row, out Int64 keysHashed, out Int64 valuesHashed)
+        public void GetHashCode64_KeysValues(DataRow row, out Int64 keysHashed)
         {
             keysHashed = 0;
-            valuesHashed = 0;
+            //valuesHashed = 0;
 
             for (int i = 0; i < row.Table.Columns.Count; i++)
             {
-                var value = FormatValue(i, row[i]);
+                
                 if (settings.IsKey(i))
-                    keysHashed = (keysHashed * 397) ^ value.GetHashCode();
-                else
-                    valuesHashed = (valuesHashed * 397) ^ value.GetHashCode();
+                {
+                    try
+                    {
+                        var value = FormatValue(i, row[i]);
+                        keysHashed = (keysHashed * 397) ^ value.GetHashCode();
+                    }
+                    catch (FormatException)
+                    {
+                        var txt = "In the column with index '{0}', NBi can't convert the value '{0}' to the type '{1}'. Key columns must match with their respective types and don't support null, generic or interval values.";
+                        var msg = string.Format(txt, i, row[i], settings.GetColumnType(i));
+                        throw new NBiException(msg);
+                    }
+                    catch (InvalidCastException ex)
+                    {
+                        if (ex.Message.Contains("Object cannot be cast from DBNull to other types"))
+                        {
+                            var txt = "In the column with index '{0}', NBi can't convert the value 'DBNull' to the type '{1}'. Key columns must match with their respective types and don't support null, generic or interval values.";
+                            var msg = string.Format(txt, i, row[i], settings.GetColumnType(i));
+                            throw new NBiException(msg);
+                        }
+                        else
+                            throw ex;
+                    }
+                }
+
+                //else
+                //    valuesHashed = (valuesHashed * 397) ^ value.GetHashCode();
             }
         }
 

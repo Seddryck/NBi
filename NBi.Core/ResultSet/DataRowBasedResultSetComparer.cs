@@ -53,10 +53,10 @@ namespace NBi.Core.ResultSet
             {
                 CompareHelper hlpr = new CompareHelper();
 
-                keyComparer.GetHashCode64_KeysValues(row, out keysHashed, out valuesHashed);
+                keyComparer.GetHashCode64_KeysValues(row, out keysHashed);//, out valuesHashed);
                 
                 hlpr.KeysHashed = keysHashed;
-                hlpr.ValuesHashed = valuesHashed;
+                //hlpr.ValuesHashed = valuesHashed;
                 hlpr.DataRowObj = row;
 
                 //Check that the rows in the reference are unique
@@ -169,11 +169,11 @@ namespace NBi.Core.ResultSet
                 {
                     var ryHelper = yDict[rxHelper.KeysHashed];
 
-                    if (ryHelper.ValuesHashed == rxHelper.ValuesHashed)
-                    {
-                        // quick shortcut. If the hash of the values matches, then there is no further need to test
-                        continue;
-                    }
+                    //if (ryHelper.ValuesHashed == rxHelper.ValuesHashed)
+                    //{
+                    //    // quick shortcut. If the hash of the values matches, then there is no further need to test
+                    //    continue;
+                    //}
 
                     var rx = rxHelper.DataRowObj;
                     var ry = ryHelper.DataRowObj;

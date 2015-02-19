@@ -22,7 +22,9 @@ namespace NBi.Xml.Systems
         XmlElement(Type = typeof(LevelsXml), ElementName = "levels"),
         XmlElement(Type = typeof(PropertiesXml), ElementName = "properties"),
         XmlElement(Type = typeof(TableXml), ElementName = "table"),
-        XmlElement(Type = typeof(ColumnXml), ElementName = "column")
+        XmlElement(Type = typeof(ColumnXml), ElementName = "column"),
+        XmlElement(Type = typeof(SetXml), ElementName = "set"),
+        XmlElement(Type = typeof(SetsXml), ElementName = "sets")
         ]
         public AbstractItem Item { get; set; }
 

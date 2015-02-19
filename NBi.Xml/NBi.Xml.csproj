@@ -97,6 +97,8 @@
     <Compile Include="InheritanceTestXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
+    <Compile Include="Items\SetsXml.cs" />
+    <Compile Include="Items\SetXml.cs" />
     <Compile Include="Items\ExecutableXml.cs" />
     <Compile Include="Items\PropertiesXml.cs" />
     <Compile Include="Items\PropertyXml.cs" />

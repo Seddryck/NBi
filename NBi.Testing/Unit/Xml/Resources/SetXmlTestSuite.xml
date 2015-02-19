@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="With dimension attribute">
+		<system-under-test>
+			<structure>
+				<set caption="set" perspective="perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="With display-folder attribute">
+		<system-under-test>
+			<structure>
+        <sets perspective="perspective"/>
+			</structure>
+		</system-under-test>
+		<assert>
+      <contain>
+        <item>Set1</item>
+        <item>Set2</item>
+      </contain>
+		</assert>
+	</test>
+</testSuite>

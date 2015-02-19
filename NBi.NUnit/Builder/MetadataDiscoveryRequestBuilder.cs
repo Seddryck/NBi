@@ -45,7 +45,8 @@ namespace NBi.NUnit.Builder
                 return DiscoveryTarget.Tables;
             if (item is PerspectivesXml || item is PerspectiveXml)
                 return DiscoveryTarget.Perspectives;
-
+            if (item is SetsXml || item is SetXml)
+                return DiscoveryTarget.Sets;
             throw new ArgumentException();
         }
 

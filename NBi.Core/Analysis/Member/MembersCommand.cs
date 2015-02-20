@@ -125,6 +125,10 @@ namespace NBi.Core.Analysis.Member
 
         private string BuildPath(IEnumerable<IFilter> filters)
         {
+            var setFilter = FindFilterOrNull(filters, DiscoveryTarget.Sets);
+            if (setFilter != null)
+                return string.Format("[{0}]", setFilter.Value);
+
             var dimFilter = FindFilterOrNull(filters, DiscoveryTarget.Dimensions);
 
             var hieFilter = FindFilterOrNull(filters, DiscoveryTarget.Hierarchies);
@@ -152,7 +156,9 @@ namespace NBi.Core.Analysis.Member
         public string Build(string perspective, string path, string function, string memberCaption, IEnumerable<string> exludedMembers, IEnumerable<PatternValue> excludedPatterns)
         {
             var members = string.Empty;
-            if (string.IsNullOrEmpty(memberCaption))
+            if (string.IsNullOrEmpty(function))
+                members = string.Format("{0}", path);
+            else if (string.IsNullOrEmpty(memberCaption))
                 members = string.Format("{0}.{1}", path, function);
             else
                 members = string.Format("{0}.[{2}].{1}", path, function, memberCaption);

@@ -56,6 +56,23 @@ namespace NBi.Testing.Unit.Xml.Items
 
             var item = (SetsXml)((StructureXml)ts.Tests[testNr].Systems[0]).Item;
             Assert.That(item.Perspective, Is.EqualTo("perspective"));
+        }
+
+        [Test]
+        public void Deserialize_SampleWithMembersFile_SetsLoaded()
+        {
+            int testNr = 2;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<MembersXml>());
+            Assert.That(((MembersXml)ts.Tests[testNr].Systems[0]).Item, Is.TypeOf<SetXml>());
+
+            var item = (SetXml)((MembersXml)ts.Tests[testNr].Systems[0]).Item;
+            Assert.That(item.Perspective, Is.EqualTo("perspective"));
+            Assert.That(item.Caption, Is.EqualTo("set"));
         }      
     }
 }

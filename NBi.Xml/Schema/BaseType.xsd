@@ -251,6 +251,7 @@
       <xs:choice>
         <xs:element name="hierarchy" type="hierarchy-type"/>
         <xs:element name="level" type="level-type"/>
+        <xs:element name="set" type="set-type"/>
       </xs:choice>
       <xs:element name="exclude" minOccurs="0">
         <xs:complexType>

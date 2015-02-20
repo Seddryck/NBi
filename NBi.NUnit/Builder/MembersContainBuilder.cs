@@ -37,6 +37,11 @@ namespace NBi.NUnit.Builder
             NBi.NUnit.Member.ContainConstraint ctr = null;
             if (ctrXml.Query != null)
                 ctr = new NBi.NUnit.Member.ContainConstraint(ctrXml.Query.GetCommand());
+            else if (ctrXml.Members != null)
+            {
+                var disco = InstantiateMembersDiscovery(ctrXml.Members);
+                ctr = new NBi.NUnit.Member.ContainConstraint(disco);
+            }
             else if (ctrXml.GetItems().Count() == 1)
                 ctr = new NBi.NUnit.Member.ContainConstraint(ctrXml.Caption);
             else

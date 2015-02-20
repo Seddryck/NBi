@@ -143,4 +143,15 @@
 			<exists />
 		</assert>
 	</test>
+  <test name="In perspective 'Channel Sales', the set 'Large Resellers' exists">
+    <category>Set</category>
+    <system-under-test>
+      <structure>
+        <set caption="Large Resellers" perspective="Channel Sales"/>
+      </structure>
+    </system-under-test>
+    <assert>
+      <exists />
+    </assert>
+  </test>
 </testSuite>

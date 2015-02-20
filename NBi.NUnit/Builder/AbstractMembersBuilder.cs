@@ -47,18 +47,19 @@ namespace NBi.NUnit.Builder
 	        catch (ArgumentOutOfRangeException)
 	        {
 		
-		        throw new ArgumentOutOfRangeException("sutXml", sutXml, "The system-under-test for members must be a hierarchy or a level");
+		        throw new ArgumentOutOfRangeException("sutXml", sutXml, "The system-under-test for members must be a hierarchy or a level or a set");
 	        }
         }
   
         protected MembersDiscoveryRequest InstantiateMembersDiscovery(MembersXml membersXml)
         {
-            string perspective = null, dimension = null, hierarchy = null, level = null;
+            string perspective = null, dimension = null, hierarchy = null, level = null, set=null;
+            MembersDiscoveryRequest disco = null;
 
             if (membersXml.Item == null)
                 throw new ArgumentNullException();
 
-            if (!(membersXml.Item is HierarchyXml || membersXml.Item is LevelXml))
+            if (!(membersXml.Item is HierarchyXml || membersXml.Item is LevelXml || membersXml.Item is SetXml))
             {
                 throw new ArgumentOutOfRangeException();
             }
@@ -76,16 +77,34 @@ namespace NBi.NUnit.Builder
                 hierarchy = ((LevelXml)membersXml.Item).Hierarchy;
                 level = membersXml.Item.Caption;
             }
-  		   
-            var disco = discoveryFactory.Build(
-                membersXml.Item.GetConnectionString(),
-                membersXml.ChildrenOf,
-                membersXml.Exclude.Items,
-                BuildPatterns(membersXml.Exclude.Patterns),
-                perspective,
-                dimension,
-                hierarchy,
-                level);
+            if (membersXml.Item is HierarchyXml || membersXml.Item is LevelXml)
+            {
+                disco = discoveryFactory.Build(
+                    membersXml.Item.GetConnectionString(),
+                    membersXml.ChildrenOf,
+                    membersXml.Exclude.Items,
+                    BuildPatterns(membersXml.Exclude.Patterns),
+                    perspective,
+                    dimension,
+                    hierarchy,
+                    level);
+            }
+                
+            if (membersXml.Item is SetXml)
+            {
+                perspective = ((SetXml)membersXml.Item).Perspective;
+                set = membersXml.Item.Caption;
+
+                disco = discoveryFactory.Build(
+                    membersXml.Item.GetConnectionString(),
+                    membersXml.Exclude.Items,
+                    BuildPatterns(membersXml.Exclude.Patterns),
+                    perspective,
+                    set);
+            }
+
+            if (disco == null)
+                throw new ArgumentException();
 
             return disco;
         }

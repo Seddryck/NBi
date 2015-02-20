@@ -31,4 +31,17 @@
 			</contain>
 		</assert>
 	</test>
+  <test name="In perspective 'Adventure Works', we find at least this list of sets" uid="0002">
+    <system-under-test>
+      <structure>
+        <sets perspective="Adventure Works"/>
+      </structure>
+    </system-under-test>
+    <assert>
+      <contain>
+        <item>Large Resellers</item>
+        <item>Core Product Group</item>
+      </contain>
+    </assert>
+  </test>
 </testSuite>

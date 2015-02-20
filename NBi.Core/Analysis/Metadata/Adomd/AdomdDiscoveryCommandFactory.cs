@@ -92,6 +92,8 @@ namespace NBi.Core.Analysis.Metadata.Adomd
                     return new TableDiscoveryCommand(connectionString);
                 case DiscoveryTarget.Columns:
                     return new ColumnDiscoveryCommand(connectionString);
+                case DiscoveryTarget.Sets:
+                    return new SetDiscoveryCommand(connectionString);
             }
             throw new ArgumentOutOfRangeException();
         }

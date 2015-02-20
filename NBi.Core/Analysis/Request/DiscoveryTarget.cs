@@ -16,6 +16,7 @@ namespace NBi.Core.Analysis.Request
         Levels,
         Properties,
         Tables,
-        Columns
+        Columns,
+        Sets
     }
 }

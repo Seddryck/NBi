@@ -37,6 +37,11 @@ namespace NBi.NUnit.Builder
             NBi.NUnit.Member.EquivalentToConstraint ctr;
             if (ctrXml.Query != null)
                 ctr = new NBi.NUnit.Member.EquivalentToConstraint(ctrXml.Query.GetCommand());
+            else if (ctrXml.Members != null)
+            {
+                var disco = InstantiateMembersDiscovery(ctrXml.Members);
+                ctr = new NBi.NUnit.Member.EquivalentToConstraint(disco);
+            }
             else
                 ctr = new NBi.NUnit.Member.EquivalentToConstraint(ctrXml.GetItems());
 

@@ -44,7 +44,7 @@ namespace NBi.Xml
         {
             //define the basePath
             basePath = System.IO.Path.GetDirectoryName(testSuiteFilename) + Path.DirectorySeparatorChar;
-            
+
             //ensure the file is existing
             if (!File.Exists(testSuiteFilename))
                 throw new ArgumentException(string.Format("No test-suite has been found at the location '{0}'.", testSuiteFilename));
@@ -68,7 +68,7 @@ namespace NBi.Xml
             {
                 TestSuite.Settings.GetValuesFromConfig(ConnectionStrings);
             }
-            
+
             //Apply the basePath
             TestSuite.Settings.BasePath = basePath;
 
@@ -124,6 +124,8 @@ namespace NBi.Xml
                         validationExceptions.Add(dtdException);
                     }
                 }
+                else
+                    ParseCascadingInvalidOperationException(ex.InnerException as InvalidOperationException);
             }
 
             if (validationExceptions.Count>0)
@@ -139,6 +141,15 @@ namespace NBi.Xml
 
                 throw new ArgumentException(message);
             }
+        }
+
+        private void ParseCascadingInvalidOperationException(InvalidOperationException exception)
+        {
+            if (exception == null)
+                return;
+
+            Console.WriteLine(exception.Message);
+            ParseCascadingInvalidOperationException(exception.InnerException as InvalidOperationException);
         }
 
         #endregion
@@ -203,7 +214,7 @@ namespace NBi.Xml
                                             , "NBi.Xml.Schema.Settings.xsd"
                                             , "NBi.Xml.Schema.TestSuite.xsd"}
                                         , "http://NBi/TestSuite");
-            
+
             xmlReaderSettings.Schemas = schemaSet;
 
             var xmlReader = XmlReader.Create(reader, xmlReaderSettings);

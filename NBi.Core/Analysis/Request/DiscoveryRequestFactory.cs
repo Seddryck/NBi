@@ -37,6 +37,30 @@ namespace NBi.Core.Analysis.Request
             return disco;
         }
 
+        public virtual MembersDiscoveryRequest Build(string connectionString, IEnumerable<string> excludedMembers, IEnumerable<PatternValue> excludedPatterns, string perspective, string set)
+        {
+            Validate(
+                new List<Validation>()
+                {
+                    new ConnectionStringNotEmpty(connectionString)
+                }
+            );
+
+            //If validation of parameters is successfull then we build the object
+            var disco = new MembersDiscoveryRequest();
+            disco.ConnectionString = connectionString;
+            if (!string.IsNullOrEmpty(perspective)) 
+                disco.SpecifyFilter(new CaptionFilter(perspective, DiscoveryTarget.Perspectives));
+            if (!string.IsNullOrEmpty(set))
+                disco.SpecifyFilter(new CaptionFilter(set, DiscoveryTarget.Sets));
+            disco.Function = string.Empty;
+            disco.MemberCaption = string.Empty;
+            disco.ExcludedMembers = excludedMembers;
+            disco.ExcludedPatterns = excludedPatterns;
+
+            return disco;
+        }
+
         public virtual MembersDiscoveryRequest Build(string connectionString, string memberCaption, string perspective, string dimension, string hierarchy, string level)
         {
             return Build(connectionString, memberCaption, null, null, perspective, dimension, hierarchy, level);

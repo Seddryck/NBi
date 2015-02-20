@@ -118,7 +118,7 @@ namespace NBi.Core.Etl.IntegrationService
                 {
                     ObjectType = existingParam.ObjectType,
                     ParameterName = param.Name,
-                    ParameterValue = param.StringValue
+                    ParameterValue = DefineValue(param.StringValue, existingParam.DataType)
                 };
                 yield return execParam;
             }

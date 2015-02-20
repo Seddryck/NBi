@@ -17,7 +17,8 @@ namespace NBi.Xml.Systems
 
         [XmlElement(Type = typeof(DimensionXml), ElementName = "dimension"),
         XmlElement(Type = typeof(HierarchyXml), ElementName = "hierarchy"),
-        XmlElement(Type = typeof(LevelXml), ElementName = "level")
+        XmlElement(Type = typeof(LevelXml), ElementName = "level"),
+        XmlElement(Type = typeof(SetXml), ElementName = "set")
         ]
         public AbstractMembersItem Item { get; set; }
 

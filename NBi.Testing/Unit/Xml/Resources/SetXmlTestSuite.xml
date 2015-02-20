@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
-	<test name="With dimension attribute">
+	<test name="Assert that a set exists">
 		<system-under-test>
 			<structure>
 				<set caption="set" perspective="perspective" connectionString="ConnectionString"/>
@@ -10,7 +10,7 @@
 			<exists/>
 		</assert>
 	</test>
-	<test name="With display-folder attribute">
+	<test name="Assert that a list of sets exist">
 		<system-under-test>
 			<structure>
         <sets perspective="perspective"/>
@@ -23,4 +23,17 @@
       </contain>
 		</assert>
 	</test>
+  <test name="Assert members of a set">
+    <system-under-test>
+      <members>
+        <set caption="set" perspective="perspective" connectionString="ConnectionString"/>
+      </members>
+    </system-under-test>
+    <assert>
+      <contain>
+        <item>Member1</item>
+        <item>Member1</item>
+      </contain>
+    </assert>
+  </test>
 </testSuite>

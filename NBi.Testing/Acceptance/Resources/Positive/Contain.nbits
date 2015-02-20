@@ -92,4 +92,18 @@
       </contain>
     </assert>
   </test>
+    <test name="The set Large Resellers contains at least some items" uid="0099">
+    <system-under-test>
+      <members>
+        <set caption="Large Resellers" perspective="Adventure Works"/>
+      </members>
+    </system-under-test>
+    <assert>
+      <contain>
+        <item>Bicycle Lines Distributors</item>
+        <item>Certified Sports Supply</item>
+      </contain>
+    </assert>
+  </test>
+
 </testSuite>

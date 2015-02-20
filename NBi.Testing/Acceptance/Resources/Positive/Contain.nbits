@@ -76,4 +76,20 @@
 			</contain>
 		</assert>
 	</test>
+  <test name="Members of department bellow 'Corporate' are in a subset of themselves" uid="0001">
+    <system-under-test>
+      <members children-of="Corporate">
+        <hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"/>
+      </members>
+    </system-under-test>
+    <assert>
+      <contain>
+        <members children-of="Corporate" >
+          <hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"
+						connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033"
+					/>
+        </members>
+      </contain>
+    </assert>
+  </test>
 </testSuite>

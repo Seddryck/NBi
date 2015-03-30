@@ -11,8 +11,6 @@ namespace NBi.NUnit.Structure
 {
     public abstract class AbstractStructureConstraint : NBiConstraint
     {
-        private StructureDiscoveryCommand command;
-
         //Internal Constraint is not necessary an CollectionItemsEqualConstraint
         //By expl, for ContainConstraint we've a collection of constrain and not just one constraint
         protected virtual NUnitCtr.Constraint InternalConstraint {get; set;}

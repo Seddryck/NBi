@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NBi.Core;
-using NBi.Core.Analysis.Metadata;
-using NBi.Core.Analysis.Metadata.Adomd;
 using NBi.Core.Analysis.Request;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
@@ -21,7 +19,7 @@ namespace NBi.NUnit.Structure
         public LinkedToConstraint(string expected)
             : base()
         {
-            InternalConstraint = new CollectionContainsConstraint(StringComparerHelper.Build(expected));
+            InternalConstraint = new CollectionContainsConstraint(expected);
             this.Expected = expected;
         }
 
@@ -41,46 +39,27 @@ namespace NBi.NUnit.Structure
         #endregion
 
         /// <summary>
-        /// Change the standard Build using BuildExact by BuildLinkedTo
-        /// </summary>
-        /// <param name="factory"></param>
-        /// <param name="actual"></param>
-        /// <returns></returns>
-        protected override AdomdDiscoveryCommand BuildCommand(AdomdDiscoveryCommandFactory factory, MetadataDiscoveryRequest request)
-        {
-            return factory.BuildLinkedTo(request);
-        }
-        
-        protected void Investigate()
-        {
-            var factory = CommandFactory;
-            var command = factory.BuildExternal(Request);
-            IEnumerable<IField> structures = command.Execute();
-
-            if (structures.Count() > 0)
-            {
-                this.actual = structures;
-            }
-        }
-
-        /// <summary>
         /// Write a description of the constraint to a MessageWriter
         /// </summary>
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
-            if (Request != null)
+            if (Command != null)
             {
                 var description = new DescriptionStructureHelper();
-                var filterExpression = description.GetFilterExpression(Request.GetAllFilters().Where(f => f.Target != Request.Target));
                 var notExpression = description.GetNotExpression(true);
-                var targetExpression = description.GetTargetExpression(Request.Target);
+                var targetExpression = description.GetTargetExpression(Command.Description.Target);
+                var targetCaptionExpression = Command.Description.Filters.Single(f => f.Target == Command.Description.Target).Caption;
                 var captionExpression = Expected;
+                var assertExpression = targetExpression.Contains("dim") ? "measure-group" : "dimension";
+                var filterExpression = description.GetFilterExpression(Command.Description.Filters.Where(f => f.Target != Command.Description.Target));
 
-                writer.WritePredicate(string.Format("find {0} {1} named '{2}' linked to {3}"
+                writer.WritePredicate(string.Format("find {0} {1} named '{2}' linked to {3} '{4}' {5}"
                             , notExpression
-                            , targetExpression
+                            , assertExpression
                             , captionExpression
+                            , targetExpression
+                            , targetCaptionExpression
                             , filterExpression));
             }
         }
@@ -103,7 +82,7 @@ namespace NBi.NUnit.Structure
             //else
             //{
             //    Investigate();
-                if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() > 0)
+            if (actual is IEnumerable<string> && ((IEnumerable<string>)actual).Count() > 0)
                     base.WriteActualValueTo(writer);
                 else
                     writer.WriteActualValue(new WriterHelper.NothingFoundMessage());

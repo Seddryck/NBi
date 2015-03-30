@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
-using NBi.Core.Analysis.Metadata;
-using NBi.Core.Analysis.Request;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
+using NBi.Core.Structure;
 
 namespace NBi.NUnit.Builder
 {
@@ -16,8 +15,8 @@ namespace NBi.NUnit.Builder
         {
         }
 
-        internal StructureSubsetOfBuilder(MetadataDiscoveryRequestBuilder factory)
-            : base(factory)
+        internal StructureSubsetOfBuilder(StructureDiscoveryFactoryProvider provider)
+            : base(provider)
         {
         }
 

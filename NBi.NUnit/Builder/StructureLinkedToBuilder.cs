@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
-using NBi.Core.Analysis.Request;
 using NBi.NUnit.Structure;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
+using NBi.Core.Structure;
+using System.Collections.Generic;
 
 namespace NBi.NUnit.Builder
 {
@@ -16,8 +17,8 @@ namespace NBi.NUnit.Builder
         {
         }
 
-        internal StructureLinkedToBuilder(MetadataDiscoveryRequestBuilder factory)
-            : base(factory)
+        internal StructureLinkedToBuilder(StructureDiscoveryFactoryProvider discoveryProvider)
+            : base(discoveryProvider)
         {
         }
 
@@ -40,11 +41,17 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
-        protected override MetadataDiscoveryRequest InstantiateCommand(AbstractItem item)
+        protected override StructureDiscoveryCommand InstantiateCommand(AbstractItem item)
         {
-            var request = discoveryFactory.Build(item, MetadataDiscoveryRequestBuilder.MetadataDiscoveryRequestType.Relation);
-            return request;
+            var factory = discoveryProvider.Instantiate(item.GetConnectionString());
+
+            var target = BuildTarget(item);
+            var filters = BuildFilters(item);
+
+            var command = factory.Instantiate(target, TargetType.Relation, filters);
+            return command;
         }
+
 
     }
 }

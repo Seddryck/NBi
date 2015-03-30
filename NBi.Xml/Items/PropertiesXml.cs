@@ -1,11 +1,12 @@
-﻿using System;
+﻿using NBi.Xml.Items.Filters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
 namespace NBi.Xml.Items
 {
-    public class PropertiesXml : LevelsXml
+    public class PropertiesXml : LevelsXml, ILevelFilter
     {
         [XmlAttribute("level")]
         public string Level { get; set; }

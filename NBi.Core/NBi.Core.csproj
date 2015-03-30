@@ -48,6 +48,10 @@
     <Reference Include="Antlr4.StringTemplate">
       <HintPath>..\packages\Antlr4.StringTemplate.4.0.6.9004\lib\net35\Antlr4.StringTemplate.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AnalysisServices, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\120\SDK\Assemblies\Microsoft.AnalysisServices.DLL</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>../../../../../../../Program%20Files/Microsoft.NET/ADOMD.NET/100/Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
@@ -85,19 +89,12 @@
     </Compile>
     <Compile Include="Analysis\Member\Pattern.cs" />
     <Compile Include="Analysis\Member\PatternValue.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\ColumnRow.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\ColumnDiscoveryCommand.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\SetRow.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\SetDiscoveryCommand.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\TableDiscoveryCommand.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\TableRow.cs" />
-    <Compile Include="Analysis\Metadata\ColumnCollection.cs" />
-    <Compile Include="Analysis\Metadata\Column.cs" />
-    <Compile Include="Analysis\Metadata\SetCollection.cs" />
-    <Compile Include="Analysis\Metadata\Set.cs" />
-    <Compile Include="Analysis\Metadata\Table.cs" />
-    <Compile Include="Analysis\Metadata\TableCollection.cs" />
+    <Compile Include="Analysis\Request\CaptionFilter.cs" />
+    <Compile Include="Analysis\Request\DiscoveryRequestFactory.cs" />
+    <Compile Include="Analysis\Request\DiscoveryRequestFactoryException.cs" />
+    <Compile Include="Analysis\Request\DiscoveryTarget.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\LevelNotNullIfProperty.cs" />
+    <Compile Include="Analysis\Request\IFilter.cs" />
     <Compile Include="Analysis\Request\MetadataLinkedToDiscoveryRequest.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\TableNotNullIfColumn.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\ValidationFilter.cs" />
@@ -138,13 +135,6 @@
     <Compile Include="ExecutionFactory.cs" />
     <Compile Include="IDecorationCheckImplementation.cs" />
     <Compile Include="CsvReader.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\AdomdDiscoveryCommandFactory.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\LinkedToDiscoveryCommand.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommand.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\DimensionLinkedToDiscoveryCommand.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\DisplayFolderFilter.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\PostCommandFilter.cs" />
-    <Compile Include="Analysis\Request\CaptionFilter.cs" />
     <Compile Include="Analysis\Request\BaseDiscoveryRequest.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\AtLeastOneNotNull.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\MeasureNotNull.cs" />
@@ -152,66 +142,17 @@
     <Compile Include="Analysis\Request\FactoryValidations\NoValidation.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\MeasureGroupWithoutDimension.cs" />
     <Compile Include="Analysis\Request\MetadataDiscoveryRequest.cs" />
-    <Compile Include="Analysis\Request\DiscoveryRequestFactory.cs" />
-    <Compile Include="Analysis\Request\DiscoveryRequestFactoryException.cs" />
-    <Compile Include="Analysis\Request\DiscoveryTarget.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\ConnectionStringNotEmpty.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\HierarchyNotNullIfLevel.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\FilterNotNull.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\DimensionNotNullIfHierarchy.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\PerspectiveNotNull.cs" />
-    <Compile Include="Analysis\Request\IFilter.cs" />
     <Compile Include="Analysis\Request\MembersDiscoveryRequest.cs" />
     <Compile Include="Analysis\Request\Validation.cs" />
     <Compile Include="Analysis\Member\IDiscoverMemberEngine.cs" />
     <Compile Include="Analysis\Member\Member.cs" />
     <Compile Include="Analysis\Member\MembersAdomdEngine.cs" />
     <Compile Include="Analysis\Member\MembersCommand.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\AdomdDiscoveryCommand.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\PerspectiveRow.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\MeasureRow.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\MeasureGroupRow.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\PropertyRow.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\LevelRow.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\HierarchyRow.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\DimensionRow.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\PropertyDiscoveryCommand.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\MeasureDiscoveryCommand.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\MeasureGroupDiscoveryCommand.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\LevelDiscoveryCommand.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\HierarchyDiscoveryCommand.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\DimensionDiscoveryCommand.cs" />
-    <Compile Include="Analysis\Metadata\Adomd\PerspectiveDiscoveryCommand.cs" />
-    <Compile Include="Analysis\Metadata\IMetadataExtractor.cs" />
-    <Compile Include="Analysis\Metadata\IMetadataReader.cs" />
-    <Compile Include="Analysis\Metadata\IField.cs" />
-    <Compile Include="Analysis\Metadata\Level.cs" />
-    <Compile Include="Analysis\Metadata\LevelCollection.cs" />
-    <Compile Include="Analysis\Metadata\MetadataCsvAbstract.cs" />
-    <Compile Include="Analysis\Metadata\MetadataCsvReader.cs" />
-    <Compile Include="Analysis\Metadata\MetadataCsvWriter.cs" />
-    <Compile Include="Analysis\Metadata\CubeMetadata.cs" />
-    <Compile Include="Analysis\Metadata\IMetadataWriter.cs" />
-    <Compile Include="Analysis\Metadata\MetadataExcelOleDbAbstract.cs" />
-    <Compile Include="Analysis\Metadata\Dimension.cs" />
-    <Compile Include="Analysis\Metadata\DimensionCollection.cs" />
-    <Compile Include="Analysis\Metadata\HierarchyCollection.cs" />
-    <Compile Include="Analysis\Metadata\Hierarchy.cs" />
-    <Compile Include="Analysis\Metadata\Measure.cs" />
-    <Compile Include="Analysis\Metadata\MeasureGroup.cs" />
-    <Compile Include="Analysis\Metadata\MeasureGroupCollection.cs" />
-    <Compile Include="Analysis\Metadata\MeasureCollection.cs" />
-    <Compile Include="Analysis\Metadata\MetadataExcelOleDbReader.cs" />
-    <Compile Include="Analysis\Metadata\MetadataExcelOleDbWriter.cs" />
-    <Compile Include="Analysis\Metadata\MetadataAdomdExtractor.cs" />
-    <Compile Include="Analysis\Metadata\MetadataNotFoundException.cs" />
-    <Compile Include="Analysis\Metadata\MetadataFactory.cs" />
-    <Compile Include="Analysis\Metadata\MetadataFileFormat.cs" />
-    <Compile Include="Analysis\Metadata\Perspective.cs" />
-    <Compile Include="Analysis\Metadata\PerspectiveCollection.cs" />
-    <Compile Include="Analysis\Metadata\Property.cs" />
-    <Compile Include="Analysis\Metadata\PropertyCollection.cs" />
-    <Compile Include="Analysis\Metadata\Field.cs" />
     <Compile Include="Assemblies\AssemblyManager.cs" />
     <Compile Include="Assemblies\TypeConverter.cs" />
     <Compile Include="DataManipulation\IDataManipulationCommand.cs" />
@@ -345,7 +286,6 @@
     <Compile Include="QuerySetManager.cs" />
     <Compile Include="ResultSet\ResultSetAbstractWriter.cs" />
     <Compile Include="ResultSet\ResultSetCsvWriter.cs" />
-    <Compile Include="Analysis\MdxBuilder.cs" />
     <Compile Include="Query\QueryOleDbEngine.cs" />
     <Compile Include="ResultSet\ResultSetDifference.cs" />
     <Compile Include="ResultSet\ResultSetTextWriter.cs" />
@@ -359,6 +299,53 @@
     <Compile Include="StringHelper.cs" />
     <Compile Include="StringTemplateEngine.cs" />
     <Compile Include="DataManipulation\SqlServer\TruncateCommand.cs" />
+    <Compile Include="Structure\IDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Olap\Builders\DimensionRelationDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Olap\Builders\MeasureGroupRelationDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Olap\MeasureGroupRelationCommand.cs" />
+    <Compile Include="Structure\Olap\IDimensionType.cs" />
+    <Compile Include="Structure\Olap\DimensionCommand.cs" />
+    <Compile Include="Structure\Olap\DimensionRow.cs" />
+    <Compile Include="Structure\Olap\PostFilters\DimensionType.cs" />
+    <Compile Include="Structure\Relational\Builders\ColumnDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Relational\Builders\RelationalDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Relational\Builders\SchemaDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Relational\Builders\TableDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Relational\RelationalRow.cs" />
+    <Compile Include="Structure\Relational\RelationalCommand.cs" />
+    <Compile Include="Structure\Tabular\Builders\SchemaDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Olap\DistinctOlapCommand.cs" />
+    <Compile Include="Structure\CommandDescription.cs" />
+    <Compile Include="Structure\IStructureDiscoveryCommand.cs" />
+    <Compile Include="Structure\IStructureDiscoveryFactory.cs" />
+    <Compile Include="Structure\Olap\OlapCommand.cs" />
+    <Compile Include="Structure\Olap\OlapRow.cs" />
+    <Compile Include="Structure\Olap\Builders\AbstractDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Tabular\Builders\ColumnDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Tabular\Builders\TabularDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Olap\Builders\MultidimensionalDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Tabular\Builders\TableDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Olap\Builders\SetDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Olap\Builders\MeasureGroupDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Olap\Builders\MeasureDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Olap\Builders\PropertyDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Olap\Builders\LevelDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Olap\Builders\HierarchyDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Olap\Builders\DimensionDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Olap\Builders\PerspectiveDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Olap\PostFilters\DisplayFolder.cs" />
+    <Compile Include="Structure\Olap\IDisplayFolder.cs" />
+    <Compile Include="Structure\CaptionFilter.cs" />
+    <Compile Include="Structure\Olap\OlapStructureDiscoveryFactory.cs" />
+    <Compile Include="Structure\ICommandFilter.cs" />
+    <Compile Include="Structure\IPostCommandFilter.cs" />
+    <Compile Include="Structure\CommandFilter.cs" />
+    <Compile Include="Structure\Relational\RelationalStructureDiscoveryFactory.cs" />
+    <Compile Include="Structure\StructureDiscoveryCommand.cs" />
+    <Compile Include="Structure\StructureDiscoveryFactoryProvider.cs" />
+    <Compile Include="Structure\Tabular\TabularStructureDiscoveryFactory.cs" />
+    <Compile Include="Structure\TargetType.cs" />
+    <Compile Include="Structure\Target.cs" />
     <Compile Include="WindowsService\IWindowsServiceCheck.cs" />
     <Compile Include="WindowsService\WindowsServiceCheck.cs" />
     <Compile Include="WindowsService\WindowsServiceCheckFactory.cs" />
@@ -378,6 +365,7 @@
     <EmbeddedResource Include="Report\ReportServerListSharedDataSet.sql" />
     <EmbeddedResource Include="Report\ReportServerQueryFromSharedDataSet.sql" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -2,7 +2,7 @@
 <testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="system-under-test">
-			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2014;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
 		</default>
 	</settings>
 	<test name="In dimension 'Customers', hierarchy 'State-Provinces', level 'State-Provinces' a property 'capital' is not existing " uid="0001">
@@ -107,7 +107,7 @@
 			<exists/>
 		</assert>
 	</test>
-	<test name="In Measure-group '{sut:measure-group}', and display-folder '{sut:display-folder}', a measure '{sut:caption}' exists" uid="0007">
+  <test name="In Measure-group '{sut:measure-group}', and display-folder '{sut:display-folder}', a measure '{sut:caption}' exists" uid="0007">
 		<system-under-test>
 			<structure>
 				<measure caption="Reseller Order Quantity" measure-group="Reseller Sales" display-folder="" perspective="Adventure Works"/>
@@ -117,12 +117,12 @@
 			<exists/>
 		</assert>
 	</test>
-	<test name="In perspective 'Internet Operation', the table 'Customer' exists">
+  <test name="In perspective 'Internet Operation', the table 'Customer' exists">
 		<category>Tabular</category>
 		<system-under-test>
 			<structure>
 				<table caption="Customer" perspective="Internet Operation"
-					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"		  
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2014TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"		  
 				/>
 			</structure>
 		</system-under-test>
@@ -135,7 +135,7 @@
 		<system-under-test>
 			<structure>
 				<column caption="Birth Date" table="Customer" perspective="Internet Operation"
-					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"		  
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2014TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"		  
 				/>
 			</structure>
 		</system-under-test>

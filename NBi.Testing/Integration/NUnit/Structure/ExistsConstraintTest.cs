@@ -1,8 +1,10 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using NBi.Core.Analysis.Request;
 using NBi.NUnit.Structure;
 using NUnit.Framework;
+using NBi.Core.Structure.Olap;
+using Microsoft.AnalysisServices.AdomdClient;
+using NBi.Core.Structure;
 #endregion
 
 namespace NBi.Testing.Integration.NUnit.Structure
@@ -42,35 +44,36 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void ExistsConstraint_ExistingPerspectiveButWrongCaseWithIgnoreCaseFalse_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().BuildDirect(
-                        ConnectionStringReader.GetAdomd()
-                        , DiscoveryTarget.Perspectives
-                        , new List<IFilter>() { 
-                            new CaptionFilter("Adventure Works".ToLower(), DiscoveryTarget.Perspectives)
+            var connection = new AdomdConnection(ConnectionStringReader.GetAdomd());
+            var factory = new OlapStructureDiscoveryFactory(connection);
+            var command = factory.Instantiate(
+                            Target.Perspectives
+                            , TargetType.Object
+                            , new CaptionFilter[] { 
                         });
 
-            var ctr = new ExistsConstraint();
+            var ctr = new ExistsConstraint("Adventure Works".ToLower());
 
             //Method under test
-            Assert.Throws<AssertionException>(delegate { Assert.That(discovery, ctr); });
+            Assert.Throws<AssertionException>(delegate { Assert.That(command, ctr); });
         }
 
         [Test, Category("Olap cube")]
         public void ExistsConstraint_ExistingPerspectiveButWrongCaseWithIgnoreCaseTrue_Success()
         {
-            var discovery = new DiscoveryRequestFactory().BuildDirect(
-                        ConnectionStringReader.GetAdomd()
-                        , DiscoveryTarget.Perspectives
-                        , new List<IFilter>() { 
-                            new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives),
-                            new CaptionFilter("Date", DiscoveryTarget.Dimensions)
+            var connection = new AdomdConnection(ConnectionStringReader.GetAdomd());
+            var factory = new OlapStructureDiscoveryFactory(connection);
+            var command = factory.Instantiate(
+                            Target.Perspectives
+                            , TargetType.Object
+                            , new CaptionFilter[] { 
                         });
 
-            var ctr = new ExistsConstraint();
+            var ctr = new ExistsConstraint("Adventure Works".ToLower());
             ctr = ctr.IgnoreCase;
 
             //Method under test
-            Assert.That(discovery, ctr);
+            Assert.That(command, ctr);
         }
 
     }

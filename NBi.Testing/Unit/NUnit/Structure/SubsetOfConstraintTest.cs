@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using Moq;
-using NBi.Core.Analysis.Metadata;
-using NBi.Core.Analysis.Metadata.Adomd;
-using NBi.Core.Analysis.Request;
 using NBi.NUnit.Structure;
 using NUnit.Framework;
+using NBi.Core.Structure.Olap;
+using NBi.Core.Structure;
 
 namespace NBi.Testing.Unit.NUnit.Structure
 {
@@ -15,40 +14,28 @@ namespace NBi.Testing.Unit.NUnit.Structure
         public void WriteTo_FailingAssertionForListOfLevels_TextContainsFewKeyInfo()
         {
             var exp = new string[] { "Expected level 1", "Expected level 2" };
-            var request = new DiscoveryRequestFactory().BuildDirect(
-                        "connectionString",
-                        DiscoveryTarget.Hierarchies,
-                        new List<IFilter>()
+            var description = new CommandDescription(Target.Hierarchies,
+                        new CaptionFilter[]
                             {
-                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
-                                , new CaptionFilter("dimension-caption", DiscoveryTarget.Dimensions)
-                                , new CaptionFilter("hierarchy-caption", DiscoveryTarget.Hierarchies)
+                                new CaptionFilter(Target.Perspectives, "perspective-name")
+                                , new CaptionFilter(Target.Dimensions, "dimension-caption")
+                                , new CaptionFilter(Target.Hierarchies, "hierarchy-caption" )
                         });
 
 
-            var elStub = new Mock<IField>();
-            var el1 = elStub.Object;
-            var el2 = elStub.Object;
-            var elements = new List<IField>();
-            elements.Add(el1);
-            elements.Add(el2);
+            var actuals = new string[] { "Actual level 1", "Actual level 2", "Actual level 3" };
 
-            var commandStub = new Mock<AdomdDiscoveryCommand>("connectionString");
-            commandStub.Setup(f => f.Execute())
-                .Returns(elements);
+            var commandStub = new Mock<IStructureDiscoveryCommand>();
+            commandStub.Setup(cmd => cmd.Execute()).Returns(actuals);
+            commandStub.Setup(cmd => cmd.Description).Returns(description);
 
-            var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
-            factoryStub.Setup(f => f.BuildExact(request))
-                .Returns(commandStub.Object);
-            var factory = factoryStub.Object;
-
-            var containsConstraint = new SubsetOfConstraint(exp) { CommandFactory = factory };
+            var containsConstraint = new SubsetOfConstraint(exp);
 
             //Method under test
             string assertionText = null;
             try
             {
-                Assert.That(request, containsConstraint);
+                Assert.That(commandStub.Object, containsConstraint);
             }
             catch (AssertionException ex)
             {
@@ -66,8 +53,8 @@ namespace NBi.Testing.Unit.NUnit.Structure
         }
 
 
-        
 
-       
+
+
     }
 }

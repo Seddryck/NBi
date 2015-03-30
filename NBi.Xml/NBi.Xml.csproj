@@ -97,6 +97,12 @@
     <Compile Include="InheritanceTestXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
+    <Compile Include="Items\Filters\IHierarchyFilter.cs" />
+    <Compile Include="Items\Filters\ILevelFilter.cs" />
+    <Compile Include="Items\Filters\IMeasureGroupFilter.cs" />
+    <Compile Include="Items\Filters\IDimensionFilter.cs" />
+    <Compile Include="Items\Filters\ITableFilter.cs" />
+    <Compile Include="Items\Filters\IPerspectiveFilter.cs" />
     <Compile Include="Items\SetsXml.cs" />
     <Compile Include="Items\SetXml.cs" />
     <Compile Include="Items\ExecutableXml.cs" />

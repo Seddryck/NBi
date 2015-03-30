@@ -1,11 +1,12 @@
-﻿using System;
+﻿using NBi.Xml.Items.Filters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
 namespace NBi.Xml.Items
 {
-    public class MeasuresXml : MeasureGroupsXml
+    public class MeasuresXml : MeasureGroupsXml, IMeasureGroupFilter
     {
         protected string measureGroup;
         [XmlAttribute("measure-group")]

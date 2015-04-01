@@ -102,7 +102,7 @@
     <xs:attribute name="username" type="xs:string"/>
     <xs:attribute name="password" type="xs:string"/>
     <xs:attribute name="bits-32" type="xs:boolean"/>
-    <xs:attribute name="timeout" type="xs:positiveInteger"/>
+    <xs:attribute name="timeout" type="xs:integer"/>
   </xs:complexType>
   <xs:complexType name="category-type">
     <xs:simpleContent>

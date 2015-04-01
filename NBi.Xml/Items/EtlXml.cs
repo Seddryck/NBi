@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core.Etl;
+using System.ComponentModel;
 
 namespace NBi.Xml.Items
 {
@@ -32,9 +33,11 @@ namespace NBi.Xml.Items
         [XmlAttribute("project")]
         public string Project { get; set; }
 
+        [DefaultValue(false)]
         [XmlAttribute("bits-32")]
         public bool Is32Bits { get; set; }
 
+        [DefaultValue(30)]
         [XmlAttribute("timeout")]
         public int Timeout { get; set; }
 

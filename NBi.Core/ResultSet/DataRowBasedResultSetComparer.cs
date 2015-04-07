@@ -47,13 +47,12 @@ namespace NBi.Core.ResultSet
             dict.Clear();
 
             Int64 keysHashed;
-            Int64 valuesHashed;
 
             foreach (DataRow row in dt.Rows)
             {
                 CompareHelper hlpr = new CompareHelper();
 
-                keyComparer.GetHashCode64_KeysValues(row, out keysHashed);//, out valuesHashed);
+                keyComparer.GetHashCode64_KeysValues(row, out keysHashed);
                 
                 hlpr.KeysHashed = keysHashed;
                 //hlpr.ValuesHashed = valuesHashed;

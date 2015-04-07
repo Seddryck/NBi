@@ -15,9 +15,9 @@ namespace NBi.Core.ResultSet
     {
         public bool Value { get; set; }
         public ResultSetDifferenceType Difference { get; set; }
-        public Sample Missing { get; set; }
-        public Sample Unexpected { get; set; }
-        public Sample Duplicated { get; set; }
+        public IEnumerable<DataRow> Missing { get; set; }
+        public IEnumerable<DataRow> Unexpected { get; set; }
+        public IEnumerable<DataRow> Duplicated { get; set; }
         public Sample NonMatchingValue { get; set; }
 
 
@@ -54,38 +54,25 @@ namespace NBi.Core.ResultSet
             else
                 res = new ResultSetCompareResult() { Difference = ResultSetDifferenceType.Content };
 
-            res.Missing=GetSubset(missingRows);
-            res.Unexpected = GetSubset(unexpectedRows);
-            res.Duplicated = GetSubset(duplicatedRows);
+            res.Missing=missingRows;
+            res.Unexpected = unexpectedRows;
+            res.Duplicated = duplicatedRows;
             res.NonMatchingValue = GetSubset(nonMatchingValueRows, keyMatchingRows);
 
             return res;
         }
 
-        private const int MAX_ROWS_RESULT = 10;
-        private const int COUNT_ROWS_SAMPLE_RESULT = 10;
-
         private static Sample GetSubset(IEnumerable<DataRow> rows)
         {
-            var subset = new List<DataRow>(MAX_ROWS_RESULT);
-            
-            if (rows.Count() > MAX_ROWS_RESULT)
-                subset = rows.Take(COUNT_ROWS_SAMPLE_RESULT).ToList();
-            else
-                subset = rows.ToList();
-
+            var subset = new List<DataRow>(rows.Count());
+            subset = rows.ToList();
             return new Sample(subset, null, rows.Count());
         }
 
         private static Sample GetSubset(IEnumerable<DataRow> rows, IEnumerable<DataRow> reference)
         {
-            var subset = new List<DataRow>(MAX_ROWS_RESULT);
-
-            if (rows.Count() > MAX_ROWS_RESULT)
-                subset = rows.Take(COUNT_ROWS_SAMPLE_RESULT).ToList();
-            else
-                subset = rows.ToList();
-
+            var subset = new List<DataRow>(rows.Count());
+            subset = rows.ToList();
             return new Sample(subset, reference, rows.Count());
         }
 

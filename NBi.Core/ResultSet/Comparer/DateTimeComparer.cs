@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.ResultSet.Converter;
+using System;
 using System.Globalization;
 using System.Linq;
 
@@ -7,22 +8,17 @@ namespace NBi.Core.ResultSet.Comparer
     class DateTimeComparer : BaseComparer
     {
 
-        protected string Culture { get; private set; }
+        private readonly IConverter<DateTime> converter;
 
         public DateTimeComparer()
         {
-            Culture = "fr-fr";
-        }
-
-        protected DateTimeComparer(string culture)
-        {
-            Culture = culture;
+            converter = new DateTimeConverter();
         }
 
         protected override ComparerResult CompareObjects(object x, object y)
         {
-            var rxDateTime = ConvertToDate(x);
-            var ryDateTime = ConvertToDate(y);
+            var rxDateTime = converter.Convert(x);
+            var ryDateTime = converter.Convert(y);
 
             //Compare DateTimes (without tolerance)
             if (IsEqual(rxDateTime, ryDateTime))
@@ -43,8 +39,8 @@ namespace NBi.Core.ResultSet.Comparer
 
         public ComparerResult CompareObjects(object x, object y, DateTimeRounding rounding)
         {
-            var rxDateTime = ConvertToDate(x);
-            var ryDateTime = ConvertToDate(y);
+            var rxDateTime = converter.Convert(x);
+            var ryDateTime = converter.Convert(y);
 
             rxDateTime = rounding.GetValue(rxDateTime);
             ryDateTime = rounding.GetValue(ryDateTime);
@@ -70,22 +66,14 @@ namespace NBi.Core.ResultSet.Comparer
 
         protected ComparerResult CompareObjects(object x, object y, DateTimeTolerance tolerance)
         {
-            var rxDateTime = ConvertToDate(x);
-            var ryDateTime = ConvertToDate(y);
+            var rxDateTime = converter.Convert(x);
+            var ryDateTime = converter.Convert(y);
             
             //Compare dateTimes (with tolerance)
             if (IsEqual(rxDateTime, ryDateTime, tolerance.TimeSpan))
                 return ComparerResult.Equality;
 
             return new ComparerResult(rxDateTime.ToString(DateTimeFormatInfo.InvariantInfo));
-        }
-
-        protected DateTime ConvertToDate(object x)
-        {
-            if (x is string)
-                return StringParse((string)x);
-            
-            return Convert.ToDateTime(x, DateTimeFormatInfo.InvariantInfo);
         }
 
         protected bool IsEqual(DateTime x, DateTime y)
@@ -108,35 +96,6 @@ namespace NBi.Core.ResultSet.Comparer
 
             //include some math[Time consumming] (Tolerance needed to validate)
             return (x.Subtract(y).Duration() <= tolerance);
-        }
-
-        protected DateTime StringParse(string value)
-        {
-            bool result = false;
-            DateTime dateTime;
-            result = ValidDateTime(value, out dateTime);
-            if (!result)
-                throw new ArgumentException(string.Format("'{0}' is not recognized as a valid date", value), "value");
-            
-            return dateTime;
-        }
-  
-        private bool ValidDateTime(string value, out DateTime dateTime)
-        {
-            dateTime = DateTime.MinValue;
-            var result = DateTime.TryParse(value,
-                CultureInfo.InvariantCulture.DateTimeFormat,
-                DateTimeStyles.AllowWhiteSpaces,
-                out dateTime);
-            if (!result)
-            {
-                result = DateTime.TryParse(value,
-                    new CultureInfo(Culture).DateTimeFormat,
-                    DateTimeStyles.AllowWhiteSpaces,
-                    out dateTime);
-            }
-
-            return result;
         }
 
         protected override bool IsValidObject(object x)

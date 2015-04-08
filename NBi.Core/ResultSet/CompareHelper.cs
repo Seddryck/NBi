@@ -8,7 +8,7 @@ namespace NBi.Core.ResultSet
     class CompareHelper : IComparable<CompareHelper>
     {
         public Int64 KeysHashed { get; set; }
-        public Int64 ValuesHashed { get; set; }
+        //public Int64 ValuesHashed { get; set; }
         public System.Data.DataRow DataRowObj { get; set; }
 
         // Summary:

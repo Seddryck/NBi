@@ -252,5 +252,35 @@ namespace NBi.Testing.Integration.Core.Analysis.Member
             //Returns the 31 days of the month minus 3, 13, 23, 30, 31
             Assert.That(result.Count, Is.EqualTo(31-5));
         }
+
+        [Test]
+        public void List_Set_ListOfMembers()
+        {
+            var connStr = ConnectionStringReader.GetAdomd();
+            var cmd = new MembersCommand(connStr, string.Empty, string.Empty, null, null);
+            var filters = new List<CaptionFilter>(){ 
+                    new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives),
+                    new CaptionFilter("Top 50 Customers", DiscoveryTarget.Sets)
+                };
+
+            var result = cmd.List(filters);
+            Assert.That(result.Count, Is.EqualTo(50));
+        }
+
+        [Test]
+        [Ignore("Filtering not defined for sets")]
+        public void List_SetWithExclusion_ListOfMembers()
+        {
+            var connStr = ConnectionStringReader.GetAdomd();
+            var excludedPatterns = new List<PatternValue>() { new PatternValue() { Pattern = Pattern.StartWith, Text = "A" } };
+            var cmd = new MembersCommand(connStr, string.Empty, string.Empty, null, excludedPatterns);
+            var filters = new List<CaptionFilter>(){ 
+                    new CaptionFilter("Adventure Works", DiscoveryTarget.Perspectives),
+                    new CaptionFilter("Top 50 Customers", DiscoveryTarget.Sets)
+                };
+
+            var result = cmd.List(filters);
+            Assert.That(result.Count, Is.EqualTo(50));
+        }
     }
 }

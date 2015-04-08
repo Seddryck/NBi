@@ -6,7 +6,8 @@ namespace NBi.Core.Etl.IntegrationService
 {
     class EtlFileRunner : EtlDtsRunner
     {
-        public EtlFileRunner(IEtl etl) : base(etl)
+        public EtlFileRunner(IEtl etl)
+            : base(etl)
         {
 
         }

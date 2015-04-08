@@ -9,7 +9,9 @@ namespace NBi.Core.Etl.IntegrationService
         public EtlDtsWindowsRunner(IEtl etl)
             : base(etl)
         {
-
+            var argumentNullExceptionSentence = "You must specify a value for parameter '{0}' when using an EtlDtsWindowsRunner";
+            if (string.IsNullOrEmpty(Etl.Server))
+                throw new ArgumentNullException("Server", string.Format(argumentNullExceptionSentence, "Server"));
         }
 
         protected override Package Load(IEtl etl, Application app)

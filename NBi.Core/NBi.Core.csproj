@@ -87,10 +87,14 @@
     <Compile Include="Analysis\Member\PatternValue.cs" />
     <Compile Include="Analysis\Metadata\Adomd\ColumnRow.cs" />
     <Compile Include="Analysis\Metadata\Adomd\ColumnDiscoveryCommand.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\SetRow.cs" />
+    <Compile Include="Analysis\Metadata\Adomd\SetDiscoveryCommand.cs" />
     <Compile Include="Analysis\Metadata\Adomd\TableDiscoveryCommand.cs" />
     <Compile Include="Analysis\Metadata\Adomd\TableRow.cs" />
     <Compile Include="Analysis\Metadata\ColumnCollection.cs" />
     <Compile Include="Analysis\Metadata\Column.cs" />
+    <Compile Include="Analysis\Metadata\SetCollection.cs" />
+    <Compile Include="Analysis\Metadata\Set.cs" />
     <Compile Include="Analysis\Metadata\Table.cs" />
     <Compile Include="Analysis\Metadata\TableCollection.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\LevelNotNullIfProperty.cs" />
@@ -275,6 +279,11 @@
     <Compile Include="Report\IParser.cs" />
     <Compile Include="Report\IQueryRequest.cs" />
     <Compile Include="Report\ParserFactory.cs" />
+    <Compile Include="ResultSet\Converter\BaseNumericConverter.cs" />
+    <Compile Include="ResultSet\Converter\IConverter.cs" />
+    <Compile Include="ResultSet\Converter\DateTimeConverter.cs" />
+    <Compile Include="ResultSet\Converter\BooleanConverter.cs" />
+    <Compile Include="ResultSet\Converter\NumericConverter.cs" />
     <Compile Include="ResultSet\EndPoint.cs" />
     <Compile Include="ResultSet\IntervalBuilder.cs" />
     <Compile Include="ListComparisonFormatter.cs" />
@@ -345,6 +354,7 @@
     <Compile Include="Query\IQueryPerformance.cs" />
     <Compile Include="ProgressStatusEventArgs.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="ResultSet\ThreeStateBoolean.cs" />
     <Compile Include="StringComparerHelper.cs" />
     <Compile Include="StringHelper.cs" />
     <Compile Include="StringTemplateEngine.cs" />

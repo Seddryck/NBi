@@ -7,7 +7,16 @@ namespace NBi.Core.Etl.IntegrationService
 {
     abstract class EtlDtsRunner : EtlRunner
     {
-        public EtlDtsRunner(IEtl etl) : base(etl) {}
+        public EtlDtsRunner(IEtl etl) : base(etl) 
+        {
+            var argumentNullExceptionSentence = "You must specify a value for parameter '{0}' when using an EtlDtsRunner";
+
+            if (string.IsNullOrEmpty(Etl.Path))
+                throw new ArgumentNullException("Path", string.Format(argumentNullExceptionSentence, "Path"));
+
+            if (string.IsNullOrEmpty(Etl.Name))
+                throw new ArgumentNullException("Name", string.Format(argumentNullExceptionSentence, "Name"));
+        }
 
         public override IExecutionResult Run()
         {
@@ -35,11 +44,13 @@ namespace NBi.Core.Etl.IntegrationService
                 else
                 {
                     if (package.Variables.Contains(param.Name))
-                        package.Variables[param.Name].Value = param.StringValue;
+                        package.Variables[param.Name].Value = DefineValue(param.StringValue, package.Variables[param.Name].DataType);
                     else
                         throw new ArgumentOutOfRangeException("param.Name", string.Format("No parameter or variable named '{0}' found in the package {1}, can't override its value for execution.", param.Name, package.Name));
                 }
             }
         }
+
+        
     }
 }

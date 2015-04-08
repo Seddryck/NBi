@@ -31,6 +31,24 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
         }
 
         [Test]
+        public void Execute_PerspectiveWithFourSets_ListStructureContainingFourElements()
+        {
+            var disco = new DiscoveryRequestFactory().BuildDirect(
+                ConnectionStringReader.GetAdomd(),
+                DiscoveryTarget.Sets,
+                new List<IFilter>() { 
+                    new CaptionFilter("Channel Sales", DiscoveryTarget.Perspectives)
+                });
+
+            var factory = new AdomdDiscoveryCommandFactory();
+            var cmd = factory.BuildExact(disco);
+
+            var structs = cmd.Execute();
+
+            Assert.That(structs.Count(), Is.EqualTo(4));
+        }
+
+        [Test]
         public void Execute_TabularDateDimensionWithHeighTeenHierarchies_ListStructureContainingSevenTeenElements()
         {
             var disco = new DiscoveryRequestFactory().BuildDirect(
@@ -185,6 +203,8 @@ namespace NBi.Testing.Integration.Core.Analysis.Metadata.Adomd
 
             Assert.That(structs.Count(), Is.EqualTo(10));
         }
+
+
 
         [Test]
         [Ignore]

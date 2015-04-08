@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.ResultSet.Converter;
+using System;
 using System.Globalization;
 using System.Linq;
 
@@ -6,9 +7,15 @@ namespace NBi.Core.ResultSet.Comparer
 {
     class NumericComparer : BaseComparer
     {
+        private readonly IConverter<decimal> converter;
+
+        public NumericComparer()
+        {
+            converter = new NumericConverter();
+        }
+
         public ComparerResult Compare(object x, object y, string tolerance)
         {
-
             return base.Compare(x, y, ToleranceFactory.BuildNumeric(tolerance));
         }
         
@@ -25,7 +32,7 @@ namespace NBi.Core.ResultSet.Comparer
                 return CompareDecimals
                     (
                         builder.GetInterval()
-                        , Convert.ToDecimal(y, NumberFormatInfo.InvariantInfo)
+                        , converter.Convert(y)
                     ); 
 
             builder = new IntervalBuilder(y);
@@ -34,7 +41,7 @@ namespace NBi.Core.ResultSet.Comparer
                 return CompareDecimals
                     (
                         builder.GetInterval()
-                        , Convert.ToDecimal(x, NumberFormatInfo.InvariantInfo)
+                        , converter.Convert(x)
                     ); 
             
             return CompareObjects(x, y, new NumericAbsoluteTolerance(0));
@@ -58,8 +65,8 @@ namespace NBi.Core.ResultSet.Comparer
         
         public ComparerResult CompareObjects(object x, object y, NumericRounding rounding)
         {
-            var rxDecimal = Convert.ToDecimal(x, NumberFormatInfo.InvariantInfo);
-            var ryDecimal = Convert.ToDecimal(y, NumberFormatInfo.InvariantInfo);
+            var rxDecimal = converter.Convert(x);
+            var ryDecimal = converter.Convert(y);
 
             rxDecimal = rounding.GetValue(rxDecimal);
             ryDecimal = rounding.GetValue(ryDecimal);
@@ -75,7 +82,7 @@ namespace NBi.Core.ResultSet.Comparer
                 return CompareDecimals
                     (
                         builder.GetInterval()
-                        , Convert.ToDecimal(y, NumberFormatInfo.InvariantInfo)
+                        , converter.Convert(y)
                     ); 
 
             builder = new IntervalBuilder(y);
@@ -84,11 +91,11 @@ namespace NBi.Core.ResultSet.Comparer
                 return CompareDecimals
                     (
                         builder.GetInterval()
-                        , Convert.ToDecimal(x, NumberFormatInfo.InvariantInfo)
+                        , converter.Convert(x)
                     ); 
 
-            var rxDecimal = Convert.ToDecimal(x, NumberFormatInfo.InvariantInfo);
-            var ryDecimal = Convert.ToDecimal(y, NumberFormatInfo.InvariantInfo);
+            var rxDecimal = converter.Convert(x);
+            var ryDecimal = converter.Convert(y);
 
             return CompareDecimals(rxDecimal, ryDecimal, tolerance);               
         }
@@ -149,7 +156,7 @@ namespace NBi.Core.ResultSet.Comparer
 
         protected override bool IsValidObject(object x)
         {
-            return (IsValidNumeric(x));
+            return new BaseNumericConverter().IsValid(x);
         }
 
     }

@@ -1,9 +1,14 @@
-﻿using System;
+﻿using NBi.NUnit.Runtime.Configuration;
+using System;
 using System.Configuration;
 using System.Linq;
 
-namespace NBi.NUnit.Runtime.Configuration
+namespace NBi.NUnit.Runtime
 {
+    /// I know that the namespace is not correct, it's just to ensure compatibility with the previous release.
+    /// <summary>
+    /// Handle configuration information
+    /// </summary>
     public class NBiSection : ConfigurationSection
     {
         // Create a "testSuite" attribute.
@@ -76,16 +81,16 @@ namespace NBi.NUnit.Runtime.Configuration
             }
         }
 
-        [ConfigurationProperty("failureReportProfile", IsRequired = false)]
+        [ConfigurationProperty("failure-report-profile", IsRequired = false)]
         public FailureReportProfileElement FailureReportProfile
         {
             get
             {
-                return (FailureReportProfileElement)this["failureReportProfile"];
+                return (FailureReportProfileElement)this["failure-report-profile"];
             }
             set
             {
-                this["failureReportProfile"] = value;
+                this["failure-report-profile"] = value;
             }
         }
     }

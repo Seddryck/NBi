@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using NBi.Core.ResultSet.Comparer;
 using System.Text;
+using NBi.Core.ResultSet.Converter;
 
 namespace NBi.Core.ResultSet
 {
@@ -52,10 +53,10 @@ namespace NBi.Core.ResultSet
             {
                 CompareHelper hlpr = new CompareHelper();
 
-                keyComparer.GetHashCode64_KeysValues(row, out keysHashed, out valuesHashed);
+                keyComparer.GetHashCode64_KeysValues(row, out keysHashed);//, out valuesHashed);
                 
                 hlpr.KeysHashed = keysHashed;
-                hlpr.ValuesHashed = valuesHashed;
+                //hlpr.ValuesHashed = valuesHashed;
                 hlpr.DataRowObj = row;
 
                 //Check that the rows in the reference are unique
@@ -168,11 +169,11 @@ namespace NBi.Core.ResultSet
                 {
                     var ryHelper = yDict[rxHelper.KeysHashed];
 
-                    if (ryHelper.ValuesHashed == rxHelper.ValuesHashed)
-                    {
-                        // quick shortcut. If the hash of the values matches, then there is no further need to test
-                        continue;
-                    }
+                    //if (ryHelper.ValuesHashed == rxHelper.ValuesHashed)
+                    //{
+                    //    // quick shortcut. If the hash of the values matches, then there is no further need to test
+                    //    continue;
+                    //}
 
                     var rx = rxHelper.DataRowObj;
                     var ry = ryHelper.DataRowObj;
@@ -318,12 +319,13 @@ namespace NBi.Core.ResultSet
                     if (settings.IsNumeric(i) && IsNumericField(dr.Table.Columns[i]))
                         continue;
 
-                    if (settings.IsNumeric(i) && !(BaseComparer.IsValidNumeric(dr[i]) || BaseComparer.IsValidInterval(dr[i])))
+                    var numericConverter = new NumericConverter();
+                    if (settings.IsNumeric(i) && !(numericConverter.IsValid(dr[i]) || BaseComparer.IsValidInterval(dr[i])))
                     {                   
                         var exception = string.Format("The column with an index of {0} is expecting a numeric value but the first row of your result set contains a value '{1}' not recognized as a valid numeric value or a valid interval."
                             , i, dr[i].ToString());
 
-                        if (BaseComparer.IsValidNumeric(dr[i].ToString().Replace(",", ".")))
+                        if (numericConverter.IsValid(dr[i].ToString().Replace(",", ".")))
                             exception += " Aren't you trying to use a comma (',' ) as a decimal separator? NBi requires that the decimal separator must be a '.'.";
 
                         throw new ResultSetComparerException(exception);

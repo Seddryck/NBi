@@ -92,7 +92,8 @@ namespace NBi.NUnit.Member
         {
             PreInitializeMatching();
             internalConstraint = BuildInternalConstraint();
-            isInitialized = true;
+            if (internalConstraint!=null)
+                isInitialized = true;
         }
 
         protected virtual void PreInitializeMatching()

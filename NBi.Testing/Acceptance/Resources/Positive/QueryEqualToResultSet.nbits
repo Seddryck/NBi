@@ -381,18 +381,18 @@
 					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
 				>
           select
-            'Cédric Charlier'
-            , 'BI Architect'
-            , 'Belgian'
-            , 'Toronto'
-            , 'Canada'
+          'Cédric Charlier'
+          , 'BI Architect'
+          , 'Belgian'
+          , 'Toronto'
+          , 'Canada'
           union all
           select
-            'Nikola Tesla'
-            , 'Electrical engineering'
-            , 'Serbian'
-            , 'Smiljan'
-            , 'Croatia'
+          'Nikola Tesla'
+          , 'Electrical engineering'
+          , 'Serbian'
+          , 'Smiljan'
+          , 'Croatia'
         </query>
       </execution>
     </system-under-test>
@@ -400,18 +400,18 @@
       <equalTo keys="first" values-default-type="text">
         <resultSet>
           <row>
+            <cell>Nikola Tesla</cell>
+            <cell>Electrical engineering</cell>
+            <cell>American</cell>
+            <cell>Smiljan</cell>
+            <cell>Croatia</cell>
+          </row>
+          <row>
             <cell>Cédric Charlier</cell>
             <cell>BI Architect</cell>
             <cell>Belgian</cell>
             <cell>Toronto</cell>
             <cell>Canada</cell>
-          </row>
-          <row>
-            <cell>Nikola Tesla</cell>
-            <cell>Electrical engineering</cell>
-            <cell>Serbian</cell>
-            <cell>Smiljan</cell>
-            <cell>Croatia</cell>
           </row>
         </resultSet>
       </equalTo>

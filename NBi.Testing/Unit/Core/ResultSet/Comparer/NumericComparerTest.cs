@@ -288,5 +288,21 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
             var result = comparer.Compare("(<18)", 12);
             Assert.That(result.AreEqual, Is.True);
         }
+
+        [Test]
+        public void Compare_MinusTwelveToMinusElevenWithAToleranceOFFiftyPercent_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(-12, -11, "50%");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_MinusTwelveToMinusElevenWithAToleranceOfOnePercent_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(-12, -11, "1%");
+            Assert.That(result.AreEqual, Is.False);
+        }
     }
 }

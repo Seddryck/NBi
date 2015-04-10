@@ -150,7 +150,7 @@ namespace NBi.Core.ResultSet.Comparer
                 return false;
 
             //include some math[Time consumming] (Tolerance needed to validate)
-            return (Math.Abs(x - y) <= tolerance);
+            return (Math.Abs(x - y) <= Math.Abs(tolerance));
         }
 
 

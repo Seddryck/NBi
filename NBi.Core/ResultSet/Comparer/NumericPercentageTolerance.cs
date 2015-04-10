@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -7,11 +8,12 @@ namespace NBi.Core.ResultSet.Comparer
 {
     public class NumericPercentageTolerance : NumericTolerance
     {
+        private string valueString;
         public override string ValueString
         {
             get
             {
-                return base.ValueString + "%";
+                return valueString + "%";
             }
         }
 
@@ -19,6 +21,7 @@ namespace NBi.Core.ResultSet.Comparer
             : base(value)
         {
             Value = value;
+            valueString = (100 * value).ToString(NumberFormatInfo.InvariantInfo);
         }
     }
 }

@@ -83,7 +83,27 @@ namespace NBi.Core.ResultSet.Comparer
             if (isPercentage)
                 return new NumericPercentageTolerance(tolerancePercentage/100);
 
-            throw new ArgumentException(string.Format("Can't convert '{0}' to a double or a percentage", value), "value");
+            //Convert the value to a bounded %
+            decimal toleranceBound = 0;
+            decimal min = 0;
+            decimal max = 0;
+            var isBoundedPercentage = false;
+            if (!isDecimal && !isPercentage && !string.IsNullOrEmpty(value) && value.Contains('%'))
+            {
+                var percentage = value.Replace(" ", "").Substring(0, value.Replace(" ", "").IndexOf('%'));
+                isBoundedPercentage = decimal.TryParse(percentage, NumberStyles.Float, NumberFormatInfo.InvariantInfo, out tolerancePercentage);
+                var bound = value.Replace(" ", "").Substring(value.Replace(" ", "").IndexOf('%') + 1).Replace("(", "").Replace(")", "").Replace(":", "").Replace("=", "");
+                isBoundedPercentage = decimal.TryParse(bound.Substring(3), NumberStyles.Float, NumberFormatInfo.InvariantInfo, out toleranceBound);
+                if (bound.Contains("min"))
+                    min = toleranceBound;
+                if (bound.Contains("max"))
+                    max = toleranceBound;
+                isBoundedPercentage = (min != max);
+            }
+            if (isBoundedPercentage)
+                return new NumericBoundedPercentageTolerance(tolerancePercentage/100, min, max);
+
+            throw new ArgumentException(string.Format("Can't convert '{0}' to a double, a percentage or a bounded percentage", value), "value");
         }
     }
 }

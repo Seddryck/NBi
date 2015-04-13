@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
-  <!--<settings>
+  <settings>
     <default apply-to="system-under-test">
       <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049</connectionString>
     </default>
@@ -443,7 +443,7 @@
         </resultSet>
       </equalTo>
     </assert>
-  </test>-->
+  </test>
   <test name="Negative facts with tolerance">
     <system-under-test>
       <execution>
@@ -451,14 +451,14 @@
 		connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
 	>
           select
-            'Water'
-            , '-0.4'
-            , '101.1'
+          'Water'
+          , '-0.4'
+          , '101.1'
           union all
           select
-            'Nitrogen'
-            ,  '−211'
-            ,  '−195.77'
+          'Nitrogen'
+          ,  '−211'
+          ,  '−195.77'
         </query>
       </execution>
     </system-under-test>
@@ -474,6 +474,30 @@
             <cell>Nitrogen</cell>
             <cell>-210</cell>
             <cell>-195.79</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+  </test>
+  <test name="Facts with Bounded Tolerance">
+    <system-under-test>
+      <execution>
+        <query
+		connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+	>
+          select
+          'Water'
+          , 101.8
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <column index="1" role="value" type="numeric" tolerance="1% (min 2)"/>
+        <resultSet>
+          <row>
+            <cell>Water</cell>
+            <cell>100</cell>
           </row>
         </resultSet>
       </equalTo>

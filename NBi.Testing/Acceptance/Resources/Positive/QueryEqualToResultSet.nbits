@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
-  <settings>
+  <!--<settings>
     <default apply-to="system-under-test">
       <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049</connectionString>
     </default>
@@ -374,7 +374,7 @@
       </equalTo>
     </assert>
   </test>
- <test name="SQL With dates as Keys">
+  <test name="SQL With dates as Keys">
     <system-under-test>
       <execution>
         <query
@@ -401,8 +401,6 @@
       </equalTo>
     </assert>
   </test>
-  
-
   <test name="Key with textual values">
     <system-under-test>
       <execution>
@@ -436,7 +434,7 @@
             <cell>Croatia</cell>
           </row>
           <row>
-           <cell>Cédric Charlier</cell>
+            <cell>Cédric Charlier</cell>
             <cell>BI Architect</cell>
             <cell>Belgian</cell>
             <cell>Toronto</cell>
@@ -445,6 +443,40 @@
         </resultSet>
       </equalTo>
     </assert>
+  </test>-->
+  <test name="Negative facts with tolerance">
+    <system-under-test>
+      <execution>
+        <query
+		connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+	>
+          select
+            'Water'
+            , '-0.4'
+            , '101.1'
+          union all
+          select
+            'Nitrogen'
+            ,  '−211'
+            ,  '−195.77'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo keys="first" tolerance="2%">
+        <resultSet>
+          <row>
+            <cell>Water</cell>
+            <cell>0</cell>
+            <cell>100</cell>
+          </row>
+          <row>
+            <cell>Nitrogen</cell>
+            <cell>-210</cell>
+            <cell>-195.79</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
   </test>
-
 </testSuite>

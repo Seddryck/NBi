@@ -155,6 +155,8 @@
     <Compile Include="Unit\Core\ResultSet\Comparer\BooleanComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\DateTimeRoundingTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\DateTimeComparerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Comparer\NumericAbsoluteToleranceTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Comparer\NumericPercentageToleranceTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\NumericRoundingTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\TextComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\NumericComparerTest.cs" />

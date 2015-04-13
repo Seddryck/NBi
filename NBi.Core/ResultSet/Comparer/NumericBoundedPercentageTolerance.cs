@@ -34,5 +34,13 @@ namespace NBi.Core.ResultSet.Comparer
             Min = minValue;
             Max = maxValue;
         }
+
+        public decimal GetValue(decimal expected)
+        {
+            if (Min > 0)
+                return Math.Max(expected * Value, Min);
+            else
+                return Math.Min(expected * Value, Max);
+        }
     }
 }

@@ -93,12 +93,17 @@ namespace NBi.Core.ResultSet.Comparer
                 var percentage = value.Replace(" ", "").Substring(0, value.Replace(" ", "").IndexOf('%'));
                 isBoundedPercentage = decimal.TryParse(percentage, NumberStyles.Float, NumberFormatInfo.InvariantInfo, out tolerancePercentage);
                 var bound = value.Replace(" ", "").Substring(value.Replace(" ", "").IndexOf('%') + 1).Replace("(", "").Replace(")", "").Replace(":", "").Replace("=", "");
-                isBoundedPercentage = decimal.TryParse(bound.Substring(3), NumberStyles.Float, NumberFormatInfo.InvariantInfo, out toleranceBound);
-                if (bound.Contains("min"))
-                    min = toleranceBound;
-                if (bound.Contains("max"))
-                    max = toleranceBound;
-                isBoundedPercentage = (min != max);
+
+                if (bound.Length>3 && (bound.Substring(0, 3) == "min" || bound.Substring(0, 3) == "max"))
+                {
+                    isBoundedPercentage = decimal.TryParse(bound.Substring(3), NumberStyles.Float, NumberFormatInfo.InvariantInfo, out toleranceBound);
+                    if (bound.Contains("min"))
+                        min = toleranceBound;
+                    if (bound.Contains("max"))
+                        max = toleranceBound;
+                    isBoundedPercentage = (min != max);
+                }
+                
             }
             if (isBoundedPercentage)
                 return new NumericBoundedPercentageTolerance(tolerancePercentage/100, min, max);

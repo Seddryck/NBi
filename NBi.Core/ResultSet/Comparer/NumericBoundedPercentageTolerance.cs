@@ -38,9 +38,9 @@ namespace NBi.Core.ResultSet.Comparer
         public decimal GetValue(decimal expected)
         {
             if (Min > 0)
-                return Math.Max(expected * Value, Min);
+                return Math.Max(Math.Abs(expected * Value), Min);
             else
-                return Math.Min(expected * Value, Max);
+                return Math.Min(Math.Abs(expected * Value), Max);
         }
     }
 }

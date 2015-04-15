@@ -3,13 +3,13 @@
     <a href="/">Home</a>
   </li>
   <li class="{% if page.url contains '/docs/' %}current{% endif %}">
-    <a href="/docs/home/">Doc<span class="show-on-mobiles">s</span><span class="hide-on-mobiles">umentation</span></a>
+    <a href="{{ site.baseurl }}/docs/home/">Doc<span class="show-on-mobiles">s</span><span class="hide-on-mobiles">umentation</span></a>
   </li>
   <li class="{% if page.url contains '/automation/' %}current{% endif %}">
-    <a href="/automation/home/">Automation</a>
+    <a href="{{ site.baseurl }}/automation/home/">Automation</a>
   </li>
   <li class="{% if page.url contains '/downloads/' %}current{% endif %}">
-    <a href="/downloads/1-9">Downloads</a>
+    <a href="{{ site.baseurl }}/downloads/1-9">Downloads</a>
   </li>
   <li>
     <a href="{{ site.issues }}">Issues<span class="hide-on-mobiles"> tracking</span></a>

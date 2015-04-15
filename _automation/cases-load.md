@@ -1,8 +1,8 @@
 ---
 layout: automation
 title: Load a set of test-cases
-prev_section: ../automation/home
-next_section: ../automation/cases-save
+prev_section: home
+next_section: cases-save
 permalink: /automation/cases-load/
 ---
 This action lets you load from a file or query a list of test cases data. In addition to the action *load* you must supply from where you'll want to load your test cases.

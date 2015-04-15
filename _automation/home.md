@@ -1,7 +1,7 @@
 ---
 layout: automation
 title: Automating the creation of test-suites
-next_section: ../automation/cases-load
+next_section: cases-load
 permalink: /automation/home/
 ---
 NBi is a powerful tool to write expressive and efficient tests for your BI solutions. But the creation of such test-suites takes a lot of times and is, sometimes, really repetitive. NBi comes with a solution to automate, as much as possible,  the creation of the test-suites.

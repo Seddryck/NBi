@@ -1,0 +1,79 @@
+- title: Getting started
+  docs:
+  - home
+  - installation
+  - test-suite-setup
+
+- title: Queries' result-sets
+  docs:
+  - equivalence-resultsets
+  - comparison-configuration
+  - special-generic-values
+  - tolerances-roundings
+  - intervals
+
+- title: Query's execution
+  docs:
+  - query-syntax
+  - query-performance
+
+- title: Define a query
+  docs:
+  - query-parameters
+  - query-template
+  - query-assembly
+  - query-report
+
+- title: Etl (SSIS)
+  docs:
+  - etl-define
+  - etl-parameters-variables
+  - etl-successful
+  - etl-performance
+  - etl-side-effects
+
+- title: Model (DB/SSAS)
+  docs:
+  - model-structure-db-olap-tabular
+  - model-exists
+  - model-collection-assertion
+  - model-relation
+
+- title: Members (SSAS)
+  docs:
+  - members-count
+  - members-ordering
+  - members-availaible
+  - members-patterns
+  - members-compare
+  - members-compare-range
+
+- title: Setup and Cleanup
+  docs:
+  - data-manipulations-on-tables
+  - windows-services
+  - run-etl
+  - file-manipulations
+  - exe-or-batch
+  - sql-batch
+
+- title: Configuration and settings
+  docs:
+  - manage-connection-strings
+  - roles-query
+  - defaults-references
+  - csv-profile
+  - failure-report-profile
+  - settings-external-file
+  - dtd-processing
+  - traces-debugging
+
+- title: Metadata
+  docs:
+  - metadata-concept
+  - metadata-description
+  - metadata-ignore
+  - metadata-edition
+  - metadata-categories
+  - metadata-trait
+  - metadata-groups

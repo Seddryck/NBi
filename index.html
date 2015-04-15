@@ -1,0 +1,94 @@
+---
+layout: default
+---
+
+<div class="home">
+    <section class="intro">
+        <div class="grid">
+            <div class="unit whole center-on-mobiles">
+                <p class="first">NBi a framework to test your Business Intelligence solutions.</p>
+            </div>
+        </div>
+    </section>
+    <section class="features">
+        <div class="grid">
+            <div class="unit one-third">
+                <h2>Just plain xml</h2>
+                <p>No need of C#, Java or any other development language to test your BI Solution. Your tests are written in xml by the means of a useful and intuitive syntax.</p>
+                <a href="/docs/syntax/">How NBi works &rarr;</a>
+            </div>
+            <div class="unit one-third">
+                <h2>All your components</h2>
+                <p>NBi helps you to create tests targeting your databases, cubes, etls and reports with a <em>unique</em> framework.</p>
+                <a href="/docs/features/">List of features &rarr;</a>
+            </div>
+            <div class="unit one-third">
+                <h2>Automate generation</h2>
+                <p>NBi is shipped with a tool to facilitate the <em>automation of creation of test-cases</em>. Build hundreds tests in a couple of minutes.</p>
+                <a href="/docs/genbi/">Genbi &rarr;</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </section>
+    <section class="quickstart">
+        <div class="grid">
+            <div class="unit golden-large code">
+                <p class="title">Compare two query results</p>
+                <div class="nbitx">
+                    <p class="line">
+                        <span class="test">&lt;test name="Compare two query results"&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="first">&nbsp;&nbsp;&lt;system-under-test&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="second">&nbsp;&nbsp;&nbsp;&nbsp;&lt;execution&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="query">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;query&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;select * from FirstTable;</span>
+                    </p>
+                    <p class="line">
+                        <span class="query">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/query&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="second">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/execution&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="first">&nbsp;&nbsp;&lt;/system-under-test&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="first">&nbsp;&nbsp;&lt;assert&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="second">&nbsp;&nbsp;&nbsp;&nbsp;&lt;equalTo&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="query">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;query&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;select * from SecondTable;</span>
+                    </p>
+                    <p class="line">
+                        <span class="query">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/query&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="second">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/equalTo&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="first">&nbsp;&nbsp;&lt;/assert&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="test">&lt;/test&gt;</span>
+                    </p>
+                </div>
+            </div>
+            <div class="unit golden-small center-on-mobiles">
+              <h4>Express your testing intentions.</h4>
+              <div class="clear"></div>
+            </div>
+        </div>
+    </section>
+</div>

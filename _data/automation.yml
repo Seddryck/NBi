@@ -1,0 +1,13 @@
+- title: Getting started
+  docs:
+  - home
+
+- title: GenBI
+  docs:
+  - generate-tests
+  - condition-template
+  - source-test-cases-from-query
+
+- title: genbiL macro language
+  docs:
+  - cases-load

@@ -12,13 +12,13 @@ baseurl: "/NBi-Website" # the subpath of your site, e.g. /blog/
 url: "http://Seddryck.github.io/NBi-Website" # the base hostname & protocol for your site
 twitter_username: Seddryck
 github_username:  Seddryck
-repository: https://github.com/Seddryck/NBi-website
+repository: https://github.com/Seddryck/NBi
 
 
 # Build settings
 markdown: kramdown
 highlighter: pygments
-exclude: ['README.md', 'Gemfile', 'Gemfile.lock', 'site.html']
+exclude: ['README.md', 'Gemfile', 'Gemfile.lock']
 
 # Collections
 collections:
@@ -26,6 +26,5 @@ collections:
     output: true
   download:
     output: true
-    permalink: downloads/:path
   automation:
     output: true

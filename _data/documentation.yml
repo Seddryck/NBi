@@ -41,9 +41,10 @@
 
 - title: Members (SSAS)
   docs:
+  - members
   - members-count
   - members-ordering
-  - members-availaible
+  - members-exist
   - members-patterns
   - members-compare
   - members-compare-range

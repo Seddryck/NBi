@@ -34,7 +34,7 @@
 
 - title: Model (DB/SSAS)
   docs:
-  - model-structure-db-olap-tabular
+  - model-objects
   - model-exists
   - model-collection-assertion
   - model-relation
@@ -44,7 +44,7 @@
   - members
   - members-count
   - members-ordering
-  - members-exist
+  - members-collection
   - members-patterns
   - members-compare
   - members-compare-range

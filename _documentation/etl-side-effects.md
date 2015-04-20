@@ -2,6 +2,7 @@
 layout: documentation
 title: Etl's side effects
 prev_section: etl-performance
+next_section: model-objects
 permalink: /docs/etl-side-effects/
 ---
 The first role of an Etl is often to perform modifications on objects (database content, create, move or delete files, …). NBi is supporting a way to test these state's updates after the run of a given etl. The process to achieve this is firstly to run the etl during the setup phase, then define your system-under-test as the impacted object by your etl (by example, through a query to a table) and finally assert the correct state of this object (the content of the result-set returned by your query).

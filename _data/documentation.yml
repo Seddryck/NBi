@@ -50,6 +50,7 @@
 
 - title: Setup and Cleanup
   docs:
+  - setup-cleanup
   - data-manipulations-on-tables
   - windows-services
   - run-etl

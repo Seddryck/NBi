@@ -7,7 +7,7 @@ permalink: /docs/members-source/
 ---
 During the previous chapter, the assertions contained a list of predefined static values. But NBi supports to compare to a dynamic list of values.
 ## From a query
-The first way to have a dynamic llist of values is to retrieve the members from a query (Sql, Mdx or DAX). This can be useful if you've a list of members stored in a relational database and that this list is in a constant evolution (customers, malls, ...). To achieve this, you'll need to provide a *one-column-query* in place of the list of *item*. This *one-column-query* is just a standard *query* xml element where only the first column of the result-set will be used by NBi. You can define this xml element as:
+The first way to have a dynamic list of values is to retrieve the members from a query (Sql, Mdx or DAX). This can be useful if you've a list of members stored in a relational database and that this list is in a constant evolution (customers, malls, ...). To achieve this, you'll need to provide a *one-column-query* in place of the list of *item*. This *one-column-query* is just a standard *query* xml element where only the first column of the result-set will be used by NBi. You can define this xml element as:
 
 {% highlight xml %}
 <assert>
@@ -30,20 +30,28 @@ The syntax is straightforward, inside the xml element defining your assertion (*
 
 {% highlight xml %}
 <test name="Members of department bellow 'Corporate' are in a subset of themselves" uid="0001">  
-    <system-under-test>  
-        <members children-of="Corporate">  
-            <hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"/>  
-        </members>  
-    </system-under-test>  
-    <assert>  
-        <subsetOf>  
-            <members children-of="Corporate" >  
-                <hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"  
-                    connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033"  
-                />  
-            </members>  
-        </subsetOf>  
-    </assert>  
+  <system-under-test>  
+    <members children-of="Corporate">  
+      <hierarchy
+        caption="Departments"
+        dimension="Department"
+        perspective="Adventure Works"
+      />  
+    </members>  
+  </system-under-test>  
+  <assert>  
+    <subsetOf>  
+      <members children-of="Corporate" >  
+        <hierarchy
+          caption="Departments"
+          dimension="Department"
+          perspective="Adventure Works"
+          connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;
+            Initial Catalog='Adventure Works DW 2012';localeidentifier=1033"  
+        />  
+      </members>  
+    </subsetOf>  
+  </assert>  
 </test>  
 {% endhighlight %}
 
@@ -57,21 +65,21 @@ In the sample bellow, you will assert that your hierarchy's members are effectiv
 
 {% highlight xml %}
 <assert>
-    <equivalentTo>
-        <item>0</item>
-        <item>1</item>
-            ...
-        <item>99</item>
-    </equivalentTo>
+  <equivalentTo>
+    <item>0</item>
+    <item>1</item>
+      ...
+    <item>99</item>
+  </equivalentTo>
 </assert>
 {% endhighlight %}
 
 A bit daunting to write. The xml element named *range* lets you describe this list of members in a more readable and sustainable way. You have to create a **range-integer** xml element with two xml attributes *start* and *end*. Note that the value specified for *start* and *end* are included in the list of items built by NBi.
 {% highlight xml %}
 <assert>
-    <equivalentTo>
-        <range-integer start="0" end="99"/>
-    </equivalentTo>
+  <equivalentTo>
+      <range-integer start="0" end="99"/>
+  </equivalentTo>
 </assert>
 {% endhighlight %}
 
@@ -80,9 +88,9 @@ A bit daunting to write. The xml element named *range* lets you describe this li
 A *step* is the same concept as the step in a for loop. You can specify a *step* as an additional xml attribute. If you want to only have the even numbers between 0 and 99, you just need to define a **step** of 2.
 {% highlight xml %}
 <assert>
-    <equivalentTo>
-        <range-integer start="0" end="99" step="2"/>
-    </equivalentTo>
+  <equivalentTo>
+    <range-integer start="0" end="99" step="2"/>
+  </equivalentTo>
 </assert>
 {% endhighlight %}
 
@@ -95,9 +103,14 @@ The **position** attribute states where the pattern will be inserted. Two option
 
 {% highlight xml %}
 <assert>
-    <equivalentTo>
-        <range-integer-pattern start="2005" end="2010" pattern="CY " position="prefix"/>
-    </equivalentTo>
+  <equivalentTo>
+    <range-integer-pattern
+      start="2005"
+      end="2010"
+      pattern="CY "
+      position="prefix"
+    />
+  </equivalentTo>
 </assert>
 {% endhighlight %}
 
@@ -110,6 +123,7 @@ The **format** attribute will let you describe how the date will be formatted. T
 The attribute named **culture** let you specify in which language the weekdays and months will be rendered. The culture is described as a two letter code representing the language. A complete description of the culture supported is provided by Microsoft at [there](http://msdn.microsoft.com/en-us/goglobal/bb896001.aspx). NBi is expecting a value from this table, more specifically a 2 or 4 letters code available in the column named "Culture Name".
 
 *Some samples:* The 19th of September 1995 will render differently according to the selected format and culture
+
 * with a format equal to "dd/MM/yy" independently of the culture selected, the output will be "19/09/95"
 * with a format equal to "d-MMM-yyyy" and a culture equivalent to "English", the output will be "19-SEP-1995"
 * with a format equal to "dddd, dd MMMM" and a culture equivalent to "English", the output will be "Tuesday, 19 September"
@@ -118,9 +132,14 @@ The attribute named **culture** let you specify in which language the weekdays a
 
 {% highlight xml %}
 <assert>
-    <equivalentTo>
-        <range-date start="2005-01-01" end="2010-12-31" culture="en" format="MMMM d, yyyy"/>
-    </equivalentTo>
+  <equivalentTo>
+    <range-date
+      start="2005-01-01"
+      end="2010-12-31"
+      culture="en"
+      format="MMMM d, yyyy"
+    />
+  </equivalentTo>
 </assert>
 {% endhighlight %}
 

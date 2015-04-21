@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Members' count'
+title: Members' count
 prev_section: members
 next_section: members-ordering
 permalink: /docs/members-count/
@@ -32,8 +32,12 @@ If you're validating that the hierarchy named "MyHierarchy" has more than 15 mem
 <test>
     <system-under-test>
 	    <members>
-		    <hierarchy caption="State-Province" dimension="Customer" perspective="Adventure Works"
-			     connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"
+		    <hierarchy
+          caption="State-Province"
+          dimension="Customer"
+          perspective="Adventure Works"
+			    connectionString="Provider=MSOLAP.4;Data Source=MyServer;
+            Integrated Security=SSPI;Initial Catalog=MyCube;"
 		     />
 	    </members>
     </system-under-test>

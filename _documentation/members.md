@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Members of hierarchies and levels
+title: Members
 prev_section: model-relation
 next_section: members-count
 permalink: /docs/members/
@@ -15,7 +15,6 @@ To achieve this, you need to stipulate where you'll be looking for (in other wor
         <members/>
     </system-under-test>
 </test>
-{code:xml}
 {% endhighlight %}
 
 In the node *members*, you'll have to specify on which object your test will apply. This is done by providing an xml element named *hierarchy* or *level*. By example, here under, we're looking for a member in the *level* 'State-Province' of the *hierarchy* 'Customer Geography' in dimension 'Customer'.
@@ -27,7 +26,12 @@ Note: For hierarchy without level, such as *customer* in the sample above, the d
 {% highlight xml %}
 <system-under-test>
 	<members>
-		<level caption="State-Province" hierarchy="Customer Geography" dimension="Customer" perspective="Adventure Works"/>
+		<level
+      caption="State-Province"
+      hierarchy="Customer Geography"
+      dimension="Customer"
+      perspective="Adventure Works"
+    />
 	</members>
 </system-under-test>
 {% endhighlight %}
@@ -36,7 +40,11 @@ If you want to perform a test on all members of this hierarchy, including *coutr
 {% highlight xml %}
 <system-under-test>
 	<members>
-		<hierarchy caption="Customer Geography" dimension="Customer" perspective="Adventure Works"/>
+		<hierarchy
+      caption="Customer Geography"
+      dimension="Customer"
+      perspective="Adventure Works"
+    />
 	</members>
 </system-under-test>
 {% endhighlight %}
@@ -46,8 +54,12 @@ Don't forget to specify the xml attribute *connectionString* to reach your cube.
 {% highlight xml %}
 <system-under-test>
 	<members>
-		<hierarchy caption="Customer" dimension="Customer" perspective="Adventure Works"
-			connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"
+		<hierarchy
+      caption="Customer"
+      dimension="Customer"
+      perspective="Adventure Works"
+			connectionString="Provider=MSOLAP.4;Data Source=MyServer;
+        Integrated Security=SSPI;Initial Catalog=MyCube;"
 		/>
 	</members>
 </system-under-test>
@@ -70,7 +82,12 @@ If you know the unique-name of the member you can directly reference the item to
 {% highlight xml %}
 <system-under-test>
 	<members>
-		<level caption="Country" hierarchy="Customer Geography" dimension="Customer" perspective="Adventure Works"/>
+		<level
+      caption="Country"
+      hierarchy="Customer Geography"
+      dimension="Customer"
+      perspective="Adventure Works"
+    />
     <exclude>
        <item>France</item>
        <item>Germany</item>
@@ -83,7 +100,12 @@ But sometimes you don't know the unique-name of the member to exclude, or you wa
 {% highlight xml %}
 <system-under-test>
 	<members>
-		<level caption="Country" hierarchy="Customer Geography" dimension="Customer" perspective="Adventure Works"/>
+    <level
+      caption="Country"
+      hierarchy="Customer Geography"
+      dimension="Customer"
+      perspective="Adventure Works"
+    />
     <exclude>
        <items pattern="exact">United Kingdom</item>
     </exclude>
@@ -95,7 +117,12 @@ If you want to remove the members starting, ending or containing a specific patt
 {% highlight xml %}
 <system-under-test>
 	<members>
-		<hierarchy caption="Country" hierarchy="Customer Geography" dimension="Customer" perspective="Adventure Works"/>
+		<hierarchy
+      caption="Country"
+      hierarchy="Customer Geography"
+      dimension="Customer"
+      perspective="Adventure Works"
+    />
     <exclude>
        <items pattern="start-with">John</item>
        <items pattern="end-with">iams</item>

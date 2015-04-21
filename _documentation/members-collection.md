@@ -64,23 +64,6 @@ In some case, you know exactly the content of your hierarchy or level. In this c
 The test will only succeed if your hierarchy has exactly two members named *Male* and *Female*. If you’ve more or less or different items, this test will fail.
 *Note that this test is equivalent to two assertions *contain* (one for *Male* and another for *Female*) and one assertion *subsetOf* (for *Male* and *Female*). It’s just a matter of readability versus reporting and investigation facilities.*
 
-## Dynamic list of members in your assertion
-Previous paragraphs explained how to compare to a static list of members. But it's also possible to have a dynamic list of members retrieved from a query (Sql, Mdx or DAX).
-This can be useful if you've a list of members stored in a relational database and that this list is in a constant evolution (customers, malls, ...). To achieve this, you'll need to provide a *one-column-query* in place of the list of *item*. This *one-column-query* is just a standard *query* xml element where only the first column of the result-set will be used by NBi. You can define this xml element as:
-{% highlight xml %}
-<assert>
-  <equivalentTo>
-    <one-column-query>
-      select displayName from Customer
-    </one-column-query>
-  </equivalentTo>
-</assert>
-{% endhighlight %}
-
-The query will be executed and the first column of the result-set will be used to build the list of expected members. Then, the assertion will perform exactly as previously defined for a static list of members.
-
-This xml element *one-column-query* supports the xml attribute *connectionString* but you're free to use the [defaults and references](defaults-references).
-
 ## Display the difference
 If your test has failed, NBi will provide a list of missing and/or unexpected items according to the type of assertion performed
 * For *contain*: missing items

@@ -61,12 +61,16 @@ In some case, you know exactly the content of your hierarchy or level. In this c
         </equivalentTo>
     </assert>
 {% endhighlight %}
+
 The test will only succeed if your hierarchy has exactly two members named *Male* and *Female*. If you’ve more or less or different items, this test will fail.
-*Note that this test is equivalent to two assertions *contain* (one for *Male* and another for *Female*) and one assertion *subsetOf* (for *Male* and *Female*). It’s just a matter of readability versus reporting and investigation facilities.*
+
+Note that this test is equivalent to two assertions *contain* (one for *Male* and another for *Female*) and one assertion *subsetOf* (for *Male* and *Female*). It’s just a matter of readability versus reporting and investigation facilities.*
 
 ## Display the difference
 If your test has failed, NBi will provide a list of missing and/or unexpected items according to the type of assertion performed
-* For *contain*: missing items
-* For *subsetOf*: unexpected items
-* For *equivalentTo*: missing and unexpected items
+
+* *contain*: missing items
+* *subsetOf*: unexpected items
+* *equivalentTo*: missing and unexpected items
+
 By default, this list will be limited to 10 items maximum. If you want to change this behavior see the documentation about [failure report profile](profile-failure-report).

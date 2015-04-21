@@ -45,9 +45,8 @@
   - members-count
   - members-ordering
   - members-collection
+  - members-source
   - members-patterns
-  - members-compare
-  - members-compare-range
 
 - title: Setup and Cleanup
   docs:

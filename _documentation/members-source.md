@@ -67,7 +67,7 @@ In the sample bellow, you will assert that your hierarchy's members are effectiv
 {% endhighlight %}
 
 A bit daunting to write. The xml element named *range* lets you describe this list of members in a more readable and sustainable way. You have to create a **range-integer** xml element with two xml attributes *start* and *end*. Note that the value specified for *start* and *end* are included in the list of items built by NBi.
-{code:xml}
+{% highlight xml %}
 <assert>
     <equivalentTo>
         <range-integer start="0" end="99"/>

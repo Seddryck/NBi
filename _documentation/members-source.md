@@ -2,7 +2,7 @@
 layout: documentation
 title: Members' source
 prev_section: members-collection
-next_section: setup-patterns
+next_section: members-patterns
 permalink: /docs/members-source/
 ---
 During the previous chapter, the assertions contained a list of predefined static values. But NBi supports to compare to a dynamic list of values.

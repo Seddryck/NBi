@@ -11,7 +11,7 @@ In the sample bellow the etl will read the content of a file and populate a tabl
 
 Define the setup
 ----------------
-In the xml element named *setup* you’ll need to define the etl to run. The syntax is exactly the same than for [etl defined in a system-under-test](../etl-define).
+In the xml element named [*setup*](../setup-etl) you’ll need to define the etl to run. The syntax is exactly the same than for [etl defined in a system-under-test](../etl-define).
 {% highlight xml %}
 <test name="Etl in setup" uid="0003">
   <setup>

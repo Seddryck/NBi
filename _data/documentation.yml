@@ -51,12 +51,12 @@
 - title: Setup and Cleanup
   docs:
   - setup-cleanup
-  - data-manipulations-on-tables
-  - windows-services
-  - run-etl
-  - file-manipulations
-  - exe-or-batch
-  - sql-batch
+  - setup-data-manipulations-on-tables
+  - setup-file-manipulations
+  - setup-windows-services
+  - setup-etl
+  - setup-exe-or-batch
+  - setup-sql-batch
 
 - title: Configuration and settings
   docs:

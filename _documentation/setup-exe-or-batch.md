@@ -1,8 +1,8 @@
 ---
 layout: documentation
 title: Run an executable or a batch
-prev_section: setup-etl
-next_section: setup-sql-batch
+prev_section: setup-sql-batch
+next_section: setup-etl
 permalink: /docs/setup-exe-or-batch/
 ---
 This command let you start an executable (or a batch file) on the server running the test-suite (not on a remote server). The test will start when the exe has returned.

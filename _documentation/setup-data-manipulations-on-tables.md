@@ -2,7 +2,7 @@
 layout: documentation
 title: Data Manipulation on tables
 prev_section: setup-cleanup
-next_section: setup-file-manipulations
+next_section: setup-sql-batch
 permalink: /docs/setup-data-manipulations-on-tables/
 ---
 The following commands are only available on a **Sql Server** instance.

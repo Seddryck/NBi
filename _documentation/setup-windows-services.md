@@ -1,8 +1,8 @@
 ---
 layout: documentation
 title: Windows services
-prev_section: setup-file-manipulations
-next_section: setup-etl
+prev_section: setup-etl
+next_section: setup-file-manipulations
 permalink: /docs/setup-windows-services/
 ---
 These commands will be executed on the server running the test-suite (not on a remote server). They're able to start or stop a Windows Service. For both of the commands, if the service is already started/stopped, this command will have no influence (and will not failed).

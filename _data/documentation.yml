@@ -52,22 +52,23 @@
   docs:
   - setup-cleanup
   - setup-data-manipulations-on-tables
-  - setup-file-manipulations
+  - setup-sql-batch
+  - setup-exe-or-batch
   - setup-windows-services
   - setup-etl
-  - setup-exe-or-batch
-  - setup-sql-batch
+  - setup-file-manipulations
+  - setup-condition
 
 - title: Configuration and settings
   docs:
-  - manage-connection-strings
-  - roles-query
-  - defaults-references
-  - csv-profile
-  - failure-report-profile
-  - settings-external-file
-  - dtd-processing
-  - traces-debugging
+  - config-connection-strings
+  - config-defaults-references
+  - config-settings-external-file
+  - config-roles-query
+  - config-profile-csv
+  - config-profile-failure-report
+  - config-dtd-processing
+  - config-traces-debugging
 
 - title: Metadata
   docs:

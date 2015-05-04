@@ -1,8 +1,8 @@
 ---
 layout: documentation
 title: Run an Etl
-prev_section: setup-windows-services
-next_section: setup-exe-or-batch
+prev_section: setup-exe-or-batch
+next_section: setup-windows-services
 permalink: /docs/setup-etl/
 ---
 **Important note:** This command is executed on the server running the test-suite (not on a remote server).

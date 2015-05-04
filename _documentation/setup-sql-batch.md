@@ -1,8 +1,8 @@
 ---
 layout: documentation
 title: Run a sql batch file
-prev_section: setup-exe-or-batch
-next_section: manage-connection-strings
+prev_section: setup-data-manipulations-on-tables
+next_section: setup-exe-or-batch
 permalink: /docs/setup-sql-batch/
 ---
 The following command is only available on a **Sql Server** instance.

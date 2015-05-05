@@ -76,6 +76,6 @@
   - metadata-description
   - metadata-ignore
   - metadata-edition
-  - metadata-categories
+  - metadata-category
   - metadata-trait
-  - metadata-groups
+  - metadata-group

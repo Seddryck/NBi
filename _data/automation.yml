@@ -8,7 +8,7 @@
   - condition-template
   - source-test-cases-from-query
 
-- title: genbiL: macro language
+- title: genbiL - macro language
   docs:
   - genbil
   - cases-load

@@ -11,4 +11,36 @@
 - title: genbiL - macro language
   docs:
   - genbil
+  - comments
+
+- title: Test-cases management
+  docs:
   - cases-load
+  - cases-save
+  - cases-scope
+  - cases-copy
+  - cases-merge
+  - cases-cross
+  - cases-column-add
+  - cases-column-remove
+  - cases-column-hold
+  - cases-column-rename
+  - cases-column-move
+  - cases-filter
+  - cases-replace
+  - cases-substitute
+  - cases-concatenate
+
+- title: Test template
+  docs:
+  - template-load
+
+- title: Settings management
+  docs:
+  - settings-load
+
+- title: Test-suite management
+  docs:
+  - suite-generate
+  - suite-save
+  - suite-include

@@ -2,7 +2,7 @@
 layout: automation
 title: Getting started with genbiL
 prev_section: source-test-cases-from-query
-next_section: cases-load
+next_section: comments
 permalink: /automation/genbil/
 ---
 **GenbiL** is a language to automate the generation of test suites through Genbi. With *genbiL*, you can script all the actions that you are manually executing each time you want to generate your test suite. These actions could be "open a CSV file for test cases" or "select the correct template" or even "define the settings" and "generate your test suite".

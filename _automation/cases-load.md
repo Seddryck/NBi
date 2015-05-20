@@ -1,7 +1,7 @@
 ---
 layout: automation
 title: Load a set of test-cases
-prev_section: home
+prev_section: comments
 next_section: cases-save
 permalink: /automation/cases-load/
 ---
@@ -22,6 +22,7 @@ GenbiL offers the opportunity to load a set of test-cases from a database. To ac
 {% highlight xml %}
 case load query 'Relative Directory\myQuery.sql' on 'Data Source=...';
 {% endhighlight %}
+
 * in-line
 {% highlight xml %}
 case load query

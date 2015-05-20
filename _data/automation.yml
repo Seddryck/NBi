@@ -2,12 +2,13 @@
   docs:
   - home
 
-- title: GenBI
+- title: Genbi
   docs:
   - generate-tests
   - condition-template
   - source-test-cases-from-query
 
-- title: genbiL macro language
+- title: genbiL: macro language
   docs:
+  - genbil
   - cases-load

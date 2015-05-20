@@ -11,16 +11,16 @@ It's possible to annotate a macro written in genbiL with some comments. Two styl
 
 The start with the characters // and extend to the end of the source line.
 
-{ highlight xml }
+{% highlight xml %}
 // This is a comment on 1 line
-{ endhighlight }
+{% endhighlight %}
 
 ## Delimited comments
 
 They start with the characters /\* and end with the characters \*/. Delimited comments may span multiple lines.
 
-{ highlight xml }
+{% highlight xml %}
 /* This is a comment
 on multiple
 lines*/
-{ endhighlight }
+{% endhighlight %}

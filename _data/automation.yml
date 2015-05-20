@@ -21,15 +21,21 @@
   - cases-copy
   - cases-merge
   - cases-cross
-  - cases-column-add
-  - cases-column-remove
-  - cases-column-hold
-  - cases-column-rename
-  - cases-column-move
-  - cases-filter
-  - cases-replace
-  - cases-substitute
-  - cases-concatenate
+
+- title: Columns of test-cases
+  docs:
+  - column-add
+  - column-remove
+  - column-hold
+  - column-rename
+  - column-move
+  - column-replace
+  - column-substitute
+  - column-concatenate
+
+- title: Rows of test-cases
+  docs:
+  - rows-filter
 
 - title: Test template
   docs:

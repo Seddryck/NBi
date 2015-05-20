@@ -8,7 +8,7 @@ permalink: /automation/generate-tests/
 It can be a tedious work to create a test-suite. The creation of a test suite to check the structure of a cube with 500 measures and 40 dimensions quickly lead to a test-suite with more than 2500 tests! When writing this kind of test-suite, you’ll quickly understand that there is a lot of repetition in the xml. It’s a clue that we can automate or at least assist to the creation of such a test-suite.
 
 To achieve this, there is tool named *Genbi* provided with NBi since the version 1.1. The basic behaviour of this tool is to generate multiple fragments of xml based on a template and a CSV file containing the values of different variables consumed by the template.
-![Genbi - Whole screen]({{ site.url }}/img/automation/Genbi - Whole screen.png)
+![Genbi - Whole screen]({{ site.baseurl }}/img/automation/Genbi - Whole screen.png)
 
 ## Prepare your CSV
 
@@ -26,13 +26,13 @@ Operation;Task
 
 Save your file with a CSV extension. When your file is ready, you can open it with Genbi. For this click on the button named “Open CSV …” and select your file.
 
-![Select a CSV file]({{ site.url }}/img/automation/Select a CSV file.png)
+![Select a CSV file]({{ site.baseurl }}/img/automation/Select a CSV file.png)
 
 ## Tune your CSV
 
 Genbi has filled a table and displayed the content of your CSV file.
 
-![Columns - Manipulations]({{ site.url }}/img/automation/Columns - Manipulations.png)
+![Columns - Manipulations]({{ site.baseurl }}/img/automation/Columns - Manipulations.png)
 
 When your CSV file is opened in Genbi, you can to update it.
 
@@ -44,7 +44,7 @@ You can also add, remove or update rows directly in the table displayed in Genbi
 
 You can open a template from the list of templates provided by Genbi or open an external file.
 
-![Open Template]({{ site.url }}/img/automation/Open Template.png)
+![Open Template]({{ site.baseurl }}/img/automation/Open Template.png)
 
 The template contains the xml of the test to generate with placeholder for the value of each variables. The placeholder are defined as the name of the variable surrounded by the symbol “$”. As a sample the following template will replace the word *$perspective$* by the name of your perspective (*Finance*) and the word *$dimension$* by the name of your dimension (*Customer*). Then we’ll restart this process for the next lines in your CSV.
 
@@ -65,7 +65,7 @@ Will be transformed into the following 6 tests.
 
 It's possible to edit the template and save your edited version in an external file to use it again later.
 
-![Template - Manipulations]({{ site.url }}/img/automation/Template - Manipulations.png)
+![Template - Manipulations]({{ site.baseurl }}/img/automation/Template - Manipulations.png)
 
 ### Automatic variables
 
@@ -81,7 +81,7 @@ As discussed above, you can use the variables corresponding to the columns defin
 
 To generate your tests, just click on the button generate.
 
-![Generate]({{ site.url }}/img/automation/Generate.png)
+![Generate]({{ site.baseurl }}/img/automation/Generate.png)
 
 ### Valid tests
 
@@ -176,9 +176,9 @@ will result into
 It's also possible to edit the settings of your test-suite. In version 1.1, it's possible to do this for Default values but not for Reference (will come later).
 
 
-![Settings - Manipulations]({{ site.url }}/img/automation/Settings - Manipulations.png)
+![Settings - Manipulations]({{ site.baseurl }}/img/automation/Settings - Manipulations.png)
 
 ## Save your tests suite
 When all your tests are ready, you can save them into a new test-suite by clicking on "Save as ..." button.
 
-![Save Test Suite]({{ site.url }}/img/automation/Save Test Suite.png)
+![Save Test Suite]({{ site.baseurl }}/img/automation/Save Test Suite.png)

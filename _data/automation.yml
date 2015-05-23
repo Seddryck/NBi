@@ -36,6 +36,7 @@
 - title: Rows of test-cases
   docs:
   - rows-filter
+  - rows-distinct
 
 - title: Test template
   docs:

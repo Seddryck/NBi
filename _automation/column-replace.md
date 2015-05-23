@@ -1,6 +1,6 @@
 ---
 layout: automation
-title: Replace the content of a column
+title: Replace the content
 prev_section: column-move
 next_section: column-substitute
 permalink: /automation/column-replace/

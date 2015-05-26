@@ -4,9 +4,10 @@
   - installation-tools
   - installation-environment
   - installation-test-suite
-  - installation-config
   - installation-nunit-project
+  - installation-config
   - run-with-nunit
+  - run-alterative
 
 - title: Queries' result-sets
   docs:

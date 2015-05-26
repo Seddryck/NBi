@@ -2,7 +2,7 @@
 layout: documentation
 title: Test-suite file
 prev_section: installation-environment
-next_section: installation-config
+next_section: installation-nunit-project
 permalink: /docs/installation-test-suite/
 ---
 The test-suite file contains the definition of the tests and has an extension *.nbits*. The tests are defined in an xml format, meaning that you can edit this file with any xml or text editor.

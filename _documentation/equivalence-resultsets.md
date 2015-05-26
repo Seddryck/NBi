@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Equivalence of two result-sets
-prev_section: run-with-nunit
+prev_section: run-alternative
 next_section: comparison-configuration
 permalink: /docs/equivalence-resultsets/
 ---
@@ -15,6 +15,7 @@ NBi is able to execute **SQL**, **MDX** or **DAX** queries and capture the resul
 During test's execution, NBi will compare the two result-sets and provide a brief analysis if they differe. To guide NBi during this comparison, you've the possibility to specify the role played by each column and the tolerance that you'll allow on them.
 
 ## system-under-test
+
 Let's start with the definition of your system-under-test:
 
 You must create an xml element named *execution* under the element *system-under-test*. Inside this element *execution*, you must create another xml element named *query*. You can specify a connection string to this query or rely on the [default connection string](/docs/manage-connection-strings).
@@ -53,6 +54,7 @@ Once your system-under-test is defined, you'll need to specify what you want to 
 {% endhighlight %}
 
 ### Embedded result-set
+
 The easiest way to define a result-set is to define it in the test. You must create a new xml element *row* for each row of the result-set. For each row, you must specify the expected values in different xml elements named *cell*.
 {% highlight xml %}
 <equalTo>
@@ -64,6 +66,7 @@ The easiest way to define a result-set is to define it in the test. You must cre
 {% endhighlight %}
 
 ### External CSV file
+
 You also have the opportunity to specify that a result-set is defined in an external file (useful for large result-sets)
 {% highlight xml %}
 <equalTo>
@@ -73,6 +76,7 @@ You also have the opportunity to specify that a result-set is defined in an exte
 If needed, you can also specify an alternative [CSV profile](csv-profile) in the settings. Note that for the embedded result-set and for the external result-set, the *numeric values* must be written with an international format (a dot (".") to separate the integer part of the decimal part).
 
 ### Another query
+
 Finally, the third choice is to compare the result-set of the system-under-test to the result-set of another query. This can be useful to ensure a non-regression between two systems or to compare the data warehouse data and the corresponding olap data. To do this, the expression here under must be applied.
 {% highlight xml %}
 <equalTo>
@@ -83,6 +87,7 @@ Finally, the third choice is to compare the result-set of the system-under-test 
 {% endhighlight %}
 
 ## Advanced features
+
 With NBi, you can also check a cell's value against special values such as *null*, *empty* or *any value*. This is detailed in the article about [special and generic values](/docs/special-generic-values/).
 
 By default, NBi will take the assumption that the first column is a key (text) and the other columns are values (numeric without tolerance). This will influence the comparison's result. If you want to override this configuration, you should read the documentation about [result-set's comparison configuration](/docs/comparison-configuration/).
@@ -92,6 +97,7 @@ NBi is also able to manage dateTime and boolean formats without tricks in SQL qu
 The comparison can also include [tolerances and roundings](/docs/tolerances-roundings/) methods when comparing numeric and dateTime types.
 
 ## Improve performance with queries' parallelization
+
 By default, NBi will run the queries (system-under-test and assertion) in parallel. This usually improves the performances because the two queries are usually on different systems.
 
 When parallelization is activated, this directly influences the output in the console or the output tab. The two result-sets will be intermixed and probably not interpretable. Note that this output is only visible when the trace level is set to 4 (see [enable and display trace messages](/docs/trace/)). The output of the two result-sets could be mixed. This will not influence the test execution but your debugging experience can suffer. We recommend to desactivate the queries' parallelization when the trace level is set to 4.

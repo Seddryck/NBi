@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Equivalence of two result-sets
-prev_section: test-suite-setup
+prev_section: run-with-nunit
 next_section: comparison-configuration
 permalink: /docs/equivalence-resultsets/
 ---

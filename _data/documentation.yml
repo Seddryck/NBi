@@ -1,8 +1,12 @@
 - title: Getting started
   docs:
   - home
-  - installation
-  - test-suite-setup
+  - installation-tools
+  - installation-environment
+  - installation-test-suite
+  - installation-config
+  - installation-nunit-project
+  - run-with-nunit
 
 - title: Queries' result-sets
   docs:

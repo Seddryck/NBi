@@ -11,11 +11,11 @@
 
 - title: Queries' result-sets
   docs:
-  - equivalence-resultsets
-  - comparison-configuration
-  - special-generic-values
-  - tolerances-roundings
-  - intervals
+  - compare-equivalence-resultsets
+  - compare-configuration
+  - compare-special-generic-values
+  - compare-tolerances-roundings
+  - compare-intervals
 
 - title: Query's execution
   docs:

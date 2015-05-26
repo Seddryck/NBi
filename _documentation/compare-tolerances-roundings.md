@@ -1,9 +1,9 @@
 ---
 layout: documentation
 title: Tolerances and roundings
-prev_section: special-generic-values
-next_section: intervals
-permalink: /docs/tolerances-roundings/
+prev_section: compare-special-generic-values
+next_section: compare-intervals
+permalink: /docs/compare-tolerances-roundings/
 ---
 ## Tolerances
 A tolerance can only be assigned to column defined as a *value* (meaning that a tolerance can't be applied to *key* columns) and, for the moment, is only supported for column defined with types *numeric* or *dateTime*.
@@ -50,6 +50,13 @@ To illustrate this, if you've two rows with values of 40 and 100, an absolute to
 The xml syntax requires a % in the attribute *tolerance*.
 {% highlight xml %}
 <column  index="3" role="value" type="numeric" tolerance="10%" />
+{% endhighlight %}
+
+### Absolute and relative tolerance
+Sometimes, you want to use a relative tolerance but you also want to bound thsi tolerance and express that this tolerance cannot be more (or less) than a specific value. It's possible to achieve this by specifying the value in percentage and also the bound (min or max) between brackets for the xml attribute *tolerance*.
+
+{% highlight xml %}
+<column  index="3" role="value" type="numeric" tolerance="10% (min 0.001)" />
 {% endhighlight %}
 
 ## Roundings

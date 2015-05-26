@@ -1,9 +1,9 @@
 ---
 layout: documentation
 title: Intervals of values
-prev_section: tolerances-roundings
+prev_section: compare-tolerances-roundings
 next_section: query-syntax
-permalink: /docs/intervals/
+permalink: /docs/compare-intervals/
 ---
 For the moment the intervals are only defined for numerical values (not for date and time values).
 

@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Validate syntax
-prev_section: intervals
+prev_section: compare-intervals
 next_section: query-performance
 permalink: /docs/query-syntax/
 ---

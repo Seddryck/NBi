@@ -1,9 +1,9 @@
 ---
 layout: documentation
 title: Special and generic values
-prev_section: comparison-configuration
-next_section: tolerances-roundings
-permalink: /docs/special-generic-values/
+prev_section: compare-configuration
+next_section: compare-tolerances-roundings
+permalink: /docs/compare-special-generic-values/
 ---
 ## Special values
 When comparing two result-sets, you have to compare some special values such as *null*, *empty strings* or *true/false*. NBi uses alias to understand these values from Csv files or from embedded result-sets.

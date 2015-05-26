@@ -1,9 +1,9 @@
 ---
 layout: documentation
 title: Configuration for comparison
-prev_section: equivalence-resultsets
-next_section: special-generic-values
-permalink: /docs/comparison-configuration/
+prev_section: compare-equivalence-resultsets
+next_section: compare-special-generic-values
+permalink: /docs/compare-configuration/
 ---
 NBi tries to be smart when comparing two result-sets. This analysis, performed by NBi, will help you to identify the differences (if any) between your result-sets.
 
@@ -35,12 +35,16 @@ To avoid comparison of textual content, you can use the “Numeric” type. The 
 ### DateTime
 The DateTime type has the same role than the “Numeric” type. The content of the cell is first converted to a DateTime value  using the international format (yyyy-mm-dd hh:mm:ss).
 
-To specify that your column is a dateTime column, just add the attribute 'type' with the value 'dateTime'
+To specify that your column is a dateTime column, just add the attribute *type* with the value *dateTime*
 
 ### Boolean
 The boolean type has the same role than the “Numeric” type. The content of the cell is first converted to a boolean value. NBi understands "0" or "false" and "1" or "true" as boolean values.
 
-To specify that your column is a boolean column, just add the attribute 'type' with the value 'boolean'
+To specify that your column is a boolean column, just add the attribute *type* with the value *boolean*
+
+### Default type for a result-set
+
+The xml attribute *values-default-type* of the xml element *equalTo* lets you define the default type of your result-set. If your result-set contains lot of boolean, in place of specifying for each column that the type is boolean, you can simply define that the *values-default-type* is *boolean*. The possible option for this attribute are *text*, *numeric*, *dateTime*, *boolean*.
 
 ## Xml syntax
 NBi’s xml syntax  is to define *columns* tags in your equal constraint:

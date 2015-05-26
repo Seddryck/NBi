@@ -2,8 +2,8 @@
 layout: documentation
 title: Equivalence of two result-sets
 prev_section: run-alternative
-next_section: comparison-configuration
-permalink: /docs/equivalence-resultsets/
+next_section: compare-configuration
+permalink: /docs/compare-equivalence-resultsets/
 ---
 
 NBi is able to execute **SQL**, **MDX** or **DAX** queries and capture the result-set to compare it with another resource. For this kind of test, you'll need to define your system-under-test as a *query* and your assertion as an *equalTo* constraint. You've the choice to assert the result-set of your query against three types of resources:

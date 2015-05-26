@@ -2,7 +2,7 @@
 layout: documentation
 title: Alternative setups
 prev_section: run-with-nunit
-next_section: equivalence-resultsets
+next_section: compare-equivalence-resultsets
 permalink: /docs/run-alterative/
 ---
 The installation described in the previous pages is probably the more common and helpful but it's possible to setup NBi and the test environments differently depending of your needs. Here under, you'll find more information about running tests with *Gallio Icarius* and usage of a shortcut for quick test-suite.

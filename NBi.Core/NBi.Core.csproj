@@ -279,6 +279,7 @@
     <Compile Include="Report\IParser.cs" />
     <Compile Include="Report\IQueryRequest.cs" />
     <Compile Include="Report\ParserFactory.cs" />
+    <Compile Include="ResultSet\Comparer\NumericBoundedPercentageTolerance.cs" />
     <Compile Include="ResultSet\Converter\BaseNumericConverter.cs" />
     <Compile Include="ResultSet\Converter\IConverter.cs" />
     <Compile Include="ResultSet\Converter\DateTimeConverter.cs" />

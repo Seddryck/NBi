@@ -304,5 +304,76 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
             var result = comparer.Compare(-12, -11, "1%");
             Assert.That(result.AreEqual, Is.False);
         }
+
+        [Test]
+        public void Compare_TwelveToElevenWithOnePercentAndMinTwo_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(12, 11, "1% (min 2)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_TwelveToElevenWithOnePercentAndMinDotFive_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(12, 11, "1% (min 0.5)");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_TwelveToElevenWithTenPercentAndMinDotFive_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(12, 11, "10% (min 0.5)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+        [Test]
+        public void Compare_MinusTwelveToMinusElevenWithOnePercentAndMinTwo_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(-12, -11, "1% (min 2)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_MinusTwelveToMinusElevenWithOnePercentAndMinDotFive_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(-12, -11, "1% (min 0.5)");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_MinusTwelveToMinusElevenWithTenPercentAndMinDotFive_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(-12, -11, "10% (min 0.5)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_TwelveToElevenWithHundredPercentAndMaxTwo_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(12, 11, "100% (max 2)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_TwelveToElevenWithHundredPercentAndMaxDotFive_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(12, 11, "100% (max 0.5)");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_TwelveToElevenWithTenPercentAndMaxOne_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(12, 11, "10% (max 1)");
+            Assert.That(result.AreEqual, Is.True);
+        }
     }
 }

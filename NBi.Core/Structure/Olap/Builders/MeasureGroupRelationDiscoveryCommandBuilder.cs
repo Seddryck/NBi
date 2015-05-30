@@ -11,12 +11,12 @@ namespace NBi.Core.Structure.Olap.Builders
     {
         protected override string BasicCommandText
         {
-            get { return "select [{0}_unique_name], {1} from [$system].mdschema_{2} where left(cube_name,1)<>'$'{3}"; }
+            get { return "select [{0}_name], {1} from [$system].mdschema_{2} where left(cube_name,1)<>'$'{3}"; }
         }
 
         public MeasureGroupRelationDiscoveryCommandBuilder()
         {
-            CaptionName = "dimension";
+            CaptionName = "measuregroup";
             TableName = "measuregroup_dimensions";
             VisibleName = "dimension";
         }

@@ -108,6 +108,9 @@ namespace NBi.Core.ResultSet.Comparer
             if (tolerance is NumericPercentageTolerance)
                 return CompareDecimals(expected, actual, (NumericPercentageTolerance)tolerance);
 
+            if (tolerance is NumericBoundedPercentageTolerance)
+                return CompareDecimals(expected, actual, (NumericBoundedPercentageTolerance)tolerance);
+
             throw new ArgumentException();
         }
 
@@ -124,6 +127,15 @@ namespace NBi.Core.ResultSet.Comparer
         {
             //Compare decimals (with tolerance)
             if (IsEqual(expected, actual, expected * tolerance.Value))
+                return ComparerResult.Equality;
+
+            return new ComparerResult(expected.ToString(NumberFormatInfo.InvariantInfo));
+        }
+
+        protected ComparerResult CompareDecimals(decimal expected, decimal actual, NumericBoundedPercentageTolerance tolerance)
+        {
+            //Compare decimals (with bounded tolerance)
+            if (IsEqual(expected, actual, tolerance.GetValue(expected)))
                 return ComparerResult.Equality;
 
             return new ComparerResult(expected.ToString(NumberFormatInfo.InvariantInfo));
@@ -150,7 +162,7 @@ namespace NBi.Core.ResultSet.Comparer
                 return false;
 
             //include some math[Time consumming] (Tolerance needed to validate)
-            return (Math.Abs(x - y) <= tolerance);
+            return (Math.Abs(x - y) <= Math.Abs(tolerance));
         }
 
 

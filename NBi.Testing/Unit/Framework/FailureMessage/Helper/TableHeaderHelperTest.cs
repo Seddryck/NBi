@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Testing.Unit.Framework.FailureMessage
 {
-    class TableHeaderFormatterTest
+    public class TableHeaderHelperTest
     {
         [Test]
         public void GetText_NumericAbsoluteTolerance_CorrectHeader()
@@ -29,11 +29,11 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
         public void GetText_NumericPercentageTolerance_CorrectHeader()
         {
             var formatter = new TableHeaderHelper();
-            var text = formatter.GetText(ColumnRole.Value, ColumnType.Numeric, new NumericPercentageTolerance(new decimal(12.5)), null);
+            var text = formatter.GetText(ColumnRole.Value, ColumnType.Numeric, new NumericPercentageTolerance(new decimal(0.125)), null);
 
             Assert.That(text, Is.StringContaining("VALUE"));
             Assert.That(text, Is.StringContaining("Numeric"));
-            Assert.That(text, Is.StringContaining("(+/- 12.5%)"));
+            Assert.That(text, Is.StringContaining("(+/- 12.500%)"));
         }
 
         [Test]

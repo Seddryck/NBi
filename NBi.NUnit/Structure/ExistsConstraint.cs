@@ -26,7 +26,7 @@ namespace NBi.NUnit.Structure
         {
             get
             {
-                return (base.IgnoreCase() as ExistsConstraint);
+                return (base.IgnoreCase as ExistsConstraint);
             }
         }
 

@@ -278,6 +278,51 @@ namespace NBi.Testing.Unit.NUnit.Structure
             Assert.That(assertionText, Is.StringContaining("The value 'expected-dimension-catpion' is close to your expectation."));
         }
 
+        [Test]
+        public void Matches_Default_Success()
+        {
+            var description = new CommandDescription(Target.MeasureGroups,
+                        new CaptionFilter[]
+                            {
+                                new CaptionFilter(Target.Perspectives, "perspective-name")
+                        });
+
+
+            var actuals = new string[] { "a", "b", "c" };
+
+            var commandStub = new Mock<IStructureDiscoveryCommand>();
+            commandStub.Setup(cmd => cmd.Execute()).Returns(actuals);
+            commandStub.Setup(cmd => cmd.Description).Returns(description);
+
+            var existsConstraint = new ExistsConstraint("a");
+
+            //Method under test
+            Assert.That(commandStub.Object, existsConstraint);
+        }
+
+        [Test]
+        public void Matches_WithIgnoreCase_Success()
+        {
+            var description = new CommandDescription(Target.MeasureGroups,
+                        new CaptionFilter[]
+                            {
+                                new CaptionFilter(Target.Perspectives, "perspective-name")
+                        });
+
+
+            var actuals = new string[] { "a", "b", "c" };
+
+            var commandStub = new Mock<IStructureDiscoveryCommand>();
+            commandStub.Setup(cmd => cmd.Execute()).Returns(actuals);
+            commandStub.Setup(cmd => cmd.Description).Returns(description);
+
+            var existsConstraint = new ExistsConstraint("A");
+            existsConstraint = existsConstraint.IgnoreCase;
+
+            //Method under test
+            Assert.That(commandStub.Object, existsConstraint);
+        }
+
 
     }
 }

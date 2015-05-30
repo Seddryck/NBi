@@ -303,7 +303,7 @@
     <Compile Include="Structure\IDiscoveryCommandBuilder.cs" />
     <Compile Include="Structure\Olap\Builders\DimensionRelationDiscoveryCommandBuilder.cs" />
     <Compile Include="Structure\Olap\Builders\MeasureGroupRelationDiscoveryCommandBuilder.cs" />
-    <Compile Include="Structure\Olap\MeasureGroupRelationCommand.cs" />
+    <Compile Include="Structure\Olap\DimensionRelationCommand.cs" />
     <Compile Include="Structure\Olap\IDimensionType.cs" />
     <Compile Include="Structure\Olap\DimensionCommand.cs" />
     <Compile Include="Structure\Olap\DimensionRow.cs" />

@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 namespace NBi.Core.Structure.Olap
 {
 
-    class MeasureGroupRelationCommand : OlapCommand
+    class DimensionRelationCommand : OlapCommand
     {
-        protected internal MeasureGroupRelationCommand(IDbCommand command, IEnumerable<IPostCommandFilter> postFilters, CommandDescription description)
+        protected internal DimensionRelationCommand(IDbCommand command, IEnumerable<IPostCommandFilter> postFilters, CommandDescription description)
             : base(command, postFilters, description)
         {
         } 

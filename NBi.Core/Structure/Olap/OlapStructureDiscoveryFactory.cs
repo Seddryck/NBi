@@ -39,8 +39,8 @@ namespace NBi.Core.Structure.Olap
                 command = new DistinctOlapCommand(cmd, postFilters, description);
             else if (target == Target.Dimensions && type == TargetType.Object)
                 command = new DimensionCommand(cmd, postFilters, description);
-            else if (target == Target.MeasureGroups && type == TargetType.Relation)
-                command = new MeasureGroupRelationCommand(cmd, postFilters, description);
+            else if (target == Target.Dimensions && type == TargetType.Relation)
+                command = new DimensionRelationCommand(cmd, postFilters, description);
             else
                 command = new OlapCommand(cmd, postFilters, description);
 

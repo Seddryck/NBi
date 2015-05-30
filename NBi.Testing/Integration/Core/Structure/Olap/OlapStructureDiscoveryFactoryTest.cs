@@ -13,7 +13,7 @@ namespace NBi.Testing.Integration.Core.Structure.Olap
     public class OlapServiceStructureDiscoveryFactoryTest
     {
         [Test]
-        public void Execute_Perspective_ListStructureContainingSevenElements()
+        public void Execute_Perspective_ListStructureContainingCorrectCountOfElements()
         {
             var conn = new AdomdConnection(ConnectionStringReader.GetAdomd());
             var factory = new OlapStructureDiscoveryFactory(conn);
@@ -23,7 +23,7 @@ namespace NBi.Testing.Integration.Core.Structure.Olap
 
             var structs = cmd.Execute();
 
-            Assert.That(structs.Count(), Is.EqualTo(7));
+            Assert.That(structs.Count(), Is.EqualTo(6));
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace NBi.Testing.Integration.Core.Structure.Olap
         }
 
         [Test]
-        public void Execute_DateDimensionWithHeighTeenHierarchies_ListStructureContainingHeighTeenElements()
+        public void Execute_DateDimensionWithHeighTeenHierarchies_ListStructureContainingCorrectCountOfElements()
         {
             var conn = new AdomdConnection(ConnectionStringReader.GetAdomd());
             var factory = new OlapStructureDiscoveryFactory(conn);
@@ -58,7 +58,7 @@ namespace NBi.Testing.Integration.Core.Structure.Olap
         }
 
         [Test]
-        public void Execute_CalendarHierarchyWithSixLevels_ListStructureContainingSixElements()
+        public void Execute_CalendarHierarchyWithSixLevels_ListStructureContainingCorrectCountOfElements()
         {
             var conn = new AdomdConnection(ConnectionStringReader.GetAdomd());
             var factory = new OlapStructureDiscoveryFactory(conn);
@@ -75,7 +75,7 @@ namespace NBi.Testing.Integration.Core.Structure.Olap
         }
 
         [Test]
-        public void Execute_MonthLevelWithTwoProperties_ListStructureContainingTwoElements()
+        public void Execute_MonthLevelWithTwoProperties_ListStructureContainingCorrectCountOfElements()
         {
             var conn = new AdomdConnection(ConnectionStringReader.GetAdomd());
             var factory = new OlapStructureDiscoveryFactory(conn);
@@ -93,7 +93,7 @@ namespace NBi.Testing.Integration.Core.Structure.Olap
         }
 
         [Test]
-        public void Execute_MeasureGroupsForCubeFinance_TwoElements()
+        public void Execute_MeasureGroupsForCubeFinance_CorrectCountOfElements()
         {
             var conn = new AdomdConnection(ConnectionStringReader.GetAdomd());
             var factory = new OlapStructureDiscoveryFactory(conn);
@@ -108,7 +108,7 @@ namespace NBi.Testing.Integration.Core.Structure.Olap
         }
 
         [Test]
-        public void Execute_MeasuresForMeasureGroupInternetSales_FourteenElements()
+        public void Execute_MeasuresForMeasureGroupInternetSales_CorrectCountOfElements()
         {
             var conn = new AdomdConnection(ConnectionStringReader.GetAdomd());
             var factory = new OlapStructureDiscoveryFactory(conn);
@@ -124,7 +124,7 @@ namespace NBi.Testing.Integration.Core.Structure.Olap
         }
 
         [Test]
-        public void Execute_SetsWithPerspective_ListStructureContainingFourElements()
+        public void Execute_SetsWithPerspective_ListStructureContainingCorrectCountOfElements()
         {
             var conn = new AdomdConnection(ConnectionStringReader.GetAdomd());
             var factory = new OlapStructureDiscoveryFactory(conn);
@@ -155,7 +155,7 @@ namespace NBi.Testing.Integration.Core.Structure.Olap
         }
 
         [Test]
-        public void Execute_MeasureGroupSalesOrdersLinkedTo_ListStructureContainingNineElements()
+        public void Execute_MeasureGroupSalesOrdersLinkedTo_ListStructureContainingCorrectCountOfElements()
         {
             var conn = new AdomdConnection(ConnectionStringReader.GetAdomd());
             var factory = new OlapStructureDiscoveryFactory(conn);

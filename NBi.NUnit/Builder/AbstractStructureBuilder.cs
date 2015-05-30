@@ -75,7 +75,7 @@ namespace NBi.NUnit.Builder
                 yield return new CaptionFilter(itselfTarget, item.Caption);
         }
 
-        protected Target BuildTarget(AbstractItem item)
+        protected virtual Target BuildTarget(AbstractItem item)
         {
 
             if (item is MeasuresXml || item is MeasureXml)

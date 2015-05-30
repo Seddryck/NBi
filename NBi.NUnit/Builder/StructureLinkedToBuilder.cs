@@ -6,6 +6,7 @@ using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NBi.Core.Structure;
 using System.Collections.Generic;
+using NBi.Xml.Items.Filters;
 
 namespace NBi.NUnit.Builder
 {
@@ -52,6 +53,28 @@ namespace NBi.NUnit.Builder
             return command;
         }
 
+        protected override Target BuildTarget(AbstractItem item)
+        {
+
+            if (item is MeasureGroupXml)
+                return Target.Dimensions;
+            if (item is DimensionXml)
+                return Target.MeasureGroups;
+            else
+                throw new ArgumentException(item.GetType().Name);
+        }
+
+        protected override IEnumerable<CaptionFilter> BuildFilters(AbstractItem item)
+        {
+            if (item is IPerspectiveFilter)
+                yield return new CaptionFilter(Target.Perspectives, ((IPerspectiveFilter)item).Perspective);
+            
+            var itselfTarget = Target.Dimensions;
+            if (item is MeasureGroupXml)
+                itselfTarget=Target.MeasureGroups;
+            
+            yield return new CaptionFilter(itselfTarget, item.Caption);                
+        }
 
     }
 }

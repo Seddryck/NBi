@@ -1,11 +1,12 @@
-﻿using System;
+﻿using NBi.Xml.Items.Filters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
 namespace NBi.Xml.Items
 {
-    public class LevelXml : DimensionXml
+    public class LevelXml : DimensionXml, IHierarchyFilter, IDimensionFilter
     {
         [XmlAttribute("dimension")]
         public string Dimension { get; set; }

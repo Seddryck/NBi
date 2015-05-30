@@ -10,6 +10,7 @@ using NBi.Xml.Items;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using NUnit.Framework;
+using NBi.Core.Structure.Olap;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -55,7 +56,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             //Buiding object used during test
             var sutXml = new StructureXml();
             sutXml.Item = new MeasureGroupsXml();
-            sutXml.Item.ConnectionString = "ConnectionString";
+            sutXml.Item.ConnectionString = ConnectionStringReader.GetAdomd();
             ((MeasureGroupsXml)sutXml.Item).Perspective = "Perspective";
 
             var ctrXml = new EquivalentToXml();
@@ -92,7 +93,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             sutXml.Item = new MeasureGroupsXml();
             ((MeasureGroupsXml)sutXml.Item).Perspective = "Perspective";
 
-            sutXml.Default = new DefaultXml() { ConnectionString = "connectionString-default" };
+            sutXml.Default = new DefaultXml() { ConnectionString = ConnectionStringReader.GetAdomd() };
 
             var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
@@ -101,8 +102,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
-            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
-            Assert.That(((MetadataDiscoveryRequest)sut).ConnectionString, Is.EqualTo("connectionString-default"));
+            Assert.That(sut, Is.InstanceOf<OlapCommand>());
         }
 
 
@@ -119,14 +119,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var sutXml = new StructureXml();
             sutXml.Item = new PerspectivesXml();
-            sutXml.Item.ConnectionString = "ConnectionString";
+            sutXml.Item.ConnectionString = ConnectionStringReader.GetAdomd();
             var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
-            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
+            Assert.That(sut, Is.InstanceOf<OlapCommand>());
         }
         
         //**********************
@@ -142,7 +142,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var sutXml = new StructureXml();
             sutXml.Item = new MeasureGroupsXml();
-            sutXml.Item.ConnectionString = "ConnectionString";
+            sutXml.Item.ConnectionString = ConnectionStringReader.GetAdomd();
             ((MeasureGroupsXml)sutXml.Item).Perspective = "Perspective";
             var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
@@ -151,7 +151,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
-            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
+            Assert.That(sut, Is.InstanceOf<OlapCommand>());
         }
 
         [Test]
@@ -163,7 +163,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var sutXml = new StructureXml();
             sutXml.Item = new MeasureGroupsXml();
-            sutXml.Item.ConnectionString = "ConnectionString";
+            sutXml.Item.ConnectionString = ConnectionStringReader.GetAdomd();
             ((MeasureGroupsXml)sutXml.Item).Perspective = "Perspective";
             var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
@@ -171,25 +171,10 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
-            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
+            Assert.That(sut, Is.InstanceOf<OlapCommand>());
         }
         
-        [Test]
-        public void GetSystemUnderTest_IncorrectMeasureGroupTargetWithoutPerspective_ThrowException()
-        {
-            //Buiding object used during test
-            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
-            var ctrXml = ctrXmlStubFactory.Object;
-
-            var sutXml = new StructureXml();
-            sutXml.Item = new MeasureGroupsXml();
-            sutXml.Item.ConnectionString = "ConnectionString";
-
-            var builder = new StructureEquivalentToBuilder();
-            builder.Setup(sutXml, ctrXml);
-            //Assertion
-            Assert.Throws<DiscoveryRequestFactoryException>(delegate { builder.Build(); });
-        }
+        
 
         //**********************
         //       Measure
@@ -204,7 +189,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var sutXml = new StructureXml();
             sutXml.Item = new MeasuresXml();
-            sutXml.Item.ConnectionString = "ConnectionString";
+            sutXml.Item.ConnectionString = ConnectionStringReader.GetAdomd();
             ((MeasuresXml)sutXml.Item).Perspective = "Perspective";
             ((MeasuresXml)sutXml.Item).MeasureGroup = "MeasureGroup";
             var builder = new StructureEquivalentToBuilder();
@@ -213,7 +198,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
-            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
+            Assert.That(sut, Is.InstanceOf<OlapCommand>());
         }
 
         //**********************
@@ -229,7 +214,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var sutXml = new StructureXml();
             var dim = new DimensionsXml();
-            dim.ConnectionString = "ConnectionString";
+            dim.ConnectionString = ConnectionStringReader.GetAdomd();
             dim.Perspective = "Perspective";
             sutXml.Item = dim;
 
@@ -240,26 +225,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
             
             //Assertion
-            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
-        }
-
-
-
-        [Test]
-        public void GetSystemUnderTest_IncorrectDimensionTargetWithoutPerspective_ThrowException()
-        {
-            //Buiding object used during test
-            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
-            var ctrXml = ctrXmlStubFactory.Object;
-
-            var sutXml = new StructureXml();
-            sutXml.Item = new DimensionsXml();
-            sutXml.Item.ConnectionString = "ConnectionString";
-
-            var builder = new StructureEquivalentToBuilder();
-            builder.Setup(sutXml, ctrXml);
-            //Assertion
-            Assert.Throws<DiscoveryRequestFactoryException>(delegate { builder.Build(); });
+            Assert.That(sut, Is.InstanceOf<OlapCommand>());
         }
 
         //**********************
@@ -275,7 +241,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var sutXml = new StructureXml();
             sutXml.Item = new DimensionsXml();
-            sutXml.Item.ConnectionString = "ConnectionString";
+            sutXml.Item.ConnectionString = ConnectionStringReader.GetAdomd();
             ((DimensionsXml)sutXml.Item).Perspective = "Perspective";
 
             var builder = new StructureEquivalentToBuilder();
@@ -285,27 +251,9 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
-            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
+            Assert.That(sut, Is.InstanceOf<OlapCommand>());
         }
 
-        
-
-        [Test]
-        public void GetSystemUnderTest_IncorrectHierarchyTargetWithoutPerspective_ThrowException()
-        {
-            //Buiding object used during test
-            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
-            var ctrXml = ctrXmlStubFactory.Object;
-
-            var sutXml = new StructureXml();
-            sutXml.Item = new DimensionsXml();
-            sutXml.Item.ConnectionString = "ConnectionString";
-
-            var builder = new StructureEquivalentToBuilder();
-            builder.Setup(sutXml, ctrXml);
-            //Assertion
-            Assert.Throws<DiscoveryRequestFactoryException>(delegate { builder.Build(); });
-        }
 
         //**********************
         //       Levels
@@ -321,7 +269,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var sutXml = new StructureXml();
             sutXml.Item = new LevelsXml();
-            sutXml.Item.ConnectionString = "ConnectionString";
+            sutXml.Item.ConnectionString = ConnectionStringReader.GetAdomd();
             ((LevelsXml)sutXml.Item).Perspective = "Perspective";
             ((LevelsXml)sutXml.Item).Dimension = "Dimension";
             ((LevelsXml)sutXml.Item).Hierarchy = "Hierarchy";
@@ -331,26 +279,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
-            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
-        }
-
-        [Test]
-        public void GetSystemUnderTest_InCorrectLevelTargetWithoutHierarchy_ThrowException()
-        {
-            //Buiding object used during test
-            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
-            var ctrXml = ctrXmlStubFactory.Object;
-
-            var sutXml = new StructureXml();
-            sutXml.Item = new LevelsXml();
-            sutXml.Item.ConnectionString = "ConnectionString";
-            ((LevelsXml)sutXml.Item).Perspective = "Perspective";
-            ((LevelsXml)sutXml.Item).Dimension = "Dimension";
-
-            var builder = new StructureEquivalentToBuilder();
-            builder.Setup(sutXml, ctrXml);
-            //Assertion
-            Assert.Throws<DiscoveryRequestFactoryException>(delegate { builder.Build(); });
+            Assert.That(sut, Is.InstanceOf<OlapCommand>());
         }
 
         //**********************
@@ -367,7 +296,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var sutXml = new StructureXml();
             sutXml.Item = new PropertiesXml();
-            sutXml.Item.ConnectionString = "ConnectionString";
+            sutXml.Item.ConnectionString = ConnectionStringReader.GetAdomd();
             ((PropertiesXml)sutXml.Item).Perspective = "Perspective";
             ((PropertiesXml)sutXml.Item).Dimension = "Dimension";
             ((PropertiesXml)sutXml.Item).Hierarchy = "Hierarchy";
@@ -378,27 +307,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
-            Assert.That(sut, Is.InstanceOf<MetadataDiscoveryRequest>());
-        }
-
-        [Test]
-        public void GetSystemUnderTest_InCorrectLevelTargetWithoutLevel_ThrowException()
-        {
-            //Buiding object used during test
-            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
-            var ctrXml = ctrXmlStubFactory.Object;
-
-            var sutXml = new StructureXml();
-            sutXml.Item = new PropertiesXml();
-            sutXml.Item.ConnectionString = "ConnectionString";
-            ((PropertiesXml)sutXml.Item).Perspective = "Perspective";
-            ((PropertiesXml)sutXml.Item).Dimension = "Dimension";
-            ((PropertiesXml)sutXml.Item).Hierarchy = "Hierarchy";
-
-            var builder = new StructureEquivalentToBuilder();
-            builder.Setup(sutXml, ctrXml);
-            //Assertion
-            Assert.Throws<DiscoveryRequestFactoryException>(delegate { builder.Build(); });
+            Assert.That(sut, Is.InstanceOf<OlapCommand>());
         }
 
     }

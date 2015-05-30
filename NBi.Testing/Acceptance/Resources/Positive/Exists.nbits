@@ -107,7 +107,7 @@
 			<exists/>
 		</assert>
 	</test>
-	<test name="In Measure-group '{sut:measure-group}', and display-folder '{sut:display-folder}', a measure '{sut:caption}' exists" uid="0007">
+  <test name="In Measure-group '{sut:measure-group}', and display-folder '{sut:display-folder}', a measure '{sut:caption}' exists" uid="0007">
 		<system-under-test>
 			<structure>
 				<measure caption="Reseller Order Quantity" measure-group="Reseller Sales" display-folder="" perspective="Adventure Works"/>
@@ -117,7 +117,7 @@
 			<exists/>
 		</assert>
 	</test>
-	<test name="In perspective 'Internet Operation', the table 'Customer' exists">
+  <test name="In perspective 'Internet Operation', the table 'Customer' exists">
 		<category>Tabular</category>
 		<system-under-test>
 			<structure>

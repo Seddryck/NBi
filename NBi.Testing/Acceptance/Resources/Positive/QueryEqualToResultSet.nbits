@@ -452,7 +452,7 @@
 	>
           select
           'Water'
-          , '-0.41'
+          , '-0.401'
           , '101.1'
           union all
           select

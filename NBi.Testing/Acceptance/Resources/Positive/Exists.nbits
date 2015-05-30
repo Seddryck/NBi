@@ -2,7 +2,7 @@
 <testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="system-under-test">
-			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2014;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
 		</default>
 	</settings>
 	<test name="In dimension 'Customers', hierarchy 'State-Provinces', level 'State-Provinces' a property 'capital' is not existing " uid="0001">
@@ -122,7 +122,7 @@
 		<system-under-test>
 			<structure>
 				<table caption="Customer" perspective="Internet Operation"
-					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2014TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"		  
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"		  
 				/>
 			</structure>
 		</system-under-test>
@@ -135,7 +135,7 @@
 		<system-under-test>
 			<structure>
 				<column caption="Birth Date" table="Customer" perspective="Internet Operation"
-					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2014TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"		  
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"		  
 				/>
 			</structure>
 		</system-under-test>

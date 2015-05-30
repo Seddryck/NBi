@@ -38,7 +38,7 @@ namespace NBi.NUnit.Structure
             NUnitCtr.Constraint ctr = null;
             foreach (var item in Expected)
             {
-                var localCtr = new NUnitCtr.CollectionContainsConstraint(StringComparerHelper.Build(item));
+                var localCtr = new NUnitCtr.CollectionContainsConstraint(item);
                 var usingCtr = localCtr.Using(Comparer);
 
                 if (ctr != null)
@@ -79,12 +79,14 @@ namespace NBi.NUnit.Structure
         public override void WriteDescriptionTo(MessageWriter writer)
         {
             var description = new DescriptionStructureHelper();
-            var filterExpression = description.GetFilterExpression(Request.GetAllFilters());
+            var filterExpression = description.GetFilterExpression(Command.Description.Filters);
+            if (!string.IsNullOrEmpty(filterExpression))
+                filterExpression = string.Format(" contained {0}", filterExpression);
 
             if (Expected.Count() == 1)
             {
-                writer.WritePredicate(string.Format("find a {0} named '{1}' contained {2}",
-                    description.GetTargetExpression(Request.Target),
+                writer.WritePredicate(string.Format("find a {0} named '{1}'{2}.",
+                    description.GetTargetExpression(Command.Description.Target),
                     Expected.First(),
                     filterExpression));
             }
@@ -95,8 +97,8 @@ namespace NBi.NUnit.Structure
                     expectationExpression.AppendFormat("<{0}>, ", item);
                 expectationExpression.Remove(expectationExpression.Length - 2, 2);
 
-                writer.WritePredicate(string.Format("find the {0} named '{1}' contained {2}",
-                    description.GetTargetPluralExpression(Request.Target),
+                writer.WritePredicate(string.Format("find the {0} named '{1}'{2}.",
+                    description.GetTargetPluralExpression(Command.Description.Target),
                     expectationExpression.ToString(),
                     filterExpression));
             }

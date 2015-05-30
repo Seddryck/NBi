@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NBi.Core.Analysis.Metadata.Adomd;
 using NBi.Core.Analysis.Request;
 using NBi.Xml.Items;
 

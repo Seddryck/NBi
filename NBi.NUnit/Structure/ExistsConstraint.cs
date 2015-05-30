@@ -2,67 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using NBi.Core;
-using NBi.Core.Analysis.Metadata;
+using NBi.Core.Structure;
 using NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Structure
 {
-    public class ExistsConstraint : AbstractStructureConstraint
+    public class ExistsConstraint : ContainConstraint
     {
-        protected string Expected
+        private new string Expected
         {
-            get
-            {
-                return Request.GetAllFilters().Single(f => f.Target == Request.Target).Value;
-            }
+            get { return base.Expected.ElementAt(0); }
         }
 
         /// <summary>
         /// Construct a ExistsConstraint
         /// </summary>
-        public ExistsConstraint()
-            : base()
+        public ExistsConstraint(string expected)
+            : base(expected)
         {
         }
 
-        #region Modifiers
-        /// <summary>
-        /// Flag the constraint to ignore case and return self.
-        /// </summary>
         public new ExistsConstraint IgnoreCase
         {
             get
             {
-                base.IgnoreCase();
-                return this;
-            }
-        }
-
-        #endregion
-
-        protected void Investigate()
-        {
-            var factory = CommandFactory;
-            var command = factory.BuildExternal(Request);
-            IEnumerable<IField> structures = command.Execute();
-
-            if (structures.Count() > 0)
-            {
-                this.actual = structures;
-            }
-        }
-
-        protected override Constraint InternalConstraint
-        {
-            get
-            {
-                if (base.InternalConstraint==null)
-                    base.InternalConstraint = new CollectionContainsConstraint(StringComparerHelper.Build(Expected));
-                return base.InternalConstraint;
-            }
-            set
-            {
-                base.InternalConstraint = value;
+                return (base.IgnoreCase as ExistsConstraint);
             }
         }
 
@@ -72,12 +36,12 @@ namespace NBi.NUnit.Structure
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
-            if (Request != null)
+            if (Command != null)
             {
                 var description = new DescriptionStructureHelper();
-                var filterExpression = description.GetFilterExpression(Request.GetAllFilters().Where(f => f.Target != Request.Target));
+                var filterExpression = description.GetFilterExpression(Command.Description.Filters.Where(f => f.Target != Command.Description.Target));
                 var notExpression = description.GetNotExpression(true);
-                var targetExpression = description.GetTargetExpression(Request.Target);
+                var targetExpression = description.GetTargetExpression(Command.Description.Target);
                 var captionExpression = Expected;
 
                 writer.WritePredicate(string.Format("find {0} {1} named '{2}' {3}"
@@ -91,32 +55,45 @@ namespace NBi.NUnit.Structure
         public override void WriteActualValueTo(MessageWriter writer)
         {
             //IF actual is not empty it means we've an issue with Casing or a space at the end
-            if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() == 1)
-            {
-                if (((IEnumerable<IField>)actual).ToArray()[0].Caption.ToLowerInvariant() == Expected.ToLowerInvariant())
-                    writer.WriteActualValue(string.Format("< <{0}> > (case not matching)", ((IEnumerable<IField>)actual).ToArray()[0].Caption));
-                else if (((IEnumerable<IField>)actual).ToArray()[0].Caption.EndsWith(" "))
-                    writer.WriteActualValue(string.Format("< <{0}> > (with ending space(s))", ((IEnumerable<IField>)actual).ToArray()[0].Caption));
-                else
-                    writer.WriteActualValue(string.Format("< <{0}> > (small difference)", ((IEnumerable<IField>)actual).ToArray()[0].Caption));
+            if (!(actual is IEnumerable<string>))
+                return;
 
-            }
-            else
+            var isApproximate = false;
+            foreach (var actualItem in (actual as IEnumerable<string>))
             {
-                Investigate();
-                
-                if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() > 0)
-                    base.WriteActualValueTo(writer);
-                else
-                    writer.WriteActualValue(new WriterHelper.NothingFoundMessage());
+                var text = string.Empty;
+                if (actualItem.ToLowerInvariant() == Expected.ToLowerInvariant())
+                    text = string.Format("< <{0}> > (case not matching)", actualItem);
+                else if (actualItem.TrimEnd() == Expected)
+                    text = string.Format("< <{0}> > (with ending space(s))", actualItem);
+                else if (actualItem.TrimStart() == Expected)
+                    text = string.Format("< <{0}> > (with leading space(s))", actualItem);
+                else if (actualItem.ToLowerInvariant().Trim() == Expected.ToLowerInvariant().Trim())
+                    text = string.Format("< <{0}> > (small difference)", actualItem);
 
-                var closeMatch = GetCloseMatch();
-                if (!string.IsNullOrEmpty(closeMatch))
+                if (!string.IsNullOrEmpty(text))
                 {
-                    writer.WriteMessageLine("");
-                    writer.WriteMessageLine("");
-                    writer.WriteMessageLine(string.Format("The value '{0}' is close to your expectation.", closeMatch));
-                    writer.DisplayStringDifferences(Expected, closeMatch, -1, false, true);
+                    writer.WriteActualValue(text);
+                    isApproximate = true;
+                }
+            }
+
+            if (!isApproximate)
+            {
+   
+                if (((IEnumerable<string>)actual).Count() == 0)
+                    writer.WriteActualValue(new WriterHelper.NothingFoundMessage());
+                else
+                {
+                    base.WriteActualValueTo(writer);
+                    var closeMatch = GetCloseMatch();
+                    if (!string.IsNullOrEmpty(closeMatch))
+                    {
+                        writer.WriteMessageLine("");
+                        writer.WriteMessageLine("");
+                        writer.WriteMessageLine(string.Format("The value '{0}' is close to your expectation.", closeMatch));
+                        writer.DisplayStringDifferences(Expected, closeMatch, -1, false, true);
+                    }
                 }
             }
         }
@@ -126,26 +103,26 @@ namespace NBi.NUnit.Structure
             var closestDistance = int.MaxValue;
             var closestValue = string.Empty;
 
-            foreach (IField value in ((IEnumerable<IField>)actual))
+            foreach (string value in ((IEnumerable<string>)actual))
             {
-                var dist = value.Caption.LevenshteinDistance(Expected);
+                var dist = value.LevenshteinDistance(Expected);
                 if ( closestDistance > dist )
                 {
                     closestDistance = dist;
-                    closestValue = value.Caption;
+                    closestValue = value;
                 }
             }
 
             if (closestDistance <= 3)
                 return closestValue;
 
-            foreach (IField value in ((IEnumerable<IField>)actual))
+            foreach (string value in ((IEnumerable<string>)actual))
             {
-                var dist = value.Caption.RemoveDiacritics().LevenshteinDistance(Expected.RemoveDiacritics());
+                var dist = value.RemoveDiacritics().LevenshteinDistance(Expected.RemoveDiacritics());
                 if (closestDistance > dist)
                 {
                     closestDistance = dist;
-                    closestValue = value.Caption;
+                    closestValue = value;
                 }
             }
 
@@ -154,8 +131,5 @@ namespace NBi.NUnit.Structure
 
             return string.Empty;
         }
-
-        
-        
     }
 }

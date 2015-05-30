@@ -5,6 +5,7 @@ using NBi.NUnit.Structure;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
+using NBi.Core.Structure;
 
 namespace NBi.NUnit.Builder
 {
@@ -16,8 +17,8 @@ namespace NBi.NUnit.Builder
         {
         }
 
-        internal StructureExistsBuilder(MetadataDiscoveryRequestBuilder factory)
-            : base(factory)
+        internal StructureExistsBuilder(StructureDiscoveryFactoryProvider discoveryProvider)
+            : base(discoveryProvider)
         {
         }
 
@@ -26,17 +27,24 @@ namespace NBi.NUnit.Builder
             if (!(ctrXml is ExistsXml))
                 throw new ArgumentException("Constraint must be a 'ExistsXml'");
 
+            if (!(sutXml is StructureXml))
+                throw new ArgumentException("System-under-test must be a 'StructureXml'");
+
+            SystemUnderTestXml = (StructureXml)sutXml;
+
             ConstraintXml = (ExistsXml)ctrXml;
         }
 
         protected override void SpecificBuild()
         {
-            Constraint = InstantiateConstraint(ConstraintXml);
+            Constraint = InstantiateConstraint(ConstraintXml, SystemUnderTestXml);
         }
 
-        protected NBiConstraint InstantiateConstraint(ExistsXml ctrXml)
+        protected NBiConstraint InstantiateConstraint(ExistsXml ctrXml, StructureXml sutXml)
         {
-            var ctr = new ExistsConstraint();
+            var expected = sutXml.Item.Caption;
+
+            var ctr = new ExistsConstraint(expected);
             //Ignore-case if requested
             if (ctrXml.IgnoreCase)
                 ctr = ctr.IgnoreCase;

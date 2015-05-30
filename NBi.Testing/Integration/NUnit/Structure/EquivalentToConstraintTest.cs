@@ -53,7 +53,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , TargetType.Object
                         , new CaptionFilter[]{});
 
-            var expected = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
+            var expected = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Sales Summary", "Sales Targets" };
             var ctr = new EquivalentToConstraint(expected);
 
             //Method under test
@@ -70,7 +70,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , TargetType.Object
                         , new CaptionFilter[] { });
 
-            var expected = new string[] { "Adventure Works".ToLower(), "Channel Sales".ToUpper(), "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
+            var expected = new string[] { "Adventure Works".ToLower(), "Channel Sales".ToUpper(), "Direct Sales", "Finance", "Sales Summary", "Sales Targets" };
             var ctr = new EquivalentToConstraint(expected);
             ctr = ctr.IgnoreCase;
 

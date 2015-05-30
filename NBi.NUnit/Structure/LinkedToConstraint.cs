@@ -49,17 +49,13 @@ namespace NBi.NUnit.Structure
                 var description = new DescriptionStructureHelper();
                 var notExpression = description.GetNotExpression(true);
                 var targetExpression = description.GetTargetExpression(Command.Description.Target);
-                var targetCaptionExpression = Command.Description.Filters.Single(f => f.Target == Command.Description.Target).Caption;
                 var captionExpression = Expected;
-                var assertExpression = targetExpression.Contains("dim") ? "measure-group" : "dimension";
-                var filterExpression = description.GetFilterExpression(Command.Description.Filters.Where(f => f.Target != Command.Description.Target));
+                var filterExpression = description.GetFilterExpression(Command.Description.Filters.Where(f => f.Target != Command.Description.Target)).Remove(0,3);
 
-                writer.WritePredicate(string.Format("find {0} {1} named '{2}' linked to {3} '{4}' {5}"
+                writer.WritePredicate(string.Format("find {0} {1} named '{2}' linked to {3}"
                             , notExpression
-                            , assertExpression
-                            , captionExpression
                             , targetExpression
-                            , targetCaptionExpression
+                            , captionExpression
                             , filterExpression));
             }
         }

@@ -452,7 +452,7 @@
 	>
           select
           'Water'
-          , '-0.4'
+          , '-0.41'
           , '101.1'
           union all
           select
@@ -467,7 +467,7 @@
         <resultSet>
           <row>
             <cell>Water</cell>
-            <cell>0</cell>
+            <cell>-0.4</cell>
             <cell>100</cell>
           </row>
           <row>
@@ -488,6 +488,7 @@
           select
           'Water'
           , 101.8
+          , -0.4
         </query>
       </execution>
     </system-under-test>
@@ -498,6 +499,7 @@
           <row>
             <cell>Water</cell>
             <cell>100</cell>
+            <cell>-1</cell>
           </row>
         </resultSet>
       </equalTo>

@@ -1,8 +1,8 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using NBi.Core.Analysis.Request;
 using NBi.NUnit.Structure;
 using NUnit.Framework;
+using NBi.Core.Structure;
 #endregion
 
 namespace NBi.Testing.Integration.NUnit.Structure
@@ -42,10 +42,12 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void Matches_ActualEqualToExpectation_Success()
         {
-            var discovery = new DiscoveryRequestFactory().BuildDirect(
-                        ConnectionStringReader.GetAdomd()
-                        , DiscoveryTarget.Perspectives
-                        , new List<IFilter>());
+            var provider = new StructureDiscoveryFactoryProvider();
+            var factory = provider.Instantiate(ConnectionStringReader.GetAdomd());
+            var discovery = factory.Instantiate(
+                        Target.Perspectives
+                        , TargetType.Object
+                        , new CaptionFilter[] { });
 
             var expected = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
             var ctr = new SubsetOfConstraint(expected);
@@ -58,10 +60,12 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void Matches_ActualEqualToExpectationCaseNonMatching_Success()
         {
-            var discovery = new DiscoveryRequestFactory().BuildDirect(
-                        ConnectionStringReader.GetAdomd()
-                        , DiscoveryTarget.Perspectives
-                        , new List<IFilter>());
+            var provider = new StructureDiscoveryFactoryProvider();
+            var factory = provider.Instantiate(ConnectionStringReader.GetAdomd());
+            var discovery = factory.Instantiate(
+                        Target.Perspectives
+                        , TargetType.Object
+                        , new CaptionFilter[] { });
 
             var expected = new string[] { "Adventure Works".ToUpper(), "Channel Sales".ToLower(), "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
             var ctr = new SubsetOfConstraint(expected);
@@ -75,10 +79,12 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void Matches_ActualMoreThanExpectation_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().BuildDirect(
-                        ConnectionStringReader.GetAdomd()
-                        , DiscoveryTarget.Perspectives
-                        , new List<IFilter>());
+            var provider = new StructureDiscoveryFactoryProvider();
+            var factory = provider.Instantiate(ConnectionStringReader.GetAdomd());
+            var discovery = factory.Instantiate(
+                        Target.Perspectives
+                        , TargetType.Object
+                        , new CaptionFilter[] { });
 
             var expectedStrings = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
             var expected = new List<string>();
@@ -94,10 +100,12 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void Matches_ActualSubsetOfExpectation_Sucess()
         {
-            var discovery = new DiscoveryRequestFactory().BuildDirect(
-                        ConnectionStringReader.GetAdomd()
-                        , DiscoveryTarget.Perspectives
-                        , new List<IFilter>());
+            var provider = new StructureDiscoveryFactoryProvider();
+            var factory = provider.Instantiate(ConnectionStringReader.GetAdomd());
+            var discovery = factory.Instantiate(
+                        Target.Perspectives
+                        , TargetType.Object
+                        , new CaptionFilter[] { });
 
             var expectedStrings = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
             var expected = new List<string>();

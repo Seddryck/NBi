@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NBi.Core.Analysis.Request;
+using NBi.Core.Structure;
 
 namespace NBi.NUnit.Structure
 {
     internal class DescriptionStructureHelper
     {
-        public string GetFilterExpression(IEnumerable<IFilter> filters)
+        public string GetFilterExpression(IEnumerable<CaptionFilter> filters)
         {
             var texts = new List<string>();
             foreach (var filter in filters)
@@ -15,19 +15,19 @@ namespace NBi.NUnit.Structure
                 var text = string.Empty;
                 switch (filter.Target)
                 {
-                    case DiscoveryTarget.Perspectives:
+                    case Target.Perspectives:
                         text = "in perspective '{0}'";
                         break;
-                    case DiscoveryTarget.MeasureGroups:
+                    case Target.MeasureGroups:
                         text = "in measure-group '{0}'";
                         break;
-                    case DiscoveryTarget.Dimensions:
+                    case Target.Dimensions:
                         text = "in dimension '{0}'";
                         break;
-                    case DiscoveryTarget.Hierarchies:
+                    case Target.Hierarchies:
                         text = "in hierarchy '{0}'";
                         break;
-                    case DiscoveryTarget.Levels:
+                    case Target.Levels:
                         text = "at level '{0}'";
                         break;
                     default:
@@ -35,35 +35,35 @@ namespace NBi.NUnit.Structure
                 }
                 if (text.Length > 0)
                 {
-                    text = string.Format(text, filter.Value);
+                    text = string.Format(text, filter.Caption);
                     texts.Add(text);
                 }
             }
             texts.Reverse();
-            return string.Concat(string.Join(", ", texts.ToArray()), ".");
+            return string.Join(", ", texts.ToArray());
         }
 
-        public string GetTargetExpression(DiscoveryTarget target)
+        public string GetTargetExpression(Target target)
         {
             var text = string.Empty;
             switch (target)
             {
-                case DiscoveryTarget.Perspectives:
+                case Target.Perspectives:
                     text = "perspective";
                     break;
-                case DiscoveryTarget.MeasureGroups:
+                case Target.MeasureGroups:
                     text = "measure-group";
                     break;
-                case DiscoveryTarget.Measures:
+                case Target.Measures:
                     text = "measure";
                     break;
-                case DiscoveryTarget.Dimensions:
+                case Target.Dimensions:
                     text = "dimension";
                     break;
-                case DiscoveryTarget.Hierarchies:
+                case Target.Hierarchies:
                     text = "hierarchy";
                     break;
-                case DiscoveryTarget.Levels:
+                case Target.Levels:
                     text = "level";
                     break;
                 default:
@@ -73,30 +73,30 @@ namespace NBi.NUnit.Structure
             return text;
         }
 
-        public string GetTargetPluralExpression(DiscoveryTarget target)
+        public string GetTargetPluralExpression(Target target)
         {
             var text = string.Empty;
             switch (target)
             {
-                case DiscoveryTarget.Perspectives:
+                case Target.Perspectives:
                     text = "perspectives";
                     break;
-                case DiscoveryTarget.MeasureGroups:
+                case Target.MeasureGroups:
                     text = "measure-groups";
                     break;
-                case DiscoveryTarget.Measures:
+                case Target.Measures:
                     text = "measures";
                     break;
-                case DiscoveryTarget.Dimensions:
+                case Target.Dimensions:
                     text = "dimensions";
                     break;
-                case DiscoveryTarget.Hierarchies:
+                case Target.Hierarchies:
                     text = "hierarchies";
                     break;
-                case DiscoveryTarget.Levels:
+                case Target.Levels:
                     text = "levels";
                     break;
-                case DiscoveryTarget.Properties:
+                case Target.Properties:
                     text = "properties";
                     break;
                 default:
@@ -106,21 +106,21 @@ namespace NBi.NUnit.Structure
             return text;
         }
 
-        public string GetNextTargetExpression(DiscoveryTarget target)
+        public string GetNextTargetExpression(Target target)
         {
             var text = string.Empty;
             switch (target)
             {
-                case DiscoveryTarget.MeasureGroups:
+                case Target.MeasureGroups:
                     text = "measure";
                     break;
-                case DiscoveryTarget.Dimensions:
+                case Target.Dimensions:
                     text = "hierarchy";
                     break;
-                case DiscoveryTarget.Hierarchies:
+                case Target.Hierarchies:
                     text = "level";
                     break;
-                case DiscoveryTarget.Levels:
+                case Target.Levels:
                     text = "property";
                     break;
                 default:
@@ -130,21 +130,21 @@ namespace NBi.NUnit.Structure
             return text;
         }
 
-        public string GetNextTargetPluralExpression(DiscoveryTarget target)
+        public string GetNextTargetPluralExpression(Target target)
         {
             var text = string.Empty;
             switch (target)
             {
-                case DiscoveryTarget.MeasureGroups:
+                case Target.MeasureGroups:
                     text = "measures";
                     break;
-                case DiscoveryTarget.Dimensions:
+                case Target.Dimensions:
                     text = "hierarchies";
                     break;
-                case DiscoveryTarget.Hierarchies:
+                case Target.Hierarchies:
                     text = "levels";
                     break;
-                case DiscoveryTarget.Levels:
+                case Target.Levels:
                     text = "properties";
                     break;
                 default:

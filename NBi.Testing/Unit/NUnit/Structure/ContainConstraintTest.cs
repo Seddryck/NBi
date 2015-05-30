@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using Moq;
-using NBi.Core.Analysis.Metadata;
-using NBi.Core.Analysis.Metadata.Adomd;
-using NBi.Core.Analysis.Request;
+using NBi.Core.Structure;
 using NBi.NUnit.Structure;
 using NUnit.Framework;
 
@@ -12,119 +10,58 @@ namespace NBi.Testing.Unit.NUnit.Structure
     public class ContainConstraintTest
     {
         [Test]
-        public void Matches_GivenDiscoveryRequest_FactoryCalledOnceWithParametersComingFromRequest()
+        public void Matches_GivenCommand_CommandExecuteCalledOnce()
         {
             var exp = "Expected hierarchy";
-            var request = new DiscoveryRequestFactory().BuildDirect(
-                        "connectionString",
-                        DiscoveryTarget.Dimensions,
-                        new List<IFilter>()
+            var description = new CommandDescription(Target.Hierarchies,
+                        new CaptionFilter[]
                             {
-                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
-                                , new CaptionFilter("dimension-caption", DiscoveryTarget.Dimensions)
+                                new CaptionFilter(Target.Perspectives, "perspective-name")
+                                , new CaptionFilter(Target.Dimensions, "dimension-caption")
                         });
 
-            var elStub = new Mock<IField>();
-            var el1 = elStub.Object;
-            var el2 = elStub.Object;
-            var elements = new List<IField>();
-            elements.Add(el1);
-            elements.Add(el2);
+            var actuals = new string[] { "Actual hierarchy 1" };
 
-            var commandStub = new Mock<AdomdDiscoveryCommand>("connectionString");
-            commandStub.Setup(f => f.Execute())
-                .Returns(elements);
+            var commandMock = new Mock<IStructureDiscoveryCommand>();
+            commandMock.Setup(cmd => cmd.Execute()).Returns(actuals);
+            commandMock.Setup(cmd => cmd.Description).Returns(description);
 
-            var factoryMock = new Mock<AdomdDiscoveryCommandFactory>();
-            factoryMock.Setup(f => f.BuildExact(request))
-                .Returns(commandStub.Object);
-            var factory = factoryMock.Object;
 
-            var containsConstraint = new ContainConstraint(exp) { CommandFactory = factory };
+            var containsConstraint = new ContainConstraint(exp) {};
 
             //Method under test
-            containsConstraint.Matches(request);
+            containsConstraint.Matches(commandMock.Object);
 
             //Test conclusion            
-            factoryMock.Verify(f => f.BuildExact(request), Times.Once());
+            commandMock.Verify(cmd => cmd.Execute(), Times.Once());
         }
 
-        [Test]
-        public void Matches_GivenDiscoveryRequest_CommandCalledOnceWithParametersComingFromDiscoveryCommand()
-        {
-            var exp = "Expected measure";
-            var request = new DiscoveryRequestFactory().BuildDirect(
-                        "connectionString",
-                        DiscoveryTarget.MeasureGroups,
-                        new List<IFilter>()
-                            {
-                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
-                                , new CaptionFilter("measure-group", DiscoveryTarget.MeasureGroups)
-                        });
-
-
-            var elStub = new Mock<IField>();
-            var el1 = elStub.Object;
-            var el2 = elStub.Object;
-            var elements = new List<IField>();
-            elements.Add(el1);
-            elements.Add(el2);
-
-            var commandMock = new Mock<AdomdDiscoveryCommand>("connectionString");
-            commandMock.Setup(f => f.Execute())
-                .Returns(elements);
-
-            var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
-            factoryStub.Setup(f => f.BuildExact(request))
-                .Returns(commandMock.Object);
-            var factory = factoryStub.Object;
-
-            var containsConstraint = new ContainConstraint(exp) { CommandFactory = factory };
-
-            //Method under test
-            containsConstraint.Matches(request);
-
-            //Test conclusion            
-            commandMock.Verify(c => c.Execute(), Times.Once());
-        }
 
         [Test]
         public void WriteTo_FailingAssertionForOneDimension_TextContainsFewKeyInfo()
         {
             var exp = "Expected hierarchy";
-            var request = new DiscoveryRequestFactory().BuildDirect(
-                        "connectionString",
-                        DiscoveryTarget.Dimensions,
-                        new List<IFilter>()
+            var description = new CommandDescription(Target.Hierarchies,
+                        new CaptionFilter[]
                             {
-                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
-                                , new CaptionFilter("dimension-caption", DiscoveryTarget.Dimensions)
+                                new CaptionFilter(Target.Perspectives, "perspective-name")
+                                , new CaptionFilter(Target.Dimensions, "dimension-caption")
                         });
 
+            var actuals = new string[] { "Actual hierarchy 1" };
 
-            var elStub = new Mock<IField>();
-            var el1 = elStub.Object;
-            var el2 = elStub.Object;
-            var elements = new List<IField>();
-            elements.Add(el1);
-            elements.Add(el2);
+            var commandStub = new Mock<IStructureDiscoveryCommand>();
+            commandStub.Setup(cmd => cmd.Execute()).Returns(actuals);
+            commandStub.Setup(cmd => cmd.Description).Returns(description);
 
-            var commandStub = new Mock<AdomdDiscoveryCommand>("connectionString");
-            commandStub.Setup(f => f.Execute())
-                .Returns(elements);
 
-            var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
-            factoryStub.Setup(f => f.BuildExact(request))
-                .Returns(commandStub.Object);
-            var factory = factoryStub.Object;
-
-            var containsConstraint = new ContainConstraint(exp) { CommandFactory = factory };
+            var containsConstraint = new ContainConstraint(exp) { };
 
             //Method under test
             string assertionText = null;
             try
             {
-                Assert.That(request, containsConstraint);
+                Assert.That(commandStub.Object, containsConstraint);
             }
             catch (AssertionException ex)
             {
@@ -141,39 +78,27 @@ namespace NBi.Testing.Unit.NUnit.Structure
         public void WriteTo_FailingAssertionForOneMeasureGroup_TextContainsFewKeyInfo()
         {
             var exp = "Expected measure";
-            var request = new DiscoveryRequestFactory().BuildDirect(
-                        "connectionString",
-                        DiscoveryTarget.MeasureGroups,
-                        new List<IFilter>()
+            var description = new CommandDescription(Target.Hierarchies,
+                        new CaptionFilter[]
                             {
-                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
-                                , new CaptionFilter("measure-group-caption", DiscoveryTarget.MeasureGroups)
+                                new CaptionFilter(Target.Perspectives, "perspective-name")
+                                , new CaptionFilter(Target.MeasureGroups, "measure-group-caption")
                         });
 
 
-            var elStub = new Mock<IField>();
-            var el1 = elStub.Object;
-            var el2 = elStub.Object;
-            var elements = new List<IField>();
-            elements.Add(el1);
-            elements.Add(el2);
+            var actuals = new string[] { "Actual hierarchy 1" };
 
-            var commandStub = new Mock<AdomdDiscoveryCommand>("connectionString");
-            commandStub.Setup(f => f.Execute())
-                .Returns(elements);
+            var commandStub = new Mock<IStructureDiscoveryCommand>();
+            commandStub.Setup(cmd => cmd.Execute()).Returns(actuals);
+            commandStub.Setup(cmd => cmd.Description).Returns(description);
 
-            var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
-            factoryStub.Setup(f => f.BuildExact(request))
-                .Returns(commandStub.Object);
-            var factory = factoryStub.Object;
-
-            var containsConstraint = new ContainConstraint(exp) { CommandFactory = factory };
+            var containsConstraint = new ContainConstraint(exp) { };
 
             //Method under test
             string assertionText = null;
             try
             {
-                Assert.That(request, containsConstraint);
+                Assert.That(commandStub.Object, containsConstraint);
             }
             catch (AssertionException ex)
             {
@@ -186,97 +111,32 @@ namespace NBi.Testing.Unit.NUnit.Structure
                                             .StringContaining("Expected measure"));
         }
 
-        [Test]
-        public void WriteTo_FailingAssertionForOneHierarchy_TextContainsFewKeyInfo()
-        {
-            var exp = "Expected level";
-            var request = new DiscoveryRequestFactory().BuildDirect(
-                        "connectionString",
-                        DiscoveryTarget.Hierarchies,
-                        new List<IFilter>()
-                            {
-                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
-                                , new CaptionFilter("dimension-caption", DiscoveryTarget.Dimensions)
-                                , new CaptionFilter("hierarchy-caption", DiscoveryTarget.Hierarchies)
-                        });
-
-
-            var elStub = new Mock<IField>();
-            var el1 = elStub.Object;
-            var el2 = elStub.Object;
-            var elements = new List<IField>();
-            elements.Add(el1);
-            elements.Add(el2);
-
-            var commandStub = new Mock<AdomdDiscoveryCommand>("connectionString");
-            commandStub.Setup(f => f.Execute())
-                .Returns(elements);
-
-            var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
-            factoryStub.Setup(f => f.BuildExact(request))
-                .Returns(commandStub.Object);
-            var factory = factoryStub.Object;
-
-            var containsConstraint = new ContainConstraint(exp) { CommandFactory = factory };
-
-            //Method under test
-            string assertionText = null;
-            try
-            {
-                Assert.That(request, containsConstraint);
-            }
-            catch (AssertionException ex)
-            {
-                assertionText = ex.Message;
-            }
-
-            //Test conclusion            
-            Assert.That(assertionText, Is.StringContaining("perspective-name").And
-                                            .StringContaining("dimension-caption").And
-                                            .StringContaining("hierarchy-caption").And
-                                            .StringContaining("Expected level"));
-        }
 
         [Test]
         public void WriteTo_FailingAssertionForMultipleHierarchies_TextContainsFewKeyInfo()
         {
-            var exp = new List<string>();
-            exp.Add("Expected h1");
-            exp.Add("Expected h2");
+            var exp = new string[] {"Expected hierarchy 1", "Expected hierarchy 2"};
 
-            var request = new DiscoveryRequestFactory().BuildDirect(
-                        "connectionString",
-                        DiscoveryTarget.Hierarchies,
-                        new List<IFilter>()
+            var description = new CommandDescription(Target.Hierarchies,
+                       new CaptionFilter[]
                             {
-                                new CaptionFilter("perspective-name", DiscoveryTarget.Perspectives)
-                                , new CaptionFilter("dimension-caption", DiscoveryTarget.Dimensions)
+                                new CaptionFilter(Target.Perspectives, "perspective-name")
+                                , new CaptionFilter(Target.Dimensions, "dimension-caption")
                         });
 
+            var actuals = new string[] { "Actual hierarchy 1", "Actual hierarchy 2" };
 
-            var elStub = new Mock<IField>();
-            var el1 = elStub.Object;
-            var el2 = elStub.Object;
-            var elements = new List<IField>();
-            elements.Add(el1);
-            elements.Add(el2);
+            var commandStub = new Mock<IStructureDiscoveryCommand>();
+            commandStub.Setup(cmd => cmd.Execute()).Returns(actuals);
+            commandStub.Setup(cmd => cmd.Description).Returns(description);
 
-            var commandStub = new Mock<AdomdDiscoveryCommand>("connectionString");
-            commandStub.Setup(f => f.Execute())
-                .Returns(elements);
-
-            var factoryStub = new Mock<AdomdDiscoveryCommandFactory>();
-            factoryStub.Setup(f => f.BuildExact(request))
-                .Returns(commandStub.Object);
-            var factory = factoryStub.Object;
-
-            var containsConstraint = new ContainConstraint(exp) { CommandFactory = factory };
+            var containsConstraint = new ContainConstraint(exp) { };
 
             //Method under test
             string assertionText = null;
             try
             {
-                Assert.That(request, containsConstraint);
+                Assert.That(commandStub.Object, containsConstraint);
             }
             catch (AssertionException ex)
             {
@@ -287,8 +147,80 @@ namespace NBi.Testing.Unit.NUnit.Structure
             Assert.That(assertionText, Is.StringContaining("perspective-name").And
                                             .StringContaining("dimension-caption").And
                                             .StringContaining("hierarchies").And
-                                            .StringContaining("Expected h1"));
+                                            .StringContaining("Expected hierarchy 1").And
+                                            .StringContaining("Expected hierarchy 2"));
         }
-      
+
+        [Test]
+        public void WriteTo_FailingAssertionForOnePerspective_TextContainsFewKeyInfo()
+        {
+            var exp = "Expected perspective";
+            var description = new CommandDescription(Target.Perspectives,
+                        new CaptionFilter[]{});
+
+
+            var actuals = new string[] { "Actual perspective 1", "Actual perspective 2" };
+
+            var commandStub = new Mock<IStructureDiscoveryCommand>();
+            commandStub.Setup(cmd => cmd.Execute()).Returns(actuals);
+            commandStub.Setup(cmd => cmd.Description).Returns(description);
+
+            var containsConstraint = new ContainConstraint(exp) { };
+
+            //Method under test
+            string assertionText = null;
+            try
+            {
+                Assert.That(commandStub.Object, containsConstraint);
+            }
+            catch (AssertionException ex)
+            {
+                assertionText = ex.Message;
+            }
+
+            //Test conclusion            
+            Assert.That(assertionText, Is.StringContaining("find a perspective named 'Expected perspective'.").And
+                                            .StringContaining("Actual perspective 1").And
+                                            .StringContaining("Actual perspective 2").And
+                                            .Not.StringContaining("contain"));
+        }
+
+        [Test]
+        public void WriteTo_FailingAssertionForTwoPerspectives_TextContainsFewKeyInfo()
+        {
+            var exp = new string[] { "Expected perspective 1", "Expected perspective 2" } ;
+            var description = new CommandDescription(Target.Perspectives,
+                        new CaptionFilter[] { });
+
+
+            var actuals = new string[] { "Actual perspective 1", "Actual perspective 2" };
+
+            var commandStub = new Mock<IStructureDiscoveryCommand>();
+            commandStub.Setup(cmd => cmd.Execute()).Returns(actuals);
+            commandStub.Setup(cmd => cmd.Description).Returns(description);
+
+            var containsConstraint = new ContainConstraint(exp) { };
+
+            //Method under test
+            string assertionText = null;
+            try
+            {
+                Assert.That(commandStub.Object, containsConstraint);
+            }
+            catch (AssertionException ex)
+            {
+                assertionText = ex.Message;
+            }
+
+            //Test conclusion            
+            Assert.That(assertionText, Is.StringContaining("find the perspectives named").And
+                                            .StringContaining("Expected perspective 1").And
+                                            .StringContaining("Expected perspective 2").And
+                                            .StringContaining(".").And
+                                            .StringContaining("Actual perspective 1").And
+                                            .StringContaining("Actual perspective 2").And
+                                            .Not.StringContaining("contain"));
+        }
+
     }
 }

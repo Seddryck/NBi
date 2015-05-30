@@ -581,7 +581,7 @@ namespace NBi.Testing.Unit.NUnit
             builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default));
             builderMockFactory.Setup(b => b.Build());
             builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new object());
-            builderMockFactory.Setup(b => b.GetConstraint()).Returns(new ExistsConstraint());
+            builderMockFactory.Setup(b => b.GetConstraint()).Returns(new ExistsConstraint("foo"));
             var builder = builderMockFactory.Object;
 
             var testCaseFactory = new TestCaseFactory();

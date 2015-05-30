@@ -4,6 +4,7 @@ using NBi.Core.Analysis.Request;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
+using NBi.Core.Structure;
 
 namespace NBi.NUnit.Builder
 {
@@ -15,8 +16,8 @@ namespace NBi.NUnit.Builder
         {
         }
 
-        internal StructureContainBuilder(MetadataDiscoveryRequestBuilder factory)
-            : base(factory)
+        internal StructureContainBuilder(StructureDiscoveryFactoryProvider provider)
+            : base(provider)
         {
         }
 

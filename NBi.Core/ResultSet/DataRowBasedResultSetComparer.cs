@@ -47,7 +47,7 @@ namespace NBi.Core.ResultSet
             dict.Clear();
 
             Int64 keysHashed;
-            Int64 valuesHashed;
+            //Int64 valuesHashed;
 
             foreach (DataRow row in dt.Rows)
             {

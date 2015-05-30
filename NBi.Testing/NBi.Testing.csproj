@@ -91,13 +91,8 @@
     <Compile Include="ConnectionStringReader.cs" />
     <Compile Include="DiskOnFile.cs" />
     <Compile Include="Integration\Core\Analysis\Member\MembersCommandTest.cs" />
-    <Compile Include="Integration\Core\Analysis\Metadata\Adomd\AdomdDiscoveryCommandTest.cs" />
-    <Compile Include="Integration\Core\Analysis\Metadata\Adomd\ColumnDiscoveryCommandTest.cs" />
-    <Compile Include="Integration\Core\Analysis\Metadata\Adomd\SetDiscoveryCommandTest.cs" />
-    <Compile Include="Integration\Core\Analysis\Metadata\Adomd\TableDiscoveryCommandTest.cs" />
     <Compile Include="Integration\Core\Analysis\Request\DiscoveryRequestFactoryTest.cs" />
     <Compile Include="Integration\Core\Analysis\MembersAdomdEngineTest.cs" />
-    <Compile Include="Integration\Core\Analysis\Metadata\MetadataAdomdExtractorTest.cs" />
     <Compile Include="Integration\Core\CsvWriterTest.cs" />
     <Compile Include="Integration\Core\Batch\SqlServer\BatchCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\BulkLoadCommandTest.cs" />
@@ -111,6 +106,9 @@
     <Compile Include="Integration\Core\Query\QueryParserTest.cs" />
     <Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
     <Compile Include="Integration\Core\Query\CommandBuilderTest.cs" />
+    <Compile Include="Integration\Core\Structure\Relational\RelationalStructureDiscoveryFactoryTest.cs" />
+    <Compile Include="Integration\Core\Structure\Olap\OlapStructureDiscoveryFactoryTest.cs" />
+    <Compile Include="Integration\Core\Structure\Tabular\TabularStructureDiscoveryFactoryTest.cs" />
     <Compile Include="Integration\Core\WindowsService\WindowsServiceCheckTest.cs" />
     <Compile Include="Integration\Core\Report\DatabaseParserTest.cs" />
     <Compile Include="Integration\Core\WindowsService\WindowsServiceCommandTest.cs" />
@@ -124,15 +122,7 @@
     <Compile Include="Integration\NUnit\Structure\EquivalentToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\LinkedToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\ExistsConstraintTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\Adomd\SetDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommandTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\Adomd\HierarchyDiscoveryCommandTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureDiscoveryCommandTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\CubeMetadataTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvReaderTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\MetadataCsvWriterTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbReaderTest.cs" />
-    <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbWriterTest.cs" />
     <Compile Include="Unit\Core\ConnectionExceptionTest.cs" />
     <Compile Include="Unit\Core\Assemblies\AssemblyManagerTest.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\StaticKlass.cs" />
@@ -172,6 +162,11 @@
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
     <Compile Include="Unit\Core\CsvReaderTest.cs" />
+    <Compile Include="Unit\Core\Structure\Olap\Builders\HierarchyDiscoveryCommandBuilderTest.cs" />
+    <Compile Include="Unit\Core\Structure\Olap\Builders\MeasureDiscoveryCommandBuilderTest.cs" />
+    <Compile Include="Unit\Core\Structure\Olap\Builders\DimensionDiscoveryCommandBuilderTest.cs" />
+    <Compile Include="Unit\Core\Structure\Olap\Builders\SetDiscoveryCommandTest.cs" />
+    <Compile Include="Unit\Core\Structure\StructureDiscoveryFactoryProviderTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\DataRowsMessageTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\ItemsMessageTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Formatter\CellFormatterTest.cs" />
@@ -232,7 +227,6 @@
     <Compile Include="Unit\Service\TestCaseCollectionManagerTest.cs" />
     <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
-    <Compile Include="Unit\UI\Configuration\ProjectTest.cs" />
     <Compile Include="Unit\Xml\Constraints\RowCountXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\SucessfulXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\EvaluateRowsXmlTest.cs" />
@@ -366,10 +360,6 @@
     <EmbeddedResource Include="Integration\Core\Resources\MyInvalidBatch.cmd" />
     <EmbeddedResource Include="Integration\GenbiL\Resources\Simple.genbil" />
     <None Include="packages.config" />
-    <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataCsvSample.csv" />
-    <EmbeddedResource Include="Unit\Core\Analysis\Metadata\Resources\MetadataExcelSample.xls" />
-    <EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject-Saved.nbi" />
-    <EmbeddedResource Include="Unit\UI\Configuration\Resources\MyProject.nbi" />
     <EmbeddedResource Include="Unit\Core\Report\Resources\Currency_Rates.rdl" />
     <EmbeddedResource Include="Unit\Core\Report\Resources\Currency_List.rdl" />
     <EmbeddedResource Include="Unit\Service\Resources\OrderedLight.nbitt" />
@@ -381,7 +371,9 @@
     <EmbeddedResource Include="Unit\Core\Report\Resources\SalesEmployees.rsd" />
   </ItemGroup>
   <ItemGroup>
-    <MyOptionalItems Include="ConnectionString.user.config" />
+    <MyOptionalItems Include="ConnectionString.user.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </MyOptionalItems>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\Resources\TableXmlTestSuite.xml" />
@@ -427,6 +419,7 @@
     <!--Acceptance Ressources-->
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToResultSet.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToCsv.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -508,10 +501,6 @@
     <ProjectReference Include="..\NBi.Services\NBi.Service.csproj">
       <Project>{a9c7e50a-1d3d-4c6d-9c56-8ea8925fe2d6}</Project>
       <Name>NBi.Service</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.UI\NBi.UI.csproj">
-      <Project>{18ed64e4-7d72-4a2c-9cd8-46f732d287ed}</Project>
-      <Name>NBi.UI</Name>
     </ProjectReference>
     <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
       <Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>

@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
+		</default>
+	</settings>
+	<test name="In dimension 'Customers', hierarchy 'State-Provinces', level 'State-Provinces' a property 'capital' is not existing " uid="0001">
+		<edition author="Cédric L. Charlier"/>
+		<system-under-test>
+			<structure>
+				<property caption="capital" level="State-Province" dimension="Customer" hierarchy="State-Province" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists not="true"/>
+		</assert>
+	</test>
+	<test name="In dimension 'Customers', hierarchy 'State-Provinces', a level 'State-Provinces' is existing " uid="0001">
+		<edition author="Cédric L. Charlier"/>
+		<system-under-test>
+			<structure>
+				<level caption="State-Province" dimension="Customer" hierarchy="State-Province" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="In dimension 'employee', a hierarchy named 'Sick Leave Hours' exists" uid="0002">
+		<edition author="Cédric L. Charlier">
+			<update contributor="Your co-worker" timestamp="2012-10-23T08:00:00"/>
+			<update contributor="Cédric L. Charlier" timestamp="2013-02-16T17:11:16"/>
+		</edition>
+		<system-under-test>
+			<structure>
+				<hierarchy caption="Sick Leave Hours" dimension="Employee" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="In dimension 'employee', a hierarchy named 'Sick Leave Hours' exists in display-folder root" uid="0002">
+		<description>
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+				magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+				Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</description>
+		<system-under-test>
+			<structure>
+				<hierarchy caption="Sick Leave Hours" display-folder="" dimension="Employee" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="A dimension 'employee' exists" uid="0003" description="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.">
+		<system-under-test>
+			<structure>
+				<dimension caption="Employee" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="A perspective named 'Adventure Works' exists" uid="0004">
+		<system-under-test>
+			<structure>
+				<perspective caption="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="A measure-group 'Reseller Sales' exists" uid="0005">
+		<system-under-test>
+			<structure>
+				<measure-group caption="Reseller Sales" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="A measure 'Reseller Order Quantity' exists" uid="0006">
+		<system-under-test>
+			<structure>
+				<measure caption="Reseller Order Quantity" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="In Measure-group '{sut:measure-group}', a measure '{sut:caption}' exists" uid="0007">
+		<system-under-test>
+			<structure>
+				<measure caption="Reseller Order Quantity" measure-group="Reseller Sales" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="In Measure-group '{sut:measure-group}', and display-folder '{sut:display-folder}', a measure '{sut:caption}' exists" uid="0007">
+		<system-under-test>
+			<structure>
+				<measure caption="Reseller Order Quantity" measure-group="Reseller Sales" display-folder="" perspective="Adventure Works"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="In perspective 'Internet Operation', the table 'Customer' exists">
+		<category>Tabular</category>
+		<system-under-test>
+			<structure>
+				<table caption="Customer" perspective="Internet Operation"
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"		  
+				/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists />
+		</assert>
+	</test>
+	<test name="In perspective 'Internet Operation', table 'Customer', the column 'Birth Date' exists">
+		<category>Tabular</category>
+		<system-under-test>
+			<structure>
+				<column caption="Birth Date" table="Customer" perspective="Internet Operation"
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"		  
+				/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists />
+		</assert>
+	</test>
+  <test name="In perspective 'Channel Sales', the set 'Large Resellers' exists">
+    <category>Set</category>
+    <system-under-test>
+      <structure>
+        <set caption="Large Resellers" perspective="Channel Sales"/>
+      </structure>
+    </system-under-test>
+    <assert>
+      <exists />
+    </assert>
+  </test>
+</testSuite>

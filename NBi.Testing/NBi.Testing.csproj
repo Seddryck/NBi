@@ -371,7 +371,9 @@
     <EmbeddedResource Include="Unit\Core\Report\Resources\SalesEmployees.rsd" />
   </ItemGroup>
   <ItemGroup>
-    <MyOptionalItems Include="ConnectionString.user.config" />
+    <MyOptionalItems Include="ConnectionString.user.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </MyOptionalItems>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\Resources\TableXmlTestSuite.xml" />
@@ -417,6 +419,7 @@
     <!--Acceptance Ressources-->
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToResultSet.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToCsv.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using NBi.Xml.Items.Filters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
 namespace NBi.Xml.Items
 {
-    public class MeasureGroupXml : PerspectiveXml
+    public class MeasureGroupXml : PerspectiveXml, IPerspectiveFilter
     {
         [XmlAttribute("perspective")]
         public string Perspective { get; set; }

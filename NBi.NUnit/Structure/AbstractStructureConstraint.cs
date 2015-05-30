@@ -2,18 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NBi.Core.Analysis.Metadata;
-using NBi.Core.Analysis.Metadata.Adomd;
 using NBi.Core.Analysis.Request;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Core.Structure;
 
 namespace NBi.NUnit.Structure
 {
     public abstract class AbstractStructureConstraint : NBiConstraint
     {
-        private AdomdDiscoveryCommandFactory commandFactory;
-
         //Internal Constraint is not necessary an CollectionItemsEqualConstraint
         //By expl, for ContainConstraint we've a collection of constrain and not just one constraint
         protected virtual NUnitCtr.Constraint InternalConstraint {get; set;}
@@ -23,26 +20,9 @@ namespace NBi.NUnit.Structure
         /// <summary>
         /// Request for metadata extraction
         /// </summary>
-        public MetadataDiscoveryRequest Request { get; protected set; }
+        public IStructureDiscoveryCommand Command { get; protected set; }
+        public IStructureDiscoveryCommand InvestigateCommand { get; protected set; }
 
-        /// <summary>
-        /// Engine dedicated to MetadataExtractor acquisition
-        /// </summary>
-        protected internal AdomdDiscoveryCommandFactory CommandFactory
-        {
-            get
-            {
-                if (commandFactory == null)
-                    commandFactory = new AdomdDiscoveryCommandFactory();
-                return commandFactory;
-            }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException();
-                commandFactory = value;
-            }
-        }
 
         /// <summary>
         /// Construct a CollectionContainsConstraint
@@ -50,16 +30,26 @@ namespace NBi.NUnit.Structure
         /// <param name="expected"></param>
         public AbstractStructureConstraint()
         {
-            Comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(true);
+            Comparer = new Comparer(System.Threading.Thread.CurrentThread.CurrentCulture);
         }
 
         #region Modifiers
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
-        protected void IgnoreCase()
+        protected AbstractStructureConstraint IgnoreCase()
         {
-             Comparer = new NBi.Core.Analysis.Metadata.Field.ComparerByCaption(false);
+            Comparer = new CaseInsensitiveComparer();
+            return this;
+        }
+
+        /// <summary>
+        /// Command to be executed when invesrtigating a failure
+        /// </summary>
+        protected AbstractStructureConstraint Investigate(StructureDiscoveryCommand command)
+        {
+            InvestigateCommand = command;
+            return this;
         }
 
         #endregion
@@ -67,9 +57,9 @@ namespace NBi.NUnit.Structure
         #region Specific NUnit
         public override bool Matches(object actual)
         {
-            if (actual is MetadataDiscoveryRequest)
-                return Process((MetadataDiscoveryRequest)actual);
-            else if (actual is IEnumerable<IField>)
+            if (actual is IStructureDiscoveryCommand)
+                return Process((IStructureDiscoveryCommand)actual);
+            else if (actual is IEnumerable<string>)
             {
                 this.actual = actual;
                 var ctr = InternalConstraint;
@@ -84,19 +74,13 @@ namespace NBi.NUnit.Structure
                 throw new ArgumentException();
         }
 
-        protected bool Process(MetadataDiscoveryRequest actual)
+        protected bool Process(IStructureDiscoveryCommand actual)
         {
-            Request = actual;
-            var factory = CommandFactory;
-            var command = BuildCommand(factory,actual);
-            IEnumerable<IField> structures = command.Execute();
+            Command = actual;
+            IEnumerable<string> structures = Command.Execute().ToArray();
             return this.Matches(structures);
         }
 
-        protected virtual AdomdDiscoveryCommand BuildCommand(AdomdDiscoveryCommandFactory factory, MetadataDiscoveryRequest actual)
-        {
-            return factory.BuildExact(actual);
-        }
         #endregion
 
     }

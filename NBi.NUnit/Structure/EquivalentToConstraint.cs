@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NBi.Core;
-using NBi.Core.Analysis.Metadata;
-using NBi.Core.Analysis.Metadata.Adomd;
+using NBi.Core.Structure;
 using NBi.Core.Analysis.Request;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
@@ -21,7 +20,8 @@ namespace NBi.NUnit.Structure
         public EquivalentToConstraint(IEnumerable<string> expected)
             : base(expected)
         {
-            InternalConstraint= new CollectionEquivalentConstraint(expected.Select(str => StringComparerHelper.Build(str)).ToList());
+            //InternalConstraint= new CollectionEquivalentConstraint(expected.Select(str => StringComparerHelper.Build(str)).ToList());
+            InternalConstraint = new CollectionEquivalentConstraint(expected);
         }
 
         #region Modifiers
@@ -45,11 +45,11 @@ namespace NBi.NUnit.Structure
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
-            if (Request != null)
+            if (Command != null)
             {
                 var description = new DescriptionStructureHelper();
-                var filterExpression = description.GetFilterExpression(Request.GetAllFilters());
-                var nextTargetExpression = description.GetTargetPluralExpression(Request.Target);
+                var filterExpression = description.GetFilterExpression(Command.Description.Filters);
+                var nextTargetExpression = description.GetTargetPluralExpression(Command.Description.Target);
                 var expectationExpression = new StringBuilder();
                 foreach (string item in Expected)
                     expectationExpression.AppendFormat("<{0}>, ", item);

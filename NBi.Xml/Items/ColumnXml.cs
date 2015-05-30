@@ -1,11 +1,12 @@
-﻿using System;
+﻿using NBi.Xml.Items.Filters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
 namespace NBi.Xml.Items
 {
-    public class ColumnXml : TableXml
+    public class ColumnXml : TableXml, ITableFilter
     {
         [XmlAttribute("table")]
         public string Table { get; set; }

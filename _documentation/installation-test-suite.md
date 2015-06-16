@@ -93,6 +93,4 @@ The full listing for this test is available here under:
 
 Naturally, you can specify additional tests in your test-suite by creating more than one *test* elements.
 
-Your next steps are to create your [config file](../installation-config) and the [nunit project file](../installation-nunit-project).
-
-![image:Test-Suite XML.png]
+Your next steps are to create a [nunit project file](../installation-nunit-project) and a [config file](../installation-config).

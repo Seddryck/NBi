@@ -10,9 +10,10 @@ layout: default
       <div class="unit four-fifths">
         <article>
           <h1>{{ page.title }}</h1>
-          <div class="improve right hide-on-mobiles">
-            <a href="{{ site.repository }}/edit/gh-pages{{ page.id }}.md"><i class="fa fa-pencil">&nbsp;Improve this page</i></a>
+          <div class="right hide-on-mobiles">
+            <a href="{{ site.repository }}/edit/gh-pages{% if page.collection %}{{ page.relative_path }}{% else %}{{ page.path }}{% endif %}"><i>&nbsp;Improve this page</i></a>
           </div>
+          <br/>
           {{ content }}
           {% include section_nav.html %}
         </article>

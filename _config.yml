@@ -8,8 +8,8 @@ description: > # this means to ignore newlines until "baseurl:"
   Either, you don't need Visual Studio to compile your test suite.
   Just create an Xml file and let the framework interpret it and play your tests.
   The framework is designed as an add-on of NUnit but with the possibility to port it easily to other testing frameworks.
-baseurl: "/NBi-Website" # the subpath of your site, e.g. /blog/
-url: "http://Seddryck.github.io/NBi-Website" # the base hostname & protocol for your site
+baseurl: "/NBi" # the subpath of your site, e.g. /blog/
+url: "http://Seddryck.github.io/NBi" # the base hostname & protocol for your site
 twitter_username: Seddryck
 github_username:  Seddryck
 repository: https://github.com/Seddryck/NBi

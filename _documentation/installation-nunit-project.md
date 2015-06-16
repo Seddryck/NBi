@@ -44,7 +44,7 @@ and reference the *AppBase* as the parent-folder. All paths in this file and the
 
 Then the *config file* as "MyTestProject\MyTestProject.config”.
 
-![AppBase and config file](../../img/docs/installation-nunit-project/AppBase-Config.png)
+![AppBase and config file](../../img/docs/installation-nunit-project/appbase-config.png)
 
 In the tab assemblies, click to add a new assembly to the project.
 

@@ -6,6 +6,7 @@ next_section: members-patterns
 permalink: /docs/members-source/
 ---
 During the previous chapter, the assertions contained a list of predefined static values. But NBi supports to compare to a dynamic list of values.
+
 ## From a query
 The first way to have a dynamic list of values is to retrieve the members from a query (Sql, Mdx or DAX). This can be useful if you've a list of members stored in a relational database and that this list is in a constant evolution (customers, malls, ...). To achieve this, you'll need to provide a *one-column-query* in place of the list of *item*. This *one-column-query* is just a standard *query* xml element where only the first column of the result-set will be used by NBi. You can define this xml element as:
 

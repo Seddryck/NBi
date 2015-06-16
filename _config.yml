@@ -13,6 +13,7 @@ url: "http://Seddryck.github.io/NBi" # the base hostname & protocol for your sit
 twitter_username: Seddryck
 github_username:  Seddryck
 repository: https://github.com/Seddryck/NBi
+site.google_analytics_id: "UA-64208458-1" # https://www.google.com/analytics/
 
 
 # Build settings

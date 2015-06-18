@@ -77,9 +77,9 @@ If you want you can also specify the type returned by the expression (more info 
           , UnitPrice
           , UnitPriceDiscount
           , LineTotal
-				from
+        from
           Sales.SalesOrderDetail
-				where
+        where
           UnitPriceDiscount>0
       </query>
     </execution>

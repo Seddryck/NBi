@@ -9,13 +9,19 @@
   - run-with-nunit
   - run-alterative
 
-- title: Queries' result-sets
+- title: Equivalence of result-sets
   docs:
   - compare-equivalence-resultsets
   - compare-configuration
   - compare-special-generic-values
   - compare-tolerances-roundings
   - compare-intervals
+  
+- title: Additional tests for result-sets
+  docs:
+  - resultset-rows-count
+  - resultset-format
+  - resultset-calculations
 
 - title: Query's execution
   docs:

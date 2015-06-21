@@ -85,10 +85,10 @@ layout: default
             <div class="unit golden-small center-on-mobiles">
               <h4>Express your testing intentions.</h4>
               <div class="clear"></div>
-                <section class="btn-wrapper-download">
-                  <a id="downloadURL" href="https://github.com/Seddryck/NBi/releases/download/v1.9.2.6/NBi-1.9.2.6.6.zip">
-                    <div>
-                      <span class="download-text" style="background:#5CCD00;
+              <section class="btn-wrapper-download">
+                <a id="downloadURL" href="https://github.com/Seddryck/NBi/releases/download/v1.9.2.6/NBi-1.9.2.6.6.zip">
+                  <div>
+                    <span class="download-text" style="background:#5CCD00;
                         	background:-moz-linear-gradient(top,#feac80 0%,#fd5800 100%);
                         	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#feac80),color-stop(100%,#fd5800));
                         	background:-webkit-linear-gradient(top,#feac80 0%,#fd5800 100%);
@@ -104,19 +104,18 @@ layout: default
                         	-webkit-border-radius:5px;
                         	border:1px solid #371200">
                           <i class="fa fa-cloud-download">&nbsp;&nbsp;</i>Download
-                      </span>
-                  </div>
-                </a>
-                <br>
-                <div id="download-info">
-                  NBi has been downloaded&nbsp;<span id="downloadCount">1959</span>&nbsp;times.
-                  <br/>
-                  Current stable release is&nbsp;<span id="releaseName">v1.9.2</span>.
+                    </span>
                 </div>
+              </a>
+              <br/>
+              <div id="download-info" style="font-size: 12px;">
+                  Current stable release is&nbsp;<span id="releaseName">vx.y.z</span>.
+                  <br/>
+                  NBi has been downloaded&nbsp;<span id="downloadCount">???</span>&nbsp;times.
+              </div>
               </section>
             </div>
             <script type="text/javascript">
-              console.log("youpi");
               function GetLatestReleaseInfo() {
                   $.getJSON("https://api.github.com/repos/Seddryck/NBi/releases/latest").done(function (release) {
                       var asset = release.assets[0];
@@ -132,8 +131,6 @@ layout: default
                       $("#downloadCount").text(downloadCount);
           			      $("#releaseName").text(release.name);
                       $("#releaseName").fadeIn("slow");
-          			      console.log(downloadURL);
-          			      console.log(release.name);
                   });
               }
           	  GetLatestReleaseInfo();

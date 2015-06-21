@@ -6,7 +6,7 @@ layout: default
     <section class="intro">
         <div class="grid">
             <div class="unit whole center-on-mobiles">
-                <p class="first">NBi is a framework to test your Business Intelligence solutions.</p>
+                <p class="first">NBi is an open-source framework to test your Business Intelligence solutions.</p>
             </div>
         </div>
     </section>
@@ -18,11 +18,11 @@ layout: default
             </div>
             <div class="unit one-third">
                 <h2>All your components</h2>
-                <p>NBi helps you to create tests targeting your databases, cubes, etls and reports with a <em>unique</em> framework.</p>
+                <p>NBi helps you to create tests targeting your databases, cubes, etls and reports with a <em>unique</em> framework. If you're working the Microsoft BI stack it means that you can SQL Server Database, SSIS, SSAS and SSRS with this framework.</p>
             </div>
             <div class="unit one-third">
                 <h2>Automate generation</h2>
-                <p>NBi is shipped with a tool to facilitate the <em>automation of creation of test-cases</em>. Build hundreds tests in a couple of minutes.</p>
+                <p>NBi is shipped with a tool to facilitate the <em>automation of creation of test-cases</em>. Build hundreds tests in a couple of minutes and facilitate the maintenance of these tests.</p>
             </div>
             <div class="clear"></div>
         </div>
@@ -85,7 +85,59 @@ layout: default
             <div class="unit golden-small center-on-mobiles">
               <h4>Express your testing intentions.</h4>
               <div class="clear"></div>
+                <section class="btn-wrapper-download">
+                  <a id="downloadURL" href="https://github.com/Seddryck/NBi/releases/download/v1.9.2.6/NBi-1.9.2.6.6.zip">
+                    <div>
+                      <span class="download-text" style="background:#5CCD00;
+                        	background:-moz-linear-gradient(top,#feac80 0%,#fd5800 100%);
+                        	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#feac80),color-stop(100%,#fd5800));
+                        	background:-webkit-linear-gradient(top,#feac80 0%,#fd5800 100%);
+                        	background:-o-linear-gradient(top,#feac80 0%,#fd5800 100%);
+                        	background:-ms-linear-gradient(top,#feac80 0%,#fd5800 100%);
+                        	background:linear-gradient(top,#feac80 0%,#fd5800 100%);
+                        	filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#feac80', endColorstr='#fd5800',GradientType=0);
+                        	padding:10px 15px;
+                        	color:#371200;
+                        	font-size:32px;
+                        	border-radius:5px;
+                        	-moz-border-radius:5px;
+                        	-webkit-border-radius:5px;
+                        	border:1px solid #371200">
+                          <i class="fa fa-cloud-download">&nbsp;&nbsp;</i>Download
+                      </span>
+                  </div>
+                </a>
+                <br>
+                <div id="download-info">
+                  NBi has been downloaded&nbsp;<span id="downloadCount">1959</span>&nbsp;times.
+                  <br/>
+                  Current stable release is&nbsp;<span id="releaseName">v1.9.2</span>.
+                </div>
+              </section>
             </div>
+            <script type="text/javascript">
+              console.log("youpi");
+              function GetLatestReleaseInfo() {
+                  $.getJSON("https://api.github.com/repos/Seddryck/NBi/releases/latest").done(function (release) {
+                      var asset = release.assets[0];
+                      var downloadURL = "https://github.com/Seddryck/NBi/releases/download/" + release.tag_name + "/" + asset.name;
+
+                      var downloadCount = 0;
+                      for (var i = 0; i < release.assets.length; i++) {
+                          downloadCount += release.assets[i].download_count;
+                      }
+                      downloadCount += 1956;
+                      var releaseInfo = release.name + " downloaded " + downloadCount + " times.";
+                      $("#downloadURL").attr("href", downloadURL);
+                      $("#downloadCount").text(downloadCount);
+          			      $("#releaseName").text(release.name);
+                      $("#releaseName").fadeIn("slow");
+          			      console.log(downloadURL);
+          			      console.log(release.name);
+                  });
+              }
+          	  GetLatestReleaseInfo();
+          	</script>
         </div>
     </section>
 </div>

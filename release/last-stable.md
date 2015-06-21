@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About
-permalink: /release/last-stable
+permalink: /release/last-stable/
 ---
   <div>
     <a id="downloadURL" href="http://www.github.com">Download</a>

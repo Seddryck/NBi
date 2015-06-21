@@ -1,0 +1,154 @@
+---
+layout: page
+title: Releases
+permalink: /release/
+---
+<div class="grid">
+  <div class="unit four-fifths">
+  <h2>Licences</h2>
+	All NBi releases are Open Source. Since version 1.6, the applicable licence is <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a>. Historically, NBi releases were licenced with <a href="http://opensource.org/licenses/MS-PL">MS-PL</a>. There is no commercial licence available.
+	<br/>
+	<br/>
+	<h2>Current release</h2>
+	<br/>
+    <section class="btn-wrapper-download">
+        <div>
+			<a id="downloadURL" href="https://github.com/Seddryck/NBi/releases/latest">
+                 <span class="download-text" style="background:#5CCD00;
+                        	background:-moz-linear-gradient(top,#feac80 0%,#fd5800 100%);
+                        	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#feac80),color-stop(100%,#fd5800));
+                        	background:-webkit-linear-gradient(top,#feac80 0%,#fd5800 100%);
+                        	background:-o-linear-gradient(top,#feac80 0%,#fd5800 100%);
+                        	background:-ms-linear-gradient(top,#feac80 0%,#fd5800 100%);
+                        	background:linear-gradient(top,#feac80 0%,#fd5800 100%);
+                        	filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#feac80', endColorstr='#fd5800',GradientType=0);
+                        	padding:10px 15px;
+                        	color:#371200;
+                        	font-size:32px;
+                        	border-radius:5px;
+                        	-moz-border-radius:5px;
+                        	-webkit-border-radius:5px;
+                        	border:1px solid #371200">
+                          <i class="fa fa-cloud-download">&nbsp;&nbsp;</i>Download NBi&nbsp;<span id="releaseName"/>
+                </span>
+			</a>
+		</div>
+		<br/>
+		<div>
+			This release has been published on <span id="createdAt"/>.
+		</div>
+		<div>
+			Click <a href="https://github.com/Seddryck/NBi/releases/latest">here</a> to read the release notes.
+		</div>
+	</section>
+	<div>&nbsp;</div>
+	<section>
+		<div>
+			<h2>Pre-releases</h2>
+			This is a list of the the current pre-release development versions available for testing. Consider your needs carefully before using a version other than the current production versions. These are preview releases, and their use is not recommended in production settings. Please consider reporting any bugs in these versions.
+			<table id="table_prerelease">
+				<thead>
+					<tr>
+						<th>Version</th>
+						<th>Release date</th>
+						<th>Download</th>
+						<th>Notes</th>
+					<tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+	</section>
+	<div>&nbsp;</div>
+	<section>
+		<div>
+			<h2>Looking for a specific release?</h2>
+			These releases are needed by many people for legacy work, so we keep them around for download. Bugs are accepted on older releases only if they can be reproduced on a current release.
+			<table id="table_release">
+				<thead>
+					<tr>
+						<th>Version</th>
+						<th>Release date</th>
+						<th>Download</th>
+						<th>Notes</th>
+					<tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+	</section>
+  </div>
+  <div class="clear"></div>
+</div>
+	<script type="text/javascript">
+    function GetLatestReleaseInfo()
+	{
+        $.getJSON("https://api.github.com/repos/Seddryck/NBi/releases/latest").done(function (release) {
+            var asset = release.assets[0];
+            var downloadURL = "https://github.com/Seddryck/NBi/releases/download/" + release.tag_name + "/" + asset.name;
+
+            var downloadCount = 0;
+            for (var i = 0; i < release.assets.length; i++) {
+                downloadCount += release.assets[i].download_count;
+            }
+            downloadCount += 1956;
+            var releaseInfo = release.name + " downloaded " + downloadCount + " times.";
+            $("#downloadURL").attr("href", downloadURL);
+            $("#downloadCount").text(downloadCount);
+			$("#releaseName").text(release.name);
+			$("#createdAt").text(release.created_at);
+            $("#releaseName").fadeIn("slow");
+        });
+	}
+
+	function GetAllReleaseInfo()
+	{
+		$.getJSON("https://api.github.com/repos/Seddryck/NBi/releases").done(function (releases) {
+			hasPreRelease = false;
+            for (id in releases)
+			{
+				var release = releases[id];
+				console.log(release.updated_at);
+				if (!release.draft)
+				{
+					var version = release.name;
+					var releaseDate = release.created_at;
+					var downloadURL = release.assets[0].browser_download_url;
+					var releaseNote = release.html_url;
+				}
+
+				var table;
+				if (!release.prerelease)
+					table = $("#table_release > tbody:last-child");
+				else
+				{
+					table = $("#table_prerelease > tbody:last-child");
+					hasPreRelease = true;
+				}
+
+
+				table.append('<tr>'
+								+ '<td>' + version + '</td>'
+								+ '<td>' + releaseDate + '</td>'
+								+ '<td><a href="' + downloadURL + '"><i class="fa fa-cloud-download">&nbsp;&nbsp;Download</a></td>'
+								+ '<td><a href="' + releaseNote + '"><i class="fa fa-github">&nbsp;&nbsp;Go to release notes</a></td>'
+								+ '</tr>'
+								);
+			}
+			if (!hasPreRelease)
+			{
+				$("#table_prerelease > tbody:last-child").append('<tr>'
+								+ '<td>No pre-release currently available</td>'
+								+ '<td> - </td>'
+								+ '<td> - </td>'
+								+ '<td> - </td>'
+								+ '</tr>'
+								);
+			}
+        });
+    }
+	GetLatestReleaseInfo();
+	GetAllReleaseInfo();
+	</script>

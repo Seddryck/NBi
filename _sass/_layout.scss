@@ -234,3 +234,18 @@
         }
     }
 }
+
+.btn-wrapper-download{
+  height: $40px;
+  float: left;
+}
+
+.download-btns{
+  min-width: 300px;
+  background-color: #feac80;
+  color: #371200;
+  text-align: center;
+  line-height: 40px;
+  font-size: 1.4em;
+  cursor: pointer;
+}

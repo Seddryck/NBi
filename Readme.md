@@ -1,23 +1,23 @@
 ![Logo](https://github.com/Seddryck/nbi/raw/master/NBi-logo-white.jpg)
 # NBi #
-NBi is a **testing framework** (add-on to NUnit) for Microsoft **Business Intelligence** platform and Data Access.
+NBi is a **testing framework** (add-on to NUnit) for Microsoft **Business Intelligence** platform (SQL Server Database engine, SSIS, SSAS, SSRS) and Data Access.
 
 The main goal of this framework is to let users create tests with a declarative approach based on an **Xml** syntax. By the means of NBi, you don't need to develop C# code to specify your tests! Either, you don't need Visual Studio to compile your test suite. Just create an Xml file and let the framework interpret it and play your tests. The framework is designed as an add-on of NUnit but with the possibility to port it easily to other testing frameworks.
 
 ## Releases ##
-Binaries for the different releases are hosted exclusively on [Codeplex](http://nbi.codeplex.com)
+Binaries for the different releases are hosted on [www.nbi.io](http://www.nbi.io/release/) or [GitHub] (https://github.com/Seddryck/NBi/releases)
 
 ## Documentation ##
-The documentation is available on-line and is hosted on [Codeplex](http://nbi.codeplex.com)
+The documentation is available on-line and is hosted on [www.nbi.io](http://www.nbi.io/docs/home/)
 
 ## Licenses ##
-NBi is available with two licenses: MS-PL and OSL. You're free to choose which one convains the best to your project. NBi is also using several OSS projects as librairies. All these projects and their licenses are available in the folder License. 
+NBi is available with two licenses: MS-PL and Apache 2.0. You're free to choose which one convains the best to your project. NBi is also using several OSS projects as librairies. All these projects and their licenses are available in the folder "License". 
 
 ## Bugs, issues and requests for features ##
-The list of bugs and feature's requests is hosted on [Codeplex](http://nbi.codeplex.com)
+The list of bugs and feature's requests is hosted on [GitHub](https://github.com/Seddryck/NBi/issues)
 
 ## Continuous Integration ##
-A continuous integration service is available on AppVeyor at https://ci.appveyor.com/project/CdricLCharlier/nbi/ 
+A continuous integration service is available on AppVeyor at [https://ci.appveyor.com/project/CdricLCharlier/nbi/]
 Note that all the tests are not executed on this environment due to limitations in the availability of some components.
 
 - Unit tests are always executed
@@ -38,7 +38,7 @@ Two artefacts are provided by this CI:
 - UI.zip contains the exe and dlls needed to run Genbi
 
 ## Code ##
-NBi is using **Mercurial** as DCVS and the code is hosted on [Codeplex](http://nbi.codeplex.com) and [Bitbucket](http://bitbucket.org/Seddryck/nbi). A mirror copy is hosted on [GitHub](http://github.com/Seddryck/nbi) with the help of the plugin HgGit and is compatible with Git.
+NBi is using **Git** as DCVS and the code is hosted on [Github](https://github.com/Seddryck/NBi). A mirror copy is hosted on [Bitbucket](http://bitbucket.org/Seddryck/nbi).
 
 ### Automated Testing ###
 NBi has around 1000 automated tests, asserting a lot of feature before each release. These tests are categorized in three folders:

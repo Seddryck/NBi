@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
-	<settings>
+	<!--<settings>
 		<default apply-to="system-under-test">
 			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
 		</default>
@@ -41,6 +41,32 @@
       <contain>
         <item>Large Resellers</item>
         <item>Core Product Group</item>
+      </contain>
+    </assert>
+  </test>-->
+  <test name="In perspective 'HumanResources', we find at least this list of routines" uid="0003">
+    <system-under-test>
+      <structure>
+        <tables perspective="HumanResources" connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"/>
+      </structure>
+    </system-under-test>
+    <assert>
+      <contain>
+        <item>Employee</item>
+        <item>Shift</item>
+      </contain>
+    </assert>
+  </test>
+  <test name="In perspective 'HumanResources', we find at least this list of routines" uid="0003">
+    <system-under-test>
+      <structure>
+        <routines perspective="HumanResources" connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"/>
+      </structure>
+    </system-under-test>
+    <assert>
+      <contain>
+        <item>uspUpdateEmployeeHireInfo</item>
+        <item>uspUpdateEmployeePersonalInfo</item>
       </contain>
     </assert>
   </test>

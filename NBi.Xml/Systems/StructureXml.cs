@@ -24,7 +24,9 @@ namespace NBi.Xml.Systems
         XmlElement(Type = typeof(TableXml), ElementName = "table"),
         XmlElement(Type = typeof(ColumnXml), ElementName = "column"),
         XmlElement(Type = typeof(SetXml), ElementName = "set"),
-        XmlElement(Type = typeof(SetsXml), ElementName = "sets")
+        XmlElement(Type = typeof(SetsXml), ElementName = "sets"),
+        XmlElement(Type = typeof(RoutineXml), ElementName = "routine"),
+        XmlElement(Type = typeof(RoutinesXml), ElementName = "routines")
         ]
         public AbstractItem Item { get; set; }
 

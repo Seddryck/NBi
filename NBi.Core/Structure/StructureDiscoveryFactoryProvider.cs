@@ -9,6 +9,7 @@ using System.Data;
 using System.Data.Odbc;
 using System.Data.OleDb;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -93,7 +94,7 @@ namespace NBi.Core.Structure
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Trace.WriteLineIf(NBiTraceSwitch.TraceWarning,"Can't detect server mode for SSAS, using Olap. Initial message:" + ex.Message);
+                Trace.WriteLineIf(NBiTraceSwitch.TraceWarning,"Can't detect server mode for SSAS, using Olap. Initial message:" + ex.Message);
                 return Olap;
             }
             return Olap;
@@ -106,10 +107,25 @@ namespace NBi.Core.Structure
 
             var nm = new XmlNamespaceManager(doc.NameTable);
             nm.AddNamespace("ddl300", "http://schemas.microsoft.com/analysisservices/2011/engine/300");
-            var node = root.SelectSingleNode("//ddl300:ServerMode", nm);
-            if (node == null)
-                throw new ArgumentException("Unable to locate the node for ServerMode.");
-            return node.InnerText;
+            nm.AddNamespace("default", "http://schemas.microsoft.com/analysisservices/2003/engine");
+            var serverModeNode = root.SelectSingleNode("//ddl300:ServerMode", nm);
+            if (serverModeNode == null)
+            {
+                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "Trying to detect the server mode for SSAS but the server doesn't return this information. Trying to get it from version.");
+                var versionNode = root.SelectSingleNode("//default:Version", nm);
+                if (versionNode != null)
+                {
+                    var splitVersion = versionNode.InnerText.Split('.');
+                    short releaseVersion = 0;
+                    if (splitVersion.Count() >= 1)
+                        if (short.TryParse(splitVersion[0], out releaseVersion))
+                            if (releaseVersion < 11)
+                                return "Multidimensional";
+                }
+                throw new ArgumentException("Unable to locate the node for 'ServerMode' and can't guess based on node 'Version'.");
+            }
+                
+            return serverModeNode.InnerText;
         }
     }
 }

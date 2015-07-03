@@ -76,8 +76,8 @@ namespace NBi.Testing.Unit.Core.Structure
         {
             var xml = ""
                         + "<Server xmlns=\"http://schemas.microsoft.com/analysisservices/2003/engine\">                                                                                                    "
-                        + "            <Name>ATLANTIS\\SQL2014</Name>                                                                           "
-                        + "            <ID>ATLANTIS\\SQL2014</ID>                                                                               "
+                        + "            <Name>XXX\\SQL2014</Name>                                                                           "
+                        + "            <ID>XXX\\SQL2014</ID>                                                                               "
                         + "            <CreatedTimestamp>2015-07-02T21:56:04.076667</CreatedTimestamp>                                         "
                         + "            <LastSchemaUpdate>2015-07-02T21:56:04.093333</LastSchemaUpdate>                                         "
                         + "            <Version>12.0.2000.8</Version>                                                                          "
@@ -94,6 +94,53 @@ namespace NBi.Testing.Unit.Core.Structure
             var provider = new FakeStructureDiscoveryFactoryProvider(null);
             var parsedServerMode = provider.ParseXmlaResponse(doc);
             Assert.That(parsedServerMode, Is.EqualTo(serverMode));
+        }
+
+        [Test]
+        [TestCase("10.0.200.12")]
+        [TestCase("9.1.200")]
+        public void ParseXmlaResponse_VersionBefore11_GetCorrectServerMode(string version)
+        {
+            var xml = ""
+                        + "<Server xmlns=\"http://schemas.microsoft.com/analysisservices/2003/engine\">                                                                                                    "
+                        + "            <Name>XXX\\SQL2014</Name>                                                                           "
+                        + "            <ID>XXX\\SQL2014</ID>                                                                               "
+                        + "            <CreatedTimestamp>2015-07-02T21:56:04.076667</CreatedTimestamp>                                         "
+                        + "            <LastSchemaUpdate>2015-07-02T21:56:04.093333</LastSchemaUpdate>                                         "
+                        + "            <Version>$value$</Version>                                                                          "
+                        + "            <Edition>Developer64</Edition>                                                                          "
+                        + "            <EditionID>2176971986</EditionID>                                                                       "
+                        + "</Server>                                                                                                   ";
+            xml = xml.Replace("$value$", version);
+            var doc = new XmlDocument();
+
+            doc.LoadXml(xml);
+            var provider = new FakeStructureDiscoveryFactoryProvider(null);
+            var parsedServerMode = provider.ParseXmlaResponse(doc);
+            Assert.That(parsedServerMode, Is.EqualTo("Multidimensional"));
+        }
+
+        [Test]
+        [TestCase("12.0.200.12")]
+        [TestCase("11.1.200")]
+        public void ParseXmlaResponse_VersionAfter11_GetCorrectServerMode(string version)
+        {
+            var xml = ""
+                        + "<Server xmlns=\"http://schemas.microsoft.com/analysisservices/2003/engine\">                                                                                                    "
+                        + "            <Name>XXX\\SQL2014</Name>                                                                           "
+                        + "            <ID>XXX\\SQL2014</ID>                                                                               "
+                        + "            <CreatedTimestamp>2015-07-02T21:56:04.076667</CreatedTimestamp>                                         "
+                        + "            <LastSchemaUpdate>2015-07-02T21:56:04.093333</LastSchemaUpdate>                                         "
+                        + "            <Version>$value$</Version>                                                                          "
+                        + "            <Edition>Developer64</Edition>                                                                          "
+                        + "            <EditionID>2176971986</EditionID>                                                                       "
+                        + "</Server>                                                                                                   ";
+            xml = xml.Replace("$value$", version);
+            var doc = new XmlDocument();
+
+            doc.LoadXml(xml);
+            var provider = new FakeStructureDiscoveryFactoryProvider(null);
+            Assert.Throws<ArgumentException>(delegate { provider.ParseXmlaResponse(doc); });
         }
     }
 }

@@ -1,4 +1,4 @@
-![Logo](https://github.com/Seddryck/nbi/raw/master/NBi-logo-white.jpg)
+![Logo](https://github.com/Seddryck/nbi/raw/gh-pages/img/logo-2x.jpg)
 # NBi #
 NBi is a **testing framework** (add-on to NUnit) for Microsoft **Business Intelligence** platform (SQL Server Database engine, SSIS, SSAS, SSRS) and Data Access.
 

@@ -35,7 +35,7 @@ namespace NBi.Testing.Integration.Core.Structure
         }
 
         [Test]
-        [Category("Tabular")]
+        [Category("Olap")]
         public void InquireFurtherAnalysisService_Tabular_ReturnCorrectServerMode()
         {
             var connectionString = ConnectionStringReader.GetAdomdTabular();

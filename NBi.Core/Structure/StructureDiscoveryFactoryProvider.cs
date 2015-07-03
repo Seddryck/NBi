@@ -12,6 +12,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace NBi.Core.Structure
 {
@@ -68,23 +69,47 @@ namespace NBi.Core.Structure
         {
             try
             {
-                var server = new Server();
-                server.Connect(connectionString);
-                switch (server.ServerMode)
+                var parsedMode = string.Empty;
+                using (var conn = new AdomdConnection(connectionString))
                 {
-                    case ServerMode.Default: return Olap;
-                    case ServerMode.Multidimensional: return Olap;
-                    case ServerMode.SharePoint: return Tabular;
-                    case ServerMode.Tabular: return Tabular;
+                    conn.Open();
+                    var restrictions = new AdomdRestrictionCollection();
+                    restrictions.Add(new AdomdRestriction("ObjectExpansion", "ReferenceOnly"));
+                    var ds = conn.GetSchemaDataSet("DISCOVER_XML_METADATA", restrictions);
+                    var xml = ds.Tables[0].Rows[0].ItemArray[0].ToString();
+                    var doc = new XmlDocument();
+                    doc.LoadXml(xml);
+                    parsedMode = ParseXmlaResponse(doc);
+                }
+
+
+                switch (parsedMode)
+                {
+                    case "Default": return Olap;
+                    case "Multidimensional": return Olap;
+                    case "SharePoint": return Tabular;
+                    case "Tabular": return Tabular;
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Trace.WriteLineIf(NBiTraceSwitch.TraceWarning,"Can't detect server mode for SSAS, using Olap:" + ex.Message);
+                System.Diagnostics.Trace.WriteLineIf(NBiTraceSwitch.TraceWarning,"Can't detect server mode for SSAS, using Olap. Initial message:" + ex.Message);
                 return Olap;
             }
             return Olap;
 
+        }
+
+        protected string ParseXmlaResponse(XmlDocument doc)
+        {
+            var root = doc.DocumentElement;
+
+            var nm = new XmlNamespaceManager(doc.NameTable);
+            nm.AddNamespace("ddl300", "http://schemas.microsoft.com/analysisservices/2011/engine/300");
+            var node = root.SelectSingleNode("//ddl300:ServerMode", nm);
+            if (node == null)
+                throw new ArgumentException("Unable to locate the node for ServerMode.");
+            return node.InnerText;
         }
     }
 }

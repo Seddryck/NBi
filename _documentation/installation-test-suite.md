@@ -36,7 +36,7 @@ and
 
 In the example, here under, we'll test that the results of two queries are equal. The first query is the *system-under-test* and is defined in the xml element *system-under-test*. More info about this kind of system-under-test can be found [there](../equivalence-resultsets).
 
-First, we need to specify which kind of test we'll perform. Here we'll perform a test of structure. For this, we're using the xml element named *structure* inside the xml element
+First, we need to specify which kind of test we'll perform. Here we'll perform a test of *execution* (meaning that we'll execute a query or an etl). For this, we're using the xml element named *execution* inside the xml element
 {% highlight xml %}
 <system-under-test>
  <execution>

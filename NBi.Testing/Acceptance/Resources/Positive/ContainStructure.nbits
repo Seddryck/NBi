@@ -8,7 +8,7 @@
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </reference>
     <reference name="Tabular">
-      <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2014TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033</connectionString>
+      <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033</connectionString>
     </reference>
 	</settings>
 	<test name="The dimension 'employee' has a hierarchy named 'Sick Leave Hours'" uid="0002">

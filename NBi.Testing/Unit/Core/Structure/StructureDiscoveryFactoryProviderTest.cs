@@ -123,7 +123,7 @@ namespace NBi.Testing.Unit.Core.Structure
         [Test]
         [TestCase("12.0.200.12")]
         [TestCase("11.1.200")]
-        public void ParseXmlaResponse_VersionAfter11_GetCorrectServerMode(string version)
+        public void ParseXmlaResponse_VersionAfter11_ThrowExceptionImpossibleToGuess(string version)
         {
             var xml = ""
                         + "<Server xmlns=\"http://schemas.microsoft.com/analysisservices/2003/engine\">                                                                                                    "

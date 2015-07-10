@@ -25,27 +25,27 @@ Note: For hierarchy without level, such as *customer* in the sample above, the d
 
 {% highlight xml %}
 <system-under-test>
-	<members>
-		<level
-      caption="State-Province"
-      hierarchy="Customer Geography"
-      dimension="Customer"
-      perspective="Adventure Works"
-    />
-	</members>
+    <members>
+        <level
+            caption="State-Province"
+            hierarchy="Customer Geography"
+            dimension="Customer"
+            perspective="Adventure Works"
+        />
+    </members>
 </system-under-test>
 {% endhighlight %}
 
 If you want to perform a test on all members of this hierarchy, including *coutries, states, cities, postal code and customers*, you can position your test on the hierarchy named *Customer Geography*.
 {% highlight xml %}
 <system-under-test>
-	<members>
-		<hierarchy
-      caption="Customer Geography"
-      dimension="Customer"
-      perspective="Adventure Works"
-    />
-	</members>
+    <members>
+        <hierarchy
+            caption="Customer Geography"
+            dimension="Customer"
+            perspective="Adventure Works"
+        />
+    </members>
 </system-under-test>
 {% endhighlight %}
 
@@ -53,15 +53,15 @@ Don't forget to specify the xml attribute *connectionString* to reach your cube.
 
 {% highlight xml %}
 <system-under-test>
-	<members>
-		<hierarchy
-      caption="Customer"
-      dimension="Customer"
-      perspective="Adventure Works"
-			connectionString="Provider=MSOLAP.4;Data Source=MyServer;
-        Integrated Security=SSPI;Initial Catalog=MyCube;"
-		/>
-	</members>
+    <members>
+        <hierarchy
+            caption="Customer Geography"
+            dimension="Customer"
+            perspective="Adventure Works"
+            connectionString="Provider=MSOLAP.4;Data Source=MyServer;
+                              Integrated Security=SSPI;Initial Catalog=MyCube;"
+        />
+    </members>
 </system-under-test>
 {% endhighlight %}
 
@@ -70,10 +70,10 @@ When developing a cube, you're often in front of specific requirements about som
 
 {% highlight xml %}
 <system-under-test>
-	<members>
-		<hierarchy .../>
-    <exclude />
-	</members>
+    <members>
+        <hierarchy .../>
+        <exclude />
+    </members>
 </system-under-test>
 {% endhighlight %}
 
@@ -81,17 +81,17 @@ If you know the unique-name of the member you can directly reference the item to
 
 {% highlight xml %}
 <system-under-test>
-	<members>
-		<level
-      caption="Country"
-      hierarchy="Customer Geography"
-      dimension="Customer"
-      perspective="Adventure Works"
-    />
-    <exclude>
-       <item>France</item>
-       <item>Germany</item>
-    </exclude>
+    <members>
+        <level
+            caption="Country"
+            hierarchy="Customer Geography"
+            dimension="Customer"
+            perspective="Adventure Works"
+        />
+        <exclude>
+            <item>France</item>
+            <item>Germany</item>
+        </exclude>
 	</members>
 </system-under-test>
 {% endhighlight %}
@@ -99,35 +99,35 @@ If you know the unique-name of the member you can directly reference the item to
 But sometimes you don't know the unique-name of the member to exclude, or you want to remove a list of members with the same caption. In this case you can make usage of the xml element named *items* and the pattern *exact*
 {% highlight xml %}
 <system-under-test>
-	<members>
-    <level
-      caption="Country"
-      hierarchy="Customer Geography"
-      dimension="Customer"
-      perspective="Adventure Works"
-    />
-    <exclude>
-       <items pattern="exact">United Kingdom</item>
-    </exclude>
-	</members>
+    <members>
+        <level
+            caption="Country"
+            hierarchy="Customer Geography"
+            dimension="Customer"
+            perspective="Adventure Works"
+        />
+        <exclude>
+            <items pattern="exact">United Kingdom</item>
+        </exclude>
+    </members>
 </system-under-test>
 {% endhighlight %}
 
 If you want to remove the members starting, ending or containing a specific pattern, you can also do this with the help of the xml element named *items* choosing the correct pattern (start-with, end-with or contain).
 {% highlight xml %}
 <system-under-test>
-	<members>
-		<hierarchy
-      caption="Country"
-      hierarchy="Customer Geography"
-      dimension="Customer"
-      perspective="Adventure Works"
-    />
-    <exclude>
-       <items pattern="start-with">John</item>
-       <items pattern="end-with">iams</item>
-       <items pattern="contain">hson</item>
-    </exclude>
-	</members>
+    <members>
+        <hierarchy
+            caption="Country"
+            hierarchy="Customer Geography"
+            dimension="Customer"
+            perspective="Adventure Works"
+        />
+        <exclude>
+            <items pattern="start-with">John</item>
+            <items pattern="end-with">iams</item>
+            <items pattern="contain">hson</item>
+        </exclude>
+    </members>
 </system-under-test>
 {% endhighlight %}

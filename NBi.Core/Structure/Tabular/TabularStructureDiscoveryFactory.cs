@@ -47,8 +47,6 @@ namespace NBi.Core.Structure.Tabular
                     return new ColumnDiscoveryCommandBuilder();
                 case Target.Sets:
                     return new SetDiscoveryCommandBuilder();
-                case Target.Schemas:
-                    return new SchemaDiscoveryCommandBuilder();
                 default:
                     throw new ArgumentOutOfRangeException();
             }

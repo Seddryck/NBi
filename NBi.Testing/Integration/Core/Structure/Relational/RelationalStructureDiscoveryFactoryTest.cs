@@ -17,7 +17,7 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
         {
             var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var factory = new RelationalStructureDiscoveryFactory(conn);
-            var cmd = factory.Instantiate(Target.Schemas, TargetType.Object,
+            var cmd = factory.Instantiate(Target.Perspectives, TargetType.Object,
                 new CaptionFilter[] {
                 });
 
@@ -33,7 +33,7 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
             var factory = new RelationalStructureDiscoveryFactory(conn);
             var cmd = factory.Instantiate(Target.Tables, TargetType.Object,
                 new CaptionFilter[] { 
-                    new CaptionFilter(Target.Schemas, "Sales"),
+                    new CaptionFilter(Target.Perspectives, "Sales"),
                 });
 
             var structs = cmd.Execute();
@@ -48,7 +48,7 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
             var factory = new RelationalStructureDiscoveryFactory(conn);
             var cmd = factory.Instantiate(Target.Columns, TargetType.Object,
                 new CaptionFilter[] {
-                    new CaptionFilter(Target.Schemas,"Sales"),
+                    new CaptionFilter(Target.Perspectives,"Sales"),
                     new CaptionFilter(Target.Tables,"Customer"),
                 });
 

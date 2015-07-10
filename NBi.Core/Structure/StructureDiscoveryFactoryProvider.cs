@@ -121,8 +121,9 @@ namespace NBi.Core.Structure
                         if (short.TryParse(splitVersion[0], out releaseVersion))
                             if (releaseVersion < 11)
                                 return "Multidimensional";
+                    throw new ArgumentException(string.Format("Unable to locate the node for 'ServerMode' and can't guess based on node 'Version'. Value returned for version is '{0}'. Use AdomdClient 12.0 or higher.", versionNode.InnerText));        
                 }
-                throw new ArgumentException("Unable to locate the node for 'ServerMode' and can't guess based on node 'Version'.");
+                throw new ArgumentException("Unable to locate the node for 'ServerMode' or the node for 'Version'. Use AdomdClient 12.0 or higher.");
             }
                 
             return serverModeNode.InnerText;

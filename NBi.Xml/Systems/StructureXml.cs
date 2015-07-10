@@ -23,6 +23,8 @@ namespace NBi.Xml.Systems
         XmlElement(Type = typeof(PropertiesXml), ElementName = "properties"),
         XmlElement(Type = typeof(TableXml), ElementName = "table"),
         XmlElement(Type = typeof(ColumnXml), ElementName = "column"),
+        XmlElement(Type = typeof(TablesXml), ElementName = "tables"),
+        XmlElement(Type = typeof(ColumnsXml), ElementName = "columns"),
         XmlElement(Type = typeof(SetXml), ElementName = "set"),
         XmlElement(Type = typeof(SetsXml), ElementName = "sets")
         ]

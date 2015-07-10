@@ -38,7 +38,7 @@ namespace NBi.Core.Structure.Relational
         {
             switch (target)
             {
-                case Target.Schemas:
+                case Target.Perspectives:
                     return new SchemaDiscoveryCommandBuilder();
                 case Target.Tables:
                     return new TableDiscoveryCommandBuilder();

@@ -51,8 +51,8 @@
     <Reference Include="MarkdownLog">
       <HintPath>..\packages\MarkdownLog.0.9.3\lib\portable-windows8+net45\MarkdownLog.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>../../../../../../../Program%20Files/Microsoft.NET/ADOMD.NET/100/Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
+    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>../../../../../../../Program%20Files/Microsoft.NET/ADOMD.NET/120/Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
@@ -108,6 +108,7 @@
     <Compile Include="Integration\Core\Query\CommandBuilderTest.cs" />
     <Compile Include="Integration\Core\Structure\Relational\RelationalStructureDiscoveryFactoryTest.cs" />
     <Compile Include="Integration\Core\Structure\Olap\OlapStructureDiscoveryFactoryTest.cs" />
+    <Compile Include="Integration\Core\Structure\StructureDiscoveryFactoryProviderTest.cs" />
     <Compile Include="Integration\Core\Structure\Tabular\TabularStructureDiscoveryFactoryTest.cs" />
     <Compile Include="Integration\Core\WindowsService\WindowsServiceCheckTest.cs" />
     <Compile Include="Integration\Core\Report\DatabaseParserTest.cs" />
@@ -239,6 +240,7 @@
     <Compile Include="Unit\Xml\Decoration\ConditionXmlTest.cs" />
     <Compile Include="Unit\Xml\Decoration\DecorationXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\SetXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\TablesXmlTest.cs" />
     <Compile Include="Unit\Xml\TraitXmlTest.cs" />
     <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
     <Compile Include="Unit\Xml\GroupXmlTest.cs" />
@@ -558,6 +560,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\TablesXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SetXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidSyntaxMultiple.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\RowCountXmlTestSuite.xml" />

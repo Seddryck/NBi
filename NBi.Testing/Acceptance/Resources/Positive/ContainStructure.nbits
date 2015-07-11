@@ -4,6 +4,12 @@
 		<default apply-to="system-under-test">
 			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
 		</default>
+    <reference name="Dwh">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </reference>
+    <reference name="Tabular">
+      <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033</connectionString>
+    </reference>
 	</settings>
 	<test name="The dimension 'employee' has a hierarchy named 'Sick Leave Hours'" uid="0002">
 		<system-under-test>
@@ -41,6 +47,98 @@
       <contain>
         <item>Large Resellers</item>
         <item>Core Product Group</item>
+      </contain>
+    </assert>
+  </test>
+  <test name="In Database 'Adventure Works DW 2012', we find at least this list of schemas" uid="0002">
+    <system-under-test>
+      <structure>
+        <perspectives connectionString="@Dwh"/>
+      </structure>
+    </system-under-test>
+    <assert>
+      <contain>
+        <item>HumanResources</item>
+        <item>Person</item>
+      </contain>
+    </assert>
+  </test>
+  <test name="In Database 'Adventure Works DW 2012', in the schema 'HumanResources', we find at least this list of tables" uid="0002">
+    <system-under-test>
+      <structure>
+        <tables perspective="HumanResources" connectionString="@Dwh"/>
+      </structure>
+    </system-under-test>
+    <assert>
+      <contain>
+        <item>Department</item>
+        <item>Employee</item>
+      </contain>
+    </assert>
+  </test>
+  <test name="In Database 'Adventure Works DW 2012', in the schema 'HumanResources', we find at least this list of views" uid="0004">
+    <system-under-test>
+      <structure>
+        <tables perspective="HumanResources" connectionString="@Dwh"/>
+      </structure>
+    </system-under-test>
+    <assert>
+      <contain>
+        <item>vJobCandidate</item>
+        <item>vEmployee</item>
+      </contain>
+    </assert>
+  </test>
+  <test name="In Database 'Adventure Works DW 2012', in the schema 'HumanResources', table 'Employee', we find at least this list of columns" uid="0005">
+    <system-under-test>
+      <structure>
+        <columns perspective="HumanResources" table="Employee" connectionString="@Dwh"/>
+      </structure>
+    </system-under-test>
+    <assert>
+      <contain>
+        <item>NationalIDNumber</item>
+        <item>LoginID</item>
+        <item>HireDate</item>
+      </contain>
+    </assert>
+  </test>
+  <test name="In Tabular 'Adventure Works DW 2012', we find at least this list of schemas" uid="0002">
+    <system-under-test>
+      <structure>
+        <perspectives connectionString="@Tabular"/>
+      </structure>
+    </system-under-test>
+    <assert>
+      <contain>
+        <item>Internet Operation</item>
+      </contain>
+    </assert>
+  </test>
+  <test name="In Tabular 'Adventure Works DW 2012', in the schema 'Internet Operation', we find at least this list of tables" uid="0002">
+    <system-under-test>
+      <structure>
+        <tables perspective="Internet Operation" connectionString="@Tabular"/>
+      </structure>
+    </system-under-test>
+    <assert>
+      <contain>
+        <item>Currency</item>
+        <item>Customer</item>
+        <item>Date</item>
+      </contain>
+    </assert>
+  </test>
+  <test name="In Tabular 'Adventure Works DW 2012', in the schema 'Internet Operation', table 'Customer', we find at least this list of columns" uid="0005">
+    <system-under-test>
+      <structure>
+        <columns perspective="Internet Operation" table="Customer" connectionString="@Tabular"/>
+      </structure>
+    </system-under-test>
+    <assert>
+      <contain>
+        <item>First Name</item>
+        <item>Birth Date</item>
       </contain>
     </assert>
   </test>

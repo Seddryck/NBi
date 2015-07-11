@@ -35,7 +35,7 @@ namespace NBi.Core.Structure.Olap
             var description = new CommandDescription(target, filters);
 
             OlapCommand command = null;
-            if ((target == Target.MeasureGroups && type == TargetType.Object) || target == Target.Schemas || target == Target.Perspectives)
+            if ((target == Target.MeasureGroups && type == TargetType.Object) || target == Target.Perspectives)
                 command = new DistinctOlapCommand(cmd, postFilters, description);
             else if (target == Target.Dimensions && type == TargetType.Object)
                 command = new DimensionCommand(cmd, postFilters, description);

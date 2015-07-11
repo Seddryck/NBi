@@ -18,7 +18,7 @@ namespace NBi.Core.Structure.Relational.Builders
         protected override IEnumerable<ICommandFilter> BuildFilters(IEnumerable<CaptionFilter> filters)
         {
             yield return new CommandFilter(string.Format("[table_schema]='{0}'"
-                                                            , filters.Single(f => f.Target == Target.Schemas).Caption
+                                                            , filters.Single(f => f.Target == Target.Perspectives).Caption
                                                             ));
 
             yield return new CommandFilter(string.Format("[table_name]='{0}'"

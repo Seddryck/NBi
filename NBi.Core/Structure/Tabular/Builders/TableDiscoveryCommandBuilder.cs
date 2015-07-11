@@ -19,7 +19,7 @@ namespace NBi.Core.Structure.Tabular.Builders
         {
             yield return new CommandFilter("left(table_name,1)<>'$'");
 
-            var filter = filters.SingleOrDefault(f => f.Target == Target.Schemas);
+            var filter = filters.SingleOrDefault(f => f.Target == Target.Perspectives);
             if (filter != null)
                 yield return new CommandFilter(string.Format("[table_schema]='{0}'"
                                                             , filter.Caption

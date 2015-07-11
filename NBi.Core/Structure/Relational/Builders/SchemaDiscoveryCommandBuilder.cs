@@ -22,7 +22,7 @@ namespace NBi.Core.Structure.Relational.Builders
 
         protected override IEnumerable<ICommandFilter> BuildFilters(IEnumerable<CaptionFilter> filters)
         {
-            var filter = filters.SingleOrDefault(f => f.Target == Target.Schemas);
+            var filter = filters.SingleOrDefault(f => f.Target == Target.Perspectives);
             if (filter != null)
                 yield return new CommandFilter(string.Format("[schema_name]='{0}'"
                                                            , filter.Caption

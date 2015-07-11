@@ -105,7 +105,7 @@ namespace NBi.Testing.Integration.Core.Structure.Tabular
         {
             var conn = new AdomdConnection(ConnectionStringReader.GetAdomdTabular());
             var factory = new TabularStructureDiscoveryFactory(conn);
-            var cmd = factory.Instantiate(Target.Schemas, TargetType.Object,
+            var cmd = factory.Instantiate(Target.Perspectives, TargetType.Object,
                 new CaptionFilter[] {
                 });
 
@@ -121,7 +121,7 @@ namespace NBi.Testing.Integration.Core.Structure.Tabular
             var factory = new TabularStructureDiscoveryFactory(conn);
             var cmd = factory.Instantiate(Target.Tables, TargetType.Object,
                 new CaptionFilter[] {
-                    new CaptionFilter(Target.Schemas,"Internet Operation"),
+                    new CaptionFilter(Target.Perspectives,"Internet Operation"),
                 });
 
             var structs = cmd.Execute();
@@ -136,7 +136,7 @@ namespace NBi.Testing.Integration.Core.Structure.Tabular
             var factory = new TabularStructureDiscoveryFactory(conn);
             var cmd = factory.Instantiate(Target.Columns, TargetType.Object,
                 new CaptionFilter[] {
-                    new CaptionFilter(Target.Schemas,"Internet Operation"),
+                    new CaptionFilter(Target.Perspectives,"Internet Operation"),
                     new CaptionFilter(Target.Tables,"Internet Sales"),
                 });
 
@@ -152,7 +152,7 @@ namespace NBi.Testing.Integration.Core.Structure.Tabular
             var factory = new TabularStructureDiscoveryFactory(conn);
             var cmd = factory.Instantiate(Target.Tables, TargetType.Object,
                 new CaptionFilter[] {
-                    new CaptionFilter(Target.Schemas, "Internet Operation")});
+                    new CaptionFilter(Target.Perspectives, "Internet Operation")});
 
             var structs = cmd.Execute();
 
@@ -166,7 +166,7 @@ namespace NBi.Testing.Integration.Core.Structure.Tabular
             var factory = new TabularStructureDiscoveryFactory(conn);
             var cmd = factory.Instantiate(Target.Columns, TargetType.Object,
                 new CaptionFilter[] {
-                    new CaptionFilter(Target.Schemas, "Internet Operation"),
+                    new CaptionFilter(Target.Perspectives, "Internet Operation"),
                     new CaptionFilter(Target.Tables, "Currency")
             });
 

@@ -21,9 +21,9 @@ namespace NBi.Framework.FailureMessage
             
             expected = BuildTable(expectedRows, Profile.ExpectedSet);
             actual = BuildTable(actualRows, Profile.ActualSet);
-            compared = BuildNonEmptyTable(compareResult.Unexpected.Rows, "Unexpected", Profile.AnalysisSet);
-            compared.Append(BuildNonEmptyTable(compareResult.Missing.Rows ?? new List<DataRow>(), "Missing", Profile.AnalysisSet));
-            compared.Append(BuildNonEmptyTable(compareResult.Duplicated.Rows ?? new List<DataRow>(), "Duplicated", Profile.AnalysisSet));
+            compared = BuildNonEmptyTable(compareResult.Unexpected, "Unexpected", Profile.AnalysisSet);
+            compared.Append(BuildNonEmptyTable(compareResult.Missing ?? new List<DataRow>(), "Missing", Profile.AnalysisSet));
+            compared.Append(BuildNonEmptyTable(compareResult.Duplicated ?? new List<DataRow>(), "Duplicated", Profile.AnalysisSet));
             compared.Append(BuildCompareTable(compareResult.NonMatchingValue.Rows ?? new List<DataRow>(), "Non matching value", Profile.AnalysisSet));
         }
 

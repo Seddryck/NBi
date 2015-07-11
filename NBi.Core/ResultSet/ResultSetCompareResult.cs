@@ -62,12 +62,6 @@ namespace NBi.Core.ResultSet
             return res;
         }
 
-        private static Sample GetSubset(IEnumerable<DataRow> rows)
-        {
-            var subset = new List<DataRow>(rows.Count());
-            subset = rows.ToList();
-            return new Sample(subset, null, rows.Count());
-        }
 
         private static Sample GetSubset(IEnumerable<DataRow> rows, IEnumerable<DataRow> reference)
         {

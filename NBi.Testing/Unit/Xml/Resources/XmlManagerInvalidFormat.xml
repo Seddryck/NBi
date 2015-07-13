@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="My first test suite" xmlns="http://NBi/TestSuite">
+ <test name="My first test">
+  <system-under-test>
+   <execution>
+    <query connectionString="...">
+     <![CDATA[
+     SELECT
+      {[Measure].[MyMeasure]} ON 0,
+      {[MyDimension].[MyHierarchy].Members} ON 1
+     FROM
+      MyCube
+     ]]>
+   </execution>
+  </system-under-test>
+  <assert>
+   <equalTo>
+    <query connectionString="...">
+     SELECT MyHierarchy, MyMeasure FROM MyTable
+    </query>
+   </equalTo>
+  </assert>
+ </test>
+</testSuite>

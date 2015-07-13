@@ -10,6 +10,7 @@ using System.Xml.Serialization;
 using NBi.Xml.Constraints;
 using NBi.Xml.Settings;
 using NBi.Xml.Decoration.Command;
+using System.Text.RegularExpressions;
 
 namespace NBi.Xml
 {
@@ -116,13 +117,28 @@ namespace NBi.Xml
             {
                 if (ex.InnerException is XmlException)
                 {
+                    XmlSchemaException xmlSchemaException;
                     if (ex.InnerException.Message.Contains("For security reasons DTD is prohibited"))
+                        xmlSchemaException = new XmlSchemaException("DTD is prohibited. To activate it, set the flag allow-dtd-processing to true in the config file associated to this test-suite");
+                    else
                     {
-                        var msg = "DTD is prohibited. To activate it, set the flag allow-dtd-processing to true in the config file associated to this test-suite";
-                        Console.WriteLine(msg);
-                        var dtdException = new XmlSchemaException(msg);
-                        validationExceptions.Add(dtdException);
+                        var regex = new Regex(@"Line (\d+), position (\d+).$");
+                        var match = regex.Match(ex.InnerException.Message);
+                        if (match.Success)
+                        {
+                            int line = 0;
+                            Int32.TryParse(match.Groups[1].Value, out line);
+                            int position = 0;
+                            Int32.TryParse(match.Groups[2].Value, out position);
+                            xmlSchemaException = new XmlSchemaException(ex.InnerException.Message, ex, line, position);
+                        }
+                        else
+                            xmlSchemaException = new XmlSchemaException(ex.InnerException.Message);
+                            
                     }
+                    Console.WriteLine(xmlSchemaException.Message);
+                    validationExceptions.Add(xmlSchemaException);
+                    
                 }
                 else
                     ParseCascadingInvalidOperationException(ex.InnerException as InvalidOperationException);

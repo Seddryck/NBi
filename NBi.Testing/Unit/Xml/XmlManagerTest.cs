@@ -31,6 +31,16 @@ namespace NBi.Testing.Unit.Xml
         }
 
         [Test]
+        public void Load_InvalidFormat_ThrowException()
+        {
+            var filename = DiskOnFile.CreatePhysicalFile("InvalidFormat.nbits", "NBi.Testing.Unit.Xml.Resources.XmlManagerInvalidFormat.xml");
+
+            var manager = new XmlManager();
+            var ex = Assert.Throws<ArgumentException>(delegate { manager.Load(filename); });
+            Assert.That(ex.Message, Is.StringContaining("At line 14"));
+        }
+
+        [Test]
         public void Load_InvalidFile_ThrowException()
         {
             var filename = DiskOnFile.CreatePhysicalFile("TestSuiteInvalidSyntax.xml", "NBi.Testing.Unit.Xml.Resources.XmlManagerInvalidSyntax.xml");

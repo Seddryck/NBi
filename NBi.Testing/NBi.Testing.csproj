@@ -560,6 +560,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidFormat.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TablesXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SetXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidSyntaxMultiple.xml" />

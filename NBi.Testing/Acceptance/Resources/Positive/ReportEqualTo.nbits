@@ -5,7 +5,7 @@
 			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
 		</default>
 	</settings>
-	<!--<test name="Validate the different business entities" uid="0001">
+	<test name="Validate the different business entities" uid="0001">
 		<condition>
 			<service-running name="MSSQL$SQL2012"/>
 		</condition>
@@ -61,8 +61,8 @@
 				</resultSet>
 			</equalTo>
 		</assert>
-	</test>-->
-	<!--<test name="Validate the different business entities" uid="0001">
+	</test>
+  <test name="Validate the different business entities" uid="0001">
 		<system-under-test>
 			<execution>
 				<report
@@ -79,23 +79,5 @@
 				<resultSet file="..\Csv\BusinessEntity.csv"/>
 			</equalTo>
 		</assert>
-	</test>-->
-  <test name="Get sales summary for an employee" uid="0001">
-    <system-under-test>
-      <execution>
-        <report
-						path="..\Reports\"
-						name="Employee_Sales_Summary"
-						dataset="EmpSalesMonth2008R2"
-				>
-          <parameter name="@ReportYear" sql-type="int">2008</parameter>
-          <parameter name="@ReportMonth" sql-type="int">10</parameter>
-          <parameter name="@EmployeeID" sql-type="int">1</parameter>
-        </report>
-      </execution>
-    </system-under-test>
-    <assert>
-      <fasterThan max-time-milliSeconds="1000"/>
-    </assert>
-  </test>
+	</test>
 </testSuite>

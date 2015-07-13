@@ -26,9 +26,11 @@ namespace NBi.Core.ResultSet.Comparer
             : base(percentage)
         {
             if (minValue == 0 && maxValue == 0)
-                throw new ArgumentException();
-            if (minValue < 0 || maxValue < 0)
-                throw new ArgumentException();
+                throw new ArgumentException("You must specify a minimum or a maximum value but both were set to 0.");
+            if (minValue < 0)
+                throw new ArgumentException(String.Format("Minimum value can't be less than 0 but was set to {0}", minValue));
+            if (maxValue < 0)
+                throw new ArgumentException(String.Format("Maximum value can't be less than 0 but was set to {0}", maxValue));
             
             Value = percentage;
             Min = minValue;

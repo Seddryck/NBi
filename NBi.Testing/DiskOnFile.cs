@@ -44,6 +44,9 @@ namespace NBi.Testing
             using (Stream stream = Assembly.GetExecutingAssembly()
                                            .GetManifestResourceStream(resource))
             {
+                if (stream == null)
+                    throw new FileNotFoundException(resource);
+
                 //Open another stream to persist the file on disk
                 using (Stream file = File.OpenWrite(fullpath))
                 {

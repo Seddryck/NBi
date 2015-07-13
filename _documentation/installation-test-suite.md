@@ -78,6 +78,7 @@ The full listing for this test is available here under:
      FROM
       MyCube
      ]]>
+    </query>
    </execution>
   </system-under-test>
   <assert>

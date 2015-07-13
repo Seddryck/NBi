@@ -97,9 +97,9 @@ namespace NBi.Core.ResultSet.Comparer
                 if (bound.Length>3 && (bound.Substring(0, 3) == "min" || bound.Substring(0, 3) == "max"))
                 {
                     isBoundedPercentage = decimal.TryParse(bound.Substring(3), NumberStyles.Float, NumberFormatInfo.InvariantInfo, out toleranceBound);
-                    if (bound.Contains("min"))
+                    if (bound.ToLower().Contains("min"))
                         min = toleranceBound;
-                    if (bound.Contains("max"))
+                    if (bound.ToLower().Contains("max"))
                         max = toleranceBound;
                     isBoundedPercentage = (min != max);
                 }

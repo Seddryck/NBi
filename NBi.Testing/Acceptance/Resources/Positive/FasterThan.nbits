@@ -29,4 +29,22 @@
 			<fasterThan max-time-milliSeconds="5000" timeout-milliSeconds="10000"/>
 		</assert>
 	</test>
+  <test name="Faster than from a report" uid="0001">
+    <system-under-test>
+      <execution>
+        <report
+						path="..\Reports\"
+						name="Employee_Sales_Summary"
+						dataset="EmpSalesMonth2008R2"
+				>
+          <parameter name="@ReportYear" sql-type="int">2008</parameter>
+          <parameter name="@ReportMonth" sql-type="int">10</parameter>
+          <parameter name="@EmployeeID" sql-type="int">1</parameter>
+        </report>
+      </execution>
+    </system-under-test>
+    <assert>
+      <fasterThan max-time-milliSeconds="10000"/>
+    </assert>
+  </test>
 </testSuite>

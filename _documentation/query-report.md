@@ -46,10 +46,11 @@ Don't be confused with the attribute *connectionString* defining the database on
 
 Finally, you must define the report's name by the means of the attributes *path* and *name*. The *path* is referencing the folder and sub-folder of the report and *name* it's display name on the portal. Note that the leading and final slashes ("/") on the path are mandatory.
 {% highlight xml %}
-<report source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"
-		path="/AdventureWorks 2012/"
-		name="Store*Contacts"
-		dataset="Stores"
+<report 
+    source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"
+    path="/AdventureWorks 2012/"
+    name="Store-Contacts"
+    dataset="Stores"
 />
 {% endhighlight %}
 
@@ -57,9 +58,9 @@ Finally, you must define the report's name by the means of the attributes *path*
 The difference with the ReportingServer database is expressed on the attribute *source* which must be unspecified. The *path* will be expressed from the test-suite file and will have a final back-slash ("\").
 {% highlight xml %}
 <report
-	path="AdventureWorks Sample Reports\"
-	name="Store*Contacts"
-	dataset="Stores"
+    path="AdventureWorks Sample Reports\"
+    name="Store*Contacts"
+    dataset="Stores"
 />
 {% endhighlight %}
 
@@ -73,15 +74,15 @@ Since version 1.9, you can define in the *defaults* and *references* values for 
 The following code extracts the query from a report named *Store*Contacts*, in directory*/AdventureWorks 2012/* hosted on a ReportingServer database. The query is available in the dataset named *StoreContacts* and NBi applies a value of 300 to the parameter named *StoreID* when executing the query on a database with a connectionString referenced in the default settings applying to a system-under-test.
 {% highlight xml %}
 <system-under-test>
-	<execution>
-		<report
-			source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"
-			path="/AdventureWorks 2012/"
-			name="Store*Contacts"
-			dataset="StoreContacts"
-		>
-			<parameter name="StoreID">300</parameter>
-		</report>
-	</execution>
+  <execution>
+    <report
+      source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"
+      path="/AdventureWorks 2012/"
+      name="Store*Contacts"
+      dataset="StoreContacts"
+    >
+      <parameter name="StoreID">300</parameter>
+    </report>
+  </execution>
 </system-under-test>
 {% endhighlight %}

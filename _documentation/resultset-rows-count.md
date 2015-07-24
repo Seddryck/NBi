@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Rows' count for a result-set
-prev_section: compare-tolerances-intervals
+prev_section: compare-intervals
 next_section: resultset-format
 permalink: /docs/resultset-rows-count/
 ---
@@ -9,7 +9,7 @@ This assertion counts rows of a result-set and compares it to an expectation. Th
 
 ## System under test
 
-The system-under-test is a query, please reports to other tests for more information about how to define a query. More info [here](../../docs/compare-equivalence-resultsets).
+The system-under-test is a query, please reports to other tests for more information about how to define a query. More info [here](/docs/compare-equivalence-resultsets).
 
 ## Assertion
 

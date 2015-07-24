@@ -46,4 +46,4 @@ For some hierarchies or levels, you'll want to display the members in a specific
 </ordered>
 {% endhighlight %}
 
-**Important note**: If, during execution, the test is encountering a member not specified in the rule (expl: *My Fifth Item*) then the test will **not fail**. In like manner, if the test is not encountering a member defined in your rule, the test will **not fail**. If you want to perform assertions to ensure that no expected or unexpected members exist, you should use the assertions described at the page [members' collection](members-collection).
+**Important note**: If, during execution, the test is encountering a member not specified in the rule (expl: *My Fifth Item*) then the test will **not fail**. In like manner, if the test is not encountering a member defined in your rule, the test will **not fail**. If you want to perform assertions to ensure that no expected or unexpected members exist, you should use the assertions described at the page [members' collection](/docs/members-collection).

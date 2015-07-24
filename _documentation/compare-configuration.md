@@ -65,7 +65,7 @@ For each column you must specify the index of this column. Note that the first c
 <column  index="4" ... />
 {% endhighlight %}
 
-Once the index is set, you must specify the role, the type and optionally the [tolerance or rounding](Tolerances and roundings) of the column.
+Once the index is set, you must specify the role, the type and optionally the [tolerance or rounding](/docs/compare-tolerances-roundings) of the column.
 
 {% highlight xml %}
 <column  index="0" role="key" type="text"/>

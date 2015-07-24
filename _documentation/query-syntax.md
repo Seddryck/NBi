@@ -14,7 +14,7 @@ If some errors are found during the syntax parsing, the test result will mention
 For this kind of test, you'll need to define your system under test as a *query* and your assertion as an *syntacticallyCorrect* constraint.
 
 ## System Under Test
-If you’re not familiar with how to setup a system-under-test as a query, please read first the documentation about [Test equivalence of two result sets](../equivalence-resultsets)
+If you’re not familiar with how to setup a system-under-test as a query, please read first the documentation about [Test equivalence of two result sets](../compare-equivalence-resultsets/)
 
 ## Assert
 Once you system under test is defined, you'll need to specify that you want to assert the syntax of your query. This done by the xml element named *syntacticallyCorrect*

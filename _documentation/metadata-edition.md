@@ -46,4 +46,4 @@ Note that the format of the timestamp attribute is DateTime and this should be e
 
 ## At runtime
 
-Currently, NBi doesn't care about these elements at runtime but in the future we hope to be able to define a few [categories](../metadata-categories) based on them.
+Currently, NBi doesn't care about these elements at runtime but in the future we hope to be able to define a few [categories](/docs/metadata-category/) based on them.

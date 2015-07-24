@@ -73,7 +73,7 @@ You also have the opportunity to specify that a result-set is defined in an exte
   <resultSet file="C:\myResult.csv">
 </equalTo>
 {% endhighlight %}
-If needed, you can also specify an alternative [CSV profile](csv-profile) in the settings. Note that for the embedded result-set and for the external result-set, the *numeric values* must be written with an international format (a dot (".") to separate the integer part of the decimal part).
+If needed, you can also specify an alternative [CSV profile](/docs/config-profile-csv) in the settings. Note that for the embedded result-set and for the external result-set, the *numeric values* must be written with an international format (a dot (".") to separate the integer part of the decimal part).
 
 ### Another query
 
@@ -88,19 +88,19 @@ Finally, the third choice is to compare the result-set of the system-under-test 
 
 ## Advanced features
 
-With NBi, you can also check a cell's value against special values such as *null*, *empty* or *any value*. This is detailed in the article about [special and generic values](/docs/special-generic-values/).
+With NBi, you can also check a cell's value against special values such as *null*, *empty* or *any value*. This is detailed in the article about [special and generic values](/docs/compare-special-generic-values/).
 
-By default, NBi will take the assumption that the first column is a key (text) and the other columns are values (numeric without tolerance). This will influence the comparison's result. If you want to override this configuration, you should read the documentation about [result-set's comparison configuration](/docs/comparison-configuration/).
+By default, NBi will take the assumption that the first column is a key (text) and the other columns are values (numeric without tolerance). This will influence the comparison's result. If you want to override this configuration, you should read the documentation about [result-set's comparison configuration](/docs/compare-configuration/).
 
-NBi is also able to manage dateTime and boolean formats without tricks in SQL queries, more info at the [same page](/docs/comparison-configuration/)
+NBi is also able to manage dateTime and boolean formats without tricks in SQL queries, more info at the [same page](/docs/compare-configuration/)
 
-The comparison can also include [tolerances and roundings](/docs/tolerances-roundings/) methods when comparing numeric and dateTime types.
+The comparison can also include [tolerances and roundings](/docs/compare-tolerances-roundings/) methods when comparing numeric and dateTime types.
 
 ## Improve performance with queries' parallelization
 
 By default, NBi will run the queries (system-under-test and assertion) in parallel. This usually improves the performances because the two queries are usually on different systems.
 
-When parallelization is activated, this directly influences the output in the console or the output tab. The two result-sets will be intermixed and probably not interpretable. Note that this output is only visible when the trace level is set to 4 (see [enable and display trace messages](/docs/trace/)). The output of the two result-sets could be mixed. This will not influence the test execution but your debugging experience can suffer. We recommend to desactivate the queries' parallelization when the trace level is set to 4.
+When parallelization is activated, this directly influences the output in the console or the output tab. The two result-sets will be intermixed and probably not interpretable. Note that this output is only visible when the trace level is set to 4 (see [enable and display trace messages](/docs/config-traces-debugging/)). The output of the two result-sets could be mixed. This will not influence the test execution but your debugging experience can suffer. We recommend to desactivate the queries' parallelization when the trace level is set to 4.
 
 If you want to desactivate this feature, you must specify it in the _settings_ of your test-suite and it will affect the whole test-suite.
 {% highlight xml %}

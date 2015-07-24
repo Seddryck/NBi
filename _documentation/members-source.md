@@ -22,7 +22,7 @@ The first way to have a dynamic list of values is to retrieve the members from a
 
 The query will be executed and the first column of the result-set will be used to build the list of expected members. Then, the assertion will perform exactly as previously defined for a static list of members.
 
-This xml element *one-column-query* supports the xml attribute *connectionString* but you're free to use the [defaults and references](defaults-references).
+This xml element *one-column-query* supports the xml attribute *connectionString* but you're free to use the [defaults and references](/docs/config-defaults-references/).
 
 ## From another instance of the cube
 This feature lets you compare your members to the members of a hierarchy/level/set from another instance of the cube. The main purpose of this feature is to let you compare members between different environments or between releases.

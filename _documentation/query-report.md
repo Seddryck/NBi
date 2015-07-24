@@ -5,7 +5,7 @@ prev_section: query-assembly
 next_section: etl-define
 permalink: /docs/query-report/
 ---
-NBi is able to extract queries from SSRS reports (more precisely from report's datasets) and use them in your tests. Other features related to queries' execution are fully applicable to queries extracted from reports: you can definitively make usage of [query's parameters](../query-parameter/) or [query's template-variables](../query-template/).
+NBi is able to extract queries from SSRS reports (more precisely from report's datasets) and use them in your tests. Other features related to queries' execution are fully applicable to queries extracted from reports: you can definitively make usage of [query's parameters](../query-parameters/) or [query's template-variables](../query-template/).
 
 To extract the queries from a report, you've two options: connect to a ReportingServer database through sql or parse to a rdl file on a disk. In both cases, you need to specify the xml element *report* in place of the xml element named *query*
 

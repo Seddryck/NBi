@@ -9,7 +9,7 @@ permalink: /docs/setup-etl/
 
 * *etl-run*: this command let you start a new run for your Etl
 
-The syntax to define an etl is defined at the page [define an Etl](../Etl-define).
+The syntax to define an etl is defined at the page [define an Etl](/docs/etl-define/).
 
 Sample:
 {% highlight xml %}

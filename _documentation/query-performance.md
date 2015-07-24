@@ -14,7 +14,7 @@ The query will also be executed until its end. It means that if your query was e
 This kind of test is surely no ambition to replace *load tests* or *Stress tests*. With this test, you’ll only test the performances of a unique query in isolation. The goal is really to ensure that this query is not suddenly become really slow (because of a missing index, changed in the underlying objects, ...)
 
 ## System Under Test
-If you’re not familiar with how to setup a *query* as a *system-under-test*, please read first the documentation about [equivalence of two result-sets](../equivalence-resultsets/)
+If you’re not familiar with how to setup a *query* as a *system-under-test*, please read first the documentation about [equivalence of two result-sets](../compare-equivalence-resultsets/)
 
 ## Assert
 Once your *system-under-test* is defined, you'll need to specify that you want to assert the performances of your query. This is done through the xml element named *fasterThan* . You must specify the maximum time for this query in **milli-seconds** in the xml attribute *max-time-milliSeconds*.

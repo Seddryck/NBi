@@ -14,7 +14,7 @@ First, you must download and install the prerequisites:
 
 ### AdomdClient (Release 1.10.0.19 and after)
 
-If you're using version 1.10 or after, Microsoft Analysis Services Adomd Client (ADOMD.NET) **12** (originally shipped with SQL Server 2014) is directly provided with the binaries available in the [release](../release/) section. You don't need to take care of the manual installation described here under.
+If you're using version 1.10 or after, Microsoft Analysis Services Adomd Client (ADOMD.NET) **12** (originally shipped with SQL Server 2014) is directly provided with the binaries available in the [release](../../release/) section. You don't need to take care of the manual installation described here under.
 
 Even if this dll was initially shipped with SQL Server 2014, you can query multidimensional and tabular solutions deployed on SQL Server 2008 or SQL Server 2012 with this version of the dll.
 

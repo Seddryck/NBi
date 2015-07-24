@@ -5,7 +5,7 @@ prev_section: config-connection-strings
 next_section: config-settings-external-file
 permalink: /docs/config-defaults-references/
 ---
-Defaults and references are a generic case of the feature exposed in previous chapter about [connection strings](../config-connection-strings). The goal of this feature is to avoid repetition of common values for all (or a sub-part) of your tests. You write your values at one place (in the *settings* element) and these values will be applied in each of your tests. The big advantage is the centralization: in case you need to adapt these values, you'll have to change them at a unique place and not everywhere in your test-suite.
+Defaults and references are a generic case of the feature exposed in previous chapter about [connection strings](/docs/config-connection-strings). The goal of this feature is to avoid repetition of common values for all (or a sub-part) of your tests. You write your values at one place (in the *settings* element) and these values will be applied in each of your tests. The big advantage is the centralization: in case you need to adapt these values, you'll have to change them at a unique place and not everywhere in your test-suite.
 
 The difference between the two concepts is that a *default* will inject an information into your test if no value is provided for this information within your test. If a value is provided for this information, the *default* will be ignored.
 
@@ -28,9 +28,9 @@ If a *default* is specified for the scope *everywhere* and for any other scope, 
 
 Only a few kind of values are configurable in a *default* section.
 
-The first one is the *connection-string* applicable to the tests, more information is available in [connection strings](../config-connection-strings).
+The first one is the *connection-string* applicable to the tests, more information is available in [connection strings](/docs/config-connection-strings/).
 
-You can also configure values for [query's parameters](../query-parameter) and [query's template-variables](../query-template) used in Sql and Mdx queries. Note that the sql-type of a parameter can be modified by an overriding in a test. In addition to override the default value of a *parameter* or *template-variable* in a more limited scope, you can always override the parameter for a specific test by defining a value inside the test.
+You can also configure values for [query's parameters](/docs/query-parameters/) and [query's template-variables](/docs/query-template/) used in Sql and Mdx queries. Note that the sql-type of a parameter can be modified by an overriding in a test. In addition to override the default value of a *parameter* or *template-variable* in a more limited scope, you can always override the parameter for a specific test by defining a value inside the test.
 
 The last kind of values that you can define in a *default* are information about reports and more precisely the attributes *source* and the *path*. These information will be used in each of your tests, except if overridden by a reference or by a value provided within the test.
 

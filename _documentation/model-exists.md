@@ -8,7 +8,7 @@ permalink: /docs/model-exists/
 The assertion consists in a validation that the object specified in the *system-under-test* exists (by "exists", we mean "visible for the end-user browsing your cube or database").
 
 ## Assertion
-Once we have [defined the object that will be validated](model-objects), we have to define the assertion of type *exists*:
+Once we have [defined the object that will be validated](/docs/model-objects/), we have to define the assertion of type *exists*:
 {% highlight xml %}
 <test>
     <assert>

@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Equivalence of two result-sets
-prev_section: run-alternative
+prev_section: run-alterative
 next_section: compare-configuration
 permalink: /docs/compare-equivalence-resultsets/
 ---

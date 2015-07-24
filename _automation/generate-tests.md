@@ -113,7 +113,7 @@ The generation will result into the following 2 tests.
 <test name="Customer, Date, Task of Operation"/>
 {% endhighlight %}
 
-It's also possible to use elements of the grammar of StringTemplate as [functions](http://www.antlr.org/wiki/display/ST4/StringTemplate+cheat+sheet#StringTemplatecheatsheet-functions) or [conditionals](http://www.antlr.org/wiki/display/ST4/Templates#Templates-conditionals).
+It's also possible to use elements of the grammar of StringTemplate as [functions](https://theantlrguy.atlassian.net/wiki/display/ST4/StringTemplate+cheat+sheet#StringTemplatecheatsheet-functions) or [conditionals](https://theantlrguy.atlassian.net/wiki/display/ST4/Templates#Templates-conditionals).
 
 {% highlight xml %}
 <test name="All dimensions in perspective '$perspective$' are a subset of these $length(dimension)$ elements">

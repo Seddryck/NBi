@@ -75,4 +75,4 @@ Finally, the last information to be provided in the *system-under-test* is the c
         connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
 </structure>
 {% endhighlight %}
-Usage of [defaults and references](defaults-references), offers some facilities for the end-users to define more effectively the connection strings for a *test-suite*.
+Usage of [defaults and references](/docs/config-defaults-references), offers some facilities for the end-users to define more effectively the connection strings for a *test-suite*.

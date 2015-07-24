@@ -49,7 +49,7 @@ If you want to perform a test on all members of this hierarchy, including *coutr
 </system-under-test>
 {% endhighlight %}
 
-Don't forget to specify the xml attribute *connectionString* to reach your cube. if you want you can also make usage of the [a default or reference connection-string](defaults-references).
+Don't forget to specify the xml attribute *connectionString* to reach your cube. if you want you can also make usage of the [a default or reference connection-string](/docs/config-defaults-references).
 
 {% highlight xml %}
 <system-under-test>

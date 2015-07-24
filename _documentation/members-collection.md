@@ -73,4 +73,4 @@ If your test has failed, NBi will provide a list of missing and/or unexpected it
 * *subsetOf*: unexpected items
 * *equivalentTo*: missing and unexpected items
 
-By default, this list will be limited to 10 items maximum. If you want to change this behavior see the documentation about [failure report profile](profile-failure-report).
+By default, this list will be limited to 10 items maximum. If you want to change this behavior see the documentation about [failure report profile](/docs/config-profile-failure-report).

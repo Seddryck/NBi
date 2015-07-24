@@ -10,7 +10,7 @@ In the previous section we learnt how to validate the existence of an object. So
 Tests on collection of objects support three assertions: *contain*, *subsetOf*, *equivalentTo*.
 
 ## System-under-test
-At the difference of the [test of existence](model-exists), we'll define our *system-under-test* as a list of objects. So, in place of creating a system-under-test as *a dimension*, we'll have to instantiate a test on *the dimensions*. The available xml elements are
+At the difference of the [test of existence](/docs/model-exists/), we'll define our *system-under-test* as a list of objects. So, in place of creating a system-under-test as *a dimension*, we'll have to instantiate a test on *the dimensions*. The available xml elements are
 * perspectives
 * dimensions
 * hierarchies

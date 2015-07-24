@@ -24,7 +24,7 @@ For all of them, The xml attribute named *name* expects the name of the impacted
 </setup>
 {% endhighlight %}
 
-If you want, you can also reference a connection-string in the xml attribute named *connectionString*. If you want to avoid to repeat this connection-string within all your commands, you can create a default value for the *connectionString* in the [settings](../manage-connection-strings) at the top of your test-suite where the value for the xml attribute *apply-to* must be set *setup-cleanup*.
+If you want, you can also reference a connection-string in the xml attribute named *connectionString*. If you want to avoid to repeat this connection-string within all your commands, you can create a default value for the *connectionString* in the [settings](/docs/config-connection-strings) at the top of your test-suite where the value for the xml attribute *apply-to* must be set *setup-cleanup*.
 
 {% highlight xml %}
 <settings>
@@ -34,4 +34,4 @@ If you want, you can also reference a connection-string in the xml attribute nam
 </settings>
 {% endhighlight %}
 
-If you want to perform more complex manipulations with your data tables, you can also check the command [sql-run](../setup-sql-batch).
+If you want to perform more complex manipulations with your data tables, you can also check the command [sql-run](/docs/setup-sql-batch).

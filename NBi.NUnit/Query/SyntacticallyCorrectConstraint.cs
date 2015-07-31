@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Data.OleDb;
-using System.Data.SqlClient;
-using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.Query;
 using NUnitCtr = NUnit.Framework.Constraints;
 

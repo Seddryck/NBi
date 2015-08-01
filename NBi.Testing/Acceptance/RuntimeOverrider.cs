@@ -52,7 +52,7 @@ namespace NBi.Testing.Acceptance
         {
             //Build the fullpath for the file to read
             Directory.CreateDirectory("Etl");
-            DiskOnFile.CreatePhysicalFile(@"Etl\Sample.dtsx", "NBi.Testing.Integration.Core.Etl.IntegrationService.Resources.Sample.dtsx");
+            DiskOnFile.CreatePhysicalFile(@"Etl\Sample.dtsx", "NBi.Testing.Integration.SqlServer.IntegrationService.Resources.Sample.dtsx");
         }
         
         //By Acceptance Test Suite (file) create a Test Case

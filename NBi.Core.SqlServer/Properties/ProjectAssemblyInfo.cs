@@ -4,7 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NBi.Core for SQL Server")]
+#if SqlServer2014
+[assembly: AssemblyTitle("NBi.Core for SQL Server 2014")]
+#else
+[assembly: AssemblyTitle("NBi.Core for SQL Server (unspecified version)")]
+#endif
 [assembly: AssemblyConfiguration("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

@@ -483,7 +483,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NBi.Core.SqlServer\NBi.Core.SqlServer.2014\NBi.Core.SqlServer2014.csproj">
+    <ProjectReference Include="..\NBi.Core.SqlServer\NBi.Core.SqlServer.csproj">
       <Project>{687f2843-268c-43e2-8369-9eb06b9b59f8}</Project>
       <Name>NBi.Core.SqlServer2014</Name>
     </ProjectReference>

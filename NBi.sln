@@ -42,7 +42,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Xsd.Preprocess", "NBi.X
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SqlServer", "SqlServer", "{05781747-4E7E-470F-A772-C0F988C6DF98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Core.SqlServer2014", "NBi.Core.SqlServer\NBi.Core.SqlServer.2014\NBi.Core.SqlServer2014.csproj", "{687F2843-268C-43E2-8369-9EB06B9B59F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Core.SqlServer", "NBi.Core.SqlServer\NBi.Core.SqlServer.csproj", "{687F2843-268C-43E2-8369-9EB06B9B59F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

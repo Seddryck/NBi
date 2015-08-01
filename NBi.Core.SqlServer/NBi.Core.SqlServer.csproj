@@ -5,6 +5,9 @@
     <Version>SqlServer2014</Version>
   </PropertyGroup>
   <PropertyGroup>
+	<DefineConstants>$(Version)</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{687F2843-268C-43E2-8369-9EB06B9B59F8}</ProjectGuid>

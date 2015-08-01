@@ -6,7 +6,8 @@ using Microsoft.SqlServer.Management.IntegrationServices;
 using System.Collections.Generic;
 using NBi.Core.Etl;
 
-namespace NBi.Core.SqlServer2014.IntegrationService
+
+namespace NBi.Core.SqlServer.IntegrationService
 {
     class EtlCatalogRunner : EtlRunner
     {

@@ -8,7 +8,7 @@ using Moq;
 using NBi.Core.Etl;
 using NBi.Xml.Items;
 using NUnit.Framework;
-using NBi.Core.SqlServer2014.IntegrationService;
+using NBi.Core.SqlServer.IntegrationService;
 
 namespace NBi.Testing.Integration.SqlServer.IntegrationService
 {

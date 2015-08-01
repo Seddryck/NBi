@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.SqlServer.Dts.Runtime;
 using NBi.Core.Etl;
 
-namespace NBi.Core.SqlServer2014.IntegrationService
+namespace NBi.Core.SqlServer.IntegrationService
 {
     abstract class EtlDtsRunner : EtlRunner
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NBi.Core.Etl;
 using Microsoft.SqlServer.Management.IntegrationServices;
 
-namespace NBi.Core.SqlServer2014.IntegrationService
+namespace NBi.Core.SqlServer.IntegrationService
 {
     class EtlRunResultFactory
     {

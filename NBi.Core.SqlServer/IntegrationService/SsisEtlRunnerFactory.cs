@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using NBi.Core.Etl;
 
-namespace NBi.Core.SqlServer2014.IntegrationService
+namespace NBi.Core.SqlServer.IntegrationService
 {
     public class SsisEtlRunnerFactory : IEtlRunnerFactory
     {

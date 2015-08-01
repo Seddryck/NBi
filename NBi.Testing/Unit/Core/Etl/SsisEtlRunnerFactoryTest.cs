@@ -2,7 +2,7 @@
 using System.Linq;
 using Moq;
 using NBi.Core.Etl;
-using NBi.Core.Etl.IntegrationService;
+using NBi.Core.SqlServer2014.IntegrationService;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.Core.Etl

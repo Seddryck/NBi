@@ -99,8 +99,8 @@
     <Compile Include="Integration\Core\Batch\SqlServer\BatchCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\BulkLoadCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\TruncateCommandTest.cs" />
-    <Compile Include="Integration\Core\Etl\IntegrationService\EtlDtsWindowsRunnerTest.cs" />
-    <Compile Include="Integration\Core\Etl\IntegrationService\EtlFileRunnerTest.cs" />
+    <Compile Include="Integration\SqlServer\IntegrationService\EtlDtsWindowsRunnerTest.cs" />
+    <Compile Include="Integration\SqlServer\IntegrationService\EtlFileRunnerTest.cs" />
     <Compile Include="Integration\Core\FileManipulation\CopyCommandTest.cs" />
     <Compile Include="Integration\Core\Process\ProcessRunCommandTest.cs" />
     <Compile Include="Integration\Core\FileManipulation\DeleteCommandTest.cs" />
@@ -275,6 +275,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Integration\Core\Analysis\Query\" />
+    <Folder Include="Integration\Core\Etl\" />
     <Folder Include="Integration\NUnit\Builder\" />
   </ItemGroup>
   <ItemGroup>
@@ -359,7 +360,7 @@
     </None>
     <EmbeddedResource Include="Integration\NUnit\Resources\NonEmptyAmountByYear.csv" />
     <EmbeddedResource Include="Integration\Core\DataManipulation\Load.csv" />
-    <EmbeddedResource Include="Integration\Core\Etl\IntegrationService\Resources\Sample.dtsx" />
+    <EmbeddedResource Include="Integration\SqlServer\IntegrationService\Resources\Sample.dtsx" />
     <EmbeddedResource Include="Integration\Core\Resources\MyBatch.cmd" />
     <EmbeddedResource Include="Integration\Core\Resources\MyInvalidBatch.cmd" />
     <EmbeddedResource Include="Integration\GenbiL\Resources\Simple.genbil" />
@@ -482,6 +483,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NBi.Core.SqlServer\NBi.Core.SqlServer.2014\NBi.Core.SqlServer2014.csproj">
+      <Project>{687f2843-268c-43e2-8369-9eb06b9b59f8}</Project>
+      <Name>NBi.Core.SqlServer2014</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
       <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
       <Name>NBi.Core</Name>

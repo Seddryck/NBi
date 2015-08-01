@@ -1,4 +1,5 @@
-﻿using Microsoft.SqlServer.Management.IntegrationServices;
+﻿#if ! SqlServer2008R2
+using Microsoft.SqlServer.Management.IntegrationServices;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
@@ -192,3 +193,4 @@ public static class Extensions
 
     #endregion
 }
+#endif

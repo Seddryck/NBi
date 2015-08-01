@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if ! SqlServer2008R2
+using System;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Linq;
@@ -130,4 +131,4 @@ namespace NBi.Core.SqlServer.IntegrationService
 
     }
 }
-    
+#endif

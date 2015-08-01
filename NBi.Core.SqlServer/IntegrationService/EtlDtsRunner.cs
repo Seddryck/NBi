@@ -36,22 +36,25 @@ namespace NBi.Core.SqlServer.IntegrationService
 
         protected abstract Package Load(IEtl etl, Application app);
 
+       
         protected virtual void Parameterize(IEnumerable<EtlParameter> parameters, ref Package package)
         {
             foreach (var param in parameters)
             {
+                #if ! SqlServer2008R2
                 if (package.Parameters.Contains(param.Name))
                     package.Parameters[param.Name].Value = param.StringValue;
                 else
                 {
+                #endif
                     if (package.Variables.Contains(param.Name))
                         package.Variables[param.Name].Value = DefineValue(param.StringValue, package.Variables[param.Name].DataType);
                     else
                         throw new ArgumentOutOfRangeException("param.Name", string.Format("No parameter or variable named '{0}' found in the package {1}, can't override its value for execution.", param.Name, package.Name));
-                }
+               #if ! SqlServer2008R2 
+               }
+               #endif
             }
         }
-
-        
     }
 }

@@ -53,10 +53,10 @@
     </When>
 	<When Condition="$(Version) == 'SqlServer2008R2'">
 	  <ItemGroup>
-		<Reference Include="Microsoft.SqlServer.ManagedDTS, Version=10.5.0.0, Culture=neutral, PublicKeyToken=89845DCD8080CC91, processorArchitecture=MSIL" />
-		<Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=10.5.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-		<Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=10.5.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-		<Reference Include="Microsoft.SqlServer.Smo, Version=10.5.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+		<Reference Include="Microsoft.SqlServer.ManagedDTS, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845DCD8080CC91, processorArchitecture=MSIL" />
+		<Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+		<Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+		<Reference Include="Microsoft.SqlServer.Smo, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
       </ItemGroup>	
 	</When>
   </Choose>

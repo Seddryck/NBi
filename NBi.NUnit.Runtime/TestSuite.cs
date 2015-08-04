@@ -268,6 +268,9 @@ namespace NBi.NUnit.Runtime
             AllowDtdProcessing = config.AllowDtdProcessing;
             SettingsFilename = config.SettingsFilename;
             Configuration = new TestConfiguration(config.FailureReportProfile);
+
+            if (Configuration != FailureReportProfile.Default)
+                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Failure-report-profile provided by config file"));
         }
 
 

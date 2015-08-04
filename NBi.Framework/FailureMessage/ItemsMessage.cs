@@ -44,7 +44,7 @@ namespace NBi.Framework.FailureMessage
             else
                 container.Append("An empty set.".ToMarkdownParagraph());
 
-            if (IsSampled(items))
+            if (IsSampled(items, sampling))
                 container.Append(string.Format("... and {0} others not displayed.", CountExcludedRows(items)).ToMarkdownParagraph());
 
             return container;

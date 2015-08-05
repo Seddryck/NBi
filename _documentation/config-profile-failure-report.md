@@ -13,18 +13,18 @@ The first two attributes specify the maximum count of rows (items). The first on
 
 Then, you've three attributes to specify when the previous values will be effectively in use. For each set rendered in a report you can define three values:
 
-* *none*: this set will never be rendered
-* *sample*: the two previously defined attributes will be applied. Meaning that if the set to render has more attributes than *threshold-sample-items*, only *max-sample-items* will be rendered. If the set contains less than *threshold-sample-items* items then the whole set will be rendered.
-* *full*: the whole set will be rendered even if it contains more items than the value defined for the attribute *threshold-sample-items*.
+* *None*: this set will never be rendered
+* *Sample*: the two previously defined attributes will be applied. Meaning that if the set to render has more attributes than *threshold-sample-items*, only *max-sample-items* will be rendered. If the set contains less than *threshold-sample-items* items then the whole set will be rendered.
+* *Full*: the whole set will be rendered even if it contains more items than the value defined for the attribute *threshold-sample-items*.
 
 {% highlight xml %}
 <nbi>
     <failure-report-profile
         threshold-sample-items="50"
         max-sample-items="25"
-        expected-set="none"
-        actual-set="sample"
-        analysis-set="full"
+        expected-set="None"
+        actual-set="Sample"
+        analysis-set="Full"
     />
 </nbi>
 {% endhighlight %}
@@ -36,9 +36,9 @@ For your information, the equivalent notation of the default profile is
     <failure-report-profile
         max-sample-items="10"
         threshold-sample-items="15"
-        expected-set="sample"
-        actual-set="sample"
-        analysis-set="sample"
+        expected-set="Sample"
+        actual-set="Sample"
+        analysis-set="Sample"
     />
 </nbi>
 {% endhighlight %}

@@ -52,6 +52,15 @@ namespace NBi.NUnit.Runtime
         [Test, TestCaseSource("GetTestCases")]
         public virtual void ExecuteTestCases(TestXml test)
         {
+            if (ConfigurationFinder != null)
+            {
+                Trace.WriteLineIf(NBiTraceSwitch.TraceError, string.Format("Loading configuration"));
+                var config = ConfigurationFinder.Find();
+                ApplyConfig(config);
+            }
+            else
+                Trace.WriteLineIf(NBiTraceSwitch.TraceError, string.Format("No configuration-finder found."));
+
             Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Test loaded by {0}", GetOwnFilename()));
             Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Test defined in {0}", TestSuiteFinder.Find()));
 
@@ -193,7 +202,13 @@ namespace NBi.NUnit.Runtime
         {
             //Find configuration of NBi
             if (ConfigurationFinder != null)
-                ApplyConfig(ConfigurationFinder.Find());
+            {
+                var config = ConfigurationFinder.Find();
+                ApplyConfig(config);
+            }
+            else
+                Trace.WriteLineIf(NBiTraceSwitch.TraceError, string.Format("No configuration-finder found."));
+                
 
             //Find connection strings referecned from an external file
             if (ConnectionStringsFinder != null)
@@ -268,11 +283,7 @@ namespace NBi.NUnit.Runtime
             AllowDtdProcessing = config.AllowDtdProcessing;
             SettingsFilename = config.SettingsFilename;
             Configuration = new TestConfiguration(config.FailureReportProfile);
-
-            if (Configuration != FailureReportProfile.Default)
-                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Failure-report-profile provided by config file"));
         }
-
 
         protected internal string GetOwnFilename()
         {

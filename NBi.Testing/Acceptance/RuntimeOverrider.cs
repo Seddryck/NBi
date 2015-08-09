@@ -177,7 +177,8 @@ namespace NBi.Testing.Acceptance
         }
 
         [Test]
-        [TestCase("DataRowsMessage.nbits")]
+        [TestCase("Config-Full.nbits")]
+        [TestCase("Config-Light.nbits")]
         [Category("Acceptance")]
         public void RunNegativeTestSuiteWithConfig(string filename)
         {
@@ -186,16 +187,6 @@ namespace NBi.Testing.Acceptance
             //First retrieve the NUnit TestCases with base class (NBi.NUnit.Runtime)
             //These NUnit TestCases are defined in the Test Suite file
             var tests = t.GetTestCases();
-
-            //var profile = new NBi.Framework.FailureMessage.FailureReportProfile()
-            //{
-            //    ExpectedSet = Framework.FailureMessage.FailureReportSetType.None,
-            //    ActualSet = Framework.FailureMessage.FailureReportSetType.Full,
-            //    AnalysisSet = Framework.FailureMessage.FailureReportSetType.Sample,
-            //    MaxSampleItem = 1,
-            //    ThresholdSampleItem = 1
-            //};
-            //var configuration = new TestConfiguration(profile);
 
             //Execute the NUnit TestCases one by one
             foreach (var testCaseData in tests)
@@ -215,14 +206,14 @@ namespace NBi.Testing.Acceptance
                                            .GetManifestResourceStream(
                                                 "NBi.Testing.Acceptance.Resources.Negative."
                                                 + filename.Replace(".nbits", string.Empty)
-                                                + "-" + testXml.UniqueIdentifier + "-config.txt"))
+                                                + "-" + testXml.UniqueIdentifier + ".txt"))
                     {
                         using (StreamReader reader = new StreamReader(stream))
                         {
                             var expected = reader.ReadToEnd();
                             //Debug.WriteLine(expected);
                             //Debug.WriteLine("");
-                            //Debug.WriteLine(ex.Message);
+                            Debug.WriteLine(ex.Message);
                             Assert.That(ex.Message, Is.EqualTo(expected));
                         }
                         Assert.That(ex.StackTrace, Is.Not.Null.Or.Empty);

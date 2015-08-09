@@ -312,9 +312,18 @@
     <EmbeddedResource Include="Acceptance\Resources\Etl\DateTime.dtsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="Acceptance\Resources\Negative\DataRowsMessage.nbits.config">
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Full.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Full.nbits.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Light.nbits.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Light.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Reports\EmployeeSalesDetail.rsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -566,7 +575,8 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Acceptance\Resources\Negative\DataRowsMessage-0001-config.txt" />
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Light-0001.txt" />
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Full-0001.txt" />
     <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidFormat.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TablesXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SetXmlTestSuite.xml" />

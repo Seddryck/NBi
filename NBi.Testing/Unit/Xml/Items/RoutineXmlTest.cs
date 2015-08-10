@@ -21,7 +21,7 @@ namespace NBi.Testing.Unit.Xml.Items
             var structureXml = new StructureXml();
             var routineXml = new RoutineXml();
             routineXml.Caption = "My Caption";
-            routineXml.Schema = "My Schema";
+            routineXml.Perspective = "My Perspective";
             structureXml.Item = routineXml;
 
             var serializer = new XmlSerializer(typeof(StructureXml));
@@ -35,7 +35,7 @@ namespace NBi.Testing.Unit.Xml.Items
             Debug.WriteLine(content);
 
             Assert.That(content, Is.StringContaining("caption=\"My Caption\""));
-            Assert.That(content, Is.StringContaining("schema=\"My Perspective\""));
+            Assert.That(content, Is.StringContaining("perspective=\"My Perspective\""));
             Assert.That(content, Is.StringContaining("<routine"));
         }
     }

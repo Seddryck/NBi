@@ -9,7 +9,7 @@ namespace NBi.Core.Structure.Relational.Builders
 {
     abstract class RoutineParameterDiscoveryCommandBuilder : RelationalDiscoveryCommandBuilder
     {
-        protected virtual string BasicCommandText
+        protected override string BasicCommandText
         {
             get { return "select [{0}_name], [parameter_name], [parameter_mode], [data_type] from INFORMATION_SCHEMA.{1} left outer join INFORMATION_SCHEMA.Parameters on [routine_schema]=[specific_schema] and [routine_name]=[routine_catalog] where 1=1"; }
         }
@@ -31,7 +31,7 @@ namespace NBi.Core.Structure.Relational.Builders
             
 
             yield return new CommandFilter(string.Format("r.[routine_schema]='{0}'"
-                                                            , filters.Single(f => f.Target == Target.Schemas).Caption
+                                                            , filters.Single(f => f.Target == Target.Perspectives).Caption
                                                             ));
 
             var additionalFilters = BuildAdditionalFilters(filters);

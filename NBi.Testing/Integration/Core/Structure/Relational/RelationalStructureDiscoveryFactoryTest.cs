@@ -84,7 +84,7 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
             var factory = new RelationalStructureDiscoveryFactory(conn);
             var cmd = factory.Instantiate(Target.Routines, TargetType.Object,
                 new CaptionFilter[] {
-                    new CaptionFilter(Target.Schemas,"HumanResources")
+                    new CaptionFilter(Target.Perspectives,"HumanResources")
                 });
 
             var structs = cmd.Execute();
@@ -98,7 +98,7 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
             var factory = new RelationalStructureDiscoveryFactory(conn);
             var cmd = factory.Instantiate(Target.Routines, TargetType.Object,
                 new CaptionFilter[] {
-                    new CaptionFilter(Target.Schemas,"dbo")
+                    new CaptionFilter(Target.Perspectives,"dbo")
                     , new CaptionFilter(Target.Routines,"ufnGetContactInformation")
                 });
 

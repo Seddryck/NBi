@@ -19,10 +19,10 @@ namespace NBi.Core.Structure.Tabular.Builders
         {
             yield return new CommandFilter("column_name<>'RowNumber'");
 
-            var filter = filters.SingleOrDefault(f => f.Target == Target.Schemas);
+            var filter = filters.SingleOrDefault(f => f.Target == Target.Perspectives);
             if (filter != null)
                 yield return new CommandFilter(string.Format("[table_schema]='{0}'"
-                                                            , filters.Single(f => f.Target == Target.Schemas).Caption
+                                                            , filters.Single(f => f.Target == Target.Perspectives).Caption
                                                             ));
 
             yield return new CommandFilter(string.Format("[table_name]='${0}'"

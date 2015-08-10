@@ -126,7 +126,7 @@ namespace NBi.NUnit
 			//Look for registration ...
 			var registration = registrations.FirstOrDefault(reg => sutXml.GetType()==reg.SystemUnderTestType && ctrXml.GetType() == reg.ConstraintType);
 			if (registration == null)
-				throw new ArgumentException(string.Format("'{0}' is not an expected type for a constraint for a system under test '{1}'.", ctrXml.GetType().Name, sutXml.GetType().Name));
+				throw new ArgumentException(string.Format("'{0}' is not an expected type for a constraint with a system-under-test '{1}'.", ctrXml.GetType().Name, sutXml.GetType().Name));
 
             //Apply the chooser if needed
             if (registration.Builder == null)

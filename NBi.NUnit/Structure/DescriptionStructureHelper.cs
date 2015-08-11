@@ -30,6 +30,9 @@ namespace NBi.NUnit.Structure
                     case Target.Levels:
                         text = "at level '{0}'";
                         break;
+                    case Target.Tables:
+                        text = "in table '{0}'";
+                        break;
                     default:
                         break;
                 }
@@ -66,6 +69,21 @@ namespace NBi.NUnit.Structure
                 case Target.Levels:
                     text = "level";
                     break;
+                case Target.Properties:
+                    text = "property";
+                    break;
+                case Target.Sets:
+                    text = "set";
+                    break;
+                case Target.Tables:
+                    text = "table";
+                    break;
+                case Target.Columns:
+                    text = "column";
+                    break;
+                case Target.Routines:
+                    text = "routine";
+                    break;
                 default:
                     break;
             }
@@ -99,6 +117,18 @@ namespace NBi.NUnit.Structure
                 case Target.Properties:
                     text = "properties";
                     break;
+                case Target.Sets:
+                    text = "sets";
+                    break;
+                case Target.Tables:
+                    text = "tables";
+                    break;
+                case Target.Columns:
+                    text = "columns";
+                    break;
+                case Target.Routines:
+                    text = "routines";
+                    break;
                 default:
                     break;
             }
@@ -123,6 +153,9 @@ namespace NBi.NUnit.Structure
                 case Target.Levels:
                     text = "property";
                     break;
+                case Target.Tables:
+                    text = "column";
+                    break;
                 default:
                     break;
             }
@@ -146,6 +179,9 @@ namespace NBi.NUnit.Structure
                     break;
                 case Target.Levels:
                     text = "properties";
+                    break;
+                case Target.Tables:
+                    text = "columns";
                     break;
                 default:
                     break;

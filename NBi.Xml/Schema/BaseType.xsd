@@ -547,6 +547,15 @@
                 </xs:choice>
               </xs:complexType>
             </xs:element>
+            <xs:element name="data-type">
+              <xs:complexType>
+                <xs:choice>
+                  <!--<xs:element name="measure" type="measure-type"/>
+                  <xs:element name="property" type="property-type"/>-->
+                  <xs:element name="column" type="column-type"/>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
           </xs:choice>
         </xs:complexType>
       </xs:element>
@@ -792,6 +801,15 @@
                 <xs:simpleContent>
                   <xs:extension base="xs:string">
                     <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+                    <xs:attribute name="not" type="xs:boolean" use="optional" />
+                  </xs:extension>
+                </xs:simpleContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="is">
+              <xs:complexType>
+                <xs:simpleContent>
+                  <xs:extension base="xs:string">
                     <xs:attribute name="not" type="xs:boolean" use="optional" />
                   </xs:extension>
                 </xs:simpleContent>

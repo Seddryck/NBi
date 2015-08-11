@@ -44,7 +44,7 @@ namespace NBi.NUnit.Builder
 
         protected NBiConstraint InstantiateConstraint(IsXml ctrXml, DataTypeXml sutXml)
         {
-            var expected = sutXml.Item.Caption;
+            var expected = ctrXml.Value;
 
             var ctr = new IsConstraint(expected);
             

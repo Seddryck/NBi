@@ -13,10 +13,10 @@ namespace NBi.Core.DataType
 
         public override string ToString()
         {
-            return Name 
-                + (Scale.HasValue ? "(" + Scale.Value.ToString() : "")
-                + (Precision.HasValue ? "," + Precision.Value.ToString() : "")
-                + (Scale.HasValue ? ")" : "");
+            return Name
+                + (Precision.HasValue ? "(" + Precision.Value.ToString() : "")
+                + (Scale.HasValue ? "," + Scale.Value.ToString() : "")
+                + (Precision.HasValue ? ")" : "");
         }
     }
 }

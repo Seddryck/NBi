@@ -227,7 +227,7 @@ namespace NBi.Testing.Unit.NUnit.DataType
                                 , new CaptionFilter(Target.Columns, "ccc-name")
                         });
 
-            var actual = new NumericInfo() { Name = "decimal", Scale = 10, Precision=3 };
+            var actual = new NumericInfo() { Name = "decimal", Precision=10, Scale = 3 };
 
             var commandStub = new Mock<IDataTypeDiscoveryCommand>();
             commandStub.Setup(cmd => cmd.Execute()).Returns(actual);
@@ -326,7 +326,7 @@ namespace NBi.Testing.Unit.NUnit.DataType
         [Test]
         public void Matches_Decimal10Coma3_Success()
         {
-            var actual = new NumericInfo() { Name = "decimal", Scale = 10, Precision=3 };
+            var actual = new NumericInfo() { Name = "decimal", Precision=10 , Scale = 3 };
 
             var commandStub = new Mock<IDataTypeDiscoveryCommand>();
             commandStub.Setup(cmd => cmd.Execute()).Returns(actual);

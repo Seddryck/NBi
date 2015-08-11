@@ -1,8 +1,6 @@
 ﻿using Microsoft.AnalysisServices;
 using Microsoft.AnalysisServices.AdomdClient;
-using NBi.Core.Structure.Olap;
-using NBi.Core.Structure.Relational;
-using NBi.Core.Structure.Tabular;
+using NBi.Core.DataType.Relational;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -32,9 +30,7 @@ namespace NBi.Core.DataType
         
         protected virtual void Initialize()
         {
-            dico.Add(Olap, typeof(OlapStructureDiscoveryFactory));
-            dico.Add(Relational, typeof(RelationalStructureDiscoveryFactory));
-            dico.Add(Tabular, typeof(TabularStructureDiscoveryFactory));
+            dico.Add(Relational, typeof(RelationalDataTypeDiscoveryFactory));
         }
 
         public IDataTypeDiscoveryFactory Instantiate(string connectionString)

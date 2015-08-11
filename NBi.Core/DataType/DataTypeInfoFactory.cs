@@ -50,25 +50,25 @@ namespace NBi.Core.DataType
             var type = value.Split('(')[0];
             dataTypeInfo = Decrypt(type);
 
-            int? scale = null;
-            int? precision = null;
+            int? first = null;
+            int? second = null;
 
             if (value.Split('(').Length>1)
             {
-                scale = Convert.ToInt32(value.Split('(')[1].Split(',')[0].Replace(")",""));
+                first = Convert.ToInt32(value.Split('(')[1].Split(',')[0].Replace(")",""));
 
                 if (value.Split('(')[1].Split(',').Length>1)
-                    precision = Convert.ToInt32(value.Split('(')[1].Split(',')[1].Replace(")",""));
+                    second = Convert.ToInt32(value.Split('(')[1].Split(',')[1].Replace(")",""));
             }
 
-            if (scale.HasValue && dataTypeInfo is IScale)
-                ((IScale)dataTypeInfo).Scale = scale.Value;
+            if (second.HasValue && dataTypeInfo is IScale)
+                ((IScale)dataTypeInfo).Scale = second.Value;
 
-            if (precision.HasValue && dataTypeInfo is IPrecision)
-                ((IPrecision)dataTypeInfo).Precision = precision.Value;
+            if (first.HasValue && dataTypeInfo is IPrecision)
+                ((IPrecision)dataTypeInfo).Precision = first.Value;
 
-            if (scale.HasValue && dataTypeInfo is ILength)
-                ((ILength)dataTypeInfo).Length = scale.Value;            
+            if (first.HasValue && dataTypeInfo is ILength)
+                ((ILength)dataTypeInfo).Length = first.Value;            
             
             return dataTypeInfo;
         }

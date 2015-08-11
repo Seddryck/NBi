@@ -29,7 +29,6 @@ namespace NBi.NUnit.DataType
             this.expected = factory.Instantiate(expected);
         }
 
-
         public override bool Matches(object actual)
         {
             if (actual is IDataTypeDiscoveryCommand)
@@ -81,8 +80,8 @@ namespace NBi.NUnit.DataType
             {
                 var result = Actual.Name;
                 result += expected is ILength && Actual is ILength && ((ILength)expected).Length.HasValue ? "(" + ((ILength)Actual).Length.Value : "";
-                result += expected is IScale && Actual is IScale && ((IScale)expected).Scale.HasValue ? "(" + ((IScale)Actual).Scale.Value : "";
-                result += expected is IPrecision && Actual is IPrecision && ((IPrecision)expected).Precision.HasValue ? "," + ((IPrecision)Actual).Precision.Value : "";
+                result += expected is IPrecision && Actual is IPrecision && ((IPrecision)expected).Precision.HasValue ? "(" + ((IPrecision)Actual).Precision.Value : "";
+                result += expected is IScale && Actual is IScale && ((IScale)expected).Scale.HasValue ? "," + ((IScale)Actual).Scale.Value : "";
                 result += result.Contains("(") ? ")" : "";
 
                 writer.WriteActualValue(result);

@@ -12,5 +12,10 @@ namespace NBi.Core.DataType
         
         public bool Nullable { get; set; }
 
+        public override string ToString()
+        {
+ 	         return Name;
+        }
+
     }
 }

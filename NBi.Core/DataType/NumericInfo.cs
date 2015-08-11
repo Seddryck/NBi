@@ -6,9 +6,17 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.DataType
 {
-    class NumericInfo : DataTypeInfo
+    class NumericInfo : DataTypeInfo, IPrecision, IScale
     {
-        public int Scale { get; set; }
-        public int Precision { get; set; }
+        public int? Scale { get; set; }
+        public int? Precision { get; set; }
+
+        public override string ToString()
+        {
+            return Name 
+                + (Scale.HasValue ? "(" + Scale.Value.ToString() : "")
+                + (Precision.HasValue ? "," + Precision.Value.ToString() : "")
+                + (Scale.HasValue ? ")" : "");
+        }
     }
 }

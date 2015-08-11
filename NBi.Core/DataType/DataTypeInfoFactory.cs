@@ -42,5 +42,75 @@ namespace NBi.Core.DataType
             dataTypeInfo.Nullable = row.IsNullable.ToUpper() == "YES".ToUpper();
             return dataTypeInfo;
         }
+
+        public DataTypeInfo Instantiate(string value)
+        {
+            DataTypeInfo dataTypeInfo = null;
+
+            var type = value.Split('(')[0];
+            dataTypeInfo = Decrypt(type);
+
+            int? scale = null;
+            int? precision = null;
+
+            if (value.Split('(').Length>1)
+            {
+                scale = Convert.ToInt32(value.Split('(')[1].Split(',')[0].Replace(")",""));
+
+                if (value.Split('(')[1].Split(',').Length>1)
+                    precision = Convert.ToInt32(value.Split('(')[1].Split(',')[1].Replace(")",""));
+            }
+
+            if (scale.HasValue && dataTypeInfo is IScale)
+                ((IScale)dataTypeInfo).Scale = scale.Value;
+
+            if (precision.HasValue && dataTypeInfo is IPrecision)
+                ((IPrecision)dataTypeInfo).Precision = precision.Value;
+
+            if (scale.HasValue && dataTypeInfo is ILength)
+                ((ILength)dataTypeInfo).Length = scale.Value;            
+            
+            return dataTypeInfo;
+        }
+
+        protected DataTypeInfo Decrypt(string type)
+        {
+            DataTypeInfo value = null;
+            switch (type)
+            {
+                case "bit":
+                    value = new DataTypeInfo();
+                    break;
+                case "ntext":
+                case "nvarchar":
+                case "varchar":
+                case "nchar":
+                case "text":
+                case "char":
+                    value = new TextInfo();
+                    break;
+                case "smalldatetime":
+                case "datetime":
+                    value = new DateTimeInfo();
+                    break;
+                case "bigint":
+                case "money":
+                case "smallmoney":
+                case "decimal":
+                case "float":
+                case "int":
+                case "real":
+                case "smallint":
+                case "tinyint":
+                    value = new NumericInfo();
+                    break;
+                default:
+                    value = new DataTypeInfo();
+                    break;
+            }
+
+            value.Name = type;
+            return value;
+        }
     }
 }

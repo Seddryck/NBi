@@ -134,6 +134,7 @@
     <Compile Include="Unit\Core\Assemblies\Resource\Klass.cs" />
     <Compile Include="Unit\Core\Assemblies\TypeConverterTest.cs" />
     <Compile Include="Unit\Core\CsvWriterTest.cs" />
+    <Compile Include="Unit\Core\DataType\DataTypeInfoFactoryTest.cs" />
     <Compile Include="Unit\Core\GroupCommandFactoryTest.cs" />
     <Compile Include="Unit\Core\Etl\SsisEtlRunnerFactoryTest.cs" />
     <Compile Include="Unit\Core\Evaluate\RowValidatorTest.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="Unit\NUnit\Builder\MembersOrderedBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersCountBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\DataType\IsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Execution\RowCountConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Execution\SuccessfulConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Execution\FasterThanConstraintTest.cs" />
@@ -270,7 +272,7 @@
     <Compile Include="Unit\Xml\Settings\SettingsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\EqualToXmlTest.cs" />
     <Compile Include="Unit\Xml\TestXmlTest.cs" />
-    <Compile Include="Unit\NUnit\ConstraintFactoryTest.cs" />
+    <Compile Include="Unit\NUnit\TestCaseFactoryTest.cs" />
     <Compile Include="Unit\Xml\Systems\ExecutionXmlTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerWithExternalSettingsTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerWithDtdTest.cs" />

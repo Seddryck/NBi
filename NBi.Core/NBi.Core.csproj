@@ -112,6 +112,9 @@
     <Compile Include="DataType\DataTypeDiscoveryCommand.cs" />
     <Compile Include="DataType\DataTypeDiscoveryFactoryProvider.cs" />
     <Compile Include="DataType\IDiscoveryCommandBuilder.cs" />
+    <Compile Include="DataType\IPrecision.cs" />
+    <Compile Include="DataType\ILength.cs" />
+    <Compile Include="DataType\IScale.cs" />
     <Compile Include="DataType\NumericInfo.cs" />
     <Compile Include="DataType\Relational\Builders\ColumnDiscoveryCommandBuilder.cs" />
     <Compile Include="DataType\Relational\Builders\RelationalDiscoveryCommandBuilder.cs" />

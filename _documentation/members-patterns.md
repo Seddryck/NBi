@@ -33,13 +33,14 @@ If you're validating that all the members of level *Departments* in the hierarch
 <test name="All departments have a correct format" uid="0001">
   <system-under-test>
     <members children-of="Corporate">
-      <level caption="Departments" hierarchy="Departments" dimension="Department" perspective="Adventure Works"/>
+      <level caption="Departments" hierarchy="Departments" 
+             dimension="Department" perspective="Adventure Works"/>
     </members>
   </system-under-test>
-	<assert>
-		<matchPattern>
-			<regex>^\s*[a-zA-Z,\s]+\s*$</regex>
-		</matchPattern>
-	</assert>
+  <assert>
+    <matchPattern>
+      <regex>^\s*[a-zA-Z,\s]+\s*$</regex>
+    </matchPattern>
+  </assert>
 </test>
 {% endhighlight %}

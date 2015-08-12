@@ -16,10 +16,10 @@ The system-under-test is a query. NBi will only check the first column returned 
 
 The assertion consists of an xml element _matchPattern_ embedding another xml element defining the expected format.
 {% highlight xml %}
- <assert>  
-	<matchPattern>  
-			...
-	</matchPattern>  
+<assert>  
+  <matchPattern>  
+    ...
+  </matchPattern>  
 </assert>  
 {% endhighlight %}
 
@@ -32,13 +32,13 @@ The *numeric-format* xml element will let the user specify which character will 
 The following specification will validate the formatted value of '1,152.32' but not '1152,32' neither '1.125,320'
 {% highlight xml %}
 <assert>  
-	<matchPattern>  
-		<numeric-format  
-			decimal-digits="2"  
-			decimal-separator="."  
-			group-separator=","
-		/>  
-	</matchPattern>  
+  <matchPattern>  
+    <numeric-format  
+      decimal-digits="2"  
+      decimal-separator="."  
+      group-separator=","
+    />  
+  </matchPattern>  
 </assert>  
 {% endhighlight %}
 
@@ -47,15 +47,15 @@ The following specification will validate the formatted value of '1,152.32' but 
 The *currency-format* xml element is an extension of the previously defined *number-format*. In addition to the previous attributes, you must also specify the symbol for the currency (attribute *currency-symbol*) and if this symbol is positioned before or after the value and with or without a space (attribute *currency-pattern*).
 {% highlight xml %}
 <assert>  
-	<matchPattern>  
-		<currency-format  
-			currency-pattern="$n"  
-			currency-symbol="$"  
-			decimal-digits="2"  
-			decimal-separator="."  
-			group-separator=","
-		/>  
-	</matchPattern>  
+  <matchPattern>  
+    <currency-format  
+      currency-pattern="$n"  
+      currency-symbol="$"  
+      decimal-digits="2"  
+      decimal-separator="."  
+      group-separator=","
+    />  
+  </matchPattern>  
 </assert>  
 {% endhighlight %}
 
@@ -64,9 +64,9 @@ The *currency-format* xml element is an extension of the previously defined *num
 If the two options above don't cover your needs, you can also make usage of a regular expression. In this case you'll need to use the xml element *regex* and assign to it the regular expression.
 {% highlight xml %}
 <assert>  
-	<matchPattern>  
-		<regex>^\$?[0-9]{1,3}(?:,?[0-9]{3})\*\.[0-9]{2}$</regex>
-	</matchPattern>  
+  <matchPattern>  
+    <regex>^\$?[0-9]{1,3}(?:,?[0-9]{3})\*\.[0-9]{2}$</regex>
+  </matchPattern>  
 </assert>
 {% endhighlight %}
 
@@ -84,7 +84,8 @@ It's always useful to define at one place the expected formats. For this you can
           currency-symbol="$"
           decimal-digits="2"
           decimal-separator="."
-          group-separator=","/>
+          group-separator=","
+      />
     </reference>
 </settings>
 {% endhighlight %}

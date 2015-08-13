@@ -45,26 +45,20 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr4.StringTemplate">
-      <HintPath>..\packages\Antlr4.StringTemplate.4.0.6.9004\lib\net35\Antlr4.StringTemplate.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Management.IntegrationServices, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.SqlServer.Smo, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.Smo, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Antlr4.StringTemplate">
+      <HintPath>..\packages\Antlr4.StringTemplate.4.0.6.9004\lib\net35\Antlr4.StringTemplate.dll</HintPath>
     </Reference>
     <Reference Include="NCalc">
       <HintPath>..\packages\ncalc.1.3.8\lib\NCalc.dll</HintPath>
@@ -101,10 +95,7 @@
     <Compile Include="Batch\IBatchFatory.cs" />
     <Compile Include="Batch\IBatchRunCommand.cs" />
     <Compile Include="Etl\ExecResult.cs" />
-    <Compile Include="Etl\IntegrationService\EtlCatalogRunner.cs" />
-    <Compile Include="Etl\IntegrationService\PackageInfoExtensions.cs" />
-    <Compile Include="Etl\IntegrationService\EtlDtsRunner.cs" />
-    <Compile Include="Etl\IntegrationService\EtlDtsSqlServerRunner.cs" />
+    <Compile Include="Etl\IEtlRunnerFactory.cs" />
     <Compile Include="Etl\IPackageEvents.cs" />
     <Compile Include="FileManipulation\FileManipulationFactory.cs" />
     <Compile Include="FileManipulation\IFileManipulationFactory.cs" />
@@ -122,11 +113,6 @@
     <Compile Include="Etl\EtlParameter.cs" />
     <Compile Include="Etl\IEtlRunCommand.cs" />
     <Compile Include="Etl\IEtlRunner.cs" />
-    <Compile Include="Etl\IntegrationService\EtlFileRunner.cs" />
-    <Compile Include="Etl\IntegrationService\EtlRunner.cs" />
-    <Compile Include="Etl\IntegrationService\EtlDtsWindowsRunner.cs" />
-    <Compile Include="Etl\IntegrationService\PackageEvents.cs" />
-    <Compile Include="Etl\IntegrationService\SsisEtlRunnerFactory.cs" />
     <Compile Include="ExecutionFactory.cs" />
     <Compile Include="IDecorationCheckImplementation.cs" />
     <Compile Include="CsvReader.cs" />

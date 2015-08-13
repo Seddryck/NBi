@@ -6,6 +6,7 @@ namespace NBi.Core.Etl
 {
     public interface IEtl: IExecutable
     {
+        string Version { get; set; }
         string Server { get; set; }
         string Path { get; set; }
         string Name { get; set; }

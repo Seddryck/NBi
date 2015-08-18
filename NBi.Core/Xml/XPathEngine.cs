@@ -35,8 +35,8 @@ namespace NBi.Core.Xml
                          select GetObj(item);
 
             var builder = new ResultSetBuilder();
-            var resultArray = result.ToArray();
-            var resultSet = builder.Build(resultArray);
+            var rows = result.ToArray();
+            var resultSet = builder.Build(rows);
             return resultSet;
         }
 

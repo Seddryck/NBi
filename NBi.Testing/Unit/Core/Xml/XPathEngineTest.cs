@@ -36,7 +36,7 @@ namespace NBi.Testing.Unit.Core.Xml
             using (var reader = GetResourceReader())
             {
                 var result = engine.Execute(reader);
-                Assert.That(result.Columns, Is.EqualTo(3));
+                Assert.That(result.Columns.Count, Is.EqualTo(3));
             }
         }
 
@@ -47,14 +47,14 @@ namespace NBi.Testing.Unit.Core.Xml
             var selects = new List<Select>()
             {
                 new Select() { Path="../../PurchaseOrderNumber" }
-                , new Select() { Attribute = "PartNumber"}
+                , new Select() { Attribute = "PartNumber", Path="."}
                 , new Select() { Path="../../Address[@Type=\"Shiping\"]/City" }
             };
 
             var engine = new XPathEngine(from, selects);
             var result = engine.Execute(GetResourceReader());
 
-            Assert.That(result.Rows, Is.EqualTo(5));
+            Assert.That(result.Rows.Count, Is.EqualTo(5));
         }
     }
 }

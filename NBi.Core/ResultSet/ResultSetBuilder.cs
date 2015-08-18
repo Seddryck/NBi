@@ -70,8 +70,7 @@ namespace NBi.Core.ResultSet
 
         public virtual ResultSet Build(object[] objects)
         {
-            var resultSet = new ResultSet();
-            resultSet.table = new DataTable();
+            var rows = new List<IRow>();
             foreach (var obj in objects)
             {
                 var items = obj as List<object>;
@@ -82,9 +81,9 @@ namespace NBi.Core.ResultSet
                     cell.Value = item.ToString();
                     row.Cells.Add(cell);
                 }
-                resultSet.Rows.Add(row);
+                rows.Add(row);
             }
-            return resultSet;
+            return Build(rows);
         }
 
         private class Row : IRow

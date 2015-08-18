@@ -26,9 +26,9 @@ An alternative is to create a file named *NBi.NUnit.Runtime.dll.config (with "dl
 {% highlight xml %}
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
-	<configSections>
-		<section name="nbi" type="NBi.NUnit.Runtime.NBiSection, NBi.NUnit.Runtime"/>
-	</configSections>
-	<nbi testSuite="SubDirectory\myTestSuite.nbits"/>
+  <configSections>
+    <section name="nbi" type="NBi.NUnit.Runtime.NBiSection, NBi.NUnit.Runtime"/>
+  </configSections>
+  <nbi testSuite="SubDirectory\myTestSuite.nbits"/>
 </configuration>
 {% endhighlight %}

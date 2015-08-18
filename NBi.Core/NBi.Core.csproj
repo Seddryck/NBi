@@ -338,6 +338,8 @@
     <Compile Include="WindowsService\IWindowsServiceStartCommand.cs" />
     <Compile Include="WindowsService\WindowsServiceCommand.cs" />
     <Compile Include="WindowsService\WindowsServiceCommandFactory.cs" />
+    <Compile Include="Xml\Select.cs" />
+    <Compile Include="Xml\XPathEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

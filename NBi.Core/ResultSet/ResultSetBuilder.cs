@@ -98,11 +98,11 @@ namespace NBi.Core.ResultSet
 
         private class Cell : ICell
         {
-            private string value;
+            private string cellValue;
             public string Value
             {
-                get { return value; }
-                set { this.value = value; }
+                get { return cellValue; }
+                set { cellValue = value; }
             }
         }
 

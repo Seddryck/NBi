@@ -244,6 +244,7 @@
     <Compile Include="Unit\Xml\Decoration\DecorationXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\SetXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\TablesXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\XmlSourceTest.cs" />
     <Compile Include="Unit\Xml\TraitXmlTest.cs" />
     <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
     <Compile Include="Unit\Xml\GroupXmlTest.cs" />
@@ -568,6 +569,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\XmlSourceTestSuite.xml" />
     <EmbeddedResource Include="Unit\Core\Resources\PurchaseOrders.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidFormat.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TablesXmlTestSuite.xml" />

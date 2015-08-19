@@ -163,10 +163,10 @@ namespace NBi.Core.ResultSet
 				if (IsNumeric(index))
 					return DefaultTolerance;
 				else
-					return DateTimeTolerance.ZeroTolerance;
+					return DateTimeTolerance.None;
 			}
 				
-			return ToleranceFactory.Build(col);          
+			return ToleranceFactory.Instantiate(col);          
 		}
 
 		public int GetLastColumnIndex()

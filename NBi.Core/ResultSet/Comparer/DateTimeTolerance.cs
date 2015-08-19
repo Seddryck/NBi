@@ -22,7 +22,7 @@ namespace NBi.Core.ResultSet.Comparer
             this.TimeSpan = value;
         }
 
-        public static DateTimeTolerance ZeroTolerance
+        public static DateTimeTolerance None
         {
             get
             {

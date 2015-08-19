@@ -16,7 +16,7 @@ namespace NBi.Core.ResultSet.Comparer
 
         public ComparerResult Compare(object x, object y, string tolerance)
         {
-            return base.Compare(x, y, ToleranceFactory.BuildNumeric(tolerance));
+            return base.Compare(x, y, new NumericToleranceFactory().Instantiate(tolerance));
         }
         
         internal ComparerResult Compare(object x, object y, decimal tolerance, SideTolerance side)

@@ -13,14 +13,14 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         [Test]
         public void ValueString_Fifty_Correct()
         {
-            var tolerance = new NumericAbsoluteTolerance(new decimal(50));
+            var tolerance = new NumericAbsoluteTolerance(new decimal(50), SideTolerance.Both);
             Assert.That(tolerance.ValueString, Is.EqualTo("50"));
         }
 
         [Test]
         public void ValueString_TwentyFivePercentDotSeven_Correct()
         {
-            var tolerance = new NumericAbsoluteTolerance(new decimal(25.7));
+            var tolerance = new NumericAbsoluteTolerance(new decimal(25.7), SideTolerance.Both);
             Assert.That(tolerance.ValueString, Is.EqualTo("25.7"));
         }
     }

@@ -61,16 +61,27 @@ namespace NBi.Core.ResultSet.Comparer
 
         public static NumericTolerance BuildNumeric(string value)
         {
+            var side = SideTolerance.Both;
+            value = value.Trim();
             //Empty string equals zero
             if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
                 value = "0";
             
+            //Check if it's one-sided or not
+            if (value.StartsWith("+"))
+                side = SideTolerance.More;
+            else if (value.Trim().StartsWith("-"))
+                side = SideTolerance.Less;
+            
+            if (value.Trim().StartsWith("-") || value.Trim().StartsWith("+"))
+                value = value.Substring(1);
+
             //Convert the value to an absolute decimal value
             decimal toleranceDecimal = 0;
             var isDecimal = false;
             isDecimal = decimal.TryParse(value, NumberStyles.Float, NumberFormatInfo.InvariantInfo, out toleranceDecimal);
             if (isDecimal)
-                return new NumericAbsoluteTolerance(toleranceDecimal);
+                return new NumericAbsoluteTolerance(toleranceDecimal, side);
 
             //Convert the value to an % decimal value
             decimal tolerancePercentage = 0;
@@ -81,7 +92,7 @@ namespace NBi.Core.ResultSet.Comparer
                 isPercentage = decimal.TryParse(percentage, NumberStyles.Float, NumberFormatInfo.InvariantInfo, out tolerancePercentage);
             }
             if (isPercentage)
-                return new NumericPercentageTolerance(tolerancePercentage/100);
+                return new NumericPercentageTolerance(tolerancePercentage / 100, side);
 
             //Convert the value to a bounded %
             decimal toleranceBound = 0;

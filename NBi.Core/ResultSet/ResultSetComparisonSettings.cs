@@ -228,13 +228,13 @@ namespace NBi.Core.ResultSet
 		//}
 
 		public ResultSetComparisonSettings(int columnsCount, KeysChoice keysDef, ValuesChoice valuesDef)
-            : this(keysDef, valuesDef, ColumnType.Numeric, new NumericAbsoluteTolerance(0), null)
+            : this(keysDef, valuesDef, ColumnType.Numeric, NumericAbsoluteTolerance.None, null)
 		{
 			ApplyTo(columnsCount);
 		}
 
 		public ResultSetComparisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, ICollection<IColumnDefinition> columnsDef)
-            : this(keysDef, valuesDef, ColumnType.Numeric, new NumericAbsoluteTolerance(0), columnsDef)
+            : this(keysDef, valuesDef, ColumnType.Numeric, NumericAbsoluteTolerance.None, columnsDef)
 		{
 		}
 

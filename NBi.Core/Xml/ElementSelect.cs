@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Xml
 {
-    class Select
+    public class ElementSelect : AbstractSelect
     {
-        public string Path { get; set; }
-        public string Attribute { get; set; }
+        internal ElementSelect(string xpath)
+            : base(xpath)
+        {
+        }
     }
 }

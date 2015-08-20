@@ -7,11 +7,30 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace NBi.Testing.Unit.Core.Xml
 {
-    public class XPathEngineTest
+    public class XPathStreamEngineTest
     {
+        private class XPathStreamEngine : XPathEngine
+        {
+            private readonly StreamReader streamReader;
+
+            public XPathStreamEngine(StreamReader streamReader, string from, IEnumerable<ElementSelect> selects)
+                : base(from,selects)
+            {
+                this.streamReader=streamReader;
+            }
+
+            public override NBi.Core.ResultSet.ResultSet Execute()
+            {
+                var doc = XDocument.Load(streamReader);
+                return Execute(doc);
+            }
+        }
+
+        
         protected StreamReader GetResourceReader()
         {
             // A Stream is needed to read the XML document.
@@ -25,17 +44,17 @@ namespace NBi.Testing.Unit.Core.Xml
         public void Execute_Example_ColumnCount()
         {
             var from = "//PurchaseOrder/Items/Item";
-            var selects = new List<Select>()
+            var selects = new List<ElementSelect>()
             {
-                new Select() { Path="//PurchaseOrder/PurchaseOrderNumber" }
-                , new Select() { Attribute = "PartNumber", Path="."}
-                , new Select() { Path="//PurchaseOrder/Address[@Type=\"Shiping\"]/City" }
+                new ElementSelect("//PurchaseOrder/PurchaseOrderNumber")
+                , new AttributeSelect(".", "PartNumber")
+                , new ElementSelect("//PurchaseOrder/Address[@Type=\"Shiping\"]/City")
             };
-
-            var engine = new XPathEngine(from, selects);
+            
             using (var reader = GetResourceReader())
             {
-                var result = engine.Execute(reader);
+                var engine = new XPathStreamEngine(reader, from, selects);
+                var result = engine.Execute();
                 Assert.That(result.Columns.Count, Is.EqualTo(3));
             }
         }
@@ -45,32 +64,36 @@ namespace NBi.Testing.Unit.Core.Xml
         [TestCase("//PurchaseOrder", 3)]
         public void Execute_Example_RowCount(string from, int rowCount)
         {
-            var selects = new List<Select>()
+            var selects = new List<ElementSelect>()
             {
-                new Select() { Path="//PurchaseOrder/PurchaseOrderNumber" }
-                , new Select() { Attribute = "PartNumber", Path="."}
-                , new Select() { Path="//PurchaseOrder/Address[@Type=\"Shiping\"]/City" }
+                new ElementSelect("//PurchaseOrder/PurchaseOrderNumber")
+                , new AttributeSelect(".","PartNumber")
+                , new ElementSelect("//PurchaseOrder/Address[@Type=\"Shiping\"]/City")
             };
 
-            var engine = new XPathEngine(from, selects);
-            var result = engine.Execute(GetResourceReader());
+            using (var reader = GetResourceReader())
+            {
+                var engine = new XPathStreamEngine(reader, from, selects);
+                var result = engine.Execute();
+                Assert.That(result.Rows.Count, Is.EqualTo(rowCount));
+            }
 
-            Assert.That(result.Rows.Count, Is.EqualTo(rowCount));
+            
         }
 
         [Test]
         public void Execute_FromElement_ValueCorrect()
         {
             var from = "//PurchaseOrder/Items/Item/ProductName";
-            var selects = new List<Select>()
+            var selects = new List<ElementSelect>()
             {
-                new Select() { Path="."}
+                new ElementSelect(".")
             };
 
-            var engine = new XPathEngine(from, selects);
             using (var reader = GetResourceReader())
             {
-                var result = engine.Execute(reader);
+                var engine = new XPathStreamEngine(reader, from, selects);
+                var result = engine.Execute();
                 Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo("Lawnmower"));
             }
         }
@@ -79,15 +102,15 @@ namespace NBi.Testing.Unit.Core.Xml
         public void Execute_FromAttribute_ValueCorrect()
         {
             var from = "//PurchaseOrder/Items/Item";
-            var selects = new List<Select>()
+            var selects = new List<ElementSelect>()
             {
-                new Select() { Attribute = "PartNumber", Path="."}
+                new AttributeSelect(".","PartNumber")
             };
 
-            var engine = new XPathEngine(from, selects);
             using (var reader = GetResourceReader())
             {
-                var result = engine.Execute(reader);
+                var engine = new XPathStreamEngine(reader, from, selects);
+                var result = engine.Execute();
                 Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo("872-AA"));
             }
         }
@@ -96,15 +119,15 @@ namespace NBi.Testing.Unit.Core.Xml
         public void Execute_ChildElement_ValueCorrect()
         {
             var from = "//PurchaseOrder/Items/Item";
-            var selects = new List<Select>()
+            var selects = new List<ElementSelect>()
             {
-                new Select() { Path="//PurchaseOrder/Items/Item/ProductName"}
+                new ElementSelect("//PurchaseOrder/Items/Item/ProductName")
             };
 
-            var engine = new XPathEngine(from, selects);
             using (var reader = GetResourceReader())
             {
-                var result = engine.Execute(reader);
+                var engine = new XPathStreamEngine(reader, from, selects);
+                var result = engine.Execute();
                 Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo("Lawnmower"));
             }
         }
@@ -113,15 +136,15 @@ namespace NBi.Testing.Unit.Core.Xml
         public void Execute_ChildAttribute_ValueCorrect()
         {
             var from = "//PurchaseOrder/Items";
-            var selects = new List<Select>()
+            var selects = new List<ElementSelect>()
             {
-                new Select() { Path="//PurchaseOrder/Items/Item", Attribute = "PartNumber" }
+                new AttributeSelect("//PurchaseOrder/Items/Item","PartNumber")
             };
 
-            var engine = new XPathEngine(from, selects);
             using (var reader = GetResourceReader())
             {
-                var result = engine.Execute(reader);
+                var engine = new XPathStreamEngine(reader, from, selects);
+                var result = engine.Execute();
                 Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo("872-AA"));
             }
         }
@@ -130,15 +153,15 @@ namespace NBi.Testing.Unit.Core.Xml
         public void Execute_ParentElement_ValueCorrect()
         {
             var from = "//PurchaseOrder/Items/Item";
-            var selects = new List<Select>()
+            var selects = new List<ElementSelect>()
             {
-                new Select() { Path="//PurchaseOrder"}
+                new ElementSelect("//PurchaseOrder")
             };
 
-            var engine = new XPathEngine(from, selects);
             using (var reader = GetResourceReader())
             {
-                var result = engine.Execute(reader);
+                var engine = new XPathStreamEngine(reader, from, selects);
+                var result = engine.Execute();
                 Assert.That(result.Rows[0].ItemArray[0], Is.StringStarting("Ellen Adams"));
                 Assert.That(result.Rows[0].ItemArray[0], Is.StringContaining("Maple Street"));
             }
@@ -148,15 +171,15 @@ namespace NBi.Testing.Unit.Core.Xml
         public void Execute_ParentAttribute_ValueCorrect()
         {
             var from = "//PurchaseOrder/Items/Item";
-            var selects = new List<Select>()
+            var selects = new List<ElementSelect>()
             {
-                new Select() { Path="//PurchaseOrder", Attribute = "PurchaseOrderNumber" }
+                new AttributeSelect("//PurchaseOrder","PurchaseOrderNumber")
             };
 
-            var engine = new XPathEngine(from, selects);
             using (var reader = GetResourceReader())
             {
-                var result = engine.Execute(reader);
+                var engine = new XPathStreamEngine(reader, from, selects);
+                var result = engine.Execute();
                 Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo("99503"));
             }
         }
@@ -165,15 +188,15 @@ namespace NBi.Testing.Unit.Core.Xml
         public void Execute_MissingElement_Null()
         {
             var from = "//PurchaseOrder/Items/Item";
-            var selects = new List<Select>()
+            var selects = new List<ElementSelect>()
             {
-                new Select() { Path="//PurchaseOrder/Missing"}
+                new ElementSelect("//PurchaseOrder/Missing")
             };
 
-            var engine = new XPathEngine(from, selects);
             using (var reader = GetResourceReader())
             {
-                var result = engine.Execute(reader);
+                var engine = new XPathStreamEngine(reader, from, selects);
+                var result = engine.Execute();
                 Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo(DBNull.Value));
             }
         }
@@ -182,15 +205,15 @@ namespace NBi.Testing.Unit.Core.Xml
         public void Execute_MissingAttribute_ValueCorrect()
         {
             var from = "//PurchaseOrder/Items/Item";
-            var selects = new List<Select>()
+            var selects = new List<ElementSelect>()
             {
-                new Select() { Path="//PurchaseOrder", Attribute = "Missing" }
+                new AttributeSelect("//PurchaseOrder", "Missing")
             };
 
-            var engine = new XPathEngine(from, selects);
             using (var reader = GetResourceReader())
             {
-                var result = engine.Execute(reader);
+                var engine = new XPathStreamEngine(reader, from, selects);
+                var result = engine.Execute();
                 Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo(DBNull.Value));
             }
         }

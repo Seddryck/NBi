@@ -314,6 +314,9 @@
     <EmbeddedResource Include="Acceptance\Resources\Etl\DateTime.dtsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToXml.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Reports\EmployeeSalesDetail.rsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -569,6 +572,9 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Acceptance\Resources\PurchaseOrders.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\Resources\XmlSourceTestSuite.xml" />
     <EmbeddedResource Include="Unit\Core\Resources\PurchaseOrders.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidFormat.xml" />

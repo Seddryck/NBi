@@ -11,26 +11,21 @@ using NBi.Core.ResultSet;
 
 namespace NBi.Core.Xml
 {
-    class XPathEngine
+    public abstract class XPathEngine
     {
-        private readonly IEnumerable<Select> selects;
+        private readonly IEnumerable<AbstractSelect> selects;
         private readonly string from;
 
-        public XPathEngine(string from, IEnumerable<Select> selects)
+        public XPathEngine(string from, IEnumerable<AbstractSelect> selects)
         {
             this.from = from;
             this.selects = selects;
         }
 
-        public NBi.Core.ResultSet.ResultSet Execute(string value)
-        {
-            var textReader = new StringReader(value);
-            return Execute(textReader);
-        }
+        public abstract NBi.Core.ResultSet.ResultSet Execute();
 
-        public NBi.Core.ResultSet.ResultSet Execute(TextReader reader)
+        public NBi.Core.ResultSet.ResultSet Execute(XDocument items)
         {
-            var items = XDocument.Load(reader);
             var result = from item in items.XPathSelectElements(@from)
                          select GetObj(item);
 
@@ -47,23 +42,26 @@ namespace NBi.Core.Xml
             return obj;
         }
 
-        protected internal IEnumerable<object> BuildXPaths(XElement item, IEnumerable<Select> elements)
+        protected internal IEnumerable<object> BuildXPaths(XElement item, IEnumerable<AbstractSelect> selects)
         {
-            foreach (var element in elements)
-                if (string.IsNullOrEmpty(element.Attribute))
-                    yield return
-                    (
-                        item.XPathSelectElement(element.Path)
-                        ?? new XElement("null", "(null)")
-                    ).Value;
-                else
+            foreach (var select in selects)
+                if (select is AttributeSelect)
+                {
+                    var attributeSelect = select as AttributeSelect;
                     yield return
                     (
                         (
-                            item.XPathSelectElement(element.Path)
+                            item.XPathSelectElement(attributeSelect.Path)
                             ?? new XElement("null", "(null)")
-                        ).Attribute(element.Attribute)
+                        ).Attribute(attributeSelect.Attribute)
                         ?? new XAttribute("null", "(null)")
+                    ).Value;
+                }
+                else
+                    yield return
+                    (
+                        item.XPathSelectElement(select.Path)
+                        ?? new XElement("null", "(null)")
                     ).Value;
         }
     }

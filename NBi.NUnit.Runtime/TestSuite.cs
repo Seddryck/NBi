@@ -266,7 +266,7 @@ namespace NBi.NUnit.Runtime
             EnableAutoCategories = config.EnableAutoCategories;
             EnableGroupAsCategory = config.EnableGroupAsCategory;
             AllowDtdProcessing = config.AllowDtdProcessing;
-            SettingsFilename = config.SettingsFilename;
+            SettingsFilename = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + config.SettingsFilename;
             Configuration = new TestConfiguration(config.FailureReportProfile);
         }
 

@@ -197,7 +197,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
 
 
             Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(0));
-            Assert.That(lines, Has.All.EqualTo(string.Empty));
+            Assert.That(lines, Has.All.EqualTo("Display skipped."));
         }
 
         [Test]

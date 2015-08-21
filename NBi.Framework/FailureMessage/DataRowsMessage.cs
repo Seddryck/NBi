@@ -50,7 +50,7 @@ namespace NBi.Framework.FailureMessage
             container.Append(BuildRowCount(rows.Count()));
             container.Append(table);
 
-            if (IsSampled(rows))
+            if (IsSampled(rows, sampling))
             {
                 var rowsSkipped = string.Format("{0} (of {1}) rows have been skipped for display purpose.", CountExcludedRows(rows), rows.Count());
                 container.Append(rowsSkipped.ToMarkdownParagraph());

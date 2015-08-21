@@ -28,14 +28,14 @@ namespace NBi.Framework.FailureMessage
                 return fullSet.ToArray();
         }
 
-        protected bool IsSampled(IEnumerable<T> fullSet)
+        protected bool IsSampled(IEnumerable<T> fullSet, FailureReportSetType sampling)
         {
-            return fullSet.Count() > Profile.ThresholdSampleItem;
+            return sampling==FailureReportSetType.Sample && fullSet.Count() > Profile.ThresholdSampleItem;
         }
 
         protected int CountExcludedRows(IEnumerable<T> fullSet)
         {
-            if (IsSampled(fullSet))
+            if (IsSampled(fullSet, FailureReportSetType.Sample))
                 return fullSet.Count() - Profile.MaxSampleItem;
             else
                 return 0;
@@ -46,7 +46,7 @@ namespace NBi.Framework.FailureMessage
             if (Profile.ExpectedSet != FailureReportSetType.None)
                 return base.RenderExpected();
             else
-                return string.Empty;
+                return "Display skipped.";
         }
 
         public override string RenderActual()
@@ -54,7 +54,7 @@ namespace NBi.Framework.FailureMessage
             if (Profile.ActualSet != FailureReportSetType.None)
                 return base.RenderActual();
             else
-                return string.Empty;
+                return "Display skipped.";
         }
 
         public override string RenderCompared()
@@ -62,7 +62,7 @@ namespace NBi.Framework.FailureMessage
             if (Profile.AnalysisSet != FailureReportSetType.None)
                 return base.RenderCompared();
             else
-                return string.Empty;
+                return "Display skipped.";
         }
 
     }

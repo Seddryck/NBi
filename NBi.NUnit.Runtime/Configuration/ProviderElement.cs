@@ -26,7 +26,6 @@ namespace NBi.NUnit.Runtime.Configuration
 
         [ConfigurationProperty("invariant-name",
             IsRequired = true)]
-        [RegexStringValidator(@"\w+:\/\/[\w.]+\S*")]
         public string InvariantName
         {
             get

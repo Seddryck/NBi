@@ -92,33 +92,33 @@ namespace NBi.Testing.Acceptance
         
         //By Acceptance Test Suite (file) create a Test Case
         [Test]
-        //[TestCase("AssemblyEqualToResultSet.nbits")]
-        //[TestCase("QueryEqualToWithParameter.nbits")]
-        //[TestCase("QueryEqualToCsv.nbits")]
-        //[TestCase("QueryEqualToQuery.nbits")]
-        //[TestCase("QueryEqualToResultSet.nbits")]
-        //[TestCase("QueryEqualToResultSetWithNull.nbits")]
-        //[TestCase("QueryWithReference.nbits")]
-        //[TestCase("Ordered.nbits")]
-        //[TestCase("Count.nbits")]
-        //[TestCase("Contain.nbits")]
-        //[TestCase("ContainStructure.nbits")]
-        //[TestCase("fasterThan.nbits")]
-        //[TestCase("SyntacticallyCorrect.nbits")]
-        //[TestCase("Exists.nbits")]
-        //[TestCase("LinkedTo.nbits")]
-        //[TestCase("SubsetOfStructure.nbits")]
-        //[TestCase("EquivalentToStructure.nbits")]
-        //[TestCase("SubsetOfMembers.nbits")]
-        //[TestCase("EquivalentToMembers.nbits")]
-        //[TestCase("MatchPatternMembers.nbits")]
-        //[TestCase("ResultSetMatchPattern.nbits")]
-        //[TestCase("QueryWithParameters.nbits")]
-        //[TestCase("EvaluateRows.nbits")]
-        //[TestCase("ReportEqualTo.nbits")]
+        [TestCase("AssemblyEqualToResultSet.nbits")]
+        [TestCase("QueryEqualToWithParameter.nbits")]
+        [TestCase("QueryEqualToCsv.nbits")]
+        [TestCase("QueryEqualToQuery.nbits")]
+        [TestCase("QueryEqualToResultSet.nbits")]
+        [TestCase("QueryEqualToResultSetWithNull.nbits")]
+        [TestCase("QueryWithReference.nbits")]
+        [TestCase("Ordered.nbits")]
+        [TestCase("Count.nbits")]
+        [TestCase("Contain.nbits")]
+        [TestCase("ContainStructure.nbits")]
+        [TestCase("fasterThan.nbits")]
+        [TestCase("SyntacticallyCorrect.nbits")]
+        [TestCase("Exists.nbits")]
+        [TestCase("LinkedTo.nbits")]
+        [TestCase("SubsetOfStructure.nbits")]
+        [TestCase("EquivalentToStructure.nbits")]
+        [TestCase("SubsetOfMembers.nbits")]
+        [TestCase("EquivalentToMembers.nbits")]
+        [TestCase("MatchPatternMembers.nbits")]
+        [TestCase("ResultSetMatchPattern.nbits")]
+        [TestCase("QueryWithParameters.nbits")]
+        [TestCase("EvaluateRows.nbits")]
+        [TestCase("ReportEqualTo.nbits")]
         [TestCase("Etl.nbits")]
-        //[TestCase("Decoration.nbits")]
-        //[TestCase("QueryRowCount.nbits")]
+        [TestCase("Decoration.nbits")]
+        [TestCase("QueryRowCount.nbits")]
         [Category("Acceptance")]
         public void RunPositiveTestSuite(string filename)
         {
@@ -132,6 +132,22 @@ namespace NBi.Testing.Acceptance
             foreach (var testCaseData in tests)
                 t.ExecuteTestCases((TestXml)testCaseData.Arguments[0]);
             
+        }
+
+        [Test]
+        [TestCase("QueryEqualToResultSetProvider.nbits")]
+        [Category("Acceptance")]
+        public void RunPositiveTestSuiteWithConfig(string filename)
+        {
+            var t = new TestSuiteOverrider(@"Positive\" + filename, @"Positive\" + filename);
+
+            //First retrieve the NUnit TestCases with base class (NBi.NUnit.Runtime)
+            //These NUnit TestCases are defined in the Test Suite file
+            var tests = t.GetTestCases();
+
+            //Execute the NUnit TestCases one by one
+            foreach (var testCaseData in tests)
+                t.ExecuteTestCases((TestXml)testCaseData.Arguments[0]);
         }
 
         [Test]

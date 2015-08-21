@@ -325,6 +325,14 @@
     <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Light.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToResultSetProvider.nbits">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="Acceptance\Resources\Positive\OrderCountByYear.xlsx" />
+    <None Include="Acceptance\Resources\Positive\QueryEqualToResultSetProvider.nbits.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Acceptance\Resources\Reports\EmployeeSalesDetail.rsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

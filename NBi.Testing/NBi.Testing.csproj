@@ -329,7 +329,9 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="Acceptance\Resources\Positive\OrderCountByYear.xlsx" />
+    <None Include="Acceptance\Resources\Positive\OrderCountByYear.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Acceptance\Resources\Positive\QueryEqualToResultSetProvider.nbits.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

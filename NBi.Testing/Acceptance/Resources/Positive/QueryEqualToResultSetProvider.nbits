@@ -4,17 +4,17 @@
     <system-under-test>
       <execution>
         <query
-               connectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=Positive\OrdercountByYear.xlsx;Extended Properties=&quot;Excel 12.0 Xml;HDR=YES&quot;"
+               connectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=Acceptance\Resources\Positive\OrderCountByYear.xlsx;Extended Properties=&quot;Excel 12.0 Xml;HDR=YES&quot;"
                name="Excel query"
         >
           SELECT
-            [Year]
-            , [OrderCount]
+          [Year]
+          , [OrderCount]
           FROM
-            [OrderCountByYear]
+          [Sheet1$B3:C7]
         </query>
       </execution>
-    </system-under-test>
+    </system-under-test>           
     <assert>
       <equalTo>
         <resultSet>

@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 #endregion
 
@@ -145,6 +146,21 @@ namespace NBi.Testing.Unit.Core
             //Call the method to test
             var connStr = "Provider=OleDb.1;Data Source=ds;Initial Catalog=ic;Integrated Security=SSPI;";
             var actual = new ConnectionFactory().Get(connStr);
+
+            //Assertion
+            Assert.That(actual, Is.InstanceOf<OleDbConnection>());
+            Assert.That(actual.ConnectionString, Is.EqualTo(connStr));
+        }
+
+        [Test]
+        public void Get_OleDbExcel_OleDbConnection()
+        {
+            //Call the method to test
+            var connStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=c:\\myFolder\\myExcel2007file.xlsx;Extended Properties=\"Excel 12.0 Xml;HDR=YES\";";
+            var providers = new Dictionary<string, string>();
+            providers.Add("Microsoft.ACE.OLEDB.12.0", "System.Data.OleDb");
+            var factory = new ConnectionFactory(providers);
+            var actual = factory.Get(connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<OleDbConnection>());

@@ -61,6 +61,8 @@
     </Compile>
     <Compile Include="CategoryHelper.cs" />
     <Compile Include="Configuration\FailureReportProfileElement.cs" />
+    <Compile Include="Configuration\ProviderCollection.cs" />
+    <Compile Include="Configuration\ProviderElement.cs" />
     <Compile Include="ConnectionStringsFinder.cs" />
     <Compile Include="ConfigurationFinder.cs" />
     <Compile Include="CustomStackTraceErrorException.cs" />

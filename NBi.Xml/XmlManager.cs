@@ -62,7 +62,7 @@ namespace NBi.Xml
             //Load the settings eventually define in another file or in the config file.
             if (!string.IsNullOrEmpty(settingsFilename))
             {
-                var settings = LoadSettings(settingsFilename);
+                var settings = LoadSettings(basePath + settingsFilename);
                 TestSuite.Settings = settings;
             }
             else

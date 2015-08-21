@@ -62,7 +62,8 @@ namespace NBi.Xml
             //Load the settings eventually define in another file or in the config file.
             if (!string.IsNullOrEmpty(settingsFilename))
             {
-                var settings = LoadSettings(basePath + settingsFilename);
+                var fullPath = System.IO.Path.IsPathRooted(settingsFilename) ? settingsFilename : basePath + settingsFilename;
+                var settings = LoadSettings(fullPath);
                 TestSuite.Settings = settings;
             }
             else

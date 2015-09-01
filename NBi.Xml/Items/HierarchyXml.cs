@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items
 {
-    public class HierarchyXml : DimensionXml, IDimensionFilter
+    public class HierarchyXml : DimensionXml, IDimensionFilter, IDisplayFolderFilter
     {
         public HierarchyXml()
         {

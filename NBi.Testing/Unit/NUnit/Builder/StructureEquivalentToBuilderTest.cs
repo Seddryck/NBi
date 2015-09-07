@@ -1,8 +1,7 @@
 ﻿    #region Using directives
-using System;
+
 using System.Linq;
 using Moq;
-using NBi.Core.Analysis.Request;
 using NBi.NUnit.Builder;
 using NBi.NUnit.Structure;
 using NBi.Xml.Constraints;
@@ -11,6 +10,8 @@ using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 using NBi.Core.Structure.Olap;
+using NBi.Xml.Items.Filters;
+
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -198,7 +199,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
-            Assert.That(sut, Is.InstanceOf<OlapCommand>());
+            Assert.That(sut, Is.InstanceOf<OlapCommand>()); 
         }
 
         //**********************
@@ -223,9 +224,13 @@ namespace NBi.Testing.Unit.NUnit.Builder
             //Call the method to test
             builder.Build();
             var sut = builder.GetSystemUnderTest();
-            
+
             //Assertion
-            Assert.That(sut, Is.InstanceOf<OlapCommand>());
+            var command = sut as OlapCommand;
+            Assert.NotNull(command);
+            Assert.NotNull(command.Description);
+            Assert.IsTrue(command.Description.Filters.Any(f => f.Caption == "Perspective"));
+            Assert.AreEqual(command.Description.Filters.Count(), 1);
         }
 
         //**********************
@@ -310,5 +315,79 @@ namespace NBi.Testing.Unit.NUnit.Builder
             Assert.That(sut, Is.InstanceOf<OlapCommand>());
         }
 
+        //**********************
+        //  Test Filters
+        //    IPerspectiveFilter
+        //    IMeasureGroupFilter      
+        //    IDisplayFolderFilter
+        //**********************
+
+
+        [Test]
+        public void GetSystemUndeTest_CorrectFiltersAppliedOnDescriptionPart1_Success()
+        {
+            //Buiding object used during test
+            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
+            var ctrXml = ctrXmlStubFactory.Object;
+
+            var sutXml = new StructureXml();
+            sutXml.Item = new MeasuresXml();
+            sutXml.Item.ConnectionString = ConnectionStringReader.GetAdomd();
+            ((IPerspectiveFilter)sutXml.Item).Perspective = "Perspective";
+            ((IMeasureGroupFilter)sutXml.Item).MeasureGroup = "MeasureGroup";
+            ((IDisplayFolderFilter)sutXml.Item).DisplayFolder = "DisplayFolder";
+            var builder = new StructureEquivalentToBuilder();
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var sut = builder.GetSystemUnderTest();
+
+            //Assertion
+            Assert.That(sut, Is.InstanceOf<OlapCommand>());
+
+            var command = sut as OlapCommand;
+            Assert.NotNull(command);
+            Assert.NotNull(command.Description);
+            Assert.IsTrue(command.Description.Filters.Any(f => f.Caption == "Perspective"));
+            Assert.IsTrue(command.Description.Filters.Any(f => f.Caption == "MeasureGroup"));
+            Assert.IsTrue(command.Description.Filters.Any(f => f.Caption == "DisplayFolder"));
+        }
+
+
+        //**********************
+        //  Test Filters
+        //    IDimensionFilter
+        //    IHierarchyFilter
+        //    ILevelFilter
+        //**********************
+
+
+        [Test]
+        public void GetSystemUndeTest_CorrectFiltersAppliedOnDescriptionPart2_Success()
+        {
+            //Buiding object used during test
+            var ctrXmlStubFactory = new Mock<EquivalentToXml>();
+            var ctrXml = ctrXmlStubFactory.Object;
+
+            var sutXml = new StructureXml();
+            sutXml.Item = new PropertiesXml();
+            sutXml.Item.ConnectionString = ConnectionStringReader.GetAdomd();
+            ((IDimensionFilter)sutXml.Item).Dimension = "Dimension";
+            ((IHierarchyFilter)sutXml.Item).Hierarchy = "Hierarchy";
+            ((ILevelFilter)sutXml.Item).Level = "Level";
+            var builder = new StructureEquivalentToBuilder();
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var sut = builder.GetSystemUnderTest();
+
+            //Assertion
+            Assert.That(sut, Is.InstanceOf<OlapCommand>());
+
+            var command = sut as OlapCommand;
+            Assert.NotNull(command);
+            Assert.NotNull(command.Description);
+            Assert.IsTrue(command.Description.Filters.Any(f => f.Caption == "Dimension"));
+            Assert.IsTrue(command.Description.Filters.Any(f => f.Caption == "Hierarchy"));
+            Assert.IsTrue(command.Description.Filters.Any(f => f.Caption == "Level"));
+        }
     }
 }

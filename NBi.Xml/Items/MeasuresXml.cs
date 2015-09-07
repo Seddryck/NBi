@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items
 {
-    public class MeasuresXml : MeasureGroupsXml, IMeasureGroupFilter
+    public class MeasuresXml : MeasureGroupsXml, IMeasureGroupFilter, IDisplayFolderFilter
     {
         protected string measureGroup;
         [XmlAttribute("measure-group")]

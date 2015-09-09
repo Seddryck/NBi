@@ -14,6 +14,9 @@ namespace NBi.Testing.Unit.Core
     {
         [Test]
         [TestCase(null, "")]
+        [TestCase("(null)", null)] //Parse (null) to a real null value
+        [TestCase("\"(null)\"", "(null)")] //Explicitly quoted (null) should be (null)
+        [TestCase("null", "null")]
         [TestCase("", "")]
         [TestCase("a", "a")]
         [TestCase("\"", "\"")]

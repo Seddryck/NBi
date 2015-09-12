@@ -171,6 +171,9 @@ namespace NBi.Core
             if (string.IsNullOrEmpty(item))
                 return string.Empty;
 
+            if (item == "(null)")
+                return null;
+
             if (item.Length == 1)
                 return item;
 

@@ -97,7 +97,10 @@
     <Compile Include="InheritanceTestXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
+    <Compile Include="Items\Filters\IRoutineFilter.cs" />
+    <Compile Include="Items\RoutineParametersXml.cs" />
     <Compile Include="Items\RoutinesXml.cs" />
+    <Compile Include="Items\RoutineParameterXml.cs" />
     <Compile Include="Items\RoutineXml.cs" />
     <Compile Include="Items\Filters\IHierarchyFilter.cs" />
     <Compile Include="Items\Filters\ILevelFilter.cs" />

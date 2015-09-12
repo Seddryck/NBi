@@ -67,6 +67,8 @@ namespace NBi.NUnit.Builder
                 yield return new CaptionFilter(Target.MeasureGroups, ((IMeasureGroupFilter)item).MeasureGroup);
             if (item is ITableFilter)
                 yield return new CaptionFilter(Target.Tables, ((ITableFilter)item).Table);
+            if (item is IRoutineFilter)
+                yield return new CaptionFilter(Target.Routines, ((IRoutineFilter)item).Routine);
 
             var itselfTarget = BuildTarget(item);
             if (!string.IsNullOrEmpty(item.Caption))
@@ -94,6 +96,8 @@ namespace NBi.NUnit.Builder
                 return Target.Dimensions;
             if (item is SetsXml || item is SetXml)
                 return Target.Sets;
+            if (item is RoutineParametersXml || item is RoutineParameterXml)
+                return Target.Parameters;
             if (item is RoutinesXml || item is RoutineXml)
                 return Target.Routines;
             if (item is PerspectivesXml || item is PerspectiveXml)

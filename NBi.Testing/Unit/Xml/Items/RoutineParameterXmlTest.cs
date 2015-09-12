@@ -13,13 +13,13 @@ using NBi.Xml.Systems;
 namespace NBi.Testing.Unit.Xml.Items
 {
     [TestFixture]
-    public class ParameterXmlTest
+    public class RoutineParameterXmlTest
     {
         [Test]
         public void Serialize_ParameterXml_Serialize()
         {
             var structureXml = new StructureXml();
-            var parameterXml = new ParameterXml();
+            var parameterXml = new RoutineParameterXml();
             parameterXml.Caption = "My Caption";
             parameterXml.Perspective = "My Perspective";
             parameterXml.Routine = "My Routine";

@@ -92,6 +92,7 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
             Assert.That(structs.Count(), Is.EqualTo(3));
         }
 
+        [Test]
         public void Execute_RoutinesWithName_ListStructureContainingThisRoutine()
         {
             var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
@@ -108,7 +109,7 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
         }
 
         [Test]
-        public void Execute_Parameters_ListStructureContainingThreeElements()
+        public void Execute_Parameters_ListStructureContainingFiveElements()
         {
             var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var factory = new RelationalStructureDiscoveryFactory(conn);
@@ -123,19 +124,22 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
             Assert.That(structs.Count(), Is.EqualTo(5));
         }
 
+        [Test]
         public void Execute_ParameterWithName_ListStructureContainingThisParameter()
         {
             var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var factory = new RelationalStructureDiscoveryFactory(conn);
-            var cmd = factory.Instantiate(Target.Routines, TargetType.Object,
+            var cmd = factory.Instantiate(Target.Parameters, TargetType.Object,
                 new CaptionFilter[] {
-                    new CaptionFilter(Target.Perspectives,"dbo")
-                    , new CaptionFilter(Target.Routines,"ufnGetContactInformation")
+                    new CaptionFilter(Target.Perspectives,"HumanResources")
+                    , new CaptionFilter(Target.Routines,"uspUpdateEmployeePersonalInfo")
+                    , new CaptionFilter(Target.Parameters,"BirthDate")
                 });
 
             var structs = cmd.Execute();
 
             Assert.That(structs.Count(), Is.EqualTo(1));
+            Assert.That(structs.ElementAt(0), Is.EqualTo("BirthDate"));
         }
     }
 

@@ -46,6 +46,8 @@ namespace NBi.Core.Structure.Relational
                     return new ColumnDiscoveryCommandBuilder();
                 case Target.Routines:
                     return new RoutineDiscoveryCommandBuilder();
+                case Target.Parameters:
+                    return new RoutineParameterDiscoveryCommandBuilder();
                 default:
                     throw new ArgumentOutOfRangeException(string.Format("The value '{0}' is not supported when instantiating with 'RelationalStructureDiscoveryFactory'.", target));
             }

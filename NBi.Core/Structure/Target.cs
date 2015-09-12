@@ -18,6 +18,7 @@ namespace NBi.Core.Structure
         Sets,
         Tables,
         Columns,
-        Routines
+        Routines,
+        Parameters
     }
 }

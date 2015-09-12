@@ -98,6 +98,8 @@
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
     <Compile Include="Items\Filters\IDisplayFolderFilter.cs" />
+    <Compile Include="Items\RoutinesXml.cs" />
+    <Compile Include="Items\RoutineXml.cs" />
     <Compile Include="Items\Filters\IHierarchyFilter.cs" />
     <Compile Include="Items\Filters\ILevelFilter.cs" />
     <Compile Include="Items\Filters\IMeasureGroupFilter.cs" />

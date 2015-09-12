@@ -293,6 +293,8 @@
     <Compile Include="Structure\Olap\DimensionRow.cs" />
     <Compile Include="Structure\Olap\PostFilters\DimensionType.cs" />
     <Compile Include="Structure\Relational\Builders\ColumnDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Relational\Builders\RoutineParameterDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Relational\Builders\RoutineDiscoveryCommandBuilder.cs" />
     <Compile Include="Structure\Relational\Builders\RelationalDiscoveryCommandBuilder.cs" />
     <Compile Include="Structure\Relational\Builders\SchemaDiscoveryCommandBuilder.cs" />
     <Compile Include="Structure\Relational\Builders\TableDiscoveryCommandBuilder.cs" />

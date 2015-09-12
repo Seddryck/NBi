@@ -192,6 +192,13 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  <xs:complexType name="routine-type">
+    <xs:complexContent>
+      <xs:extension base="perspective-type">
+        <xs:attribute name="perspective" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="perspectives-type">
     <xs:attribute name="connectionString" type="xs:string" use="optional" />
   </xs:complexType>
@@ -258,6 +265,13 @@
     <xs:complexContent>
       <xs:extension base="tables-type">
         <xs:attribute name="table" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="routines-type">
+    <xs:complexContent>
+      <xs:extension base="perspectives-type">
+        <xs:attribute name="perspective" type="xs:string" use="required" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -535,6 +549,7 @@
                   <xs:element name="set" type="set-type"/>
                   <xs:element name="table" type="table-type"/>
                   <xs:element name="column" type="column-type"/>
+                  <xs:element name="routine" type="routine-type"/>
                   <xs:element name="perspectives" type="perspectives-type"/>
                   <xs:element name="measure-groups" type="measure-groups-type"/>
                   <xs:element name="measures" type="measures-type"/>
@@ -545,6 +560,7 @@
                   <xs:element name="sets" type="sets-type"/>
                   <xs:element name="tables" type="tables-type"/>
                   <xs:element name="columns" type="columns-type"/>
+                  <xs:element name="routines" type="routines-type"/>
                 </xs:choice>
               </xs:complexType>
             </xs:element>

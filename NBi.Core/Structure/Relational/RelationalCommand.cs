@@ -27,8 +27,7 @@ namespace NBi.Core.Structure.Relational
             var rdr = ExecuteReader(command);
             while (rdr.Read())
             {
-                var row = new RelationalRow();
-                row.Caption = rdr.GetString(0);
+                var row = BuildRow(rdr);
 
                 foreach (var postFilter in postFilters)
                     if (postFilter.Evaluate(row))
@@ -39,6 +38,13 @@ namespace NBi.Core.Structure.Relational
             command.Connection.Close();
 
             return values.Select(v => v.Caption);
+        }
+
+        protected virtual RelationalRow BuildRow(IDataReader rdr)
+        {
+            var row = new RelationalRow();
+            row.Caption = rdr.GetString(0);
+            return row;
         }
 
         protected IDataReader ExecuteReader(IDbCommand cmd)

@@ -31,6 +31,8 @@ namespace NBi.Core.ResultSet
                 return Build((IDbCommand)obj);
             else if (obj is string)
                 return Build((string)obj);
+            else if (obj is object[])
+                return Build((object[])obj);
 
             throw new ArgumentOutOfRangeException(string.Format("Type '{0}' is not expected when building a ResultSet", obj.GetType()));
         }
@@ -64,6 +66,44 @@ namespace NBi.Core.ResultSet
             var rs = new ResultSet();
             rs.Load(dataTable);
             return rs;
+        }
+
+        public virtual ResultSet Build(object[] objects)
+        {
+            var rows = new List<IRow>();
+            foreach (var obj in objects)
+            {
+                var items = obj as List<object>;
+                var row = new Row();
+                foreach (var item in items)
+                {
+                    var cell = new Cell();
+                    cell.Value = item.ToString();
+                    row.Cells.Add(cell);
+                }
+                rows.Add(row);
+            }
+            return Build(rows);
+        }
+
+        private class Row : IRow
+        {
+            private readonly IList<ICell> cells = new List<ICell>();
+
+            public IList<ICell> Cells
+            {
+                get { return cells; }
+            }
+        }
+
+        private class Cell : ICell
+        {
+            private string cellValue;
+            public string Value
+            {
+                get { return cellValue; }
+                set { cellValue = value; }
+            }
         }
 
     }

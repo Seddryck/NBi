@@ -9,6 +9,7 @@ using NBi.Core.ResultSet.Comparer;
 using NBi.Xml.Items;
 using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Settings;
+using NBi.Xml.Items.Xml;
 
 namespace NBi.Xml.Constraints
 {
@@ -50,6 +51,9 @@ namespace NBi.Xml.Constraints
         [XmlElement("query")]
         public QueryXml Query { get; set; }
 
+        [XmlElement("xml-source")]
+        public XmlSourceXml XmlSource { get; set; }
+
         public override BaseItem BaseItem
         {
             get
@@ -58,10 +62,14 @@ namespace NBi.Xml.Constraints
                     return Query;
                 if (ResultSet != null)
                     return ResultSet;
+                if (XmlSource != null)
+                    return XmlSource;
 
                 return null;
             }
         }
+
+
 
         [XmlAttribute("keys")]
         [DefaultValue(ResultSetComparisonSettings.KeysChoice.First)]

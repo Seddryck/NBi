@@ -13,6 +13,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.NUnit.Runtime.Configuration;
 using NBi.Framework.FailureMessage;
 using NBi.Framework;
+using NBi.Core.Configuration;
 
 namespace NBi.NUnit.Runtime
 {
@@ -283,6 +284,7 @@ namespace NBi.NUnit.Runtime
             AllowDtdProcessing = config.AllowDtdProcessing;
             SettingsFilename = config.SettingsFilename;
             Configuration = new TestConfiguration(config.FailureReportProfile);
+            ConfigurationManager.Initialize(config.Providers.ToDictionary());
         }
 
         protected internal string GetOwnFilename()

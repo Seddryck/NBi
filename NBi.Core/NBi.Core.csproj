@@ -87,6 +87,9 @@
     <Compile Include="Analysis\Request\MetadataLinkedToDiscoveryRequest.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\TableNotNullIfColumn.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\ValidationFilter.cs" />
+    <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Configuration\ConfigurationManager.cs" />
+    <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="CsvWriter.cs" />
     <Compile Include="Batch\BatchFactory.cs" />
     <Compile Include="Batch\SqlServer\SqlServerBatchFactory.cs" />

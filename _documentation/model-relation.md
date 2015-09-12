@@ -2,7 +2,7 @@
 layout: documentation
 title: Relation between objects
 prev_section: model-collection-assertion
-next_section: members
+next_section: model-data-type
 permalink: /docs/model-relation/
 ---
 The concept of *relations between objects* has only been implemented for SSAS (multidimensional) at the moment. It lets you validate that a dimension is linked to a measure-group or reciprocally that a measure-group is linked to a dimension. In the future we plan to do the same for tables in a SQL model (foreign keys).

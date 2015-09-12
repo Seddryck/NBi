@@ -8,14 +8,15 @@ permalink: /docs/etl-define/
 **Important remarks:**
 
 * Currently (will be changed in a near future) NBi *only* supports testing etls' runs **on the same server** than the tests. It means that it’s not possible to run your tests on your own computer (or on your build server) and try to execute remotely an SSIS package.
-* The tests will only be executed if **SSIS 2014 is installed** on the server running the test (This constraint should be removed in v1.11).
+* The tests will only be executed if **SSIS 2014 is installed** on the server running the test. This constraint is removed in **v1.11**. Since this version NBi supports Sql Server 2008R2, Sql Server 2012 and Sql Server 2014.
 * **Only SSIS packages** can be executed (Support for others Etl is not planned)
 
 Etl could be defined in two placeholders: the setup and the system-under-test.
 
-Define an etl
--------------
+## Define an etl
+
 To achieve this, you’ll need to define your tested etl in the system-under-test (or the setup) and specify its name in the corresponding xml attribute (the extension dtsx is not needed):
+
 {% highlight xml %}
 <system-under-test>
   <execution>
@@ -24,6 +25,12 @@ To achieve this, you’ll need to define your tested etl in the system-under-tes
   </execution>
 </system-under-test>
 {% endhighlight %}
+
+Since version 1.11, if your package is not running on the last version of Sql Server, you can specify it on the element *etl* by the means of the attribute *version*. The valid values for his attribute are:
+
+* SqlServer2014
+* SqlServer2012
+* SqlServer2008R2
 
 To be testable a package could be hosted on:
 
@@ -89,7 +96,7 @@ You can also access the SSIS Catalog provided with SQL Server version 2012 and a
 
 Timeout
 -------
-**Since version 1.9**, for the packages stored on a SQL Server in the SSIS Catalog, it's possible to overwrite the default timeout of 30 seconds. To achieve this, just specify an xml attribute named _timeout_ and its value in milli-seconds. Note that the way the package is started is slightly different to achieve this feature, use this only when needed. In the sample here under, the timeout is set to one minute.
+For the packages stored on a SQL Server in the SSIS Catalog, it's possible to overwrite the default timeout of 30 seconds. To achieve this, just specify an xml attribute named _timeout_ and its value in milli-seconds. Note that the way the package is started is slightly different to achieve this feature, use this only when needed. In the sample here under, the timeout is set to one minute.
 
 {% highlight xml %}
 <etl

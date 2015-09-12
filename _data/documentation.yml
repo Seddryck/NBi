@@ -16,7 +16,7 @@
   - compare-special-generic-values
   - compare-tolerances-roundings
   - compare-intervals
-  
+
 - title: Additional tests for result-sets
   docs:
   - resultset-rows-count
@@ -49,6 +49,7 @@
   - model-exists
   - model-collection-assertion
   - model-relation
+  - model-data-type
 
 - title: Members (SSAS)
   docs:
@@ -76,6 +77,7 @@
   - config-defaults-references
   - config-settings-external-file
   - config-roles-query
+  - config-database-providers
   - config-profile-csv
   - config-profile-failure-report
   - config-dtd-processing

@@ -20,6 +20,9 @@ With NBi, you can validate the structure of your model. It can be a SQL, Muldime
 | Measure-group | - | Yes | Yes
 | Measure | - | Yes | Yes
 | Set | - | Yes | Yes
+| Routine **new in version 1.1** | Yes | - | -
+
+Routines could be stored procedures, table-valued-functions or scalar-functions.
 
 ## System-under test
 The sample here under explains how to specify the object that you want to assert. For the list of objects supported by NBi see above.
@@ -49,6 +52,9 @@ The tables, here under, describe the parents' information mandatory or optional 
 | Schema | - | - |
 | Table or view | Mandatory | - |
 | Column | Mandatory | Mandatory |
+| Routine | Mandatory | - |
+
+Routine is not supported for Tabular models.
 
 2. Multidimensional and Tabular objects related to dimensions
 

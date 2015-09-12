@@ -86,6 +86,25 @@ Finally, the third choice is to compare the result-set of the system-under-test 
 </equalTo>
 {% endhighlight %}
 
+### Xml file
+
+**Since version 1.11**, it's possible to define a result-set in an xml file (This feature will be extended in next releases). This feature requires the usage of an element *xml-source* and its child *file* (stipulating the location of your xml file).
+
+Once your source is identified, you'll need to apply a query on your xml file. NBi uses the [XQuery aka FLOWR][https://msdn.microsoft.com/en-us/library/ms190945.aspx] syntax. This syntax is really powerful and offers a lot of flexibility to convert an xml result-set into a table result-set. At this moment only the *from* and *select* elements are supported in this syntax. The *from* element defines the granularity of your result-set and the *select* elements defines the attributes or elements thatyou'll be returned. To return the attribute of an element add the attribute *attribute* with the name of the requested attribute in your *select* element.
+
+{% highlight xml %}
+<equalTo>
+  <xml-source>
+    <file>MyFile.csv</file>
+    <xpath>
+      <from>//Path</from>
+      <select attribute="Id">//Path/Item<select>
+      <select>//Path/Item/SubItem</select>
+    </xpath>
+  </xml-source>
+</equalTo>
+{% endhighlight %}
+
 ## Advanced features
 
 With NBi, you can also check a cell's value against special values such as *null*, *empty* or *any value*. This is detailed in the article about [special and generic values](/docs/compare-special-generic-values/).

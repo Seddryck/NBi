@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: CSV profile
-prev_section: config-roles-query
+prev_section: config-database-provider
 next_section: config-profile-failure-report
 permalink: /docs/config-profile-csv/
 ---

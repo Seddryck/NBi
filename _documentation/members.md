@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Members
-prev_section: model-relation
+prev_section: model-data-type
 next_section: members-count
 permalink: /docs/members/
 ---

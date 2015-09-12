@@ -64,6 +64,7 @@
     <Compile Include="Constraints\Comparer\LessThanXml.cs" />
     <Compile Include="Constraints\Comparer\MoreThanXml.cs" />
     <Compile Include="Constraints\ContainXml.cs" />
+    <Compile Include="Constraints\IsXml.cs" />
     <Compile Include="Constraints\RowCountXml.cs" />
     <Compile Include="Constraints\SuccessfulXml.cs" />
     <Compile Include="Constraints\IReferenceFriendly.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="Systems\MembersXml.cs" />
     <Compile Include="Constraints\SyntacticallyCorrectXml.cs" />
     <Compile Include="Constraints\FasterThanXml.cs" />
+    <Compile Include="Systems\DataTypeXml.cs" />
     <Compile Include="Systems\StructureXml.cs" />
     <Compile Include="Items\LevelXml.cs" />
     <Compile Include="Items\HierarchyXml.cs" />

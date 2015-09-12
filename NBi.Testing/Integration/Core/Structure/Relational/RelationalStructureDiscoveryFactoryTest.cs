@@ -106,6 +106,37 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
 
             Assert.That(structs.Count(), Is.EqualTo(1));
         }
+
+        [Test]
+        public void Execute_Parameters_ListStructureContainingThreeElements()
+        {
+            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
+            var factory = new RelationalStructureDiscoveryFactory(conn);
+            var cmd = factory.Instantiate(Target.Parameters, TargetType.Object,
+                new CaptionFilter[] {
+                    new CaptionFilter(Target.Perspectives,"HumanResources")
+                    , new CaptionFilter(Target.Routines,"uspUpdateEmployeePersonalInfo")
+                });
+
+            var structs = cmd.Execute();
+
+            Assert.That(structs.Count(), Is.EqualTo(5));
+        }
+
+        public void Execute_ParameterWithName_ListStructureContainingThisParameter()
+        {
+            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
+            var factory = new RelationalStructureDiscoveryFactory(conn);
+            var cmd = factory.Instantiate(Target.Routines, TargetType.Object,
+                new CaptionFilter[] {
+                    new CaptionFilter(Target.Perspectives,"dbo")
+                    , new CaptionFilter(Target.Routines,"ufnGetContactInformation")
+                });
+
+            var structs = cmd.Execute();
+
+            Assert.That(structs.Count(), Is.EqualTo(1));
+        }
     }
 
 

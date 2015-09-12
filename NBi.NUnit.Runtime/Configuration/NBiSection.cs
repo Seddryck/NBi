@@ -81,7 +81,7 @@ namespace NBi.NUnit.Runtime
             }
         }
 
-        [ConfigurationProperty("failure-report-profile", IsRequired = false)]
+        [ConfigurationProperty("failure-report-profile", IsRequired = true)]
         public FailureReportProfileElement FailureReportProfile
         {
             get

@@ -338,11 +338,13 @@
     <Compile Include="WindowsService\IWindowsServiceStartCommand.cs" />
     <Compile Include="WindowsService\WindowsServiceCommand.cs" />
     <Compile Include="WindowsService\WindowsServiceCommandFactory.cs" />
+    <Compile Include="Xml\EvaluateSelect.cs" />
     <Compile Include="Xml\AttributeSelect.cs" />
     <Compile Include="Xml\AbstractSelect.cs" />
     <Compile Include="Xml\ElementSelect.cs" />
     <Compile Include="Xml\SelectFactory.cs" />
     <Compile Include="Xml\XPathEngine.cs" />
+    <Compile Include="Xml\XPathUrlEngine.cs" />
     <Compile Include="Xml\XPathFileEngine.cs" />
   </ItemGroup>
   <ItemGroup>

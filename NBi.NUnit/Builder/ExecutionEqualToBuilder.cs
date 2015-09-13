@@ -76,7 +76,7 @@ namespace NBi.NUnit.Builder
                 var selects = new List<AbstractSelect>();
                 var factory = new SelectFactory();
                 foreach (var select in ConstraintXml.XmlSource.XPath.Selects)
-                    selects.Add(factory.Instantiate(select.Value, select.Attribute));
+                    selects.Add(factory.Instantiate(select.Value, select.Attribute, select.Evaluate));
 
                 XPathEngine engine = null;
                 if (ConstraintXml.XmlSource.File != null)

@@ -390,6 +390,7 @@
   <xs:complexType name="select-type">
     <xs:simpleContent>
       <xs:extension base="xs:string">
+        <xs:attribute name="evaluate" type="xs:boolean" use="optional"/>
         <xs:attribute name="attribute" type="xs:string" use="optional"/>
       </xs:extension>
     </xs:simpleContent>

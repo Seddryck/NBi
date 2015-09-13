@@ -28,12 +28,13 @@ namespace NBi.Core.Structure.Relational
             while (rdr.Read())
             {
                 var row = BuildRow(rdr);
+                var isValidRow = true;
 
                 foreach (var postFilter in postFilters)
-                    if (postFilter.Evaluate(row))
-                        continue;
+                    isValidRow &= postFilter.Evaluate(row);
 
-                values.Add(row);
+                if (isValidRow)
+                    values.Add(row);
             }
             command.Connection.Close();
 

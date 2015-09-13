@@ -6,6 +6,7 @@ using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using System.Collections.Generic;
 using NBi.Xml.Items.Filters;
+using NBi.Core.Structure.Relational.PostFilters;
 
 namespace NBi.NUnit.Builder
 {
@@ -53,7 +54,7 @@ namespace NBi.NUnit.Builder
             return command;
         }
 
-        protected virtual IEnumerable<CaptionFilter> BuildFilters(AbstractItem item)
+        protected virtual IEnumerable<IFilter> BuildFilters(AbstractItem item)
         {
             if (item is IPerspectiveFilter)
                 yield return new CaptionFilter(Target.Perspectives, ((IPerspectiveFilter)item).Perspective);
@@ -69,6 +70,10 @@ namespace NBi.NUnit.Builder
                 yield return new CaptionFilter(Target.Tables, ((ITableFilter)item).Table);
             if (item is IRoutineFilter)
                 yield return new CaptionFilter(Target.Routines, ((IRoutineFilter)item).Routine);
+            if (item is IResultFilter && ((IResultFilter)item).IsResult != IsResultOption.Unspecified)
+                yield return new IsResultFilter(((IResultFilter)item).IsResult == IsResultOption.Yes);
+            if (item is IParameterDirectionFilter && ((IParameterDirectionFilter)item).Direction != ParameterDirectionOption.Unspecified)
+                yield return new ParameterDirectionFilter(((IParameterDirectionFilter)item).Direction.ToString());
 
             var itselfTarget = BuildTarget(item);
             if (!string.IsNullOrEmpty(item.Caption))

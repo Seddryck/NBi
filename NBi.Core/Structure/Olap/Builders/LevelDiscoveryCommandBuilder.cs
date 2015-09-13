@@ -16,7 +16,7 @@ namespace NBi.Core.Structure.Olap.Builders
             VisibleName = "level";
         }
 
-        protected override IEnumerable<ICommandFilter> BuildFilters(IEnumerable<CaptionFilter> filters)
+        protected override IEnumerable<IFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {
             yield return new CommandFilter(string.Format("[cube_name]='{0}'"
                                                            , filters.Single(f => f.Target == Target.Perspectives).Caption

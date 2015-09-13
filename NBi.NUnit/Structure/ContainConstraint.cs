@@ -5,6 +5,7 @@ using System.Text;
 using NBi.Core;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Core.Structure;
 
 namespace NBi.NUnit.Structure
 {
@@ -79,7 +80,7 @@ namespace NBi.NUnit.Structure
         public override void WriteDescriptionTo(MessageWriter writer)
         {
             var description = new DescriptionStructureHelper();
-            var filterExpression = description.GetFilterExpression(Command.Description.Filters);
+            var filterExpression = description.GetFilterExpression(Command.Description.Filters.Where(f => f is CaptionFilter).Cast<CaptionFilter>());
             if (!string.IsNullOrEmpty(filterExpression))
                 filterExpression = string.Format(" contained {0}", filterExpression);
 

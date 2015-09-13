@@ -15,7 +15,7 @@ namespace NBi.Core.Structure.Tabular.Builders
             TableName = "columns";
         }
 
-        protected override IEnumerable<ICommandFilter> BuildFilters(IEnumerable<CaptionFilter> filters)
+        protected override IEnumerable<IFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {
             yield return new CommandFilter("column_name<>'RowNumber'");
 

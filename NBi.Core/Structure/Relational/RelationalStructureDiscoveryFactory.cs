@@ -17,7 +17,7 @@ namespace NBi.Core.Structure.Relational
             this.connection = connection as SqlConnection;
         }
 
-        public StructureDiscoveryCommand Instantiate(Target target, TargetType type, IEnumerable<CaptionFilter> filters)
+        public StructureDiscoveryCommand Instantiate(Target target, TargetType type, IEnumerable<IFilter> filters)
         {
             var builder = InstantiateBuilder(target);
             builder.Build(filters);
@@ -28,7 +28,8 @@ namespace NBi.Core.Structure.Relational
 
             var description = new CommandDescription(target, filters);
 
-            var command = new RelationalCommand(cmd, postFilters, description);
+            RelationalCommand command = null;
+            command = new RelationalCommand(cmd, postFilters, description);
 
             return command;
         }

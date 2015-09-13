@@ -202,6 +202,25 @@
     <xs:complexContent>
       <xs:extension base="routine-type">
         <xs:attribute name="routine" type="xs:string" use="required" />
+        <xs:attribute name="result" use="optional">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="yes"/>
+              <xs:enumeration value="no"/>
+              <xs:enumeration value="unspecified"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="direction" use="optional">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="in"/>
+              <xs:enumeration value="out"/>
+              <xs:enumeration value="in-out"/>
+              <xs:enumeration value="unspecified"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -285,6 +304,25 @@
     <xs:complexContent>
       <xs:extension base="routines-type">
         <xs:attribute name="routine" type="xs:string" use="required" />
+        <xs:attribute name="result" use="optional">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="yes"/>
+              <xs:enumeration value="no"/>
+              <xs:enumeration value="unspecified"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="direction" use="optional">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="in"/>
+              <xs:enumeration value="out"/>
+              <xs:enumeration value="in-out"/>
+              <xs:enumeration value="unspecified"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

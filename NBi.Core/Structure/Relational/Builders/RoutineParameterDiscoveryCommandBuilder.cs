@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Structure;
+using NBi.Core.Structure.Relational.PostFilters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,8 @@ namespace NBi.Core.Structure.Relational.Builders
             TableName = "parameters";
         }
 
-        protected override IEnumerable<ICommandFilter> BuildFilters(IEnumerable<CaptionFilter> filters)
+        protected override IEnumerable<ICommandFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {
-
             yield return new CommandFilter(string.Format("r.[routine_schema]='{0}'"
                                                             , filters.Single(f => f.Target == Target.Perspectives).Caption
                                                             ));
@@ -35,6 +35,21 @@ namespace NBi.Core.Structure.Relational.Builders
             if (filter != null)
                 yield return new CommandFilter(string.Format("p.[parameter_name]='@{0}'"
                                                            , filters.Single(f => f.Target == Target.Parameters).Caption
+                                                           ));
+        }
+
+        protected override IEnumerable<IFilter> BuildNonCaptionFilters(IEnumerable<IFilter> filters)
+        {
+            var resultFilter = (IValueFilter)filters.SingleOrDefault(f => f is IsResultFilter);
+            if (resultFilter != null)
+                yield return new CommandFilter(string.Format("p.[is_result]='{0}'"
+                                                           , resultFilter.Value
+                                                           ));
+
+            var parameterDirectionFilter = (IValueFilter)filters.SingleOrDefault(f => f is ParameterDirectionFilter);
+            if (parameterDirectionFilter != null)
+                yield return new CommandFilter(string.Format("p.[parameter_mode]='{0}'"
+                                                           , parameterDirectionFilter.Value
                                                            ));
         }
     }

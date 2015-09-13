@@ -1,15 +1,25 @@
 ﻿using NBi.Xml.Items.Filters;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
 
 namespace NBi.Xml.Items
 {
-    public class RoutineParametersXml : RoutineXml, IPerspectiveFilter, IRoutineFilter
+    public class RoutineParametersXml : RoutineXml, IPerspectiveFilter, IRoutineFilter, IResultFilter, IParameterDirectionFilter
     {
         [XmlAttribute("routine")]
         public string Routine { get; set; }
+
+
+        [XmlAttribute("result")]
+        [DefaultValue(IsResultOption.Unspecified)]
+        public IsResultOption IsResult { get; set; }
+
+        [XmlAttribute("direction")]
+        [DefaultValue(ParameterDirectionOption.Unspecified)]
+        public ParameterDirectionOption Direction { get; set; }
 
         [XmlIgnore]
         protected override string Path { get { return string.Format("[{0}].[{1}]", Routine, Caption); } }

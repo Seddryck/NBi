@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Structure
 {
-    public interface ICommandFilter
+    public interface ICommandFilter: IFilter
     {
     }
 }

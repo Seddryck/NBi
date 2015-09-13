@@ -15,7 +15,7 @@ namespace NBi.Core.Structure.Relational.Builders
             TableName = "columns";
         }
 
-        protected override IEnumerable<ICommandFilter> BuildFilters(IEnumerable<CaptionFilter> filters)
+        protected override IEnumerable<ICommandFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {
             yield return new CommandFilter(string.Format("[table_schema]='{0}'"
                                                             , filters.Single(f => f.Target == Target.Perspectives).Caption

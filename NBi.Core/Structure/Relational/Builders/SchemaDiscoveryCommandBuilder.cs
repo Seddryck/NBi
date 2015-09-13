@@ -20,7 +20,7 @@ namespace NBi.Core.Structure.Relational.Builders
             TableName = "schemata";
         }
 
-        protected override IEnumerable<ICommandFilter> BuildFilters(IEnumerable<CaptionFilter> filters)
+        protected override IEnumerable<ICommandFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {
             var filter = filters.SingleOrDefault(f => f.Target == Target.Perspectives);
             if (filter != null)

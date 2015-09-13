@@ -21,11 +21,14 @@ namespace NBi.Core.Structure.Olap.Builders
         protected string VisibleName { get; set; }
 
 
-        public void Build(IEnumerable<CaptionFilter> filters)
+        public void Build(IEnumerable<IFilter> filters)
         {
             commandText = BuildCommandText();
 
-            var allFilters = BuildFilters(filters).ToList();
+            var captionFilters = BuildCaptionFilters(filters.Where(f => f is CaptionFilter).Cast<CaptionFilter>());
+            var otherFilters = BuildNonCaptionFilters(filters.Where(f => !(f is CaptionFilter)).Cast<CaptionFilter>());
+
+            var allFilters = captionFilters.Union(otherFilters).ToList();
             var comnandFilters = allFilters.Where(f => f is CommandFilter).Cast<CommandFilter>();
             var valueFilters = comnandFilters.Select(f => f.Value);
 
@@ -36,7 +39,11 @@ namespace NBi.Core.Structure.Olap.Builders
             isBuild = true;
         }
 
-        protected abstract IEnumerable<ICommandFilter> BuildFilters(IEnumerable<CaptionFilter> filters);
+        protected abstract IEnumerable<IFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters);
+        protected virtual IEnumerable<ICommandFilter> BuildNonCaptionFilters(IEnumerable<IFilter> filters)
+        {
+            return new List<ICommandFilter>();
+        }
 
         protected string BuildCommandText()
         {

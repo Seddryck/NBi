@@ -64,7 +64,7 @@ namespace NBi.NUnit.Builder
                 throw new ArgumentException(item.GetType().Name);
         }
 
-        protected override IEnumerable<CaptionFilter> BuildFilters(AbstractItem item)
+        protected override IEnumerable<IFilter> BuildFilters(AbstractItem item)
         {
             if (item is IPerspectiveFilter)
                 yield return new CaptionFilter(Target.Perspectives, ((IPerspectiveFilter)item).Perspective);

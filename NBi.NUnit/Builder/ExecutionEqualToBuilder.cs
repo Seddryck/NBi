@@ -16,7 +16,7 @@ namespace NBi.NUnit.Builder
 {
     class ExecutionEqualToBuilder : AbstractExecutionBuilder
     {
-        protected EqualToXml ConstraintXml {get; set;}
+        protected EqualToXml ConstraintXml { get; set; }
 
         public ExecutionEqualToBuilder()
         {
@@ -39,7 +39,7 @@ namespace NBi.NUnit.Builder
         protected NBiConstraint InstantiateConstraint()
         {
             EqualToConstraint ctr = null;
-            
+
             if (ConstraintXml.GetCommand() != null)
             {
                 var commandText = ConstraintXml.GetCommand().CommandText;
@@ -63,9 +63,9 @@ namespace NBi.NUnit.Builder
                     Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in external file!");
                     ctr = new EqualToConstraint(ConstraintXml.ResultSet.GetFile());
                     if (ConstraintXml.Settings.CsvProfile != null)
-                        ctr=ctr.CsvProfile(ConstraintXml.Settings.CsvProfile);
+                        ctr = ctr.CsvProfile(ConstraintXml.Settings.CsvProfile);
                 }
-                else if (ConstraintXml.ResultSet.Rows!=null)
+                else if (ConstraintXml.ResultSet.Rows != null)
                 {
                     Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in embedded resultSet!");
                     ctr = new EqualToConstraint(ConstraintXml.ResultSet.Rows);
@@ -73,24 +73,29 @@ namespace NBi.NUnit.Builder
             }
             else if (ConstraintXml.XmlSource != null)
             {
-                if (!string.IsNullOrEmpty(ConstraintXml.XmlSource.GetFile()))
+                var selects = new List<AbstractSelect>();
+                var factory = new SelectFactory();
+                foreach (var select in ConstraintXml.XmlSource.XPath.Selects)
+                    selects.Add(factory.Instantiate(select.Value, select.Attribute));
+
+                XPathEngine engine = null;
+                if (ConstraintXml.XmlSource.File != null)
                 {
                     Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Xml file at '{0}'", ConstraintXml.XmlSource.GetFile()));
-
-                    var selects = new List<AbstractSelect>();
-                    var factory = new SelectFactory();
-                    foreach (var select in ConstraintXml.XmlSource.XPath.Selects)
-                        selects.Add(factory.Instantiate(select.Value, select.Attribute));
-
-                    var engine = new XPathFileEngine(ConstraintXml.XmlSource.GetFile(), ConstraintXml.XmlSource.XPath.From.Value, selects);
-
-                    ctr = new EqualToConstraint(engine);
+                    engine = new XPathFileEngine(ConstraintXml.XmlSource.GetFile(), ConstraintXml.XmlSource.XPath.From.Value, selects);
+                }
+                else if (ConstraintXml.XmlSource.Url != null)
+                {
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Xml file at '{0}'", ConstraintXml.XmlSource.Url.Value));
+                    engine = new XPathUrlEngine(ConstraintXml.XmlSource.Url.Value, ConstraintXml.XmlSource.XPath.From.Value, selects);
                 }
                 else
-                    throw new ArgumentException("File's can't be empty when declaring an xml-source.");
+                    throw new ArgumentException("File or Url can't be both empty when declaring an xml-source.");
+
+                ctr = new EqualToConstraint(engine);
             }
-            
-            if (ctr==null)
+
+            if (ctr == null)
                 throw new ArgumentException();
 
             //Manage settings for comparaison

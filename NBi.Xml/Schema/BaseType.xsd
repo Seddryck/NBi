@@ -402,7 +402,10 @@
   </xs:complexType>
   <xs:complexType name="xml-source-type">
     <xs:sequence>
-      <xs:element name="file" minOccurs="1" maxOccurs="1" type="xs:string"/>
+      <xs:choice>
+        <xs:element name="file" minOccurs="1" maxOccurs="1" type="xs:string"/>
+        <xs:element name="url" minOccurs="1" maxOccurs="1" type="xs:string"/>
+      </xs:choice>
       <xs:element name="xpath" minOccurs="1" maxOccurs="1" type="xpath-type" />
     </xs:sequence>
   </xs:complexType>

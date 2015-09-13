@@ -12,6 +12,9 @@ namespace NBi.Xml.Items.Xml
         [XmlElement("file")]
         public FileXml File { get; set; }
 
+        [XmlElement("url")]
+        public UrlXml Url { get; set; }
+
         [XmlElement("xpath")]
         public XPathXml XPath { get; set; }
 

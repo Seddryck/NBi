@@ -97,6 +97,7 @@
     <Compile Include="InheritanceTestXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
+    <Compile Include="Items\UrlXml.cs" />
     <Compile Include="Items\FileXml.cs" />
     <Compile Include="Items\Filters\IHierarchyFilter.cs" />
     <Compile Include="Items\Filters\ILevelFilter.cs" />

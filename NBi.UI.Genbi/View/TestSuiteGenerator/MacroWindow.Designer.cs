@@ -30,6 +30,7 @@
         {
             this.actionInfoText = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MacroWindow_FormClosing);
             // 
             // actionInfoText
             // 

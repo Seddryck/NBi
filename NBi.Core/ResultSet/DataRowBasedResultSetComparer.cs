@@ -199,7 +199,7 @@ namespace NBi.Core.ResultSet
 
                     for (int i = 0; i < rx.Table.Columns.Count; i++)
                     {
-                        if (Settings.IsValue(i))
+                        if (Settings.GetColumnRole(i) == ColumnRole.Value)
                         {
                             //Null management
                             if (rx.IsNull(i) || ry.IsNull(i))
@@ -234,7 +234,7 @@ namespace NBi.Core.ResultSet
                                 ComparerResult result = null;
 
                                 //Numeric
-                                if (Settings.IsNumeric(i))
+                                if (Settings.GetColumnType(i) == ColumnType.Numeric)
                                 {
                                     //Convert to decimal
                                     if (Settings.IsRounding(i))
@@ -243,7 +243,7 @@ namespace NBi.Core.ResultSet
                                         result = numericComparer.Compare(rx[i], ry[i], Settings.GetTolerance(i));
                                 }
                                 //Date and Time
-                                else if (Settings.IsDateTime(i))
+                                else if (Settings.GetColumnType(i) == ColumnType.DateTime)
                                 {
                                     //Convert to dateTime
                                     if (Settings.IsRounding(i))
@@ -252,7 +252,7 @@ namespace NBi.Core.ResultSet
                                         result = dateTimeComparer.Compare(rx[i], ry[i], Settings.GetTolerance(i));
                                 }
                                 //Boolean
-                                else if (Settings.IsBoolean(i))
+                                else if (Settings.GetColumnType(i) == ColumnType.Boolean)
                                 {
                                     //Convert to bool
                                     result = booleanComparer.Compare(rx[i], ry[i]);
@@ -334,11 +334,11 @@ namespace NBi.Core.ResultSet
             {
                 if (!dr.IsNull(i))
                 {
-                    if (settings.IsNumeric(i) && IsNumericField(dr.Table.Columns[i]))
+                    if (settings.GetColumnType(i) == ColumnType.Numeric && IsNumericField(dr.Table.Columns[i]))
                         continue;
 
                     var numericConverter = new NumericConverter();
-                    if (settings.IsNumeric(i) && !(numericConverter.IsValid(dr[i]) || BaseComparer.IsValidInterval(dr[i])))
+                    if (settings.GetColumnType(i) == ColumnType.Numeric && !(numericConverter.IsValid(dr[i]) || BaseComparer.IsValidInterval(dr[i])))
                     {                   
                         var exception = string.Format("The column with an index of {0} is expecting a numeric value but the first row of your result set contains a value '{1}' not recognized as a valid numeric value or a valid interval."
                             , i, dr[i].ToString());
@@ -349,10 +349,10 @@ namespace NBi.Core.ResultSet
                         throw new ResultSetComparerException(exception);
                     }
 
-                    if (settings.IsDateTime(i) && IsDateTimeField(dr.Table.Columns[i]))
+                    if (settings.GetColumnType(i) == ColumnType.DateTime && IsDateTimeField(dr.Table.Columns[i]))
                         return;
 
-                    if (settings.IsDateTime(i) && !BaseComparer.IsValidDateTime(dr[i].ToString()))
+                    if (settings.GetColumnType(i) == ColumnType.DateTime && !BaseComparer.IsValidDateTime(dr[i].ToString()))
                     {
                         throw new ResultSetComparerException(
                             string.Format("The column with an index of {0} is expecting a date & time value but the first row of your result set contains a value '{1}' not recognized as a valid date & time value."

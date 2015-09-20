@@ -34,7 +34,7 @@ namespace NBi.Core.ResultSet
 
         public int GetHashCode(DataRow obj)
         {
-            var values = obj.ItemArray.Where<object>((o, i) => settings.IsKey(i));
+            var values = obj.ItemArray.Where<object>((o, i) => settings.GetColumnRole(i)==ColumnRole.Key);
             int hash = 0;
             foreach (var value in values)
             {
@@ -61,7 +61,7 @@ namespace NBi.Core.ResultSet
             for (int i = 0; i < row.Table.Columns.Count; i++)
             {
                 
-                if (settings.IsKey(i))
+                if (settings.GetColumnRole(i) == ColumnRole.Key)
                 {
                     try
                     {
@@ -95,11 +95,11 @@ namespace NBi.Core.ResultSet
         internal object FormatValue(int columnIndex, object value)
         {
             object v = null;
-            if (settings.IsNumeric(columnIndex))
+            if (settings.GetColumnType(columnIndex) == ColumnType.Numeric)
                 v = new NumericConverter().Convert(value);
-            else if (settings.IsDateTime(columnIndex))
+            else if (settings.GetColumnType(columnIndex) == ColumnType.DateTime)
                 v = new DateTimeConverter().Convert(value);
-            else if (settings.IsBoolean(columnIndex))
+            else if (settings.GetColumnType(columnIndex) == ColumnType.Boolean)
                 v = new BooleanConverter().Convert(value);
             else
             {

@@ -118,8 +118,10 @@ namespace NBi.Core.ResultSet
 
             var keyComparer = new DataRowKeysComparer(Settings, x.Columns.Count);
 
+            chrono = DateTime.Now;
             CalculateHashValues(x, xDict, keyComparer, false);
             CalculateHashValues(y, yDict, keyComparer, true);
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Calculating hash values: {0} [{1}]", x.Rows.Count + y.Rows.Count, DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
             chrono = DateTime.Now;
             List<CompareHelper> missingRows;
@@ -162,6 +164,22 @@ namespace NBi.Core.ResultSet
 
             // If all of the columns make up the key, then we already know which rows match and which don't.
             //  So there is no need to continue testing
+            CompareValues(keyMatchingRows, nonMatchingValueRows);
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key but without matching value: {0} [{1}]", nonMatchingValueRows.Count(), DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+
+            var duplicatedRows = new List<DataRow>(); // Dummy place holder
+
+            return ResultSetCompareResult.Build(
+                missingRows.Select(a => a.DataRowObj).ToList(),
+                unexpectedRows.Select(a => a.DataRowObj).ToList(),
+                duplicatedRows,
+                keyMatchingRows.Select(a => a.DataRowObj).ToList(),
+                nonMatchingValueRows
+                );
+        }
+
+        private void CompareValues(List<CompareHelper> keyMatchingRows, List<DataRow> nonMatchingValueRows)
+        {
             if (Settings.KeysDef != ResultSetComparisonSettings.KeysChoice.All)
             {
                 foreach (var rxHelper in keyMatchingRows)
@@ -177,6 +195,8 @@ namespace NBi.Core.ResultSet
                     var rx = rxHelper.DataRowObj;
                     var ry = ryHelper.DataRowObj;
 
+                    var isRowOnError = false;
+
                     for (int i = 0; i < rx.Table.Columns.Count; i++)
                     {
                         if (Settings.IsValue(i))
@@ -187,8 +207,12 @@ namespace NBi.Core.ResultSet
                                 if (!rx.IsNull(i) || !ry.IsNull(i))
                                 {
                                     ry.SetColumnError(i, ry.IsNull(i) ? rx[i].ToString() : "(null)");
-                                    if (!nonMatchingValueRows.Contains(ry))
+                                    if (!isRowOnError)
+                                    {
+                                        isRowOnError = true;
                                         nonMatchingValueRows.Add(ry);
+                                    }
+                                        
                                 }
                             }
                             //(value) management
@@ -197,8 +221,11 @@ namespace NBi.Core.ResultSet
                                 if (rx.IsNull(i) || ry.IsNull(i))
                                 {
                                     ry.SetColumnError(i, rx[i].ToString());
-                                    if (!nonMatchingValueRows.Contains(ry))
+                                    if (!isRowOnError)
+                                    {
+                                        isRowOnError = true;
                                         nonMatchingValueRows.Add(ry);
+                                    }
                                 }
                             }
                             //Not Null management
@@ -240,25 +267,17 @@ namespace NBi.Core.ResultSet
                                 if (!result.AreEqual)
                                 {
                                     ry.SetColumnError(i, result.Message);
-                                    if (!nonMatchingValueRows.Contains(ry))
+                                    if (!isRowOnError)
+                                    {
+                                        isRowOnError = true;
                                         nonMatchingValueRows.Add(ry);
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key but without matching value: {0} [{1}]", nonMatchingValueRows.Count(), DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
-
-            var duplicatedRows = new List<DataRow>(); // Dummy place holder
-
-            return ResultSetCompareResult.Build(
-                missingRows.Select(a => a.DataRowObj).ToList(),
-                unexpectedRows.Select(a => a.DataRowObj).ToList(),
-                duplicatedRows,
-                keyMatchingRows.Select(a => a.DataRowObj).ToList(),
-                nonMatchingValueRows
-                );
         }
 
         protected void WriteSettingsToDataTableProperties(DataTable dt, ResultSetComparisonSettings settings)

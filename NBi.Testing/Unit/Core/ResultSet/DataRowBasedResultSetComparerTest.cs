@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using NBi.Core.ResultSet;
 using NUnit.Framework;
-
+using System.Diagnostics;
 #endregion
 
 namespace NBi.Testing.Unit.Core.ResultSet
@@ -12,6 +12,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
     [TestFixture]
     public class DataRowBasedResultSetComparerTest
     {
+        private Random random = new Random();
 
         #region SetUp & TearDown
         //Called only at instance creation
@@ -53,6 +54,32 @@ namespace NBi.Testing.Unit.Core.ResultSet
 
             //Assertion
             Assert.That(res, Is.EqualTo(ResultSetCompareResult.Matching));
+        }
+
+        [Test]
+        [TestCase(10, 1)]
+        [TestCase(100, 1)]
+        [TestCase(1000, 1)]
+        [TestCase(10000, 1)]
+        [TestCase(100000, 3)]
+        [TestCase(1000000, 10)]
+        public void Compare_DifferentLargArrays_ReturnQuicklyDifferent(int count, int timeout)
+        {
+            //Buiding object used during test
+            var comparer = new DataRowBasedResultSetComparer(BuildSettingsKeyValue());
+            var reference = BuildDataTable(RandomLargeArrayString(count, 0), RandomLargeArrayDouble(count));
+            var actual = BuildDataTable(RandomLargeArrayString(count, Convert.ToInt32(count*0.8)), RandomLargeArrayDouble(count));
+
+            Console.WriteLine("Starting comparaison for {0} rows", count);
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            //Call the method to test
+            var res = comparer.Compare(reference, actual);
+            stopWatch.Stop();
+            Console.WriteLine("Compaired in {0} milliseconds", stopWatch.Elapsed.TotalMilliseconds);
+            //Assertion
+            Assert.That(res, Is.EqualTo(ResultSetCompareResult.NotMatching));
+            Assert.That(stopWatch.Elapsed, Is.LessThan(new TimeSpan(0, 0, timeout)));
         }
 
         [Test]
@@ -555,6 +582,22 @@ namespace NBi.Testing.Unit.Core.ResultSet
                 ResultSetComparisonSettings.ValuesChoice.AllExpectFirst,
                 columnsDef
                 );
+        }
+
+        protected string[] RandomLargeArrayString(int count, int start)
+        {
+            var array = new List<string>();
+            for (int i = start; i < start+count; i++)
+                array.Add(i.ToString());
+            return array.ToArray();
+        }
+
+        protected double[] RandomLargeArrayDouble(int count)
+        {
+            var array = new List<double>();
+            for (int i = 0; i < count; i++)
+                array.Add(random.NextDouble()*100000);
+            return array.ToArray();
         }
     }
 }

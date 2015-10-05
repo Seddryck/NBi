@@ -56,6 +56,11 @@ namespace NBi.Testing.Acceptance.GenbiL
             generator.Load(DefinitionFilename);
             generator.Execute();
 
+            Console.WriteLine(TargetFilename);
+            Console.WriteLine(Path.GetFullPath(TargetFilename));
+            foreach (var filename in Directory.GetFiles(Path.GetDirectoryName(TargetFilename)))
+                Console.WriteLine(filename);
+
             Assert.That(File.Exists(TargetFilename));
 
             int i = 0;

@@ -34,6 +34,7 @@ namespace NBi.Xml.Constraints
             this.Settings = settings;
         }
 
+        [XmlIgnore()]
         public override DefaultXml Default
         {
             get {return base.Default;} 

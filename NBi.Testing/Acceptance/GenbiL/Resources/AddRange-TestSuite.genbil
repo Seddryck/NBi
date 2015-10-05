@@ -48,4 +48,4 @@ suite generate grouping;
 
 setting set 'parallelize-queries' off;
 
-suite save 'Acceptance\GenbiL\Resources\Simple-TestSuiteBuild.nbits';
+suite save 'Acceptance\GenbiL\Resources\AddRange-TestSuite.nbits';

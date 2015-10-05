@@ -10,6 +10,8 @@ setting default assert connectionString 'youyou-default-assert';
 setting default sut connectionString 'youyou-default-sut';
 suite generate;
 
+suite save 'Acceptance\GenbiL\Resources\AddRange-TestSuite.nbits';
+
 suite addrange file 'Acceptance\GenbiL\Resources\AddRange-TestSuite_ToAdd.nbits';
 
 suite save 'Acceptance\GenbiL\Resources\AddRange-TestSuite.nbits';

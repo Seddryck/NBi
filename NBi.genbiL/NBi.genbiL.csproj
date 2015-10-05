@@ -76,6 +76,7 @@
     <Compile Include="Action\Setting\ISettingAction.cs" />
     <Compile Include="Action\Setting\ParameterActionFactory.cs" />
     <Compile Include="Action\Setting\ParallelizeQueriesAction.cs" />
+    <Compile Include="Action\Suite\AddRangeSuiteAction.cs" />
     <Compile Include="Action\Suite\IncludeSuiteAction.cs" />
     <Compile Include="Action\Suite\SaveSuiteAction.cs" />
     <Compile Include="Action\Suite\ISuiteAction.cs" />

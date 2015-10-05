@@ -24,16 +24,24 @@ namespace NBi.GenbiL.Parser
 
         readonly static Parser<ISuiteAction> IncludeParser =
         (
-                from save in Keyword.Include
+                from include in Keyword.Include
                 from file in Keyword.File
                 from filename in Grammar.QuotedTextual.Token()
                 select new IncludeSuiteAction(filename)
         );
 
+        readonly static Parser<ISuiteAction> AddRangeParser =
+        (
+                from addrange in Keyword.AddRange
+                from file in Keyword.File
+                from filename in Grammar.QuotedTextual.Token()
+                select new AddRangeSuiteAction(filename)
+        );
+
         public readonly static Parser<IAction> Parser =
         (
                 from load in Keyword.Suite
-                from text in GenerateParser.Or(SaveParser).Or(IncludeParser)
+                from text in GenerateParser.Or(SaveParser).Or(IncludeParser).Or(AddRangeParser)
                 select text
         );
     }

@@ -84,6 +84,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Acceptance\GenbiL\AddRangeTest.cs" />
     <Compile Include="Acceptance\GenbiL\MatchPatternTest.cs" />
     <Compile Include="Acceptance\GenbiL\CaseCrossTest.cs" />
     <Compile Include="Acceptance\GenbiL\GenbiLTest.cs" />
@@ -313,6 +314,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Csv\NullValues.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\AddRange-TestSuite_ToAdd.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\AddRange-TestSuite.genbil">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Acceptance\Resources\Reports\EmployeeSalesDetail.rsd">

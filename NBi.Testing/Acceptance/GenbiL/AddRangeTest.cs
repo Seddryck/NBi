@@ -11,7 +11,7 @@ namespace NBi.Testing.Acceptance.GenbiL
     [TestFixture]
     public class AddRangeTest
     {
-        private const string TEST_SUITE_NAME="AddRange-TestSuite";
+        private const string TEST_SUITE_NAME = "AddRange-TestSuite";
         private string DefinitionFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + ".genbil"; } }
         private string TargetFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + ".nbits"; } }
 

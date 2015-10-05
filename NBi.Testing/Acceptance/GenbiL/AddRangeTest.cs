@@ -11,12 +11,11 @@ namespace NBi.Testing.Acceptance.GenbiL
     [TestFixture]
     public class AddRangeTest
     {
-        //private const string TEST_SUITE_NAME="AddRange-TestSuite";
-        private const string TEST_SUITE_NAME = "Simple-TestSuiteBuild";
+        private const string TEST_SUITE_NAME="AddRange-TestSuite";
         private string DefinitionFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + ".genbil"; } }
-        private string TargetFilename { get { return "Acceptance\\GenbiL\\Resources\\" + "AddRange-TestSuite" + ".nbits"; } }
+        private string TargetFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + ".nbits"; } }
 
-        private string AddRangeFilename { get { return "Acceptance\\GenbiL\\Resources\\" + "AddRange-TestSuite" + "_ToAdd.nbits"; } }
+        private string AddRangeFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + "_ToAdd.nbits"; } }
 
         #region SetUp & TearDown
         //Called only at instance creation

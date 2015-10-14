@@ -63,7 +63,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
         [TestCase(10000, 1)]
         [TestCase(100000, 3)]
         [TestCase(1000000, 10)]
-        public void Compare_DifferentLargArrays_ReturnQuicklyDifferent(int count, int timeout)
+        public void Compare_DifferentLargeArrays_ReturnQuicklyDifferent(int count, int timeout)
         {
             //Buiding object used during test
             var comparer = new DataRowBasedResultSetComparer(BuildSettingsKeyValue());

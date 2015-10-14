@@ -52,12 +52,9 @@ namespace NBi.Core.ResultSet
             return hash;
         }
 
-        //public void GetHashCode64_KeysValues(DataRow row, out Int64 keysHashed, out Int64 valuesHashed)
-        public void GetHashCode64_KeysValues(DataRow row, out Int64 keysHashed)
+        public KeyCollection GetKeys(DataRow row)
         {
-            keysHashed = 0;
-            //valuesHashed = 0;
-
+            var keys = new List<object>();
             for (int i = 0; i < row.Table.Columns.Count; i++)
             {
                 
@@ -66,7 +63,7 @@ namespace NBi.Core.ResultSet
                     try
                     {
                         var value = FormatValue(i, row[i]);
-                        keysHashed = (keysHashed * 397) ^ value.GetHashCode();
+                        keys.Add(value);
                     }
                     catch (FormatException)
                     {
@@ -86,10 +83,8 @@ namespace NBi.Core.ResultSet
                             throw ex;
                     }
                 }
-
-                //else
-                //    valuesHashed = (valuesHashed * 397) ^ value.GetHashCode();
             }
+            return new KeyCollection(keys.ToArray());
         }
 
         internal object FormatValue(int columnIndex, object value)

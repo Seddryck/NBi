@@ -58,7 +58,7 @@ namespace NBi.Service
         internal void InitializeTemplate()
         {
             var group = new TemplateGroup('$', '$');
-            group.RegisterRenderer(typeof(object), new StringRenderer());
+            group.RegisterRenderer(typeof(string), new StringRenderer());
             Template = new Template(group, TemplateXml);
 
             //Populate the "dynamic" variables once (The value is the same for all render that will occur).

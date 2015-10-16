@@ -330,6 +330,9 @@
     <EmbeddedResource Include="Acceptance\Resources\Csv\NullValues.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\AddRange-TestSuite_ToAdd.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Full.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

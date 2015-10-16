@@ -180,6 +180,30 @@ namespace NBi.Service
             return categories;
         }
 
+        public void AddRange(string Filename)
+        {
+            using (var stream = new FileStream(Filename, FileMode.Open, FileAccess.Read))
+            {
+                AddRange(stream);
+            }
+        }
+
+        protected internal void AddRange(Stream stream)
+        {
+            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8, true))
+            {
+                var str = reader.ReadToEnd();
+
+                TestSuiteXml testSuite = null;
+                testSuite = XmlDeserializeFromString<TestSuiteXml>(str);
+
+                foreach (var test in testSuite.GetAllTests())
+                {
+                    tests.Add(test);
+                }
+            }
+        }
+
         public void Include(string Filename)
         {
             using (var stream = new FileStream(Filename, FileMode.Open, FileAccess.Read))

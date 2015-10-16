@@ -55,6 +55,17 @@ namespace NBi.Testing.Unit.GenbiL.Parser
         }
 
         [Test]
+        public void SentenceParser_SuiteAddFileString_ValidIncludeSuiteAction()
+        {
+            var input = "suite add file 'filename.nbitx';";
+            var result = Suite.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<IncludeSuiteAction>());
+            Assert.That(((IncludeSuiteAction)result).Filename, Is.EqualTo("filename.nbitx"));
+        }
+
+        [Test]
         public void SentenceParser_SuiteAddRangeFileString_ValidAddRangeSuiteAction()
         {
             var input = "suite addrange file 'filename.nbits';";

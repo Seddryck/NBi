@@ -24,7 +24,7 @@ namespace NBi.GenbiL.Parser
 
         readonly static Parser<ISuiteAction> IncludeParser =
         (
-                from include in Keyword.Include
+                from include in (Keyword.Add).Or(Keyword.Include)
                 from file in Keyword.File
                 from filename in Grammar.QuotedTextual.Token()
                 select new IncludeSuiteAction(filename)

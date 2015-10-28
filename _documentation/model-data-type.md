@@ -15,7 +15,12 @@ Example:
 {% highlight xml %}
 <system-under-test>
   <data-type>
-    <column caption="column" table="table" perspective="dwh" connectionString="ConnectionString"/>
+    <column
+      caption="column"
+      table="table"
+      perspective="dwh"
+      connectionString="ConnectionString"
+    />
   </data-type>
 </system-under-test>
 {% endhighlight %}

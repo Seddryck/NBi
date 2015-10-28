@@ -59,6 +59,13 @@ Sometimes, you want to use a relative tolerance but you also want to bound thsi 
 <column  index="3" role="value" type="numeric" tolerance="10% (min 0.001)" />
 {% endhighlight %}
 
+### One-sided tolerance
+Sometimes, you want to specify that the tolerance should only be applied on the right or on the left of the expected value. In this case, you must specify the symbols *+* or *-* before the percentage of the absolute value.
+
+{% highlight xml %}
+<column  index="3" role="value" type="numeric" tolerance="+10%" />
+{% endhighlight %}
+
 ## Roundings
 The roundings are another set of tools to express that two values are equal if they are close to each other. At the opposite of *tolerance*,  *rounding* is applied to both expected and actual values. If after the rounding's operation, the two values are strictly equal then the comparison will be positive (and else negative).
 

@@ -3,7 +3,7 @@ layout: documentation
 title: Database providers
 prev_section: config-roles-query
 next_section: config-profile-csv
-permalink: /docs/config-database-provider/
+permalink: /docs/config-database-providers/
 ---
 When dealing with standard Microsoft data sources, NBi automatically creates the correct connections and commands objects to query these data sources. The choice performed by NBi to create an object or another is dependent of the connection string.
 

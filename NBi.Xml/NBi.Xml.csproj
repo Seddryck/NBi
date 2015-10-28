@@ -97,6 +97,7 @@
     <Compile Include="InheritanceTestXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
+    <Compile Include="Items\FileXml.cs" />
     <Compile Include="Items\Filters\IDisplayFolderFilter.cs" />
     <Compile Include="Items\Filters\IHierarchyFilter.cs" />
     <Compile Include="Items\Filters\ILevelFilter.cs" />
@@ -146,6 +147,10 @@
     <Compile Include="Items\QueryXml.cs" />
     <Compile Include="Items\Validate\ExpressionXml.cs" />
     <Compile Include="Items\Validate\VariableXml.cs" />
+    <Compile Include="Items\Xml\FromXml.cs" />
+    <Compile Include="Items\Xml\SelectXml.cs" />
+    <Compile Include="Items\Xml\XmlSourceXml.cs" />
+    <Compile Include="Items\Xml\XPathXml.cs" />
     <Compile Include="LocalXmlUrlResolver.cs" />
     <Compile Include="Settings\CsvProfileXml.cs" />
     <Compile Include="Settings\TraitXml.cs" />

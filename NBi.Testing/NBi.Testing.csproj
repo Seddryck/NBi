@@ -170,6 +170,7 @@
     <Compile Include="Unit\Core\Structure\Olap\Builders\DimensionDiscoveryCommandBuilderTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\SetDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Structure\StructureDiscoveryFactoryProviderTest.cs" />
+    <Compile Include="Unit\Core\Xml\XPathEngineTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\DataRowsMessageTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\ItemsMessageTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Formatter\CellFormatterTest.cs" />
@@ -243,6 +244,7 @@
     <Compile Include="Unit\Xml\Decoration\DecorationXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\SetXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\TablesXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\XmlSourceTest.cs" />
     <Compile Include="Unit\Xml\TraitXmlTest.cs" />
     <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
     <Compile Include="Unit\Xml\GroupXmlTest.cs" />
@@ -316,6 +318,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\AddRange-TestSuite_ToAdd.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToXml.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Acceptance\Resources\Reports\EmployeeSalesDetail.rsd">
@@ -573,6 +578,11 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Acceptance\Resources\PurchaseOrders.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Unit\Xml\Resources\XmlSourceTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Core\Resources\PurchaseOrders.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidFormat.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TablesXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SetXmlTestSuite.xml" />

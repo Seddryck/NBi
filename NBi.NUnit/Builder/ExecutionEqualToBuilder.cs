@@ -10,6 +10,7 @@ using NBi.NUnit.Query;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
+using NBi.Core.Xml;
 
 namespace NBi.NUnit.Builder
 {
@@ -69,6 +70,24 @@ namespace NBi.NUnit.Builder
                     Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in embedded resultSet!");
                     ctr = new EqualToConstraint(ConstraintXml.ResultSet.Rows);
                 }
+            }
+            else if (ConstraintXml.XmlSource != null)
+            {
+                if (!string.IsNullOrEmpty(ConstraintXml.XmlSource.GetFile()))
+                {
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Xml file at '{0}'", ConstraintXml.XmlSource.GetFile()));
+
+                    var selects = new List<AbstractSelect>();
+                    var factory = new SelectFactory();
+                    foreach (var select in ConstraintXml.XmlSource.XPath.Selects)
+                        selects.Add(factory.Instantiate(select.Value, select.Attribute));
+
+                    var engine = new XPathFileEngine(ConstraintXml.XmlSource.GetFile(), ConstraintXml.XmlSource.XPath.From.Value, selects);
+
+                    ctr = new EqualToConstraint(engine);
+                }
+                else
+                    throw new ArgumentException("File's can't be empty when declaring an xml-source.");
             }
             
             if (ctr==null)

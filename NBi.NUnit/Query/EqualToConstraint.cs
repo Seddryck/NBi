@@ -8,6 +8,7 @@ using NBi.Core.ResultSet;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework.FailureMessage;
 using NBi.Framework;
+using NBi.Core.Xml;
 
 namespace NBi.NUnit.Query
 {
@@ -118,6 +119,11 @@ namespace NBi.NUnit.Query
             this.expect = value;
         }
 
+        public EqualToConstraint(XPathEngine xpath)
+        {
+            this.expect = xpath;
+        }
+
         public EqualToConstraint Using(ResultSetComparisonSettings settings)
         {
             this.Engine.Settings = settings;
@@ -189,7 +195,6 @@ namespace NBi.NUnit.Query
             return result.Difference == ResultSetDifferenceType.None;
         }
 
-
         protected string GetPersistancePath(string folder)
         {
             return string.Format(@"{0}\{1}", folder, filename);
@@ -231,7 +236,14 @@ namespace NBi.NUnit.Query
 
         protected ResultSet GetResultSet(Object obj)
         {
-            return ResultSetBuilder.Build(obj);
+            if (obj is XPathEngine)
+            {
+                var xpath = obj as XPathEngine;
+                var rs = xpath.Execute();
+                return rs;
+            }
+            else
+                return ResultSetBuilder.Build(obj);
         }
 
         /// <summary>

@@ -8,7 +8,7 @@ namespace NBi.Core.ResultSet
 {
     public class ResultSet
     {
-        protected DataTable table;
+        protected internal DataTable table;
 
         internal DataTable Table { get { return table; } }
         

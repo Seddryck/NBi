@@ -323,14 +323,13 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\Is.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToXml.nbits">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Csv\NullValues.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\AddRange-TestSuite_ToAdd.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToXml.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Full.nbits">
@@ -398,7 +397,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="ConnectionString.config">
-      <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Integration\NUnit\Resources\NonEmptyAmountByYear.csv" />
@@ -619,6 +617,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\Resources\XmlSourceTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Core\Resources\PurchaseOrders.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidFormat.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TablesXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SetXmlTestSuite.xml" />

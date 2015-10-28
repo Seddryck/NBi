@@ -609,7 +609,6 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Core\Resources\PurchaseOrders.xml" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Light-0001.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Full-0001.txt" />
     <EmbeddedResource Include="Unit\Xml\Resources\IsXmlTestSuite.xml" />

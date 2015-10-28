@@ -323,6 +323,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\Is.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Csv\NullValues.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

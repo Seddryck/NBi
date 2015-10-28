@@ -1,7 +1,7 @@
 ---
 layout: automation
 title: Source your test-cases from a query
-prev_section: add-condition-to-template
+prev_section: format-variable
 next_section: genbil
 permalink: /automation/source-test-cases-from-query/
 ---

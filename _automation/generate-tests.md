@@ -2,7 +2,7 @@
 layout: automation
 title: Generate tests based on a template
 prev_section: home
-next_section: add-condition-to-template
+next_section: condition-template
 permalink: /automation/generate-tests/
 ---
 It can be a tedious work to create a test-suite. The creation of a test suite to check the structure of a cube with 500 measures and 40 dimensions quickly lead to a test-suite with more than 2500 tests! When writing this kind of test-suite, you’ll quickly understand that there is a lot of repetition in the xml. It’s a clue that we can automate or at least assist to the creation of such a test-suite.

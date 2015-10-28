@@ -2,7 +2,7 @@
 layout: automation
 title: Condition in a template
 prev_section: generate-tests
-next_section: source-test-cases-from-query
+next_section: format-variable
 permalink: /automation/add-condition-to-template/
 ---
 It can be useful to specify that a few xml fragments should be rendered in some specific cases and not in other cases. To achieve this, NBi uses the syntax and features provided by the external library [StringTemplate and detailed there](https://theantlrguy.atlassian.net/wiki/display/ST4/Templates#Templates-conditionals).

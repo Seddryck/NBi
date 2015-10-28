@@ -6,6 +6,7 @@
   docs:
   - generate-tests
   - condition-template
+  - format-variable
   - source-test-cases-from-query
 
 - title: genbiL - macro language

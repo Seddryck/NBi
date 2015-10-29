@@ -26,7 +26,7 @@ Full config file example:
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <configSections>
-		<section name="nbi" type="NBi.NUnit.Runtime.NBiSection, NBi.NUnit.Runtime"/>
+    <section name="nbi" type="NBi.NUnit.Runtime.NBiSection, NBi.NUnit.Runtime"/>
   </configSections>
   <nbi testSuite="SubDirectory\myTestSuite.nbits"/>
   <system.diagnostics>

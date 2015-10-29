@@ -349,7 +349,7 @@
   </xs:complexType>
   <xs:complexType name="comparer-type">
     <xs:simpleContent>
-      <xs:extension base="xs:positiveInteger"/>
+      <xs:extension base="xs:nonNegativeInteger"/>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="more-less-type">

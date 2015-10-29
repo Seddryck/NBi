@@ -13,7 +13,7 @@ Sometimes, you need to render the value of a variable with a given format. A goo
 * url-encode
 * xml-encode
 
-To use this feature you need to match the StringTemplate syntax and specify the format after the semi-column:
+To use this feature you need to match the StringTemplate syntax and specify the format between double quotes after the semicolumn and the keyword *format*:
 
 {% highlight xml %}
 <element attribute="$variable; format="xml-encode"$"/>

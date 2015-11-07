@@ -148,7 +148,10 @@
     <Compile Include="Items\AbstractMembersItem.cs" />
     <Compile Include="Items\BaseItem.cs" />
     <Compile Include="Items\QueryXml.cs" />
+    <Compile Include="Items\Validate\ComparisonXml.cs" />
+    <Compile Include="Items\Validate\PredicateXml.cs" />
     <Compile Include="Items\Validate\ExpressionXml.cs" />
+    <Compile Include="Items\Validate\FormulaXml.cs" />
     <Compile Include="Items\Validate\VariableXml.cs" />
     <Compile Include="Items\Xml\FromXml.cs" />
     <Compile Include="Items\Xml\SelectXml.cs" />

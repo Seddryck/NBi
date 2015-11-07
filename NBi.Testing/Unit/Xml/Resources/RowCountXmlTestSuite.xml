@@ -47,4 +47,46 @@
       </row-count>
     </assert>
   </test>
+  <test name="With Predicate but without formula" uid="0003">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select top 2 [DepartmentID], [Name], [GroupName] from [HumanResources].[Department] order by Name
+        </query>
+      </execution>
+    </system-under-test>
+    <assert  >
+      <row-count>
+        <predicate>
+          <compare column-index="2" not="true" type="text">
+            <equal>N/A</equal>
+          </compare>
+        </predicate>
+        <equal>2</equal>
+      </row-count>
+    </assert>
+  </test>
+  <test name="With Predicate and with formula" uid="0003">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select row_count as DeptId, [Name], [GroupName] from [HumanResources].[Department] order by Name
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <row-count not="true">
+        <predicate>
+          <variable column-index="0">DeptId</variable>
+          <formula name="LogDepId">
+            Log10(DepId)
+          </formula>
+          <compare formula="ModDepId" type="numeric">
+            <less-than>1</less-than>
+          </compare>
+        </predicate>
+        <less-than or-equal="true">10</less-than>
+      </row-count>
+    </assert>
+  </test>
 </testSuite>

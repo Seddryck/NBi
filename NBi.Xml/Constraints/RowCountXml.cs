@@ -10,6 +10,7 @@ using NBi.Xml.Items;
 using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Settings;
 using NBi.Xml.Constraints.Comparer;
+using NBi.Xml.Items.Validate;
 
 namespace NBi.Xml.Constraints
 {
@@ -73,5 +74,8 @@ namespace NBi.Xml.Constraints
                 return null;
             }
         }
+
+        [XmlElement("predicate")]
+        public PredicateXml Predicate { get; set; }
     }
 }

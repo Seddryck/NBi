@@ -216,5 +216,20 @@ namespace NBi.Testing.Unit.Xml.Items
             Assert.That(etl, Is.Not.Null);
             Assert.That(etl.Is32Bits, Is.True);
         }
+
+        [Test]
+        public void Deserialize_FromCatalogWithEnvironment_EtlXml()
+        {
+            int testNr = 9;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
+            var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
+
+            Assert.That(etl, Is.Not.Null);
+            Assert.That(etl.Environment, Is.EqualTo("Environment"));
+        }
     }
 }

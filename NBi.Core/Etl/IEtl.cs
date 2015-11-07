@@ -16,13 +16,10 @@ namespace NBi.Core.Etl
         List<EtlParameter> Parameters { get; }
 
         string Catalog { get; set; }
-
         string Folder { get; set; }
-
         string Project { get; set; }
-
+        string Environment { get; set; }
         bool Is32Bits { get; set; }
-
         int Timeout { get; set; }
     }
 }

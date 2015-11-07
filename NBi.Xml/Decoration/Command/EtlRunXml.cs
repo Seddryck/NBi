@@ -36,6 +36,9 @@ namespace NBi.Xml.Decoration.Command
         [XmlAttribute("project")]
         public string Project { get; set; }
 
+        [XmlAttribute("environment")]
+        public string Environment { get; set; }
+
         [XmlAttribute("bits-32")]
         public bool Is32Bits { get; set; }
 

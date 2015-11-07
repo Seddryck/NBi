@@ -36,6 +36,9 @@ namespace NBi.Xml.Items
         [XmlAttribute("project")]
         public string Project { get; set; }
 
+        [XmlAttribute("environment")]
+        public string Environment { get; set; }
+
         [DefaultValue(false)]
         [XmlAttribute("bits-32")]
         public bool Is32Bits { get; set; }

@@ -33,7 +33,7 @@ namespace NBi.Xml.Decoration.Command
                 if (Path.IsPathRooted(InternalPath) || String.IsNullOrEmpty(Settings.BasePath))
                     fullPath = InternalPath + Name;
                 else
-                    fullPath = Settings.BasePath + fullPath + Name;
+                    fullPath = Settings.BasePath + InternalPath + Name;
 
                 return fullPath;
 

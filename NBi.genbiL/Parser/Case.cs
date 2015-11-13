@@ -243,6 +243,20 @@ namespace NBi.GenbiL.Parser
                 select new ReplaceCaseAction(variableName, newValue, @operator, text, negation.IsDefined)
         );
 
+        readonly static Parser<ICaseAction> caseSeparateParser =
+        (
+                from separate in Keyword.Separate
+                from column in Keyword.Column
+                from initial in Grammar.QuotedTextual
+                from @into in Keyword.Into
+                from columns in Keyword.Column.Or(Keyword.Columns).Optional()
+                from values in Grammar.QuotedRecordSequence
+                from with in Keyword.With
+                from value in Keyword.Value
+                from separator in Grammar.QuotedTextual
+                select new SeparateCaseAction(initial, values, separator)
+        );
+
         public readonly static Parser<IAction> Parser =
         (
                 from @case in Keyword.Case
@@ -266,6 +280,7 @@ namespace NBi.GenbiL.Parser
                                     .Or(caseReplaceSimpleParser)
                                     .Or(caseConcatenateParser)
                                     .Or(caseSubstituteParser)
+                                    .Or(caseSeparateParser)
                 select action
         );
     }

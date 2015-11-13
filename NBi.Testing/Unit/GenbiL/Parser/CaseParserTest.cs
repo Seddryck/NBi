@@ -461,5 +461,17 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(((SubstituteCaseAction)result).NewText.Display, Is.EqualTo("value 'foo'"));
         }
 
+        [Test]
+        public void SentenceParser_CaseSeparateValue_ValidSeparateAction()
+        {
+            var input = "case separate column 'longtext' into 'foo', 'bar', 'remaining' with value '-';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<SeparateCaseAction>());
+            Assert.That(((SeparateCaseAction)result).ColumnName, Is.EqualTo("longtext"));
+            Assert.That(((SeparateCaseAction)result).NewColumns, Is.EquivalentTo(new[] { "foo", "bar", "remaining" }));
+            Assert.That(((SeparateCaseAction)result).Separator, Is.EqualTo("-"));
+        }
     }
 }

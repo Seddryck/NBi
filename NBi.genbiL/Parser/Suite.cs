@@ -18,6 +18,7 @@ namespace NBi.GenbiL.Parser
         readonly static Parser<ISuiteAction> SaveParser =
         (
                 from save in Keyword.Save
+                from @as in Keyword.As.Optional()
                 from filename in Grammar.QuotedTextual.Token()
                 select new SaveSuiteAction(filename)
         );

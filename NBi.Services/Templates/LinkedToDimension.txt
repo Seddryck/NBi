@@ -1,5 +1,5 @@
 ﻿<test name="A dimension '$dimension$' is linked to a measure-group named '$measuregroup$' in perspective '$perspective$'.">
-	<description>Verify that the dimension named '$dimension$' is linked to a measure-group named '$measuregroup$' in perspective '$perspective$'</description>
+	<description>Assert that the dimension named '$dimension$' is linked to a measure-group named '$measuregroup$' in perspective '$perspective$'</description>
 	<edition author="$username$" created="$now$"/>
 	<system-under-test>
 		<structure>	

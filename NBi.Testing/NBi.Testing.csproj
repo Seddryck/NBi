@@ -85,6 +85,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Acceptance\GenbiL\GroupReduceTest.cs" />
     <Compile Include="Acceptance\GenbiL\MatchPatternTest.cs" />
     <Compile Include="Acceptance\GenbiL\CaseCrossTest.cs" />
     <Compile Include="Acceptance\GenbiL\GenbiLTest.cs" />
@@ -351,6 +352,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToResultSetProvider.nbits">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\GroupReduce.genbil">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\GroupReduce.nbitt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\OrderCountByYear.xlsx">

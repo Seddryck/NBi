@@ -34,8 +34,8 @@ namespace NBi.GenbiL.Action.Case
                 var isIdentical = true;
                 for (int j = 0; j < dataTable.Columns.Count - columnNames.Count; j++)
                 {
-                    if (!columnNames.Contains(dataTable.Columns[j].ColumnName))
-                        isIdentical &= dataTable.Rows[i][j] == dataTable.Rows[firstRow][j];
+                    if (!columnNames.Contains(dataTable.Columns[j].ColumnName) && !(dataTable.Rows[i][j] is IEnumerable<string>))
+                        isIdentical &= dataTable.Rows[i][j].ToString() == dataTable.Rows[firstRow][j].ToString();
                 }
 
                 if (!isIdentical)

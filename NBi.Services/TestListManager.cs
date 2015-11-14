@@ -115,7 +115,7 @@ namespace NBi.Service
                         variableTests[variableTests.Count - 1].Add(new List<object>());
                         if (dataTable.Rows[i].ItemArray[j] is IEnumerable<string>)
                         {
-                            foreach (var item in (string[])dataTable.Rows[i].ItemArray[j])
+                            foreach (var item in (IEnumerable<string>)dataTable.Rows[i].ItemArray[j])
                                 variableTests[variableTests.Count - 1][j].Add(item);
                         }
                         else

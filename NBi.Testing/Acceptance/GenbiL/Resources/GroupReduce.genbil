@@ -1,0 +1,13 @@
+﻿case load file 'Acceptance\GenbiL\Resources\dimension.csv';
+
+case rename column 'useless' into 'ticket';
+case rename column 'dimensionY' into 'dimension';
+
+case group columns 'ticket', 'dimension';
+case reduce column 'ticket';
+
+template load file 'Acceptance\GenbiL\Resources\GroupReduce.nbitt';
+suite generate;
+
+suite save 'Acceptance\GenbiL\Resources\GroupReduce.nbits';
+

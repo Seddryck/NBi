@@ -473,5 +473,17 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(((SeparateCaseAction)result).NewColumns, Is.EquivalentTo(new[] { "foo", "bar", "remaining" }));
             Assert.That(((SeparateCaseAction)result).Separator, Is.EqualTo("-"));
         }
+
+        [Test]
+        public void SentenceParser_CaseGroup_ValidSeparateAction()
+        {
+            var input = "case group column 'foo', 'bar';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<GroupCaseAction>());
+            Assert.That(((GroupCaseAction)result).columnNames, Has.Member("foo"));
+            Assert.That(((GroupCaseAction)result).columnNames, Has.Member("bar"));
+        }
     }
 }

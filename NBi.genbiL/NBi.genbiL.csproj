@@ -51,6 +51,7 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Action\AxisType.cs" />
+    <Compile Include="Action\Case\ReduceCaseAction.cs" />
     <Compile Include="Action\Case\GroupCaseAction.cs" />
     <Compile Include="Action\Case\SeparateCaseAction.cs" />
     <Compile Include="Action\Case\SubstituteCaseAction.cs" />

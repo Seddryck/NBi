@@ -485,5 +485,17 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(((GroupCaseAction)result).columnNames, Has.Member("foo"));
             Assert.That(((GroupCaseAction)result).columnNames, Has.Member("bar"));
         }
+
+        [Test]
+        public void SentenceParser_CaseReduce_ValidSeparateAction()
+        {
+            var input = "case reduce columns 'foo', 'bar';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<ReduceCaseAction>());
+            Assert.That(((ReduceCaseAction)result).columnNames, Has.Member("foo"));
+            Assert.That(((ReduceCaseAction)result).columnNames, Has.Member("bar"));
+        }
     }
 }

@@ -71,7 +71,7 @@ namespace NBi.GenbiL.Parser
         readonly static Parser<ICaseAction> caseRenameParser =
         (
                 from remove in Keyword.Rename
-                from axisType in Parse.IgnoreCase("Column").Token()
+                from axisType in Keyword.Column
                 from oldVariableName in Grammar.QuotedTextual
                 from intoKeyword in Keyword.Into
                 from newVariableName in Grammar.QuotedTextual
@@ -81,7 +81,7 @@ namespace NBi.GenbiL.Parser
         readonly static Parser<ICaseAction> caseMoveParser =
         (
                 from move in Keyword.Move
-                from axisType in Parse.IgnoreCase("Column").Token()
+                from axisType in Keyword.Column
                 from variableName in Grammar.QuotedTextual
                 from toKeyword in Keyword.To
                 from relativePosition in Parse.IgnoreCase("Left").Return(-1)
@@ -197,7 +197,7 @@ namespace NBi.GenbiL.Parser
         readonly static Parser<ICaseAction> caseConcatenateParser =
         (
                 from concatenate in Keyword.Concatenate
-                from axisType in Parse.IgnoreCase("Column").Token()
+                from axisType in Keyword.Column
                 from columnName in Grammar.QuotedTextual
                 from withKeyword in Keyword.With
                 from valuables in Grammar.Valuables
@@ -208,7 +208,7 @@ namespace NBi.GenbiL.Parser
         (
                 from substitute in Keyword.Substitute
                 from intoKeyword in Keyword.Into
-                from axisType in Parse.IgnoreCase("Column").Token()
+                from axisType in Keyword.Column
                 from columnName in Grammar.QuotedTextual
                 from oldText in Grammar.Valuable
                 from withKeyword in Keyword.With
@@ -219,7 +219,7 @@ namespace NBi.GenbiL.Parser
         readonly static Parser<ICaseAction> caseReplaceSimpleParser =
         (
                 from replace in Keyword.Replace
-                from axisType in Parse.IgnoreCase("Column").Token()
+                from axisType in Keyword.Column
                 from variableName in Grammar.QuotedTextual
                 from withKeyword in Keyword.With
                 from valuesKeyword in Keyword.Values
@@ -230,7 +230,7 @@ namespace NBi.GenbiL.Parser
         readonly static Parser<ICaseAction> caseReplaceComplexParser =
         (
                 from replace in Keyword.Replace
-                from axisType in Parse.IgnoreCase("Column").Token()
+                from axisType in Keyword.Column
                 from variableName in Grammar.QuotedTextual
                 from withKeyword in Keyword.With
                 from valuesKeyword in Keyword.Values
@@ -249,7 +249,7 @@ namespace NBi.GenbiL.Parser
                 from column in Keyword.Column
                 from initial in Grammar.QuotedTextual
                 from @into in Keyword.Into
-                from columns in Keyword.Column.Or(Keyword.Columns).Optional()
+                from columns in Keyword.Columns.Or(Keyword.Column).Optional()
                 from values in Grammar.QuotedRecordSequence
                 from with in Keyword.With
                 from value in Keyword.Value
@@ -260,9 +260,17 @@ namespace NBi.GenbiL.Parser
         readonly static Parser<ICaseAction> caseGroupParser =
         (
                 from @group in Keyword.Group
-                from column in Keyword.Column.Or(Keyword.Columns)
+                from column in Keyword.Columns.Or(Keyword.Column)
                 from values in Grammar.QuotedRecordSequence
                 select new GroupCaseAction(values)
+        );
+
+        readonly static Parser<ICaseAction> caseReduceParser =
+        (
+                from reduce in Keyword.Reduce
+                from column in Keyword.Columns.Or(Keyword.Column)
+                from values in Grammar.QuotedRecordSequence
+                select new ReduceCaseAction(values)
         );
 
         public readonly static Parser<IAction> Parser =
@@ -290,6 +298,7 @@ namespace NBi.GenbiL.Parser
                                     .Or(caseSubstituteParser)
                                     .Or(caseSeparateParser)
                                     .Or(caseGroupParser)
+                                    .Or(caseReduceParser)
                 select action
         );
     }

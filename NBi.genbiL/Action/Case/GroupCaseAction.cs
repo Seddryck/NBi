@@ -79,7 +79,7 @@ namespace NBi.GenbiL.Action.Case
                 if (columnNames.Count == 1)
                     return string.Format("Grouping rows for content of column '{0}'", columnNames[0]);
                 else
-                    return string.Format("Grouping rows for content of column '{0}'", String.Join("', '", columnNames));
+                    return string.Format("Grouping rows for content of columns '{0}'", String.Join("', '", columnNames));
             }
         }
     }

@@ -81,14 +81,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var actual = BuildSettings();
 
             //Assertion
-            Assert.That(actual.IsKey(0), Is.True);
-            Assert.That(actual.IsKey(1), Is.False);
-            Assert.That(actual.IsKey(2), Is.False);
-            Assert.That(actual.IsKey(3), Is.True);
-            Assert.That(actual.IsKey(4), Is.False);
-            Assert.That(actual.IsKey(5), Is.False);
-            Assert.That(actual.IsKey(8), Is.True);
-            Assert.That(actual.IsKey(9), Is.False);
+            Assert.That(actual.GetColumnRole(0), Is.EqualTo(ColumnRole.Key));
+            Assert.That(actual.GetColumnRole(1), Is.Not.EqualTo(ColumnRole.Key));
+            Assert.That(actual.GetColumnRole(2), Is.Not.EqualTo(ColumnRole.Key));
+            Assert.That(actual.GetColumnRole(3), Is.EqualTo(ColumnRole.Key));
+            Assert.That(actual.GetColumnRole(4), Is.Not.EqualTo(ColumnRole.Key));
+            Assert.That(actual.GetColumnRole(5), Is.Not.EqualTo(ColumnRole.Key));
+            Assert.That(actual.GetColumnRole(8), Is.EqualTo(ColumnRole.Key));
+            Assert.That(actual.GetColumnRole(9), Is.Not.EqualTo(ColumnRole.Key));
         }
 
         [Test]
@@ -98,14 +98,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var actual = BuildSettings();
 
             //Assertion
-            Assert.That(actual.IsValue(0), Is.False);
-            Assert.That(actual.IsValue(1), Is.True);
-            Assert.That(actual.IsValue(2), Is.True);
-            Assert.That(actual.IsValue(3), Is.False);
-            Assert.That(actual.IsValue(4), Is.True);
-            Assert.That(actual.IsValue(5), Is.False);
-            Assert.That(actual.IsValue(8), Is.False);
-            Assert.That(actual.IsValue(9), Is.True);
+            Assert.That(actual.GetColumnRole(0), Is.Not.EqualTo(ColumnRole.Value));
+            Assert.That(actual.GetColumnRole(1), Is.EqualTo(ColumnRole.Value));
+            Assert.That(actual.GetColumnRole(2), Is.EqualTo(ColumnRole.Value));
+            Assert.That(actual.GetColumnRole(3), Is.Not.EqualTo(ColumnRole.Value));
+            Assert.That(actual.GetColumnRole(4), Is.EqualTo(ColumnRole.Value));
+            Assert.That(actual.GetColumnRole(5), Is.Not.EqualTo(ColumnRole.Value));
+            Assert.That(actual.GetColumnRole(8), Is.Not.EqualTo(ColumnRole.Value));
+            Assert.That(actual.GetColumnRole(9), Is.EqualTo(ColumnRole.Value));
         }
 
         [Test]
@@ -115,13 +115,13 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var actual = BuildSettings();
 
             //Assertion
-            Assert.That(actual.IsNumeric(0), Is.False);
-            Assert.That(actual.IsNumeric(1), Is.True);
-            Assert.That(actual.IsNumeric(2), Is.False); //By Default a Column is Textual
-            Assert.That(actual.IsNumeric(3), Is.False);
-            Assert.That(actual.IsNumeric(4), Is.True);
-            Assert.That(actual.IsNumeric(8), Is.False);
-            Assert.That(actual.IsNumeric(9), Is.True);
+            Assert.That(actual.GetColumnType(0), Is.Not.EqualTo(ColumnType.Numeric));
+            Assert.That(actual.GetColumnType(1), Is.EqualTo(ColumnType.Numeric));
+            Assert.That(actual.GetColumnType(2), Is.Not.EqualTo(ColumnType.Numeric)); //By Default a Column is Textual
+            Assert.That(actual.GetColumnType(3), Is.Not.EqualTo(ColumnType.Numeric));
+            Assert.That(actual.GetColumnType(4), Is.EqualTo(ColumnType.Numeric));
+            Assert.That(actual.GetColumnType(8), Is.Not.EqualTo(ColumnType.Numeric));
+            Assert.That(actual.GetColumnType(9), Is.EqualTo(ColumnType.Numeric));
         }
 
         [Test]
@@ -136,16 +136,16 @@ namespace NBi.Testing.Unit.Core.ResultSet
             actual.ApplyTo(10);
 
             //Assertion
-            Assert.That(actual.IsNumeric(0), Is.False);
-            Assert.That(actual.IsNumeric(1), Is.True);
-            Assert.That(actual.IsNumeric(2), Is.False); //By Default a Key column is Textual
-            Assert.That(actual.IsDateTime(2), Is.False); //By Default a Key column is Textual
-            Assert.That(actual.IsBoolean(2), Is.False); //By Default a Key column is Textual
-            Assert.That(actual.IsNumeric(3), Is.False);
-            Assert.That(actual.IsNumeric(4), Is.True);
-            Assert.That(actual.IsNumeric(8), Is.False);
-            Assert.That(actual.IsNumeric(9), Is.False); //The default type for a Value column is dateTime
-            Assert.That(actual.IsDateTime(9), Is.True); //The default type for a Value column is dateTime
+            Assert.That(actual.GetColumnType(0), Is.Not.EqualTo(ColumnType.Numeric));
+            Assert.That(actual.GetColumnType(1), Is.EqualTo(ColumnType.Numeric));
+            Assert.That(actual.GetColumnType(2), Is.Not.EqualTo(ColumnType.Numeric)); //By Default a Key column is Textual
+            Assert.That(actual.GetColumnType(2), Is.Not.EqualTo(ColumnType.DateTime)); //By Default a Key column is Textual
+            Assert.That(actual.GetColumnType(2), Is.Not.EqualTo(ColumnType.Boolean)); //By Default a Key column is Textual
+            Assert.That(actual.GetColumnType(3), Is.Not.EqualTo(ColumnType.Numeric));
+            Assert.That(actual.GetColumnType(4), Is.EqualTo(ColumnType.Numeric));
+            Assert.That(actual.GetColumnType(8), Is.Not.EqualTo(ColumnType.Numeric));
+            Assert.That(actual.GetColumnType(9), Is.Not.EqualTo(ColumnType.Numeric)); //The default type for a Value column is dateTime
+            Assert.That(actual.GetColumnType(9), Is.EqualTo(ColumnType.DateTime)); //The default type for a Value column is dateTime
         }
 
         private EqualToXml BuildEqualToXml()

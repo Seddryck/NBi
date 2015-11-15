@@ -8,6 +8,9 @@ namespace NBi.Core.ResultSet
 {
 	public class ResultSetComparisonSettings
 	{
+        private IDictionary<int, ColumnRole> cacheRole = new Dictionary<int, ColumnRole>();
+        private IDictionary<int, ColumnType> cacheType = new Dictionary<int, ColumnType>();
+
 		public enum KeysChoice
 		{
 			[XmlEnum(Name = "first")]
@@ -32,7 +35,7 @@ namespace NBi.Core.ResultSet
 		private ICollection<IColumnDefinition> ColumnsDef { get; set; }
 		private NumericTolerance DefaultTolerance { get; set; }
 
-		public bool IsKey(int index)
+		private bool IsKey(int index)
 		{
 		   
 			if (ColumnsDef.Any( c => c.Index==index && c.Role!=ColumnRole.Key))
@@ -54,7 +57,7 @@ namespace NBi.Core.ResultSet
 			return false;
 		}
 
-		public bool IsValue(int index)
+		private bool IsValue(int index)
 		{
 			if (ColumnsDef.Any(c => c.Index == index && c.Role != ColumnRole.Value))
 				return false;
@@ -106,37 +109,46 @@ namespace NBi.Core.ResultSet
 
 		public ColumnRole GetColumnRole(int index)
 		{
-			if (IsKey(index))
-				return ColumnRole.Key;
-			else if (IsValue(index))
-				return ColumnRole.Value;
-			else
-				return ColumnRole.Ignore;
+            if (!cacheRole.ContainsKey(index))
+            {
+                if (IsKey(index))
+                    cacheRole.Add(index,ColumnRole.Key);
+                else if (IsValue(index))
+                    cacheRole.Add(index,ColumnRole.Value);
+                else
+                    cacheRole.Add(index,ColumnRole.Ignore);
+            }
+            
+            return cacheRole[index];
 		}
 
 		public ColumnType GetColumnType(int index)
 		{
-			if (IsNumeric(index))
-				return ColumnType.Numeric;
-			if (IsDateTime(index))
-				return ColumnType.DateTime;
-			if (IsBoolean(index))
-				return ColumnType.Boolean;
-			else
-				return ColumnType.Text;
+            if (!cacheType.ContainsKey(index))
+            {
+                if (IsNumeric(index))
+                    cacheType.Add(index, ColumnType.Numeric);
+                else if (IsDateTime(index))
+                    cacheType.Add(index, ColumnType.DateTime);
+                else if (IsBoolean(index))
+                    cacheType.Add(index, ColumnType.Boolean);
+                else
+                    cacheType.Add(index, ColumnType.Text);
+            }
+            return cacheType[index];
 		}
 
-		public bool IsNumeric(int index)
+		private bool IsNumeric(int index)
 		{
             return IsType(index, ColumnType.Numeric);
 		}
 
-		public bool IsDateTime(int index)
+		private bool IsDateTime(int index)
 		{
             return IsType(index, ColumnType.DateTime);
         }
 
-		public bool IsBoolean(int index)
+		private bool IsBoolean(int index)
 		{
             return IsType(index, ColumnType.Boolean);
 		}
@@ -154,7 +166,7 @@ namespace NBi.Core.ResultSet
 
 		public Tolerance GetTolerance(int index)
 		{
-			if (!IsNumeric(index) && !IsDateTime(index))
+            if (GetColumnType(index) != ColumnType.Numeric && GetColumnType(index) != ColumnType.DateTime)
 				return null;
 			
 			var col = ColumnsDef.FirstOrDefault(c => c.Index == index);

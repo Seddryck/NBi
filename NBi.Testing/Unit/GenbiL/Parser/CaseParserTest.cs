@@ -320,6 +320,18 @@ namespace NBi.Testing.Unit.GenbiL.Parser
 
         public void SentenceParser_CaseSave_ValidSaveAction()
         {
+            var input = "case save 'myfile.csv'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<SaveCaseAction>());
+
+            var saveCase = result as SaveCaseAction;
+            Assert.That(saveCase.Filename, Is.EqualTo("myfile.csv"));
+        }
+
+        public void SentenceParser_CaseSaveAs_ValidSaveAction()
+        {
             var input = "case save as 'myfile.csv'";
             var result = Case.Parser.Parse(input);
 

@@ -95,6 +95,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("AssemblyEqualToResultSet.nbits")]
         [TestCase("QueryEqualToWithParameter.nbits")]
         [TestCase("QueryEqualToCsv.nbits")]
+        [TestCase("QueryEqualToCsvWithProfile.nbits")]
         [TestCase("QueryEqualToQuery.nbits")]
         [TestCase("QueryEqualToResultSet.nbits")]
         [TestCase("QueryEqualToResultSetWithNull.nbits")]

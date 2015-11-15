@@ -273,6 +273,17 @@ namespace NBi.GenbiL.Parser
                 select new ReduceCaseAction(values)
         );
 
+        readonly static Parser<ICaseAction> caseSplitParser =
+        (
+                from split in Keyword.Split
+                from column in Keyword.Columns.Or(Keyword.Column).Optional()
+                from columns in Grammar.QuotedRecordSequence
+                from with in Keyword.With
+                from value in Keyword.Value
+                from separator in Grammar.QuotedTextual
+                select new SplitCaseAction(columns, separator)
+        );
+
         public readonly static Parser<IAction> Parser =
         (
                 from @case in Keyword.Case
@@ -299,6 +310,7 @@ namespace NBi.GenbiL.Parser
                                     .Or(caseSeparateParser)
                                     .Or(caseGroupParser)
                                     .Or(caseReduceParser)
+                                    .Or(caseSplitParser)
                 select action
         );
     }

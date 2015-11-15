@@ -53,6 +53,7 @@
     <Compile Include="Action\AxisType.cs" />
     <Compile Include="Action\Case\ReduceCaseAction.cs" />
     <Compile Include="Action\Case\GroupCaseAction.cs" />
+    <Compile Include="Action\Case\SplitCaseAction.cs" />
     <Compile Include="Action\Case\SeparateCaseAction.cs" />
     <Compile Include="Action\Case\SubstituteCaseAction.cs" />
     <Compile Include="Action\Case\CrossVectorCaseAction.cs" />

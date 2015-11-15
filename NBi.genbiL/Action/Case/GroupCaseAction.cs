@@ -18,12 +18,7 @@ namespace NBi.GenbiL.Action.Case
         public void Execute(GenerationState state)
         {
             foreach (var columnName in columnNames)
-            {
-                var c = new DataColumn("_" + columnName, typeof(List<string>));
-                //c.DefaultValue = new List<string>();
-                state.TestCaseCollection.Scope.Content.Columns.Add(c);
-            }
-
+                state.TestCaseCollection.Scope.Content.Columns.Add("_" + columnName, typeof(List<string>));
 
             var dataTable = state.TestCaseCollection.Scope.Content;
 

@@ -509,5 +509,18 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(((ReduceCaseAction)result).columnNames, Has.Member("foo"));
             Assert.That(((ReduceCaseAction)result).columnNames, Has.Member("bar"));
         }
+
+        [Test]
+        public void SentenceParser_CaseSplit_ValidSeparateAction()
+        {
+            var input = "case split columns 'foo', 'bar' with value '-';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<SplitCaseAction>());
+            Assert.That(((SplitCaseAction)result).Columns, Has.Member("foo"));
+            Assert.That(((SplitCaseAction)result).Columns, Has.Member("bar"));
+            Assert.That(((SplitCaseAction)result).Separator, Is.EqualTo("-"));
+        }
     }
 }

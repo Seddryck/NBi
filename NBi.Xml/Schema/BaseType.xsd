@@ -98,6 +98,7 @@
     <xs:attribute name="catalog" type="xs:string"/>
     <xs:attribute name="folder" type="xs:string"/>
     <xs:attribute name="project" type="xs:string"/>
+    <xs:attribute name="environment" type="xs:string"/>
     <xs:attribute name="path" type="xs:string"/>
     <xs:attribute name="name" type="xs:string"/>
     <xs:attribute name="username" type="xs:string"/>

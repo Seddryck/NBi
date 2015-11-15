@@ -37,10 +37,9 @@ namespace NBi.Core.SqlServer.IntegrationService
             var connection = new SqlConnection(string.Format(@"Data Source={0};Initial Catalog=master;Integrated Security=SSPI;", Etl.Server));
             var integrationServices = new IntegrationServices(connection);
 
-            Catalog catalog;
-            PackageInfo package;
-            GetPackage(integrationServices, out catalog, out package);
-            
+            var package = GetPackage(integrationServices);
+
+            var environmentReference = GetEnvironmentReference(package.Parent);
 
             var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
             setValueParameters.Add(new PackageInfo.ExecutionValueParameterSet
@@ -54,11 +53,11 @@ namespace NBi.Core.SqlServer.IntegrationService
 
             long executionIdentifier = -1;
             if (Etl.Timeout==0)
-                executionIdentifier = package.Execute(Etl.Is32Bits, null, setValueParameters);
+                executionIdentifier = package.Execute(Etl.Is32Bits, environmentReference, setValueParameters);
             else
-                executionIdentifier = package.Execute(Etl.Is32Bits, null, setValueParameters, Etl.Timeout);
+                executionIdentifier = package.Execute(Etl.Is32Bits, environmentReference, setValueParameters, Etl.Timeout);
 
-            var execution = catalog.Executions[executionIdentifier];
+            var execution = package.Parent.Parent.Parent.Executions[executionIdentifier];
 
             var etlRunResultFactory = new EtlRunResultFactory();
 
@@ -72,43 +71,60 @@ namespace NBi.Core.SqlServer.IntegrationService
 
         }
 
-        private void GetPackage(IntegrationServices integrationServices, out Catalog catalog, out PackageInfo package)
+        private EnvironmentReference GetEnvironmentReference(ProjectInfo project)
         {
+            var folder = project.Parent;
 
-            if (integrationServices.Catalogs.Contains(Etl.Catalog))
-                catalog = integrationServices.Catalogs[Etl.Catalog];
-            else
+            if (string.IsNullOrEmpty(Etl.Environment))
+                return null;
+
+            if (!folder.Environments.Contains(Etl.Environment))
+            {
+                var names = String.Join(", ",folder.Environments.Select(e => e.Name));
+                throw new ArgumentOutOfRangeException("Environment", String.Format("The environment named '{0}' hasn't been found on the folder '{1}'. List of existing catalogs: {2}.", Etl.Environment, folder.Name, names));
+            }
+
+            if (!project.References.Contains(folder.Environments[Etl.Environment].Name, folder.Name))
+            {
+                var names = String.Join(", ", project.References.Select(r => r.Name));
+                throw new ArgumentOutOfRangeException("Environment", String.Format("The environment named '{0}' exists but is not referenced in the project '{1}'. List of existing references: {2}.", Etl.Environment, project.Name, names));
+            }
+
+            return project.References[folder.Environments[Etl.Environment].Name, folder.Name];
+        }
+
+        private PackageInfo GetPackage(IntegrationServices integrationServices)
+        {
+            if (!integrationServices.Catalogs.Contains(Etl.Catalog))
             {
                 var names = String.Join(", ",integrationServices.Catalogs.Select(c => c.Name));
                 throw new ArgumentOutOfRangeException("Catalog", String.Format("The catalog named '{0}' hasn't been found on the server '{1}'. List of existing catalogs: {2}.", Etl.Catalog, Etl.Server, names));
             }
-                
+            
+            var catalog = integrationServices.Catalogs[Etl.Catalog];
 
-            CatalogFolder folder;
-            if (catalog.Folders.Contains(Etl.Folder))
-                folder = catalog.Folders[Etl.Folder];
-            else
+            if (!catalog.Folders.Contains(Etl.Folder))
             {
                 var names = String.Join(", ", catalog.Folders.Select(f => f.Name));
                 throw new ArgumentOutOfRangeException("Folder", String.Format("The folder named '{0}' hasn't been found on the catalog '{1}'. List of existing folders: {2}.", Etl.Folder, Etl.Catalog, names));
             }
+            var folder = catalog.Folders[Etl.Folder];
 
-            ProjectInfo project;
-            if (folder.Projects.Contains(Etl.Project))
-                project = folder.Projects[Etl.Project];
-            else
+            if (!folder.Projects.Contains(Etl.Project))
             {
                 var names = String.Join(", ", folder.Projects.Select(p => p.Name));
                 throw new ArgumentOutOfRangeException("Project", String.Format("The project named '{0}' hasn't been found on the catalog '{1}'. List of existing projects: {2}.", Etl.Project, Etl.Folder, names));
             }
+            var project = folder.Projects[Etl.Project];
 
             if (project.Packages.Contains(Etl.Name))
-                package = project.Packages[Etl.Name];
-            else
             {
                 var names = String.Join(", ", project.Packages.Select(p => p.Name));
                 throw new ArgumentOutOfRangeException("Name", String.Format("The package named '{0}' hasn't been found on the project '{1}'. List of existing packages: {2}.", Etl.Name, Etl.Project, names));
             }
+            var package = project.Packages[Etl.Name];
+
+            return package;
         }
 
         protected virtual IEnumerable<PackageInfo.ExecutionValueParameterSet> Parameterize(IEnumerable<EtlParameter> overridenParameters, ParameterCollection existingParameters, string packageName)

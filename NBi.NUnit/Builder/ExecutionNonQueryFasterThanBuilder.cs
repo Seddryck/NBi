@@ -33,10 +33,7 @@ namespace NBi.NUnit.Builder
         {
             var ctr = new FasterThanConstraint();
             ctr = ctr.MaxTimeMilliSeconds(fasterThanXml.MaxTimeMilliSeconds);
-            //if (fasterThanXml.CleanCache)
-            //    ctr = ctr.CleanCache();
-            //if (fasterThanXml.TimeOutMilliSeconds > 0)
-            //    ctr = ctr.TimeOutMilliSeconds(fasterThanXml.TimeOutMilliSeconds);
+
             return ctr;
         }
     }

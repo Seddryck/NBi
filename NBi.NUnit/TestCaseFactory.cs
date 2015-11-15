@@ -31,22 +31,22 @@ namespace NBi.NUnit
 		/// </summary>
 		private void RegisterDefault()
 		{
-			Register (typeof(ExecutionXml), typeof(FasterThanXml), new ExecutionFasterThanChooser());
-			Register (typeof(ExecutionXml), typeof(SyntacticallyCorrectXml),new ExecutionSyntacticallyCorrectBuilder());
-			Register (typeof(ExecutionXml), typeof(EqualToXml),new ExecutionEqualToBuilder());
+			Register(typeof(ExecutionXml), typeof(FasterThanXml), new ExecutionFasterThanChooser());
+			Register(typeof(ExecutionXml), typeof(SyntacticallyCorrectXml), new ExecutionSyntacticallyCorrectBuilder());
+			Register(typeof(ExecutionXml), typeof(EqualToXml), new ExecutionEqualToBuilder());
 			Register(typeof(ExecutionXml), typeof(MatchPatternXml), new ExecutionMatchPatternBuilder());
             Register(typeof(ExecutionXml), typeof(EvaluateRowsXml), new ExecutionEvaluateRowsBuilder());
             Register(typeof(ExecutionXml), typeof(SuccessfulXml), new ExecutionNonQuerySuccessfulBuilder());
             Register(typeof(ExecutionXml), typeof(RowCountXml), new ExecutionRowCountBuilder());
 			
-			Register (typeof(MembersXml), typeof(CountXml) ,new MembersCountBuilder());
+			Register(typeof(MembersXml), typeof(CountXml), new MembersCountBuilder());
 			Register(typeof(MembersXml), typeof(OrderedXml), new MembersOrderedBuilder());
 			Register(typeof(MembersXml), typeof(ContainXml), new MembersContainBuilder());
 			Register(typeof(MembersXml), typeof(EquivalentToXml), new MembersEquivalentToBuilder());
 			Register(typeof(MembersXml), typeof(SubsetOfXml), new MembersSubsetOfBuilder());
 			Register(typeof(MembersXml), typeof(MatchPatternXml), new MembersMatchPatternBuilder());
 
-			Register (typeof(StructureXml), typeof(ContainXml),new StructureContainBuilder());
+			Register(typeof(StructureXml), typeof(ContainXml), new StructureContainBuilder());
 			Register(typeof(StructureXml), typeof(EquivalentToXml), new StructureEquivalentToBuilder());
 			Register(typeof(StructureXml), typeof(SubsetOfXml), new StructureSubsetOfBuilder());
 			Register(typeof(StructureXml), typeof(ExistsXml), new StructureExistsBuilder());

@@ -11,6 +11,14 @@ namespace NBi.Xml.Settings
 {
     public class CsvProfileXml : CsvProfile
     {
+        public CsvProfileXml()
+            : base()
+        {
+            InternalFieldSeparator = ";";
+            InternalRecordSeparator = "CrLf";
+        }
+
+
         [XmlAttribute("field-separator")]
         [DefaultValue(";")]
         public string InternalFieldSeparator { get; set; }
@@ -59,8 +67,5 @@ namespace NBi.Xml.Settings
             : base(fieldSeparator, recordSeparator)
         {}
 
-        public CsvProfileXml()
-            : base()
-        { }
     }
 }

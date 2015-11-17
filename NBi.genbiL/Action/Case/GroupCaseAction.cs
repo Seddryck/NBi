@@ -50,8 +50,8 @@ namespace NBi.GenbiL.Action.Case
 
                 if (isIdentical && i != 0)
                     dataTable.Rows[i].Delete();
-                
-                i++;
+                if ((isIdentical && dataTable.Rows[i].RowState == DataRowState.Deleted) || !isIdentical || i == 0)
+                    i++;
             }
 
             foreach (var columnName in columnNames)

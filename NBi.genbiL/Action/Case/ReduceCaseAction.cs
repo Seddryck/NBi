@@ -23,7 +23,8 @@ namespace NBi.GenbiL.Action.Case
                 foreach (var columnName in columnNames)
                 {
                     var list = row[columnName] as IList<string>;
-                    row[columnName] = list.Distinct().ToList();
+                    if (list != null)
+                        row[columnName] = list.Distinct().ToList();
                 }
             }
         }

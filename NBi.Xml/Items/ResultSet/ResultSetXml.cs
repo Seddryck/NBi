@@ -27,8 +27,6 @@ namespace NBi.Xml.Items.ResultSet
                 file = File;
             else
                 file = Settings.BasePath + File;
-            if (!System.IO.File.Exists(file))
-                throw new ExternalDependencyNotFoundException(file);
 
             return file;
         }

@@ -17,10 +17,13 @@ namespace NBi.GenbiL.Action.Case
 
         public void Execute(GenerationState state)
         {
-            foreach (var columnName in columnNames)
-                state.TestCaseCollection.Scope.Content.Columns.Add("_" + columnName, typeof(List<string>));
-
             var dataTable = state.TestCaseCollection.Scope.Content;
+            dataTable.AcceptChanges();
+
+            foreach (var columnName in columnNames)
+                dataTable.Columns.Add("_" + columnName, typeof(List<string>));
+
+            
 
             int i = 0;
             var firstRow = 0;
@@ -50,8 +53,7 @@ namespace NBi.GenbiL.Action.Case
 
                 if (isIdentical && i != 0)
                     dataTable.Rows[i].Delete();
-                if ((isIdentical && dataTable.Rows[i].RowState == DataRowState.Deleted) || !isIdentical || i == 0)
-                    i++;
+                i++;
             }
 
             foreach (var columnName in columnNames)

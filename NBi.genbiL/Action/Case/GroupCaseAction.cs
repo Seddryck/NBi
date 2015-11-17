@@ -48,10 +48,10 @@ namespace NBi.GenbiL.Action.Case
                     list.Add(dataTable.Rows[i][columnId].ToString());
                 }
 
-                if (isIdentical && i!=0)
+                if (isIdentical && i != 0)
                     dataTable.Rows[i].Delete();
-                else
-                    i++;
+                
+                i++;
             }
 
             foreach (var columnName in columnNames)

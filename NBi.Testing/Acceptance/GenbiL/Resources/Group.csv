@@ -1,0 +1,14 @@
+﻿ticket;dimension;hierarchy;level;property;order;regex;valuefrom;valueto;table;column;sort
+91675;Policy;Policies hierarchy;Financial driver;Code;specific;^[A-Z][a-z]{3,50}$;;;MacroPolicyDriver;Name;SortOrder
+91675;Policy;Policies hierarchy;Macro-policy;Code;specific;^[A-Z]\d$;;;MacroPolicy;Name;Code
+91675;Policy;Policies hierarchy;Policy;Code;specific;^[A-Z]\d.\d{2}$;;;Policy;Name;Code
+91675;Policy;Policies hierarchy;Sub-policy;Code;specific;^[A-Z]\d.\d{2}.\d{2}$;;;SubPolicy;Name;Code
+91686;Policy's state;State;State;;specific;^[A-Z][a-z]{3,20}$;;;PolicyStatus;Name
+91692;Asset note;Type;Type;Code;specific;^[A-Z]{2}$;;;AssetNoteType;Description;SortOrder
+91692;Asset note;Target;Target;;alphabetic;^[A-Z][a-z]{3,20}$;;;;;
+91726;Asset note;Asset owner;Asset owner;;alphabetic;^[a-zA-Z]{2,50}$;;;;;
+91726;Asset note;Maintenance owner;Maintenance owner;;alphabetic;^[a-zA-Z]{2,50}$;;;;;
+91726;Asset note;Asset status;Asset status;;alphabetic;^[A-Z][a-z]{3,20}$;;;;;
+91726;Asset note;Location status;Location status;;alphabetic;^[A-Z][a-z]{3,20}$;;;;;
+91693;Portfolio year;Year;Year;;alphabetic;^20[0-3][0-9]$;2000;2027;;;
+91694;Asset note's state;State;State;Description;specific;^[A-Z][a-z]{3,20}$;;;AssetNoteStatus;Name;SortOrder

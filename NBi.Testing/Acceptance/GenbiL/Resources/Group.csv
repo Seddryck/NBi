@@ -1,2 +1,3 @@
 ﻿ticket;dimension;hierarchy;level;property;order;regex;valuefrom;valueto;table;column;sort
 91675;Policy;Policies hierarchy;Financial driver;Code;specific;^[A-Z][a-z]{3,50}$;;;MacroPolicyDriver;Name;SortOrder
+91675;Policy;Policies hierarchy;Macro-policy;Code;specific;^[A-Z]\d$;;;MacroPolicy;Name;Code

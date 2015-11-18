@@ -9,7 +9,7 @@ namespace NBi.Testing.Acceptance.GenbiL
     [TestFixture]
     public class GroupTest
     {
-        private const string TEST_SUITE_NAME="Group";
+        private const string TEST_SUITE_NAME="group";
         private string DefinitionFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + ".genbil"; } }
         private string TargetFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + ".nbits"; } }
 
@@ -49,7 +49,7 @@ namespace NBi.Testing.Acceptance.GenbiL
         #endregion
 
         [Test]
-        public void Execute_GroupReduce_FileGenerated()
+        public void Execute_Group_FileGenerated()
         {
             var generator = new TestSuiteGenerator();
             generator.Load(DefinitionFilename);

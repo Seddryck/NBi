@@ -41,6 +41,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<SaveSuiteAction>()));
         }
 
+        [Test]
         public void SentenceParser_LargeRecipeWithMultilineActionsAndComments_ValidCaseLoadSentence()
         {
             var input = "";

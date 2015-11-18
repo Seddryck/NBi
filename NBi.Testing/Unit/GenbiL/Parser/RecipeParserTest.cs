@@ -41,6 +41,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<SaveSuiteAction>()));
         }
 
+        [Test]
         public void SentenceParser_LargeRecipeWithMultilineActionsAndComments_ValidCaseLoadSentence()
         {
             var input = "";
@@ -57,6 +58,26 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<LoadCaseFromFileAction>()));
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<GenerateSuiteAction>()));
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<EmptyAction>()));
+        }
+
+        [Test]
+        public void SentenceParser_LargeRecipeWithMultilineActionsAndTwoSingleComments_ValidCaseLoadSentence()
+        {
+            var input = "";
+
+            input += "case load file " + Environment.NewLine;
+            input += "'filename.csv';" + Environment.NewLine;
+            input += "// Foo" + Environment.NewLine;
+            input += "// Bar" + Environment.NewLine;
+            input += "suite generate;" + Environment.NewLine;
+
+            var result = Recipe.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Has.Some.Matches(Is.InstanceOf<LoadCaseFromFileAction>()));
+            Assert.That(result, Has.Some.Matches(Is.InstanceOf<GenerateSuiteAction>()));
+            Assert.That(result, Has.Some.Matches(Is.InstanceOf<EmptyAction>()));
+            Assert.That(result, Has.Count.EqualTo(4));
         }
     }
 }

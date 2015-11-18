@@ -8,13 +8,14 @@ namespace NBi.GenbiL.Parser
 {
     public class Recipe
     {
-        readonly static Parser<IAction> ActionParser =
+        
+
+        readonly static Parser<IAction> LineParser =
         (
-                from sentence in Comment.Parser.Or(Case.Parser.Or(Setting.Parser.Or(Suite.Parser.Or(Template.Parser))))
-                from terminator in Grammar.Terminator.Or(Parse.Char((char)13)).AtLeastOnce()
+                from sentence in Comment.Parser.Or(Action.Parser)
                 select sentence
         );
 
-        public readonly static Parser<IEnumerable<IAction>> Parser = ActionParser.Many();
+        public readonly static Parser<IEnumerable<IAction>> Parser = LineParser.Many();
     }
 }

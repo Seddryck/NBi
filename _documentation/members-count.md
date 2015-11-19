@@ -17,6 +17,7 @@ The assertion consists in a validation of the members' count, in the hierarchy o
 </test>
 {% endhighlight %}
 Then you need to specify one of the following option:
+
 * exactly
 * more-than
 * less-than

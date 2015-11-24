@@ -141,5 +141,43 @@ namespace NBi.Testing.Unit.Core.Format
             Assert.That(result, Is.EqualTo(@"^?[0-9]{1,3}(?:\s?[0-9]{3})*\,[0-9]{2}\s\€$"));
             Assert.That("1 125 125,21 €", Is.StringMatching(result));
         }
+
+        [Test]
+        public void Build_CurrencyFormatSpaceKiloEuro_CorrectRegex()
+        {
+            var builder = new RegexBuilder();
+            var result = builder.Build(
+                    new CurrencyFormatXml()
+                    {
+                        DecimalDigits = 2,
+                        DecimalSeparator = ",",
+                        GroupSeparator = " ",
+                        CurrencySymbol = "k€",
+                        CurrencyPattern = CurrencyPattern.SuffixSpace
+                    }
+                );
+
+            Assert.That(result, Is.EqualTo(@"^?[0-9]{1,3}(?:\s?[0-9]{3})*\,[0-9]{2}\sk\€$"));
+            Assert.That("1 125 125,21 k€", Is.StringMatching(result));
+        }
+
+        [Test]
+        public void Build_CurrencyFormatSpaceKiloEuroinLetter_CorrectRegex()
+        {
+            var builder = new RegexBuilder();
+            var result = builder.Build(
+                    new CurrencyFormatXml()
+                    {
+                        DecimalDigits = 2,
+                        DecimalSeparator = ",",
+                        GroupSeparator = " ",
+                        CurrencySymbol = "Kilo Euro (k€)",
+                        CurrencyPattern = CurrencyPattern.SuffixSpace
+                    }
+                );
+
+            Assert.That(result, Is.EqualTo(@"^?[0-9]{1,3}(?:\s?[0-9]{3})*\,[0-9]{2}\sKilo\sEuro\s\(k\€\)$"));
+            Assert.That("1 125 125,21 Kilo Euro (k€)", Is.StringMatching(result));
+        }
     }
 }

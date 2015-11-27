@@ -6,6 +6,7 @@ using NBi.Core.Analysis.Request;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework;
+using System.Data;
 
 namespace NBi.NUnit.Member
 {
@@ -13,6 +14,7 @@ namespace NBi.NUnit.Member
 	{
 		private bool reversed;
 		private IList<Object> specific;
+        private IDbCommand command;
 
 		/// <summary>
 		/// Construct a CollectionContainsConstraint specific for Members
@@ -81,6 +83,13 @@ namespace NBi.NUnit.Member
 			Comparer = null;
 			return this;
 		}
+
+        public OrderedConstraint Specific(IDbCommand command)
+        {
+            this.command = command;
+            Comparer = null;
+            return this;
+        }
 
 		
 

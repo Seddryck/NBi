@@ -45,7 +45,7 @@
 			<ordered rule="numerical"/>
 		</assert>
 	</test>
-	<test name="'In dimension Promotion Discount Percents are ordered numerically" uid="0005">
+	<test name="In dimension Scenario, Scenario are ordered specifically based on a rule-definition" uid="0005">
 		<system-under-test>
 			<members>
 				<hierarchy dimension="Scenario" caption="Scenario" perspective="Adventure Works"/>
@@ -61,4 +61,18 @@
 			</ordered>
 		</assert>
 	</test>
+  <test name="In dimension Scenario, Scenario are ordered specifically based on a query" uid="0006">
+    <system-under-test>
+      <members>
+        <hierarchy dimension="Scenario" caption="Scenario" perspective="Adventure Works"/>
+      </members>
+    </system-under-test>
+    <assert>
+      <ordered rule="specific">
+        <one-column-query>
+          select 'Actual' union all select 'Budget' union all select 'Forecast'
+        </one-column-query>
+      </ordered>
+    </assert>
+  </test>
 </testSuite>

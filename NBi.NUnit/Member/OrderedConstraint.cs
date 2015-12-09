@@ -7,13 +7,14 @@ using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework;
 using System.Data;
+using NBi.Core.ResultSet;
 
 namespace NBi.NUnit.Member
 {
 	public class OrderedConstraint : AbstractMembersConstraint
 	{
 		private bool reversed;
-		private IList<Object> specific;
+		private IList<object> specific;
         private IDbCommand command;
 
 		/// <summary>
@@ -134,6 +135,25 @@ namespace NBi.NUnit.Member
 
 			return true;
 		}
+
+        protected override void PreInitializeMatching()
+        {
+            base.PreInitializeMatching();
+            if (command != null)
+                specific = GetMembersFromResultSet(command);
+        }
+
+        protected IList<object> GetMembersFromResultSet(Object obj)
+        {
+            var resultSetBuilder = new ResultSetBuilder();
+            var rs = resultSetBuilder.Build(obj);
+
+            var members = new List<object>();
+            foreach (DataRow row in rs.Rows)
+                members.Add(row.ItemArray[0].ToString());
+
+            return members;
+        }
 
 		/// <summary>
 		/// Write the constraint description to a MessageWriter

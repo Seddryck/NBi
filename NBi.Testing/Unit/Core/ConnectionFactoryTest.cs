@@ -7,6 +7,7 @@ using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core;
 using NUnit.Framework;
 using System.Collections.Generic;
+using NBi.Core.PowerBiDesktop;
 
 #endregion
 
@@ -167,5 +168,34 @@ namespace NBi.Testing.Unit.Core
             Assert.That(actual.ConnectionString, Is.EqualTo(connStr));
         }
 
+        private class ConnectionFactoryPowerBiDesktopFake : ConnectionFactory
+        {
+            protected override PowerBiDesktopConnectionStringBuilder GetPowerBiDesktopConnectionStringBuilder()
+            {
+                return new PowerBiDesktopConnectionStringBuilderFake();
+            }
+        }
+
+        private class PowerBiDesktopConnectionStringBuilderFake : PowerBiDesktopConnectionStringBuilder
+        {
+            public static string ConnectionString = "Data Source=localhost:2325;";
+            protected override string BuildLocalConnectionString(string name)
+            {
+                return ConnectionString;
+            }
+        }
+
+        [Test]
+        public void Get_PowerBiDesktop_AdommdConnection()
+        {
+            //Call the method to test
+            var connStr = "PBIX=My Power BI Desktop;";
+            var factory = new ConnectionFactoryPowerBiDesktopFake();
+            var actual = factory.Get(connStr);
+
+            //Assertion
+            Assert.That(actual, Is.InstanceOf<AdomdConnection>());
+            Assert.That(actual.ConnectionString, Is.EqualTo(PowerBiDesktopConnectionStringBuilderFake.ConnectionString));
+        }
     }
 }

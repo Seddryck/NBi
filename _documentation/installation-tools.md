@@ -10,7 +10,7 @@ permalink: /docs/installation-tools/
 First, you must download and install the prerequisites:
 
 * .Net Framework 4.5 (or higher) from the [MSDN download page](http://www.microsoft.com/en-us/download/details.aspx?id=30653)
-* NUnit 2.5 (or higher) – [NUnit.org download page](http://www.nunit.org/index.php?p=download)
+* NUnit 2.5 (or higher but not NUnit 3.x) – [NUnit.org download page](http://www.nunit.org/index.php?p=download)
 
 ### AdomdClient (Release 1.10.0.19 and after)
 

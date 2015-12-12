@@ -8,6 +8,9 @@ public static class ProcessExtensions
 {
     public static int GetParentId(this Process process)
     {
+        if (process == null)
+            throw new ArgumentNullException("Process can't be null.");
+
         // query the management system objects
         string queryText = string.Format("select parentprocessid from win32_process where processid = {0}", process.Id);
         using (var searcher = new ManagementObjectSearcher(queryText))
@@ -19,7 +22,7 @@ public static class ProcessExtensions
                     return Convert.ToInt32(data);
             }
         }
-        throw new Exception();
+        throw new Exception(string.Format("No parent found for process {0} ({1})", process.Id, process.ProcessName));
     }
 
     public static Process GetParent(this Process process)
@@ -31,6 +34,9 @@ public static class ProcessExtensions
 
     public static string GetCommandLine(this Process process)
     {
+        if (process == null)
+            throw new ArgumentNullException("Process can't be null.");
+
         var commandLine = new StringBuilder();
 
         using (var searcher = new ManagementObjectSearcher("SELECT CommandLine FROM Win32_Process WHERE ProcessId = " + process.Id))

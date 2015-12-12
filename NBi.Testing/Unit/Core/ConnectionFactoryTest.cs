@@ -168,6 +168,8 @@ namespace NBi.Testing.Unit.Core
             Assert.That(actual.ConnectionString, Is.EqualTo(connStr));
         }
 
+        #region Power BI Desktop
+        
         private class ConnectionFactoryPowerBiDesktopFake : ConnectionFactory
         {
             protected override PowerBiDesktopConnectionStringBuilder GetPowerBiDesktopConnectionStringBuilder()
@@ -184,6 +186,8 @@ namespace NBi.Testing.Unit.Core
                 return ConnectionString;
             }
         }
+
+        #endregion
 
         [Test]
         public void Get_PowerBiDesktop_AdommdConnection()

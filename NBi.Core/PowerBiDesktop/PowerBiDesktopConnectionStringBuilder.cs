@@ -28,7 +28,7 @@ namespace NBi.Core.PowerBiDesktop
         protected virtual string BuildLocalConnectionString(string name)
         {
             var processes = System.Diagnostics.Process.GetProcessesByName("msmdsrv");
-            var process = processes.FirstOrDefault(p => p.GetParent().MainWindowTitle == name);
+            var process = processes.FirstOrDefault(p => p.GetParent().MainWindowTitle == string.Format("{0} - Power BI Desktop", name));
             var cmdLine = process.GetCommandLine();
             var workspace = GetWorkspace(cmdLine);
             var portFile = string.Format("{0}\\msmdsrv.port.txt", workspace);

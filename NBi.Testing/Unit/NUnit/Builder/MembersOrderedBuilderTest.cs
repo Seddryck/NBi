@@ -187,5 +187,31 @@ namespace NBi.Testing.Unit.NUnit.Builder
             Assert.That(sut, Is.InstanceOf<MembersDiscoveryRequest>());
             discoFactoMockFactory.Verify(dfm => dfm.Build("connectionString", "memberCaption", It.IsAny<List<string>>(), It.IsAny<List<PatternValue>>(), "perspective", "dimension", "hierarchy", "level"));
         }
+
+        [Test]
+        public void GetConstraint_BuildWithQuery_ConstraintBuilt()
+        {
+            var sutXml = new MembersXml();
+            sutXml.ChildrenOf = "memberCaption";
+            var item = new LevelXml();
+            sutXml.Item = item;
+            item.ConnectionString = "connectionString";
+            item.Perspective = "perspective";
+            item.Dimension = "dimension";
+            item.Hierarchy = "hierarchy";
+            item.Caption = "level";
+
+            var ctrXml = new OrderedXml();
+            var query = new QueryXml();
+            query.InlineQuery = "select label from myTable order by sortOrder";
+            ctrXml.Query = query;
+
+            var builder = new MembersOrderedBuilder();
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var ctr = builder.GetConstraint();
+
+            Assert.That(ctr, Is.InstanceOf<OrderedConstraint>());
+        }
     }
 }

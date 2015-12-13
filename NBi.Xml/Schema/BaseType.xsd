@@ -857,7 +857,7 @@
             </xs:element>
             <xs:element name="ordered">
               <xs:complexType>
-                <xs:sequence>
+                <xs:choice>
                   <xs:element name="rule-definition" minOccurs="0" maxOccurs="1">
                     <xs:complexType>
                       <xs:sequence>
@@ -871,7 +871,8 @@
                       </xs:sequence>
                     </xs:complexType>
                   </xs:element>
-                </xs:sequence>
+                  <xs:element name="one-column-query" minOccurs="0" maxOccurs="1" type ="query-type"/>
+                </xs:choice>
                 <xs:attribute name="descending" type="xs:boolean" use="optional" />
                 <xs:attribute name="rule" use="optional" >
                   <xs:simpleType>

@@ -50,7 +50,10 @@ namespace NBi.NUnit.Builder
                     ctr = ctr.Numerical;
                     break;
                 case OrderedXml.Order.Specific:
-                    ctr = ctr.Specific(ctrXml.Definition);
+                    if (ctrXml.Query != null)
+                        ctr = ctr.Specific(ctrXml.Query.GetCommand());
+                    else
+                        ctr = ctr.Specific(ctrXml.Definition);
                     break;
                 default:
                     break;

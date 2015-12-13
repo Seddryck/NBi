@@ -21,5 +21,12 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             actionInfoText.AppendText(message + "\r\n");
             actionInfoText.Refresh();
         }
+
+        private void MacroWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.Hide();
+            this.Parent = null;
+            e.Cancel = true;
+        }
     }
 }

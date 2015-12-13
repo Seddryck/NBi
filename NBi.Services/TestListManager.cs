@@ -113,7 +113,13 @@ namespace NBi.Service
                     for (int j = 0; j < dataTable.Rows[i].ItemArray.Length; j++)
                     {
                         variableTests[variableTests.Count - 1].Add(new List<object>());
-                        variableTests[variableTests.Count - 1][j].Add(dataTable.Rows[i].ItemArray[j].ToString());
+                        if (dataTable.Rows[i].ItemArray[j] is IEnumerable<string>)
+                        {
+                            foreach (var item in (IEnumerable<string>)dataTable.Rows[i].ItemArray[j])
+                                variableTests[variableTests.Count - 1][j].Add(item);
+                        }
+                        else
+                            variableTests[variableTests.Count - 1][j].Add(dataTable.Rows[i].ItemArray[j].ToString());
                     }
                 }
                 else
@@ -178,6 +184,30 @@ namespace NBi.Service
                 }
             }
             return categories;
+        }
+
+        public void AddRange(string Filename)
+        {
+            using (var stream = new FileStream(Filename, FileMode.Open, FileAccess.Read))
+            {
+                AddRange(stream);
+            }
+        }
+
+        protected internal void AddRange(Stream stream)
+        {
+            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8, true))
+            {
+                var str = reader.ReadToEnd();
+
+                TestSuiteXml testSuite = null;
+                testSuite = XmlDeserializeFromString<TestSuiteXml>(str);
+
+                foreach (var test in testSuite.GetAllTests())
+                {
+                    tests.Add(test);
+                }
+            }
         }
 
         public void Include(string Filename)

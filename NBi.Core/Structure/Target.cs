@@ -15,8 +15,9 @@ namespace NBi.Core.Structure
         Hierarchies,
         Levels,
         Properties,
+        Sets,
         Tables,
         Columns,
-        Sets
+        Routines
     }
 }

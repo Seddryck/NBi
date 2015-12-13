@@ -34,6 +34,7 @@ namespace NBi.Xml.Constraints
             this.Settings = settings;
         }
 
+        [XmlIgnore()]
         public override DefaultXml Default
         {
             get {return base.Default;} 
@@ -125,7 +126,7 @@ namespace NBi.Xml.Constraints
 
         public ResultSetComparisonSettings GetSettings()
         {
-            return new ResultSetComparisonSettings(KeysDef, ValuesDef, ValuesDefaultType, ToleranceFactory.BuildNumeric(Tolerance), ColumnsDef);
+            return new ResultSetComparisonSettings(KeysDef, ValuesDef, ValuesDefaultType, new NumericToleranceFactory().Instantiate(Tolerance), ColumnsDef);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]

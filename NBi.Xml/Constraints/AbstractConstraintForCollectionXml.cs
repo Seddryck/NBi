@@ -12,6 +12,7 @@ namespace NBi.Xml.Constraints
 {
     public abstract class AbstractConstraintForCollectionXml : AbstractConstraintXml
     {
+        [XmlIgnore()]
         public override DefaultXml Default
         {
             get { return base.Default; }

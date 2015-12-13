@@ -12,17 +12,14 @@ namespace NBi.GenbiL.Parser
         static Parser<string> SingleLineComment(string open)
         {
             return from first in Parse.String(open)
-                   from rest in Parse.AnyChar.Except(Parse.Char((char)13)).Many().Text()
+                   from rest in Parse.AnyChar.Until(Parse.String(Environment.NewLine)).Text()
                    select rest;
         }
 
         static Parser<string> MultiLineComment(string open, string close)
         {
             return from first in Parse.String(open)
-                   from rest in Parse.AnyChar.Except(Parse.String(close))
-                                .Or(Parse.Char((char)13))
-                                .Many().Text()
-                   from last in Parse.String(close)
+                   from rest in Parse.AnyChar.Until(Parse.String(close)).Text()
                    select rest;
         }
 

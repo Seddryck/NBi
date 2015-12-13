@@ -7,12 +7,14 @@ namespace NBi.Core.ResultSet.Comparer
 {
     public abstract class Tolerance
     {
-
         public virtual string ValueString { get; private set; }
+        public SideTolerance Side { get; private set; }
 
-        protected Tolerance(string value)
+
+        protected Tolerance(string value, SideTolerance side)
         {
-            ValueString = value; 
+            ValueString = value;
+            this.Side = side;
         }
     }
 }

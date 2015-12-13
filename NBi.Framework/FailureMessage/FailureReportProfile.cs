@@ -8,7 +8,7 @@ namespace NBi.Framework.FailureMessage
 {
     public class FailureReportProfile : IFailureReportProfile
     {
-        protected FailureReportProfile ()
+        protected internal FailureReportProfile ()
 	    {
 
 	    }
@@ -40,6 +40,29 @@ namespace NBi.Framework.FailureMessage
         public FailureReportSetType ActualSet {get; set;}
         
         public FailureReportSetType AnalysisSet {get; set;}
-        
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            if (!(obj is FailureReportProfile))
+                return false;
+
+            return (((FailureReportProfile)obj).ExpectedSet == this.ExpectedSet
+                        && ((FailureReportProfile)obj).ActualSet == this.ActualSet
+                        && ((FailureReportProfile)obj).AnalysisSet == this.AnalysisSet
+                        && ((FailureReportProfile)obj).MaxSampleItem == this.MaxSampleItem
+                        && ((FailureReportProfile)obj).ThresholdSampleItem == this.ThresholdSampleItem);
+        }
+
+        public override int GetHashCode()
+        {
+            return ExpectedSet.GetHashCode()^139 
+                        * ActualSet.GetHashCode()^79 
+                        * AnalysisSet.GetHashCode()^58 
+                        * MaxSampleItem.GetHashCode() ^ 17 
+                        * ThresholdSampleItem.GetHashCode();
+        }
     }
 }

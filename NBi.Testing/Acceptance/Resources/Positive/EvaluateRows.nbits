@@ -72,4 +72,26 @@
       </evaluate-rows>
     </assert>
   </test>
+  <test name="Evaluate-rows with percentage">
+    <system-under-test>
+      <execution>
+        <query connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033">
+          select {
+          [Measures].[Internet Sales Amount]  
+          , [Measures].[Internet Total Product Cost] 
+          , [Measures].[Internet Gross Profit Margin]
+          } on 0 
+          , [Date].[Day of Week].members on 1
+          from [Adventure Works]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <evaluate-rows>
+        <variable column-index="1">Sales</variable>
+        <variable column-index="2">Cost</variable>
+        <expression column-index="3" type="numeric" tolerance="0.0001">= (Sales-Cost)/Sales</expression>
+      </evaluate-rows>
+    </assert>
+  </test>
 </testSuite>

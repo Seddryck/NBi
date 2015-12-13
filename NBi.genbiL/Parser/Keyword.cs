@@ -29,6 +29,11 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<string> Replace = Parse.IgnoreCase("Replace").Text().Token();
         public static readonly Parser<string> Concatenate = Parse.IgnoreCase("Concatenate").Text().Token();
         public static readonly Parser<string> Substitute = Parse.IgnoreCase("Substitute").Text().Token();
+        public static readonly Parser<string> AddRange = Parse.IgnoreCase("AddRange").Text().Token();
+        public static readonly Parser<string> Separate = Parse.IgnoreCase("Separate").Text().Token();
+        public static readonly Parser<string> Group = Parse.IgnoreCase("Group").Text().Token();
+        public static readonly Parser<string> Reduce = Parse.IgnoreCase("Reduce").Text().Token();
+        public static readonly Parser<string> Split = Parse.IgnoreCase("Split").Text().Token();
 
         public static readonly Parser<string> Into = Parse.IgnoreCase("Into").Text().Token();
         public static readonly Parser<string> To = Parse.IgnoreCase("To").Text().Token();
@@ -39,8 +44,11 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<string> Not = Parse.IgnoreCase("Not").Text().Token();
         public static readonly Parser<string> With = Parse.IgnoreCase("With").Text().Token();
         public static readonly Parser<string> As = Parse.IgnoreCase("As").Text().Token();
+        public static readonly Parser<string> Value = Parse.IgnoreCase("Value").Text().Token();
         public static readonly Parser<string> Values = Parse.IgnoreCase("Values").Text().Token();
         public static readonly Parser<string> Vector = Parse.IgnoreCase("Vector").Text().Token();
+        public static readonly Parser<string> Column = Parse.IgnoreCase("Column").Text().Token();
+        public static readonly Parser<string> Columns = Parse.IgnoreCase("Columns").Text().Token();
         public static readonly Parser<string> File = Parse.IgnoreCase("File").Text().Token();
         public static readonly Parser<string> Folder = Parse.IgnoreCase("Folder").Text().Token();
         public static readonly Parser<string> When = Parse.IgnoreCase("When").Text().Token();

@@ -138,4 +138,14 @@
 			<fasterThan max-time-milliSeconds="10000"/>
 		</assert>
 	</test>
+  <test name="From SSISDB Catalog with environment" uid="0009">
+    <system-under-test>
+      <execution>
+        <etl server="." catalog="SSISDB" folder="Folder" project="Project" environment="Environment" name="Sample" bits-32="true"/>
+      </execution>
+    </system-under-test>
+    <assert>
+      <fasterThan max-time-milliSeconds="10000"/>
+    </assert>
+  </test>
 </testSuite>

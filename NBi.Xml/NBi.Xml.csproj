@@ -64,6 +64,7 @@
     <Compile Include="Constraints\Comparer\LessThanXml.cs" />
     <Compile Include="Constraints\Comparer\MoreThanXml.cs" />
     <Compile Include="Constraints\ContainXml.cs" />
+    <Compile Include="Constraints\IsXml.cs" />
     <Compile Include="Constraints\RowCountXml.cs" />
     <Compile Include="Constraints\SuccessfulXml.cs" />
     <Compile Include="Constraints\IReferenceFriendly.cs" />
@@ -73,6 +74,8 @@
     <Compile Include="Constraints\ExistsXml.cs" />
     <Compile Include="Constraints\LinkedToXml.cs" />
     <Compile Include="Constraints\EvaluateRowsXml.cs" />
+    <Compile Include="Decoration\Command\WaitXml.cs" />
+    <Compile Include="Decoration\Command\ExeKillXml.cs" />
     <Compile Include="Decoration\Command\SqlRunXml.cs" />
     <Compile Include="Decoration\Command\FileCopyXml.cs" />
     <Compile Include="Decoration\Command\ExeRunXml.cs" />
@@ -98,7 +101,10 @@
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
     <Compile Include="Items\UrlXml.cs" />
+    <Compile Include="Items\Filters\IDisplayFolderFilter.cs" />
     <Compile Include="Items\FileXml.cs" />
+    <Compile Include="Items\RoutinesXml.cs" />
+    <Compile Include="Items\RoutineXml.cs" />
     <Compile Include="Items\Filters\IHierarchyFilter.cs" />
     <Compile Include="Items\Filters\ILevelFilter.cs" />
     <Compile Include="Items\Filters\IMeasureGroupFilter.cs" />
@@ -170,6 +176,7 @@
     <Compile Include="Systems\MembersXml.cs" />
     <Compile Include="Constraints\SyntacticallyCorrectXml.cs" />
     <Compile Include="Constraints\FasterThanXml.cs" />
+    <Compile Include="Systems\DataTypeXml.cs" />
     <Compile Include="Systems\StructureXml.cs" />
     <Compile Include="Items\LevelXml.cs" />
     <Compile Include="Items\HierarchyXml.cs" />

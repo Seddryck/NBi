@@ -103,7 +103,7 @@ namespace NBi.NUnit.Builder
                     ConstraintXml.KeysDef,
                     ConstraintXml.ValuesDef,
                     ConstraintXml.ValuesDefaultType,
-                    ToleranceFactory.BuildNumeric(ConstraintXml.Tolerance),
+                    new NumericToleranceFactory().Instantiate(ConstraintXml.Tolerance),
                     ConstraintXml.ColumnsDef
                 );
 

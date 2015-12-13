@@ -26,8 +26,8 @@ namespace NBi.Core.Structure.Relational.Builders
             commandText = BuildCommandText();
 
             var allFilters = BuildFilters(filters).ToList();
-            var comnandFilters = allFilters.Where(f => f is CommandFilter).Cast<CommandFilter>();
-            var valueFilters = comnandFilters.Select(f => f.Value);
+            var commandFilters = allFilters.Where(f => f is CommandFilter).Cast<CommandFilter>();
+            var valueFilters = commandFilters.Select(f => f.Value);
 
             foreach (var valueFilter in valueFilters)
                 commandText += " and " + valueFilter;

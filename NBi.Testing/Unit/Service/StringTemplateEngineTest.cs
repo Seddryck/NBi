@@ -269,5 +269,24 @@ namespace NBi.Testing.Unit.Service
             //Console.WriteLine(values[2]);
             Assert.That(DateTime.Parse(values[2]), Is.EqualTo(new DateTime(2014, 12, 03)));
         }
+
+        [Test]
+        public void BuildTestString_EncodeXml_CorrectEncoding()
+        {
+            var template = "<element attribute=\"$value; format=\"xml-encode\"$\" other-attribute=\"$other$\">";
+            var engine = new StringTemplateEngine(template, new string[] { "value", "other" });
+
+            var values = new List<List<object>>();
+            var firstCell = new List<object>() { "<value&"};
+            var secondCell = new List<object>() { "<value&" };
+            values.Add(firstCell);
+            values.Add(secondCell);
+            var loaded = new List<string>();
+
+            engine.InitializeTemplate();
+            var result = engine.BuildTestString(values);
+
+            Assert.That(result, Is.EqualTo("<element attribute=\"&lt;value&amp;\" other-attribute=\"<value&\">"));
+        }
     }
 }

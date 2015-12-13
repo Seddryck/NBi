@@ -257,6 +257,36 @@ namespace NBi.Testing.Unit.Xml.Decoration
         }
 
         [Test]
+        public void Deserialize_SampleFile_ProcessKill()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            int groupNr = 2;
+
+            // Check the properties of the object.
+            var command = ts.Groups[groupNr].Tests[1].Setup.Commands[0];
+
+            Assert.That(command, Is.TypeOf<ExeKillXml>());
+            var kill = command as IKillCommand;
+            Assert.That(kill.ProcessName, Is.EqualTo(@"PBIDesktop"));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ProcessWait()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            int groupNr = 2;
+
+            // Check the properties of the object.
+            var command = ts.Groups[groupNr].Tests[2].Setup.Commands[0];
+
+            Assert.That(command, Is.TypeOf<WaitXml>());
+            var kill = command as IWaitCommand;
+            Assert.That(kill.MilliSeconds, Is.EqualTo(1000));
+        }
+
+        [Test]
         public void Deserialize_SampleFile_ProcessRunWithoutOptionalArguments()
         {
             // Create an instance of the XmlSerializer specifying type and namespace.

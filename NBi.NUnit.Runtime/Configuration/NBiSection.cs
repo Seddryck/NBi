@@ -93,5 +93,18 @@ namespace NBi.NUnit.Runtime
                 this["failure-report-profile"] = value;
             }
         }
+
+        [ConfigurationProperty("providers", IsRequired= false)]
+        public ProviderCollection Providers
+        {
+            get
+            {
+                return (ProviderCollection)this["providers"];
+            }
+            set
+            {
+                this["providers"] = value;
+            }
+        }
     }
 }

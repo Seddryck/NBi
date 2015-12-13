@@ -17,11 +17,24 @@ namespace NBi.Core.ResultSet.Comparer
             }
         }
 
-        public NumericPercentageTolerance(decimal value)
-            : base(value)
+        public NumericPercentageTolerance(decimal value, SideTolerance side)
+            : base(value, side)
         {
             Value = value;
             valueString = (100 * value).ToString(NumberFormatInfo.InvariantInfo);
+            switch (side)
+            {
+                case SideTolerance.Both:
+                    break;
+                case SideTolerance.More:
+                    valueString = string.Format("+{0}", valueString);
+                    break;
+                case SideTolerance.Less:
+                    valueString = string.Format("-{0}", valueString);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

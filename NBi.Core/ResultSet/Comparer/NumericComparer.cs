@@ -16,12 +16,12 @@ namespace NBi.Core.ResultSet.Comparer
 
         public ComparerResult Compare(object x, object y, string tolerance)
         {
-            return base.Compare(x, y, ToleranceFactory.BuildNumeric(tolerance));
+            return base.Compare(x, y, new NumericToleranceFactory().Instantiate(tolerance));
         }
         
-        public ComparerResult Compare(object x, object y, decimal tolerance)
+        internal ComparerResult Compare(object x, object y, decimal tolerance, SideTolerance side)
         {
-            return base.Compare(x, y, new NumericAbsoluteTolerance(tolerance));
+            return base.Compare(x, y, new NumericAbsoluteTolerance(tolerance, side));
         }
 
         protected override ComparerResult CompareObjects(object x, object y)
@@ -44,7 +44,7 @@ namespace NBi.Core.ResultSet.Comparer
                         , converter.Convert(x)
                     ); 
             
-            return CompareObjects(x, y, new NumericAbsoluteTolerance(0));
+            return CompareObjects(x, y, NumericAbsoluteTolerance.None);
         }
 
         protected override ComparerResult CompareObjects(object x, object y, Rounding rounding)
@@ -117,7 +117,7 @@ namespace NBi.Core.ResultSet.Comparer
         protected ComparerResult CompareDecimals(decimal expected, decimal actual, NumericAbsoluteTolerance tolerance)
         {
             //Compare decimals (with tolerance)
-            if (IsEqual(expected, actual, tolerance.Value))
+            if (IsEqual(expected, actual, tolerance.Value, tolerance.Side))
                 return ComparerResult.Equality;
 
             return new ComparerResult(expected.ToString(NumberFormatInfo.InvariantInfo));
@@ -126,7 +126,7 @@ namespace NBi.Core.ResultSet.Comparer
         protected ComparerResult CompareDecimals(decimal expected, decimal actual, NumericPercentageTolerance tolerance)
         {
             //Compare decimals (with tolerance)
-            if (IsEqual(expected, actual, expected * tolerance.Value))
+            if (IsEqual(expected, actual, expected * tolerance.Value, tolerance.Side))
                 return ComparerResult.Equality;
 
             return new ComparerResult(expected.ToString(NumberFormatInfo.InvariantInfo));
@@ -135,7 +135,7 @@ namespace NBi.Core.ResultSet.Comparer
         protected ComparerResult CompareDecimals(decimal expected, decimal actual, NumericBoundedPercentageTolerance tolerance)
         {
             //Compare decimals (with bounded tolerance)
-            if (IsEqual(expected, actual, tolerance.GetValue(expected)))
+            if (IsEqual(expected, actual, tolerance.GetValue(expected), tolerance.Side))
                 return ComparerResult.Equality;
 
             return new ComparerResult(expected.ToString(NumberFormatInfo.InvariantInfo));
@@ -149,10 +149,8 @@ namespace NBi.Core.ResultSet.Comparer
             return new ComparerResult(interval.ToString());
         }
 
-        protected bool IsEqual(decimal x, decimal y, decimal tolerance)
+        protected bool IsEqual(decimal x, decimal y, decimal tolerance, SideTolerance side)
         {
-            //Console.WriteLine("IsEqual: {0} {1} {2} {3} {4} {5}", x, y, tolerance, Math.Abs(x - y), x == y, Math.Abs(x - y) <= tolerance);
-
             //quick check
             if (x == y)
                 return true;
@@ -162,7 +160,22 @@ namespace NBi.Core.ResultSet.Comparer
                 return false;
 
             //include some math[Time consumming] (Tolerance needed to validate)
-            return (Math.Abs(x - y) <= Math.Abs(tolerance));
+            if (Math.Abs(x - y) <= Math.Abs(tolerance))
+            { 
+                switch (side)
+                {
+                    case SideTolerance.Both:
+                        return true;
+                    case SideTolerance.More:
+                        return (x <= y);
+                    case SideTolerance.Less:
+                        return (x >= y);
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            return false;
         }
 
 

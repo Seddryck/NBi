@@ -65,8 +65,9 @@ namespace NBi.NUnit.Builder
                 yield return new CaptionFilter(Target.Levels, ((ILevelFilter)item).Level);
             if (item is IMeasureGroupFilter && !(string.IsNullOrEmpty(((IMeasureGroupFilter)item).MeasureGroup)))
                 yield return new CaptionFilter(Target.MeasureGroups, ((IMeasureGroupFilter)item).MeasureGroup);
-            //if (item is ISchemaFilter)
-            //    yield return new CaptionFilter(Target.Schemas, ((ISchemaFilter)item).Schema);
+            if (item is IDisplayFolderFilter && !(string.IsNullOrEmpty(((IDisplayFolderFilter)item).DisplayFolder)))
+                yield return new CaptionFilter(Target.DisplayFolders, ((IDisplayFolderFilter)item).DisplayFolder);
+
             if (item is ITableFilter)
                 yield return new CaptionFilter(Target.Tables, ((ITableFilter)item).Table);
 
@@ -96,8 +97,8 @@ namespace NBi.NUnit.Builder
                 return Target.Dimensions;
             if (item is SetsXml || item is SetXml)
                 return Target.Sets;
-            //if (item is SchemasXml || item is SchemaXml)
-            //    return Target.Perspectives;
+            if (item is RoutinesXml || item is RoutineXml)
+                return Target.Routines;
             if (item is PerspectivesXml || item is PerspectiveXml)
                 return Target.Perspectives;
             else

@@ -71,7 +71,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         public void Compare_1DecimalAnd1dot5Double_True()
         {
             var comparer = new NumericComparer();
-            var result = comparer.Compare(new decimal(1), 1.5, 1);
+            var result = comparer.Compare(new decimal(1), 1.5, 1, SideTolerance.Both);
             Assert.That(result.AreEqual, Is.True);
         }
 
@@ -79,7 +79,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         public void Compare_1DecimalAnd2dot5Double_False()
         {
             var comparer = new NumericComparer();
-            var result = comparer.Compare(new decimal(1), 2.5, 1);
+            var result = comparer.Compare(new decimal(1), 2.5, 1, SideTolerance.Both);
             Assert.That(result.AreEqual, Is.False);
         }
 
@@ -87,7 +87,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         public void Compare_1DecimalAnd1dot5String_True()
         {
             var comparer = new NumericComparer();
-            var result = comparer.Compare(new decimal(1), "1.5", 1);
+            var result = comparer.Compare(new decimal(1), "1.5", 1, SideTolerance.Both);
             Assert.That(result.AreEqual, Is.True);
         }
 
@@ -95,7 +95,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         public void Compare_1DecimalAnd2dot5String_False()
         {
             var comparer = new NumericComparer();
-            var result = comparer.Compare(new decimal(1), "2.5", 1);
+            var result = comparer.Compare(new decimal(1), "2.5", 1, SideTolerance.Both);
             Assert.That(result.AreEqual, Is.False);
         }
 
@@ -103,7 +103,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         public void Compare_1DecimalAndAny_True()
         {
             var comparer = new NumericComparer();
-            var result = comparer.Compare(new decimal(1), "(any)", 1);
+            var result = comparer.Compare(new decimal(1), "(any)", 1, SideTolerance.Both);
             Assert.That(result.AreEqual, Is.True);
         }
 
@@ -111,7 +111,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         public void Compare_1DecimalAndValue_True()
         {
             var comparer = new NumericComparer();
-            var result = comparer.Compare(new decimal(1), "(value)", 1);
+            var result = comparer.Compare(new decimal(1), "(value)", 1, SideTolerance.Both);
             Assert.That(result.AreEqual, Is.True);
         }
 
@@ -119,7 +119,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         public void Compare_NullAndAny_True()
         {
             var comparer = new NumericComparer();
-            var result = comparer.Compare(null, "(any)", 1);
+            var result = comparer.Compare(null, "(any)", 1, SideTolerance.Both);
             Assert.That(result.AreEqual, Is.True);
         }
 
@@ -127,7 +127,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         public void Compare_NullAndValue_False()
         {
             var comparer = new NumericComparer();
-            var result = comparer.Compare(null, "(value)", 1);
+            var result = comparer.Compare(null, "(value)", 1, SideTolerance.Both);
             Assert.That(result.AreEqual, Is.False);
         }
 
@@ -135,7 +135,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         public void Compare_NullAnd1Decimal_False()
         {
             var comparer = new NumericComparer();
-            var result = comparer.Compare(null, new decimal(1), 1);
+            var result = comparer.Compare(null, new decimal(1), 1, SideTolerance.Both);
             Assert.That(result.AreEqual, Is.False);
         }
 
@@ -143,7 +143,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         public void Compare_NullAndNullPlaceHolder_False()
         {
             var comparer = new NumericComparer();
-            var result = comparer.Compare(null, "(null)", 1);
+            var result = comparer.Compare(null, "(null)", 1, SideTolerance.Both);
             Assert.That(result.AreEqual, Is.True);
         }
 
@@ -151,7 +151,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         public void Compare_NonNumericAndAny_FormatException()
         {
             var comparer = new NumericComparer();
-            Assert.Throws<FormatException>(delegate { comparer.Compare("string", "(any)", 1); });
+            Assert.Throws<FormatException>(delegate { comparer.Compare("string", "(any)", 1, SideTolerance.Both); });
         }
 
         [Test]
@@ -373,6 +373,136 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         {
             var comparer = new NumericComparer();
             var result = comparer.Compare(12, 11, "10% (max 1)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_FiveAndSevenWithMoreThanFiftyPercent_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(5, 7, "+50%");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_SevenAndFiveWithMoreThanFiftyPercent_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(7, 5, "+50%");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_FiveAndSevenWithLessThanFiftyPercent_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(5, 7, "-50%");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_SevenAndFiveWithLessThanFiftyPercent_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(7, 5, "-50%");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_MinusFiveAndSevenWithMoreThanFiftyPercent_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(-5, -7, "+50%");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_MinusSevenAndThreeWithMoreThanFiftyPercent_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(-5, -3, "+50%");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_MinusFiveAndThreeWithLessThanFiftyPercent_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(-5, -3, "-50%");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_MinusSevenAndNineWithLessThanFiftyPercent_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(-7, -9, "-50%");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        //One-sided absolute
+
+        [Test]
+        public void Compare_FiveAndSevenWithMoreThanFifty_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(5, 7, "+50");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_SevenAndFiveWithMoreThanFifty_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(7, 5, "+50");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_FiveAndSevenWithLessThanFifty_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(5, 7, "-50");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_SevenAndFiveWithLessThanFifty_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(7, 5, "-50");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_MinusFiveAndSevenWithMoreThanFifty_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(-5, -7, "+50");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_MinusSevenAndThreeWithMoreThanFifty_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(-5, -3, "+50");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_MinusFiveAndThreeWithLessThanFifty_False()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(-5, -3, "-50");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_MinusSevenAndNineWithLessThanFifty_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(-7, -9, "-50");
             Assert.That(result.AreEqual, Is.True);
         }
     }

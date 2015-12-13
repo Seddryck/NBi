@@ -7,8 +7,24 @@ namespace NBi.Core.ResultSet.Comparer
 {
     public class NumericAbsoluteTolerance : NumericTolerance
     {
-        public NumericAbsoluteTolerance(decimal value)
-            : base(value)
+        public override string ValueString
+        {
+            get
+            {
+                switch (Side)
+                {
+                    case SideTolerance.More:
+                        return string.Format("+{0}",base.ValueString);
+                    case SideTolerance.Less:
+                        return string.Format("-{0}", base.ValueString);
+                }
+                return base.ValueString;
+            }
+        }
+
+
+        public NumericAbsoluteTolerance(decimal value, SideTolerance side)
+            : base(value, side)
         {
             Value = value;
         }
@@ -17,7 +33,7 @@ namespace NBi.Core.ResultSet.Comparer
         {
             get
             {
-                return new NumericAbsoluteTolerance(0);
+                return new NumericAbsoluteTolerance(0, SideTolerance.Both);
             }
         }
     }

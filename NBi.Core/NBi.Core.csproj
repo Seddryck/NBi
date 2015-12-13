@@ -213,8 +213,12 @@
     <Compile Include="PowerBiDesktop\PowerBiDesktopConnectionStringBuilder.cs" />
     <Compile Include="PowerBiDesktop\ProcessExtensions.cs" />
     <Compile Include="Process\IProcessCommand.cs" />
+    <Compile Include="Process\IKillCommand.cs" />
+    <Compile Include="Process\IWaitCommand.cs" />
     <Compile Include="Process\IRunCommand.cs" />
     <Compile Include="Process\ProcessCommandFactory.cs" />
+    <Compile Include="Process\KillCommand.cs" />
+    <Compile Include="Process\WaitCommand.cs" />
     <Compile Include="Process\RunCommand.cs" />
     <Compile Include="Query\CommandBuilder.cs" />
     <Compile Include="Query\FormattedResults.cs" />

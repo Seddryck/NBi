@@ -430,6 +430,8 @@
         <xs:element name="table-reset" type="table-reset-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="table-load" type="table-load-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="exe-run" type="exe-run-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="exe-kill" type="exe-kill-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="wait" type="wait-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-delete" type="file-delete-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
@@ -446,6 +448,8 @@
         <xs:element name="table-reset" type="table-reset-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="table-load" type="table-load-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="exe-run" type="exe-run-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="exe-kill" type="exe-kill-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="wait" type="wait-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-delete" type="file-delete-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
@@ -486,6 +490,12 @@
     <xs:attribute name="path" use="optional"/>
     <xs:attribute name="arguments" use="optional"/>
     <xs:attribute name="timeout-milliseconds" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="exe-kill-type" >
+    <xs:attribute name="name" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="wait-type" >
+    <xs:attribute name="milliseconds" use="required"/>
   </xs:complexType>
   <xs:complexType name="settings-type">
     <xs:sequence>

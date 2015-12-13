@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="system-under-test">
+      <connectionString>PBIX = Sales Analysis</connectionString>
+    </default>
+  </settings>
+  <group name="Power BI Desktop - Sales Analysis">
+    <setup>
+      <tasks run-once="true" parallel="false">
+        <exe-kill
+          name="PBIDesktop"
+        />
+        <exe-run
+         name="Sales Analysis.pbix"
+         path="..\PowerBiDesktop\"
+        />
+        <wait
+          milliseconds="10000"
+        />
+      </tasks>
+    </setup>
+    <test name="The Power BI Desktop model contains a perspective 'Sales'">
+      <system-under-test>
+        <structure>
+          <perspectives/>
+        </structure>
+      </system-under-test>
+      <assert>
+        <contain caption="Model"/>
+      </assert>
+    </test>
+    <test name="Perspective 'Model' contains a table 'Sales'">
+      <system-under-test>
+        <structure>
+          <tables perspective="Model"/>
+        </structure>
+      </system-under-test>
+      <assert>
+        <contain caption="Sales"/>
+      </assert>
+    </test>
+    <test name="Perspective 'Model' contains a dimension 'Date'">
+      <system-under-test>
+        <structure>
+          <dimensions perspective="Model"/>
+        </structure>
+      </system-under-test>
+      <assert>
+        <contain caption="Date"/>
+      </assert>
+    </test>
+    <test name="Hierarchy 'Year' contains members between 2007 and 2009">
+      <system-under-test>
+        <members>
+          <hierarchy caption="Year" dimension="Date" perspective="Model"/>
+        </members>
+      </system-under-test>
+      <assert>
+        <contain>
+          <range-integer start="2007" end="2009"/>
+        </contain>
+      </assert>
+    </test>
+    <test name="Hierarchy 'Year' contains members between 2007 and 2009">
+      <system-under-test>
+        <execution>
+          <query>
+            evaluate
+            (
+            filter
+            (
+            'Sales',
+            'Sales'[Year] = 2008
+            )
+            )
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo keys="all-except-last">
+          <resultSet>
+            <row>
+              <cell>2008</cell>
+              <cell>Bikes</cell>
+              <cell>12500</cell>
+            </row>
+            <row>
+              <cell>2008</cell>
+              <cell>Accessories</cell>
+              <cell>8000</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+      <cleanup>
+        <exe-kill name="PBIDesktop"/>
+      </cleanup>
+    </test>
+  </group>
+</testSuite>

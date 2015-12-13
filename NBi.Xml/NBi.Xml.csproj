@@ -74,6 +74,8 @@
     <Compile Include="Constraints\ExistsXml.cs" />
     <Compile Include="Constraints\LinkedToXml.cs" />
     <Compile Include="Constraints\EvaluateRowsXml.cs" />
+    <Compile Include="Decoration\Command\WaitXml.cs" />
+    <Compile Include="Decoration\Command\ExeKillXml.cs" />
     <Compile Include="Decoration\Command\SqlRunXml.cs" />
     <Compile Include="Decoration\Command\FileCopyXml.cs" />
     <Compile Include="Decoration\Command\ExeRunXml.cs" />

@@ -65,6 +65,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -209,9 +210,15 @@
     <Compile Include="Members\Ranges\IRange.cs" />
     <Compile Include="Members\Ranges\IRangeMembersBuilder.cs" />
     <Compile Include="Members\Ranges\RangeMembersFactory.cs" />
+    <Compile Include="PowerBiDesktop\PowerBiDesktopConnectionStringBuilder.cs" />
+    <Compile Include="PowerBiDesktop\ProcessExtensions.cs" />
     <Compile Include="Process\IProcessCommand.cs" />
+    <Compile Include="Process\IKillCommand.cs" />
+    <Compile Include="Process\IWaitCommand.cs" />
     <Compile Include="Process\IRunCommand.cs" />
     <Compile Include="Process\ProcessCommandFactory.cs" />
+    <Compile Include="Process\KillCommand.cs" />
+    <Compile Include="Process\WaitCommand.cs" />
     <Compile Include="Process\RunCommand.cs" />
     <Compile Include="Query\CommandBuilder.cs" />
     <Compile Include="Query\FormattedResults.cs" />

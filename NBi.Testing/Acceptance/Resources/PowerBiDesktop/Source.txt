@@ -1,0 +1,6 @@
+2007;Bikes;10500
+2007;Accessories; 7500
+2008;Bikes;12500
+2008;Accessories;8000
+2009;Bikes;14500
+2009;Accessories;7850

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.Analysis.Request;
+using System.Data;
 
 namespace NBi.Core.Analysis.Member
 {
@@ -36,22 +37,12 @@ namespace NBi.Core.Analysis.Member
                 ProgressStatusChanged(this, new ProgressStatusEventArgs(text));
         }
 
-        protected AdomdCommand CreateCommand()
+        protected IDbCommand CreateCommand()
         {
-            var conn = new AdomdConnection();
-            conn.ConnectionString = ConnectionString;
-            try
-            {
-                conn.Open();
-            }
-            catch (AdomdConnectionException ex)
-            {
-                throw new ConnectionException(ex, conn.ConnectionString);
-            }
-
-
-            var cmd = new AdomdCommand();
-            cmd.Connection = conn;
+            var factory = new ConnectionFactory();
+            var conn = factory.Get(ConnectionString);
+            
+            var cmd = conn.CreateCommand();
             return cmd;
         }
 
@@ -74,13 +65,16 @@ namespace NBi.Core.Analysis.Member
             CellSet cs = null;
             try
             {
+                cmd.Connection.Open();
                 cs = cmd.ExecuteCellSet();
-                return cs;
+                cmd.Connection.Close();
             }
             catch (AdomdConnectionException ex)
             { throw new ConnectionException(ex, cmd.Connection.ConnectionString); }
             catch (AdomdErrorResponseException ex)
             { throw new ConnectionException(ex, cmd.Connection.ConnectionString); }
+
+            return cs;
         }
 
 
@@ -97,7 +91,9 @@ namespace NBi.Core.Analysis.Member
                 var perspective = GetPerspective(filters);
                 var commandText = Build(perspective.Value, path, Function, MemberCaption, ExcludedMembers, ExcludedPatterns);
                 cmd.CommandText = commandText;
-                var cs = ExecuteCellSet(cmd);
+                if (!(cmd is AdomdCommand))
+                    throw new NotImplementedException();
+                var cs = ExecuteCellSet(cmd as AdomdCommand);
                 // Traverse the response (The response is on first line!!!) 
                 var i = 0;
                 foreach (var position in cs.Axes[1].Positions)

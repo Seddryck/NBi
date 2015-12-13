@@ -7,10 +7,16 @@
   </settings>
   <group name="Power BI Desktop - Sales Analysis">
     <setup>
-      <tasks run-once="true">
+      <tasks run-once="true" parallel="false">
+        <exe-kill
+          name="PBIDesktop"
+        />
         <exe-run
          name="Sales Analysis.pbix"
          path="..\PowerBiDesktop\"
+        />
+        <wait
+          milliseconds="10000"
         />
       </tasks>
     </setup>
@@ -87,6 +93,9 @@
           </resultSet>
         </equalTo>
       </assert>
+      <cleanup>
+        <exe-kill name="PBIDesktop"/>
+      </cleanup>
     </test>
   </group>
 </testSuite>

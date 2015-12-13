@@ -10,7 +10,7 @@
       <tasks run-once="true">
         <exe-run
          name="Sales Analysis.pbix"
-         path="C:\Users\cedri\Projects\NBi\master\NBi.Testing\Acceptance\Resources\PowerBiDesktop\"
+         path="..\PowerBiDesktop\"
         />
       </tasks>
     </setup>

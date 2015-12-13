@@ -6,6 +6,8 @@ using System.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core;
 using NUnit.Framework;
+using System.Collections.Generic;
+using NBi.Core.PowerBiDesktop;
 
 #endregion
 
@@ -151,5 +153,53 @@ namespace NBi.Testing.Unit.Core
             Assert.That(actual.ConnectionString, Is.EqualTo(connStr));
         }
 
+        [Test]
+        public void Get_OleDbExcel_OleDbConnection()
+        {
+            //Call the method to test
+            var connStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=c:\\myFolder\\myExcel2007file.xlsx;Extended Properties=\"Excel 12.0 Xml;HDR=YES\";";
+            var providers = new Dictionary<string, string>();
+            providers.Add("Microsoft.ACE.OLEDB.12.0", "System.Data.OleDb");
+            var factory = new ConnectionFactory(providers);
+            var actual = factory.Get(connStr);
+
+            //Assertion
+            Assert.That(actual, Is.InstanceOf<OleDbConnection>());
+            Assert.That(actual.ConnectionString, Is.EqualTo(connStr));
+        }
+
+        #region Power BI Desktop
+        
+        private class ConnectionFactoryPowerBiDesktopFake : ConnectionFactory
+        {
+            protected override PowerBiDesktopConnectionStringBuilder GetPowerBiDesktopConnectionStringBuilder()
+            {
+                return new PowerBiDesktopConnectionStringBuilderFake();
+            }
+        }
+
+        private class PowerBiDesktopConnectionStringBuilderFake : PowerBiDesktopConnectionStringBuilder
+        {
+            public static string ConnectionString = "Data Source=localhost:2325;";
+            protected override string BuildLocalConnectionString(string name)
+            {
+                return ConnectionString;
+            }
+        }
+
+        #endregion
+
+        [Test]
+        public void Get_PowerBiDesktop_AdommdConnection()
+        {
+            //Call the method to test
+            var connStr = "PBIX=My Power BI Desktop;";
+            var factory = new ConnectionFactoryPowerBiDesktopFake();
+            var actual = factory.Get(connStr);
+
+            //Assertion
+            Assert.That(actual, Is.InstanceOf<AdomdConnection>());
+            Assert.That(actual.ConnectionString, Is.EqualTo(PowerBiDesktopConnectionStringBuilderFake.ConnectionString));
+        }
     }
 }

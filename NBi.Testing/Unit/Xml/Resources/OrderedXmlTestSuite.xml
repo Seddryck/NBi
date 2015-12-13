@@ -53,4 +53,18 @@
 			</ordered>
 		</assert>
 	</test>
+  <test name="level's members are ordered specifically based on a query">
+    <system-under-test>
+      <members>
+        <level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
+      </members>
+    </system-under-test>
+    <assert>
+      <ordered
+				rule="specific"
+			>
+        <one-column-query>select label from myTable order by sortOrder</one-column-query>
+      </ordered>
+    </assert>
+  </test>
 </testSuite>

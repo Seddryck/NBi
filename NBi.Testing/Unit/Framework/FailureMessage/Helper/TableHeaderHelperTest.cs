@@ -18,7 +18,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
         public void GetText_NumericAbsoluteTolerance_CorrectHeader()
         {
             var formatter = new TableHeaderHelper();
-            var text = formatter.GetText(ColumnRole.Value, ColumnType.Numeric, new NumericAbsoluteTolerance(new decimal(0.5)), null);
+            var text = formatter.GetText(ColumnRole.Value, ColumnType.Numeric, new NumericAbsoluteTolerance(new decimal(0.5), SideTolerance.Both), null);
 
             Assert.That(text, Is.StringContaining("VALUE"));
             Assert.That(text, Is.StringContaining("Numeric"));
@@ -26,14 +26,47 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
         }
 
         [Test]
+        public void GetText_NumericAbsoluteOnSidedMoreTolerance_CorrectHeader()
+        {
+            var formatter = new TableHeaderHelper();
+            var text = formatter.GetText(ColumnRole.Value, ColumnType.Numeric, new NumericAbsoluteTolerance(new decimal(0.5), SideTolerance.More), null);
+
+            Assert.That(text, Is.StringContaining("VALUE"));
+            Assert.That(text, Is.StringContaining("Numeric"));
+            Assert.That(text, Is.StringContaining("(+/- +0.5)"));
+        }
+
+        [Test]
+        public void GetText_NumericAbsoluteOnSidedLessTolerance_CorrectHeader()
+        {
+            var formatter = new TableHeaderHelper();
+            var text = formatter.GetText(ColumnRole.Value, ColumnType.Numeric, new NumericAbsoluteTolerance(new decimal(0.5), SideTolerance.Less), null);
+
+            Assert.That(text, Is.StringContaining("VALUE"));
+            Assert.That(text, Is.StringContaining("Numeric"));
+            Assert.That(text, Is.StringContaining("(+/- -0.5)"));
+        }
+
+        [Test]
         public void GetText_NumericPercentageTolerance_CorrectHeader()
         {
             var formatter = new TableHeaderHelper();
-            var text = formatter.GetText(ColumnRole.Value, ColumnType.Numeric, new NumericPercentageTolerance(new decimal(0.125)), null);
+            var text = formatter.GetText(ColumnRole.Value, ColumnType.Numeric, new NumericPercentageTolerance(new decimal(0.125), SideTolerance.Both), null);
 
             Assert.That(text, Is.StringContaining("VALUE"));
             Assert.That(text, Is.StringContaining("Numeric"));
             Assert.That(text, Is.StringContaining("(+/- 12.500%)"));
+        }
+
+        [Test]
+        public void GetText_NumericPercentageOneSidedMoreTolerance_CorrectHeader()
+        {
+            var formatter = new TableHeaderHelper();
+            var text = formatter.GetText(ColumnRole.Value, ColumnType.Numeric, new NumericPercentageTolerance(new decimal(0.125), SideTolerance.More), null);
+
+            Assert.That(text, Is.StringContaining("VALUE"));
+            Assert.That(text, Is.StringContaining("Numeric"));
+            Assert.That(text, Is.StringContaining("(+/- +12.500%)"));
         }
 
         [Test]

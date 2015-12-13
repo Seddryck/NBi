@@ -9,6 +9,9 @@ namespace NBi.Xml.Items
 {
     public class EtlXml: ExecutableXml, IEtl 
     {
+        [XmlAttribute("version")]
+        public string Version { get; set; }
+        
         [XmlAttribute("server")]
         public string Server { get; set; }
 
@@ -32,6 +35,9 @@ namespace NBi.Xml.Items
 
         [XmlAttribute("project")]
         public string Project { get; set; }
+
+        [XmlAttribute("environment")]
+        public string Environment { get; set; }
 
         [DefaultValue(false)]
         [XmlAttribute("bits-32")]
@@ -60,11 +66,7 @@ namespace NBi.Xml.Items
         public EtlXml()
         {
             InternalParameters = new List<EtlParameterXml>();
+            Version = "SqlServer2014";
         }
-
-        //public override string GetQuery()
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

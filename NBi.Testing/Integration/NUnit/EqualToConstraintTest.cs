@@ -84,7 +84,7 @@ namespace NBi.Testing.Integration.NUnit
             ctr.Using(new ResultSetComparisonSettings(
                     ResultSetComparisonSettings.KeysChoice.First,
                     ResultSetComparisonSettings.ValuesChoice.Last,
-                    new NumericAbsoluteTolerance(500)
+                    new NumericAbsoluteTolerance(500, SideTolerance.Both)
                 )
             );
 

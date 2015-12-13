@@ -1,0 +1,29 @@
+﻿Execution of the query doesn't match the expected result 
+
+  Expected: 
+Display skipped.
+
+  But was:  
+ResultSet with 1 row
+
+     KEY (Numeric)  (+/- 0) | VALUE (Text)
+     ---------------------- | ------------ 
+     1                      | A           
+
+
+
+Missing rows:
+-------------
+
+ResultSet with 25 rows
+
+     KEY (Numeric)  (+/- 0) | VALUE (Text)
+     ---------------------- | ------------ 
+     2                      | B           
+     3                      | C           
+     4                      | D           
+
+22 (of 25) rows have been skipped for display purpose.
+
+
+

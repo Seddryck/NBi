@@ -41,6 +41,8 @@ namespace NBi.Xml.Decoration.Command
         {
             get
             {
+                if (!string.IsNullOrEmpty(SpecificConnectionString) && SpecificConnectionString.StartsWith("@"))
+                    return Settings.GetReference(SpecificConnectionString.Remove(0, 1)).ConnectionString;
                 if (!String.IsNullOrWhiteSpace(SpecificConnectionString))
                     return SpecificConnectionString;
                 if (Settings != null && Settings.GetDefault(SettingsXml.DefaultScope.Decoration) != null)

@@ -23,7 +23,7 @@ namespace NBi.Core.ResultSet.Comparer
         }
 
         public NumericBoundedPercentageTolerance(decimal percentage, decimal minValue, decimal maxValue)
-            : base(percentage)
+            : base(percentage, SideTolerance.Both)
         {
             if (minValue == 0 && maxValue == 0)
                 throw new ArgumentException("You must specify a minimum or a maximum value but both were set to 0.");

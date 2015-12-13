@@ -9,6 +9,9 @@ namespace NBi.Xml.Decoration.Command
 {
     public class EtlRunXml : DecorationCommandXml, IEtlRunCommand
     {
+        [XmlAttribute("version")]
+        public string Version { get; set; }
+        
         [XmlAttribute("server")]
         public string Server { get; set; }
 
@@ -32,6 +35,9 @@ namespace NBi.Xml.Decoration.Command
 
         [XmlAttribute("project")]
         public string Project { get; set; }
+
+        [XmlAttribute("environment")]
+        public string Environment { get; set; }
 
         [XmlAttribute("bits-32")]
         public bool Is32Bits { get; set; }
@@ -58,6 +64,7 @@ namespace NBi.Xml.Decoration.Command
         public EtlRunXml()
         {
             InternalParameters = new List<EtlParameterXml>();
+            Version = "SqlServer2014";
         }
     }
 }

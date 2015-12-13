@@ -34,7 +34,7 @@ namespace NBi.Core.ResultSet
 
         public int GetHashCode(DataRow obj)
         {
-            var values = obj.ItemArray.Where<object>((o, i) => settings.IsKey(i));
+            var values = obj.ItemArray.Where<object>((o, i) => settings.GetColumnRole(i)==ColumnRole.Key);
             int hash = 0;
             foreach (var value in values)
             {
@@ -52,21 +52,18 @@ namespace NBi.Core.ResultSet
             return hash;
         }
 
-        //public void GetHashCode64_KeysValues(DataRow row, out Int64 keysHashed, out Int64 valuesHashed)
-        public void GetHashCode64_KeysValues(DataRow row, out Int64 keysHashed)
+        public KeyCollection GetKeys(DataRow row)
         {
-            keysHashed = 0;
-            //valuesHashed = 0;
-
+            var keys = new List<object>();
             for (int i = 0; i < row.Table.Columns.Count; i++)
             {
                 
-                if (settings.IsKey(i))
+                if (settings.GetColumnRole(i) == ColumnRole.Key)
                 {
                     try
                     {
                         var value = FormatValue(i, row[i]);
-                        keysHashed = (keysHashed * 397) ^ value.GetHashCode();
+                        keys.Add(value);
                     }
                     catch (FormatException)
                     {
@@ -86,20 +83,18 @@ namespace NBi.Core.ResultSet
                             throw ex;
                     }
                 }
-
-                //else
-                //    valuesHashed = (valuesHashed * 397) ^ value.GetHashCode();
             }
+            return new KeyCollection(keys.ToArray());
         }
 
         internal object FormatValue(int columnIndex, object value)
         {
             object v = null;
-            if (settings.IsNumeric(columnIndex))
+            if (settings.GetColumnType(columnIndex) == ColumnType.Numeric)
                 v = new NumericConverter().Convert(value);
-            else if (settings.IsDateTime(columnIndex))
+            else if (settings.GetColumnType(columnIndex) == ColumnType.DateTime)
                 v = new DateTimeConverter().Convert(value);
-            else if (settings.IsBoolean(columnIndex))
+            else if (settings.GetColumnType(columnIndex) == ColumnType.Boolean)
                 v = new BooleanConverter().Convert(value);
             else
             {

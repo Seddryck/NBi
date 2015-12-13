@@ -66,6 +66,9 @@ namespace NBi.NUnit.Builder
                 yield return new CaptionFilter(Target.Levels, ((ILevelFilter)item).Level);
             if (item is IMeasureGroupFilter && !(string.IsNullOrEmpty(((IMeasureGroupFilter)item).MeasureGroup)))
                 yield return new CaptionFilter(Target.MeasureGroups, ((IMeasureGroupFilter)item).MeasureGroup);
+            if (item is IDisplayFolderFilter && !(string.IsNullOrEmpty(((IDisplayFolderFilter)item).DisplayFolder)))
+                yield return new CaptionFilter(Target.DisplayFolders, ((IDisplayFolderFilter)item).DisplayFolder);
+
             if (item is ITableFilter)
                 yield return new CaptionFilter(Target.Tables, ((ITableFilter)item).Table);
             if (item is IRoutineFilter)

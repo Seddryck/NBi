@@ -1,11 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Xml.Serialization;
+using NBi.Xml.Items;
+using NBi.Xml.Items.Ranges;
+using NBi.Xml.Settings;
+using NBi.Xml.Systems;
 
 namespace NBi.Xml.Constraints
 {
     public class OrderedXml : AbstractConstraintXml
     {
+        [XmlIgnore()]
+        public override DefaultXml Default
+        {
+            get { return base.Default; }
+            set
+            {
+                base.Default = value;
+                if (Query != null)
+                    Query.Default = value;
+            }
+        }
+        
         [XmlAttribute("descending")]
         [DefaultValue(false)]
         public bool Descending { get; set; }
@@ -33,6 +49,9 @@ namespace NBi.Xml.Constraints
                 return;
             }
         }
+
+        [XmlElement("one-column-query")]
+        public QueryXml Query { get; set; }
 
         public OrderedXml()
         {

@@ -40,6 +40,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Framework", "NBi.Framew
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Xsd.Preprocess", "NBi.Xsd.Preprocess\NBi.Xsd.Preprocess.csproj", "{DD62992F-BA69-4837-AC16-55BFBD8B0F58}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SqlServer", "SqlServer", "{05781747-4E7E-470F-A772-C0F988C6DF98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Core.SqlServer", "NBi.Core.SqlServer\NBi.Core.SqlServer.csproj", "{687F2843-268C-43E2-8369-9EB06B9B59F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -261,6 +265,24 @@ Global
 		{DD62992F-BA69-4837-AC16-55BFBD8B0F58}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{DD62992F-BA69-4837-AC16-55BFBD8B0F58}.Release|x64.ActiveCfg = Release|Any CPU
 		{DD62992F-BA69-4837-AC16-55BFBD8B0F58}.Release|x86.ActiveCfg = Release|Any CPU
+		{687F2843-268C-43E2-8369-9EB06B9B59F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{687F2843-268C-43E2-8369-9EB06B9B59F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{687F2843-268C-43E2-8369-9EB06B9B59F8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{687F2843-268C-43E2-8369-9EB06B9B59F8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{687F2843-268C-43E2-8369-9EB06B9B59F8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{687F2843-268C-43E2-8369-9EB06B9B59F8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{687F2843-268C-43E2-8369-9EB06B9B59F8}.Development|Any CPU.ActiveCfg = Debug|Any CPU
+		{687F2843-268C-43E2-8369-9EB06B9B59F8}.Development|Any CPU.Build.0 = Debug|Any CPU
+		{687F2843-268C-43E2-8369-9EB06B9B59F8}.Development|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{687F2843-268C-43E2-8369-9EB06B9B59F8}.Development|Mixed Platforms.Build.0 = Debug|Any CPU
+		{687F2843-268C-43E2-8369-9EB06B9B59F8}.Development|x64.ActiveCfg = Debug|Any CPU
+		{687F2843-268C-43E2-8369-9EB06B9B59F8}.Development|x86.ActiveCfg = Debug|Any CPU
+		{687F2843-268C-43E2-8369-9EB06B9B59F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{687F2843-268C-43E2-8369-9EB06B9B59F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{687F2843-268C-43E2-8369-9EB06B9B59F8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{687F2843-268C-43E2-8369-9EB06B9B59F8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{687F2843-268C-43E2-8369-9EB06B9B59F8}.Release|x64.ActiveCfg = Release|Any CPU
+		{687F2843-268C-43E2-8369-9EB06B9B59F8}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -276,5 +298,6 @@ Global
 		{DFB8AA0E-A144-49E3-976B-AD03BF2A55E7} = {C6B7BEE9-9968-4C0F-B584-4FE09E421B24}
 		{1AD339DC-60E0-4334-86CF-60EEAFEAA6E4} = {DA70ECE5-216D-43A1-9E14-902E06050B8E}
 		{DD62992F-BA69-4837-AC16-55BFBD8B0F58} = {DA70ECE5-216D-43A1-9E14-902E06050B8E}
+		{687F2843-268C-43E2-8369-9EB06B9B59F8} = {05781747-4E7E-470F-A772-C0F988C6DF98}
 	EndGlobalSection
 EndGlobal

@@ -320,6 +320,18 @@ namespace NBi.Testing.Unit.GenbiL.Parser
 
         public void SentenceParser_CaseSave_ValidSaveAction()
         {
+            var input = "case save 'myfile.csv'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<SaveCaseAction>());
+
+            var saveCase = result as SaveCaseAction;
+            Assert.That(saveCase.Filename, Is.EqualTo("myfile.csv"));
+        }
+
+        public void SentenceParser_CaseSaveAs_ValidSaveAction()
+        {
             var input = "case save as 'myfile.csv'";
             var result = Case.Parser.Parse(input);
 
@@ -461,5 +473,54 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(((SubstituteCaseAction)result).NewText.Display, Is.EqualTo("value 'foo'"));
         }
 
+        [Test]
+        public void SentenceParser_CaseSeparateValue_ValidSeparateAction()
+        {
+            var input = "case separate column 'longtext' into 'foo', 'bar', 'remaining' with value '-';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<SeparateCaseAction>());
+            Assert.That(((SeparateCaseAction)result).ColumnName, Is.EqualTo("longtext"));
+            Assert.That(((SeparateCaseAction)result).NewColumns, Is.EquivalentTo(new[] { "foo", "bar", "remaining" }));
+            Assert.That(((SeparateCaseAction)result).Separator, Is.EqualTo("-"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseGroup_ValidSeparateAction()
+        {
+            var input = "case group column 'foo', 'bar';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<GroupCaseAction>());
+            Assert.That(((GroupCaseAction)result).columnNames, Has.Member("foo"));
+            Assert.That(((GroupCaseAction)result).columnNames, Has.Member("bar"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseReduce_ValidSeparateAction()
+        {
+            var input = "case reduce columns 'foo', 'bar';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<ReduceCaseAction>());
+            Assert.That(((ReduceCaseAction)result).columnNames, Has.Member("foo"));
+            Assert.That(((ReduceCaseAction)result).columnNames, Has.Member("bar"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseSplit_ValidSeparateAction()
+        {
+            var input = "case split columns 'foo', 'bar' with value '-';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<SplitCaseAction>());
+            Assert.That(((SplitCaseAction)result).Columns, Has.Member("foo"));
+            Assert.That(((SplitCaseAction)result).Columns, Has.Member("bar"));
+            Assert.That(((SplitCaseAction)result).Separator, Is.EqualTo("-"));
+        }
     }
 }

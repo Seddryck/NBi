@@ -3,14 +3,33 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using Microsoft.AnalysisServices.AdomdClient;
+using NBi.Core.Configuration;
+using NBi.Core.PowerBiDesktop;
 
 namespace NBi.Core
 {
     /// <summary>
     /// The ConnectionFactory is used to build an IDbConnection compatible with the connectionString provided.
+    /// The first idea is to check the provider information given by the connection-string
+    /// If this provider matches with a predifined value or with a configured-value then we assign the class
+    /// If not we take a look to the keyword 'driver' and guess t's odbc
+    /// If nothing is found we'll assume it's SqlClient
+    /// To build the connection of the class, we first rely on the DbProviderFactory 
+    /// If we can't build the connection with the help of this DbProviderFactory then we've hardcoded a way to build an Adomd value
     /// </summary>
     public class ConnectionFactory
     {
+        private readonly IReadOnlyDictionary<string, string> customProviders;
+
+        public ConnectionFactory()
+        {
+            customProviders = ConfigurationManager.GetConfiguration().Providers;
+        }
+
+        public ConnectionFactory(IReadOnlyDictionary<string, string> customProviders)
+        {
+            this.customProviders = customProviders;
+        }
  
         public IDbConnection Get(string connectionString)
         {
@@ -18,14 +37,22 @@ namespace NBi.Core
             csb.ConnectionString = connectionString;
 
             string providerName = string.Empty;
+            if (csb.ContainsKey("pbix"))
+            {
+                providerName = "Microsoft.AnalysisServices.AdomdClient";
+                var connectionStringBuilder = GetPowerBiDesktopConnectionStringBuilder();
+                connectionStringBuilder.Build(csb["pbix"].ToString());
+                connectionString = connectionStringBuilder.GetConnectionString();
+            }
+
             if (csb.ContainsKey("Provider"))
                 providerName = InterpretProviderName(csb["Provider"].ToString());
 
             if (string.IsNullOrEmpty(providerName) && csb.ContainsKey("Driver"))
-                providerName= "Odbc";
+                providerName = "System.Data.Odbc";
 
             if (string.IsNullOrEmpty(providerName))
-                providerName="SqlClient";
+                providerName = "System.Data.SqlClient";
 
             if (string.IsNullOrEmpty(providerName))
                 throw new ArgumentException(string.Format("No provider found for connectionString '{0}'", connectionString));
@@ -33,12 +60,20 @@ namespace NBi.Core
             return Get(providerName, connectionString);           
         }
 
+        protected virtual PowerBiDesktopConnectionStringBuilder GetPowerBiDesktopConnectionStringBuilder()
+        {
+            return new PowerBiDesktopConnectionStringBuilder();
+        }
+
         protected string InterpretProviderName(string provider)
         {
-            if (provider.ToLowerInvariant().StartsWith("msolap")) return "Adomd";
-            if (provider.ToLowerInvariant().StartsWith("sqlncli")) return "OleDb"; //Indeed OleDb it's not a mistake!
-            if (provider.ToLowerInvariant().StartsWith("oledb")) return "OleDb";
+            if (customProviders.ContainsKey(provider))
+                return customProviders[provider];
 
+            if (provider.ToLowerInvariant().StartsWith("msolap")) return "Microsoft.AnalysisServices.AdomdClient";
+            if (provider.ToLowerInvariant().StartsWith("sqlncli")) return "System.Data.OleDb"; //Indeed OleDb it's not a mistake!
+            if (provider.ToLowerInvariant().StartsWith("oledb")) return "System.Data.OleDb";
+            
             return null;
         }
 
@@ -65,7 +100,7 @@ namespace NBi.Core
             foreach (DataRowView item in DbProviderFactories.GetFactoryClasses().DefaultView)
                 providers.Add((string)item[2]);
 
-            var invariantNames = providers.FindAll(p => p.ToLowerInvariant().Contains(providerName.ToLowerInvariant()));
+            var invariantNames = providers.FindAll(p => p.ToLowerInvariant()==providerName.ToLowerInvariant());
 
             if (invariantNames.Count==1)
                 return invariantNames[0];
@@ -77,9 +112,9 @@ namespace NBi.Core
 
         protected IDbConnection GetSpecific(string providerName)
         {
-            switch (providerName.ToLowerInvariant())
+            switch (providerName)
             {
-                case "adomd": return new AdomdConnection();
+                case "Microsoft.AnalysisServices.AdomdClient": return new AdomdConnection();
                 default:
                     break;
             }

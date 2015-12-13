@@ -93,10 +93,12 @@
     <xs:sequence>
       <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
     </xs:sequence>
+    <xs:attribute name="version" type="xs:string"/>
     <xs:attribute name="server" type="xs:string"/>
     <xs:attribute name="catalog" type="xs:string"/>
     <xs:attribute name="folder" type="xs:string"/>
     <xs:attribute name="project" type="xs:string"/>
+    <xs:attribute name="environment" type="xs:string"/>
     <xs:attribute name="path" type="xs:string"/>
     <xs:attribute name="name" type="xs:string"/>
     <xs:attribute name="username" type="xs:string"/>
@@ -400,7 +402,7 @@
   </xs:complexType>
   <xs:complexType name="comparer-type">
     <xs:simpleContent>
-      <xs:extension base="xs:positiveInteger"/>
+      <xs:extension base="xs:nonNegativeInteger"/>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="more-less-type">
@@ -452,6 +454,25 @@
     <xs:attribute name="connectionString" type="xs:string" use="optional" />
     <xs:attribute name="roles" type="xs:string" use="optional" />
   </xs:complexType>
+  <xs:complexType name="select-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="attribute" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="xpath-type">
+    <xs:sequence>
+      <xs:element name="from" minOccurs="1" maxOccurs="1" type="xs:string"/>
+      <xs:element name="select" minOccurs="1" maxOccurs="unbounded" type="select-type" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="xml-source-type">
+    <xs:sequence>
+      <xs:element name="file" minOccurs="1" maxOccurs="1" type="xs:string"/>
+      <xs:element name="xpath" minOccurs="1" maxOccurs="1" type="xpath-type" />
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="decoration-type">
     <xs:sequence minOccurs="1" maxOccurs="unbounded">
       <xs:choice>
@@ -461,6 +482,8 @@
         <xs:element name="table-reset" type="table-reset-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="table-load" type="table-load-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="exe-run" type="exe-run-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="exe-kill" type="exe-kill-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="wait" type="wait-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-delete" type="file-delete-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
@@ -477,6 +500,8 @@
         <xs:element name="table-reset" type="table-reset-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="table-load" type="table-load-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="exe-run" type="exe-run-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="exe-kill" type="exe-kill-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="wait" type="wait-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-delete" type="file-delete-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
@@ -517,6 +542,12 @@
     <xs:attribute name="path" use="optional"/>
     <xs:attribute name="arguments" use="optional"/>
     <xs:attribute name="timeout-milliseconds" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="exe-kill-type" >
+    <xs:attribute name="name" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="wait-type" >
+    <xs:attribute name="milliseconds" use="required"/>
   </xs:complexType>
   <xs:complexType name="settings-type">
     <xs:sequence>
@@ -617,6 +648,15 @@
                 </xs:choice>
               </xs:complexType>
             </xs:element>
+            <xs:element name="data-type">
+              <xs:complexType>
+                <xs:choice>
+                  <!--<xs:element name="measure" type="measure-type"/>
+                  <xs:element name="property" type="property-type"/>-->
+                  <xs:element name="column" type="column-type"/>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
           </xs:choice>
         </xs:complexType>
       </xs:element>
@@ -657,28 +697,31 @@
                       </xs:simpleContent>
                     </xs:complexType>
                   </xs:element>
-                  <xs:element name="resultSet" minOccurs="0" maxOccurs="1">
-                    <xs:complexType>
-                      <xs:sequence>
-                        <xs:element name="row" minOccurs="0" maxOccurs="unbounded">
-                          <xs:complexType>
-                            <xs:sequence>
-                              <xs:element name="cell" minOccurs="1" maxOccurs="unbounded">
-                                <xs:complexType>
-                                  <xs:simpleContent>
-                                    <xs:extension base="xs:string">
-                                    </xs:extension>
-                                  </xs:simpleContent>
-                                </xs:complexType>
-                              </xs:element>
-                            </xs:sequence>
-                          </xs:complexType>
-                        </xs:element>
-                      </xs:sequence>
-                      <xs:attribute name="file" type="xs:string" use="optional" />
-                    </xs:complexType>
-                  </xs:element>
-                  <xs:element name="query" type="query-type" minOccurs="0" maxOccurs="1"/>
+                  <xs:choice>
+                    <xs:element name="resultSet" minOccurs="0" maxOccurs="1">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="row" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="cell" minOccurs="1" maxOccurs="unbounded">
+                                  <xs:complexType>
+                                    <xs:simpleContent>
+                                      <xs:extension base="xs:string">
+                                      </xs:extension>
+                                    </xs:simpleContent>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="file" type="xs:string" use="optional" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="query" type="query-type" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="xml-source" type="xml-source-type" minOccurs="0" maxOccurs="1"/>
+                  </xs:choice>
                 </xs:sequence>
                 <xs:attribute name="keys" use="optional" >
                   <xs:simpleType>
@@ -867,9 +910,18 @@
                 </xs:simpleContent>
               </xs:complexType>
             </xs:element>
+            <xs:element name="is">
+              <xs:complexType>
+                <xs:simpleContent>
+                  <xs:extension base="xs:string">
+                    <xs:attribute name="not" type="xs:boolean" use="optional" />
+                  </xs:extension>
+                </xs:simpleContent>
+              </xs:complexType>
+            </xs:element>
             <xs:element name="ordered">
               <xs:complexType>
-                <xs:sequence>
+                <xs:choice>
                   <xs:element name="rule-definition" minOccurs="0" maxOccurs="1">
                     <xs:complexType>
                       <xs:sequence>
@@ -883,7 +935,8 @@
                       </xs:sequence>
                     </xs:complexType>
                   </xs:element>
-                </xs:sequence>
+                  <xs:element name="one-column-query" minOccurs="0" maxOccurs="1" type ="query-type"/>
+                </xs:choice>
                 <xs:attribute name="descending" type="xs:boolean" use="optional" />
                 <xs:attribute name="rule" use="optional" >
                   <xs:simpleType>

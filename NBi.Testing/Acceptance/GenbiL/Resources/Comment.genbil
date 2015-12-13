@@ -1,0 +1,11 @@
+﻿case scope 'structure';
+case load file 'Acceptance\GenbiL\Resources\dimension.csv';
+
+template load file 'Acceptance\GenbiL\Resources\GroupReduce.nbitt';
+
+//Double line of comment
+//Double line of comment - bis
+
+suite generate;
+suite save as 'Acceptance\GenbiL\Resources\comment.nbits';
+

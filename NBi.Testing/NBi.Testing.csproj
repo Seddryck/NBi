@@ -391,6 +391,7 @@
     <None Include="Acceptance\Resources\Positive\QueryEqualToResultSetProvider.nbits.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Acceptance\Resources\PowerBiDesktop\Sales Analysis.pbix" />
     <None Include="Acceptance\Resources\Reports\EmployeeSalesDetail.rsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -645,6 +646,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Acceptance\Resources\PowerBiDesktop\Source.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Light-0001.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Full-0001.txt" />
     <EmbeddedResource Include="Unit\Xml\Resources\IsXmlTestSuite.xml" />

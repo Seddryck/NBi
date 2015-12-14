@@ -20,8 +20,9 @@
 - title: connection strings
   docs:
   - connection-configuration
-  - connetion-providers
+  - connection-providers
   - connection-powerbi-desktop
+  - connection-roles
 
 - title: Additional tests for result-sets
   docs:

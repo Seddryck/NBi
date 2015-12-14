@@ -11,6 +11,7 @@ using NBi.Xml.Systems;
 using NUnit.Framework;
 using NBi.Core.Structure.Olap;
 using NBi.Xml.Items.Filters;
+using NBi.Core.Structure;
 
 #endregion
 
@@ -229,7 +230,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var command = sut as OlapCommand;
             Assert.NotNull(command);
             Assert.NotNull(command.Description);
-            Assert.IsTrue(command.Description.Filters.Any(f => f.Caption == "Perspective"));
+            Assert.IsTrue(command.Description.Filters.Any(f => f is CaptionFilter && (f as CaptionFilter).Caption == "Perspective"));
             Assert.AreEqual(command.Description.Filters.Count(), 1);
         }
 
@@ -347,9 +348,9 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var command = sut as OlapCommand;
             Assert.NotNull(command);
             Assert.NotNull(command.Description);
-            Assert.IsTrue(command.Description.Filters.Any(f => f.Caption == "Perspective"));
-            Assert.IsTrue(command.Description.Filters.Any(f => f.Caption == "MeasureGroup"));
-            Assert.IsTrue(command.Description.Filters.Any(f => f.Caption == "DisplayFolder"));
+            Assert.IsTrue(command.Description.Filters.Any(f => f is CaptionFilter && (f as CaptionFilter).Caption == "Perspective"));
+            Assert.IsTrue(command.Description.Filters.Any(f => f is CaptionFilter && (f as CaptionFilter).Caption == "MeasureGroup"));
+            Assert.IsTrue(command.Description.Filters.Any(f => f is CaptionFilter && (f as CaptionFilter).Caption == "DisplayFolder"));
         }
 
 
@@ -385,9 +386,9 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var command = sut as OlapCommand;
             Assert.NotNull(command);
             Assert.NotNull(command.Description);
-            Assert.IsTrue(command.Description.Filters.Any(f => f.Caption == "Dimension"));
-            Assert.IsTrue(command.Description.Filters.Any(f => f.Caption == "Hierarchy"));
-            Assert.IsTrue(command.Description.Filters.Any(f => f.Caption == "Level"));
+            Assert.IsTrue(command.Description.Filters.Any(f => f is CaptionFilter && (f as CaptionFilter).Caption == "Dimension"));
+            Assert.IsTrue(command.Description.Filters.Any(f => f is CaptionFilter && (f as CaptionFilter).Caption == "Hierarchy"));
+            Assert.IsTrue(command.Description.Filters.Any(f => f is CaptionFilter && (f as CaptionFilter).Caption == "Level"));
         }
     }
 }

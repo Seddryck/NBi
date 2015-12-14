@@ -38,6 +38,8 @@
   docs:
   - rows-filter
   - rows-distinct
+  - rows-group
+  - rows-reduce
 
 - title: Test template
   docs:

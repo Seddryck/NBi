@@ -2,7 +2,7 @@
 layout: automation
 title: Filter distinct
 prev_section: rows-filter
-next_section: template-load
+next_section: rows-group
 permalink: /automation/rows-distinct/
 ---
 This command reduce the set of test-cases by returning only distinct (different) rows.

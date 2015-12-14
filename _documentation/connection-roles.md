@@ -3,7 +3,7 @@ layout: documentation
 title: Apply roles to a query
 prev_section: connection-powerbi-desktop
 next_section: resultset-rows-count
-permalink: /docs/connnection-roles/
+permalink: /docs/connection-roles/
 ---
 It's a common practice in Business Intelligence to restrict views and data according to the user connected. The views are linked to the *roles* defined in Analysis Services. When testing an environment, it's useful to play with the different *roles* for which different results are expected. Changing the role is a feature available for any query targeting an SSAS environment.
 

@@ -1,6 +1,6 @@
 ---
 layout: automation
-title: Concatenate content
+title: Separate content
 prev_section: column-concatenate
 next_section: rows-filter
 permalink: /automation/column-separate/

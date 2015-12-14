@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Defaults and references
-prev_section: config-connection-strings
+prev_section: setup-condition
 next_section: config-settings-external-file
 permalink: /docs/config-defaults-references/
 ---
@@ -114,7 +114,7 @@ The sample here under creates two references named *first-ref* and *second-ref* 
 In a reference you can configure values for
 
 * connection-string (more info in [Manage connection strings])
-* Report (Source and Path) 
+* Report (Source and Path)
 * regex
 * numeric-format
 * currency-format

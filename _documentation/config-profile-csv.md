@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: CSV profile
-prev_section: config-database-provider
+prev_section: config-settings-external-file
 next_section: config-profile-failure-report
 permalink: /docs/config-profile-csv/
 ---

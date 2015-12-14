@@ -2,7 +2,7 @@
 layout: documentation
 title: Settings in external file
 prev_section: config-defaults-references
-next_section: config-roles-query
+next_section: config-profile-csv
 permalink: /docs/config-settings-external-file/
 ---
 You can define in the config file the xml attribute *settings* to express that the settings are defined in an external file and not in the test-suite. The value of this xml attribute *settings* matches with the name of the external file containing your xml fragment with the *settings* element of your test-suite.

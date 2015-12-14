@@ -2,7 +2,7 @@
 layout: documentation
 title: Conditions for execution
 prev_section: setup-wait
-next_section: config-connection-strings
+next_section: config-settings-external-file
 permalink: /docs/setup-condition/
 ---
 In addition to the [setup and cleanup decorations](../setup-cleanup) a test can also be preceded by a list of *conditions*. If one the conditions is not validated, the test will be *ignored (and not failed)*. An appropriate message will be inserted into the ignore message to explain why the test has been ignored by the framework.

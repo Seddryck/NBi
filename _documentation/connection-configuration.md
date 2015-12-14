@@ -1,9 +1,9 @@
 ---
 layout: documentation
-title: Manage connection strings
-prev_section: setup-condition
-next_section: config-defaults-references
-permalink: /docs/config-connection-strings/
+title: Connection strings in config files
+prev_section: compare-intervals
+next_section: connection-providers
+permalink: /docs/connection-configuration/
 ---
 ## Default connection string
 When you’ve more than a few tests, it's boring to repeat the same connection string for each test. For this kind of situation, the more efficient way to manage the connection strings is to specify a default value in the *settings* of your test suite. To achieve this, create a xml element named *settings* at the top of your test suite definition and define once the connection string for all your system-under-tests.

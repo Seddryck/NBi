@@ -1,9 +1,9 @@
 ---
 layout: documentation
 title: Database providers
-prev_section: config-roles-query
-next_section: config-profile-csv
-permalink: /docs/config-database-providers/
+prev_section: connection-configuration
+next_section: connection-powerbi-desktop
+permalink: /docs/connection-providers/
 ---
 When dealing with standard Microsoft data sources, NBi automatically creates the correct connections and commands objects to query these data sources. The choice performed by NBi to create an object or another is dependent of the connection string.
 

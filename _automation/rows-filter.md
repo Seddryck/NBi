@@ -1,7 +1,7 @@
 ---
 layout: automation
 title: Filter rows
-prev_section: column-concatenate
+prev_section: column-separate
 next_section: rows-distinct
 permalink: /automation/rows-filter/
 ---

@@ -2,7 +2,7 @@
 layout: automation
 title: Concatenate content
 prev_section: column-substitute
-next_section: rows-filter
+next_section: column-separate
 permalink: /automation/column-concatenate/
 ---
 This command lets you merge the content of multiples columns into one column. This merge is executed by a concatenation of the different contents of each columns involved in the action and its executed row by row.

@@ -33,6 +33,7 @@
   - column-replace
   - column-substitute
   - column-concatenate
+  - column-separate
 
 - title: Rows of test-cases
   docs:
@@ -40,6 +41,7 @@
   - rows-distinct
   - rows-group
   - rows-reduce
+  - rows-split
 
 - title: Test template
   docs:

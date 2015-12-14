@@ -1,7 +1,7 @@
 ---
 layout: automation
 title: Load template
-prev_section: rows-distinct
+prev_section: rows-split
 next_section: settings-load
 permalink: /automation/template-load/
 ---

@@ -5,7 +5,7 @@ prev_section: setup-sql-batch
 next_section: setup-etl
 permalink: /docs/setup-exe-or-batch/
 ---
-This command let you start an executable (or a batch file) on the server running the test-suite (not on a remote server). The test will start when the exe has returned.
+This subset of commands let you start or kill a process (executable or a batch file) on the server running the test-suite (not on a remote server). The test will continue when the exe has returned.
 
 * *exe-run*: this command runs an executable (.exe) or a batch file (.bat).
 
@@ -18,6 +18,18 @@ The attribute *name* stands for the name of the exe or batch file to execute (yo
     path="C:\Program Files\Tools"
     arguments="-f -t -e"
     timeout-milliseconds="1000"
+  />
+</setup>
+{% endhighlight %}
+
+* *exe-kill*: this command kills *all* processes with a given name.
+
+The attribute *name* stands for the name of the processes to kill. If no process with this name is currently running then the test will not fail.
+
+{% highlight xml %}
+<setup>
+  <exe-kill
+    name="PBiDesktop"
   />
 </setup>
 {% endhighlight %}

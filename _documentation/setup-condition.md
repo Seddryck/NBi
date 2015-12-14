@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Conditions for execution
-prev_section: setup-file-manipulations
+prev_section: setup-wait
 next_section: config-connection-strings
 permalink: /docs/setup-condition/
 ---

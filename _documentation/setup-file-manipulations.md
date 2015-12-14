@@ -2,7 +2,7 @@
 layout: documentation
 title: Files' manipulations
 prev_section: setup-windows-services
-next_section: setup-condition
+next_section: setup-wait
 permalink: /docs/setup-file-manipulations/
 ---
 During the setup and cleanup stages, NBi offers the possibility to copy or remove files. This kind of manipulation could be useful before the run of an ETL.

@@ -69,6 +69,7 @@
   - setup-windows-services
   - setup-etl
   - setup-file-manipulations
+  - setup-wait
   - setup-condition
 
 - title: Configuration and settings

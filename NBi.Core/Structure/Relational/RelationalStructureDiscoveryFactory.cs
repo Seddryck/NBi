@@ -17,7 +17,7 @@ namespace NBi.Core.Structure.Relational
             this.connection = connection as SqlConnection;
         }
 
-        public StructureDiscoveryCommand Instantiate(Target target, TargetType type, IEnumerable<CaptionFilter> filters)
+        public StructureDiscoveryCommand Instantiate(Target target, TargetType type, IEnumerable<IFilter> filters)
         {
             var builder = InstantiateBuilder(target);
             builder.Build(filters);
@@ -28,7 +28,8 @@ namespace NBi.Core.Structure.Relational
 
             var description = new CommandDescription(target, filters);
 
-            var command = new RelationalCommand(cmd, postFilters, description);
+            RelationalCommand command = null;
+            command = new RelationalCommand(cmd, postFilters, description);
 
             return command;
         }
@@ -46,6 +47,8 @@ namespace NBi.Core.Structure.Relational
                     return new ColumnDiscoveryCommandBuilder();
                 case Target.Routines:
                     return new RoutineDiscoveryCommandBuilder();
+                case Target.Parameters:
+                    return new RoutineParameterDiscoveryCommandBuilder();
                 default:
                     throw new ArgumentOutOfRangeException(string.Format("The value '{0}' is not supported when instantiating with 'RelationalStructureDiscoveryFactory'.", target));
             }

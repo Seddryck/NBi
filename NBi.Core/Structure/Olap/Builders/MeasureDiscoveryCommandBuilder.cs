@@ -18,7 +18,7 @@ namespace NBi.Core.Structure.Olap.Builders
             VisibleName = "measure";
         }
 
-        protected override IEnumerable<ICommandFilter> BuildFilters(IEnumerable<CaptionFilter> filters)
+        protected override IEnumerable<IFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {
             yield return new CommandFilter("len(measuregroup_name)>0");
 

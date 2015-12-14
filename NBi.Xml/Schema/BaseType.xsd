@@ -98,6 +98,7 @@
     <xs:attribute name="catalog" type="xs:string"/>
     <xs:attribute name="folder" type="xs:string"/>
     <xs:attribute name="project" type="xs:string"/>
+    <xs:attribute name="environment" type="xs:string"/>
     <xs:attribute name="path" type="xs:string"/>
     <xs:attribute name="name" type="xs:string"/>
     <xs:attribute name="username" type="xs:string"/>
@@ -199,6 +200,32 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  <xs:complexType name="routine-parameter-type">
+    <xs:complexContent>
+      <xs:extension base="routine-type">
+        <xs:attribute name="routine" type="xs:string" use="required" />
+        <xs:attribute name="result" use="optional">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="yes"/>
+              <xs:enumeration value="no"/>
+              <xs:enumeration value="unspecified"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="direction" use="optional">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="in"/>
+              <xs:enumeration value="out"/>
+              <xs:enumeration value="in-out"/>
+              <xs:enumeration value="unspecified"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="perspectives-type">
     <xs:attribute name="connectionString" type="xs:string" use="optional" />
   </xs:complexType>
@@ -272,6 +299,32 @@
     <xs:complexContent>
       <xs:extension base="perspectives-type">
         <xs:attribute name="perspective" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="routine-parameters-type">
+    <xs:complexContent>
+      <xs:extension base="routines-type">
+        <xs:attribute name="routine" type="xs:string" use="required" />
+        <xs:attribute name="result" use="optional">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="yes"/>
+              <xs:enumeration value="no"/>
+              <xs:enumeration value="unspecified"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="direction" use="optional">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="in"/>
+              <xs:enumeration value="out"/>
+              <xs:enumeration value="in-out"/>
+              <xs:enumeration value="unspecified"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -404,6 +457,7 @@
   <xs:complexType name="select-type">
     <xs:simpleContent>
       <xs:extension base="xs:string">
+        <xs:attribute name="evaluate" type="xs:boolean" use="optional"/>
         <xs:attribute name="attribute" type="xs:string" use="optional"/>
       </xs:extension>
     </xs:simpleContent>
@@ -416,7 +470,10 @@
   </xs:complexType>
   <xs:complexType name="xml-source-type">
     <xs:sequence>
-      <xs:element name="file" minOccurs="1" maxOccurs="1" type="xs:string"/>
+      <xs:choice>
+        <xs:element name="file" minOccurs="1" maxOccurs="1" type="xs:string"/>
+        <xs:element name="url" minOccurs="1" maxOccurs="1" type="xs:string"/>
+      </xs:choice>
       <xs:element name="xpath" minOccurs="1" maxOccurs="1" type="xpath-type" />
     </xs:sequence>
   </xs:complexType>
@@ -429,6 +486,8 @@
         <xs:element name="table-reset" type="table-reset-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="table-load" type="table-load-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="exe-run" type="exe-run-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="exe-kill" type="exe-kill-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="wait" type="wait-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-delete" type="file-delete-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
@@ -445,6 +504,8 @@
         <xs:element name="table-reset" type="table-reset-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="table-load" type="table-load-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="exe-run" type="exe-run-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="exe-kill" type="exe-kill-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="wait" type="wait-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-delete" type="file-delete-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
@@ -485,6 +546,12 @@
     <xs:attribute name="path" use="optional"/>
     <xs:attribute name="arguments" use="optional"/>
     <xs:attribute name="timeout-milliseconds" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="exe-kill-type" >
+    <xs:attribute name="name" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="wait-type" >
+    <xs:attribute name="milliseconds" use="required"/>
   </xs:complexType>
   <xs:complexType name="settings-type">
     <xs:sequence>
@@ -569,6 +636,7 @@
                   <xs:element name="table" type="table-type"/>
                   <xs:element name="column" type="column-type"/>
                   <xs:element name="routine" type="routine-type"/>
+                  <xs:element name="parameter" type="routine-parameter-type"/>
                   <xs:element name="perspectives" type="perspectives-type"/>
                   <xs:element name="measure-groups" type="measure-groups-type"/>
                   <xs:element name="measures" type="measures-type"/>
@@ -580,6 +648,7 @@
                   <xs:element name="tables" type="tables-type"/>
                   <xs:element name="columns" type="columns-type"/>
                   <xs:element name="routines" type="routines-type"/>
+                  <xs:element name="parameters" type="routine-parameters-type"/>
                 </xs:choice>
               </xs:complexType>
             </xs:element>
@@ -856,7 +925,7 @@
             </xs:element>
             <xs:element name="ordered">
               <xs:complexType>
-                <xs:sequence>
+                <xs:choice>
                   <xs:element name="rule-definition" minOccurs="0" maxOccurs="1">
                     <xs:complexType>
                       <xs:sequence>
@@ -870,7 +939,8 @@
                       </xs:sequence>
                     </xs:complexType>
                   </xs:element>
-                </xs:sequence>
+                  <xs:element name="one-column-query" minOccurs="0" maxOccurs="1" type ="query-type"/>
+                </xs:choice>
                 <xs:attribute name="descending" type="xs:boolean" use="optional" />
                 <xs:attribute name="rule" use="optional" >
                   <xs:simpleType>

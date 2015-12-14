@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Common;
 using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.Configuration;
+using NBi.Core.PowerBiDesktop;
 
 namespace NBi.Core
 {
@@ -36,6 +37,14 @@ namespace NBi.Core
             csb.ConnectionString = connectionString;
 
             string providerName = string.Empty;
+            if (csb.ContainsKey("pbix"))
+            {
+                providerName = "Microsoft.AnalysisServices.AdomdClient";
+                var connectionStringBuilder = GetPowerBiDesktopConnectionStringBuilder();
+                connectionStringBuilder.Build(csb["pbix"].ToString());
+                connectionString = connectionStringBuilder.GetConnectionString();
+            }
+
             if (csb.ContainsKey("Provider"))
                 providerName = InterpretProviderName(csb["Provider"].ToString());
 
@@ -49,6 +58,11 @@ namespace NBi.Core
                 throw new ArgumentException(string.Format("No provider found for connectionString '{0}'", connectionString));
                 
             return Get(providerName, connectionString);           
+        }
+
+        protected virtual PowerBiDesktopConnectionStringBuilder GetPowerBiDesktopConnectionStringBuilder()
+        {
+            return new PowerBiDesktopConnectionStringBuilder();
         }
 
         protected string InterpretProviderName(string provider)

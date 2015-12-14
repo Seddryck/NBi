@@ -15,6 +15,7 @@ namespace NBi.GenbiL.Action.Case
         public virtual void Execute(GenerationState state)
         {
             state.TestCaseCollection.Scope.ReadFromCsv(Filename);
+            state.TestCaseCollection.Scope.Content.AcceptChanges();
         }
 
         public string Display

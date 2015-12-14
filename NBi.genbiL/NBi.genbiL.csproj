@@ -51,6 +51,10 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Action\AxisType.cs" />
+    <Compile Include="Action\Case\ReduceCaseAction.cs" />
+    <Compile Include="Action\Case\GroupCaseAction.cs" />
+    <Compile Include="Action\Case\SplitCaseAction.cs" />
+    <Compile Include="Action\Case\SeparateCaseAction.cs" />
     <Compile Include="Action\Case\SubstituteCaseAction.cs" />
     <Compile Include="Action\Case\CrossVectorCaseAction.cs" />
     <Compile Include="Action\Case\ConcatenateCaseAction.cs" />
@@ -81,6 +85,7 @@
     <Compile Include="Action\Suite\SaveSuiteAction.cs" />
     <Compile Include="Action\Suite\ISuiteAction.cs" />
     <Compile Include="Action\Template\ITemplateAction.cs" />
+    <Compile Include="Parser\Action.cs" />
     <Compile Include="Parser\Valuable\Column.cs" />
     <Compile Include="Parser\Comment.cs" />
     <Compile Include="Parser\Valuable\IValuable.cs" />

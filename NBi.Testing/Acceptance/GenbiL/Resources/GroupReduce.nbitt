@@ -1,0 +1,15 @@
+﻿<test name="dimensions subset of ...">
+  <category>$ticket ; separator="</category>
+  <category>"$</category>
+  <system-under-test>
+    <structure>
+      <dimensions perspective="$perspective$"/>
+    </structure>
+  </system-under-test>
+  <assert>
+    <contain>
+      <item>$dimension ; separator="</item>
+      <item>"$</item>
+    </contain>
+  </assert>
+</test>

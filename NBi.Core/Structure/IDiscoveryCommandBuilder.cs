@@ -9,7 +9,7 @@ namespace NBi.Core.Structure
 {
     public interface IDiscoveryCommandBuilder
     {
-        void Build(IEnumerable<CaptionFilter> filters);
+        void Build(IEnumerable<IFilter> filters);
         string GetCommandText();
         IEnumerable<IPostCommandFilter> GetPostFilters();
     }

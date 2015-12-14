@@ -10,6 +10,6 @@ namespace NBi.Core.Structure
 {
     public interface IStructureDiscoveryFactory
     {
-        StructureDiscoveryCommand Instantiate(Target target, TargetType type, IEnumerable<CaptionFilter> filters);
+        StructureDiscoveryCommand Instantiate(Target target, TargetType type, IEnumerable<IFilter> filters);
     }
 }

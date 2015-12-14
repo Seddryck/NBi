@@ -113,7 +113,13 @@ namespace NBi.Service
                     for (int j = 0; j < dataTable.Rows[i].ItemArray.Length; j++)
                     {
                         variableTests[variableTests.Count - 1].Add(new List<object>());
-                        variableTests[variableTests.Count - 1][j].Add(dataTable.Rows[i].ItemArray[j].ToString());
+                        if (dataTable.Rows[i].ItemArray[j] is IEnumerable<string>)
+                        {
+                            foreach (var item in (IEnumerable<string>)dataTable.Rows[i].ItemArray[j])
+                                variableTests[variableTests.Count - 1][j].Add(item);
+                        }
+                        else
+                            variableTests[variableTests.Count - 1][j].Add(dataTable.Rows[i].ItemArray[j].ToString());
                     }
                 }
                 else

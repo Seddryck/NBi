@@ -8,8 +8,10 @@ namespace NBi.Core.Xml
 {
     public class SelectFactory
     {
-        public AbstractSelect Instantiate(string xpath, string attribute)
+        public AbstractSelect Instantiate(string xpath, string attribute, bool isEvaluate)
         {
+            if (isEvaluate)
+                return new EvaluateSelect(xpath);
             if (String.IsNullOrEmpty(attribute))
                 return new ElementSelect(xpath);
             else

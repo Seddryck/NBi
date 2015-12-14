@@ -39,16 +39,16 @@ namespace NBi.Core.Format
 
         public string Build(ICurrencyFormat format)
         {
-            var regexCurrency = string.Empty;
+            var regexFormat = string.Empty;
             switch (format.CurrencyPattern)
             {
-                case CurrencyPattern.Prefix: regexCurrency = @"\{1}{0}";
+                case CurrencyPattern.Prefix: regexFormat = @"{1}{0}";
                     break;
-                case CurrencyPattern.Suffix: regexCurrency= @"{0}\{1}";
+                case CurrencyPattern.Suffix: regexFormat= @"{0}{1}";
                     break;
-                case CurrencyPattern.PrefixSpace: regexCurrency= @"\{1}\s{0}";
+                case CurrencyPattern.PrefixSpace: regexFormat= @"{1}\s{0}";
                     break;
-                case CurrencyPattern.SuffixSpace: regexCurrency= @"{0}\s\{1}";
+                case CurrencyPattern.SuffixSpace: regexFormat= @"{0}\s{1}";
                     break;
                 default:
                     break;
@@ -56,9 +56,19 @@ namespace NBi.Core.Format
 
             var regex = Build((INumericFormat)format);
             regex = regex.Remove(regex.Length - 1, 1).Remove(0, 1);
-            regex = string.Format("^" + regexCurrency + "$", regex, format.CurrencySymbol);
+            var regexCurrency = string.Empty;
+            foreach(char c in format.CurrencySymbol.ToCharArray())
+                regexCurrency += BuildCharCode(c);
+            regex = string.Format("^" + regexFormat + "$", regex, regexCurrency);
 
             return regex;
+        }
+
+        private string BuildCharCode(char c)
+        {
+            if (char.IsSymbol(c) || char.IsPunctuation(c)) return @"\" + c;
+            if (char.IsWhiteSpace(c)) return @"\s";
+            else return c.ToString();
         }
     }
 }

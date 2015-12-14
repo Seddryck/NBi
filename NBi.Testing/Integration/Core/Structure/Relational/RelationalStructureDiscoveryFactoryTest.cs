@@ -4,6 +4,7 @@ using NUnit.Framework;
 using NBi.Core.Structure;
 using NBi.Core.Structure.Relational;
 using System.Data.SqlClient;
+using NBi.Core.Structure.Relational.PostFilters;
 
 namespace NBi.Testing.Integration.Core.Structure.Relational
 {
@@ -23,7 +24,7 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
 
             var structs = cmd.Execute();
 
-            Assert.That(structs.Count(), Is.EqualTo(6 + 2));//6 standards + Northwind + Olympics
+            Assert.That(structs.Count(), Is.EqualTo(6 + 2 + 2));//6 standards + Northwind + Olympics + tSQLt + SQLCop
         }
 
         [Test]
@@ -92,6 +93,7 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
             Assert.That(structs.Count(), Is.EqualTo(3));
         }
 
+        [Test]
         public void Execute_RoutinesWithName_ListStructureContainingThisRoutine()
         {
             var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
@@ -105,6 +107,60 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
             var structs = cmd.Execute();
 
             Assert.That(structs.Count(), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void Execute_Parameters_ListStructureContainingFiveElements()
+        {
+            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
+            var factory = new RelationalStructureDiscoveryFactory(conn);
+            var cmd = factory.Instantiate(Target.Parameters, TargetType.Object,
+                new CaptionFilter[] {
+                    new CaptionFilter(Target.Perspectives,"HumanResources")
+                    , new CaptionFilter(Target.Routines,"uspUpdateEmployeePersonalInfo")
+                });
+
+            var structs = cmd.Execute();
+
+            Assert.That(structs.Count(), Is.EqualTo(5));
+        }
+
+        [Test]
+        public void Execute_ParameterWithName_ListStructureContainingThisParameter()
+        {
+            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
+            var factory = new RelationalStructureDiscoveryFactory(conn);
+            var cmd = factory.Instantiate(Target.Parameters, TargetType.Object,
+                new CaptionFilter[] {
+                    new CaptionFilter(Target.Perspectives,"HumanResources")
+                    , new CaptionFilter(Target.Routines,"uspUpdateEmployeePersonalInfo")
+                    , new CaptionFilter(Target.Parameters,"BirthDate")
+                });
+
+            var structs = cmd.Execute();
+
+            Assert.That(structs.Count(), Is.EqualTo(1));
+            Assert.That(structs.ElementAt(0), Is.EqualTo("BirthDate"));
+        }
+
+        [Test]
+        [TestCase(true, 0)]
+        [TestCase(false, 1)]
+        public void Execute_ParameterWithNameAndResult_ListStructureContainingThisParameter(bool isResult, int count)
+        {
+            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
+            var factory = new RelationalStructureDiscoveryFactory(conn);
+            var cmd = factory.Instantiate(Target.Parameters, TargetType.Object,
+                new IFilter[] {
+                    new CaptionFilter(Target.Perspectives,"HumanResources")
+                    , new CaptionFilter(Target.Routines,"uspUpdateEmployeePersonalInfo")
+                    , new CaptionFilter(Target.Parameters,"BirthDate")
+                    , new IsResultFilter(isResult)
+                });
+
+            var structs = cmd.Execute();
+
+            Assert.That(structs.Count(), Is.EqualTo(count));
         }
     }
 

@@ -9,6 +9,8 @@ namespace NBi.Xml.Items.Xml
 {
     public class SelectXml
     {
+        [XmlAttribute("evaluate")]
+        public bool Evaluate { get; set; }
         [XmlAttribute("attribute")]
         public string Attribute { get; set; }
         [XmlText]

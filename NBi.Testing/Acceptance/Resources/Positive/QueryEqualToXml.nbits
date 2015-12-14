@@ -34,4 +34,31 @@
       </equalTo>
     </assert>
   </test>
+  <test name="Notes from Web" uid="0002">
+    <system-under-test>
+      <execution>
+        <query>
+          select 'Belgian Waffles', 5.95
+          union all select 'Strawberry Belgian Waffles', 7.95
+          union all select 'Berry-Berry Belgian Waffles', 8.95
+          union all select 'French Toast', 4.50
+          union all select 'Homestyle Breakfast', 6.95
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <column index="0" role="key" type="text"/>
+        <column index="1" role="value" type="numeric"/>
+        <xml-source>
+          <url>http://www.w3schools.com/xml/simple.xml</url>
+          <xpath>
+            <from>//food</from>
+            <select>name</select>
+            <select evaluate="true">substring-after(price, '$')</select>
+          </xpath>
+        </xml-source>
+      </equalTo>
+    </assert>
+  </test>
 </testSuite>

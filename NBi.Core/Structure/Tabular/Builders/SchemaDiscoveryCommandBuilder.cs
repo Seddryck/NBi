@@ -15,7 +15,7 @@ namespace NBi.Core.Structure.Tabular.Builders
             TableName = "tables";
         }
 
-        protected override IEnumerable<ICommandFilter> BuildFilters(IEnumerable<CaptionFilter> filters)
+        protected override IEnumerable<IFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {
             yield return new CommandFilter("left(table_schema,1)<>'$'");
 

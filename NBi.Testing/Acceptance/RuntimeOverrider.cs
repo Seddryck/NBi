@@ -95,6 +95,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("AssemblyEqualToResultSet.nbits")]
         [TestCase("QueryEqualToWithParameter.nbits")]
         [TestCase("QueryEqualToCsv.nbits")]
+        [TestCase("QueryEqualToCsvWithProfile.nbits")]
         [TestCase("QueryEqualToQuery.nbits")]
         [TestCase("QueryEqualToResultSet.nbits")]
         [TestCase("QueryEqualToResultSetWithNull.nbits")]
@@ -121,6 +122,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("QueryRowCount.nbits")]
         [TestCase("Is.nbits")]
         [TestCase("QueryEqualToXml.nbits")]
+        [TestCase("PowerBiDesktop.nbits")]
         [Category("Acceptance")]
         public void RunPositiveTestSuite(string filename)
         {

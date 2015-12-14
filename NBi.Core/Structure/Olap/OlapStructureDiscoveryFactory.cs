@@ -20,7 +20,7 @@ namespace NBi.Core.Structure.Olap
             this.connection = connection as AdomdConnection;
         }
 
-        public StructureDiscoveryCommand Instantiate(Target target, TargetType type, IEnumerable<CaptionFilter> filters)
+        public StructureDiscoveryCommand Instantiate(Target target, TargetType type, IEnumerable<IFilter> filters)
         {
             if (!(connection is AdomdConnection))
                 throw new ArgumentException();

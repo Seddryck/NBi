@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using NBi.Core;
 using NBi.Core.Structure;
-using NBi.Core.Analysis.Request;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
 
@@ -48,7 +47,7 @@ namespace NBi.NUnit.Structure
             if (Command != null)
             {
                 var description = new DescriptionStructureHelper();
-                var filterExpression = description.GetFilterExpression(Command.Description.Filters);
+                var filterExpression = description.GetFilterExpression(Command.Description.Filters.Where(f => f is CaptionFilter).Cast<CaptionFilter>());
                 var nextTargetExpression = description.GetTargetPluralExpression(Command.Description.Target);
                 var expectationExpression = new StringBuilder();
                 foreach (string item in Expected)

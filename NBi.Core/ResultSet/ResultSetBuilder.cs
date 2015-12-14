@@ -60,6 +60,9 @@ namespace NBi.Core.ResultSet
 
         public virtual ResultSet Build(string path)
         {
+            if (!System.IO.File.Exists(path))
+                throw new ExternalDependencyNotFoundException(path);
+
             var reader = new CsvReader(profile);
             var dataTable = reader.Read(path, false);
 

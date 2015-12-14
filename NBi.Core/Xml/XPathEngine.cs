@@ -57,6 +57,14 @@ namespace NBi.Core.Xml
                         ?? new XAttribute("null", "(null)")
                     ).Value;
                 }
+                else if (select is EvaluateSelect)
+                {
+                    yield return
+                    (
+                        item.XPathEvaluate(select.Path)
+                        ?? new XElement("null", "(null)")
+                    );
+                }
                 else
                     yield return
                     (

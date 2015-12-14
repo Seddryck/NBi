@@ -85,6 +85,9 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Acceptance\GenbiL\GroupTest.cs" />
+    <Compile Include="Acceptance\GenbiL\CommentTest.cs" />
+    <Compile Include="Acceptance\GenbiL\GroupReduceTest.cs" />
     <Compile Include="Acceptance\GenbiL\MatchPatternTest.cs" />
     <Compile Include="Acceptance\GenbiL\CaseCrossTest.cs" />
     <Compile Include="Acceptance\GenbiL\GenbiLTest.cs" />
@@ -180,6 +183,10 @@
     <Compile Include="Unit\Framework\FailureMessage\Formatter\CellFormatterTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Helper\TableHeaderHelperTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Helper\TableHelperTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\ReduceCaseTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\GroupCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\SplitCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\SeparateCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\SubstituteCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\ConcatenateCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\CrossVectorCaseActionTest.cs" />
@@ -190,6 +197,7 @@
     <Compile Include="Unit\GenbiL\Action\Case\FilterCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\MergeCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\AddCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Suite\GenerateSuiteActionTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\GrammarParserTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ExecutionRowCountBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ExecutionMatchPatternBuilderTest.cs" />
@@ -248,6 +256,7 @@
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\Decoration\ConditionXmlTest.cs" />
     <Compile Include="Unit\Xml\Decoration\DecorationXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\RoutineParameterXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\RoutineXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\SetXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\TablesXmlTest.cs" />
@@ -350,10 +359,40 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\GroupReduce.genbil">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\GroupReduce.nbitt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Csv\ResellerOrderCountByYearBefore2006WithProfile.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\Comment.genbil">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\Group.genbil">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="Acceptance\GenbiL\Resources\Group.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\Group.nbitt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\PowerBiDesktop.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\OrderCountByYear.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToCsvWithProfile.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\QueryEqualToResultSetProvider.nbits.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Acceptance\Resources\PowerBiDesktop\Sales Analysis.pbix">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Acceptance\Resources\Reports\EmployeeSalesDetail.rsd">
@@ -610,6 +649,9 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Acceptance\Resources\PowerBiDesktop\Source.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Light-0001.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Full-0001.txt" />
     <EmbeddedResource Include="Unit\Xml\Resources\IsXmlTestSuite.xml" />

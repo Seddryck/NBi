@@ -5,7 +5,7 @@
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </default>
   </settings>
-  <!--<test name="Purchase orders info" uid="0001">
+  <test name="Purchase orders info" uid="0001">
     <system-under-test>
       <execution>
         <query>
@@ -33,7 +33,7 @@
         </xml-source>
       </equalTo>
     </assert>
-  </test>-->
+  </test>
   <test name="Notes from Web" uid="0002">
     <system-under-test>
       <execution>

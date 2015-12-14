@@ -20,7 +20,8 @@ With NBi, you can validate the structure of your model. It can be a SQL, Muldime
 | Measure-group | - | Yes | Yes
 | Measure | - | Yes | Yes
 | Set | - | Yes | Yes
-| Routine **new in version 1.1** | Yes | - | -
+| Routine | Yes | - | -
+| Routine's parameter **new in version 1.1** | Yes | - | -
 
 Routines could be stored procedures, table-valued-functions or scalar-functions.
 
@@ -53,8 +54,17 @@ The tables, here under, describe the parents' information mandatory or optional 
 | Table or view | Mandatory | - |
 | Column | Mandatory | Mandatory |
 | Routine | Mandatory | - |
+| Routine's parameter | Mandatory | - |
 
-Routine is not supported for Tabular models.
+Routine and routine's parameter are not supported for Tabular models.
+
+For routine's parameter, you can also specify the *direction*
+
+* In
+* Out
+* In/Out
+
+or if the parameter is a *result* (true/false)
 
 2. Multidimensional and Tabular objects related to dimensions
 

@@ -39,7 +39,7 @@ namespace NBi.NUnit.Structure
             if (Command != null)
             {
                 var description = new DescriptionStructureHelper();
-                var filterExpression = description.GetFilterExpression(Command.Description.Filters.Where(f => f.Target != Command.Description.Target));
+                var filterExpression = description.GetFilterExpression(Command.Description.Filters.Where(f => f is CaptionFilter).Cast<CaptionFilter>().Where(f => f.Target != Command.Description.Target));
                 var notExpression = description.GetNotExpression(true);
                 var targetExpression = description.GetTargetExpression(Command.Description.Target);
                 var captionExpression = Expected;

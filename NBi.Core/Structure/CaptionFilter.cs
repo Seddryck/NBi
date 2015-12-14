@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Structure
 {
-    public class CaptionFilter
+    public class CaptionFilter : IFilter
     {
         public Target Target { get; private set; }
         public string Caption { get; private set; }

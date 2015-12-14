@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Structure
 {
-    public interface IPostCommandFilter: ICommandFilter
+    public interface IPostCommandFilter: IFilter
     {
         bool Evaluate(object row);
     }

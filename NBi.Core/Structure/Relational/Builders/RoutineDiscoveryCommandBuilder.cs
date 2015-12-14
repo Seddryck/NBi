@@ -23,7 +23,7 @@ namespace NBi.Core.Structure.Relational.Builders
             TableName = "routines";
         }
 
-        protected override IEnumerable<ICommandFilter> BuildFilters(IEnumerable<CaptionFilter> filters)
+        protected override IEnumerable<ICommandFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {
            
             yield return new CommandFilter(string.Format("[routine_schema]='{0}'"

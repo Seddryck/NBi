@@ -16,7 +16,7 @@ namespace NBi.Core.Structure.Olap.Builders
             VisibleName = "property";
         }
 
-        protected override IEnumerable<ICommandFilter> BuildFilters(IEnumerable<CaptionFilter> filters)
+        protected override IEnumerable<IFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {
             yield return new CommandFilter("[property_type]=1");
             

@@ -28,7 +28,9 @@ namespace NBi.Xml.Systems
         XmlElement(Type = typeof(SetXml), ElementName = "set"),
         XmlElement(Type = typeof(SetsXml), ElementName = "sets"),
         XmlElement(Type = typeof(RoutineXml), ElementName = "routine"),
-        XmlElement(Type = typeof(RoutinesXml), ElementName = "routines")
+        XmlElement(Type = typeof(RoutinesXml), ElementName = "routines"),
+        XmlElement(Type = typeof(RoutineParameterXml), ElementName = "parameter"),
+        XmlElement(Type = typeof(RoutineParametersXml), ElementName = "parameters")
         ]
         public AbstractItem Item { get; set; }
 

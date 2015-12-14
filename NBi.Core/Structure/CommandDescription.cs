@@ -9,19 +9,19 @@ namespace NBi.Core.Structure
     public class CommandDescription
     {
         protected readonly Target target;
-        protected readonly IEnumerable<CaptionFilter> filters;
+        protected readonly IEnumerable<IFilter> filters;
 
         public Target Target
         {
             get { return target; }
         }
 
-        public IEnumerable<CaptionFilter> Filters
+        public IEnumerable<IFilter> Filters
         {
             get { return filters; }
         }
 
-        public CommandDescription(Target target, IEnumerable<CaptionFilter> filters)
+        public CommandDescription(Target target, IEnumerable<IFilter> filters)
         {
             this.target = target;
             this.filters = filters;

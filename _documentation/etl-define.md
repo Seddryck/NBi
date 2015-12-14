@@ -8,7 +8,7 @@ permalink: /docs/etl-define/
 **Important remarks:**
 
 * Currently (will be changed in a near future) NBi *only* supports testing etls' runs **on the same server** than the tests. It means that it’s not possible to run your tests on your own computer (or on your build server) and try to execute remotely an SSIS package.
-* The tests will only be executed if **SSIS 2014 is installed** on the server running the test. This constraint is removed in **v1.11**. Since this version NBi supports Sql Server 2008R2, Sql Server 2012 and Sql Server 2014.
+* This version NBi supports Sql Server 2008R2, Sql Server 2012 and Sql Server 2014.
 * **Only SSIS packages** can be executed (Support for others Etl is not planned)
 
 Etl could be defined in two placeholders: the setup and the system-under-test.
@@ -26,13 +26,13 @@ To achieve this, you’ll need to define your tested etl in the system-under-tes
 </system-under-test>
 {% endhighlight %}
 
-Since version 1.11, if your package is not running on the last version of Sql Server, you can specify it on the element *etl* by the means of the attribute *version*. The valid values for his attribute are:
+If your package is not running on the last version of Sql Server, you can specify it on the element *etl* by the means of the attribute *version*. The valid values for his attribute are:
 
 * SqlServer2014
 * SqlServer2012
 * SqlServer2008R2
 
-To be testable a package could be hosted on:
+To be testable a package can be hosted on:
 
 * Files folder
 * SQL Server

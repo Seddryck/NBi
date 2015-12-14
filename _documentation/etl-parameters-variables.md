@@ -18,6 +18,19 @@ You’ll need to define the name (xml attribute) and the value (xml text) of the
 </etl>
 {% endhighlight %}
 
+Environment (Since SQL Server 2012)
+----------------------------------
+If you don't want to define all the parameters and variables of your *etl*, you can specify an environment. To achieve this, you’ll need to define the attribute *environement*.
+
+{% highlight xml %}
+<etl
+   path="Etl\"
+   name="Sample.dtsx"
+   password="p@ssw0rd"
+   environment="acceptance"
+/>
+{% endhighlight %}
+
 Variables (not available for SSIS Catalog)
 ------------------------------------------
 Note that this feature is exclusively supported for *DTS package* (so not a *Catalog package*). This means that you should configure it as *Hosted on a file folder* or *Hosted on SQL Server* but not as *Hosted on SQL Server (SSIS Catalog)*.

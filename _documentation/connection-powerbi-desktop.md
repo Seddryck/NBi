@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Database providers
+title: Power BI Desktop
 prev_section: connection-providers
 next_section: connection-roles
 permalink: /docs/connection-powerbi-desktop/

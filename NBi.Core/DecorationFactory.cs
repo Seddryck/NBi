@@ -6,6 +6,7 @@ using NBi.Core.WindowsService;
 using NBi.Core.Batch;
 using NBi.Core.FileManipulation;
 using NBi.Core.Process;
+using NBi.Core.Connection;
 
 namespace NBi.Core
 {
@@ -48,6 +49,10 @@ namespace NBi.Core
                 return new ProcessCommandFactory().Get(command as IProcessCommand);
             }
 
+            if (command is IConnectionWaitCommand)
+            {
+                return new ConnectionWaitFactory().Get(command as IConnectionWaitCommand);
+            }
 
 
             throw new ArgumentException();

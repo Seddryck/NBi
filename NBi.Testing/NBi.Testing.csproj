@@ -137,6 +137,7 @@
     <Compile Include="Unit\Core\Assemblies\Resource\Enumeration.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\Klass.cs" />
     <Compile Include="Unit\Core\Assemblies\TypeConverterTest.cs" />
+    <Compile Include="Unit\Core\Connection\ConnectionWaitFactoryTest.cs" />
     <Compile Include="Unit\Core\CsvWriterTest.cs" />
     <Compile Include="Unit\Core\DataType\DataTypeInfoFactoryTest.cs" />
     <Compile Include="Unit\Core\GroupCommandFactoryTest.cs" />

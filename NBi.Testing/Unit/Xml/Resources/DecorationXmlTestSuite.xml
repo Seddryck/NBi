@@ -270,6 +270,19 @@
         <syntacticallyCorrect/>
       </assert>
     </test>
+    <test name="Wait connection Power BI">
+      <setup>
+        <connection-wait timeout-milliseconds="30000" connectionString="pbix = My Solution"/>
+      </setup>
+      <system-under-test>
+        <execution>
+          <query>select * from table</query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <syntacticallyCorrect/>
+      </assert>
+    </test>
   </group>
   <group name="sql manipulation">
     <test name="sql run">

@@ -7,6 +7,7 @@ using NUnit.Framework;
 using NBi.Core.FileManipulation;
 using NBi.Core.Batch;
 using NBi.Core.Process;
+using NBi.Core.Connection;
 
 namespace NBi.Testing.Unit.Xml.Decoration
 {
@@ -282,8 +283,24 @@ namespace NBi.Testing.Unit.Xml.Decoration
             var command = ts.Groups[groupNr].Tests[2].Setup.Commands[0];
 
             Assert.That(command, Is.TypeOf<WaitXml>());
-            var kill = command as IWaitCommand;
-            Assert.That(kill.MilliSeconds, Is.EqualTo(1000));
+            var wait = command as IWaitCommand;
+            Assert.That(wait.MilliSeconds, Is.EqualTo(1000));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ConnectionWait()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            int groupNr = 2;
+
+            // Check the properties of the object.
+            var command = ts.Groups[groupNr].Tests[3].Setup.Commands[0];
+
+            Assert.That(command, Is.TypeOf<ConnectionWaitXml>());
+            var wait = command as IConnectionWaitCommand;
+            Assert.That(wait.TimeOut, Is.EqualTo(30000));
+            Assert.That(wait.ConnectionString, Is.EqualTo("pbix = My Solution"));
         }
 
         [Test]

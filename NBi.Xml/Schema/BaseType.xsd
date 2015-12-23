@@ -488,6 +488,7 @@
         <xs:element name="exe-run" type="exe-run-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="exe-kill" type="exe-kill-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="wait" type="wait-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="connection-wait" type="connection-wait-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-delete" type="file-delete-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
@@ -506,6 +507,7 @@
         <xs:element name="exe-run" type="exe-run-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="exe-kill" type="exe-kill-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="wait" type="wait-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="connection-wait" type="connection-wait-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-delete" type="file-delete-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
@@ -515,43 +517,47 @@
     <xs:attribute name="run-once" use="optional" type="xs:boolean"/>
   </xs:complexType>
   <xs:complexType name="table-reset-type">
-    <xs:attribute name="connectionString" use="optional"/>
-    <xs:attribute name="name" use="required"/>
+    <xs:attribute name="connectionString" type="xs:string" use="optional"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
   </xs:complexType>
   <xs:complexType name="table-load-type" >
     <xs:complexContent>
       <xs:extension base="table-reset-type">
-        <xs:attribute name="file" use="required"/>
+        <xs:attribute name="file" type="xs:string" use="required"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="sql-run-type" >
-    <xs:attribute name="connectionString" use="optional"/>
-    <xs:attribute name="path" use="optional"/>
-    <xs:attribute name="name" use="required"/>
+    <xs:attribute name="connectionString" type="xs:string" use="optional"/>
+    <xs:attribute name="path" type="xs:string" use="optional"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
   </xs:complexType>
   <xs:complexType name="file-delete-type">
-    <xs:attribute name="path" use="required"/>
-    <xs:attribute name="name" use="required"/>
+    <xs:attribute name="path" type="xs:string" use="required"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
   </xs:complexType>
   <xs:complexType name="file-copy-type" >
     <xs:complexContent>
       <xs:extension base="file-delete-type">
-        <xs:attribute name="source-path" use="required"/>
+        <xs:attribute name="source-path" type="xs:string" use="required"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="exe-run-type" >
-    <xs:attribute name="name" use="required"/>
-    <xs:attribute name="path" use="optional"/>
-    <xs:attribute name="arguments" use="optional"/>
-    <xs:attribute name="timeout-milliseconds" use="optional"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="path" type="xs:string" use="optional"/>
+    <xs:attribute name="arguments" type="xs:string" use="optional"/>
+    <xs:attribute name="timeout-milliseconds" type="xs:nonNegativeInteger" use="optional"/>
   </xs:complexType>
   <xs:complexType name="exe-kill-type" >
-    <xs:attribute name="name" use="required"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
   </xs:complexType>
   <xs:complexType name="wait-type" >
-    <xs:attribute name="milliseconds" use="required"/>
+    <xs:attribute name="milliseconds" type="xs:positiveInteger" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="connection-wait-type" >
+    <xs:attribute name="timeout-milliseconds"  type="xs:positiveInteger" use="optional"/>
+    <xs:attribute name="connectionString" type="xs:string" use="optional"/>
   </xs:complexType>
   <xs:complexType name="settings-type">
     <xs:sequence>

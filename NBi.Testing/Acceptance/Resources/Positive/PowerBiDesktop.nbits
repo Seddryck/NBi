@@ -15,8 +15,9 @@
          name="Sales Analysis.pbix"
          path="..\PowerBiDesktop\"
         />
-        <wait
-          milliseconds="10000"
+        <connection-wait
+          connectionString="PBIX = Sales Analysis"
+          timeout-miiliseconds ="60000"
         />
       </tasks>
     </setup>

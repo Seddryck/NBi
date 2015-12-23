@@ -20,6 +20,7 @@ namespace NBi.Xml.Decoration.Command
         XmlElement(Type = typeof(ExeRunXml), ElementName = "exe-run"),
         XmlElement(Type = typeof(ExeKillXml), ElementName = "exe-kill"),
         XmlElement(Type = typeof(WaitXml), ElementName = "wait"),
+        XmlElement(Type = typeof(ConnectionWaitXml), ElementName = "connection-wait"),
         XmlElement(Type = typeof(FileDeleteXml), ElementName = "file-delete"),
         XmlElement(Type = typeof(FileCopyXml), ElementName = "file-copy"),
         XmlElement(Type = typeof(EtlRunXml), ElementName = "etl-run")

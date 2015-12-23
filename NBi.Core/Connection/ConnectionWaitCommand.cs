@@ -26,7 +26,7 @@ namespace NBi.Core.Connection
         {
             var stopWatch = new Stopwatch();
             var isConnectionAvailable = false;
-            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, String.Format("Will try to connect to '{0}' during {1} milli-seconds.", connectionString, timeOut));
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, String.Format("Will try to connect to '{0}' during {1} milli-seconds.", connectionString, timeOut));
             stopWatch.Start();
             while (stopWatch.ElapsedMilliseconds < timeOut && !isConnectionAvailable)
             {

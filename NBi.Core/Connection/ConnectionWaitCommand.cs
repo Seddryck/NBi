@@ -42,7 +42,10 @@ namespace NBi.Core.Connection
                 {
                     Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, String.Format("Fail to connect to '{0}': {1}", connection.ConnectionString, ex.Message));
                 }
-            }           
+            }        
+   
+            if (!isConnectionAvailable)
+                throw new NBiException(String.Format("The connection to '{0}' wasn't available after {1} milli-seconds: timeout reached!", connection.ConnectionString, ex.Message));
         }
     }
 }

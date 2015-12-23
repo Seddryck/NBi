@@ -10,15 +10,15 @@ namespace NBi.Core.Connection
 {
     class ConnectionWaitCommand : IDecorationCommandImplementation
     {
-        private readonly IDbConnection connection;
+        private readonly string connectionString;
         private readonly int timeOut;
 
-        public IDbConnection Connection { get { return connection; } }
+        public string ConnectionString { get { return connectionString; } }
         public int TimeOut { get { return timeOut; } }
 
-        public ConnectionWaitCommand(IDbConnection connection, int timeOut)
+        public ConnectionWaitCommand(string connectionString, int timeOut)
         {
-            this.connection = connection;
+            this.connectionString = connectionString;
             this.timeOut = timeOut;
         }
 
@@ -26,12 +26,16 @@ namespace NBi.Core.Connection
         {
             var stopWatch = new Stopwatch();
             var isConnectionAvailable = false;
-            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, String.Format("Will try to connect to '{0}' during {1} milli-seconds.", connection.ConnectionString, timeOut));
+            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, String.Format("Will try to connect to '{0}' during {1} milli-seconds.", connectionString, timeOut));
             stopWatch.Start();
             while (stopWatch.ElapsedMilliseconds < timeOut || isConnectionAvailable)
             {
                 try
                 {
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, String.Format("Building connection string with '{0}'.", connectionString));
+                    var connectionFactory = new ConnectionFactory();
+                    var connection = connectionFactory.Get(connectionString);
+
                     Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, String.Format("Trying to connect to '{0}'.", connection.ConnectionString));
                     connection.Open();
                     connection.Close();
@@ -40,12 +44,12 @@ namespace NBi.Core.Connection
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, String.Format("Fail to connect to '{0}': {1}", connection.ConnectionString, ex.Message));
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, String.Format("Fail to connect to '{0}': {1}", connectionString, ex.Message));
                 }
             }        
    
             if (!isConnectionAvailable)
-                throw new NBiException(String.Format("The connection to '{0}' wasn't available after {1} milli-seconds: timeout reached!", connection.ConnectionString, ex.Message));
+                throw new NBiException(String.Format("The connection to '{0}' wasn't available after {1} milli-seconds: timeout reached!", connectionString, timeOut));
         }
     }
 }

@@ -52,8 +52,7 @@ namespace NBi.Testing.Unit.Core.Connection
 
             Assert.That(impl, Is.TypeOf<ConnectionWaitCommand>());
             var waitConnectionCommand = impl as ConnectionWaitCommand;
-            Assert.That(waitConnectionCommand.Connection, Is.Not.Null);
-            Assert.That(waitConnectionCommand.Connection, Is.TypeOf<SqlConnection>());
+            Assert.That(waitConnectionCommand.ConnectionString, Is.EqualTo(command.ConnectionString));
             Assert.That(waitConnectionCommand.TimeOut, Is.EqualTo(command.TimeOut));
         }
 

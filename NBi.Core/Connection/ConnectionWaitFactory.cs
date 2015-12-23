@@ -11,10 +11,7 @@ namespace NBi.Core.Connection
         public IDecorationCommandImplementation Get(IConnectionWaitCommand command)
         {
 
-            var connectionFactory = new ConnectionFactory();
-            var connection = connectionFactory.Get(command.ConnectionString);
-
-            var implementation = new ConnectionWaitCommand(connection, command.TimeOut);
+            var implementation = new ConnectionWaitCommand(command.ConnectionString, command.TimeOut);
             return implementation;
         }
     }

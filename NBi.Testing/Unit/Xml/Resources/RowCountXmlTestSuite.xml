@@ -57,11 +57,11 @@
     </system-under-test>
     <assert  >
       <row-count>
-        <predicate>
-          <compare column-index="2" not="true" type="text">
+        <filter>
+          <predicate column-index="2" not="true" type="text">
             <equal>N/A</equal>
-          </compare>
-        </predicate>
+          </predicate>
+        </filter>
         <equal>2</equal>
       </row-count>
     </assert>
@@ -76,15 +76,15 @@
     </system-under-test>
     <assert>
       <row-count not="true">
-        <predicate>
+        <filter>
           <variable column-index="0">DeptId</variable>
-          <formula name="LogDepId">
+          <expression name="LogDepId">
             Log10(DepId)
-          </formula>
-          <compare formula="ModDepId" type="numeric">
+          </expression>
+          <predicate formula="ModDepId" type="numeric">
             <less-than>1</less-than>
-          </compare>
-        </predicate>
+          </predicate>
+        </filter>
         <less-than or-equal="true">10</less-than>
       </row-count>
     </assert>

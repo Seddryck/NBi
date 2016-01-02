@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Evaluate;
+using NBi.Xml.Items.Calculation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Validate
+namespace NBi.Xml.Items.Calculation
 {
-    public class PredicateXml
+    public class FilterXml
     {
         [XmlIgnore()]
         public List<IColumnVariable> Variables
@@ -19,13 +20,13 @@ namespace NBi.Xml.Items.Validate
             }
         }
 
-        [XmlElement("formula")]
-        public FormulaXml Formula { get; set; }
+        [XmlElement("expression")]
+        public ExpressionXml Expression { get; set; }
 
         [XmlElement("variable")]
         public List<VariableXml> VariablesInternal { get; set; }
 
-        [XmlElement("compare")]
-        public ComparisonXml Comparison { get; set; }
+        [XmlElement("predicate")]
+        public PredicateXml Predicate { get; set; }
     }
 }

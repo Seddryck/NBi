@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core.Evaluate;
-using NBi.Xml.Items.Validate;
+using NBi.Xml.Items.Calculation;
 
 namespace NBi.Xml.Constraints
 {

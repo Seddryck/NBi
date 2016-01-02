@@ -129,7 +129,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
             var rowCount = ts.Tests[testNr].Constraints[0] as RowCountXml;
-            Assert.That(rowCount.Predicate, Is.Null);
+            Assert.That(rowCount.Filter, Is.Null);
         }
 
         [Test()]
@@ -140,8 +140,8 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
             var rowCount = ts.Tests[testNr].Constraints[0] as RowCountXml;
-            Assert.That(rowCount.Predicate, Is.Not.Null);
-            Assert.That(rowCount.Predicate.Comparison, Is.Not.Null);
+            Assert.That(rowCount.Filter, Is.Not.Null);
+            Assert.That(rowCount.Filter.Predicate, Is.Not.Null);
         }
 
         [Test]
@@ -152,7 +152,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
             var rowCount = ts.Tests[testNr].Constraints[0] as RowCountXml;
-            var comparison = rowCount.Predicate.Comparison;
+            var comparison = rowCount.Filter.Predicate;
 
             Assert.That(comparison.ColumnIndex, Is.EqualTo(2));
             Assert.That(comparison.Not, Is.EqualTo(true));
@@ -171,10 +171,10 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
             var rowCount = ts.Tests[testNr].Constraints[0] as RowCountXml;
-            var comparison = rowCount.Predicate.Comparison;
+            var comparison = rowCount.Filter.Predicate;
 
             Assert.That(comparison.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(comparison.Formula, Is.EqualTo("ModDepId"));
+            Assert.That(comparison.Name, Is.EqualTo("ModDepId"));
             Assert.That(comparison.Not, Is.EqualTo(false));
             Assert.That(comparison.ColumnType, Is.EqualTo(ColumnType.Numeric));
 
@@ -191,7 +191,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
             var rowCount = ts.Tests[testNr].Constraints[0] as RowCountXml;
-            var variables = rowCount.Predicate.Variables;
+            var variables = rowCount.Filter.Variables;
 
             Assert.That(variables, Has.Count.EqualTo(1));
             Assert.That(variables[0].Name, Is.EqualTo("DeptId"));
@@ -206,7 +206,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
             var rowCount = ts.Tests[testNr].Constraints[0] as RowCountXml;
-            var formula = rowCount.Predicate.Formula;
+            var formula = rowCount.Filter.Expression;
 
             Assert.That(formula.Name, Is.EqualTo("LogDepId"));
             Assert.That(formula.Value, Is.StringContaining("Log10(DepId)"));

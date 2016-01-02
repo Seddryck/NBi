@@ -76,10 +76,9 @@ namespace NBi.Testing.Unit.Xml
 
             var manager = new XmlManager();
             var exception = Assert.Throws<ArgumentException>(delegate { manager.Load(filename); });
-            Assert.That(exception.Message, Is.StringContaining("3 errors have been found during the validation of the test-suite"));
+            Assert.That(exception.Message, Is.StringContaining("2 errors have been found during the validation of the test-suite"));
             Assert.That(exception.Message, Is.StringContaining("At line 6: The element 'execution' in namespace 'http://NBi/TestSuite' has invalid child element 'sql' in namespace 'http://NBi/TestSuite'."));
             Assert.That(exception.Message, Is.StringContaining("At line 11: The 'name' attribute is not declared."));
-            Assert.That(exception.Message, Is.StringContaining("At line 11: The 'http://NBi/TestSuite:less-than' element is invalid - The value 'alpha' is invalid according to its datatype 'http://NBi/TestSuite:more-less-type' - The string 'alpha' is not a valid Integer value."));
         }
     }
 }

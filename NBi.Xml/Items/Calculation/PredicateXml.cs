@@ -1,4 +1,5 @@
-﻿using NBi.Core.ResultSet;
+﻿using NBi.Core.Calculation;
+using NBi.Core.ResultSet;
 using NBi.Xml.Constraints.Comparer;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Validate
+namespace NBi.Xml.Items.Calculation
 {
-    public class ComparisonXml
+    public class PredicateXml : IPredicateInfo
     {
-        public ComparisonXml()
+        public PredicateXml()
         {
             ColumnIndex = -1;
             ColumnType = ColumnType.Numeric;
@@ -22,8 +23,8 @@ namespace NBi.Xml.Items.Validate
         [XmlAttribute("column-index")]
         public int ColumnIndex { get; set; }
 
-        [XmlAttribute("formula")]
-        public string Formula { get; set; }
+        [XmlAttribute("name")]
+        public string Name { get; set; }
 
         [DefaultValue(false)]
         [XmlAttribute("not")]
@@ -53,6 +54,33 @@ namespace NBi.Xml.Items.Validate
                     return LessThan;
                 return null;
             }
+        }
+
+        [XmlIgnore]
+        public ComparerType ComparerType
+        {
+            get
+            {
+                if (Equal != null)
+                    return ComparerType.Equal;
+                if (MoreThan != null)
+                    if (MoreThan.OrEqual)
+                        return ComparerType.MoreThanOrEqual;
+                    else
+                        return ComparerType.MoreThan;
+                if (LessThan != null)
+                    if (LessThan.OrEqual)
+                        return ComparerType.LessThanOrEqual;
+                    else
+                        return ComparerType.LessThan;
+                return ComparerType.Equal;
+            }
+        }
+
+        [XmlIgnore]
+        public object Reference
+        {
+            get { return Comparer.Value; }
         }
     }
 }

@@ -78,7 +78,15 @@ namespace NBi.NUnit.Runtime
                     {
                         var factory = new TestCaseFactory(Configuration);
                         var testCase = factory.Instantiate(tc, ctr);
-                        AssertTestCase(testCase.SystemUnderTest, testCase.Constraint, test.Content);
+                        try
+                        {
+                            AssertTestCase(testCase.SystemUnderTest, testCase.Constraint, test.Content);
+                        }
+                        catch
+                        {
+                            ExecuteCleanup(test.Cleanup);
+                            throw;
+                        }
                     }
                 }
                 ExecuteCleanup(test.Cleanup);

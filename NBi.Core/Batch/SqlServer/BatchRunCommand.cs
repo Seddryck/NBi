@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,7 @@ namespace NBi.Core.Batch.SqlServer
                 throw new ExternalDependencyNotFoundException(fullPath);
 
             var script = File.ReadAllText(fullPath);
+            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, script);
 
             var server = new Server();
             server.ConnectionContext.ConnectionString = connectionString;

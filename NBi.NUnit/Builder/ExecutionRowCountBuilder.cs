@@ -13,6 +13,8 @@ using NBi.Xml.Systems;
 using NBi.NUnit.Execution;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Xml.Constraints.Comparer;
+using NBi.Core.Calculation;
+using NBi.Core.Evaluate;
 
 namespace NBi.NUnit.Builder
 {
@@ -43,11 +45,25 @@ namespace NBi.NUnit.Builder
             var childConstraint = BuildChildConstraint(ConstraintXml.Comparer);
             var ctr = new RowCountConstraint(childConstraint);
 
+            if (ConstraintXml.Filter != null)
+            {
+                var filterXml = ConstraintXml.Filter;
+                var filter = new PredicateFilter
+                                (
+                                    filterXml.Variables
+                                    , new List<IColumnExpression>() { filterXml.Expression }
+                                    , filterXml.Predicate
+                                );
+                ctr = ctr.With(filter);
+            }
+
             return ctr;
         }
 
         protected virtual NUnitCtr.Constraint BuildChildConstraint(AbstractComparerXml xml)
         {
+
+
             NUnitCtr.Constraint ctr = null;
             if (xml is LessThanXml)
             {

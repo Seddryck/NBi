@@ -3,6 +3,7 @@ using NBi.Core;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Core.ResultSet;
 using System.Data;
+using NBi.Core.Calculation;
 
 namespace NBi.NUnit.Query
 {
@@ -13,6 +14,7 @@ namespace NBi.NUnit.Query
         /// </summary>
         protected ResultSet actualResultSet;
         protected NUnitCtr.Constraint child;
+        protected IResultSetFilter filter = ResultSetFilter.None;
 
         public RowCountConstraint(NUnitCtr.Constraint childConstraint)
         {
@@ -25,6 +27,20 @@ namespace NBi.NUnit.Query
             {
                 return child;
             }
+        }
+
+        public IResultSetFilter Filter
+        {
+            get
+            {
+                return filter;
+            }
+        }
+
+        public RowCountConstraint With(IResultSetFilter filter)
+        {
+            this.filter = filter;
+            return this;
         }
 
         /// <summary>
@@ -60,7 +76,8 @@ namespace NBi.NUnit.Query
             else if (actual is ResultSet)
             {
                 actualResultSet = (ResultSet)actual;
-                return Matches(actualResultSet.Rows.Count);
+                var rs = Filter.Apply(actualResultSet);
+                return Matches(rs.Rows.Count);
             }
             else if (actual is int)
                 return doMatch(((int)actual));

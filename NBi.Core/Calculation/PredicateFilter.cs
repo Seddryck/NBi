@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation
 {
-    class PredicateFilter : IResultSetFilter
+    public class PredicateFilter : IResultSetFilter
     {
         private readonly IEnumerable<IColumnExpression> expressions;
         private readonly IEnumerable<IColumnVariable> variables;

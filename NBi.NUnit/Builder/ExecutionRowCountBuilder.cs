@@ -65,24 +65,40 @@ namespace NBi.NUnit.Builder
 
         protected virtual NUnitCtr.Constraint BuildChildConstraint(AbstractComparerXml xml)
         {
+            var value = 0;
+            try
+            {
+                value = Int32.Parse(xml.Value);
+            }
+            catch (Exception ex)
+            {
+                var exception = new ArgumentException
+                                    (
+                                        String.Format("The assertion row-count is expecting an integer value for comparison. The provided value '{0}' is not a integer value.", value)
+                                        , ex
+                                    );
+                throw exception;
+            }
+             
+
             NUnitCtr.Constraint ctr = null;
             if (xml is LessThanXml)
             {
                 if (((LessThanXml)xml).OrEqual)
-                    ctr = new NUnitCtr.LessThanOrEqualConstraint(xml.Value);
+                    ctr = new NUnitCtr.LessThanOrEqualConstraint(value);
                 else
-                    ctr = new NUnitCtr.LessThanConstraint(xml.Value);
+                    ctr = new NUnitCtr.LessThanConstraint(value);
             }
             else if (xml is MoreThanXml)
             {
                 if (((MoreThanXml)xml).OrEqual)
-                    ctr = new NUnitCtr.GreaterThanOrEqualConstraint(xml.Value);
+                    ctr = new NUnitCtr.GreaterThanOrEqualConstraint(value);
                 else
-                    ctr = new NUnitCtr.GreaterThanConstraint(xml.Value);
+                    ctr = new NUnitCtr.GreaterThanConstraint(value);
             }
             else if (xml is EqualXml)
             {
-                ctr = new NUnitCtr.EqualConstraint(xml.Value);
+                ctr = new NUnitCtr.EqualConstraint(value);
             }
 
             if (ctr == null)

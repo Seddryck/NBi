@@ -11,6 +11,6 @@ namespace NBi.Xml.Constraints.Comparer
     public abstract class AbstractComparerXml
     {
         [XmlText]
-        public int Value { get; set; }
+        public string Value { get; set; }
     }
 }

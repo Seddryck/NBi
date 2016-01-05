@@ -17,10 +17,11 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Apply_Resultset_CorrectResult()
         {
-            var rs = new NBi.Core.ResultSet.ResultSet();
-            rs.Load("A;10;100");
-            rs.Load("B;5;20");
-            rs.Load("C;5;50");
+            var builder = new ResultSetBuilder();
+            var row1 = new List<object>() { "A", 10, 100 };
+            var row2 = new List<object>() { "B", 2, 75 };
+            var row3 = new List<object>() { "C", 5, 50 };
+            var rs = builder.Build(new object[] {row1, row2, row3});
 
             var v1 = Mock.Of<IColumnVariable>(v => v.Column == 1 && v.Name == "a");
             var v2 = Mock.Of<IColumnVariable>(v => v.Column == 2 && v.Name == "b");

@@ -154,7 +154,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var rowCount = ts.Tests[testNr].Constraints[0] as RowCountXml;
             var comparison = rowCount.Filter.Predicate;
 
-            Assert.That(comparison.ColumnIndex, Is.EqualTo(2));
+            //Assert.That(comparison.ColumnIndex, Is.EqualTo(2));
             Assert.That(comparison.Not, Is.EqualTo(true));
             Assert.That(comparison.ColumnType, Is.EqualTo(ColumnType.Text));
 

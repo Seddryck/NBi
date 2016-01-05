@@ -47,7 +47,7 @@
       </row-count>
     </assert>
   </test>
-  <test name="With Predicate but without formula" uid="0003">
+  <test name="With Predicate but with column-index" uid="0003">
     <system-under-test>
       <execution>
         <query name="Select first departments">
@@ -58,7 +58,7 @@
     <assert  >
       <row-count>
         <filter>
-          <predicate column-index="2" not="true" type="text">
+          <predicate name="" not="true" type="text">
             <equal>N/A</equal>
           </predicate>
         </filter>
@@ -81,7 +81,7 @@
           <expression name="LogDepId">
             Log10(DepId)
           </expression>
-          <predicate formula="ModDepId" type="numeric">
+          <predicate name="ModDepId" type="numeric">
             <less-than>1</less-than>
           </predicate>
         </filter>

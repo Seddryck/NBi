@@ -95,7 +95,10 @@ namespace NBi.NUnit.Query
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
             var sb = new System.Text.StringBuilder();
-            sb.Append("execution of the query returns a row-count");
+            sb.Append("execution of the query ");
+            if (filter != ResultSetFilter.None)
+                sb.Append("and application of the filter ");
+            sb.Append("returns a row-count");
             if (child is NUnitCtr.EqualConstraint)
                 sb.Append(" equal to");
             writer.WritePredicate(sb.ToString());

@@ -25,6 +25,11 @@ namespace NBi.Core.Calculation
         public ResultSet.ResultSet Apply(ResultSet.ResultSet rs)
         {
             var filteredRs = new ResultSet.ResultSet();
+            var table = rs.Table.Copy();
+            table.Clear();
+            filteredRs.Load(table);
+            
+
             var factory = new PredicateFactory();
             var predicate = factory.Get(predicateInfo);
 
@@ -44,9 +49,10 @@ namespace NBi.Core.Calculation
 
                 var value = dico[predicateInfo.Name];
                 if (predicate.Compare(value, predicateInfo.Reference))
-                    filteredRs.Table.Rows.Add(row);
+                    filteredRs.Table.ImportRow(row);
             }
 
+            filteredRs.Table.AcceptChanges();
             return filteredRs;
         }
     }

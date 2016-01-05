@@ -48,10 +48,13 @@ namespace NBi.NUnit.Builder
             if (ConstraintXml.Filter != null)
             {
                 var filterXml = ConstraintXml.Filter;
+                var expressions = new List<IColumnExpression>();
+                if (filterXml.Expression!=null)
+                     expressions .Add(filterXml.Expression);
                 var filter = new PredicateFilter
                                 (
                                     filterXml.Variables
-                                    , new List<IColumnExpression>() { filterXml.Expression }
+                                    , expressions
                                     , filterXml.Predicate
                                 );
                 ctr = ctr.With(filter);
@@ -62,8 +65,6 @@ namespace NBi.NUnit.Builder
 
         protected virtual NUnitCtr.Constraint BuildChildConstraint(AbstractComparerXml xml)
         {
-
-
             NUnitCtr.Constraint ctr = null;
             if (xml is LessThanXml)
             {

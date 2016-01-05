@@ -963,8 +963,8 @@
       <xs:element name="more-than" type="more-less-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="equal" type="comparer-type" minOccurs="0" maxOccurs="1"/>
     </xs:choice>
-    <xs:attribute name="formula" type="xs:string" use="optional"/>
-    <xs:attribute name="column-index" type="xs:nonNegativeInteger" use="optional"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <!--<xs:attribute name="column-index" type="xs:nonNegativeInteger" use="optional"/>-->
     <xs:attribute name="not" type="xs:boolean" use="optional"/>
     <xs:attribute name="type" type="column-type-enum" use="optional"/>
   </xs:complexType>

@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
-	<test name="Count of SalesTerritory is more-than or equal to 2" uid="0001">
-		<system-under-test>
-			<execution>
+  <!--<test name="Count of SalesTerritory is more-than or equal to 2" uid="0001">
+    <system-under-test>
+      <execution>
         <query
 					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
 				>
@@ -13,14 +13,14 @@
           where
           [Group]='Europe'
         </query>
-			</execution>
-		</system-under-test>
-		<assert>
+      </execution>
+    </system-under-test>
+    <assert>
       <row-count>
         <more-than>2</more-than>
       </row-count>
-		</assert>
-	</test>
+    </assert>
+  </test>
   <test name="Count of SalesTerritory is less-than or equal to 3" uid="0001">
     <system-under-test>
       <execution>
@@ -63,7 +63,7 @@
       </row-count>
     </assert>
   </test>
-  <test name="Count of SalesTerritory is equal to 3" uid="0001">
+  <test name="Count of SalesTerritory is not equal to 4" uid="0001">
     <system-under-test>
       <execution>
         <query
@@ -81,6 +81,30 @@
     <assert>
       <row-count not="true">
         <equal>4</equal>
+      </row-count>
+    </assert>
+  </test>-->
+  <test name="Count rows with more than 1000 sales">
+    <system-under-test>
+      <execution>
+        <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2014;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+          SELECT
+          [Measures].[Reseller Order Count] ON 0,
+          {[Date].[Calendar Year].[CY 2005]:[Date].[Calendar Year].[CY 2008]} ON 1
+          FROM
+          [Adventure Works]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <row-count>
+        <filter>
+          <variable column-index="1">Sales</variable>
+          <predicate name="Sales">
+            <more-than>1000</more-than>
+          </predicate>
+        </filter>
+        <equal>2</equal>
       </row-count>
     </assert>
   </test>

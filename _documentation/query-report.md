@@ -71,7 +71,7 @@ Not supported for the moment, will be introduced with a future release.
 Since version 1.9, you can define in the *defaults* and *references* values for the attributes *source* and *path*. For defaults, these values will be used if no other value is provided in a test and for *references*, they will be used if the value provided in the test is equivalent to the name of the *reference* with an @.
 
 ## Full sample
-The following code extracts the query from a report named *StoreContacts*, in directory */AdventureWorks 2012/* hosted on a ReportingServer database. The query is available in the dataset named *StoreContacts* and NBi applies a value of 300 to the parameter named *StoreID* when executing the query on a database with a connectionString referenced in the default settings applying to a system-under-test.
+The following code extracts the query from a report named *Store\*Contacts*, in directory */AdventureWorks 2012/* hosted on a ReportingServer database. The query is available in the dataset named *StoreContacts* and NBi applies a value of 300 to the parameter named *StoreID* when executing the query on a database with a connectionString referenced in the default settings applying to a system-under-test.
 {% highlight xml %}
 <system-under-test>
   <execution>

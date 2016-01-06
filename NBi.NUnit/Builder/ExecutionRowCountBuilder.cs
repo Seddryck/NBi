@@ -74,7 +74,7 @@ namespace NBi.NUnit.Builder
             {
                 var exception = new ArgumentException
                                     (
-                                        String.Format("The assertion row-count is expecting an integer value for comparison. The provided value '{0}' is not a integer value.", value)
+                                        String.Format("The assertion row-count is expecting an integer value for comparison. The provided value '{0}' is not a integer value.", xml.Value)
                                         , ex
                                     );
                 throw exception;

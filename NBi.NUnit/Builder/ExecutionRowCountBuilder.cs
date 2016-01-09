@@ -60,21 +60,30 @@ namespace NBi.NUnit.Builder
                 ctr = ctr.With(filter);
             }
 
+            if (ConstraintXml.Comparer.Value.Replace(" ", "").EndsWith("%"))
+                ctr = ctr.IsPercentage();
+
             return ctr;
         }
 
         protected virtual NUnitCtr.Constraint BuildChildConstraint(AbstractComparerXml xml)
         {
-            var value = 0;
+            
+            var value = xml.Value.Replace(" ","");
+
+            Decimal numericValue;
             try
             {
-                value = Int32.Parse(xml.Value);
+                if (value.EndsWith("%"))
+                    numericValue = Decimal.Parse(xml.Value.Substring(0, xml.Value.Length-1)) / new Decimal(100);
+                else
+                    numericValue = Int32.Parse(xml.Value);
             }
             catch (Exception ex)
             {
                 var exception = new ArgumentException
                                     (
-                                        String.Format("The assertion row-count is expecting an integer value for comparison. The provided value '{0}' is not a integer value.", xml.Value)
+                                        String.Format("The assertion row-count is expecting an integer or percentage value for comparison. The provided value '{0}' is not a integer or percentage value.", value)
                                         , ex
                                     );
                 throw exception;
@@ -85,20 +94,20 @@ namespace NBi.NUnit.Builder
             if (xml is LessThanXml)
             {
                 if (((LessThanXml)xml).OrEqual)
-                    ctr = new NUnitCtr.LessThanOrEqualConstraint(value);
+                    ctr = new NUnitCtr.LessThanOrEqualConstraint(numericValue);
                 else
-                    ctr = new NUnitCtr.LessThanConstraint(value);
+                    ctr = new NUnitCtr.LessThanConstraint(numericValue);
             }
             else if (xml is MoreThanXml)
             {
                 if (((MoreThanXml)xml).OrEqual)
-                    ctr = new NUnitCtr.GreaterThanOrEqualConstraint(value);
+                    ctr = new NUnitCtr.GreaterThanOrEqualConstraint(numericValue);
                 else
-                    ctr = new NUnitCtr.GreaterThanConstraint(value);
+                    ctr = new NUnitCtr.GreaterThanConstraint(numericValue);
             }
             else if (xml is EqualXml)
             {
-                ctr = new NUnitCtr.EqualConstraint(value);
+                ctr = new NUnitCtr.EqualConstraint(numericValue);
             }
 
             if (ctr == null)

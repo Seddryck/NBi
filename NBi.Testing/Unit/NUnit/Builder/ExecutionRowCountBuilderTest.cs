@@ -74,6 +74,30 @@ namespace NBi.Testing.Unit.NUnit.Builder
         }
 
         [Test]
+        public void GetConstraint_PercentageForRowCount_CorrectConstraint()
+        {
+            var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
+            var itemXmlStubFactory = new Mock<QueryableXml>();
+            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
+            var sutXml = sutXmlStubFactory.Object;
+            sutXml.Item = itemXmlStubFactory.Object;
+
+            var ctrXml = new RowCountXml(SettingsXml.Empty);
+            ctrXml.Equal = new EqualXml();
+            ctrXml.Equal.Value = "50.4%";
+
+            var builder = new ExecutionRowCountBuilder();
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var ctr = builder.GetConstraint();
+
+            Assert.That(ctr, Is.InstanceOf<RowCountConstraint>());
+            var rowCount = ctr as RowCountConstraint;
+            Assert.That(rowCount.Child, Is.InstanceOf<NUnitCtr.EqualConstraint>());
+        }
+
+        [Test]
         public void GetConstraint_NonIntegerValueForRowCount_ThrowException()
         {
             var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();

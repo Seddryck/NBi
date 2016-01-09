@@ -15,6 +15,7 @@ namespace NBi.NUnit.Query
         protected ResultSet actualResultSet;
         protected NUnitCtr.Constraint child;
         protected IResultSetFilter filter = ResultSetFilter.None;
+        protected bool isPercentage = false;
 
         public RowCountConstraint(NUnitCtr.Constraint childConstraint)
         {
@@ -35,6 +36,12 @@ namespace NBi.NUnit.Query
             {
                 return filter;
             }
+        }
+
+        public RowCountConstraint IsPercentage()
+        {
+            this.isPercentage = true;
+            return this;
         }
 
         public RowCountConstraint With(IResultSetFilter filter)
@@ -80,7 +87,10 @@ namespace NBi.NUnit.Query
                 return Matches(rs.Rows.Count);
             }
             else if (actual is int)
-                return doMatch(((int)actual));
+                if (isPercentage)
+                    return doMatch(((int)actual), actualResultSet.Rows.Count);
+                else
+                    return doMatch(((int)actual));
             else
                 return false;
         }
@@ -91,6 +101,11 @@ namespace NBi.NUnit.Query
             return child.Matches(actual);
         }
 
+        protected bool doMatch(int actual, int original)
+        {
+            this.actual = actual/original;
+            return child.Matches(actual);
+        }
        
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {

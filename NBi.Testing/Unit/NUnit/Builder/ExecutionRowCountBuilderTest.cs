@@ -92,8 +92,8 @@ namespace NBi.Testing.Unit.NUnit.Builder
             builder.Build();
             var ctr = builder.GetConstraint();
 
-            Assert.That(ctr, Is.InstanceOf<RowCountConstraint>());
-            var rowCount = ctr as RowCountConstraint;
+            Assert.That(ctr, Is.InstanceOf<RowCountPercentageConstraint>());
+            var rowCount = ctr as RowCountPercentageConstraint;
             Assert.That(rowCount.Child, Is.InstanceOf<NUnitCtr.EqualConstraint>());
         }
 

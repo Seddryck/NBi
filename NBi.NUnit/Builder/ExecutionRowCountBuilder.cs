@@ -42,26 +42,32 @@ namespace NBi.NUnit.Builder
 
         protected NBiConstraint InstantiateConstraint()
         {
+            RowCountConstraint ctr;
             var childConstraint = BuildChildConstraint(ConstraintXml.Comparer);
-            var ctr = new RowCountConstraint(childConstraint);
 
+            IResultSetFilter filter = null;
             if (ConstraintXml.Filter != null)
             {
                 var filterXml = ConstraintXml.Filter;
                 var expressions = new List<IColumnExpression>();
                 if (filterXml.Expression!=null)
                      expressions .Add(filterXml.Expression);
-                var filter = new PredicateFilter
+                 filter = new PredicateFilter
                                 (
                                     filterXml.Variables
                                     , expressions
                                     , filterXml.Predicate
                                 );
-                ctr = ctr.With(filter);
             }
 
             if (ConstraintXml.Comparer.Value.Replace(" ", "").EndsWith("%"))
-                ctr = ctr.IsPercentage();
+                ctr = new RowCountPercentageConstraint(childConstraint, filter);
+            else
+            {
+                ctr = new RowCountConstraint(childConstraint);
+                if (filter != null)
+                    ctr = ctr.With(filter);
+            }
 
             return ctr;
         }

@@ -38,12 +38,6 @@ namespace NBi.NUnit.Query
             }
         }
 
-        public RowCountConstraint IsPercentage()
-        {
-            this.isPercentage = true;
-            return this;
-        }
-
         public RowCountConstraint With(IResultSetFilter filter)
         {
             this.filter = filter;
@@ -87,23 +81,14 @@ namespace NBi.NUnit.Query
                 return Matches(rs.Rows.Count);
             }
             else if (actual is int)
-                if (isPercentage)
-                    return doMatch(((int)actual), actualResultSet.Rows.Count);
-                else
-                    return doMatch(((int)actual));
+                return doMatch(((int)actual));
             else
                 return false;
         }
 
-        protected bool doMatch(int actual)
+        protected virtual bool doMatch(int actual)
         {
             this.actual = actual;
-            return child.Matches(actual);
-        }
-
-        protected bool doMatch(int actual, int original)
-        {
-            this.actual = actual/original;
             return child.Matches(actual);
         }
        
@@ -113,10 +98,7 @@ namespace NBi.NUnit.Query
             sb.Append("execution of the query ");
             if (filter != ResultSetFilter.None)
                 sb.Append("and application of the filter ");
-            sb.Append("returns a row-count");
-            if (child is NUnitCtr.EqualConstraint)
-                sb.Append(" equal to");
-            writer.WritePredicate(sb.ToString());
+            sb.Append("returns a rows' count");
             child.WriteDescriptionTo(writer);
         }
 

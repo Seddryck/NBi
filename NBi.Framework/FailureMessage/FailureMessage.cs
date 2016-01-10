@@ -10,6 +10,7 @@ namespace NBi.Framework.FailureMessage
     {   
         protected MarkdownContainer expected;
         protected MarkdownContainer actual;
+        protected MarkdownContainer filtered;
         protected MarkdownContainer compared;
 
         protected FailureMessage()
@@ -25,6 +26,11 @@ namespace NBi.Framework.FailureMessage
         public virtual string RenderActual()
         {
             return actual.ToMarkdown();
+        }
+
+        public virtual string RenderFiltered()
+        {
+            return filtered.ToMarkdown();
         }
 
         public virtual string RenderCompared()

@@ -40,7 +40,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
             var msg = new DataRowsMessage(FailureReportProfile.Default);
-            msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
@@ -59,7 +59,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
             var msg = new DataRowsMessage(FailureReportProfile.Default);
-            msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
@@ -79,7 +79,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
             var msg = new DataRowsMessage(FailureReportProfile.Default);
-            msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
@@ -101,7 +101,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
             var msg = new DataRowsMessage(FailureReportProfile.Default);
-            msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
@@ -131,7 +131,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             );
 
             var msg = new DataRowsMessage(profile);
-            msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
@@ -161,7 +161,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             );
 
             var msg = new DataRowsMessage(profile);
-            msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
@@ -191,7 +191,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             );
 
             var msg = new DataRowsMessage(profile);
-            msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
@@ -212,7 +212,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
             var msg = new DataRowsMessage(FailureReportProfile.Default);
-            msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
             //Not exactly the last line but the previous due to paragraph rendering.
@@ -235,7 +235,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
             var msg = new DataRowsMessage(FailureReportProfile.Default);
-            msg.Build(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
 
             Assert.That(value, Is.Not.StringContaining("rows have been skipped for display purpose."));
@@ -264,7 +264,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
 
 
             var msg = new DataRowsMessage(FailureReportProfile.Default);
-            msg.Build(null, null, compared);
+            msg.BuildComparaison(null, null, compared);
             var value = msg.RenderCompared();
 
             Assert.That(value, Is.Not.StringContaining(unexpectedText));
@@ -293,7 +293,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
 
 
             var msg = new DataRowsMessage(FailureReportProfile.Default);
-            msg.Build(null, null, compared);
+            msg.BuildComparaison(null, null, compared);
             var value = msg.RenderCompared();
 
             Assert.That(value, Is.StringContaining(expectedText));

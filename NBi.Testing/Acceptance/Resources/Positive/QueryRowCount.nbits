@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
-  <!--<test name="Count of SalesTerritory is more-than or equal to 2" uid="0001">
+  <test name="Count of SalesTerritory is more-than or equal to 2" uid="0001">
     <system-under-test>
       <execution>
         <query
@@ -157,7 +157,7 @@
         <equal>3</equal>
       </row-count>
     </assert>
-  </test>-->
+  </test>
   <test name="Count of SalesTerritory for Europe is equal to more than 25%" uid="0001">
     <system-under-test>
       <execution>
@@ -179,7 +179,7 @@
             <equal>Europe</equal>
           </predicate>
         </filter>
-        <more-than>75%</more-than>
+        <more-than>25%</more-than>
       </row-count>
     </assert>
   </test>

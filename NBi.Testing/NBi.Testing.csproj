@@ -131,6 +131,8 @@
     <Compile Include="Integration\NUnit\Structure\LinkedToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\ExistsConstraintTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommandTest.cs" />
+    <Compile Include="Unit\Core\Calculation\PredicateFilterTest.cs" />
+    <Compile Include="Unit\Core\Calculation\PredicateTest.cs" />
     <Compile Include="Unit\Core\ConnectionExceptionTest.cs" />
     <Compile Include="Unit\Core\Assemblies\AssemblyManagerTest.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\StaticKlass.cs" />
@@ -219,7 +221,7 @@
     <Compile Include="Unit\NUnit\Builder\MembersCountBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
     <Compile Include="Unit\NUnit\DataType\IsConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\Execution\RowCountConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Query\RowCountConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Execution\SuccessfulConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Execution\FasterThanConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\CountConstraintTest.cs" />

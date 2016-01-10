@@ -15,7 +15,7 @@ namespace NBi.Framework.FailureMessage
             : base (profile)
         { }
 
-        public void Build(IEnumerable<DataRow> expectedRows, IEnumerable<DataRow> actualRows, ResultSetCompareResult compareResult)
+        public void BuildComparaison(IEnumerable<DataRow> expectedRows, IEnumerable<DataRow> actualRows, ResultSetCompareResult compareResult)
         {
             compareResult = compareResult ?? ResultSetCompareResult.Build(new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>());
             
@@ -25,6 +25,16 @@ namespace NBi.Framework.FailureMessage
             compared.Append(BuildNonEmptyTable(compareResult.Missing ?? new List<DataRow>(), "Missing", Profile.AnalysisSet));
             compared.Append(BuildNonEmptyTable(compareResult.Duplicated ?? new List<DataRow>(), "Duplicated", Profile.AnalysisSet));
             compared.Append(BuildCompareTable(compareResult.NonMatchingValue.Rows ?? new List<DataRow>(), "Non matching value", Profile.AnalysisSet));
+        }
+
+        public void BuildFilter(IEnumerable<DataRow> actualRows, IEnumerable<DataRow> filteredRows)
+        {
+            actual = BuildTable(actualRows, Profile.ActualSet);
+            filtered = BuildTable(filteredRows, Profile.ActualSet);
+        }
+        public void BuildCount(IEnumerable<DataRow> actualRows)
+        {
+            actual = BuildTable(actualRows, Profile.ActualSet);
         }
 
         private MarkdownContainer BuildTable(IEnumerable<DataRow> rows, FailureReportSetType sampling)

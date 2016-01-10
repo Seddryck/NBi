@@ -6,6 +6,7 @@ using NBi.Xml;
 using NBi.Xml.Constraints;
 using NUnit.Framework;
 using NBi.Xml.Constraints.Comparer;
+using NBi.Core.ResultSet;
 #endregion
 
 namespace NBi.Testing.Unit.Xml.Constraints
@@ -13,7 +14,6 @@ namespace NBi.Testing.Unit.Xml.Constraints
     [TestFixture]
     public class RowCountXmlTest
     {
-
 
         #region SetUp & TearDown
         //Called only at instance creation
@@ -82,7 +82,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(rowCount.Comparer, Is.EqualTo(rowCount.Equal));
             
             var comparer = rowCount.Equal as AbstractComparerXml;
-            Assert.That(comparer.Value, Is.EqualTo(2));
+            Assert.That(comparer.Value, Is.EqualTo("2"));
         }
 
          [Test]
@@ -98,7 +98,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(rowCount.Comparer, Is.EqualTo(rowCount.LessThan));
 
             var comparer = rowCount.Comparer as AbstractMoreLessThanXml;
-            Assert.That(comparer.Value, Is.EqualTo(3));
+            Assert.That(comparer.Value, Is.EqualTo("3"));
             Assert.That(comparer.OrEqual, Is.False);
         }
 
@@ -116,8 +116,100 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(rowCount.Comparer, Is.EqualTo(rowCount.MoreThan));
 
             var comparer = rowCount.Comparer as AbstractMoreLessThanXml;
-            Assert.That(comparer.Value, Is.EqualTo(3));
+            Assert.That(comparer.Value, Is.EqualTo("3"));
             Assert.That(comparer.OrEqual, Is.True);
+        }
+
+        [Test]
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2)]
+        public void Deserialize_SampleFile_ReadCorrectlyPredicateWhenNull(int testNr)
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var rowCount = ts.Tests[testNr].Constraints[0] as RowCountXml;
+            Assert.That(rowCount.Filter, Is.Null);
+        }
+
+        [Test()]
+        [TestCase(3)]
+        [TestCase(4)]
+        public void Deserialize_SampleFile_ReadCorrectlyPredicate(int testNr)
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var rowCount = ts.Tests[testNr].Constraints[0] as RowCountXml;
+            Assert.That(rowCount.Filter, Is.Not.Null);
+            Assert.That(rowCount.Filter.Predicate, Is.Not.Null);
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ReadCorrectlySimpleComparer()
+        {
+            int testNr = 3;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var rowCount = ts.Tests[testNr].Constraints[0] as RowCountXml;
+            var comparison = rowCount.Filter.Predicate;
+
+            //Assert.That(comparison.ColumnIndex, Is.EqualTo(2));
+            Assert.That(comparison.Not, Is.EqualTo(true));
+            Assert.That(comparison.ColumnType, Is.EqualTo(ColumnType.Text));
+
+            Assert.That(comparison.Comparer, Is.TypeOf<EqualXml>());
+            var equal = comparison.Comparer as EqualXml;
+            Assert.That(equal.Value, Is.EqualTo("N/A"));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyFormulaComparer()
+        {
+            int testNr = 4;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var rowCount = ts.Tests[testNr].Constraints[0] as RowCountXml;
+            var comparison = rowCount.Filter.Predicate;
+
+            Assert.That(comparison.ColumnIndex, Is.EqualTo(-1));
+            Assert.That(comparison.Name, Is.EqualTo("ModDepId"));
+            Assert.That(comparison.Not, Is.EqualTo(false));
+            Assert.That(comparison.ColumnType, Is.EqualTo(ColumnType.Numeric));
+
+            Assert.That(comparison.Comparer, Is.TypeOf<LessThanXml>());
+            var lessThan = comparison.Comparer as LessThanXml;
+            Assert.That(lessThan.Value, Is.EqualTo("1"));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyVariables()
+        {
+            int testNr = 4;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var rowCount = ts.Tests[testNr].Constraints[0] as RowCountXml;
+            var variables = rowCount.Filter.Variables;
+
+            Assert.That(variables, Has.Count.EqualTo(1));
+            Assert.That(variables[0].Name, Is.EqualTo("DeptId"));
+            Assert.That(variables[0].Column, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyFormula()
+        {
+            int testNr = 4;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var rowCount = ts.Tests[testNr].Constraints[0] as RowCountXml;
+            var formula = rowCount.Filter.Expression;
+
+            Assert.That(formula.Name, Is.EqualTo("LogDepId"));
+            Assert.That(formula.Value, Is.StringContaining("Log10(DepId)"));
         }
     }
 }

@@ -13,6 +13,8 @@ using NBi.Xml.Systems;
 using NBi.NUnit.Execution;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Xml.Constraints.Comparer;
+using NBi.Core.Calculation;
+using NBi.Core.Evaluate;
 
 namespace NBi.NUnit.Builder
 {
@@ -40,32 +42,75 @@ namespace NBi.NUnit.Builder
 
         protected NBiConstraint InstantiateConstraint()
         {
+            RowCountConstraint ctr;
             var childConstraint = BuildChildConstraint(ConstraintXml.Comparer);
-            var ctr = new RowCountConstraint(childConstraint);
+
+            IResultSetFilter filter = null;
+            if (ConstraintXml.Filter != null)
+            {
+                var filterXml = ConstraintXml.Filter;
+                var expressions = new List<IColumnExpression>();
+                if (filterXml.Expression!=null)
+                     expressions .Add(filterXml.Expression);
+                 filter = new PredicateFilter
+                                (
+                                    filterXml.Variables
+                                    , expressions
+                                    , filterXml.Predicate
+                                );
+                if (ConstraintXml.Comparer.Value.Replace(" ", "").EndsWith("%"))
+                    ctr = new RowCountFilterPercentageConstraint(childConstraint, filter);
+                else
+                    ctr = new RowCountFilterConstraint(childConstraint, filter);
+            }
+            else
+                ctr = new RowCountConstraint(childConstraint);
 
             return ctr;
         }
 
         protected virtual NUnitCtr.Constraint BuildChildConstraint(AbstractComparerXml xml)
         {
+            
+            var value = xml.Value.Replace(" ","");
+
+            object numericValue;
+            try
+            {
+                if (value.EndsWith("%"))
+                    numericValue = Decimal.Parse(xml.Value.Substring(0, xml.Value.Length-1)) / new Decimal(100);
+                else
+                    numericValue = Int32.Parse(xml.Value);
+            }
+            catch (Exception ex)
+            {
+                var exception = new ArgumentException
+                    (
+                        String.Format("The assertion row-count is expecting an integer or percentage value for comparison. The provided value '{0}' is not a integer or percentage value.", value)
+                        , ex
+                    );
+                throw exception;
+            }
+             
+
             NUnitCtr.Constraint ctr = null;
             if (xml is LessThanXml)
             {
                 if (((LessThanXml)xml).OrEqual)
-                    ctr = new NUnitCtr.LessThanOrEqualConstraint(xml.Value);
+                    ctr = new NUnitCtr.LessThanOrEqualConstraint(numericValue);
                 else
-                    ctr = new NUnitCtr.LessThanConstraint(xml.Value);
+                    ctr = new NUnitCtr.LessThanConstraint(numericValue);
             }
             else if (xml is MoreThanXml)
             {
                 if (((MoreThanXml)xml).OrEqual)
-                    ctr = new NUnitCtr.GreaterThanOrEqualConstraint(xml.Value);
+                    ctr = new NUnitCtr.GreaterThanOrEqualConstraint(numericValue);
                 else
-                    ctr = new NUnitCtr.GreaterThanConstraint(xml.Value);
+                    ctr = new NUnitCtr.GreaterThanConstraint(numericValue);
             }
             else if (xml is EqualXml)
             {
-                ctr = new NUnitCtr.EqualConstraint(xml.Value);
+                ctr = new NUnitCtr.EqualConstraint(numericValue);
             }
 
             if (ctr == null)

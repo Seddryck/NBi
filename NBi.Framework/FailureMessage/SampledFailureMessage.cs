@@ -57,6 +57,14 @@ namespace NBi.Framework.FailureMessage
                 return "Display skipped.";
         }
 
+        public override string RenderFiltered()
+        {
+            if (Profile.ActualSet != FailureReportSetType.None)
+                return base.RenderFiltered();
+            else
+                return "Display skipped.";
+        }
+
         public override string RenderCompared()
         {
             if (Profile.AnalysisSet != FailureReportSetType.None)

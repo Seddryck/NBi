@@ -159,8 +159,10 @@
     <Compile Include="Items\AbstractMembersItem.cs" />
     <Compile Include="Items\BaseItem.cs" />
     <Compile Include="Items\QueryXml.cs" />
-    <Compile Include="Items\Validate\ExpressionXml.cs" />
-    <Compile Include="Items\Validate\VariableXml.cs" />
+    <Compile Include="Items\Calculation\PredicateXml.cs" />
+    <Compile Include="Items\Calculation\FilterXml.cs" />
+    <Compile Include="Items\Calculation\ExpressionXml.cs" />
+    <Compile Include="Items\Calculation\VariableXml.cs" />
     <Compile Include="Items\Xml\FromXml.cs" />
     <Compile Include="Items\Xml\SelectXml.cs" />
     <Compile Include="Items\Xml\XmlSourceXml.cs" />
@@ -234,6 +236,7 @@
       <Name>NBi.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

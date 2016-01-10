@@ -1,9 +1,11 @@
 ﻿using System;
-using NBi.Core;
-using NUnitCtr = NUnit.Framework.Constraints;
-using NBi.Core.ResultSet;
 using System.Data;
+using System.Linq;
+using NBi.Core;
+using NBi.Core.ResultSet;
 using NBi.Core.Calculation;
+using NBi.Framework.FailureMessage;
+using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Query
 {
@@ -14,8 +16,6 @@ namespace NBi.NUnit.Query
         /// </summary>
         protected ResultSet actualResultSet;
         protected NUnitCtr.Constraint child;
-        protected IResultSetFilter filter = ResultSetFilter.None;
-        protected bool isPercentage = false;
 
         public RowCountConstraint(NUnitCtr.Constraint childConstraint)
         {
@@ -28,20 +28,6 @@ namespace NBi.NUnit.Query
             {
                 return child;
             }
-        }
-
-        public IResultSetFilter Filter
-        {
-            get
-            {
-                return filter;
-            }
-        }
-
-        public RowCountConstraint With(IResultSetFilter filter)
-        {
-            this.filter = filter;
-            return this;
         }
 
         /// <summary>
@@ -65,6 +51,24 @@ namespace NBi.NUnit.Query
             }
         }
 
+        private DataRowsMessage failure;
+        protected DataRowsMessage Failure
+        {
+            get
+            {
+                if (failure == null)
+                    failure = BuildFailure();
+                return failure;
+            }
+        }
+
+        protected virtual DataRowsMessage BuildFailure()
+        {
+            var msg = new DataRowsMessage(Configuration.FailureReportProfile);
+            msg.BuildCount(actualResultSet.Rows.Cast<DataRow>());
+            return msg;
+        }
+
         /// <summary>
         /// Handle an IDbCommand and compare its row-count to a another value
         /// </summary>
@@ -77,8 +81,7 @@ namespace NBi.NUnit.Query
             else if (actual is ResultSet)
             {
                 actualResultSet = (ResultSet)actual;
-                var rs = Filter.Apply(actualResultSet);
-                return Matches(rs.Rows.Count);
+                return Matches(actualResultSet.Rows.Count);
             }
             else if (actual is int)
                 return doMatch(((int)actual));
@@ -94,12 +97,15 @@ namespace NBi.NUnit.Query
        
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
-            var sb = new System.Text.StringBuilder();
-            sb.Append("execution of the query ");
-            if (filter != ResultSetFilter.None)
-                sb.Append("and application of the filter ");
-            sb.Append("returns a rows' count");
+            writer.WritePredicate("count of rows returned by the query is");
             child.WriteDescriptionTo(writer);
+        }
+
+        public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
+        {
+            base.WriteMessageTo(writer);
+            writer.WriteLine();
+            writer.WriteLine(Failure.RenderActual());
         }
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
@@ -122,5 +128,6 @@ namespace NBi.NUnit.Query
         {
             return ResultSetBuilder.Build(obj);
         }
+
     }
 }

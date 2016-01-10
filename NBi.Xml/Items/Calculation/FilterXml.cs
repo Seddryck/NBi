@@ -28,5 +28,10 @@ namespace NBi.Xml.Items.Calculation
 
         [XmlElement("predicate")]
         public PredicateXml Predicate { get; set; }
+
+        public FilterXml()
+        {
+            VariablesInternal = new List<VariableXml>();
+        }
     }
 }

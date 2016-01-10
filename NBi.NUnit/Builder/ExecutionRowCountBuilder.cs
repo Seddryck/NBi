@@ -58,16 +58,13 @@ namespace NBi.NUnit.Builder
                                     , expressions
                                     , filterXml.Predicate
                                 );
+                if (ConstraintXml.Comparer.Value.Replace(" ", "").EndsWith("%"))
+                    ctr = new RowCountFilterPercentageConstraint(childConstraint, filter);
+                else
+                    ctr = new RowCountFilterConstraint(childConstraint, filter);
             }
-
-            if (ConstraintXml.Comparer.Value.Replace(" ", "").EndsWith("%"))
-                ctr = new RowCountPercentageConstraint(childConstraint, filter);
             else
-            {
                 ctr = new RowCountConstraint(childConstraint);
-                if (filter != null)
-                    ctr = ctr.With(filter);
-            }
 
             return ctr;
         }
@@ -77,7 +74,7 @@ namespace NBi.NUnit.Builder
             
             var value = xml.Value.Replace(" ","");
 
-            Decimal numericValue;
+            object numericValue;
             try
             {
                 if (value.EndsWith("%"))
@@ -88,10 +85,10 @@ namespace NBi.NUnit.Builder
             catch (Exception ex)
             {
                 var exception = new ArgumentException
-                                    (
-                                        String.Format("The assertion row-count is expecting an integer or percentage value for comparison. The provided value '{0}' is not a integer or percentage value.", value)
-                                        , ex
-                                    );
+                    (
+                        String.Format("The assertion row-count is expecting an integer or percentage value for comparison. The provided value '{0}' is not a integer or percentage value.", value)
+                        , ex
+                    );
                 throw exception;
             }
              

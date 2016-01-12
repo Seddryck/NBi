@@ -248,6 +248,7 @@
     <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
     <Compile Include="Unit\Xml\Constraints\IsXmlTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\AllRowsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\RowCountXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\SucessfulXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\EvaluateRowsXmlTest.cs" />
@@ -655,6 +656,7 @@
     <Content Include="Acceptance\Resources\PowerBiDesktop\Source.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Unit\Xml\Resources\AllRowsXmlTestSuite.xml" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Light-0001.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Full-0001.txt" />
     <EmbeddedResource Include="Unit\Xml\Resources\IsXmlTestSuite.xml" />

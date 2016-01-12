@@ -121,6 +121,7 @@ namespace NBi.Xml
         XmlArrayItem(Type = typeof(EvaluateRowsXml), ElementName = "evaluate-rows"),
         XmlArrayItem(Type = typeof(SuccessfulXml), ElementName = "successful"),
         XmlArrayItem(Type = typeof(RowCountXml), ElementName = "row-count"),
+        XmlArrayItem(Type = typeof(AllRowsXml), ElementName = "all-rows"),
         XmlArrayItem(Type = typeof(IsXml), ElementName = "is"),
         ]
         public List<AbstractConstraintXml> Constraints;

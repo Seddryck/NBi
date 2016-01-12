@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="All-rows TestSuite" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+		</default>
+	</settings>
+  <test name="With Predicate and with formula" uid="0003">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select row_count as DeptId, [Name], [GroupName] from [HumanResources].[Department] order by Name
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <variable column-index="0">DeptId</variable>
+        <expression name="LogDepId">
+          Log10(DepId)
+        </expression>
+        <predicate name="ModDepId">
+          <more-than or-equal="true">10</more-than>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+</testSuite>

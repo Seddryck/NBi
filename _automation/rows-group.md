@@ -24,6 +24,11 @@ case group column 'Third';
 
 The first three rows having the same value for columns **First** and **Second**, it will result into one row with a third column being an array with values C, D, E. The next two rows will also be grouped and the third column will contain the array G, H.
 
+|First|Second|Third
+|-----|------|-----
+| A | B | {C, D, E}
+| A | F | {G, H}
+
 Groups let the user create tests with several values for one variable. More info available [here](../automation/generate-tests/#use-grouping-option).
 
 It's possible to stipulate more than column

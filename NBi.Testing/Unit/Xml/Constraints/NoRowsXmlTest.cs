@@ -12,7 +12,7 @@ using NBi.Core.ResultSet;
 namespace NBi.Testing.Unit.Xml.Constraints
 {
     [TestFixture]
-    public class AllRowsXmlTest
+    public class NoRowsXmlTest
     {
 
         #region SetUp & TearDown
@@ -49,7 +49,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.AllRowsXmlTestSuite.xml"))
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.NoRowsXmlTestSuite.xml"))
             using (StreamReader reader = new StreamReader(stream))
             {
                 manager.Read(reader);
@@ -58,14 +58,14 @@ namespace NBi.Testing.Unit.Xml.Constraints
         }
 
         [Test]
-        public void Deserialize_SampleFile_ReadCorrectlyAllRows()
+        public void Deserialize_SampleFile_ReadCorrectlyNoRows()
         {
             int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<AllRowsXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<NoRowsXml>());
             Assert.That(ts.Tests[testNr].Constraints[0].Not, Is.False);
         }
 
@@ -76,8 +76,8 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
-            var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
-            var comparison = allRows.Predicate;
+            var noRow = ts.Tests[testNr].Constraints[0] as NoRowsXml;
+            var comparison = noRow.Predicate;
 
             Assert.That(comparison.ColumnIndex, Is.EqualTo(-1));
             Assert.That(comparison.Name, Is.EqualTo("ModDepId"));

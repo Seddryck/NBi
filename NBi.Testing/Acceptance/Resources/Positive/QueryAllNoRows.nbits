@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
-  <test name="All-rows also works for textual information" uid="0001">
+  <test name="All-rows is doing the job for numeric info" uid="0001">
     <system-under-test>
       <execution>
         <query
@@ -35,8 +35,6 @@
           [Name], [CountryRegionCode]
           from
           [Sales].[SalesTerritory]
-          where
-          [Group]>'B'
         </query>
       </execution>
     </system-under-test>
@@ -47,6 +45,53 @@
           <more-than>Afg</more-than>
         </predicate>
       </all-rows>
+    </assert>
+  </test>
+  <test name="No-row with numeric information" uid="0001">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select
+          OrderDate
+          , SUM(TotalDue)
+          from
+          [Sales].[SalesOrderHeader]
+          group by
+          OrderDate
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <variable column-index="1">TotalDue</variable>
+        <predicate name="TotalDue">
+          <more-than>4800000</more-than>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+  <test name="No-row also works for textual information" uid="0001">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select
+          [Name], [CountryRegionCode]
+          from
+          [Sales].[SalesTerritory]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <variable column-index="0">Name</variable>
+        <predicate name="Name" type="text">
+          <more-than>VN</more-than>
+        </predicate>
+      </no-rows>
     </assert>
   </test>
 </testSuite>

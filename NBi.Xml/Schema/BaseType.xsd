@@ -990,6 +990,7 @@
               </xs:complexType>
             </xs:element>
             <xs:element name="all-rows" type="filter-type"/>
+            <xs:element name="no-rows" type="filter-type"/>
           </xs:choice>
         </xs:complexType>
       </xs:element>

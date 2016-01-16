@@ -58,6 +58,7 @@
     </Compile>
     <Compile Include="Constraints\AbstractConstraintForCollectionXml.cs" />
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
+    <Compile Include="Constraints\NoRowsXml.cs" />
     <Compile Include="Constraints\Comparer\AbstractComparerXml.cs" />
     <Compile Include="Constraints\Comparer\EqualXml.cs" />
     <Compile Include="Constraints\Comparer\AbstractMoreLessThanXml.cs" />

@@ -248,6 +248,7 @@
     <Compile Include="Unit\Service\TestCaseCollectionManagerTest.cs" />
     <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\NoRowsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\IsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\AllRowsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\RowCountXmlTest.cs" />
@@ -397,7 +398,7 @@
     <None Include="Acceptance\Resources\Positive\QueryEqualToResultSetProvider.nbits.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryAllRows.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryAllNoRows.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Acceptance\Resources\PowerBiDesktop\Sales Analysis.pbix">
@@ -660,6 +661,7 @@
     <Content Include="Acceptance\Resources\PowerBiDesktop\Source.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Unit\Xml\Resources\NoRowsXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\AllRowsXmlTestSuite.xml" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Light-0001.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Full-0001.txt" />

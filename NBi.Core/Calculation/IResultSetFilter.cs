@@ -10,5 +10,6 @@ namespace NBi.Core.Calculation
     public interface IResultSetFilter
     {
         RS.ResultSet Apply(RS.ResultSet rs);
+        RS.ResultSet AntiApply(RS.ResultSet rs);
     }
 }

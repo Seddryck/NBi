@@ -22,11 +22,20 @@ namespace NBi.Core.Calculation
             this.predicateInfo = predicateInfo;
         }
 
+        public ResultSet.ResultSet AntiApply(ResultSet.ResultSet rs)
+        {
+            return Apply(rs, (x => !x));
+        }
+
         public ResultSet.ResultSet Apply(ResultSet.ResultSet rs)
         {
+            return Apply(rs, (x => x));
+        }
+
+        protected ResultSet.ResultSet Apply(ResultSet.ResultSet rs, Func<bool,bool> onApply)
+        {
             var filteredRs = new ResultSet.ResultSet();
-            var table = rs.Table.Copy();
-            table.Clear();
+            var table = rs.Table.Clone();
             filteredRs.Load(table);
             
 
@@ -48,7 +57,7 @@ namespace NBi.Core.Calculation
                 }
 
                 var value = dico[predicateInfo.Name];
-                if (predicate.Compare(value, predicateInfo.Reference))
+                if (onApply(predicate.Compare(value, predicateInfo.Reference)))
                     filteredRs.Table.ImportRow(row);
             }
 

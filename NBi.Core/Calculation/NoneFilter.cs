@@ -14,5 +14,16 @@ namespace NBi.Core.Calculation
                 throw new ArgumentNullException();
             return rs;
         }
+
+        public ResultSet.ResultSet AntiApply(ResultSet.ResultSet rs)
+        {
+            if (rs == null)
+                throw new ArgumentNullException();
+
+            var filteredRs = new ResultSet.ResultSet();
+            var table = rs.Table.Clone();
+            filteredRs.Load(table);
+            return filteredRs;
+        }
     }
 }

@@ -68,6 +68,7 @@
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionNonQueryBuilder.cs" />
+    <Compile Include="Builder\ExecutionAllRowsBuilder.cs" />
     <Compile Include="Builder\ExecutionRowCountBuilder.cs" />
     <Compile Include="Builder\ExecutionFasterThanChooser.cs" />
     <Compile Include="Builder\ExecutionNonQuerySuccessfulBuilder.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Builder\ExecutionEqualToBuilder.cs" />
     <Compile Include="DataType\DescriptionDataTypeHelper.cs" />
     <Compile Include="DataType\IsConstraint.cs" />
+    <Compile Include="Query\AllRowsConstraint.cs" />
     <Compile Include="Query\RowCountFilterConstraint.cs" />
     <Compile Include="Query\RowCountFilterPercentageConstraint.cs" />
     <Compile Include="Query\RowCountConstraint.cs" />

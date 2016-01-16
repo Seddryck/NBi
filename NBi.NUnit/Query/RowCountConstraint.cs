@@ -105,6 +105,7 @@ namespace NBi.NUnit.Query
         {
             base.WriteMessageTo(writer);
             writer.WriteLine();
+            writer.WriteLine("Actual result-set returned by the query:");
             writer.WriteLine(Failure.RenderActual());
         }
 

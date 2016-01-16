@@ -16,11 +16,13 @@ namespace NBi.NUnit.Query
         /// </summary>
         protected IResultSetFilter filter = ResultSetFilter.None;
         protected ResultSet filterResultSet;
+        protected Func<ResultSet, ResultSet> filterFunction;
 
         public RowCountFilterConstraint(NUnitCtr.Constraint childConstraint, IResultSetFilter filter)
             : base(childConstraint)
         {
             this.filter=filter;
+            filterFunction = filter.Apply;
         }
 
         public IResultSetFilter Filter
@@ -50,7 +52,7 @@ namespace NBi.NUnit.Query
             else if (actual is ResultSet)
             {
                 actualResultSet = (ResultSet)actual;
-                filterResultSet = Filter.Apply(actualResultSet);
+                filterResultSet = filterFunction(actualResultSet);
                 return Matches(filterResultSet.Rows.Count);
             }
             else if (actual is int)
@@ -71,7 +73,13 @@ namespace NBi.NUnit.Query
             base.WriteMessageTo(writer);
             writer.WriteLine();
             writer.WriteLine();
+            WriteFilterMessageTo(writer);
             writer.WriteLine(Failure.RenderFiltered());
+        }
+
+        public virtual void WriteFilterMessageTo(NUnitCtr.MessageWriter writer)
+        {
+            writer.WriteLine("Filtered version of the result-set:");   
         }
 
     }

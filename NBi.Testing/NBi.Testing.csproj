@@ -221,6 +221,7 @@
     <Compile Include="Unit\NUnit\Builder\MembersCountBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
     <Compile Include="Unit\NUnit\DataType\IsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Query\AllRowsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Query\RowCountConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Execution\SuccessfulConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Execution\FasterThanConstraintTest.cs" />
@@ -396,6 +397,9 @@
     <None Include="Acceptance\Resources\Positive\QueryEqualToResultSetProvider.nbits.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryAllRows.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\PowerBiDesktop\Sales Analysis.pbix">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

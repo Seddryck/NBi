@@ -34,9 +34,6 @@ namespace NBi.Testing.Acceptance.GenbiL
         {
             if (File.Exists(TargetFilename))
                 File.Delete(TargetFilename);
-
-            //if(File.Exists(CsvFilename))
-            //    File.Delete(CsvFilename);
         }
 
         //Called after each test
@@ -49,13 +46,17 @@ namespace NBi.Testing.Acceptance.GenbiL
         #endregion
 
         [Test]
-        public void Execute_Group_FileGenerated()
+        public void Execute_Group_FileGeneratedWithoutListString()
         {
             var generator = new TestSuiteGenerator();
             generator.Load(DefinitionFilename);
             generator.Execute();
 
             Assert.That(File.Exists(TargetFilename));
+            var text = File.ReadAllText(TargetFilename);
+            Assert.That(text, Is.Not.StringContaining("System.Collections.Generic.List`1[System.String]"));
+            Assert.That(text, Is.StringContaining("<category>91675</category>"));
+            Assert.That(text, Is.StringContaining("<category>75755</category>"));
         }
 
 

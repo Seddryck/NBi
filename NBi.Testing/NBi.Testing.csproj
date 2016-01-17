@@ -85,7 +85,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Acceptance\GenbiL\ConcatenateSplitGroup.cs" />
+    <Compile Include="Acceptance\GenbiL\ConcatenateSplitGroupTest.cs" />
     <Compile Include="Acceptance\GenbiL\GroupTest.cs" />
     <Compile Include="Acceptance\GenbiL\CommentTest.cs" />
     <Compile Include="Acceptance\GenbiL\GroupReduceTest.cs" />

@@ -47,8 +47,11 @@ namespace NBi.GenbiL.Action.Case
                     if (dataTable.Rows[firstRow][columnListId] == DBNull.Value)
                         dataTable.Rows[firstRow][columnListId] = new List<string>();
 
-                    var list = dataTable.Rows[firstRow][columnListId] as IList<string>;
-                    list.Add(dataTable.Rows[i][columnId].ToString());
+                    var list = dataTable.Rows[firstRow][columnListId] as List<string>;
+                    if (dataTable.Rows[i][columnId] is IEnumerable<string>)
+                        list.AddRange(dataTable.Rows[i][columnId] as IEnumerable<string>);
+                    else
+                        list.Add(dataTable.Rows[i][columnId].ToString());
                 }
 
                 if (isIdentical && i != 0)

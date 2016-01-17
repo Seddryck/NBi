@@ -67,7 +67,7 @@
       <no-rows>
         <variable column-index="1">TotalDue</variable>
         <predicate name="TotalDue">
-          <more-than>4800000</more-than>
+          <more-than>9000000</more-than>
         </predicate>
       </no-rows>
     </assert>

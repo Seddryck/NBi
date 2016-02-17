@@ -18,7 +18,7 @@ google_analytics_id: "UA-64208458-1" # https://www.google.com/analytics/
 
 # Build settings
 markdown: kramdown
-highlighter: pygments
+highlighter: rouge
 exclude: ['README.md', 'Gemfile', 'Gemfile.lock']
 
 # Collections

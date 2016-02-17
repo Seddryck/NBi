@@ -117,7 +117,7 @@ namespace NBi.Core.SqlServer.IntegrationService
             }
             var project = folder.Projects[Etl.Project];
 
-            if (project.Packages.Contains(Etl.Name))
+            if (!project.Packages.Contains(Etl.Name))
             {
                 var names = String.Join(", ", project.Packages.Select(p => p.Name));
                 throw new ArgumentOutOfRangeException("Name", String.Format("The package named '{0}' hasn't been found on the project '{1}'. List of existing packages: {2}.", Etl.Name, Etl.Project, names));

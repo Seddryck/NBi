@@ -52,6 +52,8 @@ A full test, would be:
 {% endhighlight %}
 
 ### Clean the cache
+This feature is only available for SQL queries, at the moment NBi is not supporting the cleaning of the cache for MDX queries and will simply ignore this setting.
+
 It’s possible to specify that the cache must be cleaned before the execution of the test. The time needed to clean the cache is not included in the measurement of your query’s performance but, on the other hand, the time elapsed during the creation of the execution plan is included in the performances' measurement.
 
 ### Timeout

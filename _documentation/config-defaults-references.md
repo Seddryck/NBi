@@ -30,9 +30,9 @@ Only a few kind of values are configurable in a *default* section.
 
 The first one is the *connection-string* applicable to the tests, more information is available in [connection strings](/docs/config-connection-strings/).
 
-You can also configure values for [query's parameters](/docs/query-parameters/) and [query's template-variables](/docs/query-template/) used in Sql and Mdx queries. Note that the sql-type of a parameter can be modified by an overriding in a test. In addition to override the default value of a *parameter* or *template-variable* in a more limited scope, you can always override the parameter for a specific test by defining a value inside the test.
+You can also configure values for [query's parameters](/docs/query-parameters/) and [query's template-variables](/docs/query-template/) used in Sql or Mdx queries. Note that the sql-type of a parameter can be modified by overriding the parameter's definition into the test itself. To override the default value of a *parameter* or *template-variable* into a test, you can redefine the parameter into the test and set its new value.
 
-The last kind of values that you can define in a *default* are information about reports and more precisely the attributes *source* and the *path*. These information will be used in each of your tests, except if overridden by a reference or by a value provided within the test.
+The last kind of values that you can define in a *default* is information about reports and more precisely the attributes *source* and the *path*. These information will be used in each of your tests, except if overridden by a reference or by a value provided within the test.
 
 {% highlight xml %}
 <settings>
@@ -45,7 +45,7 @@ The last kind of values that you can define in a *default* are information about
 </settings>
 {% endhighlight %}
 
-The example, here under, configures a value for a connection-string that will be used everywhere, except in system-under-test where another value is provided. A parameter named *paramEverywhere* will also be used in both *system-under-test* and *assertions*, the second parameter named *paramToOverride* will have a different values in the *system-under-test* than in the *assertion*.
+The example, here under, configures a value for a connection-string that will be used everywhere, except in the system-under-test where another value is provided. A parameter named *paramEverywhere* will also be used in both *system-under-test* and *assertions*, the second parameter named *paramToOverride* will have a different values in the *system-under-test* than in the *assertion*.
 
 {% highlight xml %}
 <settings>
@@ -80,7 +80,7 @@ In the following test, the values *Alpha*, *120* and *My Connection String* (def
 
 ## Reference
 
-A reference is different than a default; in the way it must be explicitly referenced in the test. In the examples above, we've never explicitly said to NBi that we want to use the values provided into the default elements: it was automatic. On the other hand, by using only defaults, it's impossible for us to define two (or more) values for the connection-strings: one used for the first fifty tests and the other one used for the last twenty. A *reference* is the concept to manage these cases.
+A reference is different than a default; in the way it must be explicitly called in the test. In the examples above, we've never explicitly said to NBi that we want to use the values provided into the default elements: it was automatic. On the other hand, by using only defaults, it's impossibleto define two (or more) values for the connection-strings: one used for the first fifty tests and the other one used for the last twenty. A *reference* is the concept to manage these cases.
 
 When creating a *reference*, you're defining a *name* that will be used in your test to specify which *reference* needs to be used in this test. In the test, you must use the symbol *@* to specify that the value must come from a reference.
 

@@ -421,6 +421,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <EmbeddedResource Include="Query\CleanCache.xmla" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Report\ReportServerListDataSet.sql" />

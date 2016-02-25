@@ -27,6 +27,15 @@ namespace NBi.Xml.Items
                 if (!Parameters.Exists(p => p.Name == param.Name))
                     list.Add(param);
 
+            var i = 0;
+            while( i < list.Count())
+            {
+                if (list[i].IsRemoved)
+                    list.RemoveAt(i);
+                else
+                    i++;
+            }
+               
             return list;
         }
 

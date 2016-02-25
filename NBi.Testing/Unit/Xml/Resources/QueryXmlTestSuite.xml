@@ -57,4 +57,23 @@
 			</equalTo>
 		</assert>
 	</test>
+  <test name="Parameter with Remove" uid="0001">
+    <system-under-test>
+      <execution>
+        <query>
+          select myColumn from myTable where myFirstField=@FirstField
+          <parameter name="FirstField" remove="true"/>
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet>
+          <row>
+            <cell>FirstValue</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+  </test>
 </testSuite>

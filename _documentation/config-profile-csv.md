@@ -17,10 +17,17 @@ This value by default can be overridden in the xml element *settings* by adding 
 <settings>
 {% endhighlight %}
 
-Note that the field-separator must be limited to 1 character but the record separator can have a length greater than one character. For the moment, the escape character or quoting character are not implemented.
+Note that the field-separator must be limited to 1 character but the record separator can have more characters. For the moment, the escape and quoting characters are not implemented.
 
-The xml element translates automatically a few special values to their respective translation.
+The xml element automatically translates a few special values to their corresponding caracters.
 
 * Tab is translated to \t (tabulation) only for field-separator
 * Cr is translated to \r (carriage return) only for record-separator
 * Lf is translated to \n (line feed) only for record-separator
+
+In this example, a tabulation is specified as field-separator and a carriage return line feed for record-separator.
+{% highlight xml %}
+<settings>
+   <csv-profile field-separator="Tab" record-separator="CrLf"/>
+<settings>
+{% endhighlight %}

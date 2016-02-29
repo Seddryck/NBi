@@ -14,8 +14,8 @@ namespace NBi.Testing.Integration.Core.Query
         [Test]
         public void Execute_WaitFor3SecondsTimeoutSetTo1_Timeout()
         {
-            var query = "WAITFOR DELAY '00:00:03';";
-            var cmd = new OleDbCommand(query, new OleDbConnection(ConnectionStringReader.GetOleDb()));
+            var query = "WAITFOR DELAY '00:00:10';";
+            var cmd = new OleDbCommand(query, new OleDbConnection(ConnectionStringReader.GetOleDbSql()));
             cmd.CommandTimeout = 1;
 
             var qe = new QueryOleDbEngine(cmd);
@@ -27,7 +27,7 @@ namespace NBi.Testing.Integration.Core.Query
         {
 
             var query = "WAITFOR DELAY '00:00:03';";
-            var cmd = new OleDbCommand(query, new OleDbConnection(ConnectionStringReader.GetOleDb()));
+            var cmd = new OleDbCommand(query, new OleDbConnection(ConnectionStringReader.GetOleDbSql()));
             cmd.CommandTimeout = 0;
 
             var qe = new QueryOleDbEngine(cmd);

@@ -17,9 +17,14 @@ namespace NBi.Testing
         }
 
 
-        public static string GetOleDb()
+        public static string GetOleDbCube()
         {
-            return Get("OleDb");
+            return Get("OleDbCube");
+        }
+
+        public static string GetOleDbSql()
+        {
+            return Get("OleDbSql");
         }
 
         public static string GetAdomd()

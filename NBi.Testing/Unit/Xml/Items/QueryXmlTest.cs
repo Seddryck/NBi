@@ -121,7 +121,7 @@ namespace NBi.Testing.Unit.Xml.Items
 
             var query = (QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
 
-            Assert.That(query.Timeout, Is.EqualTo("60000"));
+            Assert.That(query.Timeout, Is.EqualTo(60000));
         }
     }
 }

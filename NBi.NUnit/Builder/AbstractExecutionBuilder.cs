@@ -45,6 +45,7 @@ namespace NBi.NUnit.Builder
                 parameters = ((ReportXml)executionXml.BaseItem).GetParameters();
             }
             var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables);
+            cmd.CommandTimeout = (int) Math.Ceiling((executionXml.Item as QueryableXml).Timeout/1000.0);
 
             return cmd;
         }

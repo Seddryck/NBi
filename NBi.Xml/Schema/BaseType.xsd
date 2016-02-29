@@ -453,6 +453,7 @@
     <xs:attribute name="file" type="xs:string" use="optional" />
     <xs:attribute name="connectionString" type="xs:string" use="optional" />
     <xs:attribute name="roles" type="xs:string" use="optional" />
+    <xs:attribute name="timeout-millSeconds" type="xs:nonNegativeInteger" use="optional" />
   </xs:complexType>
   <xs:complexType name="select-type">
     <xs:simpleContent>

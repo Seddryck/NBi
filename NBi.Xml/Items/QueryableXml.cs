@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
 
@@ -13,6 +14,10 @@ namespace NBi.Xml.Items
         {
             Parameters = new List<QueryParameterXml>();
         }
+
+        [DefaultValue(0)]
+        [XmlAttribute("timeout-milliSeconds")]
+        public int Timeout { get; set; }
 
         [XmlElement("parameter")]
         public List<QueryParameterXml> Parameters { get; set; }

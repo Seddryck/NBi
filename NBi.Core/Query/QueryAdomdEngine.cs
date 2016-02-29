@@ -118,8 +118,11 @@ namespace NBi.Core.Query
 				}
 				catch (AdomdErrorResponseException ex)
 				{
-					throw new ConnectionException(ex, connectionString);
-				}
+                    if (!ex.Message.StartsWith("Timeout expired."))
+                        throw new ConnectionException(ex, connectionString);
+                    else
+                        throw new CommandTimeoutException(ex, adapter.SelectCommand);
+                }
 
 				// capture time after execution
 				DateTime timeAfter = DateTime.Now;

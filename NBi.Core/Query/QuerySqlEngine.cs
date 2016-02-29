@@ -172,9 +172,18 @@ namespace NBi.Core.Query
                 DateTime timeBefore = DateTime.Now;
                 var adapter = new SqlDataAdapter(command);
                 var ds = new DataSet();
+
+                try
+                {
+                    adapter.Fill(ds);
+                }
+                catch (SqlException ex)
+                {
+                    if (ex.Number == -2)
+                        throw new CommandTimeoutException(ex, adapter.SelectCommand);
+                    throw;
+                }
                 
-                adapter.SelectCommand.CommandTimeout = 0;
-                adapter.Fill(ds);
 
                 // capture time after execution
                 DateTime timeAfter = DateTime.Now;

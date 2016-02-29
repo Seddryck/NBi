@@ -105,6 +105,8 @@
     <Compile Include="Integration\Core\DataManipulation\SqlServer\BulkLoadCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\TruncateCommandTest.cs" />
     <Compile Include="Integration\Core\DataType\Relational\RelationalDataTypeDiscoveryFactoryTest.cs" />
+    <Compile Include="Integration\Core\Query\QueryOleDbEngineTest.cs" />
+    <Compile Include="Integration\Core\Query\QuerySqlEngineTest.cs" />
     <Compile Include="Integration\SqlServer\IntegrationService\EtlDtsWindowsRunnerTest.cs" />
     <Compile Include="Integration\SqlServer\IntegrationService\EtlFileRunnerTest.cs" />
     <Compile Include="Integration\Core\FileManipulation\CopyCommandTest.cs" />

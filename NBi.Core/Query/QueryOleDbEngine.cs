@@ -142,9 +142,17 @@ namespace NBi.Core.Query
                 DateTime timeBefore = DateTime.Now;
                 var adapter = new OleDbDataAdapter(command.CommandText, connection);
                 var ds = new DataSet();
-                
-                adapter.SelectCommand.CommandTimeout = 0;
-                adapter.Fill(ds);
+
+                try
+                {
+                    adapter.Fill(ds);
+                }
+                catch (OleDbException ex)
+                {
+                    if (ex.ErrorCode == -2)
+                        throw new CommandTimeoutException(ex, adapter.SelectCommand);
+                    throw;
+                }
 
                 // capture time after execution
                 DateTime timeAfter = DateTime.Now;

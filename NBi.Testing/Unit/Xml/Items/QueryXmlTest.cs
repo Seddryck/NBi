@@ -126,7 +126,7 @@ namespace NBi.Testing.Unit.Xml.Items
             Assert.That(query.Parameters, Has.Count.EqualTo(1));
             Assert.That(query.Parameters[0].IsRemoved, Is.True);
 
-            Assert.That(query.GetParameters, Has.Count.EqualTo(0));
+            Assert.That(query.GetParameters(), Has.Count.EqualTo(0));
         }
     }
 }

@@ -171,6 +171,7 @@
     <Compile Include="Items\Xml\XPathXml.cs" />
     <Compile Include="LocalXmlUrlResolver.cs" />
     <Compile Include="Settings\CsvProfileXml.cs" />
+    <Compile Include="Settings\SettingsStandaloneXml.cs" />
     <Compile Include="Settings\TraitXml.cs" />
     <Compile Include="Settings\UpdateXml.cs" />
     <Compile Include="Settings\EditionXml.cs" />

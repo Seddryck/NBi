@@ -41,10 +41,18 @@ namespace NBi.GenbiL.Parser
                 select new ParameterActionFactory().Build(name.ToString(), value)
         );
 
+        readonly static Parser<ISettingAction> IncludeParser =
+        (
+                from include in (Keyword.Add).Or(Keyword.Include)
+                from file in Keyword.File
+                from filename in Grammar.QuotedTextual.Token()
+                select new IncludeSettingAction(filename)
+        );
+
         public readonly static Parser<IAction> Parser =
         (
                 from setting in Keyword.Setting
-                from text in ReferenceParser.Or(DefaultParser).Or(ParameterParser)
+                from text in ReferenceParser.Or(DefaultParser).Or(ParameterParser).Or(IncludeParser)
                 select text
         );
     }

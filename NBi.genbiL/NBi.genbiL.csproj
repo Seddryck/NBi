@@ -77,6 +77,7 @@
     <Compile Include="Action\Case\ICaseAction.cs" />
     <Compile Include="Action\EmptyAction.cs" />
     <Compile Include="Action\IAction.cs" />
+    <Compile Include="Action\Setting\IncludeSettingAction.cs" />
     <Compile Include="Action\Setting\ISettingAction.cs" />
     <Compile Include="Action\Setting\ParameterActionFactory.cs" />
     <Compile Include="Action\Setting\ParallelizeQueriesAction.cs" />

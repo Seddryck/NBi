@@ -1,0 +1,10 @@
+﻿case scope 'structure';
+case load file 'Acceptance\GenbiL\Resources\dimension.csv';
+case  remove  column 'useless';
+case  rename  column  'dimensionY' into 'dimension';
+template load predefined 'SubsetOfDimensions';
+
+setting include file 'Acceptance\GenbiL\Resources\settings.nbiset';
+
+suite generate;
+suite save as 'Acceptance\GenbiL\Resources\settings.nbits';

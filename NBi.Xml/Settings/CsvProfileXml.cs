@@ -67,5 +67,7 @@ namespace NBi.Xml.Settings
             : base(fieldSeparator, recordSeparator)
         {}
 
+        
+
     }
 }

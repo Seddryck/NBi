@@ -286,7 +286,7 @@ namespace NBi.Testing.Unit.Xml.Settings
         }
 
         [Test]
-        public void DeserializeCsvProfile_CsvProfileSetToCommaCarriageReturnLineFeed_True()
+        public void DeserializeCsvProfile_CsvProfileSetToTabCardinalLineFeed_True()
         {
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("CsvProfileXmlTestSuite");
@@ -315,6 +315,10 @@ namespace NBi.Testing.Unit.Xml.Settings
 
             Assert.That(xml, Is.StringContaining("record-separator"));
             Assert.That(xml, Is.StringContaining("Cr"));
+
+            Assert.That(xml, Is.Not.StringContaining("<FieldSeparator>"));
+            Assert.That(xml, Is.Not.StringContaining("<TextQualifier>"));
+            Assert.That(xml, Is.Not.StringContaining("<RecordSeparator>"));
         }
 
         [Test]

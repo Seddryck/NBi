@@ -34,7 +34,7 @@ namespace NBi.Core.ResultSet.Comparer
             if ((Style == RoundingStyle.Ceiling && remainder>0) || (Style == RoundingStyle.Round && remainder > step / 2))
                 remainder -= step;
 
-            return (value - remainder) * Math.Sign(value);
+            return value - (remainder * Math.Sign(value));
         }
     }
 }

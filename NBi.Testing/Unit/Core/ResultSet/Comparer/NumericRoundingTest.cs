@@ -45,7 +45,10 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         [TestCase(105, 5, Rounding.RoundingStyle.Floor, 105)]
         [TestCase(105, 5, Rounding.RoundingStyle.Ceiling, 105)]
         [TestCase(105, 5, Rounding.RoundingStyle.Round, 105)]
-        public void GetValue_ValueStepStyle_NewValue(decimal value, int step, Rounding.RoundingStyle roundingStyle, decimal newValue)
+        [TestCase(-105, 5, Rounding.RoundingStyle.Round, -105)]
+        [TestCase(1.2345, 0.01, Rounding.RoundingStyle.Round, 1.23)]
+        [TestCase(-1.2345, 0.01, Rounding.RoundingStyle.Round, -1.23)]
+        public void GetValue_ValueStepStyle_NewValue(decimal value, double step, Rounding.RoundingStyle roundingStyle, decimal newValue)
         {
             var rounder = new NumericRounding(step, roundingStyle);
             

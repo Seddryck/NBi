@@ -55,18 +55,24 @@ namespace NBi.Xml.Items
 
         protected string GetBaseConnectionString()
         {
+            var connectionString = string.Empty;
             if (!string.IsNullOrEmpty(ConnectionString) && ConnectionString.StartsWith("@"))
-                return Settings.GetReference(ConnectionString.Remove(0, 1)).ConnectionString;
-
+                connectionString = Settings.GetReference(ConnectionString.Remove(0, 1)).ConnectionString;    
             //Else get the ConnectionString as-is
             //if ConnectionString is specified then return it
-            if (!string.IsNullOrEmpty(ConnectionString))
-                return ConnectionString;
-
+            else if (!string.IsNullOrEmpty(ConnectionString))
+                connectionString = ConnectionString;
             //Else get the default ConnectionString 
-            if (Default != null && !string.IsNullOrEmpty(Default.ConnectionString))
-                return Default.ConnectionString;
-            return null;
+            else if (Default != null && !string.IsNullOrEmpty(Default.ConnectionString))
+                connectionString = Default.ConnectionString;
+            else
+                return null;
+
+            if (connectionString.TrimEnd().EndsWith(".odc"))
+                return new OfficeDataConnectionFileParser(Settings.BasePath).GetConnectionString(ConnectionString);
+            else
+                return connectionString;
+           
         }
     }
 }

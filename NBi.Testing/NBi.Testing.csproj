@@ -105,6 +105,7 @@
     <Compile Include="Integration\Core\DataManipulation\SqlServer\BulkLoadCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\TruncateCommandTest.cs" />
     <Compile Include="Integration\Core\DataType\Relational\RelationalDataTypeDiscoveryFactoryTest.cs" />
+    <Compile Include="Integration\Core\OfficeDataConnectionFileParserTest.cs" />
     <Compile Include="Integration\SqlServer\IntegrationService\EtlDtsWindowsRunnerTest.cs" />
     <Compile Include="Integration\SqlServer\IntegrationService\EtlFileRunnerTest.cs" />
     <Compile Include="Integration\Core\FileManipulation\CopyCommandTest.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="Unit\Core\ListComparisonFormatterTest.cs" />
     <Compile Include="Unit\Core\Members\RangeMembersFactoryTest.cs" />
     <Compile Include="Unit\Core\Members\PredefinedMembersFactoryTest.cs" />
+    <Compile Include="Unit\Core\OfficeDataConnectionFileParserTest.cs" />
     <Compile Include="Unit\Core\Query\DbTypeBuilderTest.cs" />
     <Compile Include="Unit\Core\Report\FileParserTest.cs" />
     <Compile Include="Unit\Core\ResultSet\KeyCollectionTest.cs" />
@@ -665,6 +667,7 @@
     <Content Include="Acceptance\Resources\PowerBiDesktop\Source.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Integration\Core\Resources\Sample.odc" />
     <EmbeddedResource Include="Unit\Xml\Resources\NoRowsXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\AllRowsXmlTestSuite.xml" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Light-0001.txt" />

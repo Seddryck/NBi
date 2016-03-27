@@ -239,6 +239,7 @@
     <Compile Include="Members\Ranges\IRange.cs" />
     <Compile Include="Members\Ranges\IRangeMembersBuilder.cs" />
     <Compile Include="Members\Ranges\RangeMembersFactory.cs" />
+    <Compile Include="OfficeDataConnectionFileParser.cs" />
     <Compile Include="PowerBiDesktop\PowerBiDesktopConnectionStringBuilder.cs" />
     <Compile Include="PowerBiDesktop\ProcessExtensions.cs" />
     <Compile Include="Process\IProcessCommand.cs" />

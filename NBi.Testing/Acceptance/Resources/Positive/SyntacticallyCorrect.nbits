@@ -3,7 +3,7 @@
 	<test name="A correct query MDX">
 		<system-under-test>
 			<execution>
-				<query name="MDX" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033">
+				<query name="MDX" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2014;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033">
 					SELECT
 					[Measures].[Reseller Order Count] ON 0,
 					EXCEPT({[Date].[Calendar Year].Children},{[Date].[Calendar Year].[CY 2006]}) ON 1
@@ -15,8 +15,11 @@
 		<assert>
 			<syntacticallyCorrect/>
 		</assert>
+    <cleanup>
+      <sql-run connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly" name="MyFile.sql" path="C:\totot\"/>
+    </cleanup>
 	</test>
-	<test name="A correct query SQL">
+	<!--<test name="A correct query SQL">
 		<system-under-test>
 			<execution>
 				<query name="SQL" connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
@@ -28,5 +31,5 @@
 		<assert>
 			<syntacticallyCorrect/>
 		</assert>
-	</test>
+	</test>-->
 </testSuite>

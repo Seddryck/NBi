@@ -13,7 +13,7 @@ SharedDataSet AS (
 SELECT
 	LEFT([Path], LEN([path]) - CHARINDEX('/',REVERSE([Path])) + 1) AS ReportPath
 	, SharedDataSetName AS SharedDataSetName
-	, ISNULL(T1.N.value('(*:CommandType/text())[1]', 'nvarchar(128)'), 'T-SQL') AS CommandType
+	, ISNULL(T1.N.value('(*:CommandType/text())[1]', 'nvarchar(128)'), 'Text') AS CommandType
 	, T1.N.value('(*:CommandText/text())[1]', 'nvarchar(max)') AS CommandText
 FROM
 	cte AS T

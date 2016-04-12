@@ -13,7 +13,7 @@ SELECT
 	, Report_Name AS ReportName
 	, T1.N.value('@Name', 'nvarchar(128)') AS DataSetName
 	, T2.N.value('(*:DataSourceName/text())[1]', 'nvarchar(128)') AS DataSourceName
-	, ISNULL(T2.N.value('(*:CommandType/text())[1]', 'nvarchar(128)'), 'T-SQL') AS CommandType
+	, ISNULL(T2.N.value('(*:CommandType/text())[1]', 'nvarchar(128)'), 'Text') AS CommandType
 	, T2.N.value('(*:CommandText/text())[1]', 'nvarchar(max)') AS CommandText
 FROM
 	cte AS T

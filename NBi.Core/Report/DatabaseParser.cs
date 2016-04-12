@@ -31,7 +31,7 @@ namespace NBi.Core.Report
                     query = ReadQueryFromSharedDataSet(request.Source, reference);
             }
 
-            if (query == null)
+            if (query != null)
                 return query;
 
             if (otherDataSets.Count() == 0)

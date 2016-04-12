@@ -255,6 +255,7 @@
     <Compile Include="Query\DbTypeBuilder.cs" />
     <Compile Include="Query\IQueryParameter.cs" />
     <Compile Include="Query\IQueryTemplateVariable.cs" />
+    <Compile Include="Report\ReportCommand.cs" />
     <Compile Include="ResultSet\Comparer\ComparerFactory.cs" />
     <Compile Include="Report\FileRequest.cs" />
     <Compile Include="Report\DatabaseParser.cs" />

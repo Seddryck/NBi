@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -8,7 +9,7 @@ namespace NBi.Core.Report
 {
     class FileParser : IParser
     {
-        public string ExtractQuery(IQueryRequest request)
+        public ReportCommand ExtractQuery(IQueryRequest request)
         {
             var fullPath = string.Format("{0}{1}", request.ReportPath, request.ReportName);
             if (!File.Exists(fullPath))
@@ -37,8 +38,19 @@ namespace NBi.Core.Report
 
             node = docXml.SelectSingleNode(xpath, nsmgr);
             if (node != null)
-                return node.InnerText; // Weve fond the query
-            
+            {
+                var text = node.InnerText; // Weve fond the query
+                var reportCommand = new ReportCommand() { Text = text };
+
+                xpath = string.Format("//rd:Report/rd:DataSets/rd:DataSet[@Name=\"{0}\"]/rd:Query/rd:CommandType", request.DataSetName);
+                node = docXml.SelectSingleNode(xpath, nsmgr);
+                if (node == null)
+                    reportCommand.CommandType = CommandType.Text;
+                else
+                    reportCommand.CommandType = (CommandType)Enum.Parse(typeof(CommandType), node.InnerText);
+                return reportCommand;
+            }
+                
             //If not found then we'll check if it's not a shared dataset
             xpath = string.Format("//rd:Report/rd:DataSets/rd:DataSet[@Name=\"{0}\"]/rd:SharedDataSet/rd:SharedDataSetReference", request.DataSetName);
             node = docXml.SelectSingleNode(xpath, nsmgr);
@@ -50,7 +62,7 @@ namespace NBi.Core.Report
             
         }
 
-        protected string ExtractQueryFromSharedDataSet(string fullPath)
+        protected ReportCommand ExtractQueryFromSharedDataSet(string fullPath)
         {
             //If it's a shared dataset then we need to file the correspoding file
             if (!File.Exists(fullPath))
@@ -69,7 +81,18 @@ namespace NBi.Core.Report
             nsmgr.AddNamespace("rd", root.GetNamespaceOfPrefix(string.Empty));
             var node = docXml.SelectSingleNode(xpath, nsmgr);
             if (node != null)
-                return node.InnerText;
+            {
+                var text = node.InnerText; // We've found the query
+                var reportCommand = new ReportCommand() { Text = text };
+
+                xpath = string.Format("//rd:SharedDataSet/rd:DataSet[@Name=\"\"]/rd:Query/rd:CommandType");
+                node = docXml.SelectSingleNode(xpath, nsmgr);
+                if (node == null)
+                    reportCommand.CommandType = CommandType.Text;
+                else
+                    reportCommand.CommandType = (CommandType)Enum.Parse(typeof(CommandType), node.InnerText);
+                return reportCommand;
+            }
 
             throw new ArgumentException(string.Format("Cannot find the command text in the shared dataSet at '{0}'", fullPath));
         }

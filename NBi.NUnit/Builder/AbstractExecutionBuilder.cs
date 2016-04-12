@@ -46,6 +46,11 @@ namespace NBi.NUnit.Builder
             }
             var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables);
 
+            if (executionXml.BaseItem is ReportXml)
+            {
+                cmd.CommandType = ((ReportXml)executionXml.BaseItem).GetCommandType();
+            }
+
             return cmd;
         }
 

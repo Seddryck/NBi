@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using NBi.Core.Report;
 using NUnit.Framework;
+using System.Data;
 
 namespace NBi.Testing.Unit.Core.Report
 {
@@ -76,10 +77,11 @@ namespace NBi.Testing.Unit.Core.Report
             var parser = new FileParser();
             var query = parser.ExtractQuery(request);
 
-            Assert.That(query,
+            Assert.That(query.Text,
                 Is.StringContaining("SELECT").And
                 .StringContaining("[CurrencyAlternateKey]").And
                 .StringContaining("[DimCurrency]"));
+            Assert.That(query.CommandType, Is.EqualTo(CommandType.Text));
         }
 
         [Test]
@@ -136,10 +138,11 @@ namespace NBi.Testing.Unit.Core.Report
             var parser = new FileParser();
             var query = parser.ExtractQuery(request);
 
-            Assert.That(query,
+            Assert.That(query.Text,
                 Is.StringContaining("SELECT").And
                 .StringContaining("[Sales].[SalesPerson]").And
                 .StringContaining("[HumanResources].[Employee]"));
+            Assert.That(query.CommandType, Is.EqualTo(CommandType.Text));
         }
     }
 }

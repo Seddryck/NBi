@@ -88,5 +88,31 @@ namespace NBi.Testing.Unit.NUnit.Builder
             Assert.That(sut, Is.InstanceOf<IDbCommand>());
         }
 
+        [Test]
+        public void GetSystemUnderTest_Build_CorrectIDbCommandForSProc()
+        {
+            //Buiding object used during test
+            var sutXmlStubFactory = new Mock<ExecutionXml>();
+            var itemXmlStubFactory = new Mock<ReportXml>();
+            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            itemXmlStubFactory.Setup(i => i.GetCommandType()).Returns(CommandType.StoredProcedure);
+            sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
+            sutXmlStubFactory.Setup(s => s.BaseItem).Returns(itemXmlStubFactory.Object);
+            var sutXml = sutXmlStubFactory.Object;
+            sutXml.Item = itemXmlStubFactory.Object;
+
+            var ctrXml = new SyntacticallyCorrectXml();
+
+            var builder = new ExecutionSyntacticallyCorrectBuilder();
+            builder.Setup(sutXml, ctrXml);
+            //Call the method to test
+            builder.Build();
+            var sut = builder.GetSystemUnderTest();
+
+            //Assertion
+            Assert.That(sut, Is.InstanceOf<IDbCommand>());
+            Assert.That((sut as IDbCommand).CommandType, Is.EqualTo(CommandType.StoredProcedure));
+        }
+
     }
 }

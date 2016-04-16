@@ -55,7 +55,7 @@ namespace NBi.Xml.Items
             return command.Text;
         }
 
-        public CommandType GetCommandType()
+        public virtual CommandType GetCommandType()
         {
             return command.CommandType;
         }
@@ -64,9 +64,10 @@ namespace NBi.Xml.Items
         public new List<QueryParameterXml> GetParameters()
         {
             var list = Parameters;
-            foreach (var param in Default.Parameters)
-                if (!Parameters.Exists(p => p.Name == param.Name))
-                    list.Add(param);
+            if (Default!=null)
+                foreach (var param in Default.Parameters)
+                    if (!Parameters.Exists(p => p.Name == param.Name))
+                        list.Add(param);
 
             return list;
         }

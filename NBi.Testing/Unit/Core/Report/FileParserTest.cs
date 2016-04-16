@@ -20,6 +20,7 @@ namespace NBi.Testing.Unit.Core.Report
         public void SetupMethods()
         {
             CreateReportFile("Currency_List");
+            CreateReportFile("Currency_List - SProc");
             CreateReportFile("Currency_Rates");
             CreateReportFile("Employee_Sales_Summary");
             CreateSharedDataSet("EmployeeSalesDetail");
@@ -143,6 +144,23 @@ namespace NBi.Testing.Unit.Core.Report
                 .StringContaining("[Sales].[SalesPerson]").And
                 .StringContaining("[HumanResources].[Employee]"));
             Assert.That(query.CommandType, Is.EqualTo(CommandType.Text));
+        }
+
+        [Test]
+        public void ExtractSProc_ExistingReport_CorrectSProcReturned()
+        {
+            var request = new NBi.Core.Report.FileRequest(
+                    ReportFileDirectory
+                    , "Currency_List - SProc"
+                    , "Currency"
+                );
+
+            var parser = new FileParser();
+            var query = parser.ExtractQuery(request);
+
+            Assert.That(query.Text,
+                Is.EqualTo("usp_CurrencyGetAll"));
+            Assert.That(query.CommandType, Is.EqualTo(CommandType.StoredProcedure));
         }
     }
 }

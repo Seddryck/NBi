@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<settings>
+  <default apply-to="system-under-test">
+    <connectionString>myDefaultConnectionString</connectionString>
+  </default>
+  <reference name="olap">
+    <connectionString>myReferenceConnectionString</connectionString>
+    <regex>[AZ-az]</regex>
+  </reference>
+  <csv-profile field-separator="Tab" record-separator="CrLf"/>
+</settings>

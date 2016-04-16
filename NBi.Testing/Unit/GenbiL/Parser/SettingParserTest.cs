@@ -68,5 +68,16 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.InstanceOf<ParallelizeQueriesAction>());
             Assert.That(((ParallelizeQueriesAction)result).Value, Is.False);
         }
+
+        [Test]
+        public void SentenceParser_IncludeSetting_ValidSentence()
+        {
+            var input = "setting include file 'myfile.nbiset';";
+            var result = Setting.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<IncludeSettingAction>());
+            Assert.That(((IncludeSettingAction)result).Filename, Is.EqualTo("myfile.nbiset"));
+        }
     }
 }

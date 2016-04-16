@@ -44,5 +44,20 @@
             }
         }
 
+        public bool ShouldSerializeTextQualifier()
+        {
+            return false;
+        }
+
+        public bool ShouldSerializeFieldSeparator()
+        {
+            return false;
+        }
+
+        public bool ShouldSerializeRecordSeparator()
+        {
+            return false;
+        }
+
     }
 }

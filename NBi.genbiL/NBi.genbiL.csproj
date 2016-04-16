@@ -77,6 +77,7 @@
     <Compile Include="Action\Case\ICaseAction.cs" />
     <Compile Include="Action\EmptyAction.cs" />
     <Compile Include="Action\IAction.cs" />
+    <Compile Include="Action\Setting\IncludeSettingAction.cs" />
     <Compile Include="Action\Setting\ISettingAction.cs" />
     <Compile Include="Action\Setting\ParameterActionFactory.cs" />
     <Compile Include="Action\Setting\ParallelizeQueriesAction.cs" />
@@ -109,6 +110,10 @@
     <Compile Include="TestSuiteGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
+      <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
+      <Name>NBi.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NBi.Services\NBi.Service.csproj">
       <Project>{a9c7e50a-1d3d-4c6d-9c56-8ea8925fe2d6}</Project>
       <Name>NBi.Service</Name>

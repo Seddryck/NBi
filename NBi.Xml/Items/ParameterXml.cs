@@ -8,6 +8,10 @@ namespace NBi.Xml.Items
 {
     public abstract class ParameterXml
     {
+        [DefaultValue(false)]
+        [XmlAttribute("remove")]
+        public bool IsRemoved { get; set; }
+
         [XmlAttribute("name")]
         public string Name { get; set; }
 
@@ -24,6 +28,11 @@ namespace NBi.Xml.Items
             }
             else
                 throw new InvalidOperationException();
+        }
+
+        public ParameterXml()
+        {
+            IsRemoved = false;
         }
     }
 }

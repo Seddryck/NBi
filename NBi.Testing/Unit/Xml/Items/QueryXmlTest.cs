@@ -110,5 +110,23 @@ namespace NBi.Testing.Unit.Xml.Items
 
             Assert.That(query.Parameters[0].SqlType.ToLower(), Is.EqualTo("varchar(255)"));
         }
+
+        [Test]
+        public void Deserialize_QueryWithRemovedParameter_QueryXml()
+        {
+            int testNr = 3;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            var query = (QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
+
+            Assert.That(query.Parameters, Is.Not.Null);
+            Assert.That(query.Parameters, Is.Not.Empty);
+            Assert.That(query.Parameters, Has.Count.EqualTo(1));
+            Assert.That(query.Parameters[0].IsRemoved, Is.True);
+
+            Assert.That(query.GetParameters(), Has.Count.EqualTo(0));
+        }
     }
 }

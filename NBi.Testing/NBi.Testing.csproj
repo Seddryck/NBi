@@ -480,6 +480,7 @@
     <EmbeddedResource Include="Unit\Core\Report\Resources\Employee_Sales_Summary.rdl" />
     <EmbeddedResource Include="Unit\Core\Report\Resources\EmpSalesMonth.rsd" />
     <EmbeddedResource Include="Unit\Core\Report\Resources\SalesEmployees.rsd" />
+    <EmbeddedResource Include="Unit\Core\Report\Resources\Currency_List - SProc.rdl" />
   </ItemGroup>
   <ItemGroup>
     <MyOptionalItems Include="ConnectionString.user.config">

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using NBi.Core.Report;
 using NUnit.Framework;
+using System.Data;
 
 namespace NBi.Testing.Integration.Core.Report
 {
@@ -61,10 +62,11 @@ namespace NBi.Testing.Integration.Core.Report
             var parser = new DatabaseParser();
             var query = parser.ExtractQuery(request);
 
-            Assert.That(query, 
+            Assert.That(query.Text, 
                 Is.StringContaining("SELECT").And
                 .StringContaining("[CurrencyAlternateKey]").And
                 .StringContaining("[DimCurrency]"));
+            Assert.That(query.CommandType, Is.EqualTo(CommandType.Text));
         }
 
         [Test]
@@ -124,8 +126,10 @@ namespace NBi.Testing.Integration.Core.Report
             var parser = new DatabaseParser();
             var query = parser.ExtractQuery(request);
 
-            Assert.That(query,
+            Assert.That(query.Text,
                 Is.StringContaining("SELECT"));
+            Assert.That(query.CommandType, Is.EqualTo(CommandType.Text));
+
         }
 
         public void ExtractQuery_NonExistingSharedDataSet_CorrectQuery()

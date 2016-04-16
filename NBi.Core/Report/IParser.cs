@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 
@@ -7,6 +8,6 @@ namespace NBi.Core.Report
 {
     public interface IParser
     {
-        string ExtractQuery(IQueryRequest request);
+        ReportCommand ExtractQuery(IQueryRequest request);
     }
 }

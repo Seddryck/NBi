@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace NBi.Core.Report
 {
     public class DatabaseParser : IParser
     {
-        public string ExtractQuery(IQueryRequest request)
+        public ReportCommand ExtractQuery(IQueryRequest request)
         {
             var otherDataSets = new List<string>();
             var query = SearchDataSet(
@@ -18,7 +19,7 @@ namespace NBi.Core.Report
                 , request.ReportName
                 , request.DataSetName
                 , ref otherDataSets);
-            if (string.IsNullOrEmpty(query))
+            if (query == null)
             {
                 var reference = SearchSharedDataSet(
                     request.Source
@@ -30,7 +31,7 @@ namespace NBi.Core.Report
                     query = ReadQueryFromSharedDataSet(request.Source, reference);
             }
 
-            if (!string.IsNullOrEmpty(query))
+            if (query != null)
                 return query;
 
             if (otherDataSets.Count() == 0)
@@ -41,7 +42,7 @@ namespace NBi.Core.Report
                 throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The datasets for this report are {3}", request.ReportPath, request.ReportName, request.DataSetName, String.Join(", ", otherDataSets.ToArray())));
         }
 
-        private string SearchDataSet(string source, string reportPath, string reportName, string dataSetName, ref List<string> otherDataSets)
+        private ReportCommand SearchDataSet(string source, string reportPath, string reportName, string dataSetName, ref List<string> otherDataSets)
         {
             using (var conn = new SqlConnection())
             {
@@ -65,7 +66,12 @@ namespace NBi.Core.Report
                 
                 while (dr.Read())
                     if (dr.GetString(2) == dataSetName)
-                        return dr.GetString(5); //CommandText
+                    {
+                        var command = new ReportCommand();
+                        command.CommandType = (CommandType)Enum.Parse(typeof(CommandType), dr.GetString(4)); //CommandType
+                        command.Text = dr.GetString(5); //CommandText
+                        return command;
+                    }
                     else
                         otherDataSets.Add(dr.GetString(2));
             }
@@ -96,14 +102,14 @@ namespace NBi.Core.Report
 
                 while (dr.Read())
                     if (dr.GetString(2) == dataSetName)
-                        return dr.GetString(3); //CommandText
+                        return dr.GetString(3);
                     else
                         otherDataSets.Add(dr.GetString(2));
             }
             return null;
         }
 
-        private string ReadQueryFromSharedDataSet(string source, string reference)
+        private ReportCommand ReadQueryFromSharedDataSet(string source, string reference)
         {
             using (var conn = new SqlConnection())
             {
@@ -121,9 +127,15 @@ namespace NBi.Core.Report
                 //execute the command
                 conn.Open();
                 var dr = cmd.ExecuteReader();
+
                 
-                while (dr.Read())
-                    return dr.GetString(3); //CommandText
+                if (dr.Read())
+                {
+                    var command = new ReportCommand();
+                    command.CommandType = (CommandType)Enum.Parse(typeof(CommandType), dr.GetString(2)) ; //CommandType
+                    command.Text = dr.GetString(3); //CommandText
+                    return command;
+                }
             }
             return null;
         }

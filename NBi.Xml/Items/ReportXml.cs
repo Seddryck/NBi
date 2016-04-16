@@ -32,6 +32,7 @@ namespace NBi.Xml.Items
             Parameters = new List<QueryParameterXml>();
         }
 
+        private ReportCommand command;
         public override string GetQuery()
         {
             var parser = ParserFactory.GetParser(
@@ -49,18 +50,24 @@ namespace NBi.Xml.Items
                     , Dataset
                 );
 
-            var query = parser.ExtractQuery(request);
+            command = parser.ExtractQuery(request);
 
-            return query;
+            return command.Text;
+        }
+
+        public virtual CommandType GetCommandType()
+        {
+            return command.CommandType;
         }
 
 
         public new List<QueryParameterXml> GetParameters()
         {
             var list = Parameters;
-            foreach (var param in Default.Parameters)
-                if (!Parameters.Exists(p => p.Name == param.Name))
-                    list.Add(param);
+            if (Default!=null)
+                foreach (var param in Default.Parameters)
+                    if (!Parameters.Exists(p => p.Name == param.Name))
+                        list.Add(param);
 
             return list;
         }

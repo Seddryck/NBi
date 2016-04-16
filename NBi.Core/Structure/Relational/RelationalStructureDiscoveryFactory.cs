@@ -14,7 +14,7 @@ namespace NBi.Core.Structure.Relational
         private readonly IDbConnection connection;
         public RelationalStructureDiscoveryFactory(IDbConnection connection)
         {
-            this.connection = connection as SqlConnection;
+            this.connection = connection as IDbConnection;
         }
 
         public StructureDiscoveryCommand Instantiate(Target target, TargetType type, IEnumerable<IFilter> filters)

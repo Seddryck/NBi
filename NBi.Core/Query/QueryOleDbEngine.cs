@@ -140,11 +140,19 @@ namespace NBi.Core.Query
                 Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
                 // capture time before execution
                 DateTime timeBefore = DateTime.Now;
-                var adapter = new OleDbDataAdapter(command.CommandText, connection);
+                var adapter = new OleDbDataAdapter(command);
                 var ds = new DataSet();
-                
-                adapter.SelectCommand.CommandTimeout = 0;
-                adapter.Fill(ds);
+
+                try
+                {
+                    adapter.Fill(ds);
+                }
+                catch (OleDbException ex)
+                {
+                    if (ex.Message == "Query timeout expired")
+                        throw new CommandTimeoutException(ex, adapter.SelectCommand);
+                    throw;
+                }
 
                 // capture time after execution
                 DateTime timeAfter = DateTime.Now;

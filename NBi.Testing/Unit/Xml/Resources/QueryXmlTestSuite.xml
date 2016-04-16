@@ -41,7 +41,7 @@
 	<test name="Parameter with SQL Type" uid="0001">
 		<system-under-test>
 			<execution>
-				<query>
+				<query timeout-milliSeconds="60000">
 					select myColumn from myTable where myFirstField=@FirstField
 					<parameter name="FirstField" sql-type="varchar(255)">Identifier</parameter>
 				</query>

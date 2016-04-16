@@ -117,6 +117,7 @@
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Configuration\ConfigurationManager.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />
+    <Compile Include="CommandTimeoutException.cs" />
     <Compile Include="Connection\IConnectionWaitCommand.cs" />
     <Compile Include="Connection\ConnectionWaitCommand.cs" />
     <Compile Include="Connection\ConnectionWaitFactory.cs" />

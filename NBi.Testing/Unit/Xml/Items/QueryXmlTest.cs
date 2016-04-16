@@ -128,5 +128,19 @@ namespace NBi.Testing.Unit.Xml.Items
 
             Assert.That(query.GetParameters(), Has.Count.EqualTo(0));
         }
+        
+        [Test]
+        public void Deserialize_QueryWithTimeout_QueryXml()
+        {
+            int testNr = 2;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            var query = (QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
+
+            Assert.That(query.Timeout, Is.EqualTo(60000));
+        }
+
     }
 }

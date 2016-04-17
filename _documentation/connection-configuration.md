@@ -115,9 +115,11 @@ When you’ve defined some references in your test-suite, you can use them in yo
 
 At the opposite of default connection strings which are specific for system-under-tests and asserts, references can be used between both elements.
 
-## External management (config file)
+## Other places to define connection strings
 
-If you want to use your test suite in different stages (development, test, user-acceptance, …), you want to configure different connection strings depending on the targeted stage.  To avoid to edit your test suite for each environment (and so have different nbits file), you can externalize the management of connection strings to the config file. In definitive you’ll have one unique nbits file with your test-suite definition and one config file (containing the connection strings) by stage.
+### External management (config file)
+
+If you want to use your test suite in different stages (development, test, user-acceptance, …), you want to configure different connection strings depending on the targeted stage.  To avoid to edit your test suite for each environment (and so have different nbits file), you can externalize the management of connection strings to the config file. In definitive you’ll have one unique nbits file with your test-suite definition and one config file (containing the connection strings) for each stage.
 
 To achieve this, in the settings of your test-suite, at the place where you usually write your connection string, you’ll need to specify an alias (prefixed by an arrobas (@)).
 
@@ -154,4 +156,17 @@ This alias (without the arrobas) must be used in your config file to specify the
       connectionString="..." />
   </connectionStrings>
 </configuration>
+{% endhighlight %}
+
+### Define your connection-string into an ODC file
+
+It's possible to configure your connection-string from the content of an ODC file. To achieve this, just reference the path to your ODC file in place of a connection-string. The path of this ODC file must be relative to the test-suite.
+
+{% highlight xml %}
+<?xml version="1.0" encoding="utf-8" ?>
+<settings>
+	<default apply-to="system-under-test">
+		<connectionString>../connections/myCube.odc</connectionString>
+	</default>
+</settings>
 {% endhighlight %}

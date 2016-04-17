@@ -2,7 +2,7 @@
 layout: documentation
 title: Performance
 prev_section: query-syntax
-next_section: query-parameters
+next_section: query-timeout
 permalink: /docs/query-performance/
 ---
 For this kind of test, you'll need to define your system under test as a *query* and your assertion as a *fasterThan* constraint.
@@ -52,7 +52,7 @@ A full test, would be:
 {% endhighlight %}
 
 ### Clean the cache
-This feature is only available for SQL queries, at the moment NBi is not supporting the cleaning of the cache for MDX queries and will simply ignore this setting.
+Until version 1.13, this feature was only available for SQL queries. Since  1.13-beta-2, NBi is supporting the cleaning of the cache for MDX/DAX queries.
 
 It’s possible to specify that the cache must be cleaned before the execution of the test. The time needed to clean the cache is not included in the measurement of your query’s performance but, on the other hand, the time elapsed during the creation of the execution plan is included in the performances' measurement.
 

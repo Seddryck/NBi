@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Query's parameters
-prev_section: query-performance
+prev_section: query-timeout
 next_section: query-template
 permalink: /docs/query-parameters/
 ---
@@ -37,7 +37,7 @@ More precisely, NBi will execute a [sp_executesql](http://msdn.microsoft.com/en-
 
 ### Sql-type
 
-With an **SqlClient connection (SQL)**, the attribute sql-type is optional but it's highly recommended to use it. It will save you from pitfalls with SQL Server trying to guess by itself the type of your parameter (and failing). When specifying the value of the sql-type, you'll need to provide the SQL type such as varchar(50) or int or bit (and not the corresponding C# type string, byte or boolean). For sql-types such as varchar or char or decimal the additional parameters (size, precision, ...) between brackets will also be considered by NBi.
+With an **SqlClient connection (SQL)**, the attribute sql-type is optional but it's highly recommended to use it. It will save you from pitfalls with SQL Server trying to guess by itself the type of your parameters (and failing). When specifying the value of the sql-type, you'll need to provide the SQL type such as varchar(50) or int or bit (and not the corresponding C# type string, byte or boolean). For sql-types such as varchar or char or decimal the additional parameters (size, precision, ...) between brackets will also be considered by NBi.
 {% highlight xml %}
 <parameter
 	name="MyDate" sql-type="Decimal(10,3)"
@@ -59,7 +59,7 @@ To provide a value for a date parameter, we recommend the universal format (YYYY
 
 ## Parameters and Adomd
 
-With an **AdomdClient connection (DAX or MDX)**, you don't need to specify the sql-type. Note that the usage of parameters for MDX queries is not straightforward and the documentation not really exhaustive. MDX supports only parameters for literal or scalar values.
+With an **AdomdClient connection (DAX or MDX)**, you don't need to specify the sql-type. Note that the usage of parameters for MDX queries is not straightforward and the documentation not really exhaustive. MDX only supports parameters for literal or scalar values.
 
 {% highlight xml %}
 <query>
@@ -115,6 +115,27 @@ Within the code snippet here under, we're defining twice a *parameter* named *lo
 </settings>
 {% endhighlight %}
 
-If a parameter is defined at the test-suite level and at the query level, the definition at the query level will be used.
+### Overriding Parameters defined at the test-suite level
 
-If a parameter is not defined in a query but is provided to this query, this parameter is simply not used by SQL Server (so it's not a problem).
+If a parameter is defined at the test-suite level and at the query level, the definition at the query level will be used. The value defined at the test-suite level will be overridden by the value provided at the query level.
+
+If a parameter is not defined in a query but is provided to this query, this parameter is simply not used by SQL Server (so it's usually not a problem).
+
+If you want to specify that a parameter defined at the test-suite level must not be used by the query, you need to specify the attribute *remove* and set it to *true*. This is especially useful when your default parameters are covering SQL queries and your effective query is an MDX statement.
+
+{% highlight xml %}
+<settings>
+	<default apply-to="system-under-test">
+		<parameter name="Age" sql-type="int">10</parameter>
+	</default>
+</settings>
+<test>
+  <system-under-test>
+    <query>
+	    SELECT ... FROM myCube WHERE (StrToMember(@Canada))
+  		<parameter name="Age" remove="true"/>
+			<parameter name="Name">[Dim Location].[Country].[Canada]</parameter>
+    </query>
+  </system-under-test>
+</test>    
+{% endhighlight %}

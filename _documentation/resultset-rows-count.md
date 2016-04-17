@@ -1,8 +1,8 @@
 ---
 layout: documentation
 title: Rows' count for a result-set
-prev_section: compare-intervals
-next_section: resultset-format
+prev_section: resultset-all-no-rows
+next_section: resultset-rows-count-advanced
 permalink: /docs/resultset-rows-count/
 ---
 This assertion counts rows of a result-set and compares it to an expectation. The possible comparisons are equal, _equal_, _more-than_ and _less-than_.

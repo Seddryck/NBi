@@ -5,9 +5,9 @@ prev_section: query-assembly
 next_section: etl-define
 permalink: /docs/query-report/
 ---
-NBi is able to extract queries from SSRS reports (more precisely from report's datasets) and use them in your tests. Other features related to queries' execution are fully applicable to queries extracted from reports: you can definitively make usage of [query's parameters](../query-parameters/) or [query's template-variables](../query-template/).
+NBi is able to extract queries and stored procedures from SSRS reports (more precisely from report's datasets) and use them in your tests. Other features related to queries' execution are fully applicable to queries extracted from reports: you can definitively make usage of [query's parameters](../query-parameters/) or [query's template-variables](../query-template/) or [query's timeout](../query-timeout/).
 
-To extract the queries from a report, you've two options: connect to a ReportingServer database through sql or parse to a rdl file on a disk. In both cases, you need to specify the xml element *report* in place of the xml element named *query*
+To extract the queries or stored procedures from a report, you've two options: connect to a ReportingServer database through sql or parse a rdl file on a disk. In both cases, you need to specify the xml element *report* in place of the typical xml element *query*.
 
 {% highlight xml %}
 <system-under-test>
@@ -18,7 +18,7 @@ To extract the queries from a report, you've two options: connect to a Reporting
 {% endhighlight %}
 
 ### Dataset
-Before trying to achieve this, you must know that a report may contain more than one dataset. In consequence, it's always needed to specify from which dataset you want to extract from a query. This can be done by using the xml attribute named *dataset* in the xml element *report*.
+Before trying to define this attribute, you must understand that a report may contain more than one dataset. In consequence, it's always needed to specify from which dataset you want to extract the query or stored procedure. This can be achieved by using the xml attribute named *dataset* in the xml element *report*.
 
 {% highlight xml %}
 <system-under-test>
@@ -29,7 +29,7 @@ Before trying to achieve this, you must know that a report may contain more than
 {% endhighlight %}
 
 ### Shared dataset
-NBi supports to extract queries from shared datasets. Independently of the way the dataset is created in the report (embedded or shared), NBi will retrieve the corresponding query. It's not needed to adapt the test syntax, it's transparent.
+NBi supports to extract queries from shared datasets. Independently of the way the dataset is created in the report (embedded or shared), NBi will retrieve the corresponding query or stored procedure. It's not needed to adapt the test syntax, it's transparent.
 
 ## From ReportingServer database
 To extract from a ReportingServer database, you must specify the *source* as the connection-string to connect to this ReportingServer database.
@@ -46,7 +46,7 @@ Don't be confused with the attribute *connectionString* defining the database on
 
 Finally, you must define the report's name by the means of the attributes *path* and *name*. The *path* is referencing the folder and sub-folder of the report and *name* it's display name on the portal. Note that the leading and final slashes ("/") on the path are mandatory.
 {% highlight xml %}
-<report 
+<report
     source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"
     path="/AdventureWorks 2012/"
     name="Store-Contacts"

@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Rows' count for a result-set
+title: Rows' count (advanced)
 prev_section: resultset-rows-count
 next_section: resultset-format
 permalink: /docs/resultset-rows-count-advanced/

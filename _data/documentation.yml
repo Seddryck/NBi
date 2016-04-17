@@ -28,6 +28,7 @@
   docs:
   - resultset-all-no-rows
   - resultset-rows-count
+  - resultset-rows-count-advanced
   - resultset-format
   - resultset-calculations
 

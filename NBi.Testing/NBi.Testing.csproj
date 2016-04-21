@@ -109,6 +109,7 @@
     <Compile Include="Integration\Core\OfficeDataConnectionFileParserTest.cs" />
     <Compile Include="Integration\Core\Query\QueryOleDbEngineTest.cs" />
     <Compile Include="Integration\Core\Query\QuerySqlEngineTest.cs" />
+    <Compile Include="Integration\GenbiL\Action\ActionTest.cs" />
     <Compile Include="Integration\SqlServer\IntegrationService\EtlDtsWindowsRunnerTest.cs" />
     <Compile Include="Integration\SqlServer\IntegrationService\EtlFileRunnerTest.cs" />
     <Compile Include="Integration\Core\FileManipulation\CopyCommandTest.cs" />
@@ -470,6 +471,9 @@
     <EmbeddedResource Include="Integration\Core\Resources\MyBatch.cmd" />
     <EmbeddedResource Include="Integration\Core\Resources\MyInvalidBatch.cmd" />
     <EmbeddedResource Include="Integration\GenbiL\Resources\Simple.genbil" />
+    <None Include="Integration\GenbiL\Resources\action.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <EmbeddedResource Include="Unit\Core\Report\Resources\Currency_Rates.rdl" />
     <EmbeddedResource Include="Unit\Core\Report\Resources\Currency_List.rdl" />

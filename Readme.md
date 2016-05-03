@@ -15,7 +15,7 @@ Binaries for the different releases are hosted on [www.nbi.io](http://www.nbi.io
 The documentation is available on-line and is hosted on [www.nbi.io](http://www.nbi.io/docs/home/)
 
 ## Licenses ##
-NBi is available with two licenses: MS-PL and Apache 2.0. You're free to choose which one convains the best to your project. NBi is also using several OSS projects as librairies. All these projects and their licenses are available in the folder "License". 
+NBi is available on the terms of Apache 2.0. NBi is also using several OSS projects as librairies. All these projects and their licenses are available in the folder "License". 
 
 ## Bugs, issues and requests for features ##
 The list of bugs and feature's requests is hosted on [GitHub](https://github.com/Seddryck/NBi/issues)

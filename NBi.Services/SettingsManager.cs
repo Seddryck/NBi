@@ -9,8 +9,10 @@ namespace NBi.Service
 {
     public class SettingsManager
     {
+        private const string DefaultEverywhereName = "Default - Everywhere";
         private const string DefaultSutName = "Default - System-under-test";
         private const string DefaultAssertName = "Default - Assert";
+        private const string DefaultSetupCleanupName = "Default - Setup-cleanup";
         private const string ReferenceFormatName = "Reference - {0}";
 
         public DefaultXml DefaultSut
@@ -39,6 +41,36 @@ namespace NBi.Service
                 {
                     ApplyTo = SettingsXml.DefaultScope.Assert,
                     ConnectionString = Dictionary[DefaultAssertName]
+                };
+            }
+        }
+
+        public DefaultXml DefaultEverywhere
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Dictionary[DefaultEverywhereName]))
+                    return null;
+
+                return new DefaultXml()
+                {
+                    ApplyTo = SettingsXml.DefaultScope.Everywhere,
+                    ConnectionString = Dictionary[DefaultEverywhereName]
+                };
+            }
+        }
+
+        public DefaultXml DefaultSetupCleanup
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Dictionary[DefaultSetupCleanupName]))
+                    return null;
+
+                return new DefaultXml()
+                {
+                    ApplyTo = SettingsXml.DefaultScope.Decoration,
+                    ConnectionString = Dictionary[DefaultSetupCleanupName]
                 };
             }
         }

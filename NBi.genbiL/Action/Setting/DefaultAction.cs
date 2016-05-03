@@ -25,9 +25,13 @@ namespace NBi.GenbiL.Action.Setting
             var name = string.Empty;
             switch (DefaultType)
             {
+                case DefaultType.Everywhere: name = "Default - Everywhere";
+                    break;
                 case DefaultType.SystemUnderTest: name = "Default - System-under-test";
                     break;
                 case DefaultType.Assert: name= "Default - Assert";
+                    break;
+                case DefaultType.SetupCleanup: name = "Default - Setup-cleanup";
                     break;
                 default:
                     break;
@@ -41,10 +45,23 @@ namespace NBi.GenbiL.Action.Setting
             get
             {
                 return string.Format("Create {0} default value for {1} and defining it to '{2}'"
-                    , DefaultType==Action.DefaultType.SystemUnderTest ? "System-Under-Test" : "Assert"
+                    , GetLiteralForDefaulType(DefaultType)
                     , Variable
                     , Value
                     );
+            }
+        }
+
+        private string GetLiteralForDefaulType(Action.DefaultType defaultType)
+        {
+            switch (defaultType)
+            {
+                case DefaultType.Everywhere: return "Everywhere";
+                case DefaultType.SystemUnderTest: return "System-Under-Test";
+                case DefaultType.Assert: return "Assert";
+                case DefaultType.SetupCleanup: return "Setup-cleanup";
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }

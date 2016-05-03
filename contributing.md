@@ -9,6 +9,7 @@ We love pull requests from everyone. By participating in this project, you agree
 ## Getting Started
 
 * Make sure you have a [GitHub account](https://github.com/signup/free) (It's free!)
+* Read the documentation.
 * Search in the issues if your problem hasn't already be submitted.
 * Submit an issue (assuming one does not already exist).
   * Clearly describe the issue including steps to reproduce when it is a bug.
@@ -52,8 +53,8 @@ appropriate to start the first line of a commit with '(doc)'.
 ## Your issue will be quickly answered:
 
 * Write a good description of your problem in the issue ticket
-  * If you've a problem using NBi, post your test and explain what you're trying to achieve. Don't forget to post the error that you're receiving!
-  * If you'd like to suggest a feature, explain why you think it will ba valuable and suggest a syntax.
+  * If you've a problem using NBi, post your test (not a screen capture) and explain what you're trying to achieve. Don't forget to post the error (full stack) that you're receiving!
+  * If you'd like to suggest a feature, explain why you think it will be valuable and suggest a syntax.
 
 ## Your pull request is accepted:
 

@@ -13,6 +13,8 @@ namespace NBi.Service
 
         private const string DefaultSutName = "Default - System-under-test";
         private const string DefaultAssertName = "Default - Assert";
+        private const string DefaultSetupCleanupName = "Default - Setup-cleanup";
+        private const string DefaultEverywhereName = "Default - Everywhere";
         private const string ReferenceFormatName = "Reference - {0}";
         
         
@@ -32,6 +34,12 @@ namespace NBi.Service
                 case DefaultAssertName:
                     settings.GetDefault(SettingsXml.DefaultScope.Assert).ConnectionString = value;
                     return;
+                case DefaultSetupCleanupName:
+                    settings.GetDefault(SettingsXml.DefaultScope.Decoration).ConnectionString = value;
+                    return;
+                case DefaultEverywhereName:
+                    settings.GetDefault(SettingsXml.DefaultScope.Everywhere).ConnectionString = value;
+                    return;
             }
 
             if (!name.StartsWith("Reference"))
@@ -39,18 +47,17 @@ namespace NBi.Service
 
             var refName = name.Split(new[] { '-' })[1].Trim();
             var reference = settings.References.SingleOrDefault(r => r.Name == refName);
-            if (reference==null)
+            if (reference == null)
                 throw new ArgumentException();
 
             reference.ConnectionString = value;
-
         }
 
         public bool Exists(string name)
         {
             return settings.References.SingleOrDefault(r => r.Name == name) != null;
         }
-        
+
         public void SetParallelizeQueries(bool value)
         {
             settings.ParallelizeQueries = value;
@@ -74,7 +81,7 @@ namespace NBi.Service
 
             settings.References.Add(new ReferenceXml() { Name = name, ConnectionString = value });
         }
-        
+
         public bool IsValidReferenceName(string name)
         {
             string strTheseAreInvalidFileNameChars = new string(System.IO.Path.GetInvalidFileNameChars()) + " ";
@@ -87,6 +94,8 @@ namespace NBi.Service
             var list = new List<Setting>();
             list.Add(new Setting() { Name = DefaultSutName, Value = settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest).ConnectionString });
             list.Add(new Setting() { Name = DefaultAssertName, Value = settings.GetDefault(SettingsXml.DefaultScope.Assert).ConnectionString });
+            list.Add(new Setting() { Name = DefaultSetupCleanupName, Value = settings.GetDefault(SettingsXml.DefaultScope.Decoration).ConnectionString });
+            list.Add(new Setting() { Name = DefaultEverywhereName, Value = settings.GetDefault(SettingsXml.DefaultScope.Everywhere).ConnectionString });
 
             foreach (var reference in settings.References)
             {

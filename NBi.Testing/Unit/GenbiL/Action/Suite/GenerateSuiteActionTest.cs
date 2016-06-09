@@ -62,5 +62,16 @@ namespace NBi.Testing.Unit.GenbiL.Action.Suite
             var test = state.List.Tests[0];
             Assert.That(test.Name, Is.EqualTo("a + bc"));
         }
+
+        [Test]
+        public void Execute_EmptyDataTable_Rendered()
+        {
+            var state = BuildInitialState("b");
+            state.TestCaseCollection.Scope.Content.Rows.Clear();
+            var action = new GenerateSuiteAction(false);
+            action.Execute(state);
+
+            Assert.That(state.List.Tests, Has.Count.EqualTo(0));
+        }
     }
 }

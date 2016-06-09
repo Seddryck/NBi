@@ -90,6 +90,9 @@ namespace NBi.Service
 
         protected List<List<List<object>>> GetCases(DataTable dataTable, bool useGrouping)
         {
+            if (dataTable.Rows.Count==0)
+                return new List<List<List<object>>>(); ;
+
             int groupedColumn = dataTable.Rows[0].ItemArray.Length - 1;
 
             var variableTests = new List<List<List<object>>>();

@@ -79,5 +79,18 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<EmptyAction>()));
             Assert.That(result, Has.Count.EqualTo(4));
         }
+
+
+        [Test]
+        public void Parser_MultiLineCommentAndThirdLine_EmptyAction()
+        {
+            var input = "/*This is a comment\r\nOn Multiple lines*/\r\n/*Second Comment*/\r\n\r\n//Third comment";
+            var result = Recipe.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Has.Count.EqualTo(3));
+            Assert.That(result, Is.All.InstanceOf<EmptyAction>());
+        }
+        
     }
 }

@@ -16,6 +16,6 @@ namespace NBi.GenbiL.Parser
                 select sentence
         );
 
-        public readonly static Parser<IEnumerable<IAction>> Parser = LineParser.Many();
+        public readonly static Parser<IEnumerable<IAction>> Parser = LineParser.XMany().End();
     }
 }

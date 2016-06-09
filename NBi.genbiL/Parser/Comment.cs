@@ -12,7 +12,7 @@ namespace NBi.GenbiL.Parser
         static Parser<string> SingleLineComment(string open)
         {
             return from first in Parse.String(open)
-                   from rest in Parse.AnyChar.Until(Parse.String(Environment.NewLine)).Text()
+                   from rest in Parse.AnyChar.Until(Parse.Return("").End().Or(Parse.String(Environment.NewLine))).Text()
                    select rest;
         }
 
@@ -20,6 +20,7 @@ namespace NBi.GenbiL.Parser
         {
             return from first in Parse.String(open)
                    from rest in Parse.AnyChar.Until(Parse.String(close)).Text()
+                   from lineTerminator in Parse.LineTerminator.XMany()
                    select rest;
         }
 

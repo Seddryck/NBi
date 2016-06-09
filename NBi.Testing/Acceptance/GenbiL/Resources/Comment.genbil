@@ -7,5 +7,12 @@ template load file 'Acceptance\GenbiL\Resources\GroupReduce.nbitt';
 //Double line of comment - bis
 
 suite generate;
+
+/*
+	First Line
+*/
+
+// Second Line
+
 suite save as 'Acceptance\GenbiL\Resources\comment.nbits';
 

@@ -21,6 +21,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.InstanceOf<EmptyAction>());
         }
 
+        [Test]
         public void Parser_MultiLineComment_EmptyAction()
         {
             var input = "/*This is a comment\r\nOn Multiple lines*/";
@@ -29,5 +30,6 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<EmptyAction>());
         }
+
     }
 }

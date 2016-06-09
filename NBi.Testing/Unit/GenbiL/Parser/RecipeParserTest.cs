@@ -88,7 +88,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             var result = Recipe.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Count, Is.EqualTo(3));
+            Assert.That(result, Has.Count.EqualTo(3));
             Assert.That(result, Is.All.InstanceOf<EmptyAction>());
         }
         

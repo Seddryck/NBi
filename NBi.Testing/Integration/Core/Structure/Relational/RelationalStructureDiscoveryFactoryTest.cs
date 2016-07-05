@@ -24,7 +24,7 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
 
             var structs = cmd.Execute();
 
-            Assert.That(structs.Count(), Is.EqualTo(6 + 2 + 2));//6 standards + Northwind + Olympics + tSQLt + SQLCop
+            Assert.That(structs.Count(), Is.EqualTo(24)); //All available schemas
         }
 
         [Test]

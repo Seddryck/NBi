@@ -11,7 +11,7 @@ namespace NBi.Core.Structure.Relational.Builders
     {
         protected override string BasicCommandText
         {
-            get { return base.BasicCommandText + " and [schema_owner]='dbo'"; }
+            get { return base.BasicCommandText; }
         }
 
         public SchemaDiscoveryCommandBuilder()

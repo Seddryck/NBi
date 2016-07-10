@@ -363,6 +363,7 @@
     <Compile Include="Structure\Relational\Builders\RelationalDiscoveryCommandBuilder.cs" />
     <Compile Include="Structure\Relational\Builders\SchemaDiscoveryCommandBuilder.cs" />
     <Compile Include="Structure\Relational\Builders\TableDiscoveryCommandBuilder.cs" />
+    <Compile Include="Structure\Relational\PostFilters\OwnerFilter.cs" />
     <Compile Include="Structure\Relational\PostFilters\IsResultFilter.cs" />
     <Compile Include="Structure\Relational\PostFilters\ParameterDirectionFilter.cs" />
     <Compile Include="Structure\Relational\RelationalRow.cs" />

@@ -123,13 +123,20 @@
     <xs:attribute name="name" use="required"/>
     <xs:attribute name="timeout-milliseconds" use="optional"/>
   </xs:complexType>
-  <xs:complexType name="perspective-type">
+  <xs:complexType name="any-structure-type">
     <xs:attribute name="caption" type="xs:string" use="required" />
     <xs:attribute name="connectionString" type="xs:string" use="optional" />
   </xs:complexType>
+  <xs:complexType name="perspective-type">
+    <xs:complexContent>
+      <xs:extension base="any-structure-type">
+        <xs:attribute name="owner" type="xs:string" use="optional" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="measure-group-type">
     <xs:complexContent>
-      <xs:extension base="perspective-type">
+      <xs:extension base="any-structure-type">
         <xs:attribute name="perspective" type="xs:string" use="required" />
       </xs:extension>
     </xs:complexContent>
@@ -144,7 +151,7 @@
   </xs:complexType>
   <xs:complexType name="dimension-type">
     <xs:complexContent>
-      <xs:extension base="perspective-type">
+      <xs:extension base="any-structure-type">
         <xs:attribute name="perspective" type="xs:string" use="required" />
       </xs:extension>
     </xs:complexContent>
@@ -226,12 +233,19 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="perspectives-type">
+  <xs:complexType name="any-structures-type">
     <xs:attribute name="connectionString" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="perspectives-type">
+    <xs:complexContent>
+      <xs:extension base="any-structures-type">
+        <xs:attribute name="owner" type="xs:string" use="optional" />
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="measure-groups-type">
     <xs:complexContent>
-      <xs:extension base="perspectives-type">
+      <xs:extension base="any-structures-type">
         <xs:attribute name="perspective" type="xs:string" use="required" />
       </xs:extension>
     </xs:complexContent>
@@ -246,7 +260,7 @@
   </xs:complexType>
   <xs:complexType name="dimensions-type">
     <xs:complexContent>
-      <xs:extension base="perspectives-type">
+      <xs:extension base="any-structures-type">
         <xs:attribute name="perspective" type="xs:string" use="required" />
       </xs:extension>
     </xs:complexContent>

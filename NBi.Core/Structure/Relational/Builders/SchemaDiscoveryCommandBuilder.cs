@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Structure;
+using NBi.Core.Structure.Relational.PostFilters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,6 @@ namespace NBi.Core.Structure.Relational.Builders
 {
     class SchemaDiscoveryCommandBuilder : RelationalDiscoveryCommandBuilder
     {
-        protected override string BasicCommandText
-        {
-            get { return base.BasicCommandText; }
-        }
-
         public SchemaDiscoveryCommandBuilder()
         {
             CaptionName = "schema";
@@ -26,6 +22,15 @@ namespace NBi.Core.Structure.Relational.Builders
             if (filter != null)
                 yield return new CommandFilter(string.Format("[schema_name]='{0}'"
                                                            , filter.Caption
+                                                           ));
+        }
+
+        protected override IEnumerable<IFilter> BuildNonCaptionFilters(IEnumerable<IFilter> filters)
+        {
+            var ownerFilter = (IValueFilter)filters.SingleOrDefault(f => f is OwnerFilter);
+            if (ownerFilter != null)
+                yield return new CommandFilter(string.Format("[schema_owner]='{0}'"
+                                                           , ownerFilter.Value
                                                            ));
         }
 

@@ -103,6 +103,7 @@
     <Compile Include="InheritanceTestXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
+    <Compile Include="Items\Filters\IOwnerFilter.cs" />
     <Compile Include="Items\UrlXml.cs" />
     <Compile Include="Items\Filters\IParameterDirectionFilter.cs" />
     <Compile Include="Items\Filters\IResultFilter.cs" />

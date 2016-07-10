@@ -683,6 +683,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Integration\Core\Resources\Sample.odc" />
+    <EmbeddedResource Include="Unit\Xml\Resources\PerspectiveXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\NoRowsXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\AllRowsXmlTestSuite.xml" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Light-0001.txt" />

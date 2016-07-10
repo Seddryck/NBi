@@ -14,17 +14,32 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
     public class RelationalServiceStructureDiscoveryFactoryTest
     {
         [Test]
-        public void Execute_Schema_ListStructureContainingSixElements()
+        public void Execute_Schema_ListStructureContainingManyElements()
         {
             var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var factory = new RelationalStructureDiscoveryFactory(conn);
             var cmd = factory.Instantiate(Target.Perspectives, TargetType.Object,
-                new CaptionFilter[] {
+                new IFilter[] {
                 });
 
             var structs = cmd.Execute();
 
-            Assert.That(structs.Count(), Is.EqualTo(6 + 2 + 2));//6 standards + Northwind + Olympics + tSQLt + SQLCop
+            Assert.That(structs.Count(), Is.EqualTo(24)); //All available schemas
+        }
+
+        [Test]
+        public void Execute_SchemaWithDbo_ListStructureContainingManyElements()
+        {
+            var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
+            var factory = new RelationalStructureDiscoveryFactory(conn);
+            var cmd = factory.Instantiate(Target.Perspectives, TargetType.Object,
+                new [] {
+                        new OwnerFilter("dbo")
+                });
+
+            var structs = cmd.Execute();
+
+            Assert.That(structs.Count(), Is.EqualTo(6 + 2 + 2)); //Standards + Northwind + Olympics + tSQLt + SQLCop
         }
 
         [Test]
@@ -33,7 +48,7 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
             var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var factory = new RelationalStructureDiscoveryFactory(conn);
             var cmd = factory.Instantiate(Target.Tables, TargetType.Object,
-                new CaptionFilter[] { 
+                new [] { 
                     new CaptionFilter(Target.Perspectives, "Sales"),
                 });
 
@@ -48,7 +63,7 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
             var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var factory = new RelationalStructureDiscoveryFactory(conn);
             var cmd = factory.Instantiate(Target.Columns, TargetType.Object,
-                new CaptionFilter[] {
+                new [] {
                     new CaptionFilter(Target.Perspectives,"Sales"),
                     new CaptionFilter(Target.Tables,"Customer"),
                 });
@@ -84,7 +99,7 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
             var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var factory = new RelationalStructureDiscoveryFactory(conn);
             var cmd = factory.Instantiate(Target.Routines, TargetType.Object,
-                new CaptionFilter[] {
+                new [] {
                     new CaptionFilter(Target.Perspectives,"HumanResources")
                 });
 
@@ -99,7 +114,7 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
             var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var factory = new RelationalStructureDiscoveryFactory(conn);
             var cmd = factory.Instantiate(Target.Routines, TargetType.Object,
-                new CaptionFilter[] {
+                new [] {
                     new CaptionFilter(Target.Perspectives,"dbo")
                     , new CaptionFilter(Target.Routines,"ufnGetContactInformation")
                 });
@@ -115,7 +130,7 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
             var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var factory = new RelationalStructureDiscoveryFactory(conn);
             var cmd = factory.Instantiate(Target.Parameters, TargetType.Object,
-                new CaptionFilter[] {
+                new [] {
                     new CaptionFilter(Target.Perspectives,"HumanResources")
                     , new CaptionFilter(Target.Routines,"uspUpdateEmployeePersonalInfo")
                 });
@@ -131,7 +146,7 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
             var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var factory = new RelationalStructureDiscoveryFactory(conn);
             var cmd = factory.Instantiate(Target.Parameters, TargetType.Object,
-                new CaptionFilter[] {
+                new [] {
                     new CaptionFilter(Target.Perspectives,"HumanResources")
                     , new CaptionFilter(Target.Routines,"uspUpdateEmployeePersonalInfo")
                     , new CaptionFilter(Target.Parameters,"BirthDate")
@@ -151,7 +166,7 @@ namespace NBi.Testing.Integration.Core.Structure.Relational
             var conn = new SqlConnection(ConnectionStringReader.GetSqlClient());
             var factory = new RelationalStructureDiscoveryFactory(conn);
             var cmd = factory.Instantiate(Target.Parameters, TargetType.Object,
-                new IFilter[] {
+                new IFilter [] {
                     new CaptionFilter(Target.Perspectives,"HumanResources")
                     , new CaptionFilter(Target.Routines,"uspUpdateEmployeePersonalInfo")
                     , new CaptionFilter(Target.Parameters,"BirthDate")

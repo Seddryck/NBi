@@ -77,6 +77,8 @@ namespace NBi.NUnit.Builder
                 yield return new IsResultFilter(((IResultFilter)item).IsResult == IsResultOption.Yes);
             if (item is IParameterDirectionFilter && ((IParameterDirectionFilter)item).Direction != ParameterDirectionOption.Unspecified)
                 yield return new ParameterDirectionFilter(((IParameterDirectionFilter)item).Direction.ToString());
+            if (item is IOwnerFilter && (!string.IsNullOrEmpty((item as IOwnerFilter).Owner)))
+                yield return new OwnerFilter(((IOwnerFilter)item).Owner);
 
             var itselfTarget = BuildTarget(item);
             if (!string.IsNullOrEmpty(item.Caption))

@@ -43,10 +43,10 @@ Two artefacts are provided by this CI:
 - UI.zip contains the exe and dlls needed to run Genbi
 
 ## Code ##
-NBi is using **Git** as DCVS and the code is hosted on [Github](https://github.com/Seddryck/NBi). A mirror copy is hosted on [Bitbucket](http://bitbucket.org/Seddryck/nbi).
+NBi is using **Git** as DCVS and the code is hosted on [Github](https://github.com/Seddryck/NBi). 
 
 ### Automated Testing ###
-NBi has around 1300 automated tests, asserting a lot of features before each release. These tests are organized in three folders:
+NBi has around 1600 automated tests, asserting a lot of features before each release. These tests are organized in three folders:
 
 - Acceptance: The tests are effectively written in nbits file and played end-to-end by the framework itself. They don't use any fake, mock or stub and are effectively connected to real database and cubes and perform query on them.
 - Integration: These tests are used to assert interactions with resources such as databases or cubes. The make usage of stubs to define parameters impacting the code to use.
@@ -57,4 +57,4 @@ In order to be able to build the software on different machines, the database an
 ## Tracking ##
 This OSS project is tracked by [Ohloh](http://www.ohloh.net/p/NBi)
 
-[![Project Stats](https://www.ohloh.net/p/nbi/widgets/project_thin_badge.gif)](https://www.ohloh.net/p/YOUR_PROJECT)
+[![Project Stats](https://www.ohloh.net/p/nbi/widgets/project_thin_badge.gif)](https://www.ohloh.net/p/nbi)

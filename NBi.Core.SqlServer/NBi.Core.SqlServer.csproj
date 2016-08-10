@@ -35,11 +35,11 @@
   <Choose>
     <When Condition="$(Version) == 'SqlServer2016'">
       <ItemGroup>
-        <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=13.0.1601.5, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-        <Reference Include="Microsoft.SqlServer.Management.IntegrationServices, Version=13.0.1601.5, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-        <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=13.0.1601.5, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-        <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=13.0.1601.5, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-        <Reference Include="Microsoft.SqlServer.Smo, Version=13.0.1601.5, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+        <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+        <Reference Include="Microsoft.SqlServer.Management.IntegrationServices, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+        <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+        <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+        <Reference Include="Microsoft.SqlServer.Smo, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
       </ItemGroup>
     </When>
     <When Condition="$(Version) == 'SqlServer2014'">

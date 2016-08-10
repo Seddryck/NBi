@@ -77,7 +77,7 @@ namespace NBi.Core.Query
             }
             catch (SqlException e)
             {
-                if (!e.Message.StartsWith("Timeout expired."))
+                if (!e.Message.StartsWith("Timeout expired.") && !e.Message.StartsWith("Execution Timeout Expired."))
                     throw;
                 isTimeout=true;
             }

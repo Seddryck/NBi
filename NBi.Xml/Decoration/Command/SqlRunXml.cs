@@ -35,7 +35,6 @@ namespace NBi.Xml.Decoration.Command
         }
 
         [XmlAttribute("version")]
-        [DefaultValue("SqlServer2014")]
         public string Version { get; set; }
 
         [XmlAttribute("connectionString")]
@@ -58,7 +57,7 @@ namespace NBi.Xml.Decoration.Command
 
         public SqlRunXml()
         {
-          
+            Version = "SqlServer2014";
         }
     }
 }

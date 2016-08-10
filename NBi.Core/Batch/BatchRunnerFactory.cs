@@ -17,8 +17,8 @@ namespace NBi.Core.Batch
             var connection = connectionFactory.Get(command.ConnectionString);
 
             var directory = AssemblyDirectory;
-            var filename = $"NBi.Core.{command.Version}.dll";
-            var filepath = $"{directory}\\{filename}";
+            var filename = string.Format("NBi.Core.{0}.dll", command.Version);
+            var filepath = string.Format("{0}\\{1}", directory, filename);
             if (!File.Exists(filepath))
                 throw new InvalidOperationException(string.Format("Can't find the dll for version '{0}' in '{1}'. NBi was expecting to find a dll named '{2}'.", "2014", directory, filename));
 

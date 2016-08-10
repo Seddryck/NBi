@@ -31,7 +31,7 @@ namespace NBi.Core
 
             if (command is IBatchCommand)
             {
-                return new BatchFactory().Get(command as IBatchCommand);
+                return new BatchRunnerFactory().Get(command as IBatchCommand);
             }
 
             if (command is IEtlRunCommand)

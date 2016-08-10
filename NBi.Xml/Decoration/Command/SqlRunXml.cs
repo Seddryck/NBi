@@ -7,6 +7,7 @@ using NBi.Xml.Items;
 using System.IO;
 using NBi.Core.Batch;
 using NBi.Xml.Settings;
+using System.ComponentModel;
 
 namespace NBi.Xml.Decoration.Command
 {
@@ -32,6 +33,10 @@ namespace NBi.Xml.Decoration.Command
                 return fullPath;
             }
         }
+
+        [XmlAttribute("version")]
+        [DefaultValue("SqlServer2014")]
+        public string Version { get; set; }
 
         [XmlAttribute("connectionString")]
         public string SpecificConnectionString { get; set; }

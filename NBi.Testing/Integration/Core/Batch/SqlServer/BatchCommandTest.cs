@@ -1,6 +1,6 @@
 ﻿using Moq;
 using NBi.Core.Batch;
-using NBi.Core.Batch.SqlServer;
+using NBi.Core.SqlServer.Smo;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -60,6 +60,7 @@ namespace NBi.Testing.Integration.Core.Batch.SqlServer
                 (
                     c => c.FullPath == BATCH_FILE
                         && c.ConnectionString == ConnectionStringReader.GetLocalSqlClient()
+                        && c.Version == "SqlServer2014"
                 );
 
             //Apply the test

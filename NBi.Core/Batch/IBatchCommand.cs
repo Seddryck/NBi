@@ -9,5 +9,7 @@ namespace NBi.Core.Batch
     public interface IBatchCommand
     {
         string ConnectionString { get; }
+
+        string Version { get; }
     }
 }

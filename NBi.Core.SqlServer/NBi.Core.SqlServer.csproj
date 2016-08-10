@@ -93,6 +93,8 @@
     <Compile Include="IntegrationService\PackageEvents.cs" />
     <Compile Include="IntegrationService\PackageInfoExtensions.cs" />
     <Compile Include="IntegrationService\SsisEtlRunnerFactory.cs" />
+    <Compile Include="Smo\BatchRunCommand.cs" />
+    <Compile Include="Smo\SmoBatchRunnerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
@@ -100,6 +102,7 @@
       <Name>NBi.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

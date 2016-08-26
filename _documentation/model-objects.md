@@ -7,21 +7,21 @@ permalink: /docs/model-objects/
 ---
 With NBi, you can validate the structure of your model. It can be a SQL, Muldimensional or Tabular model. For each of these models, you can validate the following objects:
 
-| Object | SQL | Multidimensional | Tabular
+| Object | Xml singular | Xml plural | SQL | Multidimensional | Tabular
 |-------------|:-----------------:|:-------------------:|:----------------:|
-| Table  | Yes | - | Yes
-| View | Yes | - | -
-| Column | Yes | - | Yes
-| Perspective | - | Yes | Yes
-| Dimension | - | Yes | Yes
-| Hierarchy | - | Yes | Yes
-| Level | - | Yes | Yes
-| Property | - | Yes | Yes
-| Measure-group | - | Yes | Yes
-| Measure | - | Yes | Yes
-| Set | - | Yes | Yes
-| Routine | Yes | - | -
-| Routine's parameter **new in version 1.1** | Yes | - | -
+| Table  | table | tables | Yes | - | Yes
+| View | view | views | Yes | - | -
+| Column | column | columns | Yes | - | Yes
+| Perspective | perspective | perspectives | - | Yes | Yes
+| Dimension | dimension  | dimensions | - | Yes | Yes
+| Hierarchy | hierarchy | hierarchies | - | Yes | Yes
+| Level | level | levels | - | Yes | Yes
+| Property | property | properties | - | Yes | Yes
+| Measure-group | measure-group | mesaure-groups | - | Yes | Yes
+| Measure | measure | mesaures | - | Yes | Yes
+| Set | set | sets | - | Yes | Yes
+| Routine | routine | routines | Yes | - | -
+| Routine's parameter | parameter | parameters | Yes | - | -
 
 Routines could be stored procedures, table-valued-functions or scalar-functions.
 

@@ -44,6 +44,7 @@ namespace NBi.NUnit.Builder
             {
                 var commandText = ConstraintXml.GetCommand().CommandText;
                 var connectionString = ConstraintXml.GetCommand().Connection.ConnectionString;
+                var timeout = ((QueryXml)(ConstraintXml.BaseItem)).Timeout;
                 IEnumerable<IQueryParameter> parameters = null;
                 IEnumerable<IQueryTemplateVariable> variables = null;
                 if (ConstraintXml.Query != null)
@@ -53,7 +54,7 @@ namespace NBi.NUnit.Builder
                 }
 
                 var commandBuilder = new CommandBuilder();
-                var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables);
+                var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables, timeout);
                 ctr = new EqualToConstraint(cmd);
             }
             else if (ConstraintXml.ResultSet != null)

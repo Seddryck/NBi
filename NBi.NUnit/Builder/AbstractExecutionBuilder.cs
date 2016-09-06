@@ -35,17 +35,18 @@ namespace NBi.NUnit.Builder
 
             IEnumerable<IQueryParameter> parameters=null;
             IEnumerable<IQueryTemplateVariable> variables = null;
+            int timeout = 0;
             if (executionXml.BaseItem is QueryXml)
             { 
                 parameters = ((QueryXml)executionXml.BaseItem).GetParameters();
                 variables = ((QueryXml)executionXml.BaseItem).GetVariables();
+                timeout = ((QueryXml)executionXml.BaseItem).Timeout;
             }
             if (executionXml.BaseItem is ReportXml)
             {
                 parameters = ((ReportXml)executionXml.BaseItem).GetParameters();
             }
-            var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables);
-            cmd.CommandTimeout = (int) Math.Ceiling((executionXml.Item as QueryableXml).Timeout/1000.0);
+            var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables, timeout);
 
             if (executionXml.BaseItem is ReportXml)
             {

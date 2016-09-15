@@ -17,6 +17,7 @@ The assertion consists in a validation that members are displayed, on the client
 {% endhighlight %}
 
 The assertion *order* supports different options:
+
 * alphabetical
 * chronological
 * numerical

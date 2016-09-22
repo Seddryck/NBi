@@ -9,7 +9,7 @@ For this kind of test, you'll need to define your system under test as a *query*
 
 NBi will **effectively execute** your query. It means that if your query is a truncate or an insert, this will be executed and the content of your database will be updated. No transaction will be roll-backed or anything.
 
-The query will also be executed until its end. It means that if your query was expected to run faster than 10 seconds but takes effectively more than 20 seconds, your test will take 20 seconds to execute (and not 10). Nebertheless, you can override this behavior by using a [timeout](#timeout)
+The query will also be executed until its end. It means that if your query was expected to run faster than 10 seconds but takes effectively more than 20 seconds, your test will take 20 seconds to execute (and not 10). Nevertheless, you can override this behavior by using a [timeout](#timeout)
 
 This kind of test is surely no ambition to replace *load tests* or *Stress tests*. With this test, you’ll only test the performances of a unique query in isolation. The goal is really to ensure that this query is not suddenly become really slow (because of a missing index, changed in the underlying objects, ...)
 

@@ -20,7 +20,7 @@ You’ll need to define the name (xml attribute) and the value (xml text) of the
 
 Environment (Since SQL Server 2012)
 ----------------------------------
-If you don't want to define all the parameters and variables of your *etl*, you can specify an environment. To achieve this, you’ll need to define the attribute *environement*.
+If you don't want to define all the parameters and variables of your *etl*, you can specify an environment. To achieve this, you’ll need to define the attribute *environment*.
 
 {% highlight xml %}
 <etl

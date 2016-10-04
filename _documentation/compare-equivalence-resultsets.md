@@ -95,7 +95,7 @@ Once your source is identified, you'll need to apply a query on your xml file. N
 {% highlight xml %}
 <equalTo>
   <xml-source>
-    <file>MyFile.csv</file>
+    <file>MyFile.xml</file>
     <xpath>
       <from>//Path</from>
       <select attribute="Id">//Path/Item<select>

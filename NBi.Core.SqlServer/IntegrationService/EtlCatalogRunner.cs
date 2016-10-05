@@ -132,7 +132,7 @@ namespace NBi.Core.SqlServer.IntegrationService
             foreach (var param in overridenParameters)
             {
                 if (!existingParameters.Contains(param.Name))
-                    throw new ArgumentOutOfRangeException("overridenParameters", string.Format("No parameter named '{0}' found in the package {1}, can't override its value for execution.", param.Name, packageName));
+                    throw new ArgumentOutOfRangeException("overridenParameters", string.Format("No parameter named '{0}' found in the package {1}, can't override its value for execution. List of existing parameters {2}", param.Name, packageName, existingParameters.Select(n => string.Format("{0} ({1})", n.Name, n.ObjectType))));
 
                 var existingParam = existingParameters[param.Name];
                 var execParam = new PackageInfo.ExecutionValueParameterSet()

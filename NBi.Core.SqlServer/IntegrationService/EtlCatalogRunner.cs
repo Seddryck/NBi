@@ -130,8 +130,12 @@ namespace NBi.Core.SqlServer.IntegrationService
         protected virtual IEnumerable<PackageInfo.ExecutionValueParameterSet> Parameterize(IEnumerable<EtlParameter> overridenParameters, PackageInfo package, string packageName)
         {
             var existingParameters = package.Parameters;
-            foreach (var projectParam in package.Parent.Parameters)
-                existingParameters.Add(projectParam);
+
+            if (package.Parent!=null && package.Parent.Parameters!=null)
+            {
+                foreach (var projectParam in package.Parent.Parameters)
+                    existingParameters.Add(projectParam);
+            }
 
             foreach (var param in overridenParameters)
             {

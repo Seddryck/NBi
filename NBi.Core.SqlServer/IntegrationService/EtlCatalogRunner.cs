@@ -48,7 +48,7 @@ namespace NBi.Core.SqlServer.IntegrationService
                 ParameterName = "SYNCHRONIZED",
                 ParameterValue = 1
             });
-            var parameters = Parameterize(Etl.Parameters, package.Parameters, package.Name);
+            var parameters = Parameterize(Etl.Parameters, package, package.Name);
             parameters.ToList().ForEach(p => setValueParameters.Add(p));
 
             long executionIdentifier = -1;
@@ -127,10 +127,15 @@ namespace NBi.Core.SqlServer.IntegrationService
             return package;
         }
 
-        protected virtual IEnumerable<PackageInfo.ExecutionValueParameterSet> Parameterize(IEnumerable<EtlParameter> overridenParameters, ParameterCollection existingParameters, string packageName)
+        protected virtual IEnumerable<PackageInfo.ExecutionValueParameterSet> Parameterize(IEnumerable<EtlParameter> overridenParameters, PackageInfo package, string packageName)
         {
+            var existingParameters = package.Parameters;
+            foreach (var projectParam in package.Parent.Parameters)
+                existingParameters.Add(projectParam);
+
             foreach (var param in overridenParameters)
             {
+
                 if (!existingParameters.Contains(param.Name))
                 {
                     var existingParameterList = String.Join("', '", existingParameters.Select(n => string.Format("{0} ({1})", n.Name, n.ObjectType)));

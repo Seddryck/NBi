@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Data.Odbc;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
@@ -121,6 +122,8 @@ namespace NBi.Core.Query
                 return (IQueryEnginable)new QueryOleDbEngine((OleDbCommand)cmd);
             else if (cmd.GetType() == typeof(AdomdCommand))
                 return (IQueryEnginable)new QueryAdomdEngine((AdomdCommand)cmd);
+            else if (cmd.GetType() == typeof(OdbcCommand))
+                return (IQueryEnginable)new QueryOdbcEngine((OdbcCommand)cmd);
 
             throw new ArgumentException();
         }

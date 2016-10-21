@@ -1,6 +1,10 @@
 ﻿using System.Data.SqlClient;
 using NBi.Core.Query;
 using NUnit.Framework;
+using System.Data.OleDb;
+using System.Data.Odbc;
+using System;
+using System.Data;
 
 namespace NBi.Testing.Integration.Core.Query
 {
@@ -23,11 +27,36 @@ namespace NBi.Testing.Integration.Core.Query
 
         #endregion
 
+        public enum EngineType
+        {
+            SqlNative
+            , OleDb
+            , Odbc
+        }
+
+        private IDbCommand BuildCommand(string sql, EngineType engineType)
+        {
+            switch (engineType)
+            {
+                case EngineType.SqlNative:
+                    return new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+                case EngineType.OleDb:
+                    return new OleDbCommand(sql, new OleDbConnection(ConnectionStringReader.GetOleDbSql()));
+                case EngineType.Odbc:
+                    return new OdbcCommand(sql, new OdbcConnection(ConnectionStringReader.GetOdbcSql()));
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
         [Test]
-        public void CheckPerformance_OneQuery_ReturnElapsedTime()
+        [TestCase(EngineType.SqlNative)]
+        [TestCase(EngineType.OleDb)]
+        [TestCase(EngineType.Odbc)]
+        public void CheckPerformance_OneQuery_ReturnElapsedTime(EngineType engineType)
         {
             var sql = "WAITFOR DELAY '00:00:00';";
-            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var cmd = BuildCommand(sql, engineType);
 
             var qp = new QueryEngineFactory().GetPerformance(cmd);
             var res = qp.CheckPerformance();
@@ -37,10 +66,13 @@ namespace NBi.Testing.Integration.Core.Query
         }
 
         [Test]
-        public void CheckPerformance_OneQueryHavingTimeout_ReturnTimeoutInfo()
+        [TestCase(EngineType.SqlNative)]
+        [TestCase(EngineType.OleDb)]
+        [TestCase(EngineType.Odbc)]
+        public void CheckPerformance_OneQueryHavingTimeout_ReturnTimeoutInfo(EngineType engineType)
         {
             var sql = "WAITFOR DELAY '00:00:03';";
-            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var cmd = BuildCommand(sql, engineType);
 
             var qp = new QueryEngineFactory().GetPerformance(cmd);
             var res = qp.CheckPerformance(1000);

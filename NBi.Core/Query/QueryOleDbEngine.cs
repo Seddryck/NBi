@@ -92,6 +92,11 @@ namespace NBi.Core.Query
             if (command.Connection.State == ConnectionState.Closed)
                 command.Connection.Open();
 
+            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
+            foreach (OleDbParameter param in command.Parameters)
+                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("{0} => {1}", param.ParameterName, param.Value));
+
+            command.CommandTimeout = timeout / 1000;
             tsStart = DateTime.Now;
             try
             {
@@ -100,7 +105,7 @@ namespace NBi.Core.Query
             }
             catch (OleDbException e)
             {
-                if (!e.Message.StartsWith("Timeout expired."))
+                if (!e.Message.StartsWith("Query timeout expired"))
                     throw;
                 isTimeout = true;
             }

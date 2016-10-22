@@ -190,6 +190,7 @@
     <Compile Include="Unit\Core\Structure\Olap\Builders\DimensionDiscoveryCommandBuilderTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\SetDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Structure\StructureDiscoveryFactoryProviderTest.cs" />
+    <Compile Include="Unit\Core\Transformation\CSharp\CSharpTransformationProviderTest.cs" />
     <Compile Include="Unit\Core\Xml\XPathEngineTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\DataRowsMessageTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\ItemsMessageTest.cs" />

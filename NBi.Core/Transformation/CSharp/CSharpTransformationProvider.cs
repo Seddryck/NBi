@@ -1,0 +1,69 @@
+﻿using Microsoft.CSharp;
+using System;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NBi.Core.Transformation.CSharp
+{
+    class CSharpTransformationProvider<T> : ITransformationProvider
+    {
+        private readonly string Code;
+
+        public CSharpTransformationProvider(string code)
+        {
+            Code = code;
+        }
+
+        public object Execute(object value)
+        {
+            var method = CreateFunction(Code, typeof(T).Name);
+            return method.Invoke(null, new[] { value });
+        }
+
+        private MethodInfo CreateFunction(string code, string type)
+        {
+            string codeTemplate = @"
+                using System;
+            
+                namespace NBi.Core.Transformation.Dynamic
+                {{                
+                    public class TransformationClass
+                    {{                
+                        public static object Function({1} value)
+                        {{
+                            return {0};
+                        }}
+                    }}
+                }}
+            ";
+
+            string finalCode = string.Format(codeTemplate, code, type);
+
+            CSharpCodeProvider provider = new CSharpCodeProvider();
+            CompilerParameters parameters = new CompilerParameters();
+            parameters.GenerateInMemory = true;
+            parameters.GenerateExecutable = false;
+
+            CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
+
+            if (results.Errors.HasErrors)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                foreach (CompilerError error in results.Errors)
+                {
+                    sb.AppendLine(String.Format("Error ({0}): {1}", error.ErrorNumber, error.ErrorText));
+                }
+
+                throw new InvalidOperationException(sb.ToString());
+            }
+
+            Type function = results.CompiledAssembly.GetType("NBi.Core.Transformation.Dynamic.TransformationClass");
+            return function.GetMethod("Function");
+        }
+    }
+}

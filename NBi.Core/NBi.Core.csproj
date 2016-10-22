@@ -394,6 +394,11 @@
     <Compile Include="Structure\Tabular\TabularStructureDiscoveryFactory.cs" />
     <Compile Include="Structure\TargetType.cs" />
     <Compile Include="Structure\Target.cs" />
+    <Compile Include="Transformation\CSharp\CSharpTransformationProvider.cs" />
+    <Compile Include="Transformation\ITransformationInfo.cs" />
+    <Compile Include="Transformation\ITransformationProvider.cs" />
+    <Compile Include="Transformation\LanguageType.cs" />
+    <Compile Include="Transformation\TransformationProviderFactory.cs" />
     <Compile Include="WindowsService\IWindowsServiceCheck.cs" />
     <Compile Include="WindowsService\WindowsServiceCheck.cs" />
     <Compile Include="WindowsService\WindowsServiceCheckFactory.cs" />

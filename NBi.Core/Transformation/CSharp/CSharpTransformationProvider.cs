@@ -11,16 +11,21 @@ namespace NBi.Core.Transformation.CSharp
 {
     class CSharpTransformationProvider<T> : ITransformationProvider
     {
-        private readonly string Code;
+        private MethodInfo method;
 
-        public CSharpTransformationProvider(string code)
+        public CSharpTransformationProvider()
         {
-            Code = code;
+        }
+
+        public void Initialize(string code)
+        {
+            method = CreateFunction(code, typeof(T).Name);
         }
 
         public object Execute(object value)
         {
-            var method = CreateFunction(Code, typeof(T).Name);
+            if (method == null)
+                throw new InvalidOperationException();
             return method.Invoke(null, new[] { value });
         }
 

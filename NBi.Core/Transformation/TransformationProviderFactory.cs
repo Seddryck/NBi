@@ -44,7 +44,7 @@ namespace NBi.Core.Transformation
             }
 
             var provider = providerType.MakeGenericType(valueType);
-            var transformer = (ITransformationProvider)Activator.CreateInstance(provider, new[] { info.Code });
+            var transformer = (ITransformationProvider)Activator.CreateInstance(provider, new object[] { });
 
             return transformer;
         }

@@ -69,8 +69,9 @@ namespace NBi.Testing.Unit.Core.Report
         [Test]
         public void ExtractQuery_ExistingReportAndDataSet_CorrectQueryReturned()
         {
-            var request = new NBi.Core.Report.FileRequest(
-                    ReportFileDirectory
+            var request = new DatasetRequest(
+                    string.Empty
+                    , ReportFileDirectory
                     , "Currency_List"
                     , "Currency"
                 );
@@ -88,8 +89,9 @@ namespace NBi.Testing.Unit.Core.Report
         [Test]
         public void ExtractQuery_NonExistingDataSetOneExisting_CorrectExceptionReturned()
         {
-            var request = new NBi.Core.Report.FileRequest(
-                    ReportFileDirectory
+            var request = new DatasetRequest(
+                    string.Empty
+                    , ReportFileDirectory
                     , "Currency_List"
                     , "Non Existing"
                 );
@@ -102,8 +104,9 @@ namespace NBi.Testing.Unit.Core.Report
         [Test]
         public void ExtractQuery_NonExistingDataSetMoreThanOneExisting_CorrectExceptionReturned()
         {
-            var request = new NBi.Core.Report.FileRequest(
-                    ReportFileDirectory
+            var request = new NBi.Core.Report.DatasetRequest(
+                    string.Empty
+                    , ReportFileDirectory
                     , "Currency_Rates"
                     , "Non Existing"
                 );
@@ -116,8 +119,9 @@ namespace NBi.Testing.Unit.Core.Report
         [Test]
         public void ExtractQuery_NonExistingReport_CorrectExceptionReturned()
         {
-            var request = new NBi.Core.Report.FileRequest(
-                    ReportFileDirectory
+            var request = new NBi.Core.Report.DatasetRequest(
+                    string.Empty
+                    , ReportFileDirectory
                     , "Not Existing"
                     , "DataSet1"
                 );
@@ -130,8 +134,9 @@ namespace NBi.Testing.Unit.Core.Report
         [Test]
         public void ExtractQuery_ExistingReportAndSharedDataSet_CorrectQueryReturned()
         {
-            var request = new NBi.Core.Report.FileRequest(
-                    ReportFileDirectory
+            var request = new NBi.Core.Report.DatasetRequest(
+                    string.Empty
+                    , ReportFileDirectory
                     , "Employee_Sales_Summary"
                     , "SalesEmployees2008R2"
                 );
@@ -147,10 +152,30 @@ namespace NBi.Testing.Unit.Core.Report
         }
 
         [Test]
+        public void ExtractQuery_ExistingSharedDataSet_CorrectQueryReturned()
+        {
+            var request = new SharedDatasetRequest(
+                    string.Empty
+                    , ReportFileDirectory
+                    , "SalesEmployees"
+                );
+
+            var parser = new FileParser();
+            var query = parser.ExtractQuery(request);
+
+            Assert.That(query.Text,
+                Is.StringContaining("SELECT").And
+                .StringContaining("[Sales].[SalesPerson]").And
+                .StringContaining("[HumanResources].[Employee]"));
+            Assert.That(query.CommandType, Is.EqualTo(CommandType.Text));
+        }
+
+        [Test]
         public void ExtractSProc_ExistingReport_CorrectSProcReturned()
         {
-            var request = new NBi.Core.Report.FileRequest(
-                    ReportFileDirectory
+            var request = new NBi.Core.Report.DatasetRequest(
+                    string.Empty
+                    , ReportFileDirectory
                     , "Currency_List - SProc"
                     , "Currency"
                 );

@@ -9,12 +9,14 @@ namespace NBi.Core.Report
 {
     class FileParser : IParser
     {
-        public ReportCommand ExtractQuery(IQueryRequest request)
+        public ReportCommand ExtractQuery(DatasetRequest request)
         {
-            var fullPath = string.Format("{0}{1}", request.ReportPath, request.ReportName);
+            var reportName = request.ReportName.EndsWith(".rdl") ? request.ReportName : request.ReportName + ".rdl";
+
+            var fullPath = string.Format("{0}{1}{2}", request.Source, request.Path, reportName);
             if (!File.Exists(fullPath))
-                throw new ArgumentException(string.Format("No report found on path '{0}' with name '{1}'", request.ReportPath, request.ReportName));
-            
+                throw new ArgumentException(string.Format("No report found on path '{0}{1}' with name '{2}'", request.Source, request.Path, request.ReportName));
+
             //Load the xml
             var docXml = new XmlDocument();
             docXml.Load(fullPath);
@@ -50,7 +52,7 @@ namespace NBi.Core.Report
                     reportCommand.CommandType = (CommandType)Enum.Parse(typeof(CommandType), node.InnerText);
                 return reportCommand;
             }
-                
+
             //If not found then we'll check if it's not a shared dataset
             xpath = string.Format("//rd:Report/rd:DataSets/rd:DataSet[@Name=\"{0}\"]/rd:SharedDataSet/rd:SharedDataSetReference", request.DataSetName);
             node = docXml.SelectSingleNode(xpath, nsmgr);
@@ -58,15 +60,22 @@ namespace NBi.Core.Report
                 throw new ArgumentException(string.Format("The data set named '{0}' has been found but no command text or shared dataset reference has been found", request.DataSetName));
 
             var sharedDataSetName = node.InnerText + ".rsd";
-            return ExtractQueryFromSharedDataSet(string.Format("{0}{1}", request.ReportPath, sharedDataSetName));
-            
+            var subRequest = new SharedDatasetRequest
+            (
+                string.Empty,
+                request.Path,
+                sharedDataSetName
+            );
+            return ExtractQuery(subRequest);
         }
 
-        protected ReportCommand ExtractQueryFromSharedDataSet(string fullPath)
+        public ReportCommand ExtractQuery(SharedDatasetRequest request)
         {
-            //If it's a shared dataset then we need to file the correspoding file
+            var reportName = request.SharedDatasetName.EndsWith(".rsd") ? request.SharedDatasetName : request.SharedDatasetName + ".rsd";
+
+            var fullPath = string.Format("{0}{1}{2}", request.Source, request.Path, reportName);
             if (!File.Exists(fullPath))
-                throw new ArgumentException(string.Format("Cannot find the file for the shared dataSet at '{0}'", fullPath));
+                throw new ArgumentException(string.Format("No report found on path '{0}{1}' with name '{2}'", request.Source, request.Path, reportName));
 
             //If the file is found then we need to select the query inside the file
             var docXml = new XmlDocument();
@@ -97,8 +106,7 @@ namespace NBi.Core.Report
             throw new ArgumentException(string.Format("Cannot find the command text in the shared dataSet at '{0}'", fullPath));
         }
 
-
-        private Exception BuildDataSetNotFoundException(IQueryRequest request, XmlDocument docXml, string xpath, XmlNamespaceManager nsmgr)
+        private Exception BuildDataSetNotFoundException(DatasetRequest request, XmlDocument docXml, string xpath, XmlNamespaceManager nsmgr)
         {
             var nodes = docXml.SelectNodes(xpath, nsmgr);
             var dataSetFound = new List<String>();
@@ -106,9 +114,9 @@ namespace NBi.Core.Report
                 dataSetFound.Add(node.Attributes["Name"].Value);
 
             if (dataSetFound.Count() > 1)
-                throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The datasets for this report are {3}", request.ReportPath, request.ReportName, request.DataSetName, String.Join(", ", dataSetFound.ToArray())));
+                throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The datasets for this report are {3}", request.Path, request.ReportName, request.DataSetName, String.Join(", ", dataSetFound.ToArray())));
             else
-                throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The dataset for this report is named '{3}'", request.ReportPath, request.ReportName, request.DataSetName, dataSetFound[0]));
+                throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The dataset for this report is named '{3}'", request.Path, request.ReportName, request.DataSetName, dataSetFound[0]));
         }
     }
 }

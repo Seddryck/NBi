@@ -35,20 +35,15 @@ namespace NBi.Xml.Items
         private ReportCommand command;
         public override string GetQuery()
         {
-            var parser = ParserFactory.GetParser(
-                    Source
-                    , Path
-                    , Name
-                    , Dataset
-                );
+            var parser = ParserFactory.GetParser(Source);
 
-            var request = ParserFactory.GetRequest(
-                    Source
-                    , Settings.BasePath
-                    , Path
-                    , Name
-                    , Dataset
-                );
+            var request = new DatasetRequest
+            (
+                Source ?? Settings.BasePath,
+                Path,
+                Name, 
+                Dataset
+            );
 
             command = parser.ExtractQuery(request);
 

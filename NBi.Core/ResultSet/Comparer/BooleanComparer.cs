@@ -11,7 +11,7 @@ namespace NBi.Core.ResultSet.Comparer
 
         public BooleanComparer()
         {
-            converter = new BooleanConverter();
+            converter = new ThreeStateBooleanConverter();
         }
 
         protected override ComparerResult CompareObjects(object x, object y)

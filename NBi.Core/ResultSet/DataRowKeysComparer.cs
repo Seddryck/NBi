@@ -95,7 +95,7 @@ namespace NBi.Core.ResultSet
             else if (settings.GetColumnType(columnIndex) == ColumnType.DateTime)
                 v = new DateTimeConverter().Convert(value);
             else if (settings.GetColumnType(columnIndex) == ColumnType.Boolean)
-                v = new BooleanConverter().Convert(value);
+                v = new ThreeStateBooleanConverter().Convert(value);
             else
             {
                 if (value is IConvertible)

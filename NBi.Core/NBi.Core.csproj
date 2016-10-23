@@ -265,6 +265,7 @@
     <Compile Include="ResultSet\Converter\IConverter.cs" />
     <Compile Include="ResultSet\Converter\DateTimeConverter.cs" />
     <Compile Include="ResultSet\Converter\BooleanConverter.cs" />
+    <Compile Include="ResultSet\Converter\ThreeStateBooleanConverter.cs" />
     <Compile Include="ResultSet\Converter\NumericConverter.cs" />
     <Compile Include="ResultSet\Converter\TextConverter.cs" />
     <Compile Include="ResultSet\EndPoint.cs" />

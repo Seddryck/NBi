@@ -7,30 +7,30 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Converter
 {
-    class BooleanConverter : BaseNumericConverter, IConverter<ThreeStateBoolean>
+    class BooleanConverter : BaseNumericConverter, IConverter<Boolean>
     {
-        public ThreeStateBoolean Convert(object value)
+        public Boolean Convert(object value)
         {
-            if (value is ThreeStateBoolean)
-                return (ThreeStateBoolean)value;
+            if (value is Boolean)
+                return (Boolean)value;
 
             if (value is bool)
-                return (bool)value ? ThreeStateBoolean.True : ThreeStateBoolean.False;
+                return (bool)value;
 
             var boolValue = IntParsing(value);
             if (boolValue != ThreeStateBoolean.Unknown)
-                return boolValue;
+                return boolValue == ThreeStateBoolean.True;
 
             boolValue = StringParsing(value);
             if (boolValue != ThreeStateBoolean.Unknown)
-                return boolValue;
+                return boolValue == ThreeStateBoolean.True;
 
-            return ThreeStateBoolean.Unknown;
+            throw new ArgumentOutOfRangeException();
         }
 
         public override bool IsValid(object value)
         {
-            if (value is ThreeStateBoolean || value is bool)
+            if (value is Boolean || value is bool)
                 return true;
 
             return (base.IsValid(value) || StringParsing(value) != ThreeStateBoolean.Unknown);

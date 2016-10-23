@@ -15,14 +15,15 @@ namespace NBi.Testing.Unit.Core.Transformation
     public class TransformerFactoryTest
     {
         [Test]
-        [TestCase(LanguageType.CSharp, typeof(CSharpTransformer<string>))]
-        [TestCase(LanguageType.NCalc, typeof(NCalcTransformer<string>))]
+        [TestCase(LanguageType.CSharp, typeof(CSharpTransformer<decimal>))]
+        [TestCase(LanguageType.NCalc, typeof(NCalcTransformer<decimal>))]
+        [TestCase(LanguageType.Format, typeof(FormatTransformer<decimal>))]
         public void Build_Language_Correct(LanguageType language, Type result)
         {
             var info = Mock.Of<ITransformationInfo>
             (
                 i => i.Language == language
-                    && i.OriginalType == ColumnType.Text
+                    && i.OriginalType == ColumnType.Numeric
                     && i.Code == "value"   
             );
             var factory = new TransformerFactory();
@@ -48,6 +49,23 @@ namespace NBi.Testing.Unit.Core.Transformation
             var provider = factory.Build(info);
 
             Assert.IsInstanceOf(result, provider);
+        }
+
+        [Test]
+        [TestCase(LanguageType.NCalc, ColumnType.DateTime)]
+        [TestCase(LanguageType.NCalc, ColumnType.Boolean)]
+        [TestCase(LanguageType.Format, ColumnType.Text)]
+        [TestCase(LanguageType.Format, ColumnType.Boolean)]
+        public void Build_Language_Correct(LanguageType language, ColumnType columnType)
+        {
+            var info = Mock.Of<ITransformationInfo>
+            (
+                i => i.Language == language
+                    && i.OriginalType == columnType
+                    && i.Code == "value"
+            );
+            var factory = new TransformerFactory();
+            Assert.Throws<InvalidOperationException>(delegate { factory.Build(info); });
         }
 
     }

@@ -11,6 +11,12 @@ namespace NBi.Core.Transformation
     {
         public ITransformer Build(ITransformationInfo info)
         {
+            if (info.Language == LanguageType.Format && (info.OriginalType == ResultSet.ColumnType.Boolean || info.OriginalType == ResultSet.ColumnType.Text))
+                throw new InvalidOperationException("Language 'format' is only supporting transformation from 'numeric' and 'dateTime' data types");
+
+            if (info.Language == LanguageType.NCalc && (info.OriginalType == ResultSet.ColumnType.Boolean || info.OriginalType == ResultSet.ColumnType.DateTime))
+                throw new InvalidOperationException("Language 'ncalc' is only supporting transformation from 'numeric' and 'text' data types");
+
             Type valueType;
             switch (info.OriginalType)
             {
@@ -40,7 +46,8 @@ namespace NBi.Core.Transformation
                     providerType = typeof(NCalcTransformer<>);
                     break;
                 case LanguageType.Format:
-                    throw new ArgumentOutOfRangeException();
+                    providerType = typeof(FormatTransformer<>);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

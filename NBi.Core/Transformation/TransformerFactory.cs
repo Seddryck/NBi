@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Core.Transformation.Transformer;
 
 namespace NBi.Core.Transformation
 {
@@ -33,10 +34,11 @@ namespace NBi.Core.Transformation
             switch (info.Language)
             {
                 case LanguageType.CSharp:
-                    providerType = typeof(CSharp.CSharpTransformer<>);
+                    providerType = typeof(CSharpTransformer<>);
                     break;
                 case LanguageType.NCalc:
-                    throw new ArgumentOutOfRangeException();
+                    providerType = typeof(NCalcTransformer<>);
+                    break;
                 case LanguageType.Format:
                     throw new ArgumentOutOfRangeException();
                 default:

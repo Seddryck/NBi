@@ -397,7 +397,8 @@
     <Compile Include="Structure\Tabular\TabularStructureDiscoveryFactory.cs" />
     <Compile Include="Structure\TargetType.cs" />
     <Compile Include="Structure\Target.cs" />
-    <Compile Include="Transformation\CSharp\CSharpTransformer.cs" />
+    <Compile Include="Transformation\Transformer\NCalcTransformer.cs" />
+    <Compile Include="Transformation\Transformer\CSharpTransformer.cs" />
     <Compile Include="Transformation\ITransformationInfo.cs" />
     <Compile Include="Transformation\ITransformer.cs" />
     <Compile Include="Transformation\LanguageType.cs" />

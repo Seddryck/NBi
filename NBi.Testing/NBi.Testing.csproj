@@ -190,9 +190,10 @@
     <Compile Include="Unit\Core\Structure\Olap\Builders\DimensionDiscoveryCommandBuilderTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\SetDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Structure\StructureDiscoveryFactoryProviderTest.cs" />
+    <Compile Include="Unit\Core\Transformation\Transformer\NCalcTransformerTest.cs" />
     <Compile Include="Unit\Core\Transformation\TransformationProviderTest.cs" />
     <Compile Include="Unit\Core\Transformation\TransformerFactoryTest.cs" />
-    <Compile Include="Unit\Core\Transformation\CSharp\CSharpTransformerTest.cs" />
+    <Compile Include="Unit\Core\Transformation\Transformer\CSharpTransformerTest.cs" />
     <Compile Include="Unit\Core\Xml\XPathEngineTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\DataRowsMessageTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\ItemsMessageTest.cs" />

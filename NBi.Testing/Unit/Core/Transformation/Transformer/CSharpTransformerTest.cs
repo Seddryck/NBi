@@ -1,4 +1,4 @@
-﻿using NBi.Core.Transformation.CSharp;
+﻿using NBi.Core.Transformation.Transformer;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Unit.Core.Transformation.CSharp
+namespace NBi.Testing.Unit.Core.Transformation.Transformer
 {
     [TestFixture]
     public class CSharpTransformerTest

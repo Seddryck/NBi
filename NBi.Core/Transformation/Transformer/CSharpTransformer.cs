@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Transformation.CSharp
+namespace NBi.Core.Transformation.Transformer
 {
     class CSharpTransformer<T> : ITransformer
     {

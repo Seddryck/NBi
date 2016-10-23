@@ -1,5 +1,5 @@
 ﻿using NBi.Core.Transformation;
-using NBi.Core.Transformation.CSharp;
+using NBi.Core.Transformation.Transformer;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -9,13 +9,14 @@ using System.Threading.Tasks;
 using Moq;
 using NBi.Core.ResultSet;
 
-namespace NBi.Testing.Unit.Core.Transformation.CSharp
+namespace NBi.Testing.Unit.Core.Transformation
 {
     [TestFixture]
     public class TransformerFactoryTest
     {
         [Test]
         [TestCase(LanguageType.CSharp, typeof(CSharpTransformer<string>))]
+        [TestCase(LanguageType.NCalc, typeof(NCalcTransformer<string>))]
         public void Build_Language_Correct(LanguageType language, Type result)
         {
             var info = Mock.Of<ITransformationInfo>

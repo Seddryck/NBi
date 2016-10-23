@@ -169,4 +169,24 @@
       </equalTo>
     </assert>
   </test>
+  <test name="equalTo Transformation">
+    <system-under-test>
+      <execution>
+        <query>
+          select top 2 [EventID], [Cost], [Period], [QuarterHour], [Instant] from Event
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo values="all-except-first" values-default-type="dateTime">
+        <column index="1" role="value" type="text">
+          <transformation>value.Substring(2)</transformation>
+        </column>
+        <column index="2" role="value" type="text">
+          <transformation language="c-sharp" original-type="dateTime">String.Format("{0:00}.{1}", value.Month, value.Year)</transformation>
+        </column>
+        <resultSet file="Query.csv"/>
+      </equalTo>
+    </assert>
+  </test>
 </testSuite>

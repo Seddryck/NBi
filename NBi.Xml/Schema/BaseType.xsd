@@ -470,6 +470,20 @@
     <xs:attribute name="roles" type="xs:string" use="optional" />
     <xs:attribute name="timeout-milliSeconds" type="xs:nonNegativeInteger" use="optional" />
   </xs:complexType>
+  <xs:complexType name="transformation-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="original-type" type="column-type-enum" use="optional"/>
+        <xs:attribute name="language" use="optional" >
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="c-sharp"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
   <xs:complexType name="select-type">
     <xs:simpleContent>
       <xs:extension base="xs:string">
@@ -694,33 +708,32 @@
                 <xs:sequence>
                   <xs:element name="column" minOccurs="0" maxOccurs="unbounded">
                     <xs:complexType>
-                      <xs:simpleContent>
-                        <xs:extension base="xs:string">
-                          <xs:attribute name="index" type="xs:int" use="required" />
-                          <xs:attribute name="role" use="required" >
-                            <xs:simpleType>
-                              <xs:restriction base="xs:string">
-                                <xs:enumeration value="key"/>
-                                <xs:enumeration value="value"/>
-                                <xs:enumeration value="ignore"/>
-                              </xs:restriction>
-                            </xs:simpleType>
-                          </xs:attribute>
-                          <xs:attribute name="tolerance" type="xs:string" use="optional" />
-                          <xs:attribute name="type" type="column-type-enum" use="optional"/>
-                          <xs:attribute name="rounding-style" use="optional">
-                            <xs:simpleType>
-                              <xs:restriction base="xs:string">
-                                <xs:enumeration value="none"/>
-                                <xs:enumeration value="floor"/>
-                                <xs:enumeration value="ceiling"/>
-                                <xs:enumeration value="round"/>
-                              </xs:restriction>
-                            </xs:simpleType>
-                          </xs:attribute>
-                          <xs:attribute name="rounding-step" type="xs:string" use="optional" />
-                        </xs:extension>
-                      </xs:simpleContent>
+                      <xs:sequence>
+                        <xs:element name="transformation" minOccurs="0" maxOccurs="1" type="transformation-type"/>
+                      </xs:sequence>
+                      <xs:attribute name="index" type="xs:int" use="required" />
+                      <xs:attribute name="role" use="required" >
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:enumeration value="key"/>
+                            <xs:enumeration value="value"/>
+                            <xs:enumeration value="ignore"/>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:attribute>
+                      <xs:attribute name="tolerance" type="xs:string" use="optional" />
+                      <xs:attribute name="type" type="column-type-enum" use="optional"/>
+                      <xs:attribute name="rounding-style" use="optional">
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:enumeration value="none"/>
+                            <xs:enumeration value="floor"/>
+                            <xs:enumeration value="ceiling"/>
+                            <xs:enumeration value="round"/>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:attribute>
+                      <xs:attribute name="rounding-step" type="xs:string" use="optional" />
                     </xs:complexType>
                   </xs:element>
                   <xs:choice>

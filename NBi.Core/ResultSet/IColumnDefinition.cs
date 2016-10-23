@@ -1,4 +1,5 @@
 ﻿using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Transformation;
 
 namespace NBi.Core.ResultSet
 {
@@ -12,5 +13,7 @@ namespace NBi.Core.ResultSet
 
         Rounding.RoundingStyle RoundingStyle { get; set; }
         string RoundingStep { get; set; }
+
+        ITransformationInfo Transformation { get; }
     }
 }

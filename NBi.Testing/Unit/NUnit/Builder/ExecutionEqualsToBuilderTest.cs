@@ -10,6 +10,8 @@ using NBi.Xml.Settings;
 using NUnit.Framework;
 using Items = NBi.Xml.Items;
 using Systems = NBi.Xml.Systems;
+using NBi.Core.ResultSet;
+using NBi.Core.Transformation;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -152,6 +154,47 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             Assert.That(ctr, Is.InstanceOf<EqualToConstraint>());
             Assert.That(((EqualToConstraint)ctr).IsParallelizeQueries(), Is.True);
+        }
+
+        [Test]
+        public void GetConstraint_Transformer_CorrectConstraint()
+        {
+            var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
+            var itemXmlStubFactory = new Mock<QueryableXml>();
+            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
+            var sutXml = sutXmlStubFactory.Object;
+            sutXml.Item = itemXmlStubFactory.Object;
+
+            var transformation = Mock.Of<ITransformationInfo>
+                (
+                    t => t.Language == LanguageType.CSharp
+                    && t.OriginalType == ColumnType.Text
+                    && t.Code == "value.Substring(2)"
+                );
+
+            var columnDef = Mock.Of<ColumnDefinitionXml>
+                (
+                    c => c.Index == 1
+                    && c.Role == ColumnRole.Value
+                    && c.Type == ColumnType.Text
+                    && c.Transformation == transformation
+                );
+
+            var ctrXml = new EqualToXml(true);
+            ctrXml.Query = new QueryXml();
+            ctrXml.Query.InlineQuery="select * from Table;";
+            Assert.That(ctrXml.ColumnsDef.Count, Is.EqualTo(0));
+            ctrXml.columnsDef.Add(columnDef);
+            Assert.That(ctrXml.ColumnsDef.Count, Is.EqualTo(1));
+
+            var builder = new ExecutionEqualToBuilder();
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var ctr = builder.GetConstraint();
+
+            Assert.That(ctr, Is.InstanceOf<EqualToConstraint>());
+            Assert.That(((EqualToConstraint)ctr).TransformationProvider, Is.Not.Null);
         }
 
     }

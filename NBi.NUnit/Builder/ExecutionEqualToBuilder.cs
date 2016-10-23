@@ -11,6 +11,7 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NBi.Core.Xml;
+using NBi.Core.Transformation;
 
 namespace NBi.NUnit.Builder
 {
@@ -110,6 +111,17 @@ namespace NBi.NUnit.Builder
 
             ctr.Using(settings);
 
+            //Manage transformations
+            var transformationProvider = new TransformationProvider();
+            foreach (var columnDef in ConstraintXml.ColumnsDef)
+            {
+                if (columnDef.Transformation != null)
+                    transformationProvider.Add(columnDef.Index, columnDef.Transformation);
+            }
+
+            ctr = ctr.Using(transformationProvider);
+
+            //Manage parallelism
             if (ConstraintXml.ParallelizeQueries)
                 ctr = ctr.Parallel();
             else

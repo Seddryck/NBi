@@ -7,6 +7,8 @@ using NBi.Xml;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NUnit.Framework;
+using NBi.Xml.Items.ResultSet;
+using NBi.Core.Transformation;
 #endregion
 
 namespace NBi.Testing.Unit.Xml.Constraints
@@ -224,6 +226,46 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
 
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ValuesDefaultType, Is.EqualTo(ColumnType.DateTime));
+        }
+
+        [Test]
+        public void DeserializeEqualToQuery_DefaultValue_Transformation()
+        {
+            int testNr = 10;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            var ctr = ts.Tests[testNr].Constraints[0] as EqualToXml;
+
+
+            Assert.That(ctr.ColumnsDef[0].Transformation, Is.TypeOf<TransformationXml>());
+            var transfo = ctr.ColumnsDef[0].Transformation as TransformationXml;
+
+            Assert.That(transfo.Language, Is.EqualTo(LanguageType.CSharp));
+            Assert.That(transfo.OriginalType, Is.EqualTo(ColumnType.Text));
+            Assert.That(transfo.Code, Is.EqualTo("value.Substring(2)"));
+        }
+
+        [Test]
+        public void DeserializeEqualToQuery_NoDefaultValue_Transformation()
+        {
+            int testNr = 10;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            var ctr = ts.Tests[testNr].Constraints[0] as EqualToXml;
+
+
+            Assert.That(ctr.ColumnsDef[1].Transformation, Is.TypeOf<TransformationXml>());
+            var transfo = ctr.ColumnsDef[1].Transformation as TransformationXml;
+
+            Assert.That(transfo.Language, Is.EqualTo(LanguageType.CSharp));
+            Assert.That(transfo.OriginalType, Is.EqualTo(ColumnType.DateTime));
+            Assert.That(transfo.Code, Is.EqualTo("String.Format(\"{0:00}.{1}\", value.Month, value.Year)"));
         }
     }
 }

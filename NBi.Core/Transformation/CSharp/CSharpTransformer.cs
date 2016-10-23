@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Transformation.CSharp
 {
-    class CSharpTransformationProvider<T> : ITransformationProvider
+    class CSharpTransformer<T> : ITransformer
     {
         private MethodInfo method;
 
-        public CSharpTransformationProvider()
+        public CSharpTransformer()
         {
         }
 

@@ -9,6 +9,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework.FailureMessage;
 using NBi.Framework;
 using NBi.Core.Xml;
+using NBi.Core.Transformation;
 
 namespace NBi.NUnit.Query
 {
@@ -72,7 +73,9 @@ namespace NBi.NUnit.Query
                 _engine = value;
             }
         }
-        
+
+        public TransformationProvider TransformationProvider { get; protected set; }
+
         /// <summary>
         /// Engine dedicated to ResultSet acquisition
         /// </summary>
@@ -130,6 +133,12 @@ namespace NBi.NUnit.Query
             return this;
         }
 
+        public EqualToConstraint Using(TransformationProvider transformationProvider)
+        {
+            this.TransformationProvider = transformationProvider;
+            return this;
+        }
+
         public EqualToConstraint Persist(PersistanceChoice choice, PersistanceItems items, string filename)
         {
             this.persistanceChoice = choice;
@@ -180,6 +189,9 @@ namespace NBi.NUnit.Query
             //This is needed if we don't use //ism
             if (expectedResultSet ==  null)
                 expectedResultSet = GetResultSet(expect);
+
+            if (TransformationProvider != null)
+                TransformationProvider.Transform(expectedResultSet);
 
             result = Engine.Compare(actualResultSet, expectedResultSet);
 

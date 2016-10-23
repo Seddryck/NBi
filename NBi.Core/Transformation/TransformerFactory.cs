@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Transformation
 {
-    public class TransformationProviderFactory
+    public class TransformerFactory
     {
-        public ITransformationProvider Build(ITransformationInfo info)
+        public ITransformer Build(ITransformationInfo info)
         {
             Type valueType;
             switch (info.OriginalType)
@@ -33,7 +33,7 @@ namespace NBi.Core.Transformation
             switch (info.Language)
             {
                 case LanguageType.CSharp:
-                    providerType = typeof(CSharp.CSharpTransformationProvider<>);
+                    providerType = typeof(CSharp.CSharpTransformer<>);
                     break;
                 case LanguageType.NCalc:
                     throw new ArgumentOutOfRangeException();
@@ -44,7 +44,7 @@ namespace NBi.Core.Transformation
             }
 
             var provider = providerType.MakeGenericType(valueType);
-            var transformer = (ITransformationProvider)Activator.CreateInstance(provider, new object[] { });
+            var transformer = (ITransformer)Activator.CreateInstance(provider, new object[] { });
 
             return transformer;
         }

@@ -110,7 +110,7 @@ namespace NBi.Xml.Constraints
         [XmlElement("column")]
         public List<NBi.Xml.Items.ResultSet.ColumnDefinitionXml> columnsDef;
 
-        public IList<IColumnDefinition> ColumnsDef
+        public IReadOnlyList<IColumnDefinition> ColumnsDef
         {
             get
             {

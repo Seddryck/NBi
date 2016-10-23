@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Transformation;
 
 namespace NBi.Core.ResultSet
 {
@@ -19,5 +20,7 @@ namespace NBi.Core.ResultSet
 
         public Rounding.RoundingStyle RoundingStyle { get; set; }
         public string RoundingStep { get; set; }
+
+        public ITransformationInfo Transformation { get; set; }
     }
 }

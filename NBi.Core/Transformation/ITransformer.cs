@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Transformation
 {
-    public interface ITransformationProvider
+    public interface ITransformer
     {
+        void Initialize(string code);
         object Execute(object value);
     }
 }

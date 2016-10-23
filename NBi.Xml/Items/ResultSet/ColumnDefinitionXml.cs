@@ -2,6 +2,7 @@
 using System.Xml.Serialization;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Transformation;
 
 namespace NBi.Xml.Items.ResultSet
 {
@@ -31,6 +32,14 @@ namespace NBi.Xml.Items.ResultSet
         [XmlAttribute("rounding-step")]
         [DefaultValue("")]
         public string RoundingStep {get; set;}
-        
+
+        [XmlElement("transformation")]
+        public TransformationXml TransformationInner { get; set; }
+
+        [XmlIgnore]
+        public ITransformationInfo Transformation
+        {
+            get { return TransformationInner; }
+        }
     }
 }

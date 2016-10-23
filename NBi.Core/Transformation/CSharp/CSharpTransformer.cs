@@ -1,4 +1,5 @@
 ﻿using Microsoft.CSharp;
+using NBi.Core.ResultSet.Converter;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -26,7 +27,13 @@ namespace NBi.Core.Transformation.CSharp
         {
             if (method == null)
                 throw new InvalidOperationException();
-            return method.Invoke(null, new[] { value });
+
+            var factory = new ConverterFactory<T>();
+            var converter = factory.Build();
+            var typedValue = converter.Convert(value);
+            var transformedValue = method.Invoke(null, new object[] { typedValue });
+
+            return transformedValue;
         }
 
         private MethodInfo CreateFunction(string code, string type)

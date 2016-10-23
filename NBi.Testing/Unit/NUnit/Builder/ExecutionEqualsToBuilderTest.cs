@@ -166,7 +166,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var transformation = Mock.Of<ITransformationInfo>
+            var transformation = Mock.Of<TransformationXml>
                 (
                     t => t.Language == LanguageType.CSharp
                     && t.OriginalType == ColumnType.Text
@@ -178,7 +178,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     c => c.Index == 1
                     && c.Role == ColumnRole.Value
                     && c.Type == ColumnType.Text
-                    && c.Transformation == transformation
+                    && c.TransformationInner == transformation
                 );
 
             var ctrXml = new EqualToXml(true);

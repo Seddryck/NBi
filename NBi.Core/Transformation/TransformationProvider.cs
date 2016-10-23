@@ -32,9 +32,17 @@ namespace NBi.Core.Transformation
             {
                 var tsStart = DateTime.Now;
                 var transformer = cacheTransformers[index];
+
+                var newColumn = new DataColumn() { DataType = typeof(object) };
+                resultSet.Table.Columns.Add(newColumn);
+
                 foreach (DataRow row in resultSet.Table.Rows)
-                    row[index] = transformer.Execute(row[index]);
-                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to transform column with index {0}: {0}", index, DateTime.Now.Subtract(tsStart).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+                    row[newColumn.Ordinal] = transformer.Execute(row[index]);
+
+                resultSet.Table.Columns.RemoveAt(index);
+                newColumn.SetOrdinal(index);
+
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to transform column with index {0}: {1}", index, DateTime.Now.Subtract(tsStart).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             }
         }
     }

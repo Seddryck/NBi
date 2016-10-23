@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Converter
 {
-    interface IConverter<T>
+    public interface IConverter<T>
     {
         T Convert(object obj);
         bool IsValid(object obj);

@@ -23,6 +23,27 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         }
 
         [Test]
+        public void Execute_NumericDouble_Multiplied()
+        {
+            var code = "value * 1.21";
+            var provider = new NCalcTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(10);
+            Assert.That(result, Is.EqualTo(12.1));
+        }
+
+        public void Execute_NumericDecimal_Multiplied()
+        {
+            var code = "value * 1.21";
+            var provider = new NCalcTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(10m);
+            Assert.That(result, Is.EqualTo(12.1));
+        }
+
+        [Test]
         public void Execute_String_Translated()
         {
             var code = "in (value , 'Oui', 'Yes', 'Ja')";

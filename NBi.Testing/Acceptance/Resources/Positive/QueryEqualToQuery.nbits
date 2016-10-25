@@ -323,5 +323,67 @@
         </equalTo>
       </assert>
     </test>
+    <test name="NCalc decimal to decimal">
+      <system-under-test>
+        <execution>
+          <query>
+            select '10.2016', cast(121 as decimal(10,3)) union all select '11.2016', cast(242 as decimal(10,3))
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <column index="0" role="key" type="text"/>
+          <column index="1" role="value" type="numeric">
+            <transformation language="ncalc" original-type="numeric">value *1.21</transformation>
+          </column>
+          <query>
+            select '10.2016', 100 union all select '11.2016', 200
+          </query>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="NCalc float to decimal">
+      <system-under-test>
+        <execution>
+          <query>
+            select '10.2016', cast(121 as float) union all select '11.2016', cast(242 as float)
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <column index="0" role="key" type="text"/>
+          <column index="1" role="value" type="numeric">
+            <transformation language="ncalc" original-type="numeric">value *1.21</transformation>
+          </column>
+          <query>
+            select '10.2016', 100 union all select '11.2016', 200
+          </query>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Format float and date">
+      <system-under-test>
+        <execution>
+          <query>
+            select '10.2016', '0121,00' union all select '11.2016', '0242,00'
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <column index="0" role="key" type="text">
+            <transformation language="format" original-type="dateTime">MM.yyyy</transformation>
+          </column>
+          <column index="1" role="value" type="numeric">
+            <transformation language="format" original-type="numeric">0000.00</transformation>
+          </column>
+          <query>
+            select cast('2016-10-01' as DateTime), cast(121 as float) union all select cast('2016-11-01' as DateTime), cast(242 as float)
+          </query>
+        </equalTo>
+      </assert>
+    </test>
   </group>
 </testSuite>

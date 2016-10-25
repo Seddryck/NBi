@@ -478,6 +478,8 @@
           <xs:simpleType>
             <xs:restriction base="xs:string">
               <xs:enumeration value="c-sharp"/>
+              <xs:enumeration value="ncalc"/>
+              <xs:enumeration value="format"/>
             </xs:restriction>
           </xs:simpleType>
         </xs:attribute>

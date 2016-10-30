@@ -49,7 +49,9 @@ namespace NBi.Xml.Constraints
         [XmlElement("resultSet")]
         public ResultSetXml ResultSet { get; set; }
 
-        [XmlElement("query")]
+        [XmlElement(Type = typeof(QueryXml), ElementName = "query"),
+        XmlElement(Type = typeof(OneRowQueryXml), ElementName = "one-row-query"),
+        ]
         public QueryXml Query { get; set; }
 
         [XmlElement("xml-source")]

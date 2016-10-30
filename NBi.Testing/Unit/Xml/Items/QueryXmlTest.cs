@@ -6,6 +6,7 @@ using NBi.Xml;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NUnit.Framework;
+using NBi.Xml.Constraints;
 
 namespace NBi.Testing.Unit.Xml.Items
 {
@@ -130,16 +131,16 @@ namespace NBi.Testing.Unit.Xml.Items
         }
         
         [Test]
-        public void Deserialize_QueryWithTimeout_QueryXml()
+        public void Deserialize_OneRowQuery_OneRowQueryXml()
         {
-            int testNr = 2;
+            int testNr = 4;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            var query = (QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
+            var query = ((EqualToXml)ts.Tests[testNr].Constraints[0]).BaseItem;
 
-            Assert.That(query.Timeout, Is.EqualTo(60000));
+            Assert.IsInstanceOf<OneRowQueryXml>(query);
         }
 
     }

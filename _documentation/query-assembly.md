@@ -13,14 +13,14 @@ You need to define a *system-under-test* and inside the *execution* element, you
 
 {% highlight xml %}
 <system-under-test>
-		<execution>
-			<assembly
-				path="NBi.Testing.dll"
-				class="NBi.Testing.Acceptance.Resources.AssemblyClass"
-				method="GetSelectMdx"
-			/>
-		</execution>
-	</system-under-test>
+  <execution>
+    <assembly
+      path="NBi.Testing.dll"
+      class="NBi.Testing.Acceptance.Resources.AssemblyClass"
+      method="GetSelectMdx"
+    />
+  </execution>
+</system-under-test>
 {% endhighlight %}
 
 ### Parameters
@@ -28,16 +28,16 @@ If your method is expecting some parameters you can specify them in your test. T
 
 {% highlight xml %}
 <system-under-test>
-		<execution>
-			<assembly
-				path="NBi.Testing.dll"
-				class="NBi.Testing.Acceptance.Resources.AssemblyClass"
-				method="GetSelectMdx"
-			/>
-				<parameter name="calendarYear">CY 2004</parameter>
-			</assembly>
-		</execution>
-	</system-under-test>
+  <execution>
+    <assembly
+      path="NBi.Testing.dll"
+      class="NBi.Testing.Acceptance.Resources.AssemblyClass"
+    me  thod="GetSelectMdx"
+    />
+      <parameter name="calendarYear">CY 2004</parameter>
+    </assembly>
+  </execution>
+</system-under-test>
 {% endhighlight %}
 
 It's possible to pass value for parameters of type string, any numerical type, enum and DateTime. If you want to pass a DateTime the value must be provided under the format *YYYY-MM-DD* or *YYYY-MM-DD HH:mm*. For an enum, just specify the string representation of the value for the enum (expl: *Blue* or *MatchingCase*).

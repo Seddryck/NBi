@@ -217,7 +217,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
                 dr.SetField<T>(dt.Columns[i], values[i]);
 
             if (useless != null)
-                for (int i = 0; i < useless?.Length; i++)
+                for (int i = 0; i < useless.Length; i++)
                     dr.SetField<string>(dt.Columns[values.Length + i], useless[i]);
 
             dt.Rows.Add(dr);

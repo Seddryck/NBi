@@ -147,5 +147,45 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
             var result = comparer.Compare(1, "(empty)");
             Assert.That(result.AreEqual, Is.False);
         }
+
+        [Test]
+        public void Compare_1AndBlankPlaceHolder_False()
+        {
+            var comparer = new TextComparer();
+            var result = comparer.Compare(1, "(blank)");
+            Assert.That(result.AreEqual, Is.False);
+        }
+
+        [Test]
+        public void Compare_TabAndBlankPlaceHolder_True()
+        {
+            var comparer = new TextComparer();
+            var result = comparer.Compare("\t", "(blank)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_TwoSpacesAndBlankPlaceHolder_True()
+        {
+            var comparer = new TextComparer();
+            var result = comparer.Compare("  ", "(blank)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_EmptyAndBlankPlaceHolder_True()
+        {
+            var comparer = new TextComparer();
+            var result = comparer.Compare(string.Empty, "(blank)");
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        public void Compare_NullAndBlankPlaceHolder_True()
+        {
+            var comparer = new TextComparer();
+            var result = comparer.Compare(null, "(blank)");
+            Assert.That(result.AreEqual, Is.True);
+        }
     }
 }

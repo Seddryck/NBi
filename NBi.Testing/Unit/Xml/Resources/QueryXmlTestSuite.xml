@@ -86,10 +86,10 @@
       </execution>
     </system-under-test>
     <assert>
-      <equalTo>
-        <one-row-query>
+      <equalTo behavior="single-row">
+        <query>
           select top 1 myColumn1, myColumn2 from myTable2
-        </one-row-query>
+        </query>
       </equalTo>
     </assert>
   </test>

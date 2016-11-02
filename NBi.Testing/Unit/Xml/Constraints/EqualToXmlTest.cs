@@ -267,5 +267,19 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(transfo.OriginalType, Is.EqualTo(ColumnType.DateTime));
             Assert.That(transfo.Code, Is.EqualTo("String.Format(\"{0:00}.{1}\", value.Month, value.Year)"));
         }
+
+        [Test]
+        public void DeserializeEqualToQuery_BehaviorSingleRow_SingleRow()
+        {
+            int testNr = 11;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            var ctr = ts.Tests[testNr].Constraints[0] as EqualToXml;
+
+            Assert.That(ctr.Behavior, Is.EqualTo(EqualToXml.ComparisonBehavior.SingleRow));
+        }
     }
 }

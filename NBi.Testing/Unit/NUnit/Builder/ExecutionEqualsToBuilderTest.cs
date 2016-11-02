@@ -197,5 +197,36 @@ namespace NBi.Testing.Unit.NUnit.Builder
             Assert.That(((EqualToConstraint)ctr).TransformationProvider, Is.Not.Null);
         }
 
+        [Test]
+        public void GetConstraint_SingleRow_CorrectConstraint()
+        {
+            var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
+            var itemXmlStubFactory = new Mock<QueryableXml>();
+            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
+            var sutXml = sutXmlStubFactory.Object;
+            sutXml.Item = itemXmlStubFactory.Object;
+
+            var columnDef = Mock.Of<ColumnDefinitionXml>
+                (
+                    c => c.Index == 1
+                    && c.Role == ColumnRole.Value
+                    && c.Type == ColumnType.Text
+                );
+
+            var ctrXml = new EqualToXml(true);
+            ctrXml.Behavior = EqualToXml.ComparisonBehavior.SingleRow;
+            ctrXml.Query = new QueryXml();
+            ctrXml.Query.InlineQuery = "select * from Table;";
+            
+            var builder = new ExecutionEqualToBuilder();
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var ctr = builder.GetConstraint();
+
+            Assert.That(ctr, Is.InstanceOf<EqualToConstraint>());
+            Assert.That(((EqualToConstraint)ctr).Engine, Is.InstanceOf<SingleRowComparer>());
+            Assert.That(((EqualToConstraint)ctr).Engine.Settings, Is.InstanceOf<SingleRowComparisonSettings>());
+        }
     }
 }

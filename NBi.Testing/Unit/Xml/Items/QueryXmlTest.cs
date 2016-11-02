@@ -130,18 +130,18 @@ namespace NBi.Testing.Unit.Xml.Items
             Assert.That(query.GetParameters(), Has.Count.EqualTo(0));
         }
         
-        [Test]
-        public void Deserialize_OneRowQuery_OneRowQueryXml()
-        {
-            int testNr = 4;
+        //[Test]
+        //public void Deserialize_OneRowQuery_OneRowQueryXml()
+        //{
+        //    int testNr = 4;
 
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
+        //    // Create an instance of the XmlSerializer specifying type and namespace.
+        //    TestSuiteXml ts = DeserializeSample();
 
-            var query = ((EqualToXml)ts.Tests[testNr].Constraints[0]).BaseItem;
+        //    var query = ((EqualToXml)ts.Tests[testNr].Constraints[0]).BaseItem;
 
-            Assert.IsInstanceOf<OneRowQueryXml>(query);
-        }
+        //    Assert.IsInstanceOf<OneRowQueryXml>(query);
+        //}
 
     }
 }

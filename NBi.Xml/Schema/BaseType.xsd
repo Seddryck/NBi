@@ -761,10 +761,17 @@
                       </xs:complexType>
                     </xs:element>
                     <xs:element name="query" type="query-type" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="one-row-query" type="query-type" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="xml-source" type="xml-source-type" minOccurs="0" maxOccurs="1"/>
                   </xs:choice>
                 </xs:sequence>
+                <xs:attribute name="behavior" use="optional" >
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:enumeration value="multiple-rows"/>
+                      <xs:enumeration value="single-row"/>
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:attribute>
                 <xs:attribute name="keys" use="optional" >
                   <xs:simpleType>
                     <xs:restriction base="xs:string">

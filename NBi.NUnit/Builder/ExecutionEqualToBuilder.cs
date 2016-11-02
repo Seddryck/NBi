@@ -58,8 +58,6 @@ namespace NBi.NUnit.Builder
                 var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables, timeout);
                 ctr = new EqualToConstraint(cmd);
 
-                if (ConstraintXml.BaseItem is OneRowQueryXml)
-                    ctr = ctr.Using(new SingleRowComparer());
             }
             else if (ConstraintXml.ResultSet != null)
             {
@@ -105,8 +103,9 @@ namespace NBi.NUnit.Builder
 
             //Manage settings for comparaison
             ResultSetComparisonSettings settings = null;
-            if (ConstraintXml.BaseItem is OneRowQueryXml)
-            {
+            if (ConstraintXml.Behavior == EqualToXml.ComparisonBehavior.SingleRow)
+            { 
+                ctr = ctr.Using(new SingleRowComparer());
                 settings = new SingleRowComparisonSettings(
                     ConstraintXml.ValuesDefaultType,
                     new NumericToleranceFactory().Instantiate(ConstraintXml.Tolerance),

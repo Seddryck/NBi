@@ -63,7 +63,7 @@ namespace NBi.NUnit.Query
             get
             {
                 if(_engine==null)
-                    _engine = new DataRowBasedResultSetComparer();
+                    _engine = new ResultSetComparer();
                 return _engine;
             }
             set
@@ -125,6 +125,12 @@ namespace NBi.NUnit.Query
         public EqualToConstraint(XPathEngine xpath)
         {
             this.expect = xpath;
+        }
+
+        public EqualToConstraint Using(IResultSetComparer engine)
+        {
+            this.Engine = engine;
+            return this;
         }
 
         public EqualToConstraint Using(ResultSetComparisonSettings settings)

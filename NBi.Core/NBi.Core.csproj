@@ -302,7 +302,9 @@
     <Compile Include="ResultSet\Comparer\RoundingFactory.cs" />
     <Compile Include="ResultSet\Comparer\TextComparer.cs" />
     <Compile Include="ResultSet\Comparer\Tolerance.cs" />
-    <Compile Include="ResultSet\DataRowBasedResultSetComparer.cs" />
+    <Compile Include="ResultSet\SingleRowComparisonSettings.cs" />
+    <Compile Include="ResultSet\SingleRowComparer.cs" />
+    <Compile Include="ResultSet\ResultSetComparer.cs" />
     <Compile Include="ResultSet\DataRowKeysComparer.cs" />
     <Compile Include="ResultSet\Interval.cs" />
     <Compile Include="ResultSet\KeyCollection.cs" />

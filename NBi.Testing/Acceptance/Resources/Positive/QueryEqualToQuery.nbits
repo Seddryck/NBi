@@ -8,7 +8,7 @@
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </default>
   </settings>
-  <test name="'Reseller Order Count' by year before 2006" uid="0001">
+  <!--<test name="'Reseller Order Count' by year before 2006" uid="0001">
     <system-under-test>
       <execution>
         <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
@@ -382,6 +382,27 @@
           <query>
             select cast('2016-10-01' as DateTime), cast(121 as float) union all select cast('2016-11-01' as DateTime), cast(242 as float)
           </query>
+        </equalTo>
+      </assert>
+    </test>
+  </group>-->
+  <group name="One-row-queries">
+    <test name="Text, numeric, bool, dateTime, Text">
+      <system-under-test>
+        <execution>
+          <query>
+            select 'alpha', '10.250', 'true', '2016-12-10', 'beta'
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo values-default-type="text">
+          <column index="1" role="value" type="numeric"/>
+          <column index="2" role="value" type="boolean"/>
+          <column index="3" role="value" type="dateTime"/>
+          <one-row-query>
+            select 'alpha', cast(10.25 as float) , cast(1 as bit), cast('2016-12-10' as DateTime), 'beta'
+          </one-row-query>
         </equalTo>
       </assert>
     </test>

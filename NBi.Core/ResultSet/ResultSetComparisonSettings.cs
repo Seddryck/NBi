@@ -17,9 +17,9 @@ namespace NBi.Core.ResultSet
 			First = 0,
 			[XmlEnum(Name = "all-except-last")]
 			AllExpectLast = 1,
-			[XmlEnum(Name = "all")]
-			All = 2
-		}
+            [XmlEnum(Name = "all")]
+            All = 2,
+        }
 
 		public enum ValuesChoice
 		{
@@ -32,10 +32,10 @@ namespace NBi.Core.ResultSet
 		public KeysChoice KeysDef { get; set; }
 		private ValuesChoice ValuesDef { get; set; }
         private ColumnType ValuesDefaultType { get; set; }
-		private IReadOnlyCollection<IColumnDefinition> ColumnsDef { get; set; }
+		protected IReadOnlyCollection<IColumnDefinition> ColumnsDef { get; set; }
 		private NumericTolerance DefaultTolerance { get; set; }
 
-		private bool IsKey(int index)
+		protected virtual bool IsKey(int index)
 		{
 		   
 			if (ColumnsDef.Any( c => c.Index==index && c.Role!=ColumnRole.Key))
@@ -57,7 +57,7 @@ namespace NBi.Core.ResultSet
 			return false;
 		}
 
-		private bool IsValue(int index)
+        protected virtual bool IsValue(int index)
 		{
 			if (ColumnsDef.Any(c => c.Index == index && c.Role != ColumnRole.Value))
 				return false;
@@ -267,7 +267,17 @@ namespace NBi.Core.ResultSet
 				ColumnsDef = new List<IColumnDefinition>(0);
 		}
 
-		public void ConsoleDisplay()
+        protected ResultSetComparisonSettings(ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
+        {
+            ValuesDefaultType = valuesDefaultType;
+            DefaultTolerance = defaultTolerance ?? NumericAbsoluteTolerance.None;
+            if (columnsDef != null)
+                ColumnsDef = columnsDef;
+            else
+                ColumnsDef = new List<IColumnDefinition>(0);
+        }
+
+        public void ConsoleDisplay()
 		{
 			//Console.Write("Indexes: |");
 			//foreach (var kci in KeyColumnIndexes)

@@ -205,7 +205,7 @@ namespace NBi.Core.ResultSet
                                 //Null management
                                 if (rx.IsNull(i) || ry.IsNull(i))
                                 {
-                                    if (!rx.IsNull(i) || !ry.IsNull(i))
+                                    if ((!rx.IsNull(i) && rx[i].ToString() != "(blank)") || (!ry.IsNull(i) && ry[i].ToString() != "(blank)"))
                                     {
                                         ry.SetColumnError(i, ry.IsNull(i) ? rx[i].ToString() : "(null)");
                                         if (!isRowOnError)

@@ -63,6 +63,12 @@ namespace NBi.Core.ResultSet.Comparer
             if (x == null && y == null)
                 return ComparerResult.Equality;
 
+            if (y==null && x is string && ((string)x) == "(blank)")
+                return ComparerResult.Equality;
+
+            if (x==null && y is string && ((string)y) == "(blank)")
+                return ComparerResult.Equality;
+
             if (x == null || y == null)
                 return new ComparerResult("(null)");
 

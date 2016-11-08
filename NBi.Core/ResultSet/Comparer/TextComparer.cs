@@ -41,6 +41,12 @@ namespace NBi.Core.ResultSet.Comparer
             if (y == "(empty)" && string.IsNullOrEmpty(x))
                 return true;
 
+            if (x == "(blank)" && string.IsNullOrWhiteSpace(y))
+                return true;
+
+            if (y == "(blank)" && string.IsNullOrWhiteSpace(x))
+                return true;
+
             return false;
         }
 

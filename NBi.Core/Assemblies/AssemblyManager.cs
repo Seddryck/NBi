@@ -97,7 +97,7 @@ namespace NBi.Core.Assemblies
             var flags = BindingFlags.IgnoreCase | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static;
             MethodInfo methodInfo = type.GetMethod(methodName, flags);
             if (methodInfo == null)
-                throw new ArgumentException(string.Format("Method named '{0}' not found in type '{1}'", methodName, type), "methodName");
+                throw new ArgumentException(string.Format("Static method named '{0}' not found in type '{1}'", methodName, type), "methodName");
 
             var paramList = new List<object>();
             foreach (ParameterInfo paramInfo in methodInfo.GetParameters())

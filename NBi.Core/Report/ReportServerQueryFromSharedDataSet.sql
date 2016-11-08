@@ -25,4 +25,5 @@ SELECT
 FROM
 	SharedDataSet
 WHERE
-	SharedDataSetName=@SharedDataSetName
+	[SharedDataSetName]=@SharedDataSetName
+	and ReportPath=@SharedDataSetPath

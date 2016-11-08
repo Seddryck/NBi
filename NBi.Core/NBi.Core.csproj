@@ -251,11 +251,11 @@
     <Compile Include="Query\IQueryParameter.cs" />
     <Compile Include="Query\IQueryTemplateVariable.cs" />
     <Compile Include="Query\QueryOdbcEngine.cs" />
+    <Compile Include="Report\SharedDatasetRequest.cs" />
+    <Compile Include="Report\DatasetRequest.cs" />
     <Compile Include="Report\ReportCommand.cs" />
     <Compile Include="ResultSet\Comparer\ComparerFactory.cs" />
-    <Compile Include="Report\FileRequest.cs" />
     <Compile Include="Report\DatabaseParser.cs" />
-    <Compile Include="Report\DatabaseRequest.cs" />
     <Compile Include="Report\FileParser.cs" />
     <Compile Include="Report\IParser.cs" />
     <Compile Include="Report\IQueryRequest.cs" />

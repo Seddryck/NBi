@@ -104,7 +104,7 @@
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
     <Compile Include="Items\Filters\IOwnerFilter.cs" />
-    <Compile Include="Items\OneRowQueryXml.cs" />
+    <Compile Include="Items\SharedDatasetXml.cs" />
     <Compile Include="Items\ResultSet\TransformationXml.cs" />
     <Compile Include="Items\UrlXml.cs" />
     <Compile Include="Items\Filters\IParameterDirectionFilter.cs" />

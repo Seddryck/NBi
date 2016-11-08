@@ -438,8 +438,18 @@
         <xs:sequence>
           <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
         </xs:sequence>
-        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="name" type="xs:string" use="required"/>
         <xs:attribute name="dataset" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="shared-dataset-type">
+    <xs:complexContent>
+      <xs:extension base="report-base-type">
+        <xs:sequence>
+          <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -654,6 +664,7 @@
                 <xs:choice>
                   <xs:element name="query" type ="query-type"/>
                   <xs:element name="report" type ="report-type"/>
+                  <xs:element name="shared-dataset" type ="shared-dataset-type"/>
                   <xs:element name="assembly" type ="assembly-type"/>
                   <xs:element name="etl" type ="etl-type"/>
                 </xs:choice>

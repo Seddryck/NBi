@@ -12,7 +12,7 @@ namespace NBi.Testing.Integration.Core.Report
     public class DatabaseParserTest
     {
 
-        private static bool isSqlServerStarted = false;
+        private static bool isSqlServerStarted = false; 
 
         #region SetUp & TearDown
         //Called only at instance creation
@@ -52,11 +52,11 @@ namespace NBi.Testing.Integration.Core.Report
         [Test]
         public void ExtractQuery_ExistingReportAndDataSet_CorrectQueryReturned()
         {
-            var request = new NBi.Core.Report.DatabaseRequest(
+            var request = new DatasetRequest( 
                     ConnectionStringReader.GetReportServerDatabase()
                     , "/AdventureWorks Sample Reports/"
                     , "Currency_List"
-                    ,"Currency"
+                    ,"Currency" 
                 );
 
             var parser = new DatabaseParser();
@@ -72,7 +72,7 @@ namespace NBi.Testing.Integration.Core.Report
         [Test]
         public void ExtractQuery_NonExistingDataSetOneExisting_CorrectExceptionReturned()
         {
-            var request = new NBi.Core.Report.DatabaseRequest(
+            var request = new DatasetRequest(
                     ConnectionStringReader.GetReportServerDatabase()
                     , "/AdventureWorks Sample Reports/"
                     , "Currency_List"
@@ -87,7 +87,7 @@ namespace NBi.Testing.Integration.Core.Report
         [Test]
         public void ExtractQuery_NonExistingDataSetMoreThanOneExisting_CorrectExceptionReturned()
         {
-            var request = new NBi.Core.Report.DatabaseRequest(
+            var request = new DatasetRequest(
                     ConnectionStringReader.GetReportServerDatabase()
                     , "/AdventureWorks Sample Reports/"
                     , "Currency Rates"
@@ -102,7 +102,7 @@ namespace NBi.Testing.Integration.Core.Report
         [Test]
         public void ExtractQuery_NonExistingReport_CorrectExceptionReturned()
         {
-            var request = new NBi.Core.Report.DatabaseRequest(
+            var request = new DatasetRequest(
                     ConnectionStringReader.GetReportServerDatabase()
                     , "/AdventureWorks Sample Reports/"
                     , "Not Existing"
@@ -114,13 +114,14 @@ namespace NBi.Testing.Integration.Core.Report
             Assert.That(ex.Message, Is.StringContaining("No report found"));
         }
 
-        public void ExtractQuery_SharedDataSet_CorrectQuery()
+        [Test]
+        public void ExtractQuery_SharedDataSetViaReport_CorrectQuery()
         {
-            var request = new NBi.Core.Report.DatabaseRequest(
+            var request = new DatasetRequest(
                     ConnectionStringReader.GetReportServerDatabase()
-                    , "/AdventureWorks 2012/"
+                    , "/AdventureWorks Sample Reports/"
                     , "Employee_Sales_Summary"
-                    , "SalesEmployees2008R2"
+                    , "EmpSalesMonth"
                 );
 
             var parser = new DatabaseParser();
@@ -132,18 +133,37 @@ namespace NBi.Testing.Integration.Core.Report
 
         }
 
+        [Test]
         public void ExtractQuery_NonExistingSharedDataSet_CorrectQuery()
         {
-            var request = new NBi.Core.Report.DatabaseRequest(
+            var request = new DatasetRequest(
                     ConnectionStringReader.GetReportServerDatabase()
-                    , "/AdventureWorks 2012/"
+                    , "/AdventureWorks Sample Reports/"
                     , "Employee_Sales_Summary"
                     , "NonExisting"
                 );
 
             var parser = new DatabaseParser();
             var ex = Assert.Throws<ArgumentException>(() => parser.ExtractQuery(request));
-            Assert.That(ex.Message, Is.StringContaining("Quota").And.StringContaining("2008R2"));
+            Assert.That(ex.Message, Is.StringContaining("Quota").And.StringContaining("EmpSalesMonth"));
+        }
+
+        [Test]
+        public void ExtractQuery_SharedDataSet_CorrectQuery()
+        {
+            var request = new SharedDatasetRequest(
+                    ConnectionStringReader.GetReportServerDatabase()
+                    , "/AdventureWorks Sample Reports/"
+                    , "EmpSalesMonth"
+                );
+
+            var parser = new DatabaseParser();
+            var query = parser.ExtractQuery(request);
+
+            Assert.That(query.Text,
+                Is.StringContaining("SELECT"));
+            Assert.That(query.CommandType, Is.EqualTo(CommandType.Text));
+
         }
     }
 }

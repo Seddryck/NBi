@@ -10,12 +10,12 @@ namespace NBi.Core.Report
 {
     public class DatabaseParser : IParser
     {
-        public ReportCommand ExtractQuery(IQueryRequest request)
+        public ReportCommand ExtractQuery(DatasetRequest request)
         {
             var otherDataSets = new List<string>();
             var query = SearchDataSet(
                 request.Source
-                , request.ReportPath
+                , request.Path
                 , request.ReportName
                 , request.DataSetName
                 , ref otherDataSets);
@@ -23,23 +23,32 @@ namespace NBi.Core.Report
             {
                 var reference = SearchSharedDataSet(
                     request.Source
-                    , request.ReportPath
+                    , request.Path
                     , request.ReportName
                     , request.DataSetName
                     , ref otherDataSets);
                 if (!string.IsNullOrEmpty(reference))
-                    query = ReadQueryFromSharedDataSet(request.Source, reference);
+                    query = ReadQueryFromSharedDataSet(request.Source, request.Path, reference);
             }
 
             if (query != null)
                 return query;
 
             if (otherDataSets.Count() == 0)
-                throw new ArgumentException(string.Format("No report found on path '{0}' with name '{1}'", request.ReportPath, request.ReportName));
+                throw new ArgumentException(string.Format("No report found on path '{0}' with name '{1}'", request.Path, request.ReportName));
             else if (otherDataSets.Count() == 1)
-                throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The dataset for this report is {3}", request.ReportPath, request.ReportName, request.DataSetName, otherDataSets[0]));
+                throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The dataset for this report is {3}", request.Path, request.ReportName, request.DataSetName, otherDataSets[0]));
             else
-                throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The datasets for this report are {3}", request.ReportPath, request.ReportName, request.DataSetName, String.Join(", ", otherDataSets.ToArray())));
+                throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The datasets for this report are {3}", request.Path, request.ReportName, request.DataSetName, String.Join(", ", otherDataSets.ToArray())));
+        }
+
+        public ReportCommand ExtractQuery(SharedDatasetRequest request)
+        {
+            var query = ReadQueryFromSharedDataSet(request.Source, request.Path, request.SharedDatasetName);
+            if (query != null)
+                return query;
+
+            throw new ArgumentException(string.Format("The requested shared dataset ('{1}') wasn't found on path '{0}'.", request.Path, request.SharedDatasetName));
         }
 
         private ReportCommand SearchDataSet(string source, string reportPath, string reportName, string dataSetName, ref List<string> otherDataSets)
@@ -109,7 +118,7 @@ namespace NBi.Core.Report
             return null;
         }
 
-        private ReportCommand ReadQueryFromSharedDataSet(string source, string reference)
+        private ReportCommand ReadQueryFromSharedDataSet(string source, string path, string reference)
         {
             using (var conn = new SqlConnection())
             {
@@ -119,7 +128,12 @@ namespace NBi.Core.Report
                 cmd.Connection = conn;
                 cmd.CommandText = ReadQueryFromContent("QueryFromSharedDataSet");
 
-                //create the three parameters for the sql query
+                //create the two parameters for the sql query
+                var paramPath = new SqlParameter("SharedDataSetPath", System.Data.SqlDbType.NVarChar, 425);
+                paramPath.Value = path;
+                cmd.Parameters.Add(paramPath);
+
+
                 var paramReference = new SqlParameter("SharedDataSetName", System.Data.SqlDbType.NVarChar, 425);
                 paramReference.Value = reference;
                 cmd.Parameters.Add(paramReference);

@@ -8,6 +8,7 @@ namespace NBi.Core.Report
 {
     public interface IParser
     {
-        ReportCommand ExtractQuery(IQueryRequest request);
+        ReportCommand ExtractQuery(DatasetRequest request);
+        ReportCommand ExtractQuery(SharedDatasetRequest request);
     }
 }

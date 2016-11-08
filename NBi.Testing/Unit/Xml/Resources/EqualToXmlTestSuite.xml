@@ -189,4 +189,18 @@
       </equalTo>
     </assert>
   </test>
+  <test name="equalTo Transformation">
+    <system-under-test>
+      <execution>
+        <query>
+          select top 2 [EventID], [Cost], [Period], [QuarterHour], [Instant] from Event
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo behavior="single-row" values-default-type="dateTime">
+        <resultSet file="Query.csv"/>
+      </equalTo>
+    </assert>
+  </test>
 </testSuite>

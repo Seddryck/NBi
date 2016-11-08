@@ -386,4 +386,25 @@
       </assert>
     </test>
   </group>
+  <group name="One-row-queries">
+    <test name="Text, numeric, bool, dateTime, Text">
+      <system-under-test>
+        <execution>
+          <query>
+            select 'alpha2', '10.250', 'true', '2016-12-10', 'beta'
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo behavior="single-row" values-default-type="text">
+          <column index="1" role="value" type="numeric"/>
+          <column index="2" role="value" type="boolean"/>
+          <column index="3" role="value" type="dateTime"/>
+          <query>
+            select 'alpha', cast(10.25 as float) , cast(1 as bit), cast('2016-12-10' as DateTime), 'beta'
+          </query>
+        </equalTo>
+      </assert>
+    </test>
+  </group>
 </testSuite>

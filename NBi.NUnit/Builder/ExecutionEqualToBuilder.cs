@@ -57,6 +57,7 @@ namespace NBi.NUnit.Builder
                 var commandBuilder = new CommandBuilder();
                 var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables, timeout);
                 ctr = new EqualToConstraint(cmd);
+
             }
             else if (ConstraintXml.ResultSet != null)
             {
@@ -101,14 +102,27 @@ namespace NBi.NUnit.Builder
                 throw new ArgumentException();
 
             //Manage settings for comparaison
-            var settings = new ResultSetComparisonSettings(
+            ResultSetComparisonSettings settings = null;
+            if (ConstraintXml.Behavior == EqualToXml.ComparisonBehavior.SingleRow)
+            { 
+                ctr = ctr.Using(new SingleRowComparer());
+                settings = new SingleRowComparisonSettings(
+                    ConstraintXml.ValuesDefaultType,
+                    new NumericToleranceFactory().Instantiate(ConstraintXml.Tolerance),
+                    ConstraintXml.ColumnsDef
+                );
+            }
+            else
+            {
+                settings = new ResultSetComparisonSettings(
                     ConstraintXml.KeysDef,
                     ConstraintXml.ValuesDef,
                     ConstraintXml.ValuesDefaultType,
                     new NumericToleranceFactory().Instantiate(ConstraintXml.Tolerance),
                     ConstraintXml.ColumnsDef
                 );
-
+            }
+            
             ctr.Using(settings);
 
             //Manage transformations

@@ -10,7 +10,7 @@ using NBi.Core.ResultSet.Converter;
 
 namespace NBi.Core.ResultSet
 {
-    public class DataRowBasedResultSetComparer : IResultSetComparer
+    public class ResultSetComparer : IResultSetComparer
     {
         public ResultSetComparisonSettings Settings { get; set; }
 
@@ -22,11 +22,11 @@ namespace NBi.Core.ResultSet
         private readonly DateTimeComparer dateTimeComparer = new DateTimeComparer();
         private readonly BooleanComparer booleanComparer = new BooleanComparer();
 
-        public DataRowBasedResultSetComparer()
+        public ResultSetComparer()
         {
         }
 
-        public DataRowBasedResultSetComparer(ResultSetComparisonSettings settings)
+        public ResultSetComparer(ResultSetComparisonSettings settings)
         {
             Settings = settings;
         }

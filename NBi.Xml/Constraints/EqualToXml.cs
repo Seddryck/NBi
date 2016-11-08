@@ -15,6 +15,14 @@ namespace NBi.Xml.Constraints
 {
     public class EqualToXml : AbstractConstraintXml
     {
+        public enum ComparisonBehavior
+        {
+            [XmlEnum("multiple-rows")]
+            MultipleRows = 0,
+            [XmlEnum("single-row")]
+            SingleRow = 1
+        }
+
 
         public EqualToXml()
         {
@@ -49,7 +57,8 @@ namespace NBi.Xml.Constraints
         [XmlElement("resultSet")]
         public ResultSetXml ResultSet { get; set; }
 
-        [XmlElement("query")]
+        [XmlElement(Type = typeof(QueryXml), ElementName = "query"),
+        ]
         public QueryXml Query { get; set; }
 
         [XmlElement("xml-source")]
@@ -70,7 +79,9 @@ namespace NBi.Xml.Constraints
             }
         }
 
-
+        [XmlAttribute("behavior")]
+        [DefaultValue(ComparisonBehavior.MultipleRows)]
+        public ComparisonBehavior Behavior { get; set; }
 
         [XmlAttribute("keys")]
         [DefaultValue(ResultSetComparisonSettings.KeysChoice.First)]

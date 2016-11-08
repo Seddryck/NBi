@@ -104,7 +104,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("Count.nbits")]
         [TestCase("Contain.nbits")]
         [TestCase("ContainStructure.nbits")]
-        [TestCase("fasterThan.nbits")]
+        [TestCase("FasterThan.nbits")]
         [TestCase("SyntacticallyCorrect.nbits")]
         [TestCase("Exists.nbits")]
         [TestCase("LinkedTo.nbits")]
@@ -124,8 +124,8 @@ namespace NBi.Testing.Acceptance
         [TestCase("QueryEqualToXml.nbits")]
         [TestCase("QueryRowCount.nbits")]
         [TestCase("QueryEqualToXml.nbits")]
-        [TestCase("PowerBiDesktop.nbits")]
         [TestCase("QueryAllNoRows.nbits")]
+        //[TestCase("PowerBiDesktop.nbits")]
         [Category("Acceptance")]
         public void RunPositiveTestSuite(string filename)
         {

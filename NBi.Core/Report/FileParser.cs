@@ -62,7 +62,7 @@ namespace NBi.Core.Report
             var sharedDataSetName = node.InnerText + ".rsd";
             var subRequest = new SharedDatasetRequest
             (
-                string.Empty,
+                request.Source,
                 request.Path,
                 sharedDataSetName
             );
@@ -75,7 +75,7 @@ namespace NBi.Core.Report
 
             var fullPath = string.Format("{0}{1}{2}", request.Source, request.Path, reportName);
             if (!File.Exists(fullPath))
-                throw new ArgumentException(string.Format("No report found on path '{0}{1}' with name '{2}'", request.Source, request.Path, reportName));
+                throw new ArgumentException(string.Format("No shared dataset found on path '{0}{1}' with name '{2}'", request.Source, request.Path, reportName));
 
             //If the file is found then we need to select the query inside the file
             var docXml = new XmlDocument();

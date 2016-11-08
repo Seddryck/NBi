@@ -59,7 +59,7 @@
       <successful/>
     </assert>
   </test>
-  <test name="Etl is successful with dateTime variable" uid="0005">
+  <!--<test name="Etl is successful with dateTime variable" uid="0005">
     <system-under-test>
       <execution>
         <etl path="Acceptance\Resources\Etl\" name="DateTime.dtsx" password="p@ssw0rd">
@@ -72,5 +72,5 @@
     <assert>
       <successful/>
     </assert>
-  </test>
+  </test>-->
 </testSuite>

@@ -386,12 +386,12 @@
       </assert>
     </test>
   </group>
-  <group name="One-row-queries">
+  <group name="Single row queries">
     <test name="Text, numeric, bool, dateTime, Text">
       <system-under-test>
         <execution>
           <query>
-            select 'alpha2', '10.250', 'true', '2016-12-10', 'beta'
+            select 'alpha', '10.250', 'true', '2016-12-10', 'beta'
           </query>
         </execution>
       </system-under-test>

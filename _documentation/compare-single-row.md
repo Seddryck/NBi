@@ -13,6 +13,6 @@ If you apply this setting, all the columns will be considered as values and the 
 
 {% highlight xml %}
 <equalTo behavior="single-row">
-	<query>select max(value), min(value) from myTable</query>
+  <query>select max(value), min(value) from myTable</query>
 </equalTo>
 {% endhighlight %}

@@ -7,7 +7,9 @@ permalink: /docs/connection-providers/
 ---
 When dealing with standard Microsoft data sources, NBi automatically creates the correct connections and commands objects to query these data sources. The choice performed by NBi to create an object or another is dependent of the connection string.
 
-More precisely, NBi extract the information "provider" from the connection string and tries to match this information with a known provider and instantiate the corresponding objects. If no information is provided for the *provider* in the connection-string then objects from the *System.Data.SqlClient* namespace will be created. If the provider defined in the connection-string starts by *msolap*, the namespace *Microsoft.AnalysisServices.AdomdClient* will be chosen. For a provider starting by *sqlncli* or *oledb* then the namespace *System.Data.OleDb* will be the chosen.
+More precisely, NBi extract the information *provider* from the connection string and tries to match this information with a known provider and instantiate the corresponding objects. If no information is provided for the *provider* in the connection-string then objects from the *System.Data.SqlClient* namespace will be created. If the provider defined in the connection-string starts by *msolap*, the namespace *Microsoft.AnalysisServices.AdomdClient* will be chosen. For a provider starting by *sqlncli* or *oledb* then the namespace *System.Data.OleDb* will be the chosen.
+
+If the attribute *driver* is specified, NBi will create an ODBC connection from the namespace *System.Data.Odbc*.
 
 ## Register additional providers
 Since version 1.11, it's possible to register additional patterns to ensure that NBi correctly detects the provider specified in the connection-strings.

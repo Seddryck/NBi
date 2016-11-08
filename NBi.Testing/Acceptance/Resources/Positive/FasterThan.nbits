@@ -38,7 +38,7 @@
     <system-under-test>
       <execution>
         <report
-						path="..\Reports\"
+						path="\Acceptance\Resources\Reports\"
 						name="Employee_Sales_Summary"
 						dataset="EmpSalesMonth2008R2"
 				>

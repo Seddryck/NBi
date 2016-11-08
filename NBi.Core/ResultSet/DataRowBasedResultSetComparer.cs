@@ -199,76 +199,80 @@ namespace NBi.Core.ResultSet
                     {
                         if (Settings.GetColumnRole(i) == ColumnRole.Value)
                         {
-                            //Null management
-                            if (rx.IsNull(i) || ry.IsNull(i))
+                            //Any management
+                            if (rx[i].ToString() != "(any)" && ry[i].ToString() != "(any)")
                             {
-                                if (!rx.IsNull(i) || !ry.IsNull(i))
-                                {
-                                    ry.SetColumnError(i, ry.IsNull(i) ? rx[i].ToString() : "(null)");
-                                    if (!isRowOnError)
-                                    {
-                                        isRowOnError = true;
-                                        nonMatchingValueRows.Add(ry);
-                                    }
-                                        
-                                }
-                            }
-                            //(value) management
-                            else if (rx[i].ToString() == "(value)" || ry[i].ToString() == "(value)")
-                            {
+                                //Null management
                                 if (rx.IsNull(i) || ry.IsNull(i))
                                 {
-                                    ry.SetColumnError(i, rx[i].ToString());
-                                    if (!isRowOnError)
+                                    if (!rx.IsNull(i) || !ry.IsNull(i))
                                     {
-                                        isRowOnError = true;
-                                        nonMatchingValueRows.Add(ry);
+                                        ry.SetColumnError(i, ry.IsNull(i) ? rx[i].ToString() : "(null)");
+                                        if (!isRowOnError)
+                                        {
+                                            isRowOnError = true;
+                                            nonMatchingValueRows.Add(ry);
+                                        }
+
                                     }
                                 }
-                            }
-                            //Not Null management
-                            else
-                            {
-                                ComparerResult result = null;
-
-                                //Numeric
-                                if (Settings.GetColumnType(i) == ColumnType.Numeric)
+                                //(value) management
+                                else if (rx[i].ToString() == "(value)" || ry[i].ToString() == "(value)")
                                 {
-                                    //Convert to decimal
-                                    if (Settings.IsRounding(i))
-                                        result = numericComparer.Compare(rx[i], ry[i], Settings.GetRounding(i));
-                                    else
-                                        result = numericComparer.Compare(rx[i], ry[i], Settings.GetTolerance(i));
+                                    if (rx.IsNull(i) || ry.IsNull(i))
+                                    {
+                                        ry.SetColumnError(i, rx[i].ToString());
+                                        if (!isRowOnError)
+                                        {
+                                            isRowOnError = true;
+                                            nonMatchingValueRows.Add(ry);
+                                        }
+                                    }
                                 }
-                                //Date and Time
-                                else if (Settings.GetColumnType(i) == ColumnType.DateTime)
-                                {
-                                    //Convert to dateTime
-                                    if (Settings.IsRounding(i))
-                                        result = dateTimeComparer.Compare(rx[i], ry[i], Settings.GetRounding(i));
-                                    else
-                                        result = dateTimeComparer.Compare(rx[i], ry[i], Settings.GetTolerance(i));
-                                }
-                                //Boolean
-                                else if (Settings.GetColumnType(i) == ColumnType.Boolean)
-                                {
-                                    //Convert to bool
-                                    result = booleanComparer.Compare(rx[i], ry[i]);
-                                }
-                                //Text
+                                //Not Null management
                                 else
                                 {
-                                    result = textComparer.Compare(rx[i], ry[i]);
-                                }
+                                    ComparerResult result = null;
 
-                                //If are not equal then we need to set the message in the ColumnError.
-                                if (!result.AreEqual)
-                                {
-                                    ry.SetColumnError(i, result.Message);
-                                    if (!isRowOnError)
+                                    //Numeric
+                                    if (Settings.GetColumnType(i) == ColumnType.Numeric)
                                     {
-                                        isRowOnError = true;
-                                        nonMatchingValueRows.Add(ry);
+                                        //Convert to decimal
+                                        if (Settings.IsRounding(i))
+                                            result = numericComparer.Compare(rx[i], ry[i], Settings.GetRounding(i));
+                                        else
+                                            result = numericComparer.Compare(rx[i], ry[i], Settings.GetTolerance(i));
+                                    }
+                                    //Date and Time
+                                    else if (Settings.GetColumnType(i) == ColumnType.DateTime)
+                                    {
+                                        //Convert to dateTime
+                                        if (Settings.IsRounding(i))
+                                            result = dateTimeComparer.Compare(rx[i], ry[i], Settings.GetRounding(i));
+                                        else
+                                            result = dateTimeComparer.Compare(rx[i], ry[i], Settings.GetTolerance(i));
+                                    }
+                                    //Boolean
+                                    else if (Settings.GetColumnType(i) == ColumnType.Boolean)
+                                    {
+                                        //Convert to bool
+                                        result = booleanComparer.Compare(rx[i], ry[i]);
+                                    }
+                                    //Text
+                                    else
+                                    {
+                                        result = textComparer.Compare(rx[i], ry[i]);
+                                    }
+
+                                    //If are not equal then we need to set the message in the ColumnError.
+                                    if (!result.AreEqual)
+                                    {
+                                        ry.SetColumnError(i, result.Message);
+                                        if (!isRowOnError)
+                                        {
+                                            isRowOnError = true;
+                                            nonMatchingValueRows.Add(ry);
+                                        }
                                     }
                                 }
                             }

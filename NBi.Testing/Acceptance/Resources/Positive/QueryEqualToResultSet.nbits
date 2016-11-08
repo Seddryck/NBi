@@ -506,4 +506,39 @@
       </equalTo>
     </assert>
   </test>
+  <test name="Compare sales amount for all territories group">
+    <system-under-test>
+      <execution>
+        <query>
+          select
+          [Measures].[Internet Sales Amount] on 0
+          , [Sales Territory].[Sales Territory Group].children on 1
+          from
+          [Adventure Works]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo tolerance="1">
+        <resultSet>
+          <row>
+            <cell>Europe</cell>
+            <cell>8930042</cell>
+          </row>
+          <row>
+            <cell>North America</cell>
+            <cell>11367634</cell>
+          </row>
+          <row>
+            <cell>Pacific</cell>
+            <cell>9061000</cell>
+          </row>
+          <row>
+            <cell>NA</cell>
+            <cell>(any)</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+  </test>
 </testSuite>

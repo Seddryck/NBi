@@ -7,15 +7,15 @@ permalink: /docs/transform-column/
 ---
 It happens that it's impossible (stored procedures) or not suitable (readibility of the test) to tune the query in your assertion to match with the expectations of your *system-under-test*. The feature *transform* is built for these cases.
 
-*Transform* works as a modification of the content of all cells of a given column.
+The element *transform* works as a modification of the content of all cells for a given column.
 
 ## Languages
 
 At the moment, you can make usage of three different languages to define your transformation:
 
-* NCalc ```ncalc```
-* Format ```format```
-* C# ```c-sharp```
+* NCalc - ```ncalc```
+* Format - ```format```
+* C# - ```c-sharp```
 
 These languages support different purposes. 
 
@@ -25,11 +25,11 @@ These languages support different purposes.
 
 *C#* is there to support advanced transformations requiring a little bit more of code. 
 
-Language|source|destination
-----------------------------
-NCalc|numeric (limited for boolean and text)|unchanged
-Format|numeric or dateTime| text
-C#|all|all
+| Language | source | destination
+| ----------------------------
+| NCalc | numeric (limited for boolean and text)| unchanged
+| Format | numeric or dateTime | text
+| C# | all | all
 
 Technically, the destination could be something else that the option(s) defined in the table above, but most of the time it has no added-value.
 
@@ -62,7 +62,7 @@ The exemple here under is transformating the content of two columns:
 
 ### Format
 
-The syntax is exactly the one supported by the *Format* function and is availble 
+The syntax is exactly the one supported by the *Format* function and is available 
 [for dateTime](https://msdn.microsoft.com/en-us/library/8kb3ddd4(v=vs.110).aspx) and 
 [numeric](https://msdn.microsoft.com/en-us/library/0c899ak8(v=vs.110).aspx) 
 
@@ -88,7 +88,7 @@ The exemple here under is transformating the content of three columns.
 </assert>
 {% endhighlight %}
 
-### C#
+### C-Sharp
 
 Currently, it's limited to one line of code (one expression) but later you'll be able to call functions defined in an assembly or directly write a few lines of code in your test's definition. 
 The syntax is the syntax supported by C# 5.0 without a terminator (;) at the end of the expression.
@@ -105,13 +105,19 @@ The exemple here under is transformating the content of two columns.
 <assert>
   <equalTo>
     <column index="0" role="key" type="text">
-      <transform language="c-sharp" source-type="dateTime">value.AddMonth(1).Year.ToString() + "." + (value.AddMonth(1).Month.ToString()</transform>
+      <transform language="c-sharp" source-type="dateTime">
+        value.AddMonth(1).Year.ToString() + "." + (value.AddMonth(1).Month.ToString()
+      </transform>
     </column>
     <column index="1" role="value" type="text">
-      <transform language="c-sharp" source-type="numeric">Math.Abs(value * 1.21)</transform>
+      <transform language="c-sharp" source-type="numeric">
+        Math.Abs(value * 1.21)
+      </transform>
     </column>
     <column index="2" role="value" type="text">
-      <transform language="c-sharp" source-type="numeric">value < 5000 ? string.Format(€{0:##00.00}, value) : "k€" + Math.Round(value/1000, 2).ToString()</transform>
+      <transform language="c-sharp" source-type="numeric">
+        value < 5000 ? string.Format(€{0:##00.00}, value) : "k€" + Math.Round(value/1000, 2).ToString()
+      </transform>
     </column>
   </row-count>
 </assert>

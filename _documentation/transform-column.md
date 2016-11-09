@@ -1,8 +1,8 @@
 ---
 layout: documentation
 title: Transform a column
-prev_section: 
-next_section: 
+prev_section: resultset-calculations
+next_section: query-syntax
 permalink: /docs/transform-column/
 ---
 It happens that it's impossible (stored procedures) or not suitable (readibility of the test) to tune the query in your assertion to match with the expectations of your *system-under-test*. The feature *transform* is built for these cases.

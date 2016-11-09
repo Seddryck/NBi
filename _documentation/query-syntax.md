@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Validate syntax
-prev_section: compare-single-row
+prev_section: transform-column
 next_section: query-performance
 permalink: /docs/query-syntax/
 ---

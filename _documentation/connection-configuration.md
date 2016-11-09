@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Connection strings in config files
-prev_section: compare-intervals
+prev_section: compare-single-row
 next_section: connection-providers
 permalink: /docs/connection-configuration/
 ---

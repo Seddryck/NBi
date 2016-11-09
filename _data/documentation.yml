@@ -33,6 +33,10 @@
   - resultset-format
   - resultset-calculations
 
+- title: Transform a result-set
+  docs:
+  - transform-column
+
 - title: Query's execution
   docs:
   - query-syntax

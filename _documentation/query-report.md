@@ -2,7 +2,7 @@
 layout: documentation
 title: Get a query from a report
 prev_section: query-assembly
-next_section: etl-define
+next_section: query-shared-dataset
 permalink: /docs/query-report/
 ---
 NBi is able to extract queries and stored procedures from SSRS reports (more precisely from report's datasets) and use them in your tests. Other features related to queries' execution are fully applicable to queries extracted from reports: you can definitively make usage of [query's parameters](../query-parameters/) or [query's template-variables](../query-template/) or [query's timeout](../query-timeout/).

@@ -44,6 +44,7 @@
   - query-template
   - query-assembly
   - query-report
+  - query-shared-dataset
 
 - title: Etl (SSIS)
   docs:

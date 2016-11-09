@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Define an etl
-prev_section: query-report
+prev_section: query-shared-dataset
 next_section: etl-parameters-variables
 permalink: /docs/etl-define/
 ---

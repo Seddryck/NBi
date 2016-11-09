@@ -24,6 +24,12 @@ If you want to specify that **an empty value** (string with length of 0 characte
 <cell>(empty)</cell>
 {% endhighlight %}
 
+### Blank
+If you want to specify that **an empty value** (string with length of 0 characters) or a string only containing **whitespaces** (space, tab, carriage return or line feed ) or a **null value** will be a valid result, you can specify "(blank)" in your xml element.
+{% highlight xml %}
+<cell>(blank)</cell>
+{% endhighlight %}
+
 ### Boolean values
 The values *true*, *false*, *yes* and *no* are valid to express a boolean. Case is not sensitive, meaning that *True* or *YES* are also valid values.
 {% highlight xml %}

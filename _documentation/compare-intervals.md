@@ -2,7 +2,7 @@
 layout: documentation
 title: Intervals of values
 prev_section: compare-tolerances-roundings
-next_section: query-syntax
+next_section: compare-single-row
 permalink: /docs/compare-intervals/
 ---
 For the moment the intervals are only defined for numerical values (not for date and time values).

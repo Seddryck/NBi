@@ -1,8 +1,8 @@
 ---
 layout: documentation
 title: Single row
-prev_section: 
-next_section: 
+prev_section: compare-intervals
+next_section: query-syntax
 permalink: /docs/compare-single-row/
 ---
 

@@ -16,6 +16,7 @@
   - compare-special-generic-values
   - compare-tolerances-roundings
   - compare-intervals
+  - compare-single-row
 
 - title: connection strings
   docs:

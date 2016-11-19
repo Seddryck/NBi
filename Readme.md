@@ -55,11 +55,11 @@ NBi is using **Git** as DCVS and the code is hosted on [Github](https://github.c
 ### Automated Testing ###
 NBi has around 1600 automated tests, asserting a lot of features before each release. These tests are organized in three folders:
 
-- Acceptance: The tests are effectively written in nbits file and played end-to-end by the framework itself. They don't use any fake, mock or stub and are effectively connected to real database and cubes and perform query on them.
-- Integration: These tests are used to assert interactions with resources such as databases or cubes. The make usage of stubs to define parameters impacting the code to use.
-- Unit: These tests are never contacting an external resource and tests maximum the code of one class. Usage of stubs, fakes and mocks is welcome.
+- Acceptance: The tests are effectively written in nbits file and played end-to-end by the framework itself. They don't use any fake, mock or stub and are connected to real databases and cubes and perform queries on them.
+- Integration: These tests are used to assert interactions with external resources such as databases or cubes. They make usage of stubs to define parameters impacting the code to use.
+- Unit: These tests are never contacting an external resource and have a maximal scope equivakent to the code of a single class. Usage of stubs, fakes and mocks is welcome.
 
-In order to be able to build the software on different machines, the database and cube used during tests must always be Adventure Works 2008R2. In order to facilitate the integration, NBi is connected by default to the online SQL database hosted on Azure (Unfortunatelly no equivalent for SSAS). If you want to overrides the connection settings for executing the tests on your own environement just create a file named ConnectionString.user.config in the folder "NBi.Testing" and copy the content from the file ConnectionString.config into it before adjusting for your environement.
+In order to be able to build the software on different machines, the database and cube used during tests must always be Adventure Works 2008R2. In order to facilitate the integration, NBi is connected by default to the online SQL database hosted on Azure (Unfortunatelly no equivalent for SSAS). If you want to overrides the connection settings for executing the tests on your own environement just create a file named ConnectionString.user.config in the folder "NBi.Testing" and copy the content from the file ConnectionString.config into it before adjusting for your environment.
 
 ## Tracking ##
 This OSS project is tracked by [Ohloh](http://www.ohloh.net/p/NBi)

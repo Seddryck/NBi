@@ -10,6 +10,11 @@ The main goal of this framework is to let users create tests with a declarative 
 [![licence badge]][licence]
 [![stars badge]][stars]
 
+[licence badge]:https://img.shields.io/badge/License-Apache%202.0-yellow.svg
+[stars badge]:https://img.shields.io/github/stars/Seddryck/NBi.svg
+
+[licence]:https://github.com/Seddryck/NBi/blob/master/LICENSE
+[stars]:https://github.com/Seddryck/NBi/stargazers
 
 ## Releases ##
 Binaries for the different releases are hosted on [www.nbi.io](http://www.nbi.io/release/) or [GitHub] (https://github.com/Seddryck/NBi/releases)

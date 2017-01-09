@@ -1025,7 +1025,11 @@
                 </xs:choice>
               </xs:complexType>
             </xs:element>
-            <xs:element name="successful"/>
+            <xs:element name="successful">
+              <xs:complexType>
+                <xs:attribute name="not" type="xs:boolean" use="optional"/>
+              </xs:complexType>
+            </xs:element>
             <xs:element name="row-count">
               <xs:complexType>
                 <xs:sequence>

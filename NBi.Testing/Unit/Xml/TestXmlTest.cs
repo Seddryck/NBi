@@ -146,6 +146,17 @@ namespace NBi.Testing.Unit.Xml
         }
 
         [Test]
+        public void Deserialize_SampleFile_SupportLargeUid()
+        {
+            int testNr = 2;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].UniqueIdentifier, Is.EqualTo(45212));
+        }
+
+        [Test]
         public void Serialize_StructureXml_NoDefaultAndSettings()
         {
             var references = new List<ReferenceXml>() 

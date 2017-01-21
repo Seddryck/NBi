@@ -12,7 +12,7 @@
 			<syntacticallyCorrect />
 		</assert>
 	</test>
-	<test name="My second test case">
+	<test name="My second test case" uid="45212">
 		<category>Category 1</category>
 		<category>Category 2</category>
 		<system-under-test>

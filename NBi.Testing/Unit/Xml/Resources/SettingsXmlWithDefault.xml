@@ -2,7 +2,9 @@
 <testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="system-under-test">
-			<connectionString>My Connection String</connectionString>
+			<connectionString>
+        My Connection String
+      </connectionString>
 		</default>
 	</settings>
 	<test name="My first test case" uid="0001">
@@ -30,4 +32,29 @@
 			</equalTo>
 		</assert>
 	</test>
+  <test name="My first test case" uid="0002">
+    <system-under-test>
+      <execution>
+        <query name="Select first product" roles="admin">
+          SELECT TOP 2 * FROM Product;
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet>
+          <row>
+            <cell>A</cell>
+            <cell>B</cell>
+            <cell>1</cell>
+          </row>
+          <row>
+            <cell>C</cell>
+            <cell>D</cell>
+            <cell>2</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+  </test>
 </testSuite>

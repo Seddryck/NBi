@@ -94,6 +94,19 @@ namespace NBi.Testing.Unit.Xml.Settings
         }
 
         [Test]
+        public void DeserializeEqualToResultSet_SettingsWithDefault_DefaultReplicatedForTestRoleAdded()
+        {
+            int testNr = 1;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("SettingsXmlWithDefault");
+
+            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.Not.StringContaining("\r"));
+            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.Not.StringContaining("\n"));
+            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.StringContaining("Roles=\"admin\""));
+        }
+
+        [Test]
         public void DeserializeEqualToResultSet_SettingsWithDefaultForAssert_DefaultReplicatedForTest()
         {
             int testNr = 0;

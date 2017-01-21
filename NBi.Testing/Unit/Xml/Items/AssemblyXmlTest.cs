@@ -155,6 +155,25 @@ namespace NBi.Testing.Unit.Xml.Items
             Assert.That(assembly.MethodParameters[0].Name, Is.EqualTo("MyDateTime"));
             Assert.That(assembly.MethodParameters[0].Value, Is.EqualTo("2012-10-16 10:15"));
         }
+        
+        [Test]
+        public void Deserialize_MethodWithConnectionStringInfo_AssemblyXml()
+        {
+            int testNr = 5;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ExecutionXml>());
+            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem, Is.TypeOf<AssemblyXml>());
+            var assembly = (AssemblyXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
+
+            Assert.That(assembly.ConnectionString, Is.EqualTo("data source=foo;initial catalog=bar"));
+            Assert.That(assembly.Roles, Is.EqualTo("admin"));
+            Assert.That(assembly.Timeout, Is.EqualTo(10));
+            Assert.That(assembly.GetConnectionString(), Is.StringContaining("data source=foo;initial catalog=bar"));
+            Assert.That(assembly.GetConnectionString(), Is.StringContaining("Roles=\"admin\""));
+        }
 
 
     }

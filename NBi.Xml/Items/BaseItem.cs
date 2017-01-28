@@ -31,6 +31,10 @@ namespace NBi.Xml.Items
         {
             var connectionString = GetBaseConnectionString();
 
+            //We must remove all the characters such as \r \n or \t
+            if (!string.IsNullOrEmpty(connectionString))
+                connectionString = connectionString.Replace("\r", "").Replace("\n", "").Replace("\t", "");
+
             if (!string.IsNullOrEmpty(Roles))
                 connectionString = ReplaceRoles(connectionString, Roles);
 

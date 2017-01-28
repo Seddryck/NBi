@@ -24,3 +24,16 @@ A full sample would be:
   </assert>
 </test>
 {% endhighlight %}
+
+To assert that a run is not successful just add a **not** attribute to the **successful** element.
+
+{% highlight xml %}
+<test name="Etl is successful" uid="0001">
+  <system-under-test>
+    ...
+  </system-under-test>
+  <assert>
+    <successful not="true"/>
+  </assert>
+</test>
+{% endhighlight %}

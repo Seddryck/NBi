@@ -468,6 +468,9 @@
     <xs:attribute name="path" type="xs:string" use="required" />
     <xs:attribute name="class" type="xs:string" use="required" />
     <xs:attribute name="method" type="xs:string" use="required" />
+    <xs:attribute name="connectionString" type="xs:string" use="optional" />
+    <xs:attribute name="roles" type="xs:string" use="optional" />
+    <xs:attribute name="timeout-milliSeconds" type="xs:nonNegativeInteger" use="optional" />
   </xs:complexType>
   <xs:complexType name="query-type" mixed="true">
     <xs:sequence>

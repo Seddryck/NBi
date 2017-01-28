@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
-	<test name="My first test case" uid="0001">
+	<test name="My first test case" uid="0000">
 		<system-under-test>
 			<execution>
 				<assembly path="NBi.Testing.dll" class="NBi.Testing.Unit.Acceptance.Resource.AssemblyClass" method="GetSelectString"/>
@@ -34,7 +34,7 @@
 			</equalTo>
 		</assert>
 	</test>
-	<test name="My first test case" uid="0001">
+	<test name="My first test case" uid="0002">
 		<system-under-test>
 			<execution>
 				<assembly path="NBi.Testing.dll" class="NBi.Testing.Unit.Acceptance.Resource.AssemblyClass" method="GetSelectStringWithDecimal">
@@ -52,7 +52,7 @@
 			</equalTo>
 		</assert>
 	</test>
-	<test name="My first test case" uid="0001">
+	<test name="My first test case" uid="0003">
 		<system-under-test>
 			<execution>
 				<assembly path="NBi.Testing.dll" class="NBi.Testing.Unit.Acceptance.Resource.AssemblyClass" method="GetSelectStringWithEnum">
@@ -70,7 +70,7 @@
 			</equalTo>
 		</assert>
 	</test>
-	<test name="My first test case" uid="0001">
+	<test name="My first test case" uid="0004">
 		<system-under-test>
 			<execution>
 				<assembly path="NBi.Testing.dll" class="NBi.Testing.Unit.Acceptance.Resource.AssemblyClass" method="GetSelectStringWithDateTime">
@@ -88,4 +88,27 @@
 			</equalTo>
 		</assert>
 	</test>
+  <test name="My fifth test case" uid="0005">
+    <system-under-test>
+      <execution>
+        <assembly
+            path="NBi.Testing.dll" 
+            class="NBi.Testing.Unit.Acceptance.Resource.AssemblyClass" 
+            method="GetSelectStringWithDateTime"
+            connectionString="data source=foo;initial catalog=bar"
+            roles="admin"
+            timeout-milliSeconds="10"
+        />
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet>
+          <row>
+            <cell>2012-10-16 10:15:00</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+  </test>
 </testSuite>

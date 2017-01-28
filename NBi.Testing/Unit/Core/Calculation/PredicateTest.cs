@@ -35,6 +35,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             Assert.That(comparer.Compare(x, y), Is.True);
         }
 
+        [Test]
         public void Compare_TextNull_Success()
         {
             var info = Mock.Of<IPredicateInfo>(

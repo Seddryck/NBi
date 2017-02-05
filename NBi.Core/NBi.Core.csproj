@@ -59,6 +59,10 @@
     <Reference Include="NCalc">
       <HintPath>..\packages\NCalc-Edge.1.4.3\lib\NCalc.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
@@ -303,6 +307,7 @@
     <Compile Include="ResultSet\Comparer\RoundingFactory.cs" />
     <Compile Include="ResultSet\Comparer\TextComparer.cs" />
     <Compile Include="ResultSet\Comparer\Tolerance.cs" />
+    <Compile Include="ResultSet\JsonResultSet.cs" />
     <Compile Include="ResultSet\SingleRowComparisonSettings.cs" />
     <Compile Include="ResultSet\SingleRowComparer.cs" />
     <Compile Include="ResultSet\ResultSetComparer.cs" />

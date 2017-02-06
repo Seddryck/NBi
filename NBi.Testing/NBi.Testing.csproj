@@ -181,11 +181,13 @@
     <Compile Include="Unit\Core\ResultSet\Comparer\NumericToleranceFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Converter\DateTimeConverterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Converter\BaseNumericConverterTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\ResultSetComparisonFactoryTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\ResultSetComparisonByIndexSettingsTest.cs" />
     <Compile Include="Unit\Core\ResultSet\SingleRowComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\IntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\LineFormatterTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\ResultSetComparisonSettingsTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\ResultSetComparisonByNameSettingsTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetWriterTest.cs" />
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />

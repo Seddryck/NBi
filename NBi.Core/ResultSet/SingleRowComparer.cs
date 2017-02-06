@@ -12,7 +12,18 @@ namespace NBi.Core.ResultSet
 {
     public class SingleRowComparer : IResultSetComparer
     {
-        public ResultSetComparisonSettings Settings { get; set; }
+        public IResultSetComparisonSettings Settings
+        {
+            get { return indexBasedSettings; }
+            set
+            {
+                if (!(value is ResultSetComparisonByIndexSettings))
+                    throw new ArgumentException();
+                indexBasedSettings = value as ResultSetComparisonByIndexSettings;
+            }
+        }
+
+        private ResultSetComparisonByIndexSettings indexBasedSettings;
 
         private readonly NumericComparer numericComparer = new NumericComparer();
         private readonly TextComparer textComparer = new TextComparer();
@@ -23,9 +34,9 @@ namespace NBi.Core.ResultSet
         {
         }
 
-        public SingleRowComparer(ResultSetComparisonSettings settings)
+        public SingleRowComparer(ResultSetComparisonByIndexSettings settings)
         {
-            Settings = settings;
+            indexBasedSettings = settings;
         }
 
         public ResultSetCompareResult Compare(object x, object y)
@@ -69,20 +80,19 @@ namespace NBi.Core.ResultSet
             {
                 chrono = DateTime.Now;
                 var columnsCount = Math.Max(y.Table.Columns.Count, x.Table.Columns.Count);
-                if (Settings == null)
+                if (indexBasedSettings == null)
                     BuildDefaultSettings(columnsCount);
                 else
-                    Settings.ApplyTo(columnsCount);
+                    indexBasedSettings.ApplyTo(columnsCount);
 
-                Settings.ConsoleDisplay();
-                WriteSettingsToDataTableProperties(y.Table, Settings);
-                WriteSettingsToDataTableProperties(x.Table, Settings);
+                WriteSettingsToDataTableProperties(y.Table, indexBasedSettings);
+                WriteSettingsToDataTableProperties(x.Table, indexBasedSettings);
 
-                CheckSettingsAndDataTable(y.Table, Settings);
-                CheckSettingsAndDataTable(x.Table, Settings);
+                CheckSettingsAndDataTable(y.Table, indexBasedSettings);
+                CheckSettingsAndDataTable(x.Table, indexBasedSettings);
 
-                CheckSettingsAndFirstRow(y.Table, Settings);
-                CheckSettingsAndFirstRow(x.Table, Settings);
+                CheckSettingsAndFirstRow(y.Table, indexBasedSettings);
+                CheckSettingsAndFirstRow(x.Table, indexBasedSettings);
                 Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Analyzing length and format of result-sets: [{0}]", DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
                 // If all of the columns make up the key, then we already know which rows match and which don't.
@@ -108,7 +118,7 @@ namespace NBi.Core.ResultSet
 
             for (int i = 0; i < rx.Table.Columns.Count; i++)
             {
-                if (Settings.GetColumnRole(i) == ColumnRole.Value)
+                if (indexBasedSettings.GetColumnRole(i) == ColumnRole.Value)
                 {
                     //Null management
                     if (rx.IsNull(i) || ry.IsNull(i))
@@ -143,25 +153,25 @@ namespace NBi.Core.ResultSet
                         ComparerResult result = null;
 
                         //Numeric
-                        if (Settings.GetColumnType(i) == ColumnType.Numeric)
+                        if (indexBasedSettings.GetColumnType(i) == ColumnType.Numeric)
                         {
                             //Convert to decimal
-                            if (Settings.IsRounding(i))
-                                result = numericComparer.Compare(rx[i], ry[i], Settings.GetRounding(i));
+                            if (indexBasedSettings.IsRounding(i))
+                                result = numericComparer.Compare(rx[i], ry[i], indexBasedSettings.GetRounding(i));
                             else
-                                result = numericComparer.Compare(rx[i], ry[i], Settings.GetTolerance(i));
+                                result = numericComparer.Compare(rx[i], ry[i], indexBasedSettings.GetTolerance(i));
                         }
                         //Date and Time
-                        else if (Settings.GetColumnType(i) == ColumnType.DateTime)
+                        else if (indexBasedSettings.GetColumnType(i) == ColumnType.DateTime)
                         {
                             //Convert to dateTime
-                            if (Settings.IsRounding(i))
-                                result = dateTimeComparer.Compare(rx[i], ry[i], Settings.GetRounding(i));
+                            if (indexBasedSettings.IsRounding(i))
+                                result = dateTimeComparer.Compare(rx[i], ry[i], indexBasedSettings.GetRounding(i));
                             else
-                                result = dateTimeComparer.Compare(rx[i], ry[i], Settings.GetTolerance(i));
+                                result = dateTimeComparer.Compare(rx[i], ry[i], indexBasedSettings.GetTolerance(i));
                         }
                         //Boolean
-                        else if (Settings.GetColumnType(i) == ColumnType.Boolean)
+                        else if (indexBasedSettings.GetColumnType(i) == ColumnType.Boolean)
                         {
                             //Convert to bool
                             result = booleanComparer.Compare(rx[i], ry[i]);
@@ -188,7 +198,7 @@ namespace NBi.Core.ResultSet
             return nonMatchingValueRows;
         }
 
-        protected void WriteSettingsToDataTableProperties(DataTable dt, ResultSetComparisonSettings settings)
+        protected void WriteSettingsToDataTableProperties(DataTable dt, ResultSetComparisonByIndexSettings settings)
         {
             foreach (DataColumn column in dt.Columns)
             {
@@ -215,7 +225,7 @@ namespace NBi.Core.ResultSet
         }
 
 
-        protected void CheckSettingsAndDataTable(DataTable dt, ResultSetComparisonSettings settings)
+        protected void CheckSettingsAndDataTable(DataTable dt, ResultSetComparisonByIndexSettings settings)
         {
             var max = settings.GetMaxColumnIndexDefined();
             if (dt.Columns.Count <= max)
@@ -232,7 +242,7 @@ namespace NBi.Core.ResultSet
             }
         }
 
-        protected void CheckSettingsAndFirstRow(DataTable dt, ResultSetComparisonSettings settings)
+        protected void CheckSettingsAndFirstRow(DataTable dt, ResultSetComparisonByIndexSettings settings)
         {
             if (dt.Rows.Count == 0)
                 return;
@@ -294,7 +304,7 @@ namespace NBi.Core.ResultSet
 
         protected void BuildDefaultSettings(int columnsCount)
         {
-            Settings = new SingleRowComparisonSettings();
+            indexBasedSettings = new SingleRowComparisonSettings();
         }
 
     }

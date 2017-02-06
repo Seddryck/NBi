@@ -10,6 +10,8 @@ namespace NBi.Xml.Items.ResultSet
     {
         [XmlAttribute("index")]
         public int Index {get; set;}
+        [XmlAttribute("name")]
+        public string Name { get; set; }
         [XmlAttribute("role")]
         public ColumnRole Role{get; set;}
         [XmlAttribute("type")]

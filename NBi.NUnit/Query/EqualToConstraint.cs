@@ -63,7 +63,7 @@ namespace NBi.NUnit.Query
             get
             {
                 if(_engine==null)
-                    _engine = new ResultSetComparer();
+                    _engine = new ResultSetComparerByIndex();
                 return _engine;
             }
             set
@@ -133,7 +133,7 @@ namespace NBi.NUnit.Query
             return this;
         }
 
-        public EqualToConstraint Using(ResultSetComparisonSettings settings)
+        public EqualToConstraint Using(IResultSetComparisonSettings settings)
         {
             this.Engine.Settings = settings;
             return this;

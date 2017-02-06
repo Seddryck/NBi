@@ -9,9 +9,9 @@ namespace NBi.Core.ResultSet
 {
     public class DataRowKeysComparer : IEqualityComparer<DataRow>
     {
-        private readonly ResultSetComparisonSettings settings;
+        private readonly ResultSetComparisonByIndexSettings settings;
 
-        public DataRowKeysComparer(ResultSetComparisonSettings settings, int columnCount)
+        public DataRowKeysComparer(ResultSetComparisonByIndexSettings settings, int columnCount)
         {
             this.settings = settings;
             settings.ApplyTo(columnCount);

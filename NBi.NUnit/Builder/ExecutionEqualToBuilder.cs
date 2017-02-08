@@ -112,6 +112,7 @@ namespace NBi.NUnit.Builder
                     ConstraintXml.ColumnsDef
                 );
                 builder.Build();
+                settings = builder.GetSettings();
                 ctr = ctr.Using(builder.GetComparer());
             }
             else

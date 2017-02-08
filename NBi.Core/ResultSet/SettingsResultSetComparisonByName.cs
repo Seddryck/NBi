@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace NBi.Core.ResultSet
 {
-	public class ResultSetComparisonByNameSettings : ResultSetComparisonSettings<string>
+	public class SettingsResultSetComparisonByName : SettingsResultSetComparison<string>
 	{
         
         public IReadOnlyCollection<string> KeyNames { get; private set; }
@@ -132,7 +132,7 @@ namespace NBi.Core.ResultSet
         }
         
 
-        public ResultSetComparisonByNameSettings(string keyNames, string valueNames, ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
+        public SettingsResultSetComparisonByName(string keyNames, string valueNames, ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : base(valuesDefaultType, defaultTolerance, columnsDef)
         {
             var keys = keyNames.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
@@ -141,6 +141,25 @@ namespace NBi.Core.ResultSet
             var values = valueNames.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
             ValueNames = new ReadOnlyCollection<string>(values.Select(x => x.Trim()).ToList());
         }
-        
-	}
+
+        public IEnumerable<string> GetKeyNames()
+        {
+            var result = new List<string>(KeyNames);
+            result.AddRange(ColumnsDef.Where(c => c.Role==ColumnRole.Key).Select(c => c.Name));
+            return result.Distinct().OrderBy(x => x);
+        }
+
+        public IEnumerable<string> GetValueNames()
+        {
+            var result = new List<string>(ValueNames);
+            result.AddRange(ColumnsDef.Where(c => c.Role == ColumnRole.Value).Select(c => c.Name));
+            return result.Distinct();
+        }
+
+        public IEnumerable<string> GetColumnNames()
+        {
+            return GetKeyNames().Union(GetValueNames());
+        }
+
+    }
 }

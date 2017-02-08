@@ -104,7 +104,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var xml = BuildEqualToXmlIndex();
             xml.ValuesDefaultType = ColumnType.DateTime;
             //get settings
-            var actual = (xml.GetSettings() as ResultSetComparisonByIndexSettings);
+            var actual = (xml.GetSettings() as SettingsResultSetComparisonByIndex);
             //Set the columnCount
             actual .ApplyTo(10);
 
@@ -126,7 +126,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             //Buiding object used during test
             var xml = new EqualToXml();
             //default values/def
-            xml.KeysDef = ResultSetComparisonByIndexSettings.KeysChoice.AllExpectLast;
+            xml.KeysDef = SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast;
             //default values/def
             xml.ValuesDefaultType = ColumnType.Numeric;
             //default tolerance
@@ -166,11 +166,11 @@ namespace NBi.Testing.Unit.Core.ResultSet
             return xml;
         }
         
-        private ResultSetComparisonByIndexSettings BuildSetting()
+        private SettingsResultSetComparisonByIndex BuildSetting()
         {
             var xml = BuildEqualToXmlIndex();
             //get settings
-            var settings = (xml.GetSettings() as ResultSetComparisonByIndexSettings);
+            var settings = (xml.GetSettings() as SettingsResultSetComparisonByIndex);
 
             //Set the columnCount
             settings.ApplyTo(10);

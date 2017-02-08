@@ -63,7 +63,7 @@ namespace NBi.NUnit.Query
             get
             {
                 if(_engine==null)
-                    _engine = new ResultSetComparerByIndex();
+                    _engine = new ResultSetComparerByIndex(null);
                 return _engine;
             }
             set

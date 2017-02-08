@@ -10,7 +10,7 @@ using System.Diagnostics;
 namespace NBi.Testing.Unit.Core.ResultSet
 {
     [TestFixture]
-    public class ResultSetComparerTest
+    public class ResultSetComparerByIndexTest
     {
         private Random random = new Random();
 
@@ -534,22 +534,22 @@ namespace NBi.Testing.Unit.Core.ResultSet
             return dt;
         }
 
-        protected ResultSetComparisonByIndexSettings BuildSettingsKeyValue()
+        protected SettingsResultSetComparisonByIndex BuildSettingsKeyValue()
         {
             return BuildSettingsKeyValue(0, ColumnType.Text);
         }
 
-        protected ResultSetComparisonByIndexSettings BuildSettingsKeyValue(ColumnType keyType)
+        protected SettingsResultSetComparisonByIndex BuildSettingsKeyValue(ColumnType keyType)
         {
             return BuildSettingsKeyValue(0, keyType);
         }
 
-        protected ResultSetComparisonByIndexSettings BuildSettingsKeyValue(decimal tolerance)
+        protected SettingsResultSetComparisonByIndex BuildSettingsKeyValue(decimal tolerance)
         {
             return BuildSettingsKeyValue(tolerance, ColumnType.Text);
         }
 
-        protected ResultSetComparisonByIndexSettings BuildSettingsKeyValue(decimal tolerance, ColumnType keyType)
+        protected SettingsResultSetComparisonByIndex BuildSettingsKeyValue(decimal tolerance, ColumnType keyType)
         {
             var columnsDef = new List<IColumnDefinition>();
             columnsDef.Add(
@@ -559,14 +559,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
                     new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance.ToString() }
                     );
 
-            return new ResultSetComparisonByIndexSettings(
-                ResultSetComparisonByIndexSettings.KeysChoice.First,
-                ResultSetComparisonByIndexSettings.ValuesChoice.Last,
+            return new SettingsResultSetComparisonByIndex(
+                SettingsResultSetComparisonByIndex.KeysChoice.First,
+                SettingsResultSetComparisonByIndex.ValuesChoice.Last,
                 columnsDef
                 );
         }
 
-        protected ResultSetComparisonByIndexSettings BuildSettingsKeyValueIgnore(decimal tolerance)
+        protected SettingsResultSetComparisonByIndex BuildSettingsKeyValueIgnore(decimal tolerance)
         {
             var columnsDef = new List<IColumnDefinition>();
             columnsDef.Add(
@@ -577,9 +577,9 @@ namespace NBi.Testing.Unit.Core.ResultSet
                     new Column() { Index = 2, Role = ColumnRole.Ignore }
                     );
 
-            return new ResultSetComparisonByIndexSettings(
-                ResultSetComparisonByIndexSettings.KeysChoice.First,
-                ResultSetComparisonByIndexSettings.ValuesChoice.AllExpectFirst,
+            return new SettingsResultSetComparisonByIndex(
+                SettingsResultSetComparisonByIndex.KeysChoice.First,
+                SettingsResultSetComparisonByIndex.ValuesChoice.AllExpectFirst,
                 columnsDef
                 );
         }

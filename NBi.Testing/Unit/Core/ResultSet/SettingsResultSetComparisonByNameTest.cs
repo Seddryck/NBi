@@ -122,7 +122,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var xml = BuildEqualToXml();
             xml.ValuesDefaultType = ColumnType.DateTime;
             //get settings
-            var actual = (xml.GetSettings() as ResultSetComparisonByNameSettings);
+            var actual = (xml.GetSettings() as SettingsResultSetComparisonByName);
 
             //Assertion
             Assert.That(actual.GetColumnType("Zero"), Is.Not.EqualTo(ColumnType.Numeric));
@@ -184,13 +184,13 @@ namespace NBi.Testing.Unit.Core.ResultSet
             return xml;
         }
         
-        private ResultSetComparisonByNameSettings BuildSettings()
+        private SettingsResultSetComparisonByName BuildSettings()
         {
             var xml = BuildEqualToXml();
             //get settings
             var settings = xml.GetSettings();
             
-            return (settings as ResultSetComparisonByNameSettings);
+            return (settings as SettingsResultSetComparisonByName);
         }
 
     }

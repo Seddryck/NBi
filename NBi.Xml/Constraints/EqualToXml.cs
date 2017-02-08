@@ -84,12 +84,12 @@ namespace NBi.Xml.Constraints
         public ComparisonBehavior Behavior { get; set; }
 
         [XmlAttribute("keys")]
-        [DefaultValue(ResultSetComparisonByIndexSettings.KeysChoice.First)]
-        public ResultSetComparisonByIndexSettings.KeysChoice KeysDef { get; set; }
+        [DefaultValue(SettingsResultSetComparisonByIndex.KeysChoice.First)]
+        public SettingsResultSetComparisonByIndex.KeysChoice KeysDef { get; set; }
 
         [XmlAttribute("values")]
-        [DefaultValue(ResultSetComparisonByIndexSettings.ValuesChoice.AllExpectFirst)]
-        public ResultSetComparisonByIndexSettings.ValuesChoice ValuesDef { get; set; }
+        [DefaultValue(SettingsResultSetComparisonByIndex.ValuesChoice.AllExpectFirst)]
+        public SettingsResultSetComparisonByIndex.ValuesChoice ValuesDef { get; set; }
 
         [XmlAttribute("key-name")]
         public string KeyName { get; set; }
@@ -143,7 +143,7 @@ namespace NBi.Xml.Constraints
 
         public IResultSetComparisonSettings GetSettings()
         {
-            var factory = new ResultSetComparisonSettingsFactory();
+            var factory = new SettingsResultSetComparisonFactory();
             var settings = factory.Build(
                     Behavior == ComparisonBehavior.MultipleRows
                     , KeysDef

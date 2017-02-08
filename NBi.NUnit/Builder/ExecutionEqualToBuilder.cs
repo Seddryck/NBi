@@ -106,7 +106,7 @@ namespace NBi.NUnit.Builder
             if (ConstraintXml.Behavior == EqualToXml.ComparisonBehavior.SingleRow)
             { 
                 ctr = ctr.Using(new SingleRowComparer());
-                settings = new SingleRowComparisonSettings(
+                settings = new SettingsSingleRowComparison(
                     ConstraintXml.ValuesDefaultType,
                     new NumericToleranceFactory().Instantiate(ConstraintXml.Tolerance),
                     ConstraintXml.ColumnsDef
@@ -114,7 +114,7 @@ namespace NBi.NUnit.Builder
             }
             else
             {
-                settings = new ResultSetComparisonByIndexSettings(
+                settings = new SettingsResultSetComparisonByIndex(
                     ConstraintXml.KeysDef,
                     ConstraintXml.ValuesDef,
                     ConstraintXml.ValuesDefaultType,

@@ -8,5 +8,6 @@ namespace NBi.Core.ResultSet
 {
 	public interface IResultSetComparisonSettings
 	{
+        
 	}
 }

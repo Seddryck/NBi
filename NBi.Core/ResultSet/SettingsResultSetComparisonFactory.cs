@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static NBi.Core.ResultSet.ResultSetComparisonByIndexSettings;
+using static NBi.Core.ResultSet.SettingsResultSetComparisonByIndex;
 
 namespace NBi.Core.ResultSet
 {
-    public class ResultSetComparisonSettingsFactory
+    public class SettingsResultSetComparisonFactory
     {
         public IResultSetComparisonSettings Build(bool isMultipleRows, KeysChoice keysDef, string keyNames, ValuesChoice valuesDef, string valueNames, ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyList<IColumnDefinition> columnsDef)
         {
@@ -83,11 +83,11 @@ namespace NBi.Core.ResultSet
                         || columnsDef.Any(c => !string.IsNullOrEmpty(c.Name));
 
             if (isMultipleRows && isByName)
-                return new ResultSetComparisonByNameSettings(keyNames, valueNames, valuesDefaultType, defaultTolerance, columnsDef);
+                return new SettingsResultSetComparisonByName(keyNames, valueNames, valuesDefaultType, defaultTolerance, columnsDef);
             else if (isMultipleRows && !isByName)
-                return new ResultSetComparisonByIndexSettings(keysDef, valuesDef, valuesDefaultType, defaultTolerance, columnsDef);
+                return new SettingsResultSetComparisonByIndex(keysDef, valuesDef, valuesDefaultType, defaultTolerance, columnsDef);
             else if (!isMultipleRows)
-                return new ResultSetComparisonByIndexSettings(keysDef, valuesDef, valuesDefaultType, defaultTolerance, columnsDef);
+                return new SettingsResultSetComparisonByIndex(keysDef, valuesDef, valuesDefaultType, defaultTolerance, columnsDef);
             else
                 throw new InvalidOperationException();
         }

@@ -6,7 +6,7 @@ using NBi.Core.ResultSet.Comparer;
 
 namespace NBi.Core.ResultSet
 {
-	public class ResultSetComparisonByIndexSettings : ResultSetComparisonSettings<int>
+	public class SettingsResultSetComparisonByIndex : SettingsResultSetComparison<int>
 	{
     
 		public enum KeysChoice
@@ -206,27 +206,27 @@ namespace NBi.Core.ResultSet
 			lastColumnIndex = columnCount-1;
 		}
 
-        protected ResultSetComparisonByIndexSettings(ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
+        protected SettingsResultSetComparisonByIndex(ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : base(valuesDefaultType, defaultTolerance, columnsDef)
         {}
 
-        public ResultSetComparisonByIndexSettings(int columnsCount, KeysChoice keysDef, ValuesChoice valuesDef)
+        public SettingsResultSetComparisonByIndex(int columnsCount, KeysChoice keysDef, ValuesChoice valuesDef)
             : this(keysDef, valuesDef, ColumnType.Numeric, NumericAbsoluteTolerance.None, null)
 		{
 			ApplyTo(columnsCount);
 		}
 
-		public ResultSetComparisonByIndexSettings(KeysChoice keysDef, ValuesChoice valuesDef, IReadOnlyCollection<IColumnDefinition> columnsDef)
+		public SettingsResultSetComparisonByIndex(KeysChoice keysDef, ValuesChoice valuesDef, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : this(keysDef, valuesDef, ColumnType.Numeric, NumericAbsoluteTolerance.None, columnsDef)
 		{
 		}
 
-		public ResultSetComparisonByIndexSettings(KeysChoice keysDef, ValuesChoice valuesDef, NumericTolerance defaultTolerance)
+		public SettingsResultSetComparisonByIndex(KeysChoice keysDef, ValuesChoice valuesDef, NumericTolerance defaultTolerance)
 			: this(keysDef, valuesDef, ColumnType.Numeric, defaultTolerance, null)
 		{
 		}
 
-		public ResultSetComparisonByIndexSettings(KeysChoice keysDef, ValuesChoice valuesDef, ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
+		public SettingsResultSetComparisonByIndex(KeysChoice keysDef, ValuesChoice valuesDef, ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : base(valuesDefaultType, defaultTolerance, columnsDef)
         {
             KeysDef = keysDef;

@@ -110,7 +110,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             Assert.That(ctr, Is.InstanceOf<EqualToConstraint>());
             //Get the tolerance for the column with 1 (and not 0) to avoid to get the tolerance on a key.
-            var settings = ((EqualToConstraint)ctr).Engine.Settings as ResultSetComparisonByIndexSettings;
+            var settings = ((EqualToConstraint)ctr).Engine.Settings as SettingsResultSetComparisonByIndex;
             Assert.That(settings.GetTolerance(1).ValueString, Is.EqualTo("10"));
         }
 
@@ -227,7 +227,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             Assert.That(ctr, Is.InstanceOf<EqualToConstraint>());
             Assert.That(((EqualToConstraint)ctr).Engine, Is.InstanceOf<SingleRowComparer>());
-            Assert.That(((EqualToConstraint)ctr).Engine.Settings, Is.InstanceOf<SingleRowComparisonSettings>());
+            Assert.That(((EqualToConstraint)ctr).Engine.Settings, Is.InstanceOf<SettingsSingleRowComparison>());
         }
     }
 }

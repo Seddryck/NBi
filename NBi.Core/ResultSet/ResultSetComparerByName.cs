@@ -147,8 +147,5 @@ namespace NBi.Core.ResultSet
                 );
             }
         }
-
-
-
     }
 }

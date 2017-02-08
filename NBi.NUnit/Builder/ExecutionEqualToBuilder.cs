@@ -102,7 +102,7 @@ namespace NBi.NUnit.Builder
                 throw new ArgumentException();
 
             //Manage settings for comparaison
-            IResultSetComparisonSettings settings = null;
+            ISettingsResultSetComparison settings = null;
             if (ConstraintXml.Behavior == EqualToXml.ComparisonBehavior.SingleRow)
             { 
                 ctr = ctr.Using(new SingleRowComparer());

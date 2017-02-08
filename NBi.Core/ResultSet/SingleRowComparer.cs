@@ -12,7 +12,7 @@ namespace NBi.Core.ResultSet
 {
     public class SingleRowComparer : IResultSetComparer
     {
-        public IResultSetComparisonSettings Settings
+        public ISettingsResultSetComparison Settings
         {
             get { return indexBasedSettings; }
             set

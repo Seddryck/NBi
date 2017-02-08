@@ -133,7 +133,7 @@ namespace NBi.NUnit.Query
             return this;
         }
 
-        public EqualToConstraint Using(IResultSetComparisonSettings settings)
+        public EqualToConstraint Using(ISettingsResultSetComparison settings)
         {
             this.Engine.Settings = settings;
             return this;

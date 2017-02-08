@@ -315,7 +315,7 @@
     <Compile Include="ResultSet\ResultSetComparerByName.cs" />
     <Compile Include="ResultSet\SettingsResultSetComparisonByIndex.cs" />
     <Compile Include="ResultSet\SettingsResultSetComparisonByName.cs" />
-    <Compile Include="ResultSet\SettingsResultSetComparisonFactory.cs" />
+    <Compile Include="ResultSet\ResultSetComparisonBuilder.cs" />
     <Compile Include="ResultSet\SettingsSingleRowComparison.cs" />
     <Compile Include="ResultSet\SingleRowComparer.cs" />
     <Compile Include="ResultSet\ResultSetComparerByIndex.cs" />

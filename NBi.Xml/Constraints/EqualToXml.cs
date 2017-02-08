@@ -141,10 +141,10 @@ namespace NBi.Xml.Constraints
         [DefaultValue(PersistanceChoice.Never)]
         public PersistanceChoice Persistance;
 
-        public IResultSetComparisonSettings GetSettings()
+        public ISettingsResultSetComparison GetSettings()
         {
-            var factory = new SettingsResultSetComparisonFactory();
-            var settings = factory.Build(
+            var builder = new ResultSetComparisonBuilder();
+            builder.Setup(
                     Behavior == ComparisonBehavior.MultipleRows
                     , KeysDef
                     , KeyName
@@ -153,7 +153,8 @@ namespace NBi.Xml.Constraints
                     , ValuesDefaultType
                     , new NumericToleranceFactory().Instantiate(Tolerance)
                     , ColumnsDef);
-            return settings;
+            builder.Build();
+            return builder.GetSettings();
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]

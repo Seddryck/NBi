@@ -6,7 +6,7 @@ using NBi.Core.ResultSet.Comparer;
 
 namespace NBi.Core.ResultSet
 {
-	public abstract class SettingsResultSetComparison<T> : IResultSetComparisonSettings
+	public abstract class SettingsResultSetComparison<T> : ISettingsResultSetComparison
     {
         protected IDictionary<T, ColumnRole> cacheRole = new Dictionary<T, ColumnRole>();
         protected IDictionary<T, ColumnType> cacheType = new Dictionary<T, ColumnType>();

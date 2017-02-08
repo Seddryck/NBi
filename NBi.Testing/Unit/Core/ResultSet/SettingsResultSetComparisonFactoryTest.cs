@@ -15,8 +15,8 @@ namespace NBi.Testing.Unit.Core.ResultSet
         [Test]
         public void Instantiate_NonDefaultKeyAndKeyName_Exception()
         {
-            var factory = new SettingsResultSetComparisonFactory();
-            Assert.Throws<InvalidOperationException>(() => factory.Build(
+            var builder = new ResultSetComparisonBuilder();
+            Assert.Throws<InvalidOperationException>(() => builder.Setup(
                 true
                 , SettingsResultSetComparisonByIndex.KeysChoice.All
                 , "MyKey"
@@ -34,8 +34,8 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var columnDef = Mock.Of<IColumnDefinition>();
             columnDef.Name = "MyKey";
 
-            var factory = new SettingsResultSetComparisonFactory();
-            Assert.Throws<InvalidOperationException>(() => factory.Build(
+            var builder = new ResultSetComparisonBuilder();
+            Assert.Throws<InvalidOperationException>(() => builder.Setup(
                 true
                 , SettingsResultSetComparisonByIndex.KeysChoice.All
                 , string.Empty
@@ -53,8 +53,8 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var columnDef = Mock.Of<IColumnDefinition>();
             columnDef.Name = "MyKey";
 
-            var factory = new SettingsResultSetComparisonFactory();
-            Assert.Throws<InvalidOperationException>(() => factory.Build(
+            var builder = new ResultSetComparisonBuilder();
+            Assert.Throws<InvalidOperationException>(() => builder.Setup(
                 true
                 , SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast
                 , string.Empty
@@ -72,8 +72,8 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var columnDef = Mock.Of<IColumnDefinition>();
             columnDef.Index = 1;
 
-            var factory = new SettingsResultSetComparisonFactory();
-            Assert.Throws<InvalidOperationException>(() => factory.Build(
+            var builder = new ResultSetComparisonBuilder();
+            Assert.Throws<InvalidOperationException>(() => builder.Setup(
                 true
                 , SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast
                 , string.Empty

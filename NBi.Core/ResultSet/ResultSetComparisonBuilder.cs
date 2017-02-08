@@ -7,10 +7,27 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet
 {
-    public class SettingsResultSetComparisonFactory
+    public class ResultSetComparisonBuilder
     {
-        public IResultSetComparisonSettings Build(bool isMultipleRows, SettingsResultSetComparisonByIndex.KeysChoice keysDef, string keyNames, SettingsResultSetComparisonByIndex.ValuesChoice valuesDef, string valueNames, ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyList<IColumnDefinition> columnsDef)
+        private bool isSetup = false;
+        private bool isBuild = false;
+
+        private bool isMultipleRows;
+        private SettingsResultSetComparisonByIndex.KeysChoice keysDef;
+        private string keyNames;
+        private SettingsResultSetComparisonByIndex.ValuesChoice valuesDef;
+        private string valueNames;
+        private ColumnType valuesDefaultType;
+        private NumericTolerance defaultTolerance;
+        private IReadOnlyList<IColumnDefinition> columnsDef;
+
+        private ISettingsResultSetComparison settings;
+        private IResultSetComparer comparer;
+
+        public void Setup(bool isMultipleRows, SettingsResultSetComparisonByIndex.KeysChoice keysDef, string keyNames, SettingsResultSetComparisonByIndex.ValuesChoice valuesDef, string valueNames, ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyList<IColumnDefinition> columnsDef)
         {
+            isBuild = false;
+
             if (isMultipleRows
                 && (keysDef != 0 || valuesDef != 0)
                 && (!string.IsNullOrEmpty(keyNames) || !string.IsNullOrEmpty(valueNames)))
@@ -77,18 +94,68 @@ namespace NBi.Core.ResultSet
             }
 
 
+            this.isMultipleRows = isMultipleRows;
+            this.keysDef = keysDef;
+            this.keyNames = keyNames;
+            this.valuesDef = valuesDef;
+            this.valueNames = valueNames;
+            this.valuesDefaultType = valuesDefaultType;
+            this.defaultTolerance = defaultTolerance;
+            this.columnsDef = columnsDef;
+
+            isSetup = true;
+
+        }
+
+        public void Build()
+        {
+            if (!isSetup)
+                throw new InvalidOperationException();
+
             var isByName = !string.IsNullOrEmpty(keyNames)
                         || !string.IsNullOrEmpty(valueNames)
                         || columnsDef.Any(c => !string.IsNullOrEmpty(c.Name));
 
             if (isMultipleRows && isByName)
-                return new SettingsResultSetComparisonByName(keyNames, valueNames, valuesDefaultType, defaultTolerance, columnsDef);
+            {
+                var settings = new SettingsResultSetComparisonByName(keyNames, valueNames, valuesDefaultType, defaultTolerance, columnsDef);
+                comparer = new ResultSetComparerByName(settings);
+                this.settings = settings;
+            }
+                
             else if (isMultipleRows && !isByName)
-                return new SettingsResultSetComparisonByIndex(keysDef, valuesDef, valuesDefaultType, defaultTolerance, columnsDef);
+            {
+                var settings = new SettingsResultSetComparisonByIndex(keysDef, valuesDef, valuesDefaultType, defaultTolerance, columnsDef);
+                comparer = new ResultSetComparerByIndex(settings);
+                this.settings = settings;
+            }
+                
             else if (!isMultipleRows)
-                return new SettingsResultSetComparisonByIndex(keysDef, valuesDef, valuesDefaultType, defaultTolerance, columnsDef);
+            {
+                var settings = new SettingsResultSetComparisonByIndex(keysDef, valuesDef, valuesDefaultType, defaultTolerance, columnsDef);
+                comparer = new SingleRowComparer(settings);
+                this.settings = settings;
+            }
             else
                 throw new InvalidOperationException();
+
+            isBuild = true;
+        }
+
+        public ISettingsResultSetComparison GetSettings()
+        {
+            if (!isBuild)
+                throw new InvalidOperationException();
+
+            return settings;
+        }
+
+        public IResultSetComparer GetComparer()
+        {
+            if (!isBuild)
+                throw new InvalidOperationException();
+
+            return comparer;
         }
 
     }

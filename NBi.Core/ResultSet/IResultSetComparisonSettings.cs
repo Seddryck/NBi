@@ -6,7 +6,7 @@ using NBi.Core.ResultSet.Comparer;
 
 namespace NBi.Core.ResultSet
 {
-	public interface IResultSetComparisonSettings
+	public interface ISettingsResultSetComparison
 	{
         
 	}

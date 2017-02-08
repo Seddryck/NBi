@@ -12,7 +12,7 @@ namespace NBi.Core.ResultSet
 {
     public abstract class ResultSetComparer : IResultSetComparer
     {
-        public IResultSetComparisonSettings Settings { get; set; }
+        public ISettingsResultSetComparison Settings { get; set; }
 
         private readonly Dictionary<KeyCollection, CompareHelper> xDict = new Dictionary<KeyCollection, CompareHelper>();
         private readonly Dictionary<KeyCollection, CompareHelper> yDict = new Dictionary<KeyCollection, CompareHelper>();

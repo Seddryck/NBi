@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static NBi.Core.ResultSet.SettingsResultSetComparisonByIndex;
 
 namespace NBi.Core.ResultSet
 {
     public class SettingsResultSetComparisonFactory
     {
-        public IResultSetComparisonSettings Build(bool isMultipleRows, KeysChoice keysDef, string keyNames, ValuesChoice valuesDef, string valueNames, ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyList<IColumnDefinition> columnsDef)
+        public IResultSetComparisonSettings Build(bool isMultipleRows, SettingsResultSetComparisonByIndex.KeysChoice keysDef, string keyNames, SettingsResultSetComparisonByIndex.ValuesChoice valuesDef, string valueNames, ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyList<IColumnDefinition> columnsDef)
         {
             if (isMultipleRows
                 && (keysDef != 0 || valuesDef != 0)

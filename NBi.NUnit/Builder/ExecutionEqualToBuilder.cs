@@ -104,13 +104,15 @@ namespace NBi.NUnit.Builder
             //Manage settings for comparaison
             ISettingsResultSetComparison settings = null;
             if (ConstraintXml.Behavior == EqualToXml.ComparisonBehavior.SingleRow)
-            { 
-                ctr = ctr.Using(new SingleRowComparer());
-                settings = new SettingsSingleRowComparison(
+            {
+                var builder = new ResultSetComparisonBuilder();
+                builder.Setup(false, 0, null, 0, null,
                     ConstraintXml.ValuesDefaultType,
                     new NumericToleranceFactory().Instantiate(ConstraintXml.Tolerance),
                     ConstraintXml.ColumnsDef
                 );
+                builder.Build();
+                ctr = ctr.Using(builder.GetComparer());
             }
             else
             {

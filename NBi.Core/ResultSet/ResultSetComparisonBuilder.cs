@@ -132,7 +132,7 @@ namespace NBi.Core.ResultSet
                 
             else if (!isMultipleRows)
             {
-                var settings = new SettingsResultSetComparisonByIndex(keysDef, valuesDef, valuesDefaultType, defaultTolerance, columnsDef);
+                var settings = new SettingsSingleRowComparison(valuesDefaultType, defaultTolerance, columnsDef);
                 comparer = new SingleRowComparer(settings);
                 this.settings = settings;
             }

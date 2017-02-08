@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace NBi.Testing.Unit.Core.ResultSet
 {
     [TestFixture]
-    public class ResultSetComparisonFactoryTest
+    public class SettingsResultSetComparisonFactoryTest
     {
         [Test]
         public void Instantiate_NonDefaultKeyAndKeyName_Exception()

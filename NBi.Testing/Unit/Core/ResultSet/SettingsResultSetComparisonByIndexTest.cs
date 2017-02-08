@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Unit.Core.ResultSet
 {
     [TestFixture]
-    public class ResultSetComparisonByIndexSettingsTest
+    public class SettingsResultSetComparisonByIndexTest
     {
         [Test]
         public void GetColumnType_EqualToAndColumnsDefinedCorrectResult()

@@ -182,13 +182,13 @@
     <Compile Include="Unit\Core\ResultSet\Converter\DateTimeConverterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Converter\BaseNumericConverterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetComparerByNameTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\ResultSetComparisonFactoryTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\ResultSetComparisonByIndexSettingsTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\SettingsResultSetComparisonFactoryTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\SettingsResultSetComparisonByIndexTest.cs" />
     <Compile Include="Unit\Core\ResultSet\SingleRowComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetComparerByIndexTest.cs" />
     <Compile Include="Unit\Core\ResultSet\IntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\LineFormatterTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\ResultSetComparisonByNameSettingsTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\SettingsResultSetComparisonByNameTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetWriterTest.cs" />
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />

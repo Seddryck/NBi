@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Unit.Core.ResultSet
 {
     [TestFixture]
-    public class ResultSetComparisonByNameSettingsTest
+    public class SettingsResultSetComparisonByNameTest
     {
         
         [Test]

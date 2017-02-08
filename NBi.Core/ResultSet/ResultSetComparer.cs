@@ -135,14 +135,14 @@ namespace NBi.Core.ResultSet
                 //Null management
                 if (DBNull.Value.Equals(x) || DBNull.Value.Equals(y))
                 {
-                    if ((!DBNull.Value.Equals(x) && x.ToString() != "(blank)") || (!DBNull.Value.Equals(y) && y.ToString() != "(blank)"))
+                    if ((!DBNull.Value.Equals(x) && x.ToString() != "(null)") || (!DBNull.Value.Equals(y) && y.ToString() != "(null)"))
                         return new ComparerResult(DBNull.Value.Equals(y) ? x.ToString() : "(null)");
                 }
                 //(value) management
                 else if (x.ToString() == "(value)" || y.ToString() == "(value)")
                 {
                     if (DBNull.Value.Equals(x) || DBNull.Value.Equals(y))
-                        return new ComparerResult("(null)");
+                        return new ComparerResult(DBNull.Value.Equals(y) ? "(null)" : x.ToString());
                 }
                 //Not Null management
                 else

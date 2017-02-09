@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core;
 using NBi.Core.ResultSet;
+using static NBi.Core.ResultSet.ResultSetBuilder;
 
 namespace NBi.Xml.Items.ResultSet
 {
@@ -15,6 +16,33 @@ namespace NBi.Xml.Items.ResultSet
         public IList<IRow> Rows
         {
             get { return _rows.Cast<IRow>().ToList(); }
+        }
+
+        public IList<string> Columns
+        {
+            get
+            {
+                if (_rows.Count == 0)
+                    return new List<string>();
+
+                var names = new List<string>();
+                var row = _rows[0];
+
+                foreach (var cell in row.Cells)
+                {
+                    if (!string.IsNullOrEmpty(cell.ColumnName))
+                        names.Add(cell.ColumnName);
+                    else
+                        names.Add(string.Empty);
+                }
+                return names;
+            }
+        }
+
+        [XmlIgnore]
+        public Content Content
+        {
+            get { return new Content(Rows, Columns); }
         }
 
         [XmlAttribute("file")]
@@ -34,7 +62,7 @@ namespace NBi.Xml.Items.ResultSet
         public ResultSetXml()
         {
             _rows = new List<RowXml>();
-        } 
+        }
 
     }
 }

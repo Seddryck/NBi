@@ -40,9 +40,9 @@ namespace NBi.NUnit.FluentInterface
             return ctr;
         }
 
-        public static EqualToConstraint EqualTo(IEnumerable<IRow> rows)
+        public static EqualToConstraint EqualTo(IContent content)
         {
-            var ctr = new EqualToConstraint(rows);
+            var ctr = new EqualToConstraint(content);
             return ctr;
         }
 

@@ -281,6 +281,7 @@
     <Compile Include="ResultSet\DataRowKeysComparerByName.cs" />
     <Compile Include="ResultSet\DataRowKeysComparerByIndex.cs" />
     <Compile Include="ResultSet\EndPoint.cs" />
+    <Compile Include="ResultSet\Content.cs" />
     <Compile Include="ResultSet\IntervalBuilder.cs" />
     <Compile Include="ListComparisonFormatter.cs" />
     <Compile Include="ListComparer.cs" />

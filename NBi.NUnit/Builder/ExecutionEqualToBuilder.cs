@@ -71,7 +71,7 @@ namespace NBi.NUnit.Builder
                 else if (ConstraintXml.ResultSet.Rows != null)
                 {
                     Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in embedded resultSet!");
-                    ctr = new EqualToConstraint(ConstraintXml.ResultSet.Rows);
+                    ctr = new EqualToConstraint(ConstraintXml.ResultSet.Content);
                 }
             }
             else if (ConstraintXml.XmlSource != null)

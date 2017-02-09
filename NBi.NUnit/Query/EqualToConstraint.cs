@@ -112,7 +112,7 @@ namespace NBi.NUnit.Query
             this.expect = value;
         }
 
-        public EqualToConstraint(IEnumerable<IRow> value)
+        public EqualToConstraint(IContent value)
         {
             this.expect = value;
         }

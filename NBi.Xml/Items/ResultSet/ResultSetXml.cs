@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core;
 using NBi.Core.ResultSet;
-using static NBi.Core.ResultSet.ResultSetBuilder;
+
 
 namespace NBi.Xml.Items.ResultSet
 {
@@ -40,9 +40,9 @@ namespace NBi.Xml.Items.ResultSet
         }
 
         [XmlIgnore]
-        public Content Content
+        public ResultSetBuilder.Content Content
         {
-            get { return new Content(Rows, Columns); }
+            get { return new ResultSetBuilder.Content(Rows, Columns); }
         }
 
         [XmlAttribute("file")]

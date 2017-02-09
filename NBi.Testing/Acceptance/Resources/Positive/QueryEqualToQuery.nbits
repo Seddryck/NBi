@@ -411,13 +411,13 @@
     <test name="equalTo definition">
       <system-under-test>
         <execution>
-          <query>select 'Alpha' as 'Key', '100' as 'Value' union all select 'Beta' as 'Key', '120'</query>
+          <query>select 'Alpha' as 'Key', '100' as 'Value1', 100.0 as Value2 union all select 'Beta' as 'Key', '120', 100.00 as Value2</query>
         </execution>
       </system-under-test>
       <assert>
-        <equalTo keys-names="Key" values-names="Value">
+        <equalTo keys-names="Key" values-names="Value1, Value2">
           <query>
-            select '100' as 'Value', null as 'Ignore', 'Alpha' as 'Key'  union all select '120' as 'Value', 'Youpla' as 'Ignore', 'Beta' as 'Key'
+            select '100' as 'Value1', null as 'Ignore', 'Alpha' as 'Key', 100.00 as Value2  union all select '120' as 'Value1', 'Youpla' as 'Ignore', 'Beta' as 'Key', 100 as Value2
           </query>
         </equalTo>
       </assert>
@@ -448,7 +448,7 @@
         <equalTo keys-names="KeyField">
           <column name="Value" role="value" type="dateTime"/>
           <query>
-            select '2016-12-10' as [Value], null as 'Ignore', 'Alpha' as KeyField  union all select '2016-02-02' as 'Value', 'Youpla' as 'Ignore', 'Beta' as 'Key'
+            select '2016-12-11' as [Value], null as 'Ignore', 'Alpha' as KeyField  union all select '2016-02-02' as 'Value', 'Youpla' as 'Ignore', 'Beta' as 'Key'
           </query>
         </equalTo>
       </assert>

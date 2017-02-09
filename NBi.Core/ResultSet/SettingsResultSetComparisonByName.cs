@@ -50,7 +50,7 @@ namespace NBi.Core.ResultSet
             if (ValueNames.Count > 0)
                 return false;
 
-            return true;
+            return false;
         }
         
         public override bool IsRounding(string name)

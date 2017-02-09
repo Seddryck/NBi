@@ -49,6 +49,13 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="MarkdownLogExtension\EmptyTableCellExtended.cs" />
+    <Compile Include="MarkdownLogExtension\ITableCellExtended.cs" />
+    <Compile Include="MarkdownLogExtension\TableCellExtended.cs" />
+    <Compile Include="MarkdownLogExtension\TableCellRenderSpecificationExtended.cs" />
+    <Compile Include="MarkdownLogExtension\TableColumnExtended.cs" />
+    <Compile Include="MarkdownLogExtension\TableExtended.cs" />
+    <Compile Include="MarkdownLogExtension\TableRowExtended.cs" />
     <Compile Include="TestConfiguration.cs" />
     <Compile Include="FailureMessage\FailureReportProfile.cs" />
     <Compile Include="FailureMessage\FailureReportSetType.cs" />

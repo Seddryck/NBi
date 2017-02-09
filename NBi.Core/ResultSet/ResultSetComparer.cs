@@ -12,16 +12,18 @@ namespace NBi.Core.ResultSet
 {
     public abstract class ResultSetComparer : IResultSetComparer
     {
+        private readonly CellComparer cellComparer = new CellComparer();
+        protected CellComparer CellComparer
+        {
+            get { return cellComparer; }
+        }
+
         public ISettingsResultSetComparison Settings { get; set; }
 
         private readonly Dictionary<KeyCollection, CompareHelper> xDict = new Dictionary<KeyCollection, CompareHelper>();
         private readonly Dictionary<KeyCollection, CompareHelper> yDict = new Dictionary<KeyCollection, CompareHelper>();
 
-        private readonly NumericComparer numericComparer = new NumericComparer();
-        private readonly TextComparer textComparer = new TextComparer();
-        private readonly DateTimeComparer dateTimeComparer = new DateTimeComparer();
-        private readonly BooleanComparer booleanComparer = new BooleanComparer();
-
+        
         public ResultSetCompareResult Compare(object x, object y)
         {
             if (x is DataTable && y is DataTable)
@@ -127,59 +129,7 @@ namespace NBi.Core.ResultSet
 
         protected abstract DataRow CompareRows(DataRow x, DataRow y);
 
-        protected ComparerResult CompareValues(object x, object y, ColumnType columnType, Tolerance tolerance, Rounding rounding)
-        {
-            //Any management
-            if (x.ToString() != "(any)" && y.ToString() != "(any)")
-            {
-                //Null management
-                if (DBNull.Value.Equals(x) || DBNull.Value.Equals(y))
-                {
-                    if ((!DBNull.Value.Equals(x) && x.ToString() != "(null)") || (!DBNull.Value.Equals(y) && y.ToString() != "(null)"))
-                        return new ComparerResult(DBNull.Value.Equals(y) ? x.ToString() : "(null)");
-                }
-                //(value) management
-                else if (x.ToString() == "(value)" || y.ToString() == "(value)")
-                {
-                    if (DBNull.Value.Equals(x) || DBNull.Value.Equals(y))
-                        return new ComparerResult(DBNull.Value.Equals(y) ? "(null)" : x.ToString());
-                }
-                //Not Null management
-                else
-                {
-                    //Numeric
-                    if (columnType == ColumnType.Numeric)
-                    {
-                        //Convert to decimal
-                        if (rounding != null)
-                            return numericComparer.Compare(x, y, rounding);
-                        else
-                            return numericComparer.Compare(x, y, tolerance);
-                    }
-                    //Date and Time
-                    else if (columnType == ColumnType.DateTime)
-                    {
-                        //Convert to dateTime
-                        if (rounding != null)
-                            return dateTimeComparer.Compare(x, y, rounding);
-                        else
-                            return dateTimeComparer.Compare(x, y, tolerance);
-                    }
-                    //Boolean
-                    else if (columnType == ColumnType.Boolean)
-                    {
-                        //Convert to bool
-                        return booleanComparer.Compare(x, y);
-                    }
-                    //Text
-                    else
-                    {
-                        return textComparer.Compare(x, y);
-                    }
-                }
-            }
-            return ComparerResult.Equality;
-        }
+        
 
         private void BuildRowDictionary(DataTable dt, Dictionary<KeyCollection, CompareHelper> dict, DataRowKeysComparer keyComparer, bool isSystemUnderTest)
         {

@@ -80,5 +80,34 @@ namespace NBi.Testing.Unit.Core.ResultSet
             Assert.That(text, Is.StringContaining("<>"));
             Assert.That(text, Is.StringContaining("(null)")); 
         }
+
+        [Test]
+        public void Build_ColumnWithName_CorrectDisplay()
+        {
+            // Design Dummy Column
+            DataColumn col = new DataColumn("DummyColumn");
+            col.ExtendedProperties.Add("NBi::Role", ColumnRole.Key);
+            col.ExtendedProperties.Add("NBi::Type", ColumnType.Text);
+            col.ColumnName = "My very long name that I want to display!";
+
+            // Design dummy table
+            DataTable table = new DataTable();
+            table.Columns.Add(col);
+
+            var row = table.NewRow();
+            row[0] = "My Value";
+            row.SetColumnError(0, "(null)");
+
+            ICellFormatter cf = LineFormatter.BuildHeader(table, 0);
+
+            var length = cf.GetCellLength();
+            var name = cf.GetColumnName(length);
+            Assert.That(name, Is.EqualTo("My very long name that I want to display! "));
+
+            // This should be the returned value
+            var text = cf.GetText(length);
+            Assert.That(text, Is.StringStarting("KEY (Text) "));
+            
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace NBi.Core.ResultSet
     {
         int GetCellLength();
         string GetText(int length);
+        string GetColumnName(int length);
     }
 
     public class LineFormatter
@@ -19,12 +20,13 @@ namespace NBi.Core.ResultSet
             if (table.Columns[columnIndex].ExtendedProperties.Count == 0)
                 return null;
 
+            var name = table.Columns[columnIndex].ColumnName;
             var role = (ColumnRole)table.Columns[columnIndex].ExtendedProperties["NBi::Role"];
             var type = (ColumnType)table.Columns[columnIndex].ExtendedProperties["NBi::Type"];
             var tolerance = (Tolerance)table.Columns[columnIndex].ExtendedProperties["NBi::Tolerance"];
             var rounding = (Rounding)table.Columns[columnIndex].ExtendedProperties["NBi::Rounding"];
 
-            return Build(role, type, tolerance, rounding);
+            return Build(name, role, type, tolerance, rounding);
         }
 
         public static ICellFormatter Build(DataRow row, int columnIndex)
@@ -44,9 +46,9 @@ namespace NBi.Core.ResultSet
             return Build(value);
         }
 
-        protected static ICellFormatter Build(ColumnRole role, ColumnType type, Tolerance tolerance, Rounding rounding)
+        protected static ICellFormatter Build(string name,ColumnRole role, ColumnType type, Tolerance tolerance, Rounding rounding)
         {
-            return new HeaderFormatter(role, type, tolerance, rounding);
+            return new HeaderFormatter(name, role, type, tolerance, rounding);
         }
 
         protected static ICellFormatter Build(object value)
@@ -63,14 +65,15 @@ namespace NBi.Core.ResultSet
 
         private class HeaderFormatter : ICellFormatter
         {
-
+            public string Name { get; set; }
             public ColumnRole Role { get; set; }
             public ColumnType Type { get; set; }
             public Tolerance Tolerance { get; set; }
             public Rounding Rounding { get; set; }
 
-            public HeaderFormatter(ColumnRole role, ColumnType type, Tolerance tolerance, Rounding rounding)
+            public HeaderFormatter(string name, ColumnRole role, ColumnType type, Tolerance tolerance, Rounding rounding)
             {
+                Name = name;
                 Role = role;
                 Type = type;
                 Tolerance = tolerance;
@@ -82,7 +85,7 @@ namespace NBi.Core.ResultSet
                 if (Role == ColumnRole.Ignore)
                     return 0;
 
-                return GetRoleText().Length + GetTypeText().Length + GetToleranceText().Length + 5;
+                return Math.Max(Name.Length + 1, GetRoleText().Length + GetTypeText().Length + GetToleranceText().Length + 5);
             }
 
             public virtual string GetText(int length)
@@ -97,6 +100,13 @@ namespace NBi.Core.ResultSet
                 var roundingText = GetRoundingText();
 
                 value += new string(' ', Math.Max(0, length - (value.Length + toleranceText.Length + roundingText.Length))) + toleranceText + roundingText;
+
+                return value;
+            }
+
+            public virtual string GetColumnName(int length)
+            {
+                var value = Name + new string(' ', Math.Max(0, length - (Name.Length)));
 
                 return value;
             }
@@ -162,6 +172,7 @@ namespace NBi.Core.ResultSet
                 return "?";
             }
 
+            
         }
 
         private class CellFormatter : ICellFormatter
@@ -182,16 +193,23 @@ namespace NBi.Core.ResultSet
 
             private string GetValueText()
             {
-                if (Value is DBNull)
+                if (Value is DBNull || Value==null)
                     return "(null)";
                 if (Value is string && ((string)Value).Length == 0)
                     return "(empty)";
+                if (Value is string && ((string)Value).Trim().Length == 0)
+                    return "(blank)";
                 return Value.ToString();
             }
 
             public virtual string GetText(int length)
             {
                 return GetValueText() + new string(' ', Math.Max(0, length - GetValueText().Length));
+            }
+
+            public string GetColumnName(int length)
+            {
+                throw new NotImplementedException();
             }
         }
 
@@ -250,6 +268,11 @@ namespace NBi.Core.ResultSet
                     , GetIsDifferentText()
                     , GetComparedText()
                     , new string(' ', Math.Max(0, length - GetValueText().Length - GetIsDifferentText().Length - GetComparedText().Length - 5)));
+            }
+
+            public string GetColumnName(int length)
+            {
+                throw new NotImplementedException();
             }
         }
     }

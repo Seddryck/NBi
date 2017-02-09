@@ -84,7 +84,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
 
-            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(10 + 2));
+            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(10 + 3));
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
 
-            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(rowCount + 2));
+            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(rowCount + 3));
         }
 
         [Test]
@@ -136,7 +136,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
 
-            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(max + 2));
+            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(max + 3));
         }
 
         [Test]
@@ -166,7 +166,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
 
-            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(rowCount + 2));
+            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(rowCount + 3));
         }
 
         [Test]

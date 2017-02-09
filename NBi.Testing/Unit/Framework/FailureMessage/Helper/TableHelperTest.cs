@@ -14,11 +14,12 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
     public class TableMarkdownLogBuilderTest
     {
         [Test]
-        public void Build_TwoRows_4Lines()
+        public void Build_TwoRows_5Lines()
         {
             var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
+            dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
@@ -27,15 +28,16 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             var msg = new TableHelper();
             var value = msg.Build(dataTable.Rows.Cast<DataRow>()).ToMarkdown();
 
-            Assert.That(value.Count<char>(c => c == '\n'), Is.EqualTo(4));
+            Assert.That(value.Count<char>(c => c == '\n'), Is.EqualTo(5));
 
             var secondLineIndex = value.IndexOf('\n');
             var thirdLineIndex = value.IndexOf('\n', secondLineIndex + 1);
-            var secondLine = value.Substring(secondLineIndex+1, thirdLineIndex-secondLineIndex-2);
-            Assert.That(secondLine.Distinct<char>().Count(), Is.EqualTo(3));
-            Assert.That(secondLine.Distinct<char>(), Has.Member(' '));
-            Assert.That(secondLine.Distinct<char>(), Has.Member('-'));
-            Assert.That(secondLine.Distinct<char>(), Has.Member('|'));
+            var fourthLineIndex = value.IndexOf('\n', thirdLineIndex + 1);
+            var thirdLine = value.Substring(thirdLineIndex+1, fourthLineIndex-thirdLineIndex-2);
+            Assert.That(thirdLine.Distinct<char>().Count(), Is.EqualTo(3));
+            Assert.That(thirdLine.Distinct<char>(), Has.Member(' '));
+            Assert.That(thirdLine.Distinct<char>(), Has.Member('-'));
+            Assert.That(thirdLine.Distinct<char>(), Has.Member('|'));
         }
 
         [Test]
@@ -54,11 +56,12 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
 
             var secondLineIndex = value.IndexOf('\n');
             var thirdLineIndex = value.IndexOf('\n', secondLineIndex + 1);
-            var secondLine = value.Substring(secondLineIndex + 1, thirdLineIndex - secondLineIndex - 2);
-            Assert.That(secondLine.Distinct<char>().Count(), Is.EqualTo(3));
-            Assert.That(secondLine.Distinct<char>(), Has.Member(' '));
-            Assert.That(secondLine.Distinct<char>(), Has.Member('-'));
-            Assert.That(secondLine.Distinct<char>(), Has.Member('|'));
+            var fourthLineIndex = value.IndexOf('\n', thirdLineIndex + 1);
+            var thirdLine = value.Substring(thirdLineIndex + 1, fourthLineIndex - thirdLineIndex - 2);
+            Assert.That(thirdLine.Distinct<char>().Count(), Is.EqualTo(3));
+            Assert.That(thirdLine.Distinct<char>(), Has.Member(' '));
+            Assert.That(thirdLine.Distinct<char>(), Has.Member('-'));
+            Assert.That(thirdLine.Distinct<char>(), Has.Member('|'));
         }
 
         [Test]

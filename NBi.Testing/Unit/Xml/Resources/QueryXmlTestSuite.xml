@@ -22,7 +22,7 @@
 		<system-under-test>
 			<execution>
 				<query>
-					select myColumn from myTable where myFirstField=@FirstField and 1=@NonEmpty
+					<![CDATA[select myColumn from myTable where myFirstField=@FirstField and 1=@NonEmpty]]> 
 					<parameter name="FirstField">Identifier</parameter>
 					<parameter name="NonEmpty">1</parameter>
 				</query>

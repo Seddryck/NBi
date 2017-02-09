@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using NBi.Core;
+using NBi.Xml.SerializationOption;
 
 namespace NBi.Xml.Items
 {
@@ -18,15 +19,31 @@ namespace NBi.Xml.Items
         [XmlAttribute("connectionString-ref")]
         public string ConnectionStringReference { get; set; }
 
-        [XmlText]
-        public string InlineQuery { get; set; }
+        [XmlIgnore]
+        private string inlineQuery;
 
+        [XmlIgnore]
+        public CData InlineQueryWrite
+        {
+            get { return inlineQuery; }
+            set { inlineQuery = value; }
+        }
+
+        [XmlText]
+        public string InlineQuery
+        {
+            get { return inlineQuery; }
+            set { inlineQuery = value; }
+        }
 
         public override string GetQuery()
         {
             //if Sql is specified then return it
-            if (!string.IsNullOrEmpty(InlineQuery))
+            if (InlineQuery!= null && !string.IsNullOrEmpty(InlineQuery))
                 return InlineQuery;
+
+            if (string.IsNullOrEmpty(File))
+                throw new InvalidOperationException("Element query must contain a query or a file!");
 
             //Else check that file exists and read the file's content
             var file = string.Empty;

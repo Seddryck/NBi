@@ -91,10 +91,10 @@ namespace NBi.Xml.Constraints
         [DefaultValue(SettingsResultSetComparisonByIndex.ValuesChoice.AllExpectFirst)]
         public SettingsResultSetComparisonByIndex.ValuesChoice ValuesDef { get; set; }
 
-        [XmlAttribute("key-name")]
+        [XmlAttribute("keys-names")]
         public string KeyName { get; set; }
 
-        [XmlAttribute("value-name")]
+        [XmlAttribute("values-names")]
         public string ValueName { get; set; }
 
         [XmlAttribute("values-default-type")]

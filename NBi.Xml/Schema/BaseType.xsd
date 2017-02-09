@@ -727,7 +727,8 @@
                       <xs:sequence>
                         <xs:element name="transformation" minOccurs="0" maxOccurs="1" type="transformation-type"/>
                       </xs:sequence>
-                      <xs:attribute name="index" type="xs:int" use="required" />
+                      <xs:attribute name="index" type="xs:int" use="optional" />
+                      <xs:attribute name="name" type="xs:string" use="optional" />
                       <xs:attribute name="role" use="required" >
                         <xs:simpleType>
                           <xs:restriction base="xs:string">
@@ -823,6 +824,8 @@
                     </xs:restriction>
                   </xs:simpleType>
                 </xs:attribute>
+                <xs:attribute name="keys-names" type="xs:string" use="optional" />
+                <xs:attribute name="values-names" type="xs:string" use="optional" />
               </xs:complexType>
             </xs:element>
             <xs:element name="evaluate-rows">

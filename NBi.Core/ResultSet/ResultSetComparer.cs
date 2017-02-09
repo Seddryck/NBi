@@ -252,14 +252,14 @@ namespace NBi.Core.ResultSet
                 column.ExtendedProperties.Add("NBi::Type", type);
 
             if (column.ExtendedProperties.ContainsKey("NBi::Tolerance"))
-                column.ExtendedProperties["NBi::Tolerance"] = tolerance == null ? string.Empty : tolerance.ToString();
+                column.ExtendedProperties["NBi::Tolerance"] = tolerance;
             else
-                column.ExtendedProperties.Add("NBi::Tolerance", tolerance==null ? string.Empty : tolerance.ToString());
+                column.ExtendedProperties.Add("NBi::Tolerance", tolerance);
 
             if (column.ExtendedProperties.ContainsKey("NBi::Rounding"))
-                column.ExtendedProperties["NBi::Rounding"] = rounding == null ? string.Empty : rounding.ToString();
+                column.ExtendedProperties["NBi::Rounding"] = rounding;
             else
-                column.ExtendedProperties.Add("NBi::Rounding", rounding == null ? string.Empty : rounding.ToString());
+                column.ExtendedProperties.Add("NBi::Rounding", rounding);
         }
     }
 }

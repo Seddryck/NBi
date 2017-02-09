@@ -111,6 +111,9 @@ namespace NBi.Core.ResultSet
             if (ColumnsDef.Any(c => c.Name == name && c.Type == type))
                 return true;
 
+            if (IsKey(name))
+                return type ==ColumnType.Text;
+
             return (IsValue(name) && ValuesDefaultType == type);
         }
         
@@ -135,11 +138,19 @@ namespace NBi.Core.ResultSet
         public SettingsResultSetComparisonByName(string keyNames, string valueNames, ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : base(valuesDefaultType, defaultTolerance, columnsDef)
         {
-            var keys = keyNames.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-            KeyNames = new ReadOnlyCollection<string>(keys.Select(x => x.Trim()).ToList());
+            KeyNames = new ReadOnlyCollection<string>(new string[] { });
+            if (!string.IsNullOrEmpty(keyNames))
+            {
+                var keys = keyNames.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                KeyNames = new ReadOnlyCollection<string>(keys.Select(x => x.Trim()).ToList());
+            }
 
-            var values = valueNames.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-            ValueNames = new ReadOnlyCollection<string>(values.Select(x => x.Trim()).ToList());
+            ValueNames = new ReadOnlyCollection<string>(new string[] { });
+            if (!string.IsNullOrEmpty(valueNames))
+            {
+                var values = valueNames.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                ValueNames = new ReadOnlyCollection<string>(values.Select(x => x.Trim()).ToList());
+            }
         }
 
         public IEnumerable<string> GetKeyNames()

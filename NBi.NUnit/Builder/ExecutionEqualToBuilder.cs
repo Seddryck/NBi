@@ -102,31 +102,36 @@ namespace NBi.NUnit.Builder
                 throw new ArgumentException();
 
             //Manage settings for comparaison
-            ISettingsResultSetComparison settings = null;
+            var builder = new ResultSetComparisonBuilder();
             if (ConstraintXml.Behavior == EqualToXml.ComparisonBehavior.SingleRow)
             {
-                var builder = new ResultSetComparisonBuilder();
+                
                 builder.Setup(false, 0, null, 0, null,
                     ConstraintXml.ValuesDefaultType,
                     new NumericToleranceFactory().Instantiate(ConstraintXml.Tolerance),
                     ConstraintXml.ColumnsDef
                 );
-                builder.Build();
-                settings = builder.GetSettings();
-                ctr = ctr.Using(builder.GetComparer());
+                
             }
             else
             {
-                settings = new SettingsResultSetComparisonByIndex(
+                builder.Setup(
+                    true,
                     ConstraintXml.KeysDef,
+                    ConstraintXml.KeyName,
                     ConstraintXml.ValuesDef,
+                    ConstraintXml.ValueName,
                     ConstraintXml.ValuesDefaultType,
                     new NumericToleranceFactory().Instantiate(ConstraintXml.Tolerance),
                     ConstraintXml.ColumnsDef
                 );
             }
-            
-            ctr.Using(settings);
+
+            builder.Build();
+            ctr = ctr.Using(builder.GetComparer());
+
+            var settings = builder.GetSettings();
+            ctr = ctr.Using(settings);
 
             //Manage transformations
             var transformationProvider = new TransformationProvider();

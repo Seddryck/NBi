@@ -8,7 +8,7 @@
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </default>
   </settings>
-  <!--<test name="'Reseller Order Count' by year before 2006" uid="0001">
+  <test name="'Reseller Order Count' by year before 2006" uid="0001">
     <system-under-test>
       <execution>
         <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
@@ -406,7 +406,7 @@
         </equalTo>
       </assert>
     </test>
-  </group>-->
+  </group>
   <group name="Compare by name">
     <test name="equalTo definition">
       <system-under-test>
@@ -448,7 +448,7 @@
         <equalTo keys-names="KeyField">
           <column name="Value" role="value" type="dateTime"/>
           <query>
-            select '2016-12-11' as [Value], null as 'Ignore', 'Alpha' as KeyField  union all select '2016-02-02' as 'Value', 'Youpla' as 'Ignore', 'Beta' as 'Key'
+            select '2016-12-10' as [Value], null as 'Ignore', 'Alpha' as KeyField  union all select '2016-02-02' as 'Value', 'Youpla' as 'Ignore', 'Beta' as 'Key'
           </query>
         </equalTo>
       </assert>

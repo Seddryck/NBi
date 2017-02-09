@@ -3,6 +3,7 @@
   Expected: 
 ResultSet with 26 rows
 
+     Number                 | Column2     
      KEY (Numeric)  (+/- 0) | VALUE (Text)
      ---------------------- | ------------ 
      1                      | A           
@@ -36,6 +37,7 @@ ResultSet with 26 rows
   But was:  
 ResultSet with 1 row
 
+     Number                 | Column2     
      KEY (Numeric)  (+/- 0) | VALUE (Text)
      ---------------------- | ------------ 
      1                      | A           
@@ -47,6 +49,7 @@ Missing rows:
 
 ResultSet with 25 rows
 
+     Number                 | Column2     
      KEY (Numeric)  (+/- 0) | VALUE (Text)
      ---------------------- | ------------ 
      2                      | B           

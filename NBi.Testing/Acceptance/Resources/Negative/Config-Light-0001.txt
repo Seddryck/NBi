@@ -18,7 +18,7 @@ Missing rows:
 
 ResultSet with 25 rows
 
-     Column1                | Column2     
+     Number                 | Column1     
      KEY (Numeric)  (+/- 0) | VALUE (Text)
      ---------------------- | ------------ 
      2                      | B           

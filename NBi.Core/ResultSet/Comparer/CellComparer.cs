@@ -19,10 +19,15 @@ namespace NBi.Core.ResultSet.Comparer
             if (x.ToString() != "(any)" && y.ToString() != "(any)")
             {
                 //Null management
-                if (DBNull.Value.Equals(x) || DBNull.Value.Equals(y))
+                if (DBNull.Value.Equals(x))
                 {
-                    if ((!DBNull.Value.Equals(x) && x.ToString() != "(null)") || (!DBNull.Value.Equals(y) && y.ToString() != "(null)"))
-                        return new ComparerResult(DBNull.Value.Equals(y) ? x.ToString() : "(null)");
+                    if (!DBNull.Value.Equals(y) && y.ToString() != "(null)" && y.ToString() != "(blank)")
+                        return new ComparerResult("(null)");
+                }
+                else if (DBNull.Value.Equals(y))
+                {
+                    if (!DBNull.Value.Equals(x) && x.ToString() != "(null)" && x.ToString() != "(blank)")
+                        return new ComparerResult(x.ToString());
                 }
                 //(value) management
                 else if (x.ToString() == "(value)" || y.ToString() == "(value)")

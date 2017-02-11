@@ -168,6 +168,7 @@
     <Compile Include="Unit\Core\Query\DbTypeBuilderTest.cs" />
     <Compile Include="Unit\Core\Query\QueryEngineFactoryTest.cs" />
     <Compile Include="Unit\Core\Report\FileParserTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Comparer\CellComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\JsonResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\KeyCollectionTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\BooleanComparerTest.cs" />

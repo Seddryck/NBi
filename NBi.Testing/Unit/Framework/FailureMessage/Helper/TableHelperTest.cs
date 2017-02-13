@@ -41,6 +41,52 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
         }
 
         [Test]
+        public void Build_TwoRowsByIndex_FirstRow()
+        {
+            var dataSet = new DataSet();
+            var dataTable = new DataTable() { TableName = "MyTable" };
+            dataTable.Columns.Add(new DataColumn("Id"));
+            dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
+            dataTable.Columns.Add(new DataColumn("Numeric value"));
+            dataTable.Columns.Add(new DataColumn("Boolean value"));
+            dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
+            dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+
+            var msg = new TableHelper(ComparisonStyle.ByName);
+            var value = msg.Build(dataTable.Rows.Cast<DataRow>()).ToMarkdown();
+
+            Assert.That(value.Count<char>(c => c == '\n'), Is.EqualTo(5));
+
+            var secondLineIndex = value.IndexOf('\n');
+            
+            var firstLine = value.Substring(0, secondLineIndex - 1);
+            Assert.That(firstLine.Replace(" ",""), Is.EqualTo("Id|Numericvalue|Booleanvalue"));
+        }
+
+        [Test]
+        public void Build_TwoRowsByName_FirstRow()
+        {
+            var dataSet = new DataSet();
+            var dataTable = new DataTable() { TableName = "MyTable" };
+            dataTable.Columns.Add(new DataColumn("Id"));
+            dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
+            dataTable.Columns.Add(new DataColumn("Numeric value"));
+            dataTable.Columns.Add(new DataColumn("Boolean value"));
+            dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
+            dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+
+            var msg = new TableHelper(ComparisonStyle.ByIndex);
+            var value = msg.Build(dataTable.Rows.Cast<DataRow>()).ToMarkdown();
+
+            Assert.That(value.Count<char>(c => c == '\n'), Is.EqualTo(5));
+
+            var secondLineIndex = value.IndexOf('\n');
+
+            var firstLine = value.Substring(0, secondLineIndex - 1);
+            Assert.That(firstLine.Replace(" ", ""), Is.EqualTo("#0(Id)|#1(Numericvalue)|#2(Booleanvalue)"));
+        }
+
+        [Test]
         public void Build_TwoRows_SeperationLineCorrectlyWritten()
         {
             var dataSet = new DataSet();

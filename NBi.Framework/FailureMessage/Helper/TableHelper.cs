@@ -15,6 +15,13 @@ namespace NBi.Framework.FailureMessage.Helper
 {
     class TableHelper
     {
+        
+        private readonly ComparisonStyle style;
+        public TableHelper(ComparisonStyle style)
+        {
+            this.style = style;
+        }
+
         public MarkdownContainer Build(IEnumerable<DataRow> dataRows)
         {
             var container = new MarkdownContainer();
@@ -79,12 +86,23 @@ namespace NBi.Framework.FailureMessage.Helper
             {
                 var formatter = new TableHeaderHelper();
                 var tableColumn = new TableColumnExtended();
-                var headerCell = new TableCellExtended() { Text = dataColumn.ColumnName };
+                var headerCell = new TableCellExtended() {  };
+                switch (style)
+                {
+                    case ComparisonStyle.ByIndex:
+                        headerCell.Text = string.Format("#{0} ({1})", headers.Count, dataColumn.ColumnName);
+                        break;
+                    case ComparisonStyle.ByName:
+                        headerCell.Text = string.Format("{0}", dataColumn.ColumnName);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                
                 tableColumn.HeaderCell = headerCell;
                 
                 if (dataColumn.ExtendedProperties.Count > 0)
                 {
-                    
                     var role = (ColumnRole)(dataColumn.ExtendedProperties["NBi::Role"] ?? ColumnRole.Key);
                     var type = (ColumnType)(dataColumn.ExtendedProperties["NBi::Type"] ?? ColumnType.Text);
                     var tolerance = (Tolerance)(dataColumn.ExtendedProperties["NBi::Tolerance"]);

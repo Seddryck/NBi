@@ -270,6 +270,7 @@
     <Compile Include="ResultSet\Comparer\NumericBoundedPercentageTolerance.cs" />
     <Compile Include="ResultSet\Comparer\NumericToleranceFactory.cs" />
     <Compile Include="ResultSet\Comparer\SideTolerance.cs" />
+    <Compile Include="ResultSet\ComparisonStyle.cs" />
     <Compile Include="ResultSet\Converter\BaseNumericConverter.cs" />
     <Compile Include="ResultSet\Converter\ConverterFactory.cs" />
     <Compile Include="ResultSet\Converter\IConverter.cs" />

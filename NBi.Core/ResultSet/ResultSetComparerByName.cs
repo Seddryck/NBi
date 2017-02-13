@@ -12,6 +12,14 @@ namespace NBi.Core.ResultSet
 {
     internal class ResultSetComparerByName : ResultSetComparer
     {
+        public override ComparisonStyle Style
+        {
+            get
+            {
+                return ComparisonStyle.ByName;
+            }
+        }
+
         private SettingsResultSetComparisonByName settings
         {
             get { return Settings as SettingsResultSetComparisonByName; }

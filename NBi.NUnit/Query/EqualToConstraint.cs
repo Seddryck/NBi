@@ -49,7 +49,7 @@ namespace NBi.NUnit.Query
 
         protected DataRowsMessage BuildFailure()
         {
-            var msg = new DataRowsMessage(Configuration.FailureReportProfile);
+            var msg = new DataRowsMessage(Engine.Style, Configuration.FailureReportProfile);
             msg.BuildComparaison(expectedResultSet.Rows.Cast<DataRow>(), actualResultSet.Rows.Cast<DataRow>(), result);
             return msg;
         }

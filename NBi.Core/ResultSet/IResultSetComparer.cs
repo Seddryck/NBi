@@ -6,5 +6,6 @@ namespace NBi.Core.ResultSet
     {
         ResultSetCompareResult Compare(object x, object y);
         ISettingsResultSetComparison Settings { get; set; }
+        ComparisonStyle Style { get; }
     }
 }

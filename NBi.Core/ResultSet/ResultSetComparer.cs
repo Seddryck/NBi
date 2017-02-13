@@ -20,6 +20,14 @@ namespace NBi.Core.ResultSet
 
         public ISettingsResultSetComparison Settings { get; set; }
 
+        public virtual ComparisonStyle Style
+        {
+            get
+            {
+                return ComparisonStyle.ByIndex;
+            }
+        }
+
         private readonly Dictionary<KeyCollection, CompareHelper> xDict = new Dictionary<KeyCollection, CompareHelper>();
         private readonly Dictionary<KeyCollection, CompareHelper> yDict = new Dictionary<KeyCollection, CompareHelper>();
 

@@ -15,6 +15,9 @@ namespace NBi.Framework.FailureMessage.Helper
 {
     class CompareTableHelper : TableHelper
     {
+        public CompareTableHelper(ComparisonStyle style)
+        : base(style) { }
+
         protected override List<TableRowExtended> BuildRows(IEnumerable<DataRow> dataRows, List<ColumnType> columnTypes)
         {
             var rows = new List<TableRowExtended>();

@@ -1,4 +1,4 @@
----
+--
 layout: documentation
 title: Define an etl
 prev_section: query-shared-dataset
@@ -32,6 +32,14 @@ If your package is not running on the default version of Sql Server (currently S
 * SqlServer2014
 * SqlServer2012
 * SqlServer2008R2
+
+{% highlight xml %}
+<etl 
+    name="myPackage" 
+    version="SqlServer2012"
+>
+</etl>
+{% endhighlight %}
 
 To be testable a package can be hosted on:
 

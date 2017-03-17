@@ -26,7 +26,7 @@ To achieve this, you’ll need to define your tested etl in the system-under-tes
 </system-under-test>
 {% endhighlight %}
 
-If your package is not running on the last version of Sql Server, you can specify it on the element *etl* by the means of the attribute *version*. The valid values for his attribute are:
+If your package is not running on the default version of Sql Server (currently SqlServer2014), you can specify it on the element *etl* by the means of the attribute *version*. The valid values for his attribute are:
 
 * SqlServer2016
 * SqlServer2014
@@ -38,7 +38,6 @@ To be testable a package can be hosted on:
 * Files folder
 * SQL Server
 * SSIS Catalog
-
 
 ### Hosted on a files folder
 To specify an etl available on a file folder, you must define its path in the corresponding xml attribute named *path*.  Note that this path is **relative** to your test-suite and should end by a backslash.

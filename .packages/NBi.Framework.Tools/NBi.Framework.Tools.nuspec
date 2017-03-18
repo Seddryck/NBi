@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>NBi.Framework.Tools</id>
-    <version>1.14.0.7</version>
+    <version>$version$</version>
     <authors>Cédric L. Charlier</authors>
     <owners>Cédric L. Charlier</owners>
     <licenseUrl>https://github.com/Seddryck/NBi/blob/master/LICENSE</licenseUrl>
@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This package contains the NBi framework and copy it to the tools folder. This package is not intended to be directly used by end-users. Check the package NBi.VisualStudio, if you want to facilitate the usage of NBi from Visual Studio</description>
     <summary>Testing framework (add-on to NUnit) for Business Intelligence. It supports the Microsoft Data platform (SQL Server Database engine, SSIS, SSAS, SSRS) but also MySQL, PostgreSQL and other solutions.</summary>
-	<releaseNotes>Corresponding to version 1.0.14.7 of NBi</releaseNotes>
+	<releaseNotes>Corresponding to version $version$ of NBi</releaseNotes>
     <copyright>Copyright 2013-2017</copyright>
     <tags>Test NBi SQL SSAS SSIS SSRS</tags>
   </metadata>

@@ -60,7 +60,7 @@ An expression let you define a mathematical calculation based on one or more var
 
 ## Predicate
 
-The predicate supports five different operators: *equal*, *more-than*, *less-than*, *empty* and *null*. The two options *more-than* and *less-than* also supports the variant *or-equal* moreover the option *null* supports the variant *or-empty*. In addition to this operator, you must also define the variable or expression that you want to validate this predicate. This indication is provided by the name of the variable or the expression.
+The predicate supports five different operators: *equal*, *more-than*, *less-than*, *empty* and *null*. The two options *more-than* and *less-than* also supports the variant *or-equal* moreover the option *empty* supports the variant *or-null*. In addition to this operator, you must also define the variable or expression that you want to validate this predicate. This indication is provided by the name of the variable or the expression.
 
 Each predicate is not valid for each type. The list of possible combinaison is described here under:
 

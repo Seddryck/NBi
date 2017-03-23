@@ -89,5 +89,25 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(moreThan.Value, Is.EqualTo("10"));
         }
 
+        [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyNullComparer()
+        {
+            int testNr = 1;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
+            var predicate = allRows.Predicate;
+
+            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
+            Assert.That(predicate.Name, Is.EqualTo("Name"));
+            Assert.That(predicate.Not, Is.EqualTo(false));
+            Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
+
+            Assert.That(predicate.Comparer, Is.TypeOf<NullXml>());
+            var nullPredicate = predicate.Comparer as NullXml;
+            Assert.That(nullPredicate.OrEmpty, Is.True);
+        }
+
     }
 }

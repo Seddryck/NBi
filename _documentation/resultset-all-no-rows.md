@@ -60,9 +60,17 @@ An expression let you define a mathematical calculation based on one or more var
 
 ## Predicate
 
-The predicate supports three different operators: *equal*, *more-than* and *less-than*. The last two options also supports the variant *or-equal*. In addition to this operator, you must also define the value or expression that you should validate this predicate. This indication is provided by the name of the variable or the expression.
+The predicate supports five different operators: *equal*, *more-than*, *less-than*, *empty* and *null*. The two options *more-than* and *less-than* also supports the variant *or-equal* moreover the option *null* supports the variant *or-empty*. In addition to this operator, you must also define the variable or expression that you want to validate this predicate. This indication is provided by the name of the variable or the expression.
 
-Predicates support the assertion of numerical and textual values (alphabetic order for *more-than* and *less-than*).
+Each predicate is not valid for each type. The list of possible combinaison is described here under:
+
+| Predicate | Text | Numeric | DateTime | Boolean 
+|-------------|:-----------------:|:-------------------:|
+| Equal  | Yes | Yes | Yes | Yes
+| More-than  | Yes | Yes | Yes | No
+| Less-than  | Yes | Yes | Yes | No
+| Null  | Yes | Yes | Yes | Yes
+| Empty  | Yes | No | No | No
 
 {% highlight xml %}
 <assertion>

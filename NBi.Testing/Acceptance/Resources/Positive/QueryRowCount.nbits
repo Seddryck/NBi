@@ -158,6 +158,28 @@
       </row-count>
     </assert>
   </test>
+  <test name="No CountryRegionCode is null or empty" uid="0002">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select
+          [Name], [CountryRegionCode], [Group]
+          from
+          [Sales].[SalesTerritory]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <variable column-index="1">Code</variable>
+        <predicate name="Code" type="text">
+          <null or-empty="true"/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
   <test name="Count of SalesTerritory for Europe is equal to more than 25%" uid="0001">
     <system-under-test>
       <execution>

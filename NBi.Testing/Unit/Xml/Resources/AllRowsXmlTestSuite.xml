@@ -37,7 +37,7 @@
       <all-rows>
         <variable column-index="0">Name</variable>
         <predicate name="Name" type="text">
-          <null or-empty="true"/>
+          <empty or-null="true"/>
         </predicate>
       </all-rows>
     </assert>

@@ -10,8 +10,6 @@ namespace NBi.Xml.Constraints.Comparer
 {
     public class NullXml : AbstractComparerXml
     {
-        [XmlAttribute("or-empty")]
-        [DefaultValue(false)]
-        public bool OrEmpty { get; set; }
+        
     }
 }

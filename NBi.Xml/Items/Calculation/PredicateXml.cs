@@ -82,12 +82,12 @@ namespace NBi.Xml.Items.Calculation
                     else
                         return ComparerType.LessThan;
                 if (Null != null)
-                    if (Null.OrEmpty)
+                    return ComparerType.Null;
+                if (Empty != null)
+                    if (Empty.OrNull)
                         return ComparerType.NullOrEmpty;
                     else
-                        return ComparerType.Null;
-                if (Empty != null)
-                    return ComparerType.Empty;
+                        return ComparerType.Empty;
                 return ComparerType.Equal;
             }
         }

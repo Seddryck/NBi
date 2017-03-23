@@ -427,10 +427,10 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
-  <xs:complexType name="null-type">
-    <xs:attribute name="or-empty" type="xs:boolean" use="optional" />
+  <xs:complexType name="null-type"/>
+  <xs:complexType name="empty-type">
+    <xs:attribute name="or-null" type="xs:boolean" use="optional" />
   </xs:complexType>
-  <xs:complexType name="empty-type"/>
   <xs:complexType name="condition-type">
     <xs:sequence minOccurs="1" maxOccurs="unbounded">
       <xs:element name="service-running" type="service-type" minOccurs="0" maxOccurs="unbounded"/>

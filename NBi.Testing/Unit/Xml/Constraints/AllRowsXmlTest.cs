@@ -104,9 +104,9 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(predicate.Not, Is.EqualTo(false));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
-            Assert.That(predicate.Comparer, Is.TypeOf<NullXml>());
-            var nullPredicate = predicate.Comparer as NullXml;
-            Assert.That(nullPredicate.OrEmpty, Is.True);
+            Assert.That(predicate.Comparer, Is.TypeOf<EmptyXml>());
+            var emptyPredicate = predicate.Comparer as EmptyXml;
+            Assert.That(emptyPredicate.OrNull, Is.True);
         }
 
     }

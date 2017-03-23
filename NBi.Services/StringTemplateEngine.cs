@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using Antlr4.StringTemplate;
 using NBi.Xml;
+using NBi.Xml.SerializationOption;
 
 namespace NBi.Service
 {
@@ -108,7 +109,10 @@ namespace NBi.Service
 
         protected static string SerializeFrom(object objectData, Type type)
         {
-            var serializer = new XmlSerializer(type);
+            var overrides = new WriteOnlyAttributes();
+            overrides.Build();
+
+            var serializer = new XmlSerializer(type, overrides);
             var result = string.Empty;
             using (var writer = new StringWriter())
             {

@@ -11,6 +11,7 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Settings;
 using NBi.Xml.Decoration.Command;
 using System.Text.RegularExpressions;
+using NBi.Xml.SerializationOption;
 
 namespace NBi.Xml
 {
@@ -102,7 +103,7 @@ namespace NBi.Xml
             //Add the attributes that should only be used during read phase
             //These attributes are kept for compatibility with previous versions
             //They should never been used during write process
-            var attrs = new SpecificReadAttributes();
+            var attrs = new ReadOnlyAttributes();
             attrs.Build();
 
             // Create an instance of the XmlSerializer specifying type and read-attributes.
@@ -340,8 +341,12 @@ namespace NBi.Xml
 
         public void Persist(string filename, TestSuiteXml testSuite)
         {
+            //Overrides some attributes sepcifically for writting (mostly enforce CDATA)
+            var overrides = new WriteOnlyAttributes();
+            overrides.Build();
+
             // Create an instance of the XmlSerializer specifying type and namespace.
-            var serializer = new XmlSerializer(typeof(TestSuiteXml));
+            var serializer = new XmlSerializer(typeof(TestSuiteXml), overrides);
 
             using (var writer = new StreamWriter(filename, false, Encoding.UTF8))
             {

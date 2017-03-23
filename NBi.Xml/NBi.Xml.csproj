@@ -173,6 +173,8 @@
     <Compile Include="Items\Xml\XmlSourceXml.cs" />
     <Compile Include="Items\Xml\XPathXml.cs" />
     <Compile Include="LocalXmlUrlResolver.cs" />
+    <Compile Include="SerializationOption\CData.cs" />
+    <Compile Include="SerializationOption\WriteOnlyAttributes.cs" />
     <Compile Include="Settings\CsvProfileXml.cs" />
     <Compile Include="Settings\SettingsStandaloneXml.cs" />
     <Compile Include="Settings\TraitXml.cs" />
@@ -183,7 +185,7 @@
     <Compile Include="Settings\IgnoreXml.cs" />
     <Compile Include="Settings\ReferenceXml.cs" />
     <Compile Include="Settings\SettingsXml.cs" />
-    <Compile Include="SpecificReadAttributes.cs" />
+    <Compile Include="SerializationOption\ReadOnlyAttributes.cs" />
     <Compile Include="Systems\AbstractSystemUnderTestXml.cs" />
     <Compile Include="Constraints\CountXml.cs" />
     <Compile Include="Constraints\EqualToXml.cs" />

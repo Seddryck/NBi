@@ -7,6 +7,10 @@ using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 using NBi.Xml.Constraints;
+using System.Xml.Serialization;
+using System.Text;
+using System.Diagnostics;
+using NBi.Xml.SerializationOption;
 
 namespace NBi.Testing.Unit.Xml.Items
 {
@@ -69,6 +73,7 @@ namespace NBi.Testing.Unit.Xml.Items
             var query = (QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
 
             Assert.That(query, Is.Not.Null);
+            Assert.That(query.GetQuery(), Is.StringContaining("select top 1 myColumn from myTable"));
             Assert.That(query.Parameters, Has.Count.EqualTo(0));
         }
 
@@ -142,6 +147,36 @@ namespace NBi.Testing.Unit.Xml.Items
 
         //    Assert.IsInstanceOf<OneRowQueryXml>(query);
         //}
+
+        [Test]
+        public void Serialize_InlineQuery_UseCData()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            var ctrXml = new EqualToXml();
+            var queryXml = new QueryXml
+            {
+                ConnectionString = "my connection-string",
+                InlineQuery = "select * from table"
+            };
+            ctrXml.Query = queryXml;
+
+            var overrides = new WriteOnlyAttributes();
+            overrides.Build();
+            var serializer = new XmlSerializer(typeof(EqualToXml), overrides);
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream, Encoding.UTF8);
+            serializer.Serialize(writer, ctrXml);
+            var content = Encoding.UTF8.GetString(stream.ToArray());
+            writer.Close();
+            stream.Close();
+
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("<![CDATA["));
+            Assert.That(content, Is.StringContaining("select * from table"));
+            Assert.That(content, Is.StringContaining("my connection-string"));
+            Assert.That(content.Split(new[] { ' ' }), Has.Exactly(1).EqualTo("*"));
+        }
 
     }
 }

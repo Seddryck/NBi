@@ -8,15 +8,13 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.Text
 {
-    class TextEqual : AbstractPredicateReference
+    class TextNullOrEmpty : IPredicate
     {
-        public TextEqual(object reference) : base(reference)
-        { }
-
-        public override bool Apply(object x)
+        public bool Apply(object x)
         {
-            var cpr = new TextComparer();
-            return cpr.Compare(x, Reference).AreEqual;
+            var nullPredicate = new TextNull();
+            var emptyPredicate = new TextEmpty();
+            return (nullPredicate.Apply(x) || emptyPredicate.Apply(x));
         }
     }
 }

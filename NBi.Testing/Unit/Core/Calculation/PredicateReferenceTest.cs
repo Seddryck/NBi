@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Testing.Unit.Core.Calculation
 {
-    public class PredicateTest
+    public class PredicateReferenceTest
     {
         [Test]
         [TestCase(ComparerType.Equal, "A", "A")]
@@ -28,11 +28,12 @@ namespace NBi.Testing.Unit.Core.Calculation
             var info = Mock.Of<IPredicateInfo>(
                     i => i.ColumnType== ColumnType.Text
                     && i.ComparerType == comparerType
+                    && i.Reference == y
                 );
 
             var factory = new PredicateFactory();
             var comparer = factory.Get(info);
-            Assert.That(comparer.Compare(x, y), Is.True);
+            Assert.That(comparer.Apply(x), Is.True);
         }
 
         [Test]
@@ -41,11 +42,12 @@ namespace NBi.Testing.Unit.Core.Calculation
             var info = Mock.Of<IPredicateInfo>(
                     i => i.ColumnType == ColumnType.Text
                     && i.ComparerType == ComparerType.Equal
+                    && i.Reference == (object)"(null)"
                 );
 
             var factory = new PredicateFactory();
             var comparer = factory.Get(info);
-            Assert.That(comparer.Compare(null, "(null)"), Is.True);
+            Assert.That(comparer.Apply(null), Is.True);
         }
 
         [Test]
@@ -65,11 +67,12 @@ namespace NBi.Testing.Unit.Core.Calculation
             var info = Mock.Of<IPredicateInfo>(
                     i => i.ColumnType == ColumnType.Numeric
                     && i.ComparerType == comparerType
+                    && i.Reference == y
                 );
 
             var factory = new PredicateFactory();
             var comparer = factory.Get(info);
-            Assert.That(comparer.Compare(x, y), Is.True);
+            Assert.That(comparer.Apply(x), Is.True);
         }
 
         [Test]
@@ -85,11 +88,12 @@ namespace NBi.Testing.Unit.Core.Calculation
             var info = Mock.Of<IPredicateInfo>(
                     i => i.ColumnType == ColumnType.DateTime
                     && i.ComparerType == comparerType
+                    && i.Reference == (object)new DateTime(2015, y, 1)
                 );
 
             var factory = new PredicateFactory();
             var comparer = factory.Get(info);
-            Assert.That(comparer.Compare(new DateTime(2015, x, 1), new DateTime(2015, y, 1)), Is.True);
+            Assert.That(comparer.Apply(new DateTime(2015, x, 1)), Is.True);
         }
 
         [Test]
@@ -101,11 +105,12 @@ namespace NBi.Testing.Unit.Core.Calculation
             var info = Mock.Of<IPredicateInfo>(
                     i => i.ColumnType == ColumnType.Boolean
                     && i.ComparerType == comparerType
+                    && i.Reference == y
                 );
 
             var factory = new PredicateFactory();
             var comparer = factory.Get(info);
-            Assert.That(comparer.Compare(x,y), Is.True);
+            Assert.That(comparer.Apply(x), Is.True);
         }
 
         [Test]
@@ -121,7 +126,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 );
 
             var factory = new PredicateFactory();
-            Assert.Throws<ArgumentException>(delegate { factory.Get(info); });
+            Assert.Throws<ArgumentOutOfRangeException>(delegate { factory.Get(info); });
         }
     }
 }

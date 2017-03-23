@@ -8,6 +8,6 @@ namespace NBi.Core.Calculation.Predicate
 {
     interface IPredicate
     {
-        bool Compare(object x, object y); 
+        bool Apply(object x); 
     }
 }

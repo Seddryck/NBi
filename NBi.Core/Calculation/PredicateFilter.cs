@@ -57,7 +57,7 @@ namespace NBi.Core.Calculation
                 }
 
                 var value = dico[predicateInfo.Name];
-                if (onApply(predicate.Compare(value, predicateInfo.Reference)))
+                if (onApply(predicate.Apply(value)))
                     filteredRs.Table.ImportRow(row);
             }
 

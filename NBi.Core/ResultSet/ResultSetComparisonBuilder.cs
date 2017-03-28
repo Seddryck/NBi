@@ -1,6 +1,7 @@
 ﻿using NBi.Core.ResultSet.Comparer;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,9 @@ namespace NBi.Core.ResultSet
         {
             isBuild = false;
 
+            if (columnsDef == null)
+                columnsDef = new List<IColumnDefinition>();
+
             if (isMultipleRows
                 && (keysDef != 0 || valuesDef != 0)
                 && (!string.IsNullOrEmpty(keyNames) || !string.IsNullOrEmpty(valueNames)))
@@ -47,6 +51,10 @@ namespace NBi.Core.ResultSet
                 && (!string.IsNullOrEmpty(keyNames) || !string.IsNullOrEmpty(valueNames))
                 && columnsDef.Any(c => c.Index != 0))
                 throw new InvalidOperationException("You cannot define a comparison by name and specify some column's definitions where you explicitely give a value to the 'index' attribute. Use attribute 'index' in place of 'name'.");
+
+            if (isMultipleRows
+                && columnsDef.Any(c => c.Type == ColumnType.Table && c.Role == ColumnRole.Key))
+                throw new InvalidOperationException("You cannot specify a column's as a sub-table and as a key.");
 
             if (columnsDef.Any(c => c.Index != 0 && !string.IsNullOrEmpty(c.Name)))
                 throw new InvalidOperationException("You cannot define some column's definitions where you explicitely give a value to the 'index' attribute and to the 'name' attribute. Use attribute 'index' or 'name' but not both.");
@@ -107,10 +115,40 @@ namespace NBi.Core.ResultSet
 
         }
 
+        public void Setup(SettingsResultSetComparisonByName settings)
+        {
+            isBuild = false;
+            this.settings = settings;
+            isSetup = true;
+        }
+
         public void Build()
         {
             if (!isSetup)
                 throw new InvalidOperationException();
+
+            if (settings == null)
+                BuildSettings();
+
+            BuildComparer();
+            isBuild = true;
+        }
+
+        protected void BuildComparer()
+        {
+            if (settings is SettingsSingleRowComparison)
+                comparer = new SingleRowComparer(settings as SettingsSingleRowComparison);
+
+            else if (settings is SettingsResultSetComparisonByIndex)
+                comparer = new ResultSetComparerByIndex(settings as SettingsResultSetComparisonByIndex);
+
+            else if (settings is SettingsResultSetComparisonByName)
+                comparer = new ResultSetComparerByName(settings as SettingsResultSetComparisonByName);
+        }
+
+        protected void BuildSettings()
+        {
+
 
             var isByName = !string.IsNullOrEmpty(keyNames)
                         || !string.IsNullOrEmpty(valueNames)
@@ -118,28 +156,49 @@ namespace NBi.Core.ResultSet
 
             if (isMultipleRows && isByName)
             {
-                var settings = new SettingsResultSetComparisonByName(keyNames, valueNames, valuesDefaultType, defaultTolerance, columnsDef);
-                comparer = new ResultSetComparerByName(settings);
-                this.settings = settings;
+                var keyNamesList = new List<string>();
+                if (!string.IsNullOrEmpty(keyNames))
+                {
+                    var keys = keyNames.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    keyNamesList.AddRange((keys.Select(x => x.Trim()).ToList()));
+                }
+
+                var valueNamesList = new List<string>();
+                if (!string.IsNullOrEmpty(valueNames))
+                {
+                    var values = valueNames.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    valueNamesList.AddRange((values.Select(x => x.Trim()).ToList()));
+                }
+
+                var allColumns =
+                    keyNamesList.Select(x => new Column() { Name = x, Role = ColumnRole.Key, Type = ColumnType.Text })
+                    .Union(valueNamesList.Select(x => new Column() { Name = x, Role = ColumnRole.Value, Type = valuesDefaultType })
+                    .Union(columnsDef)
+                    );
+
+                var subGroups = allColumns.Select(x => x.Name.Split(new char[] { '.' }, 2)).Where(x => x.Length == 2).GroupBy(x => x[0]).Select((x, y) => x.Key);
+                var subSettings = new List<SettingsResultSetComparisonByName>();
+                foreach (var subGroup in subGroups)
+                {
+                    subSettings.Add(new SettingsResultSetComparisonByName(subGroup, allColumns.Where(x => x.Name.StartsWith(subGroup + ".")), valuesDefaultType, defaultTolerance));
+                }
+
+
+                settings = new SettingsResultSetComparisonByName(allColumns, valuesDefaultType, defaultTolerance, subSettings);
             }
-                
+
             else if (isMultipleRows && !isByName)
             {
-                var settings = new SettingsResultSetComparisonByIndex(keysDef, valuesDef, valuesDefaultType, defaultTolerance, columnsDef);
-                comparer = new ResultSetComparerByIndex(settings);
-                this.settings = settings;
+                settings = new SettingsResultSetComparisonByIndex(keysDef, valuesDef, valuesDefaultType, defaultTolerance, columnsDef);
             }
-                
+
             else if (!isMultipleRows)
             {
-                var settings = new SettingsSingleRowComparison(valuesDefaultType, defaultTolerance, columnsDef);
-                comparer = new SingleRowComparer(settings);
-                this.settings = settings;
+                settings = new SettingsSingleRowComparison(valuesDefaultType, defaultTolerance, columnsDef);
             }
             else
                 throw new InvalidOperationException();
 
-            isBuild = true;
         }
 
         public ISettingsResultSetComparison GetSettings()

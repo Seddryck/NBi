@@ -20,11 +20,11 @@ namespace NBi.Testing.Unit.Core.Query
         }
 
         [Test]
-        public void Build_TimeoutSetToZero_TimeoutSet30Seconds()
+        public void Build_TimeoutSetToZero_TimeoutSet0Seconds()
         {
             var builder = new CommandBuilder();
             var cmd = builder.Build("Data Source=server;Initial Catalog=database;Integrated Security=SSPI", "WAITFOR DELAY '00:00:15'", null, null, 0);
-            Assert.That(cmd.CommandTimeout, Is.EqualTo(30));
+            Assert.That(cmd.CommandTimeout, Is.EqualTo(0));
         }
 
         [Test]

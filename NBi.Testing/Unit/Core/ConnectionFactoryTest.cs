@@ -81,6 +81,18 @@ namespace NBi.Testing.Unit.Core
         }
 
         [Test]
+        public void Get_SqlOleDb_OledbConnection()
+        {
+            //Call the method to test
+            var connStr = "Provider=sqlOledB;Data Source=ds;Initial Catalog=ic";
+            var actual = new ConnectionFactory().Get(connStr);
+
+            //Assertion
+            Assert.That(actual, Is.InstanceOf<OleDbConnection>());
+            Assert.That(actual.ConnectionString, Is.EqualTo(connStr));
+        }
+
+        [Test]
         public void Get_SqlNCli_OleDbConnection()
         {
             //Call the method to test

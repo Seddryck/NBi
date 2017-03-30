@@ -71,9 +71,10 @@ namespace NBi.Core
                 return customProviders[provider];
 
             if (provider.ToLowerInvariant().StartsWith("msolap")) return "Microsoft.AnalysisServices.AdomdClient";
-            if (provider.ToLowerInvariant().StartsWith("sqlncli")) return "System.Data.OleDb"; //Indeed OleDb it's not a mistake!
+            if (provider.ToLowerInvariant().StartsWith("sqlncli")) return "System.Data.OleDb"; //Indeed OleDb it's not a mistake! SQL Server Native Client 
             if (provider.ToLowerInvariant().StartsWith("oledb")) return "System.Data.OleDb";
-            
+            if (provider.ToLowerInvariant().StartsWith("sqloledb")) return "System.Data.OleDb"; // SQL Server OLE DB driver 
+
             return null;
         }
 

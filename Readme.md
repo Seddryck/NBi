@@ -1,11 +1,11 @@
 ![Logo](https://github.com/Seddryck/nbi/raw/gh-pages/img/logo-2x.png)
 # NBi #
-NBi is a **testing framework** (add-on to NUnit) for Microsoft **Business Intelligence** platform (SQL Server Database engine, SSIS, SSAS, SSRS) and Data Access.
+NBi is a **testing framework** (add-on to NUnit) for **Business Intelligence**. It supports most of the relational databases (SQL server, MySQL, postgreSQL ...) and OLAP platforms (Analysis Services, Mondrian ...) but also ETL and reporting components (Microsoft technologies).
 
 The main goal of this framework is to let users create tests with a declarative approach based on an **Xml** syntax. By the means of NBi, you don't need to develop C# code to specify your tests! Either, you don't need Visual Studio to compile your test suite. Just create an Xml file and let the framework interpret it and play your tests. The framework is designed as an add-on of NUnit but with the possibility to port it easily to other testing frameworks.
 
 [![Build status](https://img.shields.io/badge/website-nbi.io-fe762d.svg)](http://www.nbi.io)
-[![Build status](https://ci.appveyor.com/api/projects/status/t5m0hr57vnsdv0v7?svg=true)](https://ci.appveyor.com/project/CdricLCharlier/nbi)
+[![Build status](https://ci.appveyor.com/api/projects/status/t5m0hr57vnsdv0v7?svg=true)](https://ci.appveyor.com/project/Seddryck/nbi)
 ![Still maintained](https://img.shields.io/maintenance/yes/2017.svg)
 [![licence badge]][licence]
 [![stars badge]][stars]
@@ -29,7 +29,7 @@ NBi is available on the terms of Apache 2.0. NBi is also using several OSS proje
 The list of bugs and feature's requests is hosted on [GitHub](https://github.com/Seddryck/NBi/issues)
 
 ## Continuous Integration ##
-A continuous integration service is available on AppVeyor at [https://ci.appveyor.com/project/CdricLCharlier/nbi/]
+A continuous integration service is available on AppVeyor at [https://ci.appveyor.com/project/Seddryck/nbi/]
 Note that all the tests are not executed on this environment due to limitations in the availability of some components.
 
 - Unit tests are always executed
@@ -42,7 +42,7 @@ Note that all the tests are not executed on this environment due to limitations 
     - Report Server: No (but planned to integrate them)
 - Acceptance tests are excluded
 
-[![Build status](https://ci.appveyor.com/api/projects/status/t5m0hr57vnsdv0v7)](https://ci.appveyor.com/project/CdricLCharlier/nbi)
+[![Build status](https://ci.appveyor.com/api/projects/status/t5m0hr57vnsdv0v7)](https://ci.appveyor.com/project/Seddryck/nbi)
 
 Two artefacts are provided by this CI:
 

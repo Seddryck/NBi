@@ -62,8 +62,8 @@ namespace NBi.Core.Query
         public IDbCommand Build(string connectionString, string query, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> variables, int timeout)
         {
             var cmd = Build(connectionString, query, parameters, variables);
-            if (timeout>0)
-                cmd.CommandTimeout = (int)Math.Ceiling(timeout / 1000.0); ;
+            var commandTimeout = Math.Max(0, (int)Math.Ceiling(timeout / 1000.0));
+            cmd.CommandTimeout = commandTimeout;
             return cmd;
         }
 

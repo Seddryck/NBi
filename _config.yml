@@ -1,13 +1,14 @@
 # Site settings
-title: NBi - Testing framework for Microsoft Business Intelligence platform
+title: NBi - Testing framework for Business Intelligence
 email: cedric.charlier@yucom.be
 description: > # this means to ignore newlines until "baseurl:"
-  NBi is a testing framework (add-on to NUnit) for Microsoft Business Intelligence platform and Data Access.
+  NBi is a testing framework (add-on to NUnit) for Business Intelligence and Data Access.
   The main goal of this framework is to let users create tests with a declarative approach based on an Xml syntax.
-  By the means of NBi, you don't need to develop C# code to specify your tests!
-  Either, you don't need Visual Studio to compile your test suite.
+  By the means of NBi, you don't need to develop C# or Java code to specify your tests!
+  Either, you don't need Visual Studio or Eclipse to compile your test suite.
   Just create an Xml file and let the framework interpret it and play your tests.
   The framework is designed as an add-on of NUnit but with the possibility to port it easily to other testing frameworks.
+  The framework supports most of the relational databases (SQL server, MySQL, postgreSQL) and OLAP databases (Analysis Service, Mondrian). Support for ETL and reports is limited to Microsoft Technologies (SQL Server - SSIS/SSRS)
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://www.nbi.io" # the base hostname & protocol for your site
 twitter_username: Seddryck

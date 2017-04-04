@@ -8,7 +8,7 @@ This site aims to be a comprehensive guide to NBi. We’ll cover topics such as 
 
 So what is NBi, exactly?
 ------------------------
-NBi is a simple but powerful framework for testing BI solutions. It's designed for Microsoft Business Intelligence platform but it also (partially) supports other platforms. Its scope includes relational databases, olap/cubes databases, etls and reports.
+NBi is a simple but powerful framework for testing BI solutions. It was initially designed for Microsoft Business Intelligence platform but it's now supporting other platforms such as MySQL, PostgreSQL or Mondrian. Its scope includes relational databases, olap/cubes databases, etls and reports and with the upcoming releases NoSQL databases such as Neo4j, MongoDB or DocumentDB (through the REST API).
 
 How does it work?
 -----------------

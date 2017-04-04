@@ -1,3 +1,4 @@
+
 ![Logo](https://github.com/Seddryck/nbi/raw/gh-pages/img/logo-2x.png)
 # NBi #
 NBi is a **testing framework** (add-on to NUnit) for **Business Intelligence**. It supports most of the relational databases (SQL server, MySQL, postgreSQL ...) and OLAP platforms (Analysis Services, Mondrian ...) but also ETL and reporting components (Microsoft technologies).
@@ -7,6 +8,7 @@ The main goal of this framework is to let users create tests with a declarative 
 [![Build status](https://img.shields.io/badge/website-nbi.io-fe762d.svg)](http://www.nbi.io)
 [![Build status](https://ci.appveyor.com/api/projects/status/t5m0hr57vnsdv0v7?svg=true)](https://ci.appveyor.com/project/Seddryck/nbi)
 ![Still maintained](https://img.shields.io/maintenance/yes/2017.svg)
+![nuget](https://img.shields.io/nuget/v/NBi.Framework.svg) 
 [![licence badge]][licence]
 [![stars badge]][stars]
 

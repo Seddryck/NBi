@@ -12,6 +12,8 @@
       <table-load   name="Users"
 					file ="Users.csv"
 					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"/>
+      <sql-run name="MySQLtoRun.sql" version="SqlServer2016" />
+      <sql-run name="MySQLtoRun.sql" />
     </setup>
     <system-under-test>
       <execution>

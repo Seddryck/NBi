@@ -53,7 +53,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Setup.Commands, Has.Count.EqualTo(2));
+            Assert.That(ts.Tests[testNr].Setup.Commands, Has.Count.EqualTo(4));
         }
 
         [Test]
@@ -110,6 +110,27 @@ namespace NBi.Testing.Unit.Xml.Decoration
             var cmd = ts.Tests[testNr].Setup.Commands[0] as TableResetXml;
             Assert.That(cmd.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));
             Assert.That(cmd.TableName, Is.EqualTo("Users"));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_SqlRunCommand()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Setup.Commands[2], Is.TypeOf<SqlRunXml>());
+            var cmd = ts.Tests[testNr].Setup.Commands[2] as SqlRunXml;
+            Assert.That(cmd.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));
+            Assert.That(cmd.Name, Is.EqualTo("MySQLtoRun.sql"));
+            Assert.That(cmd.Version, Is.EqualTo("SqlServer2016"));
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Setup.Commands[3], Is.TypeOf<SqlRunXml>());
+            var cmd2 = ts.Tests[testNr].Setup.Commands[3] as SqlRunXml;
+            Assert.That(cmd2.Version, Is.EqualTo("SqlServer2014"));
         }
 
         [Test]

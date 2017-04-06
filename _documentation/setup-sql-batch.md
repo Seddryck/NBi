@@ -9,7 +9,7 @@ The following command is only available on a **Sql Server** instance.
 
 * _sql-run_: this command run a batch of sql commands on your Sql Server instance.
 
-The xml attribute named _name_ expects the name of the file containing the Sql commands. The attribute _path_ is the path for the folder containing this file. This path must be relative to the test-suite. The attribute _connectionString_ lets you define the connection-string for the targeted database.
+The xml attribute named _name_ expects the name of the file containing the Sql commands. The attribute _path_ is the path for the folder containing this file. This path must be relative to the test-suite. The attribute _connectionString_ lets you define the connection-string for the targeted database. This connection-string but me a SqlClient connection-string and cannot be an OleDb or ODBC connection-string (avoid provider or driver parameters).
 
 {% highlight xml %}
 <setup>

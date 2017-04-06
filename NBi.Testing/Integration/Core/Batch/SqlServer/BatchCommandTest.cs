@@ -55,16 +55,8 @@ namespace NBi.Testing.Integration.Core.Batch.SqlServer
             //Build the fullpath for the file to read
             FileName = DiskOnFile.CreatePhysicalFile(BATCH_FILE, "NBi.Testing.Integration.Core.Batch." + BATCH_FILE);
 
-            //Mock the commandXml
-            var info = Mock.Of<IBatchRunCommand>
-                (
-                    c => c.FullPath == BATCH_FILE
-                        && c.ConnectionString == ConnectionStringReader.GetLocalSqlClient()
-                        && c.Version == "SqlServer2014"
-                );
-
             //Apply the test
-            var runCommand = new BatchRunCommand(info, new SqlConnection(ConnectionStringReader.GetLocalSqlClient()));
+            var runCommand = new BatchRunCommand(BATCH_FILE, ConnectionStringReader.GetLocalSqlClient());
             runCommand.Execute();
 
             var countTable = 0;

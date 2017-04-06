@@ -119,7 +119,6 @@
     <Compile Include="Connection\ConnectionWaitFactory.cs" />
     <Compile Include="CsvWriter.cs" />
     <Compile Include="Batch\BatchRunnerFactory.cs" />
-    <Compile Include="Batch\IBatchCommand.cs" />
     <Compile Include="Batch\IBatchRunnerFatory.cs" />
     <Compile Include="Batch\IBatchRunCommand.cs" />
     <Compile Include="DataType\CaptionFilter.cs" />

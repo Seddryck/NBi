@@ -20,7 +20,7 @@ namespace NBi.Xml.Decoration.Command
         public string InternalPath { get; set; }
 
         [XmlIgnore]
-        public string FullPath
+        public virtual string FullPath
         {
             get
             {

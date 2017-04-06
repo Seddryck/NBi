@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Batch
 {
-    public interface IBatchRunCommand : IBatchCommand
+    public interface IBatchRunCommand
     {
         string FullPath { get; }
+
+        string ConnectionString { get; }
+
+        string Version { get; }
     }
 }

@@ -16,10 +16,10 @@ namespace NBi.Core.SqlServer.Smo
         private readonly string connectionString;
         private readonly string fullPath;
 
-        public BatchRunCommand(IBatchRunCommand command, SqlConnection connection)
+        public BatchRunCommand(string fullPath, string connectionString)
         {
-            this.connectionString = connection.ConnectionString;
-            this.fullPath = command.FullPath;
+            this.connectionString = connectionString;
+            this.fullPath = fullPath;
         }       
 
         public void Execute()

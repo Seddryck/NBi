@@ -9,6 +9,6 @@ namespace NBi.Core.Batch
 {
     public interface IBatchRunnerFatory
     {
-        IDecorationCommandImplementation Get(IBatchCommand command, IDbConnection connection);
+        IDecorationCommandImplementation Get(IBatchRunCommand command, IDbConnection connection);
     }
 }

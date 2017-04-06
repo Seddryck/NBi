@@ -190,6 +190,7 @@
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
     <Compile Include="Unit\Core\CsvReaderTest.cs" />
+    <Compile Include="Unit\Core\SqlServer\Smo\SmoBatchRunnerFactoryTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\HierarchyDiscoveryCommandBuilderTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\MeasureDiscoveryCommandBuilderTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\DimensionDiscoveryCommandBuilderTest.cs" />

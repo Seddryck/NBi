@@ -699,6 +699,7 @@
     <Content Include="Acceptance\Resources\PowerBiDesktop\Source.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Unit\Xml\Resources\CsvProfileXmlTestSuite2.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SharedDatasetXmlTestSuite.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

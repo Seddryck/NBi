@@ -314,6 +314,30 @@ namespace NBi.Testing.Unit.Xml.Settings
         }
 
         [Test]
+        public void DeserializeCsvProfile_CsvProfileSetToDefaultFirstRowHeader_False()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("CsvProfileXmlTestSuite");
+
+            //The Csv Profile is correctly set
+            var profile = ts.Settings.CsvProfile;
+            Assert.That(profile, Is.Not.Null);
+            Assert.That(profile.FirstRowHeader, Is.False);
+        }
+
+        [Test]
+        public void DeserializeCsvProfile_CsvProfileSetToFirstRowHeader_True()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("CsvProfileXmlTestSuite2");
+
+            //The Csv Profile is correctly set
+            var profile = ts.Settings.CsvProfile;
+            Assert.That(profile, Is.Not.Null);
+            Assert.That(profile.FirstRowHeader, Is.True);
+        }
+
+        [Test]
         public void Serialize_CardinalForFieldSeparator_FieldSeparatorSpecified()
         {
             var profile = new CsvProfileXml();
@@ -332,6 +356,9 @@ namespace NBi.Testing.Unit.Xml.Settings
             Assert.That(xml, Is.Not.StringContaining("<FieldSeparator>"));
             Assert.That(xml, Is.Not.StringContaining("<TextQualifier>"));
             Assert.That(xml, Is.Not.StringContaining("<RecordSeparator>"));
+            Assert.That(xml, Is.Not.StringContaining("<FirstRowHeader>"));
+
+            Assert.That(xml, Is.Not.StringContaining("first-row-header"));
         }
 
         [Test]
@@ -345,6 +372,30 @@ namespace NBi.Testing.Unit.Xml.Settings
             var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
 
             Assert.That(xml, Is.Not.StringContaining("record-separator"));
+        }
+
+        [Test]
+        public void Serialize_TrueForFirstRowHeader_FirstRowHeaderSpecified()
+        {
+            var profile = new CsvProfileXml();
+            profile.FirstRowHeader=true;
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
+
+            Assert.That(xml, Is.StringContaining("first-row-header"));
+        }
+
+        [Test]
+        public void Serialize_FalseForFirstRowHeader_FirstRowHeaderSpecified()
+        {
+            var profile = new CsvProfileXml();
+            profile.FirstRowHeader = false;
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
+
+            Assert.That(xml, Is.Not.StringContaining("first-row-header"));
         }
 
         [Test]

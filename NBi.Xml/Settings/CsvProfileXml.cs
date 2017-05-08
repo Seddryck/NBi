@@ -63,6 +63,23 @@ namespace NBi.Xml.Settings
             }
         }
 
+        [XmlAttribute("first-row-header")]
+        [DefaultValue(false)]
+        public bool InternalFirstRowHeader { get; set; }
+
+        [XmlIgnore]
+        public override bool FirstRowHeader
+        {
+            get
+            {
+                return InternalFirstRowHeader;
+            }
+            set
+            {
+                InternalFirstRowHeader = value;
+            }
+        }
+
         public CsvProfileXml(char fieldSeparator, string recordSeparator)
             : base(fieldSeparator, recordSeparator)
         {}

@@ -143,20 +143,25 @@ namespace NBi.Core
                         { 
                             isLastRecord = IsLastRecord(recordToParse);
                             var cleanRecord = CleanRecord(recordToParse, Definition.RecordSeparator);
-                            var cells = SplitLine(cleanRecord);
+                            var cells = SplitLine(cleanRecord).ToList();
                             var row = table.NewRow();
-                            if (row.ItemArray.Length<cells.Length)
+                            if (row.ItemArray.Length<cells.Count)
                                 throw new InvalidDataException
                                 (
                                     string.Format
                                     (
                                         "The row {0} contains {1} more field{2} than expected."
                                         , table.Rows.Count + 1 + Convert.ToInt32(firstRowHeader)
-                                        , cells.Length - row.ItemArray.Length
-                                        , cells.Length - row.ItemArray.Length>1 ? "s" : string.Empty
+                                        , cells.Count - row.ItemArray.Length
+                                        , cells.Count - row.ItemArray.Length>1 ? "s" : string.Empty
                                     )
                                 );
-                            row.ItemArray = cells;
+
+                            //fill the missing cells
+                            while (row.ItemArray.Length > cells.Count)
+                                cells.Add(Definition.MissingCell);
+
+                            row.ItemArray = cells.ToArray();
                             table.Rows.Add(row);
                         }
                     }
@@ -169,12 +174,18 @@ namespace NBi.Core
             return table;
         }
 
-        protected string[] SplitLine(string row)
+        protected IEnumerable<string> SplitLine(string row)
         {
-            var items = new List<string>();
             var list = new List<string>(row.Split(Definition.FieldSeparator));
-            list.ForEach(item => items.Add(RemoveTextQualifier(item)));
-            return items.ToArray();
+
+            foreach (var item in list)
+            {
+                var value = RemoveTextQualifier(item);
+                if (string.IsNullOrEmpty(value))
+                    yield return Definition.EmptyCell;
+                else
+                    yield return value;
+            }
         }
 
         protected internal string RemoveTextQualifier(string item)

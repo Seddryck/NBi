@@ -326,6 +326,19 @@ namespace NBi.Testing.Unit.Xml.Settings
         }
 
         [Test]
+        public void DeserializeCsvProfile_CsvProfileSetToDefaultMissingemptyValues_Default()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("CsvProfileXmlTestSuite");
+
+            //The Csv Profile is correctly set
+            var profile = ts.Settings.CsvProfile;
+            Assert.That(profile, Is.Not.Null);
+            Assert.That(profile.EmptyCell, Is.EqualTo("(empty)"));
+            Assert.That(profile.MissingCell, Is.EqualTo("(null)"));
+        }
+
+        [Test]
         public void DeserializeCsvProfile_CsvProfileSetToFirstRowHeader_True()
         {
             // Create an instance of the XmlSerializer specifying type and namespace.
@@ -335,6 +348,19 @@ namespace NBi.Testing.Unit.Xml.Settings
             var profile = ts.Settings.CsvProfile;
             Assert.That(profile, Is.Not.Null);
             Assert.That(profile.FirstRowHeader, Is.True);
+        }
+
+        [Test]
+        public void DeserializeCsvProfile_CsvProfileSetToEmptyCell_True()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("CsvProfileXmlTestSuite2");
+
+            //The Csv Profile is correctly set
+            var profile = ts.Settings.CsvProfile;
+            Assert.That(profile, Is.Not.Null);
+            Assert.That(profile.EmptyCell, Is.EqualTo("empty value"));
+            Assert.That(profile.MissingCell, Is.EqualTo("missing value"));
         }
 
         [Test]
@@ -396,6 +422,31 @@ namespace NBi.Testing.Unit.Xml.Settings
             var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
 
             Assert.That(xml, Is.Not.StringContaining("first-row-header"));
+        }
+
+        [Test]
+        public void Serialize_EmptyForEmpytCell_EmptyCellNotSpecified()
+        {
+            var profile = new CsvProfileXml();
+            profile.EmptyCell = "(empty)";
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
+
+            Assert.That(xml, Is.Not.StringContaining("empty-cell"));
+        }
+
+        [Test]
+        public void Serialize_StringForEmpytCell_EmptyCellSpecified()
+        {
+            var profile = new CsvProfileXml();
+            profile.EmptyCell = "my value";
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
+
+            Assert.That(xml, Is.StringContaining("empty-cell"));
+            Assert.That(xml, Is.StringContaining("my value"));
         }
 
         [Test]

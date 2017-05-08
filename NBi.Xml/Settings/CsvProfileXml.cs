@@ -80,6 +80,44 @@ namespace NBi.Xml.Settings
             }
         }
 
+        [XmlAttribute("empty-cell")]
+        [DefaultValue("(empty)")]
+        public string InternalEmptyCell { get; set; }
+
+        [XmlIgnore]
+        public override string EmptyCell
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(InternalEmptyCell))
+                    return "(empty)";
+                return InternalEmptyCell;
+            }
+            set
+            {
+                InternalEmptyCell = value;
+            }
+        }
+
+        [XmlAttribute("missing-cell")]
+        [DefaultValue("(null)")]
+        public string InternalMissingCell { get; set; }
+
+        [XmlIgnore]
+        public override string MissingCell
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(InternalMissingCell))
+                    return "(null)";
+                return InternalMissingCell;
+            }
+            set
+            {
+                InternalMissingCell = value;
+            }
+        }
+
         public CsvProfileXml(char fieldSeparator, string recordSeparator)
             : base(fieldSeparator, recordSeparator)
         {}

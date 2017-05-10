@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
   <settings>
-    <csv-profile field-separator="Tab"/>
+    <csv-profile field-separator="Tab" empty-cell="(null)"/>
   </settings>
 	<test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">
 		<system-under-test>
 			<execution>
-				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2016;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
 					SELECT
 					[Measures].[Reseller Order Count] ON 0,
 					{[Date].[Calendar Year].[CY 2005]:[Date].[Calendar Year].[CY 2008]} ON 1
@@ -23,4 +23,20 @@
 			</equalTo>
 		</assert>
 	</test>
+  <test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">
+    <system-under-test>
+      <execution>
+        <query name="MDX Except" connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+          SELECT [Key]=1,Val1='2',Val3=NULL,Val3='3'
+          UNION
+          SELECT [Key]=4,Val1=NULL,Val2='3',Val3='2'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo keys="first" behavior="multiple-rows" values="all-except-first" values-default-type="text">
+        <resultSet file="..\Csv\SampleData.csv"/>
+      </equalTo>
+    </assert>
+  </test>
 </testSuite>

@@ -425,6 +425,7 @@
     </None>
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToCsvWithProfile.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToQuery - MySQL.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -696,6 +697,9 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Acceptance\Resources\Csv\SampleData.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="Acceptance\Resources\PowerBiDesktop\Source.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -33,6 +33,7 @@
       <xs:element type="parameter-type" minOccurs="0" maxOccurs="unbounded" name="parameter"/>
       <xs:element type="variable-type" minOccurs="0" maxOccurs="unbounded" name="variable"/>
       <xs:element type="report-base-type" minOccurs="0" maxOccurs="1" name="report"/>
+      <xs:element type="etl-base-type" minOccurs="0" maxOccurs="1" name="etl"/>
     </xs:sequence>
     <xs:attribute name="apply-to" use="required">
       <xs:simpleType>
@@ -59,6 +60,7 @@
       <xs:element name="numeric-format" type="numeric-format-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="currency-format" type="currency-format-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="report" type="report-base-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="etl" type="etl-base-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
     <xs:attribute name="name" type="xs:string" use="required"/>
   </xs:complexType>
@@ -90,10 +92,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="etl-type">
-    <xs:sequence>
-      <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
-    </xs:sequence>
+  <xs:complexType name="etl-base-type">
     <xs:attribute name="version" type="xs:string"/>
     <xs:attribute name="server" type="xs:string"/>
     <xs:attribute name="catalog" type="xs:string"/>
@@ -104,8 +103,17 @@
     <xs:attribute name="name" type="xs:string"/>
     <xs:attribute name="username" type="xs:string"/>
     <xs:attribute name="password" type="xs:string"/>
-    <xs:attribute name="bits-32" type="xs:boolean"/>
-    <xs:attribute name="timeout" type="xs:integer"/>
+  </xs:complexType>
+  <xs:complexType name="etl-type">
+    <xs:complexContent>
+      <xs:extension base="etl-base-type">
+        <xs:sequence>
+          <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
+        </xs:sequence>
+        <xs:attribute name="bits-32" type="xs:boolean"/>
+        <xs:attribute name="timeout" type="xs:integer"/>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="category-type">
     <xs:simpleContent>

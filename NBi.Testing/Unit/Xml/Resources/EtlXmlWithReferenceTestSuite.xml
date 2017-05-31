@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+		</default>
+    <reference name="MyRef">
+      <etl server="127.0.0.1" environment="Environment"/>
+    </reference>
+    <reference name="MyRef2">
+      <etl version="SqlServer2012" server="127.0.0.1" environment="Environment"/>
+    </reference>
+	</settings>
+	<test name="No override" uid="0000">
+		<system-under-test>
+			<execution>
+        <etl path="/Etl/" name="Sample" server="@MyRef" environment="@MyRef"/>
+			</execution>
+		</system-under-test>
+		<assert>
+      <successful/>
+		</assert>
+	</test>
+  <test name="With override" uid="0001">
+    <system-under-test>
+      <execution>
+        <etl path="/Etl/" name="Sample" server="@MyRef" environment="EnvironmentOverride"/>
+      </execution>
+    </system-under-test>
+    <assert>
+      <successful/>
+    </assert>
+  </test>
+  <test name="With override and version" uid="0001">
+    <system-under-test>
+      <execution>
+        <etl version="@MyRef2" path="/Etl/" name="Sample" server="@MyRef" environment="EnvironmentOverride"/>
+      </execution>
+    </system-under-test>
+    <assert>
+      <successful/>
+    </assert>
+  </test>
+</testSuite>

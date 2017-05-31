@@ -42,18 +42,19 @@ namespace NBi.Testing.Unit.Xml.Items
         }
         #endregion
 
-        protected TestSuiteXml DeserializeSample()
+        protected TestSuiteXml DeserializeSample(string file)
         {
             // Declare an object variable of the type to be deserialized.
             var manager = new XmlManager();
 
             // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.EtlXmlTestSuite.xml"))
+                                           .GetManifestResourceStream(string.Format("NBi.Testing.Unit.Xml.Resources.{0}Suite.xml", file)))
             using (StreamReader reader = new StreamReader(stream))
             {
                 manager.Read(reader);
             }
+            manager.ApplyDefaultSettings();
             return manager.TestSuite;
         }
 
@@ -63,7 +64,7 @@ namespace NBi.Testing.Unit.Xml.Items
             int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
+            TestSuiteXml ts = DeserializeSample("EtlXmlTest");
 
             Assert.That(ts.Tests[testNr].Setup.Commands[0], Is.InstanceOf<IEtlRunCommand>());
             var etl = ts.Tests[testNr].Setup.Commands[0] as EtlRunXml;
@@ -81,7 +82,7 @@ namespace NBi.Testing.Unit.Xml.Items
             int testNr = 1;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
+            TestSuiteXml ts = DeserializeSample("EtlXmlTest");
 
             Assert.That(ts.Tests[testNr].Setup.Commands[0], Is.InstanceOf<IEtlRunCommand>());
             var etl = ts.Tests[testNr].Setup.Commands[0] as EtlRunXml;
@@ -98,7 +99,7 @@ namespace NBi.Testing.Unit.Xml.Items
             int testNr = 2;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
+            TestSuiteXml ts = DeserializeSample("EtlXmlTest");
 
             Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
             var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
@@ -114,7 +115,7 @@ namespace NBi.Testing.Unit.Xml.Items
             int testNr = 3;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
+            TestSuiteXml ts = DeserializeSample("EtlXmlTest");
 
             Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
             var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
@@ -131,7 +132,7 @@ namespace NBi.Testing.Unit.Xml.Items
             int testNr = 4;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
+            TestSuiteXml ts = DeserializeSample("EtlXmlTest");
 
             Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
             var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
@@ -149,7 +150,7 @@ namespace NBi.Testing.Unit.Xml.Items
             int testNr = 5;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
+            TestSuiteXml ts = DeserializeSample("EtlXmlTest");
 
             Assert.That(ts.Tests[testNr].Setup.Commands[0], Is.InstanceOf<EtlRunXml>());
             var etl = ts.Tests[testNr].Setup.Commands[0] as EtlRunXml;
@@ -167,7 +168,7 @@ namespace NBi.Testing.Unit.Xml.Items
             int testNr = 6;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
+            TestSuiteXml ts = DeserializeSample("EtlXmlTest");
 
             Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
             var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
@@ -187,7 +188,7 @@ namespace NBi.Testing.Unit.Xml.Items
             int testNr = 7;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
+            TestSuiteXml ts = DeserializeSample("EtlXmlTest");
 
             Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
             var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
@@ -208,7 +209,7 @@ namespace NBi.Testing.Unit.Xml.Items
             int testNr = 8;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
+            TestSuiteXml ts = DeserializeSample("EtlXmlTest");
 
             Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
             var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
@@ -223,13 +224,117 @@ namespace NBi.Testing.Unit.Xml.Items
             int testNr = 9;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
+            TestSuiteXml ts = DeserializeSample("EtlXmlTest");
 
             Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
             var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
 
             Assert.That(etl, Is.Not.Null);
             Assert.That(etl.Environment, Is.EqualTo("Environment"));
+        }
+
+        [Test]
+        public void Deserialize_FromDefaultSetup_EtlXml()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("EtlXmlWithDefaultTest");
+
+            Assert.That(ts.Tests[testNr].Setup.Commands[0], Is.InstanceOf<EtlRunXml>());
+            var etl = ts.Tests[testNr].Setup.Commands[0] as EtlRunXml;
+
+            Assert.That(etl, Is.Not.Null);
+            Assert.That(etl.Server, Is.EqualTo("."));
+            Assert.That(etl.Environment, Is.EqualTo("Environment"));
+            Assert.That(etl.Path, Is.EqualTo("/Etl/"));
+            Assert.That(etl.Name, Is.EqualTo("Sample"));
+            //Assert.That(etl.Version, Is.EqualTo("SqlServer2012"));
+            //Assert.That(etl.Is32Bits, Is.True);
+            //Assert.That(etl.Timeout, Is.EqualTo(30));
+        }
+
+        [Test]
+        public void Deserialize_FromDefaultSut_EtlXml()
+        {
+            int testNr = 1;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("EtlXmlWithDefaultTest");
+
+            Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
+            var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
+
+            Assert.That(etl, Is.Not.Null);
+            Assert.That(etl.Server, Is.EqualTo("localhost"));
+            Assert.That(etl.Environment, Is.EqualTo("EnvironmentOverride"));
+            Assert.That(etl.Path, Is.EqualTo("/Etl/"));
+            Assert.That(etl.Name, Is.EqualTo("Sample"));
+            //Assert.That(etl.Version, Is.EqualTo("SqlServer2014"));
+            //Assert.That(etl.Is32Bits, Is.False);
+            //Assert.That(etl.Timeout, Is.EqualTo(60));
+        }
+
+        [Test]
+        public void Deserialize_FromReference_EtlXml()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("EtlXmlWithReferenceTest");
+
+            Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
+            var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
+
+            Assert.That(etl, Is.Not.Null);
+            Assert.That(etl.Server, Is.EqualTo("127.0.0.1"));
+            Assert.That(etl.Environment, Is.EqualTo("Environment"));
+        }
+
+        [Test]
+        public void Deserialize_FromReferenceAndOverride_EtlXml()
+        {
+            int testNr = 1;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("EtlXmlWithReferenceTest");
+
+            Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
+            var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
+
+            Assert.That(etl, Is.Not.Null);
+            Assert.That(etl.Server, Is.EqualTo("127.0.0.1"));
+            Assert.That(etl.Environment, Is.EqualTo("EnvironmentOverride"));
+        }
+
+        [Test]
+        public void Deserialize_FromReferenceWithoutVersion_EtlXml()
+        {
+            int testNr = 1;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("EtlXmlWithReferenceTest");
+
+            Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
+            var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
+
+            Assert.That(etl, Is.Not.Null);
+            Assert.That(etl.Version, Is.EqualTo("SqlServer2014"));
+        }
+
+        [Test]
+        public void Deserialize_FromReferenceWithVersion_EtlXml()
+        {
+            int testNr = 2;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("EtlXmlWithReferenceTest");
+
+            Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
+            var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
+
+            Assert.That(etl, Is.Not.Null);
+            Assert.That(etl.Version, Is.EqualTo("SqlServer2012"));
         }
     }
 }

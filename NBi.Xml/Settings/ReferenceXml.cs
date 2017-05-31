@@ -24,5 +24,8 @@ namespace NBi.Xml.Settings
         [XmlElement("report")]
         public ReportBaseXml Report { get; set; }
 
+        [XmlElement("etl")]
+        public EtlBaseXml Etl { get; set; }
+
     }
 }

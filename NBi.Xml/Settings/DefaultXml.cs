@@ -28,6 +28,16 @@ namespace NBi.Xml.Settings
             set { return; }
         }
 
+        [XmlElement("etl")]
+        public EtlBaseXml Etl { get; set; }
+
+        [XmlIgnore]
+        public bool EtlSpecified
+        {
+            get { return !Etl.IsEmpty(); }
+            set { return; }
+        }
+
         public DefaultXml(SettingsXml.DefaultScope applyTo) : this()
         {
             ApplyTo = applyTo;
@@ -38,6 +48,7 @@ namespace NBi.Xml.Settings
             Parameters = new List<QueryParameterXml>();
             Variables = new List<QueryTemplateVariableXml>();
             Report = new ReportBaseXml();
+            Etl = new EtlBaseXml();
         }
 
     }

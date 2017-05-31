@@ -73,7 +73,7 @@ namespace NBi.Xml.Decoration.Command
         {
             InternalParameters = new List<EtlParameterXml>();
             Version = "SqlServer2014";
-            Timeout = 30;
+            Timeout = DEFAULT_TIMEOUT;
         }
 
         public void AssignReferences(IEnumerable<ReferenceXml> references)

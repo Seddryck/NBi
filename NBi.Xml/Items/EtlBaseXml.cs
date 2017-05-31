@@ -43,10 +43,10 @@ namespace NBi.Xml.Items
 
         internal bool IsEmpty()
         {
-            return !(string.IsNullOrEmpty(Server) && string.IsNullOrEmpty(Path) && string.IsNullOrEmpty(Name)
+            return string.IsNullOrEmpty(Server) && string.IsNullOrEmpty(Path) && string.IsNullOrEmpty(Name)
                 && string.IsNullOrEmpty(UserName) && string.IsNullOrEmpty(Password) && string.IsNullOrEmpty(Catalog)
                 && string.IsNullOrEmpty(Folder) && string.IsNullOrEmpty(Project) && string.IsNullOrEmpty(Environment)
-                && !Is32BitsSpecified && !TimeoutSpecified);
+                && !Is32BitsSpecified && !TimeoutSpecified;
         }
 
         [XmlAttribute("bits-32")]

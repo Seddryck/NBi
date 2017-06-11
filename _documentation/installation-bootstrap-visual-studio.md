@@ -28,7 +28,7 @@ Visual Studio will automatically download the latest versions of NUnit 2.x and N
 
 You can now press F5 (or Start/debug) to run the test-suite. Visual Studio will open the NUnit GUI, automatically loaded with the test-suite (and configuration) available in your project. That's it!
 
-The next pages explain all the internals of the configuration of NBi and advanced installation steps on machine without Visual Studio. You can probably skip these pages, at the moment, and directly go to the section about [tests](docs/compare-equivalence-resultsets/)
+The next pages explain all the internals of the configuration of NBi and advanced installation steps on machine without Visual Studio. You can probably skip these pages, at the moment, and directly go to the section about [tests](../../docs/compare-equivalence-resultsets/)
 
 
 

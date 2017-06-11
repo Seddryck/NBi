@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: NBi's setup
-prev_section: home
+prev_section: installation-bootstrap-visual-studio
 next_section: installation-environment
 permalink: /docs/installation-tools/
 ---

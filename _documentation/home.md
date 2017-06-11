@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Welcome
-next_section: installation-tools
+next_section: installation-bootsrap-visual-studio
 permalink: /docs/home/
 ---
 This site aims to be a comprehensive guide to NBi. We’ll cover topics such as getting your test-suite up and running, automating the creation of your test-suites, executing and configuring for various environments, and give you some advice on participating in the future development of NBi itself.

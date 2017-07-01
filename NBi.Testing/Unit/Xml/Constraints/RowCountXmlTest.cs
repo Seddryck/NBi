@@ -7,6 +7,10 @@ using NBi.Xml.Constraints;
 using NUnit.Framework;
 using NBi.Xml.Constraints.Comparer;
 using NBi.Core.ResultSet;
+using NBi.Xml.Items.Calculation;
+using System.Xml.Serialization;
+using System.Text;
+using System.Diagnostics;
 #endregion
 
 namespace NBi.Testing.Unit.Xml.Constraints
@@ -210,6 +214,31 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(formula.Name, Is.EqualTo("LogDepId"));
             Assert.That(formula.Value, Is.StringContaining("Log10(DepId)"));
+        }
+
+        [Test]
+        public void Serialize_WithLessThanAndFilter_LessThanBeforeFilter()
+        {
+            var rowCountXml = new RowCountXml()
+            {
+                Filter = new FilterXml(),
+                LessThan = new LessThanXml()
+            };
+
+            var serializer = new XmlSerializer(typeof(RowCountXml));
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream, Encoding.UTF8);
+            serializer.Serialize(writer, rowCountXml);
+            var content = Encoding.UTF8.GetString(stream.ToArray());
+            writer.Close();
+            stream.Close();
+
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("<filter"));
+            Assert.That(content, Is.StringContaining("<less-than"));
+
+            Assert.That(content, Is.StringMatching(@".*<filter.*/>[\r\n]*.*<less-than.*/>.*"));
         }
     }
 }

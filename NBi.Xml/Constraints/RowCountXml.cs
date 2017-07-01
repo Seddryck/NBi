@@ -53,11 +53,11 @@ namespace NBi.Xml.Constraints
             }
         }
 
-        [XmlElement("less-than")]
+        [XmlElement("less-than", Order = 1)]
         public LessThanXml LessThan { get; set; }
-        [XmlElement("equal")]
+        [XmlElement("equal", Order = 2)]
         public EqualXml Equal { get; set; }
-        [XmlElement("more-than")]
+        [XmlElement("more-than", Order = 3)]
         public MoreThanXml MoreThan { get; set; }
 
         [XmlIgnore]
@@ -75,7 +75,7 @@ namespace NBi.Xml.Constraints
             }
         }
 
-        [XmlElement("filter")]
+        [XmlElement("filter", Order = 0)]
         public FilterXml Filter { get; set; }
     }
 }

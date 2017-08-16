@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.Text
 {
-    class TextContains : AbstractPredicateReference
+    class TextContains : AbstractTextPredicate
     {
-        public TextContains(object reference) : base(reference)
-        { }
+        public TextContains(object reference, StringComparison stringComparison)
+            : base(reference, stringComparison)
+        {
+        }
         public override bool Apply(object x)
         {
-            return x.ToString().Contains(Reference.ToString());
+            return x.ToString().IndexOf(Reference.ToString(), StringComparison) >= 0;
         }
     }
 }

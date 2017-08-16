@@ -8,7 +8,10 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Constraints.Comparer
 {
-    public class EndsWithXml : AbstractTextComparerXml
+    public abstract class AbstractTextComparerXml : AbstractComparerXml
     {
+        [XmlAttribute("ignore-case")]
+        [DefaultValue(false)]
+        public bool IgnoreCase { get; set; }
     }
 }

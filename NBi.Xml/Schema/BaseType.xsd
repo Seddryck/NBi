@@ -433,7 +433,9 @@
   </xs:complexType>
   <xs:complexType name="text-type">
     <xs:simpleContent>
-      <xs:extension base="comparer-type"/>
+      <xs:extension base="comparer-type">
+        <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="condition-type">

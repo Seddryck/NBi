@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Constraints.Comparer
 {
-    public class ContainsXml : AbstractComparerXml
+    public class ContainsXml : AbstractTextComparerXml
     {
     }
 }

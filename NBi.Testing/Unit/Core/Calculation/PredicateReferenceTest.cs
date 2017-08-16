@@ -39,6 +39,23 @@ namespace NBi.Testing.Unit.Core.Calculation
             Assert.That(comparer.Apply(x), Is.True);
         }
 
+        [TestCase(ComparerType.StartsWith, "Paris", "p")]
+        [TestCase(ComparerType.EndsWith, "Paris", "S")]
+        [TestCase(ComparerType.Contains, "Paris", "AR")]
+        public void Compare_TextIgnoreCase_Success(ComparerType comparerType, object x, object y)
+        {
+            var info = Mock.Of<IPredicateInfo>(
+                    i => i.ColumnType == ColumnType.Text
+                    && i.ComparerType == comparerType
+                    && i.Reference == y
+                    && i.StringComparison == StringComparison.InvariantCultureIgnoreCase
+                );
+
+            var factory = new PredicateFactory();
+            var comparer = factory.Get(info);
+            Assert.That(comparer.Apply(x), Is.True);
+        }
+
         [Test]
         [TestCase(ComparerType.Equal, "A", "B")]
         [TestCase(ComparerType.LessThan, "A", "(empty)")]

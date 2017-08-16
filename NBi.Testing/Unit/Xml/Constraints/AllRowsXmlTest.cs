@@ -125,6 +125,8 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
             Assert.That(predicate.Comparer, Is.TypeOf<StartsWithXml>());
+            var cpr = predicate.Comparer as StartsWithXml;
+            Assert.That(cpr.IgnoreCase, Is.False);
         }
 
         [Test]
@@ -143,6 +145,8 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
             Assert.That(predicate.Comparer, Is.TypeOf<EndsWithXml>());
+            var cpr = predicate.Comparer as EndsWithXml;
+            Assert.That(cpr.IgnoreCase, Is.False);
         }
 
         [Test]
@@ -161,6 +165,8 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
             Assert.That(predicate.Comparer, Is.TypeOf<ContainsXml>());
+            var cpr = predicate.Comparer as ContainsXml;
+            Assert.That(cpr.IgnoreCase, Is.True);
         }
 
     }

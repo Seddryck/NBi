@@ -27,9 +27,9 @@ namespace NBi.Core.Calculation.Predicate
                         case ComparerType.Null: return new TextNull();
                         case ComparerType.Empty: return new TextEmpty();
                         case ComparerType.NullOrEmpty: return new TextNullOrEmpty();
-                        case ComparerType.StartsWith: return new TextStartsWith(info.Reference);
-                        case ComparerType.EndsWith: return new TextEndsWith(info.Reference);
-                        case ComparerType.Contains: return new TextContains(info.Reference);
+                        case ComparerType.StartsWith: return new TextStartsWith(info.Reference, info.StringComparison);
+                        case ComparerType.EndsWith: return new TextEndsWith(info.Reference, info.StringComparison);
+                        case ComparerType.Contains: return new TextContains(info.Reference, info.StringComparison);
                         default:
                             throw new ArgumentOutOfRangeException();
                     }

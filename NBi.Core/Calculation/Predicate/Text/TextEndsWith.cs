@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.Text
 {
-    class TextEndsWith : AbstractPredicateReference
+    class TextEndsWith : AbstractTextPredicate
     {
-        public TextEndsWith(object reference) : base(reference)
-        { }
+        public TextEndsWith(object reference, StringComparison stringComparison)
+            : base(reference, stringComparison)
+        {
+        }
         public override bool Apply(object x)
         {
-            return x.ToString().EndsWith(Reference.ToString());
+            return x.ToString().EndsWith(Reference.ToString(), StringComparison);
         }
     }
 }

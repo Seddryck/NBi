@@ -115,5 +115,17 @@ namespace NBi.Xml.Items.Calculation
         {
             get { return Comparer.Value; }
         }
+
+        [XmlIgnore]
+        public StringComparison StringComparison
+        {
+            get
+            {
+                if (Comparer is AbstractTextComparerXml)
+                    return ((AbstractTextComparerXml)Comparer).IgnoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture;
+                else
+                    throw new InvalidOperationException();
+            }
+        }
     }
 }

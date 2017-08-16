@@ -169,5 +169,23 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(cpr.IgnoreCase, Is.True);
         }
 
+        [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyMatchesRegexComparer()
+        {
+            int testNr = 5;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
+            var predicate = allRows.Predicate;
+
+            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
+            Assert.That(predicate.Name, Is.EqualTo("Name"));
+            Assert.That(predicate.Not, Is.EqualTo(false));
+            Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
+
+            Assert.That(predicate.Comparer, Is.TypeOf<MatchesRegexXml>());
+        }
+
     }
 }

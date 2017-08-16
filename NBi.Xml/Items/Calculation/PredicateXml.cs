@@ -50,6 +50,8 @@ namespace NBi.Xml.Items.Calculation
         public EndsWithXml EndsWith { get; set; }
         [XmlElement("contains")]
         public ContainsXml Contains { get; set; }
+        [XmlElement("matches-regex")]
+        public MatchesRegexXml MatchesRegex { get; set; }
 
         [XmlIgnore]
         public AbstractComparerXml Comparer
@@ -72,6 +74,8 @@ namespace NBi.Xml.Items.Calculation
                     return EndsWith;
                 if (Contains != null)
                     return Contains;
+                if (MatchesRegex != null)
+                    return MatchesRegex;
                 return null;
             }
         }
@@ -106,6 +110,8 @@ namespace NBi.Xml.Items.Calculation
                     return ComparerType.EndsWith;
                 if (Contains != null)
                     return ComparerType.Contains;
+                if (MatchesRegex != null)
+                    return ComparerType.MatchesRegex;
                 return ComparerType.Equal;
             }
         }

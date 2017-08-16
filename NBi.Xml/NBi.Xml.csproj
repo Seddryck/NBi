@@ -59,6 +59,7 @@
     <Compile Include="Constraints\AbstractConstraintForCollectionXml.cs" />
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
     <Compile Include="Constraints\Comparer\AbstractTextComparerXml.cs" />
+    <Compile Include="Constraints\Comparer\MatchesRegexXml.cs" />
     <Compile Include="Constraints\Comparer\StartsWithXml.cs" />
     <Compile Include="Constraints\Comparer\EndsWithXml.cs" />
     <Compile Include="Constraints\Comparer\ContainsXml.cs" />

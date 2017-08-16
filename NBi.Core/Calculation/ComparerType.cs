@@ -18,6 +18,7 @@ namespace NBi.Core.Calculation
         NullOrEmpty = 12,
         StartsWith = 20,
         EndsWith = 21,
-        Contains = 22
+        Contains = 22,
+        MatchesRegex = 23
     }
 }

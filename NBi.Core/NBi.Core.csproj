@@ -105,6 +105,7 @@
     <Compile Include="Calculation\Predicate\Numeric\NumericPredicate.cs" />
     <Compile Include="Calculation\Predicate\PredicateFactory.cs" />
     <Compile Include="Calculation\Predicate\Text\AbstractTextPredicate.cs" />
+    <Compile Include="Calculation\Predicate\Text\TextMatchesRegex.cs" />
     <Compile Include="Calculation\Predicate\Text\TextEmpty.cs" />
     <Compile Include="Calculation\Predicate\Text\TextContains.cs" />
     <Compile Include="Calculation\Predicate\Text\TextEndsWith.cs" />

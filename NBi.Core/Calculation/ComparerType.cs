@@ -15,6 +15,9 @@ namespace NBi.Core.Calculation
         MoreThan = 2,
         Null = 10,
         Empty = 11,
-        NullOrEmpty = 12
+        NullOrEmpty = 12,
+        StartsWith = 20,
+        EndsWith = 21,
+        Contains = 22
     }
 }

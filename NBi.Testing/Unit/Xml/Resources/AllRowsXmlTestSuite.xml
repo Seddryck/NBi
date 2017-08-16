@@ -42,4 +42,55 @@
       </all-rows>
     </assert>
   </test>
+  <test name="With Predicate StartsWith" uid="0002">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select [Name] from [HumanResources].[Department] where Name like 'E%' order by Name
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <variable column-index="0">Name</variable>
+        <predicate name="Name" type="text">
+          <starts-with>E</starts-with>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate EndsWith" uid="0003">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select [Name] from [HumanResources].[Department] where Name like '%e' order by Name
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <variable column-index="0">Name</variable>
+        <predicate name="Name" type="text">
+          <ends-with>e</ends-with>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate contains" uid="0004">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select [Name] from [HumanResources].[Department] where Name like '%en%' order by Name
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <variable column-index="0">Name</variable>
+        <predicate name="Name" type="text">
+          <contains>en</contains>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
 </testSuite>

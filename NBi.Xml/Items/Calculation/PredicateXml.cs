@@ -44,6 +44,12 @@ namespace NBi.Xml.Items.Calculation
         public NullXml Null { get; set; }
         [XmlElement("empty")]
         public EmptyXml Empty { get; set; }
+        [XmlElement("starts-with")]
+        public StartsWithXml StartsWith { get; set; }
+        [XmlElement("ends-with")]
+        public EndsWithXml EndsWith { get; set; }
+        [XmlElement("contains")]
+        public ContainsXml Contains { get; set; }
 
         [XmlIgnore]
         public AbstractComparerXml Comparer
@@ -60,6 +66,12 @@ namespace NBi.Xml.Items.Calculation
                     return Null;
                 if (Empty != null)
                     return Empty;
+                if (StartsWith != null)
+                    return StartsWith;
+                if (EndsWith != null)
+                    return EndsWith;
+                if (Contains != null)
+                    return Contains;
                 return null;
             }
         }
@@ -88,6 +100,12 @@ namespace NBi.Xml.Items.Calculation
                         return ComparerType.NullOrEmpty;
                     else
                         return ComparerType.Empty;
+                if (StartsWith != null)
+                    return ComparerType.StartsWith;
+                if (EndsWith != null)
+                    return ComparerType.EndsWith;
+                if (Contains != null)
+                    return ComparerType.Contains;
                 return ComparerType.Equal;
             }
         }

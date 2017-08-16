@@ -5,7 +5,7 @@
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </default>
   </settings>
-  <!--<test name="With Predicate and with formula" uid="0000">
+  <test name="With Predicate and with formula" uid="0000">
     <system-under-test>
       <execution>
         <query name="Select first departments">
@@ -41,7 +41,7 @@
         </predicate>
       </all-rows>
     </assert>
-  </test>-->
+  </test>
   <test name="With Predicate StartsWith" uid="0002">
     <system-under-test>
       <execution>

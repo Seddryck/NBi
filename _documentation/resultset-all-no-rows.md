@@ -60,17 +60,23 @@ An expression let you define a mathematical calculation based on one or more var
 
 ## Predicate
 
-The predicate supports five different operators: *equal*, *more-than*, *less-than*, *empty* and *null*. The two options *more-than* and *less-than* also supports the variant *or-equal* moreover the option *empty* supports the variant *or-null*. In addition to this operator, you must also define the variable or expression that you want to validate this predicate. This indication is provided by the name of the variable or the expression.
+The predicate supports nine different operators: *equal*, *more-than*, *less-than*, *empty*, *null*, *starts-with*, *ends-with*, *contains*, *matches-regex*. The two options *more-than* and *less-than* also supports the variant *or-equal* moreover the option *empty* supports the variant *or-null*. The text specific operators (*starts-with*, *ends-with*, *contains*, *matches-regex*) supports the variant *ignore-case*.
 
-Each predicate is not valid for each type. The list of possible combinaison is described here under:
+In addition to this operator, you must also define the variable or expression that you want to validate this predicate. This indication is provided by the name of the variable or the expression.
+
+Each predicate is not valid for each data type. The list of possible combinaison is described here under:
 
 | Predicate | Text | Numeric | DateTime | Boolean 
 |-------------|:-----------------:|:-------------------:|
-| Equal  | Yes | Yes | Yes | Yes
-| More-than  | Yes | Yes | Yes | No
-| Less-than  | Yes | Yes | Yes | No
-| Null  | Yes | Yes | Yes | Yes
-| Empty  | Yes | No | No | No
+| equal  | Yes | Yes | Yes | Yes
+| more-than  | Yes | Yes | Yes | No
+| less-than  | Yes | Yes | Yes | No
+| null  | Yes | Yes | Yes | Yes
+| empty  | Yes | No | No | No
+| starts-with  | Yes | No | No | No
+| ends-with  | Yes | No | No | No
+| contains  | Yes | No | No | No
+| matches-regex  | Yes | No | No | No
 
 {% highlight xml %}
 <assertion>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <etl server="localhost" catalog="SSISDB" folder="Folder" project="Project" name="Name"/>
+		</default>
+	</settings>
+  <test name="With override" uid="0001">
+    <system-under-test>
+      <execution>
+        <etl/>
+      </execution>
+    </system-under-test>
+    <assert>
+      <successful/>
+    </assert>
+  </test>
+</testSuite>

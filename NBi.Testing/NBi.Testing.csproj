@@ -699,6 +699,9 @@
     <Content Include="Acceptance\Resources\PowerBiDesktop\Source.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Unit\Xml\Resources\EtlXmlWithDefaultSsisDBTestSuite.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\Resources\EtlXmlWithDefaultTestSuite.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

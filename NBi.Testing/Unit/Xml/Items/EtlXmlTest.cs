@@ -357,5 +357,25 @@ namespace NBi.Testing.Unit.Xml.Items
             Assert.That(etl.Name, Is.EqualTo("Name"));
             Assert.That(etl.Path, Is.Null.Or.Empty);
         }
+
+        public void Deserialize_FromReferenceSsiSB_EtlXml()
+        {
+            int testNr = 1;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample("EtlXmlWithDefaultSsisDBTest");
+
+            Assert.That(ts.Tests[testNr].Systems[0].BaseItem, Is.InstanceOf<EtlXml>());
+            var etl = ts.Tests[testNr].Systems[0].BaseItem as EtlXml;
+
+            Assert.That(etl, Is.Not.Null);
+            Assert.That(etl.Version, Is.EqualTo("SqlServer2014"));
+            Assert.That(etl.Server, Is.EqualTo("127.0.0.1"));
+            Assert.That(etl.Catalog, Is.EqualTo("SSISDB"));
+            Assert.That(etl.Folder, Is.EqualTo("FolderRef"));
+            Assert.That(etl.Project, Is.EqualTo("ProjectRef"));
+            Assert.That(etl.Name, Is.EqualTo("NameRef"));
+            Assert.That(etl.Path, Is.Null.Or.Empty);
+        }
     }
 }

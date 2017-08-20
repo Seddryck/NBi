@@ -19,6 +19,9 @@
   <xs:complexType name="csv-profile-type">
     <xs:attribute name="field-separator" type="xs:string"/>
     <xs:attribute name="record-separator" type="xs:string"/>
+    <xs:attribute name="first-row-header" type="xs:boolean"/>
+    <xs:attribute name="empty-cell" type="xs:string"/>
+    <xs:attribute name="missing-cell" type="xs:string"/>
   </xs:complexType>
   <xs:complexType name ="default-type">
     <xs:sequence>

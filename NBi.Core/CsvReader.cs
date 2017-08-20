@@ -47,18 +47,29 @@ namespace NBi.Core
                 ProgressStatusChanged(this, new ProgressStatusEventArgs(string.Format(status, current, total), current, total));
         }
 
-        public DataTable Read(string filename, bool firstLineIsColumnName)
+        public DataTable Read(string filename)
         {
             if (!File.Exists(filename))
                 throw new ExternalDependencyNotFoundException(filename);
 
             using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
             {
-                return Read(stream, firstLineIsColumnName);
+                return Read(stream, Definition.FirstRowHeader);
             }
         }
 
-        protected internal DataTable Read(Stream stream, bool firstLineIsColumnName)
+        public DataTable Read(string filename, bool firstRowHeader)
+        {
+            if (!File.Exists(filename))
+                throw new ExternalDependencyNotFoundException(filename);
+
+            using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            {
+                return Read(stream, firstRowHeader);
+            }
+        }
+
+        protected internal DataTable Read(Stream stream, bool firstRowHeader)
         {
             var table = new DataTable();
 
@@ -69,7 +80,7 @@ namespace NBi.Core
             using (StreamReader reader = new StreamReader(stream, Encoding.UTF8, true))
             {
                 var count = CountRecordSeparator(reader, Definition.RecordSeparator, BufferSize);
-                count -= Convert.ToInt16(firstLineIsColumnName);
+                count -= Convert.ToInt16(firstRowHeader);
                 stream.Position = 0;
                 reader.DiscardBufferedData();
 
@@ -94,7 +105,7 @@ namespace NBi.Core
                 if (firstLine.EndsWith(Definition.RecordSeparator))
                     firstLine = firstLine.Substring(0, firstLine.Length - Definition.RecordSeparator.Length);
                 columnCount = firstLine.Split(Definition.FieldSeparator).Length;
-                if (firstLineIsColumnName)
+                if (firstRowHeader)
                     columnNames.AddRange(SplitLine(firstLine));
                 
 
@@ -128,24 +139,29 @@ namespace NBi.Core
                             recordToParse = recordToParse.Substring(encodingBytesCount, recordToParse.Length - encodingBytesCount);
                         
                         i++;
-                        if (i!=1 || !firstLineIsColumnName)
+                        if (i!=1 || !firstRowHeader)
                         { 
                             isLastRecord = IsLastRecord(recordToParse);
                             var cleanRecord = CleanRecord(recordToParse, Definition.RecordSeparator);
-                            var cells = SplitLine(cleanRecord);
+                            var cells = SplitLine(cleanRecord).ToList();
                             var row = table.NewRow();
-                            if (row.ItemArray.Length<cells.Length)
+                            if (row.ItemArray.Length<cells.Count)
                                 throw new InvalidDataException
                                 (
                                     string.Format
                                     (
                                         "The row {0} contains {1} more field{2} than expected."
-                                        , table.Rows.Count + 1 + Convert.ToInt32(firstLineIsColumnName)
-                                        , cells.Length - row.ItemArray.Length
-                                        , cells.Length - row.ItemArray.Length>1 ? "s" : string.Empty
+                                        , table.Rows.Count + 1 + Convert.ToInt32(firstRowHeader)
+                                        , cells.Count - row.ItemArray.Length
+                                        , cells.Count - row.ItemArray.Length>1 ? "s" : string.Empty
                                     )
                                 );
-                            row.ItemArray = cells;
+
+                            //fill the missing cells
+                            while (row.ItemArray.Length > cells.Count)
+                                cells.Add(Definition.MissingCell);
+
+                            row.ItemArray = cells.ToArray();
                             table.Rows.Add(row);
                         }
                     }
@@ -158,12 +174,18 @@ namespace NBi.Core
             return table;
         }
 
-        protected string[] SplitLine(string row)
+        protected IEnumerable<string> SplitLine(string row)
         {
-            var items = new List<string>();
             var list = new List<string>(row.Split(Definition.FieldSeparator));
-            list.ForEach(item => items.Add(RemoveTextQualifier(item)));
-            return items.ToArray();
+
+            foreach (var item in list)
+            {
+                var value = RemoveTextQualifier(item);
+                if (string.IsNullOrEmpty(value))
+                    yield return Definition.EmptyCell;
+                else
+                    yield return value;
+            }
         }
 
         protected internal string RemoveTextQualifier(string item)

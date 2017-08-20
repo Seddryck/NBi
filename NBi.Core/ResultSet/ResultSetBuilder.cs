@@ -64,7 +64,7 @@ namespace NBi.Core.ResultSet
                 throw new ExternalDependencyNotFoundException(path);
 
             var reader = new CsvReader(profile);
-            var dataTable = reader.Read(path, false);
+            var dataTable = reader.Read(path);
 
             var rs = new ResultSet();
             rs.Load(dataTable);

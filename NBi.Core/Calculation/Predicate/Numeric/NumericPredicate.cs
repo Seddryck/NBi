@@ -7,17 +7,20 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.Numeric
 {
-    abstract class NumericPredicate : IPredicate
+    abstract class NumericPredicate : AbstractPredicateReference
     {
-        public bool Compare(object x, object y)
+        public NumericPredicate(object reference) : base(reference)
+        { }
+
+        public override bool Apply(object x)
         {
             var converter = new NumericConverter();
             var numX = converter.Convert(x);
-            var numY = converter.Convert(y);
+            var numY = converter.Convert(Reference);
 
             return Compare(numX, numY);
         }
 
-        public abstract bool Compare(decimal x, decimal y);
+        protected abstract bool Compare(decimal x, decimal y);
     }
 }

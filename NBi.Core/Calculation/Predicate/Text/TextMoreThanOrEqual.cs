@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.Text
 {
-    class TextMoreThanOrEqual : IPredicate
+    class TextMoreThanOrEqual : AbstractPredicateReference
     {
-        public bool Compare(object x, object y)
+        public TextMoreThanOrEqual(object reference) : base(reference)
+        { }
+        public override bool Apply(object x)
         {
             var cpr = StringComparer.Create(CultureInfo.InvariantCulture, false);
-            return cpr.Compare(x.ToString(), y.ToString()) >= 0;
+            return cpr.Compare(x.ToString(), Reference.ToString()) >= 0;
         }
     }
 }

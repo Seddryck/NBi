@@ -19,44 +19,49 @@ namespace NBi.Core.Calculation.Predicate
                 case NBi.Core.ResultSet.ColumnType.Text:
                     switch (info.ComparerType)
                     {
-                        case ComparerType.LessThan: return new TextLessThan();
-                        case ComparerType.LessThanOrEqual: return new TextLessThanOrEqual();
-                        case ComparerType.Equal: return new TextEqual();
-                        case ComparerType.MoreThanOrEqual: return new TextMoreThanOrEqual();
-                        case ComparerType.MoreThan: return new TextMoreThan();
+                        case ComparerType.LessThan: return new TextLessThan(info.Reference);
+                        case ComparerType.LessThanOrEqual: return new TextLessThanOrEqual(info.Reference);
+                        case ComparerType.Equal: return new TextEqual(info.Reference);
+                        case ComparerType.MoreThanOrEqual: return new TextMoreThanOrEqual(info.Reference);
+                        case ComparerType.MoreThan: return new TextMoreThan(info.Reference);
+                        case ComparerType.Null: return new TextNull();
+                        case ComparerType.Empty: return new TextEmpty();
+                        case ComparerType.NullOrEmpty: return new TextNullOrEmpty();
                         default:
-                            break;
+                            throw new ArgumentOutOfRangeException();
                     }
-                    break;
                 case NBi.Core.ResultSet.ColumnType.Numeric:
                     switch (info.ComparerType)
                     {
-                        case ComparerType.LessThan: return new NumericLessThan();
-                        case ComparerType.LessThanOrEqual: return new NumericLessThanOrEqual();
-                        case ComparerType.Equal: return new NumericEqual();
-                        case ComparerType.MoreThanOrEqual: return new NumericMoreThanOrEqual();
-                        case ComparerType.MoreThan: return new NumericMoreThan();
+                        case ComparerType.LessThan: return new NumericLessThan(info.Reference);
+                        case ComparerType.LessThanOrEqual: return new NumericLessThanOrEqual(info.Reference);
+                        case ComparerType.Equal: return new NumericEqual(info.Reference);
+                        case ComparerType.MoreThanOrEqual: return new NumericMoreThanOrEqual(info.Reference);
+                        case ComparerType.MoreThan: return new NumericMoreThan(info.Reference);
+                        case ComparerType.Null: return new NumericNull();
                         default:
-                            break;
+                            throw new ArgumentOutOfRangeException("Numeric columns don't support Empty comparer.");
                     }
-                    break;
                 case NBi.Core.ResultSet.ColumnType.DateTime:
                     switch (info.ComparerType)
                     {
-                        case ComparerType.LessThan: return new DateTimeLessThan();
-                        case ComparerType.LessThanOrEqual: return new DateTimeLessThanOrEqual();
-                        case ComparerType.Equal: return new DateTimeEqual();
-                        case ComparerType.MoreThanOrEqual: return new DateTimeMoreThanOrEqual();
-                        case ComparerType.MoreThan: return new DateTimeMoreThan();
+                        case ComparerType.LessThan: return new DateTimeLessThan(info.Reference);
+                        case ComparerType.LessThanOrEqual: return new DateTimeLessThanOrEqual(info.Reference);
+                        case ComparerType.Equal: return new DateTimeEqual(info.Reference);
+                        case ComparerType.MoreThanOrEqual: return new DateTimeMoreThanOrEqual(info.Reference);
+                        case ComparerType.MoreThan: return new DateTimeMoreThan(info.Reference);
+                        case ComparerType.Null: return new DateTimeNull();
                         default:
-                            break;
+                            throw new ArgumentOutOfRangeException("DateTime columns don't support Empty comparer.");
                     }
-                    break;
                 case NBi.Core.ResultSet.ColumnType.Boolean:
-                    if (info.ComparerType == ComparerType.Equal)
-                        return new BooleanEqual();
-                    else
-                        throw new ArgumentException("Boolean columns only support Equal comparers and not More or Less Than comparers.");
+                    switch (info.ComparerType)
+                    {
+                        case ComparerType.Equal: return new BooleanEqual(info.Reference);
+                        case ComparerType.Null: return new BooleanNull();
+                        default:
+                            throw new ArgumentOutOfRangeException("Boolean columns only support Equal and Null comparers and not More or Less Than comparers.");
+                    }
                 default:
                     break;
             }

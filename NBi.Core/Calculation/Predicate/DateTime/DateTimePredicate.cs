@@ -7,17 +7,20 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.DateTime
 {
-    abstract class DateTimePredicate : IPredicate
+    abstract class DateTimePredicate : AbstractPredicateReference
     {
-        public bool Compare(object x, object y)
+        public DateTimePredicate(object reference) : base(reference)
+        { }
+
+        public override bool Apply(object x)
         {
             var converter = new DateTimeConverter();
             var dtX = converter.Convert(x);
-            var dtY = converter.Convert(y);
+            var dtY = converter.Convert(Reference);
 
             return Compare(dtX, dtY);
         }
 
-        public abstract bool Compare(System.DateTime x, System.DateTime y);
+        protected abstract bool Compare(System.DateTime x, System.DateTime y);
     }
 }

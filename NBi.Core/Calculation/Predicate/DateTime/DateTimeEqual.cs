@@ -8,12 +8,15 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.DateTime
 {
-    class DateTimeEqual : IPredicate
+    class DateTimeEqual : AbstractPredicateReference
     {
-        public bool Compare(object x, object y)
+        public DateTimeEqual(object reference) : base(reference)
+        { }
+
+        public override bool Apply(object x)
         {
             var cpr = new DateTimeComparer();
-            return cpr.Compare(x, y).AreEqual;
+            return cpr.Compare(x, Reference).AreEqual;
         }
     }
 }

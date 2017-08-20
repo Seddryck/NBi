@@ -8,12 +8,15 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.Numeric
 {
-    class NumericEqual : IPredicate
+    class NumericEqual : AbstractPredicateReference
     {
-        public bool Compare(object x, object y)
+        public NumericEqual(object reference) : base(reference)
+        { }
+
+        public override bool Apply(object x)
         {
             var comparer = new NumericComparer();
-            return comparer.Compare(x, y).AreEqual;
+            return comparer.Compare(x, Reference).AreEqual;
         }
     }
 }

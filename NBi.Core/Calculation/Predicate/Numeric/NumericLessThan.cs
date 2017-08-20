@@ -9,7 +9,10 @@ namespace NBi.Core.Calculation.Predicate.Numeric
 {
     class NumericLessThan : NumericPredicate
     {
-        public override bool Compare(decimal x, decimal y)
+        public NumericLessThan(object reference) : base(reference)
+        { }
+
+        protected override bool Compare(decimal x, decimal y)
         {
             return x < y;
         }

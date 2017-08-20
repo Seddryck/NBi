@@ -40,6 +40,10 @@ namespace NBi.Xml.Items.Calculation
         public EqualXml Equal { get; set; }
         [XmlElement("more-than")]
         public MoreThanXml MoreThan { get; set; }
+        [XmlElement("null")]
+        public NullXml Null { get; set; }
+        [XmlElement("empty")]
+        public EmptyXml Empty { get; set; }
 
         [XmlIgnore]
         public AbstractComparerXml Comparer
@@ -52,6 +56,10 @@ namespace NBi.Xml.Items.Calculation
                     return MoreThan;
                 if (LessThan != null)
                     return LessThan;
+                if (Null != null)
+                    return Null;
+                if (Empty != null)
+                    return Empty;
                 return null;
             }
         }
@@ -73,6 +81,13 @@ namespace NBi.Xml.Items.Calculation
                         return ComparerType.LessThanOrEqual;
                     else
                         return ComparerType.LessThan;
+                if (Null != null)
+                    return ComparerType.Null;
+                if (Empty != null)
+                    if (Empty.OrNull)
+                        return ComparerType.NullOrEmpty;
+                    else
+                        return ComparerType.Empty;
                 return ComparerType.Equal;
             }
         }

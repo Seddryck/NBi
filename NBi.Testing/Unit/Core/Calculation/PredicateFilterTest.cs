@@ -43,5 +43,29 @@ namespace NBi.Testing.Unit.Core.Calculation
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
         }
+
+        [Test]
+        public void Apply_ResultsetNullOrEmpty_CorrectResult()
+        {
+            var builder = new ResultSetBuilder();
+            var row1 = new List<object>() { "(null)", 10, 100 };
+            var row2 = new List<object>() { "(empty)", 2, 75 };
+            var row3 = new List<object>() { "C", 5, 50 };
+            var rs = builder.Build(new object[] { row1, row2, row3 });
+
+            var v1 = Mock.Of<IColumnVariable>(v => v.Column == 0 && v.Name == "a");
+            
+            var info = Mock.Of<IPredicateInfo>
+                (
+                    p => p.ComparerType == ComparerType.NullOrEmpty
+                        && p.ColumnType == ColumnType.Text
+                        && p.Name == "a"
+                );
+
+            var filter = new PredicateFilter(new[] {v1}, new IColumnExpression[0], info);
+            var result = filter.Apply(rs);
+
+            Assert.That(result.Rows, Has.Count.EqualTo(2));
+        }
     }
 }

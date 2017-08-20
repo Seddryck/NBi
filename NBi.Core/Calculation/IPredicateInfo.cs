@@ -13,5 +13,6 @@ namespace NBi.Core.Calculation
         ComparerType ComparerType { get; }
         string Name { get; set; }
         object Reference { get; }
+        StringComparison StringComparison { get; }
     }
 }

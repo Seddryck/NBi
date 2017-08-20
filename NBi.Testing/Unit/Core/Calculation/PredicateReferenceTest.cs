@@ -23,6 +23,10 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.MoreThan, "V", "B")]
         [TestCase(ComparerType.MoreThanOrEqual, "V", "B")]
         [TestCase(ComparerType.MoreThanOrEqual, "V", "V")]
+        [TestCase(ComparerType.StartsWith, "Paris", "P")]
+        [TestCase(ComparerType.EndsWith, "Paris", "s")]
+        [TestCase(ComparerType.Contains, "Paris", "ar")]
+        [TestCase(ComparerType.MatchesRegex, "Paris", "^[A-Z][a-z]+$")]
         public void Compare_Text_Success(ComparerType comparerType, object x, object y)
         {
             var info = Mock.Of<IPredicateInfo>(
@@ -34,6 +38,47 @@ namespace NBi.Testing.Unit.Core.Calculation
             var factory = new PredicateFactory();
             var comparer = factory.Get(info);
             Assert.That(comparer.Apply(x), Is.True);
+        }
+
+        [TestCase(ComparerType.StartsWith, "Paris", "p")]
+        [TestCase(ComparerType.EndsWith, "Paris", "S")]
+        [TestCase(ComparerType.Contains, "Paris", "AR")]
+        [TestCase(ComparerType.MatchesRegex, "Paris", "^[A-Z]+$")]
+        public void Compare_TextIgnoreCase_Success(ComparerType comparerType, object x, object y)
+        {
+            var info = Mock.Of<IPredicateInfo>(
+                    i => i.ColumnType == ColumnType.Text
+                    && i.ComparerType == comparerType
+                    && i.Reference == y
+                    && i.StringComparison == StringComparison.InvariantCultureIgnoreCase
+                );
+
+            var factory = new PredicateFactory();
+            var comparer = factory.Get(info);
+            Assert.That(comparer.Apply(x), Is.True);
+        }
+
+        [Test]
+        [TestCase(ComparerType.Equal, "A", "B")]
+        [TestCase(ComparerType.LessThan, "A", "(empty)")]
+        [TestCase(ComparerType.LessThanOrEqual, "C", "B")]
+        [TestCase(ComparerType.MoreThan, "A", "B")]
+        [TestCase(ComparerType.MoreThanOrEqual, "A", "B")]
+        [TestCase(ComparerType.StartsWith, "Paris", "p")]
+        [TestCase(ComparerType.EndsWith, "Paris", "i")]
+        [TestCase(ComparerType.Contains, "Paris", "mar")]
+        [TestCase(ComparerType.MatchesRegex, "Paris", "^[A-Z]+$")]
+        public void Compare_Text_Failure(ComparerType comparerType, object x, object y)
+        {
+            var info = Mock.Of<IPredicateInfo>(
+                    i => i.ColumnType == ColumnType.Text
+                    && i.ComparerType == comparerType
+                    && i.Reference == y
+                );
+
+            var factory = new PredicateFactory();
+            var comparer = factory.Get(info);
+            Assert.That(comparer.Apply(x), Is.False);
         }
 
         [Test]

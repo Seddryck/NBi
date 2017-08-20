@@ -44,6 +44,14 @@ namespace NBi.Xml.Items.Calculation
         public NullXml Null { get; set; }
         [XmlElement("empty")]
         public EmptyXml Empty { get; set; }
+        [XmlElement("starts-with")]
+        public StartsWithXml StartsWith { get; set; }
+        [XmlElement("ends-with")]
+        public EndsWithXml EndsWith { get; set; }
+        [XmlElement("contains")]
+        public ContainsXml Contains { get; set; }
+        [XmlElement("matches-regex")]
+        public MatchesRegexXml MatchesRegex { get; set; }
 
         [XmlIgnore]
         public AbstractComparerXml Comparer
@@ -60,6 +68,14 @@ namespace NBi.Xml.Items.Calculation
                     return Null;
                 if (Empty != null)
                     return Empty;
+                if (StartsWith != null)
+                    return StartsWith;
+                if (EndsWith != null)
+                    return EndsWith;
+                if (Contains != null)
+                    return Contains;
+                if (MatchesRegex != null)
+                    return MatchesRegex;
                 return null;
             }
         }
@@ -88,6 +104,14 @@ namespace NBi.Xml.Items.Calculation
                         return ComparerType.NullOrEmpty;
                     else
                         return ComparerType.Empty;
+                if (StartsWith != null)
+                    return ComparerType.StartsWith;
+                if (EndsWith != null)
+                    return ComparerType.EndsWith;
+                if (Contains != null)
+                    return ComparerType.Contains;
+                if (MatchesRegex != null)
+                    return ComparerType.MatchesRegex;
                 return ComparerType.Equal;
             }
         }
@@ -96,6 +120,18 @@ namespace NBi.Xml.Items.Calculation
         public object Reference
         {
             get { return Comparer.Value; }
+        }
+
+        [XmlIgnore]
+        public StringComparison StringComparison
+        {
+            get
+            {
+                if (Comparer is AbstractTextComparerXml)
+                    return ((AbstractTextComparerXml)Comparer).IgnoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture;
+                else
+                    throw new InvalidOperationException();
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace NBi.Core.Batch
 {
     class BatchRunnerFactory
     {
-        public IDecorationCommandImplementation Get(IBatchCommand command)
+        public IDecorationCommandImplementation Get(IBatchRunCommand command)
         {
             var connectionFactory = new ConnectionFactory();
             var connection = connectionFactory.Get(command.ConnectionString);
@@ -31,9 +31,9 @@ namespace NBi.Core.Batch
             if (types.Count() > 1)
                 throw new InvalidOperationException(string.Format("Found more than one class implementing 'IBatchRunnerFatory' in '{0}'.", assembly.FullName));
 
-            var batchFactory = Activator.CreateInstance(types.ElementAt(0)) as IBatchRunnerFatory;
+            var batchRunnerFactory = Activator.CreateInstance(types.ElementAt(0)) as IBatchRunnerFatory;
 
-            var batchRunner = batchFactory.Get(command, connection);
+            var batchRunner = batchRunnerFactory.Get(command, connection);
 
             return batchRunner;
         }

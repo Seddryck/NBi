@@ -29,9 +29,9 @@ namespace NBi.Core
                 return new DataManipulationFactory().Get(command as IDataManipulationCommand);
             }
 
-            if (command is IBatchCommand)
+            if (command is IBatchRunCommand)
             {
-                return new BatchRunnerFactory().Get(command as IBatchCommand);
+                return new BatchRunnerFactory().Get(command as IBatchRunCommand);
             }
 
             if (command is IEtlRunCommand)

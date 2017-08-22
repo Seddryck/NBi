@@ -51,11 +51,7 @@ namespace NBi.Core.ResultSet
                 && (!string.IsNullOrEmpty(keyNames) || !string.IsNullOrEmpty(valueNames))
                 && columnsDef.Any(c => c.Index != 0))
                 throw new InvalidOperationException("You cannot define a comparison by name and specify some column's definitions where you explicitely give a value to the 'index' attribute. Use attribute 'index' in place of 'name'.");
-
-            if (isMultipleRows
-                && columnsDef.Any(c => c.Type == ColumnType.Table && c.Role == ColumnRole.Key))
-                throw new InvalidOperationException("You cannot specify a column's as a sub-table and as a key.");
-
+            
             if (columnsDef.Any(c => c.Index != 0 && !string.IsNullOrEmpty(c.Name)))
                 throw new InvalidOperationException("You cannot define some column's definitions where you explicitely give a value to the 'index' attribute and to the 'name' attribute. Use attribute 'index' or 'name' but not both.");
 
@@ -175,16 +171,8 @@ namespace NBi.Core.ResultSet
                     .Union(valueNamesList.Select(x => new Column() { Name = x, Role = ColumnRole.Value, Type = valuesDefaultType })
                     .Union(columnsDef)
                     );
-
-                var subGroups = allColumns.Select(x => x.Name.Split(new char[] { '.' }, 2)).Where(x => x.Length == 2).GroupBy(x => x[0]).Select((x, y) => x.Key);
-                var subSettings = new List<SettingsResultSetComparisonByName>();
-                foreach (var subGroup in subGroups)
-                {
-                    subSettings.Add(new SettingsResultSetComparisonByName(subGroup, allColumns.Where(x => x.Name.StartsWith(subGroup + ".")), valuesDefaultType, defaultTolerance));
-                }
-
-
-                settings = new SettingsResultSetComparisonByName(allColumns, valuesDefaultType, defaultTolerance, subSettings);
+                
+                settings = new SettingsResultSetComparisonByName(valuesDefaultType, defaultTolerance, allColumns);
             }
 
             else if (isMultipleRows && !isByName)

@@ -9,7 +9,6 @@ namespace NBi.Core.ResultSet
 {
 	public class SettingsResultSetComparisonByName : SettingsResultSetComparison<string>
 	{
-        
         public IReadOnlyCollection<string> KeyNames { get; private set; }
         public IReadOnlyCollection<string> ValueNames { get; private set; }
 
@@ -152,6 +151,10 @@ namespace NBi.Core.ResultSet
                 ValueNames = new ReadOnlyCollection<string>(values.Select(x => x.Trim()).ToList());
             }
         }
+
+        public SettingsResultSetComparisonByName(ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IEnumerable<IColumnDefinition> columnsDef)
+        : base(valuesDefaultType, defaultTolerance, new ReadOnlyCollection<IColumnDefinition>(columnsDef.ToList()))
+        { }
 
         public IEnumerable<string> GetKeyNames()
         {

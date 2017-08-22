@@ -3,26 +3,28 @@
   Expected: 
 ResultSet with 5 rows
 
-     KEY (Text) | VALUE (Numeric)  (+/- 0.01)
-     ---------- | --------------------------- 
-     CY 2005    | 366                        
-     CY 2006    | 1015                       
-     CY 2007    | 1521                       
-     CY 2008    | 894                        
-     CY 2009    | (null)                     
+     #0 (Column1) | #1 (Column2)                    
+     KEY (Text)   | VALUE (Numeric)  (+/- 0.01)
+     ------------ | --------------------------- 
+     CY 2005      | 366                        
+     CY 2006      | 1015                       
+     CY 2007      | 1521                       
+     CY 2008      | 894                        
+     CY 2009      | (null)                     
 
 
   But was:  
 ResultSet with 6 rows
 
-     KEY (Text) | VALUE (Numeric)  (+/- 0.01)
-     ---------- | --------------------------- 
-     CY 2003    | 155                        
-     CY 2004    | 1212                       
-     CY 2005    | 366                        
-     CY 2006    | 1015                       
-     CY 2008    | 1752                       
-     CY 2009    | (null)                     
+     #0 (Column1)    | #1 (Column2)                    
+     KEY (Text)      | VALUE (Numeric)  (+/- 0.01)
+     --------------- | --------------------------- 
+     CY 2003         | 155                        
+     CY 2004         | 1212                       
+     CY 2005         | 366                        
+     CY 2006         | 1015                       
+     CY 2008         | 1752                       
+     CY 2009         | (null)                     
 
 
 
@@ -31,19 +33,21 @@ Unexpected rows:
 
 ResultSet with 2 rows
 
-     KEY (Text) | VALUE (Numeric)  (+/- 0.01)
-     ---------- | --------------------------- 
-     CY 2003    | 155                        
-     CY 2004    | 1212                       
+     #0 (Column1)    | #1 (Column2)                    
+     KEY (Text)      | VALUE (Numeric)  (+/- 0.01)
+     --------------- | --------------------------- 
+     CY 2003         | 155                        
+     CY 2004         | 1212                       
 
 Missing rows:
 -------------
 
 ResultSet with 1 row
 
-     KEY (Text) | VALUE (Numeric)  (+/- 0.01)
-     ---------- | --------------------------- 
-     CY 2007    | 1521                       
+     #0 (Column1)    | #1 (Column2)                    
+     KEY (Text)      | VALUE (Numeric)  (+/- 0.01)
+     --------------- | --------------------------- 
+     CY 2007         | 1521                       
 
 
 Non matching value rows:
@@ -51,7 +55,8 @@ Non matching value rows:
 
 ResultSet with 1 row
 
-     KEY (Text) | VALUE (Numeric)  (+/- 0.01)
-     ---------- | --------------------------- 
-     CY 2008    | 1752 <> 894                
+     #0 (Column1)    | #1 (Column2)                    
+     KEY (Text)      | VALUE (Numeric)  (+/- 0.01)
+     --------------- | --------------------------- 
+     CY 2008         | 1752 <> 894                
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NBi.Core.ResultSet.Comparer
 {
-    class ComparerResult
+    public class ComparerResult
     {
         public string Message { get; private set; }
         public bool AreEqual { get; private set; }

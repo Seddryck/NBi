@@ -39,7 +39,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < 20; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
-            var msg = new DataRowsMessage(FailureReportProfile.Default);
+            var msg = new DataRowsMessage(ComparisonStyle.ByIndex, FailureReportProfile.Default);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -58,7 +58,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < 1; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
-            var msg = new DataRowsMessage(FailureReportProfile.Default);
+            var msg = new DataRowsMessage(ComparisonStyle.ByIndex, FailureReportProfile.Default);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -78,13 +78,13 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < 20; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
-            var msg = new DataRowsMessage(FailureReportProfile.Default);
+            var msg = new DataRowsMessage(ComparisonStyle.ByIndex, FailureReportProfile.Default);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
 
-            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(10 + 2));
+            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(10 + 3));
         }
 
         [Test]
@@ -100,13 +100,13 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < rowCount; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
-            var msg = new DataRowsMessage(FailureReportProfile.Default);
+            var msg = new DataRowsMessage(ComparisonStyle.ByIndex, FailureReportProfile.Default);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
 
-            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(rowCount + 2));
+            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(rowCount + 3));
         }
 
         [Test]
@@ -130,13 +130,13 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
                 && p.ExpectedSet == FailureReportSetType.Sample
             );
 
-            var msg = new DataRowsMessage(profile);
+            var msg = new DataRowsMessage(ComparisonStyle.ByIndex, profile);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
 
-            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(max + 2));
+            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(max + 3));
         }
 
         [Test]
@@ -160,13 +160,13 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
                 && p.ExpectedSet == FailureReportSetType.Full
             );
 
-            var msg = new DataRowsMessage(profile);
+            var msg = new DataRowsMessage(ComparisonStyle.ByIndex, profile);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
 
-            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(rowCount + 2));
+            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(rowCount + 3));
         }
 
         [Test]
@@ -190,7 +190,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
                 && p.ExpectedSet == FailureReportSetType.None
             );
 
-            var msg = new DataRowsMessage(profile);
+            var msg = new DataRowsMessage(ComparisonStyle.ByIndex, profile);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -211,7 +211,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < 22; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
-            var msg = new DataRowsMessage(FailureReportProfile.Default);
+            var msg = new DataRowsMessage(ComparisonStyle.ByIndex, FailureReportProfile.Default);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -234,7 +234,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
             for (int i = 0; i < rowCount; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
-            var msg = new DataRowsMessage(FailureReportProfile.Default);
+            var msg = new DataRowsMessage(ComparisonStyle.ByIndex, FailureReportProfile.Default);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
 
@@ -263,7 +263,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
                 );
 
 
-            var msg = new DataRowsMessage(FailureReportProfile.Default);
+            var msg = new DataRowsMessage(ComparisonStyle.ByIndex, FailureReportProfile.Default);
             msg.BuildComparaison(null, null, compared);
             var value = msg.RenderCompared();
 
@@ -292,7 +292,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
                 );
 
 
-            var msg = new DataRowsMessage(FailureReportProfile.Default);
+            var msg = new DataRowsMessage(ComparisonStyle.ByIndex, FailureReportProfile.Default);
             msg.BuildComparaison(null, null, compared);
             var value = msg.RenderCompared();
 

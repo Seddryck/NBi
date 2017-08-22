@@ -6,6 +6,7 @@ Display skipped.
   But was:  
 ResultSet with 1 row
 
+     #0  (Column1)          | #1 (Column2)
      KEY (Numeric)  (+/- 0) | VALUE (Text)
      ---------------------- | ------------ 
      1                      | A           
@@ -17,6 +18,7 @@ Missing rows:
 
 ResultSet with 25 rows
 
+     #0  (Number)           | #1 (Column1)
      KEY (Numeric)  (+/- 0) | VALUE (Text)
      ---------------------- | ------------ 
      2                      | B           

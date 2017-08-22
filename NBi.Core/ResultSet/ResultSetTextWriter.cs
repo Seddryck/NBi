@@ -80,7 +80,7 @@ namespace NBi.Core.ResultSet
             IList<int> fieldLength = GetFieldsLength(subsetRows);
 
             //information about #Rows and #Cols
-            var sbInfo = new System.Text.StringBuilder();
+            var sbInfo = new StringBuilder();
             sbInfo.AppendFormat("ResultSet with {0} row", rowCount);
             if (rowCount > 1)
                 sbInfo.Append('s');
@@ -91,13 +91,17 @@ namespace NBi.Core.ResultSet
             output.Add(GetFirstIndentation() + GetSeparator(fieldLength));
 
             //header
-            var sbHeader = new System.Text.StringBuilder();
+            var sbHeader = new StringBuilder();
+            var sbColumnName = new StringBuilder();
             sbHeader.Append(' ', 4);
             for (int i = 0; i < fieldLength.Count; i++)
             {
                 var displayHeader = LineFormatter.BuildHeader(rows.ElementAt(0).Table, i);
                 if (displayHeader!=null)
+                {
                     sbHeader.AppendFormat("| {0} ", displayHeader.GetText(fieldLength[i]));
+                    sbColumnName.AppendFormat("| {0} ", displayHeader.GetColumnName(fieldLength[i]));
+                }
             }
             sbHeader.Append("|");
             output.Add(sbHeader.ToString());

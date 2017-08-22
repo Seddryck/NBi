@@ -1,4 +1,4 @@
-﻿using NBi.Core.ResultSet.Converter;
+﻿    using NBi.Core.ResultSet.Converter;
 using System;
 using System.Globalization;
 using System.Linq;

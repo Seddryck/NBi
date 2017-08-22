@@ -1,6 +1,7 @@
 ﻿using MarkdownLog;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Comparer;
+using NBi.Framework.MarkdownLogExtension;
 using NBi.Unit.Framework.FailureMessage.Formatter;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,15 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Helper
 {
-    public class TableHelper
+    class TableHelper
     {
+        
+        private readonly ComparisonStyle style;
+        public TableHelper(ComparisonStyle style)
+        {
+            this.style = style;
+        }
+
         public MarkdownContainer Build(IEnumerable<DataRow> dataRows)
         {
             var container = new MarkdownContainer();
@@ -31,28 +39,28 @@ namespace NBi.Framework.FailureMessage.Helper
             return "This result set is empty.".ToMarkdownParagraph();
         }
 
-        protected Table BuildNonEmptyTable(IEnumerable<DataRow> dataRows)
+        protected TableExtended BuildNonEmptyTable(IEnumerable<DataRow> dataRows)
         {
             List<ColumnType> columnTypes;
             var headers = BuildColumns(dataRows, out columnTypes);
             var rows = BuildRows(dataRows, columnTypes);
 
-            return new Table() { Columns = headers, Rows = rows };
+            return new TableExtended() { Columns = headers, Rows = rows };
         }
 
-        protected virtual List<TableRow> BuildRows(IEnumerable<DataRow> dataRows, List<ColumnType> columnTypes)
+        protected virtual List<TableRowExtended> BuildRows(IEnumerable<DataRow> dataRows, List<ColumnType> columnTypes)
         {
-            var rows = new List<TableRow>();
+            var rows = new List<TableRowExtended>();
             foreach (DataRow dataRow in dataRows)
             {
-                var cells = new List<TableCell>();
+                var cells = new List<TableCellExtended>();
                 for (int i = 0; i < dataRow.Table.Columns.Count; i++)
                 {
                     var text = GetText(columnTypes, dataRow, i);
-                    cells.Add(new TableCell() { Text = text });
+                    cells.Add(new TableCellExtended() { Text = text });
                 }
 
-                rows.Add(new TableRow() { Cells = cells });
+                rows.Add(new TableRowExtended() { Cells = cells });
             }
             return rows;
         }
@@ -70,21 +78,30 @@ namespace NBi.Framework.FailureMessage.Helper
             return text;
         }
 
-        private List<TableColumn> BuildColumns(IEnumerable<DataRow> dataRows, out List<ColumnType> columnTypes)
+        private List<TableColumnExtended> BuildColumns(IEnumerable<DataRow> dataRows, out List<ColumnType> columnTypes)
         {
-            var headers = new List<TableColumn>();
+            var headers = new List<TableColumnExtended>();
             columnTypes = new List<ColumnType>();
             foreach (DataColumn dataColumn in dataRows.ElementAt(0).Table.Columns)
             {
                 var formatter = new TableHeaderHelper();
-
-                var header = string.Empty;
-                if (dataColumn.ExtendedProperties.Count == 0)
+                var tableColumn = new TableColumnExtended();
+                var headerCell = new TableCellExtended() {  };
+                switch (style)
                 {
-                    columnTypes.Add(ColumnType.Text);
-                    header = dataColumn.ColumnName;
+                    case ComparisonStyle.ByIndex:
+                        headerCell.Text = string.Format("#{0} ({1})", headers.Count, dataColumn.ColumnName);
+                        break;
+                    case ComparisonStyle.ByName:
+                        headerCell.Text = string.Format("{0}", dataColumn.ColumnName);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
-                else
+                
+                tableColumn.HeaderCell = headerCell;
+                
+                if (dataColumn.ExtendedProperties.Count > 0)
                 {
                     var role = (ColumnRole)(dataColumn.ExtendedProperties["NBi::Role"] ?? ColumnRole.Key);
                     var type = (ColumnType)(dataColumn.ExtendedProperties["NBi::Type"] ?? ColumnType.Text);
@@ -92,9 +109,14 @@ namespace NBi.Framework.FailureMessage.Helper
                     var rounding = (Rounding)(dataColumn.ExtendedProperties["NBi::Rounding"]);
                     columnTypes.Add(type);
 
-                    header = formatter.GetText(role, type, tolerance, rounding);
+                    var subHeader = formatter.GetText(role, type, tolerance, rounding);
+                    var subHeaderCell = new TableCellExtended() { Text = subHeader };
+                    tableColumn.SubHeaderCell = subHeaderCell;
                 }
-                headers.Add(new TableColumn() { HeaderCell = new TableCell() { Text = header } });
+                else
+                    columnTypes.Add(ColumnType.Text);
+
+                headers.Add(tableColumn);
             }
 
             return headers;

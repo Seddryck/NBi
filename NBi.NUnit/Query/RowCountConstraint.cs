@@ -64,7 +64,7 @@ namespace NBi.NUnit.Query
 
         protected virtual DataRowsMessage BuildFailure()
         {
-            var msg = new DataRowsMessage(Configuration.FailureReportProfile);
+            var msg = new DataRowsMessage(ComparisonStyle.ByIndex, Configuration.FailureReportProfile);
             msg.BuildCount(actualResultSet.Rows.Cast<DataRow>());
             return msg;
         }

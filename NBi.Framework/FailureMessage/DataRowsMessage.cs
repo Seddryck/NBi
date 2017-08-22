@@ -11,35 +11,38 @@ namespace NBi.Framework.FailureMessage
 {
     public class DataRowsMessage : SampledFailureMessage<DataRow>
     {
-        public DataRowsMessage(IFailureReportProfile profile)
+        private readonly ComparisonStyle style;
+        public DataRowsMessage(ComparisonStyle style, IFailureReportProfile profile)
             : base (profile)
-        { }
+        {
+            this.style = style;
+        }
 
         public void BuildComparaison(IEnumerable<DataRow> expectedRows, IEnumerable<DataRow> actualRows, ResultSetCompareResult compareResult)
         {
             compareResult = compareResult ?? ResultSetCompareResult.Build(new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>());
             
-            expected = BuildTable(expectedRows, Profile.ExpectedSet);
-            actual = BuildTable(actualRows, Profile.ActualSet);
-            compared = BuildNonEmptyTable(compareResult.Unexpected, "Unexpected", Profile.AnalysisSet);
-            compared.Append(BuildNonEmptyTable(compareResult.Missing ?? new List<DataRow>(), "Missing", Profile.AnalysisSet));
-            compared.Append(BuildNonEmptyTable(compareResult.Duplicated ?? new List<DataRow>(), "Duplicated", Profile.AnalysisSet));
-            compared.Append(BuildCompareTable(compareResult.NonMatchingValue.Rows ?? new List<DataRow>(), "Non matching value", Profile.AnalysisSet));
+            expected = BuildTable(style, expectedRows, Profile.ExpectedSet);
+            actual = BuildTable(style, actualRows, Profile.ActualSet);
+            compared = BuildNonEmptyTable(style, compareResult.Unexpected, "Unexpected", Profile.AnalysisSet);
+            compared.Append(BuildNonEmptyTable(style, compareResult.Missing ?? new List<DataRow>(), "Missing", Profile.AnalysisSet));
+            compared.Append(BuildNonEmptyTable(style, compareResult.Duplicated ?? new List<DataRow>(), "Duplicated", Profile.AnalysisSet));
+            compared.Append(BuildCompareTable(style, compareResult.NonMatchingValue.Rows ?? new List<DataRow>(), "Non matching value", Profile.AnalysisSet));
         }
 
         public void BuildFilter(IEnumerable<DataRow> actualRows, IEnumerable<DataRow> filteredRows)
         {
-            actual = BuildTable(actualRows, Profile.ActualSet);
-            filtered = BuildTable(filteredRows, Profile.ActualSet);
+            actual = BuildTable(style, actualRows, Profile.ActualSet);
+            filtered = BuildTable(style, filteredRows, Profile.ActualSet);
         }
         public void BuildCount(IEnumerable<DataRow> actualRows)
         {
-            actual = BuildTable(actualRows, Profile.ActualSet);
+            actual = BuildTable(style, actualRows, Profile.ActualSet);
         }
 
-        private MarkdownContainer BuildTable(IEnumerable<DataRow> rows, FailureReportSetType sampling)
+        private MarkdownContainer BuildTable(ComparisonStyle style, IEnumerable<DataRow> rows, FailureReportSetType sampling)
         {
-            var tableBuilder = new TableHelper();
+            var tableBuilder = new TableHelper(style);
             return BuildTable(tableBuilder, rows, string.Empty, sampling);
         }
 
@@ -69,18 +72,18 @@ namespace NBi.Framework.FailureMessage
             return container;
         }
 
-        private MarkdownContainer BuildNonEmptyTable(IEnumerable<DataRow> rows, string title, FailureReportSetType sampling)
+        private MarkdownContainer BuildNonEmptyTable(ComparisonStyle style, IEnumerable<DataRow> rows, string title, FailureReportSetType sampling)
         {
-            var tableBuilder = new TableHelper();
+            var tableBuilder = new TableHelper(style);
             if (rows.Count() > 0)
                 return BuildTable(tableBuilder, rows, title, sampling);
             else
                 return new MarkdownContainer();
         }
 
-        private MarkdownContainer BuildCompareTable(IEnumerable<DataRow> rows, string title, FailureReportSetType sampling)
+        private MarkdownContainer BuildCompareTable(ComparisonStyle style, IEnumerable<DataRow> rows, string title, FailureReportSetType sampling)
         {
-            var tableBuilder = new CompareTableHelper();
+            var tableBuilder = new CompareTableHelper(style);
             if (rows.Count() > 0)
                 return BuildTable(tableBuilder, rows, title, sampling);
             else

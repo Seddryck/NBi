@@ -84,12 +84,18 @@ namespace NBi.Xml.Constraints
         public ComparisonBehavior Behavior { get; set; }
 
         [XmlAttribute("keys")]
-        [DefaultValue(ResultSetComparisonSettings.KeysChoice.First)]
-        public ResultSetComparisonSettings.KeysChoice KeysDef { get; set; }
+        [DefaultValue(SettingsResultSetComparisonByIndex.KeysChoice.First)]
+        public SettingsResultSetComparisonByIndex.KeysChoice KeysDef { get; set; }
 
         [XmlAttribute("values")]
-        [DefaultValue(ResultSetComparisonSettings.ValuesChoice.AllExpectFirst)]
-        public ResultSetComparisonSettings.ValuesChoice ValuesDef { get; set; }
+        [DefaultValue(SettingsResultSetComparisonByIndex.ValuesChoice.AllExpectFirst)]
+        public SettingsResultSetComparisonByIndex.ValuesChoice ValuesDef { get; set; }
+
+        [XmlAttribute("keys-names")]
+        public string KeyName { get; set; }
+
+        [XmlAttribute("values-names")]
+        public string ValueName { get; set; }
 
         [XmlAttribute("values-default-type")]
         [DefaultValue(ColumnType.Numeric)]
@@ -135,9 +141,20 @@ namespace NBi.Xml.Constraints
         [DefaultValue(PersistanceChoice.Never)]
         public PersistanceChoice Persistance;
 
-        public ResultSetComparisonSettings GetSettings()
+        public ISettingsResultSetComparison GetSettings()
         {
-            return new ResultSetComparisonSettings(KeysDef, ValuesDef, ValuesDefaultType, new NumericToleranceFactory().Instantiate(Tolerance), ColumnsDef);
+            var builder = new ResultSetComparisonBuilder();
+            builder.Setup(
+                    Behavior == ComparisonBehavior.MultipleRows
+                    , KeysDef
+                    , KeyName
+                    , ValuesDef
+                    , ValueName
+                    , ValuesDefaultType
+                    , new NumericToleranceFactory().Instantiate(Tolerance)
+                    , ColumnsDef);
+            builder.Build();
+            return builder.GetSettings();
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]

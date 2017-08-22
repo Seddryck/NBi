@@ -51,3 +51,4 @@ Thumbs.db
 #Nuget
 *.compiled.nuspec
 .nupkg/
+.vs/

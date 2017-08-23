@@ -154,7 +154,10 @@ namespace NBi.Core.ResultSet
 
         public SettingsResultSetComparisonByName(ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IEnumerable<IColumnDefinition> columnsDef)
         : base(valuesDefaultType, defaultTolerance, new ReadOnlyCollection<IColumnDefinition>(columnsDef.ToList()))
-        { }
+        {
+            KeyNames = new List<string>();
+            ValueNames = new List<string>();
+        }
 
         public IEnumerable<string> GetKeyNames()
         {

@@ -6,7 +6,7 @@
 	<test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">
 		<system-under-test>
 			<execution>
-				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2016;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
 					SELECT
 					[Measures].[Reseller Order Count] ON 0,
 					{[Date].[Calendar Year].[CY 2005]:[Date].[Calendar Year].[CY 2008]} ON 1

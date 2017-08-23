@@ -41,6 +41,12 @@ if ($versionSuccess)
     Copy-Item $root\Bin\Debug\SqlServer$versionSuccess\Microsoft.SqlServer.Management.Sdk.Sfc.dll $root\..\NBi.NUnit.Runtime\Bin\Debug\
     Copy-Item $root\Bin\Debug\SqlServer$versionSuccess\Microsoft.SqlServer.Smo.dll $root\..\NBi.NUnit.Runtime\Bin\Debug\
     Write-Verbose "SMO librairies copied to NBi.NUnit.Runtime"
+
+    Write-Verbose "Copying SMO librairies to NBi.Testing ..."
+    Copy-Item $root\Bin\Debug\SqlServer$versionSuccess\Microsoft.SqlServer.ConnectionInfo.dll $root\..\NBi.Testing\Bin\Debug\
+    Copy-Item $root\Bin\Debug\SqlServer$versionSuccess\Microsoft.SqlServer.Management.Sdk.Sfc.dll $root\..\NBi.Testing\Bin\Debug\
+    Copy-Item $root\Bin\Debug\SqlServer$versionSuccess\Microsoft.SqlServer.Smo.dll $root\..\NBi.Testing\Bin\Debug\
+    Write-Verbose "SMO librairies copied to NBi.Testing"
 }
 else
 {

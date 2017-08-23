@@ -175,7 +175,7 @@
       <no-rows>
         <variable column-index="1">Code</variable>
         <predicate name="Code" type="text">
-          <null or-empty="true"/>
+          <empty or-null="true"/>
         </predicate>
       </no-rows>
     </assert>

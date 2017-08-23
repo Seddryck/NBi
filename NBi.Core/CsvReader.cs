@@ -181,7 +181,7 @@ namespace NBi.Core
             foreach (var item in list)
             {
                 var value = RemoveTextQualifier(item);
-                if (string.IsNullOrEmpty(value))
+                if (string.IsNullOrEmpty(value) && value!=null)
                     yield return Definition.EmptyCell;
                 else
                     yield return value;

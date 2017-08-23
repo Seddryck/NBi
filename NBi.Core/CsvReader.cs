@@ -174,7 +174,7 @@ namespace NBi.Core
             return table;
         }
 
-        protected IEnumerable<string> SplitLine(string row)
+        protected internal IEnumerable<string> SplitLine(string row)
         {
             var list = new List<string>(row.Split(Definition.FieldSeparator));
 

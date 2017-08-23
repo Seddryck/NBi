@@ -34,6 +34,13 @@ namespace NBi.Testing.Unit.Core
             Assert.That(value, Is.EqualTo(result));
         }
 
+        public void SplitLine_Null_NotEmpty()
+        {
+            var reader = new CsvReader();
+            var values = reader.SplitLine("a;(null)");
+            Assert.That(values.ElementAt(1), Is.Null);
+        }
+
         [Test]
         [TestCase("abc+abc+abc+abc", "+", 1, 4)]
         [TestCase("abc+abc+abc+abc", "+", 2, 4)]

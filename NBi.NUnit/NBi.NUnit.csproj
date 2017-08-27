@@ -96,6 +96,7 @@
     <Compile Include="Builder\ExecutionEqualToBuilder.cs" />
     <Compile Include="DataType\DescriptionDataTypeHelper.cs" />
     <Compile Include="DataType\IsConstraint.cs" />
+    <Compile Include="Query\SubsetOfConstraint.cs" />
     <Compile Include="Query\NoRowsConstraint.cs" />
     <Compile Include="Query\AllRowsConstraint.cs" />
     <Compile Include="Query\RowCountFilterConstraint.cs" />

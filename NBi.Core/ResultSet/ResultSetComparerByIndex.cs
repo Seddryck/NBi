@@ -8,6 +8,7 @@ using NBi.Core.ResultSet.Comparer;
 using System.Text;
 using NBi.Core.ResultSet.Converter;
 using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Analyzer;
 
 namespace NBi.Core.ResultSet
 {
@@ -18,7 +19,8 @@ namespace NBi.Core.ResultSet
             get { return Settings as SettingsResultSetComparisonByIndex; }
         }
 
-        public ResultSetComparerByIndex(SettingsResultSetComparisonByIndex settings)
+        public ResultSetComparerByIndex(IEnumerable<IRowsAnalyzer> analyzers, SettingsResultSetComparisonByIndex settings)
+            :base(analyzers)
         {
             Settings = settings;
         }
@@ -39,6 +41,14 @@ namespace NBi.Core.ResultSet
 
             CheckSettingsAndFirstRow(y, settings);
             CheckSettingsAndFirstRow(x, settings);
+        }
+
+        public override ComparisonStyle Style
+        {
+            get
+            {
+                return ComparisonStyle.ByIndex;
+            }
         }
 
         protected override DataRowKeysComparer BuildDataRowsKeyComparer(DataTable x)

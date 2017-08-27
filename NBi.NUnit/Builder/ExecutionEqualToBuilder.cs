@@ -110,6 +110,7 @@ namespace NBi.NUnit.Builder
                     ConstraintXml.ValuesDefaultType,
                     new NumericToleranceFactory().Instantiate(ConstraintXml.Tolerance),
                     ConstraintXml.ColumnsDef
+                    , ComparisonKind.EqualTo
                 );
                 
             }
@@ -123,7 +124,8 @@ namespace NBi.NUnit.Builder
                     ConstraintXml.ValueName,
                     ConstraintXml.ValuesDefaultType,
                     new NumericToleranceFactory().Instantiate(ConstraintXml.Tolerance),
-                    ConstraintXml.ColumnsDef
+                    ConstraintXml.ColumnsDef,
+                    ComparisonKind.EqualTo
                 );
             }
 

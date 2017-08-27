@@ -25,6 +25,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
                 , ColumnType.Numeric
                 , null
                 , null
+                , ComparisonKind.EqualTo
                 ));
         }
 
@@ -44,6 +45,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
                 , ColumnType.Numeric
                 , null
                 , Enumerable.Repeat(columnDef, 1).ToList()
+                , ComparisonKind.EqualTo
                 ));
         }
 
@@ -63,6 +65,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
                 , ColumnType.Numeric
                 , null
                 , Enumerable.Repeat(columnDef, 2).ToList()
+                , ComparisonKind.EqualTo
                 ));
         }
 
@@ -82,6 +85,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
                 , ColumnType.Numeric
                 , null
                 , Enumerable.Repeat(columnDef, 2).ToList()
+                , ComparisonKind.EqualTo
                 ));
         }
     }

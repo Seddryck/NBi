@@ -7,26 +7,34 @@ using System.Linq;
 using NBi.Core.ResultSet.Comparer;
 using System.Text;
 using NBi.Core.ResultSet.Converter;
+using NBi.Core.ResultSet.Analyzer;
+using System.Collections.ObjectModel;
 
 namespace NBi.Core.ResultSet
 {
     public abstract class ResultSetComparer : IResultSetComparer
     {
+        private readonly IList<IRowsAnalyzer> analyzers;
+        private IReadOnlyCollection<IRowsAnalyzer> Analyzers
+        {
+            get { return new ReadOnlyCollection<IRowsAnalyzer>(analyzers); }
+        }
+
         private readonly CellComparer cellComparer = new CellComparer();
         protected CellComparer CellComparer
         {
             get { return cellComparer; }
         }
 
+        public ResultSetComparer(IEnumerable<IRowsAnalyzer> analyzers)
+        {
+            this.analyzers = new List<IRowsAnalyzer>(analyzers);
+        }
+
         public ISettingsResultSetComparison Settings { get; set; }
 
-        public virtual ComparisonStyle Style
-        {
-            get
-            {
-                return ComparisonStyle.ByIndex;
-            }
-        }
+        public abstract ComparisonStyle Style { get; }
+        
 
         private readonly Dictionary<KeyCollection, CompareHelper> xDict = new Dictionary<KeyCollection, CompareHelper>();
         private readonly Dictionary<KeyCollection, CompareHelper> yDict = new Dictionary<KeyCollection, CompareHelper>();
@@ -45,7 +53,7 @@ namespace NBi.Core.ResultSet
 
         protected virtual ResultSetCompareResult doCompare(DataTable x, DataTable y)
         {
-            var chrono = DateTime.Now;
+            var stopWatch = new Stopwatch();
 
             var columnsCount = Math.Max(y.Columns.Count, x.Columns.Count);
 
@@ -53,54 +61,31 @@ namespace NBi.Core.ResultSet
 
             var keyComparer = BuildDataRowsKeyComparer(x);
 
-            chrono = DateTime.Now;
+            stopWatch.Start();
             BuildRowDictionary(x, xDict, keyComparer, false);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Building first rows dictionary: {0} [{1}]", x.Rows.Count, DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
-            chrono = DateTime.Now;
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Building first rows dictionary: {0} [{1}]", x.Rows.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            stopWatch.Reset();
+
+            stopWatch.Start();
             BuildRowDictionary(y, yDict, keyComparer, true);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Building second rows dictionary: {0} [{1}]", y.Rows.Count, DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Building second rows dictionary: {0} [{1}]", y.Rows.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            stopWatch.Reset();
 
-            chrono = DateTime.Now;
-            List<CompareHelper> missingRows;
-            {
-                var missingRowKeys = xDict.Keys.Except(yDict.Keys);
-                missingRows = new List<CompareHelper>(missingRowKeys.Count());
-                foreach (var i in missingRowKeys)
-                {
-                    missingRows.Add(xDict[i]);
-                }
-            }
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Missing rows: {0} [{1}]", missingRows.Count(), DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            var missingRowsAnalyzer = analyzers.FirstOrDefault(a => a.GetType() == typeof(MissingRowsAnalyzer));
+            var missingRows = missingRowsAnalyzer?.Retrieve(xDict, yDict) ?? new List<CompareHelper>();
 
-            chrono = DateTime.Now;
-            List<CompareHelper> unexpectedRows;
-            {
-                var unexpectedRowKeys = yDict.Keys.Except(xDict.Keys);
-                unexpectedRows = new List<CompareHelper>(unexpectedRowKeys.Count());
-                foreach (var i in unexpectedRowKeys)
-                {
-                    unexpectedRows.Add(yDict[i]);
-                }
-            }
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Unexpected rows: {0} [{1}]", unexpectedRows.Count(), DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            var unexpectedRowsAnalyzer = analyzers.FirstOrDefault(a => a.GetType() == typeof(UnexpectedRowsAnalyzer));
+            var unexpectedRows = unexpectedRowsAnalyzer?.Retrieve(xDict, yDict) ?? new List<CompareHelper>();
 
-            chrono = DateTime.Now;
-            List<CompareHelper> keyMatchingRows;
-            {
-                var keyMatchingRowKeys = xDict.Keys.Intersect(yDict.Keys);
-                keyMatchingRows = new List<CompareHelper>(keyMatchingRowKeys.Count());
-                foreach (var i in keyMatchingRowKeys)
-                {
-                    keyMatchingRows.Add(xDict[i]);
-                }
-            }
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key and not duplicated: {0}  [{1}]", keyMatchingRows.Count(), DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            var keyMatchingRowsAnalyzer = analyzers.FirstOrDefault(a => a.GetType() == typeof(KeyMatchingRowsAnalyzer));
+            var keyMatchingRows = keyMatchingRowsAnalyzer?.Retrieve(xDict, yDict) ?? new List<CompareHelper>();
 
-            chrono = DateTime.Now;
+            stopWatch.Start();
             var nonMatchingValueRows = !CanSkipValueComparison() ? CompareSets(keyMatchingRows) : new List<DataRow>();
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key but without matching value: {0} [{1}]", nonMatchingValueRows.Count(), DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key but without matching value: {0} [{1}]", nonMatchingValueRows.Count(), stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            stopWatch.Reset();
 
-            var duplicatedRows = new List<DataRow>(); // Dummy place holder
+            var duplicatedRows = new List<DataRow>(); // Dummy placeholder
 
             return ResultSetCompareResult.Build(
                 missingRows.Select(a => a.DataRowObj).ToList(),

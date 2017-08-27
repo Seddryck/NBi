@@ -10,6 +10,7 @@ using NBi.Framework.FailureMessage;
 using NBi.Framework;
 using NBi.Core.Xml;
 using NBi.Core.Transformation;
+using NBi.Core.ResultSet.Analyzer;
 
 namespace NBi.NUnit.Query
 {
@@ -58,12 +59,12 @@ namespace NBi.NUnit.Query
         /// Engine dedicated to ResultSet comparaison
         /// </summary>
         protected IResultSetComparer _engine;
-        protected internal IResultSetComparer Engine
+        protected internal virtual IResultSetComparer Engine
         {
             get
             {
                 if(_engine==null)
-                    _engine = new ResultSetComparerByIndex(null);
+                    _engine = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), null);
                 return _engine;
             }
             set

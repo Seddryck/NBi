@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2015
+VisualStudioVersion = 14.0.22823.1
+MinimumVisualStudioVersion = 14.0.22823.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Core", "NBi.Core\NBi.Core.csproj", "{3F730647-FE31-4907-8A6E-A0C4A0C970EA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Testing", "NBi.Testing\NBi.Testing.csproj", "{6AEEBCF9-90B3-4594-B015-8BBBE9E126EF}"

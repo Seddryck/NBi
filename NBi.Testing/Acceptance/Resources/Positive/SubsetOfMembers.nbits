@@ -34,13 +34,13 @@
 			</members>
 		</system-under-test>
 		<assert>
-			<subsetOf>
+      <contained-in>
 				<one-column-query>
 					select distinct [GroupName] from [HumanResources].[Department]
 					union
 					select distinct [Name] from [HumanResources].[Department]
 				</one-column-query>
-			</subsetOf>
+			</contained-in>
 		</assert>
 	</test>
 	<test name="Members of department bellow 'Corporate' are in a subset of themselves" uid="0001">
@@ -50,13 +50,13 @@
 			</members>
 		</system-under-test>
 		<assert>
-			<subsetOf>
+      <contained-in>
 				<members children-of="Corporate" >
 					<hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"
 						connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033"
 					/>
 				</members>
-			</subsetOf>
+			</contained-in>
 		</assert>
 	</test>
 </testSuite>

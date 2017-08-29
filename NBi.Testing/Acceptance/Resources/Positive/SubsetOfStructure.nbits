@@ -12,7 +12,7 @@
 			</structure>
 		</system-under-test>
 		<assert>
-			<subsetOf>
+			<contained-in>
 				<item>Adventure Works</item>
 				<item>Channel Sales</item>
 				<item>Direct Sales</item>
@@ -20,7 +20,7 @@
 				<item>Mined Customers</item>
 				<item>Sales Summary</item>
 				<item>Sales Targets</item>
-			</subsetOf>
+			</contained-in>
 		</assert>
 	</test>
 	<test name="In perspective 'Finance', the dimensions are all defined in the following set of 6 values" uid="0001">
@@ -47,9 +47,9 @@
 			</structure>
 		</system-under-test>
 		<assert>
-			<subsetOf>
+      <contained-in>
 				<item>Organizations</item>
-			</subsetOf>
+			</contained-in>
 		</assert>
 	</test>
 	<test name="In dimension 'Customers', the levels of hierarchy 'State-Provinces' are all defined in the set 'State-Provinces' and '(All)'" uid="0001">
@@ -72,10 +72,10 @@
 			</structure>
 		</system-under-test>
 		<assert>
-			<subsetOf>
+      <contained-in>
 				<item>Exchange Rates</item>
 				<item>Financial Reporting</item>
-			</subsetOf>
+			</contained-in>
 		</assert>
 	</test>
 	<test name="In perspective 'Finance', the measures of measure-group 'Exchange Rates' are all defined in the following set of 2 values" uid="0001">
@@ -85,10 +85,10 @@
 			</structure>
 		</system-under-test>
 		<assert>
-			<subsetOf>
+      <contained-in>
 				<item>End of Day Rate</item>
 				<item>Average Rate</item>
-			</subsetOf>
+			</contained-in>
 		</assert>
 	</test>
 </testSuite>

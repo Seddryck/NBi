@@ -79,11 +79,11 @@
     <Compile Include="Builder\ITestCaseBuilderChooser.cs" />
     <Compile Include="Builder\MembersMatchPatternBuilder.cs" />
     <Compile Include="Builder\MetadataDiscoveryRequestBuilder.cs" />
-    <Compile Include="Builder\MembersSubsetOfBuilder.cs" />
+    <Compile Include="Builder\MembersContainedInBuilder.cs" />
     <Compile Include="Builder\MembersEquivalentToBuilder.cs" />
     <Compile Include="Builder\StructureEquivalentToBuilder.cs" />
     <Compile Include="Builder\DataTypeIsBuilder.cs" />
-    <Compile Include="Builder\StructureSubsetOfBuilder.cs" />
+    <Compile Include="Builder\StructureContainedInBuilder.cs" />
     <Compile Include="Builder\StructureLinkedToBuilder.cs" />
     <Compile Include="Builder\StructureExistsBuilder.cs" />
     <Compile Include="Builder\StructureContainBuilder.cs" />
@@ -96,7 +96,7 @@
     <Compile Include="Builder\ExecutionEqualToBuilder.cs" />
     <Compile Include="DataType\DescriptionDataTypeHelper.cs" />
     <Compile Include="DataType\IsConstraint.cs" />
-    <Compile Include="Query\SubsetOfConstraint.cs" />
+    <Compile Include="Query\SubsetConstraint.cs" />
     <Compile Include="Query\NoRowsConstraint.cs" />
     <Compile Include="Query\AllRowsConstraint.cs" />
     <Compile Include="Query\RowCountFilterConstraint.cs" />
@@ -108,7 +108,7 @@
     <Compile Include="Member\AbstractMembersCollectionConstraint.cs" />
     <Compile Include="Member\MatchPatternConstraint.cs" />
     <Compile Include="Member\EquivalentToConstraint.cs" />
-    <Compile Include="Member\SubsetOfConstraint.cs" />
+    <Compile Include="Member\ContainedInConstraint.cs" />
     <Compile Include="NBiConstraint.cs" />
     <Compile Include="Query\EvaluateRowsConstraint.cs" />
     <Compile Include="Query\MatchPatternConstraint.cs" />
@@ -116,7 +116,7 @@
     <Compile Include="Structure\AbstractStructureConstraint.cs" />
     <Compile Include="Structure\EquivalentToConstraint.cs" />
     <Compile Include="Structure\ContainConstraint.cs" />
-    <Compile Include="Structure\SubsetOfConstraint.cs" />
+    <Compile Include="Structure\ContainedInConstraint.cs" />
     <Compile Include="Structure\LinkedToConstraint.cs" />
     <Compile Include="Structure\DescriptionStructureHelper.cs" />
     <Compile Include="TestCase.cs" />

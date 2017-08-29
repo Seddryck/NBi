@@ -237,6 +237,7 @@
     <Compile Include="Unit\GenbiL\Parser\SuiteParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\SettingParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\TemplateParserTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\StructureContainedInBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureEquivalentToBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\QuerySyntacticallyCorrectBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\QueryFasterThanBuilderTest.cs" />
@@ -282,7 +283,7 @@
     <Compile Include="Unit\Xml\Constraints\EvaluateRowsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\MatchPatternXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\EquivalentToXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\SubsetOfXmlTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\ContainedInXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\LinkedToXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\FasterThanXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
@@ -544,7 +545,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\QueryFile.sql" />
     <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerSample.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\FasterThanXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SubsetOfXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\ContainedInXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\GroupXmlTestSuite.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

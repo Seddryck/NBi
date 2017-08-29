@@ -13,7 +13,7 @@ using NBi.Core.Transformation;
 
 namespace NBi.NUnit.Query
 {
-    public class SubsetOfConstraint : EqualToConstraint
+    public class SubsetConstraint : EqualToConstraint
     {
         
         protected DataRowsMessage BuildFailure()
@@ -23,23 +23,23 @@ namespace NBi.NUnit.Query
             return msg;
         }
         
-        public SubsetOfConstraint (string value)
+        public SubsetConstraint (string value)
             : base(value)
         {}
 
-        public SubsetOfConstraint (ResultSet value)
+        public SubsetConstraint (ResultSet value)
             : base(value)
         { }
 
-        public SubsetOfConstraint(IContent value)
+        public SubsetConstraint(IContent value)
             : base(value)
         { }
 
-        public SubsetOfConstraint(IDbCommand value)
+        public SubsetConstraint(IDbCommand value)
             : base(value)
         { }
 
-        public SubsetOfConstraint(XPathEngine xpath)
+        public SubsetConstraint(XPathEngine xpath)
             : base(xpath)
         { }
 

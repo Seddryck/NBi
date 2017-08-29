@@ -79,7 +79,7 @@
     <Compile Include="Constraints\IReferenceFriendly.cs" />
     <Compile Include="Constraints\MatchPatternXml.cs" />
     <Compile Include="Constraints\EquivalentToXml.cs" />
-    <Compile Include="Constraints\SubsetOfXml.cs" />
+    <Compile Include="Constraints\ContainedInXml.cs" />
     <Compile Include="Constraints\ExistsXml.cs" />
     <Compile Include="Constraints\LinkedToXml.cs" />
     <Compile Include="Constraints\EvaluateRowsXml.cs" />

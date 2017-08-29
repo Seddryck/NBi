@@ -52,9 +52,9 @@ namespace NBi.NUnit.FluentInterface
             return ctr;
         }
 
-        public static NBi.NUnit.Structure.SubsetOfConstraint SubsetOf(IEnumerable<string> values)
+        public static NBi.NUnit.Structure.ContainedInConstraint SubsetOf(IEnumerable<string> values)
         {
-            var ctr = new NBi.NUnit.Structure.SubsetOfConstraint(values);
+            var ctr = new NBi.NUnit.Structure.ContainedInConstraint(values);
             return ctr;
         }
     }

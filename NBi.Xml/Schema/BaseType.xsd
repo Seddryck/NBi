@@ -953,33 +953,8 @@
                 <xs:attribute name="not" type="xs:boolean" use="optional" />
               </xs:complexType>
             </xs:element>
-            <xs:element name="subsetOf">
-              <xs:complexType>
-                <xs:sequence>
-                  <xs:choice>
-                    <xs:sequence>
-                      <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
-                        <xs:complexType>
-                          <xs:simpleContent>
-                            <xs:extension base="xs:string"/>
-                          </xs:simpleContent>
-                        </xs:complexType>
-                      </xs:element>
-                      <xs:choice minOccurs="0">
-                        <xs:element name="predefined" type="predefined-type"/>
-                        <xs:element name="range-integer" type="range-integer-type"/>
-                        <xs:element name="range-date" type="range-date-type"/>
-                        <xs:element name="range-integer-pattern" type="range-integer-pattern-type"/>
-                      </xs:choice>
-                    </xs:sequence>
-                    <xs:element name="one-column-query" type ="query-type"/>
-                    <xs:element name="members" type="members-type"/>
-                  </xs:choice>
-                </xs:sequence>
-                <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
-                <xs:attribute name="not" type="xs:boolean" use="optional" />
-              </xs:complexType>
-            </xs:element>
+            <xs:element name="subsetOf" type="contained-in-type" />
+            <xs:element name="contained-in" type="contained-in-type" />
             <xs:element name="exists">
               <xs:complexType>
                 <xs:simpleContent>
@@ -1150,5 +1125,30 @@
       <xs:element name="expression" type="expression2-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="predicate" type="predicate-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="contained-in-type">
+    <xs:sequence>
+      <xs:choice>
+        <xs:sequence>
+          <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:string"/>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:choice minOccurs="0">
+            <xs:element name="predefined" type="predefined-type"/>
+            <xs:element name="range-integer" type="range-integer-type"/>
+            <xs:element name="range-date" type="range-date-type"/>
+            <xs:element name="range-integer-pattern" type="range-integer-pattern-type"/>
+          </xs:choice>
+        </xs:sequence>
+        <xs:element name="one-column-query" type ="query-type"/>
+        <xs:element name="members" type="members-type"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+    <xs:attribute name="not" type="xs:boolean" use="optional" />
   </xs:complexType>
 </xs:schema>

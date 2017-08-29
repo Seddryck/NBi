@@ -45,12 +45,12 @@ namespace NBi.NUnit
 			Register(typeof(MembersXml), typeof(OrderedXml), new MembersOrderedBuilder());
 			Register(typeof(MembersXml), typeof(ContainXml), new MembersContainBuilder());
 			Register(typeof(MembersXml), typeof(EquivalentToXml), new MembersEquivalentToBuilder());
-			Register(typeof(MembersXml), typeof(SubsetOfXml), new MembersSubsetOfBuilder());
+			Register(typeof(MembersXml), typeof(ContainedInXml), new MembersContainedInBuilder());
 			Register(typeof(MembersXml), typeof(MatchPatternXml), new MembersMatchPatternBuilder());
 
 			Register(typeof(StructureXml), typeof(ContainXml), new StructureContainBuilder());
 			Register(typeof(StructureXml), typeof(EquivalentToXml), new StructureEquivalentToBuilder());
-			Register(typeof(StructureXml), typeof(SubsetOfXml), new StructureSubsetOfBuilder());
+			Register(typeof(StructureXml), typeof(ContainedInXml), new StructureContainedInBuilder());
 			Register(typeof(StructureXml), typeof(ExistsXml), new StructureExistsBuilder());
 			Register(typeof(StructureXml), typeof(LinkedToXml), new StructureLinkedToBuilder());
 

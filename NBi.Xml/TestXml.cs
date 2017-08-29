@@ -115,7 +115,7 @@ namespace NBi.Xml
         XmlArrayItem(Type = typeof(ExistsXml), ElementName = "exists"),
         XmlArrayItem(Type = typeof(OrderedXml), ElementName = "ordered"),
         XmlArrayItem(Type = typeof(LinkedToXml), ElementName = "linkedTo"),
-        XmlArrayItem(Type = typeof(SubsetOfXml), ElementName = "subsetOf"),
+        XmlArrayItem(Type = typeof(ContainedInXml), ElementName = "contained-in"),
         XmlArrayItem(Type = typeof(EquivalentToXml), ElementName = "equivalentTo"),
         XmlArrayItem(Type = typeof(MatchPatternXml), ElementName = "matchPattern"),
         XmlArrayItem(Type = typeof(EvaluateRowsXml), ElementName = "evaluate-rows"),

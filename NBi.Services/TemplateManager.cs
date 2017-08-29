@@ -61,11 +61,9 @@ namespace NBi.Service
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{TEMPLATE_DIRECTORY}{resourceName}.txt"))
             {
                 if (stream == null)
-                    throw new ArgumentOutOfRangeException($"{TEMPLATE_DIRECTORY}{resourceName}.txt");
+                    throw new ArgumentOutOfRangeException($"{resourceName}");
                 using (var reader = new StreamReader(stream))
-                {
                     value = reader.ReadToEnd();
-                }
             }
             Code = value;
             return value;

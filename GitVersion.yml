@@ -1,5 +1,4 @@
 mode: ContinuousDelivery
-assembly-informational-format: '{MajorMinorPatch}-{PreReleaseLabel}.{CommitsSinceVersionSource}+{BranchName}-{PreReleaseNumber})'
 branches:
   dev(elop)?(ment)?$:
     tag: beta

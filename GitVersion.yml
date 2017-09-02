@@ -2,6 +2,7 @@ mode: ContinuousDelivery
 branches:
   dev(elop)?(ment)?$:
     tag: alpha
-  features?[/-]: {}
+  features?[/-]:
+    tag: ci
 ignore:
   sha: []

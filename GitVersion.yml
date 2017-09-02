@@ -1,0 +1,7 @@
+mode: ContinuousDelivery
+branches:
+  dev(elop)?(ment)?$:
+    tag: alpha
+  features?[/-]: {}
+ignore:
+  sha: []

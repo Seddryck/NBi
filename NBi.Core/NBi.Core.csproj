@@ -113,6 +113,8 @@
     <Compile Include="Calculation\Predicate\Text\TextEmpty.cs" />
     <Compile Include="Calculation\Predicate\Text\TextContains.cs" />
     <Compile Include="Calculation\Predicate\Text\TextEndsWith.cs" />
+    <Compile Include="Calculation\Predicate\Text\TextLowerCase.cs" />
+    <Compile Include="Calculation\Predicate\Text\TextUpperCase.cs" />
     <Compile Include="Calculation\Predicate\Text\TextStartsWith.cs" />
     <Compile Include="Calculation\Predicate\Text\TextNullOrEmpty.cs" />
     <Compile Include="Calculation\Predicate\Text\TextNull.cs" />

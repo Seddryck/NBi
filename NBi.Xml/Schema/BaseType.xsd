@@ -442,6 +442,7 @@
   <xs:complexType name="empty-type">
     <xs:attribute name="or-null" type="xs:boolean" use="optional" />
   </xs:complexType>
+  <xs:complexType name="case-type"/>
   <xs:complexType name="text-type">
     <xs:simpleContent>
       <xs:extension base="comparer-type">
@@ -994,6 +995,8 @@
       <xs:element name="equal" type="comparer-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="null" type="null-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="empty" type="empty-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="lower-case" type="case-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="upper-case" type="case-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="starts-with" type="text-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="ends-with" type="text-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="contains" type="text-type" minOccurs="0" maxOccurs="1"/>

@@ -19,6 +19,8 @@ namespace NBi.Core.Calculation
         StartsWith = 20,
         EndsWith = 21,
         Contains = 22,
-        MatchesRegex = 23
+        MatchesRegex = 23,
+        UpperCase = 30,
+        LowerCase = 31,
     }
 }

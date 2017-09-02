@@ -44,6 +44,10 @@ namespace NBi.Xml.Items.Calculation
         public NullXml Null { get; set; }
         [XmlElement("empty")]
         public EmptyXml Empty { get; set; }
+        [XmlElement("lower-case")]
+        public LowerCaseXml LowerCase { get; set; }
+        [XmlElement("upper-case")]
+        public UpperCaseXml UpperCase { get; set; }
         [XmlElement("starts-with")]
         public StartsWithXml StartsWith { get; set; }
         [XmlElement("ends-with")]
@@ -68,6 +72,10 @@ namespace NBi.Xml.Items.Calculation
                     return Null;
                 if (Empty != null)
                     return Empty;
+                if (LowerCase != null)
+                    return LowerCase;
+                if (UpperCase != null)
+                    return UpperCase;
                 if (StartsWith != null)
                     return StartsWith;
                 if (EndsWith != null)
@@ -108,6 +116,10 @@ namespace NBi.Xml.Items.Calculation
                     return ComparerType.StartsWith;
                 if (EndsWith != null)
                     return ComparerType.EndsWith;
+                if (UpperCase != null)
+                    return ComparerType.UpperCase;
+                if (LowerCase != null)
+                    return ComparerType.LowerCase;
                 if (Contains != null)
                     return ComparerType.Contains;
                 if (MatchesRegex != null)

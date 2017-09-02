@@ -22,6 +22,14 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.NullOrEmpty, "(null)")]
         [TestCase(ComparerType.NullOrEmpty, "")]
         [TestCase(ComparerType.NullOrEmpty, "(empty)")]
+        [TestCase(ComparerType.LowerCase, "")]
+        [TestCase(ComparerType.LowerCase, "(empty)")]
+        [TestCase(ComparerType.LowerCase, "(null)")]
+        [TestCase(ComparerType.LowerCase, "abcd1235")]
+        [TestCase(ComparerType.UpperCase, "")]
+        [TestCase(ComparerType.UpperCase, "(empty)")]
+        [TestCase(ComparerType.UpperCase, "(null)")]
+        [TestCase(ComparerType.UpperCase, "ABD1235")]
         public void Apply_Text_Success(ComparerType comparerType, object x)
         {
             var info = Mock.Of<IPredicateInfo>(
@@ -33,7 +41,22 @@ namespace NBi.Testing.Unit.Core.Calculation
             var comparer = factory.Get(info);
             Assert.That(comparer.Apply(x), Is.True);
         }
-        
+
+        [Test]
+        [TestCase(ComparerType.LowerCase, "abCD1235")]
+        [TestCase(ComparerType.UpperCase, "Abc1235")]
+        public void Apply_Text_Failure(ComparerType comparerType, object x)
+        {
+            var info = Mock.Of<IPredicateInfo>(
+                    i => i.ColumnType == ColumnType.Text
+                    && i.ComparerType == comparerType
+                );
+
+            var factory = new PredicateFactory();
+            var comparer = factory.Get(info);
+            Assert.That(comparer.Apply(x), Is.False);
+        }
+
         [Test]
         [TestCase(ComparerType.Null, null, true)]
         [TestCase(ComparerType.Null, 1, false)]

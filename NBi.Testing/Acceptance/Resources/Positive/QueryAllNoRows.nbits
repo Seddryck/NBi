@@ -167,4 +167,38 @@
       </all-rows>
     </assert>
   </test>
+  <test name="With Predicate is lower case" uid="0006">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select lower([Name]) from [HumanResources].[Department]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <variable column-index="0">Name</variable>
+        <predicate name="Name" type="text">
+          <lower-case/>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate is lower case" uid="0007">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select upper([Name]) from [HumanResources].[Department]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <variable column-index="0">Name</variable>
+        <predicate name="Name" type="text">
+          <upper-case/>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
 </testSuite>

@@ -187,5 +187,41 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(predicate.Comparer, Is.TypeOf<MatchesRegexXml>());
         }
 
+        [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyLowerCaseComparer()
+        {
+            int testNr = 6;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
+            var predicate = allRows.Predicate;
+
+            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
+            Assert.That(predicate.Name, Is.EqualTo("Name"));
+            Assert.That(predicate.Not, Is.EqualTo(false));
+            Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
+
+            Assert.That(predicate.Comparer, Is.TypeOf<LowerCaseXml>());
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyUpperCaseComparer()
+        {
+            int testNr = 7;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
+            var predicate = allRows.Predicate;
+
+            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
+            Assert.That(predicate.Name, Is.EqualTo("Name"));
+            Assert.That(predicate.Not, Is.EqualTo(false));
+            Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
+
+            Assert.That(predicate.Comparer, Is.TypeOf<UpperCaseXml>());
+        }
+
     }
 }

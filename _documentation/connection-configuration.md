@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Connection strings in config files
-prev_section: compare-single-row
+prev_section: compare-superset-subset
 next_section: connection-providers
 permalink: /docs/connection-configuration/
 ---

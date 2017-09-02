@@ -2,7 +2,7 @@
 layout: documentation
 title: Single row
 prev_section: compare-intervals
-next_section: query-syntax
+next_section: compare-superset-subset
 permalink: /docs/compare-single-row/
 ---
 

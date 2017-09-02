@@ -18,6 +18,7 @@
   - compare-tolerances-roundings
   - compare-intervals
   - compare-single-row
+  - compare-superset-subset
 
 - title: connection strings
   docs:

@@ -1,4 +1,5 @@
 mode: ContinuousDelivery
+assembly-informational-format: '{MajorMinorPatch}-{PreReleaseLabel}.{BuildMetaData} ({BranchName} // {PreReleaseNumber})'
 branches:
   dev(elop)?(ment)?$:
     tag: alpha

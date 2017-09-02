@@ -19,6 +19,9 @@
   <xs:complexType name="csv-profile-type">
     <xs:attribute name="field-separator" type="xs:string"/>
     <xs:attribute name="record-separator" type="xs:string"/>
+    <xs:attribute name="first-row-header" type="xs:boolean"/>
+    <xs:attribute name="empty-cell" type="xs:string"/>
+    <xs:attribute name="missing-cell" type="xs:string"/>
   </xs:complexType>
   <xs:complexType name ="default-type">
     <xs:sequence>
@@ -33,6 +36,7 @@
       <xs:element type="parameter-type" minOccurs="0" maxOccurs="unbounded" name="parameter"/>
       <xs:element type="variable-type" minOccurs="0" maxOccurs="unbounded" name="variable"/>
       <xs:element type="report-base-type" minOccurs="0" maxOccurs="1" name="report"/>
+      <xs:element type="etl-base-type" minOccurs="0" maxOccurs="1" name="etl"/>
     </xs:sequence>
     <xs:attribute name="apply-to" use="required">
       <xs:simpleType>
@@ -59,6 +63,7 @@
       <xs:element name="numeric-format" type="numeric-format-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="currency-format" type="currency-format-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="report" type="report-base-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="etl" type="etl-base-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
     <xs:attribute name="name" type="xs:string" use="required"/>
   </xs:complexType>
@@ -90,10 +95,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="etl-type">
-    <xs:sequence>
-      <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
-    </xs:sequence>
+  <xs:complexType name="etl-base-type">
     <xs:attribute name="version" type="xs:string"/>
     <xs:attribute name="server" type="xs:string"/>
     <xs:attribute name="catalog" type="xs:string"/>
@@ -104,8 +106,17 @@
     <xs:attribute name="name" type="xs:string"/>
     <xs:attribute name="username" type="xs:string"/>
     <xs:attribute name="password" type="xs:string"/>
-    <xs:attribute name="bits-32" type="xs:boolean"/>
-    <xs:attribute name="timeout" type="xs:integer"/>
+  </xs:complexType>
+  <xs:complexType name="etl-type">
+    <xs:complexContent>
+      <xs:extension base="etl-base-type">
+        <xs:sequence>
+          <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="parameter-type"/>
+        </xs:sequence>
+        <xs:attribute name="bits-32" type="xs:boolean"/>
+        <xs:attribute name="timeout" type="xs:integer"/>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="category-type">
     <xs:simpleContent>
@@ -427,6 +438,17 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
+  <xs:complexType name="null-type"/>
+  <xs:complexType name="empty-type">
+    <xs:attribute name="or-null" type="xs:boolean" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="text-type">
+    <xs:simpleContent>
+      <xs:extension base="comparer-type">
+        <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
   <xs:complexType name="condition-type">
     <xs:sequence minOccurs="1" maxOccurs="unbounded">
       <xs:element name="service-running" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
@@ -728,7 +750,8 @@
                       <xs:sequence>
                         <xs:element name="transformation" minOccurs="0" maxOccurs="1" type="transformation-type"/>
                       </xs:sequence>
-                      <xs:attribute name="index" type="xs:int" use="required" />
+                      <xs:attribute name="index" type="xs:int" use="optional" />
+                      <xs:attribute name="name" type="xs:string" use="optional" />
                       <xs:attribute name="role" use="required" >
                         <xs:simpleType>
                           <xs:restriction base="xs:string">
@@ -761,9 +784,10 @@
                             <xs:complexType>
                               <xs:sequence>
                                 <xs:element name="cell" minOccurs="1" maxOccurs="unbounded">
-                                  <xs:complexType>
+                                  <xs:complexType>                                   
                                     <xs:simpleContent>
                                       <xs:extension base="xs:string">
+                                        <xs:attribute name="column-name" type="xs:string" use="optional" />
                                       </xs:extension>
                                     </xs:simpleContent>
                                   </xs:complexType>
@@ -824,6 +848,8 @@
                     </xs:restriction>
                   </xs:simpleType>
                 </xs:attribute>
+                <xs:attribute name="keys-names" type="xs:string" use="optional" />
+                <xs:attribute name="values-names" type="xs:string" use="optional" />
               </xs:complexType>
             </xs:element>
             <xs:element name="evaluate-rows">
@@ -1098,6 +1124,12 @@
       <xs:element name="less-than" type="more-less-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="more-than" type="more-less-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="equal" type="comparer-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="null" type="null-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="empty" type="empty-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="starts-with" type="text-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="ends-with" type="text-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="contains" type="text-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="matches-regex" type="text-type" minOccurs="0" maxOccurs="1"/>
     </xs:choice>
     <xs:attribute name="name" type="xs:string" use="required"/>
     <!--<xs:attribute name="column-index" type="xs:nonNegativeInteger" use="optional"/>-->

@@ -58,6 +58,9 @@ namespace NBi.Core.ResultSet.Comparer
 
         protected override ComparerResult CompareObjects(object x, object y, Tolerance tolerance)
         {
+            if (tolerance == null)
+                tolerance = DateTimeTolerance.None;
+
             if (!(tolerance is DateTimeTolerance))
                 throw new ArgumentException("Tolerance must be of type 'DateTimeTolerance'");
 

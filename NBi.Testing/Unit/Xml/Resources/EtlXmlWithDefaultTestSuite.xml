@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <etl server="localhost" environment="Environment"/>
+		</default>
+    <default apply-to="setup-cleanup">
+      <etl server="." environment="Environment"/>
+    </default>
+	</settings>
+	<test name="From file" uid="0000">
+		<setup>
+			<etl-run path="/Etl/" name="Sample"/>
+		</setup>
+		<system-under-test>
+			<execution>
+				<report source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"
+						path="/AdventureWorks Sample Reports/"
+						name="Currency_List"
+						dataset="currency"
+						connectionString="Data Source=tadam;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				/>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet>
+					<row>
+						<cell>EURO</cell>
+					</row>
+					<row>
+						<cell>American Dollar</cell>
+					</row>
+				</resultSet>
+			</equalTo>
+		</assert>
+	</test>
+  <test name="With override" uid="0001">
+    <system-under-test>
+      <execution>
+        <etl path="/Etl/" name="Sample" environment="EnvironmentOverride"/>
+      </execution>
+    </system-under-test>
+    <assert>
+      <successful/>
+    </assert>
+  </test>
+</testSuite>

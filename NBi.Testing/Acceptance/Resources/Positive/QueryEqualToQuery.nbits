@@ -407,4 +407,88 @@
       </assert>
     </test>
   </group>
+  <group name="Compare by name">
+    <test name="equalTo definition">
+      <system-under-test>
+        <execution>
+          <query>select 'Alpha' as 'Key', '100' as 'Value1', 100.0 as Value2 union all select 'Beta' as 'Key', '120', 100.00 as Value2</query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo keys-names="Key" values-names="Value1, Value2">
+          <query>
+            select '100' as 'Value1', null as 'Ignore', 'Alpha' as 'Key', 100.00 as Value2  union all select '120' as 'Value1', 'Youpla' as 'Ignore', 'Beta' as 'Key', 100 as Value2
+          </query>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="column definition">
+      <system-under-test>
+        <execution>
+          <query>select 'Alpha' as 'Key', '100' as 'Value' union all select 'Beta' as 'Key', '120'</query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <column name="Key" role="key" type="text"/>
+          <column name="Value" role="value" type="numeric"/>
+          <query>
+            select '100' as 'Value', null as 'Ignore', 'Alpha' as 'Key'  union all select '120' as 'Value', 'Youpla' as 'Ignore', 'Beta' as 'Key'
+          </query>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="column definition + equalTo definition">
+      <system-under-test>
+        <execution>
+          <query>select 'Alpha' as 'KeyField', '2016-12-10' as 'Value' union all select 'Beta' as 'KeyField', '2016-02-02'</query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo keys-names="KeyField">
+          <column name="Value" role="value" type="dateTime"/>
+          <query>
+            select '2016-12-10' as [Value], null as 'Ignore', 'Alpha' as KeyField  union all select '2016-02-02' as 'Value', 'Youpla' as 'Ignore', 'Beta' as 'Key'
+          </query>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="value definition">
+      <system-under-test>
+        <execution>
+          <query>select 'Alpha' as 'KeyField', '2016-12-10' as 'Value' union all select 'Beta' as 'KeyField', '2016-02-02'</query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo keys-names="KeyField">
+          <column name="Value" role="value" type="dateTime"/>
+          <query>
+            select '2016-12-10' as [Value], null as 'Ignore', 'Alpha' as KeyField  union all select '2016-02-02' as 'Value', 'Youpla' as 'Ignore', 'Beta' as 'Key'
+          </query>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="value definition">
+      <system-under-test>
+        <execution>
+          <query>select '10' as 'KeyField', '2016-12-10' as 'Value' union all select '12.0' as 'KeyField', '2016-02-02'</query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo values-names="Value" values-default-type="dateTime">
+          <column name="KeyField" role="key" type="numeric"/>
+          <resultSet>
+            <row>
+              <cell column-name="Value">2016-12-10</cell>
+              <cell column-name="KeyField">10</cell>
+            </row>
+            <row>
+              <cell>2016-02-02</cell>
+              <cell>12</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+  </group>
 </testSuite>

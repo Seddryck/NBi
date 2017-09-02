@@ -57,6 +57,9 @@ namespace NBi.Core.ResultSet.Comparer
 
         protected override ComparerResult CompareObjects(object x, object y, Tolerance tolerance)
         {
+            if (tolerance == null)
+                tolerance = NumericAbsoluteTolerance.None;
+
             if (!(tolerance is NumericTolerance))
                 throw new ArgumentException("Tolerance must be of type 'NumericTolerance'");
 

@@ -71,7 +71,7 @@ namespace NBi.NUnit.Builder
                 else if (ConstraintXml.ResultSet.Rows != null)
                 {
                     Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in embedded resultSet!");
-                    ctr = new EqualToConstraint(ConstraintXml.ResultSet.Rows);
+                    ctr = new EqualToConstraint(ConstraintXml.ResultSet.Content);
                 }
             }
             else if (ConstraintXml.XmlSource != null)
@@ -102,28 +102,36 @@ namespace NBi.NUnit.Builder
                 throw new ArgumentException();
 
             //Manage settings for comparaison
-            ResultSetComparisonSettings settings = null;
+            var builder = new ResultSetComparisonBuilder();
             if (ConstraintXml.Behavior == EqualToXml.ComparisonBehavior.SingleRow)
-            { 
-                ctr = ctr.Using(new SingleRowComparer());
-                settings = new SingleRowComparisonSettings(
+            {
+                
+                builder.Setup(false, 0, null, 0, null,
                     ConstraintXml.ValuesDefaultType,
                     new NumericToleranceFactory().Instantiate(ConstraintXml.Tolerance),
                     ConstraintXml.ColumnsDef
                 );
+                
             }
             else
             {
-                settings = new ResultSetComparisonSettings(
+                builder.Setup(
+                    true,
                     ConstraintXml.KeysDef,
+                    ConstraintXml.KeyName,
                     ConstraintXml.ValuesDef,
+                    ConstraintXml.ValueName,
                     ConstraintXml.ValuesDefaultType,
                     new NumericToleranceFactory().Instantiate(ConstraintXml.Tolerance),
                     ConstraintXml.ColumnsDef
                 );
             }
-            
-            ctr.Using(settings);
+
+            builder.Build();
+            ctr = ctr.Using(builder.GetComparer());
+
+            var settings = builder.GetSettings();
+            ctr = ctr.Using(settings);
 
             //Manage transformations
             var transformationProvider = new TransformationProvider();

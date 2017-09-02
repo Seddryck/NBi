@@ -7,7 +7,8 @@ namespace NBi.Core.ResultSet
 {
     public class Column : IColumnDefinition
     {
-        public int Index {get; set;} 
+        public int Index {get; set;}
+        public string Name { get; set; }
         public ColumnRole Role {get; set;} 
         public ColumnType Type {get; set;}
 

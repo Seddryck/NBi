@@ -8,12 +8,15 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.Boolean
 {
-    class BooleanEqual : IPredicate
+    class BooleanEqual : AbstractPredicateReference
     {
-        public bool Compare(object x, object y)
+        public BooleanEqual(object reference) : base(reference)
+        { }
+
+        public override bool Apply(object x)
         {
             var cpr = new BooleanComparer();
-            return cpr.Compare(x, y).AreEqual;
+            return cpr.Compare(x, Reference).AreEqual;
         }
     }
 }

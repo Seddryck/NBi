@@ -35,7 +35,7 @@ namespace NBi.NUnit.Query
 
         protected override DataRowsMessage BuildFailure()
         {
-            var msg = new DataRowsMessage(Configuration.FailureReportProfile);
+            var msg = new DataRowsMessage(ComparisonStyle.ByIndex, Configuration.FailureReportProfile);
             msg.BuildFilter(actualResultSet.Rows.Cast<DataRow>(), filterResultSet.Rows.Cast<DataRow>());
             return msg;
         }

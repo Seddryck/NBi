@@ -136,23 +136,23 @@ namespace NBi.Xml
                         }
                         else
                             xmlSchemaException = new XmlSchemaException(ex.InnerException.Message);
-                            
+
                     }
                     Console.WriteLine(xmlSchemaException.Message);
                     validationExceptions.Add(xmlSchemaException);
-                    
+
                 }
                 else
                     ParseCascadingInvalidOperationException(ex.InnerException as InvalidOperationException);
             }
 
-            if (validationExceptions.Count>0)
+            if (validationExceptions.Count > 0)
             {
                 var message = "The test suite is not valid. Check with the XSD.";
                 message += string.Format(" {0} error{1} {2} been found during the validation of the test-suite:\r\n"
                                                 , validationExceptions.Count
-                                                , validationExceptions.Count>1 ? "s" : string.Empty
-                                                , validationExceptions.Count>1 ? "have" : "has");
+                                                , validationExceptions.Count > 1 ? "s" : string.Empty
+                                                , validationExceptions.Count > 1 ? "have" : "has");
 
                 foreach (var error in validationExceptions)
                     message += string.Format("\tAt line {0}: {1}\r\n", error.LineNumber, error.Message);
@@ -187,7 +187,7 @@ namespace NBi.Xml
             //Define the type/level of validation
             settings.ValidationType = ValidationType.Schema;
             settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings;
-            settings.ValidationEventHandler += delegate(object sender, ValidationEventArgs args)
+            settings.ValidationEventHandler += delegate (object sender, ValidationEventArgs args)
             {
                 if (args.Severity == XmlSeverityType.Warning)
                     Console.WriteLine("Validation warning: " + args.Message);
@@ -224,7 +224,7 @@ namespace NBi.Xml
             var xmlReaderSettings = BuildXmlReaderBaseSettings(isDtdProcessing);
 
             //define XSD schemas to add 
-            var schemaSet = AddSchemas(new[] 
+            var schemaSet = AddSchemas(new[]
                                             {"NBi.Xml.Schema.BaseType.xsd"
                                             , "NBi.Xml.Schema.Cleanup.xsd"
                                             , "NBi.Xml.Schema.Setup.xsd"
@@ -274,7 +274,7 @@ namespace NBi.Xml
             var xmlReaderSettings = BuildXmlReaderBaseSettings(isDtdProcessing);
 
             //define XSD schemas to add 
-            var schemaSet = AddSchemas(new[] 
+            var schemaSet = AddSchemas(new[]
                                             {"NBi.Xml.Schema.BaseType.xsd"
                                             , "NBi.Xml.Schema.Settings.xsd"}
                                         , "http://NBi/TestSuite");
@@ -319,6 +319,8 @@ namespace NBi.Xml
             foreach (var cmd in decorationCommands)
             {
                 cmd.Settings = TestSuite.Settings;
+                if (cmd is IReferenceFriendly && TestSuite.Settings != null)
+                    ((IReferenceFriendly)cmd).AssignReferences(TestSuite.Settings.References);
             }
         }
 

@@ -59,6 +59,10 @@
     <Reference Include="NCalc">
       <HintPath>..\packages\NCalc-Edge.1.4.3\lib\NCalc.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
@@ -86,13 +90,17 @@
     <Compile Include="Analysis\Request\FactoryValidations\ValidationFilter.cs" />
     <Compile Include="Calculation\ComparerType.cs" />
     <Compile Include="Calculation\IPredicateInfo.cs" />
+    <Compile Include="Calculation\Predicate\AbstractPredicateReference.cs" />
+    <Compile Include="Calculation\Predicate\Boolean\BooleanNull.cs" />
     <Compile Include="Calculation\Predicate\Boolean\BooleanEqual.cs" />
+    <Compile Include="Calculation\Predicate\DateTime\DateTimeNull.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimeEqual.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimeLessThan.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimeLessThanOrEqual.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimeMoreThan.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimeMoreThanOrEqual.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimePredicate.cs" />
+    <Compile Include="Calculation\Predicate\Numeric\NumericNull.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericEqual.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericLessThan.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericLessThanOrEqual.cs" />
@@ -100,6 +108,14 @@
     <Compile Include="Calculation\Predicate\Numeric\NumericMoreThanOrEqual.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericPredicate.cs" />
     <Compile Include="Calculation\Predicate\PredicateFactory.cs" />
+    <Compile Include="Calculation\Predicate\Text\AbstractTextPredicate.cs" />
+    <Compile Include="Calculation\Predicate\Text\TextMatchesRegex.cs" />
+    <Compile Include="Calculation\Predicate\Text\TextEmpty.cs" />
+    <Compile Include="Calculation\Predicate\Text\TextContains.cs" />
+    <Compile Include="Calculation\Predicate\Text\TextEndsWith.cs" />
+    <Compile Include="Calculation\Predicate\Text\TextStartsWith.cs" />
+    <Compile Include="Calculation\Predicate\Text\TextNullOrEmpty.cs" />
+    <Compile Include="Calculation\Predicate\Text\TextNull.cs" />
     <Compile Include="Calculation\Predicate\Text\TextLessThanOrEqual.cs" />
     <Compile Include="Calculation\Predicate\Text\TextLessThan.cs" />
     <Compile Include="Calculation\Predicate\Text\TextMoreThanOrEqual.cs" />
@@ -119,7 +135,6 @@
     <Compile Include="Connection\ConnectionWaitFactory.cs" />
     <Compile Include="CsvWriter.cs" />
     <Compile Include="Batch\BatchRunnerFactory.cs" />
-    <Compile Include="Batch\IBatchCommand.cs" />
     <Compile Include="Batch\IBatchRunnerFatory.cs" />
     <Compile Include="Batch\IBatchRunCommand.cs" />
     <Compile Include="DataType\CaptionFilter.cs" />
@@ -255,6 +270,7 @@
     <Compile Include="Report\SharedDatasetRequest.cs" />
     <Compile Include="Report\DatasetRequest.cs" />
     <Compile Include="Report\ReportCommand.cs" />
+    <Compile Include="ResultSet\Comparer\CellComparer.cs" />
     <Compile Include="ResultSet\Comparer\ComparerFactory.cs" />
     <Compile Include="Report\DatabaseParser.cs" />
     <Compile Include="Report\FileParser.cs" />
@@ -265,6 +281,7 @@
     <Compile Include="ResultSet\Comparer\NumericBoundedPercentageTolerance.cs" />
     <Compile Include="ResultSet\Comparer\NumericToleranceFactory.cs" />
     <Compile Include="ResultSet\Comparer\SideTolerance.cs" />
+    <Compile Include="ResultSet\ComparisonStyle.cs" />
     <Compile Include="ResultSet\Converter\BaseNumericConverter.cs" />
     <Compile Include="ResultSet\Converter\ConverterFactory.cs" />
     <Compile Include="ResultSet\Converter\IConverter.cs" />
@@ -273,7 +290,10 @@
     <Compile Include="ResultSet\Converter\ThreeStateBooleanConverter.cs" />
     <Compile Include="ResultSet\Converter\NumericConverter.cs" />
     <Compile Include="ResultSet\Converter\TextConverter.cs" />
+    <Compile Include="ResultSet\DataRowKeysComparerByName.cs" />
+    <Compile Include="ResultSet\DataRowKeysComparerByIndex.cs" />
     <Compile Include="ResultSet\EndPoint.cs" />
+    <Compile Include="ResultSet\Content.cs" />
     <Compile Include="ResultSet\IntervalBuilder.cs" />
     <Compile Include="ListComparisonFormatter.cs" />
     <Compile Include="ListComparer.cs" />
@@ -303,9 +323,16 @@
     <Compile Include="ResultSet\Comparer\RoundingFactory.cs" />
     <Compile Include="ResultSet\Comparer\TextComparer.cs" />
     <Compile Include="ResultSet\Comparer\Tolerance.cs" />
-    <Compile Include="ResultSet\SingleRowComparisonSettings.cs" />
-    <Compile Include="ResultSet\SingleRowComparer.cs" />
+    <Compile Include="ResultSet\JsonResultSet.cs" />
+    <Compile Include="ResultSet\IResultSetComparisonSettings.cs" />
     <Compile Include="ResultSet\ResultSetComparer.cs" />
+    <Compile Include="ResultSet\ResultSetComparerByName.cs" />
+    <Compile Include="ResultSet\SettingsResultSetComparisonByIndex.cs" />
+    <Compile Include="ResultSet\SettingsResultSetComparisonByName.cs" />
+    <Compile Include="ResultSet\ResultSetComparisonBuilder.cs" />
+    <Compile Include="ResultSet\SettingsSingleRowComparison.cs" />
+    <Compile Include="ResultSet\SingleRowComparer.cs" />
+    <Compile Include="ResultSet\ResultSetComparerByIndex.cs" />
     <Compile Include="ResultSet\DataRowKeysComparer.cs" />
     <Compile Include="ResultSet\Interval.cs" />
     <Compile Include="ResultSet\KeyCollection.cs" />
@@ -322,7 +349,7 @@
     <Compile Include="ResultSet\ResultSet.cs" />
     <Compile Include="ResultSet\ResultSetBuilder.cs" />
     <Compile Include="ResultSet\ResultSetComparerException.cs" />
-    <Compile Include="ResultSet\ResultSetComparisonSettings.cs" />
+    <Compile Include="ResultSet\SettingsResultSetComparison.cs" />
     <Compile Include="ResultSet\ResultSetCompareResult.cs" />
     <Compile Include="ResultSet\IResultSetComparer.cs" />
     <Compile Include="ConnectionException.cs" />

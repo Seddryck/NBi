@@ -34,6 +34,13 @@ namespace NBi.Testing.Unit.Core
             Assert.That(value, Is.EqualTo(result));
         }
 
+        public void SplitLine_Null_NotEmpty()
+        {
+            var reader = new CsvReader();
+            var values = reader.SplitLine("a;(null)");
+            Assert.That(values.ElementAt(1), Is.Null);
+        }
+
         [Test]
         [TestCase("abc+abc+abc+abc", "+", 1, 4)]
         [TestCase("abc+abc+abc+abc", "+", 2, 4)]
@@ -184,6 +191,78 @@ namespace NBi.Testing.Unit.Core
         }
 
         [Test]
+        [TestCase("a+b+c#a+b#a#a+b", '+', "#", "?")]
+        public void NextRecords_CsvWithCsvProfileMissingCell_CorrectResults(string text, char fieldSeparator, string recordSeparator, string missingCell)
+        {
+            using (var stream = new MemoryStream())
+            {
+                var writer = new StreamWriter(stream);
+                writer.Write(text);
+                writer.Flush();
+
+                stream.Position = 0;
+                var profile = new CsvProfile(fieldSeparator, '\"', recordSeparator, false, "_", missingCell);
+                var reader = new CsvReader(profile);
+                var dataTable = reader.Read(stream, false);
+
+                Assert.That(dataTable.Rows[0].ItemArray[0], Is.EqualTo("a"));
+                Assert.That(dataTable.Rows[0].ItemArray[1], Is.EqualTo("b"));
+                Assert.That(dataTable.Rows[0].ItemArray[2], Is.EqualTo("c"));
+
+                Assert.That(dataTable.Rows[1].ItemArray[0], Is.EqualTo("a"));
+                Assert.That(dataTable.Rows[1].ItemArray[1], Is.EqualTo("b"));
+                Assert.That(dataTable.Rows[1].ItemArray[2], Is.EqualTo("?"));
+
+                Assert.That(dataTable.Rows[2].ItemArray[0], Is.EqualTo("a"));
+                Assert.That(dataTable.Rows[2].ItemArray[1], Is.EqualTo("?"));
+                Assert.That(dataTable.Rows[2].ItemArray[2], Is.EqualTo("?"));
+
+                Assert.That(dataTable.Rows[3].ItemArray[0], Is.EqualTo("a"));
+                Assert.That(dataTable.Rows[3].ItemArray[1], Is.EqualTo("b"));
+                Assert.That(dataTable.Rows[3].ItemArray[2], Is.EqualTo("?"));
+
+
+                writer.Dispose();
+            }
+        }
+
+        [Test]
+        [TestCase("a+b+c#a++c#+b+c#+b+", '+', "#", "?")]
+        public void NextRecords_CsvWithCsvProfileEmptyCell_CorrectResults(string text, char fieldSeparator, string recordSeparator, string emptyCell)
+        {
+            using (var stream = new MemoryStream())
+            {
+                var writer = new StreamWriter(stream);
+                writer.Write(text);
+                writer.Flush();
+
+                stream.Position = 0;
+                var profile = new CsvProfile(fieldSeparator, '\"', recordSeparator, false, emptyCell, "_");
+                var reader = new CsvReader(profile);
+                var dataTable = reader.Read(stream, false);
+
+                Assert.That(dataTable.Rows[0].ItemArray[0], Is.EqualTo("a"));
+                Assert.That(dataTable.Rows[0].ItemArray[1], Is.EqualTo("b"));
+                Assert.That(dataTable.Rows[0].ItemArray[2], Is.EqualTo("c"));
+
+                Assert.That(dataTable.Rows[1].ItemArray[0], Is.EqualTo("a"));
+                Assert.That(dataTable.Rows[1].ItemArray[1], Is.EqualTo("?"));
+                Assert.That(dataTable.Rows[1].ItemArray[2], Is.EqualTo("c"));
+
+                Assert.That(dataTable.Rows[2].ItemArray[0], Is.EqualTo("?"));
+                Assert.That(dataTable.Rows[2].ItemArray[1], Is.EqualTo("b"));
+                Assert.That(dataTable.Rows[2].ItemArray[2], Is.EqualTo("c"));
+
+                Assert.That(dataTable.Rows[3].ItemArray[0], Is.EqualTo("?"));
+                Assert.That(dataTable.Rows[3].ItemArray[1], Is.EqualTo("b"));
+                Assert.That(dataTable.Rows[3].ItemArray[2], Is.EqualTo("?"));
+
+
+                writer.Dispose();
+            }
+        }
+
+        [Test]
         [TestCase("abc", "+@", "abc")]
         [TestCase("abc+@", "+@", "abc")]
         [TestCase("abc\0\0\0", "+@", "abc")]
@@ -233,7 +312,7 @@ namespace NBi.Testing.Unit.Core
                 foreach (DataRow row in dataTable.Rows)
                 {
                     foreach (var cell in row.ItemArray)
-                        Assert.That(cell.ToString().Length, Is.EqualTo(3).Or.EqualTo(0));
+                        Assert.That(cell.ToString(), Has.Length.EqualTo(3).Or.EqualTo("(empty)").Or.EqualTo("(null)"));
                 }
                 writer.Dispose();
             }

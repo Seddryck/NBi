@@ -5,6 +5,7 @@ namespace NBi.Core.ResultSet
     public interface IResultSetComparer
     {
         ResultSetCompareResult Compare(object x, object y);
-        ResultSetComparisonSettings Settings { get; set; }
+        ISettingsResultSetComparison Settings { get; set; }
+        ComparisonStyle Style { get; }
     }
 }

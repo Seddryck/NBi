@@ -1,6 +1,7 @@
 ﻿using MarkdownLog;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Comparer;
+using NBi.Framework.MarkdownLogExtension;
 using NBi.Unit.Framework.FailureMessage.Formatter;
 using System;
 using System.Collections.Generic;
@@ -12,22 +13,25 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Helper
 {
-    public class CompareTableHelper : TableHelper
+    class CompareTableHelper : TableHelper
     {
-        protected override List<TableRow> BuildRows(IEnumerable<DataRow> dataRows, List<ColumnType> columnTypes)
+        public CompareTableHelper(ComparisonStyle style)
+        : base(style) { }
+
+        protected override List<TableRowExtended> BuildRows(IEnumerable<DataRow> dataRows, List<ColumnType> columnTypes)
         {
-            var rows = new List<TableRow>();
+            var rows = new List<TableRowExtended>();
             foreach (DataRow dataRow in dataRows)
             {
-                var cells = new List<TableCell>();
+                var cells = new List<TableCellExtended>();
                 for (int i = 0; i < dataRow.Table.Columns.Count; i++)
                 {
                     var text = GetText(columnTypes, dataRow, i);
                     var compared = GetCompareText(columnTypes, dataRow, i);
                     var fullText = string.Format("{0}{1}{2}", text, string.IsNullOrEmpty(compared) ? "" : " <> ", compared);
-                    cells.Add(new TableCell() { Text = fullText });
+                    cells.Add(new TableCellExtended() { Text = fullText });
                 }
-                rows.Add(new TableRow() { Cells = cells });
+                rows.Add(new TableRowExtended() { Cells = cells });
             }
             return rows;
         }

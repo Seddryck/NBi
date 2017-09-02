@@ -12,6 +12,13 @@ namespace NBi.Core.Calculation
         LessThanOrEqual = -1,
         Equal = 0,
         MoreThanOrEqual = 1,
-        MoreThan = 2
+        MoreThan = 2,
+        Null = 10,
+        Empty = 11,
+        NullOrEmpty = 12,
+        StartsWith = 20,
+        EndsWith = 21,
+        Contains = 22,
+        MatchesRegex = 23
     }
 }

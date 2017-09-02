@@ -8,6 +8,9 @@ namespace NBi.Xml.Items.ResultSet
         [XmlText]
         public string Value { get; set; }
 
+        [XmlAttribute("column-name")]
+        public string ColumnName { get; set; }
+
         public override string ToString()
         {
             return Value;

@@ -58,6 +58,13 @@
     </Compile>
     <Compile Include="Constraints\AbstractConstraintForCollectionXml.cs" />
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
+    <Compile Include="Constraints\Comparer\AbstractTextComparerXml.cs" />
+    <Compile Include="Constraints\Comparer\MatchesRegexXml.cs" />
+    <Compile Include="Constraints\Comparer\StartsWithXml.cs" />
+    <Compile Include="Constraints\Comparer\EndsWithXml.cs" />
+    <Compile Include="Constraints\Comparer\ContainsXml.cs" />
+    <Compile Include="Constraints\Comparer\NullXml.cs" />
+    <Compile Include="Constraints\Comparer\EmptyXml.cs" />
     <Compile Include="Constraints\NoRowsXml.cs" />
     <Compile Include="Constraints\Comparer\AbstractComparerXml.cs" />
     <Compile Include="Constraints\Comparer\EqualXml.cs" />
@@ -103,6 +110,7 @@
     <Compile Include="InheritanceTestXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
+    <Compile Include="Items\EtlBaseXml.cs" />
     <Compile Include="Items\Filters\IOwnerFilter.cs" />
     <Compile Include="Items\SharedDatasetXml.cs" />
     <Compile Include="Items\ResultSet\TransformationXml.cs" />

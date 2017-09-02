@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <etl server="localhost" catalog="SSISDB" folder="Folder" project="Project" name="Name"/>
+		</default>
+    <reference name="MyRef">
+      <etl server="127.0.0.1" catalog="SSISDB" folder="FolderRef" project="ProjectRef" name="NameRef"/>
+    </reference>
+	</settings>
+  <test name="Use default" uid="0000">
+    <system-under-test>
+      <execution>
+        <etl/>
+      </execution>
+    </system-under-test>
+    <assert>
+      <successful/>
+    </assert>
+  </test>
+  <test name="Use reference" uid="0001">
+    <system-under-test>
+      <execution>
+        <etl server="@MyRef" catalog="@MyRef" folder="@MyRef" project="@MyRef" name="@MyRef"/>
+      </execution>
+    </system-under-test>
+    <assert>
+      <successful/>
+    </assert>
+  </test>
+</testSuite>

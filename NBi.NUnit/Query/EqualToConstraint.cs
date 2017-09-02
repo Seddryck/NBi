@@ -49,7 +49,7 @@ namespace NBi.NUnit.Query
 
         protected DataRowsMessage BuildFailure()
         {
-            var msg = new DataRowsMessage(Configuration.FailureReportProfile);
+            var msg = new DataRowsMessage(Engine.Style, Configuration.FailureReportProfile);
             msg.BuildComparaison(expectedResultSet.Rows.Cast<DataRow>(), actualResultSet.Rows.Cast<DataRow>(), result);
             return msg;
         }
@@ -63,7 +63,7 @@ namespace NBi.NUnit.Query
             get
             {
                 if(_engine==null)
-                    _engine = new ResultSetComparer();
+                    _engine = new ResultSetComparerByIndex(null);
                 return _engine;
             }
             set
@@ -112,7 +112,7 @@ namespace NBi.NUnit.Query
             this.expect = value;
         }
 
-        public EqualToConstraint(IEnumerable<IRow> value)
+        public EqualToConstraint(IContent value)
         {
             this.expect = value;
         }
@@ -133,7 +133,7 @@ namespace NBi.NUnit.Query
             return this;
         }
 
-        public EqualToConstraint Using(ResultSetComparisonSettings settings)
+        public EqualToConstraint Using(ISettingsResultSetComparison settings)
         {
             this.Engine.Settings = settings;
             return this;

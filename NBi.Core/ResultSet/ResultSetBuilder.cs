@@ -27,6 +27,8 @@ namespace NBi.Core.ResultSet
                 return Build((ResultSet)obj);
             else if (obj is IList<IRow>)
                 return Build((IList<IRow>)obj);
+            else if (obj is IContent)
+                return Build((IContent)obj);
             else if (obj is IDbCommand)
                 return Build((IDbCommand)obj);
             else if (obj is string)
@@ -64,7 +66,7 @@ namespace NBi.Core.ResultSet
                 throw new ExternalDependencyNotFoundException(path);
 
             var reader = new CsvReader(profile);
-            var dataTable = reader.Read(path, false);
+            var dataTable = reader.Read(path);
 
             var rs = new ResultSet();
             rs.Load(dataTable);
@@ -89,6 +91,30 @@ namespace NBi.Core.ResultSet
             return Build(rows);
         }
 
+        public virtual ResultSet Build(IContent content)
+        {
+            var rs = Build(content.Rows);
+            for (int i = 0; i < content.Columns.Count; i++)
+            {
+                if (!string.IsNullOrEmpty(content.Columns[i]))
+                    rs.Table.Columns[i].ColumnName = content.Columns[i];
+            }
+            return rs;
+        }
+
+
+        public class Content : IContent
+        {
+            public IList<IRow> Rows { get; set; }
+            public IList<string> Columns { get; set; }
+
+            public Content (IList<IRow> rows, IList<string> columns)
+            {
+                Rows = rows;
+                Columns = columns;
+            }
+        }
+
         private class Row : IRow
         {
             private readonly IList<ICell> cells = new List<ICell>();
@@ -101,12 +127,8 @@ namespace NBi.Core.ResultSet
 
         private class Cell : ICell
         {
-            private string cellValue;
-            public string Value
-            {
-                get { return cellValue; }
-                set { cellValue = value; }
-            }
+            public string Value { get; set; }
+            public string ColumnName { get; set; }
         }
 
     }

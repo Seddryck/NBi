@@ -384,6 +384,31 @@ namespace NBi.Testing.Unit.Core.ResultSet
         }
 
         [Test]
+        public void Compare_SameKeysSameValuesUselessColumnsNoneValuesMatching_ReturnEqual()
+        {
+            var settings = new SettingsResultSetComparisonByIndex(
+                SettingsResultSetComparisonByIndex.KeysChoice.First,
+                SettingsResultSetComparisonByIndex.ValuesChoice.None,
+                new List<IColumnDefinition>()
+                {
+                    new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.Numeric }
+                }
+                );
+
+            //Buiding object used during test
+            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), settings);
+            var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 }, new string[] { "Useless0", "Useless1" });
+            var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 }, new string[] { "0Useless0", "0Useless1" });
+
+
+            //Call the method to test
+            var res = comparer.Compare(reference, actual);
+
+            //Assertion
+            Assert.That(res, Is.EqualTo(ResultSetCompareResult.Matching));
+        }
+
+        [Test]
         public void Compare_ObjectsVersusSameTyped_ReturnEqual()
         {
             //Buiding object used during test

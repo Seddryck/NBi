@@ -24,8 +24,10 @@ namespace NBi.Core.ResultSet
 			[XmlEnum(Name = "all-except-first")]
 			AllExpectFirst = 0,
 			[XmlEnum(Name = "last")]
-			Last = 1
-		}
+			Last = 1,
+            [XmlEnum(Name = "none")]
+            None = 2
+        }
         
         public KeysChoice KeysDef { get; set; }
 		private ValuesChoice ValuesDef { get; set; }
@@ -78,7 +80,9 @@ namespace NBi.Core.ResultSet
 					return index != 0;
 				case ValuesChoice.Last:
 					return index == GetLastColumnIndex();
-			}
+                case ValuesChoice.None:
+                    return false;
+            }
 
 			return false;
 		}

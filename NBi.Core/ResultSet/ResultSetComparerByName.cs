@@ -7,6 +7,7 @@ using System.Linq;
 using NBi.Core.ResultSet.Comparer;
 using System.Text;
 using NBi.Core.ResultSet.Converter;
+using NBi.Core.ResultSet.Analyzer;
 
 namespace NBi.Core.ResultSet
 {
@@ -25,7 +26,8 @@ namespace NBi.Core.ResultSet
             get { return Settings as SettingsResultSetComparisonByName; }
         }
 
-        public ResultSetComparerByName(SettingsResultSetComparisonByName settings)
+        public ResultSetComparerByName(IEnumerable<IRowsAnalyzer> analyzers, SettingsResultSetComparisonByName settings)
+            : base(analyzers)
         {
             Settings = settings;
         }

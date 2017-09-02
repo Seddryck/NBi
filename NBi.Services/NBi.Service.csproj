@@ -113,22 +113,22 @@
     <EmbeddedResource Include="Templates\ExistsPerspective.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Templates\SubsetOfDimensions.txt" />
+    <EmbeddedResource Include="Templates\ContainedInDimensions.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Templates\SubsetOfHierarchies.txt" />
+    <EmbeddedResource Include="Templates\ContainedInHierarchies.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Templates\SubsetOfLevels.txt" />
+    <EmbeddedResource Include="Templates\ContainedInLevels.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Templates\SubsetOfMeasureGroup.txt" />
+    <EmbeddedResource Include="Templates\ContainedInMeasureGroup.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Templates\SubsetOfMeasures.txt" />
+    <EmbeddedResource Include="Templates\ContainedInMeasures.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Templates\SubsetOfPerspectives.txt" />
+    <EmbeddedResource Include="Templates\ContainedInPerspectives.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Templates\LinkedToDimension.txt" />

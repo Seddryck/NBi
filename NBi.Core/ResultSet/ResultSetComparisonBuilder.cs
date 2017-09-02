@@ -1,4 +1,5 @@
-﻿using NBi.Core.ResultSet.Comparer;
+﻿using NBi.Core.ResultSet.Analyzer;
+using NBi.Core.ResultSet.Comparer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,9 +24,10 @@ namespace NBi.Core.ResultSet
         private IReadOnlyList<IColumnDefinition> columnsDef;
 
         private ISettingsResultSetComparison settings;
+        private ComparisonKind kind = ComparisonKind.EqualTo;
         private IResultSetComparer comparer;
 
-        public void Setup(bool isMultipleRows, SettingsResultSetComparisonByIndex.KeysChoice keysDef, string keyNames, SettingsResultSetComparisonByIndex.ValuesChoice valuesDef, string valueNames, ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyList<IColumnDefinition> columnsDef)
+        public void Setup(bool isMultipleRows, SettingsResultSetComparisonByIndex.KeysChoice keysDef, string keyNames, SettingsResultSetComparisonByIndex.ValuesChoice valuesDef, string valueNames, ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyList<IColumnDefinition> columnsDef, ComparisonKind kind)
         {
             isBuild = false;
 
@@ -51,7 +53,7 @@ namespace NBi.Core.ResultSet
                 && (!string.IsNullOrEmpty(keyNames) || !string.IsNullOrEmpty(valueNames))
                 && columnsDef.Any(c => c.Index != 0))
                 throw new InvalidOperationException("You cannot define a comparison by name and specify some column's definitions where you explicitely give a value to the 'index' attribute. Use attribute 'index' in place of 'name'.");
-            
+
             if (columnsDef.Any(c => c.Index != 0 && !string.IsNullOrEmpty(c.Name)))
                 throw new InvalidOperationException("You cannot define some column's definitions where you explicitely give a value to the 'index' attribute and to the 'name' attribute. Use attribute 'index' or 'name' but not both.");
 
@@ -106,6 +108,7 @@ namespace NBi.Core.ResultSet
             this.valuesDefaultType = valuesDefaultType;
             this.defaultTolerance = defaultTolerance;
             this.columnsDef = columnsDef;
+            this.kind = kind;
 
             isSetup = true;
 
@@ -134,12 +137,18 @@ namespace NBi.Core.ResultSet
         {
             if (settings is SettingsSingleRowComparison)
                 comparer = new SingleRowComparer(settings as SettingsSingleRowComparison);
+            else
+            {
+                var factory = new AnalyzersFactory();
+                var analyzers = factory.Instantiate(kind);
 
-            else if (settings is SettingsResultSetComparisonByIndex)
-                comparer = new ResultSetComparerByIndex(settings as SettingsResultSetComparisonByIndex);
+                if (settings is SettingsResultSetComparisonByIndex)
+                    comparer = new ResultSetComparerByIndex(analyzers, settings as SettingsResultSetComparisonByIndex);
 
-            else if (settings is SettingsResultSetComparisonByName)
-                comparer = new ResultSetComparerByName(settings as SettingsResultSetComparisonByName);
+                else if (settings is SettingsResultSetComparisonByName)
+                    comparer = new ResultSetComparerByName(analyzers, settings as SettingsResultSetComparisonByName);
+            }
+
         }
 
         protected void BuildSettings()
@@ -171,7 +180,7 @@ namespace NBi.Core.ResultSet
                     .Union(valueNamesList.Select(x => new Column() { Name = x, Role = ColumnRole.Value, Type = valuesDefaultType })
                     .Union(columnsDef)
                     );
-                
+
                 settings = new SettingsResultSetComparisonByName(valuesDefaultType, defaultTolerance, allColumns);
             }
 

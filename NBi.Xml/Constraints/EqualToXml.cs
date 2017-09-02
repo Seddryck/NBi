@@ -152,7 +152,8 @@ namespace NBi.Xml.Constraints
                     , ValueName
                     , ValuesDefaultType
                     , new NumericToleranceFactory().Instantiate(Tolerance)
-                    , ColumnsDef);
+                    , ColumnsDef
+                    , ComparisonKind.EqualTo);
             builder.Build();
             return builder.GetSettings();
         }

@@ -29,7 +29,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
             commandStub.Setup(cmd => cmd.Execute()).Returns(actuals);
             commandStub.Setup(cmd => cmd.Description).Returns(description);
 
-            var containsConstraint = new SubsetOfConstraint(exp);
+            var containsConstraint = new ContainedInConstraint(exp);
 
             //Method under test
             string assertionText = null;

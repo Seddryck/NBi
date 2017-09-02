@@ -1,0 +1,11 @@
+mode: ContinuousDelivery
+assembly-informational-format: '{MajorMinorPatch}-{PreReleaseLabel}.{CommitsSinceVersionSource}+{BranchName}-{PreReleaseNumber})'
+branches:
+  dev(elop)?(ment)?$:
+    tag: beta
+  features?[/-]:
+    tag: alpha
+  releases?[/-]:
+    tag: RC
+ignore:
+  sha: []

@@ -19,7 +19,7 @@ namespace NBi.Testing.Unit.NUnit.Member
             var members = new MemberResult();
             members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[First member]", "First member", 1, 0));
 
-            var subsetOfConstraint = new NBi.NUnit.Member.SubsetOfConstraint(new List<string>() {"First member", "Second Member"});
+            var subsetOfConstraint = new NBi.NUnit.Member.ContainedInConstraint(new List<string>() {"First member", "Second Member"});
 
             //Call the method to test
             var res = subsetOfConstraint.Matches(members);
@@ -36,7 +36,7 @@ namespace NBi.Testing.Unit.NUnit.Member
             members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[First member]", "First member", 1, 0));
             members.Add(new NBi.Core.Analysis.Member.Member("[Hierarchy].[Second member]", "Second member", 2, 0));
 
-            var subsetOfConstraint = new NBi.NUnit.Member.SubsetOfConstraint(new List<string>() { "First member" });
+            var subsetOfConstraint = new NBi.NUnit.Member.ContainedInConstraint(new List<string>() { "First member" });
 
             //Call the method to test
             var res = subsetOfConstraint.Matches(members);
@@ -56,7 +56,7 @@ namespace NBi.Testing.Unit.NUnit.Member
             var mockedFailure = Mock.Of<ItemsMessage>(f => f.RenderActual() == "failure actual");
 
             //Buiding object used during test
-            var subsetOfConstraint = new NBi.NUnit.Member.SubsetOfConstraint(new List<string>() { "First member" });
+            var subsetOfConstraint = new NBi.NUnit.Member.ContainedInConstraint(new List<string>() { "First member" });
             subsetOfConstraint.Failure = mockedFailure;
 
             //Call the method to test
@@ -77,7 +77,7 @@ namespace NBi.Testing.Unit.NUnit.Member
             var mockedFailure = Mock.Of<ItemsMessage>(f => f.RenderExpected() == "failure actual");
 
             //Buiding object used during test
-            var subsetOfConstraint = new NBi.NUnit.Member.SubsetOfConstraint(new List<string>() { "First member" });
+            var subsetOfConstraint = new NBi.NUnit.Member.ContainedInConstraint(new List<string>() { "First member" });
             subsetOfConstraint.Failure = mockedFailure;
 
             //Call the method to test

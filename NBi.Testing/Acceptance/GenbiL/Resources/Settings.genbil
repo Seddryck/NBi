@@ -2,7 +2,7 @@
 case load file 'Acceptance\GenbiL\Resources\dimension.csv';
 case  remove  column 'useless';
 case  rename  column  'dimensionY' into 'dimension';
-template load predefined 'SubsetOfDimensions';
+template load predefined 'ContainedInDimensions';
 
 setting include file 'Acceptance\GenbiL\Resources\settings.nbiset';
 

@@ -228,6 +228,7 @@
     <Compile Include="Unit\GenbiL\Action\Suite\GenerateSuiteActionTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\CommentParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\GrammarParserTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetSupersetOfBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ExecutionRowCountBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ExecutionMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersMatchPatternBuilderTest.cs" />
@@ -237,18 +238,19 @@
     <Compile Include="Unit\GenbiL\Parser\SuiteParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\SettingParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\TemplateParserTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\StructureContainedInBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureEquivalentToBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\QuerySyntacticallyCorrectBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\QueryFasterThanBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\ExecutionEqualsToBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ExecutionEqualToBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureExistsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersContainsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersOrderedBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersCountBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
     <Compile Include="Unit\NUnit\DataType\IsConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\Query\AllRowsConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\Query\RowCountConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\AllRowsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\RowCountConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Execution\SuccessfulConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Execution\FasterThanConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\CountConstraintTest.cs" />
@@ -258,14 +260,15 @@
     <Compile Include="Unit\NUnit\Query\FasterThanConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\ContainsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Member\OrderedConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\Query\MatchPatternConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\MatchPatternConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\SupersetOfConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Runtime\TestSuiteTest.cs" />
     <Compile Include="Unit\NUnit\Structure\ContainConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Structure\SubsetOfConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Structure\EquivalentToConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Structure\ExistsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Query\SyntacticallyCorrectConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\Query\EqualToConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\EqualToConstraintTest.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Unit\Service\RunnerConfig\GallioRunnerConfigBuilderTest.cs" />
     <Compile Include="Unit\Service\RunnerConfig\NUnitRunnerConfigBuilderTest.cs" />
@@ -274,6 +277,7 @@
     <Compile Include="Unit\Service\TestCaseCollectionManagerTest.cs" />
     <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\SupersetOfXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\NoRowsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\IsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\AllRowsXmlTest.cs" />
@@ -282,7 +286,7 @@
     <Compile Include="Unit\Xml\Constraints\EvaluateRowsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\MatchPatternXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\EquivalentToXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\SubsetOfXmlTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\ContainedInXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\LinkedToXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\FasterThanXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
@@ -435,10 +439,16 @@
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToQuery - MySQL.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QuerySubsetOfQuery.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\QueryEqualToResultSetProvider.nbits.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryAllNoRows.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QuerySupersetOfQuery.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Acceptance\Resources\PowerBiDesktop\Sales Analysis.pbix">
@@ -544,7 +554,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\QueryFile.sql" />
     <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerSample.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\FasterThanXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SubsetOfXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\ContainedInXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\GroupXmlTestSuite.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -702,6 +712,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\SupersetOfXmlTestSuite.xml" />
     <EmbeddedResource Include="Acceptance\Resources\Csv\SampleData.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

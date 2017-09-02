@@ -50,7 +50,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , new CaptionFilter[] { });
 
             var expected = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
-            var ctr = new SubsetOfConstraint(expected);
+            var ctr = new ContainedInConstraint(expected);
 
             //Method under test
             Assert.That(discovery, ctr);
@@ -68,7 +68,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
                         , new CaptionFilter[] { });
 
             var expected = new string[] { "Adventure Works".ToUpper(), "Channel Sales".ToLower(), "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
-            var ctr = new SubsetOfConstraint(expected);
+            var ctr = new ContainedInConstraint(expected);
             ctr = ctr.IgnoreCase;
 
             //Method under test
@@ -90,7 +90,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
             var expected = new List<string>();
             expected.AddRange(expectedStrings);
             expected.RemoveAt(0);
-            var ctr = new SubsetOfConstraint(expected);
+            var ctr = new ContainedInConstraint(expected);
 
             //Method under test
             Assert.That(ctr.Matches(discovery), Is.False);
@@ -111,7 +111,7 @@ namespace NBi.Testing.Integration.NUnit.Structure
             var expected = new List<string>();
             expected.AddRange(expectedStrings);
             expected.Add("New perspective");
-            var ctr = new SubsetOfConstraint(expected);
+            var ctr = new ContainedInConstraint(expected);
 
             //Method under test
             Assert.That(ctr.Matches(discovery), Is.True);

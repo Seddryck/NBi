@@ -270,6 +270,12 @@
     <Compile Include="Report\SharedDatasetRequest.cs" />
     <Compile Include="Report\DatasetRequest.cs" />
     <Compile Include="Report\ReportCommand.cs" />
+    <Compile Include="ResultSet\Analyzer\AnalyzersFactory.cs" />
+    <Compile Include="ResultSet\Analyzer\BaseRowsAnalyzer.cs" />
+    <Compile Include="ResultSet\Analyzer\IRowsAnalyzer.cs" />
+    <Compile Include="ResultSet\Analyzer\KeyMatchingRowsAnalyzer.cs" />
+    <Compile Include="ResultSet\Analyzer\UnexpectedRowsAnalyzer.cs" />
+    <Compile Include="ResultSet\Analyzer\MissingRowsAnalyzer.cs" />
     <Compile Include="ResultSet\Comparer\CellComparer.cs" />
     <Compile Include="ResultSet\Comparer\ComparerFactory.cs" />
     <Compile Include="Report\DatabaseParser.cs" />
@@ -281,6 +287,7 @@
     <Compile Include="ResultSet\Comparer\NumericBoundedPercentageTolerance.cs" />
     <Compile Include="ResultSet\Comparer\NumericToleranceFactory.cs" />
     <Compile Include="ResultSet\Comparer\SideTolerance.cs" />
+    <Compile Include="ResultSet\ComparisonKind.cs" />
     <Compile Include="ResultSet\ComparisonStyle.cs" />
     <Compile Include="ResultSet\Converter\BaseNumericConverter.cs" />
     <Compile Include="ResultSet\Converter\ConverterFactory.cs" />

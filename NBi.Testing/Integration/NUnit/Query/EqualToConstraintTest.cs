@@ -1,7 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Data.SqlClient;
-using NBi.NUnit.Query;
+using NBi.NUnit.ResultSetComparison;
 using NUnit.Framework;
 #endregion
 
@@ -50,7 +50,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             command2.CommandText = "WAITFOR DELAY '00:00:03';SELECT 1;";
 
 
-            var ctr = new EqualToConstraint(command2);
+            BaseResultSetComparisonConstraint ctr = new EqualToConstraint(command2);
             ctr = ctr.Parallel();
 
             //Method under test
@@ -73,7 +73,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             command2.CommandText = "WAITFOR DELAY '00:00:03';SELECT 1;";
 
 
-            var ctr = new EqualToConstraint(command2);
+            BaseResultSetComparisonConstraint ctr = new EqualToConstraint(command2);
             ctr = ctr.Sequential();
 
             //Method under test

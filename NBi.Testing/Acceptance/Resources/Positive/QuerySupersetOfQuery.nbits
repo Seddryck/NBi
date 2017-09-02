@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: query equalTo query" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="system-under-test">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
+    <default apply-to="assert">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
+  </settings>
+  <test name="'Reseller Order Count' by year between 2005 and 2009, check correctness of expected rows" uid="0001">
+    <system-under-test>
+      <execution>
+        <query>
+          SELECT 'CY 2005', 366.0
+          UNION ALL SELECT 'CY 2006', 1015.0
+          UNION ALL SELECT 'CY 2007', 1521.0
+          UNION ALL SELECT 'CY 2008', 894.0
+          UNION ALL SELECT 'CY 2009', NULL
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <superset-of>
+        <column index="0" role="key" type="text"/>
+        <column index="1" role="value" type="numeric"/>
+        <query>
+          SELECT 'CY 2006', 1015.0
+          UNION ALL SELECT 'CY 2007', 1521.0
+        </query>
+      </superset-of>
+    </assert>
+  </test>
+</testSuite>

@@ -58,12 +58,12 @@ namespace NBi.Service
         public string GetEmbeddedTemplate(string resourceName)
         {
             var value = string.Empty;           //Template
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(string.Format("{0}{1}.txt", TEMPLATE_DIRECTORY, resourceName)))
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{TEMPLATE_DIRECTORY}{resourceName}.txt"))
             {
+                if (stream == null)
+                    throw new ArgumentOutOfRangeException($"{resourceName}");
                 using (var reader = new StreamReader(stream))
-                {
                     value = reader.ReadToEnd();
-                }
             }
             Code = value;
             return value;

@@ -11,7 +11,7 @@ using NBi.Core.Evaluate;
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace NBi.Testing.Unit.NUnit.Query
+namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
     [TestFixture]
     public class AllRowsConstraintTest

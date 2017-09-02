@@ -7,6 +7,7 @@ using System.Linq;
 using NBi.Core.ResultSet.Comparer;
 using System.Text;
 using NBi.Core.ResultSet.Converter;
+using NBi.Core.ResultSet.Analyzer;
 
 namespace NBi.Core.ResultSet
 {
@@ -18,10 +19,9 @@ namespace NBi.Core.ResultSet
         }
         
         public SingleRowComparer(SettingsSingleRowComparison settings)
-            : base(settings)
+            : base(AnalyzersFactory.EqualTo(), settings)
         {}
 
-        
         protected override ResultSetCompareResult doCompare(DataTable x, DataTable y)
         {
             if (x.Rows.Count > 1)

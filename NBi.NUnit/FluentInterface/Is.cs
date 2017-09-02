@@ -4,6 +4,7 @@ using System.Data;
 using NBi.Core.ResultSet;
 using NBi.NUnit.Member;
 using NBi.NUnit.Query;
+using NBi.NUnit.ResultSetComparison;
 using NBi.NUnit.Structure;
 using NF = NUnit.Framework;
 
@@ -52,9 +53,9 @@ namespace NBi.NUnit.FluentInterface
             return ctr;
         }
 
-        public static NBi.NUnit.Structure.SubsetOfConstraint SubsetOf(IEnumerable<string> values)
+        public static NBi.NUnit.Structure.ContainedInConstraint SubsetOf(IEnumerable<string> values)
         {
-            var ctr = new NBi.NUnit.Structure.SubsetOfConstraint(values);
+            var ctr = new NBi.NUnit.Structure.ContainedInConstraint(values);
             return ctr;
         }
     }

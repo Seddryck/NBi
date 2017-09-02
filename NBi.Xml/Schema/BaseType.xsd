@@ -742,116 +742,9 @@
       <xs:element name="assert" minOccurs="1" maxOccurs="unbounded">
         <xs:complexType>
           <xs:choice>
-            <xs:element name="equalTo">
-              <xs:complexType>
-                <xs:sequence>
-                  <xs:element name="column" minOccurs="0" maxOccurs="unbounded">
-                    <xs:complexType>
-                      <xs:sequence>
-                        <xs:element name="transformation" minOccurs="0" maxOccurs="1" type="transformation-type"/>
-                      </xs:sequence>
-                      <xs:attribute name="index" type="xs:int" use="optional" />
-                      <xs:attribute name="name" type="xs:string" use="optional" />
-                      <xs:attribute name="role" use="required" >
-                        <xs:simpleType>
-                          <xs:restriction base="xs:string">
-                            <xs:enumeration value="key"/>
-                            <xs:enumeration value="value"/>
-                            <xs:enumeration value="ignore"/>
-                          </xs:restriction>
-                        </xs:simpleType>
-                      </xs:attribute>
-                      <xs:attribute name="tolerance" type="xs:string" use="optional" />
-                      <xs:attribute name="type" type="column-type-enum" use="optional"/>
-                      <xs:attribute name="rounding-style" use="optional">
-                        <xs:simpleType>
-                          <xs:restriction base="xs:string">
-                            <xs:enumeration value="none"/>
-                            <xs:enumeration value="floor"/>
-                            <xs:enumeration value="ceiling"/>
-                            <xs:enumeration value="round"/>
-                          </xs:restriction>
-                        </xs:simpleType>
-                      </xs:attribute>
-                      <xs:attribute name="rounding-step" type="xs:string" use="optional" />
-                    </xs:complexType>
-                  </xs:element>
-                  <xs:choice>
-                    <xs:element name="resultSet" minOccurs="0" maxOccurs="1">
-                      <xs:complexType>
-                        <xs:sequence>
-                          <xs:element name="row" minOccurs="0" maxOccurs="unbounded">
-                            <xs:complexType>
-                              <xs:sequence>
-                                <xs:element name="cell" minOccurs="1" maxOccurs="unbounded">
-                                  <xs:complexType>                                   
-                                    <xs:simpleContent>
-                                      <xs:extension base="xs:string">
-                                        <xs:attribute name="column-name" type="xs:string" use="optional" />
-                                      </xs:extension>
-                                    </xs:simpleContent>
-                                  </xs:complexType>
-                                </xs:element>
-                              </xs:sequence>
-                            </xs:complexType>
-                          </xs:element>
-                        </xs:sequence>
-                        <xs:attribute name="file" type="xs:string" use="optional" />
-                      </xs:complexType>
-                    </xs:element>
-                    <xs:element name="query" type="query-type" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="xml-source" type="xml-source-type" minOccurs="0" maxOccurs="1"/>
-                  </xs:choice>
-                </xs:sequence>
-                <xs:attribute name="behavior" use="optional" >
-                  <xs:simpleType>
-                    <xs:restriction base="xs:string">
-                      <xs:enumeration value="multiple-rows"/>
-                      <xs:enumeration value="single-row"/>
-                    </xs:restriction>
-                  </xs:simpleType>
-                </xs:attribute>
-                <xs:attribute name="keys" use="optional" >
-                  <xs:simpleType>
-                    <xs:restriction base="xs:string">
-                      <xs:enumeration value="first"/>
-                      <xs:enumeration value="all-except-last"/>
-                      <xs:enumeration value="all"/>
-                    </xs:restriction>
-                  </xs:simpleType>
-                </xs:attribute>
-                <xs:attribute name="values" use="optional" >
-                  <xs:simpleType>
-                    <xs:restriction base="xs:string">
-                      <xs:enumeration value="all-except-first"/>
-                      <xs:enumeration value="last"/>
-                    </xs:restriction>
-                  </xs:simpleType>
-                </xs:attribute>
-                <xs:attribute name="values-default-type" use="optional" >
-                  <xs:simpleType>
-                    <xs:restriction base="xs:string">
-                      <xs:enumeration value="text"/>
-                      <xs:enumeration value="numeric"/>
-                      <xs:enumeration value="dateTime"/>
-                      <xs:enumeration value="boolean"/>
-                    </xs:restriction>
-                  </xs:simpleType>
-                </xs:attribute>
-                <xs:attribute name="tolerance" type="xs:string" use="optional" />
-                <xs:attribute name="persistance" use="optional" >
-                  <xs:simpleType>
-                    <xs:restriction base="xs:string">
-                      <xs:enumeration value="never"/>
-                      <xs:enumeration value="only-if-failed"/>
-                      <xs:enumeration value="always"/>
-                    </xs:restriction>
-                  </xs:simpleType>
-                </xs:attribute>
-                <xs:attribute name="keys-names" type="xs:string" use="optional" />
-                <xs:attribute name="values-names" type="xs:string" use="optional" />
-              </xs:complexType>
-            </xs:element>
+            <xs:element name="equalTo" type="result-set-comparison-type"/>
+            <xs:element name="subset-of" type="result-set-comparison-type"/>
+            <xs:element name="superset-of" type="result-set-comparison-type"/>
             <xs:element name="evaluate-rows">
               <xs:complexType>
                 <xs:sequence>
@@ -1150,5 +1043,113 @@
     </xs:sequence>
     <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
     <xs:attribute name="not" type="xs:boolean" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="result-set-comparison-type">
+    <xs:sequence>
+      <xs:element name="column" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="transformation" minOccurs="0" maxOccurs="1" type="transformation-type"/>
+          </xs:sequence>
+          <xs:attribute name="index" type="xs:int" use="optional" />
+          <xs:attribute name="name" type="xs:string" use="optional" />
+          <xs:attribute name="role" use="required" >
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="key"/>
+                <xs:enumeration value="value"/>
+                <xs:enumeration value="ignore"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="tolerance" type="xs:string" use="optional" />
+          <xs:attribute name="type" type="column-type-enum" use="optional"/>
+          <xs:attribute name="rounding-style" use="optional">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="none"/>
+                <xs:enumeration value="floor"/>
+                <xs:enumeration value="ceiling"/>
+                <xs:enumeration value="round"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="rounding-step" type="xs:string" use="optional" />
+        </xs:complexType>
+      </xs:element>
+      <xs:choice>
+        <xs:element name="resultSet" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="row" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="cell" minOccurs="1" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute name="column-name" type="xs:string" use="optional" />
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="file" type="xs:string" use="optional" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="query" type="query-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="xml-source" type="xml-source-type" minOccurs="0" maxOccurs="1"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="behavior" use="optional" >
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="multiple-rows"/>
+          <xs:enumeration value="single-row"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="keys" use="optional" >
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="first"/>
+          <xs:enumeration value="all-except-last"/>
+          <xs:enumeration value="all"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="values" use="optional" >
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="all-except-first"/>
+          <xs:enumeration value="last"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="values-default-type" use="optional" >
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="text"/>
+          <xs:enumeration value="numeric"/>
+          <xs:enumeration value="dateTime"/>
+          <xs:enumeration value="boolean"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="tolerance" type="xs:string" use="optional" />
+    <xs:attribute name="persistance" use="optional" >
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="never"/>
+          <xs:enumeration value="only-if-failed"/>
+          <xs:enumeration value="always"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="keys-names" type="xs:string" use="optional" />
+    <xs:attribute name="values-names" type="xs:string" use="optional" />
   </xs:complexType>
 </xs:schema>

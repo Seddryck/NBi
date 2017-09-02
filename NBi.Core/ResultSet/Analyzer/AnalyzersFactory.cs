@@ -16,10 +16,10 @@ namespace NBi.Core.ResultSet.Analyzer
             switch (kind)
             {
                 case ComparisonKind.SubsetOf:
-                    list.Add(new MissingRowsAnalyzer());
+                    list.Add(new UnexpectedRowsAnalyzer());
                     break;
                 case ComparisonKind.SupersetOf:
-                    list.Add(new UnexpectedRowsAnalyzer());
+                    list.Add(new MissingRowsAnalyzer());
                     break;
                 case ComparisonKind.EqualTo:
                     list.Add(new MissingRowsAnalyzer());

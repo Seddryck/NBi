@@ -13,7 +13,7 @@ namespace NBi.Xml.Constraints
 
     }
 
-    public class SubsetOfXml : ContainedInXml
+    public class SubsetOf1xXml : ContainedInXml
     {
 
     }

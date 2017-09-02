@@ -158,7 +158,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = new EqualToXml(SettingsXml.Empty);
             ctrXml.Query = new Items.QueryXml() { InlineQuery = "query" };
 
-            var builder = new ExecutionEqualToBuilder();
+            var builder = new ResultSetEqualToBuilder();
             builder.Setup(sutXml, ctrXml);
             builder.Build();
             var sut = builder.GetSystemUnderTest();

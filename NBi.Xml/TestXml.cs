@@ -110,6 +110,8 @@ namespace NBi.Xml
         XmlArrayItem(Type = typeof(SyntacticallyCorrectXml), ElementName = "syntacticallyCorrect"),
         XmlArrayItem(Type = typeof(FasterThanXml), ElementName = "fasterThan"),
         XmlArrayItem(Type = typeof(EqualToXml), ElementName = "equalTo"),
+        XmlArrayItem(Type = typeof(SupersetOfXml), ElementName = "superset-of"),
+        XmlArrayItem(Type = typeof(SubsetOfXml), ElementName = "subset-of"),
         XmlArrayItem(Type = typeof(CountXml), ElementName = "count"),
         XmlArrayItem(Type = typeof(ContainXml), ElementName = "contain"),
         XmlArrayItem(Type = typeof(ExistsXml), ElementName = "exists"),

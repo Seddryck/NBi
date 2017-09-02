@@ -68,6 +68,8 @@
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionNonQueryBuilder.cs" />
+    <Compile Include="Builder\ResultSetSubsetOfBuilder.cs" />
+    <Compile Include="Builder\ResultSetSupersetOfBuilder.cs" />
     <Compile Include="Builder\ExecutionNoRowsBuilder.cs" />
     <Compile Include="Builder\ExecutionAllRowsBuilder.cs" />
     <Compile Include="Builder\ExecutionRowCountBuilder.cs" />
@@ -93,10 +95,11 @@
     <Compile Include="Builder\ExecutionFasterThanBuilder.cs" />
     <Compile Include="Builder\ITestCaseBuilder.cs" />
     <Compile Include="Builder\MembersCountBuilder.cs" />
-    <Compile Include="Builder\ExecutionEqualToBuilder.cs" />
+    <Compile Include="Builder\ResultSetEqualToBuilder.cs" />
     <Compile Include="DataType\DescriptionDataTypeHelper.cs" />
     <Compile Include="DataType\IsConstraint.cs" />
-    <Compile Include="Query\SubsetConstraint.cs" />
+    <Compile Include="ResultSetComparison\BaseResultSetComparisonConstraint.cs" />
+    <Compile Include="ResultSetComparison\SubsetOfConstraint.cs" />
     <Compile Include="Query\NoRowsConstraint.cs" />
     <Compile Include="Query\AllRowsConstraint.cs" />
     <Compile Include="Query\RowCountFilterConstraint.cs" />
@@ -112,6 +115,7 @@
     <Compile Include="NBiConstraint.cs" />
     <Compile Include="Query\EvaluateRowsConstraint.cs" />
     <Compile Include="Query\MatchPatternConstraint.cs" />
+    <Compile Include="ResultSetComparison\SupersetOfConstraint.cs" />
     <Compile Include="Structure\AbstractCollectionConstraint.cs" />
     <Compile Include="Structure\AbstractStructureConstraint.cs" />
     <Compile Include="Structure\EquivalentToConstraint.cs" />
@@ -124,7 +128,7 @@
     <Compile Include="FluentInterface\Has.cs" />
     <Compile Include="Member\ContainConstraint.cs" />
     <Compile Include="Member\CountConstraint.cs" />
-    <Compile Include="Query\EqualToConstraint.cs" />
+    <Compile Include="ResultSetComparison\EqualToConstraint.cs" />
     <Compile Include="Member\OrderedConstraint.cs" />
     <Compile Include="FluentInterface\Is.cs" />
     <Compile Include="Structure\ExistsConstraint.cs" />

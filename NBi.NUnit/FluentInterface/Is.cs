@@ -4,6 +4,7 @@ using System.Data;
 using NBi.Core.ResultSet;
 using NBi.NUnit.Member;
 using NBi.NUnit.Query;
+using NBi.NUnit.ResultSetComparison;
 using NBi.NUnit.Structure;
 using NF = NUnit.Framework;
 

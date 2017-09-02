@@ -36,7 +36,7 @@ namespace NBi.Xml.SerializationOption
             attrs = new XmlAttributes();
             attrs.XmlArray = arrayAttr;
             arrayItemAttrs.ForEach(i => attrs.XmlArrayItems.Add(i));
-            attrs.XmlArrayItems.Add(new XmlArrayItemAttribute("subsetOf", typeof(SubsetOfXml)));
+            attrs.XmlArrayItems.Add(new XmlArrayItemAttribute("subsetOf", typeof(SubsetOf1xXml)));
             Add(typeof(TestXml), "Constraints", attrs);
         }
     }

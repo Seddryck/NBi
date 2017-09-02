@@ -8,7 +8,7 @@ using NBi.Core.ResultSet;
 using System.Data.SqlClient;
 using NUnitCtr = NUnit.Framework.Constraints;
 
-namespace NBi.Testing.Unit.NUnit.Query
+namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
     [TestFixture]
     public class RowCountConstraintTest

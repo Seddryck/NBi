@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Comparer;
-using NBi.NUnit.Query;
+using NBi.NUnit.ResultSetComparison;
 using NUnit.Framework;
 #endregion
 

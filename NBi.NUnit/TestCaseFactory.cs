@@ -33,8 +33,10 @@ namespace NBi.NUnit
 		{
 			Register(typeof(ExecutionXml), typeof(FasterThanXml), new ExecutionFasterThanChooser());
 			Register(typeof(ExecutionXml), typeof(SyntacticallyCorrectXml), new ExecutionSyntacticallyCorrectBuilder());
-			Register(typeof(ExecutionXml), typeof(EqualToXml), new ExecutionEqualToBuilder());
-			Register(typeof(ExecutionXml), typeof(MatchPatternXml), new ExecutionMatchPatternBuilder());
+			Register(typeof(ExecutionXml), typeof(EqualToXml), new ResultSetEqualToBuilder());
+            Register(typeof(ExecutionXml), typeof(SupersetOfXml), new ResultSetSupersetOfBuilder());
+            Register(typeof(ExecutionXml), typeof(SubsetOfXml), new ResultSetSubsetOfBuilder());
+            Register(typeof(ExecutionXml), typeof(MatchPatternXml), new ExecutionMatchPatternBuilder());
             Register(typeof(ExecutionXml), typeof(EvaluateRowsXml), new ExecutionEvaluateRowsBuilder());
             Register(typeof(ExecutionXml), typeof(SuccessfulXml), new ExecutionNonQuerySuccessfulBuilder());
             Register(typeof(ExecutionXml), typeof(RowCountXml), new ExecutionRowCountBuilder());
@@ -45,13 +47,13 @@ namespace NBi.NUnit
 			Register(typeof(MembersXml), typeof(OrderedXml), new MembersOrderedBuilder());
 			Register(typeof(MembersXml), typeof(ContainXml), new MembersContainBuilder());
             Register(typeof(MembersXml), typeof(ContainedInXml), new MembersContainedInBuilder());
-            Register(typeof(MembersXml), typeof(SubsetOfXml), new MembersContainedInBuilder());
+            Register(typeof(MembersXml), typeof(SubsetOf1xXml), new MembersContainedInBuilder());
             Register(typeof(MembersXml), typeof(EquivalentToXml), new MembersEquivalentToBuilder());
 			Register(typeof(MembersXml), typeof(MatchPatternXml), new MembersMatchPatternBuilder());
 
 			Register(typeof(StructureXml), typeof(ContainXml), new StructureContainBuilder());
             Register(typeof(StructureXml), typeof(ContainedInXml), new StructureContainedInBuilder());
-            Register(typeof(StructureXml), typeof(SubsetOfXml), new StructureContainedInBuilder());
+            Register(typeof(StructureXml), typeof(SubsetOf1xXml), new StructureContainedInBuilder());
             Register(typeof(StructureXml), typeof(EquivalentToXml), new StructureEquivalentToBuilder());
 			Register(typeof(StructureXml), typeof(ExistsXml), new StructureExistsBuilder());
 			Register(typeof(StructureXml), typeof(LinkedToXml), new StructureLinkedToBuilder());

@@ -80,7 +80,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             ((MeasureGroupsXml)sutXml.Item).Perspective = "Perspective";
             sutXml.Item.Caption = "MeasureGroup";
 
-            var ctrXml = new SubsetOfXml();
+            var ctrXml = new SubsetOf1xXml();
 
             var builder = new StructureContainedInBuilder();
             builder.Setup(sutXml, ctrXml);

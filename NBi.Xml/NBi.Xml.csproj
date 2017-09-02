@@ -65,6 +65,8 @@
     <Compile Include="Constraints\Comparer\ContainsXml.cs" />
     <Compile Include="Constraints\Comparer\NullXml.cs" />
     <Compile Include="Constraints\Comparer\EmptyXml.cs" />
+    <Compile Include="Constraints\SubsetOfXml.cs" />
+    <Compile Include="Constraints\SupersetOfXml.cs" />
     <Compile Include="Constraints\NoRowsXml.cs" />
     <Compile Include="Constraints\Comparer\AbstractComparerXml.cs" />
     <Compile Include="Constraints\Comparer\EqualXml.cs" />

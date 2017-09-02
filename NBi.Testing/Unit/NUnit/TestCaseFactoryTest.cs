@@ -5,6 +5,7 @@ using NBi.NUnit;
 using NBi.NUnit.Builder;
 using NBi.NUnit.Member;
 using NBi.NUnit.Query;
+using NBi.NUnit.ResultSetComparison;
 using NBi.NUnit.Structure;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
@@ -198,6 +199,18 @@ namespace NBi.Testing.Unit.NUnit
         {
             var sutXml = new ExecutionXml();
             var ctrXml = new EqualToXml();
+            var testCaseFactory = new TestCaseFactory();
+
+            var actual = testCaseFactory.IsHandling(sutXml.GetType(), ctrXml.GetType());
+
+            Assert.That(actual, Is.True);
+        }
+
+        [Test]
+        public void IsHandling_QuerySupersetOf_True()
+        {
+            var sutXml = new ExecutionXml();
+            var ctrXml = new SupersetOfXml();
             var testCaseFactory = new TestCaseFactory();
 
             var actual = testCaseFactory.IsHandling(sutXml.GetType(), ctrXml.GetType());
@@ -733,5 +746,6 @@ namespace NBi.Testing.Unit.NUnit
             builderMockFactory.VerifyAll();
 
         }
+        
     }
 }

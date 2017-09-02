@@ -48,6 +48,9 @@ namespace NBi.Core.Transformation
                 case LanguageType.Format:
                     providerType = typeof(FormatTransformer<>);
                     break;
+                case LanguageType.Native:
+                    providerType = typeof(NativeTransformer<>);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

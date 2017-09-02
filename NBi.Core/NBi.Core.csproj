@@ -441,6 +441,17 @@
     <Compile Include="Structure\TargetType.cs" />
     <Compile Include="Structure\Target.cs" />
     <Compile Include="Transformation\Transformer\FormatTransformer.cs" />
+    <Compile Include="Transformation\Transformer\NativeTransformer.cs" />
+    <Compile Include="Transformation\Transformer\Native\INativeTransformation.cs" />
+    <Compile Include="Transformation\Transformer\Native\NotImplementedTransformationException.cs" />
+    <Compile Include="Transformation\Transformer\Native\NullToValue.cs" />
+    <Compile Include="Transformation\Transformer\Native\Trim.cs" />
+    <Compile Include="Transformation\Transformer\Native\ValueToValue.cs" />
+    <Compile Include="Transformation\Transformer\Native\AnyToAny.cs" />
+    <Compile Include="Transformation\Transformer\Native\NullToEmpty.cs" />
+    <Compile Include="Transformation\Transformer\Native\EmptyToNull.cs" />
+    <Compile Include="Transformation\Transformer\Native\BlankToNull.cs" />
+    <Compile Include="Transformation\Transformer\Native\BlankToEmpty.cs" />
     <Compile Include="Transformation\Transformer\NCalcTransformer.cs" />
     <Compile Include="Transformation\Transformer\CSharpTransformer.cs" />
     <Compile Include="Transformation\ITransformationInfo.cs" />

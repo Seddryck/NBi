@@ -516,6 +516,7 @@
               <xs:enumeration value="c-sharp"/>
               <xs:enumeration value="ncalc"/>
               <xs:enumeration value="format"/>
+              <xs:enumeration value="native"/>
             </xs:restriction>
           </xs:simpleType>
         </xs:attribute>

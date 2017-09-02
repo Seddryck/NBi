@@ -1,5 +1,6 @@
 ﻿using Moq;
 using NBi.Core.Transformation;
+using NBi.Core.Transformation.Transformer.Native;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,65 @@ namespace NBi.Testing.Unit.Core.Transformation
             provider.Transform(resultSet);
 
             Assert.That(resultSet.Rows[0][0], Is.EqualTo("a"));
+        }
+
+        [Test]
+        public void Transform_NativeTranformationTrim_Correct()
+        {
+            var resultSet = new NBi.Core.ResultSet.ResultSet();
+            resultSet.Load(" aaaa  ;10");
+
+            var transformation = Mock.Of<ITransformationInfo>
+                (
+                    t => t.Language == LanguageType.Native
+                    && t.OriginalType == NBi.Core.ResultSet.ColumnType.Text
+                    && t.Code == "trim"
+                );
+
+            var provider = new TransformationProvider();
+            provider.Add(0, transformation);
+            provider.Transform(resultSet);
+
+            Assert.That(resultSet.Rows[0][0], Is.EqualTo("aaaa"));
+        }
+
+        [Test]
+        public void Transform_NativeTranformationBlankToNull_Correct()
+        {
+            var resultSet = new NBi.Core.ResultSet.ResultSet();
+            resultSet.Load("\t;10");
+
+            var transformation = Mock.Of<ITransformationInfo>
+                (
+                    t => t.Language == LanguageType.Native
+                    && t.OriginalType == NBi.Core.ResultSet.ColumnType.Text
+                    && t.Code == "blank-to-null"
+                );
+
+            var provider = new TransformationProvider();
+            provider.Add(0, transformation);
+            provider.Transform(resultSet);
+
+            Assert.That(resultSet.Rows[0][0], Is.EqualTo("(null)"));
+        }
+
+
+        [Test]
+        public void Transform_NativeTranformationUnknown_Exception()
+        {
+            var resultSet = new NBi.Core.ResultSet.ResultSet();
+            resultSet.Load("\t;10");
+
+            var transformation = Mock.Of<ITransformationInfo>
+                (
+                    t => t.Language == LanguageType.Native
+                    && t.OriginalType == NBi.Core.ResultSet.ColumnType.Text
+                    && t.Code == "unknown"
+                );
+
+            var provider = new TransformationProvider();
+
+            Assert.Throws<NotImplementedTransformationException>(() => provider.Add(0, transformation));
         }
 
         [Test]

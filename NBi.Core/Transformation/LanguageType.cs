@@ -14,6 +14,8 @@ namespace NBi.Core.Transformation
         [XmlEnum(Name = "ncalc")]
         NCalc = 1,
         [XmlEnum(Name = "format")]
-        Format = 2
+        Format = 2,
+        [XmlEnum(Name = "native")]
+        Native = 3
     }
 }

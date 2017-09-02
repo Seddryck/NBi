@@ -385,6 +385,28 @@
         </equalTo>
       </assert>
     </test>
+    <test name="Native trim and blank-to-null">
+      <system-under-test>
+        <execution>
+          <query>
+            select 'alpha', null union all select 'beta', null
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <column index="0" role="key" type="text">
+            <transformation language="native" original-type="text">trim</transformation>
+          </column>
+          <column index="1" role="value" type="text">
+            <transformation language="native" original-type="text">blank-to-null</transformation>
+          </column>
+          <query>
+            select ' alpha   ', '' union all select '  beta   ', '   '
+          </query>
+        </equalTo>
+      </assert>
+    </test>
   </group>
   <group name="Single row queries">
     <test name="Text, numeric, bool, dateTime, Text">

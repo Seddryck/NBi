@@ -1,9 +1,11 @@
 mode: ContinuousDelivery
-assembly-informational-format: '{MajorMinorPatch}-{PreReleaseLabel}.{CommitsSinceVersionSource} ({BranchName} // {PreReleaseNumber})'
+assembly-informational-format: '{MajorMinorPatch}-{PreReleaseLabel}.{CommitsSinceVersionSource}+{BranchName}-{PreReleaseNumber})'
 branches:
   dev(elop)?(ment)?$:
-    tag: alpha
+    tag: beta
   features?[/-]:
-    tag: ci
+    tag: alpha
+  releases?[/-]:
+    tag: RC
 ignore:
   sha: []

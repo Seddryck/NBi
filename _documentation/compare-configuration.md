@@ -24,6 +24,13 @@ You can also apply a tolerance to value columns.
 The column is simply ignored during the comparison. It means this column doesn’t influence the result of the comparison.
 This type can be useful with MDX queries returning a default measure if you don’t care about this value. Some queries also have a Timestamp column attached as last column and this kind of column is not relevant when comparing two result-sets.
 
+### Default behaviour
+By default, if nothing is specified, NBi will consider that all columns are keys except the last.
+
+You can use the attribute *keys* to specify that the keys are all the columns except last (default) or just the first or even all the columns. 
+
+You can also use the attribute *values** to specify the columns that should be treated as values. *all-except-first* and *last* respectively with the options *first* and *all-except-last* of the attribute *keys*. Since v1.16, if you select *none* for the attribute *values*, each column that is not treated as a key will be be ignored.
+
 ## Column’s types
 
 ### Text
@@ -42,12 +49,16 @@ The boolean type has the same role than the “Numeric” type. The content of t
 
 To specify that your column is a boolean column, just add the attribute *type* with the value *boolean*
 
-### Default type for a result-set
+### Default behaviour
+By default, if nothing is specified, NBi will consider that all key columns are *text* and all value columns are *numeric*. 
 
-The xml attribute *values-default-type* of the xml element *equalTo* lets you define the default type of your result-set. If your result-set contains lot of boolean, in place of specifying for each column that the type is boolean, you can simply define that the *values-default-type* is *boolean*. The possible option for this attribute are *text*, *numeric*, *dateTime*, *boolean*.
+You can override this setting for value columns with the xml attribute *values-default-type* of the xml element *equalTo*. It lets you define the default type of your result-set. If your result-set contains lot of boolean, in place of specifying for each column that the type is boolean, you can simply define that the *values-default-type* is *boolean*. The possible option for this attribute are *text*, *numeric*, *dateTime*, *boolean*.
 
-## Xml syntax
-NBi’s xml syntax  is to define *columns* tags in your equal constraint:
+## Specification column by column (index-based)
+
+If the attributes above are not enough to correctly define your settings, you can configure the role, type and tolerance of a specific column by adding an element *column*.
+
+NBi’s xml syntax  is to define *column* tags in your *equalTo* (or *subset-of* and *superset-of*) constraint:
 
 {% highlight xml %}
 <assert>
@@ -78,3 +89,28 @@ Once the index is set, you must specify the role, the type and optionally the [t
          rounding-step="1000"
 />
 {% endhighlight %}
+
+## Specification column by column (name-based)
+
+Since v1.15, it's possible to compare two result-sets based on columns' name. The name of the columns in both result-sets must be identical.
+
+For each column you must specify the name of this column. 
+
+{% highlight xml %}
+<column  name="myKey" ... />
+{% endhighlight %}
+
+Then, you must specify the role, the type and optionally the [tolerance or rounding](/docs/compare-tolerances-roundings) of the column. See the section above for more information
+
+{% highlight xml %}
+<column  name="myKey" role="key" type="text"/>
+<column  index="myFirstValue" role="value" type="numeric" tolerance="0.001" />
+<column  index="mySecondValue"
+         role="value"
+         type="numeric"
+         rounding-style="floor"
+         rounding-step="1000"
+/>
+{% endhighlight %}
+
+To speed up the definition, you can list all the key by specifying the attribute *keys-names*. In this tag, you must list all the keys separeted by a comma. The same attribute exists for values with the name *values-names*. All the column not specified as keys or values will be ignored.

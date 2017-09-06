@@ -11,13 +11,14 @@ The element *transform* works as a modification of the content of all cells for 
 
 ## Languages
 
-At the moment, you can make usage of three different languages to define your transformation:
+At the moment, you can make usage of three different languages and a few ready-to-go transformations provided by the framework to define your transformation:
 
 * NCalc - ```ncalc```
 * Format - ```format```
 * C# - ```c-sharp```
+* Native - ```native```
 
-These languages support different purposes. 
+These options support different purposes. 
 
 *NCalc* is specifically dedicated to calculations on numerical values but also offers limited features for booleans and texts. 
 
@@ -25,11 +26,14 @@ These languages support different purposes.
 
 *C#* is there to support advanced transformations requiring a little bit more of code. 
 
+*Native* is a collection of ready-to-go transformations for general purposes. It's especially useful around *null*, *empty*, *blank* and *text*
+
 | Language | source | destination
 | ----------------------------
 | NCalc | numeric (limited for boolean and text)| unchanged
 | Format | numeric or dateTime | text
 | C# | all | all
+| Native | text or dateTime | text or numeric
 
 Technically, the destination could be something else that the option(s) defined in the table above, but most of the time it has no added-value.
 
@@ -117,6 +121,50 @@ The exemple here under is transformating the content of two columns.
     <column index="2" role="value" type="text">
       <transform language="c-sharp" source-type="numeric">
         value < 5000 ? string.Format(€{0:##00.00}, value) : "k€" + Math.Round(value/1000, 2).ToString()
+      </transform>
+    </column>
+  </row-count>
+</assert>
+{% endhighlight %}
+
+### Native
+
+Currently, you cannot assemble native transformations, it means that you're limited to use one and only one of them in  a column's transformation. 
+
+Following transformations are supported by NBi v1.16
+
+- ```blank-to-empty```: if the current content of the cell is ```blank``` (zero or many spaces) replace the content ```(empty)```
+- ```blank-to-null```: if the current content of the cell is ```blank``` (zero or many spaces) replace the content ```(null)```
+- ```empty-to-null```: if the current content of the cell is ```empty``` (length=0) replace the content ```(null)```
+- ```null-to-empty```: if the current content of the cell is ```null``` replace the content ```(empty)```
+- ```null-to-value```: if the current content of the cell is ```null``` replace the content ```(value)```
+- ```any-to-any```: replaces the content of the cell by ```(any)```
+- ```value-to-value```: if the cell's value is not ```null``` will replace the content by ```(value)```
+- ```string-to-without-diacritics```: if the current cell's value contains any accents or diacritics, they are removed
+- ```string-to-upper```: returns a copy of this string converted to uppercase
+- ```string-to-lower```: returns a copy of this string converted to lowercase
+- ```html-to-string```: decodes the html to a string
+- ```string-to-html```: encodes the string to html
+- ```string-to-trim```: removes blanks from the beginning and end of the cell.
+- ```string-to-length```: returns the length of the *text* value of the cell. If the cell is ```null``` or ```empty```, it returns 0.
+- ```date-to-age```: returns the age according to the *dateTime* value of the cell at the moment of execution of the test.
+
+{% highlight xml %}
+<assert>
+  <equalTo>
+    <column index="0" role="key" type="text">
+      <transform language="native" source-type="text">
+        string-to-trim
+      </transform>
+    </column>
+    <column index="1" role="value" type="text">
+      <transform language="native" source-type="text">
+        empty-to-null
+      </transform>
+    </column>
+    <column index="2" role="value" type="text">
+      <transform language="native" source-type="text">
+        any-to-value
       </transform>
     </column>
   </row-count>

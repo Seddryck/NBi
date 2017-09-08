@@ -508,7 +508,7 @@
   </xs:complexType>
   <xs:complexType name="transformation-type">
     <xs:simpleContent>
-      <xs:extension base="xs:string">
+      <xs:extension base="code-transformation-type">
         <xs:attribute name="original-type" type="column-type-enum" use="optional"/>
         <xs:attribute name="language" use="optional" >
           <xs:simpleType>
@@ -523,6 +523,26 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
+  <xs:simpleType name="code-transformation-type">
+    <xs:union memberTypes="not-native-transformation-type native-transformation-type"/>
+  </xs:simpleType>
+  <xs:simpleType name="native-transformation-type">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="blank-to-empty"/>
+      <xs:enumeration value="blank-to-null"/>
+      <xs:enumeration value="empty-to-null"/>
+      <xs:enumeration value="null-to-empty"/>
+      <xs:enumeration value="null-to-value"/>
+      <xs:enumeration value="value-to-value"/>
+      <xs:enumeration value="any-to-any"/>
+      <xs:enumeration value="trim"/>
+      <xs:enumeration value="upper-case"/>
+      <xs:enumeration value="lower-case"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="not-native-transformation-type">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
   <xs:complexType name="select-type">
     <xs:simpleContent>
       <xs:extension base="xs:string">

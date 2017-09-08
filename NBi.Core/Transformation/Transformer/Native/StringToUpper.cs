@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Transformation.Transformer.Native
 {
-    class Trim : INativeTransformation
+    class StringToUpper : INativeTransformation
     {
         public object Evaluate(object value)
         {
@@ -18,11 +18,11 @@ namespace NBi.Core.Transformation.Transformer.Native
 
         private object EvaluateString(string value)
         {
-            if (string.IsNullOrEmpty(value) || value == "(null)")
+            if (string.IsNullOrEmpty(value) || (value.StartsWith("(") && value.EndsWith(")")))
                 return value;
             else
-                return value.Trim();
+                return value.ToUpperInvariant();
         }
-        
+
     }
 }

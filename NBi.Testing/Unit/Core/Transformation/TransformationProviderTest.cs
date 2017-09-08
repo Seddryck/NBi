@@ -43,7 +43,7 @@ namespace NBi.Testing.Unit.Core.Transformation
                 (
                     t => t.Language == LanguageType.Native
                     && t.OriginalType == NBi.Core.ResultSet.ColumnType.Text
-                    && t.Code == "trim"
+                    && t.Code == "string-to-trim"
                 );
 
             var provider = new TransformationProvider();

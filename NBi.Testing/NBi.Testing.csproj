@@ -293,6 +293,7 @@
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\Decoration\ConditionXmlTest.cs" />
     <Compile Include="Unit\Xml\Decoration\DecorationXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\ResultSet\TransformationXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\SharedDatasetXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\RoutineParameterXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\RoutineXmlTest.cs" />
@@ -577,6 +578,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToQuery.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToResultSetWithNull.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -713,6 +715,9 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\TransformationXmlTestSuite.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\Resources\SupersetOfXmlTestSuite.xml" />
     <EmbeddedResource Include="Acceptance\Resources\Csv\SampleData.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

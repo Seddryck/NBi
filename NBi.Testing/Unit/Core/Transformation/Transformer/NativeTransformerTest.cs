@@ -197,6 +197,31 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
 
 
         [Test]
+        [TestCase("abC")]
+        public void Execute_UpperCase_ABC(object value)
+        {
+            var code = "upper-case";
+            var provider = new NativeTransformer<string>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo("ABC"));
+        }
+
+        [Test]
+        [TestCase(" abC ")]
+        public void Execute_LowerCase_abc(object value)
+        {
+            var code = "lower-case";
+            var provider = new NativeTransformer<string>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(" abc "));
+        }
+
+
+        [Test]
         public void Execute_NotInitialized_InvalidOperation()
         {
             var provider = new NativeTransformer<string>();

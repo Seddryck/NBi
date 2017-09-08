@@ -174,7 +174,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         [TestCase(" ABC ")]
         public void Execute_Trim_ABC(object value)
         {
-            var code = "trim";
+            var code = "string-to-trim";
             var provider = new NativeTransformer<string>();
             provider.Initialize(code);
 
@@ -187,7 +187,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         [TestCase(" XYZ ")]
         public void Execute_Trim_NotABC(object value)
         {
-            var code = "trim";
+            var code = "string-to-trim";
             var provider = new NativeTransformer<string>();
             provider.Initialize(code);
 
@@ -200,7 +200,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         [TestCase("abC")]
         public void Execute_UpperCase_ABC(object value)
         {
-            var code = "upper-case";
+            var code = "string-to-upper";
             var provider = new NativeTransformer<string>();
             provider.Initialize(code);
 
@@ -212,7 +212,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         [TestCase(" abC ")]
         public void Execute_LowerCase_abc(object value)
         {
-            var code = "lower-case";
+            var code = "string-to-lower";
             var provider = new NativeTransformer<string>();
             provider.Initialize(code);
 
@@ -224,7 +224,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         [TestCase(" abC ")]
         public void Execute_Length_5(object value)
         {
-            var code = "length";
+            var code = "string-to-length";
             var provider = new NativeTransformer<string>();
             provider.Initialize(code);
 
@@ -232,6 +232,43 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
             Assert.That(result, Is.EqualTo(5));
         }
 
+        [Test]
+        [TestCase("Cédric")]
+        public void Execute_StringToHtml_Valid(object value)
+        {
+            var code = "string-to-html";
+            var provider = new NativeTransformer<string>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo("C&#233;dric"));
+        }
+
+
+        [Test]
+        [TestCase("C&#233;dric")]
+        [TestCase("C&eacute;dric")]
+        public void Execute_HtmlToString_Valid(object value)
+        {
+            var code = "html-to-string";
+            var provider = new NativeTransformer<string>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo("Cédric"));
+        }
+
+        [Test]
+        [TestCase("Cédric")]
+        public void Execute_Diacritics_Valid(object value)
+        {
+            var code = "string-to-without-diacritics";
+            var provider = new NativeTransformer<string>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo("Cedric"));
+        }
 
         [Test]
         public void Execute_NotInitialized_InvalidOperation()

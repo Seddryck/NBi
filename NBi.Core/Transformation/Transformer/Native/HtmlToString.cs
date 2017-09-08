@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NBi.Core.Transformation.Transformer.Native
 {
-    class LowerCase : INativeTransformation
+    class HtmlToString : INativeTransformation
     {
         public object Evaluate(object value)
         {
@@ -18,11 +19,10 @@ namespace NBi.Core.Transformation.Transformer.Native
 
         private object EvaluateString(string value)
         {
-            if (string.IsNullOrEmpty(value) || (value.StartsWith("(") && value.EndsWith(")")))
+            if (string.IsNullOrEmpty(value) || value == "(null)" || value == "(empty)" || value == "(blank)")
                 return value;
             else
-                return value.ToLowerInvariant();
+                return WebUtility.HtmlDecode(value);
         }
-        
     }
-}
+    }

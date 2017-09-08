@@ -542,6 +542,7 @@
       <xs:enumeration value="string-to-html"/>
       <xs:enumeration value="string-to-without-diacritics"/>
       <xs:enumeration value="html-to-string"/>
+      <xs:enumeration value="date-to-age"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="not-native-transformation-type">

@@ -244,6 +244,17 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
             Assert.That(result, Is.EqualTo("C&#233;dric"));
         }
 
+        [TestCase(9, 8, 39)]
+        [TestCase(12, 28, 39)]
+        public void Execute_DateToAge_Min38(int month, int day, int age)
+        {
+            var code = "date-to-age";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(new DateTime(1978, month, day));
+            Assert.That(result, Is.AtLeast(age));
+        }
 
         [Test]
         [TestCase("C&#233;dric")]

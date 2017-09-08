@@ -45,8 +45,9 @@ namespace NBi.Core.Calculation.Predicate
                         case ComparerType.MoreThanOrEqual: return new NumericMoreThanOrEqual(info.Reference);
                         case ComparerType.MoreThan: return new NumericMoreThan(info.Reference);
                         case ComparerType.Null: return new NumericNull();
+                        case ComparerType.WithinRange: return new NumericWithinRange(info.Reference);
                         default:
-                            throw new ArgumentOutOfRangeException("Numeric columns don't support Empty comparer.");
+                            throw new ArgumentOutOfRangeException($"Numeric columns don't support {info.ComparerType.ToString()} comparer.");
                     }
                 case NBi.Core.ResultSet.ColumnType.DateTime:
                     switch (info.ComparerType)

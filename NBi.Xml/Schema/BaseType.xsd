@@ -538,6 +538,7 @@
       <xs:enumeration value="trim"/>
       <xs:enumeration value="upper-case"/>
       <xs:enumeration value="lower-case"/>
+      <xs:enumeration value="length"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="not-native-transformation-type">

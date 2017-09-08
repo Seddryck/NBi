@@ -28,10 +28,10 @@ namespace NBi.Core.Transformation.Transformer
             var clazz = AppDomain.CurrentDomain.GetAssemblies()
                        .SelectMany(t => t.GetTypes())
                        .Where(
-                                t => t.IsClass 
-                                && t.IsAbstract==false
-                                && t.Name == className 
-                                && t.GetInterface("INativeTransformation")!=null)
+                                t => t.IsClass
+                                && t.IsAbstract == false
+                                && t.Name == className
+                                && t.GetInterface("INativeTransformation") != null)
                        .SingleOrDefault();
 
             if (clazz == null)

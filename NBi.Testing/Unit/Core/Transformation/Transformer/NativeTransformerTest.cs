@@ -220,6 +220,18 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
             Assert.That(result, Is.EqualTo(" abc "));
         }
 
+        [Test]
+        [TestCase(" abC ")]
+        public void Execute_Length_5(object value)
+        {
+            var code = "length";
+            var provider = new NativeTransformer<string>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(5));
+        }
+
 
         [Test]
         public void Execute_NotInitialized_InvalidOperation()

@@ -407,6 +407,25 @@
         </equalTo>
       </assert>
     </test>
+    <test name="Native length">
+      <system-under-test>
+        <execution>
+          <query>
+            select 'alpha', LEN('alpha') union all select 'beta', LEN('beta')
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <column index="1" role="value" type="numeric">
+            <transformation language="native" original-type="text">length</transformation>
+          </column>
+          <query>
+            select 'alpha', 'alpha' union all select 'beta', 'beta'
+          </query>
+        </equalTo>
+      </assert>
+    </test>
   </group>
   <group name="Single row queries">
     <test name="Text, numeric, bool, dateTime, Text">

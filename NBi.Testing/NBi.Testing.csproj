@@ -168,6 +168,7 @@
     <Compile Include="Unit\Core\Query\QueryEngineFactoryTest.cs" />
     <Compile Include="Unit\Core\Report\FileParserTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\CellComparerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Interval\DateTimeIntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\JsonResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\KeyCollectionTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\BooleanComparerTest.cs" />
@@ -186,7 +187,7 @@
     <Compile Include="Unit\Core\ResultSet\SettingsResultSetComparisonByIndexTest.cs" />
     <Compile Include="Unit\Core\ResultSet\SingleRowComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetComparerByIndexTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\NumericIntervalBuilderTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Interval\NumericIntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\LineFormatterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\SettingsResultSetComparisonByNameTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetTest.cs" />

@@ -4,13 +4,11 @@ using NBi.Core.ResultSet;
 using NUnit.Framework;
 using NBi.Core.ResultSet.Interval;
 
-namespace NBi.Testing.Unit.Core.ResultSet
+namespace NBi.Testing.Unit.Core.ResultSet.Interval
 {
     [TestFixture]
-    public class NumericIntervalBuilderTest
+    public class DateTimeIntervalBuilderTest
     {
-        
-
         #region SetUp & TearDown
         //Called only at instance creation
         [TestFixtureSetUp]
@@ -41,54 +39,60 @@ namespace NBi.Testing.Unit.Core.ResultSet
         [Test]
         public void Build_ClosedClosed_ReturnBothClosed()
         {
-            var builder = new NumericIntervalBuilder(" [10 ; 200 ] ");
+            var builder = new DateTimeIntervalBuilder(" [2010-10-12 ; 2012-12-25 ] ");
             builder.Build();
             var interval = builder.GetInterval();
 
             Assert.That(interval.Left.IsClosed, Is.True);
             Assert.That(interval.Right.IsClosed, Is.True);
+            Assert.That(interval.Left.Value, Is.EqualTo(new DateTime(2010, 10, 12)));
+            Assert.That(interval.Right.Value, Is.EqualTo(new DateTime(2012, 12, 25)));
         }
 
         [Test]
         public void Build_OpenOpen_ReturnBothNotClosed()
         {
-            var builder = new NumericIntervalBuilder(" ] 10 ; 200[");
+            var builder = new DateTimeIntervalBuilder(" ] 2010-10-12 ; 2012-12-25[");
             builder.Build();
             var interval = builder.GetInterval();
 
             Assert.That(interval.Left.IsClosed, Is.False);
             Assert.That(interval.Right.IsClosed, Is.False);
+            Assert.That(interval.Left.Value, Is.EqualTo(new DateTime(2010, 10, 12)));
+            Assert.That(interval.Right.Value, Is.EqualTo(new DateTime(2012, 12, 25)));
         }
 
         [Test]
         public void Build_OpenClosed_ReturnOpenClosed()
         {
-            var builder = new NumericIntervalBuilder(" ] 10 ; 200]");
+            var builder = new DateTimeIntervalBuilder(" ] 2010-10-12 ; 2012-12-25]");
             builder.Build();
             var interval = builder.GetInterval();
 
             Assert.That(interval.Left.IsOpen, Is.True);
             Assert.That(interval.Right.IsClosed, Is.True);
+            Assert.That(interval.Left.Value, Is.EqualTo(new DateTime(2010, 10, 12)));
+            Assert.That(interval.Right.Value, Is.EqualTo(new DateTime(2012, 12, 25)));
         }
 
         [Test]
         public void ToString_OpenClosed_ReturnCorrectDisplay()
         {
-            var builder = new NumericIntervalBuilder(" ] 10 ; 200]");
+            var builder = new DateTimeIntervalBuilder(" ] 2010-10-12 ; 2012-12-25]");
             builder.Build();
             var interval = builder.GetInterval();
 
-            Assert.That(interval.ToString(), Is.EqualTo("]10;200]"));
+            Assert.That(interval.ToString(), Is.EqualTo("]2010-10-12;2012-12-25]"));
         }
 
         [Test]
         public void ToString_ClosedOpen_ReturnCorrectDisplay()
         {
-            var builder = new NumericIntervalBuilder(" [10 ; 200 [");
+            var builder = new DateTimeIntervalBuilder(" [2010-10-12 ; 2012-12-25 [");
             builder.Build();
             var interval = builder.GetInterval();
 
-            Assert.That(interval.ToString(), Is.EqualTo("[10;200["));
+            Assert.That(interval.ToString(), Is.EqualTo("[2010-10-12;2012-12-25["));
         }
     }
 }

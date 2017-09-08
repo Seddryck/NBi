@@ -171,6 +171,21 @@ namespace NBi.Testing.Unit.Core.Calculation
         }
 
         [Test]
+        [TestCase("[2015-05-01;2016-05-01[")]
+        public void Compare_DateTimeRange_Success(string range)
+        {
+            var info = Mock.Of<IPredicateInfo>(
+                    i => i.ColumnType == ColumnType.DateTime
+                    && i.ComparerType == ComparerType.WithinRange
+                    && i.Reference == (object)range
+                );
+
+            var factory = new PredicateFactory();
+            var comparer = factory.Get(info);
+            Assert.That(comparer.Apply(new DateTime(2015, 8, 1)), Is.True);
+        }
+
+        [Test]
         [TestCase(ComparerType.Equal, true, true)]
         [TestCase(ComparerType.Equal, "true", true)]
         [TestCase(ComparerType.Equal, "Yes", true)]

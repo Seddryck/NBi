@@ -23,7 +23,7 @@ namespace NBi.Core.ResultSet.Interval
             IsClosed = isClosed;
         }
 
-        protected abstract string BoundSymbol { get; }
+        public abstract string BoundSymbol { get; }
     }
 
     public abstract class LeftEndPoint<T> : EndPoint<T>
@@ -33,7 +33,7 @@ namespace NBi.Core.ResultSet.Interval
         {
         }
 
-        protected override string BoundSymbol
+        public override string BoundSymbol
         {
             get
             {
@@ -54,7 +54,7 @@ namespace NBi.Core.ResultSet.Interval
         {
         }
 
-        protected override string BoundSymbol
+        public override string BoundSymbol
         {
             get
             {

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.ResultSet.Interval;
+using NBi.Core.ResultSet.Converter;
 
 namespace NBi.Core.Calculation.Predicate.Numeric
 {
@@ -20,18 +21,9 @@ namespace NBi.Core.Calculation.Predicate.Numeric
             builder.Build();
             var interval = builder.GetInterval();
 
-            var predicates = new List<NumericPredicate>();
-            if (interval.Left.IsOpen)
-                predicates.Add(new NumericMoreThan(interval.Left.Value));
-            else if (!(interval.Left is LeftEndPointNegativeInfinity))
-                predicates.Add(new NumericMoreThanOrEqual(interval.Left.Value));
-
-            if (interval.Right.IsOpen)
-                predicates.Add(new NumericLessThan(interval.Right.Value));
-            else if (!(interval.Right is RightEndPointPositiveInfinity))
-                predicates.Add(new NumericLessThanOrEqual(interval.Right.Value));
-
-            return predicates.Aggregate(true, (result, next) => result && next.Apply(x));
+            var converter = new NumericConverter();
+            var numX = converter.Convert(x);
+            return interval.Contains(numX);
         }
     }
 }

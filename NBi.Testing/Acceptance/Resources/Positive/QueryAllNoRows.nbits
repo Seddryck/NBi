@@ -30,6 +30,31 @@
       </all-rows>
     </assert>
   </test>
+  <test name="All-rows is doing the job with within-range" uid="0001">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select
+          OrderDate
+          , SUM(TotalDue)
+          from
+          [Sales].[SalesOrderHeader]
+          group by
+          OrderDate
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <variable column-index="1">TotalDue</variable>
+        <predicate name="TotalDue">
+          <within-range>(+)</within-range>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
   <test name="All-rows also works for textual information" uid="0001">
     <system-under-test>
       <execution>

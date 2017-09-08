@@ -144,4 +144,21 @@
       </all-rows>
     </assert>
   </test>
+  <test name="With Predicate is within-range" uid="0008">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select 10 union select 20 union select 30
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <variable column-index="0">Value</variable>
+        <predicate name="Value" type="numeric">
+          <within-range>[10;30]</within-range>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
 </testSuite>

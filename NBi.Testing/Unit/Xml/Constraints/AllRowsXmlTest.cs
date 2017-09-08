@@ -223,5 +223,25 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(predicate.Comparer, Is.TypeOf<UpperCaseXml>());
         }
 
+        [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyWithinRangeComparer()
+        {
+            int testNr = 8;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
+            var predicate = allRows.Predicate;
+
+            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
+            Assert.That(predicate.Name, Is.EqualTo("Value"));
+            Assert.That(predicate.Not, Is.EqualTo(false));
+            Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Numeric));
+
+            Assert.That(predicate.Comparer, Is.TypeOf<WithinRangeXml>());
+            var cpr = predicate.Comparer as WithinRangeXml;
+            Assert.That(cpr.Value, Is.EqualTo("[10;30]"));
+        }
+
     }
 }

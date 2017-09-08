@@ -100,6 +100,8 @@
     <Compile Include="Calculation\Predicate\DateTime\DateTimeMoreThan.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimeMoreThanOrEqual.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimePredicate.cs" />
+    <Compile Include="Calculation\Predicate\DateTime\DateTimeWithinRange.cs" />
+    <Compile Include="Calculation\Predicate\Numeric\NumericWithinRange.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericNull.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericEqual.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericLessThan.cs" />
@@ -301,9 +303,12 @@
     <Compile Include="ResultSet\Converter\TextConverter.cs" />
     <Compile Include="ResultSet\DataRowKeysComparerByName.cs" />
     <Compile Include="ResultSet\DataRowKeysComparerByIndex.cs" />
-    <Compile Include="ResultSet\EndPoint.cs" />
+    <Compile Include="ResultSet\Interval\EndPoint.cs" />
     <Compile Include="ResultSet\Content.cs" />
-    <Compile Include="ResultSet\IntervalBuilder.cs" />
+    <Compile Include="ResultSet\Interval\DateTimeInterval.cs" />
+    <Compile Include="ResultSet\Interval\BaseInterval.cs" />
+    <Compile Include="ResultSet\Interval\DateTimeIntervalBuilder.cs" />
+    <Compile Include="ResultSet\Interval\NumericIntervalBuilder.cs" />
     <Compile Include="ListComparisonFormatter.cs" />
     <Compile Include="ListComparer.cs" />
     <Compile Include="NBiTraceSwitch.cs" />
@@ -343,7 +348,7 @@
     <Compile Include="ResultSet\SingleRowComparer.cs" />
     <Compile Include="ResultSet\ResultSetComparerByIndex.cs" />
     <Compile Include="ResultSet\DataRowKeysComparer.cs" />
-    <Compile Include="ResultSet\Interval.cs" />
+    <Compile Include="ResultSet\Interval\NumericInterval.cs" />
     <Compile Include="ResultSet\KeyCollection.cs" />
     <Compile Include="ResultSet\LineFormatter.cs" />
     <Compile Include="ResultSet\ICell.cs" />

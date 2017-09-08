@@ -22,5 +22,6 @@ namespace NBi.Core.Calculation
         MatchesRegex = 23,
         UpperCase = 30,
         LowerCase = 31,
+        WithinRange = 40,
     }
 }

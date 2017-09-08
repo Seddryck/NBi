@@ -56,6 +56,8 @@ namespace NBi.Xml.Items.Calculation
         public ContainsXml Contains { get; set; }
         [XmlElement("matches-regex")]
         public MatchesRegexXml MatchesRegex { get; set; }
+        [XmlElement("within-range")]
+        public WithinRangeXml WithinRange { get; set; }
 
         [XmlIgnore]
         public AbstractComparerXml Comparer
@@ -84,6 +86,8 @@ namespace NBi.Xml.Items.Calculation
                     return Contains;
                 if (MatchesRegex != null)
                     return MatchesRegex;
+                if (WithinRange != null)
+                    return WithinRange;
                 return null;
             }
         }
@@ -124,6 +128,8 @@ namespace NBi.Xml.Items.Calculation
                     return ComparerType.Contains;
                 if (MatchesRegex != null)
                     return ComparerType.MatchesRegex;
+                if (WithinRange != null)
+                    return ComparerType.WithinRange;
                 return ComparerType.Equal;
             }
         }

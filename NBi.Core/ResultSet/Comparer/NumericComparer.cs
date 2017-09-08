@@ -2,6 +2,7 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using NBi.Core.ResultSet.Interval;
 
 namespace NBi.Core.ResultSet.Comparer
 {
@@ -26,7 +27,7 @@ namespace NBi.Core.ResultSet.Comparer
 
         protected override ComparerResult CompareObjects(object x, object y)
         {
-            var builder = new IntervalBuilder(x);
+            var builder = new NumericIntervalBuilder(x);
             builder.Build();
             if (builder.IsValid())
                 return CompareDecimals
@@ -35,7 +36,7 @@ namespace NBi.Core.ResultSet.Comparer
                         , converter.Convert(y)
                     ); 
 
-            builder = new IntervalBuilder(y);
+            builder = new NumericIntervalBuilder(y);
             builder.Build();
             if (builder.IsValid())
                 return CompareDecimals
@@ -79,7 +80,7 @@ namespace NBi.Core.ResultSet.Comparer
 
         protected ComparerResult CompareObjects(object x, object y, NumericTolerance tolerance)
         {
-            var builder = new IntervalBuilder(x);
+            var builder = new NumericIntervalBuilder(x);
             builder.Build();
             if (builder.IsValid())
                 return CompareDecimals
@@ -88,7 +89,7 @@ namespace NBi.Core.ResultSet.Comparer
                         , converter.Convert(y)
                     ); 
 
-            builder = new IntervalBuilder(y);
+            builder = new NumericIntervalBuilder(y);
             builder.Build();
             if (builder.IsValid())
                 return CompareDecimals
@@ -144,7 +145,7 @@ namespace NBi.Core.ResultSet.Comparer
             return new ComparerResult(expected.ToString(NumberFormatInfo.InvariantInfo));
         }
 
-        protected ComparerResult CompareDecimals(Interval interval, decimal actual)
+        protected ComparerResult CompareDecimals(NumericInterval interval, decimal actual)
         {
             if (interval.Contains(actual))
                 return ComparerResult.Equality;

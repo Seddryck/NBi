@@ -45,8 +45,9 @@ namespace NBi.Core.Calculation.Predicate
                         case ComparerType.MoreThanOrEqual: return new NumericMoreThanOrEqual(info.Reference);
                         case ComparerType.MoreThan: return new NumericMoreThan(info.Reference);
                         case ComparerType.Null: return new NumericNull();
+                        case ComparerType.WithinRange: return new NumericWithinRange(info.Reference);
                         default:
-                            throw new ArgumentOutOfRangeException("Numeric columns don't support Empty comparer.");
+                            throw new ArgumentOutOfRangeException($"Numeric columns don't support {info.ComparerType.ToString()} comparer.");
                     }
                 case NBi.Core.ResultSet.ColumnType.DateTime:
                     switch (info.ComparerType)
@@ -57,8 +58,9 @@ namespace NBi.Core.Calculation.Predicate
                         case ComparerType.MoreThanOrEqual: return new DateTimeMoreThanOrEqual(info.Reference);
                         case ComparerType.MoreThan: return new DateTimeMoreThan(info.Reference);
                         case ComparerType.Null: return new DateTimeNull();
+                        case ComparerType.WithinRange: return new DateTimeWithinRange(info.Reference);
                         default:
-                            throw new ArgumentOutOfRangeException("DateTime columns don't support Empty comparer.");
+                            throw new ArgumentOutOfRangeException($"DateTime columns don't support {info.ComparerType.ToString()} comparer.");
                     }
                 case NBi.Core.ResultSet.ColumnType.Boolean:
                     switch (info.ComparerType)
@@ -66,7 +68,7 @@ namespace NBi.Core.Calculation.Predicate
                         case ComparerType.Equal: return new BooleanEqual(info.Reference);
                         case ComparerType.Null: return new BooleanNull();
                         default:
-                            throw new ArgumentOutOfRangeException("Boolean columns only support Equal and Null comparers and not More or Less Than comparers.");
+                            throw new ArgumentOutOfRangeException($"Boolean columns only support Equal and Null comparers and not the {info.ComparerType.ToString()} comparer.");
                     }
                 default:
                     break;

@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Core.ResultSet.Interval;
 
 namespace NBi.Core.Calculation.Predicate.Numeric
 {
@@ -15,7 +16,7 @@ namespace NBi.Core.Calculation.Predicate.Numeric
 
         public override bool Apply(object x)
         {
-            var builder = new IntervalBuilder(Reference);
+            var builder = new NumericIntervalBuilder(Reference);
             builder.Build();
             var interval = builder.GetInterval();
 

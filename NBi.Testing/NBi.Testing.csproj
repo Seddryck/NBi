@@ -186,7 +186,7 @@
     <Compile Include="Unit\Core\ResultSet\SettingsResultSetComparisonByIndexTest.cs" />
     <Compile Include="Unit\Core\ResultSet\SingleRowComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetComparerByIndexTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\IntervalBuilderTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\NumericIntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\LineFormatterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\SettingsResultSetComparisonByNameTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetTest.cs" />

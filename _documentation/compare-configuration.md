@@ -25,7 +25,7 @@ The column is simply ignored during the comparison. It means this column doesnâ€
 This type can be useful with MDX queries returning a default measure if you donâ€™t care about this value. Some queries also have a Timestamp column attached as last column and this kind of column is not relevant when comparing two result-sets.
 
 ### Default behaviour
-By default, if nothing is specified, NBi will consider that all columns are keys except the last.
+By default, if nothing is specified, NBi will consider that all columns are keys except the last which is a value.
 
 You can use the attribute *keys* to specify that the keys are all the columns except last (default) or just the first or even all the columns. 
 

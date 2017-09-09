@@ -76,7 +76,10 @@ Each predicate is not valid for each data type. The list of possible combinaison
 | starts-with  | Yes | No | No | No
 | ends-with  | Yes | No | No | No
 | contains  | Yes | No | No | No
+| lower-case  | Yes | No | No | No
+| upper-case  | Yes | No | No | No
 | matches-regex  | Yes | No | No | No
+| within-range  | No | Yes | Yes | No
 
 {% highlight xml %}
 <assertion>

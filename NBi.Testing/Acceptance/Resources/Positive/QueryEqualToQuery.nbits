@@ -396,7 +396,7 @@
       <assert>
         <equalTo>
           <column index="0" role="key" type="text">
-            <transformation language="native" original-type="text">string-to-trim</transformation>
+            <transformation language="native" original-type="text">text-to-trim</transformation>
           </column>
           <column index="1" role="value" type="text">
             <transformation language="native" original-type="text">blank-to-null</transformation>
@@ -418,7 +418,7 @@
       <assert>
         <equalTo>
           <column index="1" role="value" type="numeric">
-            <transformation language="native" original-type="text">string-to-length</transformation>
+            <transformation language="native" original-type="text">text-to-length</transformation>
           </column>
           <query>
             select 'alpha', 'alpha' union all select 'beta', 'beta'

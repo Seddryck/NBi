@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Transformation.Transformer.Native
 {
-    class StringToHtml : INativeTransformation
+    class HtmlToText : INativeTransformation
     {
         public object Evaluate(object value)
         {
@@ -22,7 +22,7 @@ namespace NBi.Core.Transformation.Transformer.Native
             if (string.IsNullOrEmpty(value) || value == "(null)" || value == "(empty)" || value == "(blank)")
                 return value;
             else
-                return WebUtility.HtmlEncode(value);
+                return WebUtility.HtmlDecode(value);
         }
     }
     }

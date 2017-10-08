@@ -88,6 +88,7 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Acceptance\GenbiL\ConcatenateSplitGroupTest.cs" />
+    <Compile Include="Acceptance\GenbiL\GlobalVariablesTest.cs" />
     <Compile Include="Acceptance\GenbiL\MultipleTemplatesTest.cs" />
     <Compile Include="Acceptance\GenbiL\SettingsTest.cs" />
     <Compile Include="Acceptance\GenbiL\GroupTest.cs" />
@@ -229,6 +230,7 @@
     <Compile Include="Unit\GenbiL\Action\Case\MergeCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\AddCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Suite\GenerateSuiteActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Variable\AutoVariableActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Variable\SetVariableActionTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\VariableParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\CommentParserTest.cs" />
@@ -429,6 +431,12 @@
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\MultipleTemplates1.nbitt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="Acceptance\GenbiL\Resources\GlobalVariables.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\GlobalVariables.genbil">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\GenbiL\Resources\MultipleTemplates.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -445,6 +453,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\MultipleTemplates2.nbitt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\GlobalVariables.nbitt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\OrderCountByYear.xlsx">

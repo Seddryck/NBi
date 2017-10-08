@@ -30,7 +30,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             TestCasesPresenter = new TestCasesPresenter(new RenameVariableWindow(), new FilterWindow(), new ConnectionStringWindow(), new TestCaseCollectionManager(), State.TestCases, State.Variables, State.ConnectionStringNames);
             TemplatePresenter = new TemplatePresenter(new TemplateManager(), State.Template);
             SettingsPresenter = new SettingsPresenter(new SettingsManager(), State.Settings);
-            TestListPresenter = new TestListPresenter(new TestListManager(), State.Tests, State.TestCases, State.Variables, State.Template);
+            TestListPresenter = new TestListPresenter(new TestListManager(), State.Tests, State.TestCases, State.Variables, State.Template, State.GlobalVariables);
             TestSuitePresenter = new TestSuitePresenter(new TestSuiteManager(), State.Tests, State.Settings);
             MacroPresenter = new MacroPresenter();
 

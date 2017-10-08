@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NBi.Service;
+using NBi.GenbiL.Action.Variable;
 
 namespace NBi.GenbiL
 {
@@ -22,6 +23,7 @@ namespace NBi.GenbiL
             List = new TestListManager();
             Suite = new TestSuiteManager();
             Variables = new Dictionary<string, object>();
+            (new AutoVariableAction(true)).Execute(this);
         }
     }
 }

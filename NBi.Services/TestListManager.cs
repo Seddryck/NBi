@@ -36,23 +36,23 @@ namespace NBi.Service
         }
 
 
-        public void Build(string template, string[] variables, DataTable dataTable, bool useGrouping)
+        public void Build(string template, string[] variables, DataTable dataTable, bool useGrouping, IDictionary<string, object> globalVariables)
         {
             var generator = new StringTemplateEngine(template, variables);
             var cases = GetCases(dataTable, useGrouping);
             generator.Progressed += new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
-            lastGeneration = generator.Build(cases).ToList();
+            lastGeneration = generator.Build(cases, globalVariables).ToList();
             generator.Progressed -= new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
             tests = tests.Concat(lastGeneration).ToList();
         }
 
-        public void Build(IEnumerable<string> templates, string[] variables, DataTable dataTable, bool useGrouping)
+        public void Build(IEnumerable<string> templates, string[] variables, DataTable dataTable, bool useGrouping, IDictionary<string, object> globalVariables)
         {
             if (templates.Count() == 0)
                 throw new ArgumentException("No template was specified. You must at least define a template before generating a test suite.");
 
             if (templates.Count() == 1)
-                Build(templates.ElementAt(0), variables, dataTable, useGrouping);
+                Build(templates.ElementAt(0), variables, dataTable, useGrouping, globalVariables);
             else
             {
                 
@@ -63,7 +63,7 @@ namespace NBi.Service
                     {
                         var generator = new StringTemplateEngine(template, variables);
                         generator.Progressed += new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
-                        lastGeneration = generator.Build(new List<List<List<object>>>() { indiv }).ToList();
+                        lastGeneration = generator.Build(new List<List<List<object>>>() { indiv }, globalVariables).ToList();
                         generator.Progressed -= new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
                         tests = tests.Concat(lastGeneration).ToList();
                     }

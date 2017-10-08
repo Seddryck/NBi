@@ -13,6 +13,7 @@ namespace NBi.GenbiL.Parser
 
         public static readonly Parser<string> Load = Parse.IgnoreCase("Load").Text().Token();
         public static readonly Parser<string> Add = Parse.IgnoreCase("Add").Text().Token();
+        public static readonly Parser<string> Clear = Parse.IgnoreCase("Clear").Text().Token();
         public static readonly Parser<string> Remove = Parse.IgnoreCase("Remove").Text().Token();
         public static readonly Parser<string> Hold = Parse.IgnoreCase("Hold").Text().Token();
         public static readonly Parser<string> Move = Parse.IgnoreCase("Move").Text().Token();
@@ -50,6 +51,8 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<string> Column = Parse.IgnoreCase("Column").Text().Token();
         public static readonly Parser<string> Columns = Parse.IgnoreCase("Columns").Text().Token();
         public static readonly Parser<string> File = Parse.IgnoreCase("File").Text().Token();
+        public static readonly Parser<string> Predefined = Parse.IgnoreCase("Predefined").Text().Token();
+        public static readonly Parser<string> Embedded = Parse.IgnoreCase("Embedded").Text().Token();
         public static readonly Parser<string> Folder = Parse.IgnoreCase("Folder").Text().Token();
         public static readonly Parser<string> When = Parse.IgnoreCase("When").Text().Token();
     }

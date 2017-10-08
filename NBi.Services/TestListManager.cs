@@ -46,6 +46,31 @@ namespace NBi.Service
             tests = tests.Concat(lastGeneration).ToList();
         }
 
+        public void Build(IEnumerable<string> templates, string[] variables, DataTable dataTable, bool useGrouping)
+        {
+            if (templates.Count() == 0)
+                throw new ArgumentException("No template was specified. You must at least define a template before generating a test suite.");
+
+            if (templates.Count() == 1)
+                Build(templates.ElementAt(0), variables, dataTable, useGrouping);
+            else
+            {
+                
+                var cases = GetCases(dataTable, useGrouping);
+                foreach (var indiv in cases)
+                {
+                    foreach (var template in templates)
+                    {
+                        var generator = new StringTemplateEngine(template, variables);
+                        generator.Progressed += new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
+                        lastGeneration = generator.Build(new List<List<List<object>>>() { indiv }).ToList();
+                        generator.Progressed -= new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
+                        tests = tests.Concat(lastGeneration).ToList();
+                    }
+                }
+            }
+        }
+
         public  void OnTestGenerated(object sender, ProgressEventArgs e)
         {
             InvokeProgress(e);

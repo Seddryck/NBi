@@ -1,0 +1,12 @@
+﻿<test name="distinct members for $dimension$">
+  <system-under-test>
+    <execution>
+      <query>select distinct * from $dimension$</query>
+    </execution>
+  </system-under-test>
+  <assert>
+    <row-count>
+      <more-than>10</more-than>
+    </row-count>
+  </assert>
+</test>

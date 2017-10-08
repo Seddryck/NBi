@@ -12,6 +12,7 @@ namespace NBi.GenbiL
         public SettingsManager Settings { get; private set; }
         public TestListManager List { get; private set; }
         public TestSuiteManager Suite { get; private set; }
+        public IDictionary<string, object> Variables { get; private set; }
 
         public GenerationState()
         {
@@ -20,6 +21,7 @@ namespace NBi.GenbiL
             Settings = new SettingsManager();
             List = new TestListManager();
             Suite = new TestSuiteManager();
+            Variables = new Dictionary<string, object>();
         }
     }
 }

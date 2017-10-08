@@ -229,6 +229,8 @@
     <Compile Include="Unit\GenbiL\Action\Case\MergeCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\AddCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Suite\GenerateSuiteActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Variable\SetVariableActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Parser\VariableParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\CommentParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\GrammarParserTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetSupersetOfBuilderTest.cs" />

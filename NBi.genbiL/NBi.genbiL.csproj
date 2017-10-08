@@ -91,7 +91,10 @@
     <Compile Include="Action\Template\AddFileTemplateAction.cs" />
     <Compile Include="Action\Template\LoadTemplateAction.cs" />
     <Compile Include="Action\Template\LoadFileTemplateAction.cs" />
+    <Compile Include="Action\Variable\IVariableAction.cs" />
+    <Compile Include="Action\Variable\SetVariableAction.cs" />
     <Compile Include="Parser\Action.cs" />
+    <Compile Include="Parser\Variable.cs" />
     <Compile Include="Parser\Valuable\Column.cs" />
     <Compile Include="Parser\Comment.cs" />
     <Compile Include="Parser\Valuable\IValuable.cs" />

@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Transformation.Transformer.Native
 {
-    class StringToLower : INativeTransformation
+    class TextToLength : INativeTransformation
     {
         public object Evaluate(object value)
         {
-            if (value is string || value == null)
+            if (value == null)
+                return 0;
+            else if (value is string)
                 return EvaluateString(value as string);
             else
                 throw new NotImplementedException();
@@ -18,10 +20,12 @@ namespace NBi.Core.Transformation.Transformer.Native
 
         private object EvaluateString(string value)
         {
-            if (string.IsNullOrEmpty(value) || (value.StartsWith("(") && value.EndsWith(")")))
-                return value;
+            if (value == "(any)" || value == "(value)" || value == "(blank)")
+                return -1;
+            else if (string.IsNullOrEmpty(value) || value == "(null)" || value == "(empty)")
+                return 0;
             else
-                return value.ToLowerInvariant();
+                return value.Length;
         }
         
     }

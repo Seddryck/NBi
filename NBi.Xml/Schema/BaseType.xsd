@@ -535,13 +535,13 @@
       <xs:enumeration value="null-to-value"/>
       <xs:enumeration value="value-to-value"/>
       <xs:enumeration value="any-to-any"/>
-      <xs:enumeration value="string-to-trim"/>
-      <xs:enumeration value="string-to-upper"/>
-      <xs:enumeration value="string-to-lower"/>
-      <xs:enumeration value="string-to-length"/>
-      <xs:enumeration value="string-to-html"/>
-      <xs:enumeration value="string-to-without-diacritics"/>
-      <xs:enumeration value="html-to-string"/>
+      <xs:enumeration value="text-to-trim"/>
+      <xs:enumeration value="text-to-upper"/>
+      <xs:enumeration value="text-to-lower"/>
+      <xs:enumeration value="text-to-length"/>
+      <xs:enumeration value="text-to-html"/>
+      <xs:enumeration value="text-to-without-diacritics"/>
+      <xs:enumeration value="html-to-text"/>
       <xs:enumeration value="date-to-age"/>
     </xs:restriction>
   </xs:simpleType>

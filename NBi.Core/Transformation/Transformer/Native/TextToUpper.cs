@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NBi.Core.Transformation.Transformer.Native
 {
-    class HtmlToString : INativeTransformation
+    class TextToUpper : INativeTransformation
     {
         public object Evaluate(object value)
         {
@@ -19,10 +18,11 @@ namespace NBi.Core.Transformation.Transformer.Native
 
         private object EvaluateString(string value)
         {
-            if (string.IsNullOrEmpty(value) || value == "(null)" || value == "(empty)" || value == "(blank)")
+            if (string.IsNullOrEmpty(value) || (value.StartsWith("(") && value.EndsWith(")")))
                 return value;
             else
-                return WebUtility.HtmlDecode(value);
+                return value.ToUpperInvariant();
         }
+
     }
-    }
+}

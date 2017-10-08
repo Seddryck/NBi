@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Transformation.Transformer.Native
 {
-    class StringToTrim : INativeTransformation
+    class TextToTrim : INativeTransformation
     {
         public object Evaluate(object value)
         {

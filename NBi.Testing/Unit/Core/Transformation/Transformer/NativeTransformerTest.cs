@@ -174,7 +174,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         [TestCase(" ABC ")]
         public void Execute_Trim_ABC(object value)
         {
-            var code = "string-to-trim";
+            var code = "text-to-trim";
             var provider = new NativeTransformer<string>();
             provider.Initialize(code);
 
@@ -187,7 +187,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         [TestCase(" XYZ ")]
         public void Execute_Trim_NotABC(object value)
         {
-            var code = "string-to-trim";
+            var code = "text-to-trim";
             var provider = new NativeTransformer<string>();
             provider.Initialize(code);
 
@@ -200,7 +200,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         [TestCase("abC")]
         public void Execute_UpperCase_ABC(object value)
         {
-            var code = "string-to-upper";
+            var code = "text-to-upper";
             var provider = new NativeTransformer<string>();
             provider.Initialize(code);
 
@@ -212,7 +212,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         [TestCase(" abC ")]
         public void Execute_LowerCase_abc(object value)
         {
-            var code = "string-to-lower";
+            var code = "text-to-lower";
             var provider = new NativeTransformer<string>();
             provider.Initialize(code);
 
@@ -224,7 +224,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         [TestCase(" abC ")]
         public void Execute_Length_5(object value)
         {
-            var code = "string-to-length";
+            var code = "text-to-length";
             var provider = new NativeTransformer<string>();
             provider.Initialize(code);
 
@@ -234,9 +234,9 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
 
         [Test]
         [TestCase("Cédric")]
-        public void Execute_StringToHtml_Valid(object value)
+        public void Execute_TextToHtml_Valid(object value)
         {
-            var code = "string-to-html";
+            var code = "text-to-html";
             var provider = new NativeTransformer<string>();
             provider.Initialize(code);
 
@@ -259,9 +259,9 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         [Test]
         [TestCase("C&#233;dric")]
         [TestCase("C&eacute;dric")]
-        public void Execute_HtmlToString_Valid(object value)
+        public void Execute_HtmlToText_Valid(object value)
         {
-            var code = "html-to-string";
+            var code = "html-to-text";
             var provider = new NativeTransformer<string>();
             provider.Initialize(code);
 
@@ -273,7 +273,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         [TestCase("Cédric")]
         public void Execute_Diacritics_Valid(object value)
         {
-            var code = "string-to-without-diacritics";
+            var code = "text-to-without-diacritics";
             var provider = new NativeTransformer<string>();
             provider.Initialize(code);
 

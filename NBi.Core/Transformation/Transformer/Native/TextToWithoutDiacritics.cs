@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Transformation.Transformer.Native
 {
-    class StringToWithoutDiacritics : INativeTransformation
+    class TextToWithoutDiacritics : INativeTransformation
     {
         public object Evaluate(object value)
         {

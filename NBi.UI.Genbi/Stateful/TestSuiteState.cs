@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using NBi.Service.Dto;
+using NBi.GenbiL;
 
 namespace NBi.UI.Genbi.Stateful
 {
@@ -15,6 +16,8 @@ namespace NBi.UI.Genbi.Stateful
         public string Template { get; private set; }
         public LargeBindingList<Test> Tests { get; private set; }
         public BindingList<Setting> Settings { get; private set; }
+        public IDictionary<string, object> GlobalVariables { get; private set; }
+
 
         public TestSuiteState()
         {
@@ -22,9 +25,12 @@ namespace NBi.UI.Genbi.Stateful
             ConnectionStringNames = new BindingList<string>();
             TestCases = new DataTable();
             Tests = new LargeBindingList<Test>();
-            Settings = new BindingList<Setting>();
-            Settings.Add(new Setting() { Name = "Default - System-under-test" });
-            Settings.Add(new Setting() { Name = "Default - Assert" });
+            Settings = new BindingList<Setting>
+            {
+                new Setting() { Name = "Default - System-under-test" },
+                new Setting() { Name = "Default - Assert" }
+            };
+            GlobalVariables = new GenerationState().Variables;
         }
     }
 }

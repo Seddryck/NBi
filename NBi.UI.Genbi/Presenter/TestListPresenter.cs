@@ -18,7 +18,7 @@ namespace NBi.UI.Genbi.Presenter
         private readonly TestListManager testListManager;
         public bool IsUndo { get; private set; }
 
-        public TestListPresenter(TestListManager testListManager, LargeBindingList<Test> tests, DataTable testCases, BindingList<string> variables, string template)
+        public TestListPresenter(TestListManager testListManager, LargeBindingList<Test> tests, DataTable testCases, BindingList<string> variables, string template, IDictionary<string, object> globalVariables)
         {
             this.ClearTestsXmlCommand = new ClearTestListCommand(this);
             this.GenerateTestsXmlCommand = new GenerateTestListCommand(this);
@@ -34,6 +34,7 @@ namespace NBi.UI.Genbi.Presenter
             TestCases = testCases;
             Variables = variables;
             Template = template;
+            GlobalVariables = globalVariables;
 
             testListManager.Progressed += (sender, e) => 
             {
@@ -89,6 +90,12 @@ namespace NBi.UI.Genbi.Presenter
         {
             get { return GetValue<string>("Template"); }
             set { SetValue("Template", value); }
+        }
+
+        public IDictionary<string, object> GlobalVariables
+        {
+            get { return GetValue<IDictionary<string, object>>("GlobalVariables"); }
+            set { SetValue("GlobalVariables", value); }
         }
 
         public bool UseGrouping
@@ -151,7 +158,7 @@ namespace NBi.UI.Genbi.Presenter
             {
                 Progress = 0;
                 OnGenerationStarted(EventArgs.Empty);
-                testListManager.Build(Template, Variables.ToArray(), TestCases, UseGrouping);
+                testListManager.Build(Template, Variables.ToArray(), TestCases, UseGrouping, GlobalVariables);
                 Progress = 100;
                 IsUndo = true;
                 ReloadTests();

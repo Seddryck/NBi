@@ -532,4 +532,67 @@
       </assert>
     </test>
   </group>
+  <group name="Tolerance">
+    <test name="No text tolerance">
+      <system-under-test>
+        <execution>
+          <query>
+            select 1 as [key], 'Saskatchewan' as [value]
+            union all select 2, 'Michigan'
+            union all select 3, 'Chihuahua'
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo values-default-type="text">
+          <query>
+            select 1 as [key], 'Saskatchewan' as [value]
+            union all select 2, 'Michigan'
+            union all select 3, 'Chihuahua'
+          </query>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Text tolerance as default tolerance">
+      <system-under-test>
+        <execution>
+          <query>
+            select 1 as [key], 'Saskatcheone' as [value]
+            union all select 2, 'Michigane'
+            union all select 3, 'Chihuawa'
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo tolerance="Levenshtein(5)" values-default-type="text">
+          <query>
+            select 1 as [key], 'Saskatchewan' as [value]
+            union all select 2, 'Michigan'
+            union all select 3, 'Chihuahua'
+          </query>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Text tolerance as column tolerance">
+      <system-under-test>
+        <execution>
+          <query>
+            select 1 as [key], 'Saskatcheone' as [value]
+            union all select 2, 'Michigane'
+            union all select 3, 'Chihuawa'
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <column index="1" role="value" type="text" tolerance="Levenshtein(5)"/>
+          <query>
+            select 1 as [key], 'Saskatchewan' as [value]
+            union all select 2, 'Michigan'
+            union all select 3, 'Chihuahua'
+          </query>
+        </equalTo>
+      </assert>
+    </test>
+  </group>
 </testSuite>

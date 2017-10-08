@@ -21,6 +21,7 @@ namespace NBi.Core.ResultSet.Comparer
             switch (type)
             {
                 case ColumnType.Text:
+                    tolerance = new TextToleranceFactory().Instantiate(value);
                     break;
                 case ColumnType.Numeric:
                     tolerance = new NumericToleranceFactory().Instantiate(value);
@@ -43,6 +44,7 @@ namespace NBi.Core.ResultSet.Comparer
             switch (type)
             {
                 case ColumnType.Text:
+                    tolerance = TextTolerance.None;
                     break;
                 case ColumnType.Numeric:
                     tolerance = NumericAbsoluteTolerance.None;

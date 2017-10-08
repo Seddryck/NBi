@@ -106,9 +106,14 @@ namespace NBi.Core.ResultSet
 
         protected List<DataRow> CompareSets(List<CompareHelper> keyMatchingRows)
         {
+            var stopWatch = new Stopwatch();
+            int i = 0;
+
             var nonMatchingValueRows = new List<DataRow>();
             foreach (var rxHelper in keyMatchingRows)
             {
+                i++;
+                stopWatch.Restart();
                 var ryHelper = yDict[rxHelper.Keys];
                 var rx = rxHelper.DataRowObj;
                 var ry = ryHelper.DataRowObj;
@@ -116,6 +121,12 @@ namespace NBi.Core.ResultSet
                 var nonMatchingValueRow = CompareRows(rx, ry);
                 if (nonMatchingValueRow != null)
                     nonMatchingValueRows.Add(nonMatchingValueRow);
+
+                if (i==1)
+                    Trace.WriteLineIf(
+                        NBiTraceSwitch.TraceInfo,
+                        $"Comparison of first row: [{stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")}]"
+                        );
             }
             return nonMatchingValueRows;
         }

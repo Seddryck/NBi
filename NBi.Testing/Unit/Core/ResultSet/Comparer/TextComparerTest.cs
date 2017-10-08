@@ -187,5 +187,50 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
             var result = comparer.Compare(null, "(blank)");
             Assert.That(result.AreEqual, Is.True);
         }
+
+        [Test]
+        [TestCase("Hamming(0)")]
+        [TestCase("Jaccard(0)")]
+        [TestCase("Levenshtein(0)")]
+        [TestCase("Overlap(0.7)")]
+        public void Compare_EqualWord_True(string def)
+        {
+            var tolerance = new TextToleranceFactory().Instantiate(def);
+            var comparer = new TextComparer();
+            var result = comparer.Compare("Seddryck", "Seddryck", tolerance);
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        [TestCase("Hamming(1)")]
+        [TestCase("Jaccard(0.5)")]
+        [TestCase("Jaro(0.5)")]
+        [TestCase("Jaro-Winkler(0.5)")]
+        [TestCase("Levenshtein(2)")]
+        [TestCase("SorensenDice(0.5)")]
+        [TestCase("Overlap(0.7)")]
+        public void Compare_SmallDifference_True(string def)
+        {
+            var tolerance = new TextToleranceFactory().Instantiate(def);
+            var comparer = new TextComparer();
+            var result = comparer.Compare("Seddryck", "Xeddryck", tolerance);
+            Assert.That(result.AreEqual, Is.True);
+        }
+
+        [Test]
+        [TestCase("Hamming(2)")]
+        [TestCase("Jaccard(0.5)")]
+        [TestCase("Jaro(0.1)")]
+        [TestCase("Jaro-Winkler(0.1)")]
+        [TestCase("Levenshtein(2)")]
+        [TestCase("SorensenDice(0.5)")]
+        [TestCase("Overlap(0.7)")]
+        public void Compare_Levenshtein_False(string def)
+        {
+            var tolerance = new TextToleranceFactory().Instantiate(def);
+            var comparer = new TextComparer();
+            var result = comparer.Compare("Seddryck", "Undefined", tolerance);
+            Assert.That(result.AreEqual, Is.False);
+        }
     }
 }

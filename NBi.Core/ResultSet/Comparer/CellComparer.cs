@@ -53,8 +53,10 @@ namespace NBi.Core.ResultSet.Comparer
                         //Convert to dateTime
                         if (rounding != null)
                             return dateTimeComparer.Compare(x, y, rounding);
-                        else
+                        else if (tolerance!=null && tolerance!=DateTimeTolerance.None)
                             return dateTimeComparer.Compare(x, y, tolerance);
+                        else
+                            return dateTimeComparer.Compare(x, y);
                     }
                     //Boolean
                     else if (columnType == ColumnType.Boolean)
@@ -65,7 +67,10 @@ namespace NBi.Core.ResultSet.Comparer
                     //Text
                     else
                     {
-                        return textComparer.Compare(x, y);
+                        if (tolerance == null || tolerance==TextTolerance.None)
+                            return textComparer.Compare(x, y);
+                        else
+                            return textComparer.Compare(x, y, tolerance);
                     }
                 }
             }

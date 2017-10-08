@@ -7,6 +7,7 @@ using NBi.Core.ResultSet;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items.ResultSet;
 using NUnit.Framework;
+using NBi.Core.ResultSet.Comparer;
 #endregion
 
 namespace NBi.Testing.Unit.Core.ResultSet
@@ -42,7 +43,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             //apply specific value
             Assert.That(actual.GetTolerance(1).ValueString, Is.EqualTo("1"));
             //apply default value
-            Assert.That(actual.GetTolerance(2), Is.Null); //We haven't a Numeric column
+            Assert.That(actual.GetTolerance(2), Is.Null.Or.EqualTo(TextTolerance.None)); //We haven't a Numeric column
             Assert.That(actual.GetTolerance(4).ValueString, Is.EqualTo("100"));
             Assert.That(actual.GetTolerance(9).ValueString, Is.EqualTo("100"));
         }

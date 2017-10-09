@@ -21,7 +21,7 @@ namespace NBi.Core.ResultSet.Comparer
 
             //extract the value between parenthesis
             var distanceString = Regex.Match(value, @"\(([^)]*)\)").Groups[1].Value;
-            if (!Double.TryParse(distanceString, out var distance))
+            if (!Double.TryParse(distanceString, NumberStyles.Float, CultureInfo.InvariantCulture, out var distance))
                 throw new ArgumentException($"The value of the distance/coefficient for a text tolerance must be a numeric value and the value '{distanceString}' is not.");
 
             //extract the name of the tolerance

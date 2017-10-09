@@ -11,7 +11,7 @@ namespace NBi.NUnit.Builder
 {
     abstract class AbstractExecutionBuilder : AbstractTestCaseBuilder
     {
-        protected ExecutionXml SystemUnderTestXml { get; set; }
+        protected AbstractSystemUnderTestXml SystemUnderTestXml { get; set; }
 
         protected override void BaseSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
@@ -23,7 +23,7 @@ namespace NBi.NUnit.Builder
 
         protected override void BaseBuild()
         {
-            SystemUnderTest = InstantiateSystemUnderTest(SystemUnderTestXml);
+            SystemUnderTest = InstantiateSystemUnderTest((ExecutionXml)SystemUnderTestXml);
         }
 
         protected virtual IDbCommand InstantiateSystemUnderTest(ExecutionXml executionXml)

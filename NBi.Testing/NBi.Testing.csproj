@@ -472,6 +472,9 @@
     <EmbeddedResource Include="Acceptance\Resources\Positive\QuerySubsetOfQuery.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\CsvEqualToResultSet.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\QueryEqualToResultSetProvider.nbits.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

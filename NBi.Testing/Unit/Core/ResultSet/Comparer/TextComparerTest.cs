@@ -192,7 +192,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         [TestCase("Hamming(0)")]
         [TestCase("Jaccard(0)")]
         [TestCase("Levenshtein(0)")]
-        [TestCase("Overlap(0.7)")]
+        [TestCase("Overlap(0.65)")]
         public void Compare_EqualWord_True(string def)
         {
             var tolerance = new TextToleranceFactory().Instantiate(def);
@@ -208,7 +208,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         [TestCase("Jaro-Winkler(0.5)")]
         [TestCase("Levenshtein(2)")]
         [TestCase("SorensenDice(0.5)")]
-        [TestCase("Overlap(0.7)")]
+        [TestCase("Overlap(0.6)")]
         public void Compare_SmallDifference_True(string def)
         {
             var tolerance = new TextToleranceFactory().Instantiate(def);
@@ -219,13 +219,13 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
 
         [Test]
         [TestCase("Hamming(2)")]
-        [TestCase("Jaccard(0.5)")]
-        [TestCase("Jaro(0.1)")]
-        [TestCase("Jaro-Winkler(0.1)")]
+        [TestCase("Jaccard(0.4)")]
+        [TestCase("Jaro(0.04)")]
+        [TestCase("Jaro-Winkler(0.05)")]
         [TestCase("Levenshtein(2)")]
-        [TestCase("SorensenDice(0.5)")]
+        [TestCase("SorensenDice(0.4)")]
         [TestCase("Overlap(0.7)")]
-        public void Compare_Levenshtein_False(string def)
+        public void Compare_LargeDifference_False(string def)
         {
             var tolerance = new TextToleranceFactory().Instantiate(def);
             var comparer = new TextComparer();

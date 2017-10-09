@@ -17,6 +17,9 @@ namespace NBi.Core.ResultSet.Comparer
 
         public static Tolerance Instantiate(ColumnType type, string value)
         {
+            if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
+                return null;
+
             Tolerance tolerance=null;
             switch (type)
             {

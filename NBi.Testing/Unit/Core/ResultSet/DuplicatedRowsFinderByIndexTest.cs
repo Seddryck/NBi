@@ -101,6 +101,11 @@ namespace NBi.Testing.Unit.Core.ResultSet
             Assert.That(result.Values.ElementAt(0).Keys.Members, Has.Member("a"));
             Assert.That(result.Values.ElementAt(0).Keys.Members, Has.Member("b"));
             Assert.That(result.Values.ElementAt(0).Keys.Members, Has.Member("120"));
+            Assert.That(result.Rows.Count(), Is.EqualTo(1));
+            Assert.That(result.Rows.ElementAt(0).ItemArray, Has.Member(3));
+            Assert.That(result.Rows.ElementAt(0).ItemArray, Has.Member("a"));
+            Assert.That(result.Rows.ElementAt(0).ItemArray, Has.Member("b"));
+            Assert.That(result.Rows.ElementAt(0).ItemArray, Has.Member("120"));
         }
     }
 }

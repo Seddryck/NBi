@@ -68,6 +68,7 @@
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionNonQueryBuilder.cs" />
+    <Compile Include="Builder\ExecutionNoDuplicateBuilder.cs" />
     <Compile Include="Builder\ResultSetSystemEqualToBuilder.cs" />
     <Compile Include="Builder\ResultSetSubsetOfBuilder.cs" />
     <Compile Include="Builder\ResultSetSupersetOfBuilder.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="DataType\DescriptionDataTypeHelper.cs" />
     <Compile Include="DataType\IsConstraint.cs" />
     <Compile Include="ResultSetComparison\BaseResultSetComparisonConstraint.cs" />
+    <Compile Include="ResultSetComparison\NoDuplicateConstraint.cs" />
     <Compile Include="ResultSetComparison\SubsetOfConstraint.cs" />
     <Compile Include="Query\NoRowsConstraint.cs" />
     <Compile Include="Query\AllRowsConstraint.cs" />

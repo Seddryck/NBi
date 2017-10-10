@@ -171,6 +171,7 @@
     <Compile Include="Unit\Core\Report\FileParserTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\CellComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\TextToleranceFactoryTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\DuplicatedRowsFinderByIndexTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Interval\DateTimeIntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\JsonResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\KeyCollectionTest.cs" />
@@ -285,6 +286,7 @@
     <Compile Include="Unit\Service\TestCaseCollectionManagerTest.cs" />
     <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\NoDuplicateXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\SupersetOfXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\NoRowsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\IsXmlTest.cs" />
@@ -473,6 +475,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\CsvEqualToResultSet.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\QueryNoDuplicate.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\QueryEqualToResultSetProvider.nbits.config">
@@ -746,6 +751,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\NoDuplicateXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TransformationXmlTestSuite.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

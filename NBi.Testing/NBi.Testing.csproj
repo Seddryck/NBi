@@ -286,6 +286,7 @@
     <Compile Include="Unit\Service\TestCaseCollectionManagerTest.cs" />
     <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\NoDuplicateXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\SupersetOfXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\NoRowsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\IsXmlTest.cs" />
@@ -747,6 +748,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\NoDuplicateXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TransformationXmlTestSuite.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

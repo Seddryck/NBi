@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
+	<test name="'Reseller Order Count' by year before 2006 (csv)" uid="0000">
+		<system-under-test>
+      <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<column index="0" role="key" type="text"/>
+				<column index="1" role="value" type="numeric"/>
+        <resultSet>
+          <row>
+            <cell>CY 2005</cell>
+            <cell>366</cell>
+          </row>
+          <row>
+            <cell>CY 2006</cell>
+            <cell>1015</cell>
+          </row>
+          <row>
+            <cell>CY 2007</cell>
+            <cell>1521</cell>
+          </row>
+          <row>
+            <cell>CY 2008</cell>
+            <cell>894</cell>
+          </row>
+        </resultSet>
+			</equalTo>
+		</assert>
+	</test>
+</testSuite>

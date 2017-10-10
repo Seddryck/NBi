@@ -93,6 +93,7 @@ namespace NBi.Testing.Acceptance
         //By Acceptance Test Suite (file) create a Test Case
         [Test]
         [TestCase("AssemblyEqualToResultSet.nbits")]
+        [TestCase("CsvEqualToResultSet.nbits")]
         [TestCase("QueryEqualToWithParameter.nbits")]
         [TestCase("QueryEqualToCsv.nbits")]
         [TestCase("QueryEqualToCsvWithProfile.nbits")]
@@ -160,7 +161,7 @@ namespace NBi.Testing.Acceptance
 
         [Test]
         [TestCase("DataRowsMessage.nbits")]
-        [TestCase("ItemsMessage.nbits")]
+        //[TestCase("ItemsMessage.nbits")]
         [Category("Acceptance")]
         public void RunNegativeTestSuite(string filename)
         {

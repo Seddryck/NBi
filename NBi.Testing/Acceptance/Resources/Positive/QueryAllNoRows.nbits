@@ -10,7 +10,7 @@
       <script language="c-sharp">DateTime.Now.Year + 1</script>
     </variable>
   </variables>
-  <!--<test name="All-rows is doing the job for numeric info" uid="0001">
+  <test name="All-rows is doing the job for numeric info" uid="0001">
     <system-under-test>
       <execution>
         <query
@@ -230,7 +230,7 @@
         </predicate>
       </all-rows>
     </assert>
-  </test>-->
+  </test>
   <test name="Use a variable for the predicate" uid="0008">
     <system-under-test>
       <execution>
@@ -243,13 +243,13 @@
     <assert>
       <all-rows>
         <variable column-index="0">year</variable>
-        <predicate name="#0#">
+        <predicate name="year">
           <less-than>@year</less-than>
         </predicate>
       </all-rows>
     </assert>
   </test>
-  <test name="Switch between type for variable" uid="0008">
+  <test name="Switch between type for variable" uid="0009">
     <system-under-test>
       <execution>
         <query>

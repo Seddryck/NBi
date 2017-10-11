@@ -56,6 +56,9 @@ namespace NBi.Core.Calculation
                     dico.Add(expression.Name, result);
                 }
 
+                if (!dico.ContainsKey(predicateInfo.Name))
+                    throw new NBiException($"The variable '{predicateInfo.Name}' is not defined but is used in the predicate.");
+
                 var value = dico[predicateInfo.Name];
                 if (onApply(predicate.Apply(value)))
                     filteredRs.Table.ImportRow(row);

@@ -6,6 +6,7 @@ using NBi.Xml.Systems;
 using System.Linq;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework;
+using NBi.Core.Variable;
 
 namespace NBi.NUnit
 {
@@ -13,15 +14,17 @@ namespace NBi.NUnit
 	{
         private readonly ICollection<BuilderRegistration> registrations;
         private readonly ITestConfiguration configuration;
+        private readonly IDictionary<string, ITestVariable> variables;
 
         public TestCaseFactory()
-            : this(TestConfiguration.Default)
+            : this(TestConfiguration.Default, new Dictionary<string, ITestVariable>())
         {
         }
 
-        public TestCaseFactory(ITestConfiguration configuration)
+        public TestCaseFactory(ITestConfiguration configuration, IDictionary<string, ITestVariable> variables)
 		{
             this.configuration = configuration;
+            this.variables = variables;
 			registrations = new List<BuilderRegistration>();
 			RegisterDefault();
 		}
@@ -145,7 +148,7 @@ namespace NBi.NUnit
 
 			//Get Builder and initiate it
 			builder = registration.Builder;
-			builder.Setup(sutXml, ctrXml, configuration);
+			builder.Setup(sutXml, ctrXml, configuration, variables);
 			
 			//Build
 			builder.Build();

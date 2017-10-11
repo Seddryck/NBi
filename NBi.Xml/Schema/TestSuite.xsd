@@ -8,10 +8,12 @@
   <xs:include schemaLocation="Settings.xsd"/>
   <xs:include schemaLocation="Cleanup.xsd"/>
   <xs:include schemaLocation="Setup.xsd"/>
+  <xs:include schemaLocation="Variables.xsd"/>
   <xs:element name="testSuite">
     <xs:complexType>
       <xs:sequence>
         <xs:element name="settings" type="settings-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name= "variables" type="variables-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="test" type="test-type" minOccurs="0" maxOccurs="unbounded" />
         <xs:element name="group" type="group-type" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>

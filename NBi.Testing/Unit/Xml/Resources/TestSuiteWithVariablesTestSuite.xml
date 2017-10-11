@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+  <variables>
+    <variable name="year">
+      <script language="c-sharp">DateTime.Now.Year</script>
+    </variable>
+    <variable name="Sqrt2">
+      <script>Math.Sqrt(2)</script>
+    </variable>
+  </variables>
+	<test name="My first test case" uid="0001">
+		<system-under-test>
+			<execution>
+				<query name="Select first product">
+					SELECT TOP 1 * FROM Product;
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<syntacticallyCorrect />
+		</assert>
+	</test>
+</testSuite>

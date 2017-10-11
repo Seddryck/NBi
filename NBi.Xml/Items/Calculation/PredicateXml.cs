@@ -138,6 +138,7 @@ namespace NBi.Xml.Items.Calculation
         public object Reference
         {
             get { return Comparer.Value; }
+            set { Comparer.Value = value.ToString(); }
         }
 
         [XmlIgnore]

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 using NBi.Xml.Settings;
+using NBi.Xml.Variables;
 
 namespace NBi.Xml
 {
@@ -13,10 +14,14 @@ namespace NBi.Xml
         [XmlElement("settings", Order = 1)]
         public SettingsXml Settings { get; set; }
 
-        [XmlElement("test", Order = 2)]
+        [XmlArray(ElementName = "variables", Order = 2)]
+        [XmlArrayItem(typeof(GlobalVariableXml), ElementName = "variable")]
+        public List<GlobalVariableXml> Variables { get; set; }
+
+        [XmlElement("test", Order = 3)]
         public List<TestXml> Tests { get; set; }
 
-        [XmlElement("group", Order = 3)]
+        [XmlElement("group", Order = 4)]
         public List<GroupXml> Groups { get; set; }
 
         public TestSuiteXml()
@@ -24,6 +29,7 @@ namespace NBi.Xml
             Tests = new List<TestXml>();
             Groups = new List<GroupXml>();
             Settings = new SettingsXml();
+            Variables = new List<GlobalVariableXml>();
         }
 
         public override string ToString()

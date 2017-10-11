@@ -283,6 +283,8 @@
     <Compile Include="ResultSet\Analyzer\KeyMatchingRowsAnalyzer.cs" />
     <Compile Include="ResultSet\Analyzer\UnexpectedRowsAnalyzer.cs" />
     <Compile Include="ResultSet\Analyzer\MissingRowsAnalyzer.cs" />
+    <Compile Include="ResultSet\ColumnRole.cs" />
+    <Compile Include="ResultSet\ColumnType.cs" />
     <Compile Include="ResultSet\Comparer\CellComparer.cs" />
     <Compile Include="ResultSet\Comparer\ComparerFactory.cs" />
     <Compile Include="Report\DatabaseParser.cs" />
@@ -325,8 +327,6 @@
     <Compile Include="Query\IQueryEnginable.cs" />
     <Compile Include="Query\IQueryExecutor.cs" />
     <Compile Include="ResultSet\Column.cs" />
-    <Compile Include="ResultSet\ColumnRole.cs" />
-    <Compile Include="ResultSet\ColumnType.cs" />
     <Compile Include="ResultSet\CompareHelper.cs" />
     <Compile Include="ResultSet\Comparer\BaseComparer.cs" />
     <Compile Include="ResultSet\Comparer\ComparerResult.cs" />
@@ -479,6 +479,9 @@
     <Compile Include="Transformation\LanguageType.cs" />
     <Compile Include="Transformation\TransformerFactory.cs" />
     <Compile Include="Transformation\TransformationProvider.cs" />
+    <Compile Include="Variable\CSharpTestVariable.cs" />
+    <Compile Include="Variable\ITestVariable.cs" />
+    <Compile Include="Variable\TestVariableFactory.cs" />
     <Compile Include="WindowsService\IWindowsServiceCheck.cs" />
     <Compile Include="WindowsService\WindowsServiceCheck.cs" />
     <Compile Include="WindowsService\WindowsServiceCheckFactory.cs" />

@@ -34,7 +34,7 @@ namespace NBi.NUnit.Query
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
         {
             var value = filterResultSet.Rows.Count;
-            writer.WriteLine("{0} row{1} do{2}n't validate the predicate", value, value > 1 ? "s" : string.Empty, value == 1 ? "es" : string.Empty);
+            writer.WriteLine($"{value} row{0} do{1}n't validate the predicate.", value > 1 ? "s" : string.Empty, value == 1 ? "es" : string.Empty);
         }
     }
 }

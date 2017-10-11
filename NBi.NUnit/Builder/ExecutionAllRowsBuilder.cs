@@ -49,7 +49,9 @@ namespace NBi.NUnit.Builder
             var expressions = new List<IColumnExpression>();
             if (ConstraintXml.Expression!=null)
                 expressions.Add(ConstraintXml.Expression);
-            
+
+            ConstraintXml.Predicate.Reference = EvaluatePotentialVariable(ConstraintXml.Predicate.Reference);
+
             filter = new PredicateFilter
                         (
                             ConstraintXml.Variables

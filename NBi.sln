@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
-VisualStudioVersion = 14.0.22823.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 14.0.22823.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Core", "NBi.Core\NBi.Core.csproj", "{3F730647-FE31-4907-8A6E-A0C4A0C970EA}"
 EndProject
@@ -299,5 +299,8 @@ Global
 		{1AD339DC-60E0-4334-86CF-60EEAFEAA6E4} = {DA70ECE5-216D-43A1-9E14-902E06050B8E}
 		{DD62992F-BA69-4837-AC16-55BFBD8B0F58} = {DA70ECE5-216D-43A1-9E14-902E06050B8E}
 		{687F2843-268C-43E2-8369-9EB06B9B59F8} = {05781747-4E7E-470F-A772-C0F988C6DF98}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F1501AB9-EC0D-46A3-8272-02CCFC4DE98E}
 	EndGlobalSection
 EndGlobal

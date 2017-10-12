@@ -5,7 +5,7 @@ using NBi.Core.Evaluate;
 
 namespace NBi.Xml.Items.Calculation
 {
-    public class VariableXml : IColumnVariable
+    public class AliasXml : IColumnAlias
     {
         [XmlAttribute("column-index")]
         public int Column { get; set; }

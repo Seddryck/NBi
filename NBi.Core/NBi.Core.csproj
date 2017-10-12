@@ -220,7 +220,7 @@
     <Compile Include="DecorationFactory.cs" />
     <Compile Include="Evaluate\ExpressionEvaluationResult.cs" />
     <Compile Include="Evaluate\ExpressionComparable.cs" />
-    <Compile Include="Evaluate\IColumnVariable.cs" />
+    <Compile Include="Evaluate\IColumnAlias.cs" />
     <Compile Include="Evaluate\ExpressionComparer.cs" />
     <Compile Include="Evaluate\IColumnExpression.cs" />
     <Compile Include="Evaluate\InvalidExpressionException.cs" />

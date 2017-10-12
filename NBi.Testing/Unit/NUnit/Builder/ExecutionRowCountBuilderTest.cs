@@ -87,7 +87,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = new RowCountXml(SettingsXml.Empty);
             ctrXml.Equal = new EqualXml();
             ctrXml.Filter = new FilterXml();
-            ctrXml.Filter.Variables.Add(new VariableXml());
+            ctrXml.Filter.Aliases.Add(new AliasXml());
             ctrXml.Equal.Value = "50";
 
             var builder = new ExecutionRowCountBuilder();
@@ -113,7 +113,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = new RowCountXml(SettingsXml.Empty);
             ctrXml.Equal = new EqualXml();
             ctrXml.Filter = new FilterXml();
-            ctrXml.Filter.Variables.Add(new VariableXml());
+            ctrXml.Filter.Aliases.Add(new AliasXml());
             ctrXml.Equal.Value = "50.4%";
 
             var builder = new ExecutionRowCountBuilder();

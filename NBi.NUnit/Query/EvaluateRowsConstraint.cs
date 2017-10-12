@@ -12,7 +12,7 @@ namespace NBi.NUnit.Query
     {
         
         
-        private readonly IEnumerable<IColumnVariable> variables;
+        private readonly IEnumerable<IColumnAlias> variables;
         private readonly IEnumerable<IColumnExpression> expressions;
 
         protected ResultSet actualResultSet;
@@ -38,7 +38,7 @@ namespace NBi.NUnit.Query
             }
         }
         
-        public EvaluateRowsConstraint (IEnumerable<IColumnVariable> variables, IEnumerable<IColumnExpression> expressions)
+        public EvaluateRowsConstraint (IEnumerable<IColumnAlias> variables, IEnumerable<IColumnExpression> expressions)
         {
             this.variables = variables;
             this.expressions = expressions;

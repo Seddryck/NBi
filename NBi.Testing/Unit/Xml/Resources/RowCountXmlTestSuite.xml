@@ -58,7 +58,8 @@
     <assert  >
       <row-count>
         <filter>
-          <predicate name="" not="true" type="text">
+          <alias column-index="0">Gname</alias>
+          <predicate name="Gname" not="true" type="text">
             <equal>N/A</equal>
           </predicate>
         </filter>
@@ -66,7 +67,7 @@
       </row-count>
     </assert>
   </test>
-  <test name="With Predicate and with formula" uid="0003">
+  <test name="With Predicate and with formula" uid="0004">
     <system-under-test>
       <execution>
         <query name="Select first departments">

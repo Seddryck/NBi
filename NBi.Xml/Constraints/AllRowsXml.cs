@@ -18,26 +18,39 @@ namespace NBi.Xml.Constraints
     public class AllRowsXml : AbstractConstraintXml
     {
         [XmlIgnore()]
-        public List<IColumnVariable> Variables
+        public List<IColumnAlias> Aliases
         {
             get
             {
-                return VariablesInternal.ToList<IColumnVariable>();
+                return InternalAliases.ToList<IColumnAlias>();
             }
         }
 
         [XmlElement("expression")]
         public ExpressionXml Expression { get; set; }
 
-        [XmlElement("variable")]
-        public List<VariableXml> VariablesInternal { get; set; }
+        [XmlElement("alias")]
+        public List<AliasXml> InternalAliases
+        {
+            get { return internalAliases; }
+            set { internalAliases = value; }
+        }
+
+        [XmlIgnore]
+        public List<AliasXml> InternalAliasesOld
+        {
+            get { return internalAliases; }
+            set { internalAliases = value; }
+        }
+
+        private List<AliasXml> internalAliases;
 
         [XmlElement("predicate")]
         public PredicateXml Predicate { get; set; }
 
         public AllRowsXml()
         {
-            VariablesInternal = new List<VariableXml>();
+            internalAliases = new List<AliasXml>();
         }
     }
 }

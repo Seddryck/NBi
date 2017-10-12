@@ -1000,6 +1000,13 @@
     </xs:sequence>
     <xs:attribute name="name" type="xs:string" use="required" />
   </xs:complexType>
+  <xs:complexType name="alias-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="column-index" type="xs:integer" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
   <xs:complexType name="expression1-type">
     <xs:simpleContent>
       <xs:extension base="xs:string">
@@ -1038,15 +1045,8 @@
   </xs:complexType>
   <xs:complexType name="filter-type">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">
-      <xs:element name="variable" minOccurs="0" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:simpleContent>
-            <xs:extension base="xs:string">
-              <xs:attribute name="column-index" type="xs:integer" use="required"/>
-            </xs:extension>
-          </xs:simpleContent>
-        </xs:complexType>
-      </xs:element>
+      <xs:element name="alias" type="alias-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="variable" type="alias-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="expression" type="expression2-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="predicate" type="predicate-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>

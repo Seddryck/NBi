@@ -14,47 +14,20 @@ namespace NBi.Testing.Unit.Core.Calculation
 {
     public class PredicateFilterTest
     {
-        [Test]
-        public void Apply_Resultset_CorrectResult()
-        {
-            var builder = new ResultSetBuilder();
-            var row1 = new List<object>() { "A", 10, 100 };
-            var row2 = new List<object>() { "B", 2, 75 };
-            var row3 = new List<object>() { "C", 5, 50 };
-            var rs = builder.Build(new object[] {row1, row2, row3});
-
-            var v1 = Mock.Of<IColumnVariable>(v => v.Column == 1 && v.Name == "a");
-            var v2 = Mock.Of<IColumnVariable>(v => v.Column == 2 && v.Name == "b");
-            var variables = new List<IColumnVariable>() {v1, v2 };
-
-            var exp = Mock.Of<IColumnExpression>(e => e.Value == "a*b" && e.Name == "c");
-            var expressions = new List<IColumnExpression>() { exp };
-
-            var info = Mock.Of<IPredicateInfo>
-                (
-                    p => p.ComparerType==ComparerType.MoreThanOrEqual
-                        && p.ColumnType==ColumnType.Numeric
-                        && p.Name == "c"
-                        && p.Reference == (object)200
-                );
-
-            var filter = new PredicateFilter(variables, expressions, info);
-            var result = filter.Apply(rs);
-
-            Assert.That(result.Rows, Has.Count.EqualTo(2));
-        }
 
         [Test]
-        public void Apply_ResultsetNullOrEmpty_CorrectResult()
+        public void Apply_Variable_CorrectResult()
         {
             var builder = new ResultSetBuilder();
-            var row1 = new List<object>() { "(null)", 10, 100 };
-            var row2 = new List<object>() { "(empty)", 2, 75 };
-            var row3 = new List<object>() { "C", 5, 50 };
-            var rs = builder.Build(new object[] { row1, row2, row3 });
+            var rs = builder.Build(new object[] 
+            {
+                new List<object>() { "(null)", 10, 100 },
+                new List<object>() { "(empty)", 2, 75 },
+                new List<object>() { "C", 5, 50 }
+            });
 
-            var v1 = Mock.Of<IColumnVariable>(v => v.Column == 0 && v.Name == "a");
-            
+            var aliases = new[] { Mock.Of<IColumnVariable>(v => v.Column == 0 && v.Name == "a") };
+
             var info = Mock.Of<IPredicateInfo>
                 (
                     p => p.ComparerType == ComparerType.NullOrEmpty
@@ -62,10 +35,135 @@ namespace NBi.Testing.Unit.Core.Calculation
                         && p.Name == "a"
                 );
 
-            var filter = new PredicateFilter(new[] {v1}, new IColumnExpression[0], info);
+            var filter = new PredicateFilter(aliases, new IColumnExpression[0], info);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
         }
+
+        [Test]
+        public void Apply_ColumnIndex_CorrectResult()
+        {
+            var builder = new ResultSetBuilder();
+            var rs = builder.Build(new object[]
+            {
+                new List<object>() { "(null)", 10, 100 },
+                new List<object>() { "(empty)", 2, 75 },
+                new List<object>() { "C", 5, 50 }
+            });
+
+            var info = Mock.Of<IPredicateInfo>
+                (
+                    p => p.ComparerType == ComparerType.NullOrEmpty
+                        && p.ColumnType == ColumnType.Text
+                        && p.Name == "#0"
+                );
+
+            var filter = new PredicateFilter(new IColumnVariable[0], new IColumnExpression[0], info);
+            var result = filter.Apply(rs);
+
+            Assert.That(result.Rows, Has.Count.EqualTo(2));
+        }
+
+        [Test]
+        public void Apply_ColumnName_CorrectResult()
+        {
+            var builder = new ResultSetBuilder();
+            var rs = builder.Build(new object[]
+            {
+                new List<object>() { "(null)", 10, 100 },
+                new List<object>() { "(empty)", 2, 75 },
+                new List<object>() { "C", 5, 50 }
+            });
+            rs.Table.Columns[0].ColumnName = "first";
+
+            var info = Mock.Of<IPredicateInfo>
+                (
+                    p => p.ComparerType == ComparerType.NullOrEmpty
+                        && p.ColumnType == ColumnType.Text
+                        && p.Name == "first"
+                );
+
+            var filter = new PredicateFilter(new IColumnVariable[0], new IColumnExpression[0], info);
+            var result = filter.Apply(rs);
+
+            Assert.That(result.Rows, Has.Count.EqualTo(2));
+        }
+
+        [Test]
+        public void Apply_NestedExpression_CorrectResult()
+        {
+            var builder = new ResultSetBuilder();
+            var rs = builder.Build(new object[] 
+            {
+                new List<object>() { 1, 10, 100 },
+                new List<object>() { 2, 2, 75 },
+                new List<object>() { 3, 5, 50 }
+            });
+
+            var aliases = new List<IColumnVariable>()
+            {
+                Mock.Of<IColumnVariable>(v => v.Column == 0 && v.Name == "a"),
+                Mock.Of<IColumnVariable>(v => v.Column == 1 && v.Name == "b"),
+                Mock.Of<IColumnVariable>(v => v.Column == 2 && v.Name == "c")
+            };
+
+            var expressions = new List<IColumnExpression>()
+            {
+                Mock.Of<IColumnExpression>(e => e.Value == "Abs([a])+[e]" && e.Name == "d"),
+                Mock.Of<IColumnExpression>(e => e.Value == "[b]*[c]" && e.Name == "e")
+            };
+
+            var info = Mock.Of<IPredicateInfo>
+                (
+                    p => p.ComparerType==ComparerType.MoreThanOrEqual
+                        && p.ColumnType==ColumnType.Numeric
+                        && p.Name == "d"
+                        && p.Reference == (object)200
+                );
+
+            var filter = new PredicateFilter(aliases, expressions, info);
+            var result = filter.Apply(rs);
+
+            Assert.That(result.Rows, Has.Count.EqualTo(2));
+        }
+
+        [Test]
+        public void Apply_MixedExpression_CorrectResult()
+        {
+            var builder = new ResultSetBuilder();
+            var rs = builder.Build(new object[]
+            {
+                new List<object>() { 1, 10, 100 },
+                new List<object>() { 2, 2, 75 },
+                new List<object>() { 3, 5, 50 }
+            });
+            rs.Table.Columns[2].ColumnName = "c1";
+
+            var aliases = new List<IColumnVariable>()
+            {
+                Mock.Of<IColumnVariable>(v => v.Column == 0 && v.Name == "a"),
+            };
+
+            var expressions = new List<IColumnExpression>()
+            {
+                Mock.Of<IColumnExpression>(e => e.Value == "Abs([a])+[e]" && e.Name == "d"),
+                Mock.Of<IColumnExpression>(e => e.Value == "[#1]*[c1]" && e.Name == "e")
+            };
+
+            var info = Mock.Of<IPredicateInfo>
+                (
+                    p => p.ComparerType == ComparerType.MoreThanOrEqual
+                        && p.ColumnType == ColumnType.Numeric
+                        && p.Name == "d"
+                        && p.Reference == (object)200
+                );
+
+            var filter = new PredicateFilter(aliases, expressions, info);
+            var result = filter.Apply(rs);
+
+            Assert.That(result.Rows, Has.Count.EqualTo(2));
+        }
+
     }
 }

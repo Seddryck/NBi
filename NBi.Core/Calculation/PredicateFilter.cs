@@ -44,25 +44,56 @@ namespace NBi.Core.Calculation
 
             foreach (DataRow row in rs.Rows)
             {
-                var dico = new Dictionary<string, object>();
-                foreach (var variable in variables)
-	                dico.Add(variable.Name, row[variable.Column]);
-
-                foreach (var expression in expressions)
-                {
-                    var exp = new NCalc.Expression(expression.Value);
-                    exp.Parameters = dico;
-                    var result = exp.Evaluate();
-                    dico.Add(expression.Name, result);
-                }
-
-                var value = dico[predicateInfo.Name];
+                var value = GetValueFromRow(row, predicateInfo.Name);
                 if (onApply(predicate.Apply(value)))
                     filteredRs.Table.ImportRow(row);
             }
 
             filteredRs.Table.AcceptChanges();
             return filteredRs;
+        }
+
+        protected object GetValueFromRow(DataRow row, string name)
+        {
+            if (name.StartsWith("[") && name.EndsWith("]"))
+                name = name.Substring(1, name.Length - 2);
+
+            if (name.StartsWith("#"))
+            {
+                if (int.TryParse(name.Replace("#", ""), out var ordinal))
+                    if (ordinal <= row.Table.Columns.Count)
+                        return row.ItemArray[ordinal];
+                    else
+                        throw new ArgumentException($"The variable of the predicate is identified as '{name}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.Table.Columns.Count} columns.");
+                else
+                    throw new ArgumentException($"The variable of the predicate is identified as '{name}'. All names starting by a '#' matches to a column position and must be followed by an integer.");
+            }
+
+            var variable = variables.SingleOrDefault(x => x.Name == name);
+            if (variable != null)
+                return row.ItemArray[variable.Column];
+
+            var expression = expressions.SingleOrDefault(x => x.Name == name);
+            if (expression != null)
+                return EvaluateExpression(expression, row);
+
+            var column = row.Table.Columns.Cast<DataColumn>().SingleOrDefault(x => x.ColumnName == name);
+            if (column != null)
+                return row[column.ColumnName];
+
+            throw new ArgumentException($"The value '{name}' is not recognized as a column name or a column position or a column alias or an expression.");
+        }
+
+        private object EvaluateExpression(IColumnExpression expression, DataRow row)
+        {
+            var exp = new NCalc.Expression(expression.Value);
+
+            exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
+            {
+                args.Result=GetValueFromRow(row, name);
+            };
+
+            return exp.Evaluate();
         }
     }
 }

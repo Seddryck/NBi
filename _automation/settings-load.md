@@ -1,7 +1,7 @@
 ---
 layout: automation
 title: Load settings
-prev_section: template-load
+prev_section: template-add
 next_section: suite-generate
 permalink: /automation/settings-load/
 ---

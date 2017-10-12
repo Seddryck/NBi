@@ -54,7 +54,7 @@ namespace NBi.NUnit.Builder
                      expressions .Add(filterXml.Expression);
                  filter = new PredicateFilter
                                 (
-                                    filterXml.Variables
+                                    filterXml.Aliases
                                     , expressions
                                     , filterXml.Predicate
                                 );

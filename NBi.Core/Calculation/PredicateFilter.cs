@@ -12,12 +12,12 @@ namespace NBi.Core.Calculation
     public class PredicateFilter : IResultSetFilter
     {
         private readonly IEnumerable<IColumnExpression> expressions;
-        private readonly IEnumerable<IColumnVariable> variables;
+        private readonly IEnumerable<IColumnAlias> aliases;
         private readonly IPredicateInfo predicateInfo;
 
-        public PredicateFilter(IEnumerable<IColumnVariable> variables, IEnumerable<IColumnExpression> expressions, IPredicateInfo predicateInfo)
+        public PredicateFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IPredicateInfo predicateInfo)
         {
-            this.variables = variables;
+            this.aliases = aliases;
             this.expressions = expressions;
             this.predicateInfo = predicateInfo;
         }
@@ -69,9 +69,9 @@ namespace NBi.Core.Calculation
                     throw new ArgumentException($"The variable of the predicate is identified as '{name}'. All names starting by a '#' matches to a column position and must be followed by an integer.");
             }
 
-            var variable = variables.SingleOrDefault(x => x.Name == name);
-            if (variable != null)
-                return row.ItemArray[variable.Column];
+            var alias = aliases.SingleOrDefault(x => x.Name == name);
+            if (alias != null)
+                return row.ItemArray[alias.Column];
 
             var expression = expressions.SingleOrDefault(x => x.Name == name);
             if (expression != null)

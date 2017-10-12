@@ -7,7 +7,7 @@ namespace NBi.Core.Evaluate
 {
     public interface IEvaluationRowsDefinition
     {
-        List<IColumnVariable> Variables { get; }
+        List<IColumnAlias> Variables { get; }
         List<IColumnExpression> Expressions { get; }
     }
 }

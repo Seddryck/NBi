@@ -35,7 +35,8 @@
     </system-under-test>
     <assert>
       <all-rows>
-        <variable column-index="0">Name</variable>
+        <alias column-index="0">Name</alias>
+        <alias column-index="1">Name2</alias>
         <predicate name="Name" type="text">
           <empty or-null="true"/>
         </predicate>

@@ -50,7 +50,7 @@ namespace NBi.NUnit.Builder
             
             filter = new PredicateFilter
                         (
-                            ConstraintXml.Variables
+                            ConstraintXml.Aliases
                             , expressions
                             , ConstraintXml.Predicate
                         );

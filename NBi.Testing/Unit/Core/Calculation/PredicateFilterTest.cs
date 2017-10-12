@@ -26,7 +26,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 new List<object>() { "C", 5, 50 }
             });
 
-            var aliases = new[] { Mock.Of<IColumnVariable>(v => v.Column == 0 && v.Name == "a") };
+            var aliases = new[] { Mock.Of<IColumnAlias>(v => v.Column == 0 && v.Name == "a") };
 
             var info = Mock.Of<IPredicateInfo>
                 (
@@ -59,7 +59,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                         && p.Name == "#0"
                 );
 
-            var filter = new PredicateFilter(new IColumnVariable[0], new IColumnExpression[0], info);
+            var filter = new PredicateFilter(new IColumnAlias[0], new IColumnExpression[0], info);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
@@ -84,7 +84,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                         && p.Name == "first"
                 );
 
-            var filter = new PredicateFilter(new IColumnVariable[0], new IColumnExpression[0], info);
+            var filter = new PredicateFilter(new IColumnAlias[0], new IColumnExpression[0], info);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
@@ -101,11 +101,11 @@ namespace NBi.Testing.Unit.Core.Calculation
                 new List<object>() { 3, 5, 50 }
             });
 
-            var aliases = new List<IColumnVariable>()
+            var aliases = new List<IColumnAlias>()
             {
-                Mock.Of<IColumnVariable>(v => v.Column == 0 && v.Name == "a"),
-                Mock.Of<IColumnVariable>(v => v.Column == 1 && v.Name == "b"),
-                Mock.Of<IColumnVariable>(v => v.Column == 2 && v.Name == "c")
+                Mock.Of<IColumnAlias>(v => v.Column == 0 && v.Name == "a"),
+                Mock.Of<IColumnAlias>(v => v.Column == 1 && v.Name == "b"),
+                Mock.Of<IColumnAlias>(v => v.Column == 2 && v.Name == "c")
             };
 
             var expressions = new List<IColumnExpression>()
@@ -140,9 +140,9 @@ namespace NBi.Testing.Unit.Core.Calculation
             });
             rs.Table.Columns[2].ColumnName = "c1";
 
-            var aliases = new List<IColumnVariable>()
+            var aliases = new List<IColumnAlias>()
             {
-                Mock.Of<IColumnVariable>(v => v.Column == 0 && v.Name == "a"),
+                Mock.Of<IColumnAlias>(v => v.Column == 0 && v.Name == "a"),
             };
 
             var expressions = new List<IColumnExpression>()

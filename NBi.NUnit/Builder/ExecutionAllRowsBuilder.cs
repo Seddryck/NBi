@@ -50,7 +50,8 @@ namespace NBi.NUnit.Builder
             if (ConstraintXml.Expression!=null)
                 expressions.Add(ConstraintXml.Expression);
 
-            ConstraintXml.Predicate.Reference = EvaluatePotentialVariable(ConstraintXml.Predicate.Reference);
+            if (ConstraintXml.Predicate.Reference != null)
+                ConstraintXml.Predicate.Reference = EvaluatePotentialVariable(ConstraintXml.Predicate.Reference);
 
             filter = new PredicateFilter
                         (

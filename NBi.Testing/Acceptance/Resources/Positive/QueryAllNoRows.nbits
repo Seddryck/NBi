@@ -214,7 +214,7 @@
       </all-rows>
     </assert>
   </test>
-  <test name="With Predicate is lower case" uid="0007">
+  <test name="With Predicate is upper-case" uid="0007">
     <system-under-test>
       <execution>
         <query name="Select first departments">
@@ -224,7 +224,7 @@
     </system-under-test>
     <assert>
       <all-rows>
-        <variable column-index="0">Name</variable>
+        <alias column-index="0">Name</alias>
         <predicate name="Name" type="text">
           <upper-case/>
         </predicate>
@@ -242,7 +242,7 @@
     </system-under-test>
     <assert>
       <all-rows>
-        <variable column-index="0">year</variable>
+        <alias column-index="0">year</alias>
         <predicate name="year">
           <less-than>@year</less-than>
         </predicate>
@@ -260,7 +260,7 @@
     </system-under-test>
     <assert>
       <all-rows>
-        <variable column-index="0">text</variable>
+        <alias column-index="0">text</alias>
         <predicate name="text" type="text">
           <starts-with>@year</starts-with>
         </predicate>
@@ -281,7 +281,7 @@
     </system-under-test>
     <assert>
       <no-rows>
-        <variable column-index="1">t</variable>
+        <alias column-index="1">t</alias>
         <expression name="TotalDue">t * [#0] * [C]</expression>
         <predicate name="TotalDue">
           <more-than>10000</more-than>

@@ -30,7 +30,7 @@ namespace NBi.UI.Genbi.Stateful
                 new Setting() { Name = "Default - System-under-test" },
                 new Setting() { Name = "Default - Assert" }
             };
-            GlobalVariables = new GenerationState().Variables;
+            GlobalVariables = new GenerationState().Consumables;
         }
     }
 }

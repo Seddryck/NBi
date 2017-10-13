@@ -10,7 +10,7 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<string> Template = Parse.IgnoreCase("Template").Text().Token();
         public static readonly Parser<string> Setting = Parse.IgnoreCase("Setting").Text().Token();
         public static readonly Parser<string> Suite = Parse.IgnoreCase("Suite").Text().Token();
-        public static readonly Parser<string> Variable = Parse.IgnoreCase("Variable").Text().Token();
+        public static readonly Parser<string> Consumable = Parse.IgnoreCase("Consumable").Text().Token();
 
         public static readonly Parser<string> Load = Parse.IgnoreCase("Load").Text().Token();
         public static readonly Parser<string> Add = Parse.IgnoreCase("Add").Text().Token();

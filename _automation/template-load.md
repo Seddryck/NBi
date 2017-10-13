@@ -1,7 +1,7 @@
 ---
 layout: automation
 title: Load template
-prev_section: variable-set
+prev_section: consumable-set
 next_section: template-add
 permalink: /automation/template-load/
 ---

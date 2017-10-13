@@ -43,9 +43,9 @@
   - rows-reduce
   - rows-split
 
-- title: Template variables
+- title: Template consumables
   docs:
-  - variable-set
+  - consumable-set
 
 - title: Test template
   docs:

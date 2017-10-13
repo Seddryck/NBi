@@ -9,11 +9,11 @@ This command lets you define a variable that you're able to use in your template
 
 In the example here under a variable named 'myVar' is set to the value 'value' and then consummed into the template.
 
-{% highlight %}
+{% highlight xml%}
 variable set 'myVar' to 'value';
 {% endhighlight %}
 
-{% highlight %}
+{% highlight xml%}
 <test name="my test">
   <category>$myVar$</category>
   ...

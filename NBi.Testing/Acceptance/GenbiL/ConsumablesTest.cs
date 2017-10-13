@@ -7,9 +7,9 @@ using NUnit.Framework;
 namespace NBi.Testing.Acceptance.GenbiL
 {
     [TestFixture]
-    public class GlobalVariablesTest
+    public class ConsumablesTest
     {
-        private const string TEST_SUITE_NAME= "GlobalVariables";
+        private const string TEST_SUITE_NAME= "Consumables";
         private string DefinitionFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + ".genbil"; } }
         private string TargetFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + ".nbits"; } }
         private string CsvFilename { get { return "Acceptance\\GenbiL\\Resources\\" + TEST_SUITE_NAME + ".csv"; } }
@@ -50,7 +50,7 @@ namespace NBi.Testing.Acceptance.GenbiL
         #endregion
 
         [Test]
-        public void Execute_MultipleTemplates_FileGenerated()
+        public void Execute_Consumables_FileGenerated()
         {
             var generator = new TestSuiteGenerator();
             generator.Load(DefinitionFilename);
@@ -60,7 +60,7 @@ namespace NBi.Testing.Acceptance.GenbiL
         }
 
         [Test]
-        public void Execute_GlobalVariables_Set()
+        public void Execute_Consumables_Set()
         {
             var generator = new TestSuiteGenerator();
             generator.Load(DefinitionFilename);

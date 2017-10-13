@@ -1,6 +1,6 @@
 ﻿using NBi.GenbiL;
 using NBi.GenbiL.Action.Case;
-using NBi.GenbiL.Action.Variable;
+using NBi.GenbiL.Action.Consumable;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -11,9 +11,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Unit.GenbiL.Action.Variable
+namespace NBi.Testing.Unit.GenbiL.Action.Consumable
 {
-    public class AutoVariableActionTest
+    public class AutoConsumableActionTest
     {
         [Test]
         [TestCase("fr-fr")]
@@ -22,15 +22,15 @@ namespace NBi.Testing.Unit.GenbiL.Action.Variable
         [TestCase("de-de")]
         [TestCase("en-us")]
         [TestCase("en-gb")]
-        public void Execute_CultureIndependant_VariableNow(string culture)
+        public void Execute_CultureIndependant_ConsumableNow(string culture)
         {
             var state = new GenerationState();
-            state.Variables.Clear();
+            state.Consumables.Clear();
 
-            var action = new AutoVariableAction(true, new DateTime(2014, 09, 26, 9, 16, 55));
+            var action = new AutoConsumableAction(true, new DateTime(2014, 09, 26, 9, 16, 55));
             action.Execute(state);
 
-            Assert.That(state.Variables["now"], Is.EqualTo("2014-09-26T09:16:55"));
+            Assert.That(state.Consumables["now"], Is.EqualTo("2014-09-26T09:16:55"));
         }
 
         [Test]
@@ -40,15 +40,15 @@ namespace NBi.Testing.Unit.GenbiL.Action.Variable
         [TestCase("de-de")]
         [TestCase("en-us")]
         [TestCase("en-gb")]
-        public void Execute_CultureIndependant_VariableTime(string culture)
+        public void Execute_CultureIndependant_ConsumableTime(string culture)
         {
             var state = new GenerationState();
-            state.Variables.Clear();
+            state.Consumables.Clear();
 
-            var action = new AutoVariableAction(true, new DateTime(2014, 09, 26, 9, 16, 55));
+            var action = new AutoConsumableAction(true, new DateTime(2014, 09, 26, 9, 16, 55));
             action.Execute(state);
 
-            Assert.That(DateTime.Parse(state.Variables["time"].ToString()).TimeOfDay, Is.EqualTo(new TimeSpan(9, 16, 55)));
+            Assert.That(DateTime.Parse(state.Consumables["time"].ToString()).TimeOfDay, Is.EqualTo(new TimeSpan(9, 16, 55)));
         }
 
         [Test]
@@ -58,15 +58,15 @@ namespace NBi.Testing.Unit.GenbiL.Action.Variable
         [TestCase("de-de")]
         [TestCase("en-us")]
         [TestCase("en-gb")]
-        public void Execute_CultureIndependant_VariableDate(string culture)
+        public void Execute_CultureIndependant_ConsumableDate(string culture)
         {
             var state = new GenerationState();
-            state.Variables.Clear();
+            state.Consumables.Clear();
 
-            var action = new AutoVariableAction(true, new DateTime(2014, 09, 26, 9, 16, 55));
+            var action = new AutoConsumableAction(true, new DateTime(2014, 09, 26, 9, 16, 55));
             action.Execute(state);
 
-            Assert.That(DateTime.Parse(state.Variables["today"].ToString()).Date, Is.EqualTo(new DateTime(2014, 09, 26)));
+            Assert.That(DateTime.Parse(state.Consumables["today"].ToString()).Date, Is.EqualTo(new DateTime(2014, 09, 26)));
         }
         
     }

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.GenbiL.Action.Variable
+namespace NBi.GenbiL.Action.Consumable
 {
-    public class SetVariableAction : IVariableAction
+    public class SetConsumableAction : IConsumableAction
     {
         public string Name { get; private set; }
         public string Value { get; private set; }
 
-        public SetVariableAction(string name, string value)
+        public SetConsumableAction(string name, string value)
         {
             Name = name;
             Value = value;
@@ -18,17 +18,17 @@ namespace NBi.GenbiL.Action.Variable
 
         public void Execute(GenerationState state)
         {
-            if (state.Variables.ContainsKey(Name))
-                state.Variables[Name] = Value;
+            if (state.Consumables.ContainsKey(Name))
+                state.Consumables[Name] = Value;
             else
-                state.Variables.Add(Name, Value);
+                state.Consumables.Add(Name, Value);
         }
 
         public string Display
         {
             get
             {
-                return string.Format($"Setting value '{Value}' for variable '${Name}$'");
+                return string.Format($"Setting value '{Value}' for consumable '${Name}$'");
             }
         }
     }

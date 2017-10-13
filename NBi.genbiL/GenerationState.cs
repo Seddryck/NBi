@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NBi.Service;
-using NBi.GenbiL.Action.Variable;
+using NBi.GenbiL.Action.Consumable;
 
 namespace NBi.GenbiL
 {
@@ -13,7 +13,7 @@ namespace NBi.GenbiL
         public SettingsManager Settings { get; private set; }
         public TestListManager List { get; private set; }
         public TestSuiteManager Suite { get; private set; }
-        public IDictionary<string, object> Variables { get; private set; }
+        public IDictionary<string, object> Consumables { get; private set; }
 
         public GenerationState()
         {
@@ -22,8 +22,8 @@ namespace NBi.GenbiL
             Settings = new SettingsManager();
             List = new TestListManager();
             Suite = new TestSuiteManager();
-            Variables = new Dictionary<string, object>();
-            (new AutoVariableAction(true)).Execute(this);
+            Consumables = new Dictionary<string, object>();
+            (new AutoConsumableAction(true)).Execute(this);
         }
     }
 }

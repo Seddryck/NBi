@@ -19,7 +19,7 @@ namespace NBi.GenbiL.Action.Suite
                     state.TestCaseCollection.Scope.Variables.ToArray(), 
                     state.TestCaseCollection.Scope.Content, 
                     Grouping,
-                    state.Variables
+                    state.Consumables
             );
             state.Suite.DefineSettings(state.Settings.GetSettings());
             state.Suite.DefineTests(state.List.GetTests());

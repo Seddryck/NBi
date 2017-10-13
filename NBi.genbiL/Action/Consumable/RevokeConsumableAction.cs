@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.GenbiL.Action.Variable
+namespace NBi.GenbiL.Action.Consumable
 {
-    public class RevokeVariableAction : IVariableAction
+    public class RevokeConsumableAction : IConsumableAction
     {
         public IReadOnlyCollection<string> Names { get; private set; }
 
-        public RevokeVariableAction(IEnumerable<string> names)
+        public RevokeConsumableAction(IEnumerable<string> names)
         {
             Names = (IReadOnlyCollection<string>)names;
         }
@@ -18,8 +18,8 @@ namespace NBi.GenbiL.Action.Variable
         {
             foreach (var name in Names)
             {
-                if (state.Variables.ContainsKey(name))
-                    state.Variables.Remove(name);
+                if (state.Consumables.ContainsKey(name))
+                    state.Consumables.Remove(name);
             }
         }
 
@@ -28,9 +28,9 @@ namespace NBi.GenbiL.Action.Variable
             get
             {
                 if (Names.Count>1)
-                    return string.Format($"Revoking variables '{string.Join("', '", Names)}'.");
+                    return string.Format($"Revoking consumables '{string.Join("', '", Names)}'.");
                 else
-                    return string.Format($"Revoking variable '{Names.ElementAt(0)}'.");
+                    return string.Format($"Revoking consumable '{Names.ElementAt(0)}'.");
             }
         }
     }

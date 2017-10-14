@@ -102,7 +102,7 @@ namespace NBi.Testing.Unit.Core.Calculation
 
         [Test]
         [TestCase(ComparerType.OnTheDay, 0, 0, 0, true)]
-        [TestCase(ComparerType.OnTheDay, 0, 0, 0, false)]
+        [TestCase(ComparerType.OnTheDay, 0, 0, 1, false)]
         [TestCase(ComparerType.OnTheHour, 4, 0, 0, true)]
         [TestCase(ComparerType.OnTheHour, 4, 15, 0, false)]
         [TestCase(ComparerType.OnTheMinute, 3, 10, 0, true)]
@@ -111,7 +111,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         {
             var info = Mock.Of<IPredicateInfo>(
                     i => i.ColumnType == ColumnType.DateTime
-                    && i.ComparerType == ComparerType.Null
+                    && i.ComparerType == comparerType
                 );
 
             var factory = new PredicateFactory();
@@ -124,9 +124,9 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.Null, "true", false)]
         [TestCase(ComparerType.Null, "(null)", true)]
         [TestCase(ComparerType.True, true, true)]
-        [TestCase(ComparerType.True, true, false)]
+        [TestCase(ComparerType.True, false, false)]
         [TestCase(ComparerType.False, false, true)]
-        [TestCase(ComparerType.False, false, false)]
+        [TestCase(ComparerType.False, true, false)]
         public void Compare_Boolean_Success(ComparerType comparerType, object x, bool result)
         {
             var info = Mock.Of<IPredicateInfo>(

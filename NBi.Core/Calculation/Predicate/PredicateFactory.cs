@@ -46,6 +46,8 @@ namespace NBi.Core.Calculation.Predicate
                         case ComparerType.MoreThan: return new NumericMoreThan(info.Reference);
                         case ComparerType.Null: return new NumericNull();
                         case ComparerType.WithinRange: return new NumericWithinRange(info.Reference);
+                        case ComparerType.Integer: return new NumericInteger();
+                        case ComparerType.Modulo: return new NumericModulo(info.SecondOperand, info.Reference);
                         default:
                             throw new ArgumentOutOfRangeException($"Numeric columns don't support {info.ComparerType.ToString()} comparer.");
                     }
@@ -59,6 +61,9 @@ namespace NBi.Core.Calculation.Predicate
                         case ComparerType.MoreThan: return new DateTimeMoreThan(info.Reference);
                         case ComparerType.Null: return new DateTimeNull();
                         case ComparerType.WithinRange: return new DateTimeWithinRange(info.Reference);
+                        case ComparerType.OnTheDay: return new DateTimeOnTheDay();
+                        case ComparerType.OnTheHour: return new DateTimeOnTheHour();
+                        case ComparerType.OnTheMinute: return new DateTimeOnTheMinute();
                         default:
                             throw new ArgumentOutOfRangeException($"DateTime columns don't support {info.ComparerType.ToString()} comparer.");
                     }
@@ -67,6 +72,8 @@ namespace NBi.Core.Calculation.Predicate
                     {
                         case ComparerType.Equal: return new BooleanEqual(info.Reference);
                         case ComparerType.Null: return new BooleanNull();
+                        case ComparerType.True: return new BooleanTrue();
+                        case ComparerType.False: return new BooleanFalse();
                         default:
                             throw new ArgumentOutOfRangeException($"Boolean columns only support Equal and Null comparers and not the {info.ComparerType.ToString()} comparer.");
                     }

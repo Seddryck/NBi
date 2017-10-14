@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate
 {
-    public interface IPredicate
+    public interface ITwoOperandsPredicate : IPredicate
     {
-        bool Apply(object x); 
+        object SecondOperand { get; set; }
     }
 }

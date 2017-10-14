@@ -60,6 +60,8 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         [TestCase(ComparerType.Null, null, true)]
         [TestCase(ComparerType.Null, 1, false)]
+        [TestCase(ComparerType.Integer, 1, true)]
+        [TestCase(ComparerType.Integer, 1.0001, false)]
         public void Compare_Numeric_Result(ComparerType comparerType, object x, bool result)
         {
             var info = Mock.Of<IPredicateInfo>(
@@ -99,9 +101,32 @@ namespace NBi.Testing.Unit.Core.Calculation
         }
 
         [Test]
+        [TestCase(ComparerType.OnTheDay, 0, 0, 0, true)]
+        [TestCase(ComparerType.OnTheDay, 0, 0, 0, false)]
+        [TestCase(ComparerType.OnTheHour, 4, 0, 0, true)]
+        [TestCase(ComparerType.OnTheHour, 4, 15, 0, false)]
+        [TestCase(ComparerType.OnTheMinute, 3, 10, 0, true)]
+        [TestCase(ComparerType.OnTheMinute, 3, 10, 11, false)]
+        public void Compare_DateTime_Result(ComparerType comparerType, int hours, int minutes, int seconds, bool result)
+        {
+            var info = Mock.Of<IPredicateInfo>(
+                    i => i.ColumnType == ColumnType.DateTime
+                    && i.ComparerType == ComparerType.Null
+                );
+
+            var factory = new PredicateFactory();
+            var comparer = factory.Get(info);
+            Assert.That(comparer.Apply(new DateTime(2015, 10, 1, hours, minutes, seconds)), Is.EqualTo(result));
+        }
+
+        [Test]
         [TestCase(ComparerType.Null, null, true)]
         [TestCase(ComparerType.Null, "true", false)]
         [TestCase(ComparerType.Null, "(null)", true)]
+        [TestCase(ComparerType.True, true, true)]
+        [TestCase(ComparerType.True, true, false)]
+        [TestCase(ComparerType.False, false, true)]
+        [TestCase(ComparerType.False, false, false)]
         public void Compare_Boolean_Success(ComparerType comparerType, object x, bool result)
         {
             var info = Mock.Of<IPredicateInfo>(

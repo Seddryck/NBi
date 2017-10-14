@@ -4,12 +4,15 @@ using System.Linq;
 using NBi.Service.Dto;
 using NBi.Xml;
 using NBi.Xml.Settings;
+using NBi.Xml.Variables;
+using NBi.Core.Variable;
 
 namespace NBi.Service
 {
     public class TestSuiteManager
     {
         private SettingsXml settingsXml;
+        private List<GlobalVariableXml> variablesXml;
         private IList<TestXml> listTestXml;
 
         public void DefineSettings(IEnumerable<Setting> settings)
@@ -29,6 +32,17 @@ namespace NBi.Service
         public void DefineSettings(SettingsXml settingsXml)
         {
             this.settingsXml = settingsXml;
+        }
+
+        public void DefineVariables(IDictionary<string, ITestVariable> variables)
+        {
+            this.variablesXml = new List<GlobalVariableXml>();
+            foreach (var variable in variables)
+                variablesXml.Add(new GlobalVariableXml()
+                {
+                    Name= variable.Key,
+                    Script = new ScriptXml() { Code=variable.Value.Code, Language=variable.Value.Language }
+                });
         }
 
         public IEnumerable<Setting> GetSettings()
@@ -72,6 +86,7 @@ namespace NBi.Service
             testSuite.Load(array);
 
             testSuite.Settings = settingsXml;
+            testSuite.Variables = variablesXml;
 
             var manager = new XmlManager();
             manager.Persist(filename, testSuite);

@@ -90,6 +90,7 @@
     <Compile Include="Acceptance\GenbiL\ConcatenateSplitGroupTest.cs" />
     <Compile Include="Acceptance\GenbiL\ConsumablesTest.cs" />
     <Compile Include="Acceptance\GenbiL\MultipleTemplatesTest.cs" />
+    <Compile Include="Acceptance\GenbiL\VariablesTest.cs" />
     <Compile Include="Acceptance\GenbiL\SettingsTest.cs" />
     <Compile Include="Acceptance\GenbiL\GroupTest.cs" />
     <Compile Include="Acceptance\GenbiL\CommentTest.cs" />
@@ -236,9 +237,11 @@
     <Compile Include="Unit\GenbiL\Action\Suite\GenerateSuiteActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Consumable\AutoConsumableActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Consumable\SetConsumableActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Variable\IncludeVariableActionTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\ConsumableParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\CommentParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\GrammarParserTest.cs" />
+    <Compile Include="Unit\GenbiL\Parser\VariableParserTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ExecutionAllRowsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetSupersetOfBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ExecutionRowCountBuilderTest.cs" />
@@ -463,6 +466,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\Consumables.nbitt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\Variables.genbil">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\Variables.nbivar">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\OrderCountByYear.xlsx">

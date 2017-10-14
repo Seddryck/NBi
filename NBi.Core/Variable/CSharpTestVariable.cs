@@ -1,4 +1,5 @@
 ﻿using Microsoft.CSharp;
+using NBi.Core.Transformation;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace NBi.Core.Variable
         private readonly string code;
 
         public string Code { get { return code; } }
+        public LanguageType Language { get { return LanguageType.CSharp; } }
 
         public CSharpTestVariable(string code)
         {

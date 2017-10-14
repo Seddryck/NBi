@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Transformation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,8 @@ namespace NBi.Core.Variable
     {
         object GetValue();
         bool IsEvaluated();
+
+        LanguageType Language { get; }
+        string Code { get; }
     }
 }

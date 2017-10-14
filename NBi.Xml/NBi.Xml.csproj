@@ -225,6 +225,7 @@
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Variables\ScriptXml.cs" />
     <Compile Include="Variables\GlobalVariableXml.cs" />
+    <Compile Include="Variables\GlobalVariablesStandaloneXml.cs" />
     <Compile Include="XmlBeautifier.cs" />
     <Compile Include="XmlManager.cs" />
   </ItemGroup>

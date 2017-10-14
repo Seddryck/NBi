@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<variables>
+  <variable name="var1">
+    <script language="c-sharp">DateTime.Now</script>
+  </variable>
+  <variable name="var2">
+    <script language="c-sharp">DateTime.Now.Year+1</script>
+  </variable>
+</variables>

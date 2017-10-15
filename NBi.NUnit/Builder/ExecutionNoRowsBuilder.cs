@@ -42,13 +42,12 @@ namespace NBi.NUnit.Builder
 
         protected NBiConstraint InstantiateConstraint()
         {           
-            IResultSetFilter filter = null;
-            
             var expressions = new List<IColumnExpression>();
             if (ConstraintXml.Expression!=null)
                 expressions.Add(ConstraintXml.Expression);
-            
-            filter = new PredicateFilter
+
+            var factory = new PredicateFilterFactory();
+            var filter = factory.Instantiate
                         (
                             ConstraintXml.Aliases
                             , expressions

@@ -16,5 +16,9 @@ namespace NBi.Core.Calculation.Predicate.Numeric
         {
             return x < y;
         }
+        public override string ToString()
+        {
+            return $"is less than {Reference}";
+        }
     }
 }

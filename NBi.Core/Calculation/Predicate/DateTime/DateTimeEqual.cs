@@ -18,5 +18,10 @@ namespace NBi.Core.Calculation.Predicate.DateTime
             var cpr = new DateTimeComparer();
             return cpr.Compare(x, Reference).AreEqual;
         }
+
+        public override string ToString()
+        {
+            return $"is equal to {Reference}";
+        }
     }
 }

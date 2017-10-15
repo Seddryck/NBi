@@ -16,5 +16,9 @@ namespace NBi.Core.Calculation.Predicate.Text
             var emptyPredicate = new TextEmpty();
             return (nullPredicate.Apply(x) || emptyPredicate.Apply(x));
         }
+        public override string ToString()
+        {
+            return $"is null or empty";
+        }
     }
 }

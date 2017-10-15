@@ -23,5 +23,10 @@ namespace NBi.Core.Calculation.Predicate.Numeric
             var z = converter.Convert(secondOperand);
             return x % z == y;
         }
+
+        public override string ToString()
+        {
+            return $"modulo {secondOperand} is equal to {Reference}";
+        }
     }
 }

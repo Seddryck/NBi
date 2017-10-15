@@ -18,5 +18,10 @@ namespace NBi.Core.Calculation.Predicate.DateTime
 
             return (dtX.TimeOfDay.Ticks) == 0;
         }
+
+        public override string ToString()
+        {
+            return $"is on the day";
+        }
     }
 }

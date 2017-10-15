@@ -25,5 +25,10 @@ namespace NBi.Core.Calculation.Predicate.Numeric
             var numX = converter.Convert(x);
             return interval.Contains(numX);
         }
+
+        public override string ToString()
+        {
+            return $"is within the interval {Reference}";
+        }
     }
 }

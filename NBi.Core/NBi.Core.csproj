@@ -93,6 +93,7 @@
     <Compile Include="Analysis\Request\FactoryValidations\ValidationFilter.cs" />
     <Compile Include="Calculation\ComparerType.cs" />
     <Compile Include="Calculation\IPredicateInfo.cs" />
+    <Compile Include="Calculation\PredicateFilterFactory.cs" />
     <Compile Include="Calculation\Predicate\AbstractPredicateReference.cs" />
     <Compile Include="Calculation\Predicate\Boolean\BooleanFalse.cs" />
     <Compile Include="Calculation\Predicate\Boolean\BooleanTrue.cs" />

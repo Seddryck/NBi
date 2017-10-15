@@ -11,5 +11,7 @@ namespace NBi.Core.Calculation
     {
         RS.ResultSet Apply(RS.ResultSet rs);
         RS.ResultSet AntiApply(RS.ResultSet rs);
+
+        string Describe();
     }
 }

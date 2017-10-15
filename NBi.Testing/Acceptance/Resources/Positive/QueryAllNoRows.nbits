@@ -30,7 +30,8 @@
       <all-rows>
         <variable column-index="1">TotalDue</variable>
         <predicate name="TotalDue">
-          <less-than>10000000</less-than>
+          <!--<less-than>10000000</less-than>-->
+          <less-than>1</less-than>
         </predicate>
       </all-rows>
     </assert>

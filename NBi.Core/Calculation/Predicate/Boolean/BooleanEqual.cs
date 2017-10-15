@@ -18,5 +18,10 @@ namespace NBi.Core.Calculation.Predicate.Boolean
             var cpr = new BooleanComparer();
             return cpr.Compare(x, Reference).AreEqual;
         }
+
+        public override string ToString()
+        {
+            return $"is equal to {Reference}";
+        }
     }
 }

@@ -133,20 +133,20 @@ Currently, you cannot assemble native transformations, it means that you're limi
 
 Following transformations are supported by NBi v1.16
 
-- ```blank-to-empty```: if the current content of the cell is ```blank``` (zero or many spaces) replace the content ```(empty)```
-- ```blank-to-null```: if the current content of the cell is ```blank``` (zero or many spaces) replace the content ```(null)```
-- ```empty-to-null```: if the current content of the cell is ```empty``` (length=0) replace the content ```(null)```
-- ```null-to-empty```: if the current content of the cell is ```null``` replace the content ```(empty)```
-- ```null-to-value```: if the current content of the cell is ```null``` replace the content ```(value)```
+- ```blank-to-empty```: if the current content of the cell is ```blank``` (zero or many spaces) replace the content by ```(empty)```
+- ```blank-to-null```: if the current content of the cell is ```blank``` (zero or many spaces) replace the content by ```(null)```
+- ```empty-to-null```: if the current content of the cell is ```empty``` (length=0) replace the content by ```(null)```
+- ```null-to-empty```: if the current content of the cell is ```null``` replace the content by ```(empty)```
+- ```null-to-value```: if the current content of the cell is ```null``` replace the content by ```(value)```
 - ```any-to-any```: replaces the content of the cell by ```(any)```
 - ```value-to-value```: if the cell's value is not ```null``` will replace the content by ```(value)```
-- ```string-to-without-diacritics```: if the current cell's value contains any accents or diacritics, they are removed
-- ```string-to-upper```: returns a copy of this string converted to uppercase
-- ```string-to-lower```: returns a copy of this string converted to lowercase
-- ```html-to-string```: decodes the html to a string
-- ```string-to-html```: encodes the string to html
-- ```string-to-trim```: removes blanks from the beginning and end of the cell.
-- ```string-to-length```: returns the length of the *text* value of the cell. If the cell is ```null``` or ```empty```, it returns 0.
+- ```text-to-without-diacritics```: if the current cell's value contains any accents or diacritics, they are removed
+- ```text-to-upper```: returns a copy of this text converted to uppercase
+- ```text-to-lower```: returns a copy of this text converted to lowercase
+- ```html-to-text```: decodes the html to text
+- ```text-to-html```: encodes the content to html
+- ```text-to-trim```: removes blanks from the beginning and end of the cell.
+- ```text-to-length```: returns the length of the *text* value of the cell. If the cell is ```null``` or ```empty```, it returns 0.
 - ```date-to-age```: returns the age according to the *dateTime* value of the cell at the moment of execution of the test.
 
 {% highlight xml %}

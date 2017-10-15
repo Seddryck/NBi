@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Calculation;
+using NBi.Core.Calculation.Predicate;
 using NBi.Core.ResultSet;
 using NBi.Xml.Constraints.Comparer;
 using System;
@@ -58,6 +59,20 @@ namespace NBi.Xml.Items.Calculation
         public MatchesRegexXml MatchesRegex { get; set; }
         [XmlElement("within-range")]
         public WithinRangeXml WithinRange { get; set; }
+        [XmlElement("integer")]
+        public IntegerXml Integer { get; set; }
+        [XmlElement("modulo")]
+        public ModuloXml Modulo { get; set; }
+        [XmlElement("on-the-day")]
+        public OnTheDayXml OnTheDay { get; set; }
+        [XmlElement("on-the-hour")]
+        public OnTheHourXml OnTheHour { get; set; }
+        [XmlElement("on-the-minute")]
+        public OnTheMinuteXml OnTheMinute { get; set; }
+        [XmlElement("true")]
+        public TrueXml True { get; set; }
+        [XmlElement("false")]
+        public FalseXml False { get; set; }
 
         [XmlIgnore]
         public AbstractComparerXml Comparer
@@ -88,6 +103,20 @@ namespace NBi.Xml.Items.Calculation
                     return MatchesRegex;
                 if (WithinRange != null)
                     return WithinRange;
+                if (Integer != null)
+                    return Integer;
+                if (Modulo != null)
+                    return Modulo;
+                if (OnTheDay != null)
+                    return OnTheDay;
+                if (OnTheHour != null)
+                    return OnTheHour;
+                if (OnTheMinute != null)
+                    return OnTheMinute;
+                if (True != null)
+                    return True;
+                if (False != null)
+                    return False;
                 return null;
             }
         }
@@ -130,6 +159,20 @@ namespace NBi.Xml.Items.Calculation
                     return ComparerType.MatchesRegex;
                 if (WithinRange != null)
                     return ComparerType.WithinRange;
+                if (Integer != null)
+                    return ComparerType.Integer;
+                if (Modulo != null)
+                    return ComparerType.Modulo;
+                if (OnTheDay != null)
+                    return ComparerType.OnTheDay;
+                if (OnTheHour != null)
+                    return ComparerType.OnTheHour;
+                if (OnTheMinute != null)
+                    return ComparerType.OnTheMinute;
+                if (True != null)
+                    return ComparerType.True;
+                if (False != null)
+                    return ComparerType.False;
                 return ComparerType.Equal;
             }
         }
@@ -139,6 +182,12 @@ namespace NBi.Xml.Items.Calculation
         {
             get { return Comparer.Value; }
             set { Comparer.Value = value.ToString(); }
+        }
+
+        [XmlIgnore]
+        public object SecondOperand
+        {
+            get { return (Comparer as ITwoOperandsXml)?.SecondOperand; }
         }
 
         [XmlIgnore]

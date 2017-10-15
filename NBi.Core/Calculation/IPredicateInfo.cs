@@ -14,5 +14,6 @@ namespace NBi.Core.Calculation
         string Name { get; set; }
         object Reference { get; }
         StringComparison StringComparison { get; }
+        object SecondOperand { get; }
     }
 }

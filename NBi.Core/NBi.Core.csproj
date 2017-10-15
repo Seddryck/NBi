@@ -94,8 +94,13 @@
     <Compile Include="Calculation\ComparerType.cs" />
     <Compile Include="Calculation\IPredicateInfo.cs" />
     <Compile Include="Calculation\Predicate\AbstractPredicateReference.cs" />
+    <Compile Include="Calculation\Predicate\Boolean\BooleanFalse.cs" />
+    <Compile Include="Calculation\Predicate\Boolean\BooleanTrue.cs" />
     <Compile Include="Calculation\Predicate\Boolean\BooleanNull.cs" />
     <Compile Include="Calculation\Predicate\Boolean\BooleanEqual.cs" />
+    <Compile Include="Calculation\Predicate\DateTime\DateTimeOnTheMinute.cs" />
+    <Compile Include="Calculation\Predicate\DateTime\DateTimeOnTheHour.cs" />
+    <Compile Include="Calculation\Predicate\DateTime\DateTimeOnTheDay.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimeNull.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimeEqual.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimeLessThan.cs" />
@@ -104,6 +109,7 @@
     <Compile Include="Calculation\Predicate\DateTime\DateTimeMoreThanOrEqual.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimePredicate.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimeWithinRange.cs" />
+    <Compile Include="Calculation\Predicate\Numeric\NumericInteger.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericWithinRange.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericNull.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericEqual.cs" />
@@ -112,6 +118,7 @@
     <Compile Include="Calculation\Predicate\Numeric\NumericMoreThan.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericMoreThanOrEqual.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericPredicate.cs" />
+    <Compile Include="Calculation\Predicate\Numeric\NumericModulo.cs" />
     <Compile Include="Calculation\Predicate\PredicateFactory.cs" />
     <Compile Include="Calculation\Predicate\Text\AbstractTextPredicate.cs" />
     <Compile Include="Calculation\Predicate\Text\TextMatchesRegex.cs" />

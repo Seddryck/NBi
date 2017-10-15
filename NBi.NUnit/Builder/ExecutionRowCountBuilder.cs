@@ -51,8 +51,10 @@ namespace NBi.NUnit.Builder
                 var filterXml = ConstraintXml.Filter;
                 var expressions = new List<IColumnExpression>();
                 if (filterXml.Expression!=null)
-                     expressions .Add(filterXml.Expression);
-                 filter = new PredicateFilter
+                     expressions.Add(filterXml.Expression);
+
+                var factory = new PredicateFilterFactory();
+                filter = factory.Instantiate
                                 (
                                     filterXml.Aliases
                                     , expressions

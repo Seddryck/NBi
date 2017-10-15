@@ -17,5 +17,11 @@ namespace NBi.Core.Calculation.Predicate.Text
         {
             return x.ToString().EndsWith(Reference.ToString(), StringComparison);
         }
+
+
+        public override string ToString()
+        {
+            return $"ends with '{Reference}'";
+        }
     }
 }

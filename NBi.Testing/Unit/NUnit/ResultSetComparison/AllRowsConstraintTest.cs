@@ -53,7 +53,8 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                     && p.Reference==(object)1
                 );
 
-            var filter = new PredicateFilter
+            var factory = new PredicateFilterFactory();
+            var filter = factory.Instantiate
                 (
                     new List<IColumnAlias>() { alias }
                     , new List<IColumnExpression>() { }

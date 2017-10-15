@@ -64,7 +64,7 @@ namespace NBi.NUnit.Query
        
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
-            writer.WritePredicate("count of rows matching the predicate is");
+            writer.WritePredicate($"count of rows validating the predicate '{filter.Describe()}' is");
             child.WriteDescriptionTo(writer);
         }
 

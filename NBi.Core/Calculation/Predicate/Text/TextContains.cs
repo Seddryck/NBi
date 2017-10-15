@@ -17,5 +17,10 @@ namespace NBi.Core.Calculation.Predicate.Text
         {
             return x.ToString().IndexOf(Reference.ToString(), StringComparison) >= 0;
         }
+
+        public override string ToString()
+        {
+            return $"contains the text '{Reference}'";
+        }
     }
 }

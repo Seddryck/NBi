@@ -16,5 +16,10 @@ namespace NBi.Core.Calculation.Predicate.Text
             var cpr = StringComparer.Create(CultureInfo.InvariantCulture, false);
             return cpr.Compare(x.ToString(), Reference.ToString()) >= 0;
         }
+
+        public override string ToString()
+        {
+            return $"is alphabetically after '{Reference}' or equal to it";
+        }
     }
 }

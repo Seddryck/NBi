@@ -34,8 +34,8 @@ namespace NBi.Testing.Unit.Core.Calculation
                         && p.ColumnType == ColumnType.Text
                         && p.Name == "a"
                 );
-
-            var filter = new PredicateFilter(aliases, new IColumnExpression[0], info);
+            var factory = new PredicateFilterFactory();
+            var filter = factory.Instantiate(aliases, new IColumnExpression[0], info);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
@@ -59,10 +59,12 @@ namespace NBi.Testing.Unit.Core.Calculation
                         && p.Name == "#0"
                 );
 
-            var filter = new PredicateFilter(new IColumnAlias[0], new IColumnExpression[0], info);
+            var factory = new PredicateFilterFactory();
+            var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], info);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
+            Assert.That(filter.Describe(), Is.StringContaining("null").And.StringContaining("or empty"));
         }
 
         [Test]
@@ -84,7 +86,8 @@ namespace NBi.Testing.Unit.Core.Calculation
                         && p.Name == "first"
                 );
 
-            var filter = new PredicateFilter(new IColumnAlias[0], new IColumnExpression[0], info);
+            var factory = new PredicateFilterFactory();
+            var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], info);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
@@ -122,7 +125,8 @@ namespace NBi.Testing.Unit.Core.Calculation
                         && p.Reference == (object)200
                 );
 
-            var filter = new PredicateFilter(aliases, expressions, info);
+            var factory = new PredicateFilterFactory();
+            var filter = factory.Instantiate(aliases, expressions, info);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
@@ -159,7 +163,8 @@ namespace NBi.Testing.Unit.Core.Calculation
                         && p.Reference == (object)200
                 );
 
-            var filter = new PredicateFilter(aliases, expressions, info);
+            var factory = new PredicateFilterFactory();
+            var filter = factory.Instantiate(aliases, expressions, info);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));

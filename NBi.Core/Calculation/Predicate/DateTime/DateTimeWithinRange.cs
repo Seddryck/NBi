@@ -25,5 +25,10 @@ namespace NBi.Core.Calculation.Predicate.DateTime
             var dtX = converter.Convert(x);
             return interval.Contains(dtX);
         }
+
+        public override string ToString()
+        {
+            return $"is within the interval {Reference}";
+        }
     }
 }

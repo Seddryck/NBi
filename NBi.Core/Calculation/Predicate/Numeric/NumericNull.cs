@@ -14,5 +14,10 @@ namespace NBi.Core.Calculation.Predicate.Numeric
         {
             return x == null || x == DBNull.Value || (x as string) == "(null)";
         }
+
+        public override string ToString()
+        {
+            return $"is null";
+        }
     }
 }

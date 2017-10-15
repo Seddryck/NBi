@@ -14,5 +14,11 @@ namespace NBi.Core.Calculation.Predicate.Text
         {
             return (x as string).Length == 0 || (x as string)=="(empty)";
         }
+
+
+        public override string ToString()
+        {
+            return $"is empty";
+        }
     }
 }

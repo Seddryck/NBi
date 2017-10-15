@@ -18,6 +18,10 @@ namespace NBi.Core.Calculation.Predicate.Numeric
 
             return numX % 1 == 0;
         }
-        
+
+        public override string ToString()
+        {
+            return $"is an integer";
+        }
     }
 }

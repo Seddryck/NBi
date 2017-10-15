@@ -13,5 +13,10 @@ namespace NBi.Core.Calculation.Predicate.Text
         {
             return (x as string).ToLowerInvariant() == (x as string) || (x as string) == "(empty)" || (x as string) == "(null)";
         }
+
+        public override string ToString()
+        {
+            return $"is in small letters";
+        }
     }
 }

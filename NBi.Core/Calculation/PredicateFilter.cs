@@ -13,13 +13,21 @@ namespace NBi.Core.Calculation
     {
         private readonly IEnumerable<IColumnExpression> expressions;
         private readonly IEnumerable<IColumnAlias> aliases;
-        private readonly IPredicateInfo predicateInfo;
+        private readonly Func<object, bool> executeFunction;
+        private readonly string operand;
+        private readonly Func<string> describeFunction;
 
-        public PredicateFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IPredicateInfo predicateInfo)
+        internal PredicateFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, string operand, Func<object, bool> executeFunction)
+            : this (aliases, expressions, operand, executeFunction, () => "unspecified description")
+        { }
+
+        internal PredicateFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, string operand, Func<object, bool> executeFunction, Func<string> describeFunction)
         {
             this.aliases = aliases;
             this.expressions = expressions;
-            this.predicateInfo = predicateInfo;
+            this.operand = operand;
+            this.executeFunction = executeFunction;
+            this.describeFunction = describeFunction;
         }
 
         public ResultSet.ResultSet AntiApply(ResultSet.ResultSet rs)
@@ -38,14 +46,10 @@ namespace NBi.Core.Calculation
             var table = rs.Table.Clone();
             filteredRs.Load(table);
             
-
-            var factory = new PredicateFactory();
-            var predicate = factory.Get(predicateInfo);
-
             foreach (DataRow row in rs.Rows)
             {
-                var value = GetValueFromRow(row, predicateInfo.Name);
-                if (onApply(predicate.Apply(value)))
+                var value = GetValueFromRow(row, operand);
+                if (onApply(executeFunction(value)))
                     filteredRs.Table.ImportRow(row);
             }
 
@@ -94,6 +98,11 @@ namespace NBi.Core.Calculation
             };
 
             return exp.Evaluate();
+        }
+
+        public string Describe()
+        {
+            return $"{operand} {describeFunction()}.";
         }
     }
 }

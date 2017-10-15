@@ -17,5 +17,9 @@ namespace NBi.Core.Calculation.Predicate.Text
         {
             return x.ToString().StartsWith(Reference.ToString(), StringComparison);
         }
+        public override string ToString()
+        {
+            return $"starts with '{Reference}'";
+        }
     }
 }

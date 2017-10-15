@@ -15,5 +15,9 @@ namespace NBi.Core.Calculation.Predicate.Boolean
             var cpr = new BooleanComparer();
             return cpr.Compare(x, true).AreEqual;
         }
+        public override string ToString()
+        {
+            return $"is true";
+        }
     }
 }

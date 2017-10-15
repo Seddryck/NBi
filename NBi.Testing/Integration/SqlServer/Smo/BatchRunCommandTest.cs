@@ -53,7 +53,7 @@ namespace NBi.Testing.Integration.Core.Batch.SqlServer
             CleanTemporaryTable("TablexxxTwo", ConnectionStringReader.GetLocalSqlClient());
 
             //Build the fullpath for the file to read
-            FileName = DiskOnFile.CreatePhysicalFile(BATCH_FILE, "NBi.Testing.Integration.Core.SqlServer.Smo." + BATCH_FILE);
+            FileName = DiskOnFile.CreatePhysicalFile(BATCH_FILE, "NBi.Testing.Integration.SqlServer.Smo." + BATCH_FILE);
 
             //Apply the test
             var runCommand = new BatchRunCommand(BATCH_FILE, ConnectionStringReader.GetLocalSqlClient());

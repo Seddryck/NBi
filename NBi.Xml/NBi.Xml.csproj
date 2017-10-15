@@ -61,6 +61,7 @@
     <Compile Include="Constraints\Comparer\AbstractTextComparerXml.cs" />
     <Compile Include="Constraints\Comparer\IntegerXml.cs" />
     <Compile Include="Constraints\Comparer\FalseXml.cs" />
+    <Compile Include="Constraints\Comparer\ITwoOperandsXml.cs" />
     <Compile Include="Constraints\Comparer\ModuloXml.cs" />
     <Compile Include="Constraints\Comparer\TrueXml.cs" />
     <Compile Include="Constraints\Comparer\OnTheHourXml.cs" />

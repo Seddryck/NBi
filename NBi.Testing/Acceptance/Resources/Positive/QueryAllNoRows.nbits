@@ -231,6 +231,41 @@
       </all-rows>
     </assert>
   </test>
+  <test name="With Predicate is modulo" uid="00070">
+    <system-under-test>
+      <execution>
+        <query>
+          select 15 union all select 45 union all select 60 union all select 30
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="#0">
+          <modulo second-operand="15">0</modulo>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate is on-the-hour" uid="00071">
+    <system-under-test>
+      <execution>
+        <query>
+          select cast('2015-05-12 14:00:00' as datetime2)
+          union all select cast('2017-04-12 12:00:00' as datetime2)
+          union all select cast('2012-09-12 1:00:00' as datetime2)
+          union all select cast('2013-05-01 00:00:00' as datetime2)
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="#0" type="dateTime">
+          <on-the-hour/>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
   <test name="Use a variable for the predicate" uid="0008">
     <system-under-test>
       <execution>

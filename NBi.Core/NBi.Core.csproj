@@ -109,7 +109,6 @@
     <Compile Include="Calculation\Predicate\DateTime\DateTimeMoreThanOrEqual.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimePredicate.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimeWithinRange.cs" />
-    <Compile Include="Calculation\Predicate\ITwoOperandsPredicate.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericInteger.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericWithinRange.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericNull.cs" />

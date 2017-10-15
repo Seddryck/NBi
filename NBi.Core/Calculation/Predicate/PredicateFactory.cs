@@ -16,7 +16,7 @@ namespace NBi.Core.Calculation.Predicate
         {
             switch (info.ColumnType)
             {
-                case NBi.Core.ResultSet.ColumnType.Text:
+                case ResultSet.ColumnType.Text:
                     switch (info.ComparerType)
                     {
                         case ComparerType.LessThan: return new TextLessThan(info.Reference);
@@ -34,9 +34,9 @@ namespace NBi.Core.Calculation.Predicate
                         case ComparerType.Contains: return new TextContains(info.Reference, info.StringComparison);
                         case ComparerType.MatchesRegex: return new TextMatchesRegex(info.Reference, info.StringComparison);
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            throw new ArgumentOutOfRangeException($"Text columns don't support the {info.ComparerType.ToString()} comparer.");
                     }
-                case NBi.Core.ResultSet.ColumnType.Numeric:
+                case ResultSet.ColumnType.Numeric:
                     switch (info.ComparerType)
                     {
                         case ComparerType.LessThan: return new NumericLessThan(info.Reference);
@@ -51,7 +51,7 @@ namespace NBi.Core.Calculation.Predicate
                         default:
                             throw new ArgumentOutOfRangeException($"Numeric columns don't support {info.ComparerType.ToString()} comparer.");
                     }
-                case NBi.Core.ResultSet.ColumnType.DateTime:
+                case ResultSet.ColumnType.DateTime:
                     switch (info.ComparerType)
                     {
                         case ComparerType.LessThan: return new DateTimeLessThan(info.Reference);
@@ -67,7 +67,7 @@ namespace NBi.Core.Calculation.Predicate
                         default:
                             throw new ArgumentOutOfRangeException($"DateTime columns don't support {info.ComparerType.ToString()} comparer.");
                     }
-                case NBi.Core.ResultSet.ColumnType.Boolean:
+                case ResultSet.ColumnType.Boolean:
                     switch (info.ComparerType)
                     {
                         case ComparerType.Equal: return new BooleanEqual(info.Reference);
@@ -75,7 +75,7 @@ namespace NBi.Core.Calculation.Predicate
                         case ComparerType.True: return new BooleanTrue();
                         case ComparerType.False: return new BooleanFalse();
                         default:
-                            throw new ArgumentOutOfRangeException($"Boolean columns only support Equal and Null comparers and not the {info.ComparerType.ToString()} comparer.");
+                            throw new ArgumentOutOfRangeException($"Boolean columns only support Equal, Null, True and False comparers and not the {info.ComparerType.ToString()} comparer.");
                     }
                 default:
                     break;

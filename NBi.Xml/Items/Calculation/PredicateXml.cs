@@ -187,7 +187,7 @@ namespace NBi.Xml.Items.Calculation
         [XmlIgnore]
         public object SecondOperand
         {
-            get { return (Comparer as ITwoOperandsPredicate)?.SecondOperand; }
+            get { return (Comparer as ITwoOperandsXml)?.SecondOperand; }
         }
 
         [XmlIgnore]

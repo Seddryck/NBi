@@ -5,6 +5,7 @@ using NBi.Core.Analysis.Request;
 using NBi.NUnit.Member;
 using NUnit.Framework;
 using NBi.Framework.FailureMessage;
+using NBi.Framework.FailureMessage.Markdown;
 
 namespace NBi.Testing.Unit.NUnit.Member
 {

@@ -10,6 +10,7 @@ using NBi.Core.ResultSet;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework.FailureMessage;
+using NBi.Framework.FailureMessage.Markdown;
 
 namespace NBi.NUnit.Member
 {

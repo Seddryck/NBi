@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework.MarkdownLogExtension
+namespace NBi.Framework.Markdown.MarkdownLogExtension
 {
     class TableCellRenderSpecificationExtended
     {

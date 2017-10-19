@@ -4,10 +4,8 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using NBi.Framework.FailureMessage;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Comparer;
-using NBi.Framework.FailureMessage.Helper;
+using NBi.Framework.FailureMessage.Markdown.Helper;
 
 namespace NBi.Testing.Unit.Framework.FailureMessage
 {

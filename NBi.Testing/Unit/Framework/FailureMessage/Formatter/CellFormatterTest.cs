@@ -1,5 +1,5 @@
 ﻿using NBi.Core.ResultSet;
-using NBi.Unit.Framework.FailureMessage.Formatter;
+using NBi.Unit.Framework.FailureMessage.Common;
 using NUnit.Framework;
 using System;
 using System.Collections;

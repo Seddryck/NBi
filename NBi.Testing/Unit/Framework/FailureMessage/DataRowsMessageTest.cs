@@ -1,6 +1,7 @@
 ﻿using Moq;
 using NBi.Core.ResultSet;
 using NBi.Framework.FailureMessage;
+using NBi.Framework.FailureMessage.Markdown;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

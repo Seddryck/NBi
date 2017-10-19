@@ -6,6 +6,7 @@ using NBi.Core.ResultSet;
 using NBi.Core.Calculation;
 using NBi.Framework.FailureMessage;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Framework.FailureMessage.Markdown;
 
 namespace NBi.NUnit.Query
 {

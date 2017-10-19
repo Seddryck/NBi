@@ -1,7 +1,6 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Comparer;
-using NBi.Framework.FailureMessage;
-using NBi.Framework.FailureMessage.Helper;
+using NBi.Framework.FailureMessage.Markdown.Helper;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

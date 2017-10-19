@@ -11,6 +11,7 @@ using NBi.Framework;
 using NBi.Core.Xml;
 using NBi.Core.Transformation;
 using NBi.Core.ResultSet.Analyzer;
+using NBi.Framework.FailureMessage.Markdown;
 
 namespace NBi.NUnit.ResultSetComparison
 {

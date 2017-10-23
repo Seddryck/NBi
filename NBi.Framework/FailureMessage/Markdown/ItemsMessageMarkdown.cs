@@ -1,5 +1,6 @@
 ﻿using MarkdownLog;
 using NBi.Core;
+using NBi.Framework.Sampling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,15 +9,18 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Markdown
 {
-    public class ItemsMessageMarkdown : SampledFailureMessageMarkdown<string>, IItemsMessageFormatter
+    class ItemsMessageMarkdown : IItemsMessageFormatter
     {
-        public ItemsMessageMarkdown()
-            : base(FailureReportProfile.Default)
-        { }
+        private readonly IDictionary<string, ISampler<string>> samplers;
 
-        public ItemsMessageMarkdown(IFailureReportProfile profile)
-            : base(profile)
-        { }
+        private MarkdownContainer expected;
+        private MarkdownContainer actual;
+        private MarkdownContainer analysis;
+
+        public ItemsMessageMarkdown(IDictionary<string, ISampler<string>> samplers)
+        {
+            this.samplers = samplers;
+        }
 
 
         public void Build(IEnumerable<string> expectedItems, IEnumerable<string> actualItems, ListComparer.Result result)
@@ -25,48 +29,72 @@ namespace NBi.Framework.FailureMessage.Markdown
             actualItems = actualItems ?? new List<string>();
             result = result ?? new ListComparer.Result(null, null);
 
-            expected = BuildList(expectedItems, Profile.ExpectedSet);
-            actual = BuildList(actualItems, Profile.ActualSet);
-            analysis = BuildIfNotEmptyList(result.Missing ?? new List<string>(), "Missing", Profile.AnalysisSet);
-            analysis.Append(BuildIfNotEmptyList(result.Unexpected ?? new List<string>(), "Unexpected", Profile.AnalysisSet));
+            expected = BuildList(expectedItems, samplers["expected"]);
+            actual = BuildList(actualItems, samplers["actual"]);
+            analysis = BuildIfNotEmptyList(result.Missing ?? new List<string>(), "Missing", samplers["analysis"]);
+            analysis.Append(BuildIfNotEmptyList(result.Unexpected ?? new List<string>(), "Unexpected", samplers["analysis"]));
         }
 
-        private MarkdownContainer BuildList(IEnumerable<string> items, FailureReportSetType sampling)
+        private MarkdownContainer BuildList(IEnumerable<string> items, ISampler<string> sampler)
         {
-            var sampledItems = Sample(items, sampling).ToList();
+            sampler.Build(items);
+            var sampledItems = sampler.GetResult();
 
             var container = new MarkdownContainer();
             if (items.Count() > 0)
             {
-                container.Append(string.Format("Set of {0} item{1}", items.Count(), items.Count() > 1 ? "s" : string.Empty).ToMarkdownParagraph());
+                container.Append($"Set of {items.Count()} item{(items.Count() > 1 ? "s" : string.Empty)}".ToMarkdownParagraph());
                 container.Append(sampledItems.ToMarkdownBulletedList());
             }
             else
                 container.Append("An empty set.".ToMarkdownParagraph());
 
-            if (IsSampled(items, sampling))
-                container.Append(string.Format("... and {0} others not displayed.", CountExcludedRows(items)).ToMarkdownParagraph());
+            if (sampler.GetIsSampled())
+                container.Append($"... and {sampler.GetExcludedRowCount()} others not displayed.".ToMarkdownParagraph());
 
             return container;
         }
 
-        private MarkdownContainer BuildList(IEnumerable<string> items, string title, FailureReportSetType sampling)
+        private MarkdownContainer BuildList(IEnumerable<string> items, string title, ISampler<string> sampler)
         {
             var container = new MarkdownContainer();
             container.Append((title + " items:").ToMarkdownSubHeader());
-            container.Append(BuildList(items, sampling));
+            container.Append(BuildList(items, sampler));
 
             return container;
         }
 
 
-        private MarkdownContainer BuildIfNotEmptyList(IEnumerable<string> items, string title, FailureReportSetType sampling)
+        private MarkdownContainer BuildIfNotEmptyList(IEnumerable<string> items, string title, ISampler<string> sampler)
         {
             if (items.Count() == 0)
                 return new MarkdownContainer();
             else
-                return BuildList(items, title, sampling);
+                return BuildList(items, title, sampler);
         }
 
+        public string RenderExpected()
+        {
+            if (samplers["expected"] is NoneSampler<string>)
+                return "Display skipped.";
+            else
+                return expected.ToMarkdown();
+        }
+
+        public string RenderActual()
+        {
+            if (samplers["actual"] is NoneSampler<string>)
+                return "Display skipped.";
+            else
+                return actual.ToMarkdown();
+        }
+
+        public string RenderAnalysis()
+        {
+            if (samplers["analysis"] is NoneSampler<string>)
+                return "Display skipped.";
+            else
+                return analysis.ToMarkdown();
+        }
     }
 }

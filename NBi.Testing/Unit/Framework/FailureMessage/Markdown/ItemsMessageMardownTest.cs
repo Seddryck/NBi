@@ -3,6 +3,7 @@ using NBi.Core;
 using NBi.Framework;
 using NBi.Framework.FailureMessage;
 using NBi.Framework.FailureMessage.Markdown;
+using NBi.Framework.Sampling;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,10 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
             for (int i = 0; i < 20; i++)
                 list.Add(String.Format("Item {0:00}", i));
 
-            var msg = new ItemsMessageMarkdown(FailureReportProfile.Default);
+            var factory = new SamplersFactory<string>();
+            var samplers = factory.Instantiate(FailureReportProfile.Default);
+
+            var msg = new ItemsMessageMarkdown(samplers);
             msg.Build(list, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -46,7 +50,11 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
             var list = new List<string>();
             list.Add("Item 01");
 
-            var msg = new ItemsMessageMarkdown(FailureReportProfile.Default);
+
+            var factory = new SamplersFactory<string>();
+            var samplers = factory.Instantiate(FailureReportProfile.Default);
+
+            var msg = new ItemsMessageMarkdown(samplers);
             msg.Build(list, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -61,7 +69,11 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
             for (int i = 0; i < 20; i++)
                 list.Add(String.Format("Item {0:00}", i));
 
-            var msg = new ItemsMessageMarkdown(FailureReportProfile.Default);
+
+            var factory = new SamplersFactory<string>();
+            var samplers = factory.Instantiate(FailureReportProfile.Default);
+
+            var msg = new ItemsMessageMarkdown(samplers);
             msg.Build(list, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -79,7 +91,11 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
             for (int i = 0; i < rowCount; i++)
                 list.Add(String.Format("Item {0:00}", i));
 
-            var msg = new ItemsMessageMarkdown(FailureReportProfile.Default);
+
+            var factory = new SamplersFactory<string>();
+            var samplers = factory.Instantiate(FailureReportProfile.Default);
+
+            var msg = new ItemsMessageMarkdown(samplers);
             msg.Build(list, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -105,7 +121,11 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
                 && p.ExpectedSet == FailureReportSetType.Sample
             );
 
-            var msg = new ItemsMessageMarkdown(profile);
+
+            var factory = new SamplersFactory<string>();
+            var samplers = factory.Instantiate(profile);
+
+            var msg = new ItemsMessageMarkdown(samplers);
             msg.Build(list, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -121,7 +141,10 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
             for (int i = 0; i < 22; i++)
                 list.Add(String.Format("Item {0:00}", i));
 
-            var msg = new ItemsMessageMarkdown(FailureReportProfile.Default);
+            var factory = new SamplersFactory<string>();
+            var samplers = factory.Instantiate(FailureReportProfile.Default);
+
+            var msg = new ItemsMessageMarkdown(samplers);
             msg.Build(list, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -140,7 +163,10 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
             for (int i = 0; i < rowCount; i++)
                 list.Add(String.Format("Item {0:00}", i));
 
-            var msg = new ItemsMessageMarkdown(FailureReportProfile.Default);
+            var factory = new SamplersFactory<string>();
+            var samplers = factory.Instantiate(FailureReportProfile.Default);
+
+            var msg = new ItemsMessageMarkdown(samplers);
             msg.Build(list, null, null);
             var value = msg.RenderExpected();
 
@@ -161,7 +187,10 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
                 );
 
 
-            var msg = new ItemsMessageMarkdown(FailureReportProfile.Default);
+            var factory = new SamplersFactory<string>();
+            var samplers = factory.Instantiate(FailureReportProfile.Default);
+
+            var msg = new ItemsMessageMarkdown(samplers);
             msg.Build(null, null, compared);
             var value = msg.RenderAnalysis();
 
@@ -181,7 +210,10 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
                     , GetDataRows(unexpectedRowCount)
                 );
 
-            var msg = new ItemsMessageMarkdown(FailureReportProfile.Default);
+            var factory = new SamplersFactory<string>();
+            var samplers = factory.Instantiate(FailureReportProfile.Default);
+
+            var msg = new ItemsMessageMarkdown(samplers);
             msg.Build(null, null, compared);
             var value = msg.RenderAnalysis();
 

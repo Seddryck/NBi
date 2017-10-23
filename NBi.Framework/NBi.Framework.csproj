@@ -53,6 +53,7 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="FailureMessage\Json\CompareTableHelperJson.cs" />
+    <Compile Include="FailureMessage\Json\ItemsMessageJson.cs" />
     <Compile Include="FailureReportFormat.cs" />
     <Compile Include="Sampling\FullSampler.cs" />
     <Compile Include="Sampling\NoneSampler.cs" />
@@ -83,11 +84,9 @@
     <Compile Include="FailureMessage\Common\DateTimeCellFormatter.cs" />
     <Compile Include="FailureMessage\Common\NumericCellFormatter.cs" />
     <Compile Include="FailureMessage\Common\TextCellFormatter.cs" />
-    <Compile Include="FailureMessage\Markdown\FailureMessageMarkdown.cs" />
     <Compile Include="FailureMessage\Common\ColumnPropertiesFormatter.cs" />
     <Compile Include="FailureMessage\Markdown\Helper\CompareTableHelper.cs" />
     <Compile Include="FailureMessage\Markdown\Helper\TableHelper.cs" />
-    <Compile Include="FailureMessage\Markdown\SampledFailureMessageMarkdown.cs" />
     <Compile Include="ITestConfiguration.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="FailureMessage\Markdown\DataRowsMessageMarkdown.cs" />

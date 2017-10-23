@@ -73,7 +73,7 @@ namespace NBi.Framework.FailureMessage.Markdown
                 return BuildList(items, title, sampler);
         }
 
-        public string RenderExpected()
+        public virtual string RenderExpected()
         {
             if (samplers["expected"] is NoneSampler<string>)
                 return "Display skipped.";
@@ -81,7 +81,7 @@ namespace NBi.Framework.FailureMessage.Markdown
                 return expected.ToMarkdown();
         }
 
-        public string RenderActual()
+        public virtual string RenderActual()
         {
             if (samplers["actual"] is NoneSampler<string>)
                 return "Display skipped.";
@@ -89,7 +89,7 @@ namespace NBi.Framework.FailureMessage.Markdown
                 return actual.ToMarkdown();
         }
 
-        public string RenderAnalysis()
+        public virtual string RenderAnalysis()
         {
             if (samplers["analysis"] is NoneSampler<string>)
                 return "Display skipped.";

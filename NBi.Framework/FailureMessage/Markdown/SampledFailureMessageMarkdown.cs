@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Markdown
 {
-    abstract class SampledFailureMessageMarkdown<T> : FailureMessageMarkdown
+    public abstract class SampledFailureMessageMarkdown<T> : FailureMessageMarkdown
     {
         private readonly IFailureReportProfile profile;
         protected IFailureReportProfile Profile

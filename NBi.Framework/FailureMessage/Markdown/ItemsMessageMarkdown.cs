@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Markdown
 {
-    class ItemsMessageMarkdown : SampledFailureMessageMarkdown<string>, IItemsMessageFormatter
+    public class ItemsMessageMarkdown : SampledFailureMessageMarkdown<string>, IItemsMessageFormatter
     {
         public ItemsMessageMarkdown()
             : base(FailureReportProfile.Default)

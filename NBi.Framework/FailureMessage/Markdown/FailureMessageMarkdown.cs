@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NBi.Framework.FailureMessage.Markdown
 {
-    abstract class FailureMessageMarkdown
+    public abstract class FailureMessageMarkdown
     {   
         protected MarkdownContainer expected;
         protected MarkdownContainer actual;

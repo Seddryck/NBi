@@ -37,6 +37,9 @@
     <Reference Include="MarkdownLog">
       <HintPath>..\packages\MarkdownLog.0.9.3\lib\portable-windows8+net45\MarkdownLog.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,6 +52,18 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="FailureMessage\Json\CompareTableHelperJson.cs" />
+    <Compile Include="FailureReportFormat.cs" />
+    <Compile Include="Sampling\FullSampler.cs" />
+    <Compile Include="Sampling\NoneSampler.cs" />
+    <Compile Include="Sampling\ISampler.cs" />
+    <Compile Include="Sampling\BasicSampler.cs" />
+    <Compile Include="FailureMessage\ItemsMessageFormatterFactory.cs" />
+    <Compile Include="FailureMessage\DataRowsMessageFormatterFactory.cs" />
+    <Compile Include="FailureMessage\IItemsMessageFormatter.cs" />
+    <Compile Include="FailureMessage\IDataRowsMessageFormatter.cs" />
+    <Compile Include="FailureMessage\Json\DataRowsMessageJson.cs" />
+    <Compile Include="FailureMessage\Json\TableHelperJson.cs" />
     <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\EmptyTableCellExtended.cs" />
     <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\ITableCellExtended.cs" />
     <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\TableCellExtended.cs" />
@@ -56,25 +71,26 @@
     <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\TableColumnExtended.cs" />
     <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\TableExtended.cs" />
     <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\TableRowExtended.cs" />
+    <Compile Include="Sampling\SamplersFactory.cs" />
     <Compile Include="TestConfiguration.cs" />
-    <Compile Include="FailureMessage\FailureReportProfile.cs" />
-    <Compile Include="FailureMessage\FailureReportSetType.cs" />
-    <Compile Include="FailureMessage\IFailureReportProfile.cs" />
-    <Compile Include="FailureMessage\Markdown\ItemsMessage.cs" />
+    <Compile Include="FailureReportProfile.cs" />
+    <Compile Include="FailureReportSetType.cs" />
+    <Compile Include="IFailureReportProfile.cs" />
+    <Compile Include="FailureMessage\Markdown\ItemsMessageMarkdown.cs" />
     <Compile Include="FailureMessage\Common\BooleanCellFormatter.cs" />
     <Compile Include="FailureMessage\Common\CellFormatter.cs" />
     <Compile Include="FailureMessage\Common\CellFormatterFactory.cs" />
     <Compile Include="FailureMessage\Common\DateTimeCellFormatter.cs" />
     <Compile Include="FailureMessage\Common\NumericCellFormatter.cs" />
     <Compile Include="FailureMessage\Common\TextCellFormatter.cs" />
-    <Compile Include="FailureMessage\Markdown\FailureMessage.cs" />
-    <Compile Include="FailureMessage\Markdown\Helper\TableHeaderHelper.cs" />
+    <Compile Include="FailureMessage\Markdown\FailureMessageMarkdown.cs" />
+    <Compile Include="FailureMessage\Common\ColumnPropertiesFormatter.cs" />
     <Compile Include="FailureMessage\Markdown\Helper\CompareTableHelper.cs" />
     <Compile Include="FailureMessage\Markdown\Helper\TableHelper.cs" />
-    <Compile Include="FailureMessage\Markdown\SampledFailureMessage.cs" />
+    <Compile Include="FailureMessage\Markdown\SampledFailureMessageMarkdown.cs" />
     <Compile Include="ITestConfiguration.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
-    <Compile Include="FailureMessage\Markdown\DataRowsMessage.cs" />
+    <Compile Include="FailureMessage\Markdown\DataRowsMessageMarkdown.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">

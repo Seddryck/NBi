@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Markdown
 {
-    public class ItemsMessage : SampledFailureMessage<string>
+    class ItemsMessageMarkdown : SampledFailureMessageMarkdown<string>, IItemsMessageFormatter
     {
-        public ItemsMessage()
+        public ItemsMessageMarkdown()
             : base(FailureReportProfile.Default)
         { }
 
-        public ItemsMessage(IFailureReportProfile profile)
+        public ItemsMessageMarkdown(IFailureReportProfile profile)
             : base(profile)
         { }
 
@@ -27,8 +27,8 @@ namespace NBi.Framework.FailureMessage.Markdown
 
             expected = BuildList(expectedItems, Profile.ExpectedSet);
             actual = BuildList(actualItems, Profile.ActualSet);
-            compared = BuildIfNotEmptyList(result.Missing ?? new List<string>(), "Missing", Profile.AnalysisSet);
-            compared.Append(BuildIfNotEmptyList(result.Unexpected ?? new List<string>(), "Unexpected", Profile.AnalysisSet));
+            analysis = BuildIfNotEmptyList(result.Missing ?? new List<string>(), "Missing", Profile.AnalysisSet);
+            analysis.Append(BuildIfNotEmptyList(result.Unexpected ?? new List<string>(), "Unexpected", Profile.AnalysisSet));
         }
 
         private MarkdownContainer BuildList(IEnumerable<string> items, FailureReportSetType sampling)

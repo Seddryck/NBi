@@ -18,7 +18,7 @@ namespace NBi.NUnit.Query
     public class NoDuplicateConstraint : NBiConstraint
     {
         protected ResultSet actualResultSet;
-        private DataRowsMessage failure;
+        private IDataRowsMessageFormatter failure;
         
         protected internal virtual DuplicatedRowsFinder Engine
         {
@@ -44,7 +44,8 @@ namespace NBi.NUnit.Query
 
             if (!result.HasNoDuplicate)
             {
-                failure = new DataRowsMessage(ComparisonStyle.ByIndex, Configuration.FailureReportProfile);
+                var factory = new DataRowsMessageFormatterFactory();
+                var failure = factory.Instantiate(Configuration.FailureReportProfile, ComparisonStyle.ByIndex);
                 failure.BuildDuplication(actualResultSet.Rows.Cast<DataRow>(), result);
             }
 
@@ -70,7 +71,7 @@ namespace NBi.NUnit.Query
             writer.WriteLine();
             base.WriteMessageTo(writer);
             writer.WriteLine();
-            writer.WriteLine(failure.RenderDuplicated());
+            writer.WriteLine(failure.RenderAnalysis());
         }
 
         #endregion

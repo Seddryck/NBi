@@ -30,8 +30,8 @@ namespace NBi.NUnit.Member
             }
         }
 
-        private ItemsMessage failure;
-        protected internal ItemsMessage Failure
+        private IItemsMessageFormatter failure;
+        protected internal IItemsMessageFormatter Failure
         {
             get
             {
@@ -45,9 +45,10 @@ namespace NBi.NUnit.Member
             }
         }
 
-        protected ItemsMessage BuildFailure()
+        protected IItemsMessageFormatter BuildFailure()
         {
-            var msg = new ItemsMessage(Configuration.FailureReportProfile);
+            var factory = new ItemsMessageFormatterFactory();
+            var msg = factory.Instantiate(Configuration.FailureReportProfile);
             var compare = new ListComparer()
                         .Compare
                         (
@@ -136,9 +137,7 @@ namespace NBi.NUnit.Member
             }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
-                resultSetBuilder = value;
+                resultSetBuilder = value ?? throw new ArgumentNullException();
             }
         }
 
@@ -187,7 +186,7 @@ namespace NBi.NUnit.Member
             writer.WriteLine();
             base.WriteMessageTo(writer);
             writer.WriteLine();
-            writer.WriteLine(Failure.RenderCompared());
+            writer.WriteLine(Failure.RenderAnalysis());
         }
 
         protected abstract ListComparer.Comparison GetComparisonType();

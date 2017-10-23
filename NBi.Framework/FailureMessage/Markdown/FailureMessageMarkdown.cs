@@ -6,15 +6,13 @@ using System.Text;
 
 namespace NBi.Framework.FailureMessage.Markdown
 {
-    public abstract class FailureMessage
+    abstract class FailureMessageMarkdown
     {   
         protected MarkdownContainer expected;
         protected MarkdownContainer actual;
-        protected MarkdownContainer filtered;
-        protected MarkdownContainer compared;
-        protected MarkdownContainer duplicated;
+        protected MarkdownContainer analysis;
 
-        protected FailureMessage()
+        protected FailureMessageMarkdown()
         {
             
         }
@@ -29,19 +27,9 @@ namespace NBi.Framework.FailureMessage.Markdown
             return actual.ToMarkdown();
         }
 
-        public virtual string RenderFiltered()
+        public virtual string RenderAnalysis()
         {
-            return filtered.ToMarkdown();
-        }
-
-        public virtual string RenderCompared()
-        {
-            return compared.ToMarkdown();
-        }
-
-        public virtual string RenderDuplicated()
-        {
-            return duplicated.ToMarkdown();
+            return analysis.ToMarkdown();
         }
     }
 }

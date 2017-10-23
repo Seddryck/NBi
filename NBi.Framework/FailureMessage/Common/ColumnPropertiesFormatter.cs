@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Markdown.Helper
 {
-    public class TableHeaderHelper
+    public class ColumnPropertiesFormatter
     {
 
         public virtual string GetText(ColumnRole role, ColumnType type, Tolerance tolerance, Rounding rounding)
@@ -23,20 +23,20 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return value;
         }
 
-        private string GetRoleText(ColumnRole role)
+        public string GetRoleText(ColumnRole role)
         {
             switch (role)
             {
                 case ColumnRole.Key:
                     return "KEY";
                 case ColumnRole.Value:
-                    return "VALUE";
+                    return "VALUE"; 
                 default:
                     return string.Empty;
             }
         }
 
-        private string GetTypeText(ColumnType type)
+        public string GetTypeText(ColumnType type)
         {
             switch (type)
             {
@@ -52,7 +52,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return "?";
         }
 
-        private string GetToleranceText(Tolerance tolerance)
+        public string GetToleranceText(Tolerance tolerance)
         {
             var toleranceText = string.Empty;
             if (tolerance != null && tolerance!=TextTolerance.None && tolerance!=DateTimeTolerance.None && tolerance!=NumericAbsoluteTolerance.None)
@@ -60,7 +60,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return toleranceText;
         }
 
-        private string GetRoundingText(Rounding rounding)
+        public string GetRoundingText(Rounding rounding)
         {
             var roundingText = string.Empty;
             if (rounding != null)

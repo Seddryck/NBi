@@ -41,8 +41,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
 
         protected TableExtended BuildNonEmptyTable(IEnumerable<DataRow> dataRows)
         {
-            List<ColumnType> columnTypes;
-            var headers = BuildColumns(dataRows, out columnTypes);
+            var headers = BuildColumns(dataRows, out List<ColumnType> columnTypes);
             var rows = BuildRows(dataRows, columnTypes);
 
             return new TableExtended() { Columns = headers, Rows = rows };
@@ -84,7 +83,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             columnTypes = new List<ColumnType>();
             foreach (DataColumn dataColumn in dataRows.ElementAt(0).Table.Columns)
             {
-                var formatter = new TableHeaderHelper();
+                var formatter = new ColumnPropertiesFormatter();
                 var tableColumn = new TableColumnExtended();
                 var headerCell = new TableCellExtended() {  };
                 switch (style)

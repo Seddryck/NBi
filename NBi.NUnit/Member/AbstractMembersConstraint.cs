@@ -35,9 +35,7 @@ namespace NBi.NUnit.Member
             }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
-                membersEngine = value;
+                membersEngine = value ?? throw new ArgumentNullException();
             }
         }
 

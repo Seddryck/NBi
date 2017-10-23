@@ -38,8 +38,8 @@ namespace NBi.NUnit.ResultSetComparison
         protected string filename;
 
         protected ResultSetCompareResult result;
-        private DataRowsMessage failure;
-        protected DataRowsMessage Failure
+        private IDataRowsMessageFormatter failure;
+        protected IDataRowsMessageFormatter Failure
         {
             get
             {
@@ -49,9 +49,10 @@ namespace NBi.NUnit.ResultSetComparison
             }
         }
 
-        protected virtual DataRowsMessage BuildFailure()
+        protected virtual IDataRowsMessageFormatter BuildFailure()
         {
-            var msg = new DataRowsMessage(Engine.Style, Configuration.FailureReportProfile);
+            var factory = new DataRowsMessageFormatterFactory();
+            var msg = factory.Instantiate(Configuration.FailureReportProfile, Engine.Style);
             msg.BuildComparaison(expectedResultSet.Rows.Cast<DataRow>(), actualResultSet.Rows.Cast<DataRow>(), result);
             return msg;
         }
@@ -274,24 +275,35 @@ namespace NBi.NUnit.ResultSetComparison
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
+            if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
+                return;
+
             writer.WriteLine();
             writer.WriteLine(Failure.RenderExpected());
         }
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
         {
+            if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
+                return;
+
             writer.WriteLine();
             writer.WriteLine(Failure.RenderActual());
         }
 
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
         {
-            writer.WritePredicate("Execution of the query doesn't match the expected result");
-            writer.WriteLine();
-            writer.WriteLine();
-            base.WriteMessageTo(writer);
-            writer.WriteLine();
-            writer.WriteLine(Failure.RenderCompared());
+            if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
+                writer.Write(Failure.RenderMessage());
+            else
+            {
+                writer.WritePredicate("Execution of the query doesn't match the expected result");
+                writer.WriteLine();
+                writer.WriteLine();
+                base.WriteMessageTo(writer);
+                writer.WriteLine();
+                writer.WriteLine(Failure.RenderAnalysis());
+            }
         }
 
         private void doPersist(ResultSet resultSet, string path)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Markdown
 {
-    public abstract class SampledFailureMessage<T> : FailureMessage
+    abstract class SampledFailureMessageMarkdown<T> : FailureMessageMarkdown
     {
         private readonly IFailureReportProfile profile;
         protected IFailureReportProfile Profile
@@ -14,7 +14,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             get { return profile; }
         }
 
-        public SampledFailureMessage(IFailureReportProfile profile)
+        public SampledFailureMessageMarkdown(IFailureReportProfile profile)
             : base()
         {
             this.profile = profile;
@@ -57,29 +57,14 @@ namespace NBi.Framework.FailureMessage.Markdown
                 return "Display skipped.";
         }
 
-        public override string RenderFiltered()
+        public override string RenderAnalysis()
         {
-            if (Profile.ActualSet != FailureReportSetType.None)
-                return base.RenderFiltered();
+            if (Profile.AnalysisSet != FailureReportSetType.None)
+                return base.RenderAnalysis();
             else
                 return "Display skipped.";
         }
 
-        public override string RenderCompared()
-        {
-            if (Profile.AnalysisSet != FailureReportSetType.None)
-                return base.RenderCompared();
-            else
-                return "Display skipped.";
-        }
-
-        public override string RenderDuplicated()
-        {
-            if (Profile.AnalysisSet != FailureReportSetType.None)
-                return base.RenderDuplicated();
-            else
-                return "Display skipped.";
-        }
 
     }
 }

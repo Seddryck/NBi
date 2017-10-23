@@ -7,6 +7,7 @@ using NBi.Core.Calculation;
 using NBi.Framework.FailureMessage;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework.FailureMessage.Markdown;
+using NBi.Framework;
 
 namespace NBi.NUnit.Query
 {
@@ -22,7 +23,7 @@ namespace NBi.NUnit.Query
         public RowCountFilterConstraint(NUnitCtr.Constraint childConstraint, IResultSetFilter filter)
             : base(childConstraint)
         {
-            this.filter=filter;
+            this.filter = filter;
             filterFunction = filter.Apply;
         }
 
@@ -34,9 +35,10 @@ namespace NBi.NUnit.Query
             }
         }
 
-        protected override DataRowsMessage BuildFailure()
+        protected override IDataRowsMessageFormatter BuildFailure()
         {
-            var msg = new DataRowsMessage(ComparisonStyle.ByIndex, Configuration.FailureReportProfile);
+            var factory = new DataRowsMessageFormatterFactory();
+            var msg = factory.Instantiate(Configuration.FailureReportProfile, ComparisonStyle.ByIndex);
             msg.BuildFilter(actualResultSet.Rows.Cast<DataRow>(), filterResultSet.Rows.Cast<DataRow>());
             return msg;
         }
@@ -62,25 +64,34 @@ namespace NBi.NUnit.Query
                 return false;
         }
 
-       
+
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
+            if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
+                return;
             writer.WritePredicate($"count of rows validating the predicate '{filter.Describe()}' is");
             child.WriteDescriptionTo(writer);
         }
 
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
         {
-            base.WriteMessageTo(writer);
-            writer.WriteLine();
-            writer.WriteLine();
-            WriteFilterMessageTo(writer);
-            writer.WriteLine(Failure.RenderFiltered());
+            if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
+                writer.Write(Failure.RenderMessage());
+            else
+            {
+                base.WriteMessageTo(writer);
+                writer.WriteLine();
+                writer.WriteLine();
+                WriteFilterMessageTo(writer);
+                writer.WriteLine(Failure.RenderAnalysis());
+            }
         }
 
         public virtual void WriteFilterMessageTo(NUnitCtr.MessageWriter writer)
         {
-            writer.WriteLine("Filtered version of the result-set:");   
+            if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
+                return;
+            writer.WriteLine("Filtered version of the result-set:");
         }
 
     }

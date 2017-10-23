@@ -53,7 +53,7 @@ namespace NBi.Testing.Unit.NUnit.Member
             var writer = stubWriter.Object;
 
             //Mock the failure
-            var mockedFailure = Mock.Of<ItemsMessage>(f => f.RenderActual() == "failure actual");
+            var mockedFailure = Mock.Of<ItemsMessageMarkdown>(f => f.RenderActual() == "failure actual");
 
             //Buiding object used during test
             var subsetOfConstraint = new NBi.NUnit.Member.ContainedInConstraint(new List<string>() { "First member" });
@@ -74,7 +74,7 @@ namespace NBi.Testing.Unit.NUnit.Member
             var writer = stubWriter.Object;
 
             //Mock the failure
-            var mockedFailure = Mock.Of<ItemsMessage>(f => f.RenderExpected() == "failure actual");
+            var mockedFailure = Mock.Of<ItemsMessageMarkdown>(f => f.RenderExpected() == "failure actual");
 
             //Buiding object used during test
             var subsetOfConstraint = new NBi.NUnit.Member.ContainedInConstraint(new List<string>() { "First member" });

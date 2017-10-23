@@ -52,8 +52,8 @@ namespace NBi.NUnit.Query
             }
         }
 
-        private DataRowsMessage failure;
-        protected DataRowsMessage Failure
+        private IDataRowsMessageFormatter failure;
+        protected IDataRowsMessageFormatter Failure
         {
             get
             {
@@ -63,9 +63,10 @@ namespace NBi.NUnit.Query
             }
         }
 
-        protected virtual DataRowsMessage BuildFailure()
+        protected virtual IDataRowsMessageFormatter BuildFailure()
         {
-            var msg = new DataRowsMessage(ComparisonStyle.ByIndex, Configuration.FailureReportProfile);
+            var factory = new DataRowsMessageFormatterFactory();
+            var msg = factory.Instantiate(Configuration.FailureReportProfile, ComparisonStyle.ByIndex);
             msg.BuildCount(actualResultSet.Rows.Cast<DataRow>());
             return msg;
         }

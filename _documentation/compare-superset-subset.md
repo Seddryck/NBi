@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Single row
+title: Superset of/subset of
 prev_section: compare-single-row
 next_section: connection-configuration
 permalink: /docs/compare-superset-subset/

@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: All/no rows validate a predicate
+title: Expressions and predicates
 prev_section: resultset-all-no-rows
 next_section: resultset-rows-count
 permalink: /docs/resultset-predicate/

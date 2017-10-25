@@ -21,8 +21,8 @@ namespace NBi.Core.ResultSet.Comparer
 
         public DateTime GetValue(DateTime value)
         {
-            var newValueMilliSeconds = GetValue(value.TimeOfDay.TotalMilliseconds, step.TotalMilliseconds);
-            return value.Date.AddMilliseconds(newValueMilliSeconds);
+            var newValueMilliSeconds = GetValue(Convert.ToDecimal(value.TimeOfDay.TotalMilliseconds), Convert.ToDecimal(step.TotalMilliseconds));
+            return value.Date.AddMilliseconds(Convert.ToDouble(newValueMilliSeconds));
         }
     }
 }

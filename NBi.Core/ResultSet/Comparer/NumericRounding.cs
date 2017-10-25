@@ -6,9 +6,9 @@ namespace NBi.Core.ResultSet.Comparer
 {
     class NumericRounding : Rounding
     {
-        protected double step;
+        protected decimal step;
 
-        public NumericRounding(double step, Rounding.RoundingStyle style)
+        public NumericRounding(decimal step, Rounding.RoundingStyle style)
             : base(step.ToString(NumberFormatInfo.InvariantInfo), style)
         {
             if (step <= 0)
@@ -19,9 +19,8 @@ namespace NBi.Core.ResultSet.Comparer
 
         public decimal GetValue(decimal value)
         {
-            return Convert.ToDecimal(GetValue(Convert.ToDouble(value), step));
+            return GetValue(value, step);
         }
 
-        
     }
 }

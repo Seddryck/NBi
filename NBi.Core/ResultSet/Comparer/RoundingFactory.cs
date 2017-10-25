@@ -18,7 +18,7 @@ namespace NBi.Core.ResultSet.Comparer
                 case ColumnType.Text:
                     break;
                 case ColumnType.Numeric:
-                    rounding = new NumericRounding(double.Parse(columnDefinition.RoundingStep, NumberFormatInfo.InvariantInfo), columnDefinition.RoundingStyle);
+                    rounding = new NumericRounding(decimal.Parse(columnDefinition.RoundingStep, NumberFormatInfo.InvariantInfo), columnDefinition.RoundingStyle);
                     break;
                 case ColumnType.DateTime:
                     rounding = new DateTimeRounding(TimeSpan.Parse(columnDefinition.RoundingStep, NumberFormatInfo.InvariantInfo), columnDefinition.RoundingStyle);

@@ -11,7 +11,7 @@ if (!(Test-Path $root\NBi.Core.SqlServer.csproj))
 }
 
 
-$dotNetVersion = "4.0"
+$dotNetVersion = "14.0"
 $regKey = "HKLM:\software\Microsoft\MSBuild\ToolsVersions\$dotNetVersion"
 $regProperty = "MSBuildToolsPath"
 

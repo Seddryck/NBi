@@ -12,7 +12,7 @@ using System.Diagnostics;
 namespace NBi.Testing.Unit.Xml.Constraints
 {
     [TestFixture]
-    public class NoDuplicateXmlTest
+    public class UniqueRowsXmlTest
     {
         #region SetUp & TearDown
         //Called only at instance creation
@@ -48,7 +48,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.NoDuplicateXmlTestSuite.xml"))
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.UniqueRowsXmlTestSuite.xml"))
             using (StreamReader reader = new StreamReader(stream))
             {
                 manager.Read(reader);
@@ -64,13 +64,13 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<NoDuplicateXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<UniqueRowsXml>());
         }
         
         [Test]
         public void Serialize_NoDuplicate_CorrectConstraint()
         {
-            var noDuplicate = new NoDuplicateXml();
+            var noDuplicate = new UniqueRowsXml();
 
             var testXml = new TestXml();
             testXml.Constraints.Add(noDuplicate);
@@ -85,7 +85,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Debug.WriteLine(content);
 
-            Assert.That(content, Is.StringContaining("<no-duplicate />"));
+            Assert.That(content, Is.StringContaining("<unique-rows />"));
         }
     }
 }

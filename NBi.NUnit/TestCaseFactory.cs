@@ -45,7 +45,7 @@ namespace NBi.NUnit
             Register(typeof(ExecutionXml), typeof(RowCountXml), new ExecutionRowCountBuilder());
             Register(typeof(ExecutionXml), typeof(AllRowsXml), new ExecutionAllRowsBuilder());
             Register(typeof(ExecutionXml), typeof(NoRowsXml), new ExecutionNoRowsBuilder());
-            Register(typeof(ExecutionXml), typeof(NoDuplicateXml), new ExecutionNoDuplicateBuilder());
+            Register(typeof(ExecutionXml), typeof(UniqueRowsXml), new ExecutionNoDuplicateBuilder());
 
             Register(typeof(ResultSetSystemXml), typeof(EqualToXml), new ResultSetSystemEqualToBuilder());
 

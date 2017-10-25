@@ -101,7 +101,7 @@
     <Compile Include="DataType\DescriptionDataTypeHelper.cs" />
     <Compile Include="DataType\IsConstraint.cs" />
     <Compile Include="ResultSetComparison\BaseResultSetComparisonConstraint.cs" />
-    <Compile Include="ResultSetComparison\NoDuplicateConstraint.cs" />
+    <Compile Include="ResultSetComparison\UniqueRowsConstraint.cs" />
     <Compile Include="ResultSetComparison\SubsetOfConstraint.cs" />
     <Compile Include="Query\NoRowsConstraint.cs" />
     <Compile Include="Query\AllRowsConstraint.cs" />

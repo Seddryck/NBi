@@ -20,7 +20,7 @@ namespace NBi.NUnit.Builder
 {
     class ExecutionNoDuplicateBuilder : AbstractExecutionBuilder
     {
-        protected NoDuplicateXml ConstraintXml {get; set;}
+        protected UniqueRowsXml ConstraintXml {get; set;}
 
         public ExecutionNoDuplicateBuilder()
         {
@@ -29,10 +29,10 @@ namespace NBi.NUnit.Builder
 
         protected override void SpecificSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
-            if (!(ctrXml is NoDuplicateXml))
+            if (!(ctrXml is UniqueRowsXml))
                 throw new ArgumentException("Constraint must be a 'NoDuplicateXml'");
 
-            ConstraintXml = (NoDuplicateXml)ctrXml;
+            ConstraintXml = (UniqueRowsXml)ctrXml;
         }
 
         protected override void SpecificBuild()
@@ -42,7 +42,7 @@ namespace NBi.NUnit.Builder
 
         protected NBiConstraint InstantiateConstraint()
         {           
-            var ctr = new NoDuplicateConstraint();
+            var ctr = new UniqueRowsConstraint();
             return ctr;
         }
 

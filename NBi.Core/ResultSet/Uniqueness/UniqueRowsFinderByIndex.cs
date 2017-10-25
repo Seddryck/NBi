@@ -10,22 +10,16 @@ using NBi.Core.ResultSet.Converter;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Analyzer;
 
-namespace NBi.Core.ResultSet
+namespace NBi.Core.ResultSet.Uniqueness
 {
-    public class DuplicatedRowsFinderByIndex : DuplicatedRowsFinder
+    public class UniqueRowsFinderByIndex : UniqueRowsFinder
     {
         private SettingsResultSetComparisonByIndex settings
         {
             get { return Settings as SettingsResultSetComparisonByIndex; }
         }
-
-        //public DuplicatedRowsFinderByIndex(SettingsResultSetComparisonByIndex settings)
-        //    : base()
-        //{
-        //    Settings = settings;
-        //}
-
-        public DuplicatedRowsFinderByIndex()
+        
+        public UniqueRowsFinderByIndex()
             : base()
         { }
 

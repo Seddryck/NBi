@@ -2,10 +2,10 @@
 
 namespace NBi.Xml.Constraints
 {
-    public class NoDuplicateXml : AbstractConstraintXml
+    public class UniqueRowsXml : AbstractConstraintXml
     {
         
-        public NoDuplicateXml()
+        public UniqueRowsXml()
         {
         }
 

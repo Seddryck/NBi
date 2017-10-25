@@ -20,14 +20,14 @@ namespace NBi.Core.ResultSet
         private SettingsResultSetComparisonByIndex.ValuesChoice valuesDef;
         private string valueNames;
         private ColumnType valuesDefaultType;
-        private NumericTolerance defaultTolerance;
+        private Tolerance defaultTolerance;
         private IReadOnlyList<IColumnDefinition> columnsDef;
 
         private ISettingsResultSetComparison settings;
         private ComparisonKind kind = ComparisonKind.EqualTo;
         private IResultSetComparer comparer;
 
-        public void Setup(bool isMultipleRows, SettingsResultSetComparisonByIndex.KeysChoice keysDef, string keyNames, SettingsResultSetComparisonByIndex.ValuesChoice valuesDef, string valueNames, ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyList<IColumnDefinition> columnsDef, ComparisonKind kind)
+        public void Setup(bool isMultipleRows, SettingsResultSetComparisonByIndex.KeysChoice keysDef, string keyNames, SettingsResultSetComparisonByIndex.ValuesChoice valuesDef, string valueNames, ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyList<IColumnDefinition> columnsDef, ComparisonKind kind)
         {
             isBuild = false;
 

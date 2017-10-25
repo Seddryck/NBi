@@ -12,26 +12,39 @@ namespace NBi.Xml.Items.Calculation
     public class FilterXml
     {
         [XmlIgnore()]
-        public List<IColumnVariable> Variables
+        public List<IColumnAlias> Aliases
         {
             get
             {
-                return VariablesInternal.ToList<IColumnVariable>();
+                return internalAliases.ToList<IColumnAlias>();
             }
         }
 
+        [XmlElement("alias")]
+        public List<AliasXml> InternalAliases
+        {
+            get { return internalAliases; }
+            set { internalAliases = value; }
+        }
+
+        [XmlIgnore]
+        public List<AliasXml> InternalAliasesOld
+        {
+            get { return internalAliases; }
+            set { internalAliases = value; }
+        }
+
+        private List<AliasXml> internalAliases;
+
         [XmlElement("expression")]
         public ExpressionXml Expression { get; set; }
-
-        [XmlElement("variable")]
-        public List<VariableXml> VariablesInternal { get; set; }
 
         [XmlElement("predicate")]
         public PredicateXml Predicate { get; set; }
 
         public FilterXml()
         {
-            VariablesInternal = new List<VariableXml>();
+            internalAliases = new List<AliasXml>();
         }
     }
 }

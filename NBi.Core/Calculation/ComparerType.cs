@@ -19,6 +19,17 @@ namespace NBi.Core.Calculation
         StartsWith = 20,
         EndsWith = 21,
         Contains = 22,
-        MatchesRegex = 23
+        MatchesRegex = 23,
+        UpperCase = 30,
+        LowerCase = 31,
+        WithinRange = 40,
+        Integer = 50,
+        Modulo = 51,
+        OnTheDay = 60,
+        OnTheHour = 61,
+        OnTheMinute = 62,
+        True = 70,
+        False = 71,
+
     }
 }

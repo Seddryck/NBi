@@ -5,6 +5,11 @@
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </default>
   </settings>
+  <variables>
+    <variable name="year">
+      <script language="c-sharp">DateTime.Now.Year + 1</script>
+    </variable>
+  </variables>
   <test name="All-rows is doing the job for numeric info" uid="0001">
     <system-under-test>
       <execution>
@@ -26,6 +31,31 @@
         <variable column-index="1">TotalDue</variable>
         <predicate name="TotalDue">
           <less-than>10000000</less-than>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="All-rows is doing the job with within-range" uid="0001">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select
+          OrderDate
+          , SUM(TotalDue)
+          from
+          [Sales].[SalesOrderHeader]
+          group by
+          OrderDate
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <variable column-index="1">TotalDue</variable>
+        <predicate name="TotalDue">
+          <within-range>(+)</within-range>
         </predicate>
       </all-rows>
     </assert>
@@ -165,6 +195,153 @@
           <matches-regex>^[A-Z][A-z\s]+$</matches-regex>
         </predicate>
       </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate is lower case" uid="0006">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select lower([Name]) from [HumanResources].[Department]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <variable column-index="0">Name</variable>
+        <predicate name="Name" type="text">
+          <lower-case/>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate is upper-case" uid="0007">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select upper([Name]) from [HumanResources].[Department]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <alias column-index="0">Name</alias>
+        <predicate name="Name" type="text">
+          <upper-case/>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate is modulo" uid="00070">
+    <system-under-test>
+      <execution>
+        <query>
+          select 15 union all select 45 union all select 60 union all select 30
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="#0">
+          <modulo second-operand="15">0</modulo>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate is on-the-hour" uid="00071">
+    <system-under-test>
+      <execution>
+        <query>
+          select cast('2015-05-12 14:00:00' as datetime2)
+          union all select cast('2017-04-12 12:00:00' as datetime2)
+          union all select cast('2012-09-12 1:00:00' as datetime2)
+          union all select cast('2013-05-01 00:00:00' as datetime2)
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="#0" type="dateTime">
+          <on-the-hour/>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="Use a variable for the predicate" uid="0008">
+    <system-under-test>
+      <execution>
+        <query>
+          select year(getdate()) as 'A'
+          union all select year(getdate())-1
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <alias column-index="0">year</alias>
+        <predicate name="year">
+          <less-than>@year</less-than>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="Switch between type for variable" uid="0009">
+    <system-under-test>
+      <execution>
+        <query>
+          select cast(year(getdate())+1 as varchar(4)) + 'XYZ' as 'A'
+          union all select cast(year(getdate())+1 as varchar(4)) + 'ABC' as 'A'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <alias column-index="0">text</alias>
+        <predicate name="text" type="text">
+          <starts-with>@year</starts-with>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="No-row with numeric informations mixing expressions, column name, column index and variable" uid="0010">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select 10 as 'A' ,11 as 'B', 12 as 'C'
+          union all select 5,6,7
+          union all select 7,8,9
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <alias column-index="1">t</alias>
+        <expression name="TotalDue">t * [#0] * [C]</expression>
+        <predicate name="TotalDue">
+          <more-than>10000</more-than>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+  <test name="No-row with textual informations direct column name for predicate" uid="0011">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select 'A' as 'Col1'
+          union all select 'B'
+          union all select 'C'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="[Col1]" type="text">
+          <lower-case/>
+        </predicate>
+      </no-rows>
     </assert>
   </test>
 </testSuite>

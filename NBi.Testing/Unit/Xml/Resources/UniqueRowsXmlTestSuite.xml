@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+  <test name="Data Type Is">
+    <system-under-test>
+      <execution>
+        <query>
+          select * from myTable
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <unique-rows/>
+    </assert>
+  </test>
+</testSuite>

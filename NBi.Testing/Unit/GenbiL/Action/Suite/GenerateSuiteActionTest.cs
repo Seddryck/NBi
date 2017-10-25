@@ -23,7 +23,7 @@ namespace NBi.Testing.Unit.GenbiL.Action.Suite
             firstRow[0] = "a";
             firstRow[1] = obj;
             state.TestCaseCollection.Scope.Content.Rows.Add(firstRow);
-            state.Template.Code = "<test name='$one$ + $two$'/>";
+            state.Templates.Add("<test name='$one$ + $two$'/>");
             return state;
         }
 

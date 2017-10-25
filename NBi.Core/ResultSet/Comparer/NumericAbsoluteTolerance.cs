@@ -33,8 +33,12 @@ namespace NBi.Core.ResultSet.Comparer
         {
             get
             {
-                return new NumericAbsoluteTolerance(0, SideTolerance.Both);
+                if (none == null)
+                    none = new NumericAbsoluteTolerance(0, SideTolerance.Both);
+                return none;
             }
         }
+
+        private static NumericAbsoluteTolerance none;
     }
 }

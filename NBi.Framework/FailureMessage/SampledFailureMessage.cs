@@ -73,5 +73,13 @@ namespace NBi.Framework.FailureMessage
                 return "Display skipped.";
         }
 
+        public override string RenderDuplicated()
+        {
+            if (Profile.AnalysisSet != FailureReportSetType.None)
+                return base.RenderDuplicated();
+            else
+                return "Display skipped.";
+        }
+
     }
 }

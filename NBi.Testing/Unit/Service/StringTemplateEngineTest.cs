@@ -41,19 +41,6 @@ namespace NBi.Testing.Unit.Service
             return caseBuilt;
         }
 
-        private class StringTemplateEngineTesting : StringTemplateEngine
-        {
-            public StringTemplateEngineTesting()
-                : base(null, null)
-            {
-
-            }
-
-            public new string[] GetDynamicValues(DateTime now, int uid, string userName)
-            {
-                return base.GetDynamicValues(now, uid, userName);
-            }
-        }
 
         [Test]
         public void Build_OrderedLightTemplate_CorrectTest()
@@ -64,7 +51,7 @@ namespace NBi.Testing.Unit.Service
             data.Add(BuildCase(new string[] { "myPerspective", "myDimension", "myHierarchy", "numerical" }));
 
             var engine = new StringTemplateEngine(template, variables);
-            var testSuite = engine.Build(data);
+            var testSuite = engine.Build(data, null);
             var test = testSuite.ElementAt(0);
 
             //Test the object
@@ -95,7 +82,7 @@ namespace NBi.Testing.Unit.Service
             data.Add(BuildCase(new string[] { "myPerspective", "myDimension", "myHierarchy", "numerical" }));
 
             var engine = new StringTemplateEngine(template, variables);
-            var testSuite = engine.Build(data);
+            var testSuite = engine.Build(data, null);
             var test = testSuite.ElementAt(0);
 
             //Test the content serialized
@@ -114,7 +101,7 @@ namespace NBi.Testing.Unit.Service
             data.Add(BuildCase(new string[] { "myPerspective", "myDimension", "myHierarchy", "specific", "true", "Unknown" }));
 
             var engine = new StringTemplateEngine(template, variables);
-            var testSuite = engine.Build(data);
+            var testSuite = engine.Build(data, null);
             var test = testSuite.ElementAt(0);
 
             //Test the object
@@ -147,7 +134,7 @@ namespace NBi.Testing.Unit.Service
             values.Add(secondCell);
             var loaded = new List<string>();
 
-            engine.InitializeTemplate();
+            engine.InitializeTemplate(null);
             var result = engine.BuildTestString(values);
 
             Assert.That(result, Is.EqualTo("<dimension caption='myDim' perspective='myPersp'/>"));
@@ -167,7 +154,7 @@ namespace NBi.Testing.Unit.Service
             values.Add(secondCell);
             var loaded = new List<string>();
 
-            engine.InitializeTemplate();
+            engine.InitializeTemplate(null);
             var result = engine.BuildTestString(values);
 
             Assert.That(result, Is.EqualTo("myDim ... <subsetOf>\r\n\t<item>item A</item>\r\n\t<item>item B</item>\r\n</subsetOf>"));
@@ -186,7 +173,7 @@ namespace NBi.Testing.Unit.Service
             values.Add(secondCell);
             var loaded = new List<string>();
 
-            engine.InitializeTemplate();
+            engine.InitializeTemplate(null);
             var result = engine.BuildTestString(values);
 
             Assert.That(result, Is.EqualTo("myDim ... "));
@@ -205,7 +192,7 @@ namespace NBi.Testing.Unit.Service
             values.Add(secondCell);
             var loaded = new List<string>();
 
-            engine.InitializeTemplate();
+            engine.InitializeTemplate(null);
             var result = engine.BuildTestString(values);
 
             Assert.That(result, Is.EqualTo("myDim -><- ... "));
@@ -224,51 +211,14 @@ namespace NBi.Testing.Unit.Service
             values.Add(secondCell);
             var loaded = new List<string>();
 
-            engine.InitializeTemplate();
+            engine.InitializeTemplate(null);
             var result = engine.BuildTestString(values);
 
             Assert.That(result, Is.EqualTo("myDim ... <ignore>reason to ignore</ignore>"));
         }
 
-        [Test]
-        [TestCase("fr-fr")]
-        [TestCase("nl-be")]
-        [TestCase("fr-be")]
-        [TestCase("de-de")]
-        [TestCase("en-us")]
-        [TestCase("en-gb")]
-        public void GetDynamicValues_NowBefore10AM_CorrectValues(string culture)
-        {
-            var engine = new StringTemplateEngineTesting();
-            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(culture);
-            var values = engine.GetDynamicValues(new DateTime(2014, 09, 26, 9, 16, 55), 1, "toto");
-
-            Assert.That(values[0], Is.EqualTo("2014-09-26T09:16:55"));
-            //Console.WriteLine(values[1]);
-            Assert.That(DateTime.Parse(values[1]).TimeOfDay, Is.EqualTo(new TimeSpan(9, 16, 55)));
-            //Console.WriteLine(values[2]);
-            Assert.That(DateTime.Parse(values[2]), Is.EqualTo(new DateTime(2014, 09, 26)));
-        }
-
-        [Test]
-        [TestCase("fr-fr")]
-        [TestCase("nl-be")]
-        [TestCase("fr-be")]
-        [TestCase("de-de")]
-        [TestCase("en-us")]
-        [TestCase("en-gb")]
-        public void GetDynamicValues_NowAfter10AM_CorrectValues(string culture)
-        {
-            var engine = new StringTemplateEngineTesting();
-            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(culture);
-            var values = engine.GetDynamicValues(new DateTime(2014, 12, 03, 15, 5, 7), 1, "toto");
-
-            Assert.That(values[0], Is.EqualTo("2014-12-03T15:05:07"));
-            //Console.WriteLine(values[1]);
-            Assert.That(DateTime.Parse(values[1]).TimeOfDay, Is.EqualTo(new TimeSpan(15, 5, 7)));
-            //Console.WriteLine(values[2]);
-            Assert.That(DateTime.Parse(values[2]), Is.EqualTo(new DateTime(2014, 12, 03)));
-        }
+        
+        
 
         [Test]
         public void BuildTestString_EncodeXml_CorrectEncoding()
@@ -283,7 +233,7 @@ namespace NBi.Testing.Unit.Service
             values.Add(secondCell);
             var loaded = new List<string>();
 
-            engine.InitializeTemplate();
+            engine.InitializeTemplate(null);
             var result = engine.BuildTestString(values);
 
             Assert.That(result, Is.EqualTo("<element attribute=\"&lt;value&amp;\" other-attribute=\"<value&\">"));

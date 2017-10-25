@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate
 {
-    interface IPredicate
+    public interface IPredicate
     {
         bool Apply(object x); 
     }

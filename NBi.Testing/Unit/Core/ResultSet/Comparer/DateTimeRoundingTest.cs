@@ -57,7 +57,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
         [TestCase("2013-10-06 06:15:00", Rounding.RoundingStyle.Ceiling, "2013-10-06 07:00:00")]
         [TestCase("2013-10-06 06:00:00", Rounding.RoundingStyle.Round, "2013-10-06 06:00:00")]
         [TestCase("2013-10-06 06:20:00", Rounding.RoundingStyle.Round, "2013-10-06 06:00:00")]
-        [TestCase("2013-10-06 06:30:00", Rounding.RoundingStyle.Round, "2013-10-06 06:00:00")]
+        [TestCase("2013-10-06 06:30:00", Rounding.RoundingStyle.Round, "2013-10-06 07:00:00")]
         [TestCase("2013-10-06 06:40:00", Rounding.RoundingStyle.Round, "2013-10-06 07:00:00")]
         public void GetValue_ValueHourRoundingStyle_NewValue(DateTime value, Rounding.RoundingStyle roundingStyle, DateTime newValue)
         {

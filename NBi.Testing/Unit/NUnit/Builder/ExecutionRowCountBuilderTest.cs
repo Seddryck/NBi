@@ -86,9 +86,10 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXml = new RowCountXml(SettingsXml.Empty);
             ctrXml.Equal = new EqualXml();
-            ctrXml.Filter = new FilterXml();
-            ctrXml.Filter.Variables.Add(new VariableXml());
             ctrXml.Equal.Value = "50";
+            ctrXml.Filter = new FilterXml();
+            ctrXml.Filter.InternalAliases.Add(new AliasXml());
+            ctrXml.Filter.Predicate = new PredicateXml() { Null = new NullXml(), Name = "myColumn" };
 
             var builder = new ExecutionRowCountBuilder();
             builder.Setup(sutXml, ctrXml);
@@ -112,9 +113,10 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXml = new RowCountXml(SettingsXml.Empty);
             ctrXml.Equal = new EqualXml();
-            ctrXml.Filter = new FilterXml();
-            ctrXml.Filter.Variables.Add(new VariableXml());
             ctrXml.Equal.Value = "50.4%";
+            ctrXml.Filter = new FilterXml();
+            ctrXml.Filter.InternalAliases.Add(new AliasXml());
+            ctrXml.Filter.Predicate = new PredicateXml() { Null = new NullXml(), Name = "myColumn" };
 
             var builder = new ExecutionRowCountBuilder();
             builder.Setup(sutXml, ctrXml);

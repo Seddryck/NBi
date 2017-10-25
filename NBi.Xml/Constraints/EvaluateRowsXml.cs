@@ -10,11 +10,11 @@ namespace NBi.Xml.Constraints
     public class EvaluateRowsXml: AbstractConstraintXml, IEvaluationRowsDefinition
     {
         [XmlIgnore()]
-        public List<IColumnVariable> Variables
+        public List<IColumnAlias> Variables
         {
             get
             {
-                return VariablesInternal.ToList< IColumnVariable>(); 
+                return VariablesInternal.ToList< IColumnAlias>(); 
             }
         }
 
@@ -28,7 +28,7 @@ namespace NBi.Xml.Constraints
         }
 
         [XmlElement("variable")]
-        public List<VariableXml> VariablesInternal { get; set; }
+        public List<AliasXml> VariablesInternal { get; set; }
 
         [XmlElement("expression")]
         public List<ExpressionXml> ExpressionsInternal { get; set; }

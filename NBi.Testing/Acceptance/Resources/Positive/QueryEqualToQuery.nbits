@@ -385,6 +385,47 @@
         </equalTo>
       </assert>
     </test>
+    <test name="Native trim and blank-to-null">
+      <system-under-test>
+        <execution>
+          <query>
+            select 'alpha', null union all select 'beta', null
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <column index="0" role="key" type="text">
+            <transformation language="native" original-type="text">text-to-trim</transformation>
+          </column>
+          <column index="1" role="value" type="text">
+            <transformation language="native" original-type="text">blank-to-null</transformation>
+          </column>
+          <query>
+            select ' alpha   ', '' union all select '  beta   ', '   '
+          </query>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Native length">
+      <system-under-test>
+        <execution>
+          <query>
+            select 'alpha', LEN('alpha') union all select 'beta', LEN('beta')
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <column index="1" role="value" type="numeric">
+            <transformation language="native" original-type="text">text-to-length</transformation>
+          </column>
+          <query>
+            select 'alpha', 'alpha' union all select 'beta', 'beta'
+          </query>
+        </equalTo>
+      </assert>
+    </test>
   </group>
   <group name="Single row queries">
     <test name="Text, numeric, bool, dateTime, Text">
@@ -487,6 +528,69 @@
               <cell>12</cell>
             </row>
           </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+  </group>
+  <group name="Tolerance">
+    <test name="No text tolerance">
+      <system-under-test>
+        <execution>
+          <query>
+            select 1 as [key], 'Saskatchewan' as [value]
+            union all select 2, 'Michigan'
+            union all select 3, 'Chihuahua'
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo values-default-type="text">
+          <query>
+            select 1 as [key], 'Saskatchewan' as [value]
+            union all select 2, 'Michigan'
+            union all select 3, 'Chihuahua'
+          </query>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Text tolerance as default tolerance">
+      <system-under-test>
+        <execution>
+          <query>
+            select 1 as [key], 'Saskatcheone' as [value]
+            union all select 2, 'Michigane'
+            union all select 3, 'Chihuawa'
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo tolerance="Levenshtein(5)" values-default-type="text">
+          <query>
+            select 1 as [key], 'Saskatchewan' as [value]
+            union all select 2, 'Michigan'
+            union all select 3, 'Chihuahua'
+          </query>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Text tolerance as column tolerance">
+      <system-under-test>
+        <execution>
+          <query>
+            select 1 as [key], 'Saskatcheone' as [value]
+            union all select 2, 'Michigane'
+            union all select 3, 'Chihuawa'
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <column index="1" role="value" type="text" tolerance="Levenshtein(5)"/>
+          <query>
+            select 1 as [key], 'Saskatchewan' as [value]
+            union all select 2, 'Michigan'
+            union all select 3, 'Chihuahua'
+          </query>
         </equalTo>
       </assert>
     </test>

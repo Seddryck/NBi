@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using MarkdownLog;
 using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Uniqueness;
 using NBi.Framework.FailureMessage.Helper;
 
 namespace NBi.Framework.FailureMessage
@@ -28,6 +29,15 @@ namespace NBi.Framework.FailureMessage
             compared.Append(BuildNonEmptyTable(style, compareResult.Missing ?? new List<DataRow>(), "Missing", Profile.AnalysisSet));
             compared.Append(BuildNonEmptyTable(style, compareResult.Duplicated ?? new List<DataRow>(), "Duplicated", Profile.AnalysisSet));
             compared.Append(BuildCompareTable(style, compareResult.NonMatchingValue.Rows ?? new List<DataRow>(), "Non matching value", Profile.AnalysisSet));
+        }
+
+        public void BuildDuplication(IEnumerable<DataRow> actualRows, UniqueRowsResult result)
+        {
+            actual = new MarkdownContainer();
+            actual.Append(new Paragraph($"The actual result-set has {result.RowCount} rows and contains {result.Values.Count()} unique rows duplicated."));
+            actual.Append(BuildTable(style, actualRows, Profile.ActualSet));
+            duplicated = new MarkdownContainer();
+            duplicated.Append(BuildNonEmptyTable(style, result.Rows, "Duplicated", Profile.AnalysisSet));
         }
 
         public void BuildFilter(IEnumerable<DataRow> actualRows, IEnumerable<DataRow> filteredRows)
@@ -80,6 +90,7 @@ namespace NBi.Framework.FailureMessage
             else
                 return new MarkdownContainer();
         }
+
 
         private MarkdownContainer BuildCompareTable(ComparisonStyle style, IEnumerable<DataRow> rows, string title, FailureReportSetType sampling)
         {

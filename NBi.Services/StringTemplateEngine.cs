@@ -22,13 +22,13 @@ namespace NBi.Service
             Variables = variables;
         }
 
-        public IEnumerable<TestXml> Build(List<List<List<object>>> table)
+        public IEnumerable<TestXml> Build(List<List<List<object>>> table, IDictionary<string, object> globalVariables)
         {
-            InitializeTemplate();
+            InitializeTemplate(globalVariables);
             var tests = new List<TestXml>();
 
             //For each row, we need to fill the variables and render the template. 
-            int count=0;
+            int count = 0;
             foreach (var row in table)
             {
                 count++;
@@ -52,32 +52,31 @@ namespace NBi.Service
                 tests.Add(test);
                 InvokeProgress(new ProgressEventArgs(count, table.Count()));
             }
-            
+
             return tests;
         }
 
-        internal void InitializeTemplate()
+        internal void InitializeTemplate(IDictionary<string, object> globalVariables)
         {
             var group = new TemplateGroup('$', '$');
             group.RegisterRenderer(typeof(string), new StringRenderer());
             Template = new Template(group, TemplateXml);
 
-            //Populate the "dynamic" variables once (The value is the same for all render that will occur).
-            var dynNames = GetDynamicNames();
-            var dynValues = GetDynamicValues();
-            for (int i = 0; i < dynNames.Count(); i++)
-                Template.Add(dynNames[i], dynValues[i]);
+            //Add all the global variables (not defined in a scope)
+            if (globalVariables != null)
+                foreach (var variable in globalVariables)
+                    Template.Add(variable.Key, variable.Value);
         }
 
         internal string BuildTestString(List<List<object>> values)
         {
             for (int i = 0; i < Variables.Count(); i++)
-            { 
+            {
                 // If the variable is not initialized or if it's value is "(none)" then we skip it.
-                if (!(values[i].Count() == 0 || (values[i].Count == 1 && (values[i][0].ToString() == "(none)" || values[i][0].ToString()==string.Empty))))
+                if (!(values[i].Count() == 0 || (values[i].Count == 1 && (values[i][0].ToString() == "(none)" || values[i][0].ToString() == string.Empty))))
                     Template.Add(Variables[i], values[i]);
                 else
-                    Template.Add(Variables[i], null);      
+                    Template.Add(Variables[i], null);
             }
 
             var str = Template.Render();
@@ -123,56 +122,20 @@ namespace NBi.Service
                 }
                 catch (Exception e)
                 {
-                    
+
                     throw e;
                 }
-                
+
                 result = writer.ToString();
             }
             return result;
         }
 
-        protected string[] GetDynamicNames()
-        {
-            return new string []
-            {
-                "now",
-                "time",
-                "today",
-                "uid",
-                "username"
-            };
-        }
-
-        private int uid=0;
-        protected string[] GetDynamicValues()
-        {
-            return GetDynamicValues
-            (
-                DateTime.Now,
-                (++uid),
-                Environment.UserName
-            );
-        }
-
-        protected virtual string[] GetDynamicValues(DateTime now, int uid, string userName)
-        {
-            return new string[]
-            {
-                String.Format("{0}-{1:00}-{2:00}T{3:00}:{4:00}:{5:00}",now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second),
-                now.ToLongTimeString(),
-                now.Date.ToShortDateString(),
-                (uid).ToString(),
-                userName
-            };
-        }
 
         public event EventHandler<ProgressEventArgs> Progressed;
         public void InvokeProgress(ProgressEventArgs e)
         {
-            var handler = Progressed;
-            if (handler != null)
-                handler(this, e);
+            Progressed?.Invoke(this, e);
         }
 
     }

@@ -134,7 +134,7 @@ namespace NBi.Core.ResultSet
         }
         
 
-        public SettingsResultSetComparisonByName(string keyNames, string valueNames, ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
+        public SettingsResultSetComparisonByName(string keyNames, string valueNames, ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : base(valuesDefaultType, defaultTolerance, columnsDef)
         {
             KeyNames = new ReadOnlyCollection<string>(new string[] { });
@@ -152,7 +152,7 @@ namespace NBi.Core.ResultSet
             }
         }
 
-        public SettingsResultSetComparisonByName(ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IEnumerable<IColumnDefinition> columnsDef)
+        public SettingsResultSetComparisonByName(ColumnType valuesDefaultType, Tolerance defaultTolerance, IEnumerable<IColumnDefinition> columnsDef)
         : base(valuesDefaultType, defaultTolerance, new ReadOnlyCollection<IColumnDefinition>(columnsDef.ToList()))
         {
             KeyNames = new List<string>();

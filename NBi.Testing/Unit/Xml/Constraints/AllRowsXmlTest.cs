@@ -7,6 +7,13 @@ using NBi.Xml.Constraints;
 using NUnit.Framework;
 using NBi.Xml.Constraints.Comparer;
 using NBi.Core.ResultSet;
+using NBi.Xml.Settings;
+using NBi.Core.Evaluate;
+using NBi.Xml.Items.Calculation;
+using System.Collections.Generic;
+using System.Xml.Serialization;
+using System.Text;
+using System.Diagnostics;
 #endregion
 
 namespace NBi.Testing.Unit.Xml.Constraints
@@ -90,6 +97,21 @@ namespace NBi.Testing.Unit.Xml.Constraints
         }
 
         [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyVariables()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
+            var aliases = allRows.Aliases;
+
+            Assert.That(aliases, Has.Count.EqualTo(1));
+            Assert.That(aliases[0].Name, Is.EqualTo("DeptId"));
+            Assert.That(aliases[0].Column, Is.EqualTo(0));
+        }
+
+        [Test]
         public void Deserialize_SampleFile_ReadCorrectlyNullComparer()
         {
             int testNr = 1;
@@ -108,6 +130,24 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var emptyPredicate = predicate.Comparer as EmptyXml;
             Assert.That(emptyPredicate.OrNull, Is.True);
         }
+
+        [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyAliases()
+        {
+            int testNr = 1;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
+            var aliases = allRows.Aliases;
+
+            Assert.That(aliases, Has.Count.EqualTo(2));
+            Assert.That(aliases[0].Name, Is.EqualTo("Name"));
+            Assert.That(aliases[0].Column, Is.EqualTo(0));
+            Assert.That(aliases[1].Name, Is.EqualTo("Name2"));
+            Assert.That(aliases[1].Column, Is.EqualTo(1));
+        }
+
 
         [Test]
         public void Deserialize_SampleFile_ReadCorrectlyStartsWithComparer()
@@ -185,6 +225,87 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
             Assert.That(predicate.Comparer, Is.TypeOf<MatchesRegexXml>());
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyLowerCaseComparer()
+        {
+            int testNr = 6;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
+            var predicate = allRows.Predicate;
+
+            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
+            Assert.That(predicate.Name, Is.EqualTo("Name"));
+            Assert.That(predicate.Not, Is.EqualTo(false));
+            Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
+
+            Assert.That(predicate.Comparer, Is.TypeOf<LowerCaseXml>());
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyUpperCaseComparer()
+        {
+            int testNr = 7;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
+            var predicate = allRows.Predicate;
+
+            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
+            Assert.That(predicate.Name, Is.EqualTo("Name"));
+            Assert.That(predicate.Not, Is.EqualTo(false));
+            Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
+
+            Assert.That(predicate.Comparer, Is.TypeOf<UpperCaseXml>());
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyWithinRangeComparer()
+        {
+            int testNr = 8;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
+            var predicate = allRows.Predicate;
+
+            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
+            Assert.That(predicate.Name, Is.EqualTo("Value"));
+            Assert.That(predicate.Not, Is.EqualTo(false));
+            Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Numeric));
+
+            Assert.That(predicate.Comparer, Is.TypeOf<WithinRangeXml>());
+            var cpr = predicate.Comparer as WithinRangeXml;
+            Assert.That(cpr.Value, Is.EqualTo("[10;30]"));
+        }
+
+        [Test]
+        public void Serialize_AllRowsXml_OnlyAliasNoVariable()
+        {
+            var allRowsXml = new AllRowsXml();
+            allRowsXml.InternalAliasesOld = new List<AliasXml>()
+            {
+                new AliasXml() {Column = 1, Name="Col1"},
+                new AliasXml() {Column = 0, Name="Col2"}
+            };
+            allRowsXml.Predicate = new PredicateXml();
+            
+            var serializer = new XmlSerializer(typeof(AllRowsXml));
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream, Encoding.UTF8);
+            serializer.Serialize(writer, allRowsXml);
+            var content = Encoding.UTF8.GetString(stream.ToArray());
+            writer.Close();
+            stream.Close();
+
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("alias"));
+            Assert.That(content, Is.Not.StringContaining("variable"));
         }
 
     }

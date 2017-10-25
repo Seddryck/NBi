@@ -169,5 +169,14 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
             var result = comparer.Compare("2013-10-08 01:00:00.500", "2013-10-08 01:00:00.850", "00:00:00.125");
             Assert.That(result.AreEqual, Is.False);
         }
+
+        [Test]
+        public void Compare_yyyymmddWithRoundingToSeconds_True()
+        {
+            var comparer = new DateTimeComparer();
+            var result = comparer.Compare("2013-10-08 01:00:05.557", "2013-10-08 01:00:05.850"
+                , new DateTimeRounding(new TimeSpan(0,0,1), Rounding.RoundingStyle.Round));
+            Assert.That(result.AreEqual, Is.True);
+        }
     }
 }

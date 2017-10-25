@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Xml.Serialization;
 using NBi.Xml.Constraints;
+using NBi.Xml.Items.Calculation;
 
 namespace NBi.Xml.SerializationOption
 {
@@ -29,6 +30,14 @@ namespace NBi.Xml.SerializationOption
             attrs = new XmlAttributes();
             attrs.XmlAttribute = new XmlAttributeAttribute("caption");
             Add(typeof(ContainXml), "Caption", attrs);
+
+            attrs = new XmlAttributes();
+            attrs.XmlElements.Add(new XmlElementAttribute("variable"));
+            Add(typeof(AllRowsXml), "InternalAliasesOld", attrs);
+
+            attrs = new XmlAttributes();
+            attrs.XmlElements.Add(new XmlElementAttribute("variable"));
+            Add(typeof(FilterXml), "InternalAliasesOld", attrs);
 
             var property = typeof(TestXml).GetField("Constraints");
             var arrayAttr = (XmlArrayAttribute)property.GetCustomAttributes(typeof(XmlArrayAttribute), false)[0];

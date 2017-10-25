@@ -60,7 +60,7 @@ namespace NBi.Testing.Integration.GenbiL.Action
             var loadCase = new LoadCaseFromFileAction(CsvFilename);
             loadCase.Execute(state);
 
-            var loadTemplate = new LoadTemplateAction(NBi.GenbiL.Action.LoadType.Predefined, "ExistsDimension");
+            var loadTemplate = new LoadEmbeddedTemplateAction("ExistsDimension");
             loadTemplate.Execute(state);
 
             var generateSuite = new GenerateSuiteAction(false);
@@ -80,7 +80,7 @@ namespace NBi.Testing.Integration.GenbiL.Action
             var actions = new List<IAction>()
             {
                 new LoadCaseFromFileAction(CsvFilename)
-                , new LoadTemplateAction(NBi.GenbiL.Action.LoadType.Predefined, "ExistsDimension")
+                , new LoadEmbeddedTemplateAction("ExistsDimension")
                 , new GenerateSuiteAction(false)
                 , new SaveSuiteAction(TargetFilename)
             };

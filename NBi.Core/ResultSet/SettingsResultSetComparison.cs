@@ -14,8 +14,8 @@ namespace NBi.Core.ResultSet
         protected ColumnType ValuesDefaultType { get; private set; }
 		protected IReadOnlyCollection<IColumnDefinition> ColumnsDef { get; private set; }
 
-        private NumericTolerance defaultTolerance;
-        protected NumericTolerance DefaultTolerance
+        private Tolerance defaultTolerance;
+        protected Tolerance DefaultTolerance
         {
             get { return defaultTolerance ?? NumericAbsoluteTolerance.None;}
             private set { defaultTolerance = value; }
@@ -52,7 +52,7 @@ namespace NBi.Core.ResultSet
 
         protected abstract bool IsType(T index, ColumnType type);
 
-        public SettingsResultSetComparison(ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
+        public SettingsResultSetComparison(ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
         {
             ValuesDefaultType = valuesDefaultType;
             DefaultTolerance = defaultTolerance;

@@ -14,6 +14,8 @@ using NBi.Framework;
 using NBi.NUnit.DataType;
 using NBi.Core.DataType;
 using NBi.Core.Structure.Relational;
+using System.Collections.Generic;
+using NBi.Core.Variable;
 
 namespace NBi.Testing.Unit.NUnit
 {
@@ -54,7 +56,7 @@ namespace NBi.Testing.Unit.NUnit
             var ctrXml = new SyntacticallyCorrectXml();
 
             var builderMockFactory = new Mock<ITestCaseBuilder>();
-            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default));
+            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default, It.IsAny<Dictionary<string, ITestVariable>>()));
             builderMockFactory.Setup(b => b.Build());
             builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new SqlCommand());
             builderMockFactory.Setup(b => b.GetConstraint()).Returns(new SyntacticallyCorrectConstraint());
@@ -134,7 +136,7 @@ namespace NBi.Testing.Unit.NUnit
             var ctrXml = new FasterThanXml();
 
             var builderMockFactory = new Mock<ITestCaseBuilder>();
-            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default));
+            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default, It.IsAny<Dictionary<string, ITestVariable>>()));
             builderMockFactory.Setup(b => b.Build());
             builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new SqlCommand());
             builderMockFactory.Setup(b => b.GetConstraint()).Returns(new FasterThanConstraint());
@@ -225,7 +227,7 @@ namespace NBi.Testing.Unit.NUnit
             var ctrXml = new EqualToXml();
 
             var builderMockFactory = new Mock<ITestCaseBuilder>();
-            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default));
+            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default, It.IsAny<Dictionary<string, ITestVariable>>()));
             builderMockFactory.Setup(b => b.Build());
             builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new SqlCommand());
             builderMockFactory.Setup(b => b.GetConstraint()).Returns(new EqualToConstraint("value"));
@@ -326,7 +328,7 @@ namespace NBi.Testing.Unit.NUnit
             var ctrXml = new ContainXml();
 
             var builderMockFactory = new Mock<ITestCaseBuilder>();
-            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default));
+            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default, It.IsAny<Dictionary<string, ITestVariable>>()));
             builderMockFactory.Setup(b => b.Build());
             builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new object());
             builderMockFactory.Setup(b => b.GetConstraint()).Returns(new NBi.NUnit.Member.ContainConstraint("expected"));
@@ -359,7 +361,7 @@ namespace NBi.Testing.Unit.NUnit
             var sutXml = new StructureXml();
             var ctrXml = new ContainXml();
             var builderMockFactory = new Mock<ITestCaseBuilder>();
-            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default));
+            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default, It.IsAny<Dictionary<string, ITestVariable>>()));
             builderMockFactory.Setup(b => b.Build());
             builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new object());
             builderMockFactory.Setup(b => b.GetConstraint()).Returns(new NBi.NUnit.Structure.ContainConstraint("expected"));
@@ -415,7 +417,7 @@ namespace NBi.Testing.Unit.NUnit
             var ctrXml = new CountXml();
 
             var builderMockFactory = new Mock<ITestCaseBuilder>();
-            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default));
+            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default, It.IsAny<Dictionary<string, ITestVariable>>()));
             builderMockFactory.Setup(b => b.Build());
             builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new object());
             builderMockFactory.Setup(b => b.GetConstraint()).Returns(new CountConstraint());
@@ -493,7 +495,7 @@ namespace NBi.Testing.Unit.NUnit
             var ctrXml = new OrderedXml();
 
             var builderMockFactory = new Mock<ITestCaseBuilder>();
-            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default));
+            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default, It.IsAny<Dictionary<string, ITestVariable>>()));
             builderMockFactory.Setup(b => b.Build());
             builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new object());
             builderMockFactory.Setup(b => b.GetConstraint()).Returns(new OrderedConstraint());
@@ -594,7 +596,7 @@ namespace NBi.Testing.Unit.NUnit
             var sutXml = new StructureXml();
             var ctrXml = new ExistsXml();
             var builderMockFactory = new Mock<ITestCaseBuilder>();
-            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default));
+            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default, It.IsAny<Dictionary<string, ITestVariable>>()));
             builderMockFactory.Setup(b => b.Build());
             builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new object());
             builderMockFactory.Setup(b => b.GetConstraint()).Returns(new ExistsConstraint("foo"));
@@ -628,7 +630,7 @@ namespace NBi.Testing.Unit.NUnit
             var sutXml = new MembersXml();
             var ctrXml = new MatchPatternXml();
             var builderMockFactory = new Mock<ITestCaseBuilder>();
-            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default));
+            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default, It.IsAny<Dictionary<string, ITestVariable>>()));
             builderMockFactory.Setup(b => b.Build());
             builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new object());
             builderMockFactory.Setup(b => b.GetConstraint()).Returns(new NBi.NUnit.Member.MatchPatternConstraint());
@@ -662,7 +664,7 @@ namespace NBi.Testing.Unit.NUnit
             var ctrXml = new MatchPatternXml();
 
             var builderMockFactory = new Mock<ITestCaseBuilder>();
-            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default));
+            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default, It.IsAny<Dictionary<string, ITestVariable>>()));
             builderMockFactory.Setup(b => b.Build());
             builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new SqlCommand());
             builderMockFactory.Setup(b => b.GetConstraint()).Returns(new NBi.NUnit.Query.MatchPatternConstraint());
@@ -696,7 +698,7 @@ namespace NBi.Testing.Unit.NUnit
             var ctrXml = new RowCountXml();
 
             var builderMockFactory = new Mock<ITestCaseBuilder>();
-            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default));
+            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default, It.IsAny<Dictionary<string, ITestVariable>>()));
             builderMockFactory.Setup(b => b.Build());
             builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new SqlCommand());
             builderMockFactory.Setup(b => b.GetConstraint()).Returns(new RowCountConstraint(null));
@@ -731,7 +733,7 @@ namespace NBi.Testing.Unit.NUnit
             var ctrXml = new IsXml();
 
             var builderMockFactory = new Mock<ITestCaseBuilder>();
-            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default));
+            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default, It.IsAny<Dictionary<string, ITestVariable>>()));
             builderMockFactory.Setup(b => b.Build());
             builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new RelationalCommand(new SqlCommand(), null, null));
             builderMockFactory.Setup(b => b.GetConstraint()).Returns(new IsConstraint("x"));

@@ -20,7 +20,7 @@ namespace NBi.Core.ResultSet
         }
 
         public ResultSetComparerByIndex(IEnumerable<IRowsAnalyzer> analyzers, SettingsResultSetComparisonByIndex settings)
-            :base(analyzers)
+            : base(analyzers)
         {
             Settings = settings;
         }

@@ -19,7 +19,7 @@ namespace NBi.NUnit.Query
        
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
-            writer.WritePredicate("no rows validate the predicate");
+            writer.WritePredicate($"no rows validate the predicate '{filter.Describe()}'.");
         }
 
         public override void WriteFilterMessageTo(NUnitCtr.MessageWriter writer)
@@ -30,7 +30,7 @@ namespace NBi.NUnit.Query
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
         {
             var value = filterResultSet.Rows.Count;
-            writer.WriteLine("{0} row{1} validate{2} the predicate", value, value > 1 ? "s" : string.Empty, value == 1 ? "s" : string.Empty);
+            writer.WriteLine($"{value} row{(value > 1 ? "s" : string.Empty)} validate{(value == 1 ? "s" : string.Empty)} the predicate '{filter.Describe()}'.");
         }
     }
 }

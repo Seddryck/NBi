@@ -15,5 +15,10 @@ namespace NBi.Core.Calculation.Predicate.DateTime
         {
             return x >= y;
         }
+
+        public override string ToString()
+        {
+            return $"is more, or equal, than {Reference}";
+        }
     }
 }

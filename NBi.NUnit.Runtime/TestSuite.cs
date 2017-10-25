@@ -14,6 +14,8 @@ using NBi.NUnit.Runtime.Configuration;
 using NBi.Framework.FailureMessage;
 using NBi.Framework;
 using NBi.Core.Configuration;
+using NBi.Core.Variable;
+using NBi.Xml.Variables;
 
 namespace NBi.NUnit.Runtime
 {
@@ -30,6 +32,7 @@ namespace NBi.NUnit.Runtime
         public bool AllowDtdProcessing { get; set; }
         public string SettingsFilename { get; set; }
         public ITestConfiguration Configuration { get; set; }
+        public IDictionary<string, ITestVariable> Variables { get; set; }
 
         internal XmlManager TestSuiteManager { get; private set; }
         internal TestSuiteFinder TestSuiteFinder { get; set; }
@@ -76,7 +79,7 @@ namespace NBi.NUnit.Runtime
                 {
                     foreach (var ctr in test.Constraints)
                     {
-                        var factory = new TestCaseFactory(Configuration);
+                        var factory = new TestCaseFactory(Configuration, Variables);
                         var testCase = factory.Instantiate(tc, ctr);
                         try
                         {
@@ -125,7 +128,7 @@ namespace NBi.NUnit.Runtime
                         if (command is IGroupCommand)
                         {
                             var groupCommand = (command as IGroupCommand);
-                            groupCommand.HasRun=true;
+                            groupCommand.HasRun = true;
                         }
                     }
                 }
@@ -140,7 +143,7 @@ namespace NBi.NUnit.Runtime
         {
             var message = string.Format("Exception during the setup of the test: {0}", ex.Message);
             message += "\r\n" + ex.StackTrace;
-            if (ex.InnerException!=null)
+            if (ex.InnerException != null)
             {
                 message += "\r\n" + ex.InnerException.Message;
                 message += "\r\n" + ex.InnerException.StackTrace;
@@ -217,7 +220,7 @@ namespace NBi.NUnit.Runtime
             }
             else
                 Trace.WriteLineIf(NBiTraceSwitch.TraceError, string.Format("No configuration-finder found."));
-                
+
 
             //Find connection strings referecned from an external file
             if (ConnectionStringsFinder != null)
@@ -227,9 +230,26 @@ namespace NBi.NUnit.Runtime
             var testSuiteFilename = TestSuiteFinder.Find();
             TestSuiteManager.Load(testSuiteFilename, SettingsFilename, AllowDtdProcessing);
 
+            //Build the variables
+            Variables = BuildVariables(TestSuiteManager.TestSuite.Variables);
+
             return BuildTestCases();
         }
-  
+
+        private IDictionary<string, ITestVariable> BuildVariables(IEnumerable<GlobalVariableXml> variables)
+        {
+            var instances = new Dictionary<string, ITestVariable>();
+            var factory = new TestVariableFactory();
+
+            foreach (var variable in variables)
+            {
+                var instance = factory.Instantiate(variable.Script.Language, variable.Script.Code);
+                instances.Add(variable.Name, instance);
+            }
+
+            return instances;
+        }
+
         internal IEnumerable<TestCaseData> BuildTestCases()
         {
             List<TestCaseData> testCasesNUnit = new List<TestCaseData>();
@@ -301,7 +321,7 @@ namespace NBi.NUnit.Runtime
             var fullPath = System.Reflection.Assembly.GetAssembly(typeof(TestSuite)).Location;
 
             //get the filename that's in
-            var fileName = Path.GetFileName( fullPath );
+            var fileName = Path.GetFileName(fullPath);
 
             return fileName;
         }

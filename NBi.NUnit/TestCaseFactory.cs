@@ -6,6 +6,7 @@ using NBi.Xml.Systems;
 using System.Linq;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework;
+using NBi.Core.Variable;
 
 namespace NBi.NUnit
 {
@@ -13,15 +14,17 @@ namespace NBi.NUnit
 	{
         private readonly ICollection<BuilderRegistration> registrations;
         private readonly ITestConfiguration configuration;
+        private readonly IDictionary<string, ITestVariable> variables;
 
         public TestCaseFactory()
-            : this(TestConfiguration.Default)
+            : this(TestConfiguration.Default, new Dictionary<string, ITestVariable>())
         {
         }
 
-        public TestCaseFactory(ITestConfiguration configuration)
+        public TestCaseFactory(ITestConfiguration configuration, IDictionary<string, ITestVariable> variables)
 		{
             this.configuration = configuration;
+            this.variables = variables;
 			registrations = new List<BuilderRegistration>();
 			RegisterDefault();
 		}
@@ -42,8 +45,11 @@ namespace NBi.NUnit
             Register(typeof(ExecutionXml), typeof(RowCountXml), new ExecutionRowCountBuilder());
             Register(typeof(ExecutionXml), typeof(AllRowsXml), new ExecutionAllRowsBuilder());
             Register(typeof(ExecutionXml), typeof(NoRowsXml), new ExecutionNoRowsBuilder());
-			
-			Register(typeof(MembersXml), typeof(CountXml), new MembersCountBuilder());
+            Register(typeof(ExecutionXml), typeof(UniqueRowsXml), new ExecutionNoDuplicateBuilder());
+
+            Register(typeof(ResultSetSystemXml), typeof(EqualToXml), new ResultSetSystemEqualToBuilder());
+
+            Register(typeof(MembersXml), typeof(CountXml), new MembersCountBuilder());
 			Register(typeof(MembersXml), typeof(OrderedXml), new MembersOrderedBuilder());
 			Register(typeof(MembersXml), typeof(ContainXml), new MembersContainBuilder());
             Register(typeof(MembersXml), typeof(ContainedInXml), new MembersContainedInBuilder());
@@ -142,7 +148,7 @@ namespace NBi.NUnit
 
 			//Get Builder and initiate it
 			builder = registration.Builder;
-			builder.Setup(sutXml, ctrXml, configuration);
+			builder.Setup(sutXml, ctrXml, configuration, variables);
 			
 			//Build
 			builder.Build();

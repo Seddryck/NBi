@@ -20,5 +20,10 @@ namespace NBi.Core.Calculation.Predicate.Text
             var regex = new Regex(Reference.ToString(), regexOption);
             return regex.IsMatch(x.ToString());
         }
+
+        public override string ToString()
+        {
+            return $"matches the regex '{Reference}'";
+        }
     }
 }

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="system-under-test">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
+  </settings>
+  <test name="Simle query without duplicates" uid="0001">
+    <system-under-test>
+      <execution>
+        <query>
+          select 'alpha' as 'A', 100 as 'B'
+          union all select 'beta', 100
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <unique-rows />
+    </assert>
+  </test>
+</testSuite>

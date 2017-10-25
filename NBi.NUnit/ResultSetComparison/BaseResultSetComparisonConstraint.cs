@@ -182,6 +182,8 @@ namespace NBi.NUnit.ResultSetComparison
         {
             if (actual is IDbCommand)
                 return Process((IDbCommand)actual);
+            else if (actual is string)
+                return Matches(ResultSetBuilder.Build(actual));
             else if (actual is ResultSet)
                 return doMatch((ResultSet)actual);
             else

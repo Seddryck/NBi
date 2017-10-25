@@ -25,5 +25,10 @@ namespace NBi.Core.Calculation
             filteredRs.Load(table);
             return filteredRs;
         }
+
+        public string Describe()
+        {
+            return "none";
+        }
     }
 }

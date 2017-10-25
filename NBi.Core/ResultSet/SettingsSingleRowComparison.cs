@@ -9,7 +9,7 @@ namespace NBi.Core.ResultSet
 	public class SettingsSingleRowComparison: SettingsResultSetComparisonByIndex
 	{
         
-		public SettingsSingleRowComparison(ColumnType valuesDefaultType, NumericTolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
+		public SettingsSingleRowComparison(ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : base(valuesDefaultType, defaultTolerance, columnsDef)
 		{
 		}

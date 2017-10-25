@@ -17,10 +17,14 @@ namespace NBi.Core.ResultSet.Comparer
 
         public static Tolerance Instantiate(ColumnType type, string value)
         {
+            if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
+                return null;
+
             Tolerance tolerance=null;
             switch (type)
             {
                 case ColumnType.Text:
+                    tolerance = new TextToleranceFactory().Instantiate(value);
                     break;
                 case ColumnType.Numeric:
                     tolerance = new NumericToleranceFactory().Instantiate(value);
@@ -43,6 +47,7 @@ namespace NBi.Core.ResultSet.Comparer
             switch (type)
             {
                 case ColumnType.Text:
+                    tolerance = TextTolerance.None;
                     break;
                 case ColumnType.Numeric:
                     tolerance = NumericAbsoluteTolerance.None;

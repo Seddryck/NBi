@@ -95,7 +95,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage
         public void GetText_NumericRounding_CorrectHeader()
         {
             var formatter = new TableHeaderHelper();
-            var text = formatter.GetText(ColumnRole.Value, ColumnType.Numeric, null, new NumericRounding(10.5, Rounding.RoundingStyle.Round));
+            var text = formatter.GetText(ColumnRole.Value, ColumnType.Numeric, null, new NumericRounding(10.5m, Rounding.RoundingStyle.Round));
 
             Assert.That(text, Is.StringContaining("VALUE"));
             Assert.That(text, Is.StringContaining("Numeric"));

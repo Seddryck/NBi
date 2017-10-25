@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+  <test name="c# transformation">
+    <system-under-test>
+      <execution>
+        <query>select * from table</query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <column index="0" role="key">
+          <transformation language="c-sharp">
+            value.Trim().ToUpper();
+          </transformation>
+        </column>
+        <query>select * from table1</query>
+      </equalTo>
+    </assert>
+  </test>
+  <test name="native transformation">
+    <system-under-test>
+      <execution>
+        <query>select * from table</query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <column index="0" role="key">
+          <transformation language="native">empty-to-null</transformation>
+        </column>
+        <query>select * from table1</query>
+      </equalTo>
+    </assert>
+  </test>
+</testSuite>

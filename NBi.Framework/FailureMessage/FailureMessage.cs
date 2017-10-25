@@ -12,6 +12,7 @@ namespace NBi.Framework.FailureMessage
         protected MarkdownContainer actual;
         protected MarkdownContainer filtered;
         protected MarkdownContainer compared;
+        protected MarkdownContainer duplicated;
 
         protected FailureMessage()
         {
@@ -36,6 +37,11 @@ namespace NBi.Framework.FailureMessage
         public virtual string RenderCompared()
         {
             return compared.ToMarkdown();
+        }
+
+        public virtual string RenderDuplicated()
+        {
+            return duplicated.ToMarkdown();
         }
     }
 }

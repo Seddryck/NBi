@@ -1,0 +1,9 @@
+﻿case scope 'structure';
+case load file 'Acceptance\GenbiL\Resources\MultipleTemplates.csv';
+
+template add file 'Acceptance\GenbiL\Resources\MultipleTemplates1.nbitt';
+template add file 'Acceptance\GenbiL\Resources\MultipleTemplates2.nbitt';
+
+suite generate;
+suite save as 'Acceptance\GenbiL\Resources\MultipleTemplates.nbits';
+

@@ -52,6 +52,9 @@
     <Reference Include="Antlr4.StringTemplate">
       <HintPath>..\packages\Antlr4.StringTemplate.4.0.6.9004\lib\net35\Antlr4.StringTemplate.dll</HintPath>
     </Reference>
+    <Reference Include="FuzzyString, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FuzzyString.1.0.0\lib\FuzzyString.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.12.0.2000.8\lib\net40\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
       <Private>True</Private>
@@ -90,9 +93,15 @@
     <Compile Include="Analysis\Request\FactoryValidations\ValidationFilter.cs" />
     <Compile Include="Calculation\ComparerType.cs" />
     <Compile Include="Calculation\IPredicateInfo.cs" />
+    <Compile Include="Calculation\PredicateFilterFactory.cs" />
     <Compile Include="Calculation\Predicate\AbstractPredicateReference.cs" />
+    <Compile Include="Calculation\Predicate\Boolean\BooleanFalse.cs" />
+    <Compile Include="Calculation\Predicate\Boolean\BooleanTrue.cs" />
     <Compile Include="Calculation\Predicate\Boolean\BooleanNull.cs" />
     <Compile Include="Calculation\Predicate\Boolean\BooleanEqual.cs" />
+    <Compile Include="Calculation\Predicate\DateTime\DateTimeOnTheMinute.cs" />
+    <Compile Include="Calculation\Predicate\DateTime\DateTimeOnTheHour.cs" />
+    <Compile Include="Calculation\Predicate\DateTime\DateTimeOnTheDay.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimeNull.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimeEqual.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimeLessThan.cs" />
@@ -100,6 +109,9 @@
     <Compile Include="Calculation\Predicate\DateTime\DateTimeMoreThan.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimeMoreThanOrEqual.cs" />
     <Compile Include="Calculation\Predicate\DateTime\DateTimePredicate.cs" />
+    <Compile Include="Calculation\Predicate\DateTime\DateTimeWithinRange.cs" />
+    <Compile Include="Calculation\Predicate\Numeric\NumericInteger.cs" />
+    <Compile Include="Calculation\Predicate\Numeric\NumericWithinRange.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericNull.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericEqual.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericLessThan.cs" />
@@ -107,12 +119,15 @@
     <Compile Include="Calculation\Predicate\Numeric\NumericMoreThan.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericMoreThanOrEqual.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericPredicate.cs" />
+    <Compile Include="Calculation\Predicate\Numeric\NumericModulo.cs" />
     <Compile Include="Calculation\Predicate\PredicateFactory.cs" />
     <Compile Include="Calculation\Predicate\Text\AbstractTextPredicate.cs" />
     <Compile Include="Calculation\Predicate\Text\TextMatchesRegex.cs" />
     <Compile Include="Calculation\Predicate\Text\TextEmpty.cs" />
     <Compile Include="Calculation\Predicate\Text\TextContains.cs" />
     <Compile Include="Calculation\Predicate\Text\TextEndsWith.cs" />
+    <Compile Include="Calculation\Predicate\Text\TextLowerCase.cs" />
+    <Compile Include="Calculation\Predicate\Text\TextUpperCase.cs" />
     <Compile Include="Calculation\Predicate\Text\TextStartsWith.cs" />
     <Compile Include="Calculation\Predicate\Text\TextNullOrEmpty.cs" />
     <Compile Include="Calculation\Predicate\Text\TextNull.cs" />
@@ -213,7 +228,7 @@
     <Compile Include="DecorationFactory.cs" />
     <Compile Include="Evaluate\ExpressionEvaluationResult.cs" />
     <Compile Include="Evaluate\ExpressionComparable.cs" />
-    <Compile Include="Evaluate\IColumnVariable.cs" />
+    <Compile Include="Evaluate\IColumnAlias.cs" />
     <Compile Include="Evaluate\ExpressionComparer.cs" />
     <Compile Include="Evaluate\IColumnExpression.cs" />
     <Compile Include="Evaluate\InvalidExpressionException.cs" />
@@ -276,6 +291,8 @@
     <Compile Include="ResultSet\Analyzer\KeyMatchingRowsAnalyzer.cs" />
     <Compile Include="ResultSet\Analyzer\UnexpectedRowsAnalyzer.cs" />
     <Compile Include="ResultSet\Analyzer\MissingRowsAnalyzer.cs" />
+    <Compile Include="ResultSet\ColumnRole.cs" />
+    <Compile Include="ResultSet\ColumnType.cs" />
     <Compile Include="ResultSet\Comparer\CellComparer.cs" />
     <Compile Include="ResultSet\Comparer\ComparerFactory.cs" />
     <Compile Include="Report\DatabaseParser.cs" />
@@ -284,6 +301,8 @@
     <Compile Include="Report\IQueryRequest.cs" />
     <Compile Include="Report\ParserFactory.cs" />
     <Compile Include="ResultSet\Comparer\DateTimeToleranceFactory.cs" />
+    <Compile Include="ResultSet\Comparer\TextToleranceFactory.cs" />
+    <Compile Include="ResultSet\Comparer\TextTolerance.cs" />
     <Compile Include="ResultSet\Comparer\NumericBoundedPercentageTolerance.cs" />
     <Compile Include="ResultSet\Comparer\NumericToleranceFactory.cs" />
     <Compile Include="ResultSet\Comparer\SideTolerance.cs" />
@@ -299,9 +318,13 @@
     <Compile Include="ResultSet\Converter\TextConverter.cs" />
     <Compile Include="ResultSet\DataRowKeysComparerByName.cs" />
     <Compile Include="ResultSet\DataRowKeysComparerByIndex.cs" />
-    <Compile Include="ResultSet\EndPoint.cs" />
+    <Compile Include="ResultSet\Uniqueness\UniqueRowsResult.cs" />
+    <Compile Include="ResultSet\Interval\EndPoint.cs" />
     <Compile Include="ResultSet\Content.cs" />
-    <Compile Include="ResultSet\IntervalBuilder.cs" />
+    <Compile Include="ResultSet\Interval\DateTimeInterval.cs" />
+    <Compile Include="ResultSet\Interval\BaseInterval.cs" />
+    <Compile Include="ResultSet\Interval\DateTimeIntervalBuilder.cs" />
+    <Compile Include="ResultSet\Interval\NumericIntervalBuilder.cs" />
     <Compile Include="ListComparisonFormatter.cs" />
     <Compile Include="ListComparer.cs" />
     <Compile Include="NBiTraceSwitch.cs" />
@@ -312,8 +335,6 @@
     <Compile Include="Query\IQueryEnginable.cs" />
     <Compile Include="Query\IQueryExecutor.cs" />
     <Compile Include="ResultSet\Column.cs" />
-    <Compile Include="ResultSet\ColumnRole.cs" />
-    <Compile Include="ResultSet\ColumnType.cs" />
     <Compile Include="ResultSet\CompareHelper.cs" />
     <Compile Include="ResultSet\Comparer\BaseComparer.cs" />
     <Compile Include="ResultSet\Comparer\ComparerResult.cs" />
@@ -332,7 +353,9 @@
     <Compile Include="ResultSet\Comparer\Tolerance.cs" />
     <Compile Include="ResultSet\JsonResultSet.cs" />
     <Compile Include="ResultSet\IResultSetComparisonSettings.cs" />
+    <Compile Include="ResultSet\Uniqueness\UniqueRowsFinder.cs" />
     <Compile Include="ResultSet\ResultSetComparer.cs" />
+    <Compile Include="ResultSet\Uniqueness\UniqueRowsFinderByIndex.cs" />
     <Compile Include="ResultSet\ResultSetComparerByName.cs" />
     <Compile Include="ResultSet\SettingsResultSetComparisonByIndex.cs" />
     <Compile Include="ResultSet\SettingsResultSetComparisonByName.cs" />
@@ -341,7 +364,7 @@
     <Compile Include="ResultSet\SingleRowComparer.cs" />
     <Compile Include="ResultSet\ResultSetComparerByIndex.cs" />
     <Compile Include="ResultSet\DataRowKeysComparer.cs" />
-    <Compile Include="ResultSet\Interval.cs" />
+    <Compile Include="ResultSet\Interval\NumericInterval.cs" />
     <Compile Include="ResultSet\KeyCollection.cs" />
     <Compile Include="ResultSet\LineFormatter.cs" />
     <Compile Include="ResultSet\ICell.cs" />
@@ -380,6 +403,7 @@
     <Compile Include="ProgressStatusEventArgs.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="ResultSet\ThreeStateBoolean.cs" />
+    <Compile Include="ResultSet\Uniqueness\UniqueRowsResultOccurence.cs" />
     <Compile Include="StringComparerHelper.cs" />
     <Compile Include="StringHelper.cs" />
     <Compile Include="StringTemplateEngine.cs" />
@@ -439,6 +463,24 @@
     <Compile Include="Structure\TargetType.cs" />
     <Compile Include="Structure\Target.cs" />
     <Compile Include="Transformation\Transformer\FormatTransformer.cs" />
+    <Compile Include="Transformation\Transformer\NativeTransformer.cs" />
+    <Compile Include="Transformation\Transformer\Native\TextToHtml.cs" />
+    <Compile Include="Transformation\Transformer\Native\INativeTransformation.cs" />
+    <Compile Include="Transformation\Transformer\Native\DateToAge.cs" />
+    <Compile Include="Transformation\Transformer\Native\NotImplementedTransformationException.cs" />
+    <Compile Include="Transformation\Transformer\Native\NullToValue.cs" />
+    <Compile Include="Transformation\Transformer\Native\TextToLength.cs" />
+    <Compile Include="Transformation\Transformer\Native\HtmlToText.cs" />
+    <Compile Include="Transformation\Transformer\Native\TextToWithoutDiacritics.cs" />
+    <Compile Include="Transformation\Transformer\Native\TextToUpper.cs" />
+    <Compile Include="Transformation\Transformer\Native\TextToLower.cs" />
+    <Compile Include="Transformation\Transformer\Native\TextToTrim.cs" />
+    <Compile Include="Transformation\Transformer\Native\ValueToValue.cs" />
+    <Compile Include="Transformation\Transformer\Native\AnyToAny.cs" />
+    <Compile Include="Transformation\Transformer\Native\NullToEmpty.cs" />
+    <Compile Include="Transformation\Transformer\Native\EmptyToNull.cs" />
+    <Compile Include="Transformation\Transformer\Native\BlankToNull.cs" />
+    <Compile Include="Transformation\Transformer\Native\BlankToEmpty.cs" />
     <Compile Include="Transformation\Transformer\NCalcTransformer.cs" />
     <Compile Include="Transformation\Transformer\CSharpTransformer.cs" />
     <Compile Include="Transformation\ITransformationInfo.cs" />
@@ -446,6 +488,9 @@
     <Compile Include="Transformation\LanguageType.cs" />
     <Compile Include="Transformation\TransformerFactory.cs" />
     <Compile Include="Transformation\TransformationProvider.cs" />
+    <Compile Include="Variable\CSharpTestVariable.cs" />
+    <Compile Include="Variable\ITestVariable.cs" />
+    <Compile Include="Variable\TestVariableFactory.cs" />
     <Compile Include="WindowsService\IWindowsServiceCheck.cs" />
     <Compile Include="WindowsService\WindowsServiceCheck.cs" />
     <Compile Include="WindowsService\WindowsServiceCheckFactory.cs" />

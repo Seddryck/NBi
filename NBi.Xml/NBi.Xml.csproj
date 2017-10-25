@@ -59,12 +59,24 @@
     <Compile Include="Constraints\AbstractConstraintForCollectionXml.cs" />
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
     <Compile Include="Constraints\Comparer\AbstractTextComparerXml.cs" />
+    <Compile Include="Constraints\Comparer\IntegerXml.cs" />
+    <Compile Include="Constraints\Comparer\FalseXml.cs" />
+    <Compile Include="Constraints\Comparer\ITwoOperandsXml.cs" />
+    <Compile Include="Constraints\Comparer\ModuloXml.cs" />
+    <Compile Include="Constraints\Comparer\TrueXml.cs" />
+    <Compile Include="Constraints\Comparer\OnTheHourXml.cs" />
+    <Compile Include="Constraints\Comparer\OnTheMinuteXml.cs" />
+    <Compile Include="Constraints\Comparer\OnTheDayXml.cs" />
+    <Compile Include="Constraints\Comparer\WithinRangeXml.cs" />
+    <Compile Include="Constraints\Comparer\UpperCaseXml.cs" />
     <Compile Include="Constraints\Comparer\MatchesRegexXml.cs" />
+    <Compile Include="Constraints\Comparer\LowerCaseXml.cs" />
     <Compile Include="Constraints\Comparer\StartsWithXml.cs" />
     <Compile Include="Constraints\Comparer\EndsWithXml.cs" />
     <Compile Include="Constraints\Comparer\ContainsXml.cs" />
     <Compile Include="Constraints\Comparer\NullXml.cs" />
     <Compile Include="Constraints\Comparer\EmptyXml.cs" />
+    <Compile Include="Constraints\UniqueRowsXml.cs" />
     <Compile Include="Constraints\SubsetOfXml.cs" />
     <Compile Include="Constraints\SupersetOfXml.cs" />
     <Compile Include="Constraints\NoRowsXml.cs" />
@@ -177,7 +189,7 @@
     <Compile Include="Items\Calculation\PredicateXml.cs" />
     <Compile Include="Items\Calculation\FilterXml.cs" />
     <Compile Include="Items\Calculation\ExpressionXml.cs" />
-    <Compile Include="Items\Calculation\VariableXml.cs" />
+    <Compile Include="Items\Calculation\AliasXml.cs" />
     <Compile Include="Items\Xml\FromXml.cs" />
     <Compile Include="Items\Xml\SelectXml.cs" />
     <Compile Include="Items\Xml\XmlSourceXml.cs" />
@@ -201,6 +213,7 @@
     <Compile Include="Constraints\EqualToXml.cs" />
     <Compile Include="Items\AssemblyXml.cs" />
     <Compile Include="Items\AssemblyParameterXml.cs" />
+    <Compile Include="Systems\ResultSetSystemXml.cs" />
     <Compile Include="Systems\MembersXml.cs" />
     <Compile Include="Constraints\SyntacticallyCorrectXml.cs" />
     <Compile Include="Constraints\FasterThanXml.cs" />
@@ -218,6 +231,9 @@
     <Compile Include="Systems\ExecutionXml.cs" />
     <Compile Include="TestSuiteXml.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Variables\ScriptXml.cs" />
+    <Compile Include="Variables\GlobalVariableXml.cs" />
+    <Compile Include="Variables\GlobalVariablesStandaloneXml.cs" />
     <Compile Include="XmlBeautifier.cs" />
     <Compile Include="XmlManager.cs" />
   </ItemGroup>
@@ -244,6 +260,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Schema\TestSuite.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Schema\Variables.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

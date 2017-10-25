@@ -44,7 +44,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                 .Returns(resultSet);
             var rsb = rsbMock.Object;
 
-            var variable = Mock.Of<IColumnVariable>(v => v.Column == 2 && v.Name == "Value");
+            var alias = Mock.Of<IColumnAlias>(v => v.Column == 2 && v.Name == "Value");
             var predicate = Mock.Of<IPredicateInfo>
                 (
                     p => p.ColumnType==ColumnType.Numeric 
@@ -53,9 +53,10 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                     && p.Reference==(object)1
                 );
 
-            var filter = new PredicateFilter
+            var factory = new PredicateFilterFactory();
+            var filter = factory.Instantiate
                 (
-                    new List<IColumnVariable>() { variable }
+                    new List<IColumnAlias>() { alias }
                     , new List<IColumnExpression>() { }
                     , predicate
                 );

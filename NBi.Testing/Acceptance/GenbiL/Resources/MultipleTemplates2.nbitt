@@ -1,0 +1,12 @@
+﻿<test name="all members for $dimension$">
+  <system-under-test>
+    <execution>
+      <query>select * from $dimension$</query>
+    </execution>
+  </system-under-test>
+  <assert>
+    <row-count>
+      <less-than>20</less-than>
+    </row-count>
+  </assert>
+</test>

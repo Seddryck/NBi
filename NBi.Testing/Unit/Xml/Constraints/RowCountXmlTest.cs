@@ -11,6 +11,7 @@ using NBi.Xml.Items.Calculation;
 using System.Xml.Serialization;
 using System.Text;
 using System.Diagnostics;
+using System.Collections.Generic;
 #endregion
 
 namespace NBi.Testing.Unit.Xml.Constraints
@@ -145,6 +146,8 @@ namespace NBi.Testing.Unit.Xml.Constraints
             TestSuiteXml ts = DeserializeSample();
             var rowCount = ts.Tests[testNr].Constraints[0] as RowCountXml;
             Assert.That(rowCount.Filter, Is.Not.Null);
+            Assert.That(rowCount.Filter.Aliases, Is.Not.Null);
+            Assert.That(rowCount.Filter.Aliases, Has.Count.EqualTo(1));
             Assert.That(rowCount.Filter.Predicate, Is.Not.Null);
         }
 
@@ -195,7 +198,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
             var rowCount = ts.Tests[testNr].Constraints[0] as RowCountXml;
-            var variables = rowCount.Filter.Variables;
+            var variables = rowCount.Filter.Aliases;
 
             Assert.That(variables, Has.Count.EqualTo(1));
             Assert.That(variables[0].Name, Is.EqualTo("DeptId"));
@@ -239,6 +242,36 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(content, Is.StringContaining("<less-than"));
 
             Assert.That(content, Is.StringMatching(@".*<filter.*/>[\r\n]*.*<less-than.*/>.*"));
+        }
+
+        [Test]
+        public void Serialize_WithLessThanAndFilter_OnlyAliasNoVariable()
+        {
+            var rowCountXml = new RowCountXml()
+            {
+                Filter = new FilterXml()
+                {
+                    InternalAliases = new List<AliasXml>()
+                    {
+                        new AliasXml() {Column = 1, Name="Col1"},
+                        new AliasXml() {Column = 0, Name="Col2"}
+                    }
+                },
+                LessThan = new LessThanXml()
+            };
+
+            var serializer = new XmlSerializer(typeof(RowCountXml));
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream, Encoding.UTF8);
+            serializer.Serialize(writer, rowCountXml);
+            var content = Encoding.UTF8.GetString(stream.ToArray());
+            writer.Close();
+            stream.Close();
+
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("<alias"));
+            Assert.That(content, Is.Not.StringContaining("<variable"));
         }
     }
 }

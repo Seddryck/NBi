@@ -8,30 +8,54 @@ namespace NBi.GenbiL.Parser
 {
     class Template
     {
-        public static readonly Parser<LoadType> LoadTypeParser =
-            Parse.IgnoreCase("file").Return(LoadType.File)
-                .Or(Parse.IgnoreCase("predefined").Return(LoadType.Predefined))
-                .Token();
-
-        readonly static  Parser<LoadTemplateAction> TemplateLoadParser =
+        
+        readonly static  Parser<ITemplateAction> templateLoadEmbeddedParser =
             (
-                from loadType in LoadTypeParser
+                from load in Keyword.Load
+                from embedded in Keyword.Embedded.Or(Keyword.Predefined)
                 from filename in Grammar.QuotedTextual
-                select new LoadTemplateAction(loadType, filename)
+                select new LoadEmbeddedTemplateAction(filename)
             );
 
-        readonly static Parser<LoadTemplateAction> TemplateParser = 
-        (
+        readonly static Parser<ITemplateAction> templateLoadFileParser =
+            (
                 from load in Keyword.Load
-                from text in TemplateLoadParser
-                select text
-        );
+                from embedded in Keyword.File
+                from filename in Grammar.QuotedTextual
+                select new LoadFileTemplateAction(filename)
+            );
 
+        readonly static Parser<ITemplateAction> templateAddEmbeddedParser =
+            (
+                from add in Keyword.Add
+                from embedded in Keyword.Embedded.Or(Keyword.Predefined)
+                from filename in Grammar.QuotedTextual
+                select new AddEmbeddedTemplateAction(filename)
+            );
+
+        readonly static Parser<ITemplateAction> templateAddFileParser =
+            (
+                from add in Keyword.Add
+                from embedded in Keyword.File
+                from filename in Grammar.QuotedTextual
+                select new AddFileTemplateAction(filename)
+            );
+
+        readonly static Parser<ITemplateAction> templateClearParser =
+            (
+                from clear in Keyword.Clear
+                select new ClearTemplateAction()
+            );
+        
         public readonly static Parser<IAction> Parser =
         (
-                from load in Keyword.Template
-                from text in TemplateParser
-                select text
+                from @case in Keyword.Template
+                from action in templateClearParser
+                                .Or(templateAddEmbeddedParser)
+                                .Or(templateAddFileParser)
+                                .Or(templateLoadEmbeddedParser)
+                                .Or(templateLoadFileParser)
+                select action
         );
     }
 }

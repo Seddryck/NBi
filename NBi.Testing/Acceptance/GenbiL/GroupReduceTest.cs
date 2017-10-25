@@ -69,7 +69,7 @@ namespace NBi.Testing.Acceptance.GenbiL
                 Assert.Inconclusive("Test Suite not generated!");
 
             var content = File.ReadAllText(TargetFilename);
-            Assert.That(content.Count(c => c=='\r'), Is.LessThan(25));
+            Assert.That(content.Count(c => c=='\r'), Is.LessThan(26));
             content = content.Replace("\t", "").Replace("\r", "").Replace("\n", "").Replace(" ", "");
             Assert.That(content, Is.StringContaining("<contain><item>first-dimension</item><item>second-dimension</item><item>exclude-dimension</item></contain>"));
             Assert.That(content, Is.StringContaining("...\"><category>x</category><category>y</category><system-under-test>"));

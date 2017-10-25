@@ -30,7 +30,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         public void Compare_Text_Success(ComparerType comparerType, object x, object y)
         {
             var info = Mock.Of<IPredicateInfo>(
-                    i => i.ColumnType== ColumnType.Text
+                    i => i.ColumnType == ColumnType.Text
                     && i.ComparerType == comparerType
                     && i.Reference == y
                 );
@@ -107,6 +107,9 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.MoreThanOrEqual, 10, 1)]
         [TestCase(ComparerType.MoreThanOrEqual, 1, 1)]
         [TestCase(ComparerType.MoreThanOrEqual, 1, "1.00")]
+        [TestCase(ComparerType.WithinRange, 1, "[1;2]")]
+        [TestCase(ComparerType.WithinRange, 1, "(>0)")]
+        [TestCase(ComparerType.WithinRange, -1, "(<=-1)")]
         public void Compare_Numeric_Success(ComparerType comparerType, object x, object y)
         {
             var info = Mock.Of<IPredicateInfo>(
@@ -118,6 +121,32 @@ namespace NBi.Testing.Unit.Core.Calculation
             var factory = new PredicateFactory();
             var comparer = factory.Get(info);
             Assert.That(comparer.Apply(x), Is.True);
+        }
+
+        [Test]
+        [TestCase(ComparerType.Equal, 1, 1.5)]
+        [TestCase(ComparerType.Equal, 1, "(null)")]
+        [TestCase(ComparerType.LessThan, 1, -10)]
+        [TestCase(ComparerType.LessThanOrEqual, 1, -10)]
+        [TestCase(ComparerType.LessThanOrEqual, 1, "-10.0")]
+        [TestCase(ComparerType.MoreThan, -10, 1)]
+        [TestCase(ComparerType.MoreThanOrEqual, -10, 1)]
+        [TestCase(ComparerType.MoreThanOrEqual, -1, 1)]
+        [TestCase(ComparerType.MoreThanOrEqual, -1, "1.00")]
+        [TestCase(ComparerType.WithinRange, 1, "]1;2]")]
+        [TestCase(ComparerType.WithinRange, 1, "(<0)")]
+        [TestCase(ComparerType.WithinRange, -1, "(>-1)")]
+        public void Compare_Numeric_Failure(ComparerType comparerType, object x, object y)
+        {
+            var info = Mock.Of<IPredicateInfo>(
+                    i => i.ColumnType == ColumnType.Numeric
+                    && i.ComparerType == comparerType
+                    && i.Reference == y
+                );
+
+            var factory = new PredicateFactory();
+            var comparer = factory.Get(info);
+            Assert.That(comparer.Apply(x), Is.False);
         }
 
         [Test]
@@ -139,6 +168,21 @@ namespace NBi.Testing.Unit.Core.Calculation
             var factory = new PredicateFactory();
             var comparer = factory.Get(info);
             Assert.That(comparer.Apply(new DateTime(2015, x, 1)), Is.True);
+        }
+
+        [Test]
+        [TestCase("[2015-05-01;2016-05-01[")]
+        public void Compare_DateTimeRange_Success(string range)
+        {
+            var info = Mock.Of<IPredicateInfo>(
+                    i => i.ColumnType == ColumnType.DateTime
+                    && i.ComparerType == ComparerType.WithinRange
+                    && i.Reference == (object)range
+                );
+
+            var factory = new PredicateFactory();
+            var comparer = factory.Get(info);
+            Assert.That(comparer.Apply(new DateTime(2015, 8, 1)), Is.True);
         }
 
         [Test]

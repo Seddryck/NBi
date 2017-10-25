@@ -44,15 +44,17 @@ namespace NBi.NUnit.Builder
         {
             AllRowsConstraint ctr;
             
-            IResultSetFilter filter = null;
-            
             var expressions = new List<IColumnExpression>();
             if (ConstraintXml.Expression!=null)
                 expressions.Add(ConstraintXml.Expression);
-            
-            filter = new PredicateFilter
+
+            if (ConstraintXml.Predicate.Reference != null)
+                ConstraintXml.Predicate.Reference = EvaluatePotentialVariable(ConstraintXml.Predicate.Reference);
+
+            var factory = new PredicateFilterFactory();
+            var filter = factory.Instantiate
                         (
-                            ConstraintXml.Variables
+                            ConstraintXml.Aliases
                             , expressions
                             , ConstraintXml.Predicate
                         );

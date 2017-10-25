@@ -100,6 +100,7 @@ namespace NBi.Xml
 
         [XmlArray("system-under-test", Order = 8),
         XmlArrayItem(Type = typeof(ExecutionXml), ElementName = "execution"),
+        XmlArrayItem(Type = typeof(ResultSetSystemXml), ElementName = "resultSet"),
         XmlArrayItem(Type = typeof(MembersXml), ElementName = "members"),
         XmlArrayItem(Type = typeof(StructureXml), ElementName = "structure"),
         XmlArrayItem(Type = typeof(DataTypeXml), ElementName = "data-type"),
@@ -126,6 +127,7 @@ namespace NBi.Xml
         XmlArrayItem(Type = typeof(AllRowsXml), ElementName = "all-rows"),
         XmlArrayItem(Type = typeof(NoRowsXml), ElementName = "no-rows"),
         XmlArrayItem(Type = typeof(IsXml), ElementName = "is"),
+        XmlArrayItem(Type = typeof(UniqueRowsXml), ElementName = "unique-rows"),
         ]
         public List<AbstractConstraintXml> Constraints;
 

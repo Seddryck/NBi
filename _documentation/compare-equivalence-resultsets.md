@@ -16,7 +16,9 @@ During test's execution, NBi will compare the two result-sets and provide a brie
 
 ## system-under-test
 
-Let's start with the definition of your system-under-test:
+Let's start with the definition of your system-under-test. Since version 1.16, you've two options a query or a CSV file.
+
+### Query
 
 You must create an xml element named *execution* under the element *system-under-test*. Inside this element *execution*, you must create another xml element named *query*. You can specify a connection string to this query or rely on the [default connection string](/docs/config-connection-strings).
 {% highlight xml %}
@@ -45,6 +47,13 @@ An alternative is to reference your query from an **external file**
 {% highlight xml %}
 <query file="C:\myFile.sql" connectionString="..."/>
 {% endhighlight %}
+
+### CSV
+To define a CSV file as your system-under-test for a comprison to another result-set, you must use the element *resultSet* and its attribute *file*.
+{% highlight xml %}
+<resultSet file="..\Csv\CountByYearBefore2006.csv"/>
+{% endhighlight %}
+
 ## Assert
 Once your system-under-test is defined, you'll need to specify what you want to assert. In this case, you'll want to compare your system-under-test with another result-set and check the equivalence of the two result-sets. This done by specifying an xml element _equalTo_:
 {% highlight xml %}

@@ -92,7 +92,7 @@ namespace NBi.Testing.Acceptance
         
         //By Acceptance Test Suite (file) create a Test Case
         [Test]
-        //[TestCase("QueryNoDuplicate.nbits")]
+        [TestCase("QueryUniqueRows.nbits")]
         //[TestCase("AssemblyEqualToResultSet.nbits")]
         //[TestCase("CsvEqualToResultSet.nbits")]
         //[TestCase("QueryEqualToWithParameter.nbits")]
@@ -128,7 +128,7 @@ namespace NBi.Testing.Acceptance
         //[TestCase("QueryEqualToXml.nbits")]
         //[TestCase("QueryRowCount.nbits")]
         //[TestCase("QueryEqualToXml.nbits")]
-        [TestCase("QueryAllNoRows.nbits")]
+        //[TestCase("QueryAllNoRows.nbits")]
         //[TestCase("PowerBiDesktop.nbits")]
         [Category("Acceptance")]
         public void RunPositiveTestSuite(string filename)

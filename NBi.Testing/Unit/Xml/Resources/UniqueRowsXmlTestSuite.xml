@@ -9,7 +9,7 @@
       </execution>
     </system-under-test>
     <assert>
-      <no-duplicate/>
+      <unique-rows/>
     </assert>
   </test>
 </testSuite>

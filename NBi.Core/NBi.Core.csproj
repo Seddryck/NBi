@@ -318,7 +318,7 @@
     <Compile Include="ResultSet\Converter\TextConverter.cs" />
     <Compile Include="ResultSet\DataRowKeysComparerByName.cs" />
     <Compile Include="ResultSet\DataRowKeysComparerByIndex.cs" />
-    <Compile Include="ResultSet\DuplicatedRowsResult.cs" />
+    <Compile Include="ResultSet\Uniqueness\UniqueRowsResult.cs" />
     <Compile Include="ResultSet\Interval\EndPoint.cs" />
     <Compile Include="ResultSet\Content.cs" />
     <Compile Include="ResultSet\Interval\DateTimeInterval.cs" />
@@ -353,9 +353,9 @@
     <Compile Include="ResultSet\Comparer\Tolerance.cs" />
     <Compile Include="ResultSet\JsonResultSet.cs" />
     <Compile Include="ResultSet\IResultSetComparisonSettings.cs" />
-    <Compile Include="ResultSet\DuplicatedRowsFinder.cs" />
+    <Compile Include="ResultSet\Uniqueness\UniqueRowsFinder.cs" />
     <Compile Include="ResultSet\ResultSetComparer.cs" />
-    <Compile Include="ResultSet\DuplicatedRowsFinderByIndex.cs" />
+    <Compile Include="ResultSet\Uniqueness\UniqueRowsFinderByIndex.cs" />
     <Compile Include="ResultSet\ResultSetComparerByName.cs" />
     <Compile Include="ResultSet\SettingsResultSetComparisonByIndex.cs" />
     <Compile Include="ResultSet\SettingsResultSetComparisonByName.cs" />
@@ -403,6 +403,7 @@
     <Compile Include="ProgressStatusEventArgs.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="ResultSet\ThreeStateBoolean.cs" />
+    <Compile Include="ResultSet\Uniqueness\UniqueRowsResultOccurence.cs" />
     <Compile Include="StringComparerHelper.cs" />
     <Compile Include="StringHelper.cs" />
     <Compile Include="StringTemplateEngine.cs" />

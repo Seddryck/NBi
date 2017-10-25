@@ -10,9 +10,9 @@ using NBi.Core.ResultSet.Converter;
 using NBi.Core.ResultSet.Analyzer;
 using System.Collections.ObjectModel;
 
-namespace NBi.Core.ResultSet
+namespace NBi.Core.ResultSet.Uniqueness
 {
-    public abstract class DuplicatedRowsFinder
+    public abstract class UniqueRowsFinder
     {
         private readonly CellComparer cellComparer = new CellComparer();
         protected CellComparer CellComparer
@@ -20,7 +20,7 @@ namespace NBi.Core.ResultSet
             get { return cellComparer; }
         }
 
-        public DuplicatedRowsFinder()
+        public UniqueRowsFinder()
         {
         }
 
@@ -28,7 +28,7 @@ namespace NBi.Core.ResultSet
 
         private readonly Dictionary<KeyCollection, int> dict = new Dictionary<KeyCollection, int>();
 
-        public DuplicatedRowsResult Execute(object x)
+        public UniqueRowsResult Execute(object x)
         {
             if (x is DataTable)
                 return doCompare((DataTable)x);
@@ -39,7 +39,7 @@ namespace NBi.Core.ResultSet
             throw new ArgumentException();
         }
 
-        protected virtual DuplicatedRowsResult doCompare(DataTable x)
+        protected virtual UniqueRowsResult doCompare(DataTable x)
         {
             var stopWatch = new Stopwatch();
 
@@ -56,7 +56,7 @@ namespace NBi.Core.ResultSet
 
             var duplicatedRows = dict.Where(r => r.Value > 1);
             
-            return new DuplicatedRowsResult(
+            return new UniqueRowsResult(
                     x.Rows.Count
                     , duplicatedRows
                 );

@@ -3,31 +3,27 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
-using NBi.Core;
-using NBi.Core.ResultSet;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework.FailureMessage;
-using NBi.Framework;
-using NBi.Core.Xml;
-using NBi.Core.Transformation;
-using NBi.Core.ResultSet.Analyzer;
+using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Uniqueness;
 
 namespace NBi.NUnit.Query
 {
-    public class NoDuplicateConstraint : NBiConstraint
+    public class UniqueRowsConstraint : NBiConstraint
     {
         protected ResultSet actualResultSet;
         private DataRowsMessage failure;
         
-        protected internal virtual DuplicatedRowsFinder Engine
+        protected internal virtual UniqueRowsFinder Engine
         {
             get
             {
-                return new DuplicatedRowsFinderByIndex();
+                return new UniqueRowsFinderByIndex();
             }
         }
 
-        public NoDuplicateConstraint()
+        public UniqueRowsConstraint()
         { }
 
         /// <summary>
@@ -41,13 +37,13 @@ namespace NBi.NUnit.Query
             actualResultSet = new ResultSetBuilder().Build(actual);
             var result = Engine.Execute(actualResultSet);
 
-            if (!result.HasNoDuplicate)
+            if (!result.AreUnique)
             {
                 failure = new DataRowsMessage(ComparisonStyle.ByIndex, Configuration.FailureReportProfile);
                 failure.BuildDuplication(actualResultSet.Rows.Cast<DataRow>(), result);
             }
 
-            return result.HasNoDuplicate;
+            return result.AreUnique;
         }
 
         #region "Error report"

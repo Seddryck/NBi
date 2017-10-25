@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Uniqueness;
 using System.Data;
 
-namespace NBi.Testing.Unit.Core.ResultSet
+namespace NBi.Testing.Unit.Core.ResultSet.Uniqueness
 {
-    class DuplicatedRowsFinderByIndexTest
+    public class UniqueRowsFinderByIndexTest
     {
         protected DataTable BuildDataTable(IEnumerable<List<object>> rows)
         {
@@ -45,9 +45,9 @@ namespace NBi.Testing.Unit.Core.ResultSet
                     new List<object>() {"a" , "d", 150 },
                 });
 
-            var finder = new DuplicatedRowsFinderByIndex();
+            var finder = new UniqueRowsFinderByIndex();
             var result = finder.Execute(resultSet);
-            Assert.That(result.HasNoDuplicate, Is.True);
+            Assert.That(result.AreUnique, Is.True);
         }
 
         [Test]
@@ -61,9 +61,9 @@ namespace NBi.Testing.Unit.Core.ResultSet
                     new List<object>() {"a" , "d", 150 },
                 });
 
-            var finder = new DuplicatedRowsFinderByIndex();
+            var finder = new UniqueRowsFinderByIndex();
             var result = finder.Execute(resultSet);
-            Assert.That(result.HasNoDuplicate, Is.False);
+            Assert.That(result.AreUnique, Is.False);
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
                     new List<object>() {"a" , "d", 150 },
                 });
 
-            var finder = new DuplicatedRowsFinderByIndex();
+            var finder = new UniqueRowsFinderByIndex();
             var result = finder.Execute(resultSet);
             Assert.That(result.Values.Count(), Is.EqualTo(1));
             Assert.That(result.Values.ElementAt(0).OccurenceCount, Is.EqualTo(2));
@@ -94,7 +94,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
                     new List<object>() {"a" , "b", 120 },
                 });
 
-            var finder = new DuplicatedRowsFinderByIndex();
+            var finder = new UniqueRowsFinderByIndex();
             var result = finder.Execute(resultSet);
             Assert.That(result.Values.Count(), Is.EqualTo(1));
             Assert.That(result.Values.ElementAt(0).OccurenceCount, Is.EqualTo(3));

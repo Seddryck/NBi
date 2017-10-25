@@ -5,23 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet
+namespace NBi.Core.ResultSet.Uniqueness
 {
-    public class DuplicatedRowsResult
+    public class UniqueRowsResult
     {
-        public bool HasNoDuplicate { get; private set; }
+        public bool AreUnique { get; private set; }
         public int RowCount { get; private set; }
-        public IEnumerable<DuplicatedRowsResultOccurence> Values { get; private set; }
+        public IEnumerable<UniqueRowsResultOccurence> Values { get; private set; }
         public IEnumerable<DataRow> Rows { get; private set; }
 
 
-        public DuplicatedRowsResult(int count, IEnumerable<KeyValuePair<KeyCollection, int>> values)
+        public UniqueRowsResult(int count, IEnumerable<KeyValuePair<KeyCollection, int>> values)
         {
             RowCount = count;
-            Values = values.Select(x => new DuplicatedRowsResultOccurence(x.Key, x.Value)).OrderByDescending(x => x.OccurenceCount);
-            HasNoDuplicate = values.Count() == 0;
+            Values = values.Select(x => new UniqueRowsResultOccurence(x.Key, x.Value)).OrderByDescending(x => x.OccurenceCount);
+            AreUnique = values.Count() == 0;
 
-            if (!HasNoDuplicate)
+            if (!AreUnique)
             {
                 var dt = new DataTable();
                 dt.Columns.Add(new DataColumn("Occurence", typeof(int)));
@@ -48,17 +48,7 @@ namespace NBi.Core.ResultSet
         }
     }
 
-    public class DuplicatedRowsResultOccurence
-    {
-        public KeyCollection Keys { get; private set; }
-        public int OccurenceCount { get; private set; }
-
-        public DuplicatedRowsResultOccurence(KeyCollection keys, int occurenceCount)
-        {
-            OccurenceCount = occurenceCount;
-            Keys = keys;
-        }
-    }
+    
 
 
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using MarkdownLog;
 using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Uniqueness;
 using NBi.Framework.FailureMessage.Helper;
 
 namespace NBi.Framework.FailureMessage
@@ -30,7 +31,7 @@ namespace NBi.Framework.FailureMessage
             compared.Append(BuildCompareTable(style, compareResult.NonMatchingValue.Rows ?? new List<DataRow>(), "Non matching value", Profile.AnalysisSet));
         }
 
-        public void BuildDuplication(IEnumerable<DataRow> actualRows, DuplicatedRowsResult result)
+        public void BuildDuplication(IEnumerable<DataRow> actualRows, UniqueRowsResult result)
         {
             actual = new MarkdownContainer();
             actual.Append(new Paragraph($"The actual result-set has {result.RowCount} rows and contains {result.Values.Count()} unique rows duplicated."));

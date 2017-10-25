@@ -66,6 +66,25 @@ Sometimes, you want to specify that the tolerance should only be applied on the 
 <column  index="3" role="value" type="numeric" tolerance="+10%" />
 {% endhighlight %}
 
+### Tolerance for type "text"
+You can define a tolerance for a text. Following algorithms are supported:
+* Hamming Distance
+* Jaccard Distance
+* Jaro Distance
+* Jaro-Winkler Distance
+* Levenshtein Distance
+* Longest Common Subsequence
+* Longest Common Substring
+* Overlap Coefficient
+* Ratcliff-Obershelp Similarity
+* Sorensen-Dice Distance
+* Tanimoto Coefficient
+
+Use the attribute *tolerance* and specify the name of the algorithm and the thershold value.
+{% highlight xml %}
+<column index="1" role="value" type="text" tolerance="Levenshtein(5)"/>
+{% endhighlight %}
+
 ## Roundings
 The roundings are another set of tools to express that two values are equal if they are close to each other. At the opposite of *tolerance*,  *rounding* is applied to both expected and actual values. If after the rounding's operation, the two values are strictly equal then the comparison will be positive (and else negative).
 

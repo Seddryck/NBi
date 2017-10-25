@@ -30,6 +30,7 @@
 - title: Additional tests for result-sets
   docs:
   - resultset-all-no-rows
+  - resultset-predicate
   - resultset-rows-count
   - resultset-rows-count-advanced
   - resultset-format

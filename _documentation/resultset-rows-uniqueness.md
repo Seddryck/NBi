@@ -13,10 +13,10 @@ The system-under-test is a query, please reports to other tests for more informa
 
 ## Assertion
 
-The assertion consists in an xml element named *no-duplicate*.
+The assertion consists in an xml element named *unique-rows*.
 {% highlight xml %}
 <assert>
-  <no-duplicate />
+  <unique-rows />
 </assert>
 {% endhighlight %}
 

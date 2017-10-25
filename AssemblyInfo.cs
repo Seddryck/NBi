@@ -26,4 +26,4 @@ using System.Runtime.CompilerServices;
 // [assembly: AssemblyVersion("1.16.0.0")]
 [assembly: AssemblyVersion("1.16")]
 [assembly: AssemblyFileVersion("1.16.0")]
-[assembly: AssemblyInformationalVersion("1.16.0-perso")]
+[assembly: AssemblyInformationalVersion("1.16.0.0")]

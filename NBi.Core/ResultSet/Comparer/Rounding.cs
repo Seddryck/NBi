@@ -27,11 +27,13 @@ namespace NBi.Core.ResultSet.Comparer
             Style = style; 
         }
 
-        protected double GetValue(double value, double step)
+        protected decimal GetValue(decimal value, decimal step)
         {
             var remainder = Math.Abs(value) % step;
 
-            if ((Style == RoundingStyle.Ceiling && remainder>0) || (Style == RoundingStyle.Round && remainder > step / 2))
+            if ((Style == RoundingStyle.Ceiling && value > 0 && remainder!=0)
+                || (Style == RoundingStyle.Floor && value < 0 && remainder != 0)
+                || (Style == RoundingStyle.Round && remainder >= step / 2))
                 remainder -= step;
 
             return value - (remainder * Math.Sign(value));

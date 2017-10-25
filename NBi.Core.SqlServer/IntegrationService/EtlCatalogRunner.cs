@@ -78,19 +78,32 @@ namespace NBi.Core.SqlServer.IntegrationService
             if (string.IsNullOrEmpty(Etl.Environment))
                 return null;
 
-            if (!folder.Environments.Contains(Etl.Environment))
+            var environmentName = Etl.Environment;
+            var environmentFolder = folder.Name;
+            if (Etl.Environment.Contains(@"\"))
+            {
+                var pathTokens = Etl.Environment.Split(new[] { @"\" }, StringSplitOptions.RemoveEmptyEntries);
+                environmentName = pathTokens.Last();
+                environmentFolder = String.Join(@"\", pathTokens.Take(pathTokens.Length - 1));
+            }
+                
+
+            if (!folder.Environments.Contains(environmentName))
             {
                 var names = String.Join(", ",folder.Environments.Select(e => e.Name));
-                throw new ArgumentOutOfRangeException("Environment", String.Format("The environment named '{0}' hasn't been found on the folder '{1}'. List of existing catalogs: {2}.", Etl.Environment, folder.Name, names));
+                throw new ArgumentOutOfRangeException("Environment", $"The environment named '{environmentName}' hasn't been found on the folder '{folder.Name}'. List of existing catalogs: {names}.");
             }
 
-            if (!project.References.Contains(folder.Environments[Etl.Environment].Name, folder.Name))
+            if (!project.References.Contains(folder.Environments[environmentName].Name, environmentFolder))
             {
                 var names = String.Join(", ", project.References.Select(r => r.Name));
-                throw new ArgumentOutOfRangeException("Environment", String.Format("The environment named '{0}' exists but is not referenced in the project '{1}'. List of existing references: {2}.", Etl.Environment, project.Name, names));
+                if (environmentFolder==folder.Name)
+                    throw new ArgumentOutOfRangeException("Environment", $"The environment named '{environmentName}' from the project folder exists but is not referenced in the project '{project.Name}'. List of existing references: {names}.");
+                else
+                    throw new ArgumentOutOfRangeException("Environment", $"The environment named '{environmentName}' from the folder '{environmentFolder}' exists but is not referenced in the project '{project.Name}'. List of existing references: {names}.");
             }
 
-            return project.References[folder.Environments[Etl.Environment].Name, folder.Name];
+            return project.References[folder.Environments[environmentName].Name, environmentFolder];
         }
 
         private PackageInfo GetPackage(IntegrationServices integrationServices)

@@ -505,5 +505,13 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparer
             var result = comparer.Compare(-7, -9, "-50");
             Assert.That(result.AreEqual, Is.True);
         }
+
+        [Test]
+        public void Compare_Rounding_True()
+        {
+            var comparer = new NumericComparer();
+            var result = comparer.Compare(7.46, 7.47, new NumericRounding(0.1m, Rounding.RoundingStyle.Round));
+            Assert.That(result.AreEqual, Is.True);
+        }
     }
 }

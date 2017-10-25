@@ -978,7 +978,7 @@
             </xs:element>
             <xs:element name="all-rows" type="filter-type"/>
             <xs:element name="no-rows" type="filter-type"/>
-            <xs:element name="no-duplicate"/>
+            <xs:element name="unique-rows"/>
           </xs:choice>
         </xs:complexType>
       </xs:element>

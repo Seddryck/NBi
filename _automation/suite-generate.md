@@ -1,7 +1,7 @@
 ---
 layout: automation
 title: Generate
-prev_section: settings-load
+prev_section: variable-include
 next_section: suite-save
 permalink: /automation/suite-generate/
 ---

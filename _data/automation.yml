@@ -55,6 +55,7 @@
 - title: Settings management
   docs:
   - settings-load
+  - variable-include
 
 - title: Test-suite management
   docs:

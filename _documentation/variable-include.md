@@ -1,6 +1,6 @@
 ---
 layout: automation
-title: Load settings
+title: Include global variables
 prev_section: settings-load
 next_section: suite-generate
 permalink: /automation/variable-include/

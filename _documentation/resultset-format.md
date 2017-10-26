@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Cell's format in a result-set
-prev_section: resultset-rows-count
+prev_section: resultset-rows-uniqueness
 next_section: resultset-calculations
 permalink: /docs/resultset-format/
 ---

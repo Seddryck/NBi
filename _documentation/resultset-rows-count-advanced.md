@@ -2,7 +2,7 @@
 layout: documentation
 title: Rows' count (advanced)
 prev_section: resultset-rows-count
-next_section: resultset-format
+next_section: resultset-rows-uniqueness
 permalink: /docs/resultset-rows-count-advanced/
 ---
 It's possible to go further with the assertion row-count and define a filter. Suppose that you know that you've made less than 100 sales with a *TotalAmountWithVAT* higher than 1000$. To assert this create a query returning all your sales, define a filter to hold the rows with a  *TotalAmountWithVAT* greater than 1000 and assert that the count is not greater than 100. You could also have asserted that this set of rows represent less than 1% of your sales. All these scenarios are supported by *row-count*.

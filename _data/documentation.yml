@@ -33,6 +33,7 @@
   - resultset-predicate
   - resultset-rows-count
   - resultset-rows-count-advanced
+  - resultset-rows-uniqueness
   - resultset-format
   - resultset-calculations
 

@@ -40,7 +40,8 @@ permalink: /release/
 	<div>&nbsp;</div>
 	<div>
 			<h2>Pre-releases</h2>
-			This is a list of the the current pre-release development versions available for testing. Consider your needs carefully before using a version other than the current production versions. These are preview releases, and their use is not recommended in production settings. Please consider reporting any bugs in these versions.
+			<p>This is a list of the the current pre-release development versions available for testing. Consider your needs carefully before using a version other than the current production versions. These are preview releases, and their use is not recommended in production settings. Please consider reporting any bugs in these versions.</p>
+			<p>Since version 1.15, beta versions are only available on a [Nuget feed](https://www.nuget.org/packages/NBi.Framework/) and [appVeyor](https://ci.appveyor.com/project/Seddryck/nbi/history) and are more frequent (at least one by feature). Only RC versions (if any) are available on GitHub.</p>
 			<table id="table_prerelease">
 				<thead>
 					<tr>
@@ -84,7 +85,7 @@ permalink: /release/
             for (var i = 0; i < release.assets.length; i++) {
                 downloadCount += release.assets[i].download_count;
             }
-            downloadCount +=  607 + 495 + 561 + 115 + 1488 + 250 + 49 + 1956;
+            downloadCount +=  170 + 607 + 46 + 495 + 65 + 51 + 562 + 21 + 8 + 115 + 1488 + 250 + 7 + 5 + 49 + 1956;
             var releaseInfo = release.name + " downloaded " + downloadCount + " times.";
             $("#downloadURL").attr("href", downloadURL);
             $("#downloadCount").text(downloadCount);

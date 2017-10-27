@@ -55,7 +55,7 @@ namespace NBi.Framework.FailureMessage.Json
                     writer.WriteValue(cpFormatter.GetTypeText((ColumnType)(column.ExtendedProperties["NBi::Type"] ?? ColumnType.Text)));
                     formatters.Add(new CellFormatterFactory().GetObject((ColumnType)(column.ExtendedProperties["NBi::Type"] ?? ColumnType.Text)));
                     var tolerance = (Tolerance)(column.ExtendedProperties["NBi::Tolerance"]);
-                    if (tolerance!=NumericAbsoluteTolerance.None && tolerance != TextTolerance.None && tolerance != DateTimeTolerance.None)
+                    if (!Tolerance.IsNullOrNone(tolerance))
                     {
                         writer.WritePropertyName("tolerance");
                         writer.WriteValue(cpFormatter.GetToleranceText(tolerance));

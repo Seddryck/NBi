@@ -85,6 +85,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
             }
         }
 
+        [Test]
         public void Build_ThreeColumnsTwoRows_ColumnsPropertiesSpecified()
         {
             var dataSet = new DataSet();
@@ -92,7 +93,11 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
             dataTable.Columns.Add(new DataColumn("Numeric value"));
+            dataTable.Columns["Numeric value"].ExtendedProperties["NBi::Role"] = ColumnRole.Value;
+            dataTable.Columns["Numeric value"].ExtendedProperties["NBi::Type"] = ColumnType.Numeric;
             dataTable.Columns.Add(new DataColumn("Boolean value"));
+            dataTable.Columns["Boolean value"].ExtendedProperties["NBi::Role"] = ColumnRole.Value;
+            dataTable.Columns["Boolean value"].ExtendedProperties["NBi::Type"] = ColumnType.Boolean;
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
 
@@ -107,6 +112,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
                 Assert.That(sb.ToString, Is.StringContaining("\"role\":\"VALUE\""));
                 Assert.That(sb.ToString, Is.StringContaining("\"type\":\"Numeric\""));
                 Assert.That(sb.ToString, Is.StringContaining("\"type\":\"Boolean\""));
+                Assert.That(sb.ToString, Is.Not.StringContaining("\"tolerance\""));
             }
         }
 

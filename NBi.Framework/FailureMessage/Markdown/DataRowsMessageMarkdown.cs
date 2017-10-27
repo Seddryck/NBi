@@ -7,6 +7,7 @@ using MarkdownLog;
 using NBi.Core.ResultSet;
 using NBi.Framework.FailureMessage.Markdown.Helper;
 using NBi.Framework.Sampling;
+using NBi.Core.ResultSet.Uniqueness;
 
 namespace NBi.Framework.FailureMessage.Markdown
 {
@@ -37,7 +38,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             analysis.Append(BuildCompareTable(style, compareResult.NonMatchingValue.Rows ?? new List<DataRow>(), "Non matching value", samplers["analysis"]));
         }
 
-        public void BuildDuplication(IEnumerable<DataRow> actualRows, DuplicatedRowsResult result)
+        public void BuildDuplication(IEnumerable<DataRow> actualRows, UniqueRowsResult result)
         {
             actual = new MarkdownContainer();
             actual.Append(new Paragraph($"The actual result-set has {result.RowCount} rows and contains {result.Values.Count()} unique rows duplicated."));

@@ -7,6 +7,7 @@ using NBi.Core.ResultSet;
 using System.IO;
 using Newtonsoft.Json;
 using NBi.Framework.Sampling;
+using NBi.Core.ResultSet.Uniqueness;
 
 namespace NBi.Framework.FailureMessage.Json
 {
@@ -44,7 +45,7 @@ namespace NBi.Framework.FailureMessage.Json
              );
         }
 
-        public void BuildDuplication(IEnumerable<DataRow> actualRows, DuplicatedRowsResult result)
+        public void BuildDuplication(IEnumerable<DataRow> actualRows, UniqueRowsResult result)
         {
             actual = BuildTable(actualRows, samplers["actual"]);
             analysis = BuildTable(result.Rows, samplers["analysis"]);

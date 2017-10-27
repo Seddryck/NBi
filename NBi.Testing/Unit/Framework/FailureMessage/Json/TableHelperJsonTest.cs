@@ -9,6 +9,7 @@ using NBi.Framework.FailureMessage.Json;
 using NBi.Framework.Sampling;
 using Newtonsoft.Json;
 using System.IO;
+using NBi.Core.ResultSet.Comparer;
 
 namespace NBi.Testing.Unit.Framework.FailureMessage.Json
 {
@@ -113,6 +114,31 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
                 Assert.That(sb.ToString, Is.StringContaining("\"type\":\"Numeric\""));
                 Assert.That(sb.ToString, Is.StringContaining("\"type\":\"Boolean\""));
                 Assert.That(sb.ToString, Is.Not.StringContaining("\"tolerance\""));
+            }
+        }
+
+        [Test]
+        public void Build_ThreeColumnsTwoRows_ToleranceSpecified()
+        {
+            var dataSet = new DataSet();
+            var dataTable = new DataTable() { TableName = "MyTable" };
+            dataTable.Columns.Add(new DataColumn("Id"));
+            dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
+            dataTable.Columns.Add(new DataColumn("Numeric value"));
+            dataTable.Columns["Numeric value"].ExtendedProperties["NBi::Role"] = ColumnRole.Value;
+            dataTable.Columns["Numeric value"].ExtendedProperties["NBi::Type"] = ColumnType.Numeric;
+            dataTable.Columns["Numeric value"].ExtendedProperties["NBi::Tolerance"] = new NumericAbsoluteTolerance(10,SideTolerance.Both);
+            dataTable.LoadDataRow(new object[] { "Alpha", 10 }, false);
+            dataTable.LoadDataRow(new object[] { "Beta", 20 }, false);
+
+            var helper = new TableHelperJson();
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+            using (var writer = new JsonTextWriter(sw))
+            {
+                helper.Execute(dataTable.Rows.Cast<DataRow>(), new FullSampler<DataRow>(), writer);
+
+                Assert.That(sb.ToString, Is.StringContaining("\"tolerance\":\"(+/- 10)\""));
             }
         }
 

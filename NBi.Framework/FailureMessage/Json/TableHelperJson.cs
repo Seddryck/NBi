@@ -58,7 +58,7 @@ namespace NBi.Framework.FailureMessage.Json
                     if (!Tolerance.IsNullOrNone(tolerance))
                     {
                         writer.WritePropertyName("tolerance");
-                        writer.WriteValue(cpFormatter.GetToleranceText(tolerance));
+                        writer.WriteValue(cpFormatter.GetToleranceText(tolerance).Trim());
                     }
                     var rounding = (Rounding)(column.ExtendedProperties["NBi::Rounding"]);
                     if (rounding != null)

@@ -9,10 +9,13 @@
     <projectUrl>http://www.nbi.io</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/Seddryck/nbi/gh-pages/img/logo-2x.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>This package contains the NBi framework and references all the dll to your project. This package is not intended to be directly used by end-users. Check the package NBi.VisualStudio, if you want to facilitate the usage of NBi from Visual Studio</description>
-    <summary>Testing framework (add-on to NUnit) for Business Intelligence. It supports the Microsoft Data platform (SQL Server Database engine, SSIS, SSAS, SSRS) but also MySQL, PostgreSQL and other solutions.</summary>
-	<releaseNotes>Corresponding to version $version$ of NBi</releaseNotes>
+    <summary>This package contains the NBi framework and references all the dll to your project. This package is not intended to be directly used by end-users. Check the package NBi.VisualStudio, if you want to facilitate the usage of NBi from Visual Studio</summary>
+    <description>Testing framework (add-on to NUnit) for Business Intelligence. It supports the Microsoft Data platform (SQL Server Database engine, SSIS, SSAS, SSRS) but also MySQL, PostgreSQL and other solutions.</description>
+	<releaseNotes>Check the release notes at https://github.com/Seddryck/NBi/releases/v$version$</releaseNotes>
     <copyright>Copyright 2013-2017</copyright>
     <tags>Test NBi SQL SSAS SSIS SSRS</tags>
+	<dependencies>
+		$depList$
+	</dependencies>
   </metadata>
 </package>

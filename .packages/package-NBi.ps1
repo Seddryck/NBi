@@ -21,7 +21,7 @@ foreach($proj in $projects)
         [xml]$packages = Get-Content $path
         foreach($package in $packages.FirstChild.NextSibling.ChildNodes)
         {
-            if (!$dependencies.ContainsKey($package.id)) {$dependencies.add($package.id, "<dependency id=""$($package.id)"" version=""$($package.version)"" />")}
+            if (!$dependencies.ContainsKey($package.id)) {$dependencies.add($package.id, "<dependency id=""$($package.id)"" version=""$(($package.allowedVersions, $package.version -ne $null)[0])"" />")}
         }
     }
     

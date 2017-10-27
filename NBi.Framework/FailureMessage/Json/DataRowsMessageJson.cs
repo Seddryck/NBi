@@ -48,13 +48,21 @@ namespace NBi.Framework.FailureMessage.Json
         public void BuildDuplication(IEnumerable<DataRow> actualRows, UniqueRowsResult result)
         {
             actual = BuildTable(actualRows, samplers["actual"]);
-            analysis = BuildTable(result.Rows, samplers["analysis"]);
+            analysis = BuildMultipleTables(
+                new[]
+                {
+                    new Tuple<string, IEnumerable<DataRow>, TableHelperJson>("not-unique", result.Rows, new TableHelperJson())
+                }, samplers["analysis"]);
         }
 
         public void BuildFilter(IEnumerable<DataRow> actualRows, IEnumerable<DataRow> filteredRows)
         {
             actual = BuildTable(actualRows, samplers["actual"]);
-            analysis = BuildTable(filteredRows, samplers["analysis"]);
+            analysis = BuildMultipleTables(
+                new[]
+                {
+                    new Tuple<string, IEnumerable<DataRow>, TableHelperJson>("filtered", filteredRows, new TableHelperJson())
+                }, samplers["analysis"]);
         }
         public void BuildCount(IEnumerable<DataRow> actualRows)
         {
@@ -63,7 +71,6 @@ namespace NBi.Framework.FailureMessage.Json
 
         private string BuildTable(IEnumerable<DataRow> rows, ISampler<DataRow> sampler)
         {
-
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
             var writer = new JsonTextWriter(sw);

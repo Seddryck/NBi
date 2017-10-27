@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using NBi.Core.Query;
+using NBi.Core.ResultSet.Service;
 
 namespace NBi.Core.ResultSet
 {
@@ -21,20 +22,9 @@ namespace NBi.Core.ResultSet
 
         public virtual ResultSet Build(Object obj)
         {
-            //Console.WriteLine("Debug: {0} {1}", obj.GetType(), obj.ToString()); 
-            
-            if (obj is ResultSet)
-                return Build((ResultSet)obj);
-            else if (obj is IList<IRow>)
-                return Build((IList<IRow>)obj);
-            else if (obj is IContent)
-                return Build((IContent)obj);
-            else if (obj is IDbCommand)
-                return Build((IDbCommand)obj);
-            else if (obj is string)
-                return Build((string)obj);
-            else if (obj is object[])
-                return Build((object[])obj);
+            var factory = new ResultSetServiceFactory();
+            var service = factory.Instantiate(obj, profile);
+            return service.Execute();
 
             throw new ArgumentOutOfRangeException(string.Format("Type '{0}' is not expected when building a ResultSet", obj.GetType()));
         }

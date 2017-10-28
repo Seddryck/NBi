@@ -3,16 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using NBi.Core;
-using NBi.Core.Query;
-using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Comparer;
-using NBi.NUnit.ResultSetComparison;
 using NBi.Xml.Constraints;
-using NBi.Xml.Items;
 using NBi.Xml.Systems;
-using NBi.Core.Xml;
-using NBi.Core.Transformation;
-using System.Data;
+using NBi.Core.ResultSet.Loading;
+using System.IO;
 
 namespace NBi.NUnit.Builder
 {
@@ -37,17 +31,24 @@ namespace NBi.NUnit.Builder
 
         protected virtual object InstantiateSystemUnderTest(ResultSetSystemXml resultSetXml)
         {
+            var factory = new ResultSetServiceFactory();
+
             if (!string.IsNullOrEmpty(resultSetXml.File))
             {
                 Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in external file!");
-                return resultSetXml.GetFile();
-                //if (resultSetXml.Settings.CsvProfile != null)
-                    //ctr = ctr.CsvProfile(resultSetXml.Settings.CsvProfile);
+                var file = string.Empty;
+                if (Path.IsPathRooted(resultSetXml.File))
+                    file = resultSetXml.File;
+                else
+                    file = resultSetXml.Settings?.BasePath + resultSetXml.File;
+
+                if (resultSetXml.Settings.CsvProfile != null)
+                    return factory.Instantiate(file, resultSetXml?.Settings?.CsvProfile);
             }
             else if (resultSetXml.Rows != null)
             {
                 Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in embedded resultSet!");
-                return resultSetXml.Content;
+                return factory.Instantiate(resultSetXml.Content, null);
             }
             throw new ArgumentException();
         }

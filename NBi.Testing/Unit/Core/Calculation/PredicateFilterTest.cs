@@ -9,7 +9,7 @@ using NBi.Core.Calculation;
 using Moq;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Service;
+using NBi.Core.ResultSet.Loading;
 
 namespace NBi.Testing.Unit.Core.Calculation
 {
@@ -19,7 +19,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Apply_Variable_CorrectResult()
         {
-            var service = new ObjectArrayResultSetService(
+            var service = new ObjectArrayResultSetLoader(
                 new object[] 
                 {
                     new List<object>() { "(null)", 10, 100 },
@@ -47,7 +47,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Apply_ColumnIndex_CorrectResult()
         {
-            var service = new ObjectArrayResultSetService(
+            var service = new ObjectArrayResultSetLoader(
                 new object[]
                 {
                     new List<object>() { "(null)", 10, 100 },
@@ -74,7 +74,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Apply_ColumnName_CorrectResult()
         {
-            var service = new ObjectArrayResultSetService(
+            var service = new ObjectArrayResultSetLoader(
                 new object[]
                 {
                     new List<object>() { "(null)", 10, 100 },
@@ -101,7 +101,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Apply_NestedExpression_CorrectResult()
         {
-            var service = new ObjectArrayResultSetService(
+            var service = new ObjectArrayResultSetLoader(
                 new object[]
                 {
                     new List<object>() { 1, 10, 100 },
@@ -141,7 +141,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Apply_MixedExpression_CorrectResult()
         {
-            var service = new ObjectArrayResultSetService(
+            var service = new ObjectArrayResultSetLoader(
                  new object[]
                  {
                     new List<object>() { 1, 10, 100 },

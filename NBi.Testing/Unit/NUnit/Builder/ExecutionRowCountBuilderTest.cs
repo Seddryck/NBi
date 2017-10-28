@@ -1,21 +1,19 @@
 ﻿#region Using directives
+using System;
 using System.Data;
 using Moq;
 using NBi.NUnit.Builder;
 using NBi.NUnit.Query;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
-using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Settings;
 using NUnit.Framework;
 using Items = NBi.Xml.Items;
 using Systems = NBi.Xml.Systems;
 using NBi.Xml.Constraints.Comparer;
-using NBi.NUnit.Execution;
 using NUnitCtr = NUnit.Framework.Constraints;
-using System;
 using NBi.Xml.Items.Calculation;
-using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Loading;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -167,7 +165,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             Assert.That(sut, Is.Not.Null);
-            Assert.That(sut, Is.InstanceOf<IResultSetService>());
+            Assert.That(sut, Is.InstanceOf<IResultSetLoader>());
         }
 
     }

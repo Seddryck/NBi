@@ -10,6 +10,7 @@ using NBi.Core.Calculation;
 using NBi.Core.Evaluate;
 using System.Collections.Generic;
 using NUnit.Framework;
+using NBi.Core.ResultSet.Loading;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
@@ -38,7 +39,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             var resultSet = new ResultSet();
             resultSet.Load("a;b;1");
 
-            var serviceMock = new Mock<IResultSetService>();
+            var serviceMock = new Mock<IResultSetLoader>();
             serviceMock.Setup(s => s.Execute())
                 .Returns(resultSet);
             var service = serviceMock.Object;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-using NBi.Core;
+using NBi.Core.ResultSet.Loading;
 using NBi.Core.ResultSet;
 using NBi.Core.Calculation;
 using NBi.Framework.FailureMessage;
@@ -47,8 +47,8 @@ namespace NBi.NUnit.Query
         /// <returns>true, if the row-count of query execution validates the child constraint</returns>
         public override bool Matches(object actual)
         {
-            if (actual is IResultSetService)
-                return Matches(((IResultSetService)actual).Execute());
+            if (actual is IResultSetLoader)
+                return Matches(((IResultSetLoader)actual).Execute());
             else if (actual is ResultSet)
             {
                 actualResultSet = (ResultSet)actual;

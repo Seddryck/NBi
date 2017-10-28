@@ -13,7 +13,7 @@ using NBi.Core.Xml;
 using NBi.Core.Transformation;
 using NBi.NUnit.ResultSetComparison;
 using System.Data;
-using NBi.Core.ResultSet.Service;
+using NBi.Core.ResultSet.Loading;
 
 namespace NBi.NUnit.Builder
 {

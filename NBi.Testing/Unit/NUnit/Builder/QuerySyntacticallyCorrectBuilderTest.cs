@@ -8,6 +8,7 @@ using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Loading;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -87,7 +88,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             //Assertion
             Assert.That(sut, Is.Not.Null);
-            Assert.That(sut, Is.InstanceOf<IResultSetService>());
+            Assert.That(sut, Is.InstanceOf<IResultSetLoader>());
         }
 
         [Test]
@@ -113,7 +114,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             //Assertion
             Assert.That(sut, Is.Not.Null);
-            Assert.That(sut, Is.InstanceOf<IResultSetService>());
+            Assert.That(sut, Is.InstanceOf<IResultSetLoader>());
         }
 
     }

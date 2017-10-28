@@ -7,6 +7,7 @@ using NUnit.Framework;
 using NBi.Core.ResultSet;
 using System.Data.SqlClient;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Core.ResultSet.Loading;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
@@ -35,7 +36,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             var resultSet = new ResultSet();
             resultSet.Load("a;b;c");
 
-            var serviceMock = new Mock<IResultSetService>();
+            var serviceMock = new Mock<IResultSetLoader>();
             serviceMock.Setup(s => s.Execute())
                 .Returns(resultSet);
             var service = serviceMock.Object;

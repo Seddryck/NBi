@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Service
+namespace NBi.Core.ResultSet.Loading
 {
-    class XPathResultSetService : IResultSetService
+    class XPathResultSetLoader : IResultSetLoader
     {
         private readonly XPathEngine xpath;
 
-        public XPathResultSetService(XPathEngine xpath)
+        public XPathResultSetLoader(XPathEngine xpath)
         {
             this.xpath = xpath;
         }

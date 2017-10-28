@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Loading;
 using NBi.NUnit.Member;
 using NBi.NUnit.Query;
 using NBi.NUnit.ResultSetComparison;
@@ -29,7 +29,7 @@ namespace NBi.NUnit.FluentInterface
             return ctr;
         }
 
-        public static EqualToConstraint EqualTo(IResultSetService service)
+        public static EqualToConstraint EqualTo(IResultSetLoader service)
         {
             var ctr = new EqualToConstraint(service);
             return ctr;

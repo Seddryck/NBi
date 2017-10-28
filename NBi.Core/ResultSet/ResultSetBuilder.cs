@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using NBi.Core.Query;
-using NBi.Core.ResultSet.Service;
+using NBi.Core.ResultSet.Loading;
 
 namespace NBi.Core.ResultSet
 {

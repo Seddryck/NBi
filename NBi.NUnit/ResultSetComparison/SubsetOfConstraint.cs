@@ -4,7 +4,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using NBi.Core;
-using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Loading;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework.FailureMessage;
 using NBi.Framework;
@@ -14,7 +14,7 @@ namespace NBi.NUnit.ResultSetComparison
 {
     public class SubsetOfConstraint : BaseResultSetComparisonConstraint
     {
-        public SubsetOfConstraint(IResultSetService service)
+        public SubsetOfConstraint(IResultSetLoader service)
             : base(service)
         { }
     }

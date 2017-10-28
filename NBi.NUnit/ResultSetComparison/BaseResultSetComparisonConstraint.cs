@@ -11,13 +11,13 @@ using NBi.Framework;
 using NBi.Core.Xml;
 using NBi.Core.Transformation;
 using NBi.Core.ResultSet.Analyzer;
-using NBi.Core.ResultSet.Service;
+using NBi.Core.ResultSet.Loading;
 
 namespace NBi.NUnit.ResultSetComparison
 {
     public abstract class BaseResultSetComparisonConstraint : NBiConstraint
     {
-        protected IResultSetService expect;
+        protected IResultSetLoader expect;
 
         protected bool parallelizeQueries = false;
         protected CsvProfile csvProfile;
@@ -68,7 +68,7 @@ namespace NBi.NUnit.ResultSetComparison
 
                 
         
-        public BaseResultSetComparisonConstraint(IResultSetService value)
+        public BaseResultSetComparisonConstraint(IResultSetLoader value)
         {
             this.expect = value;
         }
@@ -118,8 +118,8 @@ namespace NBi.NUnit.ResultSetComparison
         /// <returns>true, if the execution of the actual IResultSetService returns a ResultSet identical to the content of the expected ResultSet</returns>
         public override bool Matches(object actual)
         {
-            if (actual is IResultSetService)
-                return Process((IResultSetService)actual);
+            if (actual is IResultSetLoader)
+                return Process((IResultSetLoader)actual);
             else if (actual is ResultSet)
                 return doMatch((ResultSet)actual);
             else
@@ -147,7 +147,7 @@ namespace NBi.NUnit.ResultSetComparison
         /// </summary>
         /// <param name="actual">IDbCommand</param>
         /// <returns></returns>
-        public bool Process(IResultSetService actual)
+        public bool Process(IResultSetLoader actual)
         {
             ResultSet rsActual = null;
             if (parallelizeQueries)
@@ -160,7 +160,7 @@ namespace NBi.NUnit.ResultSetComparison
             return this.Matches(rsActual);
         }
 
-        public ResultSet ProcessParallel(IResultSetService actual)
+        public ResultSet ProcessParallel(IResultSetLoader actual)
         {
             Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Queries exectued in parallel."));
             

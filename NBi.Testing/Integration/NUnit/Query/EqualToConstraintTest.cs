@@ -3,7 +3,7 @@ using System;
 using System.Data.SqlClient;
 using NBi.NUnit.ResultSetComparison;
 using NUnit.Framework;
-using NBi.Core.ResultSet.Service;
+using NBi.Core.ResultSet.Loading;
 #endregion
 
 namespace NBi.Testing.Integration.NUnit.Query
@@ -50,13 +50,13 @@ namespace NBi.Testing.Integration.NUnit.Query
             command2.Connection = new SqlConnection(ConnectionStringReader.GetSqlClient());
             command2.CommandText = "WAITFOR DELAY '00:00:03';SELECT 1;";
 
-            var service = new QueryResultSetService(command2);
+            var service = new QueryResultSetLoader(command2);
             BaseResultSetComparisonConstraint ctr = new EqualToConstraint(service);
             ctr = ctr.Parallel();
 
             //Method under test
             var chrono = DateTime.Now;
-            Assert.That(new QueryResultSetService(command), ctr);
+            Assert.That(new QueryResultSetLoader(command), ctr);
             var elapsed = DateTime.Now.Subtract(chrono);
 
             Assert.That(elapsed.Seconds, Is.LessThan(6));
@@ -73,11 +73,11 @@ namespace NBi.Testing.Integration.NUnit.Query
             command2.Connection = new SqlConnection(ConnectionStringReader.GetSqlClient());
             command2.CommandText = "WAITFOR DELAY '00:00:03';SELECT 1;";
 
-            var service2 = new QueryResultSetService(command2);
+            var service2 = new QueryResultSetLoader(command2);
             BaseResultSetComparisonConstraint ctr = new EqualToConstraint(service2);
             ctr = ctr.Sequential();
 
-            var service1 = new QueryResultSetService(command1);
+            var service1 = new QueryResultSetLoader(command1);
 
             //Method under test
             var chrono = DateTime.Now;

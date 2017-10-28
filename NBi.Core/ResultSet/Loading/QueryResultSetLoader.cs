@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Service
+namespace NBi.Core.ResultSet.Loading
 {
-    class QueryResultSetService : IResultSetService
+    class QueryResultSetLoader : IResultSetLoader
     {
         private readonly IDbCommand command;
 
-        public QueryResultSetService(IDbCommand cmd)
+        public QueryResultSetLoader(IDbCommand cmd)
         {
             command = cmd;
         }

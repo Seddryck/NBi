@@ -2,7 +2,6 @@
 using System.Data;
 using Moq;
 using NBi.NUnit.Builder;
-using NBi.NUnit.Query;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Items.ResultSet;
@@ -13,6 +12,7 @@ using Systems = NBi.Xml.Systems;
 using NBi.Core.ResultSet;
 using NBi.Core.Transformation;
 using NBi.NUnit.ResultSetComparison;
+using NBi.Core.ResultSet.Loading;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -134,7 +134,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             Assert.That(sut, Is.Not.Null);
-            Assert.That(sut, Is.InstanceOf<IResultSetService>());
+            Assert.That(sut, Is.InstanceOf<IResultSetLoader>());
         }
 
         [Test]

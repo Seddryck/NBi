@@ -7,7 +7,6 @@ using NBi.Xml.Constraints;
 using NBi.Core.ResultSet;
 using NBi.Xml.Items.ResultSet;
 using System.IO;
-using NBi.Core.ResultSet.Service;
 
 namespace NBi.Xml.Systems
 {
@@ -43,14 +42,11 @@ namespace NBi.Xml.Systems
         }
 
         [XmlIgnore]
-        public IResultSetService Content
+        public IContent Content
         {
             get
             {
-                var content = new ResultSetBuilder.Content(Rows, Columns);
-                var factory = new ResultSetServiceFactory();
-                var service = factory.Instantiate(content, null);
-                return service;
+                return new ResultSetBuilder.Content(Rows, Columns);
             }
         }
 
@@ -63,17 +59,6 @@ namespace NBi.Xml.Systems
             {
                 return null;
             }
-        }
-
-        public string GetFile()
-        {
-            var file = string.Empty;
-            if (Path.IsPathRooted(File))
-                file = File;
-            else
-                file = Settings.BasePath + File;
-
-            return file;
         }
 
         public override ICollection<string> GetAutoCategories()

@@ -1,7 +1,4 @@
-﻿using NBi.Core.ResultSet;
-using NBi.Core.Xml;
-using NBi.Framework.FailureMessage;
-using NBi.NUnit.Query;
+﻿using NBi.Core.ResultSet.Loading;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,7 +10,7 @@ namespace NBi.NUnit.ResultSetComparison
 {
     class SupersetOfConstraint : BaseResultSetComparisonConstraint
     {
-        public SupersetOfConstraint(IResultSetService service)
+        public SupersetOfConstraint(IResultSetLoader service)
             : base(service)
         { }
     }

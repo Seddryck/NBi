@@ -2,19 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using NBi.Core;
-using NBi.Core.Query;
-using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Comparer;
-using NBi.NUnit.Query;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
-using NBi.Core.Xml;
-using NBi.Core.Transformation;
-using NBi.NUnit.ResultSetComparison;
 using System.Data;
-using NBi.Core.ResultSet.Service;
+using NBi.Core.ResultSet;
+using NBi.Xml.Constraints;
+using NBi.Xml.Systems;
+using NBi.NUnit.ResultSetComparison;
+using NBi.Core.ResultSet.Loading;
 
 namespace NBi.NUnit.Builder
 {

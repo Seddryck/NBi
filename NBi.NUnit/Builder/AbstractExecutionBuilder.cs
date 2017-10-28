@@ -7,7 +7,7 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Service;
+using NBi.Core.ResultSet.Loading;
 
 namespace NBi.NUnit.Builder
 {
@@ -28,7 +28,7 @@ namespace NBi.NUnit.Builder
             SystemUnderTest = InstantiateSystemUnderTest((ExecutionXml)SystemUnderTestXml);
         }
 
-        protected virtual IResultSetService InstantiateSystemUnderTest(ExecutionXml executionXml)
+        protected virtual IResultSetLoader InstantiateSystemUnderTest(ExecutionXml executionXml)
         {
             var commandBuilder = new CommandBuilder();
 

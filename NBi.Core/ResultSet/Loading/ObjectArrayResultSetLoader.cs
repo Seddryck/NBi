@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Service
+namespace NBi.Core.ResultSet.Loading
 {
-    class ObjectArrayResultSetService : IResultSetService
+    class ObjectArrayResultSetLoader : IResultSetLoader
     {
         private readonly object[] objects;
 
-        public ObjectArrayResultSetService(object[] objects)
+        public ObjectArrayResultSetLoader(object[] objects)
         {
             this.objects = objects;
         }

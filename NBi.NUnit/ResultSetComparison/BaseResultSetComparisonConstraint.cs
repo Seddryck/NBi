@@ -17,8 +17,6 @@ namespace NBi.NUnit.ResultSetComparison
 {
     public abstract class BaseResultSetComparisonConstraint : NBiConstraint
     {
-        
-        
         protected IResultSetService expect;
 
         protected bool parallelizeQueries = false;
@@ -120,18 +118,12 @@ namespace NBi.NUnit.ResultSetComparison
         /// <returns>true, if the result of query execution is exactly identical to the content of the resultset</returns>
         public override bool Matches(object actual)
         {
-            if (actual is IDbCommand)
-                return Process((IDbCommand)actual);
+            if (actual is IResultSetService)
+                return Process((IResultSetService)actual);
             else if (actual is ResultSet)
                 return doMatch((ResultSet)actual);
-            else if (actual is string)
-            {
-                var rsFactory = new ResultSetServiceFactory();
-                var service = rsFactory.Instantiate(actual, null);
-                return Matches(service.Execute());
-            }
             else
-                throw new ArgumentException();
+                throw new ArgumentException($"The type of the actual object is '{actual.GetType().Name}' and is not supported for a constraint of type '{this.GetType().Name}'. Use a ResultSet or a ResultSetService.");
         }
 
         protected bool doMatch(ResultSet actual)
@@ -140,7 +132,7 @@ namespace NBi.NUnit.ResultSetComparison
 
             //This is needed if we don't use //ism
             if (expectedResultSet ==  null)
-                expectedResultSet = GetResultSet(expect);
+                expectedResultSet = expect.Execute();
 
             if (TransformationProvider != null)
                 TransformationProvider.Transform(expectedResultSet);
@@ -155,7 +147,7 @@ namespace NBi.NUnit.ResultSetComparison
         /// </summary>
         /// <param name="actual">IDbCommand</param>
         /// <returns></returns>
-        public bool Process(IDbCommand actual)
+        public bool Process(IResultSetService actual)
         {
             ResultSet rsActual = null;
             if (parallelizeQueries)
@@ -163,19 +155,19 @@ namespace NBi.NUnit.ResultSetComparison
                 rsActual = ProcessParallel(actual);
             }
             else
-                rsActual = GetResultSet(actual);
+                rsActual = actual.Execute();
             
             return this.Matches(rsActual);
         }
 
-        public ResultSet ProcessParallel(IDbCommand actual)
+        public ResultSet ProcessParallel(IResultSetService actual)
         {
             Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Queries exectued in parallel."));
             
             ResultSet rsActual = null;
             System.Threading.Tasks.Parallel.Invoke(
                 () => {
-                        rsActual = GetResultSet(actual);
+                        rsActual = actual.Execute();
                       },
                 () => {
                         expectedResultSet = expect.Execute();
@@ -183,13 +175,6 @@ namespace NBi.NUnit.ResultSetComparison
             );
             
             return rsActual;
-        }
-
-        protected ResultSet GetResultSet(Object obj)
-        {
-            var factory = new ResultSetServiceFactory();
-            var service = factory.Instantiate(obj, null);
-            return service.Execute();
         }
 
         /// <summary>
@@ -217,13 +202,7 @@ namespace NBi.NUnit.ResultSetComparison
             writer.WriteLine();
             writer.WriteLine(Failure.RenderCompared());
         }
-
-        private void doPersist(ResultSet resultSet, string path)
-        {
-            var writer = new ResultSetCsvWriter(System.IO.Path.GetDirectoryName(path));
-            writer.Write(System.IO.Path.GetFileName(path), resultSet);
-        }
-
+        
         internal bool IsParallelizeQueries()
         {
             return parallelizeQueries;

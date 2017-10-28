@@ -14,7 +14,6 @@ namespace NBi.Testing.Unit.NUnit.Builder
     [TestFixture]
     public class QueryFasterThanBuilderTest
     {
-
         #region SetUp & TearDown
         //Called only at instance creation
         [TestFixtureSetUp]

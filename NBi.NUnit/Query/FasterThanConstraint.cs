@@ -15,9 +15,7 @@ namespace NBi.NUnit.Query
         {
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
-                engine = value;
+                engine = value ?? throw new ArgumentNullException();
             }
         }
         
@@ -49,7 +47,7 @@ namespace NBi.NUnit.Query
 
         public FasterThanConstraint CleanCache()
         {
-            this.cleanCache = true;
+            cleanCache = true;
             return this;
         }
 

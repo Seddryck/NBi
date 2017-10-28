@@ -14,6 +14,7 @@ using NBi.Xml.Constraints.Comparer;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Xml.Items.Calculation;
 using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -165,7 +166,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             Assert.That(sut, Is.Not.Null);
-            Assert.That(sut, Is.InstanceOf<IResultSetLoader>());
+            Assert.That(sut, Is.InstanceOf<IResultSetService>());
         }
 
     }

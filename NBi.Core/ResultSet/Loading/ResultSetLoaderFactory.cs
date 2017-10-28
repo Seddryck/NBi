@@ -7,9 +7,16 @@ using NBi.Core.Xml;
 
 namespace NBi.Core.ResultSet.Loading
 {
-    public class ResultSetServiceFactory
+    public class ResultSetLoaderFactory
     {
-        public IResultSetLoader Instantiate(object obj, CsvProfile profile)
+        private CsvProfile profile = CsvProfile.SemiColumnDoubleQuote;
+
+        public void Using(CsvProfile profile)
+        {
+            this.profile = profile;
+        }
+
+        public IResultSetLoader Instantiate(object obj)
         {
             if (obj is IList<IRow>)
                 return new ListRowResultSetLoader((IList<IRow>)obj);

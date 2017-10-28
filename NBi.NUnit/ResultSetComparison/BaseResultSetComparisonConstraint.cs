@@ -17,7 +17,7 @@ namespace NBi.NUnit.ResultSetComparison
 {
     public abstract class BaseResultSetComparisonConstraint : NBiConstraint
     {
-        protected IResultSetLoader expect;
+        protected IResultSetService expect;
 
         protected bool parallelizeQueries = false;
         protected CsvProfile csvProfile;
@@ -68,7 +68,7 @@ namespace NBi.NUnit.ResultSetComparison
 
                 
         
-        public BaseResultSetComparisonConstraint(IResultSetLoader value)
+        public BaseResultSetComparisonConstraint(IResultSetService value)
         {
             this.expect = value;
         }
@@ -118,8 +118,8 @@ namespace NBi.NUnit.ResultSetComparison
         /// <returns>true, if the execution of the actual IResultSetService returns a ResultSet identical to the content of the expected ResultSet</returns>
         public override bool Matches(object actual)
         {
-            if (actual is IResultSetLoader)
-                return Process((IResultSetLoader)actual);
+            if (actual is IResultSetService)
+                return Process((IResultSetService)actual);
             else if (actual is ResultSet)
                 return doMatch((ResultSet)actual);
             else
@@ -147,7 +147,7 @@ namespace NBi.NUnit.ResultSetComparison
         /// </summary>
         /// <param name="actual">IDbCommand</param>
         /// <returns></returns>
-        public bool Process(IResultSetLoader actual)
+        public bool Process(IResultSetService actual)
         {
             ResultSet rsActual = null;
             if (parallelizeQueries)
@@ -160,7 +160,7 @@ namespace NBi.NUnit.ResultSetComparison
             return this.Matches(rsActual);
         }
 
-        public ResultSet ProcessParallel(IResultSetLoader actual)
+        public ResultSet ProcessParallel(IResultSetService actual)
         {
             Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Queries exectued in parallel."));
             

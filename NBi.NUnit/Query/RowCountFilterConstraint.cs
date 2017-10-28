@@ -47,8 +47,8 @@ namespace NBi.NUnit.Query
         /// <returns>true, if the row-count of query execution validates the child constraint</returns>
         public override bool Matches(object actual)
         {
-            if (actual is IResultSetLoader)
-                return Matches(((IResultSetLoader)actual).Execute());
+            if (actual is IResultSetService)
+                return Matches(((IResultSetService)actual).Execute());
             else if (actual is ResultSet)
             {
                 actualResultSet = (ResultSet)actual;

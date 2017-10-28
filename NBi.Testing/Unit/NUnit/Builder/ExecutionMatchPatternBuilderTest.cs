@@ -86,7 +86,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 
-            Assert.That(sut, Is.InstanceOf<IResultSetLoader>());
+            Assert.That(sut, Is.InstanceOf<IResultSetService>());
         }
 
     }

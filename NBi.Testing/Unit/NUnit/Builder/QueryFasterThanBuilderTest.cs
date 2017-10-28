@@ -8,6 +8,7 @@ using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -63,7 +64,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
         }
 
         [Test]
-        public void GetSystemUnderTest_Build_CorrectIDbCommand()
+        public void GetSystemUnderTest_Build_CorrectIResultSetService()
         {
             var sutXmlStubFactory = new Mock<ExecutionXml>();
             var itemXmlStubFactory = new Mock<QueryableXml>();
@@ -79,7 +80,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 
-            Assert.That(sut, Is.InstanceOf<IResultSetLoader>());
+            Assert.That(sut, Is.InstanceOf<IResultSetService>());
         }
 
     }

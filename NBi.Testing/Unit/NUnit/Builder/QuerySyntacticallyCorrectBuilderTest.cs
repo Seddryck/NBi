@@ -88,7 +88,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             //Assertion
             Assert.That(sut, Is.Not.Null);
-            Assert.That(sut, Is.InstanceOf<IResultSetLoader>());
+            Assert.That(sut, Is.InstanceOf<IResultSetService>());
         }
 
         [Test]
@@ -114,7 +114,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             //Assertion
             Assert.That(sut, Is.Not.Null);
-            Assert.That(sut, Is.InstanceOf<IResultSetLoader>());
+            Assert.That(sut, Is.InstanceOf<IResultSetService>());
         }
 
     }

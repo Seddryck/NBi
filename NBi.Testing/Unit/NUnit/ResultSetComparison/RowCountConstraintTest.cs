@@ -36,7 +36,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             var resultSet = new ResultSet();
             resultSet.Load("a;b;c");
 
-            var serviceMock = new Mock<IResultSetLoader>();
+            var serviceMock = new Mock<IResultSetService>();
             serviceMock.Setup(s => s.Execute())
                 .Returns(resultSet);
             var service = serviceMock.Object;

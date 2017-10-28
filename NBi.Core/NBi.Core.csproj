@@ -320,12 +320,15 @@
     <Compile Include="ResultSet\DataRowKeysComparerByIndex.cs" />
     <Compile Include="ResultSet\Loading\CsvResultSetLoader.cs" />
     <Compile Include="ResultSet\Loading\IResultSetLoader.cs" />
+    <Compile Include="ResultSet\IResultSetService.cs" />
     <Compile Include="ResultSet\Loading\ContentResultSetLoader.cs" />
     <Compile Include="ResultSet\Loading\ListRowResultSetLoader.cs" />
     <Compile Include="ResultSet\Loading\ObjectArrayResultSetLoader.cs" />
     <Compile Include="ResultSet\Loading\QueryResultSetLoader.cs" />
-    <Compile Include="ResultSet\Loading\ResultSetServiceFactory.cs" />
+    <Compile Include="ResultSet\Loading\ResultSetLoaderFactory.cs" />
     <Compile Include="ResultSet\Loading\XPathResultSetLoader.cs" />
+    <Compile Include="ResultSet\ResultSetService.cs" />
+    <Compile Include="ResultSet\ResultSetServiceBuilder.cs" />
     <Compile Include="ResultSet\Uniqueness\UniqueRowsResult.cs" />
     <Compile Include="ResultSet\Interval\EndPoint.cs" />
     <Compile Include="ResultSet\IContent.cs" />

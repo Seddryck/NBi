@@ -28,7 +28,7 @@ namespace NBi.NUnit.Builder
             SystemUnderTest = InstantiateSystemUnderTest((ExecutionXml)SystemUnderTestXml);
         }
 
-        protected virtual IResultSetLoader InstantiateSystemUnderTest(ExecutionXml executionXml)
+        protected virtual IResultSetService InstantiateSystemUnderTest(ExecutionXml executionXml)
         {
             var commandBuilder = new CommandBuilder();
 
@@ -55,8 +55,14 @@ namespace NBi.NUnit.Builder
                 cmd.CommandType = ((ReportXml)executionXml.BaseItem).GetCommandType();
             }
 
-            var factory = new ResultSetServiceFactory();
-            var service = factory.Instantiate(cmd, null);
+            var factory = new ResultSetLoaderFactory();
+            var loader = factory.Instantiate(cmd);
+
+            var builder = new ResultSetServiceBuilder
+            {
+                Loader = loader
+            };
+            var service = builder.GetService();
 
             return service;
         }

@@ -22,8 +22,9 @@ namespace NBi.Core.ResultSet
 
         public virtual ResultSet Build(Object obj)
         {
-            var factory = new ResultSetServiceFactory();
-            var service = factory.Instantiate(obj, profile);
+            var factory = new ResultSetLoaderFactory();
+            factory.Using(profile);
+            var service = factory.Instantiate(obj);
             return service.Execute();
         }
         

@@ -103,9 +103,9 @@ namespace NBi.NUnit.Builder
                 }
                 else
                     throw new ArgumentException("File or Url can't be both empty when declaring an xml-source.");
-                var rsFactory = new ResultSetServiceFactory();
-                var service = rsFactory.Instantiate(engine, null);
-                ctr = InstantiateConstraint(service);
+                var rsFactory = new ResultSetLoaderFactory();
+                var loader = rsFactory.Instantiate(engine);
+                ctr = InstantiateConstraint(loader);
             }
 
             if (ctr == null)
@@ -166,8 +166,13 @@ namespace NBi.NUnit.Builder
 
         protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(object obj)
         {
-            var factory = new ResultSetServiceFactory();
-            var service = factory.Instantiate(obj, null);
+            var factory = new ResultSetLoaderFactory();
+            factory.Using(ConstraintXml.Settings?.CsvProfile);
+            var loader = factory.Instantiate(obj);
+
+            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            var service = builder.GetService();
+
             return new EqualToConstraint(service);
         }
 

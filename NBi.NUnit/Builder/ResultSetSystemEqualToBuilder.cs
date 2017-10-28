@@ -7,6 +7,7 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
 using NBi.Core.ResultSet.Loading;
 using System.IO;
+using NBi.Core.ResultSet;
 
 namespace NBi.NUnit.Builder
 {
@@ -31,7 +32,8 @@ namespace NBi.NUnit.Builder
 
         protected virtual object InstantiateSystemUnderTest(ResultSetSystemXml resultSetXml)
         {
-            var factory = new ResultSetServiceFactory();
+            var factory = new ResultSetLoaderFactory();
+            IResultSetLoader loader;
 
             if (!string.IsNullOrEmpty(resultSetXml.File))
             {
@@ -42,15 +44,19 @@ namespace NBi.NUnit.Builder
                 else
                     file = resultSetXml.Settings?.BasePath + resultSetXml.File;
 
-                if (resultSetXml.Settings.CsvProfile != null)
-                    return factory.Instantiate(file, resultSetXml?.Settings?.CsvProfile);
+                factory.Using(resultSetXml.Settings.CsvProfile);
+                loader = factory.Instantiate(file);
             }
             else if (resultSetXml.Rows != null)
             {
                 Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in embedded resultSet!");
-                return factory.Instantiate(resultSetXml.Content, null);
+                loader = factory.Instantiate(resultSetXml.Content);
             }
-            throw new ArgumentException();
+            else
+                throw new ArgumentException();
+
+            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            return builder.GetService();
         }
 
     }

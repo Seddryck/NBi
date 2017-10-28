@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using NBi.NUnit.ResultSetComparison;
 using NUnit.Framework;
 using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet;
 #endregion
 
 namespace NBi.Testing.Integration.NUnit.Query
@@ -50,8 +51,9 @@ namespace NBi.Testing.Integration.NUnit.Query
             command2.Connection = new SqlConnection(ConnectionStringReader.GetSqlClient());
             command2.CommandText = "WAITFOR DELAY '00:00:03';SELECT 1;";
 
-            var service = new QueryResultSetLoader(command2);
-            BaseResultSetComparisonConstraint ctr = new EqualToConstraint(service);
+            var loader = new QueryResultSetLoader(command2);
+            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            BaseResultSetComparisonConstraint ctr = new EqualToConstraint(builder.GetService());
             ctr = ctr.Parallel();
 
             //Method under test
@@ -73,8 +75,9 @@ namespace NBi.Testing.Integration.NUnit.Query
             command2.Connection = new SqlConnection(ConnectionStringReader.GetSqlClient());
             command2.CommandText = "WAITFOR DELAY '00:00:03';SELECT 1;";
 
-            var service2 = new QueryResultSetLoader(command2);
-            BaseResultSetComparisonConstraint ctr = new EqualToConstraint(service2);
+            var loader = new QueryResultSetLoader(command2);
+            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            BaseResultSetComparisonConstraint ctr = new EqualToConstraint(builder.GetService());
             ctr = ctr.Sequential();
 
             var service1 = new QueryResultSetLoader(command1);

@@ -63,10 +63,6 @@ namespace NBi.NUnit.ResultSetComparison
                 _engine = value;
             }
         }
-
-        public TransformationProvider TransformationProvider { get; protected set; }
-
-                
         
         public BaseResultSetComparisonConstraint(IResultSetService value)
         {
@@ -85,13 +81,7 @@ namespace NBi.NUnit.ResultSetComparison
             this.Engine.Settings = settings;
             return this;
         }
-
-        public BaseResultSetComparisonConstraint Using(TransformationProvider transformationProvider)
-        {
-            this.TransformationProvider = transformationProvider;
-            return this;
-        }
-
+        
         public BaseResultSetComparisonConstraint Parallel()
         {
             this.parallelizeQueries = true;
@@ -103,14 +93,7 @@ namespace NBi.NUnit.ResultSetComparison
             this.parallelizeQueries = false;
             return this;
         }
-
-        public BaseResultSetComparisonConstraint CsvProfile(CsvProfile profile)
-        {
-            this.csvProfile = profile;
-            return this;
-        }
-
-
+        
         /// <summary>
         /// Handle an IDbCommand and compare it to a predefined resultset
         /// </summary>
@@ -133,9 +116,6 @@ namespace NBi.NUnit.ResultSetComparison
             //This is needed if we don't use //ism
             if (expectedResultSet ==  null)
                 expectedResultSet = expect.Execute();
-
-            if (TransformationProvider != null)
-                TransformationProvider.Transform(expectedResultSet);
 
             result = Engine.Compare(actualResultSet, expectedResultSet);
 

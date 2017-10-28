@@ -42,13 +42,15 @@ namespace NBi.NUnit.Builder
         }
 
 
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(object obj)
+        protected override BaseResultSetComparisonConstraint InstantiateConstraint(object obj, TransformationProvider transformation)
         {
             var factory = new ResultSetLoaderFactory();
             factory.Using(ConstraintXml.Settings?.CsvProfile);
             var loader = factory.Instantiate(obj);
 
             var builder = new ResultSetServiceBuilder() { Loader = loader };
+            if (transformation != null)
+                builder.AddTransformation(transformation);
             var service = builder.GetService();
 
             return new SubsetOfConstraint(service);

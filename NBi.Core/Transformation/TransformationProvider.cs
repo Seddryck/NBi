@@ -26,7 +26,7 @@ namespace NBi.Core.Transformation
             cacheTransformers.Add(columnIndex, transformer);
         }
 
-        public void Transform(NBi.Core.ResultSet.ResultSet resultSet)
+        public virtual void Transform(NBi.Core.ResultSet.ResultSet resultSet)
         {
             foreach (var index in cacheTransformers.Keys)
             {

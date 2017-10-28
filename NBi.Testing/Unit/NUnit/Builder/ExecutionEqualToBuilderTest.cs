@@ -197,7 +197,6 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctr = builder.GetConstraint();
 
             Assert.That(ctr, Is.InstanceOf<EqualToConstraint>());
-            Assert.That(((EqualToConstraint)ctr).TransformationProvider, Is.Not.Null);
         }
 
         [Test]

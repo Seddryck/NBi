@@ -65,7 +65,7 @@ namespace NBi.Testing.Integration.NUnit
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
-            var actual = ctr.Matches(cmd);
+            var actual = ctr.Matches(new QueryResultSetService(cmd));
 
             //Assertion
             Assert.That(actual, Is.True);
@@ -98,7 +98,7 @@ namespace NBi.Testing.Integration.NUnit
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
-            var actual = ctr.Matches(cmd);
+            var actual = ctr.Matches(new QueryResultSetService(cmd));
 
             //Assertion
             Assert.That(actual, Is.True);
@@ -129,7 +129,7 @@ namespace NBi.Testing.Integration.NUnit
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
-            var actual = ctr.Matches(cmd);
+            var actual = ctr.Matches(new QueryResultSetService(cmd));
 
             //Assertion
             Assert.That(actual, Is.True);
@@ -154,7 +154,7 @@ namespace NBi.Testing.Integration.NUnit
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
-            var actual = ctr.Matches(cmd);
+            var actual = ctr.Matches(new QueryResultSetService(cmd));
 
             //Assertion
             Assert.That(actual, Is.True);
@@ -180,7 +180,7 @@ namespace NBi.Testing.Integration.NUnit
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
-            var actual = ctr.Matches(cmd);
+            var actual = ctr.Matches(new QueryResultSetService(cmd));
 
             //Assertion
             Assert.That(actual, Is.False);
@@ -216,7 +216,7 @@ namespace NBi.Testing.Integration.NUnit
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
-            var actual = ctr.Matches(cmd);
+            var actual = ctr.Matches(new QueryResultSetService(cmd));
 
             //Assertion
             Assert.That(actual, Is.True);
@@ -257,7 +257,7 @@ namespace NBi.Testing.Integration.NUnit
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
-            var actual = ctr.Matches(cmd);
+            var actual = ctr.Matches(new QueryResultSetService(cmd));
 
             //Assertion
             Assert.That(actual, Is.True);
@@ -276,7 +276,7 @@ namespace NBi.Testing.Integration.NUnit
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
-            var actual = ctr.Matches(cmd);
+            var actual = ctr.Matches(new QueryResultSetService(cmd));
 
             //Assertion
             Assert.That(actual, Is.True);
@@ -304,7 +304,7 @@ namespace NBi.Testing.Integration.NUnit
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
-            var actual = ctr.Matches(cmd);
+            var actual = ctr.Matches(new QueryResultSetService(cmd));
 
             //Assertion
             Assert.That(actual, Is.True);
@@ -332,7 +332,7 @@ namespace NBi.Testing.Integration.NUnit
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             //Call the method to test
-            var actual = ctr.Matches(cmd);
+            var actual = ctr.Matches(new QueryResultSetService(cmd));
 
             //Assertion
             Assert.That(actual, Is.False);
@@ -364,7 +364,7 @@ namespace NBi.Testing.Integration.NUnit
             var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
             //Call the method to test
-            var actual = ctr.Matches(cmd);
+            var actual = ctr.Matches(new QueryResultSetService(cmd));
 
             //Assertion
             Assert.That(actual, Is.True);
@@ -396,7 +396,7 @@ namespace NBi.Testing.Integration.NUnit
             var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
             //Call the method to test
-            var actual = ctr.Matches(cmd);
+            var actual = ctr.Matches(new QueryResultSetService(cmd));
 
             //Assertion
             Assert.That(actual, Is.False);
@@ -429,7 +429,7 @@ namespace NBi.Testing.Integration.NUnit
             var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
             //Call the method to test
-            var actual = ctr.Matches(cmd);
+            var actual = ctr.Matches(new QueryResultSetService(cmd));
 
             //Assertion
             Assert.That(actual, Is.False);

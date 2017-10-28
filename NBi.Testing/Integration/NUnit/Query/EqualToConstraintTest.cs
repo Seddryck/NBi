@@ -56,7 +56,7 @@ namespace NBi.Testing.Integration.NUnit.Query
 
             //Method under test
             var chrono = DateTime.Now;
-            Assert.That(command, ctr);
+            Assert.That(new QueryResultSetService(command), ctr);
             var elapsed = DateTime.Now.Subtract(chrono);
 
             Assert.That(elapsed.Seconds, Is.LessThan(6));

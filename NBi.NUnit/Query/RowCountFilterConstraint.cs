@@ -47,8 +47,8 @@ namespace NBi.NUnit.Query
         /// <returns>true, if the row-count of query execution validates the child constraint</returns>
         public override bool Matches(object actual)
         {
-            if (actual is IDbCommand)
-                return Process((IDbCommand)actual);
+            if (actual is IResultSetService)
+                return Matches(((IResultSetService)actual).Execute());
             else if (actual is ResultSet)
             {
                 actualResultSet = (ResultSet)actual;
@@ -58,7 +58,7 @@ namespace NBi.NUnit.Query
             else if (actual is int)
                 return doMatch(((int)actual));
             else
-                return false;
+                throw new ArgumentException($"The type '{actual.GetType().Name}' is not supported by the constraint '{this.GetType().Name}'. Use a IResultSetService or a ResultSet.", nameof(actual));
         }
 
        

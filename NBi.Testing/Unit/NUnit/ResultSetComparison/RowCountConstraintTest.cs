@@ -34,23 +34,21 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         {
             var resultSet = new ResultSet();
             resultSet.Load("a;b;c");
-            var cmd = new SqlCommand();
 
-            var rsbMock = new Mock<ResultSetBuilder>();
-            rsbMock.Setup(engine => engine.Build(It.IsAny<object>()))
+            var serviceMock = new Mock<IResultSetService>();
+            serviceMock.Setup(s => s.Execute())
                 .Returns(resultSet);
-            var rsb = rsbMock.Object;
+            var service = serviceMock.Object;
 
             var child = new NUnitCtr.GreaterThanConstraint(0);
 
-            var rowCount = new RowCountConstraint(child) { ResultSetBuilder = rsb };
-            rowCount.ResultSetBuilder = rsb;
+            var rowCount = new RowCountConstraint(child);
 
             //Method under test
-            rowCount.Matches(cmd);
+            rowCount.Matches(service);
 
             //Test conclusion            
-            rsbMock.Verify(engine => engine.Build(It.IsAny<object>()), Times.Once());
+            serviceMock.Verify(s => s.Execute(), Times.Once());
         }
 
     }

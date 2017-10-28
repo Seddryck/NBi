@@ -114,8 +114,8 @@ namespace NBi.NUnit.ResultSetComparison
         /// <summary>
         /// Handle an IDbCommand and compare it to a predefined resultset
         /// </summary>
-        /// <param name="actual">An OleDbCommand, SqlCommand or AdomdCommand</param>
-        /// <returns>true, if the result of query execution is exactly identical to the content of the resultset</returns>
+        /// <param name="actual">An IResultSetService or ResultSet</param>
+        /// <returns>true, if the execution of the actual IResultSetService returns a ResultSet identical to the content of the expected ResultSet</returns>
         public override bool Matches(object actual)
         {
             if (actual is IResultSetService)
@@ -123,7 +123,7 @@ namespace NBi.NUnit.ResultSetComparison
             else if (actual is ResultSet)
                 return doMatch((ResultSet)actual);
             else
-                throw new ArgumentException($"The type of the actual object is '{actual.GetType().Name}' and is not supported for a constraint of type '{this.GetType().Name}'. Use a ResultSet or a ResultSetService.");
+                throw new ArgumentException($"The type of the actual object is '{actual.GetType().Name}' and is not supported for a constraint of type '{this.GetType().Name}'. Use a ResultSet or a ResultSetService.", nameof(actual));
         }
 
         protected bool doMatch(ResultSet actual)

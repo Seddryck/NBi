@@ -33,16 +33,15 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         #endregion
 
         [Test]
-        public void Matches_SqlCommand_CallToResultSetBuilderOnce()
+        public void Matches_ResultSetService_CallToExecuteOnce()
         {
             var resultSet = new ResultSet();
             resultSet.Load("a;b;1");
-            var cmd = new SqlCommand();
 
-            var rsbMock = new Mock<ResultSetBuilder>();
-            rsbMock.Setup(engine => engine.Build(It.IsAny<object>()))
+            var serviceMock = new Mock<IResultSetService>();
+            serviceMock.Setup(s => s.Execute())
                 .Returns(resultSet);
-            var rsb = rsbMock.Object;
+            var service = serviceMock.Object;
 
             var alias = Mock.Of<IColumnAlias>(v => v.Column == 2 && v.Name == "Value");
             var predicate = Mock.Of<IPredicateInfo>
@@ -61,14 +60,13 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                     , predicate
                 );
 
-            var rowCount = new AllRowsConstraint(filter) { ResultSetBuilder = rsb };
-            rowCount.ResultSetBuilder = rsb;
+            var rowCount = new AllRowsConstraint(filter);
 
             //Method under test
-            rowCount.Matches(cmd);
+            rowCount.Matches(service);
 
             //Test conclusion            
-            rsbMock.Verify(engine => engine.Build(It.IsAny<object>()), Times.Once());
+            serviceMock.Verify(s => s.Execute(), Times.Once());
         }
 
     }

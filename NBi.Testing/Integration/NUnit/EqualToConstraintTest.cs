@@ -110,7 +110,7 @@ namespace NBi.Testing.Integration.NUnit
         {
             //Buiding object used during test
             var rs = new ResultSet();
-            var objs = new List<object[]>() { 
+            var objs = new List<object[]>() {
                 new object[] { "CY 2005", 1874469.00 },
                 new object[] { "CY 2006", 4511243.0 },
                 new object[] { "CY 2007", 4709851 },
@@ -193,7 +193,7 @@ namespace NBi.Testing.Integration.NUnit
             //Buiding object used during test
             var expectedQuery = "WITH MEMBER [Measures].NewAmount AS [Measures].[Amount]+1";
             expectedQuery += " SELECT [Measures].NewAmount ON 0, ([Date].[Calendar].[Calendar Year].[CY 2005]:[Date].[Calendar].[Calendar Year].[CY 2008]) ON 1  FROM [Adventure Works]";
-            var expectedCmd   = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
+            var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
             var service = new QueryResultSetService(expectedCmd);
             var ctr = new EqualToConstraint(service);
             ctr.Using(new SettingsResultSetComparisonByIndex(
@@ -412,17 +412,18 @@ namespace NBi.Testing.Integration.NUnit
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
             var columns = new List<IColumnDefinition>(){
-                (new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
+                new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
             };
 
-            var ctr = new EqualToConstraint(expectedCmd);
+            var service = new QueryResultSetService(expectedCmd);
+            var ctr = new EqualToConstraint(service);
             ctr.Using(
-                    new SettingsResultSetComparisonByIndex(
-                        SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast,
-                        SettingsResultSetComparisonByIndex.ValuesChoice.Last,
-                        columns
-                    )
-                );
+                                new SettingsResultSetComparisonByIndex(
+                                    SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast,
+                                    SettingsResultSetComparisonByIndex.ValuesChoice.Last,
+                                    columns
+                                )
+                            );
 
             var query = "SELECT 'CY 2010',  '1/01/2010 01:00:00'";
             var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));

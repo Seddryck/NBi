@@ -14,6 +14,7 @@ using NBi.Core.Xml;
 using NBi.Core.Transformation;
 using System.Data;
 using NBi.Core.ResultSet.Service;
+using System.IO;
 
 namespace NBi.NUnit.Builder
 {
@@ -63,15 +64,24 @@ namespace NBi.NUnit.Builder
 
                 var commandBuilder = new CommandBuilder();
                 var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables, timeout);
-                var factory = new ResultSetServiceFactory();
-                var service = factory.Instantiate(cmd, null);
-                ctr = InstantiateConstraint(service);
-
+                ctr = InstantiateConstraint(cmd);
             }
             else if (ConstraintXml.ResultSet != null)
             {
-                ctr = InstantiateConstraint(ConstraintXml.ResultSet.Service);
-                ctr = ctr.CsvProfile(ConstraintXml.Settings.CsvProfile);
+                if (!string.IsNullOrEmpty(ConstraintXml.ResultSet.File))
+                {
+                    var file = string.Empty;
+                    if (Path.IsPathRooted(ConstraintXml.ResultSet.File))
+                        file = ConstraintXml.ResultSet.File;
+                    else
+                        file = ConstraintXml.Settings?.BasePath + ConstraintXml.ResultSet.File;
+
+                    ctr = InstantiateConstraint(file);
+                    ctr = ctr.CsvProfile(ConstraintXml?.Settings.CsvProfile);
+                }
+                else
+                    ctr = InstantiateConstraint(ConstraintXml.ResultSet.Content);
+                
             }
             else if (ConstraintXml.XmlSource != null)
             {
@@ -154,8 +164,10 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
-        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(IResultSetService service)
+        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(object obj)
         {
+            var factory = new ResultSetServiceFactory();
+            var service = factory.Instantiate(obj, null);
             return new EqualToConstraint(service);
         }
 

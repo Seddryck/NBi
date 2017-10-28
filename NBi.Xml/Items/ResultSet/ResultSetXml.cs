@@ -40,35 +40,16 @@ namespace NBi.Xml.Items.ResultSet
         }
 
         [XmlIgnore]
-        public IResultSetService Service
+        public IContent Content
         {
             get
             {
-                var factory = new ResultSetServiceFactory();
-
-                if (string.IsNullOrEmpty(File))
-                {
-                    var content = new ResultSetBuilder.Content(Rows, Columns);
-                    return factory.Instantiate(content, null);
-                }
-                else
-                    return factory.Instantiate(GetFile(), null);
+                return new ResultSetBuilder.Content(Rows, Columns);
             }
         }
 
         [XmlAttribute("file")]
         public string File { get; set; }
-
-        protected string GetFile()
-        {
-            var file = string.Empty;
-            if (Path.IsPathRooted(File))
-                file = File;
-            else
-                file = Settings.BasePath + File;
-
-            return file;
-        }
 
         public ResultSetXml()
         {

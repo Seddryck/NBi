@@ -13,6 +13,7 @@ using NBi.Core.Xml;
 using NBi.Core.Transformation;
 using NBi.NUnit.ResultSetComparison;
 using System.Data;
+using NBi.Core.ResultSet.Service;
 
 namespace NBi.NUnit.Builder
 {
@@ -41,8 +42,10 @@ namespace NBi.NUnit.Builder
         }
 
 
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(IResultSetService service)
+        protected override BaseResultSetComparisonConstraint InstantiateConstraint(object obj)
         {
+            var factory = new ResultSetServiceFactory();
+            var service = factory.Instantiate(obj, null);
             return new SubsetOfConstraint(service);
         }
         

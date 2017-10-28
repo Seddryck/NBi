@@ -178,8 +178,8 @@ namespace NBi.NUnit.ResultSetComparison
                         rsActual = GetResultSet(actual);
                       },
                 () => {
-                        expectedResultSet = GetResultSet(expect);
-                      }
+                        expectedResultSet = expect.Execute();
+                }
             );
             
             return rsActual;

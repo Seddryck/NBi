@@ -22,14 +22,14 @@ namespace NBi.Core.ResultSet.Service
             var rows = new List<IRow>();
             foreach (var obj in objects)
             {
-                var items = obj as List<object>;
+                var items = obj as IEnumerable<object>;
                 var row = new Row();
-                foreach (var item in items)
-                {
-                    var cell = new Cell();
-                    cell.Value = item.ToString();
-                    row.Cells.Add(cell);
-                }
+                if (items!=null)
+                    foreach (var item in items)
+                    {
+                        var cell = new Cell() { Value = item.ToString() };
+                        row.Cells.Add(cell);
+                    }
                 rows.Add(row);
             }
 

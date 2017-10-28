@@ -49,14 +49,12 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_MdxQueryAndResulSetWithoutKeyValuesInfo_Matching()
         {
             //Buiding object used during test
-            var rs = new ResultSet();
             var objs = new List<object[]>(){
                 new object[] { "CY 2005", "1874469.00" },
                 new object[] { "CY 2006", "4511243.0" },
                 new object[] { "CY 2007", "4709851" },
                 new object[] { "CY 2008", "1513940" }
             };
-            rs.Load(objs);
 
             var service = new ObjectArrayResultSetService(objs.ToArray());
             var ctr = new EqualToConstraint(service);
@@ -76,14 +74,12 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_MdxQueryAndResulSetWithCorrectSettings_Matching()
         {
             //Buiding object used during test
-            var rs = new ResultSet();
             var objs = new List<object[]>(){
                 new object[] { "CY 2005", "1874469.00" },
                 new object[] { "CY 2006", "4511243.0" },
                 new object[] { "CY 2007", "4709851" },
                 new object[] { "CY 2008", "1513940" }
             };
-            rs.Load(objs);
 
             var service = new ObjectArrayResultSetService(objs.ToArray());
             var ctr = new EqualToConstraint(service);
@@ -109,14 +105,12 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_MdxQueryAndDecimalResulSetWithCorrectSettings_Matching()
         {
             //Buiding object used during test
-            var rs = new ResultSet();
             var objs = new List<object[]>() {
                 new object[] { "CY 2005", 1874469.00 },
                 new object[] { "CY 2006", 4511243.0 },
                 new object[] { "CY 2007", 4709851 },
                 new object[] { "CY 2008", 1513940 }
             };
-            rs.Load(objs);
             var service = new ObjectArrayResultSetService(objs.ToArray());
             var ctr = new EqualToConstraint(service);
             ctr.Using(new SettingsResultSetComparisonByIndex(

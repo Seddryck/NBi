@@ -6,6 +6,8 @@ using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Comparer;
 using NBi.NUnit.ResultSetComparison;
 using NUnit.Framework;
+using NBi.Core.ResultSet.Service;
+using NBi.Core;
 #endregion
 
 namespace NBi.Testing.Integration.NUnit
@@ -48,14 +50,16 @@ namespace NBi.Testing.Integration.NUnit
         {
             //Buiding object used during test
             var rs = new ResultSet();
-            var objs = new List<object[]>();
-            objs.Add(new object[] { "CY 2005", "1874469.00" });
-            objs.Add(new object[] { "CY 2006", "4511243.0" });
-            objs.Add(new object[] { "CY 2007", "4709851" });
-            objs.Add(new object[] { "CY 2008", "1513940" });
+            var objs = new List<object[]>(){
+                new object[] { "CY 2005", "1874469.00" },
+                new object[] { "CY 2006", "4511243.0" },
+                new object[] { "CY 2007", "4709851" },
+                new object[] { "CY 2008", "1513940" }
+            };
             rs.Load(objs);
 
-            var ctr = new EqualToConstraint(rs);
+            var service = new ObjectArrayResultSetService(objs.ToArray());
+            var ctr = new EqualToConstraint(service);
 
             var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
@@ -73,14 +77,16 @@ namespace NBi.Testing.Integration.NUnit
         {
             //Buiding object used during test
             var rs = new ResultSet();
-            var objs = new List<object[]>();
-            objs.Add(new object[] { "CY 2005", "1874469.00" });
-            objs.Add(new object[] { "CY 2006", "4511243.0" });
-            objs.Add(new object[] { "CY 2007", "4709851" });
-            objs.Add(new object[] { "CY 2008", "1513940" });
+            var objs = new List<object[]>(){
+                new object[] { "CY 2005", "1874469.00" },
+                new object[] { "CY 2006", "4511243.0" },
+                new object[] { "CY 2007", "4709851" },
+                new object[] { "CY 2008", "1513940" }
+            };
             rs.Load(objs);
 
-            var ctr = new EqualToConstraint(rs);
+            var service = new ObjectArrayResultSetService(objs.ToArray());
+            var ctr = new EqualToConstraint(service);
             ctr.Using(new SettingsResultSetComparisonByIndex(
                     SettingsResultSetComparisonByIndex.KeysChoice.First,
                     SettingsResultSetComparisonByIndex.ValuesChoice.Last,
@@ -104,14 +110,15 @@ namespace NBi.Testing.Integration.NUnit
         {
             //Buiding object used during test
             var rs = new ResultSet();
-            var objs = new List<object[]>();
-            objs.Add(new object[] { "CY 2005", 1874469.00 });
-            objs.Add(new object[] { "CY 2006", 4511243.0 });
-            objs.Add(new object[] { "CY 2007", 4709851 });
-            objs.Add(new object[] { "CY 2008", 1513940 });
+            var objs = new List<object[]>() { 
+                new object[] { "CY 2005", 1874469.00 },
+                new object[] { "CY 2006", 4511243.0 },
+                new object[] { "CY 2007", 4709851 },
+                new object[] { "CY 2008", 1513940 }
+            };
             rs.Load(objs);
-
-            var ctr = new EqualToConstraint(rs);
+            var service = new ObjectArrayResultSetService(objs.ToArray());
+            var ctr = new EqualToConstraint(service);
             ctr.Using(new SettingsResultSetComparisonByIndex(
                 SettingsResultSetComparisonByIndex.KeysChoice.First,
                 SettingsResultSetComparisonByIndex.ValuesChoice.Last,
@@ -135,8 +142,8 @@ namespace NBi.Testing.Integration.NUnit
             //Buiding object used during test
             var expectedQuery = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-
-            var ctr = new EqualToConstraint(expectedCmd);
+            var service = new QueryResultSetService(expectedCmd);
+            var ctr = new EqualToConstraint(service);
             ctr.Using(new SettingsResultSetComparisonByIndex(
                 SettingsResultSetComparisonByIndex.KeysChoice.First,
                 SettingsResultSetComparisonByIndex.ValuesChoice.Last,
@@ -161,8 +168,8 @@ namespace NBi.Testing.Integration.NUnit
             var expectedQuery = "WITH MEMBER [Measures].NewAmount AS [Measures].[Amount]+1";
             expectedQuery += " SELECT [Measures].NewAmount ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-
-            var ctr = new EqualToConstraint(expectedCmd);
+            var service = new QueryResultSetService(expectedCmd);
+            var ctr = new EqualToConstraint(service);
             ctr.Using(new SettingsResultSetComparisonByIndex(
                 SettingsResultSetComparisonByIndex.KeysChoice.First,
                 SettingsResultSetComparisonByIndex.ValuesChoice.Last,
@@ -187,8 +194,8 @@ namespace NBi.Testing.Integration.NUnit
             var expectedQuery = "WITH MEMBER [Measures].NewAmount AS [Measures].[Amount]+1";
             expectedQuery += " SELECT [Measures].NewAmount ON 0, ([Date].[Calendar].[Calendar Year].[CY 2005]:[Date].[Calendar].[Calendar Year].[CY 2008]) ON 1  FROM [Adventure Works]";
             var expectedCmd   = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-
-            var ctr = new EqualToConstraint(expectedCmd);
+            var service = new QueryResultSetService(expectedCmd);
+            var ctr = new EqualToConstraint(service);
             ctr.Using(new SettingsResultSetComparisonByIndex(
                     SettingsResultSetComparisonByIndex.KeysChoice.First,
                     SettingsResultSetComparisonByIndex.ValuesChoice.Last,
@@ -227,8 +234,8 @@ namespace NBi.Testing.Integration.NUnit
             expectedQuery += " SELECT 'CY 2008', 1513940  ";
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
-
-            var ctr = new EqualToConstraint(expectedCmd);
+            var service = new QueryResultSetService(expectedCmd);
+            var ctr = new EqualToConstraint(service);
             ctr.Using(
                     new SettingsResultSetComparisonByIndex(
                         SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast,
@@ -262,8 +269,8 @@ namespace NBi.Testing.Integration.NUnit
         {
             //Buiding object used during test
             var filename = DiskOnFile.CreatePhysicalFile("NonEmptyAmountByYear.csv", "NBi.Testing.Integration.NUnit.Resources.NonEmptyAmountByYear.csv");
-
-            var ctr = new EqualToConstraint(filename);
+            var service = new CsvResultSetService(filename, CsvProfile.SemiColumnDoubleQuote);
+            var ctr = new EqualToConstraint(service);
 
             var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
@@ -283,8 +290,8 @@ namespace NBi.Testing.Integration.NUnit
             var expectedQuery = "SELECT 'CY 2010',  NULL ";
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
-
-            var ctr = new EqualToConstraint(expectedCmd);
+            var service = new QueryResultSetService(expectedCmd);
+            var ctr = new EqualToConstraint(service);
             ctr.Using(
                     new SettingsResultSetComparisonByIndex(
                         SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast,
@@ -311,8 +318,8 @@ namespace NBi.Testing.Integration.NUnit
             var expectedQuery = "SELECT 'CY 2010',  0 ";
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
-
-            var ctr = new EqualToConstraint(expectedCmd);
+            var service = new QueryResultSetService(expectedCmd);
+            var ctr = new EqualToConstraint(service);
             ctr.Using(
                     new SettingsResultSetComparisonByIndex(
                         SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast,
@@ -340,10 +347,11 @@ namespace NBi.Testing.Integration.NUnit
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
-            var columns = new List<IColumnDefinition>();
-            columns.Add(new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime });
-
-            var ctr = new EqualToConstraint(expectedCmd);
+            var columns = new List<IColumnDefinition>(){
+                new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
+            };
+            var service = new QueryResultSetService(expectedCmd);
+            var ctr = new EqualToConstraint(service);
             ctr.Using(
                     new SettingsResultSetComparisonByIndex(
                         SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast,
@@ -371,10 +379,11 @@ namespace NBi.Testing.Integration.NUnit
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
-            var columns = new List<IColumnDefinition>();
-            columns.Add(new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime });
-
-            var ctr = new EqualToConstraint(expectedCmd);
+            var columns = new List<IColumnDefinition>(){
+                new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
+            };
+            var service = new QueryResultSetService(expectedCmd);
+            var ctr = new EqualToConstraint(service);
             ctr.Using(
                     new SettingsResultSetComparisonByIndex(
                         SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast,
@@ -402,8 +411,9 @@ namespace NBi.Testing.Integration.NUnit
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
-            var columns = new List<IColumnDefinition>();
-            columns.Add(new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime });
+            var columns = new List<IColumnDefinition>(){
+                (new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
+            };
 
             var ctr = new EqualToConstraint(expectedCmd);
             ctr.Using(

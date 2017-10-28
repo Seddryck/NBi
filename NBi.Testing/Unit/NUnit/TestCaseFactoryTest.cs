@@ -230,7 +230,7 @@ namespace NBi.Testing.Unit.NUnit
             builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, TestConfiguration.Default, It.IsAny<Dictionary<string, ITestVariable>>()));
             builderMockFactory.Setup(b => b.Build());
             builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new SqlCommand());
-            builderMockFactory.Setup(b => b.GetConstraint()).Returns(new EqualToConstraint("value"));
+            builderMockFactory.Setup(b => b.GetConstraint()).Returns(new EqualToConstraint(null));
             var builder = builderMockFactory.Object;
 
             var testCaseFactory = new TestCaseFactory();

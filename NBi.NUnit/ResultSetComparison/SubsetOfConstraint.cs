@@ -14,25 +14,8 @@ namespace NBi.NUnit.ResultSetComparison
 {
     public class SubsetOfConstraint : BaseResultSetComparisonConstraint
     {
-        public SubsetOfConstraint(string value)
-            : base(value)
-        {}
-
-        public SubsetOfConstraint(ResultSet value)
-            : base(value)
+        public SubsetOfConstraint(IResultSetService service)
+            : base(service)
         { }
-
-        public SubsetOfConstraint(IContent value)
-            : base(value)
-        { }
-
-        public SubsetOfConstraint(IDbCommand value)
-            : base(value)
-        { }
-
-        public SubsetOfConstraint(XPathEngine xpath)
-            : base(xpath)
-        { }
-
     }
 }

@@ -29,24 +29,12 @@ namespace NBi.NUnit.FluentInterface
             return ctr;
         }
 
-        public static EqualToConstraint EqualTo(ResultSet resultSet)
+        public static EqualToConstraint EqualTo(IResultSetService service)
         {
-            var ctr = new EqualToConstraint(resultSet);
+            var ctr = new EqualToConstraint(service);
             return ctr;
         }
-
-        public static EqualToConstraint EqualTo(IDbCommand command)
-        {
-            var ctr = new EqualToConstraint(command);
-            return ctr;
-        }
-
-        public static EqualToConstraint EqualTo(IContent content)
-        {
-            var ctr = new EqualToConstraint(content);
-            return ctr;
-        }
-
+        
         public new static OrderedConstraint Ordered()
         {
             var ctr = new OrderedConstraint();

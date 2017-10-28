@@ -3,6 +3,7 @@ using System;
 using System.Data.SqlClient;
 using NBi.NUnit.ResultSetComparison;
 using NUnit.Framework;
+using NBi.Core.ResultSet.Service;
 #endregion
 
 namespace NBi.Testing.Integration.NUnit.Query
@@ -49,8 +50,8 @@ namespace NBi.Testing.Integration.NUnit.Query
             command2.Connection = new SqlConnection(ConnectionStringReader.GetSqlClient());
             command2.CommandText = "WAITFOR DELAY '00:00:03';SELECT 1;";
 
-
-            BaseResultSetComparisonConstraint ctr = new EqualToConstraint(command2);
+            var service = new QueryResultSetService(command2);
+            BaseResultSetComparisonConstraint ctr = new EqualToConstraint(service);
             ctr = ctr.Parallel();
 
             //Method under test
@@ -72,8 +73,8 @@ namespace NBi.Testing.Integration.NUnit.Query
             command2.Connection = new SqlConnection(ConnectionStringReader.GetSqlClient());
             command2.CommandText = "WAITFOR DELAY '00:00:03';SELECT 1;";
 
-
-            BaseResultSetComparisonConstraint ctr = new EqualToConstraint(command2);
+            var service = new QueryResultSetService(command2);
+            BaseResultSetComparisonConstraint ctr = new EqualToConstraint(service);
             ctr = ctr.Sequential();
 
             //Method under test

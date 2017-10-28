@@ -7,6 +7,7 @@ using NBi.Xml.Constraints;
 using NBi.Core.ResultSet;
 using NBi.Xml.Items.ResultSet;
 using System.IO;
+using NBi.Core.ResultSet.Service;
 
 namespace NBi.Xml.Systems
 {
@@ -42,9 +43,15 @@ namespace NBi.Xml.Systems
         }
 
         [XmlIgnore]
-        public ResultSetBuilder.Content Content
+        public IResultSetService Content
         {
-            get { return new ResultSetBuilder.Content(Rows, Columns); }
+            get
+            {
+                var content = new ResultSetBuilder.Content(Rows, Columns);
+                var factory = new ResultSetServiceFactory();
+                var service = factory.Instantiate(content, null);
+                return service;
+            }
         }
 
         [XmlAttribute("file")]

@@ -42,26 +42,9 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint();
         }
 
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(string path)
+        protected override BaseResultSetComparisonConstraint InstantiateConstraint(IResultSetService service)
         {
-            return new SupersetOfConstraint(path);
+            return new SupersetOfConstraint(service);
         }
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(IDbCommand cmd)
-        {
-            return new SupersetOfConstraint(cmd);
-        }
-
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(IContent content)
-        {
-            return new SupersetOfConstraint(content);
-        }
-
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(XPathEngine engine)
-        {
-            return new SupersetOfConstraint(engine);
-        }
-
-
-
     }
 }

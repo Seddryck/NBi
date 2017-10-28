@@ -13,6 +13,7 @@ using NBi.Xml.Systems;
 using NBi.Core.Xml;
 using NBi.Core.Transformation;
 using System.Data;
+using NBi.Core.ResultSet.Service;
 
 namespace NBi.NUnit.Builder
 {
@@ -62,23 +63,15 @@ namespace NBi.NUnit.Builder
 
                 var commandBuilder = new CommandBuilder();
                 var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables, timeout);
-                ctr = InstantiateConstraint(cmd);
+                var factory = new ResultSetServiceFactory();
+                var service = factory.Instantiate(cmd, null);
+                ctr = InstantiateConstraint(service);
 
             }
             else if (ConstraintXml.ResultSet != null)
             {
-                if (!string.IsNullOrEmpty(ConstraintXml.ResultSet.File))
-                {
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in external file!");
-                    ctr = InstantiateConstraint(ConstraintXml.ResultSet.GetFile());
-                    if (ConstraintXml.Settings.CsvProfile != null)
-                        ctr = ctr.CsvProfile(ConstraintXml.Settings.CsvProfile);
-                }
-                else if (ConstraintXml.ResultSet.Rows != null)
-                {
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in embedded resultSet!");
-                    ctr = InstantiateConstraint(ConstraintXml.ResultSet.Content);
-                }
+                ctr = InstantiateConstraint(ConstraintXml.ResultSet.Service);
+                ctr = ctr.CsvProfile(ConstraintXml.Settings.CsvProfile);
             }
             else if (ConstraintXml.XmlSource != null)
             {
@@ -100,8 +93,9 @@ namespace NBi.NUnit.Builder
                 }
                 else
                     throw new ArgumentException("File or Url can't be both empty when declaring an xml-source.");
-
-                ctr = InstantiateConstraint(engine);
+                var rsFactory = new ResultSetServiceFactory();
+                var service = rsFactory.Instantiate(engine, null);
+                ctr = InstantiateConstraint(service);
             }
 
             if (ctr == null)
@@ -111,14 +105,14 @@ namespace NBi.NUnit.Builder
             var builder = new ResultSetComparisonBuilder();
             if (ConstraintXml.Behavior == EqualToXml.ComparisonBehavior.SingleRow)
             {
-                
+
                 builder.Setup(false, 0, null, 0, null,
                     ConstraintXml.ValuesDefaultType,
                     ToleranceFactory.Instantiate(ConstraintXml.ValuesDefaultType, ConstraintXml.Tolerance),
                     ConstraintXml.ColumnsDef
                     , ComparisonKind.EqualTo
                 );
-                
+
             }
             else
             {
@@ -160,24 +154,11 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
-        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(string path)
+        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(IResultSetService service)
         {
-            return new EqualToConstraint(path);
-        }
-        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(IDbCommand cmd)
-        {
-            return new EqualToConstraint(cmd);
+            return new EqualToConstraint(service);
         }
 
-        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(IContent content)
-        {
-            return new EqualToConstraint(content);
-        }
-
-        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(XPathEngine engine)
-        {
-            return new EqualToConstraint(engine);
-        }
 
     }
 }

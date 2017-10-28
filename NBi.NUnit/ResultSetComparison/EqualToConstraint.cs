@@ -17,24 +17,8 @@ namespace NBi.NUnit.ResultSetComparison
     public class EqualToConstraint : BaseResultSetComparisonConstraint
     {
 
-        public EqualToConstraint(string value)
+        public EqualToConstraint(IResultSetService value)
             : base(value)
-        { }
-
-        public EqualToConstraint(ResultSet value)
-            : base(value)
-        { }
-
-        public EqualToConstraint(IContent value)
-            : base(value)
-        { }
-
-        public EqualToConstraint(IDbCommand value)
-            : base(value)
-        { }
-
-        public EqualToConstraint(XPathEngine xpath)
-            : base(xpath)
         { }
     }
 }

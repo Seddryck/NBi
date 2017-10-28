@@ -11,6 +11,7 @@ using NBi.Framework;
 using NBi.Core.Xml;
 using NBi.Core.Transformation;
 using NBi.Core.ResultSet.Analyzer;
+using NBi.Core.ResultSet.Service;
 
 namespace NBi.NUnit.ResultSetComparison
 {
@@ -18,23 +19,13 @@ namespace NBi.NUnit.ResultSetComparison
     {
         
         
-        protected Object expect;
+        protected IResultSetService expect;
 
         protected bool parallelizeQueries = false;
         protected CsvProfile csvProfile;
 
         protected ResultSet expectedResultSet;
         protected ResultSet actualResultSet;
-
-        [Flags]
-        public enum PersistanceItems
-        {
-            actual =1,
-            expected =2
-        }
-        protected PersistanceItems persistanceItems;
-        protected PersistanceChoice persistanceChoice;
-        protected string filename;
 
         protected ResultSetCompareResult result;
         private DataRowsMessage failure;
@@ -77,57 +68,14 @@ namespace NBi.NUnit.ResultSetComparison
 
         public TransformationProvider TransformationProvider { get; protected set; }
 
-        /// <summary>
-        /// Engine dedicated to ResultSet acquisition
-        /// </summary>
-        protected IResultSetBuilder _resultSetBuilder;
-        protected internal IResultSetBuilder ResultSetBuilder
-        {
-            get
-            {
-                if(_resultSetBuilder==null)
-                {
-                    if (csvProfile==null)
-                        _resultSetBuilder = new ResultSetBuilder();
-                    else
-                        _resultSetBuilder = new ResultSetBuilder(csvProfile);
-                }
-                    
-                return _resultSetBuilder;
-            }
-            set
-            {
-                if(value==null)
-                    throw new ArgumentNullException();
-                _resultSetBuilder = value;
-            }
-        }
+                
         
-        public BaseResultSetComparisonConstraint(string value)
+        public BaseResultSetComparisonConstraint(IResultSetService value)
         {
             this.expect = value;
         }
 
-        public BaseResultSetComparisonConstraint(ResultSet value)
-        {
-            this.expect = value;
-        }
-
-        public BaseResultSetComparisonConstraint(IContent value)
-        {
-            this.expect = value;
-        }
-
-        public BaseResultSetComparisonConstraint(IDbCommand value)
-        {
-            this.expect = value;
-        }
-
-        public BaseResultSetComparisonConstraint(XPathEngine xpath)
-        {
-            this.expect = xpath;
-        }
-
+        
         public BaseResultSetComparisonConstraint Using(IResultSetComparer engine)
         {
             this.Engine = engine;
@@ -143,14 +91,6 @@ namespace NBi.NUnit.ResultSetComparison
         public BaseResultSetComparisonConstraint Using(TransformationProvider transformationProvider)
         {
             this.TransformationProvider = transformationProvider;
-            return this;
-        }
-
-        public BaseResultSetComparisonConstraint Persist(PersistanceChoice choice, PersistanceItems items, string filename)
-        {
-            this.persistanceChoice = choice;
-            this.filename=filename;
-            this.persistanceItems = items;
             return this;
         }
 
@@ -182,13 +122,16 @@ namespace NBi.NUnit.ResultSetComparison
         {
             if (actual is IDbCommand)
                 return Process((IDbCommand)actual);
-            else if (actual is string)
-                return Matches(ResultSetBuilder.Build(actual));
             else if (actual is ResultSet)
                 return doMatch((ResultSet)actual);
+            else if (actual is string)
+            {
+                var rsFactory = new ResultSetServiceFactory();
+                var service = rsFactory.Instantiate(actual, null);
+                return Matches(service.Execute());
+            }
             else
-                return false;
-
+                throw new ArgumentException();
         }
 
         protected bool doMatch(ResultSet actual)
@@ -204,22 +147,9 @@ namespace NBi.NUnit.ResultSetComparison
 
             result = Engine.Compare(actualResultSet, expectedResultSet);
 
-            //  Math.Min for result.Difference limits the value to 1 if we've two non matching resultsets
-            if ((int)persistanceChoice + Math.Min(1,(int)result.Difference) > 1)
-            {
-                if ((persistanceItems & PersistanceItems.expected) == PersistanceItems.expected)
-                    doPersist(expectedResultSet, GetPersistancePath("Expect"));
-                if ((persistanceItems & PersistanceItems.actual) == PersistanceItems.actual)
-                    doPersist(actualResultSet, GetPersistancePath("Actual"));
-            }
-
             return result.Difference == ResultSetDifferenceType.None;
         }
 
-        protected string GetPersistancePath(string folder)
-        {
-            return string.Format(@"{0}\{1}", folder, filename);
-        }
         /// <summary>
         /// Handle an IDbCommand (Query and ConnectionString) and check it with the expectation (Another IDbCommand or a ResultSet)
         /// </summary>
@@ -257,7 +187,9 @@ namespace NBi.NUnit.ResultSetComparison
 
         protected ResultSet GetResultSet(Object obj)
         {
-            return ResultSetBuilder.Build(obj);
+            var factory = new ResultSetServiceFactory();
+            var service = factory.Instantiate(obj, null);
+            return service.Execute();
         }
 
         /// <summary>

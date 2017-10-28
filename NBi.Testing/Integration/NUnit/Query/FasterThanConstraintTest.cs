@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using NBi.NUnit.Query;
 using NUnit.Framework;
+using NBi.Core.ResultSet.Service;
 #endregion
 
 namespace NBi.Testing.Integration.NUnit.Query
@@ -43,13 +44,14 @@ namespace NBi.Testing.Integration.NUnit.Query
             var command = new SqlCommand();
             command.Connection=new SqlConnection(ConnectionStringReader.GetSqlClient());
             command.CommandText = "WAITFOR DELAY '00:00:00';";
+            var service = new QueryResultSetService(command);
 
             var ctr = new FasterThanConstraint();
             ctr = ctr.MaxTimeMilliSeconds(1000);
             ctr = ctr.TimeOutMilliSeconds(2000);
 
             //Method under test
-            Assert.That(command, ctr);
+            Assert.That(service, ctr);
 
         }
 
@@ -59,13 +61,14 @@ namespace NBi.Testing.Integration.NUnit.Query
             var command = new SqlCommand();
             command.Connection = new SqlConnection(ConnectionStringReader.GetSqlClient());
             command.CommandText = "WAITFOR DELAY '00:00:01';";
+            var service = new QueryResultSetService(command);
 
             var ctr = new FasterThanConstraint();
             ctr = ctr.MaxTimeMilliSeconds(100);
             ctr = ctr.TimeOutMilliSeconds(5000);
 
             //Method under test
-            Assert.That(ctr.Matches(command), Is.False);
+            Assert.That(ctr.Matches(service), Is.False);
             //Error Message
         }
 
@@ -75,13 +78,14 @@ namespace NBi.Testing.Integration.NUnit.Query
             var command = new SqlCommand();
             command.Connection = new SqlConnection(ConnectionStringReader.GetSqlClient());
             command.CommandText = "WAITFOR DELAY '00:00:10';";
+            var service = new QueryResultSetService(command);
 
             var ctr = new FasterThanConstraint();
             ctr = ctr.MaxTimeMilliSeconds(100);
             ctr = ctr.TimeOutMilliSeconds(1000);
 
             //Method under test
-            Assert.That(ctr.Matches(command), Is.False);
+            Assert.That(ctr.Matches(service), Is.False);
         }
     }
 

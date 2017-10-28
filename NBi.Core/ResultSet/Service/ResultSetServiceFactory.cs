@@ -23,7 +23,8 @@ namespace NBi.Core.ResultSet.Service
                 return new XPathResultSetService((XPathEngine)obj);
             else if (obj is object[])
                 return new ObjectArrayResultSetService((object[])obj);
-            throw new ArgumentException();
+
+            throw new ArgumentOutOfRangeException($"Type '{obj.GetType().Name}' is not expected when building a ResultSet");
         }
     }
 }

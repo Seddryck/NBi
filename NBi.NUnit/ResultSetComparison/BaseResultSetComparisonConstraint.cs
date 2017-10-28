@@ -257,14 +257,7 @@ namespace NBi.NUnit.ResultSetComparison
 
         protected ResultSet GetResultSet(Object obj)
         {
-            if (obj is XPathEngine)
-            {
-                var xpath = obj as XPathEngine;
-                var rs = xpath.Execute();
-                return rs;
-            }
-            else
-                return ResultSetBuilder.Build(obj);
+            return ResultSetBuilder.Build(obj);
         }
 
         /// <summary>

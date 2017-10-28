@@ -6,6 +6,8 @@ using NBi.Core.Query;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
+using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Service;
 
 namespace NBi.NUnit.Builder
 {
@@ -26,7 +28,7 @@ namespace NBi.NUnit.Builder
             SystemUnderTest = InstantiateSystemUnderTest((ExecutionXml)SystemUnderTestXml);
         }
 
-        protected virtual IDbCommand InstantiateSystemUnderTest(ExecutionXml executionXml)
+        protected virtual IResultSetService InstantiateSystemUnderTest(ExecutionXml executionXml)
         {
             var commandBuilder = new CommandBuilder();
 
@@ -53,7 +55,10 @@ namespace NBi.NUnit.Builder
                 cmd.CommandType = ((ReportXml)executionXml.BaseItem).GetCommandType();
             }
 
-            return cmd;
+            var factory = new ResultSetServiceFactory();
+            var service = factory.Instantiate(cmd, null);
+
+            return service;
         }
 
 

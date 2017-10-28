@@ -133,7 +133,8 @@ namespace NBi.Testing.Unit.NUnit.Builder
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 
-            Assert.That(sut, Is.InstanceOf<IDbCommand>());
+            Assert.That(sut, Is.Not.Null);
+            Assert.That(sut, Is.InstanceOf<IResultSetService>());
         }
 
         [Test]

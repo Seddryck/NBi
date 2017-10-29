@@ -329,6 +329,7 @@
     <Compile Include="Unit\Xml\Items\TablesXmlTest.cs" />
     <Compile Include="Unit\Xml\Systems\DataTypeXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\XmlSourceTest.cs" />
+    <Compile Include="Unit\Xml\Systems\ResultSetSystemXmlTest.cs" />
     <Compile Include="Unit\Xml\TraitXmlTest.cs" />
     <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
     <Compile Include="Unit\Xml\GroupXmlTest.cs" />
@@ -783,6 +784,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\ResultSetSystemXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteWithVariablesTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\UniqueRowsXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TransformationXmlTestSuite.xml">

@@ -61,6 +61,9 @@ namespace NBi.Xml.Systems
             }
         }
 
+        [XmlElement("query")]
+        public virtual QueryXml Query { get; set; }
+
         public override ICollection<string> GetAutoCategories()
         {
             return new List<string>() { "Result-set" };

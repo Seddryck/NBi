@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+  <test name="Result-set has csv file" uid="0000">
+    <system-under-test>
+      <resultSet file="myFile.csv"/>
+    </system-under-test>
+    <assert>
+      <unique-rows/>
+    </assert>
+  </test>
+  <test name="Result-set has embedded" uid="0001">
+    <system-under-test>
+      <resultSet>
+        <row>
+          <cell>A</cell>
+          <cell>120</cell>
+        </row>
+        <row>
+          <cell>B</cell>
+          <cell>120</cell>
+        </row>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <unique-rows/>
+    </assert>
+  </test>
+  <test name="Result-set has query in an external file" uid="0000">
+    <system-under-test>
+      <resultSet>
+        <query file="myfile.sql"/>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <unique-rows/>
+    </assert>
+  </test>
+  <test name="Result-set has embedded query" uid="0000">
+    <system-under-test>
+      <resultSet>
+        <query>select * from myTable;</query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <unique-rows/>
+    </assert>
+  </test>
+</testSuite>

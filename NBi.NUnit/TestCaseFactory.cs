@@ -42,10 +42,10 @@ namespace NBi.NUnit
             Register(typeof(ExecutionXml), typeof(MatchPatternXml), new ExecutionMatchPatternBuilder());
             Register(typeof(ExecutionXml), typeof(EvaluateRowsXml), new ExecutionEvaluateRowsBuilder());
             Register(typeof(ExecutionXml), typeof(SuccessfulXml), new ExecutionNonQuerySuccessfulBuilder());
-            Register(typeof(ExecutionXml), typeof(RowCountXml), new ExecutionRowCountBuilder());
-            Register(typeof(ExecutionXml), typeof(AllRowsXml), new ExecutionAllRowsBuilder());
-            Register(typeof(ExecutionXml), typeof(NoRowsXml), new ExecutionNoRowsBuilder());
-            Register(typeof(ExecutionXml), typeof(UniqueRowsXml), new ExecutionNoDuplicateBuilder());
+            Register(typeof(ExecutionXml), typeof(RowCountXml), new ResultSetRowCountBuilder());
+            Register(typeof(ExecutionXml), typeof(AllRowsXml), new ResultSetAllRowsBuilder());
+            Register(typeof(ExecutionXml), typeof(NoRowsXml), new ResultSetNoRowsBuilder());
+            Register(typeof(ExecutionXml), typeof(UniqueRowsXml), new ResultSetUniqueRowsBuilder());
 
             Register(typeof(ResultSetSystemXml), typeof(EqualToXml), new ResultSetSystemEqualToBuilder());
 

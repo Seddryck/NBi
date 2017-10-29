@@ -254,9 +254,9 @@
     <Compile Include="Unit\GenbiL\Parser\CommentParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\GrammarParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\VariableParserTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\ExecutionAllRowsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetAllRowsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetSupersetOfBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\ExecutionRowCountBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetRowCountBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ExecutionMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersEquivalentToBuilderTest.cs" />
@@ -269,7 +269,7 @@
     <Compile Include="Unit\NUnit\Builder\StructureEquivalentToBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\QuerySyntacticallyCorrectBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\QueryFasterThanBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\ExecutionEqualToBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetEqualToBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureExistsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersContainsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersOrderedBuilderTest.cs" />

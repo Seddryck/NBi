@@ -88,7 +88,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             //Assertion
             Assert.That(sut, Is.Not.Null);
-            Assert.That(sut, Is.InstanceOf<IResultSetService>());
+            Assert.That(sut, Is.InstanceOf<IDbCommand>());
         }
 
         [Test]
@@ -114,7 +114,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             //Assertion
             Assert.That(sut, Is.Not.Null);
-            Assert.That(sut, Is.InstanceOf<IResultSetService>());
+            Assert.That(sut, Is.InstanceOf<IDbCommand>());
         }
 
     }

@@ -18,7 +18,7 @@ using NBi.Core.ResultSet.Loading;
 namespace NBi.Testing.Unit.NUnit.Builder
 {
     [TestFixture]
-    public class ExecutionEqualToBuilderTest
+    public class ResultSetEqualToBuilderTest
     {
 
         #region SetUp & TearDown

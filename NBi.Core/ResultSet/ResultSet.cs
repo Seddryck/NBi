@@ -108,7 +108,7 @@ namespace NBi.Core.ResultSet
             ConsoleDisplay();
         }
 
-        public void Load(IList<IRow> rows)
+        public void Load(IEnumerable<IRow> rows)
         {
             var objs = new List<object[]>();
 

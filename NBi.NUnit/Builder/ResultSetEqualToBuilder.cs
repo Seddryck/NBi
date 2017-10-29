@@ -18,7 +18,7 @@ using System.IO;
 
 namespace NBi.NUnit.Builder
 {
-    class ResultSetEqualToBuilder : AbstractExecutionBuilder
+    class ResultSetEqualToBuilder : AbstractResultSetBuilder
     {
         protected EqualToXml ConstraintXml { get; set; }
 

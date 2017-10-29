@@ -18,11 +18,11 @@ using NBi.Core.Evaluate;
 
 namespace NBi.NUnit.Builder
 {
-    class ExecutionAllRowsBuilder : AbstractExecutionBuilder
+    class ResultSetAllRowsBuilder : AbstractResultSetBuilder
     {
         protected AllRowsXml ConstraintXml {get; set;}
 
-        public ExecutionAllRowsBuilder()
+        public ResultSetAllRowsBuilder()
         {
 
         }

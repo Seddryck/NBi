@@ -2,27 +2,19 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using NBi.Core;
-using NBi.Core.Query;
-using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Comparer;
 using NBi.NUnit.Query;
 using NBi.Xml.Constraints;
-using NBi.Xml.Items;
 using NBi.Xml.Systems;
-using NBi.NUnit.Execution;
-using NUnitCtr = NUnit.Framework.Constraints;
-using NBi.Xml.Constraints.Comparer;
 using NBi.Core.Calculation;
 using NBi.Core.Evaluate;
 
 namespace NBi.NUnit.Builder
 {
-    class ExecutionNoRowsBuilder : AbstractExecutionBuilder
+    class ResultSetNoRowsBuilder : AbstractResultSetBuilder
     {
         protected NoRowsXml ConstraintXml {get; set;}
 
-        public ExecutionNoRowsBuilder()
+        public ResultSetNoRowsBuilder()
         {
 
         }

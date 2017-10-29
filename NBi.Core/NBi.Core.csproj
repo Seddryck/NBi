@@ -324,6 +324,7 @@
     <Compile Include="ResultSet\Loading\ContentResultSetLoader.cs" />
     <Compile Include="ResultSet\Loading\ListRowResultSetLoader.cs" />
     <Compile Include="ResultSet\Loading\ObjectArrayResultSetLoader.cs" />
+    <Compile Include="ResultSet\Loading\ObjectsToRowsHelper.cs" />
     <Compile Include="ResultSet\Loading\QueryResultSetLoader.cs" />
     <Compile Include="ResultSet\Loading\ResultSetLoaderFactory.cs" />
     <Compile Include="ResultSet\Loading\XPathResultSetLoader.cs" />

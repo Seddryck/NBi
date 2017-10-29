@@ -20,8 +20,14 @@ namespace NBi.Core.ResultSet.Loading
 
         public virtual ResultSet Execute()
         {
-            var rows = xpath.Execute();
-            return new ResultSet();
+            var objects = xpath.Execute();
+
+            var helper = new ObjectsToRowsHelper();
+            var rows = helper.Execute(objects);
+
+            var rs = new ResultSet();
+            rs.Load(rows);
+            return rs;
         }
     }
 }

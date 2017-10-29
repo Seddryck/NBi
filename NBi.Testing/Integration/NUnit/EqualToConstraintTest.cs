@@ -180,7 +180,7 @@ namespace NBi.Testing.Integration.NUnit
             var actual = new ResultSetServiceBuilder() { Loader = new QueryResultSetLoader(cmd) }.GetService();
 
             //Assertion
-            Assert.That(ctr.Matches(actual));
+            Assert.That(ctr.Matches(actual), Is.False);
         }
 
         [Test]

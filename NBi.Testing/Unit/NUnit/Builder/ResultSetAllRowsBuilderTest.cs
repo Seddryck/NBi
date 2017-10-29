@@ -22,7 +22,7 @@ using NBi.Core.Variable;
 namespace NBi.Testing.Unit.NUnit.Builder
 {
     [TestFixture]
-    public class ExecutionAllRowsBuilderTest
+    public class ResultSetAllRowsBuilderTest
     {
 
         #region SetUp & TearDown
@@ -67,7 +67,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             ctrXml.Predicate.MoreThan = new MoreThanXml();
             ctrXml.Predicate.MoreThan.Value = "100";
 
-            var builder = new ExecutionAllRowsBuilder();
+            var builder = new ResultSetAllRowsBuilder();
             builder.Setup(sutXml, ctrXml);
             builder.Build();
             var ctr = builder.GetConstraint();
@@ -97,7 +97,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                 {"year", new CSharpTestVariable("DateTime.Now.Year") }
             };
 
-            var builder = new ExecutionAllRowsBuilder();
+            var builder = new ResultSetAllRowsBuilder();
             builder.Setup(sutXml, ctrXml, null, variables);
             builder.Build();
 
@@ -125,7 +125,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                 {"NotUsed", new CSharpTestVariable("1978") }
             };
 
-            var builder = new ExecutionAllRowsBuilder();
+            var builder = new ResultSetAllRowsBuilder();
             builder.Setup(sutXml, ctrXml, null, variables);
             builder.Build();
 

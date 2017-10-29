@@ -70,7 +70,6 @@
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionNonQueryBuilder.cs" />
     <Compile Include="Builder\ResultSetUniqueRowsBuilder.cs" />
-    <Compile Include="Builder\ResultSetSystemEqualToBuilder.cs" />
     <Compile Include="Builder\ResultSetSubsetOfBuilder.cs" />
     <Compile Include="Builder\ResultSetSupersetOfBuilder.cs" />
     <Compile Include="Builder\ResultSetNoRowsBuilder.cs" />

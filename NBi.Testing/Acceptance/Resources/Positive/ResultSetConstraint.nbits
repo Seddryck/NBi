@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="assert">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
+  </settings>
+  <test name="'Reseller Orders' count, year by year, between 2005 and 2008" uid="0001">
+    <system-under-test>
+      <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet>
+          <row>
+            <cell>CY 2005</cell>
+            <cell>366</cell>
+          </row>
+          <row>
+            <cell>CY 2006</cell>
+            <cell>1015</cell>
+          </row>
+          <row>
+            <cell>CY 2007</cell>
+            <cell>1521</cell>
+          </row>
+          <row>
+            <cell>CY 2008</cell>
+            <cell>894</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+  </test>
+  <test name="'Reseller Orders' count are less than 10000" uid="0002">
+    <system-under-test>
+      <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="#1">
+          <less-than>10000</less-than>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="'Reseller Orders' count none are more than 10000" uid="0003">
+    <system-under-test>
+      <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#1">
+          <more-than>10000</more-than>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+  <test name="'Reseller Orders' count none are unique" uid="0004">
+    <system-under-test>
+      <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+    </system-under-test>
+    <assert>
+      <unique-rows/>
+    </assert>
+  </test>
+  <test name="'Reseller Orders' count are 4 rows" uid="0005">
+    <system-under-test>
+      <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+    </system-under-test>
+    <assert>
+      <row-count>
+        <equal>4</equal>
+      </row-count>
+    </assert>
+  </test>
+</testSuite>

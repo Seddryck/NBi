@@ -17,6 +17,7 @@ using System;
 using NBi.Xml.Items.Calculation;
 using System.Collections.Generic;
 using NBi.Core.Variable;
+using NBi.Core.ResultSet;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -132,5 +133,49 @@ namespace NBi.Testing.Unit.NUnit.Builder
             Assert.That(variables["NotUsed"].IsEvaluated, Is.False);
         }
 
+        [Test]
+        public void GetSystemUnderTest_ExecutionXml_IResultSetService()
+        {
+            var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
+            var itemXmlStubFactory = new Mock<QueryableXml>();
+            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
+            var sutXml = sutXmlStubFactory.Object;
+            sutXml.Item = itemXmlStubFactory.Object;
+
+            var ctrXml = new AllRowsXml()
+            {
+                Predicate = new PredicateXml() { MoreThan = new MoreThanXml() { Value = "10" } }
+            };
+
+            var builder = new ResultSetAllRowsBuilder();
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var sut = builder.GetSystemUnderTest();
+
+            Assert.That(sut, Is.Not.Null);
+            Assert.That(sut, Is.InstanceOf<IResultSetService>());
+        }
+
+        [Test]
+        public void GetSystemUnderTest_ResultSetSystemXml_IResultSetService()
+        {
+            var sutXmlStub = new Mock<Systems.ResultSetSystemXml>();
+            sutXmlStub.Setup(s => s.File).Returns("myFile.csv");
+            var sutXml = sutXmlStub.Object;
+
+            var ctrXml = new AllRowsXml()
+            {
+                Predicate = new PredicateXml() { MoreThan = new MoreThanXml() { Value = "10" } }
+            };
+
+            var builder = new ResultSetAllRowsBuilder();
+            builder.Setup(sutXml, ctrXml);
+            builder.Build();
+            var sut = builder.GetSystemUnderTest();
+
+            Assert.That(sut, Is.Not.Null);
+            Assert.That(sut, Is.InstanceOf<IResultSetService>());
+        }
     }
 }

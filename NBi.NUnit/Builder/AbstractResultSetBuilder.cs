@@ -8,6 +8,9 @@ using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Loading;
+using NBi.Core;
+using System.Diagnostics;
+using System.IO;
 
 namespace NBi.NUnit.Builder
 {
@@ -17,15 +20,18 @@ namespace NBi.NUnit.Builder
 
         protected override void BaseSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
-            if (!(sutXml is ExecutionXml))
-                throw new ArgumentException("System-under-test must be a 'ExecutionXml'");
+            if (!(sutXml is ExecutionXml || sutXml is ResultSetSystemXml))
+                throw new ArgumentException("System-under-test must be a 'ExecutionXml' or 'ResultSetXml'");
 
-            SystemUnderTestXml = (ExecutionXml)sutXml;
+            SystemUnderTestXml = sutXml;
         }
 
         protected override void BaseBuild()
         {
-            SystemUnderTest = InstantiateSystemUnderTest((ExecutionXml)SystemUnderTestXml);
+            if (SystemUnderTestXml is ExecutionXml)
+                SystemUnderTest = InstantiateSystemUnderTest((ExecutionXml)SystemUnderTestXml);
+            else
+                SystemUnderTest = InstantiateSystemUnderTest((ResultSetSystemXml)SystemUnderTestXml);
         }
 
         protected virtual IResultSetService InstantiateSystemUnderTest(ExecutionXml executionXml)
@@ -67,6 +73,34 @@ namespace NBi.NUnit.Builder
             return service;
         }
 
+        protected virtual object InstantiateSystemUnderTest(ResultSetSystemXml resultSetXml)
+        {
+            var factory = new ResultSetLoaderFactory();
+            IResultSetLoader loader;
+
+            if (!string.IsNullOrEmpty(resultSetXml.File))
+            {
+                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in external file!");
+                var file = string.Empty;
+                if (Path.IsPathRooted(resultSetXml.File))
+                    file = resultSetXml.File;
+                else
+                    file = resultSetXml.Settings?.BasePath + resultSetXml.File;
+
+                factory.Using(resultSetXml?.Settings?.CsvProfile);
+                loader = factory.Instantiate(file);
+            }
+            else if (resultSetXml.Rows != null)
+            {
+                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in embedded resultSet!");
+                loader = factory.Instantiate(resultSetXml.Content);
+            }
+            else
+                throw new ArgumentException();
+
+            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            return builder.GetService();
+        }
 
     }
 }

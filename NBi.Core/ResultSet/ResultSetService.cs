@@ -10,7 +10,8 @@ namespace NBi.Core.ResultSet
     {
         protected readonly Func<ResultSet> load;
         protected readonly IEnumerable<Action<ResultSet>> transformations;
-
+        public int TransformationCount { get => transformations.Count(); }
+        
         public ResultSetService(
             Func<ResultSet> load,
             IEnumerable<Action<ResultSet>> transformations)

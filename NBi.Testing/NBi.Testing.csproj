@@ -254,6 +254,7 @@
     <Compile Include="Unit\GenbiL\Parser\CommentParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\GrammarParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\VariableParserTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetUniqueRowsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetAllRowsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetSupersetOfBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetRowCountBuilderTest.cs" />
@@ -503,6 +504,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryUniqueRows.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\ResultSetConstraint.nbits">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\QueryEqualToResultSetProvider.nbits.config">

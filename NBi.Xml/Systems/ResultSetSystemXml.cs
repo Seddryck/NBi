@@ -51,7 +51,7 @@ namespace NBi.Xml.Systems
         }
 
         [XmlAttribute("file")]
-        public string File { get; set; }
+        public virtual string File { get; set; }
 
         public override BaseItem BaseItem
         {

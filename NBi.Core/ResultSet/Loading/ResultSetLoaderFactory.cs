@@ -13,7 +13,8 @@ namespace NBi.Core.ResultSet.Loading
 
         public void Using(CsvProfile profile)
         {
-            this.profile = profile;
+            if (profile != null)
+                this.profile = profile;
         }
 
         public IResultSetLoader Instantiate(object obj)

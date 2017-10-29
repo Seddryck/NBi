@@ -58,7 +58,8 @@ namespace NBi.Testing.Integration.NUnit.Query
 
             //Method under test
             var chrono = DateTime.Now;
-            Assert.That(new QueryResultSetLoader(command), ctr);
+            var actual = new ResultSetServiceBuilder() { Loader = new QueryResultSetLoader(command) }.GetService();
+            Assert.That(actual, ctr);
             var elapsed = DateTime.Now.Subtract(chrono);
 
             Assert.That(elapsed.Seconds, Is.LessThan(6));
@@ -80,11 +81,10 @@ namespace NBi.Testing.Integration.NUnit.Query
             BaseResultSetComparisonConstraint ctr = new EqualToConstraint(builder.GetService());
             ctr = ctr.Sequential();
 
-            var service1 = new QueryResultSetLoader(command1);
-
             //Method under test
             var chrono = DateTime.Now;
-            Assert.That(service1, ctr);
+            var actual = new ResultSetServiceBuilder() { Loader = new QueryResultSetLoader(command1) }.GetService();
+            Assert.That(actual, ctr);
             var elapsed = DateTime.Now.Subtract(chrono);
 
             Assert.That(elapsed.Seconds, Is.GreaterThanOrEqualTo(6));

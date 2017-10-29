@@ -63,11 +63,11 @@ namespace NBi.Testing.Integration.NUnit
             var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
-            //Call the method to test
-            var actual = ctr.Matches(new QueryResultSetLoader(cmd));
+
+            var actual = new ResultSetServiceBuilder() { Loader = new QueryResultSetLoader(cmd) }.GetService();
 
             //Assertion
-            Assert.That(actual, Is.True);
+            Assert.That(ctr.Matches(actual));
         }
 
         [Test]
@@ -95,11 +95,11 @@ namespace NBi.Testing.Integration.NUnit
             var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
-            //Call the method to test
-            var actual = ctr.Matches(new QueryResultSetLoader(cmd));
+
+            var actual = new ResultSetServiceBuilder() { Loader = new QueryResultSetLoader(cmd) }.GetService();
 
             //Assertion
-            Assert.That(actual, Is.True);
+            Assert.That(ctr.Matches(actual));
         }
 
         [Test]
@@ -124,12 +124,10 @@ namespace NBi.Testing.Integration.NUnit
 
             var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-
-            //Call the method to test
-            var actual = ctr.Matches(new QueryResultSetLoader(cmd));
+            var actual = new ResultSetServiceBuilder() { Loader = new QueryResultSetLoader(cmd) }.GetService();
 
             //Assertion
-            Assert.That(actual, Is.True);
+            Assert.That(ctr.Matches(actual));
         }
 
         [Test]
@@ -151,11 +149,11 @@ namespace NBi.Testing.Integration.NUnit
             var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1  FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
-            //Call the method to test
-            var actual = ctr.Matches(new QueryResultSetLoader(cmd));
+
+            var actual = new ResultSetServiceBuilder() { Loader = new QueryResultSetLoader(cmd) }.GetService();
 
             //Assertion
-            Assert.That(actual, Is.True);
+            Assert.That(ctr.Matches(actual));
         }
 
         [Test]
@@ -178,11 +176,11 @@ namespace NBi.Testing.Integration.NUnit
             var query = "SELECT [Measures].[Amount] ON 0, ([Date].[Calendar].[Calendar Year]-[Date].[Calendar].[Calendar Year].&[2010]) ON 1  FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
-            //Call the method to test
-            var actual = ctr.Matches(new QueryResultSetLoader(cmd));
+
+            var actual = new ResultSetServiceBuilder() { Loader = new QueryResultSetLoader(cmd) }.GetService();
 
             //Assertion
-            Assert.That(actual, Is.False);
+            Assert.That(ctr.Matches(actual));
         }
 
         [Test]
@@ -215,11 +213,11 @@ namespace NBi.Testing.Integration.NUnit
             var query = "SELECT  [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
-            //Call the method to test
-            var actual = ctr.Matches(new QueryResultSetLoader(cmd));
+
+            var actual = new ResultSetServiceBuilder() { Loader = new QueryResultSetLoader(cmd) }.GetService();
 
             //Assertion
-            Assert.That(actual, Is.True);
+            Assert.That(ctr.Matches(actual));
         }
 
         [Test]
@@ -257,11 +255,11 @@ namespace NBi.Testing.Integration.NUnit
             var query = "SELECT  [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
-            //Call the method to test
-            var actual = ctr.Matches(new QueryResultSetLoader(cmd));
+
+            var actual = new ResultSetServiceBuilder() { Loader = new QueryResultSetLoader(cmd) }.GetService();
 
             //Assertion
-            Assert.That(actual, Is.True);
+            Assert.That(ctr.Matches(actual));
         }
 
         [Test]
@@ -277,11 +275,11 @@ namespace NBi.Testing.Integration.NUnit
             var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
-            //Call the method to test
-            var actual = ctr.Matches(new QueryResultSetLoader(cmd));
+
+            var actual = new ResultSetServiceBuilder() { Loader = new QueryResultSetLoader(cmd) }.GetService();
 
             //Assertion
-            Assert.That(actual, Is.True);
+            Assert.That(ctr.Matches(actual));
         }
 
         [Test]
@@ -306,11 +304,10 @@ namespace NBi.Testing.Integration.NUnit
             var query = "SELECT  [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2010] ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
-            //Call the method to test
-            var actual = ctr.Matches(new QueryResultSetLoader(cmd));
+            var actual = new ResultSetServiceBuilder() { Loader = new QueryResultSetLoader(cmd) }.GetService();
 
             //Assertion
-            Assert.That(actual, Is.True);
+            Assert.That(ctr.Matches(actual));
         }
 
         [Test]
@@ -335,11 +332,10 @@ namespace NBi.Testing.Integration.NUnit
             var query = "SELECT  [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2010] ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
-            //Call the method to test
-            var actual = ctr.Matches(new QueryResultSetLoader(cmd));
+            var actual = new ResultSetServiceBuilder() { Loader = new QueryResultSetLoader(cmd) }.GetService();
 
             //Assertion
-            Assert.That(actual, Is.False);
+            Assert.That(ctr.Matches(actual), Is.False);
         }
 
         [Test]
@@ -368,11 +364,10 @@ namespace NBi.Testing.Integration.NUnit
             var query = "SELECT 'CY 2010',  '1/01/2010 00:00:00'";
             var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
-            //Call the method to test
-            var actual = ctr.Matches(new QueryResultSetLoader(cmd));
+            var actual = new ResultSetServiceBuilder() { Loader = new QueryResultSetLoader(cmd) }.GetService();
 
             //Assertion
-            Assert.That(actual, Is.True);
+            Assert.That(ctr.Matches(actual));
         }
 
         [Test]
@@ -401,11 +396,10 @@ namespace NBi.Testing.Integration.NUnit
             var query = "SELECT 'CY 2010',  '1/01/2010 00:00:00'";
             var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
-            //Call the method to test
-            var actual = ctr.Matches(new QueryResultSetLoader(cmd));
+            var actual = new ResultSetServiceBuilder() { Loader = new QueryResultSetLoader(cmd) }.GetService();
 
             //Assertion
-            Assert.That(actual, Is.False);
+            Assert.That(ctr.Matches(actual), Is.False);
         }
 
         [Test]
@@ -421,9 +415,9 @@ namespace NBi.Testing.Integration.NUnit
                 new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
             };
 
-            var loader = new QueryResultSetLoader(expectedCmd);
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
-            var ctr = new EqualToConstraint(builder.GetService());
+            var expectedLoader = new QueryResultSetLoader(expectedCmd);
+            var expectedBuilder = new ResultSetServiceBuilder() { Loader = expectedLoader };
+            var ctr = new EqualToConstraint(expectedBuilder.GetService());
             ctr.Using(
                                 new SettingsResultSetComparisonByIndex(
                                     SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast,
@@ -434,12 +428,10 @@ namespace NBi.Testing.Integration.NUnit
 
             var query = "SELECT 'CY 2010',  '1/01/2010 01:00:00'";
             var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
-
-            //Call the method to test
-            var actual = ctr.Matches(new QueryResultSetLoader(cmd));
-
+            var actual = new ResultSetServiceBuilder() { Loader = new QueryResultSetLoader(cmd) }.GetService();
+            
             //Assertion
-            Assert.That(actual, Is.False);
+            Assert.That(ctr.Matches(actual), Is.False);
         }
 
     }

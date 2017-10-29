@@ -20,7 +20,6 @@ namespace NBi.NUnit.ResultSetComparison
         protected IResultSetService expect;
 
         protected bool parallelizeQueries = false;
-        protected CsvProfile csvProfile;
 
         protected ResultSet expectedResultSet;
         protected ResultSet actualResultSet;
@@ -58,9 +57,7 @@ namespace NBi.NUnit.ResultSetComparison
             }
             set
             {
-                if(value==null)
-                    throw new ArgumentNullException();
-                _engine = value;
+                _engine = value ?? throw new ArgumentNullException();
             }
         }
         

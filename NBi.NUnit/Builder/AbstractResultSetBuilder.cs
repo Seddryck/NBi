@@ -11,6 +11,7 @@ using NBi.Core.ResultSet.Loading;
 using NBi.Core;
 using System.Diagnostics;
 using System.IO;
+using NBi.Core.ResultSet.Resolver.Query;
 
 namespace NBi.NUnit.Builder
 {
@@ -61,8 +62,10 @@ namespace NBi.NUnit.Builder
                 cmd.CommandType = ((ReportXml)executionXml.BaseItem).GetCommandType();
             }
 
+            var args = new DbCommandQueryResolverArgs(cmd);
+
             var factory = new ResultSetLoaderFactory();
-            var loader = factory.Instantiate(cmd);
+            var loader = factory.Instantiate(args);
 
             var builder = new ResultSetServiceBuilder
             {

@@ -16,6 +16,8 @@ namespace NBi.Core.ResultSet.Resolver.Query
                 return new ExternalFileQueryResolver((ExternalFileQueryResolverArgs)args);
             else if (args is EmbeddedQueryResolverArgs)
                 return new EmbeddedQueryResolver((EmbeddedQueryResolverArgs)args);
+            else if (args is DbCommandQueryResolverArgs)
+                return new DbCommandQueryResolver((DbCommandQueryResolverArgs)args);
 
             throw new ArgumentException();
         }

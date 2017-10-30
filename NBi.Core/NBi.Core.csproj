@@ -329,6 +329,8 @@
     <Compile Include="ResultSet\Loading\ResultSetLoaderFactory.cs" />
     <Compile Include="ResultSet\Loading\XPathResultSetLoader.cs" />
     <Compile Include="ResultSet\Resolver\Query\AssemblyQueryResolver.cs" />
+    <Compile Include="ResultSet\Resolver\Query\DbCommandQueryResolver.cs" />
+    <Compile Include="ResultSet\Resolver\Query\DbCommandQueryResolverArgs.cs" />
     <Compile Include="ResultSet\Resolver\Query\EmbeddedQueryResolver.cs" />
     <Compile Include="ResultSet\Resolver\Query\AssemblyQueryResolverArgs.cs" />
     <Compile Include="ResultSet\Resolver\Query\EmbeddedQueryResolverArgs.cs" />

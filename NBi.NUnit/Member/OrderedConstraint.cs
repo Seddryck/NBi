@@ -8,6 +8,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework;
 using System.Data;
 using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Resolver.Query;
 
 namespace NBi.NUnit.Member
 {

@@ -15,6 +15,7 @@ using NBi.Core.Transformation;
 using System.Data;
 using NBi.Core.ResultSet.Loading;
 using System.IO;
+using NBi.Core.ResultSet.Resolver.Query;
 
 namespace NBi.NUnit.Builder
 {
@@ -72,7 +73,10 @@ namespace NBi.NUnit.Builder
 
                 var commandBuilder = new CommandBuilder();
                 var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables, timeout);
-                ctr = InstantiateConstraint(cmd, transformationProvider);
+
+                var args = new DbCommandQueryResolverArgs(cmd);
+
+                ctr = InstantiateConstraint(args, transformationProvider);
             }
             else if (ConstraintXml.ResultSet != null)
             {

@@ -97,6 +97,9 @@ namespace NBi.NUnit.Query
 
         protected ResultSet GetResultSet(Object obj)
         {
+            if (obj is IDbCommand)
+                obj = new DbCommandQueryResolverArgs((IDbCommand)obj);
+
             return ResultSetBuilder.Build(obj);
         }
 

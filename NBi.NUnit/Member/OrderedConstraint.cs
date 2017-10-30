@@ -145,6 +145,9 @@ namespace NBi.NUnit.Member
 
         protected IList<object> GetMembersFromResultSet(Object obj)
         {
+            if (obj is IDbCommand)
+                obj = new DbCommandQueryResolverArgs((IDbCommand)obj);
+
             var resultSetBuilder = new ResultSetBuilder();
             var rs = resultSetBuilder.Build(obj);
 

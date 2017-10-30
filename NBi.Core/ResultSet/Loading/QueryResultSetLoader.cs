@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Query;
+using NBi.Core.ResultSet.Resolver.Query;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,14 +11,29 @@ namespace NBi.Core.ResultSet.Loading
 {
     class QueryResultSetLoader : IResultSetLoader
     {
-        private readonly IDbCommand command;
+        private readonly QueryResolverArgs args;
 
-        public QueryResultSetLoader(IDbCommand cmd)
+        public QueryResultSetLoader(QueryResolverArgs args)
         {
-            command = cmd;
+            this.args = args;
+        }
+        
+        public ResultSet Execute()
+        {
+            var cmd = Resolve();
+            var rs = Load(cmd);
+            return rs;
         }
 
-        public virtual ResultSet Execute()
+        protected virtual IDbCommand Resolve()
+        {
+            var factory = new QueryResolverFactory();
+            var resolver = factory.Instantiate(args);
+            var cmd = resolver.Execute();
+            return cmd;
+        }
+
+        protected virtual ResultSet Load(IDbCommand command)
         {
             var qe = new QueryEngineFactory().GetExecutor(command);
             var ds = qe.Execute();

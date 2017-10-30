@@ -328,6 +328,15 @@
     <Compile Include="ResultSet\Loading\QueryResultSetLoader.cs" />
     <Compile Include="ResultSet\Loading\ResultSetLoaderFactory.cs" />
     <Compile Include="ResultSet\Loading\XPathResultSetLoader.cs" />
+    <Compile Include="ResultSet\Resolver\Query\AssemblyQueryResolver.cs" />
+    <Compile Include="ResultSet\Resolver\Query\EmbeddedQueryResolver.cs" />
+    <Compile Include="ResultSet\Resolver\Query\AssemblyQueryResolverArgs.cs" />
+    <Compile Include="ResultSet\Resolver\Query\EmbeddedQueryResolverArgs.cs" />
+    <Compile Include="ResultSet\Resolver\Query\ExternalFileQueryResolverArgs.cs" />
+    <Compile Include="ResultSet\Resolver\Query\ExternalFileQueryResolver.cs" />
+    <Compile Include="ResultSet\Resolver\Query\IQueryResolver.cs" />
+    <Compile Include="ResultSet\Resolver\Query\QueryResolverArgs.cs" />
+    <Compile Include="ResultSet\Resolver\Query\QueryResolverFactory.cs" />
     <Compile Include="ResultSet\ResultSetService.cs" />
     <Compile Include="ResultSet\ResultSetServiceBuilder.cs" />
     <Compile Include="ResultSet\Uniqueness\UniqueRowsResult.cs" />

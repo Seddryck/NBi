@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using NBi.Core.Query;
 using NBi.Core.Xml;
+using NBi.Core.ResultSet.Resolver.Query;
 
 namespace NBi.Core.ResultSet.Loading
 {
@@ -23,8 +24,8 @@ namespace NBi.Core.ResultSet.Loading
                 return new ListRowResultSetLoader((IList<IRow>)obj);
             else if (obj is IContent)
                 return new ContentResultSetLoader((IContent)obj);
-            else if (obj is IDbCommand)
-                return new QueryResultSetLoader((IDbCommand)obj);
+            else if (obj is QueryResolverArgs)
+                return new QueryResultSetLoader((QueryResolverArgs)obj);
             else if (obj is string)
                 return new CsvResultSetLoader((string)obj, profile);
             else if (obj is XPathEngine)

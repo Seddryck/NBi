@@ -69,6 +69,7 @@
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionNonQueryBuilder.cs" />
+    <Compile Include="Builder\Helper\QueryResolverArgsBuilder.cs" />
     <Compile Include="Builder\ResultSetUniqueRowsBuilder.cs" />
     <Compile Include="Builder\ResultSetSubsetOfBuilder.cs" />
     <Compile Include="Builder\ResultSetSupersetOfBuilder.cs" />

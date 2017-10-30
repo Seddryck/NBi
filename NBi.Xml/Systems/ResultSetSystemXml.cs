@@ -57,7 +57,7 @@ namespace NBi.Xml.Systems
         {
             get
             {
-                return null;
+                return Query;
             }
         }
 

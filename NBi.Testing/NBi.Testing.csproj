@@ -117,6 +117,8 @@
     <Compile Include="Integration\Core\Analysis\Request\DiscoveryRequestFactoryTest.cs" />
     <Compile Include="Integration\Core\Analysis\MembersAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\CsvWriterTest.cs" />
+    <Compile Include="Integration\Core\ResultSet\Resolver\Query\AssemblyQueryResolverTest.cs" />
+    <Compile Include="Integration\Core\ResultSet\Resolver\Query\ExternalFileQueryResolverTest.cs" />
     <Compile Include="Integration\SqlServer\Smo\BatchRunCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\BulkLoadCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\TruncateCommandTest.cs" />
@@ -183,6 +185,7 @@
     <Compile Include="Unit\Core\Report\FileParserTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\CellComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\TextToleranceFactoryTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Resolver\Query\EmbeddedQueryResolverTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetServiceTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Uniqueness\UniqueRowsFinderByIndexTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Interval\DateTimeIntervalBuilderTest.cs" />
@@ -784,6 +787,12 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Acceptance\Resources\Query\ResellerOrderCount.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Integration\Core\Resources\query.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Unit\Xml\Resources\ResultSetSystemXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteWithVariablesTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\UniqueRowsXmlTestSuite.xml" />

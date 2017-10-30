@@ -36,6 +36,9 @@ namespace NBi.Xml.Items
             set { inlineQuery = value; }
         }
 
+        [XmlElement("assembly")]
+        public AssemblyXml Assembly { get; set; }
+
         public override string GetQuery()
         {
             //if Sql is specified then return it

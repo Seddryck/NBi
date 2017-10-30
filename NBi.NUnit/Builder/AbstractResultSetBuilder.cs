@@ -90,24 +90,20 @@ namespace NBi.NUnit.Builder
                 factory.Using(resultSetXml?.Settings?.CsvProfile);
                 loader = factory.Instantiate(file);
             }
+            else if (resultSetXml.Query != null )
+            {
+                var argsBuilder = new Helper.QueryResolverArgsBuilder();
+                argsBuilder.Setup(resultSetXml.Query);
+                argsBuilder.Setup(resultSetXml.Settings);
+                argsBuilder.Build();
+                var args = argsBuilder.GetArgs();
+                
+                loader = factory.Instantiate(args);
+            }
             else if (resultSetXml.Rows != null)
             {
                 Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in embedded resultSet!");
                 loader = factory.Instantiate(resultSetXml.Content);
-            }
-            else if (resultSetXml.Query != null )
-            {
-                QueryXml queryXml = resultSetXml.Query;
-                var connectionString = queryXml.GetConnectionString();
-                var commandText = queryXml.GetQuery();
-                var parameters = queryXml.GetParameters();
-                var variables = queryXml.GetVariables();
-                var timeout = queryXml.Timeout;
-
-                var commandBuilder = new CommandBuilder();
-                var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables, timeout);
-
-                loader = factory.Instantiate(cmd);
             }
             else
                 throw new ArgumentException();

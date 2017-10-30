@@ -25,7 +25,7 @@
       <unique-rows/>
     </assert>
   </test>
-  <test name="Result-set has query in an external file" uid="0000">
+  <test name="Result-set has query in an external file" uid="0002">
     <system-under-test>
       <resultSet>
         <query file="myfile.sql"/>
@@ -35,7 +35,7 @@
       <unique-rows/>
     </assert>
   </test>
-  <test name="Result-set has embedded query" uid="0000">
+  <test name="Result-set has embedded query" uid="0003">
     <system-under-test>
       <resultSet>
         <query>select * from myTable;</query>
@@ -43,6 +43,22 @@
     </system-under-test>
     <assert>
       <unique-rows/>
+    </assert>
+  </test>
+  <test name="'Query from assembly equal to CSV" uid="0004">
+    <system-under-test>
+      <resultSet>
+        <query>
+          <assembly path="NBi.Testing.dll" class="NBi.Testing.Acceptance.Resources.AssemblyClass" method="GetTextSelectSql">
+            <method-parameter name="prefix">CY</method-parameter>
+          </assembly>
+        </query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </equalTo>
     </assert>
   </test>
 </testSuite>

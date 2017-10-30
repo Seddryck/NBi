@@ -513,6 +513,15 @@
     <xs:attribute name="roles" type="xs:string" use="optional" />
     <xs:attribute name="timeout-milliSeconds" type="xs:nonNegativeInteger" use="optional" />
   </xs:complexType>
+  <xs:complexType name="query-enhanced-type" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="query-type">
+        <xs:sequence>
+          <xs:element name="assembly" type="assembly-type" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="transformation-type">
     <xs:simpleContent>
       <xs:extension base="code-transformation-type">
@@ -1107,7 +1116,7 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="query" minOccurs="0" maxOccurs="1" type="query-type"/>
+      <xs:element name="query" minOccurs="0" maxOccurs="1" type="query-enhanced-type"/>
     </xs:choice>
     <xs:attribute name="file" type="xs:string" use="optional" />
   </xs:complexType>

@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
   <settings>
+    <default apply-to="system-under-test">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
     <default apply-to="assert">
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </default>
@@ -76,16 +79,8 @@
       </assert>
     </test>
   </group>
-  <group name="asserts">
-    <test name="'Reseller Orders' defined in a CSV" uid="0101">
-      <system-under-test>
-        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
-      </system-under-test>
-      <assert>
-        <unique-rows/>
-      </assert>
-    </test>
-    <test name="'Reseller Orders' defined in an embedded result-set" uid="0102">
+  <group name="system-under-tests">
+    <test name="Embedded result-set" uid="0101">
       <system-under-test>
         <resultSet>
           <row>
@@ -110,19 +105,64 @@
         <unique-rows/>
       </assert>
     </test>
-    <test name="'Reseller Orders' count none are more than 10000" uid="0003">
+    <test name="External result-set" uid="0102">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </system-under-test>
+      <assert>
+        <unique-rows/>
+      </assert>
+    </test>
+    <test name="Embedded query" uid="0103">
       <system-under-test>
         <resultSet>
           <query>
-            select 'CY 2005' as [year], 366 as [value]
-            union all select 'CY 2006' as [year], 1015 as [value]
-            union all select 'CY 2007' as [year], 1521 as [value]
-            union all select 'CY 2008' as [year], 894 as [value]
+            select @prefix + ' 2005' as [year], 366 as [value]
+            union all select @prefix + ' 2006' as [year], 1015 as [value]
+            union all select @prefix + ' 2007' as [year], 1521 as [value]
+            union all select @prefix + ' 2008' as [year], 894 as [value]
+            <parameter name="prefix">CY</parameter>
           </query>
         </resultSet>
       </system-under-test>
       <assert>
-        <unique-rows/>
+        <all-rows>
+          <predicate name="#0" type="text">
+            <starts-with>CY </starts-with>
+          </predicate>
+        </all-rows>
+      </assert>
+    </test>
+    <test name="External query" uid="0104">
+      <system-under-test>
+        <resultSet>
+          <query file="..\Query\ResellerOrderCount.sql">
+            <parameter name="prefix">CY</parameter>
+          </query>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <all-rows>
+          <predicate name="#0" type="text">
+            <starts-with>CY </starts-with>
+          </predicate>
+        </all-rows>
+      </assert>
+    </test>
+    <test name="Query from assembly" uid="0105">
+      <system-under-test>
+        <resultSet>
+          <query>
+            <assembly path="..\..\..\NBi.Testing.dll" class="NBi.Testing.Acceptance.Resources.AssemblyClass" method="GetTextSelectSql">
+              <method-parameter name="prefix">CY</method-parameter>
+            </assembly>
+          </query>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+        </equalTo>
       </assert>
     </test>
   </group>

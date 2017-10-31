@@ -12,6 +12,9 @@ using NBi.Core;
 using System.Diagnostics;
 using System.IO;
 using NBi.Core.ResultSet.Resolver.Query;
+using NBi.Core.ResultSet.Alteration;
+using NBi.Core.Evaluate;
+using NBi.Core.Calculation;
 
 namespace NBi.NUnit.Builder
 {
@@ -67,16 +70,22 @@ namespace NBi.NUnit.Builder
             var factory = new ResultSetLoaderFactory();
             var loader = factory.Instantiate(args);
 
-            var builder = new ResultSetServiceBuilder
-            {
-                Loader = loader
-            };
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
             var service = builder.GetService();
 
             return service;
         }
 
         protected virtual object InstantiateSystemUnderTest(ResultSetSystemXml resultSetXml)
+        {
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(InstantiateLoader(resultSetXml));
+            builder.Setup(InstantiateAlterations(resultSetXml));
+            return builder.GetService();
+        }
+
+        protected virtual IResultSetLoader InstantiateLoader(ResultSetSystemXml resultSetXml)
         {
             var factory = new ResultSetLoaderFactory();
             IResultSetLoader loader;
@@ -114,8 +123,32 @@ namespace NBi.NUnit.Builder
             else
                 throw new ArgumentException();
 
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
-            return builder.GetService();
+            return loader;
+        }
+
+        private IEnumerable<Alter> InstantiateAlterations(ResultSetSystemXml resultSetXml)
+        {
+            if (resultSetXml.Alteration == null)
+                yield break;
+
+            if (resultSetXml.Alteration.Filters != null)
+            {
+                foreach (var filterXml in resultSetXml.Alteration.Filters)
+                {
+                    var expressions = new List<IColumnExpression>();
+                    if (filterXml.Expression != null)
+                        expressions.Add(filterXml.Expression);
+
+                    var factory = new PredicateFilterFactory();
+                    var filter = factory.Instantiate
+                                    (
+                                        filterXml.Aliases
+                                        , expressions
+                                        , filterXml.Predicate
+                                    );
+                    yield return filter.Apply;
+                }
+            }
         }
 
     }

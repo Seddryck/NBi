@@ -166,7 +166,6 @@
       </assert>
     </test>
     <test name="Query from report" uid="0106">
-      <category>Report</category>
       <condition>
         <service-running name="MSSQL$SQL2012"/>
       </condition>
@@ -184,6 +183,35 @@
       <assert>
         <equalTo values-default-type="text">
           <resultSet file="..\Csv\BusinessEntity.csv"/>
+        </equalTo>
+      </assert>
+    </test>
+  </group>
+  <group name="Alterations">
+    <test name="Query from assembly" uid="0105">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
+          <alteration>
+            <filter>
+              <predicate name="#0" type="text">
+                <less-than>CY 2007</less-than>
+              </predicate>
+            </filter>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet>
+            <row>
+              <cell>CY 2005</cell>
+              <cell>366</cell>
+            </row>
+            <row>
+              <cell>CY 2006</cell>
+              <cell>1015</cell>
+            </row>
+          </resultSet>
         </equalTo>
       </assert>
     </test>

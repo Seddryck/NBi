@@ -1113,25 +1113,33 @@
     <xs:attribute name="not" type="xs:boolean" use="optional" />
   </xs:complexType>
   <xs:complexType name="resultSet-type">
-    <xs:choice>
-      <xs:element name="row" minOccurs="0" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element name="cell" minOccurs="1" maxOccurs="unbounded">
-              <xs:complexType>
-                <xs:simpleContent>
-                  <xs:extension base="xs:string">
-                    <xs:attribute name="column-name" type="xs:string" use="optional" />
-                  </xs:extension>
-                </xs:simpleContent>
-              </xs:complexType>
-            </xs:element>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="query" minOccurs="0" maxOccurs="1" type="query-enhanced-type"/>
-    </xs:choice>
+    <xs:sequence>
+      <xs:choice>
+        <xs:element name="row" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="cell" minOccurs="1" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="column-name" type="xs:string" use="optional" />
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="query" minOccurs="0" maxOccurs="1" type="query-enhanced-type"/>
+      </xs:choice>
+      <xs:element name="alteration" type="alteration-type" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
     <xs:attribute name="file" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="alteration-type">
+    <xs:sequence>
+      <xs:element name="filter" type="filter-type" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="result-set-comparison-type">
     <xs:sequence>

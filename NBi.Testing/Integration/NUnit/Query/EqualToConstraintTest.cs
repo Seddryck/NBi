@@ -73,13 +73,16 @@ namespace NBi.Testing.Integration.NUnit.Query
             };
 
             var loader = new FakeQueryResultSetLoader(command2);
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
             BaseResultSetComparisonConstraint ctr = new EqualToConstraint(builder.GetService());
             ctr = ctr.Parallel();
 
             //Method under test
             var chrono = DateTime.Now;
-            var actual = new ResultSetServiceBuilder() { Loader = new FakeQueryResultSetLoader(command) }.GetService();
+            var actualBuilder = new ResultSetServiceBuilder();
+            actualBuilder.Setup(new FakeQueryResultSetLoader(command));
+            var actual = actualBuilder.GetService();
             Assert.That(actual, ctr);
             var elapsed = DateTime.Now.Subtract(chrono);
 
@@ -102,13 +105,17 @@ namespace NBi.Testing.Integration.NUnit.Query
             };
 
             var loader = new FakeQueryResultSetLoader(command2);
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
             BaseResultSetComparisonConstraint ctr = new EqualToConstraint(builder.GetService());
             ctr = ctr.Sequential();
 
             //Method under test
             var chrono = DateTime.Now;
-            var actual = new ResultSetServiceBuilder() { Loader = new FakeQueryResultSetLoader(command1) }.GetService();
+            var actualBuilder = new ResultSetServiceBuilder();
+            actualBuilder.Setup(new FakeQueryResultSetLoader(command1));
+            var actual = actualBuilder.GetService();
+
             Assert.That(actual, ctr);
             var elapsed = DateTime.Now.Subtract(chrono);
 

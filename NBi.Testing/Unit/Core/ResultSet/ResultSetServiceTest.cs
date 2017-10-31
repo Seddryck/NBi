@@ -23,7 +23,8 @@ namespace NBi.Testing.Unit.Core.ResultSet
             loaderMock.Setup(l => l.Execute()).Returns(rs);
             var loader = loaderMock.Object;
 
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
             var service = builder.GetService();
             service.Execute();
 
@@ -40,7 +41,8 @@ namespace NBi.Testing.Unit.Core.ResultSet
             loaderMock.Setup(l => l.Execute()).Returns(rs);
             var loader = loaderMock.Object;
 
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
             var service = builder.GetService();
             var result = service.Execute();
 
@@ -61,12 +63,42 @@ namespace NBi.Testing.Unit.Core.ResultSet
             transformerMock.Setup(l => l.Transform(rs));
             var transformer = transformerMock.Object;
 
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
-            builder.AddTransformation(transformer);
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
+            if (transformer!=null)
+                builder.Setup(transformer.Transform);
             var service = builder.GetService();
             service.Execute();
 
             transformerMock.Verify(t => t.Transform(rs), Times.Once);
+        }
+
+        [Test]
+        public void Execute_LoaderAndTwoAlters_SecondAlterCalledWithResultOfFirst()
+        {
+            var rs = new NBi.Core.ResultSet.ResultSet();
+            rs.Load("a;1");
+
+            var loaderStub = new Mock<IResultSetLoader>();
+            loaderStub.Setup(l => l.Execute()).Returns(It.IsAny<NBi.Core.ResultSet.ResultSet>());
+            var loader = loaderStub.Object;
+
+            var transformer1Stub = new Mock<TransformationProvider>();
+            transformer1Stub.Setup(l => l.Transform(It.IsAny<NBi.Core.ResultSet.ResultSet>())).Returns(rs);
+            var transformer1 = transformer1Stub.Object;
+
+            var transformer2Mock = new Mock<TransformationProvider>();
+            transformer2Mock.Setup(l => l.Transform(It.IsAny<NBi.Core.ResultSet.ResultSet>()));
+            var transformer2 = transformer2Mock.Object;
+
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
+            builder.Setup(transformer1.Transform);
+            builder.Setup(transformer2.Transform);
+            var service = builder.GetService();
+            service.Execute();
+
+            transformer2Mock.Verify(t => t.Transform(rs), Times.Once);
         }
     }
 }

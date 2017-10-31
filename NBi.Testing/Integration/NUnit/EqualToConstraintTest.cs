@@ -73,14 +73,17 @@ namespace NBi.Testing.Integration.NUnit
             };
 
             var loader = new ObjectArrayResultSetLoader(objs.ToArray());
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
 
             var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
 
-            var actual = new ResultSetServiceBuilder() { Loader = new FakeQueryResultSetLoader(cmd) }.GetService();
+            var actualBuilder = new ResultSetServiceBuilder();
+            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            var actual = actualBuilder.GetService();
 
             //Assertion
             Assert.That(ctr.Matches(actual));
@@ -99,7 +102,8 @@ namespace NBi.Testing.Integration.NUnit
             };
 
             var loader = new ObjectArrayResultSetLoader(objs.ToArray());
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(new SettingsResultSetComparisonByIndex(
                     SettingsResultSetComparisonByIndex.KeysChoice.First,
@@ -112,7 +116,9 @@ namespace NBi.Testing.Integration.NUnit
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
 
-            var actual = new ResultSetServiceBuilder() { Loader = new FakeQueryResultSetLoader(cmd) }.GetService();
+            var actualBuilder = new ResultSetServiceBuilder();
+            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            var actual = actualBuilder.GetService();
 
             //Assertion
             Assert.That(ctr.Matches(actual));
@@ -130,7 +136,8 @@ namespace NBi.Testing.Integration.NUnit
                 new object[] { "CY 2008", 1513940 }
             };
             var loader = new ObjectArrayResultSetLoader(objs.ToArray());
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(new SettingsResultSetComparisonByIndex(
                 SettingsResultSetComparisonByIndex.KeysChoice.First,
@@ -140,7 +147,9 @@ namespace NBi.Testing.Integration.NUnit
 
             var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-            var actual = new ResultSetServiceBuilder() { Loader = new FakeQueryResultSetLoader(cmd) }.GetService();
+            var actualBuilder = new ResultSetServiceBuilder();
+            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            var actual = actualBuilder.GetService();
 
             //Assertion
             Assert.That(ctr.Matches(actual));
@@ -154,7 +163,8 @@ namespace NBi.Testing.Integration.NUnit
             var expectedQuery = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
             var loader = new FakeQueryResultSetLoader(expectedCmd);
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(new SettingsResultSetComparisonByIndex(
                 SettingsResultSetComparisonByIndex.KeysChoice.First,
@@ -166,7 +176,9 @@ namespace NBi.Testing.Integration.NUnit
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
 
-            var actual = new ResultSetServiceBuilder() { Loader = new FakeQueryResultSetLoader(cmd) }.GetService();
+            var actualBuilder = new ResultSetServiceBuilder();
+            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            var actual = actualBuilder.GetService();
 
             //Assertion
             Assert.That(ctr.Matches(actual));
@@ -181,7 +193,8 @@ namespace NBi.Testing.Integration.NUnit
             expectedQuery += " SELECT [Measures].NewAmount ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
             var loader = new FakeQueryResultSetLoader(expectedCmd);
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(new SettingsResultSetComparisonByIndex(
                 SettingsResultSetComparisonByIndex.KeysChoice.First,
@@ -193,7 +206,9 @@ namespace NBi.Testing.Integration.NUnit
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
 
-            var actual = new ResultSetServiceBuilder() { Loader = new FakeQueryResultSetLoader(cmd) }.GetService();
+            var actualBuilder = new ResultSetServiceBuilder();
+            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            var actual = actualBuilder.GetService();
 
             //Assertion
             Assert.That(ctr.Matches(actual), Is.False);
@@ -208,7 +223,8 @@ namespace NBi.Testing.Integration.NUnit
             expectedQuery += " SELECT [Measures].NewAmount ON 0, ([Date].[Calendar].[Calendar Year].[CY 2005]:[Date].[Calendar].[Calendar Year].[CY 2008]) ON 1  FROM [Adventure Works]";
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
             var loader = new FakeQueryResultSetLoader(expectedCmd);
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(new SettingsResultSetComparisonByIndex(
                     SettingsResultSetComparisonByIndex.KeysChoice.First,
@@ -230,7 +246,9 @@ namespace NBi.Testing.Integration.NUnit
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
 
-            var actual = new ResultSetServiceBuilder() { Loader = new FakeQueryResultSetLoader(cmd) }.GetService();
+            var actualBuilder = new ResultSetServiceBuilder();
+            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            var actual = actualBuilder.GetService();
 
             //Assertion
             Assert.That(ctr.Matches(actual));
@@ -249,7 +267,8 @@ namespace NBi.Testing.Integration.NUnit
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
             var loader = new FakeQueryResultSetLoader(expectedCmd);
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
                     new SettingsResultSetComparisonByIndex(
@@ -272,7 +291,9 @@ namespace NBi.Testing.Integration.NUnit
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
 
-            var actual = new ResultSetServiceBuilder() { Loader = new FakeQueryResultSetLoader(cmd) }.GetService();
+            var actualBuilder = new ResultSetServiceBuilder();
+            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            var actual = actualBuilder.GetService();
 
             //Assertion
             Assert.That(ctr.Matches(actual));
@@ -285,14 +306,17 @@ namespace NBi.Testing.Integration.NUnit
             //Buiding object used during test
             var filename = DiskOnFile.CreatePhysicalFile("NonEmptyAmountByYear.csv", "NBi.Testing.Integration.NUnit.Resources.NonEmptyAmountByYear.csv");
             var loader = new CsvResultSetLoader(filename, CsvProfile.SemiColumnDoubleQuote);
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
 
             var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
 
-            var actual = new ResultSetServiceBuilder() { Loader = new FakeQueryResultSetLoader(cmd) }.GetService();
+            var actualBuilder = new ResultSetServiceBuilder();
+            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            var actual = actualBuilder.GetService();
 
             //Assertion
             Assert.That(ctr.Matches(actual));
@@ -307,7 +331,8 @@ namespace NBi.Testing.Integration.NUnit
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
             var loader = new FakeQueryResultSetLoader(expectedCmd);
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
                     new SettingsResultSetComparisonByIndex(
@@ -320,7 +345,9 @@ namespace NBi.Testing.Integration.NUnit
             var query = "SELECT  [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2010] ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
-            var actual = new ResultSetServiceBuilder() { Loader = new FakeQueryResultSetLoader(cmd) }.GetService();
+            var actualBuilder = new ResultSetServiceBuilder();
+            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            var actual = actualBuilder.GetService();
 
             //Assertion
             Assert.That(ctr.Matches(actual));
@@ -335,7 +362,8 @@ namespace NBi.Testing.Integration.NUnit
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
             var loader = new FakeQueryResultSetLoader(expectedCmd);
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
                     new SettingsResultSetComparisonByIndex(
@@ -348,7 +376,9 @@ namespace NBi.Testing.Integration.NUnit
             var query = "SELECT  [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2010] ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
-            var actual = new ResultSetServiceBuilder() { Loader = new FakeQueryResultSetLoader(cmd) }.GetService();
+            var actualBuilder = new ResultSetServiceBuilder();
+            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            var actual = actualBuilder.GetService();
 
             //Assertion
             Assert.That(ctr.Matches(actual), Is.False);
@@ -367,7 +397,8 @@ namespace NBi.Testing.Integration.NUnit
                 new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
             };
             var loader = new FakeQueryResultSetLoader(expectedCmd);
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
                     new SettingsResultSetComparisonByIndex(
@@ -380,7 +411,9 @@ namespace NBi.Testing.Integration.NUnit
             var query = "SELECT 'CY 2010',  '1/01/2010 00:00:00'";
             var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
-            var actual = new ResultSetServiceBuilder() { Loader = new FakeQueryResultSetLoader(cmd) }.GetService();
+            var actualBuilder = new ResultSetServiceBuilder();
+            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            var actual = actualBuilder.GetService();
 
             //Assertion
             Assert.That(ctr.Matches(actual));
@@ -399,7 +432,8 @@ namespace NBi.Testing.Integration.NUnit
                 new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
             };
             var loader = new FakeQueryResultSetLoader(expectedCmd);
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
                     new SettingsResultSetComparisonByIndex(
@@ -412,7 +446,9 @@ namespace NBi.Testing.Integration.NUnit
             var query = "SELECT 'CY 2010',  '1/01/2010 00:00:00'";
             var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
-            var actual = new ResultSetServiceBuilder() { Loader = new FakeQueryResultSetLoader(cmd) }.GetService();
+            var actualBuilder = new ResultSetServiceBuilder();
+            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            var actual = actualBuilder.GetService();
 
             //Assertion
             Assert.That(ctr.Matches(actual), Is.False);
@@ -432,7 +468,8 @@ namespace NBi.Testing.Integration.NUnit
             };
 
             var expectedLoader = new FakeQueryResultSetLoader(expectedCmd);
-            var expectedBuilder = new ResultSetServiceBuilder() { Loader = expectedLoader };
+            var expectedBuilder = new ResultSetServiceBuilder();
+            expectedBuilder.Setup(expectedLoader);
             var ctr = new EqualToConstraint(expectedBuilder.GetService());
             ctr.Using(
                                 new SettingsResultSetComparisonByIndex(
@@ -444,8 +481,10 @@ namespace NBi.Testing.Integration.NUnit
 
             var query = "SELECT 'CY 2010',  '1/01/2010 01:00:00'";
             var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
-            var actual = new ResultSetServiceBuilder() { Loader = new FakeQueryResultSetLoader(cmd) }.GetService();
-            
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(new FakeQueryResultSetLoader(cmd));
+            var actual = builder.GetService();
+
             //Assertion
             Assert.That(ctr.Matches(actual), Is.False);
         }

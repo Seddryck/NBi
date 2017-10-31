@@ -48,9 +48,10 @@ namespace NBi.NUnit.Builder
             factory.Using(ConstraintXml.Settings?.CsvProfile);
             var loader = factory.Instantiate(obj);
 
-            var builder = new ResultSetServiceBuilder() { Loader = loader };
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
             if (transformation != null)
-                builder.AddTransformation(transformation);
+                builder.Setup(transformation.Transform);
             var service = builder.GetService();
 
             return new SubsetOfConstraint(service);

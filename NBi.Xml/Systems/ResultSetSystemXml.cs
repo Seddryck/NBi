@@ -7,6 +7,7 @@ using NBi.Xml.Constraints;
 using NBi.Core.ResultSet;
 using NBi.Xml.Items.ResultSet;
 using System.IO;
+using NBi.Xml.Items.Alteration;
 
 namespace NBi.Xml.Systems
 {
@@ -63,6 +64,9 @@ namespace NBi.Xml.Systems
 
         [XmlElement("query")]
         public virtual QueryXml Query { get; set; }
+
+        [XmlElement("alteration")]
+        public virtual AlterationXml Alteration { get; set; }
 
         public override ICollection<string> GetAutoCategories()
         {

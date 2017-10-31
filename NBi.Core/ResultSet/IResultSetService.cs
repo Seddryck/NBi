@@ -1,4 +1,7 @@
-﻿using System;
+﻿using NBi.Core.ResultSet.Alteration;
+using NBi.Core.ResultSet.Loading;
+using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace NBi.Core.ResultSet
@@ -7,6 +10,7 @@ namespace NBi.Core.ResultSet
     {
         ResultSet Execute();
 
-        int TransformationCount { get; }
+        IReadOnlyList<Alter> Alterations { get; }
+        Load Load { get; }
     }
 }

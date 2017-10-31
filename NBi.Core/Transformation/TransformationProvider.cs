@@ -26,7 +26,7 @@ namespace NBi.Core.Transformation
             cacheTransformers.Add(columnIndex, transformer);
         }
 
-        public virtual void Transform(NBi.Core.ResultSet.ResultSet resultSet)
+        public virtual ResultSet.ResultSet Transform(ResultSet.ResultSet resultSet)
         {
             foreach (var index in cacheTransformers.Keys)
             {
@@ -44,6 +44,8 @@ namespace NBi.Core.Transformation
 
                 Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to transform column with index {0}: {1}", index, DateTime.Now.Subtract(tsStart).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             }
+
+            return resultSet;
         }
     }
 }

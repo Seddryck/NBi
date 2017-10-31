@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Report
 {
-    public class DatasetRequest
+    public class ReportDataSetRequest
     {
         public string Source { get; set; }
         public string Path { get; set; }
         public string ReportName { get; set; }
         public string DataSetName { get; set; }
 
-        public DatasetRequest(string source, string path, string reportName, string dataSetName)
+        public ReportDataSetRequest(string source, string path, string reportName, string dataSetName)
         {
             Source = source;
             Path = path;

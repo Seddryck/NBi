@@ -16,7 +16,11 @@ namespace NBi.Core.ResultSet.Resolver.Query
                 return new ExternalFileQueryResolver((ExternalFileQueryResolverArgs)args);
             else if (args is EmbeddedQueryResolverArgs)
                 return new EmbeddedQueryResolver((EmbeddedQueryResolverArgs)args);
-            else if (args is DbCommandQueryResolverArgs)
+            else if (args is ReportDataSetQueryResolverArgs)
+                return new ReportDataSetQueryResolver((ReportDataSetQueryResolverArgs)args);
+            else if (args is SharedDataSetQueryResolverArgs)
+                return new SharedDataSetQueryResolver((SharedDataSetQueryResolverArgs)args);
+            else if (args is DbCommandQueryResolverArgs) //TODO Remove this one for NBi 2.x
                 return new DbCommandQueryResolver((DbCommandQueryResolverArgs)args);
 
             throw new ArgumentException();

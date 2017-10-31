@@ -62,6 +62,23 @@ namespace NBi.NUnit.Builder.Helper
                     , connectionString, parameters, variables, timeout);
             }
 
+            else if (queryXml.Report != null)
+            {
+                var path = string.IsNullOrEmpty(queryXml.SharedDataset.Source) ? settingsXml.BasePath + queryXml.SharedDataset.Path : queryXml.SharedDataset.Path;
+
+                args = new ReportDataSetQueryResolverArgs(
+                    queryXml.Report.Source, path, queryXml.Report.Name, queryXml.Report.Dataset
+                    , connectionString, parameters, variables, timeout);
+            }
+
+            else if (queryXml.SharedDataset != null)
+            {
+                var path = string.IsNullOrEmpty(queryXml.SharedDataset.Source) ? settingsXml.BasePath + queryXml.SharedDataset.Path : queryXml.SharedDataset.Path;
+
+                args = new SharedDataSetQueryResolverArgs(
+                    queryXml.SharedDataset.Source, queryXml.SharedDataset.Path, queryXml.SharedDataset.Name
+                    , connectionString, parameters, variables, timeout);
+            }
 
             if (args == null)
                 throw new ArgumentException();

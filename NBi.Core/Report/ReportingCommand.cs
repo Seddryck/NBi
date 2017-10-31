@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Report
 {
-    public class ReportCommand
+    public class ReportingCommand
     {
         public string Text { get; set; }
         public CommandType CommandType { get; set; }

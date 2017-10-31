@@ -59,6 +59,13 @@ namespace NBi.Core.Query
             return cmd;
         }
 
+        public IDbCommand Build(string connectionString, string text, CommandType commandType, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> variables, int timeout)
+        {
+            var cmd = Build(connectionString, text, parameters, variables, timeout);
+            cmd.CommandType = commandType;
+            return cmd;
+        }
+
         public IDbCommand Build(string connectionString, string query, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> variables, int timeout)
         {
             var cmd = Build(connectionString, query, parameters, variables);

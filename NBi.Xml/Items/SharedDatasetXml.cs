@@ -29,10 +29,11 @@ namespace NBi.Xml.Items
             Parameters = new List<QueryParameterXml>();
         }
 
-        private ReportCommand command;
+        private ReportingCommand command;
         public override string GetQuery()
         {
-            var parser = ParserFactory.GetParser(Source);
+            var factory = new ReportingParserFactory();
+            var parser = factory.Instantiate(Source);
 
             var request = new SharedDatasetRequest
             (
@@ -41,7 +42,7 @@ namespace NBi.Xml.Items
                     Name
             );
 
-            command = parser.ExtractQuery(request);
+            command = parser.ExtractCommand(request);
 
             return command.Text;
         }

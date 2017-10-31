@@ -111,5 +111,22 @@ namespace NBi.Testing.Unit.Xml.Systems
 
             Assert.That(rs.Query.Assembly.Path, Is.EqualTo("NBi.Testing.dll"));
         }
+
+        public void Deserialize_SampleFile_ReportQuery()
+        {
+            int testNr = 5;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.Query, Is.Not.Null);
+            Assert.That(rs.Query.Report, Is.Not.Null);
+
+            Assert.That(rs.Query.Report.Name, Is.EqualTo("MyReport"));
+        }
     }
 }

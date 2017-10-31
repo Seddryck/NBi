@@ -462,6 +462,17 @@
       <xs:element name="service-running" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="shared-dataset-light-type">
+    <xs:attribute name="source" type="xs:string"/>
+    <xs:attribute name="path" type="xs:string"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="report-light-type">
+    <xs:attribute name="source" type="xs:string"/>
+    <xs:attribute name="path" type="xs:string"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="dataset" type="xs:string"/>
+  </xs:complexType>
   <xs:complexType name="report-type">
     <xs:complexContent>
       <xs:extension base="report-base-type">
@@ -516,9 +527,11 @@
   <xs:complexType name="query-enhanced-type" mixed="true">
     <xs:complexContent>
       <xs:extension base="query-type">
-        <xs:sequence>
+        <xs:choice>
           <xs:element name="assembly" type="assembly-type" minOccurs="0" maxOccurs="1" />
-        </xs:sequence>
+          <xs:element name="report" type="report-light-type" minOccurs="0" maxOccurs="1" />
+          <xs:element name="shared-dataset" type="shared-dataset-light-type" minOccurs="0" maxOccurs="1"/>
+        </xs:choice>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

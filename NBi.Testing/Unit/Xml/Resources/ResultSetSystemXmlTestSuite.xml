@@ -61,4 +61,18 @@
       </equalTo>
     </assert>
   </test>
+  <test name="'Query from report equal to CSV" uid="0004">
+    <system-under-test>
+      <resultSet>
+        <query>
+          <report path="/path/" name="MyReport" dataset="MyDataSet"/>
+        </query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </equalTo>
+    </assert>
+  </test>
 </testSuite>

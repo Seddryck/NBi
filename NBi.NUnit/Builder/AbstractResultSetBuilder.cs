@@ -81,6 +81,7 @@ namespace NBi.NUnit.Builder
             var factory = new ResultSetLoaderFactory();
             IResultSetLoader loader;
 
+            //ResultSet (external file)
             if (!string.IsNullOrEmpty(resultSetXml.File))
             {
                 Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in external file!");
@@ -93,6 +94,7 @@ namespace NBi.NUnit.Builder
                 factory.Using(resultSetXml?.Settings?.CsvProfile);
                 loader = factory.Instantiate(file);
             }
+            //Query
             else if (resultSetXml.Query != null )
             {
                 var argsBuilder = new Helper.QueryResolverArgsBuilder();
@@ -103,6 +105,7 @@ namespace NBi.NUnit.Builder
                 
                 loader = factory.Instantiate(args);
             }
+            //ResultSet (embedded)
             else if (resultSetXml.Rows != null)
             {
                 Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in embedded resultSet!");

@@ -64,7 +64,7 @@ namespace NBi.NUnit.Builder.Helper
 
             else if (queryXml.Report != null)
             {
-                var path = string.IsNullOrEmpty(queryXml.SharedDataset.Source) ? settingsXml.BasePath + queryXml.SharedDataset.Path : queryXml.SharedDataset.Path;
+                var path = string.IsNullOrEmpty(queryXml.Report.Source) ? settingsXml.BasePath + queryXml.Report.Path : queryXml.Report.Path;
 
                 args = new ReportDataSetQueryResolverArgs(
                     queryXml.Report.Source, path, queryXml.Report.Name, queryXml.Report.Dataset

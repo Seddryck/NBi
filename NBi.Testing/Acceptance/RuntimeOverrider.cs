@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Reflection;
 using NBi.Framework;
 using System.Configuration;
+using NBi.Core;
 
 namespace NBi.Testing.Acceptance
 {
@@ -17,7 +18,7 @@ namespace NBi.Testing.Acceptance
     [TestFixture]
     public class RuntimeOverrider
     {
-        
+
         //This class overrides the search for TestSuiteDefinitionFile
         //The filename is given by the TestCase here under
         public class TestSuiteOverrider : TestSuite
@@ -32,7 +33,7 @@ namespace NBi.Testing.Acceptance
                 TestSuiteFinder = new TestSuiteFinderOverrider(filename);
                 ConfigurationFinder = new ConfigurationFinderOverrider(configFilename);
             }
-            
+
             internal class TestSuiteFinderOverrider : TestSuiteFinder
             {
                 private readonly string filename;
@@ -40,7 +41,7 @@ namespace NBi.Testing.Acceptance
                 {
                     this.filename = filename;
                 }
-                
+
                 protected internal override string Find()
                 {
                     return @"Acceptance\Resources\" + filename;
@@ -89,7 +90,7 @@ namespace NBi.Testing.Acceptance
             Directory.CreateDirectory("Etl");
             DiskOnFile.CreatePhysicalFile(@"Etl\Sample.dtsx", "NBi.Testing.Integration.SqlServer.IntegrationService.Resources.Sample.dtsx");
         }
-        
+
         //By Acceptance Test Suite (file) create a Test Case
         [Test]
         [TestCase("QueryUniqueRows.nbits")]
@@ -133,15 +134,29 @@ namespace NBi.Testing.Acceptance
         [Category("Acceptance")]
         public void RunPositiveTestSuite(string filename)
         {
+            var isInconclusive = false;
             var t = new TestSuiteOverrider(@"Positive\" + filename);
-            
+
             //First retrieve the NUnit TestCases with base class (NBi.NUnit.Runtime)
             //These NUnit TestCases are defined in the Test Suite file
             var tests = t.GetTestCases();
 
             //Execute the NUnit TestCases one by one
             foreach (var testCaseData in tests)
-                t.ExecuteTestCases((TestXml)testCaseData.Arguments[0]);
+            {
+                try
+                {
+                    t.ExecuteTestCases((TestXml)testCaseData.Arguments[0]);
+                }
+                catch (IgnoreException)
+                {
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceWarning, $"Not stopping the test suite, continue on ignore.");
+                    isInconclusive = true;
+                }
+            }
+
+            if (isInconclusive)
+                Assert.Inconclusive("At least one test has been skipped. Check if it's what was expected.");
         }
 
         [Test]
@@ -186,8 +201,8 @@ namespace NBi.Testing.Acceptance
                 {
                     using (Stream stream = Assembly.GetExecutingAssembly()
                                            .GetManifestResourceStream(
-                                                "NBi.Testing.Acceptance.Resources.Negative." 
-                                                + filename.Replace(".nbits",string.Empty) 
+                                                "NBi.Testing.Acceptance.Resources.Negative."
+                                                + filename.Replace(".nbits", string.Empty)
                                                 + "-" + testXml.UniqueIdentifier + ".txt"))
                     {
                         using (StreamReader reader = new StreamReader(stream))

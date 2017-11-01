@@ -13,16 +13,11 @@ namespace NBi.NUnit.Builder
     class ResultSetNoRowsBuilder : AbstractResultSetBuilder
     {
         protected NoRowsXml ConstraintXml {get; set;}
-
-        public ResultSetNoRowsBuilder()
-        {
-
-        }
-
+        
         protected override void SpecificSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
             if (!(ctrXml is NoRowsXml))
-                throw new ArgumentException("Constraint must be a 'RowCountXml'");
+                throw new ArgumentException("Constraint must be a 'NoRowXml'");
 
             ConstraintXml = (NoRowsXml)ctrXml;
         }
@@ -32,11 +27,21 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint();
         }
 
-        protected NBiConstraint InstantiateConstraint()
-        {           
+        protected virtual NBiConstraint InstantiateConstraint()
+        {
+            var filter = InstantiateFilter();
+            var ctr = new NoRowsConstraint(filter);
+            return ctr;
+        }
+
+        protected PredicateFilter InstantiateFilter()
+        {
             var expressions = new List<IColumnExpression>();
-            if (ConstraintXml.Expression!=null)
+            if (ConstraintXml.Expression != null)
                 expressions.Add(ConstraintXml.Expression);
+
+            if (ConstraintXml.Predicate.Reference != null)
+                ConstraintXml.Predicate.Reference = EvaluatePotentialVariable(ConstraintXml.Predicate.Reference);
 
             var factory = new PredicateFilterFactory();
             var filter = factory.Instantiate
@@ -45,10 +50,7 @@ namespace NBi.NUnit.Builder
                             , expressions
                             , ConstraintXml.Predicate
                         );
-
-            var ctr = new NoRowsConstraint(filter);
-            return ctr;
+            return filter;
         }
-
     }
 }

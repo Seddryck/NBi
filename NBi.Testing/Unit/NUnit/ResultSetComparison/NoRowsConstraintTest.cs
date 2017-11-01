@@ -15,7 +15,7 @@ using NBi.Core.ResultSet.Loading;
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
     [TestFixture]
-    public class AllRowsConstraintTest
+    public class NoRowsConstraintTest
     {
         
         #region Setup & Teardown
@@ -61,7 +61,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                     , predicate
                 );
 
-            var rowCount = new AllRowsConstraint(filter);
+            var rowCount = new NoRowsConstraint(filter);
 
             //Method under test
             rowCount.Matches(service);
@@ -71,7 +71,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         }
 
         [Test]
-        public void Matches_AllValidatePredicate_True()
+        public void Matches_AllValidatePredicate_False()
         {
             var rs = new ResultSet();
             rs.Load(new[] { new object[] { "a", -1 }, new object[] { "b", -2 }, new object[] { "c", -3 } });
@@ -92,12 +92,12 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                     , predicate
                 );
 
-            var singleRowCtr = new AllRowsConstraint(filter);
-            Assert.That(singleRowCtr.Matches(rs), Is.True);
+            var singleRowCtr = new NoRowsConstraint(filter);
+            Assert.That(singleRowCtr.Matches(rs), Is.False);
         }
 
         [Test]
-        public void Matches_NoneValidatePredicate_False()
+        public void Matches_NoneValidatePredicate_True()
         {
             var rs = new ResultSet();
             rs.Load(new[] { new object[] { "a", 1 }, new object[] { "b", 2 }, new object[] { "c", 3 } });
@@ -118,8 +118,8 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                     , predicate
                 );
 
-            var singleRowCtr = new AllRowsConstraint(filter);
-            Assert.That(singleRowCtr.Matches(rs), Is.False);
+            var singleRowCtr = new NoRowsConstraint(filter);
+            Assert.That(singleRowCtr.Matches(rs), Is.True);
         }
 
         [Test]
@@ -144,7 +144,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                     , predicate
                 );
 
-            var singleRowCtr = new AllRowsConstraint(filter);
+            var singleRowCtr = new NoRowsConstraint(filter);
             Assert.That(singleRowCtr.Matches(rs), Is.False);
         }
 
@@ -170,7 +170,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                     , predicate
                 );
 
-            var singleRowCtr = new AllRowsConstraint(filter);
+            var singleRowCtr = new NoRowsConstraint(filter);
             Assert.That(singleRowCtr.Matches(rs), Is.False);
         }
     }

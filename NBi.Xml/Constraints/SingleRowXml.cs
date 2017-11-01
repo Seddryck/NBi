@@ -15,9 +15,9 @@ using NBi.Core.Evaluate;
 
 namespace NBi.Xml.Constraints
 {
-    public class AllRowsXml : NoRowsXml
+    public class SingleRowXml : NoRowsXml
     {
-        public AllRowsXml() : base()
-        { }
+        public SingleRowXml() : base()
+        {  }
     }
 }

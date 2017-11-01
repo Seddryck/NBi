@@ -9,7 +9,7 @@
     </default>
   </settings>
   <group name="asserts">
-    <test name="'Reseller Orders' count, year by year, between 2005 and 2008" uid="0001">
+    <test name="Csv equal to embedded result-set" uid="0001">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -36,7 +36,7 @@
         </equalTo>
       </assert>
     </test>
-    <test name="'Reseller Orders' count are less than 10000" uid="0002">
+    <test name="all are less than 10000" uid="0002">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -48,7 +48,7 @@
         </all-rows>
       </assert>
     </test>
-    <test name="'Reseller Orders' count none are more than 10000" uid="0003">
+    <test name="none are more than 10000" uid="0003">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -60,7 +60,31 @@
         </no-rows>
       </assert>
     </test>
-    <test name="'Reseller Orders' count none are unique" uid="0004">
+    <test name="some are less than 1000" uid="0004">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </system-under-test>
+      <assert>
+        <some-rows>
+          <predicate name="#1">
+            <less-than>1000</less-than>
+          </predicate>
+        </some-rows>
+      </assert>
+    </test>
+    <test name="single is more than 1500" uid="0005">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </system-under-test>
+      <assert>
+        <single-row>
+          <predicate name="#1">
+            <more-than>1500</more-than>
+          </predicate>
+        </single-row>
+      </assert>
+    </test>
+    <test name="'rows are unique" uid="0006">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -68,7 +92,7 @@
         <unique-rows/>
       </assert>
     </test>
-    <test name="'Reseller Orders' count are 4 rows" uid="0005">
+    <test name="return 4 rows" uid="0007">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>

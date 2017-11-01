@@ -126,6 +126,8 @@ namespace NBi.Xml
         XmlArrayItem(Type = typeof(RowCountXml), ElementName = "row-count"),
         XmlArrayItem(Type = typeof(AllRowsXml), ElementName = "all-rows"),
         XmlArrayItem(Type = typeof(NoRowsXml), ElementName = "no-rows"),
+        XmlArrayItem(Type = typeof(SomeRowsXml), ElementName = "some-rows"),
+        XmlArrayItem(Type = typeof(SingleRowXml), ElementName = "single-rows"),
         XmlArrayItem(Type = typeof(IsXml), ElementName = "is"),
         XmlArrayItem(Type = typeof(UniqueRowsXml), ElementName = "unique-rows"),
         ]

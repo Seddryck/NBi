@@ -201,8 +201,8 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var variables = rowCount.Filter.Aliases;
 
             Assert.That(variables, Has.Count.EqualTo(1));
-            Assert.That(variables[0].Name, Is.EqualTo("DeptId"));
-            Assert.That(variables[0].Column, Is.EqualTo(0));
+            Assert.That(variables.ElementAt(0).Name, Is.EqualTo("DeptId"));
+            Assert.That(variables.ElementAt(0).Column, Is.EqualTo(0));
         }
 
         [Test]

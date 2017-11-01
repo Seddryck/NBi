@@ -462,6 +462,17 @@
       <xs:element name="service-running" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="shared-dataset-light-type">
+    <xs:attribute name="source" type="xs:string"/>
+    <xs:attribute name="path" type="xs:string"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="report-light-type">
+    <xs:attribute name="source" type="xs:string"/>
+    <xs:attribute name="path" type="xs:string"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="dataset" type="xs:string"/>
+  </xs:complexType>
   <xs:complexType name="report-type">
     <xs:complexContent>
       <xs:extension base="report-base-type">
@@ -512,6 +523,17 @@
     <xs:attribute name="connectionString" type="xs:string" use="optional" />
     <xs:attribute name="roles" type="xs:string" use="optional" />
     <xs:attribute name="timeout-milliSeconds" type="xs:nonNegativeInteger" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="query-enhanced-type" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="query-type">
+        <xs:choice>
+          <xs:element name="assembly" type="assembly-type" minOccurs="0" maxOccurs="1" />
+          <xs:element name="report" type="report-light-type" minOccurs="0" maxOccurs="1" />
+          <xs:element name="shared-dataset" type="shared-dataset-light-type" minOccurs="0" maxOccurs="1"/>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="transformation-type">
     <xs:simpleContent>
@@ -730,7 +752,7 @@
                 </xs:choice>
               </xs:complexType>
             </xs:element>
-            <xs:element name="resultSet" type ="resultSet-light-type"/>
+            <xs:element name="resultSet" type ="resultSet-type"/>
             <xs:element name="members" type="members-type"/>
             <xs:element name="structure">
               <xs:complexType>
@@ -1090,31 +1112,34 @@
     <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
     <xs:attribute name="not" type="xs:boolean" use="optional" />
   </xs:complexType>
-  <xs:complexType name="resultSet-light-type">
+  <xs:complexType name="resultSet-type">
+    <xs:sequence>
+      <xs:choice>
+        <xs:element name="row" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="cell" minOccurs="1" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="column-name" type="xs:string" use="optional" />
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="query" minOccurs="0" maxOccurs="1" type="query-enhanced-type"/>
+      </xs:choice>
+      <xs:element name="alteration" type="alteration-type" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
     <xs:attribute name="file" type="xs:string" use="optional" />
   </xs:complexType>
-  <xs:complexType name="resultSet-type">
-    <xs:complexContent>
-      <xs:extension base="resultSet-light-type">
-        <xs:sequence>
-          <xs:element name="row" minOccurs="0" maxOccurs="unbounded">
-            <xs:complexType>
-              <xs:sequence>
-                <xs:element name="cell" minOccurs="1" maxOccurs="unbounded">
-                  <xs:complexType>
-                    <xs:simpleContent>
-                      <xs:extension base="xs:string">
-                        <xs:attribute name="column-name" type="xs:string" use="optional" />
-                      </xs:extension>
-                    </xs:simpleContent>
-                  </xs:complexType>
-                </xs:element>
-              </xs:sequence>
-            </xs:complexType>
-          </xs:element>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
+  <xs:complexType name="alteration-type">
+    <xs:sequence>
+      <xs:element name="filter" type="filter-type" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="result-set-comparison-type">
     <xs:sequence>

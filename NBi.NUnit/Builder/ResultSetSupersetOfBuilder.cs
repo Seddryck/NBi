@@ -2,18 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using NBi.Core;
-using NBi.Core.Query;
-using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Comparer;
-using NBi.NUnit.Query;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
-using NBi.Core.Xml;
-using NBi.Core.Transformation;
-using NBi.NUnit.ResultSetComparison;
 using System.Data;
+using NBi.Core.ResultSet;
+using NBi.Xml.Constraints;
+using NBi.Xml.Systems;
+using NBi.NUnit.ResultSetComparison;
+using NBi.Core.ResultSet.Loading;
+using NBi.Core.Transformation;
 
 namespace NBi.NUnit.Builder
 {
@@ -42,26 +37,19 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint();
         }
 
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(string path)
+        protected override BaseResultSetComparisonConstraint InstantiateConstraint(object obj, TransformationProvider transformation)
         {
-            return new SupersetOfConstraint(path);
+            var factory = new ResultSetLoaderFactory();
+            factory.Using(ConstraintXml.Settings?.CsvProfile);
+            var loader = factory.Instantiate(obj);
+
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
+            if (transformation != null)
+                builder.Setup(transformation.Transform);
+            var service = builder.GetService();
+
+            return new SupersetOfConstraint(service);
         }
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(IDbCommand cmd)
-        {
-            return new SupersetOfConstraint(cmd);
-        }
-
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(IContent content)
-        {
-            return new SupersetOfConstraint(content);
-        }
-
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(XPathEngine engine)
-        {
-            return new SupersetOfConstraint(engine);
-        }
-
-
-
     }
 }

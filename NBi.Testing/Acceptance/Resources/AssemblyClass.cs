@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
@@ -18,11 +20,11 @@ namespace NBi.Testing.Acceptance.Resources
         /// <summary>
         /// Method returning a valid MDX query
         /// </summary>
-        /// <param name="calendarYear">A year between 2001 and 2006 preceded by 'CY'</param>
+        /// <param name="calendarYear">A year between 2005 and 2008 preceded by 'CY'</param>
         /// <returns>Valid MDX query</returns>
         public string GetSelectMdx(string calendarYear)
         {
-            var mdx = string.Format("SELECT [Measures].[Reseller Order Count] ON 0, [Date].[Calendar Year].[{0}] ON 1 FROM [Adventure Works]", calendarYear);
+            var mdx = $"SELECT [Measures].[Reseller Order Count] ON 0, [Date].[Calendar Year].[{calendarYear}] ON 1 FROM [Adventure Works]";
             return mdx;
         }
 
@@ -40,10 +42,51 @@ namespace NBi.Testing.Acceptance.Resources
         /// <returns></returns>
         public string GetSelectMdxWithTwoParams(int year, Measure measure)
         {
-            if (measure== Measure.OrderCount)
-                return string.Format("SELECT [Measures].[Reseller Order Count] ON 0, [Date].[Calendar Year].[CY {0}] ON 1 FROM [Adventure Works]", year);
+            if (measure == Measure.OrderCount)
+                return $"SELECT [Measures].[Reseller Order Count] ON 0, [Date].[Calendar Year].[CY {year}] ON 1 FROM [Adventure Works]";
             else
                 return "Incorrect Query";
         }
+
+        public string GetTextSelectSql(string prefix)
+        {
+            return $@"select '{prefix} 2005', 366
+                union all select '{prefix} 2006', 1015
+                union all select '{prefix} 2007', 1521
+                union all select '{prefix} 2008', 894";
+        }
+
+        public IDbCommand GetCommandSelectSql(string prefix)
+        {
+            var cmd = new SqlCommand();
+
+            cmd.CommandText = $@"select '{prefix} 2005', 366
+                union all select '{prefix} 2006', 1015
+                union all select '{prefix} 2007', 1521
+                union all select '{prefix} 2008', 894";
+
+            return cmd;
+        }
+
+        public DataSet GetDataSetSelectSql(string prefix, string connectionString)
+        {
+            using (var da = new SqlDataAdapter($@"select '{prefix} 2005', 366
+                union all select '{prefix} 2006', 1015
+                union all select '{prefix} 2007', 1521
+                union all select '{prefix} 2008', 894", connectionString))
+            {
+                var ds = new DataSet();
+                da.Fill(ds);
+
+                return ds;
+            }
+        }
+
+        public DataTable GetDataTableSelectSql(string prefix, string connectionString)
+        {
+            return GetDataSetSelectSql(prefix, connectionString).Tables[0];
+        }
+
     }
 }
+

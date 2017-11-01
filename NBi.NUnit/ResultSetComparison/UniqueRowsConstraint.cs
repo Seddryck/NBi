@@ -28,24 +28,33 @@ namespace NBi.NUnit.Query
         { }
 
         /// <summary>
-        /// Handle an IDbCommand and compare it to a predefined resultset
+        /// Handle a IResultSetService execute it and check if the result contains unique rows or not
         /// </summary>
-        /// <param name="actual">An IDbCommand or a result-set or the path to a file containing a result-set</param>
+        /// <param name="actual">An IResultSetService or a result-set</param>
         /// <returns>true, if the result-set has unique rows</returns>
         public override bool Matches(object actual)
         {
-            this.actual = actual;
-            actualResultSet = new ResultSetBuilder().Build(actual);
-            var result = Engine.Execute(actualResultSet);
-
-            if (!result.AreUnique)
+            if (actual is IResultSetService)
             {
+                return Matches((actual as IResultSetService).Execute());
+            }
+            else if (actual is ResultSet)
+            {
+                actualResultSet = (ResultSet)actual;
+                var result = Engine.Execute(actualResultSet);
+
+                if (!result.AreUnique)
+                {
                 var factory = new DataRowsMessageFormatterFactory();
                 var failure = factory.Instantiate(Configuration.FailureReportProfile, ComparisonStyle.ByIndex);
-                failure.BuildDuplication(actualResultSet.Rows.Cast<DataRow>(), result);
-            }
+                    failure.BuildDuplication(actualResultSet.Rows.Cast<DataRow>(), result);
+                }
 
-            return result.AreUnique;
+                return result.AreUnique;
+            }
+            else
+                throw new ArgumentException();
+            
         }
 
         #region "Error report"

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core;
 using NBi.Core.ResultSet;
-
+using NBi.Core.ResultSet.Loading;
 
 namespace NBi.Xml.Items.ResultSet
 {
@@ -40,24 +40,16 @@ namespace NBi.Xml.Items.ResultSet
         }
 
         [XmlIgnore]
-        public ResultSetBuilder.Content Content
+        public IContent Content
         {
-            get { return new ResultSetBuilder.Content(Rows, Columns); }
+            get
+            {
+                return new ResultSetBuilder.Content(Rows, Columns);
+            }
         }
 
         [XmlAttribute("file")]
         public string File { get; set; }
-
-        public string GetFile()
-        {
-            var file = string.Empty;
-            if (Path.IsPathRooted(File))
-                file = File;
-            else
-                file = Settings.BasePath + File;
-
-            return file;
-        }
 
         public ResultSetXml()
         {

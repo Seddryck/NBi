@@ -127,8 +127,8 @@ namespace NBi.Testing.Acceptance
         [TestCase("Is.nbits")]
         [TestCase("QueryEqualToXml.nbits")]
         [TestCase("QueryRowCount.nbits")]
-        [TestCase("QueryEqualToXml.nbits")]
         [TestCase("QueryAllNoRows.nbits")]
+        [TestCase("ResultSetConstraint.nbits")]
         //[TestCase("PowerBiDesktop.nbits")]
         [Category("Acceptance")]
         public void RunPositiveTestSuite(string filename)

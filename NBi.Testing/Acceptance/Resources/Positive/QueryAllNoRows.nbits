@@ -129,6 +129,51 @@
       </no-rows>
     </assert>
   </test>
+  <test name="Some-rows with numeric information" uid="0005">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select
+          OrderDate
+          , SUM(TotalDue) as TotalDue
+          from
+          [Sales].[SalesOrderHeader]
+          group by
+          OrderDate
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <some-rows>
+        <predicate name="TotalDue">
+          <more-than>1000</more-than>
+        </predicate>
+      </some-rows>
+    </assert>
+  </test>
+  <test name="Single-row also works for textual information" uid="0006">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select
+          [Name], [CountryRegionCode]
+          from
+          [Sales].[SalesTerritory]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <single-row>
+        <predicate name="#1" type="text">
+          <equal>VN</equal>
+        </predicate>
+      </single-row>
+    </assert>
+  </test>
   <test name="With Predicate StartsWith" uid="0002">
     <system-under-test>
       <execution>

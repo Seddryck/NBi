@@ -187,8 +187,8 @@
       </assert>
     </test>
   </group>
-  <group name="Alterations">
-    <test name="Query from assembly" uid="0105">
+  <group name="alterations">
+    <test name="Filter with predicate" uid="0201">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
           <alteration>

@@ -33,7 +33,10 @@ namespace NBi.Core.WindowsService
 
 		protected bool IsRunning()
 		{
-			var service = new ServiceController(ServiceName);
+            if (!IsExisting())
+                return false;
+
+            var service = new ServiceController(ServiceName);
 
 			//If current status is starting then wait for X milliseconds and then execute the check.
 			if (service.Status == ServiceControllerStatus.StartPending)
@@ -44,5 +47,10 @@ namespace NBi.Core.WindowsService
 			return service.Status == ServiceControllerStatus.Running;
 		}
 
-	}
+        protected bool IsExisting()
+        {
+            return ServiceController.GetServices().Any(serviceController => serviceController.ServiceName.Equals(ServiceName));
+        }
+
+    }
 }

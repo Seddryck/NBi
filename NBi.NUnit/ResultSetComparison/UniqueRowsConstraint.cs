@@ -7,13 +7,14 @@ using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework.FailureMessage;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Uniqueness;
+using NBi.Framework.FailureMessage.Markdown;
 
 namespace NBi.NUnit.Query
 {
     public class UniqueRowsConstraint : NBiConstraint
     {
         protected ResultSet actualResultSet;
-        private DataRowsMessage failure;
+        private IDataRowsMessageFormatter failure;
         
         protected internal virtual UniqueRowsFinder Engine
         {
@@ -44,7 +45,8 @@ namespace NBi.NUnit.Query
 
                 if (!result.AreUnique)
                 {
-                    failure = new DataRowsMessage(ComparisonStyle.ByIndex, Configuration.FailureReportProfile);
+                var factory = new DataRowsMessageFormatterFactory();
+                var failure = factory.Instantiate(Configuration.FailureReportProfile, ComparisonStyle.ByIndex);
                     failure.BuildDuplication(actualResultSet.Rows.Cast<DataRow>(), result);
                 }
 
@@ -74,7 +76,7 @@ namespace NBi.NUnit.Query
             writer.WriteLine();
             base.WriteMessageTo(writer);
             writer.WriteLine();
-            writer.WriteLine(failure.RenderDuplicated());
+            writer.WriteLine(failure.RenderAnalysis());
         }
 
         #endregion

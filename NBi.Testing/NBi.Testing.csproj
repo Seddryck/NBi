@@ -75,6 +75,9 @@
     <Reference Include="Moq, Version=4.7.142.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.7.142\lib\net45\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
@@ -232,11 +235,16 @@
     <Compile Include="Unit\Core\Variable\CSharpTestVariableTest.cs" />
     <Compile Include="Unit\Core\Variable\TestVariableFactoryTest.cs" />
     <Compile Include="Unit\Core\Xml\XPathEngineTest.cs" />
-    <Compile Include="Unit\Framework\FailureMessage\DataRowsMessageTest.cs" />
-    <Compile Include="Unit\Framework\FailureMessage\ItemsMessageTest.cs" />
-    <Compile Include="Unit\Framework\FailureMessage\Formatter\CellFormatterTest.cs" />
-    <Compile Include="Unit\Framework\FailureMessage\Helper\TableHeaderHelperTest.cs" />
-    <Compile Include="Unit\Framework\FailureMessage\Helper\TableHelperTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Json\DataRowsMessageJsonTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Json\TableHelperJsonTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Markdown\DataRowsMessageMardownTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Markdown\ItemsMessageMardownTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Common\CellFormatterTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Common\ColumnPropertiesFormatterTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Markdown\Helper\TableHelperTest.cs" />
+    <Compile Include="Unit\Framework\Sampling\BasicSamplerTest.cs" />
+    <Compile Include="Unit\Framework\Sampling\FullSamplerTest.cs" />
+    <Compile Include="Unit\Framework\Sampling\NoneSamplerTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\ReduceCaseTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\GroupCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\SplitCaseActionTest.cs" />
@@ -493,6 +501,12 @@
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\Variables.nbivar">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Full-Json.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Full-Json.nbits.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\OrderCountByYear.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -570,6 +584,7 @@
     <None Include="Acceptance\Resources\Positive\Users.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="app.config" />
     <None Include="ConnectionString.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -805,6 +820,7 @@
     <EmbeddedResource Include="Acceptance\Resources\Csv\SampleData.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Full-Json-0001.txt" />
     <Content Include="Acceptance\Resources\PowerBiDesktop\Source.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

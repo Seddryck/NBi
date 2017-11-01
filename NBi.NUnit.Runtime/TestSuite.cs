@@ -11,7 +11,6 @@ using NBi.Xml.Decoration;
 using NUnit.Framework;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.NUnit.Runtime.Configuration;
-using NBi.Framework.FailureMessage;
 using NBi.Framework;
 using NBi.Core.Configuration;
 using NBi.Core.Variable;

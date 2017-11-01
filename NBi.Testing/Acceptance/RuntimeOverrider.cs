@@ -203,6 +203,7 @@ namespace NBi.Testing.Acceptance
         }
 
         [Test]
+        [TestCase("Config-Full-Json.nbits")]
         [TestCase("Config-Full.nbits")]
         [TestCase("Config-Light.nbits")]
         [Category("Acceptance")]

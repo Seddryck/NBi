@@ -33,7 +33,7 @@ namespace NBi.Xml.SerializationOption
 
             attrs = new XmlAttributes();
             attrs.XmlElements.Add(new XmlElementAttribute("variable"));
-            Add(typeof(AllRowsXml), "InternalAliasesOld", attrs);
+            Add(typeof(NoRowsXml), "InternalAliasesOld", attrs);
 
             attrs = new XmlAttributes();
             attrs.XmlElements.Add(new XmlElementAttribute("variable"));

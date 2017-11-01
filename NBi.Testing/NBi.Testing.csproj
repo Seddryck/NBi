@@ -267,8 +267,10 @@
     <Compile Include="Unit\GenbiL\Parser\CommentParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\GrammarParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\VariableParserTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\ResultSetUniqueRowsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetAllRowsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetSomeRowsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetUniqueRowsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetSingleRowBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetSupersetOfBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetRowCountBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ExecutionMatchPatternBuilderTest.cs" />
@@ -290,6 +292,9 @@
     <Compile Include="Unit\NUnit\Builder\MembersCountBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
     <Compile Include="Unit\NUnit\DataType\IsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\NoRowsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\SingleRowConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\SomeRowsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\AllRowsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\RowCountConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Execution\SuccessfulConstraintTest.cs" />

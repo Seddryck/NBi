@@ -15,7 +15,7 @@ using NBi.Core.ResultSet.Loading;
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
     [TestFixture]
-    public class AllRowsConstraintTest
+    public class SomeRowsConstraintTest
     {
         
         #region Setup & Teardown
@@ -61,10 +61,10 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                     , predicate
                 );
 
-            var rowCount = new AllRowsConstraint(filter);
+            var someRowCtr = new SomeRowsConstraint(filter);
 
             //Method under test
-            rowCount.Matches(service);
+            someRowCtr.Matches(service);
 
             //Test conclusion            
             serviceMock.Verify(s => s.Execute(), Times.Once());
@@ -74,7 +74,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         public void Matches_AllValidatePredicate_True()
         {
             var rs = new ResultSet();
-            rs.Load(new[] { new object[] { "a", -1 }, new object[] { "b", -2 }, new object[] { "c", -3 } });
+            rs.Load(new[] { new object[] {"a", -1}, new object[] { "b", -2 }, new object[] { "c", -3 } });
 
             var predicate = Mock.Of<IPredicateInfo>
                 (
@@ -92,8 +92,8 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                     , predicate
                 );
 
-            var singleRowCtr = new AllRowsConstraint(filter);
-            Assert.That(singleRowCtr.Matches(rs), Is.True);
+            var someRowCtr = new SomeRowsConstraint(filter);
+            Assert.That(someRowCtr.Matches(rs));
         }
 
         [Test]
@@ -118,12 +118,12 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                     , predicate
                 );
 
-            var singleRowCtr = new AllRowsConstraint(filter);
-            Assert.That(singleRowCtr.Matches(rs), Is.False);
+            var someRowCtr = new SomeRowsConstraint(filter);
+            Assert.That(someRowCtr.Matches(rs), Is.False);
         }
 
         [Test]
-        public void Matches_FewValidatePredicate_False()
+        public void Matches_FewValidatePredicate_True()
         {
             var rs = new ResultSet();
             rs.Load(new[] { new object[] { "a", -1 }, new object[] { "b", -2 }, new object[] { "c", 3 } });
@@ -144,12 +144,12 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                     , predicate
                 );
 
-            var singleRowCtr = new AllRowsConstraint(filter);
-            Assert.That(singleRowCtr.Matches(rs), Is.False);
+            var someRowCtr = new SomeRowsConstraint(filter);
+            Assert.That(someRowCtr.Matches(rs));
         }
 
         [Test]
-        public void Matches_SingleValidatePredicate_False()
+        public void Matches_SingleValidatePredicate_True()
         {
             var rs = new ResultSet();
             rs.Load(new[] { new object[] { "a", -1 }, new object[] { "b", 2 }, new object[] { "c", 3 } });
@@ -170,8 +170,8 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                     , predicate
                 );
 
-            var singleRowCtr = new AllRowsConstraint(filter);
-            Assert.That(singleRowCtr.Matches(rs), Is.False);
+            var someRowCtr = new SomeRowsConstraint(filter);
+            Assert.That(someRowCtr.Matches(rs));
         }
     }
 }

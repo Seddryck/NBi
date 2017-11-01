@@ -1000,6 +1000,8 @@
             </xs:element>
             <xs:element name="all-rows" type="filter-type"/>
             <xs:element name="no-rows" type="filter-type"/>
+            <xs:element name="some-rows" type="filter-type"/>
+            <xs:element name="single-row" type="filter-type"/>
             <xs:element name="unique-rows"/>
           </xs:choice>
         </xs:complexType>

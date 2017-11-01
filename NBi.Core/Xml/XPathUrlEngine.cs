@@ -19,7 +19,7 @@ namespace NBi.Core.Xml
             this.Url = url;
         }
 
-        public override NBi.Core.ResultSet.ResultSet Execute()
+        public override IEnumerable<object> Execute()
         {
             var doc = XDocument.Load(Url);
             return Execute(doc);

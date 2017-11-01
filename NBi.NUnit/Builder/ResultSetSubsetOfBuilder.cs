@@ -13,6 +13,7 @@ using NBi.Core.Xml;
 using NBi.Core.Transformation;
 using NBi.NUnit.ResultSetComparison;
 using System.Data;
+using NBi.Core.ResultSet.Loading;
 
 namespace NBi.NUnit.Builder
 {
@@ -40,26 +41,21 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint();
         }
 
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(string path)
+
+        protected override BaseResultSetComparisonConstraint InstantiateConstraint(object obj, TransformationProvider transformation)
         {
-            return new SubsetOfConstraint(path);
+            var factory = new ResultSetLoaderFactory();
+            factory.Using(ConstraintXml.Settings?.CsvProfile);
+            var loader = factory.Instantiate(obj);
+
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
+            if (transformation != null)
+                builder.Setup(transformation.Transform);
+            var service = builder.GetService();
+
+            return new SubsetOfConstraint(service);
         }
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(IDbCommand cmd)
-        {
-            return new SubsetOfConstraint(cmd);
-        }
-
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(IContent content)
-        {
-            return new SubsetOfConstraint(content);
-        }
-
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(XPathEngine engine)
-        {
-            return new SubsetOfConstraint(engine);
-        }
-
-
-
+        
     }
 }

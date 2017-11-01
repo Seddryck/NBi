@@ -10,6 +10,7 @@ using NBi.Core.ResultSet;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework.FailureMessage;
+using NBi.Core.ResultSet.Resolver.Query;
 
 namespace NBi.NUnit.Member
 {
@@ -103,6 +104,9 @@ namespace NBi.NUnit.Member
 
         protected IEnumerable<string> GetMembersFromResultSet(Object obj)
         {
+            if (obj is IDbCommand)
+                obj = new DbCommandQueryResolverArgs((IDbCommand)obj);
+
             var rs = ResultSetBuilder.Build(obj);
 
             var members = new List<string>();

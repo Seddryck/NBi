@@ -22,17 +22,14 @@ namespace NBi.Core.Xml
             this.selects = selects;
         }
 
-        public abstract NBi.Core.ResultSet.ResultSet Execute();
+        public abstract IEnumerable<object> Execute();
 
-        public NBi.Core.ResultSet.ResultSet Execute(XDocument items)
+        public IEnumerable<object> Execute(XDocument items)
         {
             var result = from item in items.XPathSelectElements(@from)
                          select GetObj(item);
 
-            var builder = new ResultSetBuilder();
-            var rows = result.ToArray();
-            var resultSet = builder.Build(rows);
-            return resultSet;
+            return result;
         }
 
         private object GetObj(XElement x)

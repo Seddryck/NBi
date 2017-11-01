@@ -32,12 +32,13 @@ namespace NBi.Xml.Items
             Parameters = new List<QueryParameterXml>();
         }
 
-        private ReportCommand command;
+        private ReportingCommand command;
         public override string GetQuery()
         {
-            var parser = ParserFactory.GetParser(Source);
+            var factory = new ReportingParserFactory();
+            var parser = factory.Instantiate(Source);
 
-            var request = new DatasetRequest
+            var request = new ReportDataSetRequest
             (
                 Source ?? Settings.BasePath,
                 Path,
@@ -45,7 +46,7 @@ namespace NBi.Xml.Items
                 Dataset
             );
 
-            command = parser.ExtractQuery(request);
+            command = parser.ExtractCommand(request);
 
             return command.Text;
         }

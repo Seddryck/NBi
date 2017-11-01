@@ -6,6 +6,8 @@ using NBi.Core.Query;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
+using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Loading;
 
 namespace NBi.NUnit.Builder
 {
@@ -28,16 +30,22 @@ namespace NBi.NUnit.Builder
 
         protected virtual IDbCommand InstantiateSystemUnderTest(ExecutionXml executionXml)
         {
+            var cmd = GetCommand(executionXml);
+            return cmd;
+        }
+
+        protected virtual IDbCommand GetCommand(ExecutionXml executionXml)
+        {
             var commandBuilder = new CommandBuilder();
 
             var connectionString = executionXml.Item.GetConnectionString();
             var commandText = (executionXml.Item as QueryableXml).GetQuery();
 
-            IEnumerable<IQueryParameter> parameters=null;
+            IEnumerable<IQueryParameter> parameters = null;
             IEnumerable<IQueryTemplateVariable> variables = null;
             int timeout = 0;
             if (executionXml.BaseItem is QueryXml)
-            { 
+            {
                 parameters = ((QueryXml)executionXml.BaseItem).GetParameters();
                 variables = ((QueryXml)executionXml.BaseItem).GetVariables();
                 timeout = ((QueryXml)executionXml.BaseItem).Timeout;
@@ -54,6 +62,7 @@ namespace NBi.NUnit.Builder
             }
 
             return cmd;
+
         }
 
 

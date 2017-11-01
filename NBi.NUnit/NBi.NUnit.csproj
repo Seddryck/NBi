@@ -62,19 +62,20 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Builder\AbstractResultSetBuilder.cs" />
     <Compile Include="Builder\AbstractMembersBuilder.cs" />
     <Compile Include="Builder\AbstractDataTypeBuilder.cs" />
     <Compile Include="Builder\AbstractTestCaseBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionNonQueryBuilder.cs" />
-    <Compile Include="Builder\ExecutionNoDuplicateBuilder.cs" />
-    <Compile Include="Builder\ResultSetSystemEqualToBuilder.cs" />
+    <Compile Include="Builder\Helper\QueryResolverArgsBuilder.cs" />
+    <Compile Include="Builder\ResultSetUniqueRowsBuilder.cs" />
     <Compile Include="Builder\ResultSetSubsetOfBuilder.cs" />
     <Compile Include="Builder\ResultSetSupersetOfBuilder.cs" />
-    <Compile Include="Builder\ExecutionNoRowsBuilder.cs" />
-    <Compile Include="Builder\ExecutionAllRowsBuilder.cs" />
-    <Compile Include="Builder\ExecutionRowCountBuilder.cs" />
+    <Compile Include="Builder\ResultSetNoRowsBuilder.cs" />
+    <Compile Include="Builder\ResultSetAllRowsBuilder.cs" />
+    <Compile Include="Builder\ResultSetRowCountBuilder.cs" />
     <Compile Include="Builder\ExecutionFasterThanChooser.cs" />
     <Compile Include="Builder\ExecutionNonQuerySuccessfulBuilder.cs" />
     <Compile Include="Builder\ExecutionNonQueryFasterThanBuilder.cs" />

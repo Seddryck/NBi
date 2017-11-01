@@ -23,7 +23,7 @@ namespace NBi.Testing.Unit.Core.Xml
                 this.streamReader=streamReader;
             }
 
-            public override NBi.Core.ResultSet.ResultSet Execute()
+            public override IEnumerable<object> Execute()
             {
                 var doc = XDocument.Load(streamReader);
                 return Execute(doc);
@@ -55,7 +55,7 @@ namespace NBi.Testing.Unit.Core.Xml
             {
                 var engine = new XPathStreamEngine(reader, from, selects);
                 var result = engine.Execute();
-                Assert.That(result.Columns.Count, Is.EqualTo(3));
+                Assert.That((result.ElementAt(0) as IEnumerable<object>).Count, Is.EqualTo(3));
             }
         }
 
@@ -75,7 +75,7 @@ namespace NBi.Testing.Unit.Core.Xml
             {
                 var engine = new XPathStreamEngine(reader, from, selects);
                 var result = engine.Execute();
-                Assert.That(result.Rows.Count, Is.EqualTo(rowCount));
+                Assert.That(result.Count, Is.EqualTo(rowCount));
             }
 
             
@@ -94,7 +94,7 @@ namespace NBi.Testing.Unit.Core.Xml
             {
                 var engine = new XPathStreamEngine(reader, from, selects);
                 var result = engine.Execute();
-                Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo("Lawnmower"));
+                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("Lawnmower"));
             }
         }
 
@@ -111,7 +111,7 @@ namespace NBi.Testing.Unit.Core.Xml
             {
                 var engine = new XPathStreamEngine(reader, from, selects);
                 var result = engine.Execute();
-                Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo("872-AA"));
+                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("872-AA"));
             }
         }
 
@@ -128,7 +128,7 @@ namespace NBi.Testing.Unit.Core.Xml
             {
                 var engine = new XPathStreamEngine(reader, from, selects);
                 var result = engine.Execute();
-                Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo("Lawnmower"));
+                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("Lawnmower"));
             }
         }
 
@@ -145,7 +145,7 @@ namespace NBi.Testing.Unit.Core.Xml
             {
                 var engine = new XPathStreamEngine(reader, from, selects);
                 var result = engine.Execute();
-                Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo("872-AA"));
+                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("872-AA"));
             }
         }
 
@@ -162,8 +162,8 @@ namespace NBi.Testing.Unit.Core.Xml
             {
                 var engine = new XPathStreamEngine(reader, from, selects);
                 var result = engine.Execute();
-                Assert.That(result.Rows[0].ItemArray[0], Is.StringStarting("Ellen Adams"));
-                Assert.That(result.Rows[0].ItemArray[0], Is.StringContaining("Maple Street"));
+                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.StringStarting("Ellen Adams"));
+                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.StringContaining("Maple Street"));
             }
         }
 
@@ -180,7 +180,7 @@ namespace NBi.Testing.Unit.Core.Xml
             {
                 var engine = new XPathStreamEngine(reader, from, selects);
                 var result = engine.Execute();
-                Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo("99503"));
+                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("99503"));
             }
         }
 
@@ -197,7 +197,7 @@ namespace NBi.Testing.Unit.Core.Xml
             {
                 var engine = new XPathStreamEngine(reader, from, selects);
                 var result = engine.Execute();
-                Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo(DBNull.Value));
+                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("(null)"));
             }
         }
 
@@ -214,7 +214,7 @@ namespace NBi.Testing.Unit.Core.Xml
             {
                 var engine = new XPathStreamEngine(reader, from, selects);
                 var result = engine.Execute();
-                Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo(DBNull.Value));
+                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("(null)"));
             }
         }
     }

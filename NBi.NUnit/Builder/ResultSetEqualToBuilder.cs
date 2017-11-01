@@ -13,10 +13,13 @@ using NBi.Xml.Systems;
 using NBi.Core.Xml;
 using NBi.Core.Transformation;
 using System.Data;
+using NBi.Core.ResultSet.Loading;
+using System.IO;
+using NBi.Core.ResultSet.Resolver.Query;
 
 namespace NBi.NUnit.Builder
 {
-    class ResultSetEqualToBuilder : AbstractExecutionBuilder
+    class ResultSetEqualToBuilder : AbstractResultSetBuilder
     {
         protected EqualToXml ConstraintXml { get; set; }
 
@@ -47,6 +50,14 @@ namespace NBi.NUnit.Builder
         {
             BaseResultSetComparisonConstraint ctr = null;
 
+            //Manage transformations
+            var transformationProvider = new TransformationProvider();
+            foreach (var columnDef in ConstraintXml.ColumnsDef)
+            {
+                if (columnDef.Transformation != null)
+                    transformationProvider.Add(columnDef.Index, columnDef.Transformation);
+            }
+
             if (ConstraintXml.GetCommand() != null)
             {
                 var commandText = ConstraintXml.GetCommand().CommandText;
@@ -62,23 +73,26 @@ namespace NBi.NUnit.Builder
 
                 var commandBuilder = new CommandBuilder();
                 var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables, timeout);
-                ctr = InstantiateConstraint(cmd);
 
+                var args = new DbCommandQueryResolverArgs(cmd);
+
+                ctr = InstantiateConstraint(args, transformationProvider);
             }
             else if (ConstraintXml.ResultSet != null)
             {
                 if (!string.IsNullOrEmpty(ConstraintXml.ResultSet.File))
                 {
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in external file!");
-                    ctr = InstantiateConstraint(ConstraintXml.ResultSet.GetFile());
-                    if (ConstraintXml.Settings.CsvProfile != null)
-                        ctr = ctr.CsvProfile(ConstraintXml.Settings.CsvProfile);
+                    var file = string.Empty;
+                    if (Path.IsPathRooted(ConstraintXml.ResultSet.File))
+                        file = ConstraintXml.ResultSet.File;
+                    else
+                        file = ConstraintXml.Settings?.BasePath + ConstraintXml.ResultSet.File;
+
+                    ctr = InstantiateConstraint(file, transformationProvider);
                 }
-                else if (ConstraintXml.ResultSet.Rows != null)
-                {
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in embedded resultSet!");
-                    ctr = InstantiateConstraint(ConstraintXml.ResultSet.Content);
-                }
+                else
+                    ctr = InstantiateConstraint(ConstraintXml.ResultSet.Content, transformationProvider);
+
             }
             else if (ConstraintXml.XmlSource != null)
             {
@@ -92,16 +106,18 @@ namespace NBi.NUnit.Builder
                 {
                     Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Xml file at '{0}'", ConstraintXml.XmlSource.GetFile()));
                     engine = new XPathFileEngine(ConstraintXml.XmlSource.GetFile(), ConstraintXml.XmlSource.XPath.From.Value, selects);
+                    ctr = InstantiateConstraint(engine, transformationProvider);
                 }
                 else if (ConstraintXml.XmlSource.Url != null)
                 {
                     Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Xml file at '{0}'", ConstraintXml.XmlSource.Url.Value));
                     engine = new XPathUrlEngine(ConstraintXml.XmlSource.Url.Value, ConstraintXml.XmlSource.XPath.From.Value, selects);
+                    ctr = InstantiateConstraint(engine, transformationProvider);
                 }
                 else
                     throw new ArgumentException("File or Url can't be both empty when declaring an xml-source.");
-
-                ctr = InstantiateConstraint(engine);
+                
+                
             }
 
             if (ctr == null)
@@ -111,14 +127,14 @@ namespace NBi.NUnit.Builder
             var builder = new ResultSetComparisonBuilder();
             if (ConstraintXml.Behavior == EqualToXml.ComparisonBehavior.SingleRow)
             {
-                
+
                 builder.Setup(false, 0, null, 0, null,
                     ConstraintXml.ValuesDefaultType,
                     ToleranceFactory.Instantiate(ConstraintXml.ValuesDefaultType, ConstraintXml.Tolerance),
                     ConstraintXml.ColumnsDef
                     , ComparisonKind.EqualTo
                 );
-                
+
             }
             else
             {
@@ -141,15 +157,7 @@ namespace NBi.NUnit.Builder
             var settings = builder.GetSettings();
             ctr = ctr.Using(settings);
 
-            //Manage transformations
-            var transformationProvider = new TransformationProvider();
-            foreach (var columnDef in ConstraintXml.ColumnsDef)
-            {
-                if (columnDef.Transformation != null)
-                    transformationProvider.Add(columnDef.Index, columnDef.Transformation);
-            }
-
-            ctr = ctr.Using(transformationProvider);
+            
 
             //Manage parallelism
             if (ConstraintXml.ParallelizeQueries)
@@ -160,24 +168,22 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
-        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(string path)
+        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(object obj, TransformationProvider transformation)
         {
-            return new EqualToConstraint(path);
-        }
-        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(IDbCommand cmd)
-        {
-            return new EqualToConstraint(cmd);
+            var factory = new ResultSetLoaderFactory();
+            factory.Using(ConstraintXml.Settings?.CsvProfile);
+            var loader = factory.Instantiate(obj);
+
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(loader);
+            if (transformation != null)
+                builder.Setup(transformation.Transform);
+
+            var service = builder.GetService();
+
+            return new EqualToConstraint(service);
         }
 
-        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(IContent content)
-        {
-            return new EqualToConstraint(content);
-        }
-
-        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(XPathEngine engine)
-        {
-            return new EqualToConstraint(engine);
-        }
 
     }
 }

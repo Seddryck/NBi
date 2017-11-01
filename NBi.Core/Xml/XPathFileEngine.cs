@@ -18,7 +18,7 @@ namespace NBi.Core.Xml
             this.FilePath = filePath;
         }
 
-        public override NBi.Core.ResultSet.ResultSet Execute()
+        public override IEnumerable<object> Execute()
         {
             if (!File.Exists(FilePath))
                 throw new InvalidOperationException(string.Format("File '{0}' doesn't exist!", FilePath));

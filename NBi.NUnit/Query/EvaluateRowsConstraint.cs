@@ -5,6 +5,7 @@ using System.Linq;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Core.ResultSet.Resolver.Query;
 
 namespace NBi.NUnit.Query
 {
@@ -97,6 +98,9 @@ namespace NBi.NUnit.Query
 
         protected ResultSet GetResultSet(Object obj)
         {
+            if (obj is IDbCommand)
+                obj = new DbCommandQueryResolverArgs((IDbCommand)obj);
+
             return ResultSetBuilder.Build(obj);
         }
 

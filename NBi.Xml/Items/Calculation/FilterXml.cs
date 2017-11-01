@@ -2,6 +2,7 @@
 using NBi.Xml.Items.Calculation;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,11 +13,11 @@ namespace NBi.Xml.Items.Calculation
     public class FilterXml
     {
         [XmlIgnore()]
-        public List<IColumnAlias> Aliases
+        public IReadOnlyCollection<IColumnAlias> Aliases
         {
             get
             {
-                return internalAliases.ToList<IColumnAlias>();
+                return new ReadOnlyCollection<IColumnAlias>(internalAliases.Cast<IColumnAlias>().ToList());
             }
         }
 

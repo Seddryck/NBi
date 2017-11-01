@@ -14,7 +14,7 @@ namespace NBi.Testing.Integration.Core.WindowsService
         public const string SERVICE_NAME = "SQLWriter";
 
         [Test]
-        public void Validate_IsRunningPredicateOnStoppedService_False()
+        public void IsRunning_OnStoppedService_False()
         {
             //Ensure the service is stopped
             var service = new ServiceController(SERVICE_NAME);
@@ -38,7 +38,24 @@ namespace NBi.Testing.Integration.Core.WindowsService
         }
 
         [Test]
-        public void Execute_IsRunningPredicateOnRunningService_True()
+        public void IsRunning_OnNotExistingService_False()
+        {
+            //Mock the commandXml
+            var info = Mock.Of<IWindowsServiceRunningCheck>(
+                start => start.ServiceName == "NotExisting"
+                    && start.TimeOut == 5000
+                );
+
+            //Apply the test
+            var predicate = WindowsServiceCheck.IsRunning(info);
+            var result = predicate.Validate();
+
+            //Assert
+            Assert.That(result, Is.False);
+        }
+
+        [Test]
+        public void IsRunning_OnRunningService_True()
         {
             //Ensure the service is stopped
             var service = new ServiceController(SERVICE_NAME);

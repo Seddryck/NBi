@@ -10,6 +10,8 @@ using NBi.Framework.Sampling;
 using Newtonsoft.Json;
 using System.IO;
 using NBi.Core.ResultSet.Comparer;
+using System.Globalization;
+using System.Threading;
 
 namespace NBi.Testing.Unit.Framework.FailureMessage.Json
 {
@@ -55,7 +57,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
             var sw = new StringWriter(sb);
             using (var writer = new JsonTextWriter(sw))
             {
-                helper.Execute(dataTable.Rows.Cast<DataRow>(), new BasicSampler<DataRow>(1,1), writer);
+                helper.Execute(dataTable.Rows.Cast<DataRow>(), new BasicSampler<DataRow>(1, 1), writer);
 
                 Assert.That(sb.ToString, Is.StringContaining("total-rows"));
                 Assert.That(sb.ToString, Is.StringContaining("sampled-rows"));
@@ -127,7 +129,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns["Numeric value"].ExtendedProperties["NBi::Role"] = ColumnRole.Value;
             dataTable.Columns["Numeric value"].ExtendedProperties["NBi::Type"] = ColumnType.Numeric;
-            dataTable.Columns["Numeric value"].ExtendedProperties["NBi::Tolerance"] = new NumericAbsoluteTolerance(10,SideTolerance.Both);
+            dataTable.Columns["Numeric value"].ExtendedProperties["NBi::Tolerance"] = new NumericAbsoluteTolerance(10, SideTolerance.Both);
             dataTable.LoadDataRow(new object[] { "Alpha", 10 }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20 }, false);
 
@@ -143,18 +145,25 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
         }
 
         [Test]
-        public void Build_ThreeColumnsTwoRows_RowsSpecified()
+        [TestCase("fr-fr")]
+        [TestCase("en-us")]
+        [TestCase("de-de")]
+        public void Build_ThreeColumnsTwoRows_RowsSpecified(string culture)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+
             var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
-            dataTable.Columns.Add(new DataColumn("Numeric value"));
+            dataTable.Columns.Add("Numeric value", typeof(decimal));
             dataTable.Columns["Numeric value"].ExtendedProperties["NBi::Type"] = ColumnType.Numeric;
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.Columns["Boolean value"].ExtendedProperties["NBi::Type"] = ColumnType.Boolean;
-            dataTable.LoadDataRow(new object[] { "Alpha", 10.5 , true }, false);
-            dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            dataTable.Columns.Add("DateTime value", typeof(DateTime));
+            dataTable.Columns["DateTime value"].ExtendedProperties["NBi::Type"] = ColumnType.DateTime;
+            dataTable.LoadDataRow(new object[] { "Alpha", 10.5, true, new DateTime(2010, 5, 6) }, false);
+            dataTable.LoadDataRow(new object[] { "Beta", 20, false, new DateTime(2010, 5, 15, 7, 45, 12) }, false);
 
             var helper = new TableHelperJson();
             var sb = new StringBuilder();
@@ -164,8 +173,8 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
                 helper.Execute(dataTable.Rows.Cast<DataRow>(), new FullSampler<DataRow>(), writer);
 
                 Assert.That(sb.ToString, Is.StringContaining("rows"));
-                Assert.That(sb.ToString, Is.StringContaining("[\"Alpha\",\"10.5\",\"True\"]"));
-                Assert.That(sb.ToString, Is.StringContaining("[\"Beta\",\"20\",\"False\"]"));
+                Assert.That(sb.ToString, Is.StringContaining("[\"Alpha\",\"10.5\",\"True\",\"2010-05-06\"]"));
+                Assert.That(sb.ToString, Is.StringContaining("[\"Beta\",\"20\",\"False\",\"2010-05-15 07:45:12\"]"));
             }
         }
     }

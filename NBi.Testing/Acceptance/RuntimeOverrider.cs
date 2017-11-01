@@ -92,7 +92,7 @@ namespace NBi.Testing.Acceptance
         
         //By Acceptance Test Suite (file) create a Test Case
         [Test]
-        [TestCase("QueryNoDuplicate.nbits")]
+        [TestCase("QueryUniqueRows.nbits")]
         [TestCase("AssemblyEqualToResultSet.nbits")]
         [TestCase("CsvEqualToResultSet.nbits")]
         [TestCase("QueryEqualToWithParameter.nbits")]

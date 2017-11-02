@@ -1090,6 +1090,7 @@
         <xs:restriction base="xs:string">
           <xs:enumeration value="or"/>
           <xs:enumeration value="xor"/>
+          <xs:enumeration value="and"/>
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>

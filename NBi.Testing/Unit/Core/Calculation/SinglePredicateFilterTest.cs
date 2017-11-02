@@ -13,7 +13,7 @@ using NBi.Core.ResultSet.Loading;
 
 namespace NBi.Testing.Unit.Core.Calculation
 {
-    public class PredicateFilterTest
+    public class SinglePredicateFilterTest
     {
 
         [Test]

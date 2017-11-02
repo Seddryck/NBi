@@ -12,6 +12,8 @@ namespace NBi.Core.Calculation
         [XmlEnum("or")]
         Or,
         [XmlEnum("xor")]
-        XOr
+        XOr,
+        [XmlEnum("and")]
+        And,
     }
 }

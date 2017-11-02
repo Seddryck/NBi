@@ -158,7 +158,8 @@
     <Compile Include="Integration\NUnit\Structure\LinkedToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\ExistsConstraintTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommandTest.cs" />
-    <Compile Include="Unit\Core\Calculation\PredicateFilterTest.cs" />
+    <Compile Include="Unit\Core\Calculation\CombinationPredicateFilterTest.cs" />
+    <Compile Include="Unit\Core\Calculation\SinglePredicateFilterTest.cs" />
     <Compile Include="Unit\Core\Calculation\PredicateTwoOperandsTest.cs" />
     <Compile Include="Unit\Core\Calculation\PredicateWithoutReferenceTest.cs" />
     <Compile Include="Unit\Core\Calculation\PredicateReferenceTest.cs" />

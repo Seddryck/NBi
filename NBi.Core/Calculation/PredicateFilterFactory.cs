@@ -39,6 +39,8 @@ namespace NBi.Core.Calculation
                     return new OrCombinationPredicateFilter(aliases, expressions, predications);
                 case CombinationOperator.XOr:
                     return new XOrCombinationPredicateFilter(aliases, expressions, predications);
+                case CombinationOperator.And:
+                    return new AndCombinationPredicateFilter(aliases, expressions, predications);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(combinationOperator));
             }

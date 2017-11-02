@@ -6,12 +6,13 @@ using NBi.Core.ResultSet;
 using NUnit.Framework;
 using System.Diagnostics;
 using NBi.Core.ResultSet.Analyzer;
+using NBi.Core.ResultSet.Comparison;
 #endregion
 
-namespace NBi.Testing.Unit.Core.ResultSet
+namespace NBi.Testing.Unit.Core.ResultSet.Comparison
 {
     [TestFixture]
-    public class ResultSetComparerByIndexTest
+    public class IndexComparerResultSetTest
     {
         private Random random = new Random();
 
@@ -46,7 +47,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
         public void Compare_SameRows_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
             var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
 
@@ -54,7 +55,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.Matching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.Matching));
         }
 
         [Test]
@@ -67,7 +68,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
         public void Compare_DifferentLargeArrays_ReturnQuicklyDifferent(int count, int timeout)
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(RandomLargeArrayString(count, 0), RandomLargeArrayDouble(count));
             var actual = BuildDataTable(RandomLargeArrayString(count, Convert.ToInt32(count*0.8)), RandomLargeArrayDouble(count));
 
@@ -79,7 +80,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             stopWatch.Stop();
             Console.WriteLine("Compaired in {0} milliseconds", stopWatch.Elapsed.TotalMilliseconds);
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.NotMatching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.NotMatching));
             Assert.That(stopWatch.Elapsed, Is.LessThan(new TimeSpan(0, 0, timeout)));
         }
 
@@ -87,7 +88,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
         public void Compare_SameRowsNumericKeys_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Numeric));
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Numeric));
             var reference = BuildDataTable(new string[] { "100", "12" }, new double[] { 0, 1 });
             var actual = BuildDataTable(new string[] { "0100.00", "12.0" }, new double[] { 0, 1 });
 
@@ -95,14 +96,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.Matching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.Matching));
         }
 
         [Test]
         public void Compare_SameRowsNumericKeysWithNumericType_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Numeric));
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Numeric));
             var reference = BuildDataTable(new string[] { "100", "12.750" }, new double[] { 0, 1 });
             var actual = BuildDataTableNumeric(new decimal[] { new decimal(100), new decimal(12.75) }, new double[] { 0, 1 });
 
@@ -110,14 +111,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.Matching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.Matching));
         }
 
         [Test]
         public void Compare_SameRowsDateTimeKeys_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.DateTime));
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.DateTime));
             var reference = BuildDataTable(new string[] { "2015-01-17", "2015-01-18" }, new double[] { 0, 1 });
             var actual = BuildDataTable(new string[] { "17/01/2015", "18-01-2015" }, new double[] { 0, 1 });
 
@@ -125,14 +126,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.Matching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.Matching));
         }
 
         [Test]
         public void Compare_SameRowsBooleanKeys_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Boolean));
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Boolean));
             var reference = BuildDataTable(new string[] { "yes", "no" }, new double[] { 0, 1 });
             var actual = BuildDataTable(new string[] { "True", "FALSE" }, new double[] { 0, 1 });
 
@@ -140,14 +141,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.Matching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.Matching));
         }
 
         [Test]
         public void Compare_SameRowsDateTimeKeysWithDateTimeType_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.DateTime));
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.DateTime));
             var reference = BuildDataTable(new string[] { "2015-01-17", "2015-01-18" }, new double[] { 0, 1 });
             var actual = BuildDataTableDateTime(new DateTime[] { new DateTime(2015, 01, 17), new DateTime(2015, 01, 18) }, new double[] { 0, 1 });
 
@@ -155,14 +156,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.Matching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.Matching));
         }
 
         [Test]
         public void Compare_SameRowsBooleanKeysWithBoolean_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Boolean));
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Boolean));
             var reference = BuildDataTable(new string[] { "yes", "no" }, new double[] { 0, 1 });
             var actual = BuildDataTableBoolean(new bool[] { true, false }, new double[] { 0, 1 });
 
@@ -170,14 +171,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.Matching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.Matching));
         }
 
         [Test]
         public void Compare_DifferentRows_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
             var actual = BuildDataTable(new string[] { "Key10", "Key1" }, new double[] { 10, 11 });
 
@@ -185,14 +186,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.NotMatching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.NotMatching));
         }
 
         [Test]
         public void Compare_DifferentRowsNumericKeysWithNumericType_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Numeric));
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Numeric));
             var reference = BuildDataTable(new string[] { "100", "12.750" }, new double[] { 0, 1 });
             var actual = BuildDataTableNumeric(new decimal[] { new decimal(999), new decimal(12.75) }, new double[] { 0, 1 });
 
@@ -200,14 +201,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.NotMatching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.NotMatching));
         }
 
         [Test]
         public void Compare_DifferentRowsNumericKeysWithDateTimeType_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.DateTime));
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.DateTime));
             var reference = BuildDataTable(new string[] { "2015-01-17", "2015-01-18" }, new double[] { 0, 1 });
             var actual = BuildDataTableDateTime(new DateTime[] { new DateTime(2015, 01, 17), new DateTime(2015, 01, 19) }, new double[] { 0, 1 });
 
@@ -215,14 +216,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.NotMatching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.NotMatching));
         }
 
         [Test]
         public void Compare_DifferentRowsWithHoursNumericKeysWithDateTimeType_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.DateTime));
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.DateTime));
             var reference = BuildDataTable(new string[] { "2015-01-17", "2015-01-18" }, new double[] { 0, 1 });
             var actual = BuildDataTableDateTime(new DateTime[] { new DateTime(2015, 01, 17), new DateTime(2015, 01, 18,8,0,0) }, new double[] { 0, 1 });
 
@@ -230,14 +231,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.NotMatching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.NotMatching));
         }
 
         [Test]
         public void Compare_DifferentRowsBooleanKeys_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Boolean));
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Boolean));
             var reference = BuildDataTable(new string[] { "True" }, new double[] { 0, 1 });
             var actual = BuildDataTable(new string[] { "FALSE" }, new double[] { 0, 1 });
 
@@ -245,14 +246,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.NotMatching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.NotMatching));
         }
 
         [Test]
         public void Compare_DifferentRowsBooleanKeysWithBooleanType_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Boolean));
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Boolean));
             var reference = BuildDataTable(new string[] { "True" }, new double[] { 0, 1 });
             var actual = BuildDataTableBoolean(new bool[] { false }, new double[] { 0, 1 });
 
@@ -260,14 +261,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.NotMatching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.NotMatching));
         }
 
         [Test]
         public void Compare_UnexpectedRow_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
             var actual = BuildDataTable(new string[] { "Key0", "Key1", "Key2" }, new double[] { 0, 1, 2 });
 
@@ -275,14 +276,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.NotMatching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.NotMatching));
         }
 
         [Test]
         public void Compare_MissingRow_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
             var actual = BuildDataTable(new string[] { "Key1" }, new double[] { 1 });
 
@@ -290,14 +291,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.NotMatching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.NotMatching));
         }
 
         [Test]
         public void Compare_DuplicatedRow_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
             var actual = BuildDataTable(new string[] { "Key0", "Key1", "Key2" }, new double[] { 0, 1, 1 });
 
@@ -305,14 +306,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.NotMatching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.NotMatching));
         }
 
         [Test]
         public void Compare_DuplicatedRowButWithDifferentValue_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
             var actual = BuildDataTable(new string[] { "Key0", "Key1", "Key2" }, new double[] { 0, 1, 2 });
 
@@ -320,19 +321,19 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.NotMatching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.NotMatching));
         }
 
         [Test]
         public void Compare_DuplicatedRowInRef_ThrowException()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "Key0", "Key1", "Key1" }, new double[] { 0, 1, 2 });
             var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
             
             //Assertion is generating an exception
-            var ex = Assert.Throws<ResultSetComparerException>(delegate { comparer.Compare(reference, actual); });
+            var ex = Assert.Throws<ComparerResultSetException>(delegate { comparer.Compare(reference, actual); });
             Assert.That(ex.Message, Is.StringContaining("<Key1|1>"));
             Assert.That(ex.Message, Is.StringContaining("<Key1|2>"));
         }
@@ -341,7 +342,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
         public void Compare_SameKeysButDifferentValues_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
             var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 10, 11 });
 
@@ -349,14 +350,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.NotMatching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.NotMatching));
         }
 
         [Test]
         public void Compare_SameKeysDifferentValuesButWithinTolerance_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(1));
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(1));
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
             var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0.5, 1.5 });
 
@@ -364,14 +365,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.Matching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.Matching));
         }
 
         [Test]
         public void Compare_SameKeysSameValuesUselessColumnNotMatching_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValueIgnore(0));
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValueIgnore(0));
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 }, new string[] { "Useless0", "Useless1" });
             var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 }, new string[] { "0Useless0", "0Useless1" });
             
@@ -380,15 +381,15 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.Matching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.Matching));
         }
 
         [Test]
         public void Compare_SameKeysSameValuesUselessColumnsNoneValuesMatching_ReturnEqual()
         {
-            var settings = new SettingsResultSetComparisonByIndex(
-                SettingsResultSetComparisonByIndex.KeysChoice.First,
-                SettingsResultSetComparisonByIndex.ValuesChoice.None,
+            var settings = new SettingsIndexResultSet(
+                SettingsIndexResultSet.KeysChoice.First,
+                SettingsIndexResultSet.ValuesChoice.None,
                 new List<IColumnDefinition>()
                 {
                     new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.Numeric }
@@ -396,7 +397,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
                 );
 
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), settings);
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), settings);
             var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 }, new string[] { "Useless0", "Useless1" });
             var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 }, new string[] { "0Useless0", "0Useless1" });
 
@@ -405,14 +406,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.Matching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.Matching));
         }
 
         [Test]
         public void Compare_ObjectsVersusSameTyped_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new object[] { "Key0", "Key1" }, new object[] { "0", "1" });
             var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
 
@@ -421,14 +422,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.Matching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.Matching));
         }
 
         [Test]
         public void Compare_ObjectsVersusDifferentTyped_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new object[] { "Key0", "Key1" }, new object[] { "0", "1" });
             var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 11 });
 
@@ -437,14 +438,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.NotMatching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.NotMatching));
         }
 
         [Test]
         public void Compare_ObjectsVersusSameTypedButWithPrecision_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new object[] { "Key0", "Key1" }, new object[] { "0", "1.0" });
             var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
 
@@ -453,7 +454,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var res = comparer.Compare(reference, actual);
 
             //Assertion
-            Assert.That(res, Is.EqualTo(ResultSetCompareResult.Matching));
+            Assert.That(res, Is.EqualTo(ResultResultSet.Matching));
         }
 
 
@@ -560,22 +561,22 @@ namespace NBi.Testing.Unit.Core.ResultSet
             return dt;
         }
 
-        protected SettingsResultSetComparisonByIndex BuildSettingsKeyValue()
+        protected SettingsIndexResultSet BuildSettingsKeyValue()
         {
             return BuildSettingsKeyValue(0, ColumnType.Text);
         }
 
-        protected SettingsResultSetComparisonByIndex BuildSettingsKeyValue(ColumnType keyType)
+        protected SettingsIndexResultSet BuildSettingsKeyValue(ColumnType keyType)
         {
             return BuildSettingsKeyValue(0, keyType);
         }
 
-        protected SettingsResultSetComparisonByIndex BuildSettingsKeyValue(decimal tolerance)
+        protected SettingsIndexResultSet BuildSettingsKeyValue(decimal tolerance)
         {
             return BuildSettingsKeyValue(tolerance, ColumnType.Text);
         }
 
-        protected SettingsResultSetComparisonByIndex BuildSettingsKeyValue(decimal tolerance, ColumnType keyType)
+        protected SettingsIndexResultSet BuildSettingsKeyValue(decimal tolerance, ColumnType keyType)
         {
             var columnsDef = new List<IColumnDefinition>();
             columnsDef.Add(
@@ -585,14 +586,14 @@ namespace NBi.Testing.Unit.Core.ResultSet
                     new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance.ToString() }
                     );
 
-            return new SettingsResultSetComparisonByIndex(
-                SettingsResultSetComparisonByIndex.KeysChoice.First,
-                SettingsResultSetComparisonByIndex.ValuesChoice.Last,
+            return new SettingsIndexResultSet(
+                SettingsIndexResultSet.KeysChoice.First,
+                SettingsIndexResultSet.ValuesChoice.Last,
                 columnsDef
                 );
         }
 
-        protected SettingsResultSetComparisonByIndex BuildSettingsKeyValueIgnore(decimal tolerance)
+        protected SettingsIndexResultSet BuildSettingsKeyValueIgnore(decimal tolerance)
         {
             var columnsDef = new List<IColumnDefinition>();
             columnsDef.Add(
@@ -603,9 +604,9 @@ namespace NBi.Testing.Unit.Core.ResultSet
                     new Column() { Index = 2, Role = ColumnRole.Ignore }
                     );
 
-            return new SettingsResultSetComparisonByIndex(
-                SettingsResultSetComparisonByIndex.KeysChoice.First,
-                SettingsResultSetComparisonByIndex.ValuesChoice.AllExpectFirst,
+            return new SettingsIndexResultSet(
+                SettingsIndexResultSet.KeysChoice.First,
+                SettingsIndexResultSet.ValuesChoice.AllExpectFirst,
                 columnsDef
                 );
         }

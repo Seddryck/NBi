@@ -14,12 +14,12 @@ namespace NBi.Xml.Constraints
         }
 
         [XmlAttribute("keys")]
-        [DefaultValue(SettingsResultSetComparisonByIndex.KeysChoice.All)]
-        public SettingsResultSetComparisonByIndex.KeysChoice KeysSet { get; set; }
+        [DefaultValue(SettingsIndexResultSet.KeysChoice.All)]
+        public SettingsIndexResultSet.KeysChoice KeysSet { get; set; }
 
         [XmlAttribute("values")]
-        [DefaultValue(SettingsResultSetComparisonByIndex.ValuesChoice.None)]
-        public SettingsResultSetComparisonByIndex.ValuesChoice ValuesSet { get; set; }
+        [DefaultValue(SettingsIndexResultSet.ValuesChoice.None)]
+        public SettingsIndexResultSet.ValuesChoice ValuesSet { get; set; }
 
         [XmlElement("column")]
         public List<ColumnDefinitionXml> Columns { get; set; }

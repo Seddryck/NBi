@@ -10,6 +10,7 @@ using NBi.Xml.Items;
 using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Settings;
 using NBi.Xml.Items.Xml;
+using NBi.Core.ResultSet.Comparison;
 
 namespace NBi.Xml.Constraints
 {
@@ -84,12 +85,12 @@ namespace NBi.Xml.Constraints
         public ComparisonBehavior Behavior { get; set; }
 
         [XmlAttribute("keys")]
-        [DefaultValue(SettingsResultSetComparisonByIndex.KeysChoice.First)]
-        public SettingsResultSetComparisonByIndex.KeysChoice KeysDef { get; set; }
+        [DefaultValue(SettingsIndexResultSet.KeysChoice.First)]
+        public SettingsIndexResultSet.KeysChoice KeysDef { get; set; }
 
         [XmlAttribute("values")]
-        [DefaultValue(SettingsResultSetComparisonByIndex.ValuesChoice.AllExpectFirst)]
-        public SettingsResultSetComparisonByIndex.ValuesChoice ValuesDef { get; set; }
+        [DefaultValue(SettingsIndexResultSet.ValuesChoice.AllExpectFirst)]
+        public SettingsIndexResultSet.ValuesChoice ValuesDef { get; set; }
 
         [XmlAttribute("keys-names")]
         public string KeyName { get; set; }
@@ -137,13 +138,9 @@ namespace NBi.Xml.Constraints
             }
         }
 
-        [XmlAttribute("persistance")]
-        [DefaultValue(PersistanceChoice.Never)]
-        public PersistanceChoice Persistance;
-
-        public ISettingsResultSetComparison GetSettings()
+        public ISettingsResultSet GetSettings()
         {
-            var builder = new ResultSetComparisonBuilder();
+            var builder = new ComparisonResultSetBuilder();
             builder.Setup(
                     Behavior == ComparisonBehavior.MultipleRows
                     , KeysDef

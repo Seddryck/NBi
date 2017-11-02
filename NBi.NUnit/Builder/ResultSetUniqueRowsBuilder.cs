@@ -30,7 +30,7 @@ namespace NBi.NUnit.Builder
         {
             var ctrXml = ConstraintXml as UniqueRowsXml;
 
-            var builder = new UniqueRowsFinderBuilder();
+            var builder = new UniqueRowsEvaluatorBuilder();
             builder.Setup(ctrXml.KeysSet, ctrXml.ValuesSet, ctrXml.Columns);
             builder.Build();
 

@@ -1,25 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
 using NBi.Core.ResultSet.Comparer;
-using System.Text;
-using NBi.Core.ResultSet.Converter;
-using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Analyzer;
 
-namespace NBi.Core.ResultSet
+namespace NBi.Core.ResultSet.Comparison
 {
-    public class ResultSetComparerByIndex : ResultSetComparer
+    public class IndexComparerResultSet : BaseComparerResultSet
     {
-        private SettingsResultSetComparisonByIndex settings
+        private SettingsIndexResultSet settings
         {
-            get { return Settings as SettingsResultSetComparisonByIndex; }
+            get { return Settings as SettingsIndexResultSet; }
         }
 
-        public ResultSetComparerByIndex(IEnumerable<IRowsAnalyzer> analyzers, SettingsResultSetComparisonByIndex settings)
+        public IndexComparerResultSet(IEnumerable<IRowsAnalyzer> analyzers, SettingsIndexResultSet settings)
             : base(analyzers)
         {
             Settings = settings;
@@ -58,7 +52,7 @@ namespace NBi.Core.ResultSet
 
         protected override bool CanSkipValueComparison()
         {
-            return settings.KeysDef == SettingsResultSetComparisonByIndex.KeysChoice.All;
+            return settings.KeysDef == SettingsIndexResultSet.KeysChoice.All;
         }
 
 
@@ -88,7 +82,7 @@ namespace NBi.Core.ResultSet
                 return null;
         }
 
-        protected void WriteSettingsToDataTableProperties(DataTable dt, SettingsResultSetComparisonByIndex settings)
+        protected void WriteSettingsToDataTableProperties(DataTable dt, SettingsIndexResultSet settings)
         {
             foreach (DataColumn column in dt.Columns)
             {
@@ -102,7 +96,7 @@ namespace NBi.Core.ResultSet
             }
         }
 
-        protected void CheckSettingsAndDataTable(DataTable dt, SettingsResultSetComparisonByIndex settings)
+        protected void CheckSettingsAndDataTable(DataTable dt, SettingsIndexResultSet settings)
         {
             var max = settings.GetMaxColumnIndexDefined();
             if (dt.Columns.Count <= max)
@@ -115,11 +109,11 @@ namespace NBi.Core.ResultSet
                 if (dt.Columns.Count == max && settings.GetMinColumnIndexDefined() == 1)
                     exception += " You've no definition for a column with an index of 0. Are you sure you'vent started to index at 1 in place of 0?";
 
-                throw new ResultSetComparerException(exception);
+                throw new ComparerResultSetException(exception);
             }
         }
 
-        protected void CheckSettingsAndFirstRow(DataTable dt, SettingsResultSetComparisonByIndex settings)
+        protected void CheckSettingsAndFirstRow(DataTable dt, SettingsIndexResultSet settings)
         {
             if (dt.Rows.Count == 0)
                 return;
@@ -144,10 +138,10 @@ namespace NBi.Core.ResultSet
 
         protected virtual void BuildDefaultSettings(int columnsCount)
         {
-            Settings = new SettingsResultSetComparisonByIndex(
+            Settings = new SettingsIndexResultSet(
                 columnsCount,
-                SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast,
-                SettingsResultSetComparisonByIndex.ValuesChoice.Last);
+                SettingsIndexResultSet.KeysChoice.AllExpectLast,
+                SettingsIndexResultSet.ValuesChoice.Last);
         }
 
     }

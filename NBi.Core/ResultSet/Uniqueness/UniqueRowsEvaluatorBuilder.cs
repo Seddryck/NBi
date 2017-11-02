@@ -12,15 +12,14 @@ namespace NBi.Core.ResultSet.Uniqueness
         private bool isSetup = false;
         private bool isBuild = false;
 
-        private SettingsResultSetComparisonByIndex.KeysChoice keysDef;
-        private SettingsResultSetComparisonByIndex.ValuesChoice valuesDef;
+        private SettingsIndexResultSet.KeysChoice keysDef;
+        private SettingsIndexResultSet.ValuesChoice valuesDef;
 
-        private ColumnType valuesDefaultType;
         private IReadOnlyList<IColumnDefinition> definitionColumns;
 
-        private ISettingsResultSetComparison settings;
+        private ISettingsResultSet settings;
 
-        public void Setup(SettingsResultSetComparisonByIndex.KeysChoice keysDef, SettingsResultSetComparisonByIndex.ValuesChoice valuesDef, IReadOnlyList<IColumnDefinition> columnsDefs)
+        public void Setup(SettingsIndexResultSet.KeysChoice keysDef, SettingsIndexResultSet.ValuesChoice valuesDef, IReadOnlyList<IColumnDefinition> columnsDefs)
         {
             isBuild = false;
 
@@ -106,16 +105,16 @@ namespace NBi.Core.ResultSet.Uniqueness
                 
                 var allColumns =
                     keyNamesList.Select(x => new Column() { Name = x, Role = ColumnRole.Key, Type = ColumnType.Text })
-                    .Union(valueNamesList.Select(x => new Column() { Name = x, Role = ColumnRole.Value, Type = valuesDefaultType })
+                    .Union(valueNamesList.Select(x => new Column() { Name = x, Role = ColumnRole.Value, Type = ColumnType.Numeric })
                     .Union(definitionColumns)
                     );
 
-                settings = new SettingsResultSetComparisonByName(valuesDefaultType, null, allColumns);
+                settings = new SettingsNameResultSet(ColumnType.Numeric, null, allColumns);
             }
 
             else if (!isByName)
             {
-                settings = new SettingsResultSetComparisonByIndex(keysDef, valuesDef, valuesDefaultType, null, definitionColumns);
+                settings = new SettingsIndexResultSet(keysDef, valuesDef, ColumnType.Numeric, null, definitionColumns);
             }
             
             else
@@ -123,7 +122,7 @@ namespace NBi.Core.ResultSet.Uniqueness
 
         }
 
-        public ISettingsResultSetComparison GetSettings()
+        public ISettingsResultSet GetSettings()
         {
             if (!isBuild)
                 throw new InvalidOperationException();

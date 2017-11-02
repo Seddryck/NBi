@@ -14,6 +14,7 @@ using NBi.Core.Transformation;
 using NBi.NUnit.ResultSetComparison;
 using System.Data;
 using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Comparison;
 
 namespace NBi.NUnit.Builder
 {

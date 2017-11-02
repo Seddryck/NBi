@@ -172,7 +172,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
             , int nonMatchingValueRowCount
             , string expectedText)
         {
-            var compared = ResultSetCompareResult.Build(
+            var compared = ResultResultSet.Build(
                     GetDataRows(missingRowCount)
                     , GetDataRows(unexpectedRowCount)
                     , GetDataRows(duplicatedRowCount)
@@ -201,7 +201,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
             , int nonMatchingValueRowCount
             , string expectedText)
         {
-            var compared = ResultSetCompareResult.Build(
+            var compared = ResultResultSet.Build(
                     GetDataRows(missingRowCount)
                     , GetDataRows(unexpectedRowCount)
                     , GetDataRows(duplicatedRowCount)

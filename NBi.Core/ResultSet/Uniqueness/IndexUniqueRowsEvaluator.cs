@@ -9,21 +9,22 @@ using System.Text;
 using NBi.Core.ResultSet.Converter;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Analyzer;
+using NBi.Core.ResultSet.Comparison;
 
 namespace NBi.Core.ResultSet.Uniqueness
 {
     public class UniqueRowsFinderByIndex : UniqueRowsFinder
     {
-        private new SettingsResultSetComparisonByIndex Settings
+        private new SettingsIndexResultSet Settings
         {
-            get { return base.Settings as SettingsResultSetComparisonByIndex; }
+            get { return base.Settings as SettingsIndexResultSet; }
         }
         
         public UniqueRowsFinderByIndex()
             : base()
         { }
 
-        public UniqueRowsFinderByIndex(SettingsResultSetComparisonByIndex settings)
+        public UniqueRowsFinderByIndex(SettingsIndexResultSet settings)
             : base(settings)
         {
         }
@@ -47,7 +48,7 @@ namespace NBi.Core.ResultSet.Uniqueness
         }
 
 
-        protected void WriteSettingsToDataTableProperties(DataTable dt, SettingsResultSetComparisonByIndex settings)
+        protected void WriteSettingsToDataTableProperties(DataTable dt, SettingsIndexResultSet settings)
         {
             foreach (DataColumn column in dt.Columns)
             {
@@ -61,7 +62,7 @@ namespace NBi.Core.ResultSet.Uniqueness
             }
         }
 
-        protected void CheckSettingsAndDataTable(DataTable dt, SettingsResultSetComparisonByIndex settings)
+        protected void CheckSettingsAndDataTable(DataTable dt, SettingsIndexResultSet settings)
         {
             var max = settings.GetMaxColumnIndexDefined();
             if (dt.Columns.Count <= max)
@@ -74,11 +75,11 @@ namespace NBi.Core.ResultSet.Uniqueness
                 if (dt.Columns.Count == max && settings.GetMinColumnIndexDefined() == 1)
                     exception += " You've no definition for a column with an index of 0. Are you sure you'vent started to index at 1 in place of 0?";
 
-                throw new ResultSetComparerException(exception);
+                throw new ComparerResultSetException(exception);
             }
         }
 
-        protected void CheckSettingsAndFirstRow(DataTable dt, SettingsResultSetComparisonByIndex settings)
+        protected void CheckSettingsAndFirstRow(DataTable dt, SettingsIndexResultSet settings)
         {
             if (dt.Rows.Count == 0)
                 return;
@@ -103,10 +104,10 @@ namespace NBi.Core.ResultSet.Uniqueness
 
         protected virtual void BuildDefaultSettings(int columnsCount)
         {
-            base.Settings = new SettingsResultSetComparisonByIndex(
+            base.Settings = new SettingsIndexResultSet(
                 columnsCount,
-                SettingsResultSetComparisonByIndex.KeysChoice.All,
-                SettingsResultSetComparisonByIndex.ValuesChoice.None);
+                SettingsIndexResultSet.KeysChoice.All,
+                SettingsIndexResultSet.ValuesChoice.None);
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet
+namespace NBi.Core.ResultSet.Comparison
 {
     [Flags]
     public enum ComparisonKind

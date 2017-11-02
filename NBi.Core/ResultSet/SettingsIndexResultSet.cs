@@ -6,7 +6,7 @@ using NBi.Core.ResultSet.Comparer;
 
 namespace NBi.Core.ResultSet
 {
-    public class SettingsResultSetComparisonByIndex : SettingsResultSetComparison<int>
+    public class SettingsIndexResultSet : SettingsResultSet<int>
     {
 
         public enum KeysChoice
@@ -217,27 +217,27 @@ namespace NBi.Core.ResultSet
             lastColumnIndex = columnCount - 1;
         }
 
-        protected SettingsResultSetComparisonByIndex(ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
+        protected SettingsIndexResultSet(ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : base(valuesDefaultType, defaultTolerance, columnsDef)
         { }
 
-        public SettingsResultSetComparisonByIndex(int columnsCount, KeysChoice keysDef, ValuesChoice valuesDef)
+        public SettingsIndexResultSet(int columnsCount, KeysChoice keysDef, ValuesChoice valuesDef)
             : this(keysDef, valuesDef, ColumnType.Numeric, NumericAbsoluteTolerance.None, null)
         {
             ApplyTo(columnsCount);
         }
 
-        public SettingsResultSetComparisonByIndex(KeysChoice keysDef, ValuesChoice valuesDef, IReadOnlyCollection<IColumnDefinition> columnsDef)
+        public SettingsIndexResultSet(KeysChoice keysDef, ValuesChoice valuesDef, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : this(keysDef, valuesDef, ColumnType.Numeric, NumericAbsoluteTolerance.None, columnsDef)
         {
         }
 
-        public SettingsResultSetComparisonByIndex(KeysChoice keysDef, ValuesChoice valuesDef, Tolerance defaultTolerance)
+        public SettingsIndexResultSet(KeysChoice keysDef, ValuesChoice valuesDef, Tolerance defaultTolerance)
             : this(keysDef, valuesDef, ColumnType.Numeric, defaultTolerance, null)
         {
         }
 
-        public SettingsResultSetComparisonByIndex(KeysChoice keysDef, ValuesChoice valuesDef, ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
+        public SettingsIndexResultSet(KeysChoice keysDef, ValuesChoice valuesDef, ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : base(valuesDefaultType, defaultTolerance, columnsDef)
         {
             KeysDef = keysDef;

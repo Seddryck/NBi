@@ -6,15 +6,15 @@ using NBi.Core.ResultSet.Comparer;
 
 namespace NBi.Core.ResultSet
 {
-	public class SettingsSingleRowComparison: SettingsResultSetComparisonByIndex
+	public class SettingsSingleRowResultSet: SettingsIndexResultSet
 	{
         
-		public SettingsSingleRowComparison(ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
+		public SettingsSingleRowResultSet(ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : base(valuesDefaultType, defaultTolerance, columnsDef)
 		{
 		}
 
-        public SettingsSingleRowComparison()
+        public SettingsSingleRowResultSet()
             : this(ColumnType.Numeric, null, null)
         {
         }

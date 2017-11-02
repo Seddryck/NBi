@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace NBi.Core.ResultSet
 {
-	public class SettingsResultSetComparisonByName : SettingsResultSetComparison<string>
+	public class SettingsNameResultSet : SettingsResultSet<string>
 	{
         public IReadOnlyCollection<string> KeyNames { get; private set; }
         public IReadOnlyCollection<string> ValueNames { get; private set; }
@@ -134,7 +134,7 @@ namespace NBi.Core.ResultSet
         }
         
 
-        public SettingsResultSetComparisonByName(string keyNames, string valueNames, ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
+        public SettingsNameResultSet(string keyNames, string valueNames, ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : base(valuesDefaultType, defaultTolerance, columnsDef)
         {
             KeyNames = new ReadOnlyCollection<string>(new string[] { });
@@ -152,7 +152,7 @@ namespace NBi.Core.ResultSet
             }
         }
 
-        public SettingsResultSetComparisonByName(ColumnType valuesDefaultType, Tolerance defaultTolerance, IEnumerable<IColumnDefinition> columnsDef)
+        public SettingsNameResultSet(ColumnType valuesDefaultType, Tolerance defaultTolerance, IEnumerable<IColumnDefinition> columnsDef)
         : base(valuesDefaultType, defaultTolerance, new ReadOnlyCollection<IColumnDefinition>(columnsDef.ToList()))
         {
             KeyNames = new List<string>();

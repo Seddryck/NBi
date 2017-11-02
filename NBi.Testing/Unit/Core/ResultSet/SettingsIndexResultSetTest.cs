@@ -13,7 +13,7 @@ using NBi.Core.ResultSet.Comparer;
 namespace NBi.Testing.Unit.Core.ResultSet
 {
     [TestFixture]
-    public class SettingsResultSetComparisonByIndexTest
+    public class SettingsIndexResultSetTest
     {
         [Test]
         public void GetColumnType_EqualToAndColumnsDefinedCorrectResult()
@@ -105,7 +105,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var xml = BuildEqualToXmlIndex();
             xml.ValuesDefaultType = ColumnType.DateTime;
             //get settings
-            var actual = (xml.GetSettings() as SettingsResultSetComparisonByIndex);
+            var actual = (xml.GetSettings() as SettingsIndexResultSet);
             //Set the columnCount
             actual .ApplyTo(10);
 
@@ -127,7 +127,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             //Buiding object used during test
             var xml = new EqualToXml();
             //default values/def
-            xml.KeysDef = SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast;
+            xml.KeysDef = SettingsIndexResultSet.KeysChoice.AllExpectLast;
             //default values/def
             xml.ValuesDefaultType = ColumnType.Numeric;
             //default tolerance
@@ -167,11 +167,11 @@ namespace NBi.Testing.Unit.Core.ResultSet
             return xml;
         }
         
-        private SettingsResultSetComparisonByIndex BuildSetting()
+        private SettingsIndexResultSet BuildSetting()
         {
             var xml = BuildEqualToXmlIndex();
             //get settings
-            var settings = (xml.GetSettings() as SettingsResultSetComparisonByIndex);
+            var settings = (xml.GetSettings() as SettingsIndexResultSet);
 
             //Set the columnCount
             settings.ApplyTo(10);

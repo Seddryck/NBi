@@ -9,9 +9,9 @@ namespace NBi.Core.ResultSet
 {
     public class DataRowKeysComparerByName : DataRowKeysComparer
     {
-        private readonly SettingsResultSetComparisonByName settings;
+        private readonly SettingsNameResultSet settings;
 
-        public DataRowKeysComparerByName(SettingsResultSetComparisonByName settings)
+        public DataRowKeysComparerByName(SettingsNameResultSet settings)
         {
             this.settings = settings;
         }

@@ -6,7 +6,7 @@ using NBi.Core.ResultSet.Comparer;
 
 namespace NBi.Core.ResultSet
 {
-	public abstract class SettingsResultSetComparison<T> : ISettingsResultSetComparison
+	public abstract class SettingsResultSet<T> : ISettingsResultSet
     {
         protected IDictionary<T, ColumnRole> cacheRole = new Dictionary<T, ColumnRole>();
         protected IDictionary<T, ColumnType> cacheType = new Dictionary<T, ColumnType>();
@@ -52,7 +52,7 @@ namespace NBi.Core.ResultSet
 
         protected abstract bool IsType(T index, ColumnType type);
 
-        public SettingsResultSetComparison(ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
+        public SettingsResultSet(ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
         {
             ValuesDefaultType = valuesDefaultType;
             DefaultTolerance = defaultTolerance;

@@ -9,6 +9,7 @@ using NBi.Xml.Systems;
 using NBi.NUnit.ResultSetComparison;
 using NBi.Core.ResultSet.Loading;
 using NBi.Core.Transformation;
+using NBi.Core.ResultSet.Comparison;
 
 namespace NBi.NUnit.Builder
 {

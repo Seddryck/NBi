@@ -115,7 +115,7 @@ namespace NBi.NUnit.Query
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
         {
-            FormatResultSet(writer, actualResultSet);
+            writer.WriteActualValue("deprecated feature!");
         }
 
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
@@ -156,26 +156,6 @@ namespace NBi.NUnit.Query
             writer.WriteLine();
             if (failedRowsSample.Count()<failedRows.Count())
                 writer.WriteLine("... {0} of {1} failing rows skipped for display purpose.", failedRows.Count()-failedRowsSample.Count(), failedRows.Count());
-        }
-
-             
-
-        protected virtual void FormatResultSet(NUnitCtr.MessageWriter writer, ResultSetCompareResult.Sample sample, bool compare)
-        {
-            var textCreator = new ResultSetTextWriter();
-            var output = textCreator.BuildContent(sample.Rows, sample.Count, compare);
-            foreach (var line in output)
-                writer.WriteLine(line);                
-        }
-
-
-        protected virtual void FormatResultSet(NUnitCtr.MessageWriter writer, ResultSet resultSet)
-        {
-            var rows = resultSet.Rows.Cast<DataRow>().ToList();
-            var textCreator = new ResultSetTextWriter();
-            var output = textCreator.BuildContent(rows, rows.Count(), false);
-            foreach (var line in output)
-                writer.WriteLine(line);
         }
     }
 }

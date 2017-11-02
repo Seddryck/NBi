@@ -9,12 +9,13 @@ using System.Text;
 using NBi.Core.ResultSet.Converter;
 using NBi.Core.ResultSet.Analyzer;
 using System.Collections.ObjectModel;
+using NBi.Core.ResultSet.Comparison;
 
 namespace NBi.Core.ResultSet.Uniqueness
 {
     public abstract class UniqueRowsFinder
     {
-        protected ISettingsResultSetComparison Settings { get; set; }
+        protected ISettingsResultSet Settings { get; set; }
 
         private readonly CellComparer cellComparer = new CellComparer();
         protected CellComparer CellComparer
@@ -26,7 +27,7 @@ namespace NBi.Core.ResultSet.Uniqueness
         {
         }
 
-        public UniqueRowsFinder(ISettingsResultSetComparison settings)
+        public UniqueRowsFinder(ISettingsResultSet settings)
         {
             Settings = settings;
         }
@@ -75,7 +76,7 @@ namespace NBi.Core.ResultSet.Uniqueness
             dict.Clear();
             foreach (DataRow row in dt.Rows)
             {
-                CompareHelper hlpr = new CompareHelper();
+                RowHelper hlpr = new RowHelper();
 
                 var keys = keyComparer.GetKeys(row);
 
@@ -132,7 +133,7 @@ namespace NBi.Core.ResultSet.Uniqueness
                         if (numericConverter.IsValid(value.ToString().Replace(",", ".")))
                             exception += messages[1];
 
-                        throw new ResultSetComparerException(exception);
+                        throw new ComparerResultSetException(exception);
                     }
 
                     if (columnType == ColumnType.DateTime && IsDateTimeField(dataColumn))
@@ -140,7 +141,7 @@ namespace NBi.Core.ResultSet.Uniqueness
 
                     if (columnType == ColumnType.DateTime && !BaseComparer.IsValidDateTime(value.ToString()))
                     {
-                        throw new ResultSetComparerException(
+                        throw new ComparerResultSetException(
                             string.Format(messages[2]
                                 , columnName, value.ToString()));
                     }

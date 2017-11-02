@@ -111,7 +111,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             Assert.That(ctr, Is.InstanceOf<SupersetOfConstraint>());
             //Get the tolerance for the column with 1 (and not 0) to avoid to get the tolerance on a key.
-            var settings = ((SupersetOfConstraint)ctr).Engine.Settings as SettingsResultSetComparisonByIndex;
+            var settings = ((SupersetOfConstraint)ctr).Engine.Settings as SettingsIndexResultSet;
             Assert.That(settings.GetTolerance(1).ValueString, Is.EqualTo("10"));
         }
         

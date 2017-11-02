@@ -8,6 +8,6 @@ namespace NBi.Core.ResultSet.Analyzer
 {
     public interface IRowsAnalyzer
     {
-        List<CompareHelper> Retrieve(Dictionary<KeyCollection, CompareHelper> x, Dictionary<KeyCollection, CompareHelper> y);
+        List<RowHelper> Retrieve(Dictionary<KeyCollection, RowHelper> x, Dictionary<KeyCollection, RowHelper> y);
     }
 }

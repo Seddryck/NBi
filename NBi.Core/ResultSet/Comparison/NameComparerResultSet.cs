@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
-using NBi.Core.ResultSet.Comparer;
-using System.Text;
-using NBi.Core.ResultSet.Converter;
 using NBi.Core.ResultSet.Analyzer;
 
-namespace NBi.Core.ResultSet
+namespace NBi.Core.ResultSet.Comparison
 {
-    internal class ResultSetComparerByName : ResultSetComparer
+    internal class NameComparerResultSet : BaseComparerResultSet
     {
         public override ComparisonStyle Style
         {
@@ -21,12 +16,12 @@ namespace NBi.Core.ResultSet
             }
         }
 
-        private SettingsResultSetComparisonByName settings
+        private SettingsNameResultSet settings
         {
-            get { return Settings as SettingsResultSetComparisonByName; }
+            get { return Settings as SettingsNameResultSet; }
         }
 
-        public ResultSetComparerByName(IEnumerable<IRowsAnalyzer> analyzers, SettingsResultSetComparisonByName settings)
+        public NameComparerResultSet(IEnumerable<IRowsAnalyzer> analyzers, SettingsNameResultSet settings)
             : base(analyzers)
         {
             Settings = settings;
@@ -79,7 +74,7 @@ namespace NBi.Core.ResultSet
         }
 
 
-        protected void RemoveIgnoredRows(DataTable dt, SettingsResultSetComparisonByName settings)
+        protected void RemoveIgnoredRows(DataTable dt, SettingsNameResultSet settings)
         {
             var i = 0;
             while (i < dt.Columns.Count)
@@ -91,7 +86,7 @@ namespace NBi.Core.ResultSet
             }
         }
 
-        protected void WriteSettingsToDataTableProperties(DataTable dt, SettingsResultSetComparisonByName settings)
+        protected void WriteSettingsToDataTableProperties(DataTable dt, SettingsNameResultSet settings)
         {
             foreach (DataColumn column in dt.Columns)
             {
@@ -106,7 +101,7 @@ namespace NBi.Core.ResultSet
         }
 
 
-        protected void CheckSettingsAndDataTable(DataTable dt, SettingsResultSetComparisonByName settings)
+        protected void CheckSettingsAndDataTable(DataTable dt, SettingsNameResultSet settings)
         {
             var missingColumns = new List<KeyValuePair<string,string>>();
             foreach (var columnName in settings.GetKeyNames())
@@ -130,11 +125,11 @@ namespace NBi.Core.ResultSet
                     , missingColumns.Count > 1 ? "these" : "this"
                     );
 
-                throw new ResultSetComparerException(exception);
+                throw new ComparerResultSetException(exception);
             }
         }
 
-        protected void CheckSettingsAndFirstRow(DataTable dt, SettingsResultSetComparisonByName settings)
+        protected void CheckSettingsAndFirstRow(DataTable dt, SettingsNameResultSet settings)
         {
             if (dt.Rows.Count == 0)
                 return;

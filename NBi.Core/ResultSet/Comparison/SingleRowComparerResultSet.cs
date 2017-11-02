@@ -2,27 +2,23 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
-using NBi.Core.ResultSet.Comparer;
-using System.Text;
-using NBi.Core.ResultSet.Converter;
 using NBi.Core.ResultSet.Analyzer;
 
-namespace NBi.Core.ResultSet
+namespace NBi.Core.ResultSet.Comparison
 {
-    public class SingleRowComparer : ResultSetComparerByIndex
+    public class SingleRowComparerResultSet : IndexComparerResultSet
     {
-        private SettingsSingleRowComparison settings
+        private SettingsSingleRowResultSet settings
         {
-            get { return Settings as SettingsSingleRowComparison; }
+            get { return Settings as SettingsSingleRowResultSet; }
         }
         
-        public SingleRowComparer(SettingsSingleRowComparison settings)
+        public SingleRowComparerResultSet(SettingsSingleRowResultSet settings)
             : base(AnalyzersFactory.EqualTo(), settings)
         {}
 
-        protected override ResultSetCompareResult doCompare(DataTable x, DataTable y)
+        protected override ResultResultSet doCompare(DataTable x, DataTable y)
         {
             if (x.Rows.Count > 1)
                 throw new ArgumentException(string.Format("The query in the assertion returns {0} rows. It was expected to return zero or one row.", x.Rows.Count));
@@ -33,7 +29,7 @@ namespace NBi.Core.ResultSet
             return doCompare(x.Rows.Count == 1 ? x.Rows[0] : null, y.Rows.Count == 1 ? y.Rows[0] : null);
         }
 
-        protected ResultSetCompareResult doCompare(DataRow x, DataRow y)
+        protected ResultResultSet doCompare(DataRow x, DataRow y)
         {
             var chrono = DateTime.Now;
 
@@ -69,7 +65,7 @@ namespace NBi.Core.ResultSet
                 Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key but without matching value: {0} [{1}]", nonMatchingValueRows.Count(), DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             }
 
-            return ResultSetCompareResult.Build(
+            return ResultResultSet.Build(
                 missingRows,
                 unexpectedRows,
                 new List<DataRow>(),

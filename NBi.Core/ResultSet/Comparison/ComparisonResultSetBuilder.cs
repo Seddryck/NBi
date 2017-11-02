@@ -7,27 +7,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet
+namespace NBi.Core.ResultSet.Comparison
 {
-    public class ResultSetComparisonBuilder
+    public class ComparisonResultSetBuilder
     {
         private bool isSetup = false;
         private bool isBuild = false;
 
         private bool isMultipleRows;
-        private SettingsResultSetComparisonByIndex.KeysChoice keysDef;
+        private SettingsIndexResultSet.KeysChoice keysDef;
         private string keyNames;
-        private SettingsResultSetComparisonByIndex.ValuesChoice valuesDef;
+        private SettingsIndexResultSet.ValuesChoice valuesDef;
         private string valueNames;
         private ColumnType valuesDefaultType;
         private Tolerance defaultTolerance;
         private IReadOnlyList<IColumnDefinition> columnsDef;
 
-        private ISettingsResultSetComparison settings;
+        private ISettingsResultSet settings;
         private ComparisonKind kind = ComparisonKind.EqualTo;
-        private IResultSetComparer comparer;
+        private IComparerResultSet comparer;
 
-        public void Setup(bool isMultipleRows, SettingsResultSetComparisonByIndex.KeysChoice keysDef, string keyNames, SettingsResultSetComparisonByIndex.ValuesChoice valuesDef, string valueNames, ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyList<IColumnDefinition> columnsDef, ComparisonKind kind)
+        public void Setup(bool isMultipleRows, SettingsIndexResultSet.KeysChoice keysDef, string keyNames, SettingsIndexResultSet.ValuesChoice valuesDef, string valueNames, ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyList<IColumnDefinition> columnsDef, ComparisonKind kind)
         {
             isBuild = false;
 
@@ -114,7 +114,7 @@ namespace NBi.Core.ResultSet
 
         }
 
-        public void Setup(SettingsResultSetComparisonByName settings)
+        public void Setup(SettingsNameResultSet settings)
         {
             isBuild = false;
             this.settings = settings;
@@ -135,18 +135,18 @@ namespace NBi.Core.ResultSet
 
         protected void BuildComparer()
         {
-            if (settings is SettingsSingleRowComparison)
-                comparer = new SingleRowComparer(settings as SettingsSingleRowComparison);
+            if (settings is SettingsSingleRowResultSet)
+                comparer = new SingleRowComparerResultSet(settings as SettingsSingleRowResultSet);
             else
             {
                 var factory = new AnalyzersFactory();
                 var analyzers = factory.Instantiate(kind);
 
-                if (settings is SettingsResultSetComparisonByIndex)
-                    comparer = new ResultSetComparerByIndex(analyzers, settings as SettingsResultSetComparisonByIndex);
+                if (settings is SettingsIndexResultSet)
+                    comparer = new IndexComparerResultSet(analyzers, settings as SettingsIndexResultSet);
 
-                else if (settings is SettingsResultSetComparisonByName)
-                    comparer = new ResultSetComparerByName(analyzers, settings as SettingsResultSetComparisonByName);
+                else if (settings is SettingsNameResultSet)
+                    comparer = new NameComparerResultSet(analyzers, settings as SettingsNameResultSet);
             }
 
         }
@@ -181,24 +181,24 @@ namespace NBi.Core.ResultSet
                     .Union(columnsDef)
                     );
 
-                settings = new SettingsResultSetComparisonByName(valuesDefaultType, defaultTolerance, allColumns);
+                settings = new SettingsNameResultSet(valuesDefaultType, defaultTolerance, allColumns);
             }
 
             else if (isMultipleRows && !isByName)
             {
-                settings = new SettingsResultSetComparisonByIndex(keysDef, valuesDef, valuesDefaultType, defaultTolerance, columnsDef);
+                settings = new SettingsIndexResultSet(keysDef, valuesDef, valuesDefaultType, defaultTolerance, columnsDef);
             }
 
             else if (!isMultipleRows)
             {
-                settings = new SettingsSingleRowComparison(valuesDefaultType, defaultTolerance, columnsDef);
+                settings = new SettingsSingleRowResultSet(valuesDefaultType, defaultTolerance, columnsDef);
             }
             else
                 throw new InvalidOperationException();
 
         }
 
-        public ISettingsResultSetComparison GetSettings()
+        public ISettingsResultSet GetSettings()
         {
             if (!isBuild)
                 throw new InvalidOperationException();
@@ -206,7 +206,7 @@ namespace NBi.Core.ResultSet
             return settings;
         }
 
-        public IResultSetComparer GetComparer()
+        public IComparerResultSet GetComparer()
         {
             if (!isBuild)
                 throw new InvalidOperationException();

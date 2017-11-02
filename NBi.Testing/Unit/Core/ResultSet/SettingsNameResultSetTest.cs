@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Unit.Core.ResultSet
 {
     [TestFixture]
-    public class SettingsResultSetComparisonByNameTest
+    public class SettingsNameResultSetTest
     {
         
         [Test]
@@ -122,7 +122,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var xml = BuildEqualToXml();
             xml.ValuesDefaultType = ColumnType.DateTime;
             //get settings
-            var actual = (xml.GetSettings() as SettingsResultSetComparisonByName);
+            var actual = (xml.GetSettings() as SettingsNameResultSet);
 
             //Assertion
             Assert.That(actual.GetColumnType("Zero"), Is.Not.EqualTo(ColumnType.Numeric));
@@ -184,13 +184,13 @@ namespace NBi.Testing.Unit.Core.ResultSet
             return xml;
         }
         
-        private SettingsResultSetComparisonByName BuildSettings()
+        private SettingsNameResultSet BuildSettings()
         {
             var xml = BuildEqualToXml();
             //get settings
             var settings = xml.GetSettings();
             
-            return (settings as SettingsResultSetComparisonByName);
+            return (settings as SettingsNameResultSet);
         }
 
     }

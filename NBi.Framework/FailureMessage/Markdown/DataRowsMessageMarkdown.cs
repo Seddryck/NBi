@@ -26,9 +26,9 @@ namespace NBi.Framework.FailureMessage.Markdown
             this.samplers = samplers;
         }
 
-        public void BuildComparaison(IEnumerable<DataRow> expectedRows, IEnumerable<DataRow> actualRows, ResultSetCompareResult compareResult)
+        public void BuildComparaison(IEnumerable<DataRow> expectedRows, IEnumerable<DataRow> actualRows, ResultResultSet compareResult)
         {
-            compareResult = compareResult ?? ResultSetCompareResult.Build(new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>());
+            compareResult = compareResult ?? ResultResultSet.Build(new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>());
 
             expected = BuildTable(style, expectedRows, samplers["expected"]);
             actual = BuildTable(style, actualRows, samplers["actual"]);
@@ -38,7 +38,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             analysis.Append(BuildCompareTable(style, compareResult.NonMatchingValue.Rows ?? new List<DataRow>(), "Non matching value", samplers["analysis"]));
         }
 
-        public void BuildDuplication(IEnumerable<DataRow> actualRows, UniqueRowsResult result)
+        public void BuildDuplication(IEnumerable<DataRow> actualRows, ResultUniqueRows result)
         {
             actual = new MarkdownContainer();
             var sb = new StringBuilder();

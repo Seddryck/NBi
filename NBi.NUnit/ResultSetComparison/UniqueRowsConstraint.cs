@@ -16,17 +16,17 @@ namespace NBi.NUnit.Query
         protected ResultSet actualResultSet;
         private IDataRowsMessageFormatter failure;
         
-        protected virtual UniqueRowsFinder Engine { get; set; }
+        protected virtual UniqueRowsEvaluator Engine { get; set; }
 
         public UniqueRowsConstraint()
         {
-            Engine = new UniqueRowsFinderByIndex();
+            Engine = new IndexUniqueRowsEvaluator();
         }
 
-        public UniqueRowsConstraint Using(ISettingsResultSetComparison settings)
+        public UniqueRowsConstraint Using(ISettingsResultSet settings)
         {
-            if (settings is SettingsResultSetComparisonByIndex)
-                Engine = new UniqueRowsFinderByIndex(settings as SettingsResultSetComparisonByIndex);
+            if (settings is SettingsIndexResultSet)
+                Engine = new IndexUniqueRowsEvaluator(settings as SettingsIndexResultSet);
             //else
             //    Engine = new UniqueRowsFinderByName(settings as SettingsResultSetComparisonByName);
             return this;

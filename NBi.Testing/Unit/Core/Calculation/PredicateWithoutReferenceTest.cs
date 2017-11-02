@@ -38,7 +38,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 );
 
             var factory = new PredicateFactory();
-            var comparer = factory.Get(info);
+            var comparer = factory.Instantiate(info);
             Assert.That(comparer.Apply(x), Is.True);
         }
 
@@ -53,7 +53,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 );
 
             var factory = new PredicateFactory();
-            var comparer = factory.Get(info);
+            var comparer = factory.Instantiate(info);
             Assert.That(comparer.Apply(x), Is.False);
         }
 
@@ -70,7 +70,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 );
 
             var factory = new PredicateFactory();
-            var comparer = factory.Get(info);
+            var comparer = factory.Instantiate(info);
             Assert.That(comparer.Apply(x), Is.EqualTo(result));
         }
 
@@ -83,7 +83,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 );
 
             var factory = new PredicateFactory();
-            var comparer = factory.Get(info);
+            var comparer = factory.Instantiate(info);
             Assert.That(comparer.Apply(null), Is.True);
         }
 
@@ -96,7 +96,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 );
 
             var factory = new PredicateFactory();
-            var comparer = factory.Get(info);
+            var comparer = factory.Instantiate(info);
             Assert.That(comparer.Apply(new DateTime(2015, 10, 1)), Is.False);
         }
 
@@ -115,7 +115,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 );
 
             var factory = new PredicateFactory();
-            var comparer = factory.Get(info);
+            var comparer = factory.Instantiate(info);
             Assert.That(comparer.Apply(new DateTime(2015, 10, 1, hours, minutes, seconds)), Is.EqualTo(result));
         }
 
@@ -135,7 +135,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 );
 
             var factory = new PredicateFactory();
-            var comparer = factory.Get(info);
+            var comparer = factory.Instantiate(info);
             Assert.That(comparer.Apply(x), Is.EqualTo(result));
         }
         

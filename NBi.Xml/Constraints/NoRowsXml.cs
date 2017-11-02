@@ -48,6 +48,9 @@ namespace NBi.Xml.Constraints
         [XmlElement("predicate")]
         public PredicateXml Predicate { get; set; }
 
+        [XmlElement("combination")]
+        public CombinationPredicateXml Combination { get; set; }
+
         public NoRowsXml()
         {
             internalAliases = new List<AliasXml>();

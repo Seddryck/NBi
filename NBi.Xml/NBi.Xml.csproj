@@ -125,6 +125,7 @@
     <Compile Include="GroupXml.cs" />
     <Compile Include="InheritanceTestXml.cs" />
     <Compile Include="Items\Alteration\AlterationXml.cs" />
+    <Compile Include="Items\Calculation\CombinationPredicateXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
     <Compile Include="Items\EtlBaseXml.cs" />

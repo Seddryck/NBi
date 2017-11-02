@@ -212,7 +212,7 @@
     </test>
   </group>
   <group name="alterations">
-    <test name="Filter with predicate" uid="0201">
+    <test name="Filter with one predicate" uid="0201">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
           <alteration>
@@ -234,6 +234,42 @@
             <row>
               <cell>CY 2006</cell>
               <cell>1015</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Filter with two predicates" uid="0202">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
+          <alteration>
+            <filter>
+              <combination operator="or">
+                <predicate name="#0" type="text">
+                  <less-than>CY 2007</less-than>
+                </predicate>
+                <predicate name="#1" type="numeric">
+                  <more-than>1500</more-than>
+                </predicate>
+              </combination>
+            </filter>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet>
+            <row>
+              <cell>CY 2005</cell>
+              <cell>366</cell>
+            </row>
+            <row>
+              <cell>CY 2006</cell>
+              <cell>1015</cell>
+            </row>
+            <row>
+              <cell>CY 2007</cell>
+              <cell>1521</cell>
             </row>
           </resultSet>
         </equalTo>

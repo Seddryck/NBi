@@ -107,6 +107,35 @@
       </no-rows>
     </assert>
   </test>
+  <test name="No-row with combination of numeric information" uid="0001">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select
+          OrderDate
+          , SUM(TotalDue)
+          from
+          [Sales].[SalesOrderHeader]
+          group by
+          OrderDate
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <combination operator="or">
+          <predicate name="#1">
+            <more-than>9000000</more-than>
+          </predicate>
+          <predicate name="#1">
+            <less-than>1</less-than>
+          </predicate>
+        </combination>
+      </no-rows>
+    </assert>
+  </test>
   <test name="No-row also works for textual information" uid="0001">
     <system-under-test>
       <execution>
@@ -326,6 +355,30 @@
         <predicate name="year">
           <less-than>@year</less-than>
         </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="Use a variable and combine predicates" uid="0008">
+    <system-under-test>
+      <execution>
+        <query>
+          select year(getdate()) as 'A', 'alpha' as 'B'
+          union all select year(getdate())-1, 'BETA' as 'C'
+          union all select year(getdate())+1, 'GAMMA' as 'C'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <alias column-index="0">year</alias>
+        <combination operator="or">
+          <predicate name="year">
+            <less-than>@year</less-than>
+          </predicate>
+          <predicate name="B" type="text">
+            <upper-case/>
+          </predicate>
+        </combination>
       </all-rows>
     </assert>
   </test>

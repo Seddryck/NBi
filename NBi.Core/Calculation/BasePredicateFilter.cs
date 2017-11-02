@@ -9,25 +9,15 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation
 {
-    public class PredicateFilter : IResultSetFilter
+    public abstract class BasePredicateFilter : IResultSetFilter
     {
-        private readonly IEnumerable<IColumnExpression> expressions;
-        private readonly IEnumerable<IColumnAlias> aliases;
-        private readonly Func<object, bool> executeFunction;
-        private readonly string operand;
-        private readonly Func<string> describeFunction;
+        protected readonly IEnumerable<IColumnExpression> expressions;
+        protected readonly IEnumerable<IColumnAlias> aliases;
 
-        internal PredicateFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, string operand, Func<object, bool> executeFunction)
-            : this (aliases, expressions, operand, executeFunction, () => "unspecified description")
-        { }
-
-        internal PredicateFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, string operand, Func<object, bool> executeFunction, Func<string> describeFunction)
+        protected BasePredicateFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
         {
             this.aliases = aliases;
             this.expressions = expressions;
-            this.operand = operand;
-            this.executeFunction = executeFunction;
-            this.describeFunction = describeFunction;
         }
 
         public ResultSet.ResultSet AntiApply(ResultSet.ResultSet rs)
@@ -48,14 +38,15 @@ namespace NBi.Core.Calculation
             
             foreach (DataRow row in rs.Rows)
             {
-                var value = GetValueFromRow(row, operand);
-                if (onApply(executeFunction(value)))
+                if (onApply(RowApply(row)))
                     filteredRs.Table.ImportRow(row);
             }
 
             filteredRs.Table.AcceptChanges();
             return filteredRs;
         }
+
+        protected abstract bool RowApply(DataRow row);
 
         protected object GetValueFromRow(DataRow row, string name)
         {
@@ -88,7 +79,7 @@ namespace NBi.Core.Calculation
             throw new ArgumentException($"The value '{name}' is not recognized as a column name or a column position or a column alias or an expression.");
         }
 
-        private object EvaluateExpression(IColumnExpression expression, DataRow row)
+        protected object EvaluateExpression(IColumnExpression expression, DataRow row)
         {
             var exp = new NCalc.Expression(expression.Value);
 
@@ -100,9 +91,6 @@ namespace NBi.Core.Calculation
             return exp.Evaluate();
         }
 
-        public string Describe()
-        {
-            return $"{operand} {describeFunction()}.";
-        }
+        public abstract string Describe();
     }
 }

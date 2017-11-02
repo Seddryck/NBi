@@ -12,7 +12,7 @@ namespace NBi.Core.Calculation.Predicate
 {
     class PredicateFactory
     {
-        public IPredicate Get(IPredicateInfo info)
+        public IPredicate Instantiate(IPredicateInfo info)
         {
             switch (info.ColumnType)
             {

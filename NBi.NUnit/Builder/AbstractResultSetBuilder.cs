@@ -140,13 +140,21 @@ namespace NBi.NUnit.Builder
                         expressions.Add(filterXml.Expression);
 
                     var factory = new PredicateFilterFactory();
-                    var filter = factory.Instantiate
+                    if (filterXml.Predicate!=null)
+                        yield return factory.Instantiate
                                     (
                                         filterXml.Aliases
                                         , expressions
                                         , filterXml.Predicate
-                                    );
-                    yield return filter.Apply;
+                                    ).Apply;
+                    if (filterXml.CombinationPredicate != null)
+                        yield return factory.Instantiate
+                                    (
+                                        filterXml.Aliases
+                                        , expressions
+                                        , filterXml.CombinationPredicate.Operator
+                                        , filterXml.CombinationPredicate.Predicates
+                                    ).Apply;
                 }
             }
         }

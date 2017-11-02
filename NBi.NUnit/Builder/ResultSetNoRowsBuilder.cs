@@ -34,23 +34,47 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
-        protected PredicateFilter InstantiateFilter()
+        protected BasePredicateFilter InstantiateFilter()
         {
             var expressions = new List<IColumnExpression>();
             if (ConstraintXml.Expression != null)
                 expressions.Add(ConstraintXml.Expression);
 
-            if (ConstraintXml.Predicate.Reference != null)
-                ConstraintXml.Predicate.Reference = EvaluatePotentialVariable(ConstraintXml.Predicate.Reference);
-
             var factory = new PredicateFilterFactory();
-            var filter = factory.Instantiate
-                        (
-                            ConstraintXml.Aliases
-                            , expressions
-                            , ConstraintXml.Predicate
-                        );
-            return filter;
+            if (ConstraintXml.Predicate != null)
+            {
+                if (ConstraintXml.Predicate.Reference != null)
+                    ConstraintXml.Predicate.Reference = EvaluatePotentialVariable(ConstraintXml.Predicate.Reference);
+
+
+                return factory.Instantiate
+                            (
+                                ConstraintXml.Aliases
+                                , expressions
+                                , ConstraintXml.Predicate
+                            );
+            }
+            else if (ConstraintXml.Combination != null)
+            {
+                var predicateInfos = new List<IPredicateInfo>();
+                foreach (var predicateXml in ConstraintXml.Combination.Predicates)
+                {
+                    if (predicateXml.Reference != null)
+                        predicateXml.Reference = EvaluatePotentialVariable(predicateXml.Reference);
+
+                    predicateInfos.Add(predicateXml);
+                }
+
+                return factory.Instantiate
+                            (
+                                ConstraintXml.Aliases
+                                , expressions
+                                , ConstraintXml.Combination.Operator
+                                , predicateInfos
+                            );
+            }
+            else
+                throw new ArgumentException("You must specify a predicate or a combination of predicates. None of them is specified");
         }
     }
 }

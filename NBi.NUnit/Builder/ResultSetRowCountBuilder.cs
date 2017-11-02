@@ -48,11 +48,20 @@ namespace NBi.NUnit.Builder
                      expressions.Add(filterXml.Expression);
 
                 var factory = new PredicateFilterFactory();
-                filter = factory.Instantiate
+                if (filterXml.Predicate != null)
+                    filter = factory.Instantiate
                                 (
                                     filterXml.Aliases
                                     , expressions
                                     , filterXml.Predicate
+                                );
+                else if (filterXml.CombinationPredicate != null)
+                    filter = factory.Instantiate
+                                (
+                                    filterXml.Aliases
+                                    , expressions
+                                    , filterXml.CombinationPredicate.Operator
+                                    , filterXml.CombinationPredicate.Predicates
                                 );
                 if (ConstraintXml.Comparer.Value.Replace(" ", "").EndsWith("%"))
                     ctr = new RowCountFilterPercentageConstraint(childConstraint, filter);

@@ -1081,12 +1081,29 @@
     <xs:attribute name="not" type="xs:boolean" use="optional"/>
     <xs:attribute name="type" type="column-type-enum" use="optional"/>
   </xs:complexType>
+  <xs:complexType name="combination-predicate-type">
+    <xs:sequence>
+      <xs:element name="predicate" type="predicate-type" minOccurs="2" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="operator" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="or"/>
+          <xs:enumeration value="xor"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="not" type="xs:boolean" use="optional"/>
+  </xs:complexType>
   <xs:complexType name="filter-type">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">
       <xs:element name="alias" type="alias-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="variable" type="alias-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="expression" type="expression2-type" minOccurs="0" maxOccurs="1"/>
-      <xs:element name="predicate" type="predicate-type" minOccurs="0" maxOccurs="1"/>
+      <xs:choice>
+        <xs:element name="predicate" type="predicate-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="combination" type="combination-predicate-type" minOccurs="0" maxOccurs="1"/>
+      </xs:choice>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="contained-in-type">

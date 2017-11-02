@@ -181,7 +181,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var comparison = rowCount.Filter.Predicate;
 
             Assert.That(comparison.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(comparison.Name, Is.EqualTo("ModDepId"));
+            Assert.That(comparison.Operand, Is.EqualTo("ModDepId"));
             Assert.That(comparison.Not, Is.EqualTo(false));
             Assert.That(comparison.ColumnType, Is.EqualTo(ColumnType.Numeric));
 

@@ -36,13 +36,13 @@ namespace NBi.Testing.Unit.Core.Calculation
                 (
                     p => p.ComparerType == ComparerType.NullOrEmpty
                         && p.ColumnType == ColumnType.Text
-                        && p.Name == "a"
+                        && p.Operand == "a"
                 );
             var info2 = Mock.Of<IPredicateInfo>
                 (
                     p => p.ComparerType == ComparerType.MoreThanOrEqual
                         && p.ColumnType == ColumnType.Numeric
-                        && p.Name == "#1"
+                        && p.Operand == "#1"
                         && p.Reference == (object)10
                 );
             var factory = new PredicateFilterFactory();
@@ -73,13 +73,13 @@ namespace NBi.Testing.Unit.Core.Calculation
                 (
                     p => p.ComparerType == ComparerType.NullOrEmpty
                         && p.ColumnType == ColumnType.Text
-                        && p.Name == "a"
+                        && p.Operand == "a"
                 );
             var info2 = Mock.Of<IPredicateInfo>
                 (
                     p => p.ComparerType == ComparerType.LessThan
                         && p.ColumnType == ColumnType.Numeric
-                        && p.Name == "#1"
+                        && p.Operand == "#1"
                         && p.Reference == (object)10
                 );
             var factory = new PredicateFilterFactory();
@@ -110,13 +110,13 @@ namespace NBi.Testing.Unit.Core.Calculation
                 (
                     p => p.ComparerType == ComparerType.NullOrEmpty
                         && p.ColumnType == ColumnType.Text
-                        && p.Name == "a"
+                        && p.Operand == "a"
                 );
             var info2 = Mock.Of<IPredicateInfo>
                 (
                     p => p.ComparerType == ComparerType.LessThan
                         && p.ColumnType == ColumnType.Numeric
-                        && p.Name == "#1"
+                        && p.Operand == "#1"
                         && p.Reference == (object)10
                 );
             var factory = new PredicateFilterFactory();

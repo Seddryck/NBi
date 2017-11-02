@@ -24,8 +24,11 @@ namespace NBi.Xml.Items.Calculation
         [XmlAttribute("column-index")]
         public int ColumnIndex { get; set; }
 
-        [XmlAttribute("name")]
-        public string Name { get; set; }
+        [XmlAttribute("operand")]
+        public string Operand { get; set; }
+
+        [Obsolete("Deprecated. Use operand in place of name")]
+        public string Name { get => Operand; set => Operand=value; }
 
         [DefaultValue(false)]
         [XmlAttribute("not")]

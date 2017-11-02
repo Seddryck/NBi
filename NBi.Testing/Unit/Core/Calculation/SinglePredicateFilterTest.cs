@@ -35,7 +35,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 (
                     p => p.ComparerType == ComparerType.NullOrEmpty
                         && p.ColumnType == ColumnType.Text
-                        && p.Name == "a"
+                        && p.Operand == "a"
                 );
             var factory = new PredicateFilterFactory();
             var filter = factory.Instantiate(aliases, new IColumnExpression[0], info);
@@ -60,7 +60,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 (
                     p => p.ComparerType == ComparerType.NullOrEmpty
                         && p.ColumnType == ColumnType.Text
-                        && p.Name == "#0"
+                        && p.Operand == "#0"
                 );
 
             var factory = new PredicateFilterFactory();
@@ -88,7 +88,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 (
                     p => p.ComparerType == ComparerType.NullOrEmpty
                         && p.ColumnType == ColumnType.Text
-                        && p.Name == "first"
+                        && p.Operand == "first"
                 );
 
             var factory = new PredicateFilterFactory();
@@ -127,7 +127,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 (
                     p => p.ComparerType==ComparerType.MoreThanOrEqual
                         && p.ColumnType==ColumnType.Numeric
-                        && p.Name == "d"
+                        && p.Operand == "d"
                         && p.Reference == (object)200
                 );
 
@@ -166,7 +166,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 (
                     p => p.ComparerType == ComparerType.MoreThanOrEqual
                         && p.ColumnType == ColumnType.Numeric
-                        && p.Name == "d"
+                        && p.Operand == "d"
                         && p.Reference == (object)200
                 );
 

@@ -49,7 +49,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                 (
                     p => p.ColumnType==ColumnType.Numeric 
                     && p.ComparerType==ComparerType.Equal 
-                    && p.Name=="Value" 
+                    && p.Operand=="Value" 
                     && p.Reference==(object)1
                 );
 
@@ -80,7 +80,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                 (
                     p => p.ColumnType == ColumnType.Numeric
                     && p.ComparerType == ComparerType.LessThan
-                    && p.Name == "#1"
+                    && p.Operand == "#1"
                     && p.Reference == (object)0
                 );
 
@@ -106,7 +106,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                 (
                     p => p.ColumnType == ColumnType.Numeric
                     && p.ComparerType == ComparerType.LessThan
-                    && p.Name == "#1"
+                    && p.Operand == "#1"
                     && p.Reference == (object)0
                 );
 
@@ -132,7 +132,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                 (
                     p => p.ColumnType == ColumnType.Numeric
                     && p.ComparerType == ComparerType.LessThan
-                    && p.Name == "#1"
+                    && p.Operand == "#1"
                     && p.Reference == (object)0
                 );
 
@@ -158,7 +158,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                 (
                     p => p.ColumnType == ColumnType.Numeric
                     && p.ComparerType == ComparerType.LessThan
-                    && p.Name == "#1"
+                    && p.Operand == "#1"
                     && p.Reference == (object)0
                 );
 

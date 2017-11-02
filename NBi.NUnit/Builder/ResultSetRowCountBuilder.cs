@@ -55,13 +55,13 @@ namespace NBi.NUnit.Builder
                                     , expressions
                                     , filterXml.Predicate
                                 );
-                else if (filterXml.CombinationPredicate != null)
+                else if (filterXml.Combination != null)
                     filter = factory.Instantiate
                                 (
                                     filterXml.Aliases
                                     , expressions
-                                    , filterXml.CombinationPredicate.Operator
-                                    , filterXml.CombinationPredicate.Predicates
+                                    , filterXml.Combination.Operator
+                                    , filterXml.Combination.Predicates
                                 );
                 if (ConstraintXml.Comparer.Value.Replace(" ", "").EndsWith("%"))
                     ctr = new RowCountFilterPercentageConstraint(childConstraint, filter);

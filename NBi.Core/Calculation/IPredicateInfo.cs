@@ -11,7 +11,7 @@ namespace NBi.Core.Calculation
     {
         ColumnType ColumnType { get; set; }
         ComparerType ComparerType { get; }
-        string Name { get; set; }
+        string Operand { get; set; }
         object Reference { get; }
         StringComparison StringComparison { get; }
         object SecondOperand { get; }

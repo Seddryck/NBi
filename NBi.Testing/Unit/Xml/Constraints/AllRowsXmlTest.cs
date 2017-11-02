@@ -87,7 +87,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var comparison = allRows.Predicate;
 
             Assert.That(comparison.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(comparison.Name, Is.EqualTo("ModDepId"));
+            Assert.That(comparison.Operand, Is.EqualTo("ModDepId"));
             Assert.That(comparison.Not, Is.EqualTo(false));
             Assert.That(comparison.ColumnType, Is.EqualTo(ColumnType.Numeric));
 
@@ -122,7 +122,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var predicate = allRows.Predicate;
 
             Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(predicate.Name, Is.EqualTo("Name"));
+            Assert.That(predicate.Operand, Is.EqualTo("Name"));
             Assert.That(predicate.Not, Is.EqualTo(false));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
@@ -160,7 +160,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var predicate = allRows.Predicate;
 
             Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(predicate.Name, Is.EqualTo("Name"));
+            Assert.That(predicate.Operand, Is.EqualTo("Name"));
             Assert.That(predicate.Not, Is.EqualTo(false));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
@@ -180,7 +180,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var predicate = allRows.Predicate;
 
             Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(predicate.Name, Is.EqualTo("Name"));
+            Assert.That(predicate.Operand, Is.EqualTo("Name"));
             Assert.That(predicate.Not, Is.EqualTo(false));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
@@ -200,7 +200,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var predicate = allRows.Predicate;
 
             Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(predicate.Name, Is.EqualTo("Name"));
+            Assert.That(predicate.Operand, Is.EqualTo("Name"));
             Assert.That(predicate.Not, Is.EqualTo(false));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
@@ -220,7 +220,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var predicate = allRows.Predicate;
 
             Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(predicate.Name, Is.EqualTo("Name"));
+            Assert.That(predicate.Operand, Is.EqualTo("Name"));
             Assert.That(predicate.Not, Is.EqualTo(false));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
@@ -238,7 +238,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var predicate = allRows.Predicate;
 
             Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(predicate.Name, Is.EqualTo("Name"));
+            Assert.That(predicate.Operand, Is.EqualTo("Name"));
             Assert.That(predicate.Not, Is.EqualTo(false));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
@@ -256,7 +256,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var predicate = allRows.Predicate;
 
             Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(predicate.Name, Is.EqualTo("Name"));
+            Assert.That(predicate.Operand, Is.EqualTo("Name"));
             Assert.That(predicate.Not, Is.EqualTo(false));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
@@ -274,7 +274,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var predicate = allRows.Predicate;
 
             Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(predicate.Name, Is.EqualTo("Value"));
+            Assert.That(predicate.Operand, Is.EqualTo("Value"));
             Assert.That(predicate.Not, Is.EqualTo(false));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Numeric));
 
@@ -307,6 +307,8 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(content, Is.StringContaining("alias"));
             Assert.That(content, Is.Not.StringContaining("variable"));
         }
+
+        
 
     }
 }

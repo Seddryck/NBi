@@ -147,13 +147,13 @@ namespace NBi.NUnit.Builder
                                         , expressions
                                         , filterXml.Predicate
                                     ).Apply;
-                    if (filterXml.CombinationPredicate != null)
+                    if (filterXml.Combination != null)
                         yield return factory.Instantiate
                                     (
                                         filterXml.Aliases
                                         , expressions
-                                        , filterXml.CombinationPredicate.Operator
-                                        , filterXml.CombinationPredicate.Predicates
+                                        , filterXml.Combination.Operator
+                                        , filterXml.Combination.Predicates
                                     ).Apply;
                 }
             }

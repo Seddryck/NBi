@@ -41,17 +41,17 @@ namespace NBi.NUnit.Builder
                 expressions.Add(ConstraintXml.Expression);
 
             var factory = new PredicateFilterFactory();
-            if (ConstraintXml.Predicate != null)
+            if (ConstraintXml.Predication != null)
             {
-                if (ConstraintXml.Predicate.Reference != null)
-                    ConstraintXml.Predicate.Reference = EvaluatePotentialVariable(ConstraintXml.Predicate.Reference);
+                if (ConstraintXml.Predication.Reference != null)
+                    ConstraintXml.Predication.Reference = EvaluatePotentialVariable(ConstraintXml.Predication.Reference);
 
 
                 return factory.Instantiate
                             (
                                 ConstraintXml.Aliases
                                 , expressions
-                                , ConstraintXml.Predicate
+                                , ConstraintXml.Predication
                             );
             }
             else if (ConstraintXml.Combination != null)

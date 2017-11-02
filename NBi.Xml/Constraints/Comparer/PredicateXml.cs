@@ -9,8 +9,12 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Constraints.Comparer
 {
-    public class OnTheDayXml : PredicateXml
+    public abstract class PredicateXml
     {
-        internal override ComparerType ComparerType { get => ComparerType.OnTheDay; }
+        [XmlText]
+        public string Value { get; set; }
+
+        [XmlIgnore]
+        internal abstract ComparerType ComparerType { get; }
     }
 }

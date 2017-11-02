@@ -48,12 +48,12 @@ namespace NBi.NUnit.Builder
                      expressions.Add(filterXml.Expression);
 
                 var factory = new PredicateFilterFactory();
-                if (filterXml.Predicate != null)
+                if (filterXml.Predication != null)
                     filter = factory.Instantiate
                                 (
                                     filterXml.Aliases
                                     , expressions
-                                    , filterXml.Predicate
+                                    , filterXml.Predication
                                 );
                 else if (filterXml.Combination != null)
                     filter = factory.Instantiate
@@ -74,7 +74,7 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
-        protected virtual NUnitCtr.Constraint BuildChildConstraint(AbstractComparerXml xml)
+        protected virtual NUnitCtr.Constraint BuildChildConstraint(PredicateXml xml)
         {
             
             var value = xml.Value.Replace(" ","");

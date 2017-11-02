@@ -58,7 +58,7 @@
     </Compile>
     <Compile Include="Constraints\AbstractConstraintForCollectionXml.cs" />
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
-    <Compile Include="Constraints\Comparer\AbstractTextComparerXml.cs" />
+    <Compile Include="Constraints\Comparer\CaseSensitiveTextPredicateXml.cs" />
     <Compile Include="Constraints\Comparer\IntegerXml.cs" />
     <Compile Include="Constraints\Comparer\FalseXml.cs" />
     <Compile Include="Constraints\Comparer\ITwoOperandsXml.cs" />
@@ -82,9 +82,9 @@
     <Compile Include="Constraints\SubsetOfXml.cs" />
     <Compile Include="Constraints\SupersetOfXml.cs" />
     <Compile Include="Constraints\NoRowsXml.cs" />
-    <Compile Include="Constraints\Comparer\AbstractComparerXml.cs" />
+    <Compile Include="Constraints\Comparer\PredicateXml.cs" />
     <Compile Include="Constraints\Comparer\EqualXml.cs" />
-    <Compile Include="Constraints\Comparer\AbstractMoreLessThanXml.cs" />
+    <Compile Include="Constraints\Comparer\MoreLessThanPredicateXml.cs" />
     <Compile Include="Constraints\Comparer\LessThanXml.cs" />
     <Compile Include="Constraints\Comparer\MoreThanXml.cs" />
     <Compile Include="Constraints\ContainXml.cs" />
@@ -190,7 +190,7 @@
     <Compile Include="Items\AbstractMembersItem.cs" />
     <Compile Include="Items\BaseItem.cs" />
     <Compile Include="Items\QueryXml.cs" />
-    <Compile Include="Items\Calculation\PredicateXml.cs" />
+    <Compile Include="Items\Calculation\PredicationXml.cs" />
     <Compile Include="Items\Calculation\FilterXml.cs" />
     <Compile Include="Items\Calculation\ExpressionXml.cs" />
     <Compile Include="Items\Calculation\AliasXml.cs" />

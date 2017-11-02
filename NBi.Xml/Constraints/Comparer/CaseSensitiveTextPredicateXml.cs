@@ -1,5 +1,4 @@
-﻿using NBi.Core.Calculation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -9,8 +8,10 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Constraints.Comparer
 {
-    public class OnTheDayXml : PredicateXml
+    public abstract class CaseSensitiveTextPredicateXml : PredicateXml
     {
-        internal override ComparerType ComparerType { get => ComparerType.OnTheDay; }
+        [XmlAttribute("ignore-case")]
+        [DefaultValue(false)]
+        public bool IgnoreCase { get; set; }
     }
 }

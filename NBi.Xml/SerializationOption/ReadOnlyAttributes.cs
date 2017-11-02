@@ -41,7 +41,7 @@ namespace NBi.Xml.SerializationOption
 
             attrs = new XmlAttributes();
             attrs.XmlAttribute = (new XmlAttributeAttribute("name"));
-            Add(typeof(PredicateXml), "Name", attrs);
+            Add(typeof(PredicationXml), "Name", attrs);
 
             var property = typeof(TestXml).GetField("Constraints");
             var arrayAttr = (XmlArrayAttribute)property.GetCustomAttributes(typeof(XmlArrayAttribute), false)[0];

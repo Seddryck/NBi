@@ -63,8 +63,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new SingleRowXml { Predicate = new PredicateXml() };
-            ctrXml.Predicate.MoreThan = new MoreThanXml { Value = "100" };
+            var ctrXml = new SingleRowXml
+            {
+                Predication = new PredicationXml()
+                {
+                    Predicate = new MoreThanXml() { Value = "100" },
+                    Operand = "#0"
+                }
+            };
 
             var builder = new ResultSetSingleRowBuilder();
             builder.Setup(sutXml, ctrXml);
@@ -86,8 +92,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new SingleRowXml { Predicate = new PredicateXml() };
-            ctrXml.Predicate.MoreThan = new MoreThanXml { Value = "@year" };
+            var ctrXml = new SingleRowXml
+            {
+                Predication = new PredicationXml()
+                {
+                    Predicate = new MoreThanXml() { Value = "@year" },
+                    Operand = "#0"
+                }
+            };
 
             var variables = new Dictionary<string, ITestVariable>()
             {
@@ -111,8 +123,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new SingleRowXml { Predicate = new PredicateXml() };
-            ctrXml.Predicate.MoreThan = new MoreThanXml { Value = "@year" };
+            var ctrXml = new SingleRowXml
+            {
+                Predication = new PredicationXml()
+                {
+                    Predicate = new MoreThanXml() { Value = "@year" },
+                    Operand = "#0"
+                }
+            };
 
             var variables = new Dictionary<string, ITestVariable>()
             {
@@ -137,9 +155,13 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new SingleRowXml()
+            var ctrXml = new SingleRowXml
             {
-                Predicate = new PredicateXml() { MoreThan = new MoreThanXml() { Value = "10" } }
+                Predication = new PredicationXml()
+                {
+                    Predicate = new MoreThanXml() { Value = "100" },
+                    Operand = "#0"
+                }
             };
 
             var builder = new ResultSetSingleRowBuilder();
@@ -158,9 +180,13 @@ namespace NBi.Testing.Unit.NUnit.Builder
             sutXmlStub.Setup(s => s.File).Returns("myFile.csv");
             var sutXml = sutXmlStub.Object;
 
-            var ctrXml = new SingleRowXml()
+            var ctrXml = new SingleRowXml
             {
-                Predicate = new PredicateXml() { MoreThan = new MoreThanXml() { Value = "10" } }
+                Predication = new PredicationXml()
+                {
+                    Predicate = new MoreThanXml() { Value = "100" },
+                    Operand = "#0"
+                }
             };
 
             var builder = new ResultSetSingleRowBuilder();

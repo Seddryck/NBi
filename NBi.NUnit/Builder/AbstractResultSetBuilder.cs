@@ -140,12 +140,12 @@ namespace NBi.NUnit.Builder
                         expressions.Add(filterXml.Expression);
 
                     var factory = new PredicateFilterFactory();
-                    if (filterXml.Predicate!=null)
+                    if (filterXml.Predication!=null)
                         yield return factory.Instantiate
                                     (
                                         filterXml.Aliases
                                         , expressions
-                                        , filterXml.Predicate
+                                        , filterXml.Predication
                                     ).Apply;
                     if (filterXml.Combination != null)
                         yield return factory.Instantiate

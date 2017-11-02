@@ -15,7 +15,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Testing.Unit.Xml.Items.Calculation
 {
-    public class PredicateXmlTest
+    public class PredicationXmlTest
     {
         protected TestSuiteXml DeserializeSample()
         {
@@ -42,8 +42,8 @@ namespace NBi.Testing.Unit.Xml.Items.Calculation
 
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<AllRowsXml>());
             var ctr = ts.Tests[testNr].Constraints[0] as AllRowsXml;
-            Assert.That(ctr.Predicate, Is.Not.Null);
-            Assert.That(ctr.Predicate.Operand, Is.EqualTo("ModDepId"));
+            Assert.That(ctr.Predication, Is.Not.Null);
+            Assert.That(ctr.Predication.Operand, Is.EqualTo("ModDepId"));
         }
 
         [Test]
@@ -56,8 +56,22 @@ namespace NBi.Testing.Unit.Xml.Items.Calculation
 
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<AllRowsXml>());
             var ctr = ts.Tests[testNr].Constraints[0] as AllRowsXml;
-            Assert.That(ctr.Predicate, Is.Not.Null);
-            Assert.That(ctr.Predicate.Operand, Is.EqualTo("ModDepId"));
+            Assert.That(ctr.Predication, Is.Not.Null);
+            Assert.That(ctr.Predication.Operand, Is.EqualTo("ModDepId"));
+        }
+
+        [Test]
+        public void Deserialize_CorrectPredicate_PredicateXml()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<AllRowsXml>());
+            var ctr = ts.Tests[testNr].Constraints[0] as AllRowsXml;
+            Assert.That(ctr.Predication, Is.Not.Null);
+            Assert.That(ctr.Predication.Predicate, Is.TypeOf<MoreThanXml>());
         }
 
         [Test]
@@ -65,10 +79,10 @@ namespace NBi.Testing.Unit.Xml.Items.Calculation
         {
             var allRowsXml = new AllRowsXml
             {
-                Predicate = new PredicateXml()
+                Predication = new PredicationXml()
                 {
                     Operand = "#1",
-                    False = new FalseXml()
+                    Predicate = new FalseXml()
                 }
             };
 
@@ -91,10 +105,10 @@ namespace NBi.Testing.Unit.Xml.Items.Calculation
         {
             var allRowsXml = new AllRowsXml
             {
-                Predicate = new PredicateXml()
+                Predication = new PredicationXml()
                 {
                     Operand = "#1",
-                    Modulo = new ModuloXml() { SecondOperand = "10", Value = "5" }
+                    Predicate = new ModuloXml() { SecondOperand = "10", Value = "5" }
                 }
             };
 

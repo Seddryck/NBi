@@ -41,7 +41,7 @@ namespace NBi.Xml.Items.Calculation
         public ExpressionXml Expression { get; set; }
 
         [XmlElement("predicate")]
-        public PredicateXml Predicate { get; set; }
+        public PredicationXml Predication { get; set; }
 
         [XmlElement("combination")]
         public CombinationPredicateXml Combination { get; set; }

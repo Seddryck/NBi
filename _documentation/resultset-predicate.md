@@ -9,23 +9,34 @@ A predicate is a condition that will be tested for each row of the result-set. I
 
 ## content of cells for each row.
 
-For this kind of test, you'll assert the value of one cell (or a combination of cells) to a predicate (see bellow). You'll need to specify columns at a few places. To identify a column you've three distinct option:
-
-* By its index: To apply this strategy, use the syntax *#3* where the number 3 identifies the fourth column (index equal to 3). The *#* specifies to NBi that you'll be using a column index.
-* By its name: To apply this strategy, just use the name of column. If this name is containing a space or is starting by a figure just surround it with square brackets. For example the following syntax identifies *[1 col]* a column name '1 col'.
-* By an alias: To apply this strategy you must use the element *alias* and specify a column index with the attribute *column*. The name of the alias is specified as the inner text of this element.
+For this kind of test, you'll assert the value of one cell (or a combination of cells) of each row with a predicate (see bellow). This cell is named the *operand* and must be specified to the predicate by the means of the *operand* attribute. Before version 1.17, this attribute was named *name*, this notation is now deprecated.
 
 {% highlight xml %}
 <assertion>
     <no-rows>
-        <alias column="1">MyColumn</alias>
+        <predicate operand="myColumn"/>
+    </no-rows>
+</assertion>
+{% endhighlight %}
+
+To identify a column, you can refer to it by its name but you've more options:
+
+* By its index: To apply this strategy, use the syntax *#3* where the number 3 identifies the fourth column (index equal to 3). The *#* specifies to NBi that you'll be using a column index.
+* By its name: To apply this strategy, just use the name of column. If this name is containing a space or is starting by a figure just surround it with square brackets. For example the following syntax identifies *[1 col]* a column name '1 col'.
+* By an alias: To apply this strategy you must use the element *alias* (before the predicate) and specify a column index with the attribute *column*. The name of the alias is specified as the inner text of this element.
+
+{% highlight xml %}
+<assertion>
+    <no-rows>
+        <alias column="1">MyColumnAlias</alias>
+        <predicate operand="MyColumnAlias"/>
     </no-rows>
 </assertion>
 {% endhighlight %}
 
 If the name of an alias is conflecting with the name of a column, the alias has the precedence.
 
-Before version 1.16, only the third option was available and the element was named *variable* and not *alias*. The syntax *variable* is now deprecated.
+Before version 1.16, only the third option was available and the element was named *variable* and not *alias*. The notation *variable* is now deprecated. 
 
 ## Expressions
 
@@ -88,7 +99,7 @@ Each predicate is not valid for each data type. The list of possible combinaison
 <assertion>
     <all-rows>
         ...
-        <predicate name="FirstName">
+        <predicate operand="FirstName">
            <upper-case>
         <predicate>
     </all-rows>
@@ -101,7 +112,7 @@ Some of the predicates, require to specify a reference. For example if you want 
 <assertion>
     <all-rows>
         ...
-        <predicate name="TotalPriceWithVAT">
+        <predicate operand="TotalPriceWithVAT">
            <more-than or-equal="true">1000<more-than>
         <predicate>
     </all-rows>
@@ -129,3 +140,26 @@ Sometimes, the reference must be dynamic. One of the most famous examples is the
     </all-rows>
 </assertion>
 {% endhighlight %}
+
+## Combination of predicates
+
+Since version 1.17, it's possible to combine predicates with one of the three operators *and*, *or* and *xor*. To achieve this you must specify the element *combination* and specify the operator in the attribute *operator*. This operator will be used between each operator. To specify that the *TotalPriceWithVAT* must be greater or eaqual to *@maxAmount* or that the column with index 0 must be in upper-case, apply the following guidelines.
+
+{% highlight xml %}
+<assertion>
+    <all-rows>
+        <alias column-index="1">Quantity</variable>
+        <expression name="TotalPriceWithVAT">[UnitPrice] * Quantity * [#3]</variable>
+        <combination operator="or">
+            <predicate operand="TotalPriceWithVAT">
+                <more-than or-equal="true">@maxAmount<more-than>
+            <predicate>
+            <predicate operand="#0">
+                <upper-case/>
+            <predicate>
+        </combination>
+    </all-rows>
+</assertion>
+{% endhighlight %}
+
+To be able to identify quickly the root cause of your bugs, we do not recommend the usage of the *and* operator. In place, create two tests.

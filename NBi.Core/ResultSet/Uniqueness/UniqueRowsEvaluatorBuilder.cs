@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Uniqueness
 {
-    public class UniqueRowsFinderBuilder
+    public class UniqueRowsEvaluatorBuilder
     {
         private bool isSetup = false;
         private bool isBuild = false;

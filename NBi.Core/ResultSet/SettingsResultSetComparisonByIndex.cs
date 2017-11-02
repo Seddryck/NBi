@@ -159,7 +159,7 @@ namespace NBi.Core.ResultSet
                 switch (GetColumnType(index))
                 {
                     case ColumnType.Text:
-                        return (DefaultTolerance as TextTolerance) ?? TextTolerance.None;
+                        return (DefaultTolerance as TextSingleMethodTolerance) ?? TextSingleMethodTolerance.None;
                     case ColumnType.Numeric:
                         return (DefaultTolerance as NumericTolerance) ?? NumericAbsoluteTolerance.None;
                     case ColumnType.DateTime:

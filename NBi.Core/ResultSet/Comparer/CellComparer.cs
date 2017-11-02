@@ -67,7 +67,7 @@ namespace NBi.Core.ResultSet.Comparer
                     //Text
                     else
                     {
-                        if (tolerance == null || tolerance==TextTolerance.None)
+                        if (tolerance == null || tolerance==TextSingleMethodTolerance.None)
                             return textComparer.Compare(x, y);
                         else
                             return textComparer.Compare(x, y, tolerance);

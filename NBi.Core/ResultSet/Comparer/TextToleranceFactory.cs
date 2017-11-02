@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FuzzyString;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -21,19 +22,46 @@ namespace NBi.Core.ResultSet.Comparer
 
             //extract the value between parenthesis
             var distanceString = Regex.Match(value, @"\(([^)]*)\)").Groups[1].Value;
-            if (!Double.TryParse(distanceString, NumberStyles.Float, CultureInfo.InvariantCulture, out var distance))
-                throw new ArgumentException($"The value of the distance/coefficient for a text tolerance must be a numeric value and the value '{distanceString}' is not.");
+            var isDistanceNumeric = Double.TryParse(distanceString, NumberStyles.Float, CultureInfo.InvariantCulture, out var distanceNumeric);
+            var distanceEnum = Enum.GetNames(typeof(FuzzyStringComparisonTolerance)).SingleOrDefault(x => x.ToLower() == distanceString.ToLower());
+            if (string.IsNullOrEmpty(distanceEnum) && !isDistanceNumeric)
+                throw new ArgumentException($"The value of the distance/coefficient for a text tolerance must be a numeric value or the specific values weak/normal/strong. The value '{distanceString}' is not.");
 
             //extract the name of the tolerance
-            var name = value.Split(new[] { '(' })[0].Replace("-", "");
-            if (!FindFuzzyMethod(name, out var correctName, out var func))
-                throw new ArgumentException($"The method '{name}' is not supported for a text tolerance.");
+            var names = value.Split(new[] { '(' })[0].Replace("-", "").Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
 
-            var predicate = FindCorrectPredicate(correctName);
+            if (names.Count() == 0)
+                throw new ArgumentException($"You must specify at least one method for the text tolerance.");
+            if (names.Count() > 1 && isDistanceNumeric)
+                throw new ArgumentException($"You cannot specify an exact value when more than one method is specified for the text tolerance.");
 
-            var readableName = Regex.Replace(correctName, "([a-z])([A-Z])", "$1 $2").ToLower();
-            readableName = readableName.First().ToString().ToUpper() + readableName.Substring(1);
-            return new TextTolerance(readableName, distance, func, predicate);
+            if (names.Count() == 1)
+            {
+                if (!FindFuzzyMethod(names[0], out var correctName, out var func))
+                    throw new ArgumentException($"The method '{names[0]}' is not supported for a text tolerance.");
+
+                var predicate = FindCorrectPredicate(correctName);
+
+                var readableName = Regex.Replace(correctName, "([a-z])([A-Z])", "$1 $2").ToLower();
+                readableName = readableName.First().ToString().ToUpper() + readableName.Substring(1);
+                return new TextSingleMethodTolerance(readableName, distanceNumeric, func, predicate);
+            }
+            else
+            {
+                var options = new List<FuzzyStringComparisonOptions>();
+                var readableNames = new List<string>();
+                foreach (var name in names)
+                {
+                    if (!FindFuzzyEnum(name, out var correctName, out var correctValue))
+                        throw new ArgumentException($"The method '{name}' is not supported for a text tolerance.");
+                    options.Add(correctValue);
+                    readableNames.Add(correctName);
+                }
+                var tolerance = (FuzzyStringComparisonTolerance)Enum.Parse(typeof(FuzzyStringComparisonTolerance), distanceEnum);
+                Func<string, string, bool> implementation = (x, y) => x.ApproximatelyEquals(y, options, tolerance);
+                return new TextMultipleMethodsTolerance(string.Join(", ", readableNames), distanceEnum, implementation);
+            }
+
         }
 
         private Func<double, double, bool> FindCorrectPredicate(string correctName)
@@ -68,6 +96,27 @@ namespace NBi.Core.ResultSet.Comparer
             }
             else
                 return false;
+
+            return true;
+        }
+
+        protected bool FindFuzzyEnum(string name, out string correctName, out FuzzyStringComparisonOptions correctValue)
+        {
+            name = name.StartsWith("Use") ? name : "Use" + name;
+            correctValue = 0;
+            correctName = string.Empty;
+            var type = typeof(FuzzyStringComparisonOptions);
+            var names = Enum.GetNames(type);
+            if (names.Contains(name, StringComparer.InvariantCultureIgnoreCase))
+                correctName = names.Single(x => StringComparer.InvariantCultureIgnoreCase.Compare(name, x) == 0);
+            else if (names.Contains(name + "Distance", StringComparer.InvariantCultureIgnoreCase))
+                correctName = names.Single(x => StringComparer.InvariantCultureIgnoreCase.Compare(name + "Distance", x) == 0);
+            else if (names.Count(x => x.StartsWith(name, StringComparison.InvariantCultureIgnoreCase)) == 1)
+                correctName = names.Single(x => x.StartsWith(name, StringComparison.InvariantCultureIgnoreCase));
+            else
+                return false;
+
+             correctValue = (FuzzyStringComparisonOptions)Enum.Parse(type, correctName);
 
             return true;
         }

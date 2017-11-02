@@ -300,8 +300,10 @@
     <Compile Include="Report\IReportingParser.cs" />
     <Compile Include="Report\ReportingParserFactory.cs" />
     <Compile Include="ResultSet\Comparer\DateTimeToleranceFactory.cs" />
-    <Compile Include="ResultSet\Comparer\TextToleranceFactory.cs" />
+    <Compile Include="ResultSet\Comparer\TextMultipleMethodsTolerance.cs" />
     <Compile Include="ResultSet\Comparer\TextTolerance.cs" />
+    <Compile Include="ResultSet\Comparer\TextToleranceFactory.cs" />
+    <Compile Include="ResultSet\Comparer\TextSingleMethodTolerance.cs" />
     <Compile Include="ResultSet\Comparer\NumericBoundedPercentageTolerance.cs" />
     <Compile Include="ResultSet\Comparer\NumericToleranceFactory.cs" />
     <Compile Include="ResultSet\Comparer\SideTolerance.cs" />

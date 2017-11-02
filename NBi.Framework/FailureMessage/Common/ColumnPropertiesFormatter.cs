@@ -55,7 +55,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
         public string GetToleranceText(Tolerance tolerance)
         {
             var toleranceText = string.Empty;
-            if (tolerance != null && tolerance!=TextTolerance.None && tolerance!=DateTimeTolerance.None && tolerance!=NumericAbsoluteTolerance.None)
+            if (tolerance != null && tolerance!=TextSingleMethodTolerance.None && tolerance!=DateTimeTolerance.None && tolerance!=NumericAbsoluteTolerance.None)
                 toleranceText += string.Format(" (+/- {0}) ", tolerance.ValueString);
             return toleranceText;
         }

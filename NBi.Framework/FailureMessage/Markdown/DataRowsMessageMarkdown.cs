@@ -41,7 +41,12 @@ namespace NBi.Framework.FailureMessage.Markdown
         public void BuildDuplication(IEnumerable<DataRow> actualRows, UniqueRowsResult result)
         {
             actual = new MarkdownContainer();
-            actual.Append(new Paragraph($"The actual result-set has {result.RowCount} rows and contains {result.Values.Count()} unique rows duplicated."));
+            var sb = new StringBuilder();
+            var uniqueCount = actualRows.Count() - result.Rows.Sum(x => Convert.ToInt32(x[0]));
+            sb.Append($"The actual result-set has {result.RowCount} rows.");
+            sb.Append($" {uniqueCount} row{(uniqueCount > 1 ? "s are" : " is")} effectively unique");
+            sb.Append($" and {result.Values.Count()} distinct row{(result.Values.Count() > 1 ? "s are" : " is")} duplicated.");
+            actual.Append(new Paragraph(sb.ToString()));
             actual.Append(BuildTable(style, actualRows, samplers["actual"]));
             analysis = new MarkdownContainer();
             analysis.Append(BuildNonEmptyTable(style, result.Rows, "Duplicated", samplers["analysis"]));

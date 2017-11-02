@@ -5,7 +5,7 @@
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </default>
   </settings>
-  <test name="Simle query without duplicates" uid="0001">
+  <test name="query with all columns as keys" uid="0001">
     <system-under-test>
       <execution>
         <query>
@@ -16,6 +16,54 @@
     </system-under-test>
     <assert>
       <unique-rows />
+    </assert>
+  </test>
+  <test name="query with one column as key" uid="0002">
+    <system-under-test>
+      <execution>
+        <query>
+          select 'alpha' as 'A', 100 as 'B', 110 as 'C'
+          union all select 'beta', 100, 120
+          union all select 'gamma', 110, 105
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <unique-rows keys="first"/>
+    </assert>
+  </test>
+  <test name="query with a definition for each column" uid="0002">
+    <system-under-test>
+      <execution>
+        <query>
+          select 'alpha' as 'A', 100 as 'B', 110 as 'C'
+          union all select 'alpha', 105, 110
+          union all select 'gamma', 110, 105
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <unique-rows>
+        <column index="0" role="value"/>
+        <column index="1" role="key"/>
+        <column index="2" role="value"/>
+      </unique-rows>
+    </assert>
+  </test>
+  <test name="query with one column as key" uid="0002">
+    <system-under-test>
+      <execution>
+        <query>
+          select 'alpha' as 'A', '100' as 'B'
+          union all select 'alpha', '102.0'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <unique-rows>
+        <column index="0" role="value"/>
+        <column index="1" role="key" type="numeric"/>
+      </unique-rows>
     </assert>
   </test>
 </testSuite>

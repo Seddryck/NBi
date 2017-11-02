@@ -354,6 +354,7 @@
     <Compile Include="ResultSet\Resolver\Query\QueryResolverFactory.cs" />
     <Compile Include="ResultSet\ResultSetService.cs" />
     <Compile Include="ResultSet\ResultSetServiceBuilder.cs" />
+    <Compile Include="ResultSet\Uniqueness\UniqueRowsFinderBuilder.cs" />
     <Compile Include="ResultSet\Uniqueness\UniqueRowsResult.cs" />
     <Compile Include="ResultSet\Interval\EndPoint.cs" />
     <Compile Include="ResultSet\IContent.cs" />

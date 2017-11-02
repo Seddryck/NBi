@@ -5,7 +5,7 @@ using System.Linq;
 using NBi.NUnit.Query;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
-
+using NBi.Core.ResultSet.Uniqueness;
 
 namespace NBi.NUnit.Builder
 {
@@ -21,20 +21,23 @@ namespace NBi.NUnit.Builder
         protected override void SpecificSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
             if (!(ctrXml is UniqueRowsXml))
-                throw new ArgumentException("Constraint must be a 'NoDuplicateXml'");
+                throw new ArgumentException("Constraint must be a 'UniqueRowsXml'");
 
             ConstraintXml = (UniqueRowsXml)ctrXml;
         }
 
         protected override void SpecificBuild()
         {
-            Constraint = InstantiateConstraint();
-        }
+            var ctrXml = ConstraintXml as UniqueRowsXml;
 
-        protected NBiConstraint InstantiateConstraint()
-        {           
+            var builder = new UniqueRowsFinderBuilder();
+            builder.Setup(ctrXml.KeysSet, ctrXml.ValuesSet, ctrXml.Columns);
+            builder.Build();
+
             var ctr = new UniqueRowsConstraint();
-            return ctr;
+
+            var settings = builder.GetSettings();
+            Constraint = ctr.Using(settings);
         }
 
     }

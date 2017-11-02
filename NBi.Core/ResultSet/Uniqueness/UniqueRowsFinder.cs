@@ -14,6 +14,8 @@ namespace NBi.Core.ResultSet.Uniqueness
 {
     public abstract class UniqueRowsFinder
     {
+        protected ISettingsResultSetComparison Settings { get; set; }
+
         private readonly CellComparer cellComparer = new CellComparer();
         protected CellComparer CellComparer
         {
@@ -24,7 +26,10 @@ namespace NBi.Core.ResultSet.Uniqueness
         {
         }
 
-        public ISettingsResultSetComparison Settings { get; set; }
+        public UniqueRowsFinder(ISettingsResultSetComparison settings)
+        {
+            Settings = settings;
+        }
 
         private readonly Dictionary<KeyCollection, int> dict = new Dictionary<KeyCollection, int>();
 

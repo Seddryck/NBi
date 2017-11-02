@@ -14,31 +14,36 @@ namespace NBi.Core.ResultSet.Uniqueness
 {
     public class UniqueRowsFinderByIndex : UniqueRowsFinder
     {
-        private SettingsResultSetComparisonByIndex settings
+        private new SettingsResultSetComparisonByIndex Settings
         {
-            get { return Settings as SettingsResultSetComparisonByIndex; }
+            get { return base.Settings as SettingsResultSetComparisonByIndex; }
         }
         
         public UniqueRowsFinderByIndex()
             : base()
         { }
 
+        public UniqueRowsFinderByIndex(SettingsResultSetComparisonByIndex settings)
+            : base(settings)
+        {
+        }
+
         protected override void PreliminaryChecks(DataTable x)
         {
             var columnsCount = x.Columns.Count;
-            if (settings == null)
+            if (Settings == null)
                 BuildDefaultSettings(columnsCount);
             else
-                settings.ApplyTo(columnsCount);
+                Settings.ApplyTo(columnsCount);
 
-            WriteSettingsToDataTableProperties(x, settings);
-            CheckSettingsAndDataTable(x, settings);
-            CheckSettingsAndFirstRow(x, settings);
+            WriteSettingsToDataTableProperties(x, Settings);
+            CheckSettingsAndDataTable(x, Settings);
+            CheckSettingsAndFirstRow(x, Settings);
         }
 
         protected override DataRowKeysComparer BuildDataRowsKeyComparer(DataTable x)
         {
-            return new DataRowKeysComparerByIndex(settings, x.Columns.Count);
+            return new DataRowKeysComparerByIndex(Settings, x.Columns.Count);
         }
 
 
@@ -98,7 +103,7 @@ namespace NBi.Core.ResultSet.Uniqueness
 
         protected virtual void BuildDefaultSettings(int columnsCount)
         {
-            Settings = new SettingsResultSetComparisonByIndex(
+            base.Settings = new SettingsResultSetComparisonByIndex(
                 columnsCount,
                 SettingsResultSetComparisonByIndex.KeysChoice.All,
                 SettingsResultSetComparisonByIndex.ValuesChoice.None);

@@ -61,7 +61,7 @@ namespace NBi.Xml.Constraints
         public MoreThanXml MoreThan { get; set; }
 
         [XmlIgnore]
-        public AbstractComparerXml Comparer
+        public PredicateXml Comparer
         {
             get
             {

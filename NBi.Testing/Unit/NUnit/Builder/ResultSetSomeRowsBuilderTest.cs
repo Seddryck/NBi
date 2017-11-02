@@ -63,8 +63,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new SomeRowsXml { Predicate = new PredicateXml() };
-            ctrXml.Predicate.MoreThan = new MoreThanXml { Value = "100" };
+            var ctrXml = new SomeRowsXml
+            {
+                Predication = new PredicationXml()
+                {
+                    Predicate = new MoreThanXml() { Value = "100" },
+                    Operand = "#0"
+                }
+            };
 
             var builder = new ResultSetSomeRowsBuilder();
             builder.Setup(sutXml, ctrXml);
@@ -86,9 +92,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new SomeRowsXml { Predicate = new PredicateXml() };
-            ctrXml.Predicate.MoreThan = new MoreThanXml { Value = "@year" };
-
+            var ctrXml = new SomeRowsXml
+            {
+                Predication = new PredicationXml()
+                {
+                    Predicate = new MoreThanXml() { Value = "@year" },
+                    Operand = "#0"
+                }
+            };
             var variables = new Dictionary<string, ITestVariable>()
             {
                 {"year", new CSharpTestVariable("DateTime.Now.Year") }
@@ -111,9 +122,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new SomeRowsXml { Predicate = new PredicateXml() };
-            ctrXml.Predicate.MoreThan = new MoreThanXml { Value = "@year" };
-
+            var ctrXml = new SomeRowsXml
+            {
+                Predication = new PredicationXml()
+                {
+                    Predicate = new MoreThanXml() { Value = "@year" },
+                    Operand = "#0"
+                }
+            };
             var variables = new Dictionary<string, ITestVariable>()
             {
                 {"year", new CSharpTestVariable("DateTime.Now.Year") },
@@ -137,9 +153,13 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new SomeRowsXml()
+            var ctrXml = new SomeRowsXml
             {
-                Predicate = new PredicateXml() { MoreThan = new MoreThanXml() { Value = "10" } }
+                Predication = new PredicationXml()
+                {
+                    Predicate = new MoreThanXml() { Value = "100" },
+                    Operand = "#0"
+                }
             };
 
             var builder = new ResultSetSomeRowsBuilder();
@@ -158,9 +178,13 @@ namespace NBi.Testing.Unit.NUnit.Builder
             sutXmlStub.Setup(s => s.File).Returns("myFile.csv");
             var sutXml = sutXmlStub.Object;
 
-            var ctrXml = new SomeRowsXml()
+            var ctrXml = new SomeRowsXml
             {
-                Predicate = new PredicateXml() { MoreThan = new MoreThanXml() { Value = "10" } }
+                Predication = new PredicationXml()
+                {
+                    Predicate = new MoreThanXml() { Value = "100" },
+                    Operand = "#0"
+                }
             };
 
             var builder = new ResultSetSomeRowsBuilder();

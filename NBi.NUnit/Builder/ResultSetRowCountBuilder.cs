@@ -48,20 +48,20 @@ namespace NBi.NUnit.Builder
                      expressions.Add(filterXml.Expression);
 
                 var factory = new PredicateFilterFactory();
-                if (filterXml.Predicate != null)
+                if (filterXml.Predication != null)
                     filter = factory.Instantiate
                                 (
                                     filterXml.Aliases
                                     , expressions
-                                    , filterXml.Predicate
+                                    , filterXml.Predication
                                 );
-                else if (filterXml.CombinationPredicate != null)
+                else if (filterXml.Combination != null)
                     filter = factory.Instantiate
                                 (
                                     filterXml.Aliases
                                     , expressions
-                                    , filterXml.CombinationPredicate.Operator
-                                    , filterXml.CombinationPredicate.Predicates
+                                    , filterXml.Combination.Operator
+                                    , filterXml.Combination.Predicates
                                 );
                 if (ConstraintXml.Comparer.Value.Replace(" ", "").EndsWith("%"))
                     ctr = new RowCountFilterPercentageConstraint(childConstraint, filter);
@@ -74,7 +74,7 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
-        protected virtual NUnitCtr.Constraint BuildChildConstraint(AbstractComparerXml xml)
+        protected virtual NUnitCtr.Constraint BuildChildConstraint(PredicateXml xml)
         {
             
             var value = xml.Value.Replace(" ","");

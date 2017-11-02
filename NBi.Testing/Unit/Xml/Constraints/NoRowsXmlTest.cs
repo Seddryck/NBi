@@ -77,15 +77,15 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
             var noRow = ts.Tests[testNr].Constraints[0] as NoRowsXml;
-            var comparison = noRow.Predicate;
+            var comparison = noRow.Predication;
 
             Assert.That(comparison.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(comparison.Name, Is.EqualTo("ModDepId"));
+            Assert.That(comparison.Operand, Is.EqualTo("ModDepId"));
             Assert.That(comparison.Not, Is.EqualTo(false));
             Assert.That(comparison.ColumnType, Is.EqualTo(ColumnType.Numeric));
 
-            Assert.That(comparison.Comparer, Is.TypeOf<MoreThanXml>());
-            var moreThan = comparison.Comparer as MoreThanXml;
+            Assert.That(comparison.Predicate, Is.TypeOf<MoreThanXml>());
+            var moreThan = comparison.Predicate as MoreThanXml;
             Assert.That(moreThan.Value, Is.EqualTo("10"));
         }
 

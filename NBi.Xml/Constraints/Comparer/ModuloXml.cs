@@ -1,4 +1,5 @@
-﻿using NBi.Core.Calculation.Predicate;
+﻿using NBi.Core.Calculation;
+using NBi.Core.Calculation.Predicate;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,9 +10,11 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Constraints.Comparer
 {
-    public class ModuloXml : AbstractComparerXml, ITwoOperandsXml
+    public class ModuloXml : PredicateXml, ITwoOperandsXml
     {
         [XmlAttribute("second-operand")]
         public string SecondOperand { get; set; }
+
+        internal override ComparerType ComparerType { get => ComparerType.Modulo; }
     }
 }

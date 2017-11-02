@@ -63,10 +63,13 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new AllRowsXml();
-            ctrXml.Predicate = new PredicateXml();
-            ctrXml.Predicate.MoreThan = new MoreThanXml();
-            ctrXml.Predicate.MoreThan.Value = "100";
+            var ctrXml = new AllRowsXml
+            {
+                Predication = new PredicationXml() {
+                    Predicate = new MoreThanXml() { Value = "100" },
+                    Operand = "#0"
+                }
+            };
 
             var builder = new ResultSetAllRowsBuilder();
             builder.Setup(sutXml, ctrXml);
@@ -88,10 +91,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new AllRowsXml();
-            ctrXml.Predicate = new PredicateXml();
-            ctrXml.Predicate.MoreThan = new MoreThanXml();
-            ctrXml.Predicate.MoreThan.Value = "@year";
+            var ctrXml = new AllRowsXml
+            {
+                Predication = new PredicationXml()
+                {
+                    Predicate = new MoreThanXml { Value = "@year" },
+                    Operand = "#0"
+                }
+            };
 
             var variables = new Dictionary<string, ITestVariable>()
             {
@@ -115,10 +122,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new AllRowsXml();
-            ctrXml.Predicate = new PredicateXml();
-            ctrXml.Predicate.MoreThan = new MoreThanXml();
-            ctrXml.Predicate.MoreThan.Value = "@year";
+            var ctrXml = new AllRowsXml
+            {
+                Predication = new PredicationXml()
+                {
+                    Predicate = new MoreThanXml() { Value = "@year" },
+                    Operand = "#0"
+                }
+            };
 
             var variables = new Dictionary<string, ITestVariable>()
             {
@@ -145,7 +156,10 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXml = new AllRowsXml()
             {
-                Predicate = new PredicateXml() { MoreThan = new MoreThanXml() { Value = "10" } }
+                Predication = new PredicationXml() {
+                    Predicate = new MoreThanXml() { Value = "10" },
+                    Operand = "#0"
+                }
             };
 
             var builder = new ResultSetAllRowsBuilder();
@@ -166,7 +180,10 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXml = new AllRowsXml()
             {
-                Predicate = new PredicateXml() { MoreThan = new MoreThanXml() { Value = "10" } }
+                Predication = new PredicationXml() {
+                    Predicate = new MoreThanXml() { Value = "10" },
+                    Operand = "#0"
+                }
             };
 
             var builder = new ResultSetAllRowsBuilder();

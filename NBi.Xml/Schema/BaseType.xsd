@@ -1076,7 +1076,8 @@
       <xs:element name="true" type="no-reference-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="false" type="no-reference-type" minOccurs="0" maxOccurs="1"/>
     </xs:choice>
-    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="name" type="xs:string" use="optional"/>
+    <xs:attribute name="operand" type="xs:string" use="optional"/>
     <!--<xs:attribute name="column-index" type="xs:nonNegativeInteger" use="optional"/>-->
     <xs:attribute name="not" type="xs:boolean" use="optional"/>
     <xs:attribute name="type" type="column-type-enum" use="optional"/>

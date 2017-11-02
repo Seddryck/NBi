@@ -22,12 +22,6 @@ namespace NBi.NUnit.Query
             return filterResultSet.Rows.Count == 0;
         }
 
-        public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
-        {
-            if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
-                writer.Write(Failure.RenderMessage());
-        }
-
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
             if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)

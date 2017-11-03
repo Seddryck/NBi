@@ -7,14 +7,14 @@ using NBi.Core.ResultSet.Analyzer;
 
 namespace NBi.Core.ResultSet.Comparison
 {
-    public class SingleRowComparerResultSet : IndexComparerResultSet
+    public class SingleRowComparer : IndexComparer
     {
-        private SettingsSingleRowResultSet settings
+        private new SettingsSingleRowResultSet Settings
         {
-            get { return Settings as SettingsSingleRowResultSet; }
+            get { return base.Settings as SettingsSingleRowResultSet; }
         }
         
-        public SingleRowComparerResultSet(SettingsSingleRowResultSet settings)
+        public SingleRowComparer(SettingsSingleRowResultSet settings)
             : base(AnalyzersFactory.EqualTo(), settings)
         {}
 
@@ -48,10 +48,10 @@ namespace NBi.Core.ResultSet.Comparison
             {
                 chrono = DateTime.Now;
                 var columnsCount = Math.Max(y.Table.Columns.Count, x.Table.Columns.Count);
-                if (settings == null)
+                if (Settings == null)
                     BuildDefaultSettings(columnsCount);
                 else
-                    settings.ApplyTo(columnsCount);
+                    Settings.ApplyTo(columnsCount);
 
                 PreliminaryChecks(x.Table, y.Table);
                 Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Analyzing length and format of result-sets: [{0}]", DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));

@@ -75,7 +75,7 @@ namespace NBi.Core.ResultSet.Uniqueness
                 if (dt.Columns.Count == max && settings.GetMinColumnIndexDefined() == 1)
                     exception += " You've no definition for a column with an index of 0. Are you sure you'vent started to index at 1 in place of 0?";
 
-                throw new ComparerResultSetException(exception);
+                throw new ComparerException(exception);
             }
         }
 

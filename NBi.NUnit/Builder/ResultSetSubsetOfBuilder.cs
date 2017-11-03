@@ -24,9 +24,9 @@ namespace NBi.NUnit.Builder
         {
 
         }
-        protected override ComparisonKind ComparisonKind
+        protected override ComparerKind ComparisonKind
         {
-            get { return ComparisonKind.SubsetOf; }
+            get { return ComparerKind.SubsetOf; }
         }
 
         protected override void SpecificSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)

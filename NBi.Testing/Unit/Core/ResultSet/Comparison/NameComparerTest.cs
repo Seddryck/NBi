@@ -12,7 +12,7 @@ using NBi.Core.ResultSet.Comparison;
 namespace NBi.Testing.Unit.Core.ResultSet.Comparison
 {
     [TestFixture]
-    public class NameComparerResultSetTest
+    public class NameComparerTest
     {
         private Random random = new Random();
 
@@ -47,8 +47,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_SameRows_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new NameComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
-            var reference = BuildDataTable(new string[] { "KeyName", "ValueName"}, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
+            var comparer = new NameComparer(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var reference = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
             var actual = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
 
             //Call the method to test
@@ -62,7 +62,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_DifferentRows_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new NameComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new NameComparer(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
             var actual = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 2 }, new object[] { "Key1", 1 });
 
@@ -77,7 +77,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_DifferentRowsByKeys_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new NameComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new NameComparer(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
             var actual = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key1", 1 }, new object[] { "Key2", 1 });
 
@@ -92,7 +92,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_SameRowsMixedColumns_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new NameComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new NameComparer(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
             var actual = BuildDataTable(new string[] { "ValueName", "KeyName" }, new object[] { 0, "Key0" }, new object[] { 1, "Key1" });
 
@@ -107,7 +107,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_DifferentRowsMixedColumns_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new NameComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new NameComparer(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
             var actual = BuildDataTable(new string[] { "ValueName", "KeyName" }, new object[] { 2, "Key0" }, new object[] { 1, "Key1" });
 
@@ -122,7 +122,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_DifferentRowsByKeysMixedColumns_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new NameComparerResultSet(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new NameComparer(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
             var actual = BuildDataTable(new string[] { "ValueName", "KeyName" }, new object[] { 2, "Key2" }, new object[] { 1, "Key1" });
 
@@ -132,7 +132,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
             //Assertion
             Assert.That(res, Is.EqualTo(ResultResultSet.NotMatching));
         }
-        
+
 
         protected DataTable BuildDataTable(string[] columnNames, object[] firstRow, object[] secondRow)
         {
@@ -152,21 +152,18 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
 
             return dt;
         }
-        
+
         protected SettingsNameResultSet BuildSettingsKeyValue()
         {
             return BuildSettingsKeyValue(0, ColumnType.Text);
         }
-        
-        protected SettingsNameResultSet BuildSettingsKeyValue( decimal tolerance, ColumnType keyType)
+
+        protected SettingsNameResultSet BuildSettingsKeyValue(decimal tolerance, ColumnType keyType)
         {
-            var columnsDef = new List<IColumnDefinition>();
-            columnsDef.Add(
-                    new Column() { Name = "KeyName", Role = ColumnRole.Key, Type = keyType}
-                    );
-            columnsDef.Add(
+            var columnsDef = new List<IColumnDefinition>() {
+                    new Column() { Name = "KeyName", Role = ColumnRole.Key, Type = keyType},
                     new Column() { Name = "ValueName", Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance.ToString() }
-                    );
+            };
 
             return new SettingsNameResultSet(
                 string.Empty,
@@ -176,6 +173,6 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
                 columnsDef
                 );
         }
-        
+
     }
 }

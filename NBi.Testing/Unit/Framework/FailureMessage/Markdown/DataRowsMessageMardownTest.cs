@@ -43,7 +43,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
             var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
-            var msg = new DataRowsMessageMarkdown(ComparisonStyle.ByIndex, samplers);
+            var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -63,7 +63,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
             var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
-            var msg = new DataRowsMessageMarkdown(ComparisonStyle.ByIndex, samplers);
+            var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -84,7 +84,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
             var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
-            var msg = new DataRowsMessageMarkdown(ComparisonStyle.ByIndex, samplers);
+            var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -107,7 +107,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
             var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
-            var msg = new DataRowsMessageMarkdown(ComparisonStyle.ByIndex, samplers);
+            var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -138,7 +138,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
             );
 
             var samplers = new SamplersFactory<DataRow>().Instantiate(profile);
-            var msg = new DataRowsMessageMarkdown(ComparisonStyle.ByIndex, samplers);
+            var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -169,7 +169,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
             );
 
             var samplers = new SamplersFactory<DataRow>().Instantiate(profile);
-            var msg = new DataRowsMessageMarkdown(ComparisonStyle.ByIndex, samplers);
+            var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -200,7 +200,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
             );
 
             var samplers = new SamplersFactory<DataRow>().Instantiate(profile);
-            var msg = new DataRowsMessageMarkdown(ComparisonStyle.ByIndex, samplers);
+            var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -222,7 +222,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
             var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
-            var msg = new DataRowsMessageMarkdown(ComparisonStyle.ByIndex, samplers);
+            var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
@@ -246,7 +246,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
             var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
-            var msg = new DataRowsMessageMarkdown(ComparisonStyle.ByIndex, samplers);
+            var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
 
@@ -275,7 +275,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
                 );
 
             var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
-            var msg = new DataRowsMessageMarkdown(ComparisonStyle.ByIndex, samplers);
+            var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(null, null, compared);
             var value = msg.RenderAnalysis();
 
@@ -304,7 +304,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
                 );
 
             var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
-            var msg = new DataRowsMessageMarkdown(ComparisonStyle.ByIndex, samplers);
+            var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(null, null, compared);
             var value = msg.RenderAnalysis();
 

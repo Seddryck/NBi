@@ -5,9 +5,9 @@ using System.Text;
 
 namespace NBi.Core.ResultSet.Comparison
 {
-    public class ComparerResultSetException : NBiException
+    public class ComparerException : NBiException
     {
-        public ComparerResultSetException(string message)
+        public ComparerException(string message)
             : base(message)
         {
 

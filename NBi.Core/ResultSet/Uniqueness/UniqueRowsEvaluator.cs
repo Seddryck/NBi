@@ -125,7 +125,7 @@ namespace NBi.Core.ResultSet.Uniqueness
                         return;
 
                     var numericConverter = new NumericConverter();
-                    if (columnType == ColumnType.Numeric && !(numericConverter.IsValid(value) || BaseComparer.IsValidInterval(value)))
+                    if (columnType == ColumnType.Numeric && !(numericConverter.IsValid(value) || Comparer.BaseComparer.IsValidInterval(value)))
                     {
                         var exception = string.Format(messages[0]
                             , columnName, value.ToString());
@@ -133,15 +133,15 @@ namespace NBi.Core.ResultSet.Uniqueness
                         if (numericConverter.IsValid(value.ToString().Replace(",", ".")))
                             exception += messages[1];
 
-                        throw new ComparerResultSetException(exception);
+                        throw new ComparerException(exception);
                     }
 
                     if (columnType == ColumnType.DateTime && IsDateTimeField(dataColumn))
                         return;
 
-                    if (columnType == ColumnType.DateTime && !BaseComparer.IsValidDateTime(value.ToString()))
+                    if (columnType == ColumnType.DateTime && !Comparer.BaseComparer.IsValidDateTime(value.ToString()))
                     {
-                        throw new ComparerResultSetException(
+                        throw new ComparerException(
                             string.Format(messages[2]
                                 , columnName, value.ToString()));
                     }

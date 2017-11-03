@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet
 {
-    public enum ComparisonStyle
+    public enum EngineStyle
     {
         ByIndex,
         ByName,

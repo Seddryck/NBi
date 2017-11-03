@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 
 namespace NBi.Core.ResultSet.Comparison
 {
-    public abstract class BaseComparerResultSet : IComparerResultSet
+    public abstract class BaseComparer : IComparer
     {
         private readonly IList<IRowsAnalyzer> analyzers;
         private IReadOnlyCollection<IRowsAnalyzer> Analyzers
@@ -25,14 +25,14 @@ namespace NBi.Core.ResultSet.Comparison
             get { return cellComparer; }
         }
 
-        public BaseComparerResultSet(IEnumerable<IRowsAnalyzer> analyzers)
+        public BaseComparer(IEnumerable<IRowsAnalyzer> analyzers)
         {
             this.analyzers = new List<IRowsAnalyzer>(analyzers);
         }
 
         public ISettingsResultSet Settings { get; set; }
 
-        public abstract ComparisonStyle Style { get; }
+        public abstract EngineStyle Style { get; }
         
 
         private readonly Dictionary<KeyCollection, RowHelper> xDict = new Dictionary<KeyCollection, RowHelper>();
@@ -150,7 +150,7 @@ namespace NBi.Core.ResultSet.Comparison
                 // All the rows should be unique regardless of whether it is the system under test or the result set.
                 if (dict.ContainsKey(keys))
                 {
-                    throw new ComparerResultSetException(
+                    throw new ComparerException(
                         string.Format("The {0} data set has some duplicated keys. Check your keys definition or the result set defined in your {1}. The duplicated hashcode is {2}.\r\nRow to insert:{3}.\r\nRow already inserted:{4}.",
                             isSystemUnderTest ? "actual" : "expected",
                             isSystemUnderTest ? "system-under-test" : "assertion",
@@ -218,7 +218,7 @@ namespace NBi.Core.ResultSet.Comparison
                         return;
 
                     var numericConverter = new NumericConverter();
-                    if (columnType == ColumnType.Numeric && !(numericConverter.IsValid(value) || BaseComparer.IsValidInterval(value)))
+                    if (columnType == ColumnType.Numeric && !(numericConverter.IsValid(value) || Comparer.BaseComparer.IsValidInterval(value)))
                     {
                         var exception = string.Format(messages[0]
                             , columnName, value.ToString());
@@ -226,15 +226,15 @@ namespace NBi.Core.ResultSet.Comparison
                         if (numericConverter.IsValid(value.ToString().Replace(",", ".")))
                             exception += messages[1];
 
-                        throw new ComparerResultSetException(exception);
+                        throw new ComparerException(exception);
                     }
 
                     if (columnType == ColumnType.DateTime && IsDateTimeField(dataColumn))
                         return;
 
-                    if (columnType == ColumnType.DateTime && !BaseComparer.IsValidDateTime(value.ToString()))
+                    if (columnType == ColumnType.DateTime && !Comparer.BaseComparer.IsValidDateTime(value.ToString()))
                     {
-                        throw new ComparerResultSetException(
+                        throw new ComparerException(
                             string.Format(messages[2]
                                 , columnName, value.ToString()));
                     }

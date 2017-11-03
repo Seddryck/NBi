@@ -6,59 +6,59 @@ using NBi.Core.ResultSet.Analyzer;
 
 namespace NBi.Core.ResultSet.Comparison
 {
-    internal class NameComparerResultSet : BaseComparerResultSet
+    internal class NameComparer : BaseComparer
     {
-        public override ComparisonStyle Style
+        public override EngineStyle Style
         {
             get
             {
-                return ComparisonStyle.ByName;
+                return EngineStyle.ByName;
             }
         }
 
-        private SettingsNameResultSet settings
+        private new SettingsNameResultSet Settings
         {
-            get { return Settings as SettingsNameResultSet; }
+            get { return base.Settings as SettingsNameResultSet; }
         }
 
-        public NameComparerResultSet(IEnumerable<IRowsAnalyzer> analyzers, SettingsNameResultSet settings)
+        public NameComparer(IEnumerable<IRowsAnalyzer> analyzers, SettingsNameResultSet settings)
             : base(analyzers)
         {
-            Settings = settings;
+            base.Settings = settings;
         }
 
         protected override void PreliminaryChecks(DataTable x, DataTable y)
         {
-            if (Settings == null)
+            if (base.Settings == null)
                 throw new InvalidOperationException();
 
-            RemoveIgnoredRows(y, settings);
-            RemoveIgnoredRows(x, settings);
+            RemoveIgnoredRows(y, Settings);
+            RemoveIgnoredRows(x, Settings);
 
-            WriteSettingsToDataTableProperties(y, settings);
-            WriteSettingsToDataTableProperties(x, settings);
+            WriteSettingsToDataTableProperties(y, Settings);
+            WriteSettingsToDataTableProperties(x, Settings);
 
-            CheckSettingsAndDataTable(y, settings);
-            CheckSettingsAndDataTable(x, settings);
+            CheckSettingsAndDataTable(y, Settings);
+            CheckSettingsAndDataTable(x, Settings);
 
-            CheckSettingsAndFirstRow(y, settings);
-            CheckSettingsAndFirstRow(x, settings);
+            CheckSettingsAndFirstRow(y, Settings);
+            CheckSettingsAndFirstRow(x, Settings);
         }
 
         protected override DataRowKeysComparer BuildDataRowsKeyComparer(DataTable x)
         {
-            return new DataRowKeysComparerByName(settings);
+            return new DataRowKeysComparerByName(Settings);
         }
 
         protected override DataRow CompareRows(DataRow rx, DataRow ry)
         {
             var isRowOnError = false;
-            foreach (var columnName in settings.GetValueNames())
+            foreach (var columnName in Settings.GetValueNames())
             {
                 var x = rx.IsNull(columnName) ? DBNull.Value : rx[columnName];
                 var y = ry.IsNull(columnName) ? DBNull.Value : ry[columnName];
-                var rounding = settings.IsRounding(columnName) ? settings.GetRounding(columnName) : null;
-                var result = base.CellComparer.Compare(x, y, settings.GetColumnType(columnName), settings.GetTolerance(columnName), rounding);
+                var rounding = Settings.IsRounding(columnName) ? Settings.GetRounding(columnName) : null;
+                var result = base.CellComparer.Compare(x, y, Settings.GetColumnType(columnName), Settings.GetTolerance(columnName), rounding);
 
                 if (!result.AreEqual)
                 {
@@ -125,7 +125,7 @@ namespace NBi.Core.ResultSet.Comparison
                     , missingColumns.Count > 1 ? "these" : "this"
                     );
 
-                throw new ComparerResultSetException(exception);
+                throw new ComparerException(exception);
             }
         }
 

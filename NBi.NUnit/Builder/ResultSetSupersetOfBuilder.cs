@@ -15,9 +15,9 @@ namespace NBi.NUnit.Builder
 {
     class ResultSetSupersetOfBuilder : ResultSetEqualToBuilder
     {
-        protected override ComparisonKind ComparisonKind
+        protected override ComparerKind ComparisonKind
         {
-            get { return ComparisonKind.SupersetOf; }
+            get { return ComparerKind.SupersetOf; }
         }
 
         public ResultSetSupersetOfBuilder()

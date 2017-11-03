@@ -43,7 +43,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
             var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
-            var msg = new DataRowsMessageJson(ComparisonStyle.ByIndex, samplers);
+            var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
 
@@ -62,7 +62,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
             var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
-            var msg = new DataRowsMessageJson(ComparisonStyle.ByIndex, samplers);
+            var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             Assert.That(value, Is.StringContaining("\"sampled-rows\":10"));
@@ -85,7 +85,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
             var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
-            var msg = new DataRowsMessageJson(ComparisonStyle.ByIndex, samplers);
+            var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
 
             var value = msg.RenderExpected();
@@ -116,7 +116,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
                 && p.ExpectedSet == FailureReportSetType.Sample
             );
             var samplers = new SamplersFactory<DataRow>().Instantiate(profile);
-            var msg = new DataRowsMessageJson(ComparisonStyle.ByIndex, samplers);
+            var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             Assert.That(value, Is.Not.StringContaining("\"sampled-rows\":"));
@@ -147,7 +147,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
                 && p.ExpectedSet == FailureReportSetType.Sample
             );
             var samplers = new SamplersFactory<DataRow>().Instantiate(profile);
-            var msg = new DataRowsMessageJson(ComparisonStyle.ByIndex, samplers);
+            var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             Assert.That(value, Is.StringContaining($"\"total-rows\":{rowCount}"));
@@ -181,7 +181,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
                 );
 
             var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
-            var msg = new DataRowsMessageJson(ComparisonStyle.ByIndex, samplers);
+            var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(null, null, compared);
             var value = msg.RenderAnalysis();
 
@@ -211,7 +211,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
 
 
             var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
-            var msg = new DataRowsMessageJson(ComparisonStyle.ByIndex, samplers);
+            var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(null, null, compared);
             var value = msg.RenderAnalysis();
 

@@ -6,53 +6,53 @@ using NBi.Core.ResultSet.Analyzer;
 
 namespace NBi.Core.ResultSet.Comparison
 {
-    public class IndexComparerResultSet : BaseComparerResultSet
+    public class IndexComparer : BaseComparer
     {
-        private SettingsIndexResultSet settings
+        private new SettingsIndexResultSet Settings
         {
-            get { return Settings as SettingsIndexResultSet; }
+            get { return base.Settings as SettingsIndexResultSet; }
         }
 
-        public IndexComparerResultSet(IEnumerable<IRowsAnalyzer> analyzers, SettingsIndexResultSet settings)
+        public IndexComparer(IEnumerable<IRowsAnalyzer> analyzers, SettingsIndexResultSet settings)
             : base(analyzers)
         {
-            Settings = settings;
+            base.Settings = settings;
         }
 
         protected override void PreliminaryChecks(DataTable x, DataTable y)
         {
             var columnsCount = Math.Max(y.Columns.Count, x.Columns.Count);
-            if (settings == null)
+            if (Settings == null)
                 BuildDefaultSettings(columnsCount);
             else
-                settings.ApplyTo(columnsCount);
+                Settings.ApplyTo(columnsCount);
 
-            WriteSettingsToDataTableProperties(y, settings);
-            WriteSettingsToDataTableProperties(x, settings);
+            WriteSettingsToDataTableProperties(y, Settings);
+            WriteSettingsToDataTableProperties(x, Settings);
 
-            CheckSettingsAndDataTable(y, settings);
-            CheckSettingsAndDataTable(x, settings);
+            CheckSettingsAndDataTable(y, Settings);
+            CheckSettingsAndDataTable(x, Settings);
 
-            CheckSettingsAndFirstRow(y, settings);
-            CheckSettingsAndFirstRow(x, settings);
+            CheckSettingsAndFirstRow(y, Settings);
+            CheckSettingsAndFirstRow(x, Settings);
         }
 
-        public override ComparisonStyle Style
+        public override EngineStyle Style
         {
             get
             {
-                return ComparisonStyle.ByIndex;
+                return EngineStyle.ByIndex;
             }
         }
 
         protected override DataRowKeysComparer BuildDataRowsKeyComparer(DataTable x)
         {
-            return new DataRowKeysComparerByIndex(settings, x.Columns.Count);
+            return new DataRowKeysComparerByIndex(Settings, x.Columns.Count);
         }
 
         protected override bool CanSkipValueComparison()
         {
-            return settings.KeysDef == SettingsIndexResultSet.KeysChoice.All;
+            return Settings.KeysDef == SettingsIndexResultSet.KeysChoice.All;
         }
 
 
@@ -61,12 +61,12 @@ namespace NBi.Core.ResultSet.Comparison
             var isRowOnError = false;
             for (int i = 0; i < rx.Table.Columns.Count; i++)
             {
-                if (settings.GetColumnRole(i) == ColumnRole.Value)
+                if (Settings.GetColumnRole(i) == ColumnRole.Value)
                 {
                     var x = rx.IsNull(i) ? DBNull.Value : rx[i];
                     var y = ry.IsNull(i) ? DBNull.Value : ry[i];
-                    var rounding = settings.IsRounding(i) ? settings.GetRounding(i) : null;
-                    var result = CellComparer.Compare(x, y, settings.GetColumnType(i), settings.GetTolerance(i), rounding);
+                    var rounding = Settings.IsRounding(i) ? Settings.GetRounding(i) : null;
+                    var result = CellComparer.Compare(x, y, Settings.GetColumnType(i), Settings.GetTolerance(i), rounding);
 
                     if (!result.AreEqual)
                     {
@@ -109,7 +109,7 @@ namespace NBi.Core.ResultSet.Comparison
                 if (dt.Columns.Count == max && settings.GetMinColumnIndexDefined() == 1)
                     exception += " You've no definition for a column with an index of 0. Are you sure you'vent started to index at 1 in place of 0?";
 
-                throw new ComparerResultSetException(exception);
+                throw new ComparerException(exception);
             }
         }
 
@@ -138,7 +138,7 @@ namespace NBi.Core.ResultSet.Comparison
 
         protected virtual void BuildDefaultSettings(int columnsCount)
         {
-            Settings = new SettingsIndexResultSet(
+            base.Settings = new SettingsIndexResultSet(
                 columnsCount,
                 SettingsIndexResultSet.KeysChoice.AllExpectLast,
                 SettingsIndexResultSet.ValuesChoice.Last);

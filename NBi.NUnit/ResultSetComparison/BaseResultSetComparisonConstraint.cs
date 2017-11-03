@@ -49,13 +49,13 @@ namespace NBi.NUnit.ResultSetComparison
         /// <summary>
         /// Engine dedicated to ResultSet comparaison
         /// </summary>
-        protected IComparerResultSet _engine;
-        protected internal virtual IComparerResultSet Engine
+        protected IComparer _engine;
+        protected internal virtual IComparer Engine
         {
             get
             {
                 if(_engine==null)
-                    _engine = new IndexComparerResultSet(AnalyzersFactory.EqualTo(), null);
+                    _engine = new IndexComparer(AnalyzersFactory.EqualTo(), null);
                 return _engine;
             }
             set
@@ -70,7 +70,7 @@ namespace NBi.NUnit.ResultSetComparison
         }
 
         
-        public BaseResultSetComparisonConstraint Using(IComparerResultSet engine)
+        public BaseResultSetComparisonConstraint Using(IComparer engine)
         {
             this.Engine = engine;
             return this;

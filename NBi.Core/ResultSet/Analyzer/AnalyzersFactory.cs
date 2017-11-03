@@ -9,20 +9,20 @@ namespace NBi.Core.ResultSet.Analyzer
 {
     public class AnalyzersFactory
     {
-        public IEnumerable<IRowsAnalyzer> Instantiate(ComparisonKind kind)
+        public IEnumerable<IRowsAnalyzer> Instantiate(ComparerKind kind)
         {
             var list = new List<IRowsAnalyzer>();
             list.Add(new KeyMatchingRowsAnalyzer());
 
             switch (kind)
             {
-                case ComparisonKind.SubsetOf:
+                case ComparerKind.SubsetOf:
                     list.Add(new UnexpectedRowsAnalyzer());
                     break;
-                case ComparisonKind.SupersetOf:
+                case ComparerKind.SupersetOf:
                     list.Add(new MissingRowsAnalyzer());
                     break;
-                case ComparisonKind.EqualTo:
+                case ComparerKind.EqualTo:
                     list.Add(new MissingRowsAnalyzer());
                     list.Add(new UnexpectedRowsAnalyzer());
                     break;
@@ -35,7 +35,7 @@ namespace NBi.Core.ResultSet.Analyzer
 
         public static IEnumerable<IRowsAnalyzer> EqualTo()
         {
-            return new AnalyzersFactory().Instantiate(ComparisonKind.EqualTo);
+            return new AnalyzersFactory().Instantiate(ComparerKind.EqualTo);
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿namespace NBi.Core.ResultSet.Comparison
 {
-    public interface IComparerResultSet
+    public interface IComparer
     {
         ResultResultSet Compare(object x, object y);
         ISettingsResultSet Settings { get; set; }
-        ComparisonStyle Style { get; }
+        EngineStyle Style { get; }
     }
 }

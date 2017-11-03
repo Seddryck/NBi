@@ -51,7 +51,7 @@ namespace NBi.NUnit.Query
                 if (!result.AreUnique)
                 {
                     var factory = new DataRowsMessageFormatterFactory();
-                    failure = factory.Instantiate(Configuration.FailureReportProfile, ComparisonStyle.ByIndex);
+                    failure = factory.Instantiate(Configuration.FailureReportProfile, EngineStyle.ByIndex);
                     failure.BuildDuplication(actualResultSet.Rows.Cast<DataRow>(), result);
                 }
 

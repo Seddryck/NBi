@@ -140,7 +140,7 @@ namespace NBi.Xml.Constraints
 
         public ISettingsResultSet GetSettings()
         {
-            var builder = new ComparisonResultSetBuilder();
+            var builder = new SettingsComparerBuilder();
             builder.Setup(
                     Behavior == ComparisonBehavior.MultipleRows
                     , KeysDef
@@ -150,7 +150,7 @@ namespace NBi.Xml.Constraints
                     , ValuesDefaultType
                     , new NumericToleranceFactory().Instantiate(Tolerance)
                     , ColumnsDef
-                    , ComparisonKind.EqualTo);
+                    , ComparerKind.EqualTo);
             builder.Build();
             return builder.GetSettings();
         }

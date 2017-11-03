@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace NBi.Core.ResultSet.Comparison
 {
     [Flags]
-    public enum ComparisonKind
+    public enum ComparerKind
     {
         SubsetOf = 1,
         SupersetOf = 2,

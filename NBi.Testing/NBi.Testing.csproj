@@ -193,7 +193,7 @@
     <Compile Include="Unit\Core\ResultSet\Resolver\Query\SharedDataSetQueryResolverTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Resolver\Query\EmbeddedQueryResolverTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetServiceTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Uniqueness\UniqueRowsFinderByIndexTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Uniqueness\IndexUniqueRowsEvaluatorTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Interval\DateTimeIntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\JsonResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\KeyCollectionTest.cs" />
@@ -208,11 +208,11 @@
     <Compile Include="Unit\Core\ResultSet\Comparer\NumericToleranceFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Converter\DateTimeConverterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Converter\BaseNumericConverterTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Comparison\NameComparerResultSetTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Comparison\ComparisonResultSetBuilderTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Comparison\NameComparerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Comparison\SettingsComparerBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\SettingsIndexResultSetTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Comparison\SingleRowComparerResultSetTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Comparison\IndexComparerResultSetTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Comparison\SingleRowComparerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Comparison\IndexComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Interval\NumericIntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\SettingsNameResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetTest.cs" />

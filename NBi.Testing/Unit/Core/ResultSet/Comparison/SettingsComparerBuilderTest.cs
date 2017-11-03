@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 namespace NBi.Testing.Unit.Core.ResultSet.Comparison
 {
     [TestFixture]
-    public class ComparisonResultSetBuilderTest
+    public class SettingsComparerBuilderTest
     {
         [Test]
         public void Instantiate_NonDefaultKeyAndKeyName_Exception()
         {
-            var builder = new ComparisonResultSetBuilder();
+            var builder = new SettingsComparerBuilder();
             Assert.Throws<InvalidOperationException>(() => builder.Setup(
                 true
                 , SettingsIndexResultSet.KeysChoice.All
@@ -26,7 +26,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
                 , ColumnType.Numeric
                 , null
                 , null
-                , ComparisonKind.EqualTo
+                , ComparerKind.EqualTo
                 ));
         }
 
@@ -36,7 +36,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
             var columnDef = Mock.Of<IColumnDefinition>();
             columnDef.Name = "MyKey";
 
-            var builder = new ComparisonResultSetBuilder();
+            var builder = new SettingsComparerBuilder();
             Assert.Throws<InvalidOperationException>(() => builder.Setup(
                 true
                 , SettingsIndexResultSet.KeysChoice.All
@@ -46,7 +46,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
                 , ColumnType.Numeric
                 , null
                 , Enumerable.Repeat(columnDef, 1).ToList()
-                , ComparisonKind.EqualTo
+                , ComparerKind.EqualTo
                 ));
         }
 
@@ -56,7 +56,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
             var columnDef = Mock.Of<IColumnDefinition>();
             columnDef.Name = "MyKey";
 
-            var builder = new ComparisonResultSetBuilder();
+            var builder = new SettingsComparerBuilder();
             Assert.Throws<InvalidOperationException>(() => builder.Setup(
                 true
                 , SettingsIndexResultSet.KeysChoice.AllExpectLast
@@ -66,7 +66,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
                 , ColumnType.Numeric
                 , null
                 , Enumerable.Repeat(columnDef, 2).ToList()
-                , ComparisonKind.EqualTo
+                , ComparerKind.EqualTo
                 ));
         }
 
@@ -76,7 +76,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
             var columnDef = Mock.Of<IColumnDefinition>();
             columnDef.Index = 1;
 
-            var builder = new ComparisonResultSetBuilder();
+            var builder = new SettingsComparerBuilder();
             Assert.Throws<InvalidOperationException>(() => builder.Setup(
                 true
                 , SettingsIndexResultSet.KeysChoice.AllExpectLast
@@ -86,7 +86,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
                 , ColumnType.Numeric
                 , null
                 , Enumerable.Repeat(columnDef, 2).ToList()
-                , ComparisonKind.EqualTo
+                , ComparerKind.EqualTo
                 ));
         }
     }

@@ -14,13 +14,13 @@ namespace NBi.Framework.FailureMessage.Markdown
     class DataRowsMessageMarkdown : IDataRowsMessageFormatter
     {
         private readonly IDictionary<string, ISampler<DataRow>> samplers;
-        private readonly ComparisonStyle style;
+        private readonly EngineStyle style;
 
         private MarkdownContainer expected;
         private MarkdownContainer actual;
         private MarkdownContainer analysis;
 
-        public DataRowsMessageMarkdown(ComparisonStyle style, IDictionary<string, ISampler<DataRow>> samplers)
+        public DataRowsMessageMarkdown(EngineStyle style, IDictionary<string, ISampler<DataRow>> samplers)
         {
             this.style = style;
             this.samplers = samplers;
@@ -62,7 +62,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             actual = BuildTable(style, actualRows, samplers["actual"]);
         }
 
-        private MarkdownContainer BuildTable(ComparisonStyle style, IEnumerable<DataRow> rows, ISampler<DataRow> sampler)
+        private MarkdownContainer BuildTable(EngineStyle style, IEnumerable<DataRow> rows, ISampler<DataRow> sampler)
         {
             var tableBuilder = new TableHelper(style);
             return BuildTable(tableBuilder, rows, string.Empty, sampler);
@@ -95,7 +95,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             return container;
         }
 
-        private MarkdownContainer BuildNonEmptyTable(ComparisonStyle style, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
+        private MarkdownContainer BuildNonEmptyTable(EngineStyle style, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
         {
             var tableBuilder = new TableHelper(style);
             if (rows.Count() > 0)
@@ -105,7 +105,7 @@ namespace NBi.Framework.FailureMessage.Markdown
         }
 
 
-        private MarkdownContainer BuildCompareTable(ComparisonStyle style, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
+        private MarkdownContainer BuildCompareTable(EngineStyle style, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
         {
             var tableBuilder = new CompareTableHelper(style);
             if (rows.Count() > 0)

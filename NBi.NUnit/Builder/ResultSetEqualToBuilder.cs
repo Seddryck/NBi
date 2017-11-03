@@ -24,9 +24,9 @@ namespace NBi.NUnit.Builder
     {
         protected EqualToXml ConstraintXml { get; set; }
 
-        protected virtual ComparisonKind ComparisonKind
+        protected virtual ComparerKind ComparisonKind
         {
-            get { return ComparisonKind.EqualTo; }
+            get { return ComparerKind.EqualTo; }
         }
 
         public ResultSetEqualToBuilder()
@@ -98,9 +98,9 @@ namespace NBi.NUnit.Builder
             else if (ConstraintXml.XmlSource != null)
             {
                 var selects = new List<AbstractSelect>();
-                var factory = new SelectFactory();
+                var selectFactory = new SelectFactory();
                 foreach (var select in ConstraintXml.XmlSource.XPath.Selects)
-                    selects.Add(factory.Instantiate(select.Value, select.Attribute, select.Evaluate));
+                    selects.Add(selectFactory.Instantiate(select.Value, select.Attribute, select.Evaluate));
 
                 XPathEngine engine = null;
                 if (ConstraintXml.XmlSource.File != null)
@@ -125,7 +125,7 @@ namespace NBi.NUnit.Builder
                 throw new ArgumentException();
 
             //Manage settings for comparaison
-            var builder = new ComparisonResultSetBuilder();
+            var builder = new SettingsComparerBuilder();
             if (ConstraintXml.Behavior == EqualToXml.ComparisonBehavior.SingleRow)
             {
 
@@ -133,7 +133,7 @@ namespace NBi.NUnit.Builder
                     ConstraintXml.ValuesDefaultType,
                     ToleranceFactory.Instantiate(ConstraintXml.ValuesDefaultType, ConstraintXml.Tolerance),
                     ConstraintXml.ColumnsDef
-                    , ComparisonKind.EqualTo
+                    , ComparerKind.EqualTo
                 );
 
             }
@@ -153,12 +153,12 @@ namespace NBi.NUnit.Builder
             }
 
             builder.Build();
-            ctr = ctr.Using(builder.GetComparer());
-
             var settings = builder.GetSettings();
-            ctr = ctr.Using(settings);
 
-            
+            var factory = new ComparerFactory();
+            var comparer = factory.Instantiate(settings, ComparisonKind);
+            ctr = ctr.Using(comparer);
+            ctr = ctr.Using(settings);
 
             //Manage parallelism
             if (ConstraintXml.ParallelizeQueries)

@@ -9,7 +9,7 @@ using System.Data;
 
 namespace NBi.Testing.Unit.Core.ResultSet.Uniqueness
 {
-    public class UniqueRowsFinderByIndexTest
+    public class IndexUniqueRowsEvaluatorTest
     {
         protected DataTable BuildDataTable(IEnumerable<List<object>> rows)
         {

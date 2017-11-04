@@ -5,24 +5,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Comparison
+namespace NBi.Core.ResultSet.Equivalence
 {
-    public class ComparerFactory
+    public class EquivalerFactory
     {
-        public IComparer Instantiate(ISettingsResultSet settings, ComparerKind kind)
+        public IEquivaler Instantiate(ISettingsResultSet settings, EquivalenceKind kind)
         {
             if (settings is SettingsSingleRowResultSet)
-                return new SingleRowComparer(settings as SettingsSingleRowResultSet);
+                return new SingleRowEquivaler(settings as SettingsSingleRowResultSet);
             else
             {
                 var factory = new AnalyzersFactory();
                 var analyzers = factory.Instantiate(kind);
 
                 if (settings is SettingsIndexResultSet)
-                    return new IndexComparer(analyzers, settings as SettingsIndexResultSet);
+                    return new IndexEquivaler(analyzers, settings as SettingsIndexResultSet);
 
                 else if (settings is SettingsNameResultSet)
-                    return new NameComparer(analyzers, settings as SettingsNameResultSet);
+                    return new NameEquivaler(analyzers, settings as SettingsNameResultSet);
             }
             throw new ArgumentOutOfRangeException(nameof(settings));
         }

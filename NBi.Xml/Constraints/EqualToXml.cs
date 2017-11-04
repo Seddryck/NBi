@@ -10,7 +10,7 @@ using NBi.Xml.Items;
 using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Settings;
 using NBi.Xml.Items.Xml;
-using NBi.Core.ResultSet.Comparison;
+using NBi.Core.ResultSet.Equivalence;
 
 namespace NBi.Xml.Constraints
 {
@@ -136,23 +136,6 @@ namespace NBi.Xml.Constraints
                     columnsDef = new List<NBi.Xml.Items.ResultSet.ColumnDefinitionXml>();
                 return columnsDef.Cast<IColumnDefinition>().ToList();
             }
-        }
-
-        public ISettingsResultSet GetSettings()
-        {
-            var builder = new SettingsComparerBuilder();
-            builder.Setup(
-                    Behavior == ComparisonBehavior.MultipleRows
-                    , KeysDef
-                    , KeyName
-                    , ValuesDef
-                    , ValueName
-                    , ValuesDefaultType
-                    , new NumericToleranceFactory().Instantiate(Tolerance)
-                    , ColumnsDef
-                    , ComparerKind.EqualTo);
-            builder.Build();
-            return builder.GetSettings();
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]

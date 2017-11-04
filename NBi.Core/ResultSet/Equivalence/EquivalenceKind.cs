@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Comparison
+namespace NBi.Core.ResultSet.Equivalence
 {
     [Flags]
-    public enum ComparerKind
+    public enum EquivalenceKind
     {
         SubsetOf = 1,
         SupersetOf = 2,

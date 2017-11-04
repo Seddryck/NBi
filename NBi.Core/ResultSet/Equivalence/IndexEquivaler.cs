@@ -4,16 +4,16 @@ using System.Data;
 using NBi.Core.ResultSet.Comparer;
 using NBi.Core.ResultSet.Analyzer;
 
-namespace NBi.Core.ResultSet.Comparison
+namespace NBi.Core.ResultSet.Equivalence
 {
-    public class IndexComparer : BaseComparer
+    public class IndexEquivaler : BaseEquivaler
     {
         private new SettingsIndexResultSet Settings
         {
             get { return base.Settings as SettingsIndexResultSet; }
         }
 
-        public IndexComparer(IEnumerable<IRowsAnalyzer> analyzers, SettingsIndexResultSet settings)
+        public IndexEquivaler(IEnumerable<IRowsAnalyzer> analyzers, SettingsIndexResultSet settings)
             : base(analyzers)
         {
             base.Settings = settings;
@@ -109,7 +109,7 @@ namespace NBi.Core.ResultSet.Comparison
                 if (dt.Columns.Count == max && settings.GetMinColumnIndexDefined() == 1)
                     exception += " You've no definition for a column with an index of 0. Are you sure you'vent started to index at 1 in place of 0?";
 
-                throw new ComparerException(exception);
+                throw new EquivalerException(exception);
             }
         }
 

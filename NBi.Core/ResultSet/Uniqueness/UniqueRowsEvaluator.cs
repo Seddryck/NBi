@@ -9,7 +9,7 @@ using System.Text;
 using NBi.Core.ResultSet.Converter;
 using NBi.Core.ResultSet.Analyzer;
 using System.Collections.ObjectModel;
-using NBi.Core.ResultSet.Comparison;
+using NBi.Core.ResultSet.Equivalence;
 
 namespace NBi.Core.ResultSet.Uniqueness
 {
@@ -133,7 +133,7 @@ namespace NBi.Core.ResultSet.Uniqueness
                         if (numericConverter.IsValid(value.ToString().Replace(",", ".")))
                             exception += messages[1];
 
-                        throw new ComparerException(exception);
+                        throw new EquivalerException(exception);
                     }
 
                     if (columnType == ColumnType.DateTime && IsDateTimeField(dataColumn))
@@ -141,7 +141,7 @@ namespace NBi.Core.ResultSet.Uniqueness
 
                     if (columnType == ColumnType.DateTime && !Comparer.BaseComparer.IsValidDateTime(value.ToString()))
                     {
-                        throw new ComparerException(
+                        throw new EquivalerException(
                             string.Format(messages[2]
                                 , columnName, value.ToString()));
                     }

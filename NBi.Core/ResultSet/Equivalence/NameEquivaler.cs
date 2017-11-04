@@ -4,9 +4,9 @@ using System.Data;
 using System.Linq;
 using NBi.Core.ResultSet.Analyzer;
 
-namespace NBi.Core.ResultSet.Comparison
+namespace NBi.Core.ResultSet.Equivalence
 {
-    internal class NameComparer : BaseComparer
+    internal class NameEquivaler : BaseEquivaler
     {
         public override EngineStyle Style
         {
@@ -21,7 +21,7 @@ namespace NBi.Core.ResultSet.Comparison
             get { return base.Settings as SettingsNameResultSet; }
         }
 
-        public NameComparer(IEnumerable<IRowsAnalyzer> analyzers, SettingsNameResultSet settings)
+        public NameEquivaler(IEnumerable<IRowsAnalyzer> analyzers, SettingsNameResultSet settings)
             : base(analyzers)
         {
             base.Settings = settings;
@@ -125,7 +125,7 @@ namespace NBi.Core.ResultSet.Comparison
                     , missingColumns.Count > 1 ? "these" : "this"
                     );
 
-                throw new ComparerException(exception);
+                throw new EquivalerException(exception);
             }
         }
 

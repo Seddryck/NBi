@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.ResultSet.Comparison
+namespace NBi.Core.ResultSet.Equivalence
 {
-    public class ComparerException : NBiException
+    public class EquivalerException : NBiException
     {
-        public ComparerException(string message)
+        public EquivalerException(string message)
             : base(message)
         {
 

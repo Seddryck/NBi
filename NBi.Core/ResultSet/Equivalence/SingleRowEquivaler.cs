@@ -5,16 +5,16 @@ using System.Diagnostics;
 using System.Linq;
 using NBi.Core.ResultSet.Analyzer;
 
-namespace NBi.Core.ResultSet.Comparison
+namespace NBi.Core.ResultSet.Equivalence
 {
-    public class SingleRowComparer : IndexComparer
+    public class SingleRowEquivaler : IndexEquivaler
     {
         private new SettingsSingleRowResultSet Settings
         {
             get { return base.Settings as SettingsSingleRowResultSet; }
         }
         
-        public SingleRowComparer(SettingsSingleRowResultSet settings)
+        public SingleRowEquivaler(SettingsSingleRowResultSet settings)
             : base(AnalyzersFactory.EqualTo(), settings)
         {}
 

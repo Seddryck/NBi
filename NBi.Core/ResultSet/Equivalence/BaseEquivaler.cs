@@ -9,9 +9,9 @@ using NBi.Core.ResultSet.Converter;
 using NBi.Core.ResultSet.Analyzer;
 using System.Collections.ObjectModel;
 
-namespace NBi.Core.ResultSet.Comparison
+namespace NBi.Core.ResultSet.Equivalence
 {
-    public abstract class BaseComparer : IComparer
+    public abstract class BaseEquivaler : IEquivaler
     {
         private readonly IList<IRowsAnalyzer> analyzers;
         private IReadOnlyCollection<IRowsAnalyzer> Analyzers
@@ -25,7 +25,7 @@ namespace NBi.Core.ResultSet.Comparison
             get { return cellComparer; }
         }
 
-        public BaseComparer(IEnumerable<IRowsAnalyzer> analyzers)
+        public BaseEquivaler(IEnumerable<IRowsAnalyzer> analyzers)
         {
             this.analyzers = new List<IRowsAnalyzer>(analyzers);
         }
@@ -150,7 +150,7 @@ namespace NBi.Core.ResultSet.Comparison
                 // All the rows should be unique regardless of whether it is the system under test or the result set.
                 if (dict.ContainsKey(keys))
                 {
-                    throw new ComparerException(
+                    throw new EquivalerException(
                         string.Format("The {0} data set has some duplicated keys. Check your keys definition or the result set defined in your {1}. The duplicated hashcode is {2}.\r\nRow to insert:{3}.\r\nRow already inserted:{4}.",
                             isSystemUnderTest ? "actual" : "expected",
                             isSystemUnderTest ? "system-under-test" : "assertion",
@@ -226,7 +226,7 @@ namespace NBi.Core.ResultSet.Comparison
                         if (numericConverter.IsValid(value.ToString().Replace(",", ".")))
                             exception += messages[1];
 
-                        throw new ComparerException(exception);
+                        throw new EquivalerException(exception);
                     }
 
                     if (columnType == ColumnType.DateTime && IsDateTimeField(dataColumn))
@@ -234,7 +234,7 @@ namespace NBi.Core.ResultSet.Comparison
 
                     if (columnType == ColumnType.DateTime && !Comparer.BaseComparer.IsValidDateTime(value.ToString()))
                     {
-                        throw new ComparerException(
+                        throw new EquivalerException(
                             string.Format(messages[2]
                                 , columnName, value.ToString()));
                     }

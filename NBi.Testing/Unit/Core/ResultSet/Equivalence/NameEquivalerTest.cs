@@ -6,10 +6,10 @@ using NBi.Core.ResultSet;
 using NUnit.Framework;
 using System.Diagnostics;
 using NBi.Core.ResultSet.Analyzer;
-using NBi.Core.ResultSet.Comparison;
+using NBi.Core.ResultSet.Equivalence;
 #endregion
 
-namespace NBi.Testing.Unit.Core.ResultSet.Comparison
+namespace NBi.Testing.Unit.Core.ResultSet.Equivalence
 {
     [TestFixture]
     public class NameComparerTest
@@ -47,7 +47,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_SameRows_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new NameComparer(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new NameEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
             var actual = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
 
@@ -62,7 +62,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_DifferentRows_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new NameComparer(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new NameEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
             var actual = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 2 }, new object[] { "Key1", 1 });
 
@@ -77,7 +77,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_DifferentRowsByKeys_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new NameComparer(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new NameEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
             var actual = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key1", 1 }, new object[] { "Key2", 1 });
 
@@ -92,7 +92,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_SameRowsMixedColumns_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new NameComparer(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new NameEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
             var actual = BuildDataTable(new string[] { "ValueName", "KeyName" }, new object[] { 0, "Key0" }, new object[] { 1, "Key1" });
 
@@ -107,7 +107,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_DifferentRowsMixedColumns_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new NameComparer(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new NameEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
             var actual = BuildDataTable(new string[] { "ValueName", "KeyName" }, new object[] { 2, "Key0" }, new object[] { 1, "Key1" });
 
@@ -122,7 +122,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_DifferentRowsByKeysMixedColumns_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new NameComparer(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
+            var comparer = new NameEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
             var reference = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
             var actual = BuildDataTable(new string[] { "ValueName", "KeyName" }, new object[] { 2, "Key2" }, new object[] { 1, "Key1" });
 

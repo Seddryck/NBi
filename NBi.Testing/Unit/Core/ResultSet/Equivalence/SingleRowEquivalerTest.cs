@@ -5,10 +5,10 @@ using System.Data;
 using NBi.Core.ResultSet;
 using NUnit.Framework;
 using System.Diagnostics;
-using NBi.Core.ResultSet.Comparison;
+using NBi.Core.ResultSet.Equivalence;
 #endregion
 
-namespace NBi.Testing.Unit.Core.ResultSet.Comparison
+namespace NBi.Testing.Unit.Core.ResultSet.Equivalence
 {
     [TestFixture]
     public class SingleRowComparerTest
@@ -45,7 +45,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_SameRows_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new SingleRowComparer(new SettingsSingleRowResultSet(ColumnType.Numeric, null, null));
+            var comparer = new SingleRowEquivaler(new SettingsSingleRowResultSet(ColumnType.Numeric, null, null));
             var reference = BuildDataTable<double>(new double[] { 0, 1 });
             var actual = BuildDataTable<double>(new double[] { 0, 1 });
 
@@ -60,7 +60,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_SameRowsString_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new SingleRowComparer(new SettingsSingleRowResultSet(ColumnType.Text, null, null));
+            var comparer = new SingleRowEquivaler(new SettingsSingleRowResultSet(ColumnType.Text, null, null));
             var reference = BuildDataTable<string>(new string[] { "alpha", "beta" });
             var actual = BuildDataTable<string>(new string[] { "alpha", "beta" });
 
@@ -75,7 +75,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_SameRowsDateTime_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new SingleRowComparer(new SettingsSingleRowResultSet(ColumnType.DateTime, null, null));
+            var comparer = new SingleRowEquivaler(new SettingsSingleRowResultSet(ColumnType.DateTime, null, null));
             var reference = BuildDataTable<string>(new string[] { "2015-01-17", "2015-01-18" });
             var actual = BuildDataTable<DateTime>(new DateTime[] { new DateTime(2015, 01, 17), new DateTime(2015, 01, 18) });
 
@@ -90,7 +90,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_SameRowsBoolean_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new SingleRowComparer(new SettingsSingleRowResultSet(ColumnType.Boolean, null, null));
+            var comparer = new SingleRowEquivaler(new SettingsSingleRowResultSet(ColumnType.Boolean, null, null));
             var reference = BuildDataTable<string>(new string[] { "yes", "no" });
             var actual = BuildDataTable<bool>(new bool[] { true, false });
 
@@ -105,7 +105,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_DifferentRows_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new SingleRowComparer(new SettingsSingleRowResultSet(ColumnType.Text, null, null));
+            var comparer = new SingleRowEquivaler(new SettingsSingleRowResultSet(ColumnType.Text, null, null));
             var reference = BuildDataTable<string>(new string[] { "Value0", "Value1" });
             var actual = BuildDataTable<string>(new string[] { "ValueX", "ValueY" });
 
@@ -120,7 +120,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_DifferentRowsSingleNotMatching_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new SingleRowComparer(new SettingsSingleRowResultSet(ColumnType.Text, null, null));
+            var comparer = new SingleRowEquivaler(new SettingsSingleRowResultSet(ColumnType.Text, null, null));
             var reference = BuildDataTable<string>(new string[] { "Value0", "Value1" });
             var actual = BuildDataTable<string>(new string[] { "Value0", "ValueY" });
 
@@ -135,7 +135,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_DifferentRowsNumeric_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new SingleRowComparer(new SettingsSingleRowResultSet(ColumnType.Numeric, null, null));
+            var comparer = new SingleRowEquivaler(new SettingsSingleRowResultSet(ColumnType.Numeric, null, null));
             var reference = BuildDataTable<string>(new string[] { "100", "12.750" });
             var actual = BuildDataTable<decimal>(new decimal[] { new decimal(999), new decimal(12.75) });
 
@@ -150,7 +150,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_UnexpectedRow_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new SingleRowComparer(new SettingsSingleRowResultSet(ColumnType.Text, null, null));
+            var comparer = new SingleRowEquivaler(new SettingsSingleRowResultSet(ColumnType.Text, null, null));
             var reference = BuildDataEmptyTable<string>(3);
             var actual = BuildDataTable<string>(new string[] { "Value0", "Value1", "Value2" });
 
@@ -166,7 +166,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_MissingRow_ReturnNotEqual()
         {
             //Buiding object used during test
-            var comparer = new SingleRowComparer(new SettingsSingleRowResultSet(ColumnType.Text, null, null));
+            var comparer = new SingleRowEquivaler(new SettingsSingleRowResultSet(ColumnType.Text, null, null));
             var reference = BuildDataTable<string>(new string[] { "Value0", "Value1", "Value2" });
             var actual = BuildDataEmptyTable<string>(3); 
 
@@ -183,7 +183,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Comparison
         public void Compare_ObjectsVersusSameTypedButWithPrecision_ReturnEqual()
         {
             //Buiding object used during test
-            var comparer = new SingleRowComparer(new SettingsSingleRowResultSet(ColumnType.Numeric, null, BuildColumnsStringDecimal()));
+            var comparer = new SingleRowEquivaler(new SettingsSingleRowResultSet(ColumnType.Numeric, null, BuildColumnsStringDecimal()));
             var reference = BuildDataTable<string>(new string[] { "Value0", "100.50" });
             var actual = BuildDataTable<object>(new object[] { "Value0", 100.5 });
 

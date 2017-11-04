@@ -11,31 +11,23 @@ namespace NBi.Core.ResultSet
 {
     public abstract class SettingsResultSetBuilder
     {
-        protected bool isSetup = false;
         protected bool isBuild = false;
 
         protected SettingsIndexResultSet.KeysChoice keysSet;
-        protected IEnumerable<string> nameKeys;
+        protected IEnumerable<string> nameKeys = new string[0];
         protected SettingsIndexResultSet.ValuesChoice valuesSet;
-        protected IEnumerable<string> nameValues;
-        protected IReadOnlyList<IColumnDefinition> definitionColumns;
+        protected IEnumerable<string> nameValues = new string[0];
+        protected IReadOnlyList<IColumnDefinition> definitionColumns = new IColumnDefinition[0];
 
         protected ISettingsResultSet settings;
 
         public void Setup(SettingsIndexResultSet.KeysChoice keysSet, SettingsIndexResultSet.ValuesChoice valuesSet, IReadOnlyList<IColumnDefinition> definitionColumns)
         {
-            isBuild = false;
-
             this.keysSet = keysSet;
             nameKeys = (new List<string>()).AsReadOnly();
             this.valuesSet = valuesSet;
             nameValues = (new List<string>()).AsReadOnly();
             this.definitionColumns = definitionColumns;
-
-            PerformInconsistencyChecks();
-            PerformDuplicationChecks();
-
-            isSetup = true;
         }
 
         protected void PerformInconsistencyChecks()
@@ -107,12 +99,15 @@ namespace NBi.Core.ResultSet
 
         public void Build()
         {
-            if (!isSetup)
-                throw new InvalidOperationException();
-
+            OnCheck();
             OnBuild();
-
             isBuild = true;
+        }
+
+        protected virtual void OnCheck()
+        {
+            PerformInconsistencyChecks();
+            PerformDuplicationChecks();
         }
 
         protected abstract void OnBuild();

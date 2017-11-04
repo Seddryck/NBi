@@ -13,7 +13,7 @@ using Systems = NBi.Xml.Systems;
 using NBi.Core.ResultSet;
 using NBi.Core.Transformation;
 using NBi.Core.ResultSet.Loading;
-using NBi.Core.ResultSet.Comparison;
+using NBi.Core.ResultSet.Equivalence;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -166,7 +166,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctr = builder.GetConstraint();
 
             Assert.That(ctr, Is.InstanceOf<EqualToConstraint>());
-            Assert.That(((EqualToConstraint)ctr).Engine, Is.InstanceOf<SingleRowComparer>());
+            Assert.That(((EqualToConstraint)ctr).Engine, Is.InstanceOf<SingleRowEquivaler>());
             Assert.That(((EqualToConstraint)ctr).Engine.Settings, Is.InstanceOf<SettingsSingleRowResultSet>());
         }
 

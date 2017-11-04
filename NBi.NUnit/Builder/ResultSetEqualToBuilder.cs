@@ -16,7 +16,7 @@ using System.Data;
 using NBi.Core.ResultSet.Loading;
 using System.IO;
 using NBi.Core.ResultSet.Resolver.Query;
-using NBi.Core.ResultSet.Comparison;
+using NBi.Core.ResultSet.Equivalence;
 
 namespace NBi.NUnit.Builder
 {
@@ -24,9 +24,9 @@ namespace NBi.NUnit.Builder
     {
         protected EqualToXml ConstraintXml { get; set; }
 
-        protected virtual ComparerKind ComparisonKind
+        protected virtual EquivalenceKind EquivalenceKind
         {
-            get { return ComparerKind.EqualTo; }
+            get { return EquivalenceKind.EqualTo; }
         }
 
         public ResultSetEqualToBuilder()
@@ -125,38 +125,28 @@ namespace NBi.NUnit.Builder
                 throw new ArgumentException();
 
             //Manage settings for comparaison
-            var builder = new SettingsComparerBuilder();
+            var builder = new SettingsEquivalerBuilder();
             if (ConstraintXml.Behavior == EqualToXml.ComparisonBehavior.SingleRow)
             {
-
-                builder.Setup(false, 0, null, 0, null,
-                    ConstraintXml.ValuesDefaultType,
-                    ToleranceFactory.Instantiate(ConstraintXml.ValuesDefaultType, ConstraintXml.Tolerance),
-                    ConstraintXml.ColumnsDef
-                    , ComparerKind.EqualTo
-                );
-
+                builder.Setup(false);
+                builder.Setup(ConstraintXml.ValuesDefaultType, ConstraintXml.Tolerance);
+                builder.Setup(ConstraintXml.ColumnsDef);
             }
             else
             {
+                builder.Setup(ConstraintXml.KeysDef, ConstraintXml.ValuesDef);
                 builder.Setup(
-                    true,
-                    ConstraintXml.KeysDef,
-                    ConstraintXml.KeyName,
-                    ConstraintXml.ValuesDef,
-                    ConstraintXml.ValueName,
-                    ConstraintXml.ValuesDefaultType,
-                    ToleranceFactory.Instantiate(ConstraintXml.ValuesDefaultType, ConstraintXml.Tolerance),
-                    ConstraintXml.ColumnsDef,
-                    ComparisonKind
-                );
+                    ConstraintXml.KeyName.Replace(" ", "").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct(),
+                    ConstraintXml.ValueName.Replace(" ", "").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct());
+                builder.Setup(ConstraintXml.ValuesDefaultType, ConstraintXml.Tolerance);
+                builder.Setup(ConstraintXml.ColumnsDef);
             }
 
             builder.Build();
             var settings = builder.GetSettings();
 
-            var factory = new ComparerFactory();
-            var comparer = factory.Instantiate(settings, ComparisonKind);
+            var factory = new EquivalerFactory();
+            var comparer = factory.Instantiate(settings, EquivalenceKind);
             ctr = ctr.Using(comparer);
             ctr = ctr.Using(settings);
 

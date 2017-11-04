@@ -13,7 +13,7 @@ using NBi.Core.Transformation;
 using NBi.Core.ResultSet.Analyzer;
 using NBi.Core.ResultSet.Loading;
 using NBi.Framework.FailureMessage.Markdown;
-using NBi.Core.ResultSet.Comparison;
+using NBi.Core.ResultSet.Equivalence;
 
 namespace NBi.NUnit.ResultSetComparison
 {
@@ -49,13 +49,13 @@ namespace NBi.NUnit.ResultSetComparison
         /// <summary>
         /// Engine dedicated to ResultSet comparaison
         /// </summary>
-        protected IComparer _engine;
-        protected internal virtual IComparer Engine
+        protected IEquivaler _engine;
+        protected internal virtual IEquivaler Engine
         {
             get
             {
                 if(_engine==null)
-                    _engine = new IndexComparer(AnalyzersFactory.EqualTo(), null);
+                    _engine = new IndexEquivaler(AnalyzersFactory.EqualTo(), null);
                 return _engine;
             }
             set
@@ -70,7 +70,7 @@ namespace NBi.NUnit.ResultSetComparison
         }
 
         
-        public BaseResultSetComparisonConstraint Using(IComparer engine)
+        public BaseResultSetComparisonConstraint Using(IEquivaler engine)
         {
             this.Engine = engine;
             return this;

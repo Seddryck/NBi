@@ -58,8 +58,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new SupersetOfXml(SettingsXml.Empty);
-            ctrXml.ResultSet = new ResultSetXml();
+            var ctrXml = new SupersetOfXml(SettingsXml.Empty) { ResultSet = new ResultSetXml() };
 
             var builder = new ResultSetSupersetOfBuilder();
             builder.Setup(sutXml, ctrXml);
@@ -79,8 +78,10 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new SupersetOfXml(SettingsXml.Empty);
-            ctrXml.Query = new Items.QueryXml() {InlineQuery = "query"};
+            var ctrXml = new SupersetOfXml(SettingsXml.Empty)
+            {
+                Query = new QueryXml() { InlineQuery = "query" }
+            };
 
             var builder = new ResultSetSupersetOfBuilder();
             builder.Setup(sutXml, ctrXml);
@@ -100,10 +101,11 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new SupersetOfXml(SettingsXml.Empty);
-            ctrXml.Query = new Items.QueryXml() { InlineQuery = "query" };
-            ctrXml.Tolerance = "10";
-
+            var ctrXml = new SupersetOfXml(SettingsXml.Empty)
+            {
+                Query = new QueryXml() { InlineQuery = "query" },
+                Tolerance = "10"
+            };
             var builder = new ResultSetSupersetOfBuilder();
             builder.Setup(sutXml, ctrXml);
             builder.Build();
@@ -114,10 +116,10 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var settings = ((SupersetOfConstraint)ctr).Engine.Settings as SettingsIndexResultSet;
             Assert.That(settings.GetTolerance(1).ValueString, Is.EqualTo("10"));
         }
-        
+
         [Test]
         public void GetConstraint_BuildWithParallel_CorrectConstraint()
-        {           
+        {
             var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
             var itemXmlStubFactory = new Mock<QueryableXml>();
             itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
@@ -125,8 +127,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new SupersetOfXml(true);
-            ctrXml.ResultSet = new ResultSetXml();
+            var ctrXml = new SupersetOfXml(true) { ResultSet = new ResultSetXml() };
 
             var builder = new ResultSetSupersetOfBuilder();
             builder.Setup(sutXml, ctrXml);
@@ -136,8 +137,8 @@ namespace NBi.Testing.Unit.NUnit.Builder
             Assert.That(ctr, Is.InstanceOf<SupersetOfConstraint>());
             Assert.That(((SupersetOfConstraint)ctr).IsParallelizeQueries(), Is.True);
         }
-        
-        
+
+
         [Test]
         public void GetSystemUnderTest_ExecutionXml_IResultSetService()
         {

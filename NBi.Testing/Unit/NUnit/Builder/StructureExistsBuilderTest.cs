@@ -46,13 +46,16 @@ namespace NBi.Testing.Unit.NUnit.Builder
         [Test]
         public void GetConstraint_Build_CorrectConstraint()
         {
-            var sutXml = new StructureXml();
-            var item = new HierarchyXml();
-            item.ConnectionString = ConnectionStringReader.GetAdomd();
-            item.Perspective = "perspective-name";
-            item.Dimension = "dimension-caption";
-            item.Caption = "hierarchy-caption";
-            sutXml.Item = item;
+            var sutXml = new StructureXml()
+            {
+                Item = new HierarchyXml()
+                {
+                    ConnectionString = ConnectionStringReader.GetAdomd(),
+                    Perspective = "perspective-name",
+                    Dimension = "dimension-caption",
+                    Caption = "hierarchy-caption",
+                }
+            };
             var ctrXml = new ExistsXml();
 
             var builder = new StructureExistsBuilder();
@@ -89,8 +92,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             sutXml.Item = item;
             item.ConnectionString = ConnectionStringReader.GetAdomd();
             item.Caption = "perspective";
-            var ctrXml = new ExistsXml();
-            ctrXml.IgnoreCase = true;
+            var ctrXml = new ExistsXml() { IgnoreCase = true };
 
             var builder = new StructureExistsBuilder();
             builder.Setup(sutXml, ctrXml);
@@ -122,6 +124,6 @@ namespace NBi.Testing.Unit.NUnit.Builder
             Assert.That(existsCtr.Comparer, Is.InstanceOf<Comparer>());
             Assert.That(existsCtr.Comparer.Compare("c", "C"), Is.Not.EqualTo(0));
         }
-        
+
     }
 }

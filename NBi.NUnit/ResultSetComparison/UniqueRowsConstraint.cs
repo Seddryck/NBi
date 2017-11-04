@@ -16,16 +16,18 @@ namespace NBi.NUnit.Query
         protected ResultSet actualResultSet;
         private IDataRowsMessageFormatter failure;
         
-        protected internal virtual UniqueRowsFinder Engine
-        {
-            get
-            {
-                return new UniqueRowsFinderByIndex();
-            }
-        }
+        protected Evaluator Engine { get; set; }
 
         public UniqueRowsConstraint()
-        { }
+        {
+            Engine = new IndexEvaluator();
+        }
+
+        public UniqueRowsConstraint Using(Evaluator evaluator)
+        {
+            this.Engine = evaluator;
+            return this;
+        }
 
         /// <summary>
         /// Handle a IResultSetService execute it and check if the result contains unique rows or not
@@ -45,8 +47,8 @@ namespace NBi.NUnit.Query
 
                 if (!result.AreUnique)
                 {
-                var factory = new DataRowsMessageFormatterFactory();
-                var failure = factory.Instantiate(Configuration.FailureReportProfile, ComparisonStyle.ByIndex);
+                    var factory = new DataRowsMessageFormatterFactory();
+                    failure = factory.Instantiate(Configuration.FailureReportProfile, EngineStyle.ByIndex);
                     failure.BuildDuplication(actualResultSet.Rows.Cast<DataRow>(), result);
                 }
 

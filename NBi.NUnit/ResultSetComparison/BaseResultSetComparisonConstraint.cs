@@ -13,6 +13,7 @@ using NBi.Core.Transformation;
 using NBi.Core.ResultSet.Analyzer;
 using NBi.Core.ResultSet.Loading;
 using NBi.Framework.FailureMessage.Markdown;
+using NBi.Core.ResultSet.Equivalence;
 
 namespace NBi.NUnit.ResultSetComparison
 {
@@ -25,7 +26,7 @@ namespace NBi.NUnit.ResultSetComparison
         protected ResultSet expectedResultSet;
         protected ResultSet actualResultSet;
 
-        protected ResultSetCompareResult result;
+        protected ResultResultSet result;
         private IDataRowsMessageFormatter failure;
         protected IDataRowsMessageFormatter Failure
         {
@@ -48,13 +49,13 @@ namespace NBi.NUnit.ResultSetComparison
         /// <summary>
         /// Engine dedicated to ResultSet comparaison
         /// </summary>
-        protected IResultSetComparer _engine;
-        protected internal virtual IResultSetComparer Engine
+        protected IEquivaler _engine;
+        protected internal virtual IEquivaler Engine
         {
             get
             {
                 if(_engine==null)
-                    _engine = new ResultSetComparerByIndex(AnalyzersFactory.EqualTo(), null);
+                    _engine = new IndexEquivaler(AnalyzersFactory.EqualTo(), null);
                 return _engine;
             }
             set
@@ -69,13 +70,13 @@ namespace NBi.NUnit.ResultSetComparison
         }
 
         
-        public BaseResultSetComparisonConstraint Using(IResultSetComparer engine)
+        public BaseResultSetComparisonConstraint Using(IEquivaler engine)
         {
             this.Engine = engine;
             return this;
         }
 
-        public BaseResultSetComparisonConstraint Using(ISettingsResultSetComparison settings)
+        public BaseResultSetComparisonConstraint Using(ISettingsResultSet settings)
         {
             this.Engine.Settings = settings;
             return this;

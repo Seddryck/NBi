@@ -14,6 +14,7 @@ using NBi.Core.Transformation;
 using NBi.NUnit.ResultSetComparison;
 using System.Data;
 using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Equivalence;
 
 namespace NBi.NUnit.Builder
 {
@@ -23,9 +24,9 @@ namespace NBi.NUnit.Builder
         {
 
         }
-        protected override ComparisonKind ComparisonKind
+        protected override EquivalenceKind EquivalenceKind
         {
-            get { return ComparisonKind.SubsetOf; }
+            get { return EquivalenceKind.SubsetOf; }
         }
 
         protected override void SpecificSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)

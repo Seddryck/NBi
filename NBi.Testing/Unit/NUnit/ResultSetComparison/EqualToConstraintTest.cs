@@ -6,6 +6,7 @@ using NBi.NUnit.ResultSetComparison;
 using NUnit.Framework;
 using NBi.Core;
 using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Equivalence;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
@@ -28,9 +29,9 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                 .Returns(rs);
             var actualService = actualServiceMock.Object;
 
-            var rscMock = new Mock<IResultSetComparer>();
+            var rscMock = new Mock<IEquivaler>();
             rscMock.Setup(engine => engine.Compare(It.IsAny<ResultSet>(), It.IsAny<ResultSet>()))
-                .Returns(new ResultSetCompareResult() { Difference = ResultSetDifferenceType.None });
+                .Returns(new ResultResultSet() { Difference = ResultSetDifferenceType.None });
             var rsc = rscMock.Object;
 
             var equalToConstraint = new EqualToConstraint(expectedService) { Engine = rsc };
@@ -63,9 +64,9 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                 .Returns(actualRs);
             var actualService = actualServiceMock.Object;
 
-            var rscMock = new Mock<IResultSetComparer>();
+            var rscMock = new Mock<IEquivaler>();
             rscMock.Setup(engine => engine.Compare(It.IsAny<ResultSet>(), It.IsAny<ResultSet>()))
-                .Returns(new ResultSetCompareResult() { Difference = ResultSetDifferenceType.Content });
+                .Returns(new ResultResultSet() { Difference = ResultSetDifferenceType.Content });
             var rsc = rscMock.Object;
 
             var equalToConstraint = new EqualToConstraint(expectedService) { Engine = rsc };
@@ -93,9 +94,9 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                 .Returns(rs);
             var actualService = actualServiceMock.Object;
 
-            var rscMock = new Mock<IResultSetComparer>();
+            var rscMock = new Mock<IEquivaler>();
             rscMock.Setup(engine => engine.Compare(rs, rs))
-                .Returns(new ResultSetCompareResult() { Difference = ResultSetDifferenceType.None });
+                .Returns(new ResultResultSet() { Difference = ResultSetDifferenceType.None });
             var rsc = rscMock.Object;
 
             var equalToConstraint = new EqualToConstraint(expectedService) { Engine = rsc };
@@ -126,9 +127,9 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                 .Returns(actualRs);
             var actualService = actualServiceMock.Object;
 
-            var rscMock = new Mock<IResultSetComparer>();
+            var rscMock = new Mock<IEquivaler>();
             rscMock.Setup(engine => engine.Compare(actualRs, expectedRs))
-                .Returns(new ResultSetCompareResult() { Difference = ResultSetDifferenceType.Content });
+                .Returns(new ResultResultSet() { Difference = ResultSetDifferenceType.Content });
             var rsc = rscMock.Object;
 
             var equalToConstraint = new EqualToConstraint(expectedService) { Engine = rsc };

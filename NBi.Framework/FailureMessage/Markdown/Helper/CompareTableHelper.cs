@@ -13,7 +13,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
 {
     class CompareTableHelper : TableHelper
     {
-        public CompareTableHelper(ComparisonStyle style)
+        public CompareTableHelper(EngineStyle style)
         : base(style) { }
 
         protected override List<TableRowExtended> BuildRows(IEnumerable<DataRow> dataRows, List<ColumnType> columnTypes)

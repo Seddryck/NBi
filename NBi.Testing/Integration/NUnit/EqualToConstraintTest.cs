@@ -105,9 +105,9 @@ namespace NBi.Testing.Integration.NUnit
             var builder = new ResultSetServiceBuilder();
             builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
-            ctr.Using(new SettingsResultSetComparisonByIndex(
-                    SettingsResultSetComparisonByIndex.KeysChoice.First,
-                    SettingsResultSetComparisonByIndex.ValuesChoice.Last,
+            ctr.Using(new SettingsIndexResultSet(
+                    SettingsIndexResultSet.KeysChoice.First,
+                    SettingsIndexResultSet.ValuesChoice.Last,
                     new NumericAbsoluteTolerance(500, SideTolerance.Both)
                 )
             );
@@ -139,9 +139,9 @@ namespace NBi.Testing.Integration.NUnit
             var builder = new ResultSetServiceBuilder();
             builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
-            ctr.Using(new SettingsResultSetComparisonByIndex(
-                SettingsResultSetComparisonByIndex.KeysChoice.First,
-                SettingsResultSetComparisonByIndex.ValuesChoice.Last,
+            ctr.Using(new SettingsIndexResultSet(
+                SettingsIndexResultSet.KeysChoice.First,
+                SettingsIndexResultSet.ValuesChoice.Last,
                 NumericAbsoluteTolerance.None)
             );
 
@@ -166,9 +166,9 @@ namespace NBi.Testing.Integration.NUnit
             var builder = new ResultSetServiceBuilder();
             builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
-            ctr.Using(new SettingsResultSetComparisonByIndex(
-                SettingsResultSetComparisonByIndex.KeysChoice.First,
-                SettingsResultSetComparisonByIndex.ValuesChoice.Last,
+            ctr.Using(new SettingsIndexResultSet(
+                SettingsIndexResultSet.KeysChoice.First,
+                SettingsIndexResultSet.ValuesChoice.Last,
                 NumericAbsoluteTolerance.None)
             );
 
@@ -196,9 +196,9 @@ namespace NBi.Testing.Integration.NUnit
             var builder = new ResultSetServiceBuilder();
             builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
-            ctr.Using(new SettingsResultSetComparisonByIndex(
-                SettingsResultSetComparisonByIndex.KeysChoice.First,
-                SettingsResultSetComparisonByIndex.ValuesChoice.Last,
+            ctr.Using(new SettingsIndexResultSet(
+                SettingsIndexResultSet.KeysChoice.First,
+                SettingsIndexResultSet.ValuesChoice.Last,
                 NumericAbsoluteTolerance.None)
             );
 
@@ -226,9 +226,9 @@ namespace NBi.Testing.Integration.NUnit
             var builder = new ResultSetServiceBuilder();
             builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
-            ctr.Using(new SettingsResultSetComparisonByIndex(
-                    SettingsResultSetComparisonByIndex.KeysChoice.First,
-                    SettingsResultSetComparisonByIndex.ValuesChoice.Last,
+            ctr.Using(new SettingsIndexResultSet(
+                    SettingsIndexResultSet.KeysChoice.First,
+                    SettingsIndexResultSet.ValuesChoice.Last,
                     new List<IColumnDefinition>()
                     {
                         new Column()
@@ -271,9 +271,9 @@ namespace NBi.Testing.Integration.NUnit
             builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
-                    new SettingsResultSetComparisonByIndex(
-                        SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast,
-                        SettingsResultSetComparisonByIndex.ValuesChoice.Last,
+                    new SettingsIndexResultSet(
+                        SettingsIndexResultSet.KeysChoice.AllExpectLast,
+                        SettingsIndexResultSet.ValuesChoice.Last,
                         new List<IColumnDefinition>()
                         {
                             new Column()
@@ -335,9 +335,9 @@ namespace NBi.Testing.Integration.NUnit
             builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
-                    new SettingsResultSetComparisonByIndex(
-                        SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast,
-                        SettingsResultSetComparisonByIndex.ValuesChoice.Last,
+                    new SettingsIndexResultSet(
+                        SettingsIndexResultSet.KeysChoice.AllExpectLast,
+                        SettingsIndexResultSet.ValuesChoice.Last,
                         NumericAbsoluteTolerance.None
                     )
                 );
@@ -366,9 +366,9 @@ namespace NBi.Testing.Integration.NUnit
             builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
-                    new SettingsResultSetComparisonByIndex(
-                        SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast,
-                        SettingsResultSetComparisonByIndex.ValuesChoice.Last,
+                    new SettingsIndexResultSet(
+                        SettingsIndexResultSet.KeysChoice.AllExpectLast,
+                        SettingsIndexResultSet.ValuesChoice.Last,
                         NumericAbsoluteTolerance.None
                     )
                 );
@@ -401,9 +401,9 @@ namespace NBi.Testing.Integration.NUnit
             builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
-                    new SettingsResultSetComparisonByIndex(
-                        SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast,
-                        SettingsResultSetComparisonByIndex.ValuesChoice.Last,
+                    new SettingsIndexResultSet(
+                        SettingsIndexResultSet.KeysChoice.AllExpectLast,
+                        SettingsIndexResultSet.ValuesChoice.Last,
                         columns
                     )
                 );
@@ -436,9 +436,9 @@ namespace NBi.Testing.Integration.NUnit
             builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
-                    new SettingsResultSetComparisonByIndex(
-                        SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast,
-                        SettingsResultSetComparisonByIndex.ValuesChoice.Last,
+                    new SettingsIndexResultSet(
+                        SettingsIndexResultSet.KeysChoice.AllExpectLast,
+                        SettingsIndexResultSet.ValuesChoice.Last,
                         columns
                     )
                 );
@@ -472,9 +472,9 @@ namespace NBi.Testing.Integration.NUnit
             expectedBuilder.Setup(expectedLoader);
             var ctr = new EqualToConstraint(expectedBuilder.GetService());
             ctr.Using(
-                                new SettingsResultSetComparisonByIndex(
-                                    SettingsResultSetComparisonByIndex.KeysChoice.AllExpectLast,
-                                    SettingsResultSetComparisonByIndex.ValuesChoice.Last,
+                                new SettingsIndexResultSet(
+                                    SettingsIndexResultSet.KeysChoice.AllExpectLast,
+                                    SettingsIndexResultSet.ValuesChoice.Last,
                                     columns
                                 )
                             );

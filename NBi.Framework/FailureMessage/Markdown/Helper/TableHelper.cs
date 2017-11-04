@@ -16,8 +16,8 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
     class TableHelper
     {
         
-        private readonly ComparisonStyle style;
-        public TableHelper(ComparisonStyle style)
+        private readonly EngineStyle style;
+        public TableHelper(EngineStyle style)
         {
             this.style = style;
         }
@@ -88,10 +88,10 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
                 var headerCell = new TableCellExtended() {  };
                 switch (style)
                 {
-                    case ComparisonStyle.ByIndex:
+                    case EngineStyle.ByIndex:
                         headerCell.Text = string.Format("#{0} ({1})", headers.Count, dataColumn.ColumnName);
                         break;
-                    case ComparisonStyle.ByName:
+                    case EngineStyle.ByName:
                         headerCell.Text = string.Format("{0}", dataColumn.ColumnName);
                         break;
                     default:

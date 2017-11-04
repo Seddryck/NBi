@@ -9,6 +9,9 @@
     </default>
   </settings>
   <test name="'Reseller Order Count' by year before 2006" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012" />
+    </condition>
     <system-under-test>
       <execution>
         <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
@@ -39,6 +42,9 @@
     </assert>
   </test>
   <test name="'Reseller Order Count' by year before 2006" uid="0001" ignore="false">
+    <condition>
+      <service-running name="MSOLAP$SQL2012" />
+    </condition>
     <system-under-test>
       <execution>
         <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
@@ -359,28 +365,6 @@
           </column>
           <query>
             select '10.2016', 100 union all select '11.2016', 200
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="Format float and date">
-      <system-under-test>
-        <execution>
-          <query>
-            select '10.2016', '0121,00' union all select '11.2016', '0242,00'
-          </query>
-        </execution>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <column index="0" role="key" type="text">
-            <transformation language="format" original-type="dateTime">MM.yyyy</transformation>
-          </column>
-          <column index="1" role="value" type="numeric">
-            <transformation language="format" original-type="numeric">0000.00</transformation>
-          </column>
-          <query>
-            select cast('2016-10-01' as DateTime), cast(121 as float) union all select cast('2016-11-01' as DateTime), cast(242 as float)
           </query>
         </equalTo>
       </assert>

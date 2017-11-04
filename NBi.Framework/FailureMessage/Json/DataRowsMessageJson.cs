@@ -14,22 +14,22 @@ namespace NBi.Framework.FailureMessage.Json
     class DataRowsMessageJson : IDataRowsMessageFormatter
     {
         private readonly IDictionary<string, ISampler<DataRow>> samplers;
-        private readonly ComparisonStyle style;
+        private readonly EngineStyle style;
 
         private string expected;
         private string actual;
         private string analysis;
 
 
-        public DataRowsMessageJson(ComparisonStyle style, IDictionary<string, ISampler<DataRow>> samplers)
+        public DataRowsMessageJson(EngineStyle style, IDictionary<string, ISampler<DataRow>> samplers)
         {
             this.style = style;
             this.samplers = samplers;
         }
 
-        public void BuildComparaison(IEnumerable<DataRow> expectedRows, IEnumerable<DataRow> actualRows, ResultSetCompareResult compareResult)
+        public void BuildComparaison(IEnumerable<DataRow> expectedRows, IEnumerable<DataRow> actualRows, ResultResultSet compareResult)
         {
-            compareResult = compareResult ?? ResultSetCompareResult.Build(new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>());
+            compareResult = compareResult ?? ResultResultSet.Build(new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>());
 
             expected = BuildTable(expectedRows, samplers["expected"]);
             actual = BuildTable(actualRows, samplers["actual"]);
@@ -45,7 +45,7 @@ namespace NBi.Framework.FailureMessage.Json
              );
         }
 
-        public void BuildDuplication(IEnumerable<DataRow> actualRows, UniqueRowsResult result)
+        public void BuildDuplication(IEnumerable<DataRow> actualRows, ResultUniqueRows result)
         {
             actual = BuildTable(actualRows, samplers["actual"]);
             analysis = BuildMultipleTables(

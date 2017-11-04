@@ -17,8 +17,10 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var a2 = new KeyCollection(new object[] { 100, "a", true, new DateTime(2015, 05, 12) });
             var a3 = new KeyCollection(new object[] { 100, "a", false, new DateTime(2015, 05, 12) });
 
-            var dico = new Dictionary<KeyCollection, object>();
-            dico.Add(a1, null);
+            var dico = new Dictionary<KeyCollection, object>
+            {
+                { a1, null }
+            };
 
             Assert.That(a1, Is.EqualTo(a2));
             Assert.That(a1.GetHashCode(), Is.EqualTo(a2.GetHashCode()));
@@ -31,8 +33,10 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var a1 = new KeyCollection(new object[] { 100, "a", true, new DateTime(2015, 05, 12) });
             var a2 = new KeyCollection(new object[] { 100, "a", false, new DateTime(2015, 05, 12) });
 
-            var dico = new Dictionary<KeyCollection, object>();
-            dico.Add(a1, null);
+            var dico = new Dictionary<KeyCollection, object>
+            {
+                { a1, null }
+            };
 
             Assert.That(a1, Is.Not.EqualTo(a2));
             Assert.That(a1.GetHashCode(), Is.Not.EqualTo(a2.GetHashCode()));

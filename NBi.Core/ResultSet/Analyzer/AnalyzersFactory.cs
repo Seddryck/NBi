@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.ResultSet.Equivalence;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,20 +9,19 @@ namespace NBi.Core.ResultSet.Analyzer
 {
     public class AnalyzersFactory
     {
-        public IEnumerable<IRowsAnalyzer> Instantiate(ComparisonKind kind)
+        public IEnumerable<IRowsAnalyzer> Instantiate(EquivalenceKind kind)
         {
-            var list = new List<IRowsAnalyzer>();
-            list.Add(new KeyMatchingRowsAnalyzer());
+            var list = new List<IRowsAnalyzer>() { new KeyMatchingRowsAnalyzer() };
 
             switch (kind)
             {
-                case ComparisonKind.SubsetOf:
+                case EquivalenceKind.SubsetOf:
                     list.Add(new UnexpectedRowsAnalyzer());
                     break;
-                case ComparisonKind.SupersetOf:
+                case EquivalenceKind.SupersetOf:
                     list.Add(new MissingRowsAnalyzer());
                     break;
-                case ComparisonKind.EqualTo:
+                case EquivalenceKind.EqualTo:
                     list.Add(new MissingRowsAnalyzer());
                     list.Add(new UnexpectedRowsAnalyzer());
                     break;
@@ -34,7 +34,7 @@ namespace NBi.Core.ResultSet.Analyzer
 
         public static IEnumerable<IRowsAnalyzer> EqualTo()
         {
-            return new AnalyzersFactory().Instantiate(ComparisonKind.EqualTo);
+            return new AnalyzersFactory().Instantiate(EquivalenceKind.EqualTo);
         }
     }
 }

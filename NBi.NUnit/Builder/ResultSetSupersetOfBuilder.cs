@@ -9,14 +9,15 @@ using NBi.Xml.Systems;
 using NBi.NUnit.ResultSetComparison;
 using NBi.Core.ResultSet.Loading;
 using NBi.Core.Transformation;
+using NBi.Core.ResultSet.Equivalence;
 
 namespace NBi.NUnit.Builder
 {
     class ResultSetSupersetOfBuilder : ResultSetEqualToBuilder
     {
-        protected override ComparisonKind ComparisonKind
+        protected override EquivalenceKind EquivalenceKind
         {
-            get { return ComparisonKind.SupersetOf; }
+            get { return EquivalenceKind.SupersetOf; }
         }
 
         public ResultSetSupersetOfBuilder()

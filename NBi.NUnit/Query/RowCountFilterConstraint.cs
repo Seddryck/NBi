@@ -38,7 +38,7 @@ namespace NBi.NUnit.Query
         protected override IDataRowsMessageFormatter BuildFailure()
         {
             var factory = new DataRowsMessageFormatterFactory();
-            var msg = factory.Instantiate(Configuration.FailureReportProfile, ComparisonStyle.ByIndex);
+            var msg = factory.Instantiate(Configuration.FailureReportProfile, EngineStyle.ByIndex);
             msg.BuildFilter(actualResultSet.Rows.Cast<DataRow>(), filterResultSet.Rows.Cast<DataRow>());
             return msg;
         }

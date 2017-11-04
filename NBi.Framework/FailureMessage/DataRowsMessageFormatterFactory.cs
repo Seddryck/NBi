@@ -12,7 +12,7 @@ namespace NBi.Framework.FailureMessage
 {
     public class DataRowsMessageFormatterFactory
     {
-        public IDataRowsMessageFormatter Instantiate(IFailureReportProfile profile, Core.ResultSet.ComparisonStyle style)
+        public IDataRowsMessageFormatter Instantiate(IFailureReportProfile profile, Core.ResultSet.EngineStyle style)
         {
             var factory = new SamplersFactory<DataRow>();
             var samplers = factory.Instantiate(profile);

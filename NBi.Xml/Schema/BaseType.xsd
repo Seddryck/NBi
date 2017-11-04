@@ -1002,7 +1002,7 @@
             <xs:element name="no-rows" type="filter-type"/>
             <xs:element name="some-rows" type="filter-type"/>
             <xs:element name="single-row" type="filter-type"/>
-            <xs:element name="unique-rows"/>
+            <xs:element name="unique-rows" type="unique-rows-type"/>
           </xs:choice>
         </xs:complexType>
       </xs:element>
@@ -1108,6 +1108,13 @@
       </xs:choice>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="unique-rows-type">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="column" type="definition-column-type" />
+    </xs:sequence>
+    <xs:attribute name="keys" type="keys-set-type" use="optional" />
+    <xs:attribute name="values" type="values-set-type" use="optional" />
+  </xs:complexType>
   <xs:complexType name="contained-in-type">
     <xs:sequence>
       <xs:choice>
@@ -1161,6 +1168,20 @@
     <xs:sequence>
       <xs:element name="filter" type="filter-type" minOccurs="1" maxOccurs="1"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="definition-column-type">
+    <xs:attribute name="index" type="xs:int" use="optional" />
+    <xs:attribute name="name" type="xs:string" use="optional" />
+    <xs:attribute name="role" use="required" >
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="key"/>
+          <xs:enumeration value="value"/>
+          <xs:enumeration value="ignore"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="type" type="column-type-enum" use="optional"/>
   </xs:complexType>
   <xs:complexType name="result-set-comparison-type">
     <xs:sequence>
@@ -1230,24 +1251,8 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
-    <xs:attribute name="keys" use="optional" >
-      <xs:simpleType>
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="first"/>
-          <xs:enumeration value="all-except-last"/>
-          <xs:enumeration value="all"/>
-        </xs:restriction>
-      </xs:simpleType>
-    </xs:attribute>
-    <xs:attribute name="values" use="optional" >
-      <xs:simpleType>
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="all-except-first"/>
-          <xs:enumeration value="last"/>
-          <xs:enumeration value="none"/>
-        </xs:restriction>
-      </xs:simpleType>
-    </xs:attribute>
+    <xs:attribute name="keys" type="keys-set-type" use="optional" />
+    <xs:attribute name="values" type="values-set-type" use="optional" />
     <xs:attribute name="values-default-type" use="optional" >
       <xs:simpleType>
         <xs:restriction base="xs:string">
@@ -1271,6 +1276,20 @@
     <xs:attribute name="keys-names" type="xs:string" use="optional" />
     <xs:attribute name="values-names" type="xs:string" use="optional" />
   </xs:complexType>
+  <xs:simpleType name="keys-set-type">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="first"/>
+      <xs:enumeration value="all-except-last"/>
+      <xs:enumeration value="all"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="values-set-type">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="all-except-first"/>
+      <xs:enumeration value="last"/>
+      <xs:enumeration value="none"/>
+    </xs:restriction>
+  </xs:simpleType>
   <xs:complexType name="variables-type">
     <xs:sequence>
       <xs:element name="variable" minOccurs="1" maxOccurs="unbounded">

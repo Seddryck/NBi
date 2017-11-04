@@ -14,21 +14,21 @@ namespace NBi.Framework.FailureMessage.Markdown
     class DataRowsMessageMarkdown : IDataRowsMessageFormatter
     {
         private readonly IDictionary<string, ISampler<DataRow>> samplers;
-        private readonly ComparisonStyle style;
+        private readonly EngineStyle style;
 
         private MarkdownContainer expected;
         private MarkdownContainer actual;
         private MarkdownContainer analysis;
 
-        public DataRowsMessageMarkdown(ComparisonStyle style, IDictionary<string, ISampler<DataRow>> samplers)
+        public DataRowsMessageMarkdown(EngineStyle style, IDictionary<string, ISampler<DataRow>> samplers)
         {
             this.style = style;
             this.samplers = samplers;
         }
 
-        public void BuildComparaison(IEnumerable<DataRow> expectedRows, IEnumerable<DataRow> actualRows, ResultSetCompareResult compareResult)
+        public void BuildComparaison(IEnumerable<DataRow> expectedRows, IEnumerable<DataRow> actualRows, ResultResultSet compareResult)
         {
-            compareResult = compareResult ?? ResultSetCompareResult.Build(new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>());
+            compareResult = compareResult ?? ResultResultSet.Build(new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>());
 
             expected = BuildTable(style, expectedRows, samplers["expected"]);
             actual = BuildTable(style, actualRows, samplers["actual"]);
@@ -38,10 +38,15 @@ namespace NBi.Framework.FailureMessage.Markdown
             analysis.Append(BuildCompareTable(style, compareResult.NonMatchingValue.Rows ?? new List<DataRow>(), "Non matching value", samplers["analysis"]));
         }
 
-        public void BuildDuplication(IEnumerable<DataRow> actualRows, UniqueRowsResult result)
+        public void BuildDuplication(IEnumerable<DataRow> actualRows, ResultUniqueRows result)
         {
             actual = new MarkdownContainer();
-            actual.Append(new Paragraph($"The actual result-set has {result.RowCount} rows and contains {result.Values.Count()} unique rows duplicated."));
+            var sb = new StringBuilder();
+            var uniqueCount = actualRows.Count() - result.Rows.Sum(x => Convert.ToInt32(x[0]));
+            sb.Append($"The actual result-set has {result.RowCount} rows.");
+            sb.Append($" {uniqueCount} row{(uniqueCount > 1 ? "s are" : " is")} effectively unique");
+            sb.Append($" and {result.Values.Count()} distinct row{(result.Values.Count() > 1 ? "s are" : " is")} duplicated.");
+            actual.Append(new Paragraph(sb.ToString()));
             actual.Append(BuildTable(style, actualRows, samplers["actual"]));
             analysis = new MarkdownContainer();
             analysis.Append(BuildNonEmptyTable(style, result.Rows, "Duplicated", samplers["analysis"]));
@@ -57,7 +62,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             actual = BuildTable(style, actualRows, samplers["actual"]);
         }
 
-        private MarkdownContainer BuildTable(ComparisonStyle style, IEnumerable<DataRow> rows, ISampler<DataRow> sampler)
+        private MarkdownContainer BuildTable(EngineStyle style, IEnumerable<DataRow> rows, ISampler<DataRow> sampler)
         {
             var tableBuilder = new TableHelper(style);
             return BuildTable(tableBuilder, rows, string.Empty, sampler);
@@ -90,7 +95,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             return container;
         }
 
-        private MarkdownContainer BuildNonEmptyTable(ComparisonStyle style, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
+        private MarkdownContainer BuildNonEmptyTable(EngineStyle style, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
         {
             var tableBuilder = new TableHelper(style);
             if (rows.Count() > 0)
@@ -100,7 +105,7 @@ namespace NBi.Framework.FailureMessage.Markdown
         }
 
 
-        private MarkdownContainer BuildCompareTable(ComparisonStyle style, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
+        private MarkdownContainer BuildCompareTable(EngineStyle style, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
         {
             var tableBuilder = new CompareTableHelper(style);
             if (rows.Count() > 0)

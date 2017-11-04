@@ -13,6 +13,7 @@ using Systems = NBi.Xml.Systems;
 using NBi.Core.ResultSet;
 using NBi.Core.Transformation;
 using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Equivalence;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -58,8 +59,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new EqualToXml(SettingsXml.Empty);
-            ctrXml.ResultSet = new ResultSetXml();
+            var ctrXml = new EqualToXml(SettingsXml.Empty) { ResultSet = new ResultSetXml() };
 
             var builder = new ResultSetEqualToBuilder();
             builder.Setup(sutXml, ctrXml);
@@ -79,8 +79,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new EqualToXml(SettingsXml.Empty);
-            ctrXml.Query = new Items.QueryXml() {InlineQuery = "query"};
+            var ctrXml = new EqualToXml(SettingsXml.Empty) { Query = new Items.QueryXml() { InlineQuery = "query" } };
 
             var builder = new ResultSetEqualToBuilder();
             builder.Setup(sutXml, ctrXml);
@@ -100,9 +99,11 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new EqualToXml(SettingsXml.Empty);
-            ctrXml.Query = new Items.QueryXml() { InlineQuery = "query" };
-            ctrXml.Tolerance = "10";
+            var ctrXml = new EqualToXml(SettingsXml.Empty)
+            {
+                Query = new QueryXml() { InlineQuery = "query" },
+                Tolerance = "10"
+            };
 
             var builder = new ResultSetEqualToBuilder();
             builder.Setup(sutXml, ctrXml);
@@ -111,13 +112,13 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             Assert.That(ctr, Is.InstanceOf<EqualToConstraint>());
             //Get the tolerance for the column with 1 (and not 0) to avoid to get the tolerance on a key.
-            var settings = ((EqualToConstraint)ctr).Engine.Settings as SettingsResultSetComparisonByIndex;
+            var settings = ((EqualToConstraint)ctr).Engine.Settings as SettingsIndexResultSet;
             Assert.That(settings.GetTolerance(1).ValueString, Is.EqualTo("10"));
         }
 
         [Test]
         public void GetConstraint_BuildWithParallel_CorrectConstraint()
-        {           
+        {
             var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
             var itemXmlStubFactory = new Mock<QueryableXml>();
             itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
@@ -125,8 +126,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new EqualToXml(true);
-            ctrXml.ResultSet = new ResultSetXml();
+            var ctrXml = new EqualToXml(true) { ResultSet = new ResultSetXml() };
 
             var builder = new ResultSetEqualToBuilder();
             builder.Setup(sutXml, ctrXml);
@@ -136,7 +136,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             Assert.That(ctr, Is.InstanceOf<EqualToConstraint>());
             Assert.That(((EqualToConstraint)ctr).IsParallelizeQueries(), Is.True);
         }
-        
+
         [Test]
         public void GetConstraint_SingleRow_CorrectConstraint()
         {
@@ -154,19 +154,20 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     && c.Type == ColumnType.Text
                 );
 
-            var ctrXml = new EqualToXml(true);
-            ctrXml.Behavior = EqualToXml.ComparisonBehavior.SingleRow;
-            ctrXml.Query = new QueryXml();
-            ctrXml.Query.InlineQuery = "select * from Table;";
-            
+            var ctrXml = new EqualToXml(true)
+            {
+                Behavior = EqualToXml.ComparisonBehavior.SingleRow,
+                Query = new QueryXml() { InlineQuery = "select * from Table;" }
+            };
+
             var builder = new ResultSetEqualToBuilder();
             builder.Setup(sutXml, ctrXml);
             builder.Build();
             var ctr = builder.GetConstraint();
 
             Assert.That(ctr, Is.InstanceOf<EqualToConstraint>());
-            Assert.That(((EqualToConstraint)ctr).Engine, Is.InstanceOf<SingleRowComparer>());
-            Assert.That(((EqualToConstraint)ctr).Engine.Settings, Is.InstanceOf<SettingsSingleRowComparison>());
+            Assert.That(((EqualToConstraint)ctr).Engine, Is.InstanceOf<SingleRowEquivaler>());
+            Assert.That(((EqualToConstraint)ctr).Engine.Settings, Is.InstanceOf<SettingsSingleRowResultSet>());
         }
 
         [Test]
@@ -179,8 +180,10 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new EqualToXml(SettingsXml.Empty);
-            ctrXml.Query = new Items.QueryXml() { InlineQuery = "query" };
+            var ctrXml = new EqualToXml(SettingsXml.Empty)
+            {
+                Query = new QueryXml() { InlineQuery = "query" }
+            };
 
             var builder = new ResultSetEqualToBuilder();
             builder.Setup(sutXml, ctrXml);

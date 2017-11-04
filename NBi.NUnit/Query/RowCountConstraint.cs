@@ -44,7 +44,7 @@ namespace NBi.NUnit.Query
         protected virtual IDataRowsMessageFormatter BuildFailure()
         {
             var factory = new DataRowsMessageFormatterFactory();
-            var msg = factory.Instantiate(Configuration.FailureReportProfile, ComparisonStyle.ByIndex);
+            var msg = factory.Instantiate(Configuration.FailureReportProfile, EngineStyle.ByIndex);
             msg.BuildCount(actualResultSet.Rows.Cast<DataRow>());
             return msg;
         }

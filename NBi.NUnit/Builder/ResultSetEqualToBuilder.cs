@@ -16,6 +16,7 @@ using System.Data;
 using NBi.Core.ResultSet.Loading;
 using System.IO;
 using NBi.Core.ResultSet.Resolver.Query;
+using NBi.Core.ResultSet.Equivalence;
 
 namespace NBi.NUnit.Builder
 {
@@ -23,9 +24,9 @@ namespace NBi.NUnit.Builder
     {
         protected EqualToXml ConstraintXml { get; set; }
 
-        protected virtual ComparisonKind ComparisonKind
+        protected virtual EquivalenceKind EquivalenceKind
         {
-            get { return ComparisonKind.EqualTo; }
+            get { return EquivalenceKind.EqualTo; }
         }
 
         public ResultSetEqualToBuilder()
@@ -97,9 +98,9 @@ namespace NBi.NUnit.Builder
             else if (ConstraintXml.XmlSource != null)
             {
                 var selects = new List<AbstractSelect>();
-                var factory = new SelectFactory();
+                var selectFactory = new SelectFactory();
                 foreach (var select in ConstraintXml.XmlSource.XPath.Selects)
-                    selects.Add(factory.Instantiate(select.Value, select.Attribute, select.Evaluate));
+                    selects.Add(selectFactory.Instantiate(select.Value, select.Attribute, select.Evaluate));
 
                 XPathEngine engine = null;
                 if (ConstraintXml.XmlSource.File != null)
@@ -124,40 +125,30 @@ namespace NBi.NUnit.Builder
                 throw new ArgumentException();
 
             //Manage settings for comparaison
-            var builder = new ResultSetComparisonBuilder();
+            var builder = new SettingsEquivalerBuilder();
             if (ConstraintXml.Behavior == EqualToXml.ComparisonBehavior.SingleRow)
             {
-
-                builder.Setup(false, 0, null, 0, null,
-                    ConstraintXml.ValuesDefaultType,
-                    ToleranceFactory.Instantiate(ConstraintXml.ValuesDefaultType, ConstraintXml.Tolerance),
-                    ConstraintXml.ColumnsDef
-                    , ComparisonKind.EqualTo
-                );
-
+                builder.Setup(false);
+                builder.Setup(ConstraintXml.ValuesDefaultType, ConstraintXml.Tolerance);
+                builder.Setup(ConstraintXml.ColumnsDef);
             }
             else
             {
+                builder.Setup(ConstraintXml.KeysDef, ConstraintXml.ValuesDef);
                 builder.Setup(
-                    true,
-                    ConstraintXml.KeysDef,
-                    ConstraintXml.KeyName,
-                    ConstraintXml.ValuesDef,
-                    ConstraintXml.ValueName,
-                    ConstraintXml.ValuesDefaultType,
-                    ToleranceFactory.Instantiate(ConstraintXml.ValuesDefaultType, ConstraintXml.Tolerance),
-                    ConstraintXml.ColumnsDef,
-                    ComparisonKind
-                );
+                    ConstraintXml.KeyName?.Replace(" ", "").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct(),
+                    ConstraintXml.ValueName?.Replace(" ", "").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct());
+                builder.Setup(ConstraintXml.ValuesDefaultType, ConstraintXml.Tolerance);
+                builder.Setup(ConstraintXml.ColumnsDef);
             }
 
             builder.Build();
-            ctr = ctr.Using(builder.GetComparer());
-
             var settings = builder.GetSettings();
-            ctr = ctr.Using(settings);
 
-            
+            var factory = new EquivalerFactory();
+            var comparer = factory.Instantiate(settings, EquivalenceKind);
+            ctr = ctr.Using(comparer);
+            ctr = ctr.Using(settings);
 
             //Manage parallelism
             if (ConstraintXml.ParallelizeQueries)

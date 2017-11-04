@@ -20,3 +20,32 @@ The assertion consists in an xml element named *unique-rows*.
 </assert>
 {% endhighlight %}
 
+By default this assertion considers that all columns are keys.
+
+### Keys and values
+
+The assertion is comparing two rows of the same datasets based on the columns defined as keys (by default all of them).  Values columns are just ignored and won't be reported in case of failure.
+
+It's possible to define the keys by yourself by using columns' index or columns' name. If you're using indexes, you can specify the attribute *keys*
+
+{% highlight xml %}
+<assert>
+  <unique-rows keys="first"/>
+</assert>
+{% endhighlight %}
+
+If the predefined values are not enough, you can also use the following method to define the key columns.
+
+{% highlight xml %}
+<unique-rows>
+  <column index="0" role="value"/>
+  <column index="1" role="key" type="numeric"/>
+</unique-rows>
+{% endhighlight %}
+
+{% highlight xml %}
+<unique-rows>
+  <column name="myFirstColumn" role="value"/>
+  <column name="mySecondColumn" role="key" type="numeric"/>
+</unique-rows>
+{% endhighlight %}

@@ -47,6 +47,8 @@ namespace NBi.NUnit.Builder
                 if (filterXml.Expression!=null)
                      expressions.Add(filterXml.Expression);
 
+                var value = EvaluatePotentialVariable(ConstraintXml.Comparer.Value.Replace(" ", ""));
+
                 var factory = new PredicateFilterFactory();
                 if (filterXml.Predication != null)
                     filter = factory.Instantiate
@@ -63,7 +65,7 @@ namespace NBi.NUnit.Builder
                                     , filterXml.Combination.Operator
                                     , filterXml.Combination.Predicates
                                 );
-                if (ConstraintXml.Comparer.Value.Replace(" ", "").EndsWith("%"))
+                if ((value is string & (value as string).EndsWith("%")))
                     ctr = new RowCountFilterPercentageConstraint(childConstraint, filter);
                 else
                     ctr = new RowCountFilterConstraint(childConstraint, filter);
@@ -77,21 +79,26 @@ namespace NBi.NUnit.Builder
         protected virtual NUnitCtr.Constraint BuildChildConstraint(PredicateXml xml)
         {
             
-            var value = xml.Value.Replace(" ","");
+            var originalValue = xml.Value.Replace(" ","");
+            var valueObject = EvaluatePotentialVariable(originalValue);
 
             object numericValue;
             try
             {
-                if (value.EndsWith("%"))
-                    numericValue = Decimal.Parse(xml.Value.Substring(0, xml.Value.Length-1)) / new Decimal(100);
+                if (valueObject is string && (valueObject as string).EndsWith("%"))
+                    numericValue = Decimal.Parse((valueObject as string).Substring(0, (valueObject as string).Length - 1)) / new Decimal(100);
+                else if (valueObject is string)
+                    numericValue = Int32.Parse((valueObject as string));
+                else if (valueObject is Int32)
+                    numericValue = valueObject;
                 else
-                    numericValue = Int32.Parse(xml.Value);
+                    throw new Exception();
             }
             catch (Exception ex)
             {
                 var exception = new ArgumentException
                     (
-                        String.Format("The assertion row-count is expecting an integer or percentage value for comparison. The provided value '{0}' is not a integer or percentage value.", value)
+                        String.Format($"The assertion row-count is expecting an integer or percentage value for comparison. The provided value '{valueObject}' is not a integer or percentage value.")
                         , ex
                     );
                 throw exception;

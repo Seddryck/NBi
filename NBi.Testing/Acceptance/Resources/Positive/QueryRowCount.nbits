@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
+  <variables>
+    <variable name="Three">
+      <script language="c-sharp">3</script>
+    </variable>
+    <variable name="FiftyPercent">
+      <script language="c-sharp">"50%"</script>
+    </variable>
+  </variables>
   <test name="Count of SalesTerritory is more-than or equal to 2" uid="0001">
     <system-under-test>
       <execution>
@@ -85,6 +93,9 @@
     </assert>
   </test>
   <test name="Count rows with more than 1000 sales">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
     <system-under-test>
       <execution>
         <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
@@ -109,6 +120,9 @@
     </assert>
   </test>
   <test name="Count rows with more than 500 semi-sales">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
     <system-under-test>
       <execution>
         <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
@@ -227,6 +241,52 @@
           </predicate>
         </filter>
         <less-than>50%</less-than>
+      </row-count>
+    </assert>
+  </test>
+  <test name="Using a variable">
+    <system-under-test>
+      <resultSet>
+        <query
+          connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select
+          [Name], [CountryRegionCode]
+          from
+          [Sales].[SalesTerritory]
+          where
+          [Group]='Europe'
+        </query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <row-count>
+        <equal>@Three</equal>
+      </row-count>
+    </assert>
+  </test>
+  <test name="Using a variable with percentage" uid="0001">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select
+          [Name], [CountryRegionCode], [Group]
+          from
+          [Sales].[SalesTerritory]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <row-count>
+        <filter>
+          <variable column-index="2">Region</variable>
+          <predicate name="Region" type="text">
+            <equal>Europe</equal>
+          </predicate>
+        </filter>
+        <less-than>@FiftyPercent</less-than>
       </row-count>
     </assert>
   </test>

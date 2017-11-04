@@ -130,7 +130,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("QueryRowCount.nbits")]
         [TestCase("QueryAllNoRows.nbits")]
         [TestCase("ResultSetConstraint.nbits")]
-        [TestCase("PowerBiDesktop.nbits")]
+        //[TestCase("PowerBiDesktop.nbits")]
         [Category("Acceptance")]
         public void RunPositiveTestSuite(string filename)
         {

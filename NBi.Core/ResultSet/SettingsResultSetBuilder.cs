@@ -51,8 +51,8 @@ namespace NBi.Core.ResultSet
                 && (nameKeys.Count() > 0 || nameValues.Count() > 0))
                 throw new InvalidOperationException("The definition of your settings is not valid. You cannot mix properties applicable for an engine based on columns' index and properties for an engine based on columns' name.");
 
-            if (nameValues.Count() == 0
-                && nameKeys.Count() > 0
+            if (nameKeys.Count() == 0
+                && nameValues.Count() > 0
                 && !definitionColumns.Any(c => c.Role == ColumnRole.Key))
                 throw new InvalidOperationException("You cannot define an engine based on columns' name and specify no keys. Specify at least one column as a key.");
 

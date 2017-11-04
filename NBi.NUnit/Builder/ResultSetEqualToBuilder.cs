@@ -136,8 +136,8 @@ namespace NBi.NUnit.Builder
             {
                 builder.Setup(ConstraintXml.KeysDef, ConstraintXml.ValuesDef);
                 builder.Setup(
-                    ConstraintXml.KeyName.Replace(" ", "").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct(),
-                    ConstraintXml.ValueName.Replace(" ", "").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct());
+                    ConstraintXml.KeyName?.Replace(" ", "").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct(),
+                    ConstraintXml.ValueName?.Replace(" ", "").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct());
                 builder.Setup(ConstraintXml.ValuesDefaultType, ConstraintXml.Tolerance);
                 builder.Setup(ConstraintXml.ColumnsDef);
             }

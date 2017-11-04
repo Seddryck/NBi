@@ -21,14 +21,26 @@ namespace NBi.Core.ResultSet
 
         protected ISettingsResultSet settings;
 
-        public void Setup(SettingsIndexResultSet.KeysChoice keysSet, SettingsIndexResultSet.ValuesChoice valuesSet, IReadOnlyList<IColumnDefinition> definitionColumns)
+        public void Setup(IEnumerable<string> nameKeys, IEnumerable<string> nameValues)
         {
-            this.keysSet = keysSet;
-            nameKeys = (new List<string>()).AsReadOnly();
-            this.valuesSet = valuesSet;
-            nameValues = (new List<string>()).AsReadOnly();
-            this.definitionColumns = definitionColumns;
+            isBuild = false;
+            this.nameKeys = nameKeys ?? new string[0];
+            this.nameValues = nameValues ?? new string[0];
         }
+
+        public void Setup(SettingsIndexResultSet.KeysChoice keysSet, SettingsIndexResultSet.ValuesChoice valuesSet)
+        {
+            isBuild = false;
+            this.keysSet = keysSet;
+            this.valuesSet = valuesSet;
+        }
+
+        public void Setup(IReadOnlyList<IColumnDefinition> definitionColumns)
+        {
+            isBuild = false;
+            this.definitionColumns = definitionColumns ?? new IColumnDefinition[0];
+        }
+
 
         protected void PerformInconsistencyChecks()
         {

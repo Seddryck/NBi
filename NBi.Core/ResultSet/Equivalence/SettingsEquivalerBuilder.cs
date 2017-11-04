@@ -21,26 +21,6 @@ namespace NBi.Core.ResultSet.Equivalence
             this.isMultipleRows = isMultipleRows;
         }
 
-        public void Setup(IEnumerable<string> nameKeys, IEnumerable<string> nameValues)
-        {
-            isBuild = false;
-            this.nameKeys = nameKeys ?? new string[0];
-            this.nameValues = nameValues ?? new string[0];
-        }
-
-        public void Setup(SettingsIndexResultSet.KeysChoice keysSet, SettingsIndexResultSet.ValuesChoice valuesSet)
-        {
-            isBuild = false;
-            this.keysSet = keysSet;
-            this.valuesSet = valuesSet;
-        }
-
-        public void Setup(IReadOnlyList<IColumnDefinition> definitionColumns)
-        {
-            isBuild = false;
-            this.definitionColumns = definitionColumns ?? new IColumnDefinition[0];
-        }
-
         public void Setup(ColumnType valuesDefaultType, Tolerance defaultTolerance)
         {
             isBuild = false;

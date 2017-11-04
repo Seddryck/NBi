@@ -56,10 +56,7 @@ namespace NBi.Core.ResultSet
                 && !definitionColumns.Any(c => c.Role == ColumnRole.Key))
                 throw new InvalidOperationException("You cannot define an engine based on columns' name and specify no keys. Specify at least one column as a key.");
 
-            if ((keysSet != 0 || valuesSet != 0)
-                && definitionColumns.Any(c => !string.IsNullOrEmpty(c.Name)))
-                throw new InvalidOperationException("You cannot define an engine based on columns' index and specify some columns' definition where you explicitely give a value to the 'name' attribute. Use attribute 'index' in place of 'name'.");
-
+            
             if ((nameKeys.Count() > 0 || nameValues.Count() > 0)
                 && definitionColumns.Any(c => c.Index != 0))
                 throw new InvalidOperationException("You cannot define an engine based on columns' name and specify some column's definitions where you explicitely give a value to the 'index' attribute. Use attribute 'index' in place of 'name'.");
@@ -67,6 +64,14 @@ namespace NBi.Core.ResultSet
             if (definitionColumns.Any(c => c.Index != 0 && !string.IsNullOrEmpty(c.Name)))
                 throw new InvalidOperationException("You cannot define some columns' definitions where you explicitely give a value to the 'index' attribute and to the 'name' attribute. Use attribute 'index' or 'name' but not both.");
         }
+
+        protected void PerformSetsAndColumnsCheck(SettingsIndexResultSet.KeysChoice defaultKeysSet, SettingsIndexResultSet.ValuesChoice defaultValuesSet)
+        {
+            if ((keysSet != defaultKeysSet || valuesSet != defaultValuesSet)
+                && definitionColumns.Any(c => !string.IsNullOrEmpty(c.Name)))
+                throw new InvalidOperationException("You cannot define an engine based on columns' index and specify some columns' definition where you explicitely give a value to the 'name' attribute. Use attribute 'index' in place of 'name'.");
+        }
+
 
         protected void PerformDuplicationChecks()
         {
@@ -116,11 +121,7 @@ namespace NBi.Core.ResultSet
             isBuild = true;
         }
 
-        protected virtual void OnCheck()
-        {
-            PerformInconsistencyChecks();
-            PerformDuplicationChecks();
-        }
+        protected abstract void OnCheck();
 
         protected abstract void OnBuild();
         

@@ -38,7 +38,13 @@ namespace NBi.Core.ResultSet.Equivalence
         protected override void OnCheck()
         {
             if (isMultipleRows)
+            {
                 PerformInconsistencyChecks();
+                PerformSetsAndColumnsCheck(
+                    SettingsIndexResultSet.KeysChoice.AllExpectLast
+                    , SettingsIndexResultSet.ValuesChoice.Last);
+            }
+
             PerformToleranceChecks();
             PerformDuplicationChecks();
         }

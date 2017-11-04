@@ -356,7 +356,9 @@
     <Compile Include="ResultSet\Resolver\Query\QueryResolverFactory.cs" />
     <Compile Include="ResultSet\ResultSetService.cs" />
     <Compile Include="ResultSet\ResultSetServiceBuilder.cs" />
-    <Compile Include="ResultSet\Uniqueness\SettingsUniqueRowsBuilder.cs" />
+    <Compile Include="ResultSet\Uniqueness\EvaluatorFactory.cs" />
+    <Compile Include="ResultSet\Uniqueness\NameEvaluator.cs" />
+    <Compile Include="ResultSet\Uniqueness\SettingsEvaluatorBuilder.cs" />
     <Compile Include="ResultSet\Uniqueness\ResultUniqueRows.cs" />
     <Compile Include="ResultSet\Interval\EndPoint.cs" />
     <Compile Include="ResultSet\IContent.cs" />
@@ -392,9 +394,9 @@
     <Compile Include="ResultSet\Comparer\Tolerance.cs" />
     <Compile Include="ResultSet\JsonResultSet.cs" />
     <Compile Include="ResultSet\ISettingsResultSet.cs" />
-    <Compile Include="ResultSet\Uniqueness\UniqueRowsEvaluator.cs" />
+    <Compile Include="ResultSet\Uniqueness\Evaluator.cs" />
     <Compile Include="ResultSet\Equivalence\BaseEquivaler.cs" />
-    <Compile Include="ResultSet\Uniqueness\IndexUniqueRowsEvaluator.cs" />
+    <Compile Include="ResultSet\Uniqueness\IndexEvaluator.cs" />
     <Compile Include="ResultSet\Equivalence\NameEquivaler.cs" />
     <Compile Include="ResultSet\SettingsIndexResultSet.cs" />
     <Compile Include="ResultSet\SettingsNameResultSet.cs" />

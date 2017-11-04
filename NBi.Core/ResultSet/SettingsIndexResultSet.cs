@@ -8,7 +8,6 @@ namespace NBi.Core.ResultSet
 {
     public class SettingsIndexResultSet : SettingsResultSet<int>
     {
-
         public enum KeysChoice
         {
             [XmlEnum(Name = "first")]

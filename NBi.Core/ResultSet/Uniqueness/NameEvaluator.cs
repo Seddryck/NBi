@@ -1,89 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using NBi.Core.ResultSet.Comparer;
+using System.Text;
+using NBi.Core.ResultSet.Converter;
+using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Analyzer;
+using NBi.Core.ResultSet.Equivalence;
 
-namespace NBi.Core.ResultSet.Equivalence
+namespace NBi.Core.ResultSet.Uniqueness
 {
-    internal class NameEquivaler : BaseEquivaler
+    public class NameEvaluator : Evaluator
     {
-        public override EngineStyle Style
-        {
-            get
-            {
-                return EngineStyle.ByName;
-            }
-        }
-
         private new SettingsNameResultSet Settings
         {
             get { return base.Settings as SettingsNameResultSet; }
         }
+        
+        public NameEvaluator()
+            : base()
+        { }
 
-        public NameEquivaler(IEnumerable<IRowsAnalyzer> analyzers, SettingsNameResultSet settings)
-            : base(analyzers)
+        public NameEvaluator(SettingsNameResultSet settings)
+            : base(settings)
         {
-            base.Settings = settings;
         }
 
-        protected override void PreliminaryChecks(DataTable x, DataTable y)
+        protected override void PreliminaryChecks(DataTable x)
         {
             if (base.Settings == null)
                 throw new InvalidOperationException();
 
-            RemoveIgnoredColumns(y, Settings);
             RemoveIgnoredColumns(x, Settings);
 
-            WriteSettingsToDataTableProperties(y, Settings);
             WriteSettingsToDataTableProperties(x, Settings);
-
-            CheckSettingsAndDataTable(y, Settings);
             CheckSettingsAndDataTable(x, Settings);
-
-            CheckSettingsAndFirstRow(y, Settings);
             CheckSettingsAndFirstRow(x, Settings);
         }
 
         protected override DataRowKeysComparer BuildDataRowsKeyComparer(DataTable x)
         {
             return new DataRowKeysComparerByName(Settings);
-        }
-
-        protected override DataRow CompareRows(DataRow rx, DataRow ry)
-        {
-            var isRowOnError = false;
-            foreach (var columnName in Settings.GetValueNames())
-            {
-                var x = rx.IsNull(columnName) ? DBNull.Value : rx[columnName];
-                var y = ry.IsNull(columnName) ? DBNull.Value : ry[columnName];
-                var rounding = Settings.IsRounding(columnName) ? Settings.GetRounding(columnName) : null;
-                var result = base.CellComparer.Compare(x, y, Settings.GetColumnType(columnName), Settings.GetTolerance(columnName), rounding);
-
-                if (!result.AreEqual)
-                {
-                    ry.SetColumnError(columnName, result.Message);
-                    if (!isRowOnError)
-                        isRowOnError = true;
-                }
-            }
-            if (isRowOnError)
-                return ry;
-            else
-                return null;
-        }
-
-
-        protected void RemoveIgnoredColumns(DataTable dt, SettingsNameResultSet settings)
-        {
-            var i = 0;
-            while (i < dt.Columns.Count)
-            {
-                if (settings.GetColumnRole(dt.Columns[i].ColumnName) == ColumnRole.Ignore)
-                    dt.Columns.RemoveAt(i);
-                else
-                    i++;
-            }
         }
 
         protected void WriteSettingsToDataTableProperties(DataTable dt, SettingsNameResultSet settings)
@@ -94,16 +54,15 @@ namespace NBi.Core.ResultSet.Equivalence
                     column
                     , settings.GetColumnRole(column.ColumnName)
                     , settings.GetColumnType(column.ColumnName)
-                    , settings.GetTolerance(column.ColumnName)
-                    , settings.GetRounding(column.ColumnName)
+                    , null
+                    , null
                 );
             }
         }
 
-
         protected void CheckSettingsAndDataTable(DataTable dt, SettingsNameResultSet settings)
         {
-            var missingColumns = new List<KeyValuePair<string,string>>();
+            var missingColumns = new List<KeyValuePair<string, string>>();
             foreach (var columnName in settings.GetKeyNames())
             {
                 if (!dt.Columns.Contains(columnName))
@@ -150,6 +109,18 @@ namespace NBi.Core.ResultSet.Equivalence
                                 , "The column named '{0}' is expecting a date & time value but the first row of your result set contains a value '{1}' not recognized as a valid date & time value."
                             }
                 );
+            }
+        }
+
+        protected void RemoveIgnoredColumns(DataTable dt, SettingsNameResultSet settings)
+        {
+            var i = 0;
+            while (i < dt.Columns.Count)
+            {
+                if (settings.GetColumnRole(dt.Columns[i].ColumnName) == ColumnRole.Ignore)
+                    dt.Columns.RemoveAt(i);
+                else
+                    i++;
             }
         }
     }

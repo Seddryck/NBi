@@ -13,7 +13,7 @@ using NBi.Core.ResultSet.Equivalence;
 
 namespace NBi.Core.ResultSet.Uniqueness
 {
-    public abstract class UniqueRowsEvaluator
+    public abstract class Evaluator
     {
         protected ISettingsResultSet Settings { get; set; }
 
@@ -23,11 +23,11 @@ namespace NBi.Core.ResultSet.Uniqueness
             get { return cellComparer; }
         }
 
-        public UniqueRowsEvaluator()
+        public Evaluator()
         {
         }
 
-        public UniqueRowsEvaluator(ISettingsResultSet settings)
+        public Evaluator(ISettingsResultSet settings)
         {
             Settings = settings;
         }

@@ -50,6 +50,24 @@
       </unique-rows>
     </assert>
   </test>
+  <test name="query with a definition for each column" uid="0003">
+    <system-under-test>
+      <execution>
+        <query>
+          select 'alpha' as 'A', 100 as 'B', 110 as 'C'
+          union all select 'alpha', 105, 110
+          union all select 'gamma', 110, 105
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <unique-rows>
+        <column name="A" role="value"/>
+        <column name="B" role="key"/>
+        <column name="C" role="value"/>
+      </unique-rows>
+    </assert>
+  </test>
   <test name="query with one column as key" uid="0002">
     <system-under-test>
       <execution>

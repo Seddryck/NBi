@@ -13,18 +13,18 @@ using NBi.Core.ResultSet.Equivalence;
 
 namespace NBi.Core.ResultSet.Uniqueness
 {
-    public class IndexUniqueRowsEvaluator : UniqueRowsEvaluator
+    public class IndexEvaluator : Evaluator
     {
         private new SettingsIndexResultSet Settings
         {
             get { return base.Settings as SettingsIndexResultSet; }
         }
         
-        public IndexUniqueRowsEvaluator()
+        public IndexEvaluator()
             : base()
         { }
 
-        public IndexUniqueRowsEvaluator(SettingsIndexResultSet settings)
+        public IndexEvaluator(SettingsIndexResultSet settings)
             : base(settings)
         {
         }

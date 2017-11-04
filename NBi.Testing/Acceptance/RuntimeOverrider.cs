@@ -7,6 +7,7 @@ using System.Reflection;
 using NBi.Framework;
 using System.Configuration;
 using NBi.Core;
+using System.Collections.Generic;
 
 namespace NBi.Testing.Acceptance
 {
@@ -134,7 +135,7 @@ namespace NBi.Testing.Acceptance
         [Category("Acceptance")]
         public void RunPositiveTestSuite(string filename)
         {
-            var isInconclusive = false;
+            var ignoredTests = new List<string>();
             var t = new TestSuiteOverrider(@"Positive\" + filename);
 
             //First retrieve the NUnit TestCases with base class (NBi.NUnit.Runtime)
@@ -151,12 +152,12 @@ namespace NBi.Testing.Acceptance
                 catch (IgnoreException)
                 {
                     Trace.WriteLineIf(NBiTraceSwitch.TraceWarning, $"Not stopping the test suite, continue on ignore.");
-                    isInconclusive = true;
+                    ignoredTests.Add(((TestXml)testCaseData.Arguments[0]).Name);
                 }
             }
 
-            if (isInconclusive)
-                Assert.Inconclusive("At least one test has been skipped. Check if it was expected.");
+            if (ignoredTests.Count>0)
+                Assert.Inconclusive($"At least one test has been skipped. Check if it was expected. List of ignored tests: '{string.Join("', '", ignoredTests)}'");
         }
 
         [Test]

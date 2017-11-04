@@ -11,6 +11,8 @@ namespace NBi.Xml.Constraints
         
         public UniqueRowsXml()
         {
+            KeysSet = SettingsIndexResultSet.KeysChoice.All;
+            ValuesSet = SettingsIndexResultSet.ValuesChoice.None;
         }
 
         [XmlAttribute("keys")]

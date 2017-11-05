@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace NBi.Core.ResultSet.Resolver.Query
+namespace NBi.Core.Query.Resolver
 {
     public class DbCommandQueryResolverArgs : QueryResolverArgs
     {

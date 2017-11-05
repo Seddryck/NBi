@@ -1,5 +1,5 @@
 ﻿using NBi.Core.Query;
-using NBi.Core.ResultSet.Resolver.Query;
+using NBi.Core.Query.Resolver;
 using System;
 using System.Collections.Generic;
 using System.Data;

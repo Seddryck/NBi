@@ -11,7 +11,7 @@ using NBi.Core.ResultSet.Loading;
 using NBi.Core;
 using System.Diagnostics;
 using System.IO;
-using NBi.Core.ResultSet.Resolver.Query;
+using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet.Alteration;
 using NBi.Core.Evaluate;
 using NBi.Core.Calculation;

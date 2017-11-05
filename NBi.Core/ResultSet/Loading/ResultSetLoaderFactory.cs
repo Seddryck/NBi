@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using NBi.Core.Query;
 using NBi.Core.Xml;
-using NBi.Core.ResultSet.Resolver.Query;
+using NBi.Core.Query.Resolver;
 
 namespace NBi.Core.ResultSet.Loading
 {

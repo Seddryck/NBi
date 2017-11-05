@@ -15,7 +15,7 @@ using NBi.Core.Transformation;
 using System.Data;
 using NBi.Core.ResultSet.Loading;
 using System.IO;
-using NBi.Core.ResultSet.Resolver.Query;
+using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet.Equivalence;
 
 namespace NBi.NUnit.Builder

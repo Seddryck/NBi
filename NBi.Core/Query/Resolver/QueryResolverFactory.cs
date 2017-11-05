@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Resolver.Query
+namespace NBi.Core.Query.Resolver
 {
     class QueryResolverFactory
     {

@@ -1,5 +1,5 @@
 ﻿using NBi.Core.Query;
-using NBi.Core.ResultSet.Resolver.Query;
+using NBi.Core.Query.Resolver;
 using NBi.Xml.Items;
 using NUnit.Framework;
 using System;

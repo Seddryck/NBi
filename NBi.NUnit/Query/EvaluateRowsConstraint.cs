@@ -5,7 +5,7 @@ using System.Linq;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
 using NUnitCtr = NUnit.Framework.Constraints;
-using NBi.Core.ResultSet.Resolver.Query;
+using NBi.Core.Query.Resolver;
 
 namespace NBi.NUnit.Query
 {

@@ -1,6 +1,6 @@
 ﻿using NBi.Core;
 using NBi.Core.Query;
-using NBi.Core.ResultSet.Resolver.Query;
+using NBi.Core.Query.Resolver;
 using NBi.Xml.Items;
 using NUnit.Framework;
 using System;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Integration.Core.ResultSet.Resolver.Query
+namespace NBi.Testing.Integration.Core.Query.Resolver
 {
     [TestFixture]
     public class ExternalFileQueryResolverTest

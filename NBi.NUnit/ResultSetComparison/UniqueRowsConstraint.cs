@@ -8,6 +8,8 @@ using NBi.Framework.FailureMessage;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Uniqueness;
 using NBi.Framework.FailureMessage.Markdown;
+using NBi.Framework;
+using NUnit.Framework;
 
 namespace NBi.NUnit.Query
 {
@@ -15,7 +17,7 @@ namespace NBi.NUnit.Query
     {
         protected ResultSet actualResultSet;
         private IDataRowsMessageFormatter failure;
-        
+
         protected Evaluator Engine { get; set; }
 
         public UniqueRowsConstraint()
@@ -45,40 +47,54 @@ namespace NBi.NUnit.Query
                 actualResultSet = (ResultSet)actual;
                 var result = Engine.Execute(actualResultSet);
 
-                if (!result.AreUnique)
+                if (!result.AreUnique || Configuration.FailureReportProfile.Mode == FailureReportMode.Always)
                 {
                     var factory = new DataRowsMessageFormatterFactory();
-                    failure = factory.Instantiate(Configuration.FailureReportProfile, EngineStyle.ByIndex);
+                    failure = factory.Instantiate(Configuration.FailureReportProfile, Engine is IndexEvaluator ? EngineStyle.ByIndex : EngineStyle.ByName);
                     failure.BuildDuplication(actualResultSet.Rows.Cast<DataRow>(), result);
                 }
+
+                if (result.AreUnique && Configuration?.FailureReportProfile.Mode == FailureReportMode.Always)
+                    Assert.Pass(failure.RenderMessage());
 
                 return result.AreUnique;
             }
             else
                 throw new ArgumentException();
-            
+
         }
 
         #region "Error report"
 
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
+            if (Configuration?.FailureReportProfile.Format == FailureReportFormat.Json)
+                return;
+
             writer.WriteLine("No duplicated row.");
         }
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
         {
+            if (Configuration?.FailureReportProfile.Format == FailureReportFormat.Json)
+                return;
+
             writer.WriteLine(failure.RenderActual());
         }
 
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
         {
-            writer.WritePredicate("Execution of the query returns duplicated rows");
-            writer.WriteLine();
-            writer.WriteLine();
-            base.WriteMessageTo(writer);
-            writer.WriteLine();
-            writer.WriteLine(failure.RenderAnalysis());
+            if (Configuration?.FailureReportProfile.Format == FailureReportFormat.Json)
+                writer.Write(failure.RenderMessage());
+            else
+            {
+                writer.WritePredicate("Execution of the query returns duplicated rows");
+                writer.WriteLine();
+                writer.WriteLine();
+                base.WriteMessageTo(writer);
+                writer.WriteLine();
+                writer.WriteLine(failure.RenderAnalysis());
+            }
         }
 
         #endregion

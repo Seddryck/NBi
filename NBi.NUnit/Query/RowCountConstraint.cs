@@ -6,6 +6,8 @@ using NBi.Core.ResultSet;
 using NBi.Framework.FailureMessage;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework.FailureMessage.Markdown;
+using NUnit.Framework;
+using NBi.Framework;
 
 namespace NBi.NUnit.Query
 {
@@ -59,20 +61,36 @@ namespace NBi.NUnit.Query
             if (actual is IResultSetService)
                 return Matches(((IResultSetService)actual).Execute());
             else if (actual is ResultSet)
-            {
-                actualResultSet = (ResultSet)actual;
-                return Matches(actualResultSet.Rows.Count);
-            }
+                return doMatch(actual as ResultSet);
             else if (actual is int)
-                return doMatch(((int)actual));
+            {
+                var output = doMatch(((int)actual));
+
+                if (output && Configuration?.FailureReportProfile.Mode == FailureReportMode.Always)
+                    Assert.Pass(Failure.RenderMessage());
+
+                return output;
+            }
+                
             else
-                return false;
+                throw new ArgumentException($"The type '{actual.GetType().Name}' is not supported by the constraint '{this.GetType().Name}'. Use a IResultSetService or a ResultSet.", nameof(actual));
+        }
+
+        protected virtual bool doMatch(ResultSet actual)
+        {
+            actualResultSet = (ResultSet)actual;
+            return Matches(actualResultSet.Rows.Count);
         }
 
         protected virtual bool doMatch(int actual)
         {
             this.actual = actual;
-            return child.Matches(actual);
+            var output = child.Matches(actual);
+
+            if (output && Configuration?.FailureReportProfile.Mode == FailureReportMode.Always)
+                Assert.Pass(Failure.RenderMessage());
+
+            return output;
         }
        
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)

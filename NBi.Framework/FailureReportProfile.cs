@@ -20,14 +20,15 @@ namespace NBi.Framework
             {
                 if (@default == null)
                     @default = new FailureReportProfile()
-                            {
-                                MaxSampleItem = 10,
-                                ThresholdSampleItem = 15,
-                                ExpectedSet = FailureReportSetType.Sample,
-                                ActualSet = FailureReportSetType.Sample,
-                                AnalysisSet = FailureReportSetType.Sample,
-                                Format = FailureReportFormat.Markdown
-                            };
+                    {
+                        MaxSampleItem = 10,
+                        ThresholdSampleItem = 15,
+                        ExpectedSet = FailureReportSetType.Sample,
+                        ActualSet = FailureReportSetType.Sample,
+                        AnalysisSet = FailureReportSetType.Sample,
+                        Format = FailureReportFormat.Markdown,
+                        Mode = FailureReportMode.OnFailure,
+                    };
                 return @default;
             }
         }
@@ -44,6 +45,8 @@ namespace NBi.Framework
 
         public FailureReportFormat Format { get; set; }
 
+        public FailureReportMode Mode { get; set; }
+
         public override bool Equals(object obj)
         {
             if (obj == null)
@@ -57,17 +60,19 @@ namespace NBi.Framework
                         && ((FailureReportProfile)obj).AnalysisSet == this.AnalysisSet
                         && ((FailureReportProfile)obj).MaxSampleItem == this.MaxSampleItem
                         && ((FailureReportProfile)obj).ThresholdSampleItem == this.ThresholdSampleItem
-                        && ((FailureReportProfile)obj).Format == this.Format);
+                        && ((FailureReportProfile)obj).Format == this.Format
+                        && ((FailureReportProfile)obj).Mode == this.Mode);
         }
 
         public override int GetHashCode()
         {
             return ExpectedSet.GetHashCode() ^ 139 
                         * ActualSet.GetHashCode() ^ 79 
-                        * AnalysisSet.GetHashCode() ^ 58 
+                        * AnalysisSet.GetHashCode() ^ 59 
                         * MaxSampleItem.GetHashCode() ^ 17 
-                        * ThresholdSampleItem.GetHashCode() ^ 3
-                        * Format.GetHashCode() ^ 3;
+                        * ThresholdSampleItem.GetHashCode() ^ 11
+                        * Format.GetHashCode() ^ 7
+                        * Mode.GetHashCode() ^ 3;
         }
     }
 }

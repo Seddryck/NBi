@@ -14,6 +14,7 @@ using NBi.Core.ResultSet.Analyzer;
 using NBi.Core.ResultSet.Loading;
 using NBi.Framework.FailureMessage.Markdown;
 using NBi.Core.ResultSet.Equivalence;
+using NUnit.Framework;
 
 namespace NBi.NUnit.ResultSetComparison
 {
@@ -118,8 +119,12 @@ namespace NBi.NUnit.ResultSetComparison
                 expectedResultSet = expect.Execute();
 
             result = Engine.Compare(actualResultSet, expectedResultSet);
+            var output = result.Difference == ResultSetDifferenceType.None;
 
-            return result.Difference == ResultSetDifferenceType.None;
+            if (output && Configuration?.FailureReportProfile.Mode==FailureReportMode.Always)
+                Assert.Pass(Failure.RenderMessage());
+
+            return output;
         }
 
         /// <summary>

@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="FailureMessage\Json\CompareTableHelperJson.cs" />
     <Compile Include="FailureMessage\Json\ItemsMessageJson.cs" />
+    <Compile Include="FailureReportMode.cs" />
     <Compile Include="FailureReportFormat.cs" />
     <Compile Include="Sampling\FullSampler.cs" />
     <Compile Include="Sampling\NoneSampler.cs" />

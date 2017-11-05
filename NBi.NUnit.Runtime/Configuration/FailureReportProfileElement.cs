@@ -93,5 +93,18 @@ namespace NBi.NUnit.Runtime.Configuration
                 this["format"] = value;
             }
         }
+
+        [ConfigurationProperty("mode", IsRequired = false, DefaultValue = FailureReportMode.OnFailure)]
+        public FailureReportMode Mode
+        {
+            get
+            {
+                return (FailureReportMode)this["mode"];
+            }
+            set
+            {
+                this["mode"] = value;
+            }
+        }
     }
 }

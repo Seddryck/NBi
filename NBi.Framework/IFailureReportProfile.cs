@@ -16,6 +16,7 @@ namespace NBi.Framework
         FailureReportSetType AnalysisSet { get; set; }
 
         FailureReportFormat Format { get; set; }
+        FailureReportMode Mode { get; set; }
 
     }
 }

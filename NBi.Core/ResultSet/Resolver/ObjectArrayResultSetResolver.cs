@@ -1,5 +1,4 @@
 ﻿using NBi.Core.Query;
-using NBi.Core.Xml;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,21 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Loading
+namespace NBi.Core.ResultSet.Resolver
 {
-    class XPathResultSetLoader : IResultSetLoader
+    class ObjectArrayResultSetResolver : IResultSetResolver
     {
-        private readonly XPathEngine xpath;
+        private readonly object[] objects;
 
-        public XPathResultSetLoader(XPathEngine xpath)
+        public ObjectArrayResultSetResolver(object[] objects)
         {
-            this.xpath = xpath;
+            this.objects = objects;
         }
 
         public virtual ResultSet Execute()
         {
-            var objects = xpath.Execute();
-
             var helper = new ObjectsToRowsHelper();
             var rows = helper.Execute(objects);
 
@@ -29,5 +26,6 @@ namespace NBi.Core.ResultSet.Loading
             rs.Load(rows);
             return rs;
         }
+
     }
 }

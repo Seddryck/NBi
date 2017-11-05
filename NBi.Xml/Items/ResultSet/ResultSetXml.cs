@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 
 namespace NBi.Xml.Items.ResultSet
 {

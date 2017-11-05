@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Loading
+namespace NBi.Core.ResultSet.Resolver
 {
-    class ListRowResultSetLoader : IResultSetLoader
+    class ListRowResultSetResolver : IResultSetResolver
     {
         private readonly IList<IRow> rows;
 
-        public ListRowResultSetLoader(IList<IRow> rows)
+        public ListRowResultSetResolver(IList<IRow> rows)
         {
             this.rows = rows;
         }

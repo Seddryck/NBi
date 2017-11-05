@@ -9,7 +9,7 @@ using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder

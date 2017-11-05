@@ -7,7 +7,7 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 using NBi.Core;
 using System.Diagnostics;
 using System.IO;
@@ -67,7 +67,7 @@ namespace NBi.NUnit.Builder
 
             var args = new DbCommandQueryResolverArgs(cmd);
 
-            var factory = new ResultSetLoaderFactory();
+            var factory = new ResultSetResolverFactory();
             var loader = factory.Instantiate(args);
 
             var builder = new ResultSetServiceBuilder();
@@ -85,10 +85,10 @@ namespace NBi.NUnit.Builder
             return builder.GetService();
         }
 
-        protected virtual IResultSetLoader InstantiateLoader(ResultSetSystemXml resultSetXml)
+        protected virtual IResultSetResolver InstantiateLoader(ResultSetSystemXml resultSetXml)
         {
-            var factory = new ResultSetLoaderFactory();
-            IResultSetLoader loader;
+            var factory = new ResultSetResolverFactory();
+            IResultSetResolver loader;
 
             //ResultSet (external file)
             if (!string.IsNullOrEmpty(resultSetXml.File))

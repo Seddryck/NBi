@@ -9,7 +9,7 @@ using NBi.Core.Calculation;
 using Moq;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 
 namespace NBi.Testing.Unit.Core.Calculation
 {
@@ -19,7 +19,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Apply_And_CorrectResult()
         {
-            var service = new ObjectArrayResultSetLoader(
+            var service = new ObjectArrayResultSetResolver(
                 new object[] 
                 {
                     new List<object>() { "(null)", 10, 100 },
@@ -55,7 +55,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Apply_Or_CorrectResult()
         {
-            var service = new ObjectArrayResultSetLoader(
+            var service = new ObjectArrayResultSetResolver(
                 new object[]
                 {
                     new List<object>() { "(null)", 10, 100 },
@@ -92,7 +92,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Apply_XOr_CorrectResult()
         {
-            var service = new ObjectArrayResultSetLoader(
+            var service = new ObjectArrayResultSetResolver(
                 new object[]
                 {
                     new List<object>() { "(null)", 10, 100 },

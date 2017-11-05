@@ -12,7 +12,7 @@ using Items = NBi.Xml.Items;
 using Systems = NBi.Xml.Systems;
 using NBi.Core.ResultSet;
 using NBi.Core.Transformation;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet.Equivalence;
 #endregion
 

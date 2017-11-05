@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Loading
+namespace NBi.Core.ResultSet.Resolver
 {
-    class QueryResultSetLoader : IResultSetLoader
+    class QueryResultSetResolver : IResultSetResolver
     {
         private readonly QueryResolverArgs args;
 
-        public QueryResultSetLoader(QueryResolverArgs args)
+        public QueryResultSetResolver(QueryResolverArgs args)
         {
             this.args = args;
         }

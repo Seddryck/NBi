@@ -6,7 +6,7 @@ using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Comparer;
 using NBi.NUnit.ResultSetComparison;
 using NUnit.Framework;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 using NBi.Core;
 using System.Data;
 #endregion
@@ -44,7 +44,7 @@ namespace NBi.Testing.Integration.NUnit
         }
         #endregion
 
-        private class FakeQueryResultSetLoader : QueryResultSetLoader
+        private class FakeQueryResultSetLoader : QueryResultSetResolver
         {
             private readonly IDbCommand cmd;
 
@@ -72,7 +72,7 @@ namespace NBi.Testing.Integration.NUnit
                 new object[] { "CY 2008", "1513940" }
             };
 
-            var loader = new ObjectArrayResultSetLoader(objs.ToArray());
+            var loader = new ObjectArrayResultSetResolver(objs.ToArray());
             var builder = new ResultSetServiceBuilder();
             builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
@@ -101,7 +101,7 @@ namespace NBi.Testing.Integration.NUnit
                 new object[] { "CY 2008", "1513940" }
             };
 
-            var loader = new ObjectArrayResultSetLoader(objs.ToArray());
+            var loader = new ObjectArrayResultSetResolver(objs.ToArray());
             var builder = new ResultSetServiceBuilder();
             builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
@@ -135,7 +135,7 @@ namespace NBi.Testing.Integration.NUnit
                 new object[] { "CY 2007", 4709851 },
                 new object[] { "CY 2008", 1513940 }
             };
-            var loader = new ObjectArrayResultSetLoader(objs.ToArray());
+            var loader = new ObjectArrayResultSetResolver(objs.ToArray());
             var builder = new ResultSetServiceBuilder();
             builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());
@@ -305,7 +305,7 @@ namespace NBi.Testing.Integration.NUnit
         {
             //Buiding object used during test
             var filename = DiskOnFile.CreatePhysicalFile("NonEmptyAmountByYear.csv", "NBi.Testing.Integration.NUnit.Resources.NonEmptyAmountByYear.csv");
-            var loader = new CsvResultSetLoader(filename, CsvProfile.SemiColumnDoubleQuote);
+            var loader = new CsvResultSetResolver(filename, CsvProfile.SemiColumnDoubleQuote);
             var builder = new ResultSetServiceBuilder();
             builder.Setup(loader);
             var ctr = new EqualToConstraint(builder.GetService());

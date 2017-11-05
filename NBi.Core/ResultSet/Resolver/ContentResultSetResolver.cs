@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Loading
+namespace NBi.Core.ResultSet.Resolver
 {
-    class ContentResultSetLoader : ListRowResultSetLoader
+    class ContentResultSetResolver : ListRowResultSetResolver
     {
         private readonly IEnumerable<string> columnNames;
 
-        public ContentResultSetLoader(IContent content)
+        public ContentResultSetResolver(IContent content)
             : base(content.Rows)
         {
             columnNames = content.Columns;

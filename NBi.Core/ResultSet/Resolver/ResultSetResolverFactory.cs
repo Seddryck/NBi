@@ -6,9 +6,9 @@ using NBi.Core.Query;
 using NBi.Core.Xml;
 using NBi.Core.Query.Resolver;
 
-namespace NBi.Core.ResultSet.Loading
+namespace NBi.Core.ResultSet.Resolver
 {
-    public class ResultSetLoaderFactory
+    public class ResultSetResolverFactory
     {
         private CsvProfile profile = CsvProfile.SemiColumnDoubleQuote;
 
@@ -18,20 +18,20 @@ namespace NBi.Core.ResultSet.Loading
                 this.profile = profile;
         }
 
-        public IResultSetLoader Instantiate(object obj)
+        public IResultSetResolver Instantiate(object obj)
         {
             if (obj is IList<IRow>)
-                return new ListRowResultSetLoader((IList<IRow>)obj);
+                return new ListRowResultSetResolver((IList<IRow>)obj);
             else if (obj is IContent)
-                return new ContentResultSetLoader((IContent)obj);
+                return new ContentResultSetResolver((IContent)obj);
             else if (obj is QueryResolverArgs)
-                return new QueryResultSetLoader((QueryResolverArgs)obj);
+                return new QueryResultSetResolver((QueryResolverArgs)obj);
             else if (obj is string)
-                return new CsvResultSetLoader((string)obj, profile);
+                return new CsvResultSetResolver((string)obj, profile);
             else if (obj is XPathEngine)
-                return new XPathResultSetLoader((XPathEngine)obj);
+                return new XPathResultSetResolver((XPathEngine)obj);
             else if (obj is object[])
-                return new ObjectArrayResultSetLoader((object[])obj);
+                return new ObjectArrayResultSetResolver((object[])obj);
 
             throw new ArgumentOutOfRangeException($"Type '{obj.GetType().Name}' is not expected when building a ResultSet");
         }

@@ -11,15 +11,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Unit.Core.ResultSet.Resolver.Query
+namespace NBi.Testing.Unit.Core.Query.Resolver
 {
     [TestFixture]
-    public class SharedDataSetQueryResolverTest
+    public class ReportDataSetQueryResolverTest
     {
-        private SharedDataSetQueryResolverArgs BuildArgs()
+        private ReportDataSetQueryResolverArgs BuildArgs()
         {
-            return new SharedDataSetQueryResolverArgs(
-                @"C:\", @"Path\", "MyReport",  
+            return new ReportDataSetQueryResolverArgs(
+                @"C:\", @"Path\", "MyReport", "MyDataSet",
                 ConnectionStringReader.GetSqlClient(),
                 new List<IQueryParameter>() { new QueryParameterXml() { Name="param", StringValue="10" } },
                 new List<IQueryTemplateVariable>() { new QueryTemplateVariableXml() { Name = "operator", Value = "not in" } },
@@ -30,13 +30,13 @@ namespace NBi.Testing.Unit.Core.ResultSet.Resolver.Query
         public void Execute_Args_CommandInstantiated()
         {
             var reportingParserStub = new Mock<IReportingParser>();
-            reportingParserStub.Setup(x => x.ExtractCommand(It.IsAny<SharedDatasetRequest>())).Returns(
+            reportingParserStub.Setup(x => x.ExtractCommand(It.IsAny<ReportDataSetRequest>())).Returns(
                 new ReportingCommand() { Text="select * from myTable;", CommandType=CommandType.Text });
 
             var factoryStub = new Mock<ReportingParserFactory>();
             factoryStub.Setup(x => x.Instantiate(It.IsAny<string>())).Returns(reportingParserStub.Object);
 
-            var resolver = new SharedDataSetQueryResolver(BuildArgs(), factoryStub.Object);
+            var resolver = new ReportDataSetQueryResolver(BuildArgs(), factoryStub.Object);
             var cmd = resolver.Execute();
 
             Assert.That(cmd, Is.Not.Null);
@@ -46,13 +46,13 @@ namespace NBi.Testing.Unit.Core.ResultSet.Resolver.Query
         public void Execute_Args_ConnectionStringAssigned()
         {
             var reportingParserStub = new Mock<IReportingParser>();
-            reportingParserStub.Setup(x => x.ExtractCommand(It.IsAny<SharedDatasetRequest>())).Returns(
+            reportingParserStub.Setup(x => x.ExtractCommand(It.IsAny<ReportDataSetRequest>())).Returns(
                 new ReportingCommand() { Text = "select * from myTable;", CommandType = CommandType.Text });
 
             var factoryStub = new Mock<ReportingParserFactory>();
             factoryStub.Setup(x => x.Instantiate(It.IsAny<string>())).Returns(reportingParserStub.Object);
 
-            var resolver = new SharedDataSetQueryResolver(BuildArgs(), factoryStub.Object);
+            var resolver = new ReportDataSetQueryResolver(BuildArgs(), factoryStub.Object);
             var cmd = resolver.Execute();
 
             Assert.That(cmd.Connection.ConnectionString, Is.Not.Null.And.Not.Empty);
@@ -63,13 +63,13 @@ namespace NBi.Testing.Unit.Core.ResultSet.Resolver.Query
         public void Execute_Args_CommandTextAssigned()
         {
             var reportingParserStub = new Mock<IReportingParser>();
-            reportingParserStub.Setup(x => x.ExtractCommand(It.IsAny<SharedDatasetRequest>())).Returns(
+            reportingParserStub.Setup(x => x.ExtractCommand(It.IsAny<ReportDataSetRequest>())).Returns(
                 new ReportingCommand() { Text = "select * from myTable;", CommandType = CommandType.Text });
 
             var factoryStub = new Mock<ReportingParserFactory>();
             factoryStub.Setup(x => x.Instantiate(It.IsAny<string>())).Returns(reportingParserStub.Object);
 
-            var resolver = new SharedDataSetQueryResolver(BuildArgs(), factoryStub.Object);
+            var resolver = new ReportDataSetQueryResolver(BuildArgs(), factoryStub.Object);
             var cmd = resolver.Execute();
 
             Assert.That(cmd.CommandText, Is.EqualTo("select * from myTable;"));
@@ -79,46 +79,45 @@ namespace NBi.Testing.Unit.Core.ResultSet.Resolver.Query
         public void Execute_Args_CommandTypeAssigned()
         {
             var reportingParserStub = new Mock<IReportingParser>();
-            reportingParserStub.Setup(x => x.ExtractCommand(It.IsAny<SharedDatasetRequest>())).Returns(
+            reportingParserStub.Setup(x => x.ExtractCommand(It.IsAny<ReportDataSetRequest>())).Returns(
                 new ReportingCommand() { Text = "myStoredProcedure", CommandType = CommandType.StoredProcedure });
 
             var factoryStub = new Mock<ReportingParserFactory>();
             factoryStub.Setup(x => x.Instantiate(It.IsAny<string>())).Returns(reportingParserStub.Object);
 
-            var resolver = new SharedDataSetQueryResolver(BuildArgs(), factoryStub.Object);
+            var resolver = new ReportDataSetQueryResolver(BuildArgs(), factoryStub.Object);
             var cmd = resolver.Execute();
 
             Assert.That(cmd.CommandText, Is.EqualTo("myStoredProcedure"));
             Assert.That(cmd.CommandType, Is.EqualTo(CommandType.StoredProcedure));
         }
 
-        [Test]
         public void Execute_Args_ReportingParserCalledOnce()
         {
             var reportingParserMock = new Mock<IReportingParser>();
-            reportingParserMock.Setup(x => x.ExtractCommand(It.IsAny<SharedDatasetRequest>())).Returns(
+            reportingParserMock.Setup(x => x.ExtractCommand(It.IsAny<ReportDataSetRequest>())).Returns(
                 new ReportingCommand() { Text = "myStoredProcedure", CommandType = CommandType.StoredProcedure });
 
             var factoryStub = new Mock<ReportingParserFactory>();
             factoryStub.Setup(x => x.Instantiate(It.IsAny<string>())).Returns(reportingParserMock.Object);
 
-            var resolver = new SharedDataSetQueryResolver(BuildArgs(), factoryStub.Object);
+            var resolver = new ReportDataSetQueryResolver(BuildArgs(), factoryStub.Object);
             var cmd = resolver.Execute();
 
-            reportingParserMock.Verify(x => x.ExtractCommand(It.IsAny<SharedDatasetRequest>()), Times.Once);
+            reportingParserMock.Verify(x => x.ExtractCommand(It.IsAny<ReportDataSetRequest>()), Times.Once);
         }
 
         [Test]
         public void Execute_Args_ParametersAssigned()
         {
             var reportingParserStub = new Mock<IReportingParser>();
-            reportingParserStub.Setup(x => x.ExtractCommand(It.IsAny<SharedDatasetRequest>())).Returns(
+            reportingParserStub.Setup(x => x.ExtractCommand(It.IsAny<ReportDataSetRequest>())).Returns(
                 new ReportingCommand() { Text = "select * from myTable;", CommandType = CommandType.Text });
 
             var factoryStub = new Mock<ReportingParserFactory>();
             factoryStub.Setup(x => x.Instantiate(It.IsAny<string>())).Returns(reportingParserStub.Object);
 
-            var resolver = new SharedDataSetQueryResolver(BuildArgs(), factoryStub.Object);
+            var resolver = new ReportDataSetQueryResolver(BuildArgs(), factoryStub.Object);
             var cmd = resolver.Execute();
 
             Assert.That(cmd.Parameters, Has.Count.EqualTo(1));

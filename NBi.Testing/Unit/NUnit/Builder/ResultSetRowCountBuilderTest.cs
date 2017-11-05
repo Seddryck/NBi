@@ -13,7 +13,7 @@ using Systems = NBi.Xml.Systems;
 using NBi.Xml.Constraints.Comparer;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Xml.Items.Calculation;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet;
 #endregion
 

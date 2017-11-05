@@ -10,7 +10,7 @@ using NBi.Core.Calculation;
 using NBi.Core.Evaluate;
 using System.Collections.Generic;
 using NUnit.Framework;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {

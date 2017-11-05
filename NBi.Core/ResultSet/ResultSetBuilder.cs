@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using NBi.Core.Query;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 
 namespace NBi.Core.ResultSet
 {
@@ -22,7 +22,7 @@ namespace NBi.Core.ResultSet
 
         public virtual ResultSet Build(Object obj)
         {
-            var factory = new ResultSetLoaderFactory();
+            var factory = new ResultSetResolverFactory();
             factory.Using(profile);
             var service = factory.Instantiate(obj);
             return service.Execute();

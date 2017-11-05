@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Unit.Core.ResultSet.Resolver.Query
+namespace NBi.Testing.Unit.Core.Query.Resolver
 {
     [TestFixture]
     public class EmbeddedQueryResolverTest

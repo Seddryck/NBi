@@ -13,7 +13,7 @@ using NBi.Xml.Systems;
 using NBi.Core.Xml;
 using NBi.Core.Transformation;
 using System.Data;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 using System.IO;
 using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet.Equivalence;
@@ -161,12 +161,12 @@ namespace NBi.NUnit.Builder
 
         protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(object obj, TransformationProvider transformation)
         {
-            var factory = new ResultSetLoaderFactory();
+            var factory = new ResultSetResolverFactory();
             factory.Using(ConstraintXml.Settings?.CsvProfile);
-            var loader = factory.Instantiate(obj);
+            var resolver = factory.Instantiate(obj);
 
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(loader);
+            builder.Setup(resolver);
             if (transformation != null)
                 builder.Setup(transformation.Transform);
 

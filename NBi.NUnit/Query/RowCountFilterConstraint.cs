@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet;
 using NBi.Core.Calculation;
 using NBi.Framework.FailureMessage;

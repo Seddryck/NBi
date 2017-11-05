@@ -7,7 +7,7 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 
 namespace NBi.NUnit.Builder
 {

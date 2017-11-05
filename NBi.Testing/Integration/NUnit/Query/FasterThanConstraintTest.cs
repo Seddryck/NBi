@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using NBi.NUnit.Query;
 using NUnit.Framework;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 #endregion
 
 namespace NBi.Testing.Integration.NUnit.Query

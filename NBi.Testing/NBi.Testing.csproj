@@ -189,9 +189,9 @@
     <Compile Include="Unit\Core\Report\FileReportingParserTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\CellComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\TextToleranceFactoryTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Resolver\Query\ReportDataSetQueryResolverTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Resolver\Query\SharedDataSetQueryResolverTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Resolver\Query\EmbeddedQueryResolverTest.cs" />
+    <Compile Include="Unit\Core\Query\Resolver\ReportDataSetQueryResolverTest.cs" />
+    <Compile Include="Unit\Core\Query\Resolver\SharedDataSetQueryResolverTest.cs" />
+    <Compile Include="Unit\Core\Query\Resolver\EmbeddedQueryResolverTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetServiceTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Uniqueness\IndexUniqueRowsEvaluatorTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Interval\DateTimeIntervalBuilderTest.cs" />
@@ -384,6 +384,7 @@
     <Folder Include="Integration\Core\Etl\" />
     <Folder Include="Integration\Core\ResultSet\" />
     <Folder Include="Integration\NUnit\Builder\" />
+    <Folder Include="Unit\Core\ResultSet\Resolver\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Acceptance\Resources\Csv\ResellerOrderCountByYearBefore2006.csv">

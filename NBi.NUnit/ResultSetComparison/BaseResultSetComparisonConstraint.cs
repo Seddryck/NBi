@@ -11,7 +11,7 @@ using NBi.Framework;
 using NBi.Core.Xml;
 using NBi.Core.Transformation;
 using NBi.Core.ResultSet.Analyzer;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 using NBi.Framework.FailureMessage.Markdown;
 using NBi.Core.ResultSet.Equivalence;
 using NUnit.Framework;

@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Loading
+namespace NBi.Core.ResultSet.Resolver
 {
-    class CsvResultSetLoader : IResultSetLoader
+    class CsvResultSetResolver : IResultSetResolver
     {
         private readonly string path;
         private readonly CsvProfile profile;
 
-        public CsvResultSetLoader(string path, CsvProfile profile)
+        public CsvResultSetResolver(string path, CsvProfile profile)
         {
             this.path = path;
             this.profile = profile;

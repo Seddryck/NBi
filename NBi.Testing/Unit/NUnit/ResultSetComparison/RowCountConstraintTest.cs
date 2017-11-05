@@ -7,7 +7,7 @@ using NUnit.Framework;
 using NBi.Core.ResultSet;
 using System.Data.SqlClient;
 using NUnitCtr = NUnit.Framework.Constraints;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {

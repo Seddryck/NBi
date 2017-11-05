@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet;
 using NBi.Framework.FailureMessage;
 using NUnitCtr = NUnit.Framework.Constraints;

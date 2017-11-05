@@ -1,5 +1,5 @@
 ﻿using NBi.Core.ResultSet.Alteration;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 using System;
 using System.Collections.Generic;
 using System.Linq;

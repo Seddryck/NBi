@@ -121,7 +121,7 @@ namespace NBi.NUnit.ResultSetComparison
             result = Engine.Compare(actualResultSet, expectedResultSet);
             var output = result.Difference == ResultSetDifferenceType.None;
 
-            if (output && Configuration.FailureReportProfile.Mode==FailureReportMode.Always)
+            if (output && Configuration?.FailureReportProfile.Mode==FailureReportMode.Always)
                 Assert.Pass(Failure.RenderMessage());
 
             return output;

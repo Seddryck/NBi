@@ -66,7 +66,7 @@ namespace NBi.NUnit.Query
             {
                 var output = doMatch(((int)actual));
 
-                if (output && Configuration.FailureReportProfile.Mode == FailureReportMode.Always)
+                if (output && Configuration?.FailureReportProfile.Mode == FailureReportMode.Always)
                     Assert.Pass(Failure.RenderMessage());
 
                 return output;
@@ -87,7 +87,7 @@ namespace NBi.NUnit.Query
             this.actual = actual;
             var output = child.Matches(actual);
 
-            if (output && Configuration.FailureReportProfile.Mode == FailureReportMode.Always)
+            if (output && Configuration?.FailureReportProfile.Mode == FailureReportMode.Always)
                 Assert.Pass(Failure.RenderMessage());
 
             return output;

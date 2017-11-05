@@ -54,7 +54,7 @@ namespace NBi.NUnit.Query
                     failure.BuildDuplication(actualResultSet.Rows.Cast<DataRow>(), result);
                 }
 
-                if (result.AreUnique && Configuration.FailureReportProfile.Mode == FailureReportMode.Always)
+                if (result.AreUnique && Configuration?.FailureReportProfile.Mode == FailureReportMode.Always)
                     Assert.Pass(failure.RenderMessage());
 
                 return result.AreUnique;
@@ -68,7 +68,7 @@ namespace NBi.NUnit.Query
 
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
-            if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
+            if (Configuration?.FailureReportProfile.Format == FailureReportFormat.Json)
                 return;
 
             writer.WriteLine("No duplicated row.");
@@ -76,7 +76,7 @@ namespace NBi.NUnit.Query
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
         {
-            if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
+            if (Configuration?.FailureReportProfile.Format == FailureReportFormat.Json)
                 return;
 
             writer.WriteLine(failure.RenderActual());
@@ -84,7 +84,7 @@ namespace NBi.NUnit.Query
 
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
         {
-            if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
+            if (Configuration?.FailureReportProfile.Format == FailureReportFormat.Json)
                 writer.Write(failure.RenderMessage());
             else
             {

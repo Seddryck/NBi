@@ -22,14 +22,14 @@ To define a filter, you must specify it in the element *row-count* by the means 
 </assert>
 {% endhighlight %}
 
-This filter is defined by the means of *variables*, *expressions* and *predicates*. For more info about these elements check the page about [them](../resultset-all-no-rows/).
+This filter is defined by the means of *alias*, *expressions* and *predicates*. For more info about these elements check the page about [them](../resultset-all-no-rows/).
 
 {% highlight xml %}
 <assert>
   <row-count>
     <filter>
-      <variable column-index="1">Quantity</variable>
-      <variable column-index="2">UnitPrice</variable>
+      <alias column-index="1">Quantity</alias>
+      <alias column-index="2">UnitPrice</alias>
       <expression name="TotalPriceWithVAT">UnitPrice*Quantity*1.21</variable>
       <predicate name="TotalPriceWithVAT">
          <more-than or-equal="true">1000<less-than>

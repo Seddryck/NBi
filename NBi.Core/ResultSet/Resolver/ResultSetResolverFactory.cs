@@ -18,22 +18,22 @@ namespace NBi.Core.ResultSet.Resolver
                 this.profile = profile;
         }
 
-        public IResultSetResolver Instantiate(object obj)
+        public IResultSetResolver Instantiate(ResultSetResolverArgs args)
         {
-            if (obj is IList<IRow>)
-                return new ListRowResultSetResolver((IList<IRow>)obj);
-            else if (obj is IContent)
-                return new ContentResultSetResolver((IContent)obj);
-            else if (obj is QueryResolverArgs)
-                return new QueryResultSetResolver((QueryResolverArgs)obj);
-            else if (obj is string)
-                return new CsvResultSetResolver((string)obj, profile);
-            else if (obj is XPathEngine)
-                return new XPathResultSetResolver((XPathEngine)obj);
-            else if (obj is object[])
-                return new ObjectArrayResultSetResolver((object[])obj);
+            if (args is ContentResultSetResolverArgs)
+                    return new ContentResultSetResolver(args as ContentResultSetResolverArgs); 
+            else if (args is RowsResultSetResolverArgs)
+                return new RowsResultSetResolver(args as RowsResultSetResolverArgs);
+            else if (args is QueryResultSetResolverArgs)
+                return new QueryResultSetResolver(args as QueryResultSetResolverArgs);
+            else if (args is CsvResultSetResolverArgs)
+                return new CsvResultSetResolver(args as CsvResultSetResolverArgs);
+            else if (args is XPathResultSetResolverArgs)
+                return new XPathResultSetResolver(args as XPathResultSetResolverArgs);
+            else if (args is ObjectsResultSetResolverArgs)
+                return new ObjectsResultSetResolver(args as ObjectsResultSetResolverArgs);
 
-            throw new ArgumentOutOfRangeException($"Type '{obj.GetType().Name}' is not expected when building a ResultSet");
+            throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a ResultSet");
         }
     }
 }

@@ -9,6 +9,9 @@ using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Xml.Constraints.Comparer;
 using NBi.Core.Calculation;
 using NBi.Core.Evaluate;
+using NBi.NUnit.Builder.Helper;
+using NBi.Core.Scalar.Resolver;
+using NBi.Core.Scalar;
 
 namespace NBi.NUnit.Builder
 {
@@ -76,59 +79,54 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
-        protected virtual NUnitCtr.Constraint BuildChildConstraint(PredicateXml xml)
+        protected virtual DifferedConstraint BuildChildConstraint(PredicateXml xml)
         {
-            
-            var originalValue = xml.Value.Replace(" ","");
-            var valueObject = EvaluatePotentialVariable(originalValue);
+            var builder = new ScalarResolverArgsBuilder();
 
-            object numericValue;
-            try
+            if (!string.IsNullOrEmpty(xml.Value))
             {
-                if (valueObject is string && (valueObject as string).EndsWith("%"))
-                    numericValue = Decimal.Parse((valueObject as string).Substring(0, (valueObject as string).Length - 1)) / new Decimal(100);
-                else if (valueObject is string)
-                    numericValue = Int32.Parse((valueObject as string));
-                else if (valueObject is Int32)
-                    numericValue = valueObject;
+                if (xml.Value.Trim().EndsWith("%"))
+                    builder.Setup(xml.Value.Trim().Substring(0, xml.Value.Trim().IndexOf("%")));
                 else
-                    throw new Exception();
+                    builder.Setup(xml.Value);
             }
-            catch (Exception ex)
-            {
-                var exception = new ArgumentException
-                    (
-                        String.Format($"The assertion row-count is expecting an integer or percentage value for comparison. The provided value '{valueObject}' is not a integer or percentage value.")
-                        , ex
-                    );
-                throw exception;
-            }
-             
 
-            NUnitCtr.Constraint ctr = null;
+            //if (xml.ScalarQuery!=null)
+            //    builder.Setup(xml.ScalarQuery);
+
+            if (xml.Projection != null)
+                builder.Setup(xml.Projection);
+
+            builder.Setup(ConstraintXml.Settings);
+            builder.Setup(Variables);
+            builder.Build();
+            var args = builder.GetArgs();
+
+            var factory = new ScalarResolverFactory();
+            var resolver = factory.Instantiate<decimal>(args);
+
+            Type ctrType = null;
             if (xml is LessThanXml)
             {
                 if (((LessThanXml)xml).OrEqual)
-                    ctr = new NUnitCtr.LessThanOrEqualConstraint(numericValue);
+                    ctrType = typeof(NUnitCtr.LessThanOrEqualConstraint);
                 else
-                    ctr = new NUnitCtr.LessThanConstraint(numericValue);
+                    ctrType = typeof(NUnitCtr.LessThanConstraint);
             }
             else if (xml is MoreThanXml)
             {
                 if (((MoreThanXml)xml).OrEqual)
-                    ctr = new NUnitCtr.GreaterThanOrEqualConstraint(numericValue);
+                    ctrType = typeof(NUnitCtr.GreaterThanOrEqualConstraint);
                 else
-                    ctr = new NUnitCtr.GreaterThanConstraint(numericValue);
+                    ctrType = typeof(NUnitCtr.GreaterThanConstraint);
             }
             else if (xml is EqualXml)
-            {
-                ctr = new NUnitCtr.EqualConstraint(numericValue);
-            }
+                ctrType = typeof(NUnitCtr.EqualConstraint);
 
-            if (ctr == null)
+            if (ctrType == null)
                 throw new ArgumentException();
 
-            return ctr;
+            return new DifferedConstraint(ctrType, resolver);
         }
 
     }

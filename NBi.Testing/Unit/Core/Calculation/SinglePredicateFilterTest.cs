@@ -19,13 +19,14 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Apply_Variable_CorrectResult()
         {
-            var service = new ObjectArrayResultSetResolver(
-                new object[] 
-                {
-                    new List<object>() { "(null)", 10, 100 },
-                    new List<object>() { "(empty)", 2, 75 },
-                    new List<object>() { "C", 5, 50 }
-                });
+            var service = new ObjectsResultSetResolver(
+                new ObjectsResultSetResolverArgs(
+                    new object[]
+                    {
+                        new List<object>() { "(null)", 10, 100 },
+                        new List<object>() { "(empty)", 2, 75 },
+                        new List<object>() { "C", 5, 50 }
+                    }));
 
             var rs = service.Execute();
 
@@ -47,13 +48,14 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Apply_ColumnIndex_CorrectResult()
         {
-            var service = new ObjectArrayResultSetResolver(
-                new object[]
-                {
-                    new List<object>() { "(null)", 10, 100 },
-                    new List<object>() { "(empty)", 2, 75 },
-                    new List<object>() { "C", 5, 50 }
-                });
+            var service = new ObjectsResultSetResolver(
+                new ObjectsResultSetResolverArgs(
+                    new object[]
+                    {
+                        new List<object>() { "(null)", 10, 100 },
+                        new List<object>() { "(empty)", 2, 75 },
+                        new List<object>() { "C", 5, 50 }
+                    }));
             var rs = service.Execute();
 
             var info = Mock.Of<IPredicateInfo>
@@ -74,13 +76,14 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Apply_ColumnName_CorrectResult()
         {
-            var service = new ObjectArrayResultSetResolver(
-                new object[]
-                {
-                    new List<object>() { "(null)", 10, 100 },
-                    new List<object>() { "(empty)", 2, 75 },
-                    new List<object>() { "C", 5, 50 }
-                });
+            var service = new ObjectsResultSetResolver(
+                new ObjectsResultSetResolverArgs(
+                    new object[]
+                    {
+                        new List<object>() { "(null)", 10, 100 },
+                        new List<object>() { "(empty)", 2, 75 },
+                        new List<object>() { "C", 5, 50 }
+                    }));
             var rs = service.Execute();
             rs.Table.Columns[0].ColumnName = "first";
 
@@ -101,13 +104,14 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Apply_NestedExpression_CorrectResult()
         {
-            var service = new ObjectArrayResultSetResolver(
-                new object[]
-                {
-                    new List<object>() { 1, 10, 100 },
-                    new List<object>() { 2, 2, 75 },
-                    new List<object>() { 3, 5, 50 }
-                });
+            var service = new ObjectsResultSetResolver(
+                new ObjectsResultSetResolverArgs(
+                    new object[]
+                        {
+                            new List<object>() { 1, 10, 100 },
+                            new List<object>() { 2, 2, 75 },
+                            new List<object>() { 3, 5, 50 }
+                        }));
             var rs = service.Execute();
 
             var aliases = new List<IColumnAlias>()
@@ -141,13 +145,14 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Apply_MixedExpression_CorrectResult()
         {
-            var service = new ObjectArrayResultSetResolver(
-                 new object[]
-                 {
-                    new List<object>() { 1, 10, 100 },
-                    new List<object>() { 2, 2, 75 },
-                    new List<object>() { 3, 5, 50 }
-                });
+            var service = new ObjectsResultSetResolver(
+                new ObjectsResultSetResolverArgs(
+                    new object[]
+                    {
+                        new List<object>() { 1, 10, 100 },
+                        new List<object>() { 2, 2, 75 },
+                        new List<object>() { 3, 5, 50 }
+                    }));
             var rs = service.Execute();
             rs.Table.Columns[2].ColumnName = "c1";
 

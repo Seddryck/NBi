@@ -219,6 +219,12 @@
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
     <Compile Include="Unit\Core\CsvReaderTest.cs" />
+    <Compile Include="Unit\Core\Scalar\PercentageTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Resolver\GlobalVariableScalarResolverTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Resolver\LiteralScalarResolverTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Resolver\ProjectionResultSetScalarResolverTest.cs" />
+    <Compile Include="Integration\Core\Scalar\Resolver\QueryScalarResolverTest.cs" />
+    <Compile Include="Unit\Core\Scalar\ScalarComparerTest.cs" />
     <Compile Include="Unit\Core\SqlServer\Smo\SmoBatchRunnerFactoryTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\HierarchyDiscoveryCommandBuilderTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\MeasureDiscoveryCommandBuilderTest.cs" />
@@ -291,6 +297,7 @@
     <Compile Include="Unit\NUnit\Builder\MembersCountBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
     <Compile Include="Unit\NUnit\DataType\IsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\DifferedConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\NoRowsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\SingleRowConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\SomeRowsConstraintTest.cs" />

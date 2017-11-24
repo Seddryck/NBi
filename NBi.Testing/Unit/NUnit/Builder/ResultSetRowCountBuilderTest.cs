@@ -15,6 +15,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Xml.Items.Calculation;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet;
+using System.Collections.Generic;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -71,7 +72,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             Assert.That(ctr, Is.InstanceOf<RowCountConstraint>());
             var rowCount = ctr as RowCountConstraint;
-            Assert.That(rowCount.Child, Is.InstanceOf<NUnitCtr.GreaterThanConstraint>());
+            Assert.That(rowCount.Differed.Resolve(), Is.InstanceOf<NUnitCtr.GreaterThanConstraint>());
         }
 
         [Test]
@@ -98,7 +99,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             Assert.That(ctr, Is.InstanceOf<RowCountFilterConstraint>());
             var rowCount = ctr as RowCountFilterConstraint;
-            Assert.That(rowCount.Child, Is.InstanceOf<NUnitCtr.EqualConstraint>());
+            Assert.That(rowCount.Differed.Resolve(), Is.InstanceOf<NUnitCtr.EqualConstraint>());
         }
 
         [Test]
@@ -111,12 +112,15 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new RowCountXml(SettingsXml.Empty);
-            ctrXml.Equal = new EqualXml();
-            ctrXml.Equal.Value = "50.4%";
-            ctrXml.Filter = new FilterXml();
-            ctrXml.Filter.InternalAliases.Add(new AliasXml());
-            ctrXml.Filter.Predication = new PredicationXml() { Predicate = new NullXml(), Operand = "myColumn" };
+            var ctrXml = new RowCountXml(SettingsXml.Empty)
+            {
+                Equal = new EqualXml() { Value = "50.4%" },
+                Filter = new FilterXml()
+                {
+                    InternalAliases = new List<AliasXml>() { new AliasXml()},
+                    Predication = new PredicationXml() { Predicate = new NullXml(), Operand = "myColumn" }
+                }
+            };
 
             var builder = new ResultSetRowCountBuilder();
             builder.Setup(sutXml, ctrXml);
@@ -125,26 +129,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             Assert.That(ctr, Is.InstanceOf<RowCountFilterPercentageConstraint>());
             var rowCount = ctr as RowCountFilterPercentageConstraint;
-            Assert.That(rowCount.Child, Is.InstanceOf<NUnitCtr.EqualConstraint>());
-        }
-
-        [Test]
-        public void GetConstraint_NonIntegerValueForRowCount_ThrowException()
-        {
-            var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
-            var itemXmlStubFactory = new Mock<QueryableXml>();
-            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
-            sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
-            var sutXml = sutXmlStubFactory.Object;
-            sutXml.Item = itemXmlStubFactory.Object;
-
-            var ctrXml = new RowCountXml(SettingsXml.Empty);
-            ctrXml.MoreThan = new MoreThanXml();
-            ctrXml.MoreThan.Value = "Something";
-
-            var builder = new ResultSetRowCountBuilder();
-            builder.Setup(sutXml, ctrXml);
-            Assert.Throws<ArgumentException>(delegate{ builder.Build();});
+            Assert.That(rowCount.Differed.Resolve(), Is.InstanceOf<NUnitCtr.EqualConstraint>());
         }
 
         [Test]

@@ -89,6 +89,7 @@ namespace NBi.NUnit.Builder
             BaseBuild();
             SpecificBuild();
             Constraint.Configuration = Configuration;
+            Constraint.GlobalVariables = Variables;
 
             isBuild = true;
         }

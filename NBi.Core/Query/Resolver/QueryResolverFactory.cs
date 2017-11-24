@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Query.Resolver
 {
-    class QueryResolverFactory
+    public class QueryResolverFactory
     {
         public IQueryResolver Instantiate(QueryResolverArgs args)
         {

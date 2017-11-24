@@ -6,6 +6,9 @@
 		</default>
 	</settings>
 	<test name="The list of hierarchies contained into the dimension 'employee' is equivalent to this list of 18 hierarchies" uid="0000">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<structure>
 				<hierarchies dimension="Employee" perspective="Adventure Works"/>
@@ -35,6 +38,9 @@
 		</assert>
 	</test>
 	<test name="The list of measures into the measure-group 'Exchange Rates' is equivalent to this list of measures" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<structure>
 				<measures display-folder="" measure-group = "Exchange Rates" perspective="Adventure Works"/>

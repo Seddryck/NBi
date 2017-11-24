@@ -6,6 +6,9 @@
     </default>
   </settings>
 	<test name="'Reseller Order Count' by year before 2006" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012TABULAR"/>
+    </condition>
 		<system-under-test>
 			<execution>
 				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033">

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Query.Resolver
 {
-    interface IQueryResolver
+    public interface IQueryResolver
     {
         IDbCommand Execute();
     }

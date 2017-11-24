@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Resolver
 {
-    class ListRowResultSetResolver : IResultSetResolver
+    public class RowsResultSetResolver : IResultSetResolver
     {
-        private readonly IList<IRow> rows;
+        private readonly RowsResultSetResolverArgs args;
 
-        public ListRowResultSetResolver(IList<IRow> rows)
+        public RowsResultSetResolver(RowsResultSetResolverArgs args)
         {
-            this.rows = rows;
+            this.args = args;
         }
 
         public virtual ResultSet Execute()
         {
             var rs = new ResultSet();
-            rs.Load(rows);
+            rs.Load(args.Rows);
             return rs;
-        }
+            }
     }
 }

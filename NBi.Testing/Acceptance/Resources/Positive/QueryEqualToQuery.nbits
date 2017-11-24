@@ -478,7 +478,7 @@
         </equalTo>
       </assert>
     </test>
-    <test name="value definition">
+    <test name="Date for value definition">
       <system-under-test>
         <execution>
           <query>select 'Alpha' as 'KeyField', '2016-12-10' as 'Value' union all select 'Beta' as 'KeyField', '2016-02-02'</query>
@@ -493,7 +493,7 @@
         </equalTo>
       </assert>
     </test>
-    <test name="value definition">
+    <test name="Numeric for Key definition">
       <system-under-test>
         <execution>
           <query>select '10' as 'KeyField', '2016-12-10' as 'Value' union all select '12.0' as 'KeyField', '2016-02-02'</query>

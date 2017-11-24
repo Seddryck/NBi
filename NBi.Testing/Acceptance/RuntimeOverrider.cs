@@ -125,7 +125,6 @@ namespace NBi.Testing.Acceptance
         [TestCase("ReportEqualTo.nbits")]
         [TestCase("Etl.nbits")]
         [TestCase("Decoration.nbits")]
-        [TestCase("Decoration.nbits")]
         [TestCase("Is.nbits")]
         [TestCase("QueryEqualToXml.nbits")]
         [TestCase("QueryRowCount.nbits")]

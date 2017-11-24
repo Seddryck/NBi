@@ -12,6 +12,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework.FailureMessage;
 using NBi.Framework.FailureMessage.Markdown;
 using NBi.Core.Query.Resolver;
+using NBi.Core.ResultSet.Resolver;
 
 namespace NBi.NUnit.Member
 {
@@ -106,10 +107,13 @@ namespace NBi.NUnit.Member
 
         protected IEnumerable<string> GetMembersFromResultSet(Object obj)
         {
-            if (obj is IDbCommand)
-                obj = new DbCommandQueryResolverArgs((IDbCommand)obj);
+            if (!(obj is IDbCommand))
+                throw new ArgumentException();
 
-            var rs = ResultSetBuilder.Build(obj);
+            var args = new QueryResultSetResolverArgs(new DbCommandQueryResolverArgs((IDbCommand)obj));
+            var factory = new ResultSetResolverFactory();
+            var resolver = factory.Instantiate(args);
+            var rs = resolver.Execute();
 
             var members = new List<string>();
             foreach (DataRow row in rs.Rows)
@@ -126,25 +130,6 @@ namespace NBi.NUnit.Member
             var members = results.ToCaptions();
             return members;
         }
-
-        /// <summary>
-        /// Engine dedicated to ResultSet acquisition
-        /// </summary>
-        protected IResultSetBuilder resultSetBuilder;
-        protected internal IResultSetBuilder ResultSetBuilder
-        {
-            get
-            {
-                if (resultSetBuilder == null)
-                    resultSetBuilder = new ResultSetBuilder();
-                return resultSetBuilder;
-            }
-            set
-            {
-                resultSetBuilder = value ?? throw new ArgumentNullException();
-            }
-        }
-
 
         #endregion
 

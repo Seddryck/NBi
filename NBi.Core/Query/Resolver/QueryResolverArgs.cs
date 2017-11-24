@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Query.Resolver
 {
-    public abstract class  QueryResolverArgs
+    public abstract class QueryResolverArgs
     {
         private readonly string connectionString;
         private readonly IEnumerable<IQueryParameter> parameters;

@@ -11,9 +11,9 @@ namespace NBi.Core.ResultSet.Resolver
 {
     class QueryResultSetResolver : IResultSetResolver
     {
-        private readonly QueryResolverArgs args;
+        private readonly QueryResultSetResolverArgs args;
 
-        public QueryResultSetResolver(QueryResolverArgs args)
+        public QueryResultSetResolver(QueryResultSetResolverArgs args)
         {
             this.args = args;
         }
@@ -28,7 +28,7 @@ namespace NBi.Core.ResultSet.Resolver
         protected virtual IDbCommand Resolve()
         {
             var factory = new QueryResolverFactory();
-            var resolver = factory.Instantiate(args);
+            var resolver = factory.Instantiate(args.QueryResolverArgs as QueryResolverArgs);
             var cmd = resolver.Execute();
             return cmd;
         }

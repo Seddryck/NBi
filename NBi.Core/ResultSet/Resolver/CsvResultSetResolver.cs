@@ -10,22 +10,20 @@ namespace NBi.Core.ResultSet.Resolver
 {
     class CsvResultSetResolver : IResultSetResolver
     {
-        private readonly string path;
-        private readonly CsvProfile profile;
+        private readonly CsvResultSetResolverArgs args;
 
-        public CsvResultSetResolver(string path, CsvProfile profile)
+        public CsvResultSetResolver(CsvResultSetResolverArgs args)
         {
-            this.path = path;
-            this.profile = profile;
+            this.args = args;
         }
 
         public virtual ResultSet Execute()
         {
-            if (!System.IO.File.Exists(path))
-                throw new ExternalDependencyNotFoundException(path);
+            if (!System.IO.File.Exists(args.Path))
+                throw new ExternalDependencyNotFoundException(args.Path);
 
-            var reader = new CsvReader(profile);
-            var dataTable = reader.Read(path);
+            var reader = new CsvReader(args.Profile);
+            var dataTable = reader.Read(args.Path);
 
             var rs = new ResultSet();
             rs.Load(dataTable);

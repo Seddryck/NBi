@@ -11,16 +11,16 @@ namespace NBi.Core.ResultSet.Resolver
 {
     class XPathResultSetResolver : IResultSetResolver
     {
-        private readonly XPathEngine xpath;
+        private readonly XPathResultSetResolverArgs args;
 
-        public XPathResultSetResolver(XPathEngine xpath)
+        public XPathResultSetResolver(XPathResultSetResolverArgs args)
         {
-            this.xpath = xpath;
+            this.args = args;
         }
 
         public virtual ResultSet Execute()
         {
-            var objects = xpath.Execute();
+            var objects = args.XPathEngine.Execute();
 
             var helper = new ObjectsToRowsHelper();
             var rows = helper.Execute(objects);

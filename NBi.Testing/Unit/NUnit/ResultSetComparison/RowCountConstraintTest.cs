@@ -8,6 +8,9 @@ using NBi.Core.ResultSet;
 using System.Data.SqlClient;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Core.ResultSet.Resolver;
+using NBi.NUnit;
+using NUnit.Framework.Constraints;
+using NBi.Core.Scalar.Resolver;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
@@ -41,9 +44,9 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                 .Returns(resultSet);
             var service = serviceMock.Object;
 
-            var child = new NUnitCtr.GreaterThanConstraint(0);
+            var differed = new DifferedConstraint(typeof(GreaterThanConstraint), new LiteralScalarResolver<decimal>(new LiteralScalarResolverArgs(0)));
 
-            var rowCount = new RowCountConstraint(child);
+            var rowCount = new RowCountConstraint(differed);
 
             //Method under test
             rowCount.Matches(service);

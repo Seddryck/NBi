@@ -6,6 +6,9 @@
 		</default>
 	</settings>
 	<test name="'Reseller Order Count' for year 2008, query built by assembly" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<execution>
 				<assembly path="NBi.Testing.dll" class="NBi.Testing.Acceptance.Resources.AssemblyClass" method="GetSelectMdx">
@@ -25,6 +28,9 @@
 		</assert>
 	</test>
 	<test name="'Reseller Order Count' for year 2006, query built by assembly" uid="0002">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<execution>
 				<assembly path="NBi.Testing.dll" class="NBi.Testing.Acceptance.Resources.AssemblyClass" method="GetSelectMdxWithTwoParams">

@@ -44,7 +44,7 @@ namespace NBi.Xml.Items.ResultSet
         {
             get
             {
-                return new ResultSetBuilder.Content(Rows, Columns);
+                return new Content(Rows, Columns);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Diagnostics;
@@ -9,7 +10,7 @@ namespace NBi.Core.Query
     /// Engine wrapping the System.Data.OleDb namespace for execution of NBi tests
     /// <remarks>Instances of this class are built by the means of the <see>QueryEngineFactory</see></remarks>
     /// </summary>
-    internal class QueryOleDbEngine: IQueryEnginable, IQueryExecutor, IQueryPerformance, IQueryParser
+    internal class QueryOleDbEngine : IQueryEnginable, IQueryExecutor, IQueryPerformance, IQueryParser
     {
         protected readonly OleDbCommand command;
 
@@ -27,30 +28,30 @@ namespace NBi.Core.Query
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public virtual ParserResult Parse()
         {
-            ParserResult res=null;
-            
-            using(var conn = new OleDbConnection(command.Connection.ConnectionString))
+            ParserResult res = null;
+
+            using (var conn = new OleDbConnection(command.Connection.ConnectionString))
             {
                 var fullSql = string.Format(@"SET FMTONLY ON {0} SET FMTONLY OFF", command.CommandText);
-                
+
                 conn.Open();
 
                 using (var cmdIn = new OleDbCommand(fullSql, conn))
                 {
-                    try 
-	                {
+                    try
+                    {
                         cmdIn.ExecuteNonQuery();
                         res = ParserResult.NoParsingError();
-	                }
-	                catch (OleDbException ex)
-	                {
+                    }
+                    catch (OleDbException ex)
+                    {
                         res = new ParserResult(ex.Message.Split(new string[] { "\r\n" }, System.StringSplitOptions.RemoveEmptyEntries));
-	                }
-                    
+                    }
+
                 }
 
                 if (conn.State != System.Data.ConnectionState.Closed)
-                conn.Close();
+                    conn.Close();
             }
 
             return res;
@@ -133,12 +134,12 @@ namespace NBi.Core.Query
             {
                 var connectionString = command.Connection.ConnectionString;
                 try
-                    { connection.ConnectionString = connectionString; }
+                { connection.ConnectionString = connectionString; }
                 catch (ArgumentException ex)
                 { throw new ConnectionException(ex, connectionString); }
 
                 try
-                    {connection.Open();}
+                { connection.Open(); }
                 catch (OleDbException ex)
                 { throw new ConnectionException(ex, connectionString); }
 
@@ -167,6 +168,105 @@ namespace NBi.Core.Query
                 Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
                 return ds;
+            }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        public virtual object ExecuteScalar()
+        {
+            // Open the connection
+            using (var connection = new OleDbConnection())
+            {
+                var connectionString = command.Connection.ConnectionString;
+                try
+                { connection.ConnectionString = connectionString; }
+                catch (ArgumentException ex)
+                { throw new ConnectionException(ex, connectionString); }
+
+                try
+                { connection.Open(); }
+                catch (OleDbException ex)
+                { throw new ConnectionException(ex, connectionString); }
+
+                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
+                // capture time before execution
+                DateTime timeBefore = DateTime.Now;
+                object value = null;
+                try
+                {
+                    command.Connection = connection;
+                    value = command.ExecuteScalar();
+                }
+                catch (OleDbException ex)
+                {
+                    if (ex.Message == "Query timeout expired")
+                        throw new CommandTimeoutException(ex, command);
+                    throw;
+                }
+                finally
+                {
+                    if (connection.State != ConnectionState.Closed)
+                        connection.Close();
+                }
+
+                // capture time after execution
+                DateTime timeAfter = DateTime.Now;
+
+                // setting query runtime
+                var elapsedSec = (float)timeAfter.Subtract(timeBefore).TotalSeconds;
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+
+                return value;
+            }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        public IEnumerable<T> ExecuteList<T>()
+        {
+            // Open the connection
+            using (var connection = new OleDbConnection())
+            {
+                var connectionString = command.Connection.ConnectionString;
+                try
+                { connection.ConnectionString = connectionString; }
+                catch (ArgumentException ex)
+                { throw new ConnectionException(ex, connectionString); }
+
+                try
+                { connection.Open(); }
+                catch (OleDbException ex)
+                { throw new ConnectionException(ex, connectionString); }
+
+                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
+                // capture time before execution
+                DateTime timeBefore = DateTime.Now;
+                var list = new List<T>();
+                try
+                {
+                    var dr = command.ExecuteReader();
+                    while (dr.Read())
+                        list.Add((T)dr.GetValue(0));
+                }
+                catch (OleDbException ex)
+                {
+                    if (ex.Message == "Query timeout expired")
+                        throw new CommandTimeoutException(ex, command);
+                    throw;
+                }
+                finally
+                {
+                    if (connection.State != ConnectionState.Closed)
+                        connection.Close();
+                }
+
+                // capture time after execution
+                DateTime timeAfter = DateTime.Now;
+
+                // setting query runtime
+                var elapsedSec = (float)timeAfter.Subtract(timeBefore).TotalSeconds;
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+
+                return list;
             }
         }
     }

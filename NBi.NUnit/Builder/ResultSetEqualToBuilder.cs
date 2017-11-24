@@ -17,6 +17,8 @@ using NBi.Core.ResultSet.Resolver;
 using System.IO;
 using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet.Equivalence;
+using NBi.NUnit.Builder.Helper;
+using NBi.Xml.Settings;
 
 namespace NBi.NUnit.Builder
 {
@@ -60,66 +62,11 @@ namespace NBi.NUnit.Builder
             }
 
             if (ConstraintXml.GetCommand() != null)
-            {
-                var commandText = ConstraintXml.GetCommand().CommandText;
-                var connectionString = ConstraintXml.GetCommand().Connection.ConnectionString;
-                var timeout = ((QueryXml)(ConstraintXml.BaseItem)).Timeout;
-                IEnumerable<IQueryParameter> parameters = null;
-                IEnumerable<IQueryTemplateVariable> variables = null;
-                if (ConstraintXml.Query != null)
-                {
-                    parameters = ConstraintXml.Query.GetParameters();
-                    variables = ConstraintXml.Query.GetVariables();
-                }
-
-                var commandBuilder = new CommandBuilder();
-                var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables, timeout);
-
-                var args = new DbCommandQueryResolverArgs(cmd);
-
-                ctr = InstantiateConstraint(args, transformationProvider);
-            }
+                ctr = InstantiateConstraint(((QueryXml)(ConstraintXml.BaseItem)), ConstraintXml.Settings, transformationProvider);
             else if (ConstraintXml.ResultSet != null)
-            {
-                if (!string.IsNullOrEmpty(ConstraintXml.ResultSet.File))
-                {
-                    var file = string.Empty;
-                    if (Path.IsPathRooted(ConstraintXml.ResultSet.File))
-                        file = ConstraintXml.ResultSet.File;
-                    else
-                        file = ConstraintXml.Settings?.BasePath + ConstraintXml.ResultSet.File;
-
-                    ctr = InstantiateConstraint(file, transformationProvider);
-                }
-                else
-                    ctr = InstantiateConstraint(ConstraintXml.ResultSet.Content, transformationProvider);
-
-            }
+                ctr = InstantiateConstraint(ConstraintXml.ResultSet, ConstraintXml.Settings, transformationProvider);
             else if (ConstraintXml.XmlSource != null)
-            {
-                var selects = new List<AbstractSelect>();
-                var selectFactory = new SelectFactory();
-                foreach (var select in ConstraintXml.XmlSource.XPath.Selects)
-                    selects.Add(selectFactory.Instantiate(select.Value, select.Attribute, select.Evaluate));
-
-                XPathEngine engine = null;
-                if (ConstraintXml.XmlSource.File != null)
-                {
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Xml file at '{0}'", ConstraintXml.XmlSource.GetFile()));
-                    engine = new XPathFileEngine(ConstraintXml.XmlSource.GetFile(), ConstraintXml.XmlSource.XPath.From.Value, selects);
-                    ctr = InstantiateConstraint(engine, transformationProvider);
-                }
-                else if (ConstraintXml.XmlSource.Url != null)
-                {
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Xml file at '{0}'", ConstraintXml.XmlSource.Url.Value));
-                    engine = new XPathUrlEngine(ConstraintXml.XmlSource.Url.Value, ConstraintXml.XmlSource.XPath.From.Value, selects);
-                    ctr = InstantiateConstraint(engine, transformationProvider);
-                }
-                else
-                    throw new ArgumentException("File or Url can't be both empty when declaring an xml-source.");
-                
-                
-            }
+                ctr = InstantiateConstraint(ConstraintXml.XmlSource, ConstraintXml.Settings, transformationProvider);
 
             if (ctr == null)
                 throw new ArgumentException();
@@ -159,18 +106,22 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
-        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(object obj, TransformationProvider transformation)
+        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(object obj, SettingsXml settings, TransformationProvider transformation)
         {
+            var argsBuilder = new ResultSetResolverArgsBuilder();
+            argsBuilder.Setup(obj);
+            argsBuilder.Setup(settings);
+            argsBuilder.Build();
+
             var factory = new ResultSetResolverFactory();
-            factory.Using(ConstraintXml.Settings?.CsvProfile);
-            var resolver = factory.Instantiate(obj);
+            var resolver = factory.Instantiate(argsBuilder.GetArgs());
 
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(resolver);
+            var serviceBuilder = new ResultSetServiceBuilder();
+            serviceBuilder.Setup(resolver);
             if (transformation != null)
-                builder.Setup(transformation.Transform);
+                serviceBuilder.Setup(transformation.Transform);
 
-            var service = builder.GetService();
+            var service = serviceBuilder.GetService();
 
             return new EqualToConstraint(service);
         }

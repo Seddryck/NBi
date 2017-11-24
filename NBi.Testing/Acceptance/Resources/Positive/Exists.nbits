@@ -10,6 +10,9 @@
 	</settings>
 	<test name="In dimension 'Customers', hierarchy 'State-Provinces', level 'State-Provinces' a property 'capital' is not existing " uid="0001">
 		<edition author="Cédric L. Charlier"/>
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<structure>
 				<property caption="capital" level="State-Province" dimension="Customer" hierarchy="State-Province" perspective="Adventure Works"/>
@@ -21,6 +24,9 @@
 	</test>
 	<test name="In dimension 'Customers', hierarchy 'State-Provinces', a level 'State-Provinces' is existing " uid="0001">
 		<edition author="Cédric L. Charlier"/>
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<structure>
 				<level caption="State-Province" dimension="Customer" hierarchy="State-Province" perspective="Adventure Works"/>
@@ -35,6 +41,9 @@
 			<update contributor="Your co-worker" timestamp="2012-10-23T08:00:00"/>
 			<update contributor="Cédric L. Charlier" timestamp="2013-02-16T17:11:16"/>
 		</edition>
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<structure>
 				<hierarchy caption="Sick Leave Hours" dimension="Employee" perspective="Adventure Works"/>
@@ -51,6 +60,9 @@
 				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 				Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 		</description>
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<structure>
 				<hierarchy caption="Sick Leave Hours" display-folder="" dimension="Employee" perspective="Adventure Works"/>
@@ -61,7 +73,10 @@
 		</assert>
 	</test>
 	<test name="A dimension 'employee' exists" uid="0003" description="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.">
-		<system-under-test>
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
+    <system-under-test>
 			<structure>
 				<dimension caption="Employee" perspective="Adventure Works"/>
 			</structure>
@@ -71,7 +86,10 @@
 		</assert>
 	</test>
 	<test name="A perspective named 'Adventure Works' exists" uid="0004">
-		<system-under-test>
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
+    <system-under-test>
 			<structure>
 				<perspective caption="Adventure Works"/>
 			</structure>
@@ -81,6 +99,9 @@
 		</assert>
 	</test>
 	<test name="A measure-group 'Reseller Sales' exists" uid="0005">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<structure>
 				<measure-group caption="Reseller Sales" perspective="Adventure Works"/>
@@ -91,6 +112,9 @@
 		</assert>
 	</test>
 	<test name="A measure 'Reseller Order Quantity' exists" uid="0006">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<structure>
 				<measure caption="Reseller Order Quantity" perspective="Adventure Works"/>
@@ -101,6 +125,9 @@
 		</assert>
 	</test>
 	<test name="In Measure-group '{sut:measure-group}', a measure '{sut:caption}' exists" uid="0007">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<structure>
 				<measure caption="Reseller Order Quantity" measure-group="Reseller Sales" perspective="Adventure Works"/>
@@ -111,6 +138,9 @@
 		</assert>
 	</test>
   <test name="In Measure-group '{sut:measure-group}', and display-folder '{sut:display-folder}', a measure '{sut:caption}' exists" uid="0007">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<structure>
 				<measure caption="Reseller Order Quantity" measure-group="Reseller Sales" display-folder="" perspective="Adventure Works"/>
@@ -122,6 +152,9 @@
 	</test>
   <test name="In perspective 'Internet Operation', the table 'Customer' exists">
 		<category>Tabular</category>
+    <condition>
+      <service-running name="MSOLAP$SQL2012TABULAR"/>
+    </condition>
 		<system-under-test>
 			<structure>
 				<table caption="Customer" perspective="Internet Operation"
@@ -134,7 +167,10 @@
 		</assert>
 	</test>
 	<test name="In perspective 'Internet Operation', table 'Customer', the column 'Birth Date' exists">
-		<category>Tabular</category>
+    <category>Tabular</category>
+    <condition>
+      <service-running name="MSOLAP$SQL2012TABULAR"/>
+    </condition>
 		<system-under-test>
 			<structure>
 				<column caption="Birth Date" table="Customer" perspective="Internet Operation"
@@ -148,6 +184,9 @@
 	</test>
   <test name="In perspective 'Channel Sales', the set 'Large Resellers' exists">
     <category>Set</category>
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
     <system-under-test>
       <structure>
         <set caption="Large Resellers" perspective="Channel Sales"/>

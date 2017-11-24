@@ -5,6 +5,7 @@ using Microsoft.AnalysisServices.AdomdClient;
 using System.IO;
 using System.Reflection;
 using System.Data.Common;
+using System.Collections.Generic;
 
 namespace NBi.Core.Query
 {
@@ -77,6 +78,11 @@ namespace NBi.Core.Query
         {
             float i;
             return Execute(out i);
+        }
+
+        public virtual object ExecuteScalar()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -295,6 +301,9 @@ namespace NBi.Core.Query
             }
         }
 
-
+        public IEnumerable<T> ExecuteList<T>()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

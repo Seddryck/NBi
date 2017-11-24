@@ -9,6 +9,8 @@ using NBi.Framework;
 using System.Data;
 using NBi.Core.ResultSet;
 using NBi.Core.Query.Resolver;
+using NBi.Core.Query;
+using System.Linq;
 
 namespace NBi.NUnit.Member
 {
@@ -146,17 +148,18 @@ namespace NBi.NUnit.Member
 
         protected IList<object> GetMembersFromResultSet(Object obj)
         {
-            if (obj is IDbCommand)
-                obj = new DbCommandQueryResolverArgs((IDbCommand)obj);
+            if (!(obj is IDbCommand))
+                throw new ArgumentException();
 
-            var resultSetBuilder = new ResultSetBuilder();
-            var rs = resultSetBuilder.Build(obj);
+            var args = new DbCommandQueryResolverArgs((IDbCommand)obj);
+            var factory = new QueryResolverFactory();
+            var resolver = factory.Instantiate(args);
+            var command = resolver.Execute();
 
-            var members = new List<object>();
-            foreach (DataRow row in rs.Rows)
-                members.Add(row.ItemArray[0].ToString());
+            var qe = new QueryEngineFactory().GetExecutor(command);
+            var members = qe.ExecuteList<string>();
 
-            return members;
+            return members.Cast<object>().ToList();
         }
 
 		/// <summary>

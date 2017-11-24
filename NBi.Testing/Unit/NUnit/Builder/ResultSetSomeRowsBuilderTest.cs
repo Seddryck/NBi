@@ -79,7 +79,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             Assert.That(ctr, Is.InstanceOf<SomeRowsConstraint>());
             var someRows = ctr as SomeRowsConstraint;
-            Assert.That(someRows.Child, Is.Null);
+            Assert.That(someRows.Differed, Is.Null);
         }
 
         [Test]

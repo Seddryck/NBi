@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Calculation;
+using NBi.Xml.Items;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +14,9 @@ namespace NBi.Xml.Constraints.Comparer
     {
         [XmlText]
         public string Value { get; set; }
+
+        [XmlElement("projection")]
+        public ProjectionXml Projection { get; set; }
 
         [XmlIgnore]
         internal abstract ComparerType ComparerType { get; }

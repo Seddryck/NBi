@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Resolver
 {
-    class ObjectArrayResultSetResolver : IResultSetResolver
+    class ObjectsResultSetResolver : IResultSetResolver
     {
-        private readonly object[] objects;
+        private readonly ObjectsResultSetResolverArgs args;
 
-        public ObjectArrayResultSetResolver(object[] objects)
+        public ObjectsResultSetResolver(ObjectsResultSetResolverArgs args)
         {
-            this.objects = objects;
+            this.args = args;
         }
 
         public virtual ResultSet Execute()
         {
             var helper = new ObjectsToRowsHelper();
-            var rows = helper.Execute(objects);
+            var rows = helper.Execute(args.Objects);
 
             var rs = new ResultSet();
             rs.Load(rows);

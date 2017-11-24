@@ -131,6 +131,121 @@ namespace NBi.Core.Query
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        public virtual object ExecuteScalar()
+        {
+            // Open the connection
+            using (var connection = new OdbcConnection())
+            {
+                var connectionString = command.Connection.ConnectionString;
+                try
+                {
+                    connection.ConnectionString = connectionString;
+                }
+                catch (ArgumentException ex)
+                {
+                    throw new ConnectionException(ex, connectionString);
+                }
+
+                try
+                {
+                    connection.Open();
+                }
+                catch (OdbcException ex)
+                {
+                    throw new ConnectionException(ex, connectionString);
+                }
+
+                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
+                // capture time before execution
+                DateTime timeBefore = DateTime.Now;
+                object value = null;
+                try
+                {
+                    command.Connection = connection;
+                    value = command.ExecuteScalar();
+                }
+                catch (OdbcException ex)
+                {
+                    if (ex.Message.EndsWith("Query timeout expired"))
+                        throw new CommandTimeoutException(ex, command);
+                    throw;
+                }
+                finally
+                {
+                    if (connection.State != ConnectionState.Closed)
+                        connection.Close();
+                }
+
+                // capture time after execution
+                DateTime timeAfter = DateTime.Now;
+
+                // setting query runtime
+                var elapsedSec = (float)timeAfter.Subtract(timeBefore).TotalSeconds;
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+
+                return value;
+            }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        public IEnumerable<T> ExecuteList<T>()
+        {
+            // Open the connection
+            using (var connection = new OdbcConnection())
+            {
+                var connectionString = command.Connection.ConnectionString;
+                try
+                {
+                    connection.ConnectionString = connectionString;
+                }
+                catch (ArgumentException ex)
+                {
+                    throw new ConnectionException(ex, connectionString);
+                }
+
+                try
+                {
+                    connection.Open();
+                }
+                catch (OdbcException ex)
+                {
+                    throw new ConnectionException(ex, connectionString);
+                }
+
+                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
+                // capture time before execution
+                DateTime timeBefore = DateTime.Now;
+                var list = new List<T>();
+                try
+                {
+                    var dr = command.ExecuteReader();
+                    while (dr.Read())
+                        list.Add((T)dr.GetValue(0));
+                }
+                catch (OdbcException ex)
+                {
+                    if (ex.Message.EndsWith("Query timeout expired"))
+                        throw new CommandTimeoutException(ex, command);
+                    throw;
+                }
+                finally
+                {
+                    if (connection.State != ConnectionState.Closed)
+                        connection.Close();
+                }
+
+                // capture time after execution
+                DateTime timeAfter = DateTime.Now;
+
+                // setting query runtime
+                var elapsedSec = (float)timeAfter.Subtract(timeBefore).TotalSeconds;
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+
+                return list;
+            }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public virtual DataSet Execute(out float elapsedSec)
         {
             // Open the connection

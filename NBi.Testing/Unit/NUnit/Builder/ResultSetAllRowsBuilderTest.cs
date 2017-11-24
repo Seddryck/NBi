@@ -78,7 +78,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             Assert.That(ctr, Is.InstanceOf<AllRowsConstraint>());
             var allRows = ctr as AllRowsConstraint;
-            Assert.That(allRows.Child, Is.Null);
+            Assert.That(allRows.Differed, Is.Null);
         }
 
         [Test]

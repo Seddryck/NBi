@@ -8,6 +8,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework.FailureMessage.Markdown;
 using NUnit.Framework;
 using NBi.Framework;
+using NBi.Core.Scalar.Resolver;
 
 namespace NBi.NUnit.Query
 {
@@ -17,19 +18,17 @@ namespace NBi.NUnit.Query
         /// Store for the result of the engine's execution
         /// </summary>
         protected ResultSet actualResultSet;
-        protected NUnitCtr.Constraint child;
+        protected DifferedConstraint differed;
+        protected NUnitCtr.Constraint ctr;
 
-        public RowCountConstraint(NUnitCtr.Constraint childConstraint)
+        public RowCountConstraint(DifferedConstraint childConstraint)
         {
-            child = childConstraint;
+            differed = childConstraint;
         }
 
-        public NUnitCtr.Constraint Child
+        internal DifferedConstraint Differed
         {
-            get
-            {
-                return child;
-            }
+            get => differed;
         }
 
         private IDataRowsMessageFormatter failure;
@@ -85,18 +84,15 @@ namespace NBi.NUnit.Query
         protected virtual bool doMatch(int actual)
         {
             this.actual = actual;
-            var output = child.Matches(actual);
-
-            if (output && Configuration?.FailureReportProfile.Mode == FailureReportMode.Always)
-                Assert.Pass(Failure.RenderMessage());
-
+            ctr = differed.Resolve();
+            var output = ctr.Matches(actual);
             return output;
         }
        
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
             writer.WritePredicate("count of rows returned by the query is");
-            child.WriteDescriptionTo(writer);
+            ctr.WriteDescriptionTo(writer);
         }
 
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
@@ -109,7 +105,7 @@ namespace NBi.NUnit.Query
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
         {
-            child.WriteActualValueTo(writer);
+            ctr.WriteActualValueTo(writer);
         }
     }
 }

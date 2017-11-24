@@ -13,16 +13,14 @@
   <test name="All-rows is doing the job for numeric info" uid="0001">
     <system-under-test>
       <execution>
-        <query
-					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
-				>
-          select 
-            OrderDate
-            , SUM(TotalDue)
+        <query>
+          select
+          OrderDate
+          , SUM(TotalDue)
           from
-            [Sales].[SalesOrderHeader]
+          [Sales].[SalesOrderHeader]
           group by
-            OrderDate
+          OrderDate
         </query>
       </execution>
     </system-under-test>
@@ -38,9 +36,7 @@
   <test name="All-rows is doing the job with within-range" uid="0001">
     <system-under-test>
       <execution>
-        <query
-					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
-				>
+        <query>
           select
           OrderDate
           , SUM(TotalDue)
@@ -63,9 +59,7 @@
   <test name="All-rows also works for textual information" uid="0001">
     <system-under-test>
       <execution>
-        <query
-					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
-				>
+        <query>
           select
           [Name], [CountryRegionCode]
           from
@@ -85,9 +79,7 @@
   <test name="No-row with numeric information" uid="0001">
     <system-under-test>
       <execution>
-        <query
-					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
-				>
+        <query>
           select
           OrderDate
           , SUM(TotalDue)
@@ -110,9 +102,7 @@
   <test name="No-row with combination of numeric information" uid="0001">
     <system-under-test>
       <execution>
-        <query
-					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
-				>
+        <query>
           select
           OrderDate
           , SUM(TotalDue)
@@ -139,9 +129,7 @@
   <test name="No-row also works for textual information" uid="0001">
     <system-under-test>
       <execution>
-        <query
-					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
-				>
+        <query>
           select
           [Name], [CountryRegionCode]
           from
@@ -161,9 +149,7 @@
   <test name="Some-rows with numeric information" uid="0005">
     <system-under-test>
       <execution>
-        <query
-					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
-				>
+        <query>
           select
           OrderDate
           , SUM(TotalDue) as TotalDue
@@ -185,9 +171,7 @@
   <test name="Single-row also works for textual information" uid="0006">
     <system-under-test>
       <execution>
-        <query
-					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
-				>
+        <query>
           select
           [Name], [CountryRegionCode]
           from

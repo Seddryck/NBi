@@ -28,6 +28,9 @@
 		</assert>
 	</test>
 	<test name="Faster Than for Mdx with parameter" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<execution>
 				<query name="MDX">
@@ -66,6 +69,9 @@
 		</assert>
 	</test>-->
 	<test name="Syntactically correct for Mdx with parameter" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<execution>
 				<query name="MDX">
@@ -85,6 +91,9 @@
 		</assert>
 	</test>
 	<test name="MatchPattern for Mdx with parameter" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<execution>
 				<query name="MDX">
@@ -127,6 +136,9 @@
 		</assert>
 	</test>
 	<test name="Compare Mdx with parameter to Sql with parameter" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<execution>
 				<query name="MDX">
@@ -166,6 +178,9 @@
 		</assert>
 	</test>
 	<test name="Compare Sql with parameter to Mdx with parameter" uid="0002">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<execution>
 				<query connectionString="@SqlAdvenureWorks2012">
@@ -204,6 +219,9 @@
 		</assert>
 	</test>
 	<test name="Compare Sql and MDX with parameters containing indentations" uid="0002">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<execution>
 				<query connectionString="@SqlAdvenureWorks2012">

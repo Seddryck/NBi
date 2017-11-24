@@ -72,9 +72,9 @@ namespace NBi.Testing.Integration.NUnit
                 new object[] { "CY 2008", "1513940" }
             };
 
-            var loader = new ObjectArrayResultSetResolver(objs.ToArray());
+            var resolver = new ObjectsResultSetResolver(new ObjectsResultSetResolverArgs(objs.ToArray()));
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(loader);
+            builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
 
             var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
@@ -101,9 +101,9 @@ namespace NBi.Testing.Integration.NUnit
                 new object[] { "CY 2008", "1513940" }
             };
 
-            var loader = new ObjectArrayResultSetResolver(objs.ToArray());
+            var resolver = new ObjectsResultSetResolver(new ObjectsResultSetResolverArgs(objs.ToArray()));
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(loader);
+            builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(new SettingsIndexResultSet(
                     SettingsIndexResultSet.KeysChoice.First,
@@ -135,9 +135,9 @@ namespace NBi.Testing.Integration.NUnit
                 new object[] { "CY 2007", 4709851 },
                 new object[] { "CY 2008", 1513940 }
             };
-            var loader = new ObjectArrayResultSetResolver(objs.ToArray());
+            var resolver = new ObjectsResultSetResolver(new ObjectsResultSetResolverArgs(objs.ToArray()));
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(loader);
+            builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(new SettingsIndexResultSet(
                 SettingsIndexResultSet.KeysChoice.First,
@@ -162,9 +162,9 @@ namespace NBi.Testing.Integration.NUnit
             //Buiding object used during test
             var expectedQuery = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-            var loader = new FakeQueryResultSetLoader(expectedCmd);
+            var resolver = new FakeQueryResultSetLoader(expectedCmd);
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(loader);
+            builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(new SettingsIndexResultSet(
                 SettingsIndexResultSet.KeysChoice.First,
@@ -192,9 +192,9 @@ namespace NBi.Testing.Integration.NUnit
             var expectedQuery = "WITH MEMBER [Measures].NewAmount AS [Measures].[Amount]+1";
             expectedQuery += " SELECT [Measures].NewAmount ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-            var loader = new FakeQueryResultSetLoader(expectedCmd);
+            var resolver = new FakeQueryResultSetLoader(expectedCmd);
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(loader);
+            builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(new SettingsIndexResultSet(
                 SettingsIndexResultSet.KeysChoice.First,
@@ -222,9 +222,9 @@ namespace NBi.Testing.Integration.NUnit
             var expectedQuery = "WITH MEMBER [Measures].NewAmount AS [Measures].[Amount]+1";
             expectedQuery += " SELECT [Measures].NewAmount ON 0, ([Date].[Calendar].[Calendar Year].[CY 2005]:[Date].[Calendar].[Calendar Year].[CY 2008]) ON 1  FROM [Adventure Works]";
             var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-            var loader = new FakeQueryResultSetLoader(expectedCmd);
+            var resolver = new FakeQueryResultSetLoader(expectedCmd);
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(loader);
+            builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(new SettingsIndexResultSet(
                     SettingsIndexResultSet.KeysChoice.First,
@@ -266,9 +266,9 @@ namespace NBi.Testing.Integration.NUnit
             expectedQuery += " SELECT 'CY 2008', 1513940  ";
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
-            var loader = new FakeQueryResultSetLoader(expectedCmd);
+            var resolver = new FakeQueryResultSetLoader(expectedCmd);
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(loader);
+            builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
                     new SettingsIndexResultSet(
@@ -305,9 +305,9 @@ namespace NBi.Testing.Integration.NUnit
         {
             //Buiding object used during test
             var filename = DiskOnFile.CreatePhysicalFile("NonEmptyAmountByYear.csv", "NBi.Testing.Integration.NUnit.Resources.NonEmptyAmountByYear.csv");
-            var loader = new CsvResultSetResolver(filename, CsvProfile.SemiColumnDoubleQuote);
+            var resolver = new CsvResultSetResolver(new CsvResultSetResolverArgs(filename, CsvProfile.SemiColumnDoubleQuote));
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(loader);
+            builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
 
             var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
@@ -330,9 +330,9 @@ namespace NBi.Testing.Integration.NUnit
             var expectedQuery = "SELECT 'CY 2010',  NULL ";
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
-            var loader = new FakeQueryResultSetLoader(expectedCmd);
+            var resolver = new FakeQueryResultSetLoader(expectedCmd);
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(loader);
+            builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
                     new SettingsIndexResultSet(
@@ -361,9 +361,9 @@ namespace NBi.Testing.Integration.NUnit
             var expectedQuery = "SELECT 'CY 2010',  0 ";
 
             var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
-            var loader = new FakeQueryResultSetLoader(expectedCmd);
+            var resolver = new FakeQueryResultSetLoader(expectedCmd);
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(loader);
+            builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
                     new SettingsIndexResultSet(
@@ -396,9 +396,9 @@ namespace NBi.Testing.Integration.NUnit
             var columns = new List<IColumnDefinition>(){
                 new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
             };
-            var loader = new FakeQueryResultSetLoader(expectedCmd);
+            var resolver = new FakeQueryResultSetLoader(expectedCmd);
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(loader);
+            builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
                     new SettingsIndexResultSet(
@@ -431,9 +431,9 @@ namespace NBi.Testing.Integration.NUnit
             var columns = new List<IColumnDefinition>(){
                 new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
             };
-            var loader = new FakeQueryResultSetLoader(expectedCmd);
+            var resolver = new FakeQueryResultSetLoader(expectedCmd);
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(loader);
+            builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
                     new SettingsIndexResultSet(

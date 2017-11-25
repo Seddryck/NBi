@@ -290,4 +290,40 @@
       </row-count>
     </assert>
   </test>
+  <test name="Count of SalesTerritory is more-than or equal to 2" uid="0001">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select
+          [Name], [CountryRegionCode]
+          from
+          [Sales].[SalesTerritory]
+          where
+          [Group]='Europe'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <row-count>
+        <less-than>
+          <projection type="row-count">
+            <resultSet>
+              <query
+					      connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				      >
+                select
+                [Name], [CountryRegionCode]
+                from
+                [Sales].[SalesTerritory]
+                where
+                [Group] not in ('Europe')
+              </query>
+            </resultSet>
+          </projection>
+        </less-than>
+      </row-count>
+    </assert>
+  </test>
 </testSuite>

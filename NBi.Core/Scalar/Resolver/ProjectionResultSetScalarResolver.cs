@@ -21,7 +21,9 @@ namespace NBi.Core.Scalar.Resolver
             var resolver = factory.Instantiate(args.ResultSetArgs);
             var resultSet = resolver.Execute();
 
-            return (T)args.Projection(resultSet);
+            var projectionResult = args.Projection(resultSet);
+
+            return (T)Convert.ChangeType(projectionResult, typeof(T));
         }
     }
 }

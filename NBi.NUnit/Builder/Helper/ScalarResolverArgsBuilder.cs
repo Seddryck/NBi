@@ -55,14 +55,14 @@ namespace NBi.NUnit.Builder.Helper
                 args = new QueryScalarResolverArgs(builder.GetArgs());
             }
 
-            //else if (obj is ProjectionXml)
-            //{
-            //    var builder = new ResultSetResolverArgsBuilder();
-            //    builder.Setup(obj);
-            //    builder.Setup(settings);
-            //    builder.Build();
-            //    args = new RowCountResultSetScalarResolverArgs(builder.GetArgs());
-            //}
+            else if (obj is ProjectionXml)
+            {
+                var builder = new ResultSetResolverArgsBuilder();
+                builder.Setup(((ProjectionXml)obj).ResultSet);
+                builder.Setup(settings);
+                builder.Build();
+                args = new RowCountResultSetScalarResolverArgs(builder.GetArgs());
+            }
 
             else if (obj is string && !string.IsNullOrEmpty((string)obj) && ((string)obj).Trim().StartsWith("@"))
             {

@@ -441,13 +441,13 @@
   <xs:complexType name="comparer-enhanced-type" mixed="true">
     <xs:choice>
       <xs:element name="projection" minOccurs="0" maxOccurs="1" type="projection-type"/>
-      <xs:element name="scalar-query" minOccurs="0" maxOccurs="1" type="scalar-query-type"/>
+      <xs:element name="query-scalar" minOccurs="0" maxOccurs="1" type="query-scalar-type"/>
     </xs:choice>
   </xs:complexType>
   <xs:complexType name="more-less-enhanced-type" mixed="true">
     <xs:choice>
       <xs:element name="projection" minOccurs="0" maxOccurs="1" type="projection-type"/>
-      <xs:element name="scalar-query" minOccurs="0" maxOccurs="1" type="scalar-query-type"/>
+      <xs:element name="query-scalar" minOccurs="0" maxOccurs="1" type="query-scalar-type"/>
     </xs:choice>
     <xs:attribute name="or-equal" type="xs:boolean" use="optional" />
   </xs:complexType>
@@ -560,7 +560,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="scalar-query-type" mixed="true">
+  <xs:complexType name="query-scalar-type" mixed="true">
     <xs:complexContent>
       <xs:extension base="query-type"/>
     </xs:complexContent>

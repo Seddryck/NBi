@@ -344,7 +344,7 @@
     <assert>
       <row-count>
         <more-than>
-          <scalar-query
+          <query-scalar
             connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
 				      >
             select
@@ -354,7 +354,7 @@
             where
              [Group] = 'Europe'
              and [Name] like 'F%'
-          </scalar-query>
+          </query-scalar>
         </more-than>
       </row-count>
     </assert>

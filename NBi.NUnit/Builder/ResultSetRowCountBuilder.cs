@@ -91,8 +91,8 @@ namespace NBi.NUnit.Builder
                     builder.Setup(xml.Value);
             }
 
-            if (xml.ScalarQuery != null)
-                builder.Setup(xml.ScalarQuery);
+            if (xml.QueryScalar != null)
+                builder.Setup(xml.QueryScalar);
 
             if (xml.Projection != null)
                 builder.Setup(xml.Projection);

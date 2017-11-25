@@ -131,7 +131,7 @@
     <Compile Include="Items\EtlBaseXml.cs" />
     <Compile Include="Items\Filters\IOwnerFilter.cs" />
     <Compile Include="Items\ProjectionXml.cs" />
-    <Compile Include="Items\ScalarQueryXml.cs" />
+    <Compile Include="Items\QueryScalarXml.cs" />
     <Compile Include="Items\SharedDatasetXml.cs" />
     <Compile Include="Items\ResultSet\TransformationXml.cs" />
     <Compile Include="Items\UrlXml.cs" />

@@ -6,6 +6,9 @@
 		</reference>
 	</settings>
 	<test name="'Reseller Order Count' by year before 2006" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<execution>
 				<query connectionString="@myConnStr">

@@ -7,9 +7,11 @@ using NBi.Core.ResultSet;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
 using NBi.NUnit.ResultSetComparison;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Transformation;
 using NBi.Core.ResultSet.Equivalence;
+using NBi.NUnit.Builder.Helper;
+using NBi.Xml.Settings;
 
 namespace NBi.NUnit.Builder
 {
@@ -38,14 +40,17 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint();
         }
 
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(object obj, TransformationProvider transformation)
+        protected override BaseResultSetComparisonConstraint InstantiateConstraint(object obj, SettingsXml settings, TransformationProvider transformation)
         {
-            var factory = new ResultSetLoaderFactory();
-            factory.Using(ConstraintXml.Settings?.CsvProfile);
-            var loader = factory.Instantiate(obj);
+            var argsBuilder = new ResultSetResolverArgsBuilder();
+            argsBuilder.Setup(obj);
+            argsBuilder.Build();
+
+            var factory = new ResultSetResolverFactory();
+            var resolver = factory.Instantiate(argsBuilder.GetArgs());
 
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(loader);
+            builder.Setup(resolver);
             if (transformation != null)
                 builder.Setup(transformation.Transform);
             var service = builder.GetService();

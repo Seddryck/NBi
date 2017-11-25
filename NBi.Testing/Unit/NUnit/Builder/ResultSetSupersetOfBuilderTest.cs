@@ -12,7 +12,7 @@ using Systems = NBi.Xml.Systems;
 using NBi.Core.ResultSet;
 using NBi.Core.Transformation;
 using NBi.NUnit.ResultSetComparison;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder

@@ -6,6 +6,9 @@
 		</default>
 	</settings>
 	<test name="Dimension 'Customer' is linked to measure-group 'Internet Sales' through perspective 'Adventure Works'" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<structure>
 				<dimension caption="Customer" perspective="Adventure Works"/>
@@ -18,6 +21,9 @@
 		</assert>
 	</test>
 	<test name="Measure-group 'Internet Sales' is linked to dimension 'Internet Sales' throw perspective 'Adventure Works'" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<structure>
 				<measure-group caption="Internet Sales" perspective="Adventure Works"/>

@@ -5,7 +5,8 @@ using System.Linq;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
 using NUnitCtr = NUnit.Framework.Constraints;
-using NBi.Core.ResultSet.Resolver.Query;
+using NBi.Core.Query.Resolver;
+using NBi.Core.ResultSet.Resolver;
 
 namespace NBi.NUnit.Query
 {
@@ -19,26 +20,6 @@ namespace NBi.NUnit.Query
         protected ResultSet actualResultSet;
         protected List<RowEvaluationResult> evaluationResults;
 
-        /// <summary>
-        /// Engine dedicated to ResultSet acquisition
-        /// </summary>
-        protected IResultSetBuilder resultSetBuilder;
-        protected internal IResultSetBuilder ResultSetBuilder
-        {
-            get
-            {
-                if(resultSetBuilder==null)
-                    resultSetBuilder = new ResultSetBuilder();
-                return resultSetBuilder;
-            }
-            set
-            {
-                if(value==null)
-                    throw new ArgumentNullException();
-                resultSetBuilder = value;
-            }
-        }
-        
         public EvaluateRowsConstraint (IEnumerable<IColumnAlias> variables, IEnumerable<IColumnExpression> expressions)
         {
             this.variables = variables;
@@ -98,10 +79,13 @@ namespace NBi.NUnit.Query
 
         protected ResultSet GetResultSet(Object obj)
         {
-            if (obj is IDbCommand)
-                obj = new DbCommandQueryResolverArgs((IDbCommand)obj);
+            if (!(obj is IDbCommand))
+                throw new ArgumentException();
 
-            return ResultSetBuilder.Build(obj);
+            var args = new QueryResultSetResolverArgs(new DbCommandQueryResolverArgs((IDbCommand)obj));
+            var factory = new ResultSetResolverFactory();
+            var resolver = factory.Instantiate(args);
+            return resolver.Execute();
         }
 
         /// <summary>

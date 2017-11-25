@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet;
 using NBi.Core.Calculation;
 using NBi.Framework.FailureMessage;
@@ -20,7 +20,7 @@ namespace NBi.NUnit.Query
         protected ResultSet filterResultSet;
         protected Func<ResultSet, ResultSet> filterFunction;
 
-        public RowCountFilterConstraint(NUnitCtr.Constraint childConstraint, IResultSetFilter filter)
+        public RowCountFilterConstraint(DifferedConstraint childConstraint, IResultSetFilter filter)
             : base(childConstraint)
         {
             this.filter = filter;
@@ -55,7 +55,7 @@ namespace NBi.NUnit.Query
             if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
                 return;
             writer.WritePredicate($"count of rows validating the predicate '{filter.Describe()}' is");
-            child.WriteDescriptionTo(writer);
+            ctr.WriteDescriptionTo(writer);
         }
 
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)

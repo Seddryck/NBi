@@ -1,6 +1,6 @@
 ﻿using Moq;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Transformation;
 using NUnit.Framework;
 using System;
@@ -19,7 +19,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load("a;1");
 
-            var loaderMock = new Mock<IResultSetLoader>();
+            var loaderMock = new Mock<IResultSetResolver>();
             loaderMock.Setup(l => l.Execute()).Returns(rs);
             var loader = loaderMock.Object;
 
@@ -37,7 +37,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load("a;1");
 
-            var loaderMock = new Mock<IResultSetLoader>();
+            var loaderMock = new Mock<IResultSetResolver>();
             loaderMock.Setup(l => l.Execute()).Returns(rs);
             var loader = loaderMock.Object;
 
@@ -55,7 +55,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load("a;1");
 
-            var loaderStub = new Mock<IResultSetLoader>();
+            var loaderStub = new Mock<IResultSetResolver>();
             loaderStub.Setup(l => l.Execute()).Returns(rs);
             var loader = loaderStub.Object;
 
@@ -79,7 +79,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load("a;1");
 
-            var loaderStub = new Mock<IResultSetLoader>();
+            var loaderStub = new Mock<IResultSetResolver>();
             loaderStub.Setup(l => l.Execute()).Returns(It.IsAny<NBi.Core.ResultSet.ResultSet>());
             var loader = loaderStub.Object;
 

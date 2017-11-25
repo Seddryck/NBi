@@ -7,14 +7,15 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 using NBi.Core;
 using System.Diagnostics;
 using System.IO;
-using NBi.Core.ResultSet.Resolver.Query;
+using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet.Alteration;
 using NBi.Core.Evaluate;
 using NBi.Core.Calculation;
+using NBi.NUnit.Builder.Helper;
 
 namespace NBi.NUnit.Builder
 {
@@ -65,13 +66,12 @@ namespace NBi.NUnit.Builder
                 cmd.CommandType = ((ReportXml)executionXml.BaseItem).GetCommandType();
             }
 
-            var args = new DbCommandQueryResolverArgs(cmd);
-
-            var factory = new ResultSetLoaderFactory();
-            var loader = factory.Instantiate(args);
+            var args = new QueryResultSetResolverArgs(new DbCommandQueryResolverArgs(cmd));
+            var factory = new ResultSetResolverFactory();
+            var resolver = factory.Instantiate(args);
 
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(loader);
+            builder.Setup(resolver);
             var service = builder.GetService();
 
             return service;
@@ -80,50 +80,21 @@ namespace NBi.NUnit.Builder
         protected virtual object InstantiateSystemUnderTest(ResultSetSystemXml resultSetXml)
         {
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(InstantiateLoader(resultSetXml));
+            builder.Setup(InstantiateResolver(resultSetXml));
             builder.Setup(InstantiateAlterations(resultSetXml));
             return builder.GetService();
         }
 
-        protected virtual IResultSetLoader InstantiateLoader(ResultSetSystemXml resultSetXml)
+        protected virtual IResultSetResolver InstantiateResolver(ResultSetSystemXml resultSetXml)
         {
-            var factory = new ResultSetLoaderFactory();
-            IResultSetLoader loader;
+            var argsBuilder = new ResultSetResolverArgsBuilder();
+            argsBuilder.Setup(resultSetXml);
+            argsBuilder.Setup(resultSetXml.Settings);
+            argsBuilder.Build();
 
-            //ResultSet (external file)
-            if (!string.IsNullOrEmpty(resultSetXml.File))
-            {
-                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in external file!");
-                var file = string.Empty;
-                if (Path.IsPathRooted(resultSetXml.File))
-                    file = resultSetXml.File;
-                else
-                    file = resultSetXml.Settings?.BasePath + resultSetXml.File;
-
-                factory.Using(resultSetXml?.Settings?.CsvProfile);
-                loader = factory.Instantiate(file);
-            }
-            //Query
-            else if (resultSetXml.Query != null )
-            {
-                var argsBuilder = new Helper.QueryResolverArgsBuilder();
-                argsBuilder.Setup(resultSetXml.Query);
-                argsBuilder.Setup(resultSetXml.Settings);
-                argsBuilder.Build();
-                var args = argsBuilder.GetArgs();
-                
-                loader = factory.Instantiate(args);
-            }
-            //ResultSet (embedded)
-            else if (resultSetXml.Rows != null)
-            {
-                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in embedded resultSet!");
-                loader = factory.Instantiate(resultSetXml.Content);
-            }
-            else
-                throw new ArgumentException();
-
-            return loader;
+            var factory = new ResultSetResolverFactory();
+            var resolver = factory.Instantiate(argsBuilder.GetArgs());
+            return resolver;
         }
 
         private IEnumerable<Alter> InstantiateAlterations(ResultSetSystemXml resultSetXml)

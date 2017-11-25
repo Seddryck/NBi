@@ -6,6 +6,9 @@
 		</default>
 	</settings>
 	<test name="All departments have a correct format" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<members children-of="Corporate">
 				<level caption="Departments" hierarchy="Departments" dimension="Department" perspective="Adventure Works"/>

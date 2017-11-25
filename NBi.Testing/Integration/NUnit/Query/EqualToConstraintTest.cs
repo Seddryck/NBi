@@ -3,7 +3,7 @@ using System;
 using System.Data.SqlClient;
 using NBi.NUnit.ResultSetComparison;
 using NUnit.Framework;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet;
 using System.Data;
 #endregion
@@ -41,7 +41,7 @@ namespace NBi.Testing.Integration.NUnit.Query
         }
         #endregion
 
-        private class FakeQueryResultSetLoader : QueryResultSetLoader
+        private class FakeQueryResultSetLoader : QueryResultSetResolver
         {
             private readonly IDbCommand cmd;
 

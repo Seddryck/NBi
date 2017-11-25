@@ -426,6 +426,31 @@
     <xs:attribute name="culture" type="xs:string" use="required" />
     <xs:attribute name="format" type="xs:string" use="required" />
   </xs:complexType>
+  <xs:complexType name="projection-type">
+    <xs:sequence>
+      <xs:element name="resultSet" minOccurs="1" maxOccurs="1" type="resultSet-type"/>
+    </xs:sequence>
+    <xs:attribute name="type" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="row-count"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="comparer-enhanced-type" mixed="true">
+    <xs:choice>
+      <xs:element name="projection" minOccurs="0" maxOccurs="1" type="projection-type"/>
+      <xs:element name="scalar-query" minOccurs="0" maxOccurs="1" type="scalar-query-type"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="more-less-enhanced-type" mixed="true">
+    <xs:choice>
+      <xs:element name="projection" minOccurs="0" maxOccurs="1" type="projection-type"/>
+      <xs:element name="scalar-query" minOccurs="0" maxOccurs="1" type="scalar-query-type"/>
+    </xs:choice>
+    <xs:attribute name="or-equal" type="xs:boolean" use="optional" />
+  </xs:complexType>
   <xs:complexType name="comparer-type">
     <xs:simpleContent>
       <xs:extension base="xs:string"/>
@@ -533,6 +558,11 @@
           <xs:element name="shared-dataset" type="shared-dataset-light-type" minOccurs="0" maxOccurs="1"/>
         </xs:choice>
       </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="scalar-query-type" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="query-type"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="transformation-type">
@@ -990,9 +1020,9 @@
                 <xs:sequence>
                   <xs:element name="filter" type="filter-type" minOccurs="0" maxOccurs="1"/>
                   <xs:choice>
-                    <xs:element name="less-than" type="more-less-type" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="more-than" type="more-less-type" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="equal" type="comparer-type" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="less-than" type="more-less-enhanced-type" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="more-than" type="more-less-enhanced-type" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="equal" type="comparer-enhanced-type" minOccurs="0" maxOccurs="1"/>
                   </xs:choice>
                 </xs:sequence>
                 <xs:attribute name="not" type="xs:boolean" use="optional"/>

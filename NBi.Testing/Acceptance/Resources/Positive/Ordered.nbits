@@ -6,6 +6,9 @@
 		</default>
 	</settings>
 	<test name="In dimension Customers State-Provinces are ordered alphabetically" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<members>
 				<level dimension="Customer" hierarchy="State-Province" caption="State-Province" perspective="Adventure Works"/>
@@ -16,6 +19,9 @@
 		</assert>
 	</test>
 	<test name="In dimension Customers Countries are ordered alphabetically" uid="0002">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<members children-of="All Customers">
 				<hierarchy dimension="Customer" caption="Country"  perspective="Adventure Works"/>
@@ -26,6 +32,9 @@
 		</assert>
 	</test>
 	<test name="'In dimension Promotion Start Dates are ordered chronologically" uid="0003">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<members>
 				<level dimension="Promotion" hierarchy="Start Date" caption="Start Date" perspective="Adventure Works"/>
@@ -36,6 +45,9 @@
 		</assert>
 	</test>
 	<test name="'In dimension Promotion Discount Percents are ordered numerically" uid="0004">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<members>
 				<hierarchy dimension="Promotion" caption="Discount Percent" perspective="Adventure Works"/>
@@ -46,6 +58,9 @@
 		</assert>
 	</test>
 	<test name="In dimension Scenario, Scenario are ordered specifically based on a rule-definition" uid="0005">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<members>
 				<hierarchy dimension="Scenario" caption="Scenario" perspective="Adventure Works"/>
@@ -62,6 +77,9 @@
 		</assert>
 	</test>
   <test name="In dimension Scenario, Scenario are ordered specifically based on a query" uid="0006">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
     <system-under-test>
       <members>
         <hierarchy dimension="Scenario" caption="Scenario" perspective="Adventure Works"/>

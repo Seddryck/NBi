@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using NBi.Core.Query;
 using NBi.Core.Xml;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Transformation;
 using NBi.Core.ResultSet.Alteration;
 
@@ -28,7 +28,7 @@ namespace NBi.Core.ResultSet
             return new ResultSetService(load, alters);
         }
 
-        public void Setup(IResultSetLoader loader)
+        public void Setup(IResultSetResolver loader)
         {
             if (load != null)
                 throw new InvalidOperationException("You can't define more than one load method.");

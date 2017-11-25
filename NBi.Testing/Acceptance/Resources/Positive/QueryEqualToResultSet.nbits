@@ -9,6 +9,9 @@
     </reference>
   </settings>
   <test name="'Reseller Orders' count, year by year, between 2005 and 2008" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
     <system-under-test>
       <execution>
         <query name="MDX Except">
@@ -44,6 +47,9 @@
     </assert>
   </test>
   <test name="'Reseller Orders' count, year by year, between 2005 and 2008 with a tolerance of 5%" uid="0002">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
     <system-under-test>
       <execution>
         <query name="MDX Except">
@@ -80,6 +86,9 @@
     </assert>
   </test>
   <test name="'Reseller Orders' count, year by year, between 2005 and 2008 with a rounding by step of 100" uid="0003">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
     <system-under-test>
       <execution>
         <query name="MDX Except">
@@ -116,6 +125,9 @@
     </assert>
   </test>
   <test name="'Reseller Orders' count, year by year, between 2005 and 2008 with intervals" uid="0003">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
     <system-under-test>
       <execution>
         <query name="MDX Except">
@@ -152,6 +164,9 @@
     </assert>
   </test>
   <test name="'Reseller Orders' count, year by year, between 2005 and 2008 with intervals generic" uid="0003">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
     <system-under-test>
       <execution>
         <query name="MDX Except">
@@ -218,6 +233,9 @@
     </assert>
   </test>
   <test name="DAX Query with one column">
+    <condition>
+      <service-running name="MSOLAP$SQL2012TABULAR"/>
+    </condition>
     <system-under-test>
       <execution>
         <query
@@ -247,6 +265,9 @@
     </assert>
   </test>
   <test name="DAX Query with two columns">
+    <condition>
+      <service-running name="MSOLAP$SQL2012TABULAR"/>
+    </condition>
     <system-under-test>
       <execution>
         <query
@@ -507,6 +528,9 @@
     </assert>
   </test>
   <test name="Compare sales amount for all territories group">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
     <system-under-test>
       <execution>
         <query>

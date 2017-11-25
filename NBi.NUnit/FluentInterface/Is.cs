@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 using NBi.NUnit.Member;
 using NBi.NUnit.Query;
 using NBi.NUnit.ResultSetComparison;

@@ -9,6 +9,9 @@
 		</default>
 	</settings>
 	<test name="Members of department bellow 'Corporate' are in the following list" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<members children-of="Corporate">
 				<hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"/>
@@ -28,6 +31,9 @@
 	</test>
 	<test name="Members of department bellow 'Corporate' are in the following list" uid="81">
 		<category>MultiDimensional</category>
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<members children-of="Corporate">
 				<hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"/>
@@ -44,6 +50,9 @@
 		</assert>
 	</test>
 	<test name="Members of department bellow 'Corporate' are in a subset of themselves" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<members children-of="Corporate">
 				<hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"/>

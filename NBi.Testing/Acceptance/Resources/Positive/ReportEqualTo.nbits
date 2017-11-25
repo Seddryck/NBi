@@ -81,6 +81,9 @@
 		</assert>
 	</test>
   <test name="Syntactically correct for shared dataset (database)" uid="0001">
+    <condition>
+      <service-running name="MSSQL$SQL2012"/>
+    </condition>
     <system-under-test>
       <execution>
         <shared-dataset
@@ -95,6 +98,9 @@
     </assert>
   </test>
   <test name="Syntactically correct for shared dataset (file)" uid="0001">
+    <condition>
+      <service-running name="MSSQL$SQL2012"/>
+    </condition>
     <system-under-test>
       <execution>
         <shared-dataset

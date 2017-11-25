@@ -120,8 +120,8 @@
     <Compile Include="Integration\Core\Analysis\Request\DiscoveryRequestFactoryTest.cs" />
     <Compile Include="Integration\Core\Analysis\MembersAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\CsvWriterTest.cs" />
-    <Compile Include="Integration\Core\ResultSet\Resolver\Query\AssemblyQueryResolverTest.cs" />
-    <Compile Include="Integration\Core\ResultSet\Resolver\Query\ExternalFileQueryResolverTest.cs" />
+    <Compile Include="Integration\Core\Query\Resolver\AssemblyQueryResolverTest.cs" />
+    <Compile Include="Integration\Core\Query\Resolver\ExternalFileQueryResolverTest.cs" />
     <Compile Include="Integration\SqlServer\Smo\BatchRunCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\BulkLoadCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\TruncateCommandTest.cs" />
@@ -189,9 +189,9 @@
     <Compile Include="Unit\Core\Report\FileReportingParserTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\CellComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\TextToleranceFactoryTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Resolver\Query\ReportDataSetQueryResolverTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Resolver\Query\SharedDataSetQueryResolverTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Resolver\Query\EmbeddedQueryResolverTest.cs" />
+    <Compile Include="Unit\Core\Query\Resolver\ReportDataSetQueryResolverTest.cs" />
+    <Compile Include="Unit\Core\Query\Resolver\SharedDataSetQueryResolverTest.cs" />
+    <Compile Include="Unit\Core\Query\Resolver\EmbeddedQueryResolverTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetServiceTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Uniqueness\IndexUniqueRowsEvaluatorTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Interval\DateTimeIntervalBuilderTest.cs" />
@@ -219,6 +219,12 @@
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
     <Compile Include="Unit\Core\CsvReaderTest.cs" />
+    <Compile Include="Unit\Core\Scalar\PercentageTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Resolver\GlobalVariableScalarResolverTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Resolver\LiteralScalarResolverTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Resolver\ProjectionResultSetScalarResolverTest.cs" />
+    <Compile Include="Integration\Core\Scalar\Resolver\QueryScalarResolverTest.cs" />
+    <Compile Include="Unit\Core\Scalar\ScalarComparerTest.cs" />
     <Compile Include="Unit\Core\SqlServer\Smo\SmoBatchRunnerFactoryTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\HierarchyDiscoveryCommandBuilderTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\MeasureDiscoveryCommandBuilderTest.cs" />
@@ -291,6 +297,7 @@
     <Compile Include="Unit\NUnit\Builder\MembersCountBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
     <Compile Include="Unit\NUnit\DataType\IsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\DifferedConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\NoRowsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\SingleRowConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\SomeRowsConstraintTest.cs" />
@@ -382,7 +389,9 @@
   <ItemGroup>
     <Folder Include="Integration\Core\Analysis\Query\" />
     <Folder Include="Integration\Core\Etl\" />
+    <Folder Include="Integration\Core\ResultSet\" />
     <Folder Include="Integration\NUnit\Builder\" />
+    <Folder Include="Unit\Core\ResultSet\Resolver\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Acceptance\Resources\Csv\ResellerOrderCountByYearBefore2006.csv">

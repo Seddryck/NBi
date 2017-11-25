@@ -9,7 +9,7 @@ using NBi.Core.Calculation;
 using Moq;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 
 namespace NBi.Testing.Unit.Core.Calculation
 {
@@ -19,14 +19,15 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Apply_And_CorrectResult()
         {
-            var service = new ObjectArrayResultSetLoader(
-                new object[] 
-                {
-                    new List<object>() { "(null)", 10, 100 },
-                    new List<object>() { "(empty)", 2, 75 },
-                    new List<object>() { "(empty)", 20, 75 },
-                    new List<object>() { "C", 5, 50 }
-                });
+            var service = new ObjectsResultSetResolver(
+                new ObjectsResultSetResolverArgs(
+                    new object[]
+                    {
+                        new List<object>() { "(null)", 10, 100 },
+                        new List<object>() { "(empty)", 2, 75 },
+                        new List<object>() { "(empty)", 20, 75 },
+                        new List<object>() { "C", 5, 50 }
+                    }));
 
             var rs = service.Execute();
 
@@ -55,15 +56,16 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Apply_Or_CorrectResult()
         {
-            var service = new ObjectArrayResultSetLoader(
-                new object[]
-                {
-                    new List<object>() { "(null)", 10, 100 },
-                    new List<object>() { "(empty)", 2, 75 },
-                    new List<object>() { "(empty)", 20, 75 },
-                    new List<object>() { "C", 5, 50 },
-                    new List<object>() { "C", 15, 50 }
-                });
+            var service = new ObjectsResultSetResolver(
+                new ObjectsResultSetResolverArgs(
+                    new object[]
+                    {
+                        new List<object>() { "(null)", 10, 100 },
+                        new List<object>() { "(empty)", 2, 75 },
+                        new List<object>() { "(empty)", 20, 75 },
+                        new List<object>() { "C", 5, 50 },
+                        new List<object>() { "C", 15, 50 }
+                    }));
 
             var rs = service.Execute();
 
@@ -92,15 +94,16 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Apply_XOr_CorrectResult()
         {
-            var service = new ObjectArrayResultSetLoader(
-                new object[]
-                {
-                    new List<object>() { "(null)", 10, 100 },
-                    new List<object>() { "(empty)", 2, 75 },
-                    new List<object>() { "(empty)", 20, 75 },
-                    new List<object>() { "C", 5, 50 },
-                    new List<object>() { "C", 15, 50 }
-                });
+            var service = new ObjectsResultSetResolver(
+                new ObjectsResultSetResolverArgs(
+                    new object[]
+                    {
+                        new List<object>() { "(null)", 10, 100 },
+                        new List<object>() { "(empty)", 2, 75 },
+                        new List<object>() { "(empty)", 20, 75 },
+                        new List<object>() { "C", 5, 50 },
+                        new List<object>() { "C", 15, 50 }
+                    }));
 
             var rs = service.Execute();
 

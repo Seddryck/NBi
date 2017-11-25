@@ -5,7 +5,7 @@ using NBi.Core.ResultSet;
 using NBi.NUnit.ResultSetComparison;
 using NUnit.Framework;
 using NBi.Core;
-using NBi.Core.ResultSet.Loading;
+using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet.Equivalence;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison

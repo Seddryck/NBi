@@ -18,6 +18,9 @@ namespace NBi.Xml.Constraints.Comparer
         [XmlElement("projection")]
         public ProjectionXml Projection { get; set; }
 
+        [XmlElement("scalar-query")]
+        public ScalarQueryXml ScalarQuery { get; set; }
+
         [XmlIgnore]
         internal abstract ComparerType ComparerType { get; }
     }

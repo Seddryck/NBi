@@ -439,14 +439,16 @@
     </xs:attribute>
   </xs:complexType>
   <xs:complexType name="comparer-enhanced-type" mixed="true">
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="projection" minOccurs="0" maxOccurs="1" type="projection-type"/>
-    </xs:sequence>
+      <xs:element name="scalar-query" minOccurs="0" maxOccurs="1" type="scalar-query-type"/>
+    </xs:choice>
   </xs:complexType>
   <xs:complexType name="more-less-enhanced-type" mixed="true">
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="projection" minOccurs="0" maxOccurs="1" type="projection-type"/>
-    </xs:sequence>
+      <xs:element name="scalar-query" minOccurs="0" maxOccurs="1" type="scalar-query-type"/>
+    </xs:choice>
     <xs:attribute name="or-equal" type="xs:boolean" use="optional" />
   </xs:complexType>
   <xs:complexType name="comparer-type">
@@ -556,6 +558,11 @@
           <xs:element name="shared-dataset" type="shared-dataset-light-type" minOccurs="0" maxOccurs="1"/>
         </xs:choice>
       </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="scalar-query-type" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="query-type"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="transformation-type">

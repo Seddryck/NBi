@@ -38,7 +38,7 @@ namespace NBi.Core.Scalar.Resolver
         {
             var cmd = ResolveQuery();
             var value = ExecuteQuery(cmd);
-            return (T)value;
+            return (T)Convert.ChangeType(value, typeof(T));
         }
     }
 }

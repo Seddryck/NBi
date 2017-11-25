@@ -41,7 +41,7 @@ namespace NBi.Core.Scalar
                 if (percentage)
                     s = s.Substring(0, s.Length - culture.NumberFormat.PercentSymbol.Length);
 
-                double result = (double)conv.ConvertFromString(s);
+                double result = (double)conv.ConvertFromString(context, culture, s);
                 if (percentage)
                     result /= 100;
 

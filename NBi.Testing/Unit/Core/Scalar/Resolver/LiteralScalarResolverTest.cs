@@ -3,8 +3,10 @@ using NBi.Core.Scalar.Resolver;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NBi.Testing.Unit.Core.Scalar.Resolver
@@ -39,12 +41,18 @@ namespace NBi.Testing.Unit.Core.Scalar.Resolver
         }
 
         [Test]
-        public void Execute_StringToDecimal_Itself()
+        [TestCase("en-us")]
+        [TestCase("fr-fr")]
+        [TestCase("jp-jp")]
+        public void Execute_StringToDecimal_Itself(string culture)
         {
+            var currentCulture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
             string obj = "10.0";
             var args = new LiteralScalarResolverArgs(obj);
             var resolver = new LiteralScalarResolver<decimal>(args);
-            Assert.That(resolver.Execute(), Is.EqualTo(decimal.Parse(obj)));
+            Assert.That(resolver.Execute(), Is.EqualTo(decimal.Parse(obj, NumberFormatInfo.InvariantInfo)));
+            Thread.CurrentThread.CurrentCulture = currentCulture;
         }
 
 

@@ -21,18 +21,20 @@ namespace NBi.Testing.Unit.Core.Variable
             var resolver = new CSharpScalarResolver<object>(new CSharpScalarResolverArgs("DateTime.Now.Year"));
             var variable = factory.Instantiate(resolver);
 
-            Assert.That(variable, Is.TypeOf<ITestVariable>());
+            Assert.That(variable, Is.AssignableTo<ITestVariable>());
+            Assert.That(variable, Is.TypeOf<TestVariable>());
         }
 
         [Test]
         public void Instantiate_QueryScalar_TestVariable()
         {
             var factory = new TestVariableFactory();
-            var queryResolverArgsMock = Mock.Of<QueryResolverArgs>();
-            var resolver = new QueryScalarResolver<object>(new QueryScalarResolverArgs(queryResolverArgsMock));
+            var queryResolverArgsMock = new Mock<QueryResolverArgs>(null, null, null, null);
+            var resolver = new QueryScalarResolver<object>(new QueryScalarResolverArgs(queryResolverArgsMock.Object));
             var variable = factory.Instantiate(resolver);
 
-            Assert.That(variable, Is.TypeOf<ITestVariable>());
+            Assert.That(variable, Is.AssignableTo<ITestVariable>());
+            Assert.That(variable, Is.TypeOf<TestVariable>());
         }
 
         [Test]

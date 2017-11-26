@@ -27,7 +27,7 @@ namespace NBi.GenbiL.Action.Variable
                 var factory = new TestVariableFactory();
 
                 foreach (var variable in variables)
-                    state.Variables.Add(variable.Name, factory.Instantiate(variable.Script.Language, variable.Script.Code));
+                    state.Variables.Add(variable.Name, variable);
         }
 
         protected virtual IEnumerable<GlobalVariableXml> ReadXml(string filename)

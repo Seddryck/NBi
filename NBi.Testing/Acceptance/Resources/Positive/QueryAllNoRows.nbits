@@ -4,10 +4,18 @@
     <default apply-to="system-under-test">
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </default>
+    <default apply-to="variable">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
   </settings>
   <variables>
     <variable name="year">
       <script language="c-sharp">DateTime.Now.Year + 1</script>
+    </variable>
+    <variable name="yearQuery">
+      <query-scalar>
+        select year(getdate())+1;
+      </query-scalar>
     </variable>
   </variables>
   <test name="All-rows is doing the job for numeric info" uid="0001">
@@ -324,7 +332,7 @@
       </all-rows>
     </assert>
   </test>
-  <test name="Use a variable for the predicate" uid="0008">
+  <test name="Use a c-sharp variable for the predicate" uid="0008">
     <system-under-test>
       <execution>
         <query>
@@ -338,6 +346,24 @@
         <alias column-index="0">year</alias>
         <predicate name="year">
           <less-than>@year</less-than>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="Use a query-scalar variable for the predicate" uid="0008">
+    <system-under-test>
+      <execution>
+        <query>
+          select year(getdate()) as 'A'
+          union all select year(getdate())-1
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <alias column-index="0">year</alias>
+        <predicate name="year">
+          <less-than>@yearQuery</less-than>
         </predicate>
       </all-rows>
     </assert>

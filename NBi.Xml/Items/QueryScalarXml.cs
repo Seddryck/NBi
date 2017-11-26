@@ -10,7 +10,7 @@ using NBi.Xml.SerializationOption;
 
 namespace NBi.Xml.Items
 {
-    public class ScalarQueryXml : QueryXml
+    public class QueryScalarXml : QueryXml
     {
     }
 }

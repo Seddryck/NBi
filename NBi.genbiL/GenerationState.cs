@@ -4,6 +4,7 @@ using System.Linq;
 using NBi.Service;
 using NBi.GenbiL.Action.Consumable;
 using NBi.Core.Variable;
+using NBi.Xml.Variables;
 
 namespace NBi.GenbiL
 {
@@ -15,7 +16,7 @@ namespace NBi.GenbiL
         public TestListManager List { get; private set; }
         public TestSuiteManager Suite { get; private set; }
         public IDictionary<string, object> Consumables { get; private set; }
-        public IDictionary<string, ITestVariable> Variables { get; private set; }
+        public IDictionary<string, GlobalVariableXml> Variables { get; private set; }
 
         public GenerationState()
         {
@@ -26,7 +27,7 @@ namespace NBi.GenbiL
             Suite = new TestSuiteManager();
             Consumables = new Dictionary<string, object>();
             (new AutoConsumableAction(true)).Execute(this);
-            Variables = new Dictionary<string, ITestVariable>();
+            Variables = new Dictionary<string, GlobalVariableXml>();
         }
     }
 }

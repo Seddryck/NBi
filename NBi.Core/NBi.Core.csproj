@@ -443,11 +443,13 @@
     <Compile Include="Scalar\Percentage.cs" />
     <Compile Include="Scalar\PercentageConverter.cs" />
     <Compile Include="Scalar\Projection\ProjectionType.cs" />
+    <Compile Include="Scalar\Resolver\CSharpScalarResolver.cs" />
     <Compile Include="Scalar\Resolver\LiteralScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\LiteralScalarResolver.cs" />
     <Compile Include="Scalar\Resolver\GlobalVariableScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\GlobalVariableScalarResolver.cs" />
     <Compile Include="Scalar\Resolver\IScalarResolver.cs" />
+    <Compile Include="Scalar\Resolver\CSharpScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\RowCountResultSetScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\ProjectionResultSetScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\QueryScalarResolverArgs.cs" />
@@ -540,9 +542,9 @@
     <Compile Include="Transformation\LanguageType.cs" />
     <Compile Include="Transformation\TransformerFactory.cs" />
     <Compile Include="Transformation\TransformationProvider.cs" />
-    <Compile Include="Variable\CSharpTestVariable.cs" />
+    <Compile Include="Variable\TestVariable.cs" />
     <Compile Include="Variable\ITestVariable.cs" />
-    <Compile Include="Variable\TestVariableFactory.cs" />
+    <Compile Include="Variable\TestVariableBuilder.cs" />
     <Compile Include="WindowsService\IWindowsServiceCheck.cs" />
     <Compile Include="WindowsService\WindowsServiceCheck.cs" />
     <Compile Include="WindowsService\WindowsServiceCheckFactory.cs" />

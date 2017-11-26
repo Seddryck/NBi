@@ -16,8 +16,8 @@ namespace NBi.Testing.Unit.Core.Scalar.Resolver
         {
             var globalVariables = new Dictionary<string, ITestVariable>()
             {
-                { "myVar" , new CSharpTestVariable("10*10") },
-                { "otherVar" , new CSharpTestVariable("10+10") }
+                { "myVar" , new TestVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10*10"))) },
+                { "otherVar" , new TestVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10+10"))) }
             };
             var args = new GlobalVariableScalarResolverArgs("myVar", globalVariables);
             var resolver = new GlobalVariableScalarResolver<int>(args);
@@ -29,8 +29,8 @@ namespace NBi.Testing.Unit.Core.Scalar.Resolver
         {
             var globalVariables = new Dictionary<string, ITestVariable>()
             {
-                { "myVar" , new CSharpTestVariable("(10*10).ToString()") },
-                { "otherVar" , new CSharpTestVariable("10+10") }
+                { "myVar" , new TestVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("(10*10).ToString()"))) },
+                { "otherVar" , new TestVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10+10"))) }
             };
             var args = new GlobalVariableScalarResolverArgs("myVar", globalVariables);
             var resolver = new GlobalVariableScalarResolver<int>(args);
@@ -42,8 +42,8 @@ namespace NBi.Testing.Unit.Core.Scalar.Resolver
         {
             var globalVariables = new Dictionary<string, ITestVariable>()
             {
-                { "myVar" , new CSharpTestVariable("\"2017-05-12\"") },
-                { "otherVar" , new CSharpTestVariable("10+10") }
+                { "myVar" , new TestVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("\"2017-05-12\""))) },
+                { "otherVar" , new TestVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10+10"))) }
             };
             var args = new GlobalVariableScalarResolverArgs("myVar", globalVariables);
             var resolver = new GlobalVariableScalarResolver<DateTime>(args);

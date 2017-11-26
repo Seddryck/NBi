@@ -237,7 +237,7 @@
     <Compile Include="Unit\Core\Transformation\TransformationProviderTest.cs" />
     <Compile Include="Unit\Core\Transformation\TransformerFactoryTest.cs" />
     <Compile Include="Unit\Core\Transformation\Transformer\CSharpTransformerTest.cs" />
-    <Compile Include="Unit\Core\Variable\CSharpTestVariableTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Resolver\CSharpScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Variable\TestVariableFactoryTest.cs" />
     <Compile Include="Unit\Core\Xml\XPathEngineTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\DataRowsMessageJsonTest.cs" />

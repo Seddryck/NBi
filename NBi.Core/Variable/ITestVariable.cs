@@ -12,7 +12,6 @@ namespace NBi.Core.Variable
         object GetValue();
         bool IsEvaluated();
 
-        LanguageType Language { get; }
-        string Code { get; }
+        
     }
 }

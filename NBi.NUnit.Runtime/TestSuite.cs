@@ -15,6 +15,8 @@ using NBi.Framework;
 using NBi.Core.Configuration;
 using NBi.Core.Variable;
 using NBi.Xml.Variables;
+using NBi.NUnit.Builder.Helper;
+using NBi.Core.Scalar.Resolver;
 
 namespace NBi.NUnit.Runtime
 {
@@ -246,11 +248,26 @@ namespace NBi.NUnit.Runtime
         private IDictionary<string, ITestVariable> BuildVariables(IEnumerable<GlobalVariableXml> variables)
         {
             var instances = new Dictionary<string, ITestVariable>();
+            var resolverFactory = new ScalarResolverFactory();
             var factory = new TestVariableFactory();
 
             foreach (var variable in variables)
             {
-                var instance = factory.Instantiate(variable.Script.Language, variable.Script.Code);
+                var builder = new ScalarResolverArgsBuilder();
+                if (variable.Script != null)
+                    builder.Setup(variable.Script);
+                else if (variable.QueryScalar != null)
+                {
+                    variable.QueryScalar.Settings = TestSuiteManager.TestSuite.Settings;
+                    variable.QueryScalar.Default = TestSuiteManager.TestSuite.Settings.GetDefault(Xml.Settings.SettingsXml.DefaultScope.Variable);
+                    builder.Setup(variable.QueryScalar);
+                }
+                builder.Build();
+                var args = builder.GetArgs();
+                
+                var resolver = resolverFactory.Instantiate<object>(args);
+
+                var instance = factory.Instantiate(resolver);
                 instances.Add(variable.Name, instance);
             }
 

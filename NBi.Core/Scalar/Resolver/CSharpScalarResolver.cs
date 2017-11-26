@@ -1,5 +1,4 @@
 ﻿using Microsoft.CSharp;
-using NBi.Core.Transformation;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -8,47 +7,26 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Variable
+namespace NBi.Core.Scalar.Resolver
 {
-    class CSharpTestVariable : ITestVariable
+    class CSharpScalarResolver<T> : IScalarResolver<T>
     {
-        private object value;
-        private bool isEvaluated;
-        private readonly string code;
+        private readonly CSharpScalarResolverArgs args;
 
-        public string Code { get { return code; } }
-        public LanguageType Language { get { return LanguageType.CSharp; } }
-
-        public CSharpTestVariable(string code)
+        public CSharpScalarResolver(CSharpScalarResolverArgs args)
         {
-            this.code = code;
+            this.args = args;
         }
 
-        public object GetValue()
+        public T Execute()
         {
-            if (!IsEvaluated())
-            {
-                value = Evaluate();
-                isEvaluated = true;
-            }
-
-            return value;
-        }
-
-        public bool IsEvaluated()
-        {
-            return isEvaluated;
-        }
-
-        protected virtual object Evaluate()
-        {
-            var method = CreateFunction(code);
+            var method = CreateFunction(args.Code);
             if (method == null)
                 throw new InvalidOperationException();
 
-            var transformedValue = method.Invoke(null, new object[] { });
+            var value = method.Invoke(null, new object[] { });
 
-            return transformedValue;
+            return (T)Convert.ChangeType(value, typeof(T));
         }
 
         private MethodInfo CreateFunction(string code)

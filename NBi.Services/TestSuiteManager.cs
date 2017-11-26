@@ -34,15 +34,9 @@ namespace NBi.Service
             this.settingsXml = settingsXml;
         }
 
-        public void DefineVariables(IDictionary<string, ITestVariable> variables)
+        public void DefineVariables(IDictionary<string, GlobalVariableXml> variables)
         {
-            this.variablesXml = new List<GlobalVariableXml>();
-            foreach (var variable in variables)
-                variablesXml.Add(new GlobalVariableXml()
-                {
-                    Name= variable.Key,
-                    Script = new ScriptXml() { Code=variable.Value.Code, Language=variable.Value.Language }
-                });
+            this.variablesXml = variables.Values.ToList();
         }
 
         public IEnumerable<Setting> GetSettings()
@@ -51,7 +45,7 @@ namespace NBi.Service
             settings.Add(new Setting { Name = "Default - System-under-test" });
             settings.Add(new Setting { Name = "Default - Assert" });
             foreach (var s in settingsXml.Defaults)
-            { 
+            {
                 if (s.ApplyTo == SettingsXml.DefaultScope.SystemUnderTest)
                     settings[0].Value = s.ConnectionString;
                 else
@@ -63,7 +57,7 @@ namespace NBi.Service
             }
             return settings;
         }
-        
+
         public void DefineTests(IEnumerable<Test> tests)
         {
             this.listTestXml = new List<TestXml>();
@@ -75,7 +69,7 @@ namespace NBi.Service
         {
             var tests = new List<Test>();
             foreach (var t in listTestXml)
-                tests.Add(new Test() {Title=t.Name, Content = t.Content, Reference=t });
+                tests.Add(new Test() { Title = t.Name, Content = t.Content, Reference = t });
             return tests;
         }
 
@@ -96,7 +90,7 @@ namespace NBi.Service
         {
             var manager = new XmlManager();
             manager.Load(fullPath);
-            listTestXml =  manager.TestSuite.Tests;
+            listTestXml = manager.TestSuite.Tests;
             settingsXml = manager.TestSuite.Settings;
         }
     }

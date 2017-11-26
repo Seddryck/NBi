@@ -42,6 +42,7 @@
       <xs:simpleType>
         <xs:restriction base="xs:string">
           <xs:enumeration value="everywhere"/>
+          <xs:enumeration value="variable"/>
           <xs:enumeration value="system-under-test"/>
           <xs:enumeration value="assert"/>
           <xs:enumeration value="setup-cleanup"/>
@@ -441,13 +442,13 @@
   <xs:complexType name="comparer-enhanced-type" mixed="true">
     <xs:choice>
       <xs:element name="projection" minOccurs="0" maxOccurs="1" type="projection-type"/>
-      <xs:element name="scalar-query" minOccurs="0" maxOccurs="1" type="scalar-query-type"/>
+      <xs:element name="query-scalar" minOccurs="0" maxOccurs="1" type="query-scalar-type"/>
     </xs:choice>
   </xs:complexType>
   <xs:complexType name="more-less-enhanced-type" mixed="true">
     <xs:choice>
       <xs:element name="projection" minOccurs="0" maxOccurs="1" type="projection-type"/>
-      <xs:element name="scalar-query" minOccurs="0" maxOccurs="1" type="scalar-query-type"/>
+      <xs:element name="query-scalar" minOccurs="0" maxOccurs="1" type="query-scalar-type"/>
     </xs:choice>
     <xs:attribute name="or-equal" type="xs:boolean" use="optional" />
   </xs:complexType>
@@ -560,7 +561,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="scalar-query-type" mixed="true">
+  <xs:complexType name="query-scalar-type" mixed="true">
     <xs:complexContent>
       <xs:extension base="query-type"/>
     </xs:complexContent>
@@ -1325,25 +1326,25 @@
       <xs:element name="variable" minOccurs="1" maxOccurs="unbounded">
         <xs:complexType>
           <xs:choice>
-            <xs:element name="script">
-              <xs:complexType>
-                <xs:simpleContent>
-                  <xs:extension base="xs:string">
-                    <xs:attribute name="language" use="optional" >
-                      <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                          <xs:enumeration value="c-sharp"/>
-                        </xs:restriction>
-                      </xs:simpleType>
-                    </xs:attribute>
-                  </xs:extension>
-                </xs:simpleContent>
-              </xs:complexType>
-            </xs:element>
+            <xs:element name="script" type="script-type"/>
+            <xs:element name="query-scalar" type="query-scalar-type"/>
           </xs:choice>
           <xs:attribute name="name" type="xs:string" use="required" />
         </xs:complexType>
       </xs:element>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="script-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="language" use="optional" >
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="c-sharp"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
   </xs:complexType>
 </xs:schema>

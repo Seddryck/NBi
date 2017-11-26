@@ -257,7 +257,11 @@ namespace NBi.NUnit.Runtime
                 if (variable.Script != null)
                     builder.Setup(variable.Script);
                 else if (variable.QueryScalar != null)
+                {
+                    variable.QueryScalar.Settings = TestSuiteManager.TestSuite.Settings;
+                    variable.QueryScalar.Default = TestSuiteManager.TestSuite.Settings.GetDefault(Xml.Settings.SettingsXml.DefaultScope.Variable);
                     builder.Setup(variable.QueryScalar);
+                }
                 builder.Build();
                 var args = builder.GetArgs();
                 

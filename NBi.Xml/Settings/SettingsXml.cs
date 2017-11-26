@@ -39,6 +39,8 @@ namespace NBi.Xml.Settings
         {
             [XmlEnum(Name = "everywhere")]
             Everywhere,
+            [XmlEnum(Name = "variable")]
+            Variable,
             [XmlEnum(Name = "system-under-test")]
             SystemUnderTest,
             [XmlEnum(Name = "assert")]

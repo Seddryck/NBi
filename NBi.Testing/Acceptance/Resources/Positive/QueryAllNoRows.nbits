@@ -4,13 +4,16 @@
     <default apply-to="system-under-test">
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </default>
+    <default apply-to="variable">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
   </settings>
   <variables>
     <variable name="year">
       <script language="c-sharp">DateTime.Now.Year + 1</script>
     </variable>
     <variable name="yearQuery">
-      <query-scalar connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+      <query-scalar>
         select year(getdate())+1;
       </query-scalar>
     </variable>

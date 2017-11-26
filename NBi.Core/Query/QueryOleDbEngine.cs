@@ -243,6 +243,7 @@ namespace NBi.Core.Query
                 var list = new List<T>();
                 try
                 {
+                    command.Connection = connection;
                     var dr = command.ExecuteReader();
                     while (dr.Read())
                         list.Add((T)dr.GetValue(0));

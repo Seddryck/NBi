@@ -101,6 +101,10 @@
   - config-dtd-processing
   - config-traces-debugging
 
+- title: Global variables
+  docs:
+  - -variables-define
+
 - title: Metadata
   docs:
   - metadata-concept
@@ -110,3 +114,7 @@
   - metadata-category
   - metadata-trait
   - metadata-group
+
+- title: Data quality engine
+  docs:
+  - data-quality-setup

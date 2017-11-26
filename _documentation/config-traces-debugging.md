@@ -2,7 +2,7 @@
 layout: documentation
 title: Traces for debugging
 prev_section: config-dtd-processing
-next_section: metadata-concept
+next_section: variable-define
 permalink: /docs/config-traces-debugging/
 ---
 If you've problems with one of your test it could be helpful to activate traces of NBi to debug this test. To enable the trace and display it in the output tab (with NUnit GUI), go to "Tools > Settings". In the pop-up, select the tree's element ,named "Gui >  Text Output" and check the flag "Trace Output".

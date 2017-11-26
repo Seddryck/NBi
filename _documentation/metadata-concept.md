@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Concept of metadata
-prev_section: config-traces-debugging
+prev_section: variable-define
 next_section: metadata-description
 permalink: /docs/metadata-concept/
 ---

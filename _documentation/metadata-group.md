@@ -2,6 +2,7 @@
 layout: documentation
 title: Groups
 prev_section: metadata-trait
+next_section: data-quality-setup
 permalink: /docs/metadata-group/
 ---
 For edition purpose, especially when you've a test-suite with more than 100 tests, it's sometimes useful to group tests. This can be achieved with the xml element named *group*. You can include a few tests in a *group* element. If you're using an advanced IDE, such as Visual Studio, it will be possible to toggle off/on this group of tests when editing them. You can also create *group* elements under *group* elements and so on. The only attribute of this xml element *group* is named *name* and will let the editor specify a display name for the group.

@@ -13,6 +13,8 @@ The system-under-test is a query, please reports to other tests for more informa
 
 ## Assertion
 
+### Predefined value
+
 The assertion consists in an xml element named row-count.
 {% highlight xml %}
 <assert>
@@ -22,7 +24,7 @@ The assertion consists in an xml element named row-count.
 </assert>
 {% endhighlight %}
 
-In this element, you must also specify an the comparison that you want to apply _equal_, _more-than_ and _less-than_. You must also specify the reference to compare. Currently NBi only supports a fixed value.
+In this element, you must also specify an the comparison that you want to apply _equal_, _more-than_ and _less-than_. You must also specify the reference to compare. 
 {% highlight xml %}
 <assert>
     <row-count>
@@ -38,6 +40,56 @@ For the comparisons _more-than_ and _less-than_, you can slightly change the beh
          <less-than or-equal="true">10</less-than>
     </row-count>
 </assert>
+{% endhighlight %}
+
+### Variable
+
+It's possible to dynamically define the value that is used in the comparison. To achieve this you must use a global [variable](../docs/variable-define) as explained [there](../docs/resultset-predicate/#variables-for-predicates-reference).
+
+{% highlight xml %}
+<variables>
+   <variable name="maximum">
+      <script language="c-sharp">10*10*10</script>
+   </variable>
+</variables>
+
+<assert>
+    <row-count>
+         <less-than or-equal="true">@maximum</less-than>
+    </row-count>
+</assert>
+{% endhighlight %}
+
+Note that if this variable is a percentage it must be returned as a string (double quotes)!
+
+{% highlight xml %}
+<variables>
+   <variable name="maximum">
+      <script language="c-sharp">"50%"</script>
+   </variable>
+</variables>
+{% endhighlight %}
+
+### Row-count of another result-set
+
+It's possible to compare the row-count of the first result-set defined in the system-under-test to the row-count of a second result-set defined in the assertion to achieve this, use the projection *row-count* and define your second result-set with the [syntax 2.0](../docs/syntax-2-0).
+
+{% highlight xml %}
+<row-count>
+  <more-than or-equal="true">
+    <projection type="row-count">
+      <resultSet>
+        <query connectionString="@conn-Other">
+          <![CDATA[
+             select Age, *
+             from Employee
+              where Age=50
+          ]]>
+        </query>
+      </resultSet>
+    </projection>
+  <more-than>
+</row-count>
 {% endhighlight %}
 
 ## Full example

@@ -7,6 +7,8 @@ permalink: /docs/query-report/
 ---
 NBi is able to extract queries and stored procedures from SSRS reports (more precisely from report's datasets) and use them in your tests. Other features related to queries' execution are fully applicable to queries extracted from reports: you can definitively make usage of [query's parameters](../query-parameters/) or [query's template-variables](../query-template/) or [query's timeout](../query-timeout/).
 
+The following section describe the syntax 1.0
+
 To extract the queries or stored procedures from a report, you've two options: connect to a ReportingServer database through sql or parse a rdl file on a disk. In both cases, you need to specify the xml element *report* in place of the typical xml element *query*.
 
 {% highlight xml %}

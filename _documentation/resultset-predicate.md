@@ -121,7 +121,7 @@ Some of the predicates, require to specify a reference. For example if you want 
 
 ## Variables for predicate's reference
 
-Sometimes, the reference must be dynamic. One of the most famous examples is the need to check that all rows returned by the query are for days before today. When you've this kind of issues, you can use a *variable*. These items are described at the top of the test-suite and are dynamically evaluated. To reference them in the predicate you must use the name of the variable prefixed by an arrobas (@)
+Sometimes, the reference must be dynamic. One of the most famous examples is the need to check that all rows returned by the query are for the days before today. When you've this kind of issues, you can use a *[variable](..docs/variable-define)*. These items are described at the top of the test-suite and are dynamically evaluated. To reference them in the predicate you must use the name of the variable prefixed by an arrobas (@)
 
 {% highlight xml %}
 <variables>

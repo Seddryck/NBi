@@ -16,7 +16,7 @@ During test's execution, NBi will compare the two result-sets and provide a brie
 
 ## system-under-test
 
-Let's start with the definition of your system-under-test. Since version 1.16, you've two options a query or a CSV file.
+Let's start with the definition of your system-under-test. Since version 1.16 (and the beginning of the support for the [syntax 2.0](../docs/syntax-2-0)), you've three options a query, a CSV file or an inline definition.
 
 ### Query
 You must create an xml element named *execution* under the element *system-under-test*. Inside this element *execution*, you must create another xml element named *query*. You can specify a connection string to this query or rely on the [default connection string](/docs/config-connection-strings).

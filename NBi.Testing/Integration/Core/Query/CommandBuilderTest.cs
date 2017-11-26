@@ -94,7 +94,7 @@ namespace NBi.Testing.Integration.Core.Query
                 
                 new List<QueryParameter>() 
                 {
-                    new QueryParameter("@Param", string.Empty, new LiteralScalarResolver<object>("Canada"))
+                    new QueryParameter("@Param", string.Empty, new LiteralScalarResolver<object>(2))
                 }
                 );
 

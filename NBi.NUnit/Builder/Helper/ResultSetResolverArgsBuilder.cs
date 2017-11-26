@@ -3,6 +3,7 @@ using NBi.Core.Query;
 using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
+using NBi.Core.Variable;
 using NBi.Core.Xml;
 using NBi.Xml.Items;
 using NBi.Xml.Items.ResultSet;
@@ -25,6 +26,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private object obj = null;
         private SettingsXml settings = null;
+        private IDictionary<string, ITestVariable> globalVariables = new Dictionary<string, ITestVariable>();
         private ResultSetResolverArgs args = null;
 
         public void Setup(object obj)
@@ -36,6 +38,11 @@ namespace NBi.NUnit.Builder.Helper
         public void Setup(SettingsXml settingsXml)
         {
             this.settings = settingsXml;
+        }
+
+        public void Setup(IDictionary<string, ITestVariable> globalVariables)
+        {
+            this.globalVariables = globalVariables;
         }
 
         public void Build()
@@ -88,6 +95,7 @@ namespace NBi.NUnit.Builder.Helper
             var argsBuilder = new Helper.QueryResolverArgsBuilder();
             argsBuilder.Setup(queryXml);
             argsBuilder.Setup(settings);
+            argsBuilder.Setup(globalVariables);
             argsBuilder.Build();
             var argsQuery = argsBuilder.GetArgs();
 

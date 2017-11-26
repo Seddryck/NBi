@@ -4,6 +4,7 @@ using System.Linq;
 using NBi.Core.Query;
 using NBi.Xml.Items;
 using NUnit.Framework;
+using NBi.Core.Scalar.Resolver;
 
 namespace NBi.Testing.Integration.Core.Query
 {
@@ -46,17 +47,12 @@ namespace NBi.Testing.Integration.Core.Query
             var cmd = commandBuilder.Build(
                 ConnectionStringReader.GetSqlClient(),
                 "select * from [Sales].[Customer] where CustomerID=@Param",
-                
-                new List<QueryParameterXml>() 
+
+                new List<QueryParameter>()
                 {
-                    new QueryParameterXml()
-                    {
-                        Name="@Param",
-                        SqlType= "int",
-                        StringValue = "2"
-                    }
+                    new QueryParameter("@Param", "int", new LiteralScalarResolver<object>("2"))
                 }
-                );
+            );
 
             cmd.Connection.Open();
             var dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
@@ -74,16 +70,11 @@ namespace NBi.Testing.Integration.Core.Query
                 ConnectionStringReader.GetSqlClient(),
                 "select * from [Sales].[SalesTerritory] where Name=@Param",
 
-                new List<QueryParameterXml>() 
+                new List<QueryParameter>() 
                 {
-                    new QueryParameterXml()
-                    {
-                        Name="@Param",
-                        SqlType= "nvarchar(50)",
-                        StringValue = "Canada"
-                    }
+                    new QueryParameter("@Param", "nvarchar(50)", new LiteralScalarResolver<object>("Canada"))
                 }
-                );
+            );
 
             cmd.Connection.Open();
             var dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
@@ -101,13 +92,9 @@ namespace NBi.Testing.Integration.Core.Query
                 ConnectionStringReader.GetSqlClient(),
                 "select * from [Sales].[Customer] where CustomerID=@Param",
                 
-                new List<QueryParameterXml>() 
+                new List<QueryParameter>() 
                 {
-                    new QueryParameterXml()
-                    {
-                        Name="Param",
-                        StringValue = "2"
-                    }
+                    new QueryParameter("@Param", string.Empty, new LiteralScalarResolver<object>("Canada"))
                 }
                 );
 
@@ -127,20 +114,12 @@ namespace NBi.Testing.Integration.Core.Query
                 ConnectionStringReader.GetSqlClient(),
                 "select * from [Sales].[SalesTerritory] where Name=@Param",
 
-                new List<QueryParameterXml>() 
+                new List<QueryParameter>() 
                 {
-                    new QueryParameterXml()
-                    {
-                        Name="@Param",
-                        StringValue = "Canada"
-                    },
-                    new QueryParameterXml()
-                    {
-                        Name="@UnusedParam",
-                        StringValue = "Useless"
-                    }
+                    new QueryParameter("@Param", "Canada"),
+                    new QueryParameter("@UnusedParam", "Useless")
                 }
-                );
+            );
 
             cmd.Connection.Open();
             var dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
@@ -159,25 +138,16 @@ namespace NBi.Testing.Integration.Core.Query
                 ConnectionStringReader.GetAdomd(),
                 "select " +
                     "[Measures].[Order Count] on 0, " +
-                    "strToMember(@Param) on 1 "+
-                "from "+ 
+                    "strToMember(@Param) on 1 " +
+                "from " +
                     "[Adventure Works]",
 
-                new List<QueryParameterXml>() 
+                new List<QueryParameter>()
                 {
-                    new QueryParameterXml()
-                    {
-                        Name="@Param",
-                        StringValue = "[Product].[Model Name].[Bike Wash]"
-                    },
-                    new QueryParameterXml()
-                    {
-                        Name="UnusedParam",
-                        StringValue = "Useless"
-                    }
+                    new QueryParameter("@Param","[Product].[Model Name].[Bike Wash]"),
+                    new QueryParameter("UnusedParam", "Useless")
                 }
-                );
-
+            );
             cmd.Connection.Open();
             var dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
 

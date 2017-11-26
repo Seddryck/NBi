@@ -1,5 +1,7 @@
 ﻿using NBi.Core.Query;
 using NBi.Core.Query.Resolver;
+using NBi.Core.Scalar.Resolver;
+using NBi.Core.Variable;
 using NBi.Xml.Items;
 using NBi.Xml.Settings;
 using System;
@@ -17,6 +19,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private QueryXml queryXml = null;
         private SettingsXml settingsXml = null;
+        private IDictionary<string, ITestVariable> globalVariables = null;
         private QueryResolverArgs args = null;
 
         public void Setup(QueryXml queryXml)
@@ -30,14 +33,19 @@ namespace NBi.NUnit.Builder.Helper
             this.settingsXml = settingsXml;
         }
 
+        public void Setup(IDictionary<string, ITestVariable> globalVariables)
+        {
+            this.globalVariables = globalVariables;
+        }
+
         public void Build()
         {
             if (!isSetup)
                 throw new InvalidOperationException();
 
             var connectionString = queryXml.GetConnectionString();
-            IEnumerable<IQueryParameter> parameters = queryXml.GetParameters();
-            IEnumerable<IQueryTemplateVariable> variables = queryXml.GetVariables();
+            var parameters = BuildParameters(queryXml.GetParameters());
+            var variables = queryXml.GetVariables();
             var timeout = queryXml.Timeout;
 
             if (!string.IsNullOrEmpty(queryXml.InlineQuery))
@@ -90,6 +98,24 @@ namespace NBi.NUnit.Builder.Helper
                 return path;
             else
                 return basePath + path;
+        }
+
+        public IEnumerable<IQueryParameter> BuildParameters(IEnumerable<QueryParameterXml> parametersXml)
+        {
+            foreach (var parameterXml in parametersXml)
+            {
+                var stringWithoutSpecialChars = parameterXml.StringValue.Replace("\r", "").Replace("\n", "").Replace("\t", "").Trim();
+
+                var builder = new ScalarResolverArgsBuilder();
+                builder.Setup(stringWithoutSpecialChars);
+                builder.Setup(globalVariables);
+                builder.Build();
+                var args = builder.GetArgs();
+
+                var factory = new ScalarResolverFactory();
+                var resolver = factory.Instantiate<object>(args);
+                yield return new QueryParameter(parameterXml.Name, parameterXml.SqlType, resolver);
+            }
         }
 
         public QueryResolverArgs GetArgs()

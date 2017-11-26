@@ -17,6 +17,11 @@ namespace NBi.Core.Scalar.Resolver
             this.args = args;
         }
 
+        internal LiteralScalarResolver(object value)
+        {
+            this.args = new LiteralScalarResolverArgs(value);
+        }
+
         public T Execute()
         {
             IFormatProvider formatProvider = System.Globalization.NumberFormatInfo.InvariantInfo;

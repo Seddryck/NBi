@@ -21,7 +21,7 @@ namespace NBi.Testing.Unit.Core.Query.Resolver
             return new ReportDataSetQueryResolverArgs(
                 @"C:\", @"Path\", "MyReport", "MyDataSet",
                 ConnectionStringReader.GetSqlClient(),
-                new List<IQueryParameter>() { new QueryParameterXml() { Name="param", StringValue="10" } },
+                new List<IQueryParameter>() { new QueryParameter("param", "10") },
                 new List<IQueryTemplateVariable>() { new QueryTemplateVariableXml() { Name = "operator", Value = "not in" } },
                 10);
         }

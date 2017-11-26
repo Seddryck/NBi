@@ -50,14 +50,16 @@ namespace NBi.NUnit.Builder
             IEnumerable<IQueryTemplateVariable> variables = null;
             int timeout = 0;
             if (executionXml.BaseItem is QueryXml)
-            { 
-                parameters = ((QueryXml)executionXml.BaseItem).GetParameters();
+            {
+                var paramBuilder = new QueryResolverArgsBuilder();
+                parameters = paramBuilder.BuildParameters(((QueryXml)executionXml.BaseItem).GetParameters());
                 variables = ((QueryXml)executionXml.BaseItem).GetVariables();
                 timeout = ((QueryXml)executionXml.BaseItem).Timeout;
             }
             if (executionXml.BaseItem is ReportXml)
             {
-                parameters = ((ReportXml)executionXml.BaseItem).GetParameters();
+                var paramBuilder = new QueryResolverArgsBuilder();
+                parameters = paramBuilder.BuildParameters(((ReportXml)executionXml.BaseItem).GetParameters());
             }
             var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables, timeout);
 
@@ -90,6 +92,7 @@ namespace NBi.NUnit.Builder
             var argsBuilder = new ResultSetResolverArgsBuilder();
             argsBuilder.Setup(resultSetXml);
             argsBuilder.Setup(resultSetXml.Settings);
+            argsBuilder.Setup(base.Variables);
             argsBuilder.Build();
 
             var factory = new ResultSetResolverFactory();

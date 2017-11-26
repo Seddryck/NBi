@@ -57,6 +57,7 @@ namespace NBi.NUnit.Builder.Helper
                 var builder = new QueryResolverArgsBuilder();
                 builder.Setup((QueryXml)obj);
                 builder.Setup(settings);
+                builder.Setup(globalVariables);
                 builder.Build();
                 args = new QueryScalarResolverArgs(builder.GetArgs());
             }

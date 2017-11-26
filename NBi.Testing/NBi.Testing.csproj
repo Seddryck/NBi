@@ -186,6 +186,7 @@
     <Compile Include="Unit\Core\Query\CommandBuilderTest.cs" />
     <Compile Include="Unit\Core\Query\DbTypeBuilderTest.cs" />
     <Compile Include="Unit\Core\Query\QueryEngineFactoryTest.cs" />
+    <Compile Include="Unit\Core\Query\QueryParameterTest.cs" />
     <Compile Include="Unit\Core\Report\FileReportingParserTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\CellComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\TextToleranceFactoryTest.cs" />

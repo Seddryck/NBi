@@ -20,7 +20,7 @@ namespace NBi.Testing.Integration.Core.Query.Resolver
             return new ExternalFileQueryResolverArgs(
                 @"Integration\Core\Resources\query.sql",
                 ConnectionStringReader.GetSqlClient(),
-                new List<IQueryParameter>() { new QueryParameterXml() { Name="param", StringValue="10" } },
+                new List<IQueryParameter>() { new QueryParameter("param", "10") },
                 new List<IQueryTemplateVariable>() { new QueryTemplateVariableXml() { Name = "operator", Value = "not in" } },
                 10);
         }
@@ -68,7 +68,7 @@ namespace NBi.Testing.Integration.Core.Query.Resolver
             var args = new ExternalFileQueryResolverArgs(
                 @"NotExistingFile.sql",
                 ConnectionStringReader.GetSqlClient(),
-                new List<IQueryParameter>() { new QueryParameterXml() { Name = "param", StringValue = "10" } },
+                new List<IQueryParameter>() { new QueryParameter("param", "10") },
                 new List<IQueryTemplateVariable>() { new QueryTemplateVariableXml() { Name = "operator", Value = "not in" } },
                 10);
             var resolver = new ExternalFileQueryResolver(args);
@@ -81,7 +81,7 @@ namespace NBi.Testing.Integration.Core.Query.Resolver
             var args = new ExternalFileQueryResolverArgs(
                 @"NotExistingFile.sql",
                 ConnectionStringReader.GetSqlClient(),
-                new List<IQueryParameter>() { new QueryParameterXml() { Name = "param", StringValue = "10" } },
+                new List<IQueryParameter>() { new QueryParameter("param", "10") },
                 new List<IQueryTemplateVariable>() { new QueryTemplateVariableXml() { Name = "operator", Value = "not in" } },
                 10);
             var resolver = new ExternalFileQueryResolver(args);
@@ -96,7 +96,7 @@ namespace NBi.Testing.Integration.Core.Query.Resolver
             var args = new ExternalFileQueryResolverArgs(
                 @"C:\NotExistingFile.sql",
                 ConnectionStringReader.GetSqlClient(),
-                new List<IQueryParameter>() { new QueryParameterXml() { Name = "param", StringValue = "10" } },
+                new List<IQueryParameter>() { new QueryParameter("param", "10") },
                 new List<IQueryTemplateVariable>() { new QueryTemplateVariableXml() { Name = "operator", Value = "not in" } },
                 10);
             var resolver = new ExternalFileQueryResolver(args);

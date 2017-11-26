@@ -103,7 +103,7 @@
 
 - title: Global variables
   docs:
-  - -variables-define
+  - -variable-define
 
 - title: Metadata
   docs:

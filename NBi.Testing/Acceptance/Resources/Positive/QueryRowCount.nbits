@@ -4,6 +4,13 @@
     <variable name="Three">
       <script language="c-sharp">3</script>
     </variable>
+    <variable name="ThreeQuery">
+      <query-scalar
+        connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+      >
+        select 3
+      </query-scalar>
+    </variable>
     <variable name="FiftyPercent">
       <script language="c-sharp">"50%"</script>
     </variable>
@@ -194,7 +201,7 @@
       </no-rows>
     </assert>
   </test>
-  <test name="Count of SalesTerritory for Europe is equal to more than 25%" uid="0001">
+  <test name="Count of SalesTerritory for Europe is more than 25% of the total" uid="0001">
     <system-under-test>
       <execution>
         <query
@@ -219,7 +226,7 @@
       </row-count>
     </assert>
   </test>
-  <test name="Count of SalesTerritory for Europe is equal to more than 25%" uid="0001">
+  <test name="Count of SalesTerritory for Europe is less than 50% of the total" uid="0001">
     <system-under-test>
       <execution>
         <query
@@ -244,7 +251,7 @@
       </row-count>
     </assert>
   </test>
-  <test name="Using a variable">
+  <test name="Using a CSharp variable, Count of SalesTerritory">
     <system-under-test>
       <resultSet>
         <query
@@ -262,6 +269,27 @@
     <assert>
       <row-count>
         <equal>@Three</equal>
+      </row-count>
+    </assert>
+  </test>
+  <test name="Using a Query variable, Count of SalesTerritory">
+    <system-under-test>
+      <resultSet>
+        <query
+          connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select
+          [Name], [CountryRegionCode]
+          from
+          [Sales].[SalesTerritory]
+          where
+          [Group]='Europe'
+        </query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <row-count>
+        <equal>@ThreeQuery</equal>
       </row-count>
     </assert>
   </test>

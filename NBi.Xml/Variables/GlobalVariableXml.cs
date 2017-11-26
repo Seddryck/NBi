@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Xml.Items;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,9 @@ namespace NBi.Xml.Variables
 
         [XmlElement("script")]
         public ScriptXml Script { get; set; }
+
+        [XmlElement("query-scalar")]
+        public QueryScalarXml QueryScalar { get; set; }
 
     }
 }

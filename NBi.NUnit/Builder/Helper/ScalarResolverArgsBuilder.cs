@@ -1,6 +1,7 @@
 ﻿using NBi.Core.Query;
 using NBi.Core.Query.Resolver;
 using NBi.Core.Scalar.Resolver;
+using NBi.Core.Transformation;
 using NBi.Core.Variable;
 using NBi.Xml.Items;
 using NBi.Xml.Items.ResultSet;
@@ -16,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace NBi.NUnit.Builder.Helper
 {
-    class ScalarResolverArgsBuilder
+    public class ScalarResolverArgsBuilder
     {
         private bool isSetup = false;
 
@@ -46,7 +47,12 @@ namespace NBi.NUnit.Builder.Helper
             if (!isSetup)
                 throw new InvalidOperationException();
 
-            if (obj is QueryXml)
+            if (obj is ScriptXml && (obj as ScriptXml).Language==LanguageType.CSharp)
+            {
+                args = new CSharpScalarResolverArgs((obj as ScriptXml).Code);
+            }
+
+            else if (obj is QueryXml)
             {
                 var builder = new QueryResolverArgsBuilder();
                 builder.Setup((QueryXml)obj);

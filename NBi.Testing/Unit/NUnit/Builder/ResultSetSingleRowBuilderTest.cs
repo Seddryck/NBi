@@ -101,20 +101,23 @@ namespace NBi.Testing.Unit.NUnit.Builder
                 }
             };
 
+            var yearResolverMock = new Mock<ITestVariable>();
+            yearResolverMock.Setup(x => x.GetValue()).Returns(2017);
+
             var variables = new Dictionary<string, ITestVariable>()
             {
-                {"year", new CSharpTestVariable("DateTime.Now.Year") }
+                {"year", yearResolverMock.Object }
             };
 
             var builder = new ResultSetSingleRowBuilder();
             builder.Setup(sutXml, ctrXml, null, variables);
             builder.Build();
 
-            Assert.That(variables["year"].IsEvaluated, Is.True);
+            yearResolverMock.Verify(x => x.GetValue(), Times.Once);
         }
 
         [Test]
-        public void GetConstraint_BuildNotUsedVariable_DontEvaluateIt()
+        public void GetConstraint_BuildWithVariables_DontEvaluateThem()
         {
             var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
             var itemXmlStubFactory = new Mock<QueryableXml>();
@@ -132,17 +135,22 @@ namespace NBi.Testing.Unit.NUnit.Builder
                 }
             };
 
+            var yearResolverMock = new Mock<ITestVariable>();
+            yearResolverMock.Setup(x => x.GetValue()).Returns(2017);
+            var notUsedResolverMock = new Mock<ITestVariable>();
+            notUsedResolverMock.Setup(x => x.GetValue());
+
             var variables = new Dictionary<string, ITestVariable>()
             {
-                {"year", new CSharpTestVariable("DateTime.Now.Year") },
-                {"NotUsed", new CSharpTestVariable("1978") }
+                {"year", yearResolverMock.Object },
+                {"NotUsed", notUsedResolverMock.Object }
             };
 
             var builder = new ResultSetSingleRowBuilder();
             builder.Setup(sutXml, ctrXml, null, variables);
             builder.Build();
 
-            Assert.That(variables["NotUsed"].IsEvaluated, Is.False);
+            notUsedResolverMock.Verify(x => x.GetValue(), Times.Never);
         }
 
         [Test]

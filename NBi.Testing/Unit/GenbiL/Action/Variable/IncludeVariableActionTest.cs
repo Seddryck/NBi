@@ -57,8 +57,8 @@ namespace NBi.Testing.Unit.GenbiL.Action.Variable
             Assert.That(state.Variables, Has.Count.EqualTo(2));
             Assert.That(state.Variables.ContainsKey("var1"), Is.True);
             Assert.That(state.Variables.ContainsKey("var2"), Is.True);
-            Assert.That(state.Variables.All(x => x.Value.Language==LanguageType.CSharp), Is.True);
-            Assert.That(state.Variables.All(x => x.Value.Code.StartsWith("DateTime")), Is.True);
+            Assert.That(state.Variables.All(x => (x.Value as GlobalVariableXml).Script.Language==LanguageType.CSharp), Is.True);
+            Assert.That(state.Variables.All(x => (x.Value as GlobalVariableXml).Script.Code.StartsWith("DateTime")), Is.True);
         }
     }
 }

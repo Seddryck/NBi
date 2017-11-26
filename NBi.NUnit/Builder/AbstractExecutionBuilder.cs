@@ -8,6 +8,7 @@ using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
+using NBi.NUnit.Builder.Helper;
 
 namespace NBi.NUnit.Builder
 {
@@ -46,13 +47,15 @@ namespace NBi.NUnit.Builder
             int timeout = 0;
             if (executionXml.BaseItem is QueryXml)
             {
-                parameters = ((QueryXml)executionXml.BaseItem).GetParameters();
+                var builder = new QueryResolverArgsBuilder();
+                parameters = builder.BuildParameters(((QueryXml)executionXml.BaseItem).GetParameters());
                 variables = ((QueryXml)executionXml.BaseItem).GetVariables();
                 timeout = ((QueryXml)executionXml.BaseItem).Timeout;
             }
             if (executionXml.BaseItem is ReportXml)
             {
-                parameters = ((ReportXml)executionXml.BaseItem).GetParameters();
+                var builder = new QueryResolverArgsBuilder();
+                parameters = builder.BuildParameters(((ReportXml)executionXml.BaseItem).GetParameters());
             }
             var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables, timeout);
 

@@ -1,12 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: query equalTo with parameters" xmlns="http://NBi/TestSuite">
   <settings>
-    <default apply-to="system-under-test">
+    <default apply-to="everywhere">
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
       <parameter name="@CurrencyCode" sql-type="varchar">AED</parameter>
     </default>
   </settings>
-  <test name="Test">
+  <variables>
+    <variable name="CurrencyCodeVariable">
+      <query-scalar>
+        <![CDATA[select top(1) CurrencyCode from [Sales].[Currency] where Name like '%Canad%']]>
+      </query-scalar>
+    </variable>
+  </variables>
+  <test name="Using a parameter defined in the defaults">
     <system-under-test>
       <execution>
         <query>
@@ -19,6 +26,26 @@
         <resultSet>
           <row>
             <cell>1</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+  </test>
+  <test name="Using a parameter referring to a variable">
+    <system-under-test>
+      <resultSet>
+        <query>
+          <![CDATA[select CurrencyCode, Name from [Sales].[Currency] where CurrencyCode=@CurrencyCode]]>
+          <parameter name="@CurrencyCode">@CurrencyCodeVariable</parameter>
+        </query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <equalTo keys="all">
+        <resultSet>
+          <row>
+            <cell>CAD</cell>
+            <cell>Canadian Dollar</cell>
           </row>
         </resultSet>
       </equalTo>

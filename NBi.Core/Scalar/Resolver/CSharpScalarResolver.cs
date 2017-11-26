@@ -18,6 +18,11 @@ namespace NBi.Core.Scalar.Resolver
             this.args = args;
         }
 
+        public CSharpScalarResolver(string code)
+        {
+            this.args = new CSharpScalarResolverArgs(code);
+        }
+
         public T Execute()
         {
             var method = CreateFunction(args.Code);

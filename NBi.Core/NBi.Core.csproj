@@ -288,6 +288,7 @@
     <Compile Include="Query\IQueryParameter.cs" />
     <Compile Include="Query\IQueryTemplateVariable.cs" />
     <Compile Include="Query\QueryOdbcEngine.cs" />
+    <Compile Include="Query\QueryParameter.cs" />
     <Compile Include="Report\SharedDatasetRequest.cs" />
     <Compile Include="Report\ReportDataSetRequest.cs" />
     <Compile Include="Report\ReportingCommand.cs" />

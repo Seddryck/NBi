@@ -36,14 +36,13 @@ namespace NBi.Core.Query
                     var param = cmd.CreateParameter();
 
                     if (cmd is AdomdCommand && p.Name.StartsWith("@"))
-                        p.Name = p.Name.Substring(1, p.Name.Length - 1);
-                    if (cmd is SqlCommand && !p.Name.StartsWith("@") && char.IsLetter(p.Name[0]))
-                        p.Name = "@" + p.Name;
+                        param.ParameterName = p.Name.Substring(1, p.Name.Length - 1);
+                    else if (cmd is SqlCommand && !p.Name.StartsWith("@") && char.IsLetter(p.Name[0]))
+                        param.ParameterName = "@" + p.Name;
+                    else
+                        param.ParameterName = p.Name;
 
-                    param.ParameterName = p.Name;
-
-                    var stringWithoutSpecialChars = p.StringValue.Replace("\n", "").Replace("\t", "").Replace("\n", "").Trim();
-                    param.Value = stringWithoutSpecialChars;
+                    param.Value = p.GetValue();
                     var dbType = new DbTypeBuilder().Build(p.SqlType);
                     if (dbType != null)
                     {

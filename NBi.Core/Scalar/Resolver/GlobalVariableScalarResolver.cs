@@ -17,6 +17,11 @@ namespace NBi.Core.Scalar.Resolver
             this.args = args;
         }
 
+        public GlobalVariableScalarResolver(string name, IDictionary<string, ITestVariable> variables)
+        {
+            this.args = new GlobalVariableScalarResolverArgs(name, variables);
+        }
+
         public T Execute()
         {
             if (!args.GlobalVariables.ContainsKey(args.VariableName))
@@ -37,11 +42,17 @@ namespace NBi.Core.Scalar.Resolver
             IFormatProvider formatProvider = System.Globalization.NumberFormatInfo.InvariantInfo;
             if (typeof(T) == typeof(DateTime))
                 formatProvider = System.Globalization.DateTimeFormatInfo.InvariantInfo;
-            else if(output.ToString().EndsWith("%"))
+            else if(output!=null && output.ToString().EndsWith("%"))
                 output = output.ToString().Substring(0, output.ToString().Length-1);
 
             output = Convert.ChangeType(output, typeof(T), formatProvider);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Variable '{args.VariableName}' evaluated to: {output}");
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $@"Variable '{args.VariableName}' evaluated to: {
+                    (
+                        output==null ? "(null)" : 
+                        output is string && string.IsNullOrEmpty(output.ToString()) ? "(empty)" : output
+                    )
+                }
+            ");
 
             return (T)output;
         }

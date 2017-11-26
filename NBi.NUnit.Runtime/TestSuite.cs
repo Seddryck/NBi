@@ -23,7 +23,7 @@ namespace NBi.NUnit.Runtime
     /// <summary>
     /// This Class is the entry point for NUnit.Framework
     /// In reality the NUnit.Framework think this class is the class containing all the fixtures. But
-    /// in reality this class will just call the NBi 
+    /// in reality this class will just call a method to build all the test-cases from the nbits file. 
     /// </summary>
     [TestFixture]
     public class TestSuite
@@ -254,6 +254,7 @@ namespace NBi.NUnit.Runtime
             foreach (var variable in variables)
             {
                 var builder = new ScalarResolverArgsBuilder();
+                builder.Setup(instances); //Pass the catalog that we're building to itself
                 if (variable.Script != null)
                     builder.Setup(variable.Script);
                 else if (variable.QueryScalar != null)

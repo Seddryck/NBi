@@ -121,21 +121,28 @@ layout: default
                   $.getJSON("https://api.github.com/repos/Seddryck/NBi/releases/latest").done(function (release) {
                       var asset = release.assets[0];
                       var downloadURL = "https://github.com/Seddryck/NBi/releases/download/" + release.tag_name + "/" + asset.name;
-
-                      var downloadCount = 0;
-                      for (var i = 0; i < release.assets.length; i++) {
-                          downloadCount += release.assets[i].download_count;
-                      }
-                      downloadCount +=  170 + 607 + 46 + 495 + 65 + 51 + 562 + 21 + 8 + 115 + 1488 + 250 + 7 + 5 + 49 + 1956;
-                      var releaseInfo = release.name + " downloaded " + downloadCount + " times.";
                       $("#downloadURL").attr("href", downloadURL);
-                      $("#downloadCount").text(downloadCount);
-          			      $("#releaseName").text(release.name);
+         			  $("#releaseName").text(release.name);
                       $("#releaseName").fadeIn("slow");
                   });
+                  
+                  var downloadCount = 1956; //Codeplex
+                  $.getJSON("https://api-v2v3search-0.nuget.org/query?q=NBi.Framework").done(function (json) {
+                      for (i in json.data) {
+                          downloadCount += json.data[i].totalDownloads;
+                      }
+                      $("#downloadCount").text(downloadCount);
+                  });
+        
+                  $.getJSON("https://api.github.com/repos/Seddryck/NBi/releases").done(function (json) {
+                      for (i in json) {
+                          downloadCount += json[i].assets[0].download_count;
+                      }
+                      $("#downloadCount").text(downloadCount);
+                  });           
               }
-          	  GetLatestReleaseInfo();
-          	</script>
+              GetLatestReleaseInfo();
+            </script> 
         </div>
     </section>
 </div>

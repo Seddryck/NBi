@@ -11,6 +11,7 @@ using NBi.Core.ResultSet;
 using NBi.Core.Query.Resolver;
 using NBi.Core.Query;
 using System.Linq;
+using NBi.Core.Query.Execution;
 
 namespace NBi.NUnit.Member
 {
@@ -156,7 +157,8 @@ namespace NBi.NUnit.Member
             var resolver = factory.Instantiate(args);
             var command = resolver.Execute();
 
-            var qe = new QueryEngineFactory().GetExecutor(command);
+            var engineFactory = new ExecutionEngineFactory();
+            var qe = engineFactory.Instantiate(command);
             var members = qe.ExecuteList<string>();
 
             return members.Cast<object>().ToList();

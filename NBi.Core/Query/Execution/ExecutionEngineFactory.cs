@@ -10,91 +10,21 @@ namespace NBi.Core.Query.Execution
     /// <summary>
     /// Class to retrieve an adequate query engine on base of the connectionString
     /// </summary>
-    public class ExecutionQueryFactory
+    public class ExecutionEngineFactory
     {
-        #region Executor
-        /// <summary>
-        /// Get an engine to execute and retrieve the result of a query. The engine returned is based on the type of the command.
-        /// </summary>
-        /// <param name="cmd">The command to execute and generating a result</param>
-        /// <returns>An engine able to execute and return the resuly of the query</returns>
-        public virtual IQueryExecutor GetExecutor(IDbCommand cmd)
+        public IExecutionEngine Instantiate(IDbCommand cmd)
         {
-            return (IQueryExecutor)Get(cmd);
-        }
-
-        /// <summary>
-        /// Get an engine to execute and retrieve the result of a query. The engine returned is based on the type of the connectionString.
-        /// </summary>
-        /// <param name="query">The query statement  to execute and generating a result</param>
-        /// <param name="connectionString">The connectionString that will be used to parse this query</param>
-        /// <returns>An engine able to execute and return the resuly of the query based on the connectionString</returns>
-        public virtual IQueryExecutor GetExecutor(string query, string connectionString)
-        {
-            var cmd = BuildCommand(query, connectionString);
-            return (IQueryExecutor)Get(cmd);
-        }
-        #endregion
-
-        #region Executor
-        /// <summary>
-        /// Get an engine to execute and retrieve format of the result of a query. The engine returned is based on the type of the command.
-        /// </summary>
-        /// <param name="cmd">The command to execute and generating a result</param>
-        /// <returns>An engine able to execute and return the resuly of the query</returns>
-        public IQueryFormat GetFormat(IDbCommand cmd)
-        {
-            return (IQueryFormat)Get(cmd);
-        }
-
-        /// <summary>
-        /// Get an engine to execute and retrieve format of the result of a query. The engine returned is based on the type of the connectionString.
-        /// </summary>
-        /// <param name="query">The query statement  to execute and generating a result</param>
-        /// <param name="connectionString">The connectionString that will be used to parse this query</param>
-        /// <returns>An engine able to execute and return the resuly of the query based on the connectionString</returns>
-        public virtual IQueryFormat GetFormat(string query, string connectionString)
-        {
-            var cmd = BuildCommand(query, connectionString);
-            return (IQueryFormat)Get(cmd);
-        }
-        #endregion
-
-        /// <summary>
-        /// Retrieve the engine on base of the type of the command
-        /// </summary>
-        /// <param name="cmd"></param>
-        /// <returns></returns>
-        protected IQueryEnginable Get(IDbCommand cmd)
-        {
-            if (cmd.GetType() == typeof(SqlCommand))
-                return (IQueryEnginable)new QuerySqlEngine((SqlCommand)cmd);
-            else if (cmd.GetType() == typeof(OleDbCommand))
-                return (IQueryEnginable)new QueryOleDbEngine((OleDbCommand)cmd);
-            else if (cmd.GetType() == typeof(AdomdCommand))
-                return (IQueryEnginable)new QueryAdomdEngine((AdomdCommand)cmd);
-            else if (cmd.GetType() == typeof(OdbcCommand))
-                return (IQueryEnginable)new QueryOdbcEngine((OdbcCommand)cmd);
+            if (cmd is SqlCommand)
+                return new SqlExecutionEngine((SqlCommand)cmd);
+            else if (cmd is OleDbCommand)
+                return new OleDbExecutionEngine((OleDbCommand)cmd);
+            else if (cmd is AdomdCommand)
+                return new AdomdExecutionEngine((AdomdCommand)cmd);
+            else if (cmd is OdbcCommand)
+                return new OdbcExecutionEngine((OdbcCommand)cmd);
 
             throw new ArgumentException();
         }
 
-        /// <summary>
-        /// On base of a query and a connectionString build an ICommand
-        /// </summary>
-        /// <param name="query"></param>
-        /// <param name="connectionString"></param>
-        /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        protected IDbCommand BuildCommand(string query, string connectionString)
-        {
-            var conn = new ConnectionFactory().Get(connectionString);
-            var cmd = conn.CreateCommand();
-            cmd.CommandText = query;
-
-            return cmd;
-        }
-
-        
     }
 }

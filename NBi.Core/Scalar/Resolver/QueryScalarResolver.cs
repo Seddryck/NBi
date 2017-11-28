@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Query;
+using NBi.Core.Query.Execution;
 using NBi.Core.Query.Resolver;
 using System;
 using System.Collections.Generic;
@@ -28,8 +29,8 @@ namespace NBi.Core.Scalar.Resolver
 
         protected virtual object ExecuteQuery(IDbCommand command)
         {
-            var factory = new QueryEngineFactory();
-            var queryEngine = factory.GetExecutor(command);
+            var factory = new ExecutionEngineFactory();
+            var queryEngine = factory.Instantiate(command);
             var value = queryEngine.ExecuteScalar();
             return value;
         }

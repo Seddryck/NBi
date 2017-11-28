@@ -289,7 +289,6 @@
     <Compile Include="Query\Execution\DbCommandExecutionEngine.cs" />
     <Compile Include="Query\Execution\SqlExecutionEngine.cs" />
     <Compile Include="Query\FormattedResults.cs" />
-    <Compile Include="Query\IQueryExecutor.cs" />
     <Compile Include="Query\IQueryFormat.cs" />
     <Compile Include="Query\DbTypeBuilder.cs" />
     <Compile Include="Query\IQueryParameter.cs" />

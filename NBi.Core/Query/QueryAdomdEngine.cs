@@ -13,7 +13,7 @@ namespace NBi.Core.Query
     /// Engine wrapping the Microsoft.AnalysisServices.AdomdClient namespace for execution of NBi tests
     /// <remarks>Instances of this class are built by the means of the <see>QueryEngineFactory</see></remarks>
     /// </summary>
-    internal class QueryAdomdEngine : IQueryEnginable, IQueryExecutor, IQueryParser, IQueryPerformance, IQueryFormat
+    internal class QueryAdomdEngine : IQueryEnginable, IQueryParser, IQueryPerformance, IQueryFormat
     {
         /// <summary>
         /// The query to execute
@@ -70,79 +70,7 @@ namespace NBi.Core.Query
                 return new PerformanceResult(tsStop.Subtract(tsStart));
         }
 
-        /// <summary>
-        /// Method exposed by the interface IQueryExecutor to execute a test of execution and get the result of the query executed
-        /// </summary>
-        /// <returns>The result of  execution of the query</returns>
-        public virtual DataSet Execute()
-        {
-            float i;
-            return Execute(out i);
-        }
-
-        public virtual object ExecuteScalar()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Method exposed by the interface IQueryExecutor to execute a test of execution and get the result of the query executed and also the time needed to retrieve this result
-        /// </summary>
-        /// <returns>The result of  execution of the query</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public virtual DataSet Execute(out float elapsedSec)
-        {
-            // Open the connection
-            using (var connection = new AdomdConnection())
-            {
-                var connectionString = command.Connection.ConnectionString;
-                try
-                { connection.ConnectionString = connectionString; }
-                catch (ArgumentException ex)
-                { throw new ConnectionException(ex, connectionString); }
-                //TODO
-                //try
-                //    {connection.Open();}
-                //catch (AdomdException ex)
-                //    {throw new ConnectionException(ex);}
-
-                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
-                foreach (AdomdParameter param in command.Parameters)
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("{0} => {1}", param.ParameterName, param.Value));
-
-                // capture time before execution
-                DateTime timeBefore = DateTime.Now;
-                command.Connection = connection;
-                var adapter = new AdomdDataAdapter(command);
-                var ds = new DataSet();
-
-                adapter.SelectCommand.CommandTimeout = 0;
-                try
-                {
-                    adapter.Fill(ds);
-                }
-                catch (AdomdConnectionException ex)
-                {
-                    throw new ConnectionException(ex, connectionString);
-                }
-                catch (AdomdErrorResponseException ex)
-                {
-                    if (!ex.Message.StartsWith("Timeout expired."))
-                        throw new ConnectionException(ex, connectionString);
-                    else
-                        throw new CommandTimeoutException(ex, adapter.SelectCommand);
-                }
-
-                // capture time after execution
-                DateTime timeAfter = DateTime.Now;
-
-                // setting query runtime
-                elapsedSec = (float)timeAfter.Subtract(timeBefore).TotalSeconds;
-                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
-
-                return ds;
-            }
-        }
+        
 
         /// <summary>
         /// Method exposed by the interface IQueryExecutorFormat to execute a test of execution and get the result of the query executed and also the time needed to retrieve this result
@@ -301,9 +229,5 @@ namespace NBi.Core.Query
             }
         }
 
-        public IEnumerable<T> ExecuteList<T>()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

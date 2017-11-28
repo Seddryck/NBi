@@ -11,7 +11,7 @@ namespace NBi.Core.Query
     /// Engine wrapping the System.Data.SqlClient namespace for execution of NBi tests
     /// <remarks>Instances of this class are built by the means of the <see>QueryEngineFactory</see></remarks>
     /// </summary>
-    internal class QuerySqlEngine : IQueryExecutor, IQueryPerformance, IQueryParser, IQueryEnginable, IQueryFormat
+    internal class QuerySqlEngine : IQueryPerformance, IQueryParser, IQueryEnginable, IQueryFormat
     {
         protected readonly SqlCommand command;
 
@@ -143,14 +143,14 @@ namespace NBi.Core.Query
             return res;
         }
 
-        public DataSet Execute()
+        private DataSet Execute()
         {
             float i;
             return Execute(out i);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public DataSet Execute(out float elapsedSec)
+        private DataSet Execute(out float elapsedSec)
         {
             // Open the connection
             using (var connection = new SqlConnection())
@@ -194,110 +194,6 @@ namespace NBi.Core.Query
                 Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
                 return ds;
-            }
-        }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public object ExecuteScalar()
-        {
-            // Open the connection
-            using (var connection = new SqlConnection())
-            {
-                var connectionString = command.Connection.ConnectionString;
-                try
-                { connection.ConnectionString = connectionString; }
-                catch (ArgumentException ex)
-                { throw new ConnectionException(ex, connectionString); }
-                try
-                { connection.Open(); }
-                catch (SqlException ex)
-                { throw new ConnectionException(ex, connectionString); }
-
-                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
-                foreach (SqlParameter param in command.Parameters)
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("{0} => {1}", param.ParameterName, param.Value));
-
-                // capture time before execution
-                DateTime timeBefore = DateTime.Now;
-                object value = null;
-                try
-                {
-                    command.Connection = connection;
-                    value = command.ExecuteScalar();
-                }
-                catch (SqlException ex)
-                {
-                    if (ex.Number == -2)
-                        throw new CommandTimeoutException(ex, command);
-                    throw;
-                }
-                finally
-                {
-                    if (connection.State != ConnectionState.Closed)
-                        connection.Close();
-                }
-
-                // capture time after execution
-                DateTime timeAfter = DateTime.Now;
-
-                // setting query runtime
-                var elapsedSec = (float)timeAfter.Subtract(timeBefore).TotalSeconds;
-                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
-
-                return value;
-            }
-        }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public IEnumerable<T> ExecuteList<T>()
-        {
-            // Open the connection
-            using (var connection = new SqlConnection())
-            {
-                var connectionString = command.Connection.ConnectionString;
-                try
-                { connection.ConnectionString = connectionString; }
-                catch (ArgumentException ex)
-                { throw new ConnectionException(ex, connectionString); }
-                try
-                { connection.Open(); }
-                catch (SqlException ex)
-                { throw new ConnectionException(ex, connectionString); }
-
-                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
-                foreach (SqlParameter param in command.Parameters)
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("{0} => {1}", param.ParameterName, param.Value));
-
-                // capture time before execution
-                DateTime timeBefore = DateTime.Now;
-                var list = new List<T>();
-                try
-                {
-                    command.Connection = connection;
-                    var dr = command.ExecuteReader();
-                    while (dr.Read())
-                        list.Add((T)dr.GetValue(0));
-                }
-                catch (SqlException ex)
-                {
-                    if (ex.Number == -2)
-                        throw new CommandTimeoutException(ex, command);
-                    throw;
-                }
-                finally
-                {
-                    if (connection.State != ConnectionState.Closed)
-                        connection.Close();
-                }
-
-                // capture time after execution
-                DateTime timeAfter = DateTime.Now;
-
-                // setting query runtime
-                var elapsedSec = (float)timeAfter.Subtract(timeBefore).TotalSeconds;
-                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
-
-                return list;
             }
         }
 

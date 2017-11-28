@@ -131,9 +131,6 @@
     <Compile Include="Integration\Core\DataManipulation\SqlServer\TruncateCommandTest.cs" />
     <Compile Include="Integration\Core\DataType\Relational\RelationalDataTypeDiscoveryFactoryTest.cs" />
     <Compile Include="Integration\Core\OfficeDataConnectionFileParserTest.cs" />
-    <Compile Include="Integration\Core\Query\QueryOdbcEngineTest.cs" />
-    <Compile Include="Integration\Core\Query\QueryOleDbEngineTest.cs" />
-    <Compile Include="Integration\Core\Query\QuerySqlEngineTest.cs" />
     <Compile Include="Integration\GenbiL\Action\ActionTest.cs" />
     <Compile Include="Integration\SqlServer\IntegrationService\EtlDtsWindowsRunnerTest.cs" />
     <Compile Include="Integration\SqlServer\IntegrationService\EtlFileRunnerTest.cs" />

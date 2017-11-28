@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Query;
+using NBi.Core.Query.Execution;
 using NBi.Core.Query.Resolver;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,8 @@ namespace NBi.Core.ResultSet.Resolver
 
         protected virtual ResultSet Load(IDbCommand command)
         {
-            var qe = new QueryEngineFactory().GetExecutor(command);
+            var factory = new ExecutionEngineFactory();
+            var qe = factory.Instantiate(command);
             var ds = qe.Execute();
             var rs = new ResultSet();
             rs.Load(ds);

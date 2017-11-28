@@ -61,29 +61,6 @@ namespace NBi.Core.Query
         }
         #endregion
 
-        #region Executor
-        /// <summary>
-        /// Get an engine to execute and retrieve the result of a query. The engine returned is based on the type of the command.
-        /// </summary>
-        /// <param name="cmd">The command to execute and generating a result</param>
-        /// <returns>An engine able to execute and return the resuly of the query</returns>
-        public virtual IQueryExecutor GetExecutor(IDbCommand cmd)
-        {
-            return (IQueryExecutor)Get(cmd);
-        }
-
-        /// <summary>
-        /// Get an engine to execute and retrieve the result of a query. The engine returned is based on the type of the connectionString.
-        /// </summary>
-        /// <param name="query">The query statement  to execute and generating a result</param>
-        /// <param name="connectionString">The connectionString that will be used to parse this query</param>
-        /// <returns>An engine able to execute and return the resuly of the query based on the connectionString</returns>
-        public virtual IQueryExecutor GetExecutor(string query, string connectionString)
-        {
-            var cmd = BuildCommand(query, connectionString);
-            return (IQueryExecutor)Get(cmd);
-        }
-        #endregion
 
         #region Executor
         /// <summary>

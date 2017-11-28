@@ -282,7 +282,14 @@
     <Compile Include="Process\WaitCommand.cs" />
     <Compile Include="Process\RunCommand.cs" />
     <Compile Include="Query\CommandBuilder.cs" />
+    <Compile Include="Query\Execution\ExecutionEngineFactory.cs" />
+    <Compile Include="Query\Execution\AdomdExecutionEngine.cs" />
+    <Compile Include="Query\Execution\OdbcExecutionEngine.cs" />
+    <Compile Include="Query\Execution\OleDbExecutionEngine.cs" />
+    <Compile Include="Query\Execution\DbCommandExecutionEngine.cs" />
+    <Compile Include="Query\Execution\SqlExecutionEngine.cs" />
     <Compile Include="Query\FormattedResults.cs" />
+    <Compile Include="Query\IQueryExecutor.cs" />
     <Compile Include="Query\IQueryFormat.cs" />
     <Compile Include="Query\DbTypeBuilder.cs" />
     <Compile Include="Query\IQueryParameter.cs" />
@@ -381,7 +388,7 @@
     <Compile Include="NBiException.cs" />
     <Compile Include="Query\QueryAdomdEngine.cs" />
     <Compile Include="Query\IQueryEnginable.cs" />
-    <Compile Include="Query\IQueryExecutor.cs" />
+    <Compile Include="Query\Execution\IExecutionEngine.cs" />
     <Compile Include="ResultSet\Column.cs" />
     <Compile Include="ResultSet\RowHelper.cs" />
     <Compile Include="ResultSet\Comparer\BaseComparer.cs" />
@@ -574,7 +581,10 @@
     <EmbeddedResource Include="Report\ReportServerListSharedDataSet.sql" />
     <EmbeddedResource Include="Report\ReportServerQueryFromSharedDataSet.sql" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Query\Performance\" />
+    <Folder Include="Query\Validation\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

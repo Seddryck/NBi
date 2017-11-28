@@ -120,6 +120,10 @@
     <Compile Include="Integration\Core\Analysis\Request\DiscoveryRequestFactoryTest.cs" />
     <Compile Include="Integration\Core\Analysis\MembersAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\CsvWriterTest.cs" />
+    <Compile Include="Integration\Core\Query\Execution\AdomdExecutionEngineTest.cs" />
+    <Compile Include="Integration\Core\Query\Execution\OdbcExecutionEngineTest.cs" />
+    <Compile Include="Integration\Core\Query\Execution\OleDbExecutionEngineTest.cs" />
+    <Compile Include="Integration\Core\Query\Execution\SqlExecutionEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Resolver\AssemblyQueryResolverTest.cs" />
     <Compile Include="Integration\Core\Query\Resolver\ExternalFileQueryResolverTest.cs" />
     <Compile Include="Integration\SqlServer\Smo\BatchRunCommandTest.cs" />
@@ -415,6 +419,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToWithParameter.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryRowCount.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

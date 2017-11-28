@@ -13,11 +13,10 @@ namespace NBi.Core
     {
         public CommandTimeoutException(Exception ex, IDbCommand command)
             : base(
-                string.Format("The query '{0}' with the connection string '{1}' wasn't finished after '{2}' seconds and has thrown a timeout."
-                        , command.CommandText
-                        , command.Connection.ConnectionString
-                        , command.CommandTimeout)
+                $@"The query '{command.CommandText}' with the connection string '{command.Connection.ConnectionString}' " +
+                $@"wasn't finished after {command.CommandTimeout} second{(command.CommandTimeout>1 ? "s" : string.Empty)} and has thrown a timeout."
                 , ex.InnerException
-                ) { }
+                )
+        { }
     }
 }

@@ -23,18 +23,5 @@ namespace NBi.Testing.Integration.Core.Query.Format
 
             Assert.That(result.ElementAt(0), Is.EqualTo("$1,874,469.00"));
         }
-
-        [Test]
-        public void ExecuteFormat_FormattedString_String()
-        {
-            var query = "SELECT [Date].[Calendar].[Calendar Year] ON 0, [Measures].[Amount] ON 1 FROM [Adventure Works]";
-            var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-
-            var qe = new AdomdFormatEngine(cmd);
-            var result = qe.ExecuteFormat();
-
-            Assert.That(result.ElementAt(0), Is.EqualTo("CY 2005"));
-        }
-
     }
 }

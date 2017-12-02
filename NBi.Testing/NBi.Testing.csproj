@@ -383,6 +383,7 @@
     <Compile Include="Unit\NUnit\TestCaseFactoryTest.cs" />
     <Compile Include="Unit\Xml\Systems\ExecutionXmlTest.cs" />
     <Compile Include="Unit\Xml\TestSuiteWithVariablesTest.cs" />
+    <Compile Include="Unit\Xml\Variables\GlobalVariableXmlTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerWithExternalSettingsTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerWithDtdTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerTest.cs" />

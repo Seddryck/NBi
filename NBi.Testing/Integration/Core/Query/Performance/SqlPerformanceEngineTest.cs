@@ -36,9 +36,10 @@ namespace NBi.Testing.Integration.Core.Query.Performance
 
         [Test]
         [Category("LocalSQL")]
+        [Ignore("Privilege is too high")]
         public void CleanCache_Any_DoesNotThrow()
         {
-            var query = "WAITFOR DELAY '00:00:03';";
+            var query = "select 1;";
             var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetLocalSqlClient()));
 
             var qp = new SqlPerformanceEngine(cmd);

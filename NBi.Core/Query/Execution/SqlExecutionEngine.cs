@@ -17,7 +17,7 @@ namespace NBi.Core.Query.Execution
             : base(command)
         { }
 
-        protected override void OpenConnection(IDbConnection connection)
+        internal override void OpenConnection(IDbConnection connection)
         {
             var connectionString = command.Connection.ConnectionString;
             try

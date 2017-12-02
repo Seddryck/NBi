@@ -6,7 +6,7 @@ using NBi.Core.Query.Execution;
 using NBi.Core;
 using NBi.Core.Query.Performance;
 
-namespace NBi.Testing.Integration.Core.Query.Execution
+namespace NBi.Testing.Integration.Core.Query.Performance
 {
     [TestFixture]
     public class OdbcPerformanceEngineTest
@@ -39,9 +39,10 @@ namespace NBi.Testing.Integration.Core.Query.Execution
 
         [Test]
         [Category("LocalSQL")]
+        [Ignore("Privilege is too high")]
         public void CleanCache_Any_DoesNotThrow()
         {
-            var query = "WAITFOR DELAY '00:00:03';";
+            var query = "select 1;";
             var cmd = new OdbcCommand(query, new OdbcConnection(ConnectionStringReader.GetLocalOdbcSql()));
 
             var qp = new OdbcPerformanceEngine(cmd);

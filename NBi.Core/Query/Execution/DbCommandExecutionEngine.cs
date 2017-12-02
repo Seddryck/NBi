@@ -104,7 +104,7 @@ namespace NBi.Core.Query.Execution
             return list;
         }
 
-        protected abstract void OpenConnection(IDbConnection connection);
+        internal abstract void OpenConnection(IDbConnection connection);
 
         protected void InitializeCommand(IDbCommand command, TimeSpan commandTimeout, IDataParameterCollection parameters, IDbConnection connection)
         {

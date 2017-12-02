@@ -50,6 +50,11 @@ namespace NBi.Core.Query.Validation
             { connection.ConnectionString = connectionString; }
             catch (ArgumentException ex)
             { throw new ConnectionException(ex, connectionString); }
+
+            try
+            { connection.Open(); }
+            catch (Exception ex)
+            { throw new ConnectionException(ex, connectionString); }
         }
 
         protected override IDbConnection NewConnection(string connectionString) => new AdomdConnection(connectionString);

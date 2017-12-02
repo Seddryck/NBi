@@ -26,11 +26,12 @@ namespace NBi.Core.Query.Performance
                 using (var reader = new StreamReader(stream))
                     xmla = reader.ReadToEnd();
 
+                engine.OpenConnection(conn);
                 var csb = new DbConnectionStringBuilder() { ConnectionString = conn.ConnectionString };
                 if (!csb.ContainsKey("Initial Catalog"))
                     throw new ArgumentException("The token 'Initial Catalog' was not provided in the connection string due to this, it was impossible to clean the cache of the database.");
 
-                conn.Open();
+                
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = string.Format(xmla, csb["Initial Catalog"]);
                 cmd.ExecuteNonQuery();

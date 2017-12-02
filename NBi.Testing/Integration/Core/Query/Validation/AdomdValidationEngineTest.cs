@@ -18,7 +18,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
         {
             var query = "SELECT  [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2010] ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-            var qp = new ValidationEngineFactory().Instantiate(cmd);
+            var qp = new AdomdValidationEngine(cmd);
             var result = qp.Parse();
             Assert.That(result.IsSuccesful, Is.True);
         }
@@ -28,7 +28,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
         {
             var query = "SELECT  [Measures].[NonEXisting] ON 0, [Date].[Calendar].[Calendar Year].&[2010] ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-            var qp = new ValidationEngineFactory().Instantiate(cmd);
+            var qp = new AdomdValidationEngine(cmd);
             var result = qp.Parse();
             Assert.That(result.IsSuccesful, Is.False);
         }

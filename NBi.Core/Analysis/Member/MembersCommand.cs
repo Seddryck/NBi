@@ -40,7 +40,7 @@ namespace NBi.Core.Analysis.Member
         protected IDbCommand CreateCommand()
         {
             var factory = new ConnectionFactory();
-            var conn = factory.Get(ConnectionString);
+            var conn = factory.Instantiate(ConnectionString);
             
             var cmd = conn.CreateCommand();
             return cmd;

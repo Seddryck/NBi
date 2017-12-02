@@ -31,7 +31,7 @@ namespace NBi.Core
             this.customProviders = customProviders;
         }
  
-        public IDbConnection Get(string connectionString)
+        public IDbConnection Instantiate(string connectionString)
         {
             var csb = new DbConnectionStringBuilder();
             csb.ConnectionString = connectionString;

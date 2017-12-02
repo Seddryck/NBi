@@ -14,7 +14,7 @@ namespace NBi.Core.Batch
         public IDecorationCommandImplementation Get(IBatchRunCommand command)
         {
             var connectionFactory = new ConnectionFactory();
-            var connection = connectionFactory.Get(command.ConnectionString);
+            var connection = connectionFactory.Instantiate(command.ConnectionString);
 
             var directory = AssemblyDirectory;
             var filename = string.Format("NBi.Core.{0}.dll", command.Version);

@@ -3,6 +3,8 @@ using System.Linq;
 using NBi.Core.Analysis.Request;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
+using NBi.NUnit.Builder.Helper;
+using NBi.Core.Query.Resolver;
 
 namespace NBi.NUnit.Builder
 {
@@ -34,16 +36,26 @@ namespace NBi.NUnit.Builder
 
         protected NBiConstraint InstantiateConstraint(EquivalentToXml ctrXml)
         {
-            NBi.NUnit.Member.EquivalentToConstraint ctr;
+            Member.EquivalentToConstraint ctr;
             if (ctrXml.Query != null)
-                ctr = new NBi.NUnit.Member.EquivalentToConstraint(ctrXml.Query.GetCommand());
+            {
+                var builder = new QueryResolverArgsBuilder();
+                builder.Setup(ctrXml.Query);
+                builder.Setup(ctrXml.Settings);
+                builder.Build();
+
+                var factory = new QueryResolverFactory();
+                var resolver = factory.Instantiate(builder.GetArgs());
+                var query = resolver.Execute();
+                ctr = new Member.EquivalentToConstraint(query);
+            }
             else if (ctrXml.Members != null)
             {
                 var disco = InstantiateMembersDiscovery(ctrXml.Members);
-                ctr = new NBi.NUnit.Member.EquivalentToConstraint(disco);
+                ctr = new Member.EquivalentToConstraint(disco);
             }
             else
-                ctr = new NBi.NUnit.Member.EquivalentToConstraint(ctrXml.GetItems());
+                ctr = new Member.EquivalentToConstraint(ctrXml.GetItems());
 
             //Ignore-case if requested
             if (ctrXml.IgnoreCase)

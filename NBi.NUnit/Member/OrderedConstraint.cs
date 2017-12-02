@@ -143,22 +143,14 @@ namespace NBi.NUnit.Member
         protected override void PreInitializeMatching()
         {
             base.PreInitializeMatching();
-            if (command != null)
-                specific = GetMembersFromResultSet(command);
+            if (command is IQuery)
+                specific = GetMembersFromResultSet(command as IQuery);
         }
 
-        protected IList<object> GetMembersFromResultSet(Object obj)
+        protected IList<object> GetMembersFromResultSet(IQuery query)
         {
-            if (!(obj is IDbCommand))
-                throw new ArgumentException();
-
-            var args = new DbCommandQueryResolverArgs((IDbCommand)obj);
-            var factory = new QueryResolverFactory();
-            var resolver = factory.Instantiate(args);
-            var command = resolver.Execute();
-
             var engineFactory = new ExecutionEngineFactory();
-            var qe = engineFactory.Instantiate(command);
+            var qe = engineFactory.Instantiate(query);
             var members = qe.ExecuteList<string>();
 
             return members.Cast<object>().ToList();

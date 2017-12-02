@@ -69,7 +69,7 @@ namespace NBi.Xml.Items
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public virtual IDbCommand GetCommand()
         {
-            var conn = new ConnectionFactory().Get(GetConnectionString());
+            var conn = new ConnectionFactory().Instantiate(GetConnectionString());
             var cmd = conn.CreateCommand();
             cmd.CommandText = GetQuery();
 

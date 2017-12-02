@@ -7,6 +7,7 @@ using NBi.Core.ResultSet;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet.Resolver;
+using NBi.Core.Query;
 
 namespace NBi.NUnit.Query
 {
@@ -33,8 +34,8 @@ namespace NBi.NUnit.Query
         /// <returns>true, if the result of query execution is exactly identical to the content of the resultset</returns>
         public override bool Matches(object actual)
         {
-            if (actual is IDbCommand)
-                return Process((IDbCommand)actual);
+            if (actual is IQuery)
+                return Process((IQuery)actual);
             else if (actual is ResultSet)
                 return doMatch((ResultSet)actual);
             else
@@ -71,18 +72,16 @@ namespace NBi.NUnit.Query
         /// </summary>
         /// <param name="actual">IDbCommand</param>
         /// <returns></returns>
-        public bool Process(IDbCommand actual)
+        public bool Process(IQuery actual)
         {
             ResultSet rsActual = GetResultSet(actual);
             return this.Matches(rsActual);
         }
 
-        protected ResultSet GetResultSet(Object obj)
+        protected ResultSet GetResultSet(IQuery query)
         {
-            if (!(obj is IDbCommand))
-                throw new ArgumentException();
-
-            var args = new QueryResultSetResolverArgs(new DbCommandQueryResolverArgs((IDbCommand)obj));
+            var argsQuery = new QueryResolverArgs(query.Statement, query.ConnectionString, query.Parameters, query.TemplateTokens, query.Timeout, query.CommandType);
+            var args = new QueryResultSetResolverArgs(argsQuery);
             var factory = new ResultSetResolverFactory();
             var resolver = factory.Instantiate(args);
             return resolver.Execute();

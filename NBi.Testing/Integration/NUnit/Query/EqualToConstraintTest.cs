@@ -6,6 +6,8 @@ using NUnit.Framework;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet;
 using System.Data;
+using NBi.Core.Query;
+using Moq;
 #endregion
 
 namespace NBi.Testing.Integration.NUnit.Query
@@ -43,36 +45,24 @@ namespace NBi.Testing.Integration.NUnit.Query
 
         private class FakeQueryResultSetLoader : QueryResultSetResolver
         {
-            private readonly IDbCommand cmd;
+            private readonly IQuery query;
 
-            public FakeQueryResultSetLoader(IDbCommand cmd)
+            public FakeQueryResultSetLoader(IQuery query)
                 : base(null)
             {
-                this.cmd = cmd;
+                this.query = query;
             }
 
-            protected override IDbCommand Resolve()
-            {
-                return cmd;
-            }
+            protected override IQuery Resolve() => query;
         }
 
         [Test, Category("Sql"), Category("Slow")]
         public void Matches_TwoQueriesOfThreeSecondsParallel_FasterThanSixSeconds()
         {
-            var command = new SqlCommand
-            {
-                Connection = new SqlConnection(ConnectionStringReader.GetSqlClient()),
-                CommandText = "WAITFOR DELAY '00:00:03';SELECT 1;"
-            };
+            var query1 = new NBi.Core.Query.Query("WAITFOR DELAY '00:00:03';SELECT 1;", ConnectionStringReader.GetSqlClient());
+            var query2 = new NBi.Core.Query.Query("WAITFOR DELAY '00:00:03';SELECT 1;", ConnectionStringReader.GetSqlClient());
 
-            var command2 = new SqlCommand
-            {
-                Connection = new SqlConnection(ConnectionStringReader.GetSqlClient()),
-                CommandText = "WAITFOR DELAY '00:00:03';SELECT 1;"
-            };
-
-            var loader = new FakeQueryResultSetLoader(command2);
+            var loader = new FakeQueryResultSetLoader(query2);
             var builder = new ResultSetServiceBuilder();
             builder.Setup(loader);
             BaseResultSetComparisonConstraint ctr = new EqualToConstraint(builder.GetService());
@@ -81,7 +71,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             //Method under test
             var chrono = DateTime.Now;
             var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetLoader(command));
+            actualBuilder.Setup(new FakeQueryResultSetLoader(query1));
             var actual = actualBuilder.GetService();
             Assert.That(actual, ctr);
             var elapsed = DateTime.Now.Subtract(chrono);
@@ -92,19 +82,10 @@ namespace NBi.Testing.Integration.NUnit.Query
         [Test, Category("Sql"), Category("Slow")]
         public void Matches_TwoQueriesOfThreeSecondsSequential_SlowerThanSixSeconds()
         {
-            var command1 = new SqlCommand
-            {
-                Connection = new SqlConnection(ConnectionStringReader.GetSqlClient()),
-                CommandText = "WAITFOR DELAY '00:00:03';SELECT 1;"
-            };
+            var query1 = new NBi.Core.Query.Query("WAITFOR DELAY '00:00:03';SELECT 1;", ConnectionStringReader.GetSqlClient());
+            var query2 = new NBi.Core.Query.Query("WAITFOR DELAY '00:00:03';SELECT 1;", ConnectionStringReader.GetSqlClient());
 
-            var command2 = new SqlCommand
-            {
-                Connection = new SqlConnection(ConnectionStringReader.GetSqlClient()),
-                CommandText = "WAITFOR DELAY '00:00:03';SELECT 1;"
-            };
-
-            var loader = new FakeQueryResultSetLoader(command2);
+            var loader = new FakeQueryResultSetLoader(query2);
             var builder = new ResultSetServiceBuilder();
             builder.Setup(loader);
             BaseResultSetComparisonConstraint ctr = new EqualToConstraint(builder.GetService());
@@ -113,7 +94,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             //Method under test
             var chrono = DateTime.Now;
             var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetLoader(command1));
+            actualBuilder.Setup(new FakeQueryResultSetLoader(query1));
             var actual = actualBuilder.GetService();
 
             Assert.That(actual, ctr);

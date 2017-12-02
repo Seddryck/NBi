@@ -26,18 +26,18 @@ namespace NBi.Core.ResultSet.Resolver
             return rs;
         }
 
-        protected virtual IDbCommand Resolve()
+        protected virtual IQuery Resolve()
         {
             var factory = new QueryResolverFactory();
-            var resolver = factory.Instantiate(args.QueryResolverArgs as QueryResolverArgs);
-            var cmd = resolver.Execute();
-            return cmd;
+            var resolver = factory.Instantiate(args.QueryResolverArgs as BaseQueryResolverArgs);
+            var query = resolver.Execute();
+            return query;
         }
 
-        protected virtual ResultSet Load(IDbCommand command)
+        protected virtual ResultSet Load(IQuery query)
         {
             var factory = new ExecutionEngineFactory();
-            var qe = factory.Instantiate(command);
+            var qe = factory.Instantiate(query);
             var ds = qe.Execute();
             var rs = new ResultSet();
             rs.Load(ds);

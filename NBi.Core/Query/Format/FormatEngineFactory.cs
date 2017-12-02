@@ -12,8 +12,14 @@ namespace NBi.Core.Query.Format
     /// </summary>
     public class FormatEngineFactory
     {
-        public IFormatEngine Instantiate(IDbCommand cmd)
+        public IFormatEngine Instantiate(IQuery query)
         {
+            var connectionFactory = new ConnectionFactory();
+            var connection = connectionFactory.Instantiate(query.ConnectionString);
+
+            var commandFactory = new DbCommandFactory();
+            var cmd = commandFactory.Instantiate(connection, query);
+
             if (cmd is SqlCommand)
                 return new SqlFormatEngine((SqlCommand)cmd);
             else if (cmd is OleDbCommand)

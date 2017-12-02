@@ -12,8 +12,14 @@ namespace NBi.Core.Query.Performance
     /// </summary>
     public class PerformanceEngineFactory
     {
-        public IPerformanceEngine Instantiate(IDbCommand cmd)
+        public IPerformanceEngine Instantiate(IQuery query)
         {
+            var connectionFactory = new ConnectionFactory();
+            var connection = connectionFactory.Instantiate(query.ConnectionString);
+
+            var commandFactory = new DbCommandFactory();
+            var cmd = commandFactory.Instantiate(connection, query);
+
             if (cmd is SqlCommand)
                 return new SqlPerformanceEngine((SqlCommand)cmd);
             else if (cmd is OleDbCommand)

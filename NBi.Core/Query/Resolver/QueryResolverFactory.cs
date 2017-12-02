@@ -8,7 +8,7 @@ namespace NBi.Core.Query.Resolver
 {
     public class QueryResolverFactory
     {
-        public IQueryResolver Instantiate(QueryResolverArgs args)
+        public IQueryResolver Instantiate(BaseQueryResolverArgs args)
         {
             if (args is AssemblyQueryResolverArgs)
                 return new AssemblyQueryResolver((AssemblyQueryResolverArgs)args);
@@ -20,8 +20,8 @@ namespace NBi.Core.Query.Resolver
                 return new ReportDataSetQueryResolver((ReportDataSetQueryResolverArgs)args);
             else if (args is SharedDataSetQueryResolverArgs)
                 return new SharedDataSetQueryResolver((SharedDataSetQueryResolverArgs)args);
-            else if (args is DbCommandQueryResolverArgs) //TODO Remove this one for NBi 2.x
-                return new DbCommandQueryResolver((DbCommandQueryResolverArgs)args);
+            else if (args is QueryResolverArgs)
+                return new QueryResolver((QueryResolverArgs)args);
 
             throw new ArgumentException();
         }

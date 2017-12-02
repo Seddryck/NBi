@@ -12,8 +12,14 @@ namespace NBi.Core.Query.Validation
     /// </summary>
     public class ValidationEngineFactory
     {
-        public IValidationEngine Instantiate(IDbCommand cmd)
+        public IValidationEngine Instantiate(IQuery query)
         {
+            var connectionFactory = new ConnectionFactory();
+            var connection = connectionFactory.Instantiate(query.ConnectionString);
+
+            var commandFactory = new DbCommandFactory();
+            var cmd = commandFactory.Instantiate(connection, query);
+
             if (cmd is SqlCommand)
                 return new SqlValidationEngine((SqlCommand)cmd);
             else if (cmd is OleDbCommand)

@@ -49,7 +49,7 @@ namespace NBi.Testing.Unit.Core
         {
             //Call the method to test
             var connStr = "Provider=MSOLAP;Data Source=ds;Initial Catalog=ic";
-            var actual = new ConnectionFactory().Get(connStr);
+            var actual = new ConnectionFactory().Instantiate(connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<AdomdConnection>());
@@ -61,7 +61,7 @@ namespace NBi.Testing.Unit.Core
         {
             //Call the method to test
             var connStr = "Provider=msOlaP.4;Data Source=ds;Initial Catalog=ic";
-            var actual = new ConnectionFactory().Get(connStr);
+            var actual = new ConnectionFactory().Instantiate(connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<AdomdConnection>());
@@ -73,7 +73,7 @@ namespace NBi.Testing.Unit.Core
         {
             //Call the method to test
             var connStr = "Provider=OledB;Data Source=ds;Initial Catalog=ic";
-            var actual = new ConnectionFactory().Get(connStr);
+            var actual = new ConnectionFactory().Instantiate(connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<OleDbConnection>());
@@ -85,7 +85,7 @@ namespace NBi.Testing.Unit.Core
         {
             //Call the method to test
             var connStr = "Provider=sqlOledB;Data Source=ds;Initial Catalog=ic";
-            var actual = new ConnectionFactory().Get(connStr);
+            var actual = new ConnectionFactory().Instantiate(connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<OleDbConnection>());
@@ -97,7 +97,7 @@ namespace NBi.Testing.Unit.Core
         {
             //Call the method to test
             var connStr = "Provider=SQLNCLI;Data Source=ds;Initial Catalog=ic";
-            var actual = new ConnectionFactory().Get(connStr);
+            var actual = new ConnectionFactory().Instantiate(connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<OleDbConnection>());
@@ -109,7 +109,7 @@ namespace NBi.Testing.Unit.Core
         {
             //Call the method to test
             var connStr = "Provider=SQLNCLI10.1;Data Source=ds;Initial Catalog=ic;Integrated Security=SSPI;";
-            var actual = new ConnectionFactory().Get(connStr);
+            var actual = new ConnectionFactory().Instantiate(connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<OleDbConnection>());
@@ -121,7 +121,7 @@ namespace NBi.Testing.Unit.Core
         {
             //Call the method to test
             var connStr = "Provider=SQLNCLI11.1;Data Source=.;Initial Catalog=AdventureWorks2014;Integrated Security=SSPI";
-            var actual = new ConnectionFactory().Get(connStr);
+            var actual = new ConnectionFactory().Instantiate(connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<OleDbConnection>());
@@ -133,7 +133,7 @@ namespace NBi.Testing.Unit.Core
         {
             //Call the method to test
             var connStr = "Driver={SQL Server Native Client 10.0};Server=myServerAddress;Database=myDataBase;Uid=myUsername;Pwd=myPassword;";
-            var actual = new ConnectionFactory().Get(connStr);
+            var actual = new ConnectionFactory().Instantiate(connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<OdbcConnection>());
@@ -146,7 +146,7 @@ namespace NBi.Testing.Unit.Core
             var connStr = "Data Source=ds;Initial Catalog=ic";
 
             //Call the method to test
-            var actual = new ConnectionFactory().Get(connStr);
+            var actual = new ConnectionFactory().Instantiate(connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<SqlConnection>());
@@ -158,7 +158,7 @@ namespace NBi.Testing.Unit.Core
         {
             //Call the method to test
             var connStr = "Provider=OleDb.1;Data Source=ds;Initial Catalog=ic;Integrated Security=SSPI;";
-            var actual = new ConnectionFactory().Get(connStr);
+            var actual = new ConnectionFactory().Instantiate(connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<OleDbConnection>());
@@ -173,7 +173,7 @@ namespace NBi.Testing.Unit.Core
             var providers = new Dictionary<string, string>();
             providers.Add("Microsoft.ACE.OLEDB.12.0", "System.Data.OleDb");
             var factory = new ConnectionFactory(providers);
-            var actual = factory.Get(connStr);
+            var actual = factory.Instantiate(connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<OleDbConnection>());
@@ -207,7 +207,7 @@ namespace NBi.Testing.Unit.Core
             //Call the method to test
             var connStr = "PBIX=My Power BI Desktop;";
             var factory = new ConnectionFactoryPowerBiDesktopFake();
-            var actual = factory.Get(connStr);
+            var actual = factory.Instantiate(connStr);
 
             //Assertion
             Assert.That(actual, Is.InstanceOf<AdomdConnection>());

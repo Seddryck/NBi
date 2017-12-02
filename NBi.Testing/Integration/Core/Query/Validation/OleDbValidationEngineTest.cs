@@ -6,6 +6,7 @@ using System.Data.OleDb;
 using NBi.Core;
 using NBi.Core.Query.Execution;
 using NBi.Core.Query.Validation;
+using Queryable = NBi.Core.Query;
 
 namespace NBi.Testing.Integration.Core.Query.Validation
 {
@@ -16,7 +17,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
         public void Parse_CorrectTableName_Success()
         {
             var OleDb = "SELECT * FROM [HumanResources].[Department];";
-            var cmd = new OleDbCommand(OleDb, new OleDbConnection(ConnectionStringReader.GetOleDbSql()));
+            var cmd = new Queryable.Query(OleDb, ConnectionStringReader.GetOleDbSql());
             var qp = new ValidationEngineFactory().Instantiate(cmd);
 
             var res = qp.Parse();
@@ -28,7 +29,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
         public void Parse_WrongTableName_Failed()
         {
             var OleDb = "SELECT * FROM WrongTableName;";
-            var cmd = new OleDbCommand(OleDb, new OleDbConnection(ConnectionStringReader.GetOleDbSql()));
+            var cmd = new Queryable.Query(OleDb, ConnectionStringReader.GetOleDbSql());
             var qp = new ValidationEngineFactory().Instantiate(cmd);
 
             var res = qp.Parse();
@@ -41,7 +42,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
         public void Parse_CorrectFields_Success()
         {
             var OleDb = "select [DepartmentID], Name from [HumanResources].[Department];";
-            var cmd = new OleDbCommand(OleDb, new OleDbConnection(ConnectionStringReader.GetOleDbSql()));
+            var cmd = new Queryable.Query(OleDb, ConnectionStringReader.GetOleDbSql());
             var qp = new ValidationEngineFactory().Instantiate(cmd);
 
             var res = qp.Parse();
@@ -53,7 +54,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
         public void Parse_WrongField_Failed()
         {
             var OleDb = "select [DepartmentID], Name, WrongField from [HumanResources].[Department];";
-            var cmd = new OleDbCommand(OleDb, new OleDbConnection(ConnectionStringReader.GetOleDbSql()));
+            var cmd = new Queryable.Query(OleDb, ConnectionStringReader.GetOleDbSql());
             var qp = new ValidationEngineFactory().Instantiate(cmd);
 
             var res = qp.Parse();
@@ -66,7 +67,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
         public void Parse_WrongFields_Failed()
         {
             var OleDb = "select [DepartmentID], Name, WrongField1, WrongField2 from [HumanResources].[Department];";
-            var cmd = new OleDbCommand(OleDb, new OleDbConnection(ConnectionStringReader.GetOleDbSql()));
+            var cmd = new Queryable.Query(OleDb, ConnectionStringReader.GetOleDbSql());
             var qp = new ValidationEngineFactory().Instantiate(cmd);
 
             var res = qp.Parse();
@@ -80,7 +81,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
         public void Parse_WrongSyntax_Failed()
         {
             var OleDb = "SELECTION [DepartmentID], Name, WrongField1, WrongField2 from [HumanResources].[Department];";
-            var cmd = new OleDbCommand(OleDb, new OleDbConnection(ConnectionStringReader.GetOleDbSql()));
+            var cmd = new Queryable.Query(OleDb, ConnectionStringReader.GetOleDbSql());
             var qp = new ValidationEngineFactory().Instantiate(cmd);
 
             var res = qp.Parse();
@@ -100,7 +101,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
             if (countBefore == 0) //If nothing was present we cannot assert
                 Assert.Inconclusive();
 
-            var cmd = new OleDbCommand(OleDb, new OleDbConnection(ConnectionStringReader.GetOleDbSql()));
+            var cmd = new Queryable.Query(OleDb, ConnectionStringReader.GetOleDbSql());
             var qp = new ValidationEngineFactory().Instantiate(cmd);
 
             var res = qp.Parse();

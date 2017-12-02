@@ -12,7 +12,7 @@ namespace NBi.NUnit.Query
     public class MatchPatternConstraint : NBiConstraint
     {
         private string regex;
-        private readonly FormattedResults invalidMembers = new FormattedResults();
+        private readonly IList<string> invalidMembers = new List<string>();
         protected IFormatEngine engine;
         /// <summary>
         /// Engine dedicated to ResultSet comparaison
@@ -25,7 +25,7 @@ namespace NBi.NUnit.Query
             }
         }
 
-        protected IFormatEngine GetEngine(IDbCommand actual)
+        protected IFormatEngine GetEngine(IQuery actual)
         {
             if (engine == null)
                 engine = new FormatEngineFactory().Instantiate(actual);
@@ -46,7 +46,7 @@ namespace NBi.NUnit.Query
         /// <summary>
         /// Store for the result of the engine's execution
         /// </summary>
-        protected FormattedResults formattedResults;
+        protected IEnumerable<string> formattedResults;
 
         protected virtual NUnitCtr.Constraint BuildInternalConstraint()
         {
@@ -72,14 +72,14 @@ namespace NBi.NUnit.Query
 
         public override bool Matches(object actual)
         {
-            if (actual is IDbCommand)
-                return Process((IDbCommand)actual);
+            if (actual is IQuery)
+                return Process((IQuery)actual);
             else if (actual is IEnumerable<string>)
             {
                 this.actual = actual;
 
                 var res = true;
-                foreach (var result in (FormattedResults)actual)
+                foreach (var result in (IEnumerable<string>)actual)
                 {
                     var ctr = BuildInternalConstraint();
                     if (!DoMatch(ctr, result))
@@ -99,7 +99,7 @@ namespace NBi.NUnit.Query
         /// </summary>
         /// <param name="actual">IDbCommand</param>
         /// <returns></returns>
-        public bool Process(IDbCommand actual)
+        public bool Process(IQuery actual)
         {
             var result = GetEngine(actual).ExecuteFormat();
             return this.Matches(result);

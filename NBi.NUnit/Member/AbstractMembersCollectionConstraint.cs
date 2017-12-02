@@ -13,13 +13,14 @@ using NBi.Framework.FailureMessage;
 using NBi.Framework.FailureMessage.Markdown;
 using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet.Resolver;
+using NBi.Core.Query;
 
 namespace NBi.NUnit.Member
 {
     public abstract class AbstractMembersCollectionConstraint : AbstractMembersConstraint
     {
 
-        private readonly IDbCommand commandToRetrieveExpectedItems;
+        private readonly IQuery commandToRetrieveExpectedItems;
         private readonly MembersDiscoveryRequest membersDiscoveryRequest;
         
         private IEnumerable<string> expectedItems;
@@ -67,7 +68,7 @@ namespace NBi.NUnit.Member
         /// Construct a AbstractMembersConstraint
         /// </summary>
         /// <param name="expected">The command to retrieve the list of expected items</param>
-        public AbstractMembersCollectionConstraint(IDbCommand expected)
+        public AbstractMembersCollectionConstraint(IQuery expected)
             : base()
         {
             commandToRetrieveExpectedItems = expected;
@@ -105,12 +106,10 @@ namespace NBi.NUnit.Member
         }
 
 
-        protected IEnumerable<string> GetMembersFromResultSet(Object obj)
+        protected IEnumerable<string> GetMembersFromResultSet(IQuery query)
         {
-            if (!(obj is IDbCommand))
-                throw new ArgumentException();
-
-            var args = new QueryResultSetResolverArgs(new DbCommandQueryResolverArgs((IDbCommand)obj));
+            var queryArgs = new QueryResolverArgs(query.Statement, query.ConnectionString, query.Parameters, query.TemplateTokens, query.Timeout, query.CommandType);
+            var args = new QueryResultSetResolverArgs(queryArgs);
             var factory = new ResultSetResolverFactory();
             var resolver = factory.Instantiate(args);
             var rs = resolver.Execute();

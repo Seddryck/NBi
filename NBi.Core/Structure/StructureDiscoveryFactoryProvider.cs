@@ -40,7 +40,7 @@ namespace NBi.Core.Structure
         public IStructureDiscoveryFactory Instantiate(string connectionString)
         {
             var connectionFactory = new ConnectionFactory();
-            var connection = connectionFactory.Get(connectionString);
+            var connection = connectionFactory.Instantiate(connectionString);
             var dbType = MapConnectionTypeToDatabaseType(connection);
 
             if (!dico.Keys.Contains(dbType))

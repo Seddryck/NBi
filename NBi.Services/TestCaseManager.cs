@@ -42,13 +42,10 @@ namespace NBi.Service
             ReadFromQuery(query, connectionString);
         }
 
-        public void ReadFromQuery(string query, string connectionString)
+        public void ReadFromQuery(string sql, string connectionString)
         {
-            var builder = new CommandBuilder();
-            var cmd = builder.Build(connectionString, query, new List<QueryParameter>());
-
             var queryEngineFactory = new ExecutionEngineFactory();
-            var queryEngine = queryEngineFactory.Instantiate(cmd);
+            var queryEngine = queryEngineFactory.Instantiate(new Query(sql, connectionString));
             var ds = queryEngine.Execute();
             content = ds.Tables[0];
 

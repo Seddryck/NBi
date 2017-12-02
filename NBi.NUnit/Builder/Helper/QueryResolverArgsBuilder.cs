@@ -20,7 +20,7 @@ namespace NBi.NUnit.Builder.Helper
         private QueryXml queryXml = null;
         private SettingsXml settingsXml = null;
         private IDictionary<string, ITestVariable> globalVariables = null;
-        private QueryResolverArgs args = null;
+        private BaseQueryResolverArgs args = null;
 
         public void Setup(QueryXml queryXml)
         {
@@ -50,14 +50,14 @@ namespace NBi.NUnit.Builder.Helper
 
             if (!string.IsNullOrEmpty(queryXml.InlineQuery))
                 args = new EmbeddedQueryResolverArgs(queryXml.InlineQuery
-                    , connectionString, parameters, variables, timeout);
+                    , connectionString, parameters, variables, new TimeSpan(0, 0, timeout));
 
             else if (!string.IsNullOrEmpty(queryXml.File))
             {
                 var file = GetFullPath(settingsXml?.BasePath, queryXml.File);
 
                 args = new ExternalFileQueryResolverArgs(file
-                    , connectionString, parameters, variables, timeout);
+                    , connectionString, parameters, variables, new TimeSpan(0, 0, timeout));
             }
 
             else if (queryXml.Assembly != null)
@@ -67,7 +67,7 @@ namespace NBi.NUnit.Builder.Helper
                 args = new AssemblyQueryResolverArgs(
                     file, queryXml.Assembly.Klass, queryXml.Assembly.Method,
                     queryXml.Assembly.Static, queryXml.Assembly.GetMethodParameters()
-                    , connectionString, parameters, variables, timeout);
+                    , connectionString, parameters, variables, new TimeSpan(0, 0, timeout));
             }
 
             else if (queryXml.Report != null)
@@ -76,7 +76,7 @@ namespace NBi.NUnit.Builder.Helper
 
                 args = new ReportDataSetQueryResolverArgs(
                     queryXml.Report.Source, path, queryXml.Report.Name, queryXml.Report.Dataset
-                    , connectionString, parameters, variables, timeout);
+                    , connectionString, parameters, variables, new TimeSpan(0, 0, timeout));
             }
 
             else if (queryXml.SharedDataset != null)
@@ -85,7 +85,7 @@ namespace NBi.NUnit.Builder.Helper
 
                 args = new SharedDataSetQueryResolverArgs(
                     queryXml.SharedDataset.Source, queryXml.SharedDataset.Path, queryXml.SharedDataset.Name
-                    , connectionString, parameters, variables, timeout);
+                    , connectionString, parameters, variables, new TimeSpan(0, 0, timeout));
             }
 
             if (args == null)
@@ -118,7 +118,7 @@ namespace NBi.NUnit.Builder.Helper
             }
         }
 
-        public QueryResolverArgs GetArgs()
+        public BaseQueryResolverArgs GetArgs()
         {
             return args;
         }

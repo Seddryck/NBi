@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Query.Resolver
 {
-    public class ReportDataSetQueryResolverArgs : QueryResolverArgs
+    public class ReportDataSetQueryResolverArgs : BaseQueryResolverArgs
     {
         private readonly string source;
         private readonly string path;
@@ -21,7 +21,7 @@ namespace NBi.Core.Query.Resolver
 
         public ReportDataSetQueryResolverArgs(string source, string path, string name, string dataSetName,
             string connectionString, IEnumerable<IQueryParameter> parameters,
-            IEnumerable<IQueryTemplateVariable> variables, int timeout)
+            IEnumerable<IQueryTemplateVariable> variables, TimeSpan timeout)
             : base(connectionString, parameters, variables, timeout)
         {
             this.source = source;

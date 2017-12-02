@@ -19,18 +19,18 @@ namespace NBi.Core.Scalar.Resolver
             this.args = args;
         }
         
-        protected virtual IDbCommand ResolveQuery()
+        protected virtual IQuery ResolveQuery()
         {
             var factory = new QueryResolverFactory();
             var resolver = factory.Instantiate(args.QueryArgs);
-            var cmd = resolver.Execute();
-            return cmd;
+            var query = resolver.Execute();
+            return query;
         }
 
-        protected virtual object ExecuteQuery(IDbCommand command)
+        protected virtual object ExecuteQuery(IQuery query)
         {
             var factory = new ExecutionEngineFactory();
-            var queryEngine = factory.Instantiate(command);
+            var queryEngine = factory.Instantiate(query);
             var value = queryEngine.ExecuteScalar();
             return value;
         }

@@ -34,7 +34,7 @@ namespace NBi.Core.Connection
                 {
                     Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, String.Format("Building connection string with '{0}'.", connectionString));
                     var connectionFactory = new ConnectionFactory();
-                    var connection = connectionFactory.Get(connectionString);
+                    var connection = connectionFactory.Instantiate(connectionString);
 
                     Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, String.Format("Trying to connect to '{0}'.", connection.ConnectionString));
                     connection.Open();

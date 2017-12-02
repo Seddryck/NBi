@@ -5,6 +5,7 @@ using NBi.Core.Query;
 using NBi.Xml.Items;
 using NUnit.Framework;
 using NBi.Core.Scalar.Resolver;
+using System.Data.SqlClient;
 
 namespace NBi.Testing.Integration.Core.Query
 {
@@ -43,11 +44,10 @@ namespace NBi.Testing.Integration.Core.Query
         [Test, Category("Sql")]
         public void Build_OneParameterWithTypeInt_CorrectResultSet()
         {
-            var commandBuilder = new CommandBuilder();
-            var cmd = commandBuilder.Build(
+            var factory = new DbCommandFactory();
+            var cmd = factory.Build(
                 ConnectionStringReader.GetSqlClient(),
                 "select * from [Sales].[Customer] where CustomerID=@Param",
-
                 new List<QueryParameter>()
                 {
                     new QueryParameter("@Param", "int", new LiteralScalarResolver<object>("2"))
@@ -65,8 +65,8 @@ namespace NBi.Testing.Integration.Core.Query
         [Test, Category("Sql")]
         public void Build_OneParameterWithTypeNvarchar50_CorrectResultSet()
         {
-            var commandBuilder = new CommandBuilder();
-            var cmd = commandBuilder.Build(
+            var factory = new DbCommandFactory();
+            var cmd = factory.Build(
                 ConnectionStringReader.GetSqlClient(),
                 "select * from [Sales].[SalesTerritory] where Name=@Param",
 
@@ -87,8 +87,8 @@ namespace NBi.Testing.Integration.Core.Query
         [Test, Category("Sql")]
         public void Build_OneParameterWithoutTypeInt_CorrectResultSet()
         {
-            var commandBuilder = new CommandBuilder();
-            var cmd = commandBuilder.Build(
+            var factory = new DbCommandFactory();
+            var cmd = factory.Build(
                 ConnectionStringReader.GetSqlClient(),
                 "select * from [Sales].[Customer] where CustomerID=@Param",
                 
@@ -109,8 +109,8 @@ namespace NBi.Testing.Integration.Core.Query
         [Test, Category("Sql")]
         public void Build_WithUselessParameter_CorrectResultSet()
         {
-            var commandBuilder = new CommandBuilder();
-            var cmd = commandBuilder.Build(
+            var factory = new DbCommandFactory();
+            var cmd = factory.Build(
                 ConnectionStringReader.GetSqlClient(),
                 "select * from [Sales].[SalesTerritory] where Name=@Param",
 
@@ -133,8 +133,8 @@ namespace NBi.Testing.Integration.Core.Query
         [Category("Olap")]
         public void BuildMdx_WithUselessParameter_CorrectResultSet()
         {
-            var commandBuilder = new CommandBuilder();
-            var cmd = commandBuilder.Build(
+            var factory = new DbCommandFactory();
+            var cmd = factory.Build(
                 ConnectionStringReader.GetAdomd(),
                 "select " +
                     "[Measures].[Order Count] on 0, " +

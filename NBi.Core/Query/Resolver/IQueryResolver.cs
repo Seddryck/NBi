@@ -9,6 +9,6 @@ namespace NBi.Core.Query.Resolver
 {
     public interface IQueryResolver
     {
-        IDbCommand Execute();
+        IQuery Execute();
     }
 }

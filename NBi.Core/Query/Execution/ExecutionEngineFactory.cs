@@ -12,8 +12,14 @@ namespace NBi.Core.Query.Execution
     /// </summary>
     public class ExecutionEngineFactory
     {
-        public IExecutionEngine Instantiate(IDbCommand cmd)
+        public IExecutionEngine Instantiate(IQuery query)
         {
+            var connectionFactory = new ConnectionFactory();
+            var connection = connectionFactory.Instantiate(query.ConnectionString);
+
+            var commandFactory = new DbCommandFactory();
+            var cmd = commandFactory.Instantiate(connection, query); 
+
             if (cmd is SqlCommand)
                 return new SqlExecutionEngine((SqlCommand)cmd);
             else if (cmd is OleDbCommand)

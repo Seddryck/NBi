@@ -30,7 +30,8 @@ namespace NBi.Testing.Unit.NUnit.Query
         [Test]
         public void Matches_WithoutCleanCache_EngineCleanCacheNeverCalled()
         {
-            var cmd = new SqlCommand();
+            var queryFoundry = new Mock<IQuery>();
+            var query = queryFoundry.Object;
 
             var mock = new Mock<IPerformanceEngine>();
             mock.Setup(engine => engine.Execute(It.IsAny<TimeSpan>()))
@@ -42,7 +43,7 @@ namespace NBi.Testing.Unit.NUnit.Query
             fasterThanConstraint = fasterThanConstraint.MaxTimeMilliSeconds(5000);
 
             //Method under test
-            fasterThanConstraint.Matches(cmd);
+            fasterThanConstraint.Matches(query);
 
             //Test conclusion            
             mock.Verify(engine => engine.Execute(It.IsAny<TimeSpan>()), Times.Once());
@@ -52,7 +53,8 @@ namespace NBi.Testing.Unit.NUnit.Query
         [Test]
         public void Matches_IncludingCleanCache_EngineCleanCacheCalledOnce()
         {
-            var cmd = new SqlCommand();
+            var queryFoundry = new Mock<IQuery>();
+            var query = queryFoundry.Object;
 
             var mock = new Mock<IPerformanceEngine>();
             mock.Setup(engine => engine.Execute(It.IsAny<TimeSpan>()))
@@ -64,7 +66,7 @@ namespace NBi.Testing.Unit.NUnit.Query
             fasterThanConstraint = fasterThanConstraint.MaxTimeMilliSeconds(5000).CleanCache();
 
             //Method under test
-            fasterThanConstraint.Matches(cmd);
+            fasterThanConstraint.Matches(query);
 
             //Test conclusion            
             mock.Verify(engine => engine.Execute(It.IsAny<TimeSpan>()), Times.Once());
@@ -74,7 +76,8 @@ namespace NBi.Testing.Unit.NUnit.Query
         [Test]
         public void Matches_ExecutionTooSlow_ReturnFalse()
         {
-            var cmd = new SqlCommand();
+            var queryFoundry = new Mock<IQuery>();
+            var query = queryFoundry.Object;
 
             var stub = new Mock<IPerformanceEngine>();
             stub.Setup(engine => engine.Execute(It.IsAny<TimeSpan>()))
@@ -85,7 +88,7 @@ namespace NBi.Testing.Unit.NUnit.Query
             fasterThanConstraint.MaxTimeMilliSeconds(5000);
 
             //Method under test
-            var res = fasterThanConstraint.Matches(cmd);
+            var res = fasterThanConstraint.Matches(query);
 
             //Test conclusion            
             Assert.That(res, Is.False);
@@ -94,7 +97,8 @@ namespace NBi.Testing.Unit.NUnit.Query
         [Test]
         public void Matches_ExecutionFastEnought_ReturnTRue()
         {
-            var cmd = new SqlCommand();
+            var queryFoundry = new Mock<IQuery>();
+            var query = queryFoundry.Object;
 
             var stub = new Mock<IPerformanceEngine>();
             stub.Setup(engine => engine.Execute(It.IsAny<TimeSpan>()))
@@ -105,7 +109,7 @@ namespace NBi.Testing.Unit.NUnit.Query
             fasterThanConstraint.MaxTimeMilliSeconds(5000);
 
             //Method under test
-            var res = fasterThanConstraint.Matches(cmd);
+            var res = fasterThanConstraint.Matches(query);
 
             //Test conclusion            
             Assert.That(res, Is.True);

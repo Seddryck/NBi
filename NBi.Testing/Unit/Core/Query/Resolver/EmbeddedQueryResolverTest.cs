@@ -21,7 +21,7 @@ namespace NBi.Testing.Unit.Core.Query.Resolver
                 ConnectionStringReader.GetSqlClient(),
                 new List<IQueryParameter>() { new QueryParameter("param", "10") },
                 new List<IQueryTemplateVariable>() { new QueryTemplateVariableXml() { Name = "operator", Value = "not in" } },
-                10);
+                new TimeSpan(0, 0, 10));
         }
 
         [Test]
@@ -37,19 +37,19 @@ namespace NBi.Testing.Unit.Core.Query.Resolver
         public void Execute_Args_ConnectionStringAssigned()
         {
             var resolver = new EmbeddedQueryResolver(BuildArgs());
-            var cmd = resolver.Execute();
+            var query = resolver.Execute();
 
-            Assert.That(cmd.Connection.ConnectionString, Is.Not.Null.And.Not.Empty);
-            Assert.That(cmd.Connection.ConnectionString, Is.EqualTo(ConnectionStringReader.GetSqlClient()));
+            Assert.That(query.ConnectionString, Is.Not.Null.And.Not.Empty);
+            Assert.That(query.ConnectionString, Is.EqualTo(ConnectionStringReader.GetSqlClient()));
         }
 
         [Test]
         public void Execute_Args_CommandTextAssigned()
         {
             var resolver = new EmbeddedQueryResolver(BuildArgs());
-            var cmd = resolver.Execute();
+            var query = resolver.Execute();
 
-            Assert.That(cmd.CommandText, Is.EqualTo("select * from myTable;"));
+            Assert.That(query.Statement, Is.EqualTo("select * from myTable;"));
         }
 
         [Test]

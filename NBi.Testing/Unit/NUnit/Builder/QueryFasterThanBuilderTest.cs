@@ -9,6 +9,7 @@ using NBi.Xml.Systems;
 using NUnit.Framework;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet;
+using NBi.Core.Query;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -80,7 +81,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 
-            Assert.That(sut, Is.InstanceOf<IDbCommand>());
+            Assert.That(sut, Is.InstanceOf<IQuery>());
         }
 
     }

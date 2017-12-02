@@ -9,6 +9,7 @@ using NUnit.Framework;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core;
 using System.Data;
+using NBi.Core.Query;
 #endregion
 
 namespace NBi.Testing.Integration.NUnit
@@ -46,18 +47,15 @@ namespace NBi.Testing.Integration.NUnit
 
         private class FakeQueryResultSetLoader : QueryResultSetResolver
         {
-            private readonly IDbCommand cmd;
+            private readonly IQuery query;
 
-            public FakeQueryResultSetLoader(IDbCommand cmd)
+            public FakeQueryResultSetLoader(IQuery query)
                 : base(null)
             {
-                this.cmd = cmd;
+                this.query = query;
             }
 
-            protected override IDbCommand Resolve()
-            {
-                return cmd;
-            }
+            protected override IQuery Resolve() => query;
         }
 
         [Test]
@@ -77,12 +75,12 @@ namespace NBi.Testing.Integration.NUnit
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
 
-            var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
-            var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
+            var mdx = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
+            var query = new NBi.Core.Query.Query(mdx, ConnectionStringReader.GetAdomd());
 
 
             var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            actualBuilder.Setup(new FakeQueryResultSetLoader(query));
             var actual = actualBuilder.GetService();
 
             //Assertion
@@ -112,12 +110,12 @@ namespace NBi.Testing.Integration.NUnit
                 )
             );
 
-            var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
-            var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
+            var mdx = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
+            var query = new NBi.Core.Query.Query(mdx, ConnectionStringReader.GetAdomd());
 
 
             var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            actualBuilder.Setup(new FakeQueryResultSetLoader(query));
             var actual = actualBuilder.GetService();
 
             //Assertion
@@ -145,10 +143,10 @@ namespace NBi.Testing.Integration.NUnit
                 NumericAbsoluteTolerance.None)
             );
 
-            var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
-            var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
+            var mdx = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
+            var query = new NBi.Core.Query.Query(mdx, ConnectionStringReader.GetAdomd());
             var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            actualBuilder.Setup(new FakeQueryResultSetLoader(query));
             var actual = actualBuilder.GetService();
 
             //Assertion
@@ -160,9 +158,9 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_MdxQueryAndSameQueryWithCorrectSettings_Matching()
         {
             //Buiding object used during test
-            var expectedQuery = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
-            var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-            var resolver = new FakeQueryResultSetLoader(expectedCmd);
+            var mdx = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
+            var expectedQuery = new NBi.Core.Query.Query(mdx, ConnectionStringReader.GetAdomd());
+            var resolver = new FakeQueryResultSetLoader(expectedQuery);
             var builder = new ResultSetServiceBuilder();
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
@@ -172,12 +170,11 @@ namespace NBi.Testing.Integration.NUnit
                 NumericAbsoluteTolerance.None)
             );
 
-            var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1  FROM [Adventure Works]";
-            var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-
+            var mdx2 = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1  FROM [Adventure Works]";
+            var query = new NBi.Core.Query.Query(mdx2, ConnectionStringReader.GetAdomd());
 
             var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            actualBuilder.Setup(new FakeQueryResultSetLoader(query));
             var actual = actualBuilder.GetService();
 
             //Assertion
@@ -189,10 +186,10 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_MdxQueryAndSlighltyDifferentQueryWithCorrectSettings_NotMatching()
         {
             //Buiding object used during test
-            var expectedQuery = "WITH MEMBER [Measures].NewAmount AS [Measures].[Amount]+1";
-            expectedQuery += " SELECT [Measures].NewAmount ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
-            var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-            var resolver = new FakeQueryResultSetLoader(expectedCmd);
+            var mdx = "WITH MEMBER [Measures].NewAmount AS [Measures].[Amount]+1";
+            mdx += " SELECT [Measures].NewAmount ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
+            var expectedQuery = new NBi.Core.Query.Query(mdx,ConnectionStringReader.GetAdomd());
+            var resolver = new FakeQueryResultSetLoader(expectedQuery);
             var builder = new ResultSetServiceBuilder();
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
@@ -202,12 +199,11 @@ namespace NBi.Testing.Integration.NUnit
                 NumericAbsoluteTolerance.None)
             );
 
-            var query = "SELECT [Measures].[Amount] ON 0, ([Date].[Calendar].[Calendar Year]-[Date].[Calendar].[Calendar Year].&[2010]) ON 1  FROM [Adventure Works]";
-            var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-
+            var mdx2 = "SELECT [Measures].[Amount] ON 0, ([Date].[Calendar].[Calendar Year]-[Date].[Calendar].[Calendar Year].&[2010]) ON 1  FROM [Adventure Works]";
+            var query = new NBi.Core.Query.Query(mdx2, ConnectionStringReader.GetAdomd());
 
             var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            actualBuilder.Setup(new FakeQueryResultSetLoader(query));
             var actual = actualBuilder.GetService();
 
             //Assertion
@@ -219,10 +215,10 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_MdxQueryAndSlighltyDifferentQueryWithCorrectSettingsAndTolerance_Matching()
         {
             //Buiding object used during test
-            var expectedQuery = "WITH MEMBER [Measures].NewAmount AS [Measures].[Amount]+1";
-            expectedQuery += " SELECT [Measures].NewAmount ON 0, ([Date].[Calendar].[Calendar Year].[CY 2005]:[Date].[Calendar].[Calendar Year].[CY 2008]) ON 1  FROM [Adventure Works]";
-            var expectedCmd = new AdomdCommand(expectedQuery, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-            var resolver = new FakeQueryResultSetLoader(expectedCmd);
+            var mdx = "WITH MEMBER [Measures].NewAmount AS [Measures].[Amount]+1";
+            mdx += " SELECT [Measures].NewAmount ON 0, ([Date].[Calendar].[Calendar Year].[CY 2005]:[Date].[Calendar].[Calendar Year].[CY 2008]) ON 1  FROM [Adventure Works]";
+            var expectedQuery = new NBi.Core.Query.Query(mdx, ConnectionStringReader.GetAdomd());
+            var resolver = new FakeQueryResultSetLoader(expectedQuery);
             var builder = new ResultSetServiceBuilder();
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
@@ -243,7 +239,7 @@ namespace NBi.Testing.Integration.NUnit
             );
 
             var query = "SELECT  [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
-            var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
+            var cmd = new NBi.Core.Query.Query(query, ConnectionStringReader.GetAdomd());
 
 
             var actualBuilder = new ResultSetServiceBuilder();
@@ -260,13 +256,13 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_MdxQueryAndSqlQueryWithCorrectSettings_Matching()
         {
             //Buiding object used during test
-            var expectedQuery = "SELECT 'CY 2005',  1874469 UNION ";
-            expectedQuery += " SELECT 'CY 2006', 4511243 UNION ";
-            expectedQuery += " SELECT 'CY 2007', 4709851 UNION ";
-            expectedQuery += " SELECT 'CY 2008', 1513940  ";
+            var mdx = "SELECT 'CY 2005',  1874469 UNION ";
+            mdx += " SELECT 'CY 2006', 4511243 UNION ";
+            mdx += " SELECT 'CY 2007', 4709851 UNION ";
+            mdx += " SELECT 'CY 2008', 1513940  ";
 
-            var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
-            var resolver = new FakeQueryResultSetLoader(expectedCmd);
+            var expectedQuery = new NBi.Core.Query.Query(mdx,ConnectionStringReader.GetAdomd());
+            var resolver = new FakeQueryResultSetLoader(expectedQuery);
             var builder = new ResultSetServiceBuilder();
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
@@ -287,12 +283,11 @@ namespace NBi.Testing.Integration.NUnit
                     )
                 );
 
-            var query = "SELECT  [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
-            var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-
+            var mdx2 = "SELECT  [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
+            var query = new NBi.Core.Query.Query(mdx2, ConnectionStringReader.GetAdomd());
 
             var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            actualBuilder.Setup(new FakeQueryResultSetLoader(query));
             var actual = actualBuilder.GetService();
 
             //Assertion
@@ -310,12 +305,12 @@ namespace NBi.Testing.Integration.NUnit
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
 
-            var query = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
-            var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
+            var mdx = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
+            var query = new NBi.Core.Query.Query(mdx, ConnectionStringReader.GetAdomd());
 
 
             var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            actualBuilder.Setup(new FakeQueryResultSetLoader(query));
             var actual = actualBuilder.GetService();
 
             //Assertion
@@ -326,11 +321,10 @@ namespace NBi.Testing.Integration.NUnit
         [Category("Olap")]
         public void Matches_MdxQueryWithNullComparedToSqlWithNull_Matching()
         {
-            //Buiding object used during test
-            var expectedQuery = "SELECT 'CY 2010',  NULL ";
+            var sql = "SELECT 'CY 2010',  NULL ";
+            var expectedQuery = new NBi.Core.Query.Query(sql, ConnectionStringReader.GetAdomd());
 
-            var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
-            var resolver = new FakeQueryResultSetLoader(expectedCmd);
+            var resolver = new FakeQueryResultSetLoader(expectedQuery);
             var builder = new ResultSetServiceBuilder();
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
@@ -342,11 +336,11 @@ namespace NBi.Testing.Integration.NUnit
                     )
                 );
 
-            var query = "SELECT  [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2010] ON 1 FROM [Adventure Works]";
-            var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
+            var mdx = "SELECT  [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2010] ON 1 FROM [Adventure Works]";
+            var query = new NBi.Core.Query.Query(mdx, ConnectionStringReader.GetAdomd());
 
             var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            actualBuilder.Setup(new FakeQueryResultSetLoader(query));
             var actual = actualBuilder.GetService();
 
             //Assertion
@@ -358,10 +352,10 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_MdxQueryWithNullComparedToSqlWithValue_NonMatching()
         {
             //Buiding object used during test
-            var expectedQuery = "SELECT 'CY 2010',  0 ";
+            var mdx = "SELECT 'CY 2010',  0 ";
 
-            var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
-            var resolver = new FakeQueryResultSetLoader(expectedCmd);
+            var expectedQuery = new NBi.Core.Query.Query(mdx, ConnectionStringReader.GetAdomd());
+            var resolver = new FakeQueryResultSetLoader(expectedQuery);
             var builder = new ResultSetServiceBuilder();
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
@@ -374,7 +368,7 @@ namespace NBi.Testing.Integration.NUnit
                 );
 
             var query = "SELECT  [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2010] ON 1 FROM [Adventure Works]";
-            var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
+            var cmd = new NBi.Core.Query.Query(query, ConnectionStringReader.GetAdomd());
 
             var actualBuilder = new ResultSetServiceBuilder();
             actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
@@ -389,14 +383,13 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_SqlQueryWithDateComparedToString_Matching()
         {
             //Buiding object used during test
-            var expectedQuery = "SELECT 'CY 2010',  CAST('2010-01-01' AS DATE)";
-
-            var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var mdx = "SELECT 'CY 2010',  CAST('2010-01-01' AS DATE)";
+            var expectedQuery = new NBi.Core.Query.Query(mdx,ConnectionStringReader.GetAdomd());
 
             var columns = new List<IColumnDefinition>(){
                 new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
             };
-            var resolver = new FakeQueryResultSetLoader(expectedCmd);
+            var resolver = new FakeQueryResultSetLoader(expectedQuery);
             var builder = new ResultSetServiceBuilder();
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
@@ -408,11 +401,11 @@ namespace NBi.Testing.Integration.NUnit
                     )
                 );
 
-            var query = "SELECT 'CY 2010',  '1/01/2010 00:00:00'";
-            var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var sql = "SELECT 'CY 2010',  '1/01/2010 00:00:00'";
+            var query = new NBi.Core.Query.Query(sql, ConnectionStringReader.GetSqlClient());
 
             var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            actualBuilder.Setup(new FakeQueryResultSetLoader(query));
             var actual = actualBuilder.GetService();
 
             //Assertion
@@ -424,14 +417,13 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_SqlQueryWithDateComparedToStringAnotherDate_NonMatching()
         {
             //Buiding object used during test
-            var expectedQuery = "SELECT 'CY 2010',  CAST('2010-01-02' AS DATE)";
-
-            var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var sql = "SELECT 'CY 2010',  CAST('2010-01-02' AS DATE)";
+            var expectedQuery = new NBi.Core.Query.Query(sql, ConnectionStringReader.GetAdomd());
 
             var columns = new List<IColumnDefinition>(){
                 new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
             };
-            var resolver = new FakeQueryResultSetLoader(expectedCmd);
+            var resolver = new FakeQueryResultSetLoader(expectedQuery);
             var builder = new ResultSetServiceBuilder();
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
@@ -443,11 +435,11 @@ namespace NBi.Testing.Integration.NUnit
                     )
                 );
 
-            var query = "SELECT 'CY 2010',  '1/01/2010 00:00:00'";
-            var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var sql2 = "SELECT 'CY 2010',  '1/01/2010 00:00:00'";
+            var query = new NBi.Core.Query.Query(sql2, ConnectionStringReader.GetSqlClient());
 
             var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetLoader(cmd));
+            actualBuilder.Setup(new FakeQueryResultSetLoader(query));
             var actual = actualBuilder.GetService();
 
             //Assertion
@@ -459,15 +451,14 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_SqlQueryWithDateComparedToStringAnotherHour_NonMatching()
         {
             //Buiding object used during test
-            var expectedQuery = "SELECT 'CY 2010',  CAST('2010-01-01' AS DATE)";
-
-            var expectedCmd = new SqlCommand(expectedQuery, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var sql = "SELECT 'CY 2010',  CAST('2010-01-01' AS DATE)";
+            var expectedQuery = new NBi.Core.Query.Query(sql, ConnectionStringReader.GetAdomd());
 
             var columns = new List<IColumnDefinition>(){
                 new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
             };
 
-            var expectedLoader = new FakeQueryResultSetLoader(expectedCmd);
+            var expectedLoader = new FakeQueryResultSetLoader(expectedQuery);
             var expectedBuilder = new ResultSetServiceBuilder();
             expectedBuilder.Setup(expectedLoader);
             var ctr = new EqualToConstraint(expectedBuilder.GetService());
@@ -479,10 +470,10 @@ namespace NBi.Testing.Integration.NUnit
                                 )
                             );
 
-            var query = "SELECT 'CY 2010',  '1/01/2010 01:00:00'";
-            var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var sql2 = "SELECT 'CY 2010',  '1/01/2010 01:00:00'";
+            var query = new NBi.Core.Query.Query(sql2, ConnectionStringReader.GetSqlClient());
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(new FakeQueryResultSetLoader(cmd));
+            builder.Setup(new FakeQueryResultSetLoader(query));
             var actual = builder.GetService();
 
             //Assertion

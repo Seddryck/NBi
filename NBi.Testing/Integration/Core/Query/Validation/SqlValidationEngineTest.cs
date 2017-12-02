@@ -15,9 +15,8 @@ namespace NBi.Testing.Integration.Core.Query.Validation
         [Test]
         public void Parse_CorrectTableName_Success()
         {
-            var sql = "SELECT * FROM [HumanResources].[Department];";
-            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
-            var qp = new ValidationEngineFactory().Instantiate(cmd);
+            var query = new NBi.Core.Query.Query("SELECT * FROM [HumanResources].[Department];", ConnectionStringReader.GetSqlClient());
+            var qp = new ValidationEngineFactory().Instantiate(query);
 
             var res = qp.Parse();
 
@@ -28,7 +27,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
         public void Parse_WrongTableName_Failed()
         {
             var sql = "SELECT * FROM WrongTableName;";
-            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var cmd = new NBi.Core.Query.Query(sql, ConnectionStringReader.GetSqlClient());
             var qp = new ValidationEngineFactory().Instantiate(cmd);
 
             var res = qp.Parse();
@@ -41,7 +40,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
         public void Parse_CorrectFields_Success()
         {
             var sql = "select [DepartmentID], Name from [HumanResources].[Department];";
-            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var cmd = new NBi.Core.Query.Query(sql, ConnectionStringReader.GetSqlClient());
             var qp = new ValidationEngineFactory().Instantiate(cmd);
 
             var res = qp.Parse();
@@ -53,7 +52,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
         public void Parse_WrongField_Failed()
         {
             var sql = "select [DepartmentID], Name, WrongField from [HumanResources].[Department];";
-            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var cmd = new NBi.Core.Query.Query(sql, ConnectionStringReader.GetSqlClient());
             var qp = new ValidationEngineFactory().Instantiate(cmd);
 
             var res = qp.Parse();
@@ -66,7 +65,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
         public void Parse_WrongFields_Failed()
         {
             var sql = "select [DepartmentID], Name, WrongField1, WrongField2 from [HumanResources].[Department];";
-            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var cmd = new NBi.Core.Query.Query(sql, ConnectionStringReader.GetSqlClient());
             var qp = new ValidationEngineFactory().Instantiate(cmd);
 
             var res = qp.Parse();
@@ -80,7 +79,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
         public void Parse_WrongSyntax_Failed()
         {
             var sql = "SELECTION [DepartmentID], Name, WrongField1, WrongField2 from [HumanResources].[Department];";
-            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var cmd = new NBi.Core.Query.Query(sql, ConnectionStringReader.GetSqlClient());
             var qp = new ValidationEngineFactory().Instantiate(cmd);
 
             var res = qp.Parse();
@@ -100,7 +99,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
             if (countBefore == 0) //If nothing was present we cannot assert
                 Assert.Inconclusive();
 
-            var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
+            var cmd = new NBi.Core.Query.Query(sql, ConnectionStringReader.GetSqlClient());
             var qp = new ValidationEngineFactory().Instantiate(cmd);
 
             var res = qp.Parse();
@@ -121,7 +120,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
             {
                 conn.Open();
 
-                using (SqlCommand cmd = new SqlCommand(sqlCount, conn))
+                using (var cmd = new SqlCommand(sqlCount, conn))
                 {
                     count = (int)cmd.ExecuteScalar();
                 }

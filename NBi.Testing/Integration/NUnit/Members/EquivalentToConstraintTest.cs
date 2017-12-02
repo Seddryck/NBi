@@ -44,15 +44,14 @@ namespace NBi.Testing.Integration.NUnit.Members
 		[Test, Category("Olap")]
 		public void Matches_SqlQueryAndMembers_Succesful()
 		{
-			var command = new SqlCommand();
-			command.Connection = new SqlConnection(ConnectionStringReader.GetSqlClient());
-			command.CommandText = "select " +
-				"'Executive General and Administration' union select " +
-				"'Inventory Management' union select " +
+            var sql = "select " +
+                "'Executive General and Administration' union select " +
+                "'Inventory Management' union select " +
                 "'Manufacturing' union select " +
                 "'Research and Development' union select " +
                 "'Quality Assurance' union select " +
-				"'Sales and Marketing' ";
+                "'Sales and Marketing' ";
+            var query = new NBi.Core.Query.Query(sql, ConnectionStringReader.GetSqlClient());
 
 			var discovery = new DiscoveryRequestFactory().Build(
 						ConnectionStringReader.GetAdomd()
@@ -62,7 +61,7 @@ namespace NBi.Testing.Integration.NUnit.Members
 						, "Departments"
 						, null);
 
-			var ctr = new EquivalentToConstraint(command);
+			var ctr = new EquivalentToConstraint(query);
 
 			Assert.That(discovery, ctr);
 		}

@@ -35,7 +35,7 @@ namespace NBi.NUnit.Query
         {
         }
 
-        protected IValidationEngine GetEngine(IDbCommand actual)
+        protected IValidationEngine GetEngine(IQuery actual)
         {
             if (engine == null)
                 engine = new ValidationEngineFactory().Instantiate(actual);
@@ -49,8 +49,8 @@ namespace NBi.NUnit.Query
         /// <returns>true, if the query defined in parameter is syntatically correct else false</returns>
         public override bool Matches(object actual)
         {
-            if (actual is IDbCommand)
-                return doMatch((IDbCommand)actual);
+            if (actual is IQuery)
+                return doMatch((IQuery)actual);
             else
                 return false;               
         }
@@ -60,7 +60,7 @@ namespace NBi.NUnit.Query
         /// </summary>
         /// <param name="actual">SQL string</param>
         /// <returns>true, if the query defined in parameter is syntatically correct else false</returns>
-        protected bool doMatch(IDbCommand actual)
+        protected bool doMatch(IQuery actual)
         {
             parserResult= GetEngine(actual).Parse();
             return parserResult.IsSuccesful;

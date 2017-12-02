@@ -11,7 +11,7 @@ namespace NBi.Core.DataManipulation
         {
 
             var connectionFactory = new ConnectionFactory();
-            var connection = connectionFactory.Get(command.ConnectionString);
+            var connection = connectionFactory.Instantiate(command.ConnectionString);
             IDataManipulationFactory factory = null;
 
             if (connection is SqlConnection)

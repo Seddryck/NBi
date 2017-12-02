@@ -4,6 +4,7 @@ using NBi.Core.Analysis.Request;
 using NBi.Core.Query;
 using NBi.NUnit.Query;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
@@ -93,10 +94,12 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         [Test]
         public void Matches_RegexCorrectlySpecified_Validated()
         {
-            var cells = new FormattedResults();
-            cells.Add("$185,125.12");
-            cells.Add("$125.12");
-            cells.Add("$125.00");
+            var cells = new List<string>()
+            {
+                "$185,125.12",
+                "$125.12",
+                "$125.00"
+            };
 
             var matchPatternConstraint = new MatchPatternConstraint();
             matchPatternConstraint = matchPatternConstraint.Regex(@"^\$?[0-9]{1,3}(?:,?[0-9]{3})*\.[0-9]{2}$");
@@ -111,10 +114,12 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         [Test]
         public void Matches_RegexWronglySpecified_Validated()
         {
-            var cells = new FormattedResults();
-            cells.Add("$185,125.12");
-            cells.Add("$125.12");
-            cells.Add("$125");
+            var cells = new List<string>()
+            {
+                "$185,125.12",
+                "$125.12",
+                "$125"
+            };
 
             var matchPatternConstraint = new MatchPatternConstraint();
             matchPatternConstraint = matchPatternConstraint.Regex(@"^\$?[0-9]{1,3}(?:,?[0-9]{3})*\.[0-9]{2}$");
@@ -129,17 +134,19 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         [Test]
         public void WriteDescription_OneItemHasFailed_CorrectKeywordsForPredicate()
         {
-            var cells = new FormattedResults();
-            cells.Add("$185,125.12");
-            cells.Add("$125.12");
-            cells.Add("$125");
+            var cells = new List<string>()
+            {
+                "$185,125.12",
+                "$125.12",
+                "$125"
+            };
 
             var matchPatternConstraint = new MatchPatternConstraint();
             matchPatternConstraint = matchPatternConstraint.Regex(@"^\$?[0-9]{1,3}(?:,?[0-9]{3})*\.[0-9]{2}$");
 
             //Method under test
             var res = matchPatternConstraint.Matches(cells);
-       
+
             var msg = new MessageWriter();
             matchPatternConstraint.WriteDescriptionTo(msg);
 
@@ -151,10 +158,12 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         [Test]
         public void WriteDescription_OneItemHasFailed_CorrectKeywordsForActualValue()
         {
-            var cells = new FormattedResults();
-            cells.Add("$185,125.12");
-            cells.Add("$125.12");
-            cells.Add("$125");
+            var cells = new List<string>()
+            {
+                "$185,125.12",
+                "$125.12",
+                "$125"
+            };
 
             var matchPatternConstraint = new MatchPatternConstraint();
             matchPatternConstraint = matchPatternConstraint.Regex(@"^\$?[0-9]{1,3}(?:,?[0-9]{3})*\.[0-9]{2}$");

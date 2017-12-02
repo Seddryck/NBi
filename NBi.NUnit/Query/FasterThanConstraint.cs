@@ -52,7 +52,7 @@ namespace NBi.NUnit.Query
             return this;
         }
 
-        protected IPerformanceEngine GetEngine(IDbCommand actual)
+        protected IPerformanceEngine GetEngine(IQuery actual)
         {
             if (engine == null)
                 engine = new PerformanceEngineFactory().Instantiate(actual);
@@ -66,18 +66,13 @@ namespace NBi.NUnit.Query
         /// <returns>true, if the query defined in parameter is executed in less that expected else false</returns>
         public override bool Matches(object actual)
         {
-            if (actual is IDbCommand)
-                return doMatch((IDbCommand)actual);
+            if (actual is IQuery)
+                return doMatch((IQuery)actual);
             else
                 return false;
         }
 
-        /// <summary>
-        /// Handle a sql string and check it with the engine
-        /// </summary>
-        /// <param name="actual">SQL string</param>
-        /// <returns>true, if the query defined in parameter is executed in less that expected else false</returns>
-        public bool doMatch(IDbCommand actual)
+        public bool doMatch(IQuery actual)
         {
             var engine = GetEngine(actual);
             if (cleanCache)

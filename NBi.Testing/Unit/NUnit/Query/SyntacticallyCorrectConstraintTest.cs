@@ -38,8 +38,10 @@ namespace NBi.Testing.Unit.NUnit.Query
 
             var syntacticallyCorrectConstraint = new SyntacticallyCorrectConstraint() { Engine = qp };
 
-            //Method under test
-            syntacticallyCorrectConstraint.Matches(new SqlCommand());
+            var queryFoundry = new Mock<IQuery>();
+            var query = queryFoundry.Object;
+
+            syntacticallyCorrectConstraint.Matches(query);
 
             //Test conclusion            
             mock.Verify(engine => engine.Parse(), Times.Once());
@@ -56,8 +58,11 @@ namespace NBi.Testing.Unit.NUnit.Query
 
             var syntacticallyCorrectConstraint = new SyntacticallyCorrectConstraint() { Engine = qp };
 
+            var queryFoundry = new Mock<IQuery>();
+            var query = queryFoundry.Object;
+
             //Method under test
-            var res = syntacticallyCorrectConstraint.Matches(new SqlCommand());
+            var res = syntacticallyCorrectConstraint.Matches(query);
 
             //Test conclusion            
             Assert.That(res, Is.True);

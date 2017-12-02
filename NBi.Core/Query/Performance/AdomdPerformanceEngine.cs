@@ -33,6 +33,7 @@ namespace NBi.Core.Query.Performance
 
                 
                 var cmd = conn.CreateCommand();
+                cmd.Connection = conn;
                 cmd.CommandText = string.Format(xmla, csb["Initial Catalog"]);
                 cmd.ExecuteNonQuery();
             }

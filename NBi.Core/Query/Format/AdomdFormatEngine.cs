@@ -37,17 +37,17 @@ namespace NBi.Core.Query.Format
                 OpenConnection(connection);
                 InitializeCommand(command, CommandTimeout, command.Parameters, connection);
                 StartWatch();
-                var cs = OnExecuteCellSet(command);
+                var cs = OnExecuteCellSet(command as AdomdCommand);
                 StopWatch();
                 return Parse(cs);
             }
         }
 
-        private CellSet OnExecuteCellSet(IDbCommand command)
+        private CellSet OnExecuteCellSet(AdomdCommand command)
         {
             CellSet cellSet = null;
             try
-            { cellSet = ((AdomdCommand)command).ExecuteCellSet(); }
+            { cellSet = command.ExecuteCellSet(); }
             catch (Exception ex)
             { HandleException(ex, command); }
             return cellSet;

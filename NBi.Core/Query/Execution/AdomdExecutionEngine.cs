@@ -26,6 +26,11 @@ namespace NBi.Core.Query.Execution
             { connection.ConnectionString = connectionString; }
             catch (ArgumentException ex)
             { throw new ConnectionException(ex, connectionString); }
+
+            try
+            { connection.Open(); }
+            catch (Exception ex)
+            { throw new ConnectionException(ex, connectionString); }
         }
 
         protected override void HandleException(Exception ex, IDbCommand command) 

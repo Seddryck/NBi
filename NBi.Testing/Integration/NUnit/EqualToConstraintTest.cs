@@ -382,9 +382,8 @@ namespace NBi.Testing.Integration.NUnit
         [Category("Sql")]
         public void Matches_SqlQueryWithDateComparedToString_Matching()
         {
-            //Buiding object used during test
-            var mdx = "SELECT 'CY 2010',  CAST('2010-01-01' AS DATE)";
-            var expectedQuery = new NBi.Core.Query.Query(mdx,ConnectionStringReader.GetAdomd());
+            var expectedSql = "SELECT 'CY 2010',  CAST('2010-01-01' AS DATE)";
+            var expectedQuery = new NBi.Core.Query.Query(expectedSql, ConnectionStringReader.GetSqlClient());
 
             var columns = new List<IColumnDefinition>(){
                 new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
@@ -417,8 +416,8 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_SqlQueryWithDateComparedToStringAnotherDate_NonMatching()
         {
             //Buiding object used during test
-            var sql = "SELECT 'CY 2010',  CAST('2010-01-02' AS DATE)";
-            var expectedQuery = new NBi.Core.Query.Query(sql, ConnectionStringReader.GetAdomd());
+            var expectedSql = "SELECT 'CY 2010',  CAST('2010-01-02' AS DATE)";
+            var expectedQuery = new NBi.Core.Query.Query(expectedSql, ConnectionStringReader.GetSqlClient());
 
             var columns = new List<IColumnDefinition>(){
                 new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
@@ -451,8 +450,8 @@ namespace NBi.Testing.Integration.NUnit
         public void Matches_SqlQueryWithDateComparedToStringAnotherHour_NonMatching()
         {
             //Buiding object used during test
-            var sql = "SELECT 'CY 2010',  CAST('2010-01-01' AS DATE)";
-            var expectedQuery = new NBi.Core.Query.Query(sql, ConnectionStringReader.GetAdomd());
+            var expectedSql = "SELECT 'CY 2010',  CAST('2010-01-01' AS DATE)";
+            var expectedQuery = new NBi.Core.Query.Query(expectedSql, ConnectionStringReader.GetSqlClient());
 
             var columns = new List<IColumnDefinition>(){
                 new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }

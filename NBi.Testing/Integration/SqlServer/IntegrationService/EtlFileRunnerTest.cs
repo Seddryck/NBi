@@ -12,10 +12,10 @@ using NBi.Core.SqlServer.IntegrationService;
 namespace NBi.Testing.Integration.SqlServer.IntegrationService
 {
     [TestFixture]
-    [Category ("Etl")]
+    [Category("Etl")]
     public class EtlFileRunnerTest
     {
-        
+
         private static bool isIntegrationServiceStarted = false;
 
         #region SetUp & TearDown
@@ -60,14 +60,14 @@ namespace NBi.Testing.Integration.SqlServer.IntegrationService
         [Test]
         public void Execute_ExistingSamplePackage_Success()
         {
-            var etl = Mock.Of<IEtl>( e =>
-                e.Server == string.Empty
-                && e.Path == @"Etl\"
-                && e.Name == "Sample.dtsx"
-                && e.Password=="p@ssw0rd"
-                && e.Parameters == new List<EtlParameter>()
+            var etl = Mock.Of<IEtl>(e =>
+               e.Server == string.Empty
+               && e.Path == @"Etl\"
+               && e.Name == "Sample.dtsx"
+               && e.Password == "p@ssw0rd"
+               && e.Parameters == new List<EtlParameter>()
                 );
-            
+
             var runner = new EtlFileRunner(etl);
             var result = runner.Run();
 
@@ -78,25 +78,29 @@ namespace NBi.Testing.Integration.SqlServer.IntegrationService
         public void Execute_ExistingSamplePackageWithParameter_SuccessAndParameterUsed()
         {
             var destPath = DiskOnFile.GetDirectoryPath() + "SampleFile.txt";
-            if(File.Exists(destPath))
+            if (File.Exists(destPath))
                 File.Delete(destPath);
 
-            var etl = new EtlXml();
-            etl.Path = @"Etl\";
-            etl.Name = "Sample.dtsx";
-            etl.Password = "p@ssw0rd";
-            var param = new EtlParameterXml();
-            param.Name="DestinationPath";
-            param.StringValue = destPath;
+            var etl = new EtlXml()
+            {
+                Path = @"Etl\",
+                Name = "Sample.dtsx",
+                Password = "p@ssw0rd"
+            };
+
+            var param = new EtlParameterXml()
+            {
+                Name = "DestinationPath",
+                StringValue = destPath
+            };
             etl.InternalParameters.Add(param);
-            
 
             var runner = new EtlFileRunner(etl);
             var result = runner.Run();
 
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(File.Exists(destPath), Is.True);
-         }
+        }
 
         [Test]
         public void Execute_ExistingSamplePackageWithParameterWithInvalidValue_FailureWithMessage()
@@ -150,7 +154,7 @@ namespace NBi.Testing.Integration.SqlServer.IntegrationService
             Assert.That(File.Exists(destPath), Is.True);
 
             var content = File.ReadAllLines(destPath);
-            Assert.That(content.Count(), Is.EqualTo(limitValue+1));
+            Assert.That(content.Count(), Is.EqualTo(limitValue + 1));
         }
     }
 }

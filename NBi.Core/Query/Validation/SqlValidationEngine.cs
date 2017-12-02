@@ -5,15 +5,15 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 
-namespace NBi.Core.Query.Execution
+namespace NBi.Core.Query.Validation
 {
     /// <summary>
     /// Engine wrapping the System.Data.SqlClient namespace for execution of NBi tests
     /// <remarks>Instances of this class are built by the means of the <see>QueryEngineFactory</see></remarks>
     /// </summary>
-    internal class SqlExecutionEngine : DbCommandExecutionEngine
+    internal class SqlValidationEngine : DbCommandValidationEngine
     {
-        protected internal SqlExecutionEngine(IDbCommand command)
+        protected internal SqlValidationEngine(IDbCommand command)
             : base(command)
         { }
 
@@ -30,15 +30,6 @@ namespace NBi.Core.Query.Execution
             { throw new ConnectionException(ex, connectionString); }
         }
 
-        protected override void HandleException(Exception ex, IDbCommand command)
-        {
-            if (ex is SqlException && (ex as SqlException).Number == -2)
-                OnTimeout(ex, command);
-            else
-                throw ex;
-        }
-
-        protected internal override IDbConnection NewConnection() => new SqlConnection();
-        protected override IDataAdapter NewDataAdapter(IDbCommand command) => new SqlDataAdapter((SqlCommand)command);
+        protected override IDbConnection NewConnection(string connectionString) => new SqlConnection(connectionString);
     }
 }

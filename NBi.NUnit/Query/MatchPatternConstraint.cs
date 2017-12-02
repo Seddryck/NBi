@@ -4,6 +4,8 @@ using System.Linq;
 using NBi.Core.Query;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Core.Query.Format;
+using System.Collections.Generic;
 
 namespace NBi.NUnit.Query
 {
@@ -11,24 +13,22 @@ namespace NBi.NUnit.Query
     {
         private string regex;
         private readonly FormattedResults invalidMembers = new FormattedResults();
-        protected IQueryFormat engine;
+        protected IFormatEngine engine;
         /// <summary>
         /// Engine dedicated to ResultSet comparaison
         /// </summary>
-        protected internal IQueryFormat Engine
+        protected internal IFormatEngine Engine
         {
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
-                engine = value;
+                engine = value ?? throw new ArgumentNullException();
             }
         }
 
-        protected IQueryFormat GetEngine(IDbCommand actual)
+        protected IFormatEngine GetEngine(IDbCommand actual)
         {
             if (engine == null)
-                engine = new QueryEngineFactory().GetFormat(actual);
+                engine = new FormatEngineFactory().Instantiate(actual);
             return engine;
         }
 
@@ -74,7 +74,7 @@ namespace NBi.NUnit.Query
         {
             if (actual is IDbCommand)
                 return Process((IDbCommand)actual);
-            else if (actual is FormattedResults)
+            else if (actual is IEnumerable<string>)
             {
                 this.actual = actual;
 
@@ -101,8 +101,7 @@ namespace NBi.NUnit.Query
         /// <returns></returns>
         public bool Process(IDbCommand actual)
         {
-            FormattedResults result = GetEngine(actual).GetFormats();
-
+            var result = GetEngine(actual).ExecuteFormat();
             return this.Matches(result);
         }
 

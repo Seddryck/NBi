@@ -282,9 +282,22 @@
     <Compile Include="Process\WaitCommand.cs" />
     <Compile Include="Process\RunCommand.cs" />
     <Compile Include="Query\CommandBuilder.cs" />
+    <Compile Include="Query\Format\OdbcFormatEngine.cs" />
+    <Compile Include="Query\Format\OleDbFormatEngine.cs" />
+    <Compile Include="Query\Format\SqlFormatEngine.cs" />
+    <Compile Include="Query\Format\AdomdFormatEngine.cs" />
+    <Compile Include="Query\Format\FormatEngineFactory.cs" />
+    <Compile Include="Query\Format\IFormatEngine.cs" />
+    <Compile Include="Query\Performance\AdomdPerformanceEngine.cs" />
+    <Compile Include="Query\Performance\DbCommandPerformanceEngine.cs" />
+    <Compile Include="Query\Performance\PerformanceEngineFactory.cs" />
+    <Compile Include="Query\Performance\IPerformanceEngine.cs" />
+    <Compile Include="Query\Performance\OdbcPerformanceEngine.cs" />
+    <Compile Include="Query\Performance\OleDbPerformanceEngine.cs" />
+    <Compile Include="Query\Performance\SqlPerformanceEngine.cs" />
     <Compile Include="Query\Execution\ExecutionEngineFactory.cs" />
     <Compile Include="Query\Execution\AdomdExecutionEngine.cs" />
-    <Compile Include="Query\Execution\OdbcExecutionEngine.cs" />
+    <Compile Include="Query\Validation\OdbcValidationEngine.cs" />
     <Compile Include="Query\Execution\OleDbExecutionEngine.cs" />
     <Compile Include="Query\Execution\DbCommandExecutionEngine.cs" />
     <Compile Include="Query\Execution\SqlExecutionEngine.cs" />
@@ -293,8 +306,14 @@
     <Compile Include="Query\DbTypeBuilder.cs" />
     <Compile Include="Query\IQueryParameter.cs" />
     <Compile Include="Query\IQueryTemplateVariable.cs" />
-    <Compile Include="Query\QueryOdbcEngine.cs" />
     <Compile Include="Query\QueryParameter.cs" />
+    <Compile Include="Query\Validation\AdomdValidationEngine.cs" />
+    <Compile Include="Query\Validation\DbCommandValidationEngine.cs" />
+    <Compile Include="Query\Validation\ValidationEngineFactory.cs" />
+    <Compile Include="Query\Validation\IValidationEngine.cs" />
+    <Compile Include="Query\Execution\OdbcExecutionEngine.cs" />
+    <Compile Include="Query\Validation\OleDbValidationEngine.cs" />
+    <Compile Include="Query\Validation\SqlValidationEngine.cs" />
     <Compile Include="Report\SharedDatasetRequest.cs" />
     <Compile Include="Report\ReportDataSetRequest.cs" />
     <Compile Include="Report\ReportingCommand.cs" />
@@ -385,7 +404,6 @@
     <Compile Include="Query\ListBuilder.cs" />
     <Compile Include="ExternalDependencyNotFoundException.cs" />
     <Compile Include="NBiException.cs" />
-    <Compile Include="Query\QueryAdomdEngine.cs" />
     <Compile Include="Query\IQueryEnginable.cs" />
     <Compile Include="Query\Execution\IExecutionEngine.cs" />
     <Compile Include="ResultSet\Column.cs" />
@@ -422,8 +440,6 @@
     <Compile Include="ResultSet\KeyCollection.cs" />
     <Compile Include="ResultSet\ICell.cs" />
     <Compile Include="ResultSet\IColumnDefinition.cs" />
-    <Compile Include="Query\QueryEngineFactory.cs" />
-    <Compile Include="Query\QuerySqlEngine.cs" />
     <Compile Include="ResultSet\IRow.cs" />
     <Compile Include="ResultSet\Comparer\NumericComparer.cs" />
     <Compile Include="ResultSet\ResultSet.cs" />
@@ -436,13 +452,10 @@
     <Compile Include="ConnectionFactory.cs" />
     <Compile Include="CsvDefinition.cs" />
     <Compile Include="Query\ParserResult.cs" />
-    <Compile Include="Query\PerformanceResult.cs" />
+    <Compile Include="Query\Performance\PerformanceResult.cs" />
     <Compile Include="IProgressStatusAware.cs" />
     <Compile Include="Analysis\Member\MemberResult.cs" />
     <Compile Include="ProgressStatusHandler.cs" />
-    <Compile Include="Query\QueryOleDbEngine.cs" />
-    <Compile Include="Query\IQueryParser.cs" />
-    <Compile Include="Query\IQueryPerformance.cs" />
     <Compile Include="ProgressStatusEventArgs.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="ResultSet\ThreeStateBoolean.cs" />
@@ -573,17 +586,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <EmbeddedResource Include="Query\CleanCache.xmla" />
+    <EmbeddedResource Include="Query\Performance\CleanCache.xmla" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Report\ReportServerListDataSet.sql" />
     <EmbeddedResource Include="Report\ReportServerListSharedDataSet.sql" />
     <EmbeddedResource Include="Report\ReportServerQueryFromSharedDataSet.sql" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Query\Performance\" />
-    <Folder Include="Query\Validation\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

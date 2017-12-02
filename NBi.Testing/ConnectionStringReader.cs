@@ -32,6 +32,16 @@ namespace NBi.Testing
             return Get("OdbcSql");
         }
 
+        public static string GetLocalOleDbSql()
+        {
+            return Get("LocalOleDbSql");
+        }
+
+        public static string GetLocalOdbcSql()
+        {
+            return Get("LocalOdbcSql");
+        }
+
         public static string GetAdomd()
         {
             return Get("Adomd");

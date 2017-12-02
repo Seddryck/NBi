@@ -2,16 +2,17 @@
 using System.Data;
 using NBi.Core.Query;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Core.Query.Performance;
 
 namespace NBi.NUnit.Query
 {
     public class FasterThanConstraint : NBiConstraint
     {
-        protected IQueryPerformance engine;
+        protected IPerformanceEngine engine;
         /// <summary>
         /// Engine dedicated to ResultSet comparaison
         /// </summary>
-        protected internal IQueryPerformance Engine
+        protected internal IPerformanceEngine Engine
         {
             set
             {
@@ -51,10 +52,10 @@ namespace NBi.NUnit.Query
             return this;
         }
 
-        protected IQueryPerformance GetEngine(IDbCommand actual)
+        protected IPerformanceEngine GetEngine(IDbCommand actual)
         {
             if (engine == null)
-                engine = new QueryEngineFactory().GetPerformance(actual);
+                engine = new PerformanceEngineFactory().Instantiate(actual);
             return engine;
         }
 
@@ -81,7 +82,7 @@ namespace NBi.NUnit.Query
             var engine = GetEngine(actual);
             if (cleanCache)
                 engine.CleanCache();
-            performanceResult = engine.CheckPerformance(timeOutMilliSeconds);
+            performanceResult = engine.Execute(new TimeSpan(0,0,0,0,timeOutMilliSeconds));
             return 
                 (
                     performanceResult.TimeElapsed.TotalMilliseconds < maxTimeMilliSeconds

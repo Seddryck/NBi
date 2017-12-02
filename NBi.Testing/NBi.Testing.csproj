@@ -124,8 +124,17 @@
     <Compile Include="Integration\Core\Query\Execution\OdbcExecutionEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Execution\OleDbExecutionEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Execution\SqlExecutionEngineTest.cs" />
+    <Compile Include="Integration\Core\Query\Format\AdomdFormatEngineTest.cs" />
+    <Compile Include="Integration\Core\Query\Performance\AdomdPerformanceEngineTest.cs" />
+    <Compile Include="Integration\Core\Query\Performance\OdbcPerformanceEngineTest.cs" />
+    <Compile Include="Integration\Core\Query\Performance\OleDbPerformanceEngineTest.cs" />
+    <Compile Include="Integration\Core\Query\Performance\SqlPerformanceEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Resolver\AssemblyQueryResolverTest.cs" />
     <Compile Include="Integration\Core\Query\Resolver\ExternalFileQueryResolverTest.cs" />
+    <Compile Include="Integration\Core\Query\Validation\AdomdValidationEngineTest.cs" />
+    <Compile Include="Integration\Core\Query\Validation\OdbcValidationEngineTest.cs" />
+    <Compile Include="Integration\Core\Query\Validation\OleDbValidationEngineTest.cs" />
+    <Compile Include="Integration\Core\Query\Validation\SqlValidationEngineTest.cs" />
     <Compile Include="Integration\SqlServer\Smo\BatchRunCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\BulkLoadCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\TruncateCommandTest.cs" />
@@ -137,9 +146,6 @@
     <Compile Include="Integration\Core\FileManipulation\CopyCommandTest.cs" />
     <Compile Include="Integration\Core\Process\ProcessRunCommandTest.cs" />
     <Compile Include="Integration\Core\FileManipulation\DeleteCommandTest.cs" />
-    <Compile Include="Integration\Core\Query\QueryAdomdEngineTest.cs" />
-    <Compile Include="Integration\Core\Query\QueryParserTest.cs" />
-    <Compile Include="Integration\Core\Query\QueryPerformanceTest.cs" />
     <Compile Include="Integration\Core\Query\CommandBuilderTest.cs" />
     <Compile Include="Integration\Core\Structure\Relational\RelationalStructureDiscoveryFactoryTest.cs" />
     <Compile Include="Integration\Core\Structure\Olap\OlapStructureDiscoveryFactoryTest.cs" />
@@ -186,7 +192,6 @@
     <Compile Include="Unit\Core\OfficeDataConnectionFileParserTest.cs" />
     <Compile Include="Unit\Core\Query\CommandBuilderTest.cs" />
     <Compile Include="Unit\Core\Query\DbTypeBuilderTest.cs" />
-    <Compile Include="Unit\Core\Query\QueryEngineFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\QueryParameterTest.cs" />
     <Compile Include="Unit\Core\Report\FileReportingParserTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\CellComparerTest.cs" />

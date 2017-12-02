@@ -13,7 +13,6 @@ namespace NBi.Testing.Integration.Core.Query.Execution
         [Test]
         public void Execute_WaitFor3SecondsTimeoutSetTo1_Timeout()
         {
-
             var query = "WAITFOR DELAY '00:00:03';";
             var cmd = new OdbcCommand(query, new OdbcConnection(ConnectionStringReader.GetOdbcSql()))
             {

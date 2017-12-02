@@ -15,7 +15,7 @@ namespace NBi.Core.Query.Execution
         protected internal OleDbExecutionEngine(OleDbCommand command)
             : base(command)
         { }
-        
+
 
         protected override void OpenConnection(IDbConnection connection)
         {
@@ -36,11 +36,12 @@ namespace NBi.Core.Query.Execution
         protected override void HandleException(Exception ex, IDbCommand command)
         {
             if (ex is OleDbException && ex.Message == "Query timeout expired")
-                throw new CommandTimeoutException(ex, command);
-            throw ex;
+                OnTimeout(ex, command);
+            else
+                throw ex;
         }
 
-        protected override IDbConnection NewConnection() => new OleDbConnection();
+        protected internal override IDbConnection NewConnection() => new OleDbConnection();
         protected override IDataAdapter NewDataAdapter(IDbCommand command) => new OleDbDataAdapter((OleDbCommand)command);
     }
 }

@@ -3,6 +3,8 @@ using Moq;
 using NBi.Core.Query;
 using NBi.NUnit.Query;
 using NUnit.Framework;
+using NBi.Core.Query.Performance;
+using System;
 
 namespace NBi.Testing.Unit.NUnit.Query
 {
@@ -30,11 +32,11 @@ namespace NBi.Testing.Unit.NUnit.Query
         {
             var cmd = new SqlCommand();
 
-            var mock = new Mock<IQueryPerformance>();
-            mock.Setup(engine => engine.CheckPerformance(It.IsAny<int>()))
-                .Returns(new PerformanceResult(new System.TimeSpan(0,0,0,2)));
+            var mock = new Mock<IPerformanceEngine>();
+            mock.Setup(engine => engine.Execute(It.IsAny<TimeSpan>()))
+                .Returns(new PerformanceResult(new TimeSpan(0,0,0,2)));
             mock.Setup(engine => engine.CleanCache());
-            IQueryPerformance qp = mock.Object;
+            IPerformanceEngine qp = mock.Object;
 
             var fasterThanConstraint = new FasterThanConstraint() { Engine = qp };
             fasterThanConstraint = fasterThanConstraint.MaxTimeMilliSeconds(5000);
@@ -43,7 +45,7 @@ namespace NBi.Testing.Unit.NUnit.Query
             fasterThanConstraint.Matches(cmd);
 
             //Test conclusion            
-            mock.Verify(engine => engine.CheckPerformance(It.IsAny<int>()), Times.Once());
+            mock.Verify(engine => engine.Execute(It.IsAny<TimeSpan>()), Times.Once());
             mock.Verify(engine => engine.CleanCache(), Times.Never());
         }
 
@@ -52,11 +54,11 @@ namespace NBi.Testing.Unit.NUnit.Query
         {
             var cmd = new SqlCommand();
 
-            var mock = new Mock<IQueryPerformance>();
-            mock.Setup(engine => engine.CheckPerformance(It.IsAny<int>()))
-                .Returns(new PerformanceResult(new System.TimeSpan(0, 0, 0, 2)));
+            var mock = new Mock<IPerformanceEngine>();
+            mock.Setup(engine => engine.Execute(It.IsAny<TimeSpan>()))
+                .Returns(new PerformanceResult(new TimeSpan(0, 0, 0, 2)));
             mock.Setup(engine => engine.CleanCache());
-            IQueryPerformance qp = mock.Object;
+            IPerformanceEngine qp = mock.Object;
 
             var fasterThanConstraint = new FasterThanConstraint() { Engine = qp };
             fasterThanConstraint = fasterThanConstraint.MaxTimeMilliSeconds(5000).CleanCache();
@@ -65,7 +67,7 @@ namespace NBi.Testing.Unit.NUnit.Query
             fasterThanConstraint.Matches(cmd);
 
             //Test conclusion            
-            mock.Verify(engine => engine.CheckPerformance(It.IsAny<int>()), Times.Once());
+            mock.Verify(engine => engine.Execute(It.IsAny<TimeSpan>()), Times.Once());
             mock.Verify(engine => engine.CleanCache(), Times.Once());
         }
 
@@ -74,10 +76,10 @@ namespace NBi.Testing.Unit.NUnit.Query
         {
             var cmd = new SqlCommand();
 
-            var stub = new Mock<IQueryPerformance>();
-            stub.Setup(engine => engine.CheckPerformance(It.IsAny<int>()))
-                .Returns(new PerformanceResult(new System.TimeSpan(0, 0, 0, 8)));
-            IQueryPerformance qp = stub.Object;
+            var stub = new Mock<IPerformanceEngine>();
+            stub.Setup(engine => engine.Execute(It.IsAny<TimeSpan>()))
+                .Returns(new PerformanceResult(new TimeSpan(0, 0, 0, 8)));
+            IPerformanceEngine qp = stub.Object;
 
             var fasterThanConstraint = new FasterThanConstraint() { Engine = qp };
             fasterThanConstraint.MaxTimeMilliSeconds(5000);
@@ -94,10 +96,10 @@ namespace NBi.Testing.Unit.NUnit.Query
         {
             var cmd = new SqlCommand();
 
-            var stub = new Mock<IQueryPerformance>();
-            stub.Setup(engine => engine.CheckPerformance(It.IsAny<int>()))
-                .Returns(new PerformanceResult(new System.TimeSpan(0, 0, 0, 4)));
-            IQueryPerformance qp = stub.Object;
+            var stub = new Mock<IPerformanceEngine>();
+            stub.Setup(engine => engine.Execute(It.IsAny<TimeSpan>()))
+                .Returns(new PerformanceResult(new TimeSpan(0, 0, 0, 4)));
+            IPerformanceEngine qp = stub.Object;
 
             var fasterThanConstraint = new FasterThanConstraint() { Engine = qp };
             fasterThanConstraint.MaxTimeMilliSeconds(5000);

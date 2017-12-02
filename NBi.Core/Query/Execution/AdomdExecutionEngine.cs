@@ -28,17 +28,16 @@ namespace NBi.Core.Query.Execution
             { throw new ConnectionException(ex, connectionString); }
         }
 
-
-        protected override void HandleException(Exception ex, IDbCommand command)
+        protected override void HandleException(Exception ex, IDbCommand command) 
         {
             if (ex is AdomdConnectionException)
                 throw new ConnectionException(ex, command.Connection.ConnectionString);
             if (ex is AdomdErrorResponseException && !ex.Message.StartsWith("Timeout expired."))
-                throw new ConnectionException(ex, command.Connection.ConnectionString);
+                OnTimeout(ex, command);
             throw ex;
         }
 
-        protected override IDbConnection NewConnection() => new AdomdConnection();
+        protected internal override IDbConnection NewConnection() => new AdomdConnection();
         protected override IDataAdapter NewDataAdapter(IDbCommand command) => new AdomdDataAdapter((AdomdCommand)command);
     }
 }

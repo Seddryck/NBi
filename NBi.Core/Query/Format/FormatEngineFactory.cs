@@ -1,0 +1,30 @@
+﻿using System;
+using System.Data;
+using System.Data.Odbc;
+using System.Data.OleDb;
+using System.Data.SqlClient;
+using Microsoft.AnalysisServices.AdomdClient;
+
+namespace NBi.Core.Query.Format
+{
+    /// <summary>
+    /// Class to retrieve an adequate query engine on base of the connectionString
+    /// </summary>
+    public class FormatEngineFactory
+    {
+        public IFormatEngine Instantiate(IDbCommand cmd)
+        {
+            if (cmd is SqlCommand)
+                return new SqlFormatEngine((SqlCommand)cmd);
+            else if (cmd is OleDbCommand)
+                return new OleDbFormatEngine((OleDbCommand)cmd);
+            else if (cmd is AdomdCommand)
+                return new AdomdFormatEngine((AdomdCommand)cmd);
+            else if (cmd is OdbcCommand)
+                return new OdbcFormatEngine((OdbcCommand)cmd);
+
+            throw new ArgumentException();
+        }
+
+    }
+}

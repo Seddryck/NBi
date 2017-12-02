@@ -5,18 +5,18 @@ using System.Data;
 using System.Data.Odbc;
 using System.Diagnostics;
 
-namespace NBi.Core.Query.Execution
+namespace NBi.Core.Query.Validation
 {
     /// <summary>
     /// Engine wrapping the System.Data.Odbc namespace for execution of NBi tests
     /// <remarks>Instances of this class are built by the means of the <see>QueryEngineFactory</see></remarks>
     /// </summary>
-    internal class OdbcExecutionEngine : DbCommandExecutionEngine
+    internal class OdbcValidationEngine : DbCommandValidationEngine
     {
-        protected internal OdbcExecutionEngine(OdbcCommand command)
+        protected internal OdbcValidationEngine(OdbcCommand command)
             : base(command)
         { }
-
+        
         protected override void OpenConnection(IDbConnection connection)
         {
             var connectionString = command.Connection.ConnectionString;
@@ -31,16 +31,9 @@ namespace NBi.Core.Query.Execution
             { throw new ConnectionException(ex, connectionString); }
         }
 
-        protected override void HandleException(Exception ex, IDbCommand command)
-        {
-            if (ex is OdbcException && ex.Message.EndsWith("Query timeout expired"))
-                OnTimeout(ex, command);
-            else
-                throw ex;
-        }
+        protected override string[] ParseMessage(string message) => message.Split(new string[] { "\r\n", "[SQL Server]" }, StringSplitOptions.RemoveEmptyEntries).Where(x => !x.EndsWith("SQL Server]")).ToArray();
 
-        protected internal override IDbConnection NewConnection() => new OdbcConnection();
-        protected override IDataAdapter NewDataAdapter(IDbCommand command) => new OdbcDataAdapter((OdbcCommand)command);
+        protected override IDbConnection NewConnection(string connectionString) => new OdbcConnection(connectionString);
     }
 }
 

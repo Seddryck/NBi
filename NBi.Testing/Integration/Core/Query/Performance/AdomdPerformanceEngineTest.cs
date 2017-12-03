@@ -28,13 +28,14 @@ namespace NBi.Testing.Integration.Core.Query.Performance
         }
 
         [Test]
-        public void CleanCache_Any_DoesNotThrow()
+        public void CleanCache_Any_ThrowExceptionBecauseNotAllowed()
         {
             var query = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2010] ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             var qp = new AdomdPerformanceEngine(cmd);
-            Assert.DoesNotThrow(() => qp.CleanCache());
+            var ex = Assert.Throws<AdomdErrorResponseException>(() => qp.CleanCache());
+            Assert.That(ex.Message, Is.StringStarting("Either the user,"));
         }
     }
 }

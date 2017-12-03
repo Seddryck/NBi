@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ClearCache xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+﻿<ClearCache xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
   <Object>
     <DatabaseID>{0}</DatabaseID>
   </Object>

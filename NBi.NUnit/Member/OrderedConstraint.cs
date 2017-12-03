@@ -19,7 +19,7 @@ namespace NBi.NUnit.Member
 	{
 		private bool reversed;
 		private IList<object> specific;
-        private IDbCommand command;
+        private IQuery query;
 
 		/// <summary>
 		/// Construct a CollectionContainsConstraint specific for Members
@@ -89,9 +89,9 @@ namespace NBi.NUnit.Member
 			return this;
 		}
 
-        public OrderedConstraint Specific(IDbCommand command)
+        public OrderedConstraint Specific(IQuery query)
         {
-            this.command = command;
+            this.query = query;
             Comparer = null;
             return this;
         }
@@ -143,8 +143,8 @@ namespace NBi.NUnit.Member
         protected override void PreInitializeMatching()
         {
             base.PreInitializeMatching();
-            if (command is IQuery)
-                specific = GetMembersFromResultSet(command as IQuery);
+            if (query is IQuery)
+                specific = GetMembersFromResultSet(query as IQuery);
         }
 
         protected IList<object> GetMembersFromResultSet(IQuery query)

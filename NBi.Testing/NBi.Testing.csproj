@@ -523,6 +523,9 @@
     <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Full-Json.nbits.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Ignored\Ignored.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\OrderCountByYear.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

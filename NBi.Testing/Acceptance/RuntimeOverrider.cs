@@ -264,5 +264,32 @@ namespace NBi.Testing.Acceptance
                 }
             }
         }
+
+        [Test]
+        [TestCase("Ignored.nbits")]
+        public void RunIgnoredTests(string filename)
+        {
+            var t = new TestSuiteOverrider(@"Ignored\" + filename);
+
+            //First retrieve the NUnit TestCases with base class (NBi.NUnit.Runtime)
+            //These NUnit TestCases are defined in the Test Suite file
+            var tests = t.GetTestCases();
+
+            //Execute the NUnit TestCases one by one
+            foreach (var testCaseData in tests)
+            {
+                var isSuccess = false;
+                try
+                {
+                    t.ExecuteTestCases((TestXml)testCaseData.Arguments[0]);
+                }
+                catch (IgnoreException)
+                {
+                    isSuccess = true;
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, $"Expectation was met: test ignored.");
+                }
+                Assert.That(isSuccess);
+            }
+        }
     }
 }

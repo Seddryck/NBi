@@ -246,7 +246,7 @@ namespace NBi.Testing.Unit.Xml
 
             Assert.That(content, Is.StringContaining("<test"));
             Assert.That(content, Is.StringContaining("<category"));
-            Assert.That(content, Is.StringContaining("<system-under-test"));
+            Assert.That(content, Is.Not.StringContaining("<system-under-test"));
             Assert.That(content, Is.StringContaining("<category"));
             Assert.That(content, Is.StringContaining("<not-implemented"));
             Assert.That(content, Is.StringContaining("<nodes"));

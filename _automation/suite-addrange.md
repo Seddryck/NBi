@@ -9,5 +9,5 @@ The command *addrange* offers the opportunity to add a set of tests defined in a
 It happens that you need to add the tests of an existing test-suite to your automatically generated tests. In this case, you need to use this command and specify the filename of the test-suite.
 
 {% highlight xml%}
-suite addrange file 'mytestsuite.nbis';
+suite addrange file 'mytestsuite.nbits';
 {% endhighlight %}

@@ -165,7 +165,7 @@ namespace NBi.Core.Query
 
                 // setting query runtime
                 elapsedSec = (float)timeAfter.Subtract(timeBefore).TotalSeconds;
-                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query [OLEDB]: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
                 return ds;
             }
@@ -214,7 +214,7 @@ namespace NBi.Core.Query
 
                 // setting query runtime
                 var elapsedSec = (float)timeAfter.Subtract(timeBefore).TotalSeconds;
-                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query [OLEDB]: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
                 return value;
             }
@@ -265,7 +265,7 @@ namespace NBi.Core.Query
 
                 // setting query runtime
                 var elapsedSec = (float)timeAfter.Subtract(timeBefore).TotalSeconds;
-                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query [OLEDB]: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
                 return list;
             }

@@ -33,6 +33,7 @@ namespace NBi.Testing.Acceptance
             {
                 TestSuiteFinder = new TestSuiteFinderOverrider(filename);
                 ConfigurationFinder = new ConfigurationFinderOverrider(configFilename);
+                ConnectionStringsFinder = new ConnectionStringsFinderOverrider(configFilename);
             }
 
             internal class TestSuiteFinderOverrider : TestSuiteFinder
@@ -67,6 +68,26 @@ namespace NBi.Testing.Acceptance
                             return section;
                     }
                     return new NBiSection();
+                }
+            }
+
+            internal class ConnectionStringsFinderOverrider : ConnectionStringsFinder
+            {
+                private readonly string filename;
+                public ConnectionStringsFinderOverrider(string filename)
+                {
+                    this.filename = filename;
+                }
+                protected override string GetConfigFile() => $@"Acceptance\Resources\{filename}.config";
+
+                protected override Configuration GetConfiguration()
+                {
+                    ExeConfigurationFileMap configMap = new ExeConfigurationFileMap()
+                    {
+                        ExeConfigFilename = GetConfigFile()
+                    };
+                    var config = ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
+                    return config;
                 }
             }
 

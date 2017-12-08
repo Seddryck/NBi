@@ -13,14 +13,14 @@ namespace NBi.NUnit.Runtime
 		protected internal virtual NameValueCollection Find()
 		{
 			var list = new NameValueCollection();
-			string configFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
+            string configFile = GetConfigFile();
 			//Try to find a config file, if existing take the path inside for the TestSuite
 			if (File.Exists(configFile))
 			{
-				//line bellow to avoid .Net framework bug: http://support.microsoft.com/kb/2580188/en-us
-				var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                //line bellow to avoid .Net framework bug: http://support.microsoft.com/kb/2580188/en-us
+                var configuration = GetConfiguration();
 
-				if (configuration.ConnectionStrings != null)
+                if (configuration.ConnectionStrings != null)
 				{
 					Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Section 'connectionStrings' found."));
 					if (!string.IsNullOrEmpty(configuration.ConnectionStrings.SectionInformation.ConfigSource))
@@ -37,5 +37,8 @@ namespace NBi.NUnit.Runtime
 			}
 			return list;
 		}
-	}
+
+        protected virtual string GetConfigFile() => AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
+        protected virtual System.Configuration.Configuration GetConfiguration() => ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None); 
+    }
 }

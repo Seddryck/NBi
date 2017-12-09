@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 
 namespace NBi.Core.Query
 {
@@ -8,5 +9,7 @@ namespace NBi.Core.Query
     public interface IQueryExecutor : IQueryEnginable
     {
         DataSet Execute();
+        object ExecuteScalar();
+        IEnumerable<T> ExecuteList<T>();
     }
 }

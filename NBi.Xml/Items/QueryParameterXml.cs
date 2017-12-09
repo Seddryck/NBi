@@ -6,7 +6,7 @@ using NBi.Core.Query;
 
 namespace NBi.Xml.Items
 {
-    public class QueryParameterXml: ParameterXml, IQueryParameter
+    public class QueryParameterXml: ParameterXml
     {
         private string sqlType;
         [XmlAttribute("sql-type")]

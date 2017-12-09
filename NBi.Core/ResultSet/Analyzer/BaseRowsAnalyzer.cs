@@ -11,7 +11,7 @@ namespace NBi.Core.ResultSet.Analyzer
     {
         protected abstract string Sentence { get; }
 
-        public List<CompareHelper> Retrieve(Dictionary<KeyCollection,CompareHelper> x, Dictionary<KeyCollection, CompareHelper> y)
+        public List<RowHelper> Retrieve(Dictionary<KeyCollection,RowHelper> x, Dictionary<KeyCollection, RowHelper> y)
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -30,7 +30,7 @@ namespace NBi.Core.ResultSet.Analyzer
             return rows;
         }
 
-        protected abstract List<CompareHelper>  ExtractRows(Dictionary<KeyCollection, CompareHelper> x, Dictionary<KeyCollection, CompareHelper> y);
+        protected abstract List<RowHelper>  ExtractRows(Dictionary<KeyCollection, RowHelper> x, Dictionary<KeyCollection, RowHelper> y);
         
     }
 }

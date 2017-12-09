@@ -1,7 +1,7 @@
 ﻿Execution of the query doesn't match the expected result 
 
   Expected: 
-ResultSet with 5 rows
+Result-set with 5 rows
 
      #0 (Column1) | #1 (Column2)               
      KEY (Text)   | VALUE (Numeric)  (+/- 0.01)
@@ -14,7 +14,7 @@ ResultSet with 5 rows
 
 
   But was:  
-ResultSet with 6 rows
+Result-set with 6 rows
 
      #0 (Column1) | #1 (Column2)               
      KEY (Text)   | VALUE (Numeric)  (+/- 0.01)
@@ -31,7 +31,7 @@ ResultSet with 6 rows
 Unexpected rows:
 ----------------
 
-ResultSet with 2 rows
+Result-set with 2 rows
 
      #0 (Column1) | #1 (Column2)               
      KEY (Text)   | VALUE (Numeric)  (+/- 0.01)
@@ -42,7 +42,7 @@ ResultSet with 2 rows
 Missing rows:
 -------------
 
-ResultSet with 1 row
+Result-set with 1 row
 
      #0 (Column1) | #1 (Column2)               
      KEY (Text)   | VALUE (Numeric)  (+/- 0.01)
@@ -53,7 +53,7 @@ ResultSet with 1 row
 Non matching value rows:
 ------------------------
 
-ResultSet with 1 row
+Result-set with 1 row
 
      #0 (Column1) | #1 (Column2)               
      KEY (Text)   | VALUE (Numeric)  (+/- 0.01)

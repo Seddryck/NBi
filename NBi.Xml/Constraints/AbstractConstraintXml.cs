@@ -2,6 +2,9 @@
 using System.Xml.Serialization;
 using NBi.Xml.Items;
 using NBi.Xml.Settings;
+using NBi.Xml.Variables;
+using System.Collections.Generic;
+using NBi.Core.Variable;
 
 namespace NBi.Xml.Constraints
 {
@@ -31,7 +34,7 @@ namespace NBi.Xml.Constraints
                     BaseItem.Settings = value;
             }
         }
-        
+
         [XmlIgnore]
         public virtual BaseItem BaseItem 
         { 

@@ -2,26 +2,24 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using NBi.Core;
-using NBi.Core.Query;
-using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Comparer;
-using NBi.NUnit.Query;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
-using NBi.Core.Xml;
-using NBi.Core.Transformation;
-using NBi.NUnit.ResultSetComparison;
 using System.Data;
+using NBi.Core.ResultSet;
+using NBi.Xml.Constraints;
+using NBi.Xml.Systems;
+using NBi.NUnit.ResultSetComparison;
+using NBi.Core.ResultSet.Resolver;
+using NBi.Core.Transformation;
+using NBi.Core.ResultSet.Equivalence;
+using NBi.NUnit.Builder.Helper;
+using NBi.Xml.Settings;
 
 namespace NBi.NUnit.Builder
 {
     class ResultSetSupersetOfBuilder : ResultSetEqualToBuilder
     {
-        protected override ComparisonKind ComparisonKind
+        protected override EquivalenceKind EquivalenceKind
         {
-            get { return ComparisonKind.SupersetOf; }
+            get { return EquivalenceKind.SupersetOf; }
         }
 
         public ResultSetSupersetOfBuilder()
@@ -42,26 +40,22 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint();
         }
 
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(string path)
+        protected override BaseResultSetComparisonConstraint InstantiateConstraint(object obj, SettingsXml settings, TransformationProvider transformation)
         {
-            return new SupersetOfConstraint(path);
+            var argsBuilder = new ResultSetResolverArgsBuilder();
+            argsBuilder.Setup(obj);
+            argsBuilder.Build();
+
+            var factory = new ResultSetResolverFactory();
+            var resolver = factory.Instantiate(argsBuilder.GetArgs());
+
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(resolver);
+            if (transformation != null)
+                builder.Setup(transformation.Transform);
+            var service = builder.GetService();
+
+            return new SupersetOfConstraint(service);
         }
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(IDbCommand cmd)
-        {
-            return new SupersetOfConstraint(cmd);
-        }
-
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(IContent content)
-        {
-            return new SupersetOfConstraint(content);
-        }
-
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(XPathEngine engine)
-        {
-            return new SupersetOfConstraint(engine);
-        }
-
-
-
     }
 }

@@ -22,18 +22,25 @@ namespace NBi.Core.ResultSet.Comparer
 
         protected override ComparerResult CompareObjects(object x, object y, Tolerance tolerance)
         {
-            if (!(tolerance is TextTolerance))
-                throw new ArgumentException("Tolerance must be of type 'TextTolerance'");
+            if (tolerance is TextSingleMethodTolerance)
+                return CompareObjects(x, y, (TextSingleMethodTolerance)tolerance);
+            else if (tolerance is TextMultipleMethodsTolerance)
+                return CompareObjects(x, y, (TextMultipleMethodsTolerance)tolerance);
 
-            return CompareObjects(x, y, (TextTolerance)tolerance);
+            throw new ArgumentException("Tolerance must be of type 'TextTolerance'");
         }
 
-        protected ComparerResult CompareObjects(object x, object y, TextTolerance tolerance)
+        protected ComparerResult CompareObjects(object x, object y, TextSingleMethodTolerance tolerance)
         {
             return CompareStrings(x as string, y as string, tolerance);
         }
 
-        protected ComparerResult CompareStrings(string x, string y, TextTolerance tolerance)
+        protected ComparerResult CompareObjects(object x, object y, TextMultipleMethodsTolerance tolerance)
+        {
+            return CompareStrings(x as string, y as string, tolerance);
+        }
+
+        protected ComparerResult CompareStrings(string x, string y, TextSingleMethodTolerance tolerance)
         {
             var distance = tolerance.Implementation.Invoke(x, y);
             
@@ -41,6 +48,14 @@ namespace NBi.Core.ResultSet.Comparer
                 return ComparerResult.Equality;
             else
                 return new ComparerResult(distance.ToString());
+        }
+
+        protected ComparerResult CompareStrings(string x, string y, TextMultipleMethodsTolerance tolerance)
+        {
+            if (tolerance.Implementation.Invoke(x, y))
+                return ComparerResult.Equality;
+            else
+                return new ComparerResult("different");
         }
 
         protected override ComparerResult CompareObjects(object x, object y, Rounding rounding)

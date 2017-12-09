@@ -5,6 +5,7 @@ using NBi.Core.Analysis.Member;
 using NBi.Core.Analysis.Request;
 using NBi.NUnit.Member;
 using NUnit.Framework;
+using NBi.Framework.FailureMessage.Markdown;
 using NBi.Framework.FailureMessage;
 
 namespace NBi.Testing.Unit.NUnit.Member
@@ -53,7 +54,7 @@ namespace NBi.Testing.Unit.NUnit.Member
             var writer = stubWriter.Object;
 
             //Mock the failure
-            var mockedFailure = Mock.Of<ItemsMessage>(f => f.RenderActual() == "failure actual");
+            var mockedFailure = Mock.Of<IItemsMessageFormatter>(f => f.RenderActual() == "failure actual");
 
             //Buiding object used during test
             var subsetOfConstraint = new NBi.NUnit.Member.ContainedInConstraint(new List<string>() { "First member" });
@@ -74,7 +75,7 @@ namespace NBi.Testing.Unit.NUnit.Member
             var writer = stubWriter.Object;
 
             //Mock the failure
-            var mockedFailure = Mock.Of<ItemsMessage>(f => f.RenderExpected() == "failure actual");
+            var mockedFailure = Mock.Of<IItemsMessageFormatter>(f => f.RenderExpected() == "failure actual");
 
             //Buiding object used during test
             var subsetOfConstraint = new NBi.NUnit.Member.ContainedInConstraint(new List<string>() { "First member" });

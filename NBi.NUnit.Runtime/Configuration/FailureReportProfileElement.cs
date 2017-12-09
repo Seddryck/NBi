@@ -1,4 +1,5 @@
-﻿using NBi.Framework.FailureMessage;
+﻿using NBi.Framework;
+using NBi.Framework.FailureMessage;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -77,6 +78,32 @@ namespace NBi.NUnit.Runtime.Configuration
             set
             {
                 this["analysis-set"] = value;
+            }
+        }
+
+        [ConfigurationProperty("format", IsRequired = false, DefaultValue = FailureReportFormat.Markdown)]
+        public FailureReportFormat Format
+        {
+            get
+            {
+                return (FailureReportFormat)this["format"];
+            }
+            set
+            {
+                this["format"] = value;
+            }
+        }
+
+        [ConfigurationProperty("mode", IsRequired = false, DefaultValue = FailureReportMode.OnFailure)]
+        public FailureReportMode Mode
+        {
+            get
+            {
+                return (FailureReportMode)this["mode"];
+            }
+            set
+            {
+                this["mode"] = value;
             }
         }
     }

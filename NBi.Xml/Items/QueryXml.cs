@@ -36,6 +36,15 @@ namespace NBi.Xml.Items
             set { inlineQuery = value; }
         }
 
+        [XmlElement("assembly")]
+        public AssemblyXml Assembly { get; set; }
+
+        [XmlElement("report")]
+        public virtual ReportXml Report { get; set; }
+
+        [XmlElement("shared-dataset")]
+        public virtual SharedDatasetXml SharedDataset { get; set; }
+
         public override string GetQuery()
         {
             //if Sql is specified then return it

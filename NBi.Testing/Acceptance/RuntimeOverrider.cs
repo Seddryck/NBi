@@ -6,6 +6,8 @@ using System.Diagnostics;
 using System.Reflection;
 using NBi.Framework;
 using System.Configuration;
+using NBi.Core;
+using System.Collections.Generic;
 
 namespace NBi.Testing.Acceptance
 {
@@ -17,7 +19,7 @@ namespace NBi.Testing.Acceptance
     [TestFixture]
     public class RuntimeOverrider
     {
-        
+
         //This class overrides the search for TestSuiteDefinitionFile
         //The filename is given by the TestCase here under
         public class TestSuiteOverrider : TestSuite
@@ -31,8 +33,9 @@ namespace NBi.Testing.Acceptance
             {
                 TestSuiteFinder = new TestSuiteFinderOverrider(filename);
                 ConfigurationFinder = new ConfigurationFinderOverrider(configFilename);
+                ConnectionStringsFinder = new ConnectionStringsFinderOverrider(configFilename);
             }
-            
+
             internal class TestSuiteFinderOverrider : TestSuiteFinder
             {
                 private readonly string filename;
@@ -40,7 +43,7 @@ namespace NBi.Testing.Acceptance
                 {
                     this.filename = filename;
                 }
-                
+
                 protected internal override string Find()
                 {
                     return @"Acceptance\Resources\" + filename;
@@ -68,6 +71,26 @@ namespace NBi.Testing.Acceptance
                 }
             }
 
+            internal class ConnectionStringsFinderOverrider : ConnectionStringsFinder
+            {
+                private readonly string filename;
+                public ConnectionStringsFinderOverrider(string filename)
+                {
+                    this.filename = filename;
+                }
+                protected override string GetConfigFile() => $@"Acceptance\Resources\{filename}.config";
+
+                protected override Configuration GetConfiguration()
+                {
+                    ExeConfigurationFileMap configMap = new ExeConfigurationFileMap()
+                    {
+                        ExeConfigFilename = GetConfigFile()
+                    };
+                    var config = ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
+                    return config;
+                }
+            }
+
             [Ignore]
             public override void ExecuteTestCases(TestXml test)
             {
@@ -89,7 +112,7 @@ namespace NBi.Testing.Acceptance
             Directory.CreateDirectory("Etl");
             DiskOnFile.CreatePhysicalFile(@"Etl\Sample.dtsx", "NBi.Testing.Integration.SqlServer.IntegrationService.Resources.Sample.dtsx");
         }
-        
+
         //By Acceptance Test Suite (file) create a Test Case
         [Test]
         [TestCase("QueryUniqueRows.nbits")]
@@ -123,25 +146,38 @@ namespace NBi.Testing.Acceptance
         [TestCase("ReportEqualTo.nbits")]
         [TestCase("Etl.nbits")]
         [TestCase("Decoration.nbits")]
-        [TestCase("Decoration.nbits")]
         [TestCase("Is.nbits")]
         [TestCase("QueryEqualToXml.nbits")]
         [TestCase("QueryRowCount.nbits")]
-        [TestCase("QueryEqualToXml.nbits")]
         [TestCase("QueryAllNoRows.nbits")]
+        [TestCase("ResultSetConstraint.nbits")]
         //[TestCase("PowerBiDesktop.nbits")]
         [Category("Acceptance")]
         public void RunPositiveTestSuite(string filename)
         {
+            var ignoredTests = new List<string>();
             var t = new TestSuiteOverrider(@"Positive\" + filename);
-            
+
             //First retrieve the NUnit TestCases with base class (NBi.NUnit.Runtime)
             //These NUnit TestCases are defined in the Test Suite file
             var tests = t.GetTestCases();
 
             //Execute the NUnit TestCases one by one
             foreach (var testCaseData in tests)
-                t.ExecuteTestCases((TestXml)testCaseData.Arguments[0]);
+            {
+                try
+                {
+                    t.ExecuteTestCases((TestXml)testCaseData.Arguments[0]);
+                }
+                catch (IgnoreException)
+                {
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceWarning, $"Not stopping the test suite, continue on ignore.");
+                    ignoredTests.Add(((TestXml)testCaseData.Arguments[0]).Name);
+                }
+            }
+
+            if (ignoredTests.Count>0)
+                Assert.Inconclusive($"At least one test has been skipped. Check if it was expected. List of ignored tests: '{string.Join("', '", ignoredTests)}'");
         }
 
         [Test]
@@ -186,8 +222,8 @@ namespace NBi.Testing.Acceptance
                 {
                     using (Stream stream = Assembly.GetExecutingAssembly()
                                            .GetManifestResourceStream(
-                                                "NBi.Testing.Acceptance.Resources.Negative." 
-                                                + filename.Replace(".nbits",string.Empty) 
+                                                "NBi.Testing.Acceptance.Resources.Negative."
+                                                + filename.Replace(".nbits", string.Empty)
                                                 + "-" + testXml.UniqueIdentifier + ".txt"))
                     {
                         using (StreamReader reader = new StreamReader(stream))
@@ -203,6 +239,7 @@ namespace NBi.Testing.Acceptance
         }
 
         [Test]
+        [TestCase("Config-Full-Json.nbits")]
         [TestCase("Config-Full.nbits")]
         [TestCase("Config-Light.nbits")]
         [Category("Acceptance")]

@@ -9,6 +9,9 @@
     </default>
   </settings>
   <test name="'Reseller Order Count' by year before 2006" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012" />
+    </condition>
     <system-under-test>
       <execution>
         <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
@@ -39,6 +42,9 @@
     </assert>
   </test>
   <test name="'Reseller Order Count' by year before 2006" uid="0001" ignore="false">
+    <condition>
+      <service-running name="MSOLAP$SQL2012" />
+    </condition>
     <system-under-test>
       <execution>
         <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
@@ -363,28 +369,6 @@
         </equalTo>
       </assert>
     </test>
-    <test name="Format float and date">
-      <system-under-test>
-        <execution>
-          <query>
-            select '10.2016', '0121,00' union all select '11.2016', '0242,00'
-          </query>
-        </execution>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <column index="0" role="key" type="text">
-            <transformation language="format" original-type="dateTime">MM.yyyy</transformation>
-          </column>
-          <column index="1" role="value" type="numeric">
-            <transformation language="format" original-type="numeric">0000.00</transformation>
-          </column>
-          <query>
-            select cast('2016-10-01' as DateTime), cast(121 as float) union all select cast('2016-11-01' as DateTime), cast(242 as float)
-          </query>
-        </equalTo>
-      </assert>
-    </test>
     <test name="Native trim and blank-to-null">
       <system-under-test>
         <execution>
@@ -494,7 +478,7 @@
         </equalTo>
       </assert>
     </test>
-    <test name="value definition">
+    <test name="Date for value definition">
       <system-under-test>
         <execution>
           <query>select 'Alpha' as 'KeyField', '2016-12-10' as 'Value' union all select 'Beta' as 'KeyField', '2016-02-02'</query>
@@ -509,7 +493,7 @@
         </equalTo>
       </assert>
     </test>
-    <test name="value definition">
+    <test name="Numeric for Key definition">
       <system-under-test>
         <execution>
           <query>select '10' as 'KeyField', '2016-12-10' as 'Value' union all select '12.0' as 'KeyField', '2016-02-02'</query>

@@ -7,6 +7,10 @@ using NUnit.Framework;
 using NBi.Core.ResultSet;
 using System.Data.SqlClient;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Core.ResultSet.Resolver;
+using NBi.NUnit;
+using NUnit.Framework.Constraints;
+using NBi.Core.Scalar.Resolver;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
@@ -34,23 +38,21 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         {
             var resultSet = new ResultSet();
             resultSet.Load("a;b;c");
-            var cmd = new SqlCommand();
 
-            var rsbMock = new Mock<ResultSetBuilder>();
-            rsbMock.Setup(engine => engine.Build(It.IsAny<object>()))
+            var serviceMock = new Mock<IResultSetService>();
+            serviceMock.Setup(s => s.Execute())
                 .Returns(resultSet);
-            var rsb = rsbMock.Object;
+            var service = serviceMock.Object;
 
-            var child = new NUnitCtr.GreaterThanConstraint(0);
+            var differed = new DifferedConstraint(typeof(GreaterThanConstraint), new LiteralScalarResolver<decimal>(new LiteralScalarResolverArgs(0)));
 
-            var rowCount = new RowCountConstraint(child) { ResultSetBuilder = rsb };
-            rowCount.ResultSetBuilder = rsb;
+            var rowCount = new RowCountConstraint(differed);
 
             //Method under test
-            rowCount.Matches(cmd);
+            rowCount.Matches(service);
 
             //Test conclusion            
-            rsbMock.Verify(engine => engine.Build(It.IsAny<object>()), Times.Once());
+            serviceMock.Verify(s => s.Execute(), Times.Once());
         }
 
     }

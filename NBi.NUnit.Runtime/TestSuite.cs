@@ -11,18 +11,19 @@ using NBi.Xml.Decoration;
 using NUnit.Framework;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.NUnit.Runtime.Configuration;
-using NBi.Framework.FailureMessage;
 using NBi.Framework;
 using NBi.Core.Configuration;
 using NBi.Core.Variable;
 using NBi.Xml.Variables;
+using NBi.NUnit.Builder.Helper;
+using NBi.Core.Scalar.Resolver;
 
 namespace NBi.NUnit.Runtime
 {
     /// <summary>
     /// This Class is the entry point for NUnit.Framework
     /// In reality the NUnit.Framework think this class is the class containing all the fixtures. But
-    /// in reality this class will just call the NBi 
+    /// in reality this class will just call a method to build all the test-cases from the nbits file. 
     /// </summary>
     [TestFixture]
     public class TestSuite
@@ -63,16 +64,20 @@ namespace NBi.NUnit.Runtime
                 ApplyConfig(config);
             }
             else
-                Trace.WriteLineIf(NBiTraceSwitch.TraceError, string.Format("No configuration-finder found."));
+                Trace.WriteLineIf(NBiTraceSwitch.TraceError, $"No configuration-finder found.");
 
-            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Test loaded by {0}", GetOwnFilename()));
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Test defined in {0}", TestSuiteFinder.Find()));
+            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, $"Test loaded by {GetOwnFilename()}");
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Test defined in {TestSuiteFinder.Find()}");
 
             //check if ignore is set to true
             if (test.Ignore)
+            {
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Test ignored. Reason is '{test.IgnoreReason}'");
                 Assert.Ignore(test.IgnoreReason);
+            }
             else
             {
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Running test '{test.Name}' #{test.UniqueIdentifier}");
                 ExecuteChecks(test.Condition);
                 ExecuteSetup(test.Setup);
                 foreach (var tc in test.Systems)
@@ -103,7 +108,11 @@ namespace NBi.NUnit.Runtime
                 var impl = new DecorationFactory().Get(predicate);
                 var isVerified = impl.Validate();
                 if (!isVerified)
-                    Assert.Ignore("This test has been ignored because following check wasn't successful: {0}", impl.Message);
+                {
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Test ignored. At least one condition was not validated: '{impl.Message}'");
+                    Assert.Ignore($"This test has been ignored because following check wasn't successful: {impl.Message}");
+                }
+                    
             }
         }
 
@@ -239,11 +248,27 @@ namespace NBi.NUnit.Runtime
         private IDictionary<string, ITestVariable> BuildVariables(IEnumerable<GlobalVariableXml> variables)
         {
             var instances = new Dictionary<string, ITestVariable>();
+            var resolverFactory = new ScalarResolverFactory();
             var factory = new TestVariableFactory();
 
             foreach (var variable in variables)
             {
-                var instance = factory.Instantiate(variable.Script.Language, variable.Script.Code);
+                var builder = new ScalarResolverArgsBuilder();
+                builder.Setup(instances); //Pass the catalog that we're building to itself
+                if (variable.Script != null)
+                    builder.Setup(variable.Script);
+                else if (variable.QueryScalar != null)
+                {
+                    variable.QueryScalar.Settings = TestSuiteManager.TestSuite.Settings;
+                    variable.QueryScalar.Default = TestSuiteManager.TestSuite.Settings.GetDefault(Xml.Settings.SettingsXml.DefaultScope.Variable);
+                    builder.Setup(variable.QueryScalar);
+                }
+                builder.Build();
+                var args = builder.GetArgs();
+                
+                var resolver = resolverFactory.Instantiate<object>(args);
+
+                var instance = factory.Instantiate(resolver);
                 instances.Add(variable.Name, instance);
             }
 

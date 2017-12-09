@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Calculation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,7 +9,8 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Constraints.Comparer
 {
-    public class TrueXml : AbstractComparerXml
+    public class TrueXml : PredicateXml
     {
+        internal override ComparerType ComparerType { get => ComparerType.True; }
     }
 }

@@ -62,19 +62,24 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Builder\AbstractResultSetBuilder.cs" />
     <Compile Include="Builder\AbstractMembersBuilder.cs" />
     <Compile Include="Builder\AbstractDataTypeBuilder.cs" />
     <Compile Include="Builder\AbstractTestCaseBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionNonQueryBuilder.cs" />
-    <Compile Include="Builder\ExecutionNoDuplicateBuilder.cs" />
-    <Compile Include="Builder\ResultSetSystemEqualToBuilder.cs" />
+    <Compile Include="Builder\Helper\ScalarResolverArgsBuilder.cs" />
+    <Compile Include="Builder\Helper\ResultSetResolverArgsBuilder.cs" />
+    <Compile Include="Builder\Helper\QueryResolverArgsBuilder.cs" />
+    <Compile Include="Builder\ResultSetSingleRowBuilder.cs" />
+    <Compile Include="Builder\ResultSetSomeRowsBuilder.cs" />
+    <Compile Include="Builder\ResultSetUniqueRowsBuilder.cs" />
     <Compile Include="Builder\ResultSetSubsetOfBuilder.cs" />
     <Compile Include="Builder\ResultSetSupersetOfBuilder.cs" />
-    <Compile Include="Builder\ExecutionNoRowsBuilder.cs" />
-    <Compile Include="Builder\ExecutionAllRowsBuilder.cs" />
-    <Compile Include="Builder\ExecutionRowCountBuilder.cs" />
+    <Compile Include="Builder\ResultSetNoRowsBuilder.cs" />
+    <Compile Include="Builder\ResultSetAllRowsBuilder.cs" />
+    <Compile Include="Builder\ResultSetRowCountBuilder.cs" />
     <Compile Include="Builder\ExecutionFasterThanChooser.cs" />
     <Compile Include="Builder\ExecutionNonQuerySuccessfulBuilder.cs" />
     <Compile Include="Builder\ExecutionNonQueryFasterThanBuilder.cs" />
@@ -100,6 +105,10 @@
     <Compile Include="Builder\ResultSetEqualToBuilder.cs" />
     <Compile Include="DataType\DescriptionDataTypeHelper.cs" />
     <Compile Include="DataType\IsConstraint.cs" />
+    <Compile Include="DifferedConstraint.cs" />
+    <Compile Include="Query\RowCountConstraint.cs" />
+    <Compile Include="Query\SingleRowConstraint.cs" />
+    <Compile Include="Query\SomeRowsConstraint.cs" />
     <Compile Include="ResultSetComparison\BaseResultSetComparisonConstraint.cs" />
     <Compile Include="ResultSetComparison\UniqueRowsConstraint.cs" />
     <Compile Include="ResultSetComparison\SubsetOfConstraint.cs" />
@@ -107,7 +116,6 @@
     <Compile Include="Query\AllRowsConstraint.cs" />
     <Compile Include="Query\RowCountFilterConstraint.cs" />
     <Compile Include="Query\RowCountFilterPercentageConstraint.cs" />
-    <Compile Include="Query\RowCountConstraint.cs" />
     <Compile Include="Execution\FasterThanConstraint.cs" />
     <Compile Include="Execution\SuccessfulConstraint.cs" />
     <Compile Include="Member\AbstractMembersConstraint.cs" />

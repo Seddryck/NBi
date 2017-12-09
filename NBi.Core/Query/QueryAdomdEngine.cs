@@ -5,6 +5,7 @@ using Microsoft.AnalysisServices.AdomdClient;
 using System.IO;
 using System.Reflection;
 using System.Data.Common;
+using System.Collections.Generic;
 
 namespace NBi.Core.Query
 {
@@ -79,6 +80,11 @@ namespace NBi.Core.Query
             return Execute(out i);
         }
 
+        public virtual object ExecuteScalar()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Method exposed by the interface IQueryExecutor to execute a test of execution and get the result of the query executed and also the time needed to retrieve this result
         /// </summary>
@@ -132,7 +138,7 @@ namespace NBi.Core.Query
 
                 // setting query runtime
                 elapsedSec = (float)timeAfter.Subtract(timeBefore).TotalSeconds;
-                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query [ADOMD]: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
                 return ds;
             }
@@ -202,7 +208,7 @@ namespace NBi.Core.Query
 
                 // setting query runtime
                 elapsedSec = (float)timeAfter.Subtract(timeBefore).TotalSeconds;
-                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query [ADOMD]: {0}", timeAfter.Subtract(timeBefore).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
                 return cellSet;
             }
@@ -295,6 +301,9 @@ namespace NBi.Core.Query
             }
         }
 
-
+        public IEnumerable<T> ExecuteList<T>()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -29,7 +29,7 @@ namespace NBi.Xml.Items
         }
 
 
-        protected Dictionary<string, object> GetMethodParameters()
+        public Dictionary<string, object> GetMethodParameters()
         {
             var dico = new Dictionary<string, object>();
 

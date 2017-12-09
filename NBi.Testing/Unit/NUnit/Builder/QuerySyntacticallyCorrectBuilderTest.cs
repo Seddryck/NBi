@@ -7,6 +7,8 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NUnit.Framework;
+using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Resolver;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -85,6 +87,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
+            Assert.That(sut, Is.Not.Null);
             Assert.That(sut, Is.InstanceOf<IDbCommand>());
         }
 
@@ -110,8 +113,8 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
+            Assert.That(sut, Is.Not.Null);
             Assert.That(sut, Is.InstanceOf<IDbCommand>());
-            Assert.That((sut as IDbCommand).CommandType, Is.EqualTo(CommandType.StoredProcedure));
         }
 
     }

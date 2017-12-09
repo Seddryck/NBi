@@ -15,42 +15,9 @@ using NBi.Core.Evaluate;
 
 namespace NBi.Xml.Constraints
 {
-    public class AllRowsXml : AbstractConstraintXml
+    public class AllRowsXml : NoRowsXml
     {
-        [XmlIgnore()]
-        public List<IColumnAlias> Aliases
-        {
-            get
-            {
-                return InternalAliases.ToList<IColumnAlias>();
-            }
-        }
-
-        [XmlElement("expression")]
-        public ExpressionXml Expression { get; set; }
-
-        [XmlElement("alias")]
-        public List<AliasXml> InternalAliases
-        {
-            get { return internalAliases; }
-            set { internalAliases = value; }
-        }
-
-        [XmlIgnore]
-        public List<AliasXml> InternalAliasesOld
-        {
-            get { return internalAliases; }
-            set { internalAliases = value; }
-        }
-
-        private List<AliasXml> internalAliases;
-
-        [XmlElement("predicate")]
-        public PredicateXml Predicate { get; set; }
-
-        public AllRowsXml()
-        {
-            internalAliases = new List<AliasXml>();
-        }
+        public AllRowsXml() : base()
+        { }
     }
 }

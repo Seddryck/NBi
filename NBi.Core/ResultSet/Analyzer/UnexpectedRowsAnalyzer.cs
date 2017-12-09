@@ -13,12 +13,12 @@ namespace NBi.Core.ResultSet.Analyzer
             get { return "Unexpected rows"; }
         }
 
-        protected override List<CompareHelper> ExtractRows(Dictionary<KeyCollection, CompareHelper> x, Dictionary<KeyCollection, CompareHelper> y)
+        protected override List<RowHelper> ExtractRows(Dictionary<KeyCollection, RowHelper> x, Dictionary<KeyCollection, RowHelper> y)
         {
-            List<CompareHelper> rows;
+            List<RowHelper> rows;
             {
                 var keys = y.Keys.Except(x.Keys);
-                rows = new List<CompareHelper>(keys.Count());
+                rows = new List<RowHelper>(keys.Count());
                 foreach (var i in keys)
                     rows.Add(y[i]);
             }

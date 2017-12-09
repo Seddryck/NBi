@@ -23,6 +23,9 @@ namespace NBi.Core.Assemblies
             if (!Path.IsPathRooted(assemblyPath))
                 assemblyPath = Path.GetFullPath(assemblyPath);
 
+            if (!File.Exists(assemblyPath))
+                throw new ExternalDependencyNotFoundException(assemblyPath);
+
             var assembly = Assembly.LoadFile(assemblyPath);
             var type = assembly.GetType(typeName);
             if (type == null)

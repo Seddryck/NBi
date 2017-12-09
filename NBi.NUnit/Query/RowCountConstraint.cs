@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-using NBi.Core;
+using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet;
-using NBi.Core.Calculation;
 using NBi.Framework.FailureMessage;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Framework.FailureMessage.Markdown;
+using NUnit.Framework;
+using NBi.Framework;
+using NBi.Core.Scalar.Resolver;
 
 namespace NBi.NUnit.Query
 {
@@ -15,44 +18,21 @@ namespace NBi.NUnit.Query
         /// Store for the result of the engine's execution
         /// </summary>
         protected ResultSet actualResultSet;
-        protected NUnitCtr.Constraint child;
+        protected DifferedConstraint differed;
+        protected NUnitCtr.Constraint ctr;
 
-        public RowCountConstraint(NUnitCtr.Constraint childConstraint)
+        public RowCountConstraint(DifferedConstraint childConstraint)
         {
-            child = childConstraint;
+            differed = childConstraint;
         }
 
-        public NUnitCtr.Constraint Child
+        internal DifferedConstraint Differed
         {
-            get
-            {
-                return child;
-            }
+            get => differed;
         }
 
-        /// <summary>
-        /// Engine dedicated to ResultSet acquisition
-        /// </summary>
-        protected IResultSetBuilder _resultSetBuilder;
-        protected internal IResultSetBuilder ResultSetBuilder
-        {
-            get
-            {
-                if (_resultSetBuilder == null)
-                    _resultSetBuilder = new ResultSetBuilder();
-
-                return _resultSetBuilder;
-            }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException();
-                _resultSetBuilder = value;
-            }
-        }
-
-        private DataRowsMessage failure;
-        protected DataRowsMessage Failure
+        private IDataRowsMessageFormatter failure;
+        protected IDataRowsMessageFormatter Failure
         {
             get
             {
@@ -62,9 +42,10 @@ namespace NBi.NUnit.Query
             }
         }
 
-        protected virtual DataRowsMessage BuildFailure()
+        protected virtual IDataRowsMessageFormatter BuildFailure()
         {
-            var msg = new DataRowsMessage(ComparisonStyle.ByIndex, Configuration.FailureReportProfile);
+            var factory = new DataRowsMessageFormatterFactory();
+            var msg = factory.Instantiate(Configuration.FailureReportProfile, EngineStyle.ByIndex);
             msg.BuildCount(actualResultSet.Rows.Cast<DataRow>());
             return msg;
         }
@@ -72,33 +53,46 @@ namespace NBi.NUnit.Query
         /// <summary>
         /// Handle an IDbCommand and compare its row-count to a another value
         /// </summary>
-        /// <param name="actual">An OleDbCommand, SqlCommand or AdomdCommand</param>
-        /// <returns>true, if the row-count of query execution validates the child constraint</returns>
+        /// <param name="actual">An IResultSetService or ResultSet</param>
+        /// <returns>true, if the row-count of ResultSet validates the child constraint</returns>
         public override bool Matches(object actual)
         {
-            if (actual is IDbCommand)
-                return Process((IDbCommand)actual);
+            if (actual is IResultSetService)
+                return Matches(((IResultSetService)actual).Execute());
             else if (actual is ResultSet)
-            {
-                actualResultSet = (ResultSet)actual;
-                return Matches(actualResultSet.Rows.Count);
-            }
+                return doMatch(actual as ResultSet);
             else if (actual is int)
-                return doMatch(((int)actual));
+            {
+                var output = doMatch(((int)actual));
+
+                if (output && Configuration?.FailureReportProfile.Mode == FailureReportMode.Always)
+                    Assert.Pass(Failure.RenderMessage());
+
+                return output;
+            }
+                
             else
-                return false;
+                throw new ArgumentException($"The type '{actual.GetType().Name}' is not supported by the constraint '{this.GetType().Name}'. Use a IResultSetService or a ResultSet.", nameof(actual));
+        }
+
+        protected virtual bool doMatch(ResultSet actual)
+        {
+            actualResultSet = (ResultSet)actual;
+            return Matches(actualResultSet.Rows.Count);
         }
 
         protected virtual bool doMatch(int actual)
         {
             this.actual = actual;
-            return child.Matches(actual);
+            ctr = differed.Resolve();
+            var output = ctr.Matches(actual);
+            return output;
         }
        
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
             writer.WritePredicate("count of rows returned by the query is");
-            child.WriteDescriptionTo(writer);
+            ctr.WriteDescriptionTo(writer);
         }
 
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
@@ -111,24 +105,7 @@ namespace NBi.NUnit.Query
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
         {
-            child.WriteActualValueTo(writer);
+            ctr.WriteActualValueTo(writer);
         }
-
-        /// <summary>
-        /// Handle an IDbCommand (Query and ConnectionString) and check it with the expectation (Another IDbCommand or a ResultSet)
-        /// </summary>
-        /// <param name="actual">IDbCommand</param>
-        /// <returns></returns>
-        public bool Process(IDbCommand actual)
-        {
-            var rsActual = GetResultSet(actual);
-            return this.Matches(rsActual);
-        }
-
-        protected ResultSet GetResultSet(Object obj)
-        {
-            return ResultSetBuilder.Build(obj);
-        }
-
     }
 }

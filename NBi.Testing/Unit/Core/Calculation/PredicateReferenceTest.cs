@@ -36,7 +36,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 );
 
             var factory = new PredicateFactory();
-            var comparer = factory.Get(info);
+            var comparer = factory.Instantiate(info);
             Assert.That(comparer.Apply(x), Is.True);
         }
 
@@ -54,7 +54,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 );
 
             var factory = new PredicateFactory();
-            var comparer = factory.Get(info);
+            var comparer = factory.Instantiate(info);
             Assert.That(comparer.Apply(x), Is.True);
         }
 
@@ -77,7 +77,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 );
 
             var factory = new PredicateFactory();
-            var comparer = factory.Get(info);
+            var comparer = factory.Instantiate(info);
             Assert.That(comparer.Apply(x), Is.False);
         }
 
@@ -91,7 +91,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 );
 
             var factory = new PredicateFactory();
-            var comparer = factory.Get(info);
+            var comparer = factory.Instantiate(info);
             Assert.That(comparer.Apply(null), Is.True);
         }
 
@@ -119,7 +119,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 );
 
             var factory = new PredicateFactory();
-            var comparer = factory.Get(info);
+            var comparer = factory.Instantiate(info);
             Assert.That(comparer.Apply(x), Is.True);
         }
 
@@ -145,7 +145,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 );
 
             var factory = new PredicateFactory();
-            var comparer = factory.Get(info);
+            var comparer = factory.Instantiate(info);
             Assert.That(comparer.Apply(x), Is.False);
         }
 
@@ -166,7 +166,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 );
 
             var factory = new PredicateFactory();
-            var comparer = factory.Get(info);
+            var comparer = factory.Instantiate(info);
             Assert.That(comparer.Apply(new DateTime(2015, x, 1)), Is.True);
         }
 
@@ -181,7 +181,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 );
 
             var factory = new PredicateFactory();
-            var comparer = factory.Get(info);
+            var comparer = factory.Instantiate(info);
             Assert.That(comparer.Apply(new DateTime(2015, 8, 1)), Is.True);
         }
 
@@ -198,7 +198,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 );
 
             var factory = new PredicateFactory();
-            var comparer = factory.Get(info);
+            var comparer = factory.Instantiate(info);
             Assert.That(comparer.Apply(x), Is.True);
         }
 
@@ -215,7 +215,7 @@ namespace NBi.Testing.Unit.Core.Calculation
                 );
 
             var factory = new PredicateFactory();
-            Assert.Throws<ArgumentOutOfRangeException>(delegate { factory.Get(info); });
+            Assert.Throws<ArgumentOutOfRangeException>(delegate { factory.Instantiate(info); });
         }
     }
 }

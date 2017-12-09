@@ -15,6 +15,9 @@
     </reference>
   </settings>
   <test name="In dimension Customers, the members of level named 'State-Provinces' contain 'Washington'" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
     <system-under-test>
       <members>
         <level caption="State-Province" dimension="Customer" hierarchy="State-Province" perspective="Adventure Works"/>
@@ -25,6 +28,9 @@
     </assert>
   </test>
   <test name="In dimension Customers the country 'Canada' has a child 'Ontario'" uid="0002">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
     <system-under-test>
       <members children-of="Canada">
         <level caption="Country" dimension="Customer" hierarchy="Customer Geography" perspective="Adventure Works"/>
@@ -35,6 +41,9 @@
     </assert>
   </test>
   <test name="First zone of [Employee].[Sick Leave Hours] is 20 to 33" uid="0003">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
     <system-under-test>
       <members>
         <hierarchy dimension="Employee" caption="Sick Leave Hours" perspective="Adventure Works"/>
@@ -45,6 +54,9 @@
     </assert>
   </test>
   <test name="Organization 'All' member is named [All Organizations]" uid="0004">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
     <system-under-test>
       <members>
         <hierarchy dimension="Organization" caption="Currency Code" perspective="Adventure Works"/>
@@ -56,6 +68,9 @@
   </test>
   <test name="Dimension 'Currency' contains 'Croatian Kuna' in the hierarchy 'CurrencyName' (without space)">
     <category>Tabular</category>
+    <condition>
+      <service-running name="MSOLAP$SQL2012TABULAR"/>
+    </condition>
     <system-under-test>
       <members>
         <hierarchy caption="CurrencyName" dimension="Currency" perspective="Internet Operation"
@@ -69,6 +84,9 @@
   </test>
   <test name="Members of department bellow 'Corporate' are in the following list retrieved by a query with a default connectionString" uid="81">
     <category>MultiDimensional</category>
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
     <system-under-test>
       <members children-of="Corporate">
         <hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"/>
@@ -84,6 +102,9 @@
   </test>
   <test name="Members of department bellow 'Corporate' are in the following list retrieved by a query with a reference connectionString" uid="81">
     <category>MultiDimensional</category>
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
     <system-under-test>
       <members children-of="Corporate">
         <hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"/>
@@ -98,6 +119,9 @@
     </assert>
   </test>
   <test name="Members of department bellow 'Corporate' are in a subset of themselves" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
     <system-under-test>
       <members children-of="Corporate">
         <hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"/>
@@ -114,6 +138,9 @@
     </assert>
   </test>
   <test name="The set Large Resellers contains at least some items" uid="0099">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
     <system-under-test>
       <members>
         <set caption="Large Resellers" perspective="Adventure Works"/>

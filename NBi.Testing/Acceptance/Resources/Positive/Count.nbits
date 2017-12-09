@@ -6,6 +6,9 @@
 		</default>
 	</settings>
 	<test name="In dimension Customers State-Provinces around 65 members" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<members>
 				<level caption="State-Province" dimension="Customer" hierarchy="State-Province" perspective="Adventure Works"/>
@@ -16,6 +19,9 @@
 		</assert>
 	</test>
 	<test name="In dimension Customers Countries are exactly 6" uid="0002">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<members children-of="All Customers">
 				<hierarchy caption="Country" dimension="Customer" perspective="Adventure Works"/>
@@ -26,6 +32,9 @@
 		</assert>
 	</test>
 	<test name="Customers more than 100 members" uid="0003">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<members>
 				<level caption="Customer" dimension="Customer" hierarchy="Customer" perspective="Adventure Works"/>
@@ -36,6 +45,9 @@
 		</assert>
 	</test>
 	<test name="Department Name more than 5 members" uid="0003">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<members>
 				<level caption="Department" dimension="Employee" hierarchy="Employee Department" perspective="Adventure Works"/>
@@ -46,6 +58,9 @@
 		</assert>
 	</test>
 	<test name="Employee more than 30 members not-starting with 'John'" uid="0003">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<members>
 				<level caption="Employee" dimension="Employee" hierarchy="Employee Department" perspective="Adventure Works"/>
@@ -59,6 +74,9 @@
 		</assert>
 	</test>
 	<test name="Status has exactly 2 members" uid="0003">
+    <condition>
+      <service-running name="MSOLAP$SQL2012"/>
+    </condition>
 		<system-under-test>
 			<members>
 				<hierarchy dimension="Employee" caption="Status" perspective="Adventure Works"/>
@@ -71,5 +89,4 @@
 			<count exactly="2"/>
 		</assert>
 	</test>
-
 </testSuite>

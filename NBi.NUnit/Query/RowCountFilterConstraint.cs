@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-using NBi.Core;
+using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet;
 using NBi.Core.Calculation;
 using NBi.Framework.FailureMessage;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Framework.FailureMessage.Markdown;
+using NBi.Framework;
 
 namespace NBi.NUnit.Query
 {
@@ -18,10 +20,10 @@ namespace NBi.NUnit.Query
         protected ResultSet filterResultSet;
         protected Func<ResultSet, ResultSet> filterFunction;
 
-        public RowCountFilterConstraint(NUnitCtr.Constraint childConstraint, IResultSetFilter filter)
+        public RowCountFilterConstraint(DifferedConstraint childConstraint, IResultSetFilter filter)
             : base(childConstraint)
         {
-            this.filter=filter;
+            this.filter = filter;
             filterFunction = filter.Apply;
         }
 
@@ -33,53 +35,48 @@ namespace NBi.NUnit.Query
             }
         }
 
-        protected override DataRowsMessage BuildFailure()
+        protected override IDataRowsMessageFormatter BuildFailure()
         {
-            var msg = new DataRowsMessage(ComparisonStyle.ByIndex, Configuration.FailureReportProfile);
+            var factory = new DataRowsMessageFormatterFactory();
+            var msg = factory.Instantiate(Configuration.FailureReportProfile, EngineStyle.ByIndex);
             msg.BuildFilter(actualResultSet.Rows.Cast<DataRow>(), filterResultSet.Rows.Cast<DataRow>());
             return msg;
         }
-
-        /// <summary>
-        /// Handle an IDbCommand and compare its row-count to a another value
-        /// </summary>
-        /// <param name="actual">An OleDbCommand, SqlCommand or AdomdCommand</param>
-        /// <returns>true, if the row-count of query execution validates the child constraint</returns>
-        public override bool Matches(object actual)
+        
+        protected override bool doMatch(ResultSet actual)
         {
-            if (actual is IDbCommand)
-                return Process((IDbCommand)actual);
-            else if (actual is ResultSet)
-            {
-                actualResultSet = (ResultSet)actual;
-                filterResultSet = filterFunction(actualResultSet);
-                return Matches(filterResultSet.Rows.Count);
-            }
-            else if (actual is int)
-                return doMatch(((int)actual));
-            else
-                return false;
+            actualResultSet = (ResultSet)actual;
+            filterResultSet = filterFunction(actualResultSet);
+            return Matches(filterResultSet.Rows.Count);
         }
 
-       
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
+            if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
+                return;
             writer.WritePredicate($"count of rows validating the predicate '{filter.Describe()}' is");
-            child.WriteDescriptionTo(writer);
+            ctr.WriteDescriptionTo(writer);
         }
 
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
         {
-            base.WriteMessageTo(writer);
-            writer.WriteLine();
-            writer.WriteLine();
-            WriteFilterMessageTo(writer);
-            writer.WriteLine(Failure.RenderFiltered());
+            if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
+                writer.Write(Failure.RenderMessage());
+            else
+            {
+                base.WriteMessageTo(writer);
+                writer.WriteLine();
+                writer.WriteLine();
+                WriteFilterMessageTo(writer);
+                writer.WriteLine(Failure.RenderAnalysis());
+            }
         }
 
         public virtual void WriteFilterMessageTo(NUnitCtr.MessageWriter writer)
         {
-            writer.WriteLine("Filtered version of the result-set:");   
+            if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
+                return;
+            writer.WriteLine("Filtered version of the result-set:");
         }
 
     }

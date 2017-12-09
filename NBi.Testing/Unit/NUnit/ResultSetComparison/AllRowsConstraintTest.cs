@@ -10,6 +10,7 @@ using NBi.Core.Calculation;
 using NBi.Core.Evaluate;
 using System.Collections.Generic;
 using NUnit.Framework;
+using NBi.Core.ResultSet.Resolver;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
@@ -33,23 +34,22 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         #endregion
 
         [Test]
-        public void Matches_SqlCommand_CallToResultSetBuilderOnce()
+        public void Matches_ResultSetService_CallToExecuteOnce()
         {
             var resultSet = new ResultSet();
             resultSet.Load("a;b;1");
-            var cmd = new SqlCommand();
 
-            var rsbMock = new Mock<ResultSetBuilder>();
-            rsbMock.Setup(engine => engine.Build(It.IsAny<object>()))
+            var serviceMock = new Mock<IResultSetService>();
+            serviceMock.Setup(s => s.Execute())
                 .Returns(resultSet);
-            var rsb = rsbMock.Object;
+            var service = serviceMock.Object;
 
             var alias = Mock.Of<IColumnAlias>(v => v.Column == 2 && v.Name == "Value");
             var predicate = Mock.Of<IPredicateInfo>
                 (
                     p => p.ColumnType==ColumnType.Numeric 
                     && p.ComparerType==ComparerType.Equal 
-                    && p.Name=="Value" 
+                    && p.Operand=="Value" 
                     && p.Reference==(object)1
                 );
 
@@ -61,15 +61,117 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                     , predicate
                 );
 
-            var rowCount = new AllRowsConstraint(filter) { ResultSetBuilder = rsb };
-            rowCount.ResultSetBuilder = rsb;
+            var rowCount = new AllRowsConstraint(filter);
 
             //Method under test
-            rowCount.Matches(cmd);
+            rowCount.Matches(service);
 
             //Test conclusion            
-            rsbMock.Verify(engine => engine.Build(It.IsAny<object>()), Times.Once());
+            serviceMock.Verify(s => s.Execute(), Times.Once());
         }
 
+        [Test]
+        public void Matches_AllValidatePredicate_True()
+        {
+            var rs = new ResultSet();
+            rs.Load(new[] { new object[] { "a", -1 }, new object[] { "b", -2 }, new object[] { "c", -3 } });
+
+            var predicate = Mock.Of<IPredicateInfo>
+                (
+                    p => p.ColumnType == ColumnType.Numeric
+                    && p.ComparerType == ComparerType.LessThan
+                    && p.Operand == "#1"
+                    && p.Reference == (object)0
+                );
+
+            var factory = new PredicateFilterFactory();
+            var filter = factory.Instantiate
+                (
+                    new List<IColumnAlias>()
+                    , new List<IColumnExpression>()
+                    , predicate
+                );
+
+            var singleRowCtr = new AllRowsConstraint(filter);
+            Assert.That(singleRowCtr.Matches(rs), Is.True);
+        }
+
+        [Test]
+        public void Matches_NoneValidatePredicate_False()
+        {
+            var rs = new ResultSet();
+            rs.Load(new[] { new object[] { "a", 1 }, new object[] { "b", 2 }, new object[] { "c", 3 } });
+
+            var predicate = Mock.Of<IPredicateInfo>
+                (
+                    p => p.ColumnType == ColumnType.Numeric
+                    && p.ComparerType == ComparerType.LessThan
+                    && p.Operand == "#1"
+                    && p.Reference == (object)0
+                );
+
+            var factory = new PredicateFilterFactory();
+            var filter = factory.Instantiate
+                (
+                    new List<IColumnAlias>()
+                    , new List<IColumnExpression>()
+                    , predicate
+                );
+
+            var singleRowCtr = new AllRowsConstraint(filter);
+            Assert.That(singleRowCtr.Matches(rs), Is.False);
+        }
+
+        [Test]
+        public void Matches_FewValidatePredicate_False()
+        {
+            var rs = new ResultSet();
+            rs.Load(new[] { new object[] { "a", -1 }, new object[] { "b", -2 }, new object[] { "c", 3 } });
+
+            var predicate = Mock.Of<IPredicateInfo>
+                (
+                    p => p.ColumnType == ColumnType.Numeric
+                    && p.ComparerType == ComparerType.LessThan
+                    && p.Operand == "#1"
+                    && p.Reference == (object)0
+                );
+
+            var factory = new PredicateFilterFactory();
+            var filter = factory.Instantiate
+                (
+                    new List<IColumnAlias>()
+                    , new List<IColumnExpression>()
+                    , predicate
+                );
+
+            var singleRowCtr = new AllRowsConstraint(filter);
+            Assert.That(singleRowCtr.Matches(rs), Is.False);
+        }
+
+        [Test]
+        public void Matches_SingleValidatePredicate_False()
+        {
+            var rs = new ResultSet();
+            rs.Load(new[] { new object[] { "a", -1 }, new object[] { "b", 2 }, new object[] { "c", 3 } });
+
+            var predicate = Mock.Of<IPredicateInfo>
+                (
+                    p => p.ColumnType == ColumnType.Numeric
+                    && p.ComparerType == ComparerType.LessThan
+                    && p.Operand == "#1"
+                    && p.Reference == (object)0
+                );
+
+            var factory = new PredicateFilterFactory();
+            var filter = factory.Instantiate
+                (
+                    new List<IColumnAlias>()
+                    , new List<IColumnExpression>()
+                    , predicate
+                );
+
+            var singleRowCtr = new AllRowsConstraint(filter);
+            Assert.That(singleRowCtr.Matches(rs), Is.False);
+        }
     }
 }

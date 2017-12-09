@@ -47,7 +47,7 @@ namespace NBi.Core.ResultSet.Comparer
             switch (type)
             {
                 case ColumnType.Text:
-                    tolerance = TextTolerance.None;
+                    tolerance = TextSingleMethodTolerance.None;
                     break;
                 case ColumnType.Numeric:
                     tolerance = NumericAbsoluteTolerance.None;

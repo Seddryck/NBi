@@ -95,7 +95,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).KeysDef, Is.EqualTo(SettingsResultSetComparisonByIndex.KeysChoice.First));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).KeysDef, Is.EqualTo(SettingsIndexResultSet.KeysChoice.First));
         }
 
         [Test]
@@ -150,23 +150,10 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
 
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ValuesDef, Is.EqualTo(SettingsResultSetComparisonByIndex.ValuesChoice.Last));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ValuesDef, Is.EqualTo(SettingsIndexResultSet.ValuesChoice.Last));
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Tolerance, Is.EqualTo("100"));
 
             
-        }
-
-        [Test]
-        public void DeserializeEqualToQuery_QueryFile6_PersistanceAttributeRead()
-        {
-            int testNr = 6;
-
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
-
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
-
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Persistance, Is.EqualTo(PersistanceChoice.OnlyIfFailed));
         }
 
         [Test]

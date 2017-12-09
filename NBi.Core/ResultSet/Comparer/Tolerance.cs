@@ -13,5 +13,13 @@ namespace NBi.Core.ResultSet.Comparer
         {
             ValueString = value;
         }
+
+        public static bool IsNullOrNone(Tolerance tolerance)
+        {
+            return (tolerance == null
+                || tolerance == DateTimeTolerance.None
+                || tolerance == TextTolerance.None
+                || tolerance == NumericAbsoluteTolerance.None);
+        }
     }
 }

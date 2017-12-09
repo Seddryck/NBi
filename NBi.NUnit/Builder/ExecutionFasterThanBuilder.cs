@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using NBi.Core.Query;
+using NBi.Core.ResultSet;
 using NBi.NUnit.Query;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;

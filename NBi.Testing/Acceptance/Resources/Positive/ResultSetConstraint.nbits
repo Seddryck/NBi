@@ -1,0 +1,315 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: ResultSet" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="system-under-test">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
+    <default apply-to="assert">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
+    <default apply-to="variable">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
+  </settings>
+  <variables>
+    <variable name="var1">
+      <query-scalar>select 1963</query-scalar>
+    </variable>
+  </variables>
+  <group name="asserts">
+    <test name="Csv equal to embedded result-set" uid="0001">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet>
+            <row>
+              <cell>CY 2005</cell>
+              <cell>366</cell>
+            </row>
+            <row>
+              <cell>CY 2006</cell>
+              <cell>1015</cell>
+            </row>
+            <row>
+              <cell>CY 2007</cell>
+              <cell>1521</cell>
+            </row>
+            <row>
+              <cell>CY 2008</cell>
+              <cell>894</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="all are less than 10000" uid="0002">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </system-under-test>
+      <assert>
+        <all-rows>
+          <predicate name="#1">
+            <less-than>10000</less-than>
+          </predicate>
+        </all-rows>
+      </assert>
+    </test>
+    <test name="none are more than 10000" uid="0003">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </system-under-test>
+      <assert>
+        <no-rows>
+          <predicate name="#1">
+            <more-than>10000</more-than>
+          </predicate>
+        </no-rows>
+      </assert>
+    </test>
+    <test name="some are less than 1000" uid="0004">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </system-under-test>
+      <assert>
+        <some-rows>
+          <predicate name="#1">
+            <less-than>1000</less-than>
+          </predicate>
+        </some-rows>
+      </assert>
+    </test>
+    <test name="single is more than 1500" uid="0005">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </system-under-test>
+      <assert>
+        <single-row>
+          <predicate name="#1">
+            <more-than>1500</more-than>
+          </predicate>
+        </single-row>
+      </assert>
+    </test>
+    <test name="'rows are unique" uid="0006">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </system-under-test>
+      <assert>
+        <unique-rows/>
+      </assert>
+    </test>
+    <test name="return 4 rows" uid="0007">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </system-under-test>
+      <assert>
+        <row-count>
+          <equal>4</equal>
+        </row-count>
+      </assert>
+    </test>
+  </group>
+  <group name="system-under-tests">
+    <test name="Embedded result-set" uid="0101">
+      <system-under-test>
+        <resultSet>
+          <row>
+            <cell>CY 2005</cell>
+            <cell>366</cell>
+          </row>
+          <row>
+            <cell>CY 2006</cell>
+            <cell>1015</cell>
+          </row>
+          <row>
+            <cell>CY 2007</cell>
+            <cell>1521</cell>
+          </row>
+          <row>
+            <cell>CY 2008</cell>
+            <cell>894</cell>
+          </row>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <unique-rows/>
+      </assert>
+    </test>
+    <test name="External result-set" uid="0102">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </system-under-test>
+      <assert>
+        <unique-rows/>
+      </assert>
+    </test>
+    <test name="Embedded query" uid="0103">
+      <system-under-test>
+        <resultSet>
+          <query>
+            select @prefix + ' 2005' as [year], 366 as [value]
+            union all select @prefix + ' 2006' as [year], 1015 as [value]
+            union all select @prefix + ' 2007' as [year], 1521 as [value]
+            union all select @prefix + ' 2008' as [year], 894 as [value]
+            <parameter name="prefix">CY</parameter>
+          </query>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <all-rows>
+          <predicate name="#0" type="text">
+            <starts-with>CY </starts-with>
+          </predicate>
+        </all-rows>
+      </assert>
+    </test>
+    <test name="External query" uid="0104">
+      <system-under-test>
+        <resultSet>
+          <query file="..\Query\ResellerOrderCount.sql">
+            <parameter name="prefix">CY</parameter>
+          </query>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <all-rows>
+          <predicate name="#0" type="text">
+            <starts-with>CY </starts-with>
+          </predicate>
+        </all-rows>
+      </assert>
+    </test>
+    <test name="Query from assembly" uid="0105">
+      <system-under-test>
+        <resultSet>
+          <query>
+            <assembly path="..\..\..\NBi.Testing.dll" class="NBi.Testing.Acceptance.Resources.AssemblyClass" method="GetTextSelectSql">
+              <method-parameter name="prefix">CY</method-parameter>
+            </assembly>
+          </query>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Query from report" uid="0106">
+      <condition>
+        <service-running name="MSSQL$SQL2012"/>
+      </condition>
+      <system-under-test>
+        <resultSet>
+          <query>
+            <report source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"
+                path="/AdventureWorks 2012/"
+                name="Store_Contacts"
+                dataset="Stores"
+				    />
+          </query>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo values-default-type="text">
+          <resultSet file="..\Csv\BusinessEntity.csv"/>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Query with variable" uid="0107">
+      <system-under-test>
+        <resultSet>
+          <query>
+            select LoginID, JobTitle from [HumanResources].[Employee] where year([BirthDate])=@maxid
+            <parameter name="maxid">@var1</parameter>
+          </query>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo values-default-type="text">
+          <resultSet>
+            <row>
+              <cell>adventure-works\ken0</cell>
+              <cell>Chief Executive Officer</cell>
+            </row>
+            <row>
+              <cell>adventure-works\belinda0</cell>
+              <cell>Production Technician - WC45</cell>
+            </row>
+            <row>
+              <cell>adventure-works\michael9</cell>
+              <cell>Sales Representative</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+  </group>
+  <group name="alterations">
+    <test name="Filter with one predicate" uid="0201">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
+          <alteration>
+            <filter>
+              <predicate name="#0" type="text">
+                <less-than>CY 2007</less-than>
+              </predicate>
+            </filter>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet>
+            <row>
+              <cell>CY 2005</cell>
+              <cell>366</cell>
+            </row>
+            <row>
+              <cell>CY 2006</cell>
+              <cell>1015</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Filter with two predicates" uid="0202">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
+          <alteration>
+            <filter>
+              <combination operator="or">
+                <predicate name="#0" type="text">
+                  <less-than>CY 2007</less-than>
+                </predicate>
+                <predicate name="#1" type="numeric">
+                  <more-than>1500</more-than>
+                </predicate>
+              </combination>
+            </filter>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet>
+            <row>
+              <cell>CY 2005</cell>
+              <cell>366</cell>
+            </row>
+            <row>
+              <cell>CY 2006</cell>
+              <cell>1015</cell>
+            </row>
+            <row>
+              <cell>CY 2007</cell>
+              <cell>1521</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+  </group>
+</testSuite>

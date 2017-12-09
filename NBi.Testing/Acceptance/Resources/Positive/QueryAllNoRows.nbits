@@ -4,25 +4,31 @@
     <default apply-to="system-under-test">
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </default>
+    <default apply-to="variable">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
   </settings>
   <variables>
     <variable name="year">
       <script language="c-sharp">DateTime.Now.Year + 1</script>
     </variable>
+    <variable name="yearQuery">
+      <query-scalar>
+        select year(getdate())+1;
+      </query-scalar>
+    </variable>
   </variables>
   <test name="All-rows is doing the job for numeric info" uid="0001">
     <system-under-test>
       <execution>
-        <query
-					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
-				>
-          select 
-            OrderDate
-            , SUM(TotalDue)
+        <query>
+          select
+          OrderDate
+          , SUM(TotalDue)
           from
-            [Sales].[SalesOrderHeader]
+          [Sales].[SalesOrderHeader]
           group by
-            OrderDate
+          OrderDate
         </query>
       </execution>
     </system-under-test>
@@ -38,9 +44,7 @@
   <test name="All-rows is doing the job with within-range" uid="0001">
     <system-under-test>
       <execution>
-        <query
-					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
-				>
+        <query>
           select
           OrderDate
           , SUM(TotalDue)
@@ -63,9 +67,7 @@
   <test name="All-rows also works for textual information" uid="0001">
     <system-under-test>
       <execution>
-        <query
-					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
-				>
+        <query>
           select
           [Name], [CountryRegionCode]
           from
@@ -85,9 +87,7 @@
   <test name="No-row with numeric information" uid="0001">
     <system-under-test>
       <execution>
-        <query
-					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
-				>
+        <query>
           select
           OrderDate
           , SUM(TotalDue)
@@ -107,12 +107,37 @@
       </no-rows>
     </assert>
   </test>
+  <test name="No-row with combination of numeric information" uid="0001">
+    <system-under-test>
+      <execution>
+        <query>
+          select
+          OrderDate
+          , SUM(TotalDue)
+          from
+          [Sales].[SalesOrderHeader]
+          group by
+          OrderDate
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <combination operator="or">
+          <predicate name="#1">
+            <more-than>9000000</more-than>
+          </predicate>
+          <predicate name="#1">
+            <less-than>1</less-than>
+          </predicate>
+        </combination>
+      </no-rows>
+    </assert>
+  </test>
   <test name="No-row also works for textual information" uid="0001">
     <system-under-test>
       <execution>
-        <query
-					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
-				>
+        <query>
           select
           [Name], [CountryRegionCode]
           from
@@ -127,6 +152,47 @@
           <more-than>VN</more-than>
         </predicate>
       </no-rows>
+    </assert>
+  </test>
+  <test name="Some-rows with numeric information" uid="0005">
+    <system-under-test>
+      <execution>
+        <query>
+          select
+          OrderDate
+          , SUM(TotalDue) as TotalDue
+          from
+          [Sales].[SalesOrderHeader]
+          group by
+          OrderDate
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <some-rows>
+        <predicate name="TotalDue">
+          <more-than>1000</more-than>
+        </predicate>
+      </some-rows>
+    </assert>
+  </test>
+  <test name="Single-row also works for textual information" uid="0006">
+    <system-under-test>
+      <execution>
+        <query>
+          select
+          [Name], [CountryRegionCode]
+          from
+          [Sales].[SalesTerritory]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <single-row>
+        <predicate name="#1" type="text">
+          <equal>VN</equal>
+        </predicate>
+      </single-row>
     </assert>
   </test>
   <test name="With Predicate StartsWith" uid="0002">
@@ -266,7 +332,7 @@
       </all-rows>
     </assert>
   </test>
-  <test name="Use a variable for the predicate" uid="0008">
+  <test name="Use a c-sharp variable for the predicate" uid="0008">
     <system-under-test>
       <execution>
         <query>
@@ -281,6 +347,48 @@
         <predicate name="year">
           <less-than>@year</less-than>
         </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="Use a query-scalar variable for the predicate" uid="0008">
+    <system-under-test>
+      <execution>
+        <query>
+          select year(getdate()) as 'A'
+          union all select year(getdate())-1
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <alias column-index="0">year</alias>
+        <predicate name="year">
+          <less-than>@yearQuery</less-than>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="Use a variable and combine predicates" uid="0008">
+    <system-under-test>
+      <execution>
+        <query>
+          select year(getdate()) as 'A', 'alpha' as 'B'
+          union all select year(getdate())-1, 'BETA' as 'C'
+          union all select year(getdate())+1, 'GAMMA' as 'C'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <alias column-index="0">year</alias>
+        <combination operator="or">
+          <predicate name="year">
+            <less-than>@year</less-than>
+          </predicate>
+          <predicate name="B" type="text">
+            <upper-case/>
+          </predicate>
+        </combination>
       </all-rows>
     </assert>
   </test>

@@ -33,11 +33,15 @@ namespace NBi.Xml.SerializationOption
 
             attrs = new XmlAttributes();
             attrs.XmlElements.Add(new XmlElementAttribute("variable"));
-            Add(typeof(AllRowsXml), "InternalAliasesOld", attrs);
+            Add(typeof(NoRowsXml), "InternalAliasesOld", attrs);
 
             attrs = new XmlAttributes();
             attrs.XmlElements.Add(new XmlElementAttribute("variable"));
             Add(typeof(FilterXml), "InternalAliasesOld", attrs);
+
+            attrs = new XmlAttributes();
+            attrs.XmlAttribute = (new XmlAttributeAttribute("name"));
+            Add(typeof(PredicationXml), "Name", attrs);
 
             var property = typeof(TestXml).GetField("Constraints");
             var arrayAttr = (XmlArrayAttribute)property.GetCustomAttributes(typeof(XmlArrayAttribute), false)[0];

@@ -1,4 +1,4 @@
-﻿using NBi.Framework.FailureMessage;
+﻿using NBi.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +31,7 @@ namespace NBi.Framework
             {
                 if (@default == null)
                 {
-                    var profile = NBi.Framework.FailureMessage.FailureReportProfile.Default;
+                    var profile = Framework.FailureReportProfile.Default;
                     @default = new TestConfiguration(profile);
                 }
                     

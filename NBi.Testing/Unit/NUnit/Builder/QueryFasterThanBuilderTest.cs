@@ -7,6 +7,8 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NUnit.Framework;
+using NBi.Core.ResultSet.Resolver;
+using NBi.Core.ResultSet;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -14,7 +16,6 @@ namespace NBi.Testing.Unit.NUnit.Builder
     [TestFixture]
     public class QueryFasterThanBuilderTest
     {
-
         #region SetUp & TearDown
         //Called only at instance creation
         [TestFixtureSetUp]
@@ -63,7 +64,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
         }
 
         [Test]
-        public void GetSystemUnderTest_Build_CorrectIDbCommand()
+        public void GetSystemUnderTest_Build_CorrectIResultSetService()
         {
             var sutXmlStubFactory = new Mock<ExecutionXml>();
             var itemXmlStubFactory = new Mock<QueryableXml>();

@@ -7,6 +7,7 @@ using NBi.Xml.Constraints;
 using NBi.Core.ResultSet;
 using NBi.Xml.Items.ResultSet;
 using System.IO;
+using NBi.Xml.Items.Alteration;
 
 namespace NBi.Xml.Systems
 {
@@ -42,32 +43,30 @@ namespace NBi.Xml.Systems
         }
 
         [XmlIgnore]
-        public ResultSetBuilder.Content Content
+        public IContent Content
         {
-            get { return new ResultSetBuilder.Content(Rows, Columns); }
+            get
+            {
+                return new Content(Rows, Columns);
+            }
         }
 
         [XmlAttribute("file")]
-        public string File { get; set; }
+        public virtual string File { get; set; }
 
         public override BaseItem BaseItem
         {
             get
             {
-                return null;
+                return Query;
             }
         }
 
-        public string GetFile()
-        {
-            var file = string.Empty;
-            if (Path.IsPathRooted(File))
-                file = File;
-            else
-                file = Settings.BasePath + File;
+        [XmlElement("query")]
+        public virtual QueryXml Query { get; set; }
 
-            return file;
-        }
+        [XmlElement("alteration")]
+        public virtual AlterationXml Alteration { get; set; }
 
         public override ICollection<string> GetAutoCategories()
         {

@@ -10,6 +10,7 @@ using NBi.Xml.Items;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using NUnit.Framework;
+using System.Xml;
 
 namespace NBi.Testing.Unit.Xml
 {
@@ -157,6 +158,20 @@ namespace NBi.Testing.Unit.Xml
         }
 
         [Test]
+        public void Deserialize_NotImplemented_GetAllInfo()
+        {
+            int testNr = 5;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].UniqueIdentifier, Is.EqualTo("5"));
+            Assert.That(ts.Tests[testNr].Categories, Has.Count.EqualTo(2));
+            Assert.That(ts.Tests[testNr].NotImplemented.Reason, Is.EqualTo("Because we're not in version 1.18"));
+            Assert.That(ts.Tests[testNr].Drafts, Has.Count.EqualTo(2));
+        }
+
+        [Test]
         public void Serialize_StructureXml_NoDefaultAndSettings()
         {
             var references = new List<ReferenceXml>() 
@@ -197,6 +212,45 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(content, Is.StringContaining("My Caption"));
             Assert.That(content, Is.Not.StringContaining("efault"));
             Assert.That(content, Is.Not.StringContaining("eference"));
+        }
+
+        [Test]
+        public void Serialize_NotImplemented_FullySerialized()
+        {
+            var doc = new XmlDocument();
+            var nodes = doc.CreateElement("nodes");
+            var assert = doc.CreateElement("assert");
+
+            var testSuiteXml = new TestSuiteXml()
+            {
+                Tests = new List<TestXml>
+                {
+                    new TestXml()
+                    {
+                        Categories = new List<string>() {"My Category", "Not Implemented" },
+                        NotImplemented = new IgnoreXml() { Reason = "My good reason"},
+                        Drafts = new List<XmlElement>() { nodes, assert }
+                    }
+                }
+            };
+
+            var serializer = new XmlSerializer(typeof(TestSuiteXml));
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream, Encoding.UTF8);
+            serializer.Serialize(writer, testSuiteXml);
+            var content = Encoding.UTF8.GetString(stream.ToArray());
+            writer.Close();
+            stream.Close();
+
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("<test"));
+            Assert.That(content, Is.StringContaining("<category"));
+            Assert.That(content, Is.Not.StringContaining("<system-under-test"));
+            Assert.That(content, Is.StringContaining("<category"));
+            Assert.That(content, Is.StringContaining("<not-implemented"));
+            Assert.That(content, Is.StringContaining("<nodes"));
+            Assert.That(content, Is.StringContaining("<assert"));
         }
 
     }

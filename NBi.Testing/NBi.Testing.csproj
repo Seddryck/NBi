@@ -268,6 +268,7 @@
     <Compile Include="Unit\GenbiL\Action\Suite\GenerateSuiteActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Consumable\AutoConsumableActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Consumable\SetConsumableActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Template\AddEmbeddedTemplateActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Variable\IncludeVariableActionTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\ConsumableParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\CommentParserTest.cs" />

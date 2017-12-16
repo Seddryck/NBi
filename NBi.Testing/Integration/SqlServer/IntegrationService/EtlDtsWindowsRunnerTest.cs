@@ -42,7 +42,7 @@ namespace NBi.Testing.Integration.SqlServer.IntegrationService
                 // Save the package to the SQL Server msdb folder, which is
                 // also the MSDB folder in the Integration Services service, or as a row in the
                 //sysssispackages table.
-                app.SaveToSqlServerAs(p, null, "nbi\\nbi-sample", ConnectionStringReader.GetIntegrationServerDatabase(), null, null);
+                app.SaveToSqlServerAs(p, null, "nbi\\nbi-sample", ConnectionStringReader.GetIntegrationServer(), null, null);
             }
             catch (Exception ex)
             {

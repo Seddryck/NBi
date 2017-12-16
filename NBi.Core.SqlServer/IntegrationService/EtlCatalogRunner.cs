@@ -41,21 +41,23 @@ namespace NBi.Core.SqlServer.IntegrationService
 
             var environmentReference = GetEnvironmentReference(package.Parent);
 
-            var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
-            setValueParameters.Add(new PackageInfo.ExecutionValueParameterSet
+            var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>()
             {
-                ObjectType = 50,
-                ParameterName = "SYNCHRONIZED",
-                ParameterValue = 1
-            });
-            var parameters = Parameterize(Etl.Parameters, package, package.Name);
+                new PackageInfo.ExecutionValueParameterSet
+                {
+                    ObjectType = 50,
+                    ParameterName = "SYNCHRONIZED",
+                    ParameterValue = 1
+                }
+            };
+            var parameters = Parameterize(Etl.Parameters, package);
             parameters.ToList().ForEach(p => setValueParameters.Add(p));
 
             long executionIdentifier = -1;
             if (Etl.Timeout==0)
                 executionIdentifier = package.Execute(Etl.Is32Bits, environmentReference, setValueParameters);
             else
-                executionIdentifier = package.Execute(Etl.Is32Bits, environmentReference, setValueParameters, Etl.Timeout);
+                executionIdentifier = package.Execute(Etl.Is32Bits, environmentReference, setValueParameters, Etl.Timeout, connection.ConnectionString);
 
             var execution = package.Parent.Parent.Parent.Executions[executionIdentifier];
 
@@ -111,7 +113,7 @@ namespace NBi.Core.SqlServer.IntegrationService
             if (!integrationServices.Catalogs.Contains(Etl.Catalog))
             {
                 var names = String.Join(", ",integrationServices.Catalogs.Select(c => c.Name));
-                throw new ArgumentOutOfRangeException("Catalog", String.Format("The catalog named '{0}' hasn't been found on the server '{1}'. List of existing catalogs: {2}.", Etl.Catalog, Etl.Server, names));
+                throw new ArgumentOutOfRangeException("Catalog", $"The catalog named '{Etl.Catalog}' hasn't been found on the server '{Etl.Server}'. List of existing catalogs: {names}.");
             }
             
             var catalog = integrationServices.Catalogs[Etl.Catalog];
@@ -119,52 +121,49 @@ namespace NBi.Core.SqlServer.IntegrationService
             if (!catalog.Folders.Contains(Etl.Folder))
             {
                 var names = String.Join(", ", catalog.Folders.Select(f => f.Name));
-                throw new ArgumentOutOfRangeException("Folder", String.Format("The folder named '{0}' hasn't been found on the catalog '{1}'. List of existing folders: {2}.", Etl.Folder, Etl.Catalog, names));
+                throw new ArgumentOutOfRangeException("Folder", $"The folder named '{Etl.Folder}' hasn't been found on the catalog '{Etl.Catalog}'. List of existing folders: {names}.");
             }
             var folder = catalog.Folders[Etl.Folder];
 
             if (!folder.Projects.Contains(Etl.Project))
             {
                 var names = String.Join(", ", folder.Projects.Select(p => p.Name));
-                throw new ArgumentOutOfRangeException("Project", String.Format("The project named '{0}' hasn't been found on the catalog '{1}'. List of existing projects: {2}.", Etl.Project, Etl.Folder, names));
+                throw new ArgumentOutOfRangeException("Project", $"The project named '{Etl.Project}' hasn't been found on the folder '{Etl.Folder}'. List of existing projects: {names}.");
             }
             var project = folder.Projects[Etl.Project];
 
             if (!project.Packages.Contains(Etl.Name))
             {
                 var names = String.Join(", ", project.Packages.Select(p => p.Name));
-                throw new ArgumentOutOfRangeException("Name", String.Format("The package named '{0}' hasn't been found on the project '{1}'. List of existing packages: {2}.", Etl.Name, Etl.Project, names));
+                throw new ArgumentOutOfRangeException("Name", $"The package named '{Etl.Name}' hasn't been found on the project '{Etl.Project}'. List of existing packages: {names}.");
             }
             var package = project.Packages[Etl.Name];
 
             return package;
         }
 
-        protected virtual IEnumerable<PackageInfo.ExecutionValueParameterSet> Parameterize(IEnumerable<EtlParameter> overridenParameters, PackageInfo package, string packageName)
+        protected virtual IEnumerable<PackageInfo.ExecutionValueParameterSet> Parameterize(IEnumerable<EtlParameter> overridenParameters, PackageInfo package)
         {
-            var existingParameters = package.Parameters;
+            var existingParameters = new List<ParameterInfo>();
+            existingParameters.AddRange(package.Parameters);
 
-            if (package.Parent!=null && package.Parent.Parameters!=null)
-            {
-                foreach (var projectParam in package.Parent.Parameters)
-                    existingParameters.Add(projectParam);
-            }
+            if (package?.Parent?.Parameters!=null)
+                existingParameters.AddRange(package.Parent.Parameters);
 
             foreach (var param in overridenParameters)
             {
-
-                if (!existingParameters.Contains(param.Name))
+                var existingParam = existingParameters.SingleOrDefault(x => x.Name == param.Name);
+                if (existingParam == null)
                 {
-                    var existingParameterList = String.Join("', '", existingParameters.Select(n => string.Format("{0} ({1})", n.Name, n.ObjectType)));
-                    throw new ArgumentOutOfRangeException("overridenParameters", string.Format("No parameter named '{0}' found in the package {1}, can't override its value for execution. List of existing parameters '{2}'", param.Name, packageName, existingParameterList));
+                    var existingParameterList = String.Join("', '", existingParameters.Select(n => $"\r\n - {n.Name} ({n.ObjectType})"));
+                    throw new ArgumentOutOfRangeException(nameof(overridenParameters), $"No parameter named '{param.Name}' found in the package {package.Name}, can't override its value for execution. List of existing parameters:{existingParameterList}");
                 }
 
-                var existingParam = existingParameters[param.Name];
                 var execParam = new PackageInfo.ExecutionValueParameterSet()
                 {
-                    ObjectType = existingParam.ObjectType,
+                    ObjectType = (existingParam as ParameterInfo).ObjectType,
                     ParameterName = param.Name,
-                    ParameterValue = DefineValue(param.StringValue, existingParam.DataType)
+                    ParameterValue = DefineValue(param.StringValue, (existingParam as ParameterInfo).DataType)
                 };
                 yield return execParam;
             }

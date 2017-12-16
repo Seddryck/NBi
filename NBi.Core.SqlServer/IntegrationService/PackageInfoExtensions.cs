@@ -37,19 +37,22 @@ public static class Extensions
     public static long Execute(this PackageInfo packageInfo,
         bool use32RuntimeOn64, EnvironmentReference reference,
         Collection<PackageInfo.ExecutionValueParameterSet> setValueParameters,
-        int commandTimeout)
+        int commandTimeout, string connectionString)
     {
-        return packageInfo.Execute(use32RuntimeOn64, reference, setValueParameters, null, commandTimeout);
+        return packageInfo.Execute(use32RuntimeOn64, reference, setValueParameters, null, commandTimeout, connectionString);
     }
 
     public static long Execute(this PackageInfo packageInfo,
         bool use32RuntimeOn64, EnvironmentReference reference,
         Collection<PackageInfo.ExecutionValueParameterSet> setValueParameters,
         Collection<PackageInfo.PropertyOverrideParameterSet> propertyOverrideParameters,
-        int commandTimeout)
+        int commandTimeout, string connectionString)
     {
         long executionId = 0;
-        string connectionString = packageInfo.Parent.Parent.Parent.Parent.Connection.ServerConnection.ConnectionString;
+
+        //TODO investigate further why it's not working anymore: 
+        //  STACK: Method not found: 'Microsoft.SqlServer.Management.Sdk.Sfc.SqlStoreConnection Microsoft.SqlServer.Management.IntegrationServices.IntegrationServices.get_Connection()'
+        //connectionString = packageInfo.Parent.Parent.Parent.Parent.Connection.ServerConnection.ConnectionString;
 
         using (var connection = new SqlConnection(connectionString))
         {

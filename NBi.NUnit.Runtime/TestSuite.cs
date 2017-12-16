@@ -71,7 +71,12 @@ namespace NBi.NUnit.Runtime
             Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"{Variables.Count()} variables defined, {Variables.Count(x => x.Value.IsEvaluated())} already evaluated.");
             
             //check if ignore is set to true
-            if (test.Ignore)
+            if (test.IsNotImplemented)
+            {
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Test not-implemented, will be ignored. Reason is '{test.NotImplemented.Reason}'");
+                Assert.Ignore(test.IgnoreReason);
+            }
+            else if (test.Ignore)
             {
                 Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Test ignored. Reason is '{test.IgnoreReason}'");
                 Assert.Ignore(test.IgnoreReason);

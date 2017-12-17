@@ -2,7 +2,7 @@
 <testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="system-under-test">
-			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012'</connectionString>
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012'</connectionString>
 		</default>
 		<reference name="SqlAdvenureWorks2012">
 			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
@@ -29,7 +29,7 @@
 	</test>
 	<test name="Faster Than for Mdx with parameter" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<execution>
@@ -70,7 +70,7 @@
 	</test>-->
 	<test name="Syntactically correct for Mdx with parameter" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<execution>
@@ -92,7 +92,7 @@
 	</test>
 	<test name="MatchPattern for Mdx with parameter" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<execution>
@@ -137,7 +137,7 @@
 	</test>
 	<test name="Compare Mdx with parameter to Sql with parameter" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<execution>
@@ -179,7 +179,7 @@
 	</test>
 	<test name="Compare Sql with parameter to Mdx with parameter" uid="0002">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<execution>
@@ -205,7 +205,7 @@
 			<equalTo>
 				<column index="0" role="key" type="text"/>
 				<column index="1" role="value" type="numeric" tolerance="0.01"/>
-				<query name="MDX" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012'">
+				<query name="MDX" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012'">
 					SELECT
 					[Measures].[Reseller Order Count] ON 0,
 					STRTOMEMBER(@YearMember) ON 1
@@ -220,7 +220,7 @@
 	</test>
 	<test name="Compare Sql and MDX with parameters containing indentations" uid="0002">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<execution>
@@ -247,7 +247,7 @@
 			<equalTo>
 				<column index="0" role="key" type="text"/>
 				<column index="1" role="value" type="numeric" tolerance="0.01"/>
-				<query name="MDX" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012'">
+				<query name="MDX" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012'">
 					SELECT
 					[Measures].[Reseller Order Count] ON 0,
 					STRTOMEMBER(@YearMember) ON 1

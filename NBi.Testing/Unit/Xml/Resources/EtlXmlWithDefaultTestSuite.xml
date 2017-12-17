@@ -15,7 +15,7 @@
 		</setup>
 		<system-under-test>
 			<execution>
-				<report source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"
+				<report source="Data Source=(local)\SQL2017;Initial Catalog=ReportServer;Integrated Security=True;"
 						path="/AdventureWorks Sample Reports/"
 						name="Currency_List"
 						dataset="currency"

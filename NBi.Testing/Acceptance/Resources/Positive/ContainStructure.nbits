@@ -2,18 +2,18 @@
 <testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
-      <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
+      <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
     </default>
     <reference name="Dwh">
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </reference>
     <reference name="Tabular">
-      <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033</connectionString>
+      <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2017TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033</connectionString>
     </reference>
   </settings>
   <test name="The dimension 'employee' has a hierarchy named 'Sick Leave Hours'" uid="0002">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <structure>
@@ -26,7 +26,7 @@
   </test>
   <test name="In dimension 'employee', we find at least this list of hierarchies" uid="0002">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <structure>
@@ -45,7 +45,7 @@
   </test>
   <test name="In perspective 'Adventure Works', we find at least this list of sets" uid="0002">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <structure>
@@ -172,7 +172,7 @@
   </test>
   <test name="In Tabular 'Adventure Works DW 2012', we find at least this list of schemas" uid="0002">
     <condition>
-      <service-running name="MSOLAP$SQL2012TABULAR"/>
+      <service-running name="MSOLAP$SQL2017TABULAR"/>
     </condition>
     <system-under-test>
       <structure>
@@ -187,7 +187,7 @@
   </test>
   <test name="In Tabular 'Adventure Works DW 2012', in the schema 'Internet Operation', we find at least this list of tables" uid="0002">
     <condition>
-      <service-running name="MSOLAP$SQL2012TABULAR"/>
+      <service-running name="MSOLAP$SQL2017TABULAR"/>
     </condition>
     <system-under-test>
       <structure>
@@ -204,7 +204,7 @@
   </test>
   <test name="In Tabular 'Adventure Works DW 2012', in the schema 'Internet Operation', table 'Customer', we find at least this list of columns" uid="0005">
     <condition>
-      <service-running name="MSOLAP$SQL2012TABULAR"/>
+      <service-running name="MSOLAP$SQL2017TABULAR"/>
     </condition>
     <system-under-test>
       <structure>

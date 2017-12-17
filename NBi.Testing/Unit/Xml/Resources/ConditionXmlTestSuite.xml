@@ -2,7 +2,7 @@
 <testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="setup-cleanup">
-			<connectionString>Data Source=(local)\SQL2012;Initial Catalog=AdventureWorks2012;Integrated Security=true</connectionString>
+			<connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2012;Integrated Security=true</connectionString>
 		</default>
 	</settings>
 	<test name="decoration with setup and cleanup">
@@ -58,7 +58,7 @@
 		</assert>
 		<cleanup>
 			<table-reset name="NewUsers"
-					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorks2012;Integrated Security=true"/>
+					connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2012;Integrated Security=true"/>
 		</cleanup>
 	</test>
 </testSuite>

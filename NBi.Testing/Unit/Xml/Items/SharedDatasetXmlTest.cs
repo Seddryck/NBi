@@ -69,7 +69,7 @@ namespace NBi.Testing.Unit.Xml.Items
             var sharedDataset = (SharedDatasetXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
 
             Assert.That(sharedDataset, Is.Not.Null);
-            Assert.That(sharedDataset.Source, Is.EqualTo(@"Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"));
+            Assert.That(sharedDataset.Source, Is.EqualTo(@"Data Source=(local)\SQL2017;Initial Catalog=ReportServer;Integrated Security=True;"));
             Assert.That(sharedDataset.Path, Is.EqualTo("/AdventureWorks Sample Reports/"));
             Assert.That(sharedDataset.Name, Is.EqualTo("EmpSalesMonth"));
             Assert.That(sharedDataset.GetConnectionString(), Is.EqualTo(@"Data Source=tadam;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"));

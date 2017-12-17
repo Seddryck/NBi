@@ -74,11 +74,11 @@
   </test>
   <test name="Evaluate-rows with percentage">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <execution>
-        <query connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033">
+        <query connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033">
           select {
           [Measures].[Internet Sales Amount]  
           , [Measures].[Internet Total Product Cost] 

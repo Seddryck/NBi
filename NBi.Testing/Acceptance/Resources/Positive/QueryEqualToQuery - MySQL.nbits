@@ -10,11 +10,11 @@
   </settings>
   <test name="'Reseller Order Count' by year before 2006" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <execution>
-        <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+        <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
           WITH MEMBER
           [Measures].[Reseller Order Count Divided by 7]
           AS
@@ -43,11 +43,11 @@
   </test>
   <test name="'Reseller Order Count' by year before 2006" uid="0001" ignore="false">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <execution>
-        <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+        <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
           select
           [Measures].[Internet Order Count] on 0,
           [Date].[Date].Children  on 1
@@ -58,7 +58,7 @@
     </system-under-test>
     <assert>
       <equalTo>
-        <query connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+        <query connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
           select
           [Measures].[Internet Order Count] on 0,
           [Date].[Date].Children  on 1

@@ -7,11 +7,11 @@
   </settings>
 	<test name="'Reseller Order Count' by year before 2006" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012TABULAR"/>
+      <service-running name="MSOLAP$SQL2017TABULAR"/>
     </condition>
 		<system-under-test>
 			<execution>
-				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033">
+				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033">
 					SELECT
 					[Measures].[Reseller Order Count] ON 0,
 					{[Date].[Calendar Year].[CY 2005]:[Date].[Calendar Year].[CY 2009]} ON 1

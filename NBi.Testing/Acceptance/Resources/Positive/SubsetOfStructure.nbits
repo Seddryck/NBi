@@ -2,12 +2,12 @@
 <testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="system-under-test">
-			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
 		</default>
 	</settings>
 	<test name="Perspectives are all defined in the set of 7 elements" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<structure>
@@ -28,7 +28,7 @@
 	</test>
 	<test name="In perspective 'Finance', the dimensions are all defined in the following set of 6 values" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<structure>
@@ -48,7 +48,7 @@
 	</test>
 	<test name="In perspective 'Finance', the hierarchies of dimension 'Organization' are all defined in the following set of 1 value" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<structure>
@@ -63,7 +63,7 @@
 	</test>
 	<test name="In dimension 'Customers', the levels of hierarchy 'State-Provinces' are all defined in the set 'State-Provinces' and '(All)'" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<structure>
@@ -79,7 +79,7 @@
 	</test>
 	<test name="In perspective 'Finance', the measure-groups are all defined in the following set of 2 values" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<structure>
@@ -95,7 +95,7 @@
 	</test>
 	<test name="In perspective 'Finance', the measures of measure-group 'Exchange Rates' are all defined in the following set of 2 values" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<structure>

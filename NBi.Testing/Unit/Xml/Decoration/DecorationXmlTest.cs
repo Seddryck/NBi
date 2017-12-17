@@ -91,7 +91,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             // Check the properties of the object.
             Assert.That(ts.Tests[testNr].Setup.Commands[1], Is.TypeOf<TableLoadXml>());
             var cmd = ts.Tests[testNr].Setup.Commands[1] as TableLoadXml;
-            Assert.That(cmd.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));
+            Assert.That(cmd.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));
             Assert.That(cmd.TableName, Is.EqualTo("Users"));
             Assert.That(cmd.InternalFileName, Is.EqualTo("Users.csv"));
         }
@@ -108,7 +108,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             // Check the properties of the object.
             Assert.That(ts.Tests[testNr].Setup.Commands[0], Is.TypeOf<TableResetXml>());
             var cmd = ts.Tests[testNr].Setup.Commands[0] as TableResetXml;
-            Assert.That(cmd.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));
+            Assert.That(cmd.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));
             Assert.That(cmd.TableName, Is.EqualTo("Users"));
         }
 
@@ -123,7 +123,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             // Check the properties of the object.
             Assert.That(ts.Tests[testNr].Setup.Commands[2], Is.TypeOf<SqlRunXml>());
             var cmd = ts.Tests[testNr].Setup.Commands[2] as SqlRunXml;
-            Assert.That(cmd.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));
+            Assert.That(cmd.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));
             Assert.That(cmd.Name, Is.EqualTo("MySQLtoRun.sql"));
             Assert.That(cmd.Version, Is.EqualTo("SqlServer2016"));
 
@@ -144,7 +144,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             // Check the properties of the object.
             Assert.That(ts.Tests[testNr].Setup.Commands[0], Is.TypeOf<TableResetXml>());
             var cmd = ts.Tests[testNr].Setup.Commands[0] as TableResetXml;
-            Assert.That(cmd.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));
+            Assert.That(cmd.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));
         }
 
         [Test]
@@ -370,7 +370,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             Assert.That(command, Is.TypeOf<SqlRunXml>());
             var batchRun = command as IBatchRunCommand;
             Assert.That(batchRun.FullPath, Is.EqualTo(@"import.sql"));
-            Assert.That(batchRun.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));
+            Assert.That(batchRun.ConnectionString, Is.EqualTo(@"Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"));
         }
 
         [Test]

@@ -2,7 +2,7 @@
 <testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="system-under-test">
-			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
 		</default>
 		<default apply-to="assert">
 			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
@@ -10,7 +10,7 @@
 	</settings>
 	<test name="Members of department bellow 'Corporate' are in the following list" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
 			<members children-of="Corporate">
@@ -30,7 +30,7 @@
 	</test>
 	<test name="Members of hierarchy 'Month Of Year' are standard members" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<members children-of="All">
@@ -45,7 +45,7 @@
 	</test>
 	<test name="Members of hierarchy 'Sales Order Line' are integers between 1 and 8" uid="0003">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<members children-of="All">
@@ -60,7 +60,7 @@
 	</test>
 	<test name="Members of hierarchy 'Date' are dates between 1st of January 2005 and 31th of December 2010" uid="0004">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<members children-of="All">
@@ -75,7 +75,7 @@
 	</test>
 	<test name="Members of hierarchy 'Calendar' (level 'Calendar Year') are values between 'CY 2005' and 'CY 2010'" uid="0004">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<members>
@@ -90,7 +90,7 @@
 	</test>
   <test name="Members of department bellow 'Corporate' are in a subset of themselves" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <members children-of="Corporate">
@@ -101,7 +101,7 @@
       <equivalentTo>
         <members children-of="Corporate" >
           <hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"
-						connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033"
+						connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033"
 					/>
         </members>
       </equivalentTo>

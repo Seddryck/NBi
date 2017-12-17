@@ -2,12 +2,12 @@
 <testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="system-under-test">
-			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
 		</default>
 	</settings>
 	<test name="In dimension Customers State-Provinces around 65 members" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<members>
@@ -20,7 +20,7 @@
 	</test>
 	<test name="In dimension Customers Countries are exactly 6" uid="0002">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<members children-of="All Customers">
@@ -33,7 +33,7 @@
 	</test>
 	<test name="Customers more than 100 members" uid="0003">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<members>
@@ -46,7 +46,7 @@
 	</test>
 	<test name="Department Name more than 5 members" uid="0003">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<members>
@@ -59,7 +59,7 @@
 	</test>
 	<test name="Employee more than 30 members not-starting with 'John'" uid="0003">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<members>
@@ -75,7 +75,7 @@
 	</test>
 	<test name="Status has exactly 2 members" uid="0003">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<members>

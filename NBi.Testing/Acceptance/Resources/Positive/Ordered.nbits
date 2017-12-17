@@ -2,12 +2,12 @@
 <testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="system-under-test">
-			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
 		</default>
 	</settings>
 	<test name="In dimension Customers State-Provinces are ordered alphabetically" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<members>
@@ -20,7 +20,7 @@
 	</test>
 	<test name="In dimension Customers Countries are ordered alphabetically" uid="0002">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<members children-of="All Customers">
@@ -33,7 +33,7 @@
 	</test>
 	<test name="'In dimension Promotion Start Dates are ordered chronologically" uid="0003">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<members>
@@ -46,7 +46,7 @@
 	</test>
 	<test name="'In dimension Promotion Discount Percents are ordered numerically" uid="0004">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<members>
@@ -59,7 +59,7 @@
 	</test>
 	<test name="In dimension Scenario, Scenario are ordered specifically based on a rule-definition" uid="0005">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<members>
@@ -78,7 +78,7 @@
 	</test>
   <test name="In dimension Scenario, Scenario are ordered specifically based on a query" uid="0006">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <members>

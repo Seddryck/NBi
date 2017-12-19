@@ -284,12 +284,15 @@
     <Compile Include="Process\WaitCommand.cs" />
     <Compile Include="Process\RunCommand.cs" />
     <Compile Include="Query\Connection\ConnectionFactory.cs" />
+    <Compile Include="Query\Connection\OdbcConnectionFactory.cs" />
+    <Compile Include="Query\Connection\OleDbConnectionFactory.cs" />
     <Compile Include="Query\Connection\PowerBiDesktopConnectionFactory.cs" />
     <Compile Include="Query\Connection\PowerBiDesktopConnection.cs" />
     <Compile Include="Query\Connection\OlapConnection.cs" />
     <Compile Include="Query\Connection\DbConnection.cs" />
     <Compile Include="Query\Connection\OlapConnectionFactory.cs" />
     <Compile Include="Query\Connection\DbConnectionFactory.cs" />
+    <Compile Include="Query\Connection\SqlConnectionFactory.cs" />
     <Compile Include="Query\DbCommandFactory.cs" />
     <Compile Include="Query\Format\OdbcFormatEngine.cs" />
     <Compile Include="Query\Format\OleDbFormatEngine.cs" />

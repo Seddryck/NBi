@@ -10,7 +10,7 @@ namespace NBi.Xml.Constraints
 {
     public class SupersetOfXml : EqualToXml
     {
-        internal SupersetOfXml()
+        public SupersetOfXml()
             : base() { }
 
         internal SupersetOfXml(SettingsXml settings)

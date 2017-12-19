@@ -24,7 +24,7 @@ namespace NBi.Core.Query
 
         internal IDbCommand Build(string connectionString, string query, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> variables, TimeSpan timeout)
         {
-            var factory = new DbConnectionFactory();
+            var factory = new ConnectionFactory();
             var connection = factory.Instantiate(connectionString).CreateNew() as IDbConnection;
             return Build(connection, query, CommandType.Text, parameters, variables, Convert.ToInt32(timeout.TotalSeconds));
         }

@@ -306,7 +306,9 @@
     <Compile Include="Unit\Core\Query\CommandBuilderTest.cs" />
     <Compile Include="Unit\Core\Query\Connection\ConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\Connection\OlapConnectionFactoryTest.cs" />
-    <Compile Include="Unit\Core\Query\Connection\DbConnectionFactoryTest.cs" />
+    <Compile Include="Unit\Core\Query\Connection\OdbcConnectionFactoryTest.cs" />
+    <Compile Include="Unit\Core\Query\Connection\SqlConnectionFactoryTest.cs" />
+    <Compile Include="Unit\Core\Query\Connection\OleDbConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\Connection\PowerBIConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\DbTypeBuilderTest.cs" />
     <Compile Include="Unit\Core\Query\QueryParameterTest.cs" />

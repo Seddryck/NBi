@@ -18,7 +18,9 @@ namespace NBi.Core.Query.Connection
         protected void RegisterFactories()
         {
             factories.Add(new OlapConnectionFactory());
-            factories.Add(new DbConnectionFactory());
+            factories.Add(new OdbcConnectionFactory());
+            factories.Add(new OleDbConnectionFactory());
+            factories.Add(new SqlConnectionFactory());
             factories.Add(new PowerBiDesktopConnectionFactory());
         }
 
@@ -34,7 +36,7 @@ namespace NBi.Core.Query.Connection
             foreach (var factory in factories)
                 if (factory.CanHandle(connectionString))
                     return factory.Instantiate(connectionString);
-            throw new ArgumentException();
+            throw new ArgumentException(nameof(connectionString), $"NBi is not able to identify the type of the connection string: {connectionString}");
         }
     }
 }

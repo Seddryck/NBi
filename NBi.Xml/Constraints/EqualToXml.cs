@@ -57,7 +57,7 @@ namespace NBi.Xml.Constraints
         }
 
         [XmlElement("resultSet")]
-        public ResultSetXml ResultSet { get; set; }
+        public virtual ResultSetXml ResultSet { get; set; }
 
         [XmlElement(Type = typeof(QueryXml), ElementName = "query"),
         ]
@@ -83,7 +83,7 @@ namespace NBi.Xml.Constraints
 
         [XmlAttribute("behavior")]
         [DefaultValue(ComparisonBehavior.MultipleRows)]
-        public ComparisonBehavior Behavior { get; set; }
+        public virtual ComparisonBehavior Behavior { get; set; }
 
         [XmlAttribute("keys")]
         [DefaultValue(SettingsIndexResultSet.KeysChoice.First)]
@@ -114,7 +114,7 @@ namespace NBi.Xml.Constraints
         protected string tolerance;
         [XmlAttribute("tolerance")]
         [DefaultValue("")]
-        public string Tolerance
+        public virtual string Tolerance
         {
             get
             { return tolerance; }

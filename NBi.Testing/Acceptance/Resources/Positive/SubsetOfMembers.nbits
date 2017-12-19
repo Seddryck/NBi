@@ -2,7 +2,7 @@
 <testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="system-under-test">
-			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
 		</default>
 		<default apply-to="assert">
 			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
@@ -10,7 +10,7 @@
 	</settings>
 	<test name="Members of department bellow 'Corporate' are in the following list" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<members children-of="Corporate">
@@ -32,7 +32,7 @@
 	<test name="Members of department bellow 'Corporate' are in the following list" uid="81">
 		<category>MultiDimensional</category>
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<members children-of="Corporate">
@@ -51,7 +51,7 @@
 	</test>
 	<test name="Members of department bellow 'Corporate' are in a subset of themselves" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
 			<members children-of="Corporate">
@@ -62,7 +62,7 @@
       <contained-in>
 				<members children-of="Corporate" >
 					<hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"
-						connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033"
+						connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033"
 					/>
 				</members>
 			</contained-in>

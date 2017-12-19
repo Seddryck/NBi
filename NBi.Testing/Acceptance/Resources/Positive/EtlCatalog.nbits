@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="Ssis" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="everywhere">
+      <connectionString>Data Source=.\sql2017;Initial Catalog=Demo.NBi.Ssis;Integrated Security=true</connectionString>
+    </default>
+  </settings>
+  <group name="ETL">
+    <setup>
+      <tasks parallel="true">
+        <table-reset name="DimScientist"/>
+        <table-reset name="DimGeography"/>
+      </tasks>
+      <tasks run-once="true" parallel="false">
+        <table-reset name="DimCalendar"/>
+        <table-load name="DimCalendar" file="data/DimCalendar.csv"/>
+      </tasks>
+    </setup>
+    <test name="The package is successful">
+      <system-under-test>
+        <execution>
+          <etl
+                       server=".\sql2017"
+                       catalog="SSISDB"
+                       folder="Demo.NBi.Ssis"
+                       project="Demo.NBi.Ssis.Integration"
+                       name="Dimensions.dtsx"
+                       version ="SqlServer2017"
+          >
+            <parameter name="FlatFileScientist">C:\Users\cedri\Dropbox\Dataminds-UG 2017 (Zaventem)\20 - Demo Ssis\data\DimScientist.csv</parameter>
+            <parameter name="FlatFileGeography">C:\Users\cedri\Dropbox\Dataminds-UG 2017 (Zaventem)\20 - Demo Ssis\data\DimGeography.csv</parameter>
+            <parameter name="ConnectionString">Data Source=.\sql2017;Initial Catalog=Demo.NBi.Ssis;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</parameter>
+          </etl>
+        </execution>
+      </system-under-test>
+      <assert>
+        <successful/>
+      </assert>
+    </test>
+    <test name="After package execution, More than 10 rows in geography">
+      <setup>
+        <tasks>
+          <etl-run
+             server=".\sql2017"
+             catalog="SSISDB"
+             folder="Demo.NBi.Ssis"
+             project="Demo.NBi.Ssis.Integration"
+             name="Dimensions.dtsx"
+          >
+            <parameter name="FlatFileScientist">C:\Users\cedri\Dropbox\Dataminds-UG 2017 (Zaventem)\20 - Demo Ssis\data\DimScientist.csv</parameter>
+            <parameter name="FlatFileGeography">C:\Users\cedri\Dropbox\Dataminds-UG 2017 (Zaventem)\20 - Demo Ssis\data\DimGeography.csv</parameter>
+            <parameter name="ConnectionString">Data Source=.\sql2017;Initial Catalog=Demo.NBi.Ssis;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</parameter>
+          </etl-run>
+        </tasks>
+      </setup>
+      <system-under-test>
+        <execution>
+          <query>
+            select * from DimGeography
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <row-count>
+          <more-than>10</more-than>
+        </row-count>
+      </assert>
+    </test>
+  </group>
+</testSuite>

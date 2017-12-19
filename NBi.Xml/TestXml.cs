@@ -8,6 +8,7 @@ using NBi.Xml.Decoration;
 using NBi.Xml.Decoration.Command;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
+using System.Xml;
 
 namespace NBi.Xml
 {
@@ -140,6 +141,12 @@ namespace NBi.Xml
             set { cleanup = value; }
         }
 
+        [XmlElement("not-implemented", Order = 11)]
+        public IgnoreXml NotImplemented { get; set; }
+
+        [XmlAnyElement(Order = 12)]
+        public List<XmlElement> Drafts { get; set; }
+
         public TestXml() : base()
         {
             Constraints = new List<AbstractConstraintXml>();
@@ -166,7 +173,7 @@ namespace NBi.Xml
         public string GetName()
         {
             string newName = Name;
-            if (Systems[0] != null)
+            if (Systems.Count>0 && Systems[0] != null)
             {
                 var vals = Systems[0].GetRegexMatch();
 
@@ -236,6 +243,12 @@ namespace NBi.Xml
             }
             set { return; }
         }
+
+        [XmlIgnore]
+        public bool SystemsSpecified { get => !(Systems == null || Systems.Count == 0); }
+        [XmlIgnore]
+        public bool ConstraintsSpecified { get => !(Constraints == null || Constraints.Count == 0); }
+
         [XmlIgnore]
         public bool SetupSpecified
         {
@@ -265,5 +278,8 @@ namespace NBi.Xml
             }
             set { return; }
         }
+
+        [XmlIgnore]
+        public bool IsNotImplemented { get => NotImplemented != null; }
     }
 }

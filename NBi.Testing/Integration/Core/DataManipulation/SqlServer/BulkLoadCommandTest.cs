@@ -13,7 +13,7 @@ namespace NBi.Testing.Integration.Core.DataManipulation.SqlServer
     [Category("LocalSQL")]
     public class BulkLoadCommandTest
 	{
-        private const string SERVICE_NAME = "MSSQL$SQL2012";
+        private const string SERVICE_NAME = "MSSQL$SQL2017";
         private const string FILE_CSV = "Load.csv";
         private string FileName { get; set;}
 

@@ -18,6 +18,9 @@ namespace NBi.Xml
         [XmlArrayItem(typeof(GlobalVariableXml), ElementName = "variable")]
         public List<GlobalVariableXml> Variables { get; set; }
 
+        [XmlIgnore]
+        public bool VariablesSpecified { get => Variables != null && Variables.Count > 0; }
+
         [XmlElement("test", Order = 3)]
         public List<TestXml> Tests { get; set; }
 

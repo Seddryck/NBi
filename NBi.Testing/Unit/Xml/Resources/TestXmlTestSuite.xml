@@ -66,4 +66,11 @@
 			<contain not="true" caption="member"/>
 		</assert>
 	</test>
+  <test name="This test is not implemented" uid="5">
+    <category>My category</category>
+    <category>Not implemented</category>
+    <not-implemented>Because we're not in version 1.18</not-implemented>
+    <nodes></nodes>
+    <assert></assert>
+  </test>
 </testSuite>

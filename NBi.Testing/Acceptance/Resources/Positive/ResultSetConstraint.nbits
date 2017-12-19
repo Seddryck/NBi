@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
+<testSuite name="Acceptance Testing: ResultSet" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
@@ -7,7 +7,15 @@
     <default apply-to="assert">
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </default>
+    <default apply-to="variable">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
   </settings>
+  <variables>
+    <variable name="var1">
+      <query-scalar>select 1963</query-scalar>
+    </variable>
+  </variables>
   <group name="asserts">
     <test name="Csv equal to embedded result-set" uid="0001">
       <system-under-test>
@@ -191,12 +199,12 @@
     </test>
     <test name="Query from report" uid="0106">
       <condition>
-        <service-running name="MSSQL$SQL2012"/>
+        <service-running name="MSSQL$SQL2017"/>
       </condition>
       <system-under-test>
         <resultSet>
           <query>
-            <report source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"
+            <report source="Data Source=(local)\SQL2017;Initial Catalog=ReportServer;Integrated Security=True;"
                 path="/AdventureWorks 2012/"
                 name="Store_Contacts"
                 dataset="Stores"
@@ -207,6 +215,34 @@
       <assert>
         <equalTo values-default-type="text">
           <resultSet file="..\Csv\BusinessEntity.csv"/>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Query with variable" uid="0107">
+      <system-under-test>
+        <resultSet>
+          <query>
+            select LoginID, JobTitle from [HumanResources].[Employee] where year([BirthDate])=@maxid
+            <parameter name="maxid">@var1</parameter>
+          </query>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo values-default-type="text">
+          <resultSet>
+            <row>
+              <cell>adventure-works\ken0</cell>
+              <cell>Chief Executive Officer</cell>
+            </row>
+            <row>
+              <cell>adventure-works\belinda0</cell>
+              <cell>Production Technician - WC45</cell>
+            </row>
+            <row>
+              <cell>adventure-works\michael9</cell>
+              <cell>Sales Representative</cell>
+            </row>
+          </resultSet>
         </equalTo>
       </assert>
     </test>

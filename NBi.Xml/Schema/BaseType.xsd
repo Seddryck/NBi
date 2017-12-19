@@ -767,199 +767,153 @@
       </xs:element>
       <xs:element name="category"  type="category-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="trait"  type="trait-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="condition" type="condition-type" minOccurs="0" maxOccurs="1"/>
-      <xs:element name="setup" type="decoration-type" minOccurs="0" maxOccurs="1"/>
-      <xs:element name="system-under-test" minOccurs="1" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:choice>
-            <xs:element name="execution">
-              <xs:complexType>
-                <xs:choice>
-                  <xs:element name="query" type ="query-type"/>
-                  <xs:element name="report" type ="report-type"/>
-                  <xs:element name="shared-dataset" type ="shared-dataset-type"/>
-                  <xs:element name="assembly" type ="assembly-type"/>
-                  <xs:element name="etl" type ="etl-type"/>
-                </xs:choice>
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="resultSet" type ="resultSet-type"/>
-            <xs:element name="members" type="members-type"/>
-            <xs:element name="structure">
-              <xs:complexType>
-                <xs:choice>
-                  <xs:element name="perspective" type="perspective-type"/>
-                  <xs:element name="measure-group" type="measure-group-type"/>
-                  <xs:element name="measure" type="measure-type"/>
-                  <xs:element name="dimension" type="dimension-type"/>
-                  <xs:element name="hierarchy" type="hierarchy-type"/>
-                  <xs:element name="level" type="level-type"/>
-                  <xs:element name="property" type="property-type"/>
-                  <xs:element name="set" type="set-type"/>
-                  <xs:element name="table" type="table-type"/>
-                  <xs:element name="column" type="column-type"/>
-                  <xs:element name="routine" type="routine-type"/>
-                  <xs:element name="parameter" type="routine-parameter-type"/>
-                  <xs:element name="perspectives" type="perspectives-type"/>
-                  <xs:element name="measure-groups" type="measure-groups-type"/>
-                  <xs:element name="measures" type="measures-type"/>
-                  <xs:element name="dimensions" type="dimensions-type"/>
-                  <xs:element name="hierarchies" type="hierarchies-type"/>
-                  <xs:element name="levels" type="levels-type"/>
-                  <xs:element name="properties" type="properties-type"/>
-                  <xs:element name="sets" type="sets-type"/>
-                  <xs:element name="tables" type="tables-type"/>
-                  <xs:element name="columns" type="columns-type"/>
-                  <xs:element name="routines" type="routines-type"/>
-                  <xs:element name="parameters" type="routine-parameters-type"/>
-                </xs:choice>
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="data-type">
-              <xs:complexType>
-                <xs:choice>
-                  <!--<xs:element name="measure" type="measure-type"/>
+      <xs:choice>
+        <xs:sequence>
+          <xs:element name="condition" type="condition-type" minOccurs="0" maxOccurs="1"/>
+          <xs:element name="setup" type="decoration-type" minOccurs="0" maxOccurs="1"/>
+          <xs:element name="system-under-test" minOccurs="1" maxOccurs="unbounded">
+            <xs:complexType>
+              <xs:choice>
+                <xs:element name="execution">
+                  <xs:complexType>
+                    <xs:choice>
+                      <xs:element name="query" type ="query-type"/>
+                      <xs:element name="report" type ="report-type"/>
+                      <xs:element name="shared-dataset" type ="shared-dataset-type"/>
+                      <xs:element name="assembly" type ="assembly-type"/>
+                      <xs:element name="etl" type ="etl-type"/>
+                    </xs:choice>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="resultSet" type ="resultSet-type"/>
+                <xs:element name="members" type="members-type"/>
+                <xs:element name="structure">
+                  <xs:complexType>
+                    <xs:choice>
+                      <xs:element name="perspective" type="perspective-type"/>
+                      <xs:element name="measure-group" type="measure-group-type"/>
+                      <xs:element name="measure" type="measure-type"/>
+                      <xs:element name="dimension" type="dimension-type"/>
+                      <xs:element name="hierarchy" type="hierarchy-type"/>
+                      <xs:element name="level" type="level-type"/>
+                      <xs:element name="property" type="property-type"/>
+                      <xs:element name="set" type="set-type"/>
+                      <xs:element name="table" type="table-type"/>
+                      <xs:element name="column" type="column-type"/>
+                      <xs:element name="routine" type="routine-type"/>
+                      <xs:element name="parameter" type="routine-parameter-type"/>
+                      <xs:element name="perspectives" type="perspectives-type"/>
+                      <xs:element name="measure-groups" type="measure-groups-type"/>
+                      <xs:element name="measures" type="measures-type"/>
+                      <xs:element name="dimensions" type="dimensions-type"/>
+                      <xs:element name="hierarchies" type="hierarchies-type"/>
+                      <xs:element name="levels" type="levels-type"/>
+                      <xs:element name="properties" type="properties-type"/>
+                      <xs:element name="sets" type="sets-type"/>
+                      <xs:element name="tables" type="tables-type"/>
+                      <xs:element name="columns" type="columns-type"/>
+                      <xs:element name="routines" type="routines-type"/>
+                      <xs:element name="parameters" type="routine-parameters-type"/>
+                    </xs:choice>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="data-type">
+                  <xs:complexType>
+                    <xs:choice>
+                      <!--<xs:element name="measure" type="measure-type"/>
                   <xs:element name="property" type="property-type"/>-->
-                  <xs:element name="column" type="column-type"/>
-                </xs:choice>
-              </xs:complexType>
-            </xs:element>
-          </xs:choice>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="assert" minOccurs="1" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:choice>
-            <xs:element name="equalTo" type="result-set-comparison-type"/>
-            <xs:element name="subset-of" type="result-set-comparison-type"/>
-            <xs:element name="superset-of" type="result-set-comparison-type"/>
-            <xs:element name="evaluate-rows">
-              <xs:complexType>
-                <xs:sequence>
-                  <xs:element name="variable" minOccurs="0" maxOccurs="unbounded">
-                    <xs:complexType>
-                      <xs:simpleContent>
-                        <xs:extension base="xs:string">
-                          <xs:attribute name="column-index" type="xs:integer" use="required"/>
-                        </xs:extension>
-                      </xs:simpleContent>
-                    </xs:complexType>
-                  </xs:element>
-                  <xs:element name="expression" type="expression1-type" minOccurs="1" maxOccurs="unbounded"/>
-                </xs:sequence>
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="syntacticallyCorrect">
-            </xs:element>
-            <xs:element name="fasterThan">
-              <xs:complexType>
-                <xs:attribute name="max-time-milliSeconds" use="required" >
-                  <xs:simpleType>
-                    <xs:restriction base="xs:positiveInteger">
-                      <xs:maxInclusive value="2147483647"/>
-                    </xs:restriction>
-                  </xs:simpleType>
-                </xs:attribute>
-                <xs:attribute name="timeout-milliSeconds" use="optional" >
-                  <xs:simpleType>
-                    <xs:restriction base="xs:positiveInteger">
-                      <xs:maxInclusive value="2147483647"/>
-                    </xs:restriction>
-                  </xs:simpleType>
-                </xs:attribute>
-                <xs:attribute name="clean-cache" type="xs:boolean" use="optional" />
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="count">
-              <xs:complexType>
-                <xs:simpleContent>
-                  <xs:extension base="xs:string">
-                    <xs:attribute name="exactly" type="xs:unsignedShort" use="optional" />
-                    <xs:attribute name="more-than" type="xs:unsignedShort" use="optional" />
-                    <xs:attribute name="less-than" type="xs:unsignedShort" use="optional" />
-                  </xs:extension>
-                </xs:simpleContent>
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="contain">
-              <xs:complexType>
-                <xs:sequence>
-                  <xs:choice>
+                      <xs:element name="column" type="column-type"/>
+                    </xs:choice>
+                  </xs:complexType>
+                </xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="assert" minOccurs="1" maxOccurs="unbounded">
+            <xs:complexType>
+              <xs:choice>
+                <xs:element name="equalTo" type="result-set-comparison-type"/>
+                <xs:element name="subset-of" type="result-set-comparison-type"/>
+                <xs:element name="superset-of" type="result-set-comparison-type"/>
+                <xs:element name="evaluate-rows">
+                  <xs:complexType>
                     <xs:sequence>
-                      <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+                      <xs:element name="variable" minOccurs="0" maxOccurs="unbounded">
                         <xs:complexType>
                           <xs:simpleContent>
-                            <xs:extension base="xs:string"/>
+                            <xs:extension base="xs:string">
+                              <xs:attribute name="column-index" type="xs:integer" use="required"/>
+                            </xs:extension>
                           </xs:simpleContent>
                         </xs:complexType>
                       </xs:element>
-                      <xs:choice minOccurs="0">
-                        <xs:element name="predefined" type="predefined-type"/>
-                        <xs:element name="range-integer" type="range-integer-type"/>
-                        <xs:element name="range-date" type="range-date-type"/>
-                        <xs:element name="range-integer-pattern" type="range-integer-pattern-type"/>
+                      <xs:element name="expression" type="expression1-type" minOccurs="1" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="syntacticallyCorrect">
+                </xs:element>
+                <xs:element name="fasterThan">
+                  <xs:complexType>
+                    <xs:attribute name="max-time-milliSeconds" use="required" >
+                      <xs:simpleType>
+                        <xs:restriction base="xs:positiveInteger">
+                          <xs:maxInclusive value="2147483647"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="timeout-milliSeconds" use="optional" >
+                      <xs:simpleType>
+                        <xs:restriction base="xs:positiveInteger">
+                          <xs:maxInclusive value="2147483647"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="clean-cache" type="xs:boolean" use="optional" />
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="count">
+                  <xs:complexType>
+                    <xs:simpleContent>
+                      <xs:extension base="xs:string">
+                        <xs:attribute name="exactly" type="xs:unsignedShort" use="optional" />
+                        <xs:attribute name="more-than" type="xs:unsignedShort" use="optional" />
+                        <xs:attribute name="less-than" type="xs:unsignedShort" use="optional" />
+                      </xs:extension>
+                    </xs:simpleContent>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="contain">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:choice>
+                        <xs:sequence>
+                          <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string"/>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:choice minOccurs="0">
+                            <xs:element name="predefined" type="predefined-type"/>
+                            <xs:element name="range-integer" type="range-integer-type"/>
+                            <xs:element name="range-date" type="range-date-type"/>
+                            <xs:element name="range-integer-pattern" type="range-integer-pattern-type"/>
+                          </xs:choice>
+                        </xs:sequence>
+                        <xs:element name="one-column-query" type ="query-type"/>
+                        <xs:element name="members" type="members-type"/>
                       </xs:choice>
                     </xs:sequence>
-                    <xs:element name="one-column-query" type ="query-type"/>
-                    <xs:element name="members" type="members-type"/>
-                  </xs:choice>
-                </xs:sequence>
-                <xs:attribute name="caption" type="xs:string" use="optional" />
-                <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
-                <xs:attribute name="not" type="xs:boolean" use="optional" />
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="equivalentTo">
-              <xs:complexType>
-                <xs:choice>
-                  <xs:sequence>
-                    <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
-                      <xs:complexType>
-                        <xs:simpleContent>
-                          <xs:extension base="xs:string"/>
-                        </xs:simpleContent>
-                      </xs:complexType>
-                    </xs:element>
-                    <xs:choice minOccurs="0">
-                      <xs:element name="predefined" type="predefined-type"/>
-                      <xs:element name="range-integer" type="range-integer-type"/>
-                      <xs:element name="range-date" type="range-date-type"/>
-                      <xs:element name="range-integer-pattern" type="range-integer-pattern-type"/>
-                    </xs:choice>
-                  </xs:sequence>
-                  <xs:element name="one-column-query" type ="query-type"/>
-                  <xs:element name="members" type="members-type"/>
-                </xs:choice>
-                <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
-                <xs:attribute name="not" type="xs:boolean" use="optional" />
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="subsetOf" type="contained-in-type" />
-            <xs:element name="contained-in" type="contained-in-type" />
-            <xs:element name="exists">
-              <xs:complexType>
-                <xs:simpleContent>
-                  <xs:extension base="xs:string">
+                    <xs:attribute name="caption" type="xs:string" use="optional" />
                     <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
                     <xs:attribute name="not" type="xs:boolean" use="optional" />
-                  </xs:extension>
-                </xs:simpleContent>
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="is">
-              <xs:complexType>
-                <xs:simpleContent>
-                  <xs:extension base="xs:string">
-                    <xs:attribute name="not" type="xs:boolean" use="optional" />
-                  </xs:extension>
-                </xs:simpleContent>
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="ordered">
-              <xs:complexType>
-                <xs:choice>
-                  <xs:element name="rule-definition" minOccurs="0" maxOccurs="1">
-                    <xs:complexType>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="equivalentTo">
+                  <xs:complexType>
+                    <xs:choice>
                       <xs:sequence>
                         <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
                           <xs:complexType>
@@ -968,76 +922,130 @@
                             </xs:simpleContent>
                           </xs:complexType>
                         </xs:element>
+                        <xs:choice minOccurs="0">
+                          <xs:element name="predefined" type="predefined-type"/>
+                          <xs:element name="range-integer" type="range-integer-type"/>
+                          <xs:element name="range-date" type="range-date-type"/>
+                          <xs:element name="range-integer-pattern" type="range-integer-pattern-type"/>
+                        </xs:choice>
                       </xs:sequence>
-                    </xs:complexType>
-                  </xs:element>
-                  <xs:element name="one-column-query" minOccurs="0" maxOccurs="1" type ="query-type"/>
-                </xs:choice>
-                <xs:attribute name="descending" type="xs:boolean" use="optional" />
-                <xs:attribute name="rule" use="optional" >
-                  <xs:simpleType>
-                    <xs:restriction base="xs:string">
-                      <xs:enumeration value="alphabetical"/>
-                      <xs:enumeration value="chronological"/>
-                      <xs:enumeration value="numerical"/>
-                      <xs:enumeration value="specific"/>
-                    </xs:restriction>
-                  </xs:simpleType>
-                </xs:attribute>
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="linkedTo">
-              <xs:complexType>
-                <xs:choice>
-                  <xs:element name="dimension" minOccurs="0" maxOccurs="1">
-                    <xs:complexType>
-                      <xs:attribute name="caption" type="xs:string" use="required"/>
-                    </xs:complexType>
-                  </xs:element>
-                  <xs:element name="measure-group" minOccurs="0" maxOccurs="1">
-                    <xs:complexType>
-                      <xs:attribute name="caption" type="xs:string" use="required"/>
-                    </xs:complexType>
-                  </xs:element>
-                </xs:choice>
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="matchPattern">
-              <xs:complexType>
-                <xs:choice>
-                  <xs:element name="regex" minOccurs="0" maxOccurs="1"/>
-                  <xs:element name="numeric-format" type="numeric-format-type" minOccurs="0" maxOccurs="1"/>
-                  <xs:element name="currency-format" type="currency-format-type" minOccurs="0" maxOccurs="1"/>
-                </xs:choice>
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="successful">
-              <xs:complexType>
-                <xs:attribute name="not" type="xs:boolean" use="optional"/>
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="row-count">
-              <xs:complexType>
-                <xs:sequence>
-                  <xs:element name="filter" type="filter-type" minOccurs="0" maxOccurs="1"/>
-                  <xs:choice>
-                    <xs:element name="less-than" type="more-less-enhanced-type" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="more-than" type="more-less-enhanced-type" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="equal" type="comparer-enhanced-type" minOccurs="0" maxOccurs="1"/>
-                  </xs:choice>
-                </xs:sequence>
-                <xs:attribute name="not" type="xs:boolean" use="optional"/>
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="all-rows" type="filter-type"/>
-            <xs:element name="no-rows" type="filter-type"/>
-            <xs:element name="some-rows" type="filter-type"/>
-            <xs:element name="single-row" type="filter-type"/>
-            <xs:element name="unique-rows" type="unique-rows-type"/>
-          </xs:choice>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="cleanup" type="decoration-type" minOccurs="0" maxOccurs="1"/>
+                      <xs:element name="one-column-query" type ="query-type"/>
+                      <xs:element name="members" type="members-type"/>
+                    </xs:choice>
+                    <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+                    <xs:attribute name="not" type="xs:boolean" use="optional" />
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="subsetOf" type="contained-in-type" />
+                <xs:element name="contained-in" type="contained-in-type" />
+                <xs:element name="exists">
+                  <xs:complexType>
+                    <xs:simpleContent>
+                      <xs:extension base="xs:string">
+                        <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+                        <xs:attribute name="not" type="xs:boolean" use="optional" />
+                      </xs:extension>
+                    </xs:simpleContent>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="is">
+                  <xs:complexType>
+                    <xs:simpleContent>
+                      <xs:extension base="xs:string">
+                        <xs:attribute name="not" type="xs:boolean" use="optional" />
+                      </xs:extension>
+                    </xs:simpleContent>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="ordered">
+                  <xs:complexType>
+                    <xs:choice>
+                      <xs:element name="rule-definition" minOccurs="0" maxOccurs="1">
+                        <xs:complexType>
+                          <xs:sequence>
+                            <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+                              <xs:complexType>
+                                <xs:simpleContent>
+                                  <xs:extension base="xs:string"/>
+                                </xs:simpleContent>
+                              </xs:complexType>
+                            </xs:element>
+                          </xs:sequence>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element name="one-column-query" minOccurs="0" maxOccurs="1" type ="query-type"/>
+                    </xs:choice>
+                    <xs:attribute name="descending" type="xs:boolean" use="optional" />
+                    <xs:attribute name="rule" use="optional" >
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="alphabetical"/>
+                          <xs:enumeration value="chronological"/>
+                          <xs:enumeration value="numerical"/>
+                          <xs:enumeration value="specific"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="linkedTo">
+                  <xs:complexType>
+                    <xs:choice>
+                      <xs:element name="dimension" minOccurs="0" maxOccurs="1">
+                        <xs:complexType>
+                          <xs:attribute name="caption" type="xs:string" use="required"/>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element name="measure-group" minOccurs="0" maxOccurs="1">
+                        <xs:complexType>
+                          <xs:attribute name="caption" type="xs:string" use="required"/>
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:choice>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="matchPattern">
+                  <xs:complexType>
+                    <xs:choice>
+                      <xs:element name="regex" minOccurs="0" maxOccurs="1"/>
+                      <xs:element name="numeric-format" type="numeric-format-type" minOccurs="0" maxOccurs="1"/>
+                      <xs:element name="currency-format" type="currency-format-type" minOccurs="0" maxOccurs="1"/>
+                    </xs:choice>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="successful">
+                  <xs:complexType>
+                    <xs:attribute name="not" type="xs:boolean" use="optional"/>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="row-count">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="filter" type="filter-type" minOccurs="0" maxOccurs="1"/>
+                      <xs:choice>
+                        <xs:element name="less-than" type="more-less-enhanced-type" minOccurs="0" maxOccurs="1"/>
+                        <xs:element name="more-than" type="more-less-enhanced-type" minOccurs="0" maxOccurs="1"/>
+                        <xs:element name="equal" type="comparer-enhanced-type" minOccurs="0" maxOccurs="1"/>
+                      </xs:choice>
+                    </xs:sequence>
+                    <xs:attribute name="not" type="xs:boolean" use="optional"/>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="all-rows" type="filter-type"/>
+                <xs:element name="no-rows" type="filter-type"/>
+                <xs:element name="some-rows" type="filter-type"/>
+                <xs:element name="single-row" type="filter-type"/>
+                <xs:element name="unique-rows" type="unique-rows-type"/>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="cleanup" type="decoration-type" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:sequence>
+          <xs:element name="not-implemented" minOccurs="1"/>
+          <xs:any minOccurs="0" maxOccurs="unbounded" processContents="skip"/>
+        </xs:sequence>
+      </xs:choice>
     </xs:sequence>
     <xs:attribute name="name" type="xs:string" use="required" />
     <xs:attribute name="uid" type="xs:unsignedInt" use="optional" />

@@ -2,16 +2,16 @@
 <testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="setup-cleanup">
-      <connectionString>Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true</connectionString>
+      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2012;Integrated Security=true</connectionString>
     </default>
   </settings>
   <test name="decoration with setup and cleanup">
     <setup>
       <table-reset  name="Users"
-					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"/>
+					connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"/>
       <table-load   name="Users"
 					file ="Users.csv"
-					connectionString="Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"/>
+					connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"/>
       <sql-run name="MySQLtoRun.sql" version="SqlServer2016" />
       <sql-run name="MySQLtoRun.sql" />
     </setup>

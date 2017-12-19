@@ -101,11 +101,11 @@
   </test>
   <test name="Count rows with more than 1000 sales">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <execution>
-        <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+        <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
           SELECT
           [Measures].[Reseller Order Count] ON 0,
           {[Date].[Calendar Year].[CY 2005]:[Date].[Calendar Year].[CY 2008]} ON 1
@@ -128,11 +128,11 @@
   </test>
   <test name="Count rows with more than 500 semi-sales">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <execution>
-        <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+        <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
           SELECT
           [Measures].[Reseller Order Count] ON 0,
           {[Date].[Calendar Year].[CY 2005]:[Date].[Calendar Year].[CY 2008]} ON 1

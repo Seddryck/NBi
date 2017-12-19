@@ -33,6 +33,7 @@ namespace NBi.Testing.Acceptance
             {
                 TestSuiteFinder = new TestSuiteFinderOverrider(filename);
                 ConfigurationFinder = new ConfigurationFinderOverrider(configFilename);
+                ConnectionStringsFinder = new ConnectionStringsFinderOverrider(configFilename);
             }
 
             internal class TestSuiteFinderOverrider : TestSuiteFinder
@@ -67,6 +68,26 @@ namespace NBi.Testing.Acceptance
                             return section;
                     }
                     return new NBiSection();
+                }
+            }
+
+            internal class ConnectionStringsFinderOverrider : ConnectionStringsFinder
+            {
+                private readonly string filename;
+                public ConnectionStringsFinderOverrider(string filename)
+                {
+                    this.filename = filename;
+                }
+                protected override string GetConfigFile() => $@"Acceptance\Resources\{filename}.config";
+
+                protected override Configuration GetConfiguration()
+                {
+                    ExeConfigurationFileMap configMap = new ExeConfigurationFileMap()
+                    {
+                        ExeConfigFilename = GetConfigFile()
+                    };
+                    var config = ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
+                    return config;
                 }
             }
 
@@ -262,6 +283,33 @@ namespace NBi.Testing.Acceptance
                         Assert.That(ex.StackTrace, Is.EqualTo(testXml.Content));
                     }
                 }
+            }
+        }
+
+        [Test]
+        [TestCase("Ignored.nbits")]
+        public void RunIgnoredTests(string filename)
+        {
+            var t = new TestSuiteOverrider(@"Ignored\" + filename);
+
+            //First retrieve the NUnit TestCases with base class (NBi.NUnit.Runtime)
+            //These NUnit TestCases are defined in the Test Suite file
+            var tests = t.GetTestCases();
+
+            //Execute the NUnit TestCases one by one
+            foreach (var testCaseData in tests)
+            {
+                var isSuccess = false;
+                try
+                {
+                    t.ExecuteTestCases((TestXml)testCaseData.Arguments[0]);
+                }
+                catch (IgnoreException)
+                {
+                    isSuccess = true;
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, $"Expectation was met: test ignored.");
+                }
+                Assert.That(isSuccess);
             }
         }
     }

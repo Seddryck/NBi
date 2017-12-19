@@ -2,7 +2,7 @@
 <testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
-      <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
+      <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
     </default>
     <default apply-to="assert">
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
@@ -11,12 +11,12 @@
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </reference>
     <reference name="Olap">
-      <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
+      <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
     </reference>
   </settings>
   <test name="In dimension Customers, the members of level named 'State-Provinces' contain 'Washington'" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <members>
@@ -29,7 +29,7 @@
   </test>
   <test name="In dimension Customers the country 'Canada' has a child 'Ontario'" uid="0002">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <members children-of="Canada">
@@ -42,7 +42,7 @@
   </test>
   <test name="First zone of [Employee].[Sick Leave Hours] is 20 to 33" uid="0003">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <members>
@@ -55,7 +55,7 @@
   </test>
   <test name="Organization 'All' member is named [All Organizations]" uid="0004">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <members>
@@ -69,12 +69,12 @@
   <test name="Dimension 'Currency' contains 'Croatian Kuna' in the hierarchy 'CurrencyName' (without space)">
     <category>Tabular</category>
     <condition>
-      <service-running name="MSOLAP$SQL2012TABULAR"/>
+      <service-running name="MSOLAP$SQL2017TABULAR"/>
     </condition>
     <system-under-test>
       <members>
         <hierarchy caption="CurrencyName" dimension="Currency" perspective="Internet Operation"
-					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"
 				/>
       </members>
     </system-under-test>
@@ -85,7 +85,7 @@
   <test name="Members of department bellow 'Corporate' are in the following list retrieved by a query with a default connectionString" uid="81">
     <category>MultiDimensional</category>
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <members children-of="Corporate">
@@ -103,7 +103,7 @@
   <test name="Members of department bellow 'Corporate' are in the following list retrieved by a query with a reference connectionString" uid="81">
     <category>MultiDimensional</category>
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <members children-of="Corporate">
@@ -120,7 +120,7 @@
   </test>
   <test name="Members of department bellow 'Corporate' are in a subset of themselves" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <members children-of="Corporate">
@@ -139,7 +139,7 @@
   </test>
   <test name="The set Large Resellers contains at least some items" uid="0099">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <members>

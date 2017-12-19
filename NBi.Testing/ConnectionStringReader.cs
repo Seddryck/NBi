@@ -81,9 +81,14 @@ namespace NBi.Testing
             return Get("ReportServerDatabase");
         }
 
-        internal static string GetIntegrationServerDatabase()
+        internal static string GetIntegrationServer()
         {
-            return Get("IntegrationServerDatabase");
+            return Get("IntegrationServer");
+        }
+
+        internal static string GetIntegrationServerTargetDatabase()
+        {
+            return Get("IntegrationServerTargetDatabase");
         }
 
     }

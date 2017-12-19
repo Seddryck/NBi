@@ -2,7 +2,7 @@
 <testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
-      <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049</connectionString>
+      <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049</connectionString>
     </default>
     <reference name="SqlAdvenureWorks2012">
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
@@ -10,7 +10,7 @@
   </settings>
   <test name="'Reseller Orders' count, year by year, between 2005 and 2008" uid="0001">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <execution>
@@ -48,7 +48,7 @@
   </test>
   <test name="'Reseller Orders' count, year by year, between 2005 and 2008 with a tolerance of 5%" uid="0002">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <execution>
@@ -87,7 +87,7 @@
   </test>
   <test name="'Reseller Orders' count, year by year, between 2005 and 2008 with a rounding by step of 100" uid="0003">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <execution>
@@ -126,7 +126,7 @@
   </test>
   <test name="'Reseller Orders' count, year by year, between 2005 and 2008 with intervals" uid="0003">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <execution>
@@ -165,7 +165,7 @@
   </test>
   <test name="'Reseller Orders' count, year by year, between 2005 and 2008 with intervals generic" uid="0003">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <execution>
@@ -234,12 +234,12 @@
   </test>
   <test name="DAX Query with one column">
     <condition>
-      <service-running name="MSOLAP$SQL2012TABULAR"/>
+      <service-running name="MSOLAP$SQL2017TABULAR"/>
     </condition>
     <system-under-test>
       <execution>
         <query
-					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"
 				>
           EVALUATE
           CALCULATETABLE(
@@ -266,12 +266,12 @@
   </test>
   <test name="DAX Query with two columns">
     <condition>
-      <service-running name="MSOLAP$SQL2012TABULAR"/>
+      <service-running name="MSOLAP$SQL2017TABULAR"/>
     </condition>
     <system-under-test>
       <execution>
         <query
-					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"
+					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"
 				>
           evaluate(
           row(
@@ -529,7 +529,7 @@
   </test>
   <test name="Compare sales amount for all territories group">
     <condition>
-      <service-running name="MSOLAP$SQL2012"/>
+      <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
       <execution>

@@ -69,7 +69,7 @@ namespace NBi.Testing.Unit.Xml.Items
             var report = (ReportXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
 
             Assert.That(report, Is.Not.Null);
-            Assert.That(report.Source, Is.EqualTo(@"Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"));
+            Assert.That(report.Source, Is.EqualTo(@"Data Source=(local)\SQL2017;Initial Catalog=ReportServer;Integrated Security=True;"));
             Assert.That(report.Path, Is.EqualTo("/AdventureWorks Sample Reports/"));
             Assert.That(report.Name, Is.EqualTo("Currency_List"));
             Assert.That(report.Dataset, Is.EqualTo("currency"));

@@ -13,7 +13,7 @@ namespace NBi.Testing.Integration.Core.DataManipulation.SqlServer
     [Category("LocalSQL")]
     public class TruncateCommandTest
 	{
-        private const string SERVICE_NAME = "MSSQL$SQL2012";
+        private const string SERVICE_NAME = "MSSQL$SQL2017";
 
         private int CountElementsInTable(string tableName, string connectionString)
         {

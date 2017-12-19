@@ -49,11 +49,13 @@ namespace NBi.Core.SqlServer.IntegrationService
                 #endif
                     if (package.Variables.Contains(param.Name))
                         package.Variables[param.Name].Value = DefineValue(param.StringValue, package.Variables[param.Name].DataType);
+                    else if ((package.Parent as Package) != null && (package.Parent as Package).Parameters.Contains(param.Name))
+                        (package.Parent as Package).Parameters[param.Name].Value = param.StringValue;
                     else
-                        throw new ArgumentOutOfRangeException("param.Name", string.Format("No parameter or variable named '{0}' found in the package {1}, can't override its value for execution.", param.Name, package.Name));
-               #if ! SqlServer2008R2 
-               }
-               #endif
+                        throw new ArgumentOutOfRangeException(param.Name, $"No parameter or variable named '{param.Name}' found in the package {package.Name} or its parent, can't override its value for execution.");
+                #if ! SqlServer2008R2 
+                }
+                #endif
             }
         }
     }

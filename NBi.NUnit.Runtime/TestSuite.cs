@@ -33,7 +33,7 @@ namespace NBi.NUnit.Runtime
         public bool AllowDtdProcessing { get; set; }
         public string SettingsFilename { get; set; }
         public ITestConfiguration Configuration { get; set; }
-        public IDictionary<string, ITestVariable> Variables { get; set; }
+        public static IDictionary<string, ITestVariable> Variables { get; set; }
 
         internal XmlManager TestSuiteManager { get; private set; }
         internal TestSuiteFinder TestSuiteFinder { get; set; }
@@ -68,9 +68,15 @@ namespace NBi.NUnit.Runtime
 
             Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, $"Test loaded by {GetOwnFilename()}");
             Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Test defined in {TestSuiteFinder.Find()}");
-
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"{Variables.Count()} variables defined, {Variables.Count(x => x.Value.IsEvaluated())} already evaluated.");
+            
             //check if ignore is set to true
-            if (test.Ignore)
+            if (test.IsNotImplemented)
+            {
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Test not-implemented, will be ignored. Reason is '{test.NotImplemented.Reason}'");
+                Assert.Ignore(test.IgnoreReason);
+            }
+            else if (test.Ignore)
             {
                 Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Test ignored. Reason is '{test.IgnoreReason}'");
                 Assert.Ignore(test.IgnoreReason);
@@ -221,6 +227,7 @@ namespace NBi.NUnit.Runtime
 
         public IEnumerable<TestCaseData> GetTestCases()
         {
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"GetTestCases() has been called");
             //Find configuration of NBi
             if (ConfigurationFinder != null)
             {
@@ -251,6 +258,7 @@ namespace NBi.NUnit.Runtime
             var resolverFactory = new ScalarResolverFactory();
             var factory = new TestVariableFactory();
 
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"{variables.Count()} variable{(variables.Count()>1 ? "s" : string.Empty)} defined in the test-suite.");
             foreach (var variable in variables)
             {
                 var builder = new ScalarResolverArgsBuilder();

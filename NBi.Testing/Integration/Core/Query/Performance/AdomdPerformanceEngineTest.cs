@@ -34,8 +34,8 @@ namespace NBi.Testing.Integration.Core.Query.Performance
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
             var qp = new AdomdPerformanceEngine(cmd);
-            var ex = Assert.Throws<AdomdErrorResponseException>(() => qp.CleanCache());
-            Assert.That(ex.Message, Is.StringStarting("Either the user,"));
+            qp.CleanCache();
+            Assert.Pass();
         }
     }
 }

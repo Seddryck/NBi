@@ -15,7 +15,9 @@ namespace NBi.Core.Query.Connection
 
         public OleDbConnectionFactory() 
             : base()
-        { }
+        {
+            providers = new ReadOnlyDictionary<string, string>(new Dictionary<string, string>());
+        }
 
         public OleDbConnectionFactory(IDictionary<string, string> providers)
             : base()

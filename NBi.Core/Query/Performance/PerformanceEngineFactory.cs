@@ -4,6 +4,7 @@ using System.Data.Odbc;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
+using NBi.Core.Query.Connection;
 
 namespace NBi.Core.Query.Performance
 {
@@ -15,7 +16,7 @@ namespace NBi.Core.Query.Performance
         public IPerformanceEngine Instantiate(IQuery query)
         {
             var connectionFactory = new ConnectionFactory();
-            var connection = connectionFactory.Instantiate(query.ConnectionString);
+            var connection = connectionFactory.Instantiate(query.ConnectionString).CreateNew() as IDbConnection;
 
             var commandFactory = new DbCommandFactory();
             var cmd = commandFactory.Instantiate(connection, query);

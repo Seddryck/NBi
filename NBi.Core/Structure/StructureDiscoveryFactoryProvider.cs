@@ -1,5 +1,6 @@
 ﻿using Microsoft.AnalysisServices;
 using Microsoft.AnalysisServices.AdomdClient;
+using NBi.Core.Query.Connection;
 using NBi.Core.Structure.Olap;
 using NBi.Core.Structure.Relational;
 using NBi.Core.Structure.Tabular;
@@ -40,7 +41,7 @@ namespace NBi.Core.Structure
         public IStructureDiscoveryFactory Instantiate(string connectionString)
         {
             var connectionFactory = new ConnectionFactory();
-            var connection = connectionFactory.Instantiate(connectionString);
+            var connection = connectionFactory.Instantiate(connectionString).CreateNew() as IDbConnection;
             var dbType = MapConnectionTypeToDatabaseType(connection);
 
             if (!dico.Keys.Contains(dbType))

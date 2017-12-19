@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using NBi.Core.DataManipulation.SqlServer;
+using NBi.Core.Query.Connection;
 
 namespace NBi.Core.DataManipulation
 {
@@ -11,7 +13,7 @@ namespace NBi.Core.DataManipulation
         {
 
             var connectionFactory = new ConnectionFactory();
-            var connection = connectionFactory.Instantiate(command.ConnectionString);
+            var connection = connectionFactory.Instantiate(command.ConnectionString).CreateNew() as IDbConnection;
             IDataManipulationFactory factory = null;
 
             if (connection is SqlConnection)

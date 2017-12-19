@@ -191,6 +191,10 @@
     <Compile Include="Unit\Core\Members\PredefinedMembersFactoryTest.cs" />
     <Compile Include="Unit\Core\OfficeDataConnectionFileParserTest.cs" />
     <Compile Include="Unit\Core\Query\CommandBuilderTest.cs" />
+    <Compile Include="Unit\Core\Query\Connection\ConnectionFactoryTest.cs" />
+    <Compile Include="Unit\Core\Query\Connection\OlapConnectionFactoryTest.cs" />
+    <Compile Include="Unit\Core\Query\Connection\DbConnectionFactoryTest.cs" />
+    <Compile Include="Unit\Core\Query\Connection\PowerBIConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\DbTypeBuilderTest.cs" />
     <Compile Include="Unit\Core\Query\QueryParameterTest.cs" />
     <Compile Include="Unit\Core\Report\FileReportingParserTest.cs" />
@@ -223,7 +227,6 @@
     <Compile Include="Unit\Core\ResultSet\Interval\NumericIntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Equivalence\SettingsNameResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetTest.cs" />
-    <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
     <Compile Include="Unit\Core\CsvReaderTest.cs" />
     <Compile Include="Unit\Core\Scalar\PercentageTest.cs" />
@@ -425,6 +428,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryRowCount.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\MatchPattern.nbitt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -744,7 +748,7 @@
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core.SqlServer\NBi.Core.SqlServer.csproj">
       <Project>{687f2843-268c-43e2-8369-9eb06b9b59f8}</Project>
-      <Name>NBi.Core.SqlServer2014</Name>
+      <Name>NBi.Core.SqlServer</Name>
     </ProjectReference>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
       <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>

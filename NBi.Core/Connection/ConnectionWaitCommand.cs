@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Query.Connection;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
@@ -34,7 +35,7 @@ namespace NBi.Core.Connection
                 {
                     Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, String.Format("Building connection string with '{0}'.", connectionString));
                     var connectionFactory = new ConnectionFactory();
-                    var connection = connectionFactory.Instantiate(connectionString);
+                    var connection = connectionFactory.Instantiate(connectionString).CreateNew() as IDbConnection;
 
                     Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, String.Format("Trying to connect to '{0}'.", connection.ConnectionString));
                     connection.Open();

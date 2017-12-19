@@ -7,6 +7,7 @@ using NBi.Core;
 using NBi.Core.Report;
 using NBi.Xml.Settings;
 using NBi.Xml.Constraints;
+using NBi.Core.Query.Connection;
 
 namespace NBi.Xml.Items
 {
@@ -67,7 +68,7 @@ namespace NBi.Xml.Items
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public virtual IDbCommand GetCommand()
         {
-            var conn = new ConnectionFactory().Instantiate(GetConnectionString());
+            var conn = new ConnectionFactory().Instantiate(GetConnectionString()).CreateNew() as IDbConnection;
             var cmd = conn.CreateCommand();
             cmd.CommandText = GetQuery();
 

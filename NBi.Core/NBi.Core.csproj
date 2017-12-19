@@ -147,6 +147,7 @@
     <Compile Include="Calculation\ResultSetFilter.cs" />
     <Compile Include="Calculation\IResultSetFilter.cs" />
     <Compile Include="Calculation\NoneFilter.cs" />
+    <Compile Include="IConnectionFactory.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Configuration\ConfigurationManager.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="FileManipulation\ICopyCommand.cs" />
     <Compile Include="GroupCommand.cs" />
     <Compile Include="GroupCommandFactory.cs" />
+    <Compile Include="IConnection.cs" />
     <Compile Include="IExecutionResult.cs" />
     <Compile Include="Etl\EtlRunnerFactory.cs" />
     <Compile Include="Etl\EtlRunResult.cs" />
@@ -281,6 +283,13 @@
     <Compile Include="Process\KillCommand.cs" />
     <Compile Include="Process\WaitCommand.cs" />
     <Compile Include="Process\RunCommand.cs" />
+    <Compile Include="Query\Connection\ConnectionFactory.cs" />
+    <Compile Include="Query\Connection\PowerBiDesktopConnectionFactory.cs" />
+    <Compile Include="Query\Connection\PowerBiDesktopConnection.cs" />
+    <Compile Include="Query\Connection\OlapConnection.cs" />
+    <Compile Include="Query\Connection\DbConnection.cs" />
+    <Compile Include="Query\Connection\OlapConnectionFactory.cs" />
+    <Compile Include="Query\Connection\DbConnectionFactory.cs" />
     <Compile Include="Query\DbCommandFactory.cs" />
     <Compile Include="Query\Format\OdbcFormatEngine.cs" />
     <Compile Include="Query\Format\OleDbFormatEngine.cs" />
@@ -448,7 +457,6 @@
     <Compile Include="ResultSet\ResultResultSet.cs" />
     <Compile Include="ResultSet\Equivalence\IEquivaler.cs" />
     <Compile Include="ConnectionException.cs" />
-    <Compile Include="ConnectionFactory.cs" />
     <Compile Include="CsvDefinition.cs" />
     <Compile Include="Query\ParserResult.cs" />
     <Compile Include="Query\Performance\PerformanceResult.cs" />

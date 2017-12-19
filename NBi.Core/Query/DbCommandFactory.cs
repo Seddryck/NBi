@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using Microsoft.AnalysisServices.AdomdClient;
+using NBi.Core.Query.Connection;
 
 namespace NBi.Core.Query
 {
@@ -17,14 +18,14 @@ namespace NBi.Core.Query
         internal IDbCommand Build(string connectionString, string query, IEnumerable<IQueryParameter> parameters)
         {
             var factory = new ConnectionFactory();
-            var connection = factory.Instantiate(connectionString);
+            var connection = factory.Instantiate(connectionString).CreateNew() as IDbConnection;
             return Build(connection, query, CommandType.Text, parameters, null, 0);
         }
 
         internal IDbCommand Build(string connectionString, string query, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> variables, TimeSpan timeout)
         {
-            var factory = new ConnectionFactory();
-            var connection = factory.Instantiate(connectionString);
+            var factory = new DbConnectionFactory();
+            var connection = factory.Instantiate(connectionString).CreateNew() as IDbConnection;
             return Build(connection, query, CommandType.Text, parameters, variables, Convert.ToInt32(timeout.TotalSeconds));
         }
 

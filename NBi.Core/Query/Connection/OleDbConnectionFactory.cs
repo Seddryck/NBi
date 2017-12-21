@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Common;
@@ -16,7 +17,7 @@ namespace NBi.Core.Query.Connection
         public OleDbConnectionFactory() 
             : base()
         {
-            providers = new ReadOnlyDictionary<string, string>(new Dictionary<string, string>());
+            providers = ConfigurationManager.GetConfiguration().Providers;
         }
 
         public OleDbConnectionFactory(IDictionary<string, string> providers)

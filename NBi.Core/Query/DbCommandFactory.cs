@@ -14,21 +14,7 @@ namespace NBi.Core.Query
         {
             return Build(connection, query.Statement, query.CommandType, query.Parameters, query.TemplateTokens, Convert.ToInt32(query.Timeout.TotalSeconds));
         }
-
-        internal IDbCommand Build(string connectionString, string query, IEnumerable<IQueryParameter> parameters)
-        {
-            var factory = new ConnectionFactory();
-            var connection = factory.Instantiate(connectionString).CreateNew() as IDbConnection;
-            return Build(connection, query, CommandType.Text, parameters, null, 0);
-        }
-
-        internal IDbCommand Build(string connectionString, string query, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> variables, TimeSpan timeout)
-        {
-            var factory = new ConnectionFactory();
-            var connection = factory.Instantiate(connectionString).CreateNew() as IDbConnection;
-            return Build(connection, query, CommandType.Text, parameters, variables, Convert.ToInt32(timeout.TotalSeconds));
-        }
-
+        
         protected IDbCommand Build(IDbConnection connection, string query, CommandType commandType, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> variables, int timeout)
         {
             var cmd = connection.CreateCommand();

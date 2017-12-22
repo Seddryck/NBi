@@ -7,8 +7,10 @@ using System.Diagnostics;
 
 namespace NBi.Core.Query.Performance
 {
+    [SupportedCommandType(typeof(OleDbCommand))]
     internal class OleDbPerformanceEngine : DbCommandPerformanceEngine
     {
+        
         protected internal OleDbPerformanceEngine(OleDbConnection connection, OleDbCommand command)
             : base(new OleDbExecutionEngine(connection, command))
         { }

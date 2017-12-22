@@ -29,11 +29,17 @@ namespace NBi.Core.Query
 
         protected internal void RegisterEngines(Type[] types)
         {
-            foreach (var t in types)
+            var invalidTypes = new List<string>();
+            foreach (var type in types)
             {
-                var name = t.GetAttributeValue((SupportedCommandTypeAttribute x) => x.Value).FullName;
-                engines.Add(name, t);
+                var underlyingType = type.GetAttributeValue((SupportedCommandTypeAttribute x) => x?.Value);
+                if (underlyingType == null)
+                    invalidTypes.Add(type.FullName);
+                else
+                    engines.Add(underlyingType.FullName, type);
             }
+            if (invalidTypes.Count > 0)
+                throw new ArgumentException($"Unable to find the attribute SupportedCommandType for the type{(invalidTypes.Count>1 ? "s" : string.Empty)}: '{string.Join(@"', '", invalidTypes)}'.");
         }
 
         public T Instantiate(IQuery query)

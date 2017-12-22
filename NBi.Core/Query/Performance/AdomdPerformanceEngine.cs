@@ -10,6 +10,7 @@ using System.Reflection;
 
 namespace NBi.Core.Query.Performance
 {
+    [SupportedCommandType(typeof(AdomdCommand))]
     internal class AdomdPerformanceEngine : DbCommandPerformanceEngine
     {
         protected internal AdomdPerformanceEngine(AdomdConnection connection, AdomdCommand command)

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Query
 {
+    [AttributeUsage(AttributeTargets.Class)]
+
     class SupportedCommandTypeAttribute : Attribute
     {
         public Type Value { get; }

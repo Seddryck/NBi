@@ -10,25 +10,30 @@ namespace NBi.Core.Query.Command
     public class CommandFactory
     {
         private readonly IList<ICommandFactory> factories = new List<ICommandFactory>();
+        private Type[] classics = new[]
+            {
+                typeof(AdomdCommandFactory),
+                typeof(OdbcCommandFactory),
+                typeof(OleDbCommandFactory),
+                typeof(SqlCommandFactory)
+            };
 
         public CommandFactory()
         {
-            RegisterFactories();
+            var extensions = Configuration.ConfigurationManager.GetConfiguration().Extensions.Where(x => typeof(ICommandFactory).IsAssignableFrom(x));
+            RegisterFactories(classics.Union(extensions).ToArray());
         }
 
-        protected void RegisterFactories()
+        protected internal void RegisterFactories(Type[] types)
         {
-            factories.Add(new AdomdCommandFactory());
-            factories.Add(new OdbcCommandFactory());
-            factories.Add(new OleDbCommandFactory());
-            factories.Add(new SqlCommandFactory());
-        }
-
-        public void AddFactory(ICommandFactory factory)
-        {
-            if (factories.SingleOrDefault(x => x.GetType()== factory.GetType()) != null)
-                throw new ArgumentException(nameof(factory), $"You can't add twice the same factory. The factory '{factory.GetType().Name}' was already registered.");
-            factories.Add(factory);
+            foreach (var type in types)
+            {
+                var ctor = type.GetConstructor(new Type[] { });
+                var factory = (ICommandFactory)ctor.Invoke(new object[] { });
+                if (factories.SingleOrDefault(x => x.GetType() == factory.GetType()) != null)
+                    throw new ArgumentException($"You can't add twice the same factory. The factory '{factory.GetType().Name}' was already registered.", nameof(types));
+                factories.Add(factory);
+            }
         }
 
         public ICommand Instantiate(ISession session, IQuery query)

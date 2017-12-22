@@ -9,5 +9,6 @@ namespace NBi.Core.Configuration
     interface IConfiguration
     {
         IReadOnlyDictionary<string, string> Providers { get; }
+        IReadOnlyCollection<Type> Extensions { get; }
     }
 }

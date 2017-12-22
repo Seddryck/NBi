@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NBi.Core.Query.Command;
+using NBi.Core.Query.Session;
+using System;
 using System.Collections.Generic;
 
 namespace NBi.Core.Query.Execution
@@ -8,16 +10,24 @@ namespace NBi.Core.Query.Execution
     /// </summary>
     public class ExecutionEngineFactory: EngineFactory<IExecutionEngine>
     {
-
-        public ExecutionEngineFactory()
+        private Type[] classics = new[] 
         {
-            RegisterEngines(new[] {
-                typeof(AdomdExecutionEngine),
-                typeof(OdbcExecutionEngine),
-                typeof(OleDbExecutionEngine),
-                typeof(SqlExecutionEngine) }
-            );
+            typeof(AdomdExecutionEngine),
+            typeof(OdbcExecutionEngine),
+            typeof(OleDbExecutionEngine),
+            typeof(SqlExecutionEngine)
+        };
+
+        public ExecutionEngineFactory() 
+            : base()
+        {
+            RegisterEngines(classics);
         }
 
+        protected internal ExecutionEngineFactory(SessionFactory sessionFactory, CommandFactory commandFactory)
+            : base(sessionFactory, commandFactory)
+        {
+            RegisterEngines(classics);
+        }
     }
 }

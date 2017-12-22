@@ -17,6 +17,7 @@ using NBi.Core.Variable;
 using NBi.Xml.Variables;
 using NBi.NUnit.Builder.Helper;
 using NBi.Core.Scalar.Resolver;
+using System.Collections.ObjectModel;
 
 namespace NBi.NUnit.Runtime
 {
@@ -345,8 +346,10 @@ namespace NBi.NUnit.Runtime
             AllowDtdProcessing = config.AllowDtdProcessing;
             SettingsFilename = config.SettingsFilename;
             Configuration = new TestConfiguration(config.FailureReportProfile);
-            ConfigurationManager.Initialize(config.Providers.ToDictionary());
+            ConfigurationManager.Initialize(config.Providers.ToDictionary(), new Collection<Type>());
         }
+
+
 
         protected internal string GetOwnFilename()
         {

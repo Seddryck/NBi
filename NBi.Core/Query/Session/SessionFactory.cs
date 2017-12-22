@@ -9,26 +9,31 @@ namespace NBi.Core.Query.Session
     public class SessionFactory
     {
         private readonly IList<ISessionFactory> factories = new List<ISessionFactory>();
+        private Type[] classics = new[]
+            {
+                typeof(AdomdSessionFactory),
+                typeof(OdbcSessionFactory),
+                typeof(OleDbSessionFactory),
+                typeof(SqlSessionFactory),
+                typeof(PowerBiDesktopSessionFactory)
+            };
 
         public SessionFactory()
         {
-            RegisterFactories();
+            var extensions = Configuration.ConfigurationManager.GetConfiguration().Extensions.Where(x => typeof(ISessionFactory).IsAssignableFrom(x));
+            RegisterFactories(classics.Union(extensions).ToArray());
         }
 
-        protected void RegisterFactories()
+        protected internal void RegisterFactories(Type[] types)
         {
-            factories.Add(new AdomdSessionFactory());
-            factories.Add(new OdbcSessionFactory());
-            factories.Add(new OleDbSessionFactory());
-            factories.Add(new SqlSessionFactory());
-            factories.Add(new PowerBiDesktopSessionFactory());
-        }
-
-        public void AddFactory(ISessionFactory factory)
-        {
-            if (factories.SingleOrDefault(x => x.GetType()== factory.GetType()) != null)
-                throw new ArgumentException(nameof(factory), $"You can't add twice the same factory. The factory '{factory.GetType().Name}' was already registered.");
-            factories.Add(factory);
+            foreach (var type in types)
+            {
+                var ctor = type.GetConstructor(new Type[] { });
+                var factory = (ISessionFactory)ctor.Invoke(new object[] { });
+                if (factories.SingleOrDefault(x => x.GetType() == factory.GetType()) != null)
+                    throw new ArgumentException($"You can't add twice the same factory. The factory '{factory.GetType().Name}' was already registered.", nameof(types));
+                factories.Add(factory);
+            }
         }
 
         public ISession Instantiate(string connectionString)
@@ -36,7 +41,7 @@ namespace NBi.Core.Query.Session
             foreach (var factory in factories)
                 if (factory.CanHandle(connectionString))
                     return factory.Instantiate(connectionString);
-            throw new ArgumentException(nameof(connectionString), $"NBi is not able to identify the type of the connection string: {connectionString}");
+            throw new ArgumentException($"NBi is not able to identify the type of the connection string: {connectionString}", nameof(connectionString));
         }
     }
 }

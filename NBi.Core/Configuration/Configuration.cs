@@ -8,15 +8,13 @@ namespace NBi.Core.Configuration
 {
     class Configuration : IConfiguration
     {
-        private readonly IReadOnlyDictionary<string, string> providers;
-        public IReadOnlyDictionary<string, string> Providers
-        {
-            get { return providers;}
-        }
+        public IReadOnlyDictionary<string, string> Providers { get; }
+        public IReadOnlyCollection<Type> Extensions { get; }
 
-        public Configuration(IReadOnlyDictionary<string, string> providers)
+        public Configuration(IReadOnlyDictionary<string, string> providers, IReadOnlyCollection<Type> extensions)
 	    {
-            this.providers = providers;
+            Providers = providers;
+            Extensions = extensions;
 	    }
     }
 }

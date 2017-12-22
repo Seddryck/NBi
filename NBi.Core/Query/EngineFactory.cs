@@ -12,8 +12,22 @@ namespace NBi.Core.Query
     public abstract class EngineFactory<T>
     {
         private readonly IDictionary<string, Type> engines = new Dictionary<string, Type>();
+        private readonly SessionFactory sessionFactory;
+        private readonly CommandFactory commandFactory;
 
-        protected void RegisterEngines(Type[] types)
+        public EngineFactory()
+        {
+            sessionFactory = new SessionFactory();
+            commandFactory = new CommandFactory();
+        }
+
+        protected internal EngineFactory(SessionFactory sessionFactory, CommandFactory commandFactory)
+        {
+            this.sessionFactory = sessionFactory;
+            this.commandFactory = commandFactory;
+        }
+
+        protected internal void RegisterEngines(Type[] types)
         {
             foreach (var t in types)
             {
@@ -24,10 +38,7 @@ namespace NBi.Core.Query
 
         public T Instantiate(IQuery query)
         {
-            var sessionFactory = new SessionFactory();
             var session = sessionFactory.Instantiate(query.ConnectionString);
-
-            var commandFactory = new CommandFactory();
             var cmd = commandFactory.Instantiate(session, query);
 
             var key = cmd.Implementation.GetType().FullName;

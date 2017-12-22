@@ -1,9 +1,12 @@
 ﻿using Moq;
 using NBi.Core.Query;
+using NBi.Core.Query.Command;
 using NBi.Core.Query.Execution;
+using NBi.Core.Query.Session;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,6 +65,75 @@ namespace NBi.Testing.Unit.Core.Query.Execution
             var factory = new ExecutionEngineFactory();
             var engine = factory.Instantiate(query);
             Assert.IsInstanceOf<OleDbExecutionEngine>(engine);
+        }
+
+        #region Fake
+        public class FakeSession : ISession
+        {
+            public string ConnectionString => "fake://MyConnectionString";
+
+            public Type UnderlyingSessionType => typeof(object);
+
+            public object CreateNew() => throw new NotImplementedException();
+        }
+
+        public class FakeSessionFactory : ISessionFactory
+        {
+            public bool CanHandle(string connectionString) => connectionString.StartsWith("fake://");
+
+            public ISession Instantiate(string connectionString) => new FakeSession();
+        }
+
+        public class FakeCommand : ICommand
+        {
+            public object Implementation => new FakeImplementationCommand();
+
+            public object Session => new FakeSession();
+
+            public object CreateNew() => throw new NotImplementedException();
+        }
+
+        public class FakeImplementationCommand
+        { }
+
+        public class FakeCommandFactory : ICommandFactory
+        {
+            public bool CanHandle(ISession session) => session is FakeSession;
+
+            public ICommand Instantiate(ISession session, IQuery query) => new FakeCommand();
+        }
+
+        [SupportedCommandType(typeof(FakeImplementationCommand))]
+        private class FakeExecutionEngine : IExecutionEngine
+        {
+            public FakeExecutionEngine(FakeSession session, object command)
+            { }
+
+            public DataSet Execute() => throw new NotImplementedException();
+            public IEnumerable<T> ExecuteList<T>() => throw new NotImplementedException();
+            public object ExecuteScalar() => throw new NotImplementedException();
+        }
+
+        #endregion
+
+        [Test]
+        public void Instantiate_Object_FakeExecutionEngine()
+        {
+            var query = Mock.Of<IQuery>(
+                x => x.ConnectionString == "fake://MyConnectionString"
+                );
+
+            var sessionFactory = new SessionFactory();
+            sessionFactory.RegisterFactories(new[] { typeof(FakeSessionFactory) });
+
+            var commandFactory = new CommandFactory();
+            commandFactory.RegisterFactories(new[] { typeof(FakeCommandFactory) });
+
+            var factory = new ExecutionEngineFactory(sessionFactory, commandFactory);
+            factory.RegisterEngines(new[] { typeof(FakeExecutionEngine) });
+
+            var engine = factory.Instantiate(query);
+            Assert.IsInstanceOf<FakeExecutionEngine>(engine);
         }
     }
 }

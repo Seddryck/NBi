@@ -4,7 +4,8 @@ using System.Data.Odbc;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
-using NBi.Core.Query.Connection;
+using NBi.Core.Query.Command;
+using NBi.Core.Query.Session;
 
 namespace NBi.Core.Query.Validation
 {
@@ -15,11 +16,11 @@ namespace NBi.Core.Query.Validation
     {
         public IValidationEngine Instantiate(IQuery query)
         {
-            var connectionFactory = new ConnectionFactory();
-            var connection = connectionFactory.Instantiate(query.ConnectionString).CreateNew() as IDbConnection;
+            var sessionFactory = new SessionFactory();
+            var session = sessionFactory.Instantiate(query.ConnectionString);
 
-            var commandFactory = new DbCommandFactory();
-            var cmd = commandFactory.Instantiate(connection, query);
+            var commandFactory = new CommandFactory();
+            var cmd = commandFactory.Instantiate(session, query).Implementation;
 
             if (cmd is SqlCommand)
                 return new SqlValidationEngine((SqlCommand)cmd);

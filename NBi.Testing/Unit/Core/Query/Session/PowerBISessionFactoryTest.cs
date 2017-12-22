@@ -1,6 +1,6 @@
 ﻿using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.PowerBiDesktop;
-using NBi.Core.Query.Connection;
+using NBi.Core.Query.Session;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -8,10 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Unit.Core.Query.Connection
+namespace NBi.Testing.Unit.Core.Query.Session
 {
     [TestFixture]
-    public class PowerBIConnectionFactoryTest
+    public class PowerBISessionFactoryTest
     {
 
         #region Power BI Desktop
@@ -32,10 +32,10 @@ namespace NBi.Testing.Unit.Core.Query.Connection
         {
             //Call the method to test
             var connStr = "PBIX=My Power BI Desktop;";
-            var factory = new PowerBiDesktopConnectionFactory(new PowerBiDesktopConnectionStringBuilderFake());
+            var factory = new PowerBiDesktopSessionFactory(new PowerBiDesktopConnectionStringBuilderFake());
             var actual = factory.Instantiate(connStr);
 
-            Assert.That(actual, Is.InstanceOf<PowerBiDesktopConnection>());
+            Assert.That(actual, Is.InstanceOf<PowerBiDesktopSession>());
             var conn = actual.CreateNew();
 
             Assert.That(conn, Is.InstanceOf<AdomdConnection>());

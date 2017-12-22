@@ -11,12 +11,13 @@ namespace NBi.Core.Query.Execution
     /// Engine wrapping the System.Data.SqlClient namespace for execution of NBi tests
     /// <remarks>Instances of this class are built by the means of the <see>QueryEngineFactory</see></remarks>
     /// </summary>
+    [SupportedCommandType(typeof(SqlCommand))]
     internal class SqlExecutionEngine : DbCommandExecutionEngine
     {
-        protected internal SqlExecutionEngine(IDbCommand command)
+        public SqlExecutionEngine(SqlCommand command)
             : base(command)
         { }
-
+        
         internal override void OpenConnection(IDbConnection connection)
         {
             var connectionString = command.Connection.ConnectionString;

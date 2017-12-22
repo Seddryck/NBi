@@ -13,6 +13,7 @@ using NBi.Core.Evaluate;
 using NBi.Core.Calculation;
 using NBi.NUnit.Builder.Helper;
 using NBi.Core.Query.Resolver;
+using NBi.Core.Query.Command;
 
 namespace NBi.NUnit.Builder
 {
@@ -38,7 +39,7 @@ namespace NBi.NUnit.Builder
 
         protected virtual IResultSetService InstantiateSystemUnderTest(ExecutionXml executionXml)
         {
-            var commandFactory = new DbCommandFactory();
+            var commandFactory = new CommandFactory();
 
             var argsBuilder = new QueryResolverArgsBuilder();
 

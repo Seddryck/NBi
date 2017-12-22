@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AnalysisServices.AdomdClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -6,13 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Query.Connection
+namespace NBi.Core.Query.Session
 {
-    class OlapConnection : IConnection
+    class AdomdSession : ISession
     {
         public string ConnectionString { get; }
 
-        public OlapConnection(string connectionString)
+        public Type UnderlyingSessionType => typeof(AdomdConnection);
+
+        public AdomdSession(string connectionString)
         {
             ConnectionString = connectionString;
         }

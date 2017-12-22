@@ -4,17 +4,17 @@ using System.Data.Odbc;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
-using NBi.Core.Query.Connection;
+using NBi.Core.Query.Session;
 using NUnit.Framework;
 using System.Collections.Generic;
 using NBi.Core.PowerBiDesktop;
 
 #endregion
 
-namespace NBi.Testing.Unit.Core.Query.Connection
+namespace NBi.Testing.Unit.Core.Query.Session
 {
     [TestFixture]
-    public class OdbcConnectionFactoryTest
+    public class SqlSessionFactoryTest
     {
 
         #region SetUp & TearDown
@@ -45,19 +45,17 @@ namespace NBi.Testing.Unit.Core.Query.Connection
         #endregion
 
         [Test]
-        public void Get_Odbc_OdbcConnection()
+        public void Get_NoProviderDefined_SqlConnection()
         {
-            //Call the method to test
-            var connStr = "Driver={SQL Server Native Client 10.0};Server=myServerAddress;Database=myDataBase;Uid=myUsername;Pwd=myPassword;";
-            var actual = new OdbcConnectionFactory().Instantiate(connStr);
+            var connStr = "Data Source=ds;Initial Catalog=ic";
+            var actual = new SqlSessionFactory().Instantiate(connStr);
 
-            Assert.That(actual, Is.InstanceOf<DbConnection>());
+            Assert.That(actual, Is.InstanceOf<DbSession>());
             Assert.That(actual.ConnectionString, Is.EqualTo(connStr));
             var conn = actual.CreateNew();
 
-            Assert.That(conn, Is.InstanceOf<OdbcConnection>());
-            Assert.That((conn as OdbcConnection).ConnectionString, Is.EqualTo(connStr));
+            Assert.That(conn, Is.InstanceOf<SqlConnection>());
+            Assert.That((conn as SqlConnection).ConnectionString, Is.EqualTo(connStr));
         }
-        
     }
 }

@@ -8,23 +8,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Query.Connection
+namespace NBi.Core.Query.Session
 {
-    class OleDbConnectionFactory : DbConnectionFactory
+    class OleDbSessionFactory : DbSessionFactory
     {
         private readonly IReadOnlyDictionary<string, string> providers;
 
-        public OleDbConnectionFactory() 
+        public OleDbSessionFactory() 
             : base()
         {
             providers = ConfigurationManager.GetConfiguration().Providers;
         }
 
-        public OleDbConnectionFactory(IDictionary<string, string> providers)
+        public OleDbSessionFactory(IDictionary<string, string> providers)
             : base()
         {
             this.providers = new ReadOnlyDictionary<string, string>(providers);
         }
+
+        protected override ISession Instantiate(DbProviderFactory factory, string connectionString)
+            => new DbSession(factory, typeof(OleDbConnection), connectionString);
 
         protected override DbProviderFactory ParseConnectionString(string connectionString)
         {

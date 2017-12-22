@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 using System.Data.Common;
 using System.Data.Odbc;
 
-namespace NBi.Core.Query.Connection
+namespace NBi.Core.Query.Session
 {
-    class OdbcConnectionFactory : DbConnectionFactory
+    class OdbcSessionFactory : DbSessionFactory
     {
+        protected override ISession Instantiate(DbProviderFactory factory, string connectionString)
+            => new DbSession(factory, typeof(OdbcConnection), connectionString);
+        
         protected override DbProviderFactory ParseConnectionString(string connectionString)
         {
             var csb = GetConnectionStringBuilder(connectionString);

@@ -10,6 +10,7 @@ using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.NUnit.Builder.Helper;
 using NBi.Core.Query.Resolver;
+using NBi.Core.Query.Command;
 
 namespace NBi.NUnit.Builder
 {
@@ -38,7 +39,7 @@ namespace NBi.NUnit.Builder
 
         protected virtual IQuery GetQuery(ExecutionXml executionXml)
         {
-            var commandBuilder = new DbCommandFactory();
+            var commandFactory = new CommandFactory();
 
             var connectionString = executionXml.Item.GetConnectionString();
             var commandText = (executionXml.Item as QueryableXml).GetQuery();

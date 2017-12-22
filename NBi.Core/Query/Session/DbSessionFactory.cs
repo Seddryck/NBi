@@ -8,23 +8,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Query.Connection
+namespace NBi.Core.Query.Session
 {
-    abstract class DbConnectionFactory : IConnectionFactory
+    abstract class DbSessionFactory : ISessionFactory
     {
         public bool CanHandle(string connectionString)
         {
             return ParseConnectionString(connectionString) != null;
         }
 
-        public IConnection Instantiate(string connectionString)
+        public ISession Instantiate(string connectionString)
         {
             var factory = ParseConnectionString(connectionString);
             if (factory == null)
                 throw new ArgumentException();
 
-            return new DbConnection(factory, connectionString);
+            return Instantiate(factory, connectionString);
         }
+
+        protected abstract ISession Instantiate(DbProviderFactory factory, string connectionString);
 
         protected abstract DbProviderFactory ParseConnectionString(string connectionString);
 

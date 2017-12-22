@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Odbc;
 using System.Data.OleDb;
 using System.Data.SqlClient;
+using System.Reflection;
 using Microsoft.AnalysisServices.AdomdClient;
-using NBi.Core.Query.Connection;
+using NBi.Core.Query.Command;
+using NBi.Core.Query.Session;
 
 namespace NBi.Core.Query.Execution
 {
@@ -13,24 +16,42 @@ namespace NBi.Core.Query.Execution
     /// </summary>
     public class ExecutionEngineFactory
     {
+        private readonly IDictionary<string, Type> engines = new Dictionary<string, Type>();
+
+        public ExecutionEngineFactory()
+        {
+            RegisterEngines();
+        }
+
+        private void RegisterEngines()
+        {
+            var types = new[] { typeof(AdomdExecutionEngine), typeof(OdbcExecutionEngine), typeof(OleDbExecutionEngine), typeof(SqlExecutionEngine) };
+
+            foreach (var t in types)
+            {
+                var name = t.GetAttributeValue((SupportedCommandTypeAttribute x) => x.Value).FullName;
+                engines.Add(name, t);
+            }
+        }
+
         public IExecutionEngine Instantiate(IQuery query)
         {
-            var connectionFactory = new ConnectionFactory();
-            var connection = connectionFactory.Instantiate(query.ConnectionString).CreateNew() as IDbConnection;
+            var sessionFactory = new SessionFactory();
+            var session = sessionFactory.Instantiate(query.ConnectionString);
 
-            var commandFactory = new DbCommandFactory();
-            var cmd = commandFactory.Instantiate(connection, query); 
+            var commandFactory = new CommandFactory();
+            var cmd = commandFactory.Instantiate(session, query);
 
-            if (cmd is SqlCommand)
-                return new SqlExecutionEngine((SqlCommand)cmd);
-            else if (cmd is OleDbCommand)
-                return new OleDbExecutionEngine((OleDbCommand)cmd);
-            else if (cmd is AdomdCommand)
-                return new AdomdExecutionEngine((AdomdCommand)cmd);
-            else if (cmd is OdbcCommand)
-                return new OdbcExecutionEngine((OdbcCommand)cmd);
-
+            var key = cmd.Implementation.GetType().FullName;
+            if (engines.ContainsKey(key))
+                return Instantiate(engines[key], cmd);
             throw new ArgumentException();
+        }
+
+        protected IExecutionEngine Instantiate(Type type, ICommand cmd)
+        {
+            var ctor = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, new[] { cmd.Implementation.GetType() }, null);
+            return ctor.Invoke(new[] { cmd.Implementation }) as IExecutionEngine;
         }
 
     }

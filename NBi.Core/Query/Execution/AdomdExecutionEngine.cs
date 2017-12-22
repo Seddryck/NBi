@@ -13,9 +13,10 @@ namespace NBi.Core.Query.Execution
     /// Engine wrapping the Microsoft.AnalysisServices.AdomdClient namespace for execution of NBi tests
     /// <remarks>Instances of this class are built by the means of the <see>ExecutionEngineFactory</see></remarks>
     /// </summary>
+    [SupportedCommandType(typeof(AdomdCommand))]
     internal class AdomdExecutionEngine : DbCommandExecutionEngine
     {
-        protected internal AdomdExecutionEngine(AdomdCommand command)
+        public AdomdExecutionEngine(AdomdCommand command)
             : base(command)
         { }
 

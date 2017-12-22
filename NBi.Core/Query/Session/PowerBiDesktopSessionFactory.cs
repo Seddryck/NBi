@@ -7,16 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Query.Connection
+namespace NBi.Core.Query.Session
 {
-    class PowerBiDesktopConnectionFactory : IConnectionFactory
+    class PowerBiDesktopSessionFactory : ISessionFactory
     {
         private readonly PowerBiDesktopConnectionStringBuilder connectionStringBuilder = new PowerBiDesktopConnectionStringBuilder();
 
-        public PowerBiDesktopConnectionFactory()
+        public PowerBiDesktopSessionFactory()
         { }
 
-        public PowerBiDesktopConnectionFactory(PowerBiDesktopConnectionStringBuilder connectionStringBuilder)
+        public PowerBiDesktopSessionFactory(PowerBiDesktopConnectionStringBuilder connectionStringBuilder)
         {
             this.connectionStringBuilder = connectionStringBuilder;
         }
@@ -26,7 +26,7 @@ namespace NBi.Core.Query.Connection
             return !string.IsNullOrEmpty(ParseConnectionString(connectionString));
         }
 
-        public IConnection Instantiate(string connectionString)
+        public ISession Instantiate(string connectionString)
         {
             if (!CanHandle(connectionString))
                 throw new ArgumentException();
@@ -35,7 +35,7 @@ namespace NBi.Core.Query.Connection
             connectionStringBuilder.Build(csb["pbix"].ToString());
             connectionString = connectionStringBuilder.GetConnectionString();
 
-            return new PowerBiDesktopConnection(connectionString);
+            return new PowerBiDesktopSession(connectionString);
         }
 
         private string ParseConnectionString(string connectionString)

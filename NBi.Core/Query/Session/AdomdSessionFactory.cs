@@ -6,21 +6,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Query.Connection
+namespace NBi.Core.Query.Session
 {
-    class OlapConnectionFactory : IConnectionFactory
+    class AdomdSessionFactory : ISessionFactory
     {
         public bool CanHandle(string connectionString)
         {
             return !string.IsNullOrEmpty(ParseConnectionString(connectionString));
         }
 
-        public IConnection Instantiate(string connectionString)
+        public ISession Instantiate(string connectionString)
         {
             if (!CanHandle(connectionString))
                 throw new ArgumentException();
 
-            return new OlapConnection(connectionString);
+            return new AdomdSession(connectionString);
         }
 
         private string ParseConnectionString(string connectionString)

@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Query.Connection
+namespace NBi.Core.Query.Session
 {
-    class PowerBiDesktopConnection : OlapConnection
+    class PowerBiDesktopSession : AdomdSession
     {
-        public PowerBiDesktopConnection(string connectionString)
+        public PowerBiDesktopSession(string connectionString)
             : base(connectionString)
         { }
     }

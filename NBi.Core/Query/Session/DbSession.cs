@@ -6,16 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Query.Connection
+namespace NBi.Core.Query.Session
 {
-    class DbConnection : IConnection
+    class DbSession : ISession
     {
         private readonly DbProviderFactory factory;
 
         public string ConnectionString { get; }
 
-        public DbConnection(DbProviderFactory factory, string connectionString)
+        public Type UnderlyingSessionType { get; }
+
+        public DbSession(DbProviderFactory factory, Type underlyingConnectionType, string connectionString)
         {
+            UnderlyingSessionType = underlyingConnectionType;
             this.factory = factory;
             ConnectionString = connectionString;
         }

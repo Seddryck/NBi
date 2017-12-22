@@ -10,13 +10,13 @@ namespace NBi.Core.Query.Execution
     /// Engine wrapping the System.Data.OleDb namespace for execution of NBi tests
     /// <remarks>Instances of this class are built by the means of the <see>QueryEngineFactory</see></remarks>
     /// </summary>
+    [SupportedCommandType(typeof(OleDbCommand))]
     internal class OleDbExecutionEngine : DbCommandExecutionEngine
     {
-        protected internal OleDbExecutionEngine(OleDbCommand command)
+        public OleDbExecutionEngine(OleDbCommand command)
             : base(command)
         { }
-
-
+        
         internal override void OpenConnection(IDbConnection connection)
         {
             var connectionString = command.Connection.ConnectionString;

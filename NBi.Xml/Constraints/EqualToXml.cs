@@ -11,7 +11,7 @@ using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Settings;
 using NBi.Xml.Items.Xml;
 using NBi.Core.ResultSet.Equivalence;
-using NBi.Core.Query.Connection;
+using NBi.Core.Query.Session;
 
 namespace NBi.Xml.Constraints
 {
@@ -145,7 +145,7 @@ namespace NBi.Xml.Constraints
             if (Query==null)
                 return null;
 
-            var conn = new ConnectionFactory().Instantiate(Query.GetConnectionString()).CreateNew() as IDbConnection;
+            var conn = new SessionFactory().Instantiate(Query.GetConnectionString()).CreateNew() as IDbConnection;
             var cmd = conn.CreateCommand();
             cmd.CommandText = Query.GetQuery();
             

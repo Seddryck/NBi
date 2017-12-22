@@ -1,4 +1,4 @@
-﻿using NBi.Core.Query.Connection;
+﻿using NBi.Core.Query.Session;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,8 +15,8 @@ namespace NBi.Core.Batch
     {
         public IDecorationCommandImplementation Get(IBatchRunCommand command)
         {
-            var connectionFactory = new ConnectionFactory();
-            var connection = connectionFactory.Instantiate(command.ConnectionString).CreateNew() as IDbConnection;
+            var sessionFactory = new SessionFactory();
+            var connection = sessionFactory.Instantiate(command.ConnectionString).CreateNew() as IDbConnection;
 
             var directory = AssemblyDirectory;
             var filename = string.Format("NBi.Core.{0}.dll", command.Version);

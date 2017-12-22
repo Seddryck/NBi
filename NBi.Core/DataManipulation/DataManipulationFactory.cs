@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using NBi.Core.DataManipulation.SqlServer;
-using NBi.Core.Query.Connection;
+using NBi.Core.Query.Session;
 
 namespace NBi.Core.DataManipulation
 {
@@ -12,8 +12,8 @@ namespace NBi.Core.DataManipulation
         public IDecorationCommandImplementation Get(IDataManipulationCommand command)
         {
 
-            var connectionFactory = new ConnectionFactory();
-            var connection = connectionFactory.Instantiate(command.ConnectionString).CreateNew() as IDbConnection;
+            var sessionFactory = new SessionFactory();
+            var connection = sessionFactory.Instantiate(command.ConnectionString).CreateNew() as IDbConnection;
             IDataManipulationFactory factory = null;
 
             if (connection is SqlConnection)

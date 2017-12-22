@@ -4,34 +4,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Query.Connection
+namespace NBi.Core.Query.Session
 {
-    public class ConnectionFactory
+    public class SessionFactory
     {
-        private readonly IList<IConnectionFactory> factories = new List<IConnectionFactory>();
+        private readonly IList<ISessionFactory> factories = new List<ISessionFactory>();
 
-        public ConnectionFactory()
+        public SessionFactory()
         {
             RegisterFactories();
         }
 
         protected void RegisterFactories()
         {
-            factories.Add(new OlapConnectionFactory());
-            factories.Add(new OdbcConnectionFactory());
-            factories.Add(new OleDbConnectionFactory());
-            factories.Add(new SqlConnectionFactory());
-            factories.Add(new PowerBiDesktopConnectionFactory());
+            factories.Add(new AdomdSessionFactory());
+            factories.Add(new OdbcSessionFactory());
+            factories.Add(new OleDbSessionFactory());
+            factories.Add(new SqlSessionFactory());
+            factories.Add(new PowerBiDesktopSessionFactory());
         }
 
-        public void AddFactory(IConnectionFactory factory)
+        public void AddFactory(ISessionFactory factory)
         {
             if (factories.SingleOrDefault(x => x.GetType()== factory.GetType()) != null)
                 throw new ArgumentException(nameof(factory), $"You can't add twice the same factory. The factory '{factory.GetType().Name}' was already registered.");
             factories.Add(factory);
         }
 
-        public IConnection Instantiate(string connectionString)
+        public ISession Instantiate(string connectionString)
         {
             foreach (var factory in factories)
                 if (factory.CanHandle(connectionString))

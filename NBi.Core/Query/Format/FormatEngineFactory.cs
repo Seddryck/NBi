@@ -4,7 +4,8 @@ using System.Data.Odbc;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
-using NBi.Core.Query.Connection;
+using NBi.Core.Query.Command;
+using NBi.Core.Query.Session;
 
 namespace NBi.Core.Query.Format
 {
@@ -15,20 +16,20 @@ namespace NBi.Core.Query.Format
     {
         public IFormatEngine Instantiate(IQuery query)
         {
-            var connectionFactory = new ConnectionFactory();
-            var connection = connectionFactory.Instantiate(query.ConnectionString).CreateNew() as IDbConnection;
+            var sessionFactory = new SessionFactory();
+            var session = sessionFactory.Instantiate(query.ConnectionString);
 
-            var commandFactory = new DbCommandFactory();
-            var cmd = commandFactory.Instantiate(connection, query);
+            var commandFactory = new CommandFactory();
+            var cmd = commandFactory.Instantiate(session, query);
 
-            if (cmd is SqlCommand)
-                return new SqlFormatEngine((SqlCommand)cmd);
-            else if (cmd is OleDbCommand)
-                return new OleDbFormatEngine((OleDbCommand)cmd);
-            else if (cmd is AdomdCommand)
-                return new AdomdFormatEngine((AdomdCommand)cmd);
-            else if (cmd is OdbcCommand)
-                return new OdbcFormatEngine((OdbcCommand)cmd);
+            if (cmd.Implementation is SqlCommand)
+                return new SqlFormatEngine((SqlCommand)cmd.Implementation);
+            else if (cmd.Implementation is OleDbCommand)
+                return new OleDbFormatEngine((OleDbCommand)cmd.Implementation);
+            else if (cmd.Implementation is AdomdCommand)
+                return new AdomdFormatEngine((AdomdCommand)cmd.Implementation);
+            else if (cmd.Implementation is OdbcCommand)
+                return new OdbcFormatEngine((OdbcCommand)cmd.Implementation);
 
             throw new ArgumentException();
         }

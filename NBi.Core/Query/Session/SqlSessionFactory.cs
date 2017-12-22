@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Query.Connection
+namespace NBi.Core.Query.Session
 {
-    class SqlConnectionFactory : DbConnectionFactory
+    class SqlSessionFactory : DbSessionFactory
     {
         protected override DbProviderFactory ParseConnectionString(string connectionString)
         {
@@ -23,6 +23,9 @@ namespace NBi.Core.Query.Connection
             var factory = GetDbProviderFactory(providerName);
             return factory;
         }
+
+        protected override ISession Instantiate(DbProviderFactory factory, string connectionString)
+            => new DbSession(factory, typeof(SqlConnection), connectionString);
 
         protected override DbConnectionStringBuilder GetConnectionStringBuilder(string connectionString)
         {

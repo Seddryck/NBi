@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core
+namespace NBi.Core.Query.Session
 {
-    public interface IConnectionFactory
+    public interface ISessionFactory
     {
         bool CanHandle(string connectionString);
-        IConnection Instantiate(string connectionString);
+        ISession Instantiate(string connectionString);
     }
 }

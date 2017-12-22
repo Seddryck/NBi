@@ -12,8 +12,8 @@ namespace NBi.Core.Query.Format
 {
     internal class SqlFormatEngine : SqlExecutionEngine, IFormatEngine
     {
-        protected internal SqlFormatEngine(SqlCommand command)
-            : base(command)
+        protected internal SqlFormatEngine(SqlConnection connection, SqlCommand command)
+            : base(connection, command)
         { }
 
         public IEnumerable<string> ExecuteFormat()

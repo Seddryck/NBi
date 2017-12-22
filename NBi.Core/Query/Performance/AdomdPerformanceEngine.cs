@@ -12,8 +12,8 @@ namespace NBi.Core.Query.Performance
 {
     internal class AdomdPerformanceEngine : DbCommandPerformanceEngine
     {
-        protected internal AdomdPerformanceEngine(AdomdCommand command)
-            : base(new AdomdExecutionEngine(command))
+        protected internal AdomdPerformanceEngine(AdomdConnection connection, AdomdCommand command)
+            : base(new AdomdExecutionEngine(connection, command))
         { }
 
         public override void CleanCache()

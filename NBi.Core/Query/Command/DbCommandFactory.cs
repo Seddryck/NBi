@@ -20,8 +20,9 @@ namespace NBi.Core.Query.Command
         {
             if (!CanHandle(session))
                 throw new ArgumentException();
-            var cmd = Instantiate(session.CreateNew() as IDbConnection, query);
-            return new Command(cmd);
+            var connection = session.CreateNew() as IDbConnection;
+            var cmd = Instantiate(connection, query);
+            return new Command(connection, cmd);
         }
 
         protected IDbCommand Instantiate(IDbConnection connection, IQuery query)

@@ -12,8 +12,8 @@ namespace NBi.Core.Query.Format
 {
     internal class OleDbFormatEngine : OleDbExecutionEngine, IFormatEngine
     {
-        protected internal OleDbFormatEngine(OleDbCommand command)
-            : base(command)
+        protected internal OleDbFormatEngine(OleDbConnection connection, OleDbCommand command)
+            : base(connection, command)
         { }
 
         public IEnumerable<string> ExecuteFormat()

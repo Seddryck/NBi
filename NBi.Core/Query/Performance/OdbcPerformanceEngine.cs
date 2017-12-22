@@ -9,8 +9,8 @@ namespace NBi.Core.Query.Performance
 {
     internal class OdbcPerformanceEngine : DbCommandPerformanceEngine
     {
-        protected internal OdbcPerformanceEngine(OdbcCommand command)
-            : base(new OdbcExecutionEngine(command))
+        protected internal OdbcPerformanceEngine(OdbcConnection connection, OdbcCommand command)
+            : base(new OdbcExecutionEngine(connection, command))
         { }
     }
 }

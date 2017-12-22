@@ -14,8 +14,8 @@ namespace NBi.Core.Query.Execution
     [SupportedCommandType(typeof(SqlCommand))]
     internal class SqlExecutionEngine : DbCommandExecutionEngine
     {
-        public SqlExecutionEngine(SqlCommand command)
-            : base(command)
+        public SqlExecutionEngine(SqlConnection connection, SqlCommand command)
+            : base(connection, command)
         { }
         
         internal override void OpenConnection(IDbConnection connection)

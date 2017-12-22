@@ -17,7 +17,7 @@ namespace NBi.Testing.Integration.Core.Query.Performance
             var sql = "WAITFOR DELAY '00:00:00';";
             var cmd = new OdbcCommand(sql, new OdbcConnection(ConnectionStringReader.GetOdbcSql()));
 
-            var qp = new OdbcPerformanceEngine(cmd);
+            var qp = new OdbcPerformanceEngine(cmd.Connection, cmd);
             var res = qp.Execute(new TimeSpan(0, 1, 0));
 
             Assert.That(res.TimeElapsed.TotalMilliseconds, Is.GreaterThanOrEqualTo(0).And.LessThan(5000));
@@ -30,7 +30,7 @@ namespace NBi.Testing.Integration.Core.Query.Performance
             var query = "WAITFOR DELAY '00:00:03';";
             var cmd = new OdbcCommand(query, new OdbcConnection(ConnectionStringReader.GetOdbcSql()));
 
-            var qp = new OdbcPerformanceEngine(cmd);
+            var qp = new OdbcPerformanceEngine(cmd.Connection, cmd);
             var res = qp.Execute(new TimeSpan(0, 0, 1));
 
             Assert.That(res.TimeOut.TotalMilliseconds, Is.EqualTo(1000));
@@ -45,7 +45,7 @@ namespace NBi.Testing.Integration.Core.Query.Performance
             var query = "select 1;";
             var cmd = new OdbcCommand(query, new OdbcConnection(ConnectionStringReader.GetLocalOdbcSql()));
 
-            var qp = new OdbcPerformanceEngine(cmd);
+            var qp = new OdbcPerformanceEngine(cmd.Connection, cmd);
             Assert.DoesNotThrow(() => qp.CleanCache());
         }
     }

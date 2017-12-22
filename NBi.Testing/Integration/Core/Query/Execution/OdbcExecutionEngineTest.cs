@@ -19,7 +19,7 @@ namespace NBi.Testing.Integration.Core.Query.Execution
                 CommandTimeout = 1
             };
 
-            var qe = new OdbcExecutionEngine(cmd);
+            var qe = new OdbcExecutionEngine(cmd.Connection, cmd);
             Assert.Throws<CommandTimeoutException>(delegate { qe.Execute(); });
         }
 
@@ -32,7 +32,7 @@ namespace NBi.Testing.Integration.Core.Query.Execution
                 CommandTimeout = 0
             };
 
-            var qe = new OdbcExecutionEngine(cmd);
+            var qe = new OdbcExecutionEngine(cmd.Connection, cmd);
             Assert.DoesNotThrow(delegate { qe.Execute(); });
         }
 
@@ -42,7 +42,7 @@ namespace NBi.Testing.Integration.Core.Query.Execution
             var query = "select * from [Sales].[Currency];";
             var cmd = new OdbcCommand(query, new OdbcConnection(ConnectionStringReader.GetOdbcSql())) { CommandTimeout = 0 };
 
-            var qe = new OdbcExecutionEngine(cmd);
+            var qe = new OdbcExecutionEngine(cmd.Connection, cmd);
             var ds = qe.Execute();
             Assert.That(ds.Tables, Has.Count.EqualTo(1));
             Assert.That(ds.Tables[0].Columns, Has.Count.EqualTo(3));
@@ -55,7 +55,7 @@ namespace NBi.Testing.Integration.Core.Query.Execution
             var query = "select top(1) CurrencyCode from [Sales].[Currency] where Name like '%Canad%'";
             var cmd = new OdbcCommand(query, new OdbcConnection(ConnectionStringReader.GetOdbcSql())) { CommandTimeout = 0 };
 
-            var qe = new OdbcExecutionEngine(cmd);
+            var qe = new OdbcExecutionEngine(cmd.Connection, cmd);
             var value = qe.ExecuteScalar();
             Assert.That(value, Is.EqualTo("CAD"));
         }
@@ -66,7 +66,7 @@ namespace NBi.Testing.Integration.Core.Query.Execution
             var query = "select top(10) CurrencyCode from [Sales].[Currency] where CurrencyCode like '%D' order by 1 asc";
             var cmd = new OdbcCommand(query, new OdbcConnection(ConnectionStringReader.GetOdbcSql())) { CommandTimeout = 0 };
 
-            var qe = new OdbcExecutionEngine(cmd);
+            var qe = new OdbcExecutionEngine(cmd.Connection, cmd);
             var values = qe.ExecuteList<string>();
             Assert.That(values, Has.Count.EqualTo(10));
             Assert.That(values, Has.Member("CAD"));

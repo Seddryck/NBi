@@ -16,8 +16,8 @@ namespace NBi.Core.Query.Execution
     [SupportedCommandType(typeof(AdomdCommand))]
     internal class AdomdExecutionEngine : DbCommandExecutionEngine
     {
-        public AdomdExecutionEngine(AdomdCommand command)
-            : base(command)
+        public AdomdExecutionEngine(AdomdConnection connection, AdomdCommand command)
+            : base(connection, command)
         { }
 
         internal override void OpenConnection(IDbConnection connection)

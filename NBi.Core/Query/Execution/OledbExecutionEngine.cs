@@ -13,8 +13,8 @@ namespace NBi.Core.Query.Execution
     [SupportedCommandType(typeof(OleDbCommand))]
     internal class OleDbExecutionEngine : DbCommandExecutionEngine
     {
-        public OleDbExecutionEngine(OleDbCommand command)
-            : base(command)
+        public OleDbExecutionEngine(OleDbConnection connection, OleDbCommand command)
+            : base(connection, command)
         { }
         
         internal override void OpenConnection(IDbConnection connection)

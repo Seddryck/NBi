@@ -10,8 +10,8 @@ namespace NBi.Core.Query.Performance
 {
     internal class SqlPerformanceEngine : DbCommandPerformanceEngine
     {
-        protected internal SqlPerformanceEngine(SqlCommand command)
-            : base(new SqlExecutionEngine(command))
+        protected internal SqlPerformanceEngine(SqlConnection connection, SqlCommand command)
+            : base(new SqlExecutionEngine(connection, command))
         { }
     }
 }

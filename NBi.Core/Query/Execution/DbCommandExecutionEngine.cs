@@ -18,11 +18,11 @@ namespace NBi.Core.Query.Execution
         protected internal TimeSpan CommandTimeout { get; internal set; }
         protected internal string ConnectionString { get; private set; }
 
-        protected DbCommandExecutionEngine(IDbCommand command)
+        protected DbCommandExecutionEngine(IDbConnection connection, IDbCommand command)
         {
             this.command = command;
             this.CommandTimeout = new TimeSpan(0, 0, command.CommandTimeout);
-            this.ConnectionString = command.Connection.ConnectionString;
+            this.ConnectionString = connection.ConnectionString;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]

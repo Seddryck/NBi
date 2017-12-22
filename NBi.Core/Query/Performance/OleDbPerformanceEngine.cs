@@ -9,8 +9,8 @@ namespace NBi.Core.Query.Performance
 {
     internal class OleDbPerformanceEngine : DbCommandPerformanceEngine
     {
-        protected internal OleDbPerformanceEngine(OleDbCommand command)
-            : base(new OleDbExecutionEngine(command))
+        protected internal OleDbPerformanceEngine(OleDbConnection connection, OleDbCommand command)
+            : base(new OleDbExecutionEngine(connection, command))
         { }
     }
 }

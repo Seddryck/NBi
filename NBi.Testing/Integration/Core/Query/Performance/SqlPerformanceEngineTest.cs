@@ -14,7 +14,7 @@ namespace NBi.Testing.Integration.Core.Query.Performance
             var sql = "WAITFOR DELAY '00:00:00';";
             var cmd = new SqlCommand(sql, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
-            var qp = new SqlPerformanceEngine(cmd);
+            var qp = new SqlPerformanceEngine(cmd.Connection, cmd);
             var res = qp.Execute(new TimeSpan(0, 1, 0));
 
             Assert.That(res.TimeElapsed.TotalMilliseconds, Is.GreaterThanOrEqualTo(0).And.LessThan(5000));
@@ -27,7 +27,7 @@ namespace NBi.Testing.Integration.Core.Query.Performance
             var query = "WAITFOR DELAY '00:00:03';";
             var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetSqlClient()));
 
-            var qp = new SqlPerformanceEngine(cmd);
+            var qp = new SqlPerformanceEngine(cmd.Connection, cmd);
             var res = qp.Execute(new TimeSpan(0,0,1));
 
             Assert.That(res.IsTimeOut, Is.True);
@@ -42,7 +42,7 @@ namespace NBi.Testing.Integration.Core.Query.Performance
             var query = "select 1;";
             var cmd = new SqlCommand(query, new SqlConnection(ConnectionStringReader.GetLocalSqlClient()));
 
-            var qp = new SqlPerformanceEngine(cmd);
+            var qp = new SqlPerformanceEngine(cmd.Connection, cmd);
             Assert.DoesNotThrow(() => qp.CleanCache());
         }
     }

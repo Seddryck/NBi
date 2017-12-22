@@ -9,5 +9,6 @@ namespace NBi.Core.Query.Command
     public interface ICommand
     {
         object Implementation { get; }
+        object Session { get; }
     }
 }

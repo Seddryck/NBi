@@ -16,8 +16,8 @@ namespace NBi.Core.Query.Format
     /// </summary>
     internal class AdomdFormatEngine : AdomdExecutionEngine, IFormatEngine
     {
-        protected internal AdomdFormatEngine(AdomdCommand command)
-            : base(command)
+        protected internal AdomdFormatEngine(AdomdConnection connection, AdomdCommand command)
+            : base(connection, command)
         { }
 
         public IEnumerable<string> Parse(CellSet cellSet)

@@ -20,7 +20,7 @@ namespace NBi.Testing.Integration.Core.Query.Performance
             var query = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2010] ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
-            var qp = new AdomdPerformanceEngine(cmd);
+            var qp = new AdomdPerformanceEngine(cmd.Connection, cmd);
             var res = qp.Execute();
             stopWatch.Stop();
             Assert.That(res.TimeElapsed, Is.LessThanOrEqualTo(stopWatch.Elapsed));
@@ -33,7 +33,7 @@ namespace NBi.Testing.Integration.Core.Query.Performance
             var query = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2010] ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
 
-            var qp = new AdomdPerformanceEngine(cmd);
+            var qp = new AdomdPerformanceEngine(cmd.Connection, cmd);
             qp.CleanCache();
             Assert.Pass();
         }

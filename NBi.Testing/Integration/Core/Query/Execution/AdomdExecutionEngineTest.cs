@@ -15,7 +15,7 @@ namespace NBi.Testing.Integration.Core.Query.Execution
         {
             var query = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year] ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-            var qe = new AdomdExecutionEngine(cmd);
+            var qe = new AdomdExecutionEngine(cmd.Connection, cmd);
             var ds = qe.Execute();
 
             Assert.IsInstanceOf<string>(ds.Tables[0].Rows[0][0]);
@@ -29,7 +29,7 @@ namespace NBi.Testing.Integration.Core.Query.Execution
         {
             var query = "SELECT  [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2010] ON 1 FROM [Adventure Works]";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomd()));
-            var qe = new AdomdExecutionEngine(cmd);
+            var qe = new AdomdExecutionEngine(cmd.Connection, cmd);
             var ds = qe.Execute();
 
             Assert.IsInstanceOf<string>(ds.Tables[0].Rows[0][0]);
@@ -43,7 +43,7 @@ namespace NBi.Testing.Integration.Core.Query.Execution
         {
             var query = "EVALUATE CALCULATETABLE(VALUES('Product Subcategory'[Product Subcategory Name]),'Product Category'[Product Category Name] = \"Bikes\")";
             var cmd = new AdomdCommand(query, new AdomdConnection(ConnectionStringReader.GetAdomdTabular()));
-            var qe = new AdomdExecutionEngine(cmd);
+            var qe = new AdomdExecutionEngine(cmd.Connection, cmd);
             var ds = qe.Execute();
 
             Assert.IsInstanceOf<string>(ds.Tables[0].Rows[0][0]);

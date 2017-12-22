@@ -12,8 +12,8 @@ namespace NBi.Core.Query.Format
 {
     internal class OdbcFormatEngine : OdbcExecutionEngine, IFormatEngine
     {
-        protected internal OdbcFormatEngine(OdbcCommand command)
-            : base(command)
+        protected internal OdbcFormatEngine(OdbcConnection connection, OdbcCommand command)
+            : base(connection, command)
         { }
 
         public IEnumerable<string> ExecuteFormat()

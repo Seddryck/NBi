@@ -38,8 +38,8 @@ namespace NBi.Core.Query
 
         protected T Instantiate(Type type, ICommand cmd)
         {
-            var ctor = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, new[] { cmd.Implementation.GetType() }, null);
-            return (T)ctor.Invoke(new[] { cmd.Implementation });
+            var ctor = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, new[] { cmd.Session.GetType(), cmd.Implementation.GetType() }, null);
+            return (T)ctor.Invoke(new[] { cmd.Session, cmd.Implementation });
         }
     }
 }

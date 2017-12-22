@@ -119,9 +119,7 @@ namespace NBi.Testing.Unit.Core.Query.Execution
         [Test]
         public void Instantiate_Object_FakeExecutionEngine()
         {
-            var query = Mock.Of<IQuery>(
-                x => x.ConnectionString == "fake://MyConnectionString"
-                );
+            var query = Mock.Of<IQuery>(x => x.ConnectionString == "fake://MyConnectionString");
 
             var sessionFactory = new SessionFactory();
             sessionFactory.RegisterFactories(new[] { typeof(FakeSessionFactory) });

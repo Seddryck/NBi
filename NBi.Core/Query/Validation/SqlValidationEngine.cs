@@ -11,10 +11,11 @@ namespace NBi.Core.Query.Validation
     /// Engine wrapping the System.Data.SqlClient namespace for execution of NBi tests
     /// <remarks>Instances of this class are built by the means of the <see>QueryEngineFactory</see></remarks>
     /// </summary>
+    [SupportedCommandType(typeof(SqlCommand))]
     internal class SqlValidationEngine : DbCommandValidationEngine
     {
-        protected internal SqlValidationEngine(IDbCommand command)
-            : base(command)
+        public SqlValidationEngine(SqlConnection connection, SqlCommand command)
+            : base(connection, command)
         { }
 
         protected override void OpenConnection(IDbConnection connection)

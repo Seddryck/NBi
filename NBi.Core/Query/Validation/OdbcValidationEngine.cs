@@ -11,10 +11,11 @@ namespace NBi.Core.Query.Validation
     /// Engine wrapping the System.Data.Odbc namespace for execution of NBi tests
     /// <remarks>Instances of this class are built by the means of the <see>QueryEngineFactory</see></remarks>
     /// </summary>
+    [SupportedCommandType(typeof(OdbcCommand))]
     internal class OdbcValidationEngine : DbCommandValidationEngine
     {
-        protected internal OdbcValidationEngine(OdbcCommand command)
-            : base(command)
+        public OdbcValidationEngine(OdbcConnection connection, OdbcCommand command)
+            : base(connection, command)
         { }
         
         protected override void OpenConnection(IDbConnection connection)

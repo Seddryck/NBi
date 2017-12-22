@@ -16,7 +16,7 @@ namespace NBi.Core.Query.Validation
         protected readonly IDbCommand command;
         private readonly Stopwatch stopWatch = new Stopwatch();
 
-        protected DbCommandValidationEngine(IDbCommand command)
+        protected DbCommandValidationEngine(IDbConnection connection, IDbCommand command)
         {
             this.command = command;
         }

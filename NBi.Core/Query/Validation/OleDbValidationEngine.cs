@@ -6,11 +6,11 @@ using System.Diagnostics;
 
 namespace NBi.Core.Query.Validation
 {
-
+    [SupportedCommandType(typeof(OleDbCommand))]
     internal class OleDbValidationEngine : DbCommandValidationEngine
     {
-        protected internal OleDbValidationEngine(OleDbCommand command)
-            : base(command)
+        protected internal OleDbValidationEngine(OleDbConnection connection, OleDbCommand command)
+            : base(connection, command)
         { }
 
         protected override void OpenConnection(IDbConnection connection)

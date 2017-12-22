@@ -13,10 +13,11 @@ namespace NBi.Core.Query.Validation
     /// Engine wrapping the Microsoft.AnalysisServices.AdomdClient namespace for execution of NBi tests
     /// <remarks>Instances of this class are built by the means of the <see>ExecutionEngineFactory</see></remarks>
     /// </summary>
+    [SupportedCommandType(typeof(AdomdCommand))]
     internal class AdomdValidationEngine : DbCommandValidationEngine
     {
-        protected internal AdomdValidationEngine(AdomdCommand command)
-            : base(command)
+        public AdomdValidationEngine(AdomdConnection connection, AdomdCommand command)
+            : base(connection, command)
         { }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]

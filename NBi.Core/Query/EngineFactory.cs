@@ -49,7 +49,11 @@ namespace NBi.Core.Query
 
         protected T Instantiate(Type type, ICommand cmd)
         {
-            var ctor = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, new[] { cmd.Session.GetType(), cmd.Implementation.GetType() }, null);
+            var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+            var types = new[] { cmd.Session.GetType(), cmd.Implementation.GetType() };
+            var ctor = type.GetConstructor(flags, null, types, null);
+            if (ctor == null)
+                throw new ArgumentException($"Unable to find a constructor for the type '{type.FullName}' exposing the following parameters: '{string.Join("', '", types.Select(x => x.FullName))}'");
             return (T)ctor.Invoke(new[] { cmd.Session, cmd.Implementation });
         }
     }

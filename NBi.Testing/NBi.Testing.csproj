@@ -269,7 +269,6 @@
     <Compile Include="Integration\Core\Report\DatabaseReportingParserTest.cs" />
     <Compile Include="Integration\Core\WindowsService\WindowsServiceCommandTest.cs" />
     <Compile Include="Integration\GenbiL\TestSuiteGeneratorTest.cs" />
-    <Compile Include="Integration\NUnit\EqualToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Members\EquivalentToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Query\EqualToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Query\FasterThanConstraintTest.cs" />

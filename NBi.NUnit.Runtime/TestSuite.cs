@@ -361,6 +361,9 @@ namespace NBi.NUnit.Runtime
             foreach (ExtensionElement extension in config.Extensions)
                 notableTypes.AddRange(analyzer.Analyze(extension.Assembly));
 
+            if (serviceLocator == null)
+                Initialize();
+
             var setupConfiguration = serviceLocator.GetConfiguration();
             setupConfiguration.LoadExtensions(notableTypes);
             setupConfiguration.LoadProviders(config.Providers.ToDictionary());

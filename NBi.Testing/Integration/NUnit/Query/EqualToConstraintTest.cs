@@ -53,7 +53,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             private readonly IQuery query;
 
             public FakeQueryResultSetResolver(IQuery query, ServiceLocator serviceLocator)
-                : base(null, serviceLocator.GetExecutionEngineFactory())
+                : base(null, serviceLocator)
             {
                 this.query = query;
             }

@@ -7,6 +7,7 @@ using NBi.Core.Calculation;
 using NBi.Framework.FailureMessage;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework;
+using NBi.Core.Configuration.FailureReport;
 
 namespace NBi.NUnit.Query
 {

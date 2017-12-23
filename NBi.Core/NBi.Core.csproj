@@ -151,8 +151,15 @@
     <Compile Include="Calculation\ResultSetFilter.cs" />
     <Compile Include="Calculation\IResultSetFilter.cs" />
     <Compile Include="Calculation\NoneFilter.cs" />
-    <Compile Include="Configuration\ExtensionsAnalyzer.cs" />
+    <Compile Include="Configuration\Extension\ExtensionsAnalyzer.cs" />
+    <Compile Include="Configuration\FailureReport\FailureReportFormat.cs" />
+    <Compile Include="Configuration\FailureReport\FailureReportMode.cs" />
+    <Compile Include="Configuration\FailureReport\FailureReportProfile.cs" />
+    <Compile Include="Configuration\FailureReport\FailureReportSetType.cs" />
+    <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Configuration\IExtensionsConfiguration.cs" />
+    <Compile Include="Configuration\FailureReport\IFailureReportProfile.cs" />
+    <Compile Include="Configuration\IFailureReportProfileConfiguration.cs" />
     <Compile Include="Injection\ConfigurationModule.cs" />
     <Compile Include="Injection\ResolverModule.cs" />
     <Compile Include="Injection\QueryModule.cs" />
@@ -160,7 +167,6 @@
     <Compile Include="Query\EngineFactory.cs" />
     <Compile Include="Query\Session\ISessionFactory.cs" />
     <Compile Include="Configuration\Configuration.cs" />
-    <Compile Include="Configuration\ConfigurationManager.cs" />
     <Compile Include="Configuration\IProvidersConfiguration.cs" />
     <Compile Include="CommandTimeoutException.cs" />
     <Compile Include="Connection\IConnectionWaitCommand.cs" />

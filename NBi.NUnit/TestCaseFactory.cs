@@ -8,22 +8,23 @@ using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework;
 using NBi.Core.Variable;
 using NBi.Core.Injection;
+using NBi.Core.Configuration;
 
 namespace NBi.NUnit
 {
     public class TestCaseFactory
     {
         private readonly ICollection<BuilderRegistration> registrations;
-        private readonly ITestConfiguration configuration;
+        private readonly IConfiguration configuration;
         private readonly IDictionary<string, ITestVariable> variables;
         private readonly ServiceLocator serviceLocator;
 
         public TestCaseFactory()
-            : this(TestConfiguration.Default, new Dictionary<string, ITestVariable>(), null)
+            : this(Configuration.Default, new Dictionary<string, ITestVariable>(), null)
         {
         }
 
-        public TestCaseFactory(ITestConfiguration configuration, IDictionary<string, ITestVariable> variables, ServiceLocator serviceLocator)
+        public TestCaseFactory(IConfiguration configuration, IDictionary<string, ITestVariable> variables, ServiceLocator serviceLocator)
         {
             this.configuration = configuration;
             this.variables = variables;

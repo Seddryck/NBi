@@ -14,28 +14,16 @@ namespace NBi.NUnit.Runtime.Configuration
             IsKey = true)]
         public string Id
         {
-            get
-            {
-                return (string)this["id"];
-            }
-            set
-            {
-                this["id"] = value;
-            }
+            get => (string)this["id"];
+            set => this["id"] = value;
         }
 
         [ConfigurationProperty("invariant-name",
             IsRequired = true)]
         public string InvariantName
         {
-            get
-            {
-                return (string)this["invariant-name"];
-            }
-            set
-            {
-                this["invariant-name"] = value;
-            }
+            get => (string)this["invariant-name"];
+            set => this["invariant-name"] = value;
         }
 
 
@@ -47,9 +35,7 @@ namespace NBi.NUnit.Runtime.Configuration
         }
 
         public ProviderElement()
-        {
-
-        }
+        { }
 
         // Constructor allowing name to be specified, will take the 
         // default values for url and port. 

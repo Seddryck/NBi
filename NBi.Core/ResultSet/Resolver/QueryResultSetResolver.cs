@@ -1,4 +1,5 @@
-﻿using NBi.Core.Query;
+﻿using NBi.Core.Injection;
+using NBi.Core.Query;
 using NBi.Core.Query.Execution;
 using NBi.Core.Query.Resolver;
 using System;
@@ -13,12 +14,12 @@ namespace NBi.Core.ResultSet.Resolver
     class QueryResultSetResolver : IResultSetResolver
     {
         private readonly QueryResultSetResolverArgs args;
-        private readonly ExecutionEngineFactory factory;
+        private readonly ServiceLocator serviceLocator;
 
-        public QueryResultSetResolver(QueryResultSetResolverArgs args, ExecutionEngineFactory factory)
+        public QueryResultSetResolver(QueryResultSetResolverArgs args, ServiceLocator serviceLocator)
         {
             this.args = args;
-            this.factory = factory;
+            this.serviceLocator = serviceLocator;
         }
         
         public ResultSet Execute()
@@ -30,7 +31,7 @@ namespace NBi.Core.ResultSet.Resolver
 
         protected virtual IQuery Resolve()
         {
-            var factory = new QueryResolverFactory();
+            var factory = serviceLocator.GetQueryResolverFactory();
             var resolver = factory.Instantiate(args.QueryResolverArgs as BaseQueryResolverArgs);
             var query = resolver.Execute();
             return query;
@@ -38,7 +39,7 @@ namespace NBi.Core.ResultSet.Resolver
 
         protected virtual ResultSet Load(IQuery query)
         {
-            var factory = this.factory;
+            var factory = serviceLocator.GetExecutionEngineFactory();
             var qe = factory.Instantiate(query);
             var ds = qe.Execute();
             var rs = new ResultSet();

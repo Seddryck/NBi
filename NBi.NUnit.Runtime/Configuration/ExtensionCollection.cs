@@ -11,137 +11,77 @@ namespace NBi.NUnit.Runtime.Configuration
     {
 
         public ExtensionCollection()
+        { }
+
+        public override ConfigurationElementCollectionType CollectionType
         {
-            
+            get => ConfigurationElementCollectionType.AddRemoveClearMap;
         }
 
-        public override 
-            ConfigurationElementCollectionType CollectionType
-        {
-            get
-            {
-                return 
+        protected override ConfigurationElement CreateNewElement()
+            => new ExtensionElement();
 
-                    ConfigurationElementCollectionType.AddRemoveClearMap;
-            }
-        }
+        protected override ConfigurationElement CreateNewElement(string elementName)
+            => new ExtensionElement(elementName);
 
-        protected override 
-            ConfigurationElement CreateNewElement()
-        {
-            return new ExtensionElement();
-        }
-
-
-        protected override 
-            ConfigurationElement CreateNewElement(
-            string elementName)
-        {
-            return new ExtensionElement(elementName);
-        }
-
-
-        protected override Object 
-            GetElementKey(ConfigurationElement element)
-        {
-            return ((ExtensionElement)element).Assembly;
-        }
-
+        protected override Object GetElementKey(ConfigurationElement element)
+            => ((ExtensionElement)element).Assembly;
 
         public new string AddElementName
         {
-            get
-            { return base.AddElementName; }
-
-            set
-            { base.AddElementName = value; }
-
+            get => base.AddElementName;
+            set => base.AddElementName = value;
         }
 
         public new string ClearElementName
         {
-            get
-            { return base.ClearElementName; }
-
-            set
-            { base.ClearElementName = value; }
+            get => base.ClearElementName;
+            set => base.ClearElementName = value;
 
         }
 
         public new string RemoveElementName
         {
-            get
-            { return base.RemoveElementName; }
+            get => base.RemoveElementName;
         }
 
         public new int Count
         {
-            get { return base.Count; }
+            get => base.Count;
         }
-
 
         public ExtensionElement this[int index]
         {
-            get
-            {
-                return (ExtensionElement)BaseGet(index);
-            }
+            get => (ExtensionElement)BaseGet(index);
             set
             {
                 if (BaseGet(index) != null)
-                {
                     BaseRemoveAt(index);
-                }
                 BaseAdd(index, value);
             }
         }
 
         new public ExtensionElement this[string Name]
         {
-            get
-            {
-                return (ExtensionElement)BaseGet(Name);
-            }
+            get => (ExtensionElement)BaseGet(Name);
         }
 
-        public int IndexOf(ExtensionElement url)
+        public int IndexOf(ExtensionElement assembly) => BaseIndexOf(assembly);
+
+        public void Add(ExtensionElement assembly) => BaseAdd(assembly);
+
+        protected override void BaseAdd(ConfigurationElement element) => BaseAdd(element, false);
+
+        public void Remove(ExtensionElement assembly)
         {
-            return BaseIndexOf(url);
+            if (BaseIndexOf(assembly) >= 0)
+                BaseRemove(assembly);
         }
 
-        public void Add(ExtensionElement url)
-        {
-            BaseAdd(url);
-            // Add custom code here.
-        }
+        public void RemoveAt(int index) => BaseRemoveAt(index);
 
-        protected override void 
-            BaseAdd(ConfigurationElement element)
-        {
-            BaseAdd(element, false);
-            // Add custom code here.
-        }
+        public void Remove(string name) => BaseRemove(name);
 
-        public void Remove(ExtensionElement element)
-        {
-            if (BaseIndexOf(element) >= 0)
-                BaseRemove(element.Assembly);
-        }
-
-        public void RemoveAt(int index)
-        {
-            BaseRemoveAt(index);
-        }
-
-        public void Remove(string name)
-        {
-            BaseRemove(name);
-        }
-
-        public void Clear()
-        {
-            BaseClear();
-            // Add custom code here.
-        }
+        public void Clear() => BaseClear();
     }
 }

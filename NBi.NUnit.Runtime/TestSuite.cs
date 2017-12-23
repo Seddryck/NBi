@@ -20,6 +20,7 @@ using NBi.Core.Scalar.Resolver;
 using System.Collections.ObjectModel;
 using Ninject;
 using NBi.Core.Injection;
+using NBi.Core.Configuration.Extension;
 
 namespace NBi.NUnit.Runtime
 {
@@ -35,7 +36,7 @@ namespace NBi.NUnit.Runtime
         public bool EnableGroupAsCategory { get; set; }
         public bool AllowDtdProcessing { get; set; }
         public string SettingsFilename { get; set; }
-        public ITestConfiguration Configuration { get; set; }
+        public IConfiguration Configuration { get; set; }
         public static IDictionary<string, ITestVariable> Variables { get; set; }
 
         internal XmlManager TestSuiteManager { get; private set; }
@@ -354,13 +355,17 @@ namespace NBi.NUnit.Runtime
             EnableGroupAsCategory = config.EnableGroupAsCategory;
             AllowDtdProcessing = config.AllowDtdProcessing;
             SettingsFilename = config.SettingsFilename;
-            Configuration = new TestConfiguration(config.FailureReportProfile);
 
             var notableTypes = new List<Type>();
             var analyzer = new ExtensionsAnalyzer();
             foreach (ExtensionElement extension in config.Extensions)
                 notableTypes.AddRange(analyzer.Analyze(extension.Assembly));
-            ConfigurationManager.Initialize(config.Providers.ToDictionary(), notableTypes);
+
+            var setupConfiguration = serviceLocator.GetConfiguration();
+            setupConfiguration.LoadExtensions(notableTypes);
+            setupConfiguration.LoadProviders(config.Providers.ToDictionary());
+            setupConfiguration.LoadFailureReportProfile(config.FailureReportProfile);
+            Configuration = setupConfiguration;
         }
 
         private static ServiceLocator serviceLocator;
@@ -370,6 +375,16 @@ namespace NBi.NUnit.Runtime
             var stopWatch = new Stopwatch();
             serviceLocator = new ServiceLocator();
             Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Service locator initialized in {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");
+
+
+            if (ConfigurationFinder != null)
+            {
+                Trace.WriteLineIf(NBiTraceSwitch.TraceError, string.Format("Loading configuration"));
+                var config = ConfigurationFinder.Find();
+                ApplyConfig(config);
+            }
+            else
+                Trace.WriteLineIf(NBiTraceSwitch.TraceError, $"No configuration-finder found.");
         }
 
 

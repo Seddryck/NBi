@@ -15,10 +15,10 @@ namespace NBi.Core.Query
         private readonly SessionFactory sessionFactory;
         private readonly CommandFactory commandFactory;
 
-        public EngineFactory()
+        protected internal EngineFactory()
         {
-            sessionFactory = new SessionFactory();
-            commandFactory = new CommandFactory();
+            this.sessionFactory = new SessionFactory();
+            this.commandFactory = new CommandFactory();
         }
 
         protected internal EngineFactory(SessionFactory sessionFactory, CommandFactory commandFactory)

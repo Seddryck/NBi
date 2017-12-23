@@ -35,7 +35,7 @@ namespace NBi.Core.Query.Execution
         public ExecutionEngineFactory(SessionFactory sessionFactory, CommandFactory commandFactory, IExtensionsConfiguration config)
             : base(sessionFactory, commandFactory)
         {
-            var extensions = config?.Extensions.Where(x => typeof(IExecutionEngine).IsAssignableFrom(x));
+            var extensions = config?.Extensions?.Where(x => typeof(IExecutionEngine).IsAssignableFrom(x)) ?? new Type[0];
             RegisterEngines(classics.Union(extensions).ToArray());
         }
     }

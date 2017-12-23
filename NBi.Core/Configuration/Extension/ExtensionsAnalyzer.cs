@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Configuration
+namespace NBi.Core.Configuration.Extension
 {
     public class ExtensionsAnalyzer
     {

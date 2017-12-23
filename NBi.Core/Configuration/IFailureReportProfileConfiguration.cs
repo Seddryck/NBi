@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Configuration
 {
-    public interface IProvidersConfiguration
+    public interface IFailureReportProfileConfiguration
     {
-        IReadOnlyDictionary<string, string> Providers { get; }
+        IFailureReportProfile FailureReportProfile { get; }
     }
 }

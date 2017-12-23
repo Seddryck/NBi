@@ -15,109 +15,61 @@ namespace NBi.NUnit.Runtime
         [ConfigurationProperty("testSuite", IsRequired = true)]
         public string TestSuiteFilename
         {
-            get
-            {
-                return (string)this["testSuite"];
-            }
-            set
-            {
-                this["testSuite"] = value;
-            }
+            get => (string)this["testSuite"];
+            set => this["testSuite"] = value;
         }
 
         // Create a "settings" attribute.
         [ConfigurationProperty("settings", IsRequired = false)]
         public string SettingsFilename
         {
-            get
-            {
-                return (string)this["settings"];
-            }
-            set
-            {
-                this["settings"] = value;
-            }
+            get => (string)this["settings"];
+            set => this["settings"] = value;
         }
 
         // Create a "enableAutoCategories" attribute.
-        [ConfigurationProperty("enableAutoCategories", IsRequired = false, DefaultValue=true)]
+        [ConfigurationProperty("enableAutoCategories", IsRequired = false, DefaultValue = true)]
         public bool EnableAutoCategories
         {
-            get
-            {
-                return (bool)this["enableAutoCategories"];
-            }
-            set
-            {
-                this["enableAutoCategories"] = value;
-            }
+            get => (bool)this["enableAutoCategories"];
+            set => this["enableAutoCategories"] = value;
         }
 
         // Create a "allowDtdProcessing" attribute.
         [ConfigurationProperty("allowDtdProcessing", IsRequired = false, DefaultValue = false)]
         public bool AllowDtdProcessing
         {
-            get
-            {
-                return (bool)this["allowDtdProcessing"];
-            }
-            set
-            {
-                this["allowDtdProcessing"] = value;
-            }
+            get => (bool)this["allowDtdProcessing"];
+            set => this["allowDtdProcessing"] = value;
         }
 
         // Create a "enableGroupAsCategory" attribute.
         [ConfigurationProperty("enableGroupAsCategory", IsRequired = false, DefaultValue = true)]
         public bool EnableGroupAsCategory
         {
-            get
-            {
-                return (bool)this["enableGroupAsCategory"];
-            }
-            set
-            {
-                this["enableGroupAsCategory"] = value;
-            }
+            get => (bool)this["enableGroupAsCategory"];
+            set => this["enableGroupAsCategory"] = value;
         }
 
         [ConfigurationProperty("failure-report-profile", IsRequired = false)]
         public FailureReportProfileElement FailureReportProfile
         {
-            get
-            {
-                return (FailureReportProfileElement)this["failure-report-profile"];
-            }
-            set
-            {
-                this["failure-report-profile"] = value;
-            }
+            get => (FailureReportProfileElement)this["failure-report-profile"];
+            set => this["failure-report-profile"] = value;
         }
 
-        [ConfigurationProperty("providers", IsRequired= false)]
+        [ConfigurationProperty("providers", IsRequired = false)]
         public ProviderCollection Providers
         {
-            get
-            {
-                return (ProviderCollection)this["providers"];
-            }
-            set
-            {
-                this["providers"] = value;
-            }
+            get => (ProviderCollection)this["providers"];
+            set => this["providers"] = value;
         }
 
         [ConfigurationProperty("extensions", IsRequired = false)]
         public ExtensionCollection Extensions
         {
-            get
-            {
-                return (ExtensionCollection)this["extensions"];
-            }
-            set
-            {
-                this["extensions"] = value;
-            }
+            get => (ExtensionCollection)this["extensions"];
+            set => this["extensions"] = value;
         }
     }
 }

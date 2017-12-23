@@ -39,7 +39,7 @@ namespace NBi.NUnit.Builder
 
         protected virtual IQuery GetQuery(ExecutionXml executionXml)
         {
-            var commandFactory = new CommandFactory();
+            var commandFactory = ServiceLocator.GetCommandFactory();
 
             var connectionString = executionXml.Item.GetConnectionString();
             var commandText = (executionXml.Item as QueryableXml).GetQuery();
@@ -68,7 +68,7 @@ namespace NBi.NUnit.Builder
             }
 
             var queryArgs = new QueryResolverArgs(commandText, connectionString, parameters, variables, new TimeSpan(0, 0, timeout), commandType);
-            var factory = new QueryResolverFactory();
+            var factory = ServiceLocator.GetQueryResolverFactory();
             var resolver = factory.Instantiate(queryArgs);
             var query = resolver.Execute();
             return query;

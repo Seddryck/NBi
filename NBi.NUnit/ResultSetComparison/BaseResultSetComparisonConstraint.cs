@@ -15,6 +15,7 @@ using NBi.Core.ResultSet.Resolver;
 using NBi.Framework.FailureMessage.Markdown;
 using NBi.Core.ResultSet.Equivalence;
 using NUnit.Framework;
+using NBi.Core.Configuration.FailureReport;
 
 namespace NBi.NUnit.ResultSetComparison
 {

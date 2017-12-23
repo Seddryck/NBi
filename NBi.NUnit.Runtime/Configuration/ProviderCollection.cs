@@ -11,116 +11,67 @@ namespace NBi.NUnit.Runtime.Configuration
     {
 
         public ProviderCollection()
+        { }
+
+        public override ConfigurationElementCollectionType CollectionType
         {
-            
+            get => ConfigurationElementCollectionType.AddRemoveClearMap;
         }
 
-        public override 
-            ConfigurationElementCollectionType CollectionType
-        {
-            get
-            {
-                return 
+        protected override ConfigurationElement CreateNewElement()
+            => new ProviderElement();
 
-                    ConfigurationElementCollectionType.AddRemoveClearMap;
-            }
-        }
+        protected override ConfigurationElement CreateNewElement(string elementName)
+            =>new ProviderElement(elementName);
 
-        protected override 
-            ConfigurationElement CreateNewElement()
-        {
-            return new ProviderElement();
-        }
-
-
-        protected override 
-            ConfigurationElement CreateNewElement(
-            string elementName)
-        {
-            return new ProviderElement(elementName);
-        }
-
-
-        protected override Object 
-            GetElementKey(ConfigurationElement element)
-        {
-            return ((ProviderElement)element).Id;
-        }
-
+        protected override Object GetElementKey(ConfigurationElement element)
+            => ((ProviderElement)element).Id;
 
         public new string AddElementName
         {
-            get
-            { return base.AddElementName; }
-
-            set
-            { base.AddElementName = value; }
-
+            get => base.AddElementName;
+            set => base.AddElementName = value;
         }
 
         public new string ClearElementName
         {
-            get
-            { return base.ClearElementName; }
-
-            set
-            { base.ClearElementName = value; }
+            get => base.ClearElementName;
+            set => base.ClearElementName = value;
 
         }
 
         public new string RemoveElementName
         {
-            get
-            { return base.RemoveElementName; }
+            get => base.RemoveElementName;
         }
 
         public new int Count
         {
-            get { return base.Count; }
+            get => base.Count;
         }
 
 
         public ProviderElement this[int index]
         {
-            get
-            {
-                return (ProviderElement)BaseGet(index);
-            }
+            get => (ProviderElement)BaseGet(index);
             set
             {
                 if (BaseGet(index) != null)
-                {
                     BaseRemoveAt(index);
-                }
                 BaseAdd(index, value);
             }
         }
 
         new public ProviderElement this[string Name]
         {
-            get
-            {
-                return (ProviderElement)BaseGet(Name);
-            }
+            get => (ProviderElement)BaseGet(Name);
         }
 
-        public int IndexOf(ProviderElement url)
-        {
-            return BaseIndexOf(url);
-        }
+        public int IndexOf(ProviderElement url) => BaseIndexOf(url);
 
-        public void Add(ProviderElement url)
-        {
-            BaseAdd(url);
-            // Add custom code here.
-        }
+        public void Add(ProviderElement url) => BaseAdd(url);
 
-        protected override void 
-            BaseAdd(ConfigurationElement element)
-        {
-            BaseAdd(element, false);
-            // Add custom code here.
-        }
+        protected override void BaseAdd(ConfigurationElement element) => BaseAdd(element, false);
 
         public void Remove(ProviderElement url)
         {
@@ -128,30 +79,20 @@ namespace NBi.NUnit.Runtime.Configuration
                 BaseRemove(url.Id);
         }
 
-        public void RemoveAt(int index)
-        {
-            BaseRemoveAt(index);
-        }
+        public void RemoveAt(int index) => BaseRemoveAt(index);
 
-        public void Remove(string name)
-        {
-            BaseRemove(name);
-        }
+        public void Remove(string name) => BaseRemove(name);
 
-        public void Clear()
-        {
-            BaseClear();
-            // Add custom code here.
-        }
+        public void Clear() => BaseClear();
 
         public Dictionary<string, string> ToDictionary()
         {
             var dico = new Dictionary<string, string>();
             foreach (var item in this)
-	        {
+            {
                 var provider = (ProviderElement)item;
                 dico.Add(provider.Id, provider.InvariantName);
-	        }
+            }
             return dico;
         }
     }

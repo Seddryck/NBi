@@ -1,4 +1,6 @@
 ﻿using Moq;
+using NBi.Core.Configuration;
+using NBi.Core.Configuration.FailureReport;
 using NBi.Core.ResultSet;
 using NBi.Framework;
 using NBi.Framework.FailureMessage;

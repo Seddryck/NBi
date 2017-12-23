@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Injection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,13 @@ namespace NBi.Core.Query.Resolver
 {
     public class QueryResolverFactory
     {
+        private readonly ServiceLocator serviceLocator;
+
+        public QueryResolverFactory(ServiceLocator serviceLocator)
+        {
+            this.serviceLocator = serviceLocator;
+        }
+
         public IQueryResolver Instantiate(BaseQueryResolverArgs args)
         {
             if (args is AssemblyQueryResolverArgs)

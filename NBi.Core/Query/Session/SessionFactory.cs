@@ -26,7 +26,7 @@ namespace NBi.Core.Query.Session
 
         public SessionFactory(IExtensionsConfiguration config)
         {
-            var extensions = config?.Extensions.Where(x => typeof(ISessionFactory).IsAssignableFrom(x));
+            var extensions = config?.Extensions?.Where(x => typeof(ISessionFactory).IsAssignableFrom(x)) ?? new Type[0];
             RegisterFactories(classics.Union(extensions).ToArray());
         }
 

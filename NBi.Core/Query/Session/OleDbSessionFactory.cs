@@ -16,14 +16,12 @@ namespace NBi.Core.Query.Session
 
         public OleDbSessionFactory() 
             : base()
-        {
-            providers = ConfigurationManager.GetConfiguration().Providers;
-        }
+        { }
 
-        public OleDbSessionFactory(IDictionary<string, string> providers)
+        public OleDbSessionFactory(IProvidersConfiguration config)
             : base()
         {
-            this.providers = new ReadOnlyDictionary<string, string>(providers);
+            this.providers = config.Providers;
         }
 
         protected override ISession Instantiate(DbProviderFactory factory, string connectionString)

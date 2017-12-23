@@ -14,7 +14,13 @@ namespace NBi.Core.Injection
     {
         public override void Load()
         {
-            Bind<IExtensionsConfiguration>().To<Configuration.Configuration>();
+            Bind<
+                Configuration.Configuration,
+                IExtensionsConfiguration,
+                IProvidersConfiguration,
+                IFailureReportProfileConfiguration>()
+                .To<Configuration.Configuration>()
+                .InSingletonScope();
         }
     }
 }

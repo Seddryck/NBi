@@ -14,8 +14,7 @@ namespace NBi.Core.Injection
     {
         public override void Load()
         {
-            Bind<ServiceLocator>().ToSelf();
-            Bind<ResultSetResolverFactory>().ToSelf();
+            Bind<ServiceLocator>().ToSelf().InSingletonScope();
         }
     }
 }

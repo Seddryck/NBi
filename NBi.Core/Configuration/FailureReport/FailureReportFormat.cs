@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework
+namespace NBi.Core.Configuration.FailureReport
 {
-    public enum FailureReportMode
+    public enum FailureReportFormat
     {
-        OnFailure = 1,
-        Always = 3,
+        Markdown = 0,
+        Json = 1,
     }
 }

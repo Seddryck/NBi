@@ -1,4 +1,6 @@
-﻿using NBi.Framework.FailureMessage.Json;
+﻿using NBi.Core.Configuration;
+using NBi.Core.Configuration.FailureReport;
+using NBi.Framework.FailureMessage.Json;
 using NBi.Framework.FailureMessage.Markdown;
 using NBi.Framework.Sampling;
 using System;

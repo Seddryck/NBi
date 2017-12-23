@@ -1,6 +1,8 @@
-﻿using NBi.Core.Injection;
+﻿using NBi.Core.Configuration;
+using NBi.Core.Injection;
 using NBi.Core.Query.Command;
 using NBi.Core.Query.Execution;
+using NBi.Core.Query.Resolver;
 using NBi.Core.Query.Session;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Resolver;
@@ -89,6 +91,24 @@ namespace NBi.Testing.Unit.Core.Injection
         }
 
         [Test]
+        public void Get_QueryResolverFactory_Instance()
+        {
+            var locator = new ServiceLocator();
+            var obj = locator.GetQueryResolverFactory();
+            Assert.That(obj, Is.Not.Null);
+            Assert.IsInstanceOf<QueryResolverFactory>(obj);
+        }
+
+        [Test]
+        public void Get_QueryResolverFactory_NotSingleton()
+        {
+            var locator = new ServiceLocator();
+            var obj1 = locator.GetQueryResolverFactory();
+            var obj2 = locator.GetQueryResolverFactory();
+            Assert.That(obj1, Is.Not.EqualTo(obj2));
+        }
+
+        [Test]
         public void Get_ScalarResolverFactory_Instance()
         {
             var locator = new ServiceLocator();
@@ -104,6 +124,24 @@ namespace NBi.Testing.Unit.Core.Injection
             var obj1 = locator.GetScalarResolverFactory();
             var obj2 = locator.GetScalarResolverFactory();
             Assert.That(obj1, Is.Not.EqualTo(obj2));
+        }
+
+        [Test]
+        public void Get_Configuration_Instance()
+        {
+            var locator = new ServiceLocator();
+            var obj = locator.GetConfiguration();
+            Assert.That(obj, Is.Not.Null);
+            Assert.IsInstanceOf<IConfiguration>(obj);
+        }
+
+        [Test]
+        public void Get_Configuration_Singleton()
+        {
+            var locator = new ServiceLocator();
+            var obj1 = locator.GetConfiguration();
+            var obj2 = locator.GetConfiguration();
+            Assert.That(obj1, Is.EqualTo(obj2));
         }
     }
 }

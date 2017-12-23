@@ -1,4 +1,5 @@
-﻿using NBi.Core.Query;
+﻿using NBi.Core.Injection;
+using NBi.Core.Query;
 using NBi.Core.Query.Execution;
 using NBi.Core.Query.Resolver;
 using System;
@@ -13,15 +14,17 @@ namespace NBi.Core.Scalar.Resolver
     class QueryScalarResolver<T> : IScalarResolver<T>
     {
         private readonly QueryScalarResolverArgs args;
+        private readonly ServiceLocator serviceLocator;
 
-        public QueryScalarResolver(QueryScalarResolverArgs args)
+        public QueryScalarResolver(QueryScalarResolverArgs args, ServiceLocator serviceLocator)
         {
             this.args = args;
+            this.serviceLocator = serviceLocator;
         }
         
         protected virtual IQuery ResolveQuery()
         {
-            var factory = new QueryResolverFactory();
+            var factory = serviceLocator.GetQueryResolverFactory();
             var resolver = factory.Instantiate(args.QueryArgs);
             var query = resolver.Execute();
             return query;
@@ -29,7 +32,7 @@ namespace NBi.Core.Scalar.Resolver
 
         protected virtual object ExecuteQuery(IQuery query)
         {
-            var factory = new ExecutionEngineFactory();
+            var factory = serviceLocator.GetExecutionEngineFactory();
             var queryEngine = factory.Instantiate(query);
             var value = queryEngine.ExecuteScalar();
             return value;

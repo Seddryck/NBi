@@ -54,8 +54,6 @@
     </Compile>
     <Compile Include="FailureMessage\Json\CompareTableHelperJson.cs" />
     <Compile Include="FailureMessage\Json\ItemsMessageJson.cs" />
-    <Compile Include="FailureReportMode.cs" />
-    <Compile Include="FailureReportFormat.cs" />
     <Compile Include="Sampling\FullSampler.cs" />
     <Compile Include="Sampling\NoneSampler.cs" />
     <Compile Include="Sampling\ISampler.cs" />
@@ -74,10 +72,6 @@
     <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\TableExtended.cs" />
     <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\TableRowExtended.cs" />
     <Compile Include="Sampling\SamplersFactory.cs" />
-    <Compile Include="TestConfiguration.cs" />
-    <Compile Include="FailureReportProfile.cs" />
-    <Compile Include="FailureReportSetType.cs" />
-    <Compile Include="IFailureReportProfile.cs" />
     <Compile Include="FailureMessage\Markdown\ItemsMessageMarkdown.cs" />
     <Compile Include="FailureMessage\Common\BooleanCellFormatter.cs" />
     <Compile Include="FailureMessage\Common\CellFormatter.cs" />
@@ -88,7 +82,6 @@
     <Compile Include="FailureMessage\Common\ColumnPropertiesFormatter.cs" />
     <Compile Include="FailureMessage\Markdown\Helper\CompareTableHelper.cs" />
     <Compile Include="FailureMessage\Markdown\Helper\TableHelper.cs" />
-    <Compile Include="ITestConfiguration.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="FailureMessage\Markdown\DataRowsMessageMarkdown.cs" />
   </ItemGroup>

@@ -24,7 +24,7 @@ namespace NBi.Core.Scalar.Resolver
             else if (args is GlobalVariableScalarResolverArgs)
                 return new GlobalVariableScalarResolver<T>((GlobalVariableScalarResolverArgs)args);
             else if (args is QueryScalarResolverArgs)
-                return new QueryScalarResolver<T>((QueryScalarResolverArgs)args);
+                return new QueryScalarResolver<T>((QueryScalarResolverArgs)args, serviceLocator);
             else if (args is ProjectionResultSetScalarResolverArgs)
                 return new ProjectionResultSetScalarResolver<T>((ProjectionResultSetScalarResolverArgs)args, serviceLocator.GetResultSetResolverFactory());
             else if (args is CSharpScalarResolverArgs)

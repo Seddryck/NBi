@@ -9,6 +9,7 @@ using NBi.Core.Variable;
 using System.Diagnostics;
 using NBi.Core;
 using NBi.Core.Injection;
+using NBi.Core.Configuration;
 
 namespace NBi.NUnit.Builder
 {
@@ -16,17 +17,8 @@ namespace NBi.NUnit.Builder
     {
         protected object SystemUnderTest { get; set; }
         protected NBiConstraint Constraint { get; set; }
-        private ITestConfiguration configuration;
-        protected ITestConfiguration Configuration
-        {
-            get
-            {
-                if (configuration == null)
-                    return TestConfiguration.Default;
-                return configuration;
-            }
-        }
-
+        protected IConfiguration Configuration { get; private set; }
+        
         protected IDictionary<string, ITestVariable> Variables { get; private set; }
         protected ServiceLocator ServiceLocator { get; private set; }
 
@@ -38,9 +30,9 @@ namespace NBi.NUnit.Builder
             Setup(sutXml, ctrXml, null, null, null);
         }
 
-        public void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, ITestConfiguration config, IDictionary<string, ITestVariable> variables, ServiceLocator serviceLocator)
+        public void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, IConfiguration config, IDictionary<string, ITestVariable> variables, ServiceLocator serviceLocator)
         {
-            configuration = config ?? TestConfiguration.Default;
+            Configuration = config ?? Core.Configuration.Configuration.Default;
             Variables = variables ?? new Dictionary<string, ITestVariable>();
             ServiceLocator = serviceLocator;
             BaseSetup(sutXml, ctrXml);

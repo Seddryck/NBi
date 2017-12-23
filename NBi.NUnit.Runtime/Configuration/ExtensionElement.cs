@@ -9,31 +9,21 @@ namespace NBi.NUnit.Runtime.Configuration
 {
     public class ExtensionElement : ConfigurationElement
     {
-        [ConfigurationProperty("assembly",
-            IsRequired = true,
-            IsKey = true)]
-        public string Assembly
-        {
-            get
-            {
-                return (string)this["assembly"];
-            }
-            set
-            {
-                this["assembly"] = value;
-            }
-        }
-
-
-        // Constructor allowing name, url, and port to be specified. 
         public ExtensionElement(string assembly)
         {
             Assembly = assembly;
         }
 
         public ExtensionElement()
-        {
+        { }
 
+        [ConfigurationProperty("assembly",
+            IsRequired = true,
+            IsKey = true)]
+        public string Assembly
+        {
+            get => (string)this["assembly"];
+            set =>this["assembly"] = value;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Moq;
+using NBi.Core.Injection;
 using NBi.Core.Query;
 using NBi.Core.Query.Command;
 using NBi.Core.Query.Execution;
@@ -15,6 +16,8 @@ namespace NBi.Testing.Unit.Core.Query.Execution
 {
     public class ExecutionEngineFactoryTest
     {
+        private readonly ServiceLocator serviceLocator = new ServiceLocator();
+
         [Test]
         public void Instantiate_SqlClient_SqlExecutionEngine()
         {
@@ -23,7 +26,7 @@ namespace NBi.Testing.Unit.Core.Query.Execution
                 && x.Statement == "select 1"
                 );
 
-            var factory = new ExecutionEngineFactory();
+            var factory = serviceLocator.GetExecutionEngineFactory();
             var engine = factory.Instantiate(query);
             Assert.IsInstanceOf<SqlExecutionEngine>(engine);
         }
@@ -36,7 +39,7 @@ namespace NBi.Testing.Unit.Core.Query.Execution
                 && x.Statement == "select 1 on 0"
                 );
 
-            var factory = new ExecutionEngineFactory();
+            var factory = serviceLocator.GetExecutionEngineFactory();
             var engine = factory.Instantiate(query);
             Assert.IsInstanceOf<AdomdExecutionEngine>(engine);
         }
@@ -49,7 +52,7 @@ namespace NBi.Testing.Unit.Core.Query.Execution
                 && x.Statement == "select 1"
                 );
 
-            var factory = new ExecutionEngineFactory();
+            var factory = serviceLocator.GetExecutionEngineFactory();
             var engine = factory.Instantiate(query);
             Assert.IsInstanceOf<OdbcExecutionEngine>(engine);
         }
@@ -62,7 +65,7 @@ namespace NBi.Testing.Unit.Core.Query.Execution
                 && x.Statement == "select 1"
                 );
 
-            var factory = new ExecutionEngineFactory();
+            var factory = serviceLocator.GetExecutionEngineFactory();
             var engine = factory.Instantiate(query);
             Assert.IsInstanceOf<OleDbExecutionEngine>(engine);
         }
@@ -117,19 +120,35 @@ namespace NBi.Testing.Unit.Core.Query.Execution
         #endregion
 
         [Test]
-        public void Instantiate_Object_FakeExecutionEngine()
+        public void Instantiate_FakeConnectionString_FakeExecutionEngine()
         {
+            var localServiceLocator = new ServiceLocator();
+
             var query = Mock.Of<IQuery>(x => x.ConnectionString == "fake://MyConnectionString");
 
-            var sessionFactory = new SessionFactory();
+            var sessionFactory = localServiceLocator.GetSessionFactory();
             sessionFactory.RegisterFactories(new[] { typeof(FakeSessionFactory) });
 
-            var commandFactory = new CommandFactory();
+            var commandFactory = localServiceLocator.GetCommandFactory();
             commandFactory.RegisterFactories(new[] { typeof(FakeCommandFactory) });
 
             var factory = new ExecutionEngineFactory(sessionFactory, commandFactory);
             factory.RegisterEngines(new[] { typeof(FakeExecutionEngine) });
 
+            var engine = factory.Instantiate(query);
+            Assert.IsInstanceOf<FakeExecutionEngine>(engine);
+        }
+
+        [Test]
+        public void Instantiate_FakeConnectionStringExtensions_FakeExecutionEngine()
+        {
+            var localServiceLocator = new ServiceLocator();
+            var setupConfig = localServiceLocator.GetConfiguration();
+            setupConfig.LoadExtensions(new List<Type>() { typeof(FakeSessionFactory), typeof(FakeCommandFactory), typeof(FakeExecutionEngine) });
+
+            var query = Mock.Of<IQuery>(x => x.ConnectionString == "fake://MyConnectionString");
+
+            var factory = localServiceLocator.GetExecutionEngineFactory();
             var engine = factory.Instantiate(query);
             Assert.IsInstanceOf<FakeExecutionEngine>(engine);
         }

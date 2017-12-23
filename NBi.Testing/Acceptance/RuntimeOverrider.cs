@@ -5,9 +5,10 @@ using NUnit.Framework;
 using System.Diagnostics;
 using System.Reflection;
 using NBi.Framework;
-using System.Configuration;
+using SysConfig = System.Configuration;
 using NBi.Core;
 using System.Collections.Generic;
+using NBi.Core.Configuration;
 
 namespace NBi.Testing.Acceptance
 {
@@ -61,7 +62,7 @@ namespace NBi.Testing.Acceptance
                 {
                     if (!string.IsNullOrEmpty(filename))
                     {
-                        var configuration = ConfigurationManager.OpenExeConfiguration(@"Acceptance\Resources\" + filename);
+                        var configuration = SysConfig.ConfigurationManager.OpenExeConfiguration(@"Acceptance\Resources\" + filename);
 
                         var section = (NBiSection)(configuration.GetSection("nbi"));
                         if (section != null)
@@ -80,13 +81,13 @@ namespace NBi.Testing.Acceptance
                 }
                 protected override string GetConfigFile() => $@"Acceptance\Resources\{filename}.config";
 
-                protected override Configuration GetConfiguration()
+                protected override SysConfig.Configuration GetConfiguration()
                 {
-                    ExeConfigurationFileMap configMap = new ExeConfigurationFileMap()
+                    var configMap = new SysConfig.ExeConfigurationFileMap()
                     {
                         ExeConfigFilename = GetConfigFile()
                     };
-                    var config = ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
+                    var config = SysConfig.ConfigurationManager.OpenMappedExeConfiguration(configMap, SysConfig.ConfigurationUserLevel.None);
                     return config;
                 }
             }
@@ -98,7 +99,7 @@ namespace NBi.Testing.Acceptance
             }
 
             [Ignore]
-            public void ExecuteTestCases(TestXml test, ITestConfiguration configuration)
+            public void ExecuteTestCases(TestXml test, IConfiguration configuration)
             {
                 base.Configuration = configuration;
                 base.ExecuteTestCases(test);

@@ -45,7 +45,7 @@ namespace NBi.NUnit.Builder
                 builder.Setup(ctrXml.Settings);
                 builder.Build();
 
-                var factory = new ResultSetResolverFactory(ServiceLocator);
+                var factory = ServiceLocator.GetResultSetResolverFactory();
                 var resolver = factory.Instantiate(builder.GetArgs());
                 ctr = new Member.ContainConstraint(resolver);
             }

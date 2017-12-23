@@ -8,6 +8,8 @@ using NBi.Core.Query.Session;
 using NUnit.Framework;
 using System.Collections.Generic;
 using NBi.Core.PowerBiDesktop;
+using Moq;
+using NBi.Core.Configuration;
 
 #endregion
 
@@ -134,7 +136,9 @@ namespace NBi.Testing.Unit.Core.Query.Session
             //Call the method to test
             var connStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=c:\\myFolder\\myExcel2007file.xlsx;Extended Properties=\"Excel 12.0 Xml;HDR=YES\";";
             var providers = new Dictionary<string, string>() { { "Microsoft.ACE.OLEDB.12.0", "System.Data.OleDb" } };
-            var factory = new OleDbSessionFactory(providers);
+            var providersConfig = Mock.Of<IProvidersConfiguration>(x => x.Providers == providers);
+
+            var factory = new OleDbSessionFactory(providersConfig);
             var actual = factory.Instantiate(connStr);
 
             //Assertion

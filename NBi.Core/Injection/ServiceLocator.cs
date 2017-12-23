@@ -1,6 +1,7 @@
 ﻿using NBi.Core.Injection;
 using NBi.Core.Query.Command;
 using NBi.Core.Query.Execution;
+using NBi.Core.Query.Resolver;
 using NBi.Core.Query.Session;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Resolver;
@@ -19,7 +20,7 @@ namespace NBi.Core.Injection
 
         public ServiceLocator()
         {
-            kernel = new StandardKernel(new ConfigurationModule(), new QueryModule());
+            kernel = new StandardKernel(new ConfigurationModule(), new QueryModule(), new ResolverModule());
         }
 
         public SessionFactory GetSessionFactory()
@@ -41,10 +42,20 @@ namespace NBi.Core.Injection
         {
             return kernel.Get<ResultSetResolverFactory>();
         }
+        
+        public QueryResolverFactory GetQueryResolverFactory()
+        {
+            return kernel.Get<QueryResolverFactory>();
+        }
 
         public ScalarResolverFactory GetScalarResolverFactory()
         {
             return kernel.Get<ScalarResolverFactory>();
+        }
+
+        public Configuration.Configuration GetConfiguration()
+        {
+            return kernel.Get<Configuration.Configuration>();
         }
     }
 }

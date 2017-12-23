@@ -1,10 +1,11 @@
-﻿using System;
+﻿using NBi.Core.Configuration.FailureReport;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework
+namespace NBi.Core.Configuration
 {
     public interface IFailureReportProfile
     {

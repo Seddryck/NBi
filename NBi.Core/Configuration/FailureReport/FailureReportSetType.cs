@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework
+namespace NBi.Core.Configuration.FailureReport
 {
     public enum FailureReportSetType
     {

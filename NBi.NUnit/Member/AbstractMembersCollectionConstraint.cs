@@ -20,7 +20,7 @@ namespace NBi.NUnit.Member
     public abstract class AbstractMembersCollectionConstraint : AbstractMembersConstraint
     {
 
-        private readonly IQuery commandToRetrieveExpectedItems;
+        private readonly IResultSetResolver expectedResolver;
         private readonly MembersDiscoveryRequest membersDiscoveryRequest;
         
         private IEnumerable<string> expectedItems;
@@ -68,10 +68,10 @@ namespace NBi.NUnit.Member
         /// Construct a AbstractMembersConstraint
         /// </summary>
         /// <param name="expected">The command to retrieve the list of expected items</param>
-        public AbstractMembersCollectionConstraint(IQuery expected)
+        public AbstractMembersCollectionConstraint(IResultSetResolver expected)
             : base()
         {
-            commandToRetrieveExpectedItems = expected;
+            expectedResolver = expected;
         }
 
         /// <summary>
@@ -99,19 +99,14 @@ namespace NBi.NUnit.Member
 
         protected override void PreInitializeMatching()
         {
-            if (commandToRetrieveExpectedItems != null)
-                expectedItems = GetMembersFromResultSet(commandToRetrieveExpectedItems);
+            if (expectedResolver != null)
+                expectedItems = GetMembersFromResultSet(expectedResolver);
             if (membersDiscoveryRequest != null)
                 expectedItems = GetMembersFromDiscoveryRequest(membersDiscoveryRequest);
         }
 
-
-        protected IEnumerable<string> GetMembersFromResultSet(IQuery query)
+        protected IEnumerable<string> GetMembersFromResultSet(IResultSetResolver resolver)
         {
-            var queryArgs = new QueryResolverArgs(query.Statement, query.ConnectionString, query.Parameters, query.TemplateTokens, query.Timeout, query.CommandType);
-            var args = new QueryResultSetResolverArgs(queryArgs);
-            var factory = new ResultSetResolverFactory();
-            var resolver = factory.Instantiate(args);
             var rs = resolver.Execute();
 
             var members = new List<string>();

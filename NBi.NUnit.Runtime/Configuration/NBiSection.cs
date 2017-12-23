@@ -106,5 +106,18 @@ namespace NBi.NUnit.Runtime
                 this["providers"] = value;
             }
         }
+
+        [ConfigurationProperty("extensions", IsRequired = false)]
+        public ExtensionCollection Extensions
+        {
+            get
+            {
+                return (ExtensionCollection)this["extensions"];
+            }
+            set
+            {
+                this["extensions"] = value;
+            }
+        }
     }
 }

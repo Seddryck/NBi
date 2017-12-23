@@ -5,6 +5,7 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
 using NBi.NUnit.Builder.Helper;
 using NBi.Core.Query.Resolver;
+using NBi.Core.ResultSet.Resolver;
 
 namespace NBi.NUnit.Builder
 {
@@ -39,15 +40,14 @@ namespace NBi.NUnit.Builder
             Member.EquivalentToConstraint ctr;
             if (ctrXml.Query != null)
             {
-                var builder = new QueryResolverArgsBuilder();
+                var builder = new ResultSetResolverArgsBuilder(ServiceLocator);
                 builder.Setup(ctrXml.Query);
                 builder.Setup(ctrXml.Settings);
                 builder.Build();
 
-                var factory = new QueryResolverFactory();
+                var factory = new ResultSetResolverFactory(ServiceLocator);
                 var resolver = factory.Instantiate(builder.GetArgs());
-                var query = resolver.Execute();
-                ctr = new Member.EquivalentToConstraint(query);
+                ctr = new Member.EquivalentToConstraint(resolver);
             }
             else if (ctrXml.Members != null)
             {

@@ -5,17 +5,24 @@ using System.Linq;
 using NBi.Core.Query;
 using NBi.Core.Xml;
 using NBi.Core.Query.Resolver;
+using NBi.Core.Injection;
 
 namespace NBi.Core.ResultSet.Resolver
 {
     public class ResultSetResolverFactory
     {
+        private readonly ServiceLocator serviceLocator;
         private CsvProfile profile = CsvProfile.SemiColumnDoubleQuote;
 
         public void Using(CsvProfile profile)
         {
             if (profile != null)
                 this.profile = profile;
+        }
+
+        public ResultSetResolverFactory(ServiceLocator serviceLocator)
+        {
+            this.serviceLocator = serviceLocator;
         }
 
         public IResultSetResolver Instantiate(ResultSetResolverArgs args)
@@ -25,7 +32,7 @@ namespace NBi.Core.ResultSet.Resolver
             else if (args is RowsResultSetResolverArgs)
                 return new RowsResultSetResolver(args as RowsResultSetResolverArgs);
             else if (args is QueryResultSetResolverArgs)
-                return new QueryResultSetResolver(args as QueryResultSetResolverArgs);
+                return new QueryResultSetResolver(args as QueryResultSetResolverArgs, serviceLocator.GetExecutionEngineFactory());
             else if (args is CsvResultSetResolverArgs)
                 return new CsvResultSetResolver(args as CsvResultSetResolverArgs);
             else if (args is XPathResultSetResolverArgs)

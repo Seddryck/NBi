@@ -13,10 +13,12 @@ namespace NBi.Core.ResultSet.Resolver
     class QueryResultSetResolver : IResultSetResolver
     {
         private readonly QueryResultSetResolverArgs args;
+        private readonly ExecutionEngineFactory factory;
 
-        public QueryResultSetResolver(QueryResultSetResolverArgs args)
+        public QueryResultSetResolver(QueryResultSetResolverArgs args, ExecutionEngineFactory factory)
         {
             this.args = args;
+            this.factory = factory;
         }
         
         public ResultSet Execute()
@@ -36,7 +38,7 @@ namespace NBi.Core.ResultSet.Resolver
 
         protected virtual ResultSet Load(IQuery query)
         {
-            var factory = new ExecutionEngineFactory();
+            var factory = this.factory;
             var qe = factory.Instantiate(query);
             var ds = qe.Execute();
             var rs = new ResultSet();

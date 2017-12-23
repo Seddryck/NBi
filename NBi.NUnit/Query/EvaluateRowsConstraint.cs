@@ -82,7 +82,7 @@ namespace NBi.NUnit.Query
         {
             var argsQuery = new QueryResolverArgs(query.Statement, query.ConnectionString, query.Parameters, query.TemplateTokens, query.Timeout, query.CommandType);
             var args = new QueryResultSetResolverArgs(argsQuery);
-            var factory = new ResultSetResolverFactory();
+            var factory = new ResultSetResolverFactory(null);
             var resolver = factory.Instantiate(args);
             return resolver.Execute();
         }

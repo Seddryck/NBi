@@ -41,7 +41,7 @@ namespace NBi.NUnit.Builder
         {
             var commandFactory = new CommandFactory();
 
-            var argsBuilder = new QueryResolverArgsBuilder();
+            var argsBuilder = new QueryResolverArgsBuilder(ServiceLocator);
 
             var connectionString = executionXml.Item.GetConnectionString();
             var statement = (executionXml.Item as QueryableXml).GetQuery();
@@ -69,7 +69,7 @@ namespace NBi.NUnit.Builder
 
             var queryArgs = new QueryResolverArgs(statement, connectionString, parameters, variables, new TimeSpan(0, 0, timeout), commandType);
             var args = new QueryResultSetResolverArgs(queryArgs);
-            var factory = new ResultSetResolverFactory();
+            var factory = ServiceLocator.GetResultSetResolverFactory();
             var resolver = factory.Instantiate(args);
 
             var builder = new ResultSetServiceBuilder();
@@ -89,13 +89,13 @@ namespace NBi.NUnit.Builder
 
         protected virtual IResultSetResolver InstantiateResolver(ResultSetSystemXml resultSetXml)
         {
-            var argsBuilder = new ResultSetResolverArgsBuilder();
+            var argsBuilder = new ResultSetResolverArgsBuilder(ServiceLocator);
             argsBuilder.Setup(resultSetXml);
             argsBuilder.Setup(resultSetXml.Settings);
             argsBuilder.Setup(base.Variables);
             argsBuilder.Build();
 
-            var factory = new ResultSetResolverFactory();
+            var factory = ServiceLocator.GetResultSetResolverFactory();
             var resolver = factory.Instantiate(argsBuilder.GetArgs());
             return resolver;
         }

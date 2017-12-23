@@ -65,6 +65,9 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
@@ -148,11 +151,17 @@
     <Compile Include="Calculation\ResultSetFilter.cs" />
     <Compile Include="Calculation\IResultSetFilter.cs" />
     <Compile Include="Calculation\NoneFilter.cs" />
+    <Compile Include="Configuration\ExtensionsAnalyzer.cs" />
+    <Compile Include="Configuration\IExtensionsConfiguration.cs" />
+    <Compile Include="Injection\ConfigurationModule.cs" />
+    <Compile Include="Injection\ResolverModule.cs" />
+    <Compile Include="Injection\QueryModule.cs" />
+    <Compile Include="Injection\ServiceLocator.cs" />
     <Compile Include="Query\EngineFactory.cs" />
     <Compile Include="Query\Session\ISessionFactory.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Configuration\ConfigurationManager.cs" />
-    <Compile Include="Configuration\IConfiguration.cs" />
+    <Compile Include="Configuration\IProvidersConfiguration.cs" />
     <Compile Include="CommandTimeoutException.cs" />
     <Compile Include="Connection\IConnectionWaitCommand.cs" />
     <Compile Include="Connection\ConnectionWaitCommand.cs" />

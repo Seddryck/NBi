@@ -1,4 +1,5 @@
-﻿using NBi.Core.Query;
+﻿using NBi.Core.Injection;
+using NBi.Core.Query;
 using NBi.Core.Query.Resolver;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Variable;
@@ -16,11 +17,17 @@ namespace NBi.NUnit.Builder.Helper
     class QueryResolverArgsBuilder
     {
         private bool isSetup = false;
+        private readonly ServiceLocator serviceLocator;
 
         private QueryXml queryXml = null;
         private SettingsXml settingsXml = null;
         private IDictionary<string, ITestVariable> globalVariables = null;
         private BaseQueryResolverArgs args = null;
+
+        public QueryResolverArgsBuilder(ServiceLocator serviceLocator)
+        {
+            this.serviceLocator = serviceLocator;
+        }
 
         public void Setup(QueryXml queryXml)
         {
@@ -106,13 +113,13 @@ namespace NBi.NUnit.Builder.Helper
             {
                 var stringWithoutSpecialChars = parameterXml.StringValue.Replace("\r", "").Replace("\n", "").Replace("\t", "").Trim();
 
-                var builder = new ScalarResolverArgsBuilder();
+                var builder = new ScalarResolverArgsBuilder(serviceLocator);
                 builder.Setup(stringWithoutSpecialChars);
                 builder.Setup(globalVariables);
                 builder.Build();
                 var args = builder.GetArgs();
 
-                var factory = new ScalarResolverFactory();
+                var factory = serviceLocator.GetScalarResolverFactory();
                 var resolver = factory.Instantiate<object>(args);
                 yield return new QueryParameter(parameterXml.Name, parameterXml.SqlType, resolver);
             }

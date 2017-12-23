@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using NBi.Core.Variable;
 using System.Diagnostics;
 using NBi.Core;
+using NBi.Core.Injection;
 
 namespace NBi.NUnit.Builder
 {
@@ -27,24 +28,21 @@ namespace NBi.NUnit.Builder
         }
 
         protected IDictionary<string, ITestVariable> Variables { get; private set; }
+        protected ServiceLocator ServiceLocator { get; private set; }
 
         protected bool isSetup;
         protected bool isBuild;
 
-        public void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
+        internal void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
-            Setup(sutXml, ctrXml, null);
+            Setup(sutXml, ctrXml, null, null, null);
         }
 
-        public void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, ITestConfiguration config)
+        public void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, ITestConfiguration config, IDictionary<string, ITestVariable> variables, ServiceLocator serviceLocator)
         {
-            Setup(sutXml, ctrXml, null, null);
-        }
-
-        public void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, ITestConfiguration config, IDictionary<string, ITestVariable> variables)
-        {
-            configuration = config;
+            configuration = config ?? TestConfiguration.Default;
             Variables = variables ?? new Dictionary<string, ITestVariable>();
+            ServiceLocator = serviceLocator;
             BaseSetup(sutXml, ctrXml);
             SpecificSetup(sutXml, ctrXml);
             isSetup = true;
@@ -112,5 +110,6 @@ namespace NBi.NUnit.Builder
 
             return Constraint;
         }
+
     }
 }

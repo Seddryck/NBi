@@ -142,7 +142,6 @@ namespace NBi.Testing.Acceptance
         [TestCase("MatchPatternMembers.nbits")]
         [TestCase("ResultSetMatchPattern.nbits")]
         [TestCase("QueryWithParameters.nbits")]
-        [TestCase("EvaluateRows.nbits")]
         [TestCase("ReportEqualTo.nbits")]
         [TestCase("Etl.nbits")]
         [TestCase("Decoration.nbits")]
@@ -152,6 +151,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("QueryAllNoRows.nbits")]
         [TestCase("ResultSetConstraint.nbits")]
         //[TestCase("PowerBiDesktop.nbits")]
+        //[TestCase("EvaluateRows.nbits")]
         [Category("Acceptance")]
         public void RunPositiveTestSuite(string filename)
         {

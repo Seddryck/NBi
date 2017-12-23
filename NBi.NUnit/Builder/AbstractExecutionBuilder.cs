@@ -51,14 +51,14 @@ namespace NBi.NUnit.Builder
 
             if (executionXml.BaseItem is QueryXml)
             {
-                var builder = new QueryResolverArgsBuilder();
+                var builder = new QueryResolverArgsBuilder(ServiceLocator);
                 parameters = builder.BuildParameters(((QueryXml)executionXml.BaseItem).GetParameters());
                 variables = ((QueryXml)executionXml.BaseItem).GetVariables();
                 timeout = ((QueryXml)executionXml.BaseItem).Timeout;
             }
             if (executionXml.BaseItem is ReportXml)
             {
-                var builder = new QueryResolverArgsBuilder();
+                var builder = new QueryResolverArgsBuilder(ServiceLocator);
                 parameters = builder.BuildParameters(((ReportXml)executionXml.BaseItem).GetParameters());
             }
 

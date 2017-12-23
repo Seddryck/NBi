@@ -299,6 +299,7 @@
     <Compile Include="Unit\Core\DataManipulation\DataManipulationFactoryTest.cs" />
     <Compile Include="Unit\Core\Evaluate\ExpressionComparableTest.cs" />
     <Compile Include="Unit\Core\Format\RegexBuilderTest.cs" />
+    <Compile Include="Unit\Core\Injection\ServiceLocatorTest.cs" />
     <Compile Include="Unit\Core\ListComparerTest.cs" />
     <Compile Include="Unit\Core\ListComparisonFormatterTest.cs" />
     <Compile Include="Unit\Core\Members\RangeMembersFactoryTest.cs" />
@@ -306,6 +307,7 @@
     <Compile Include="Unit\Core\OfficeDataConnectionFileParserTest.cs" />
     <Compile Include="Unit\Core\Query\Command\OleDbCommandFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\Command\SqlCommandFactoryTest.cs" />
+    <Compile Include="Unit\Core\Query\Performance\PerformanceEngineFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\Session\SessionFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\Session\AdomdSessionFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\Session\OdbcSessionFactoryTest.cs" />
@@ -733,6 +735,7 @@
     <None Include="Acceptance\Resources\Positive\Users.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="app.config" />
     <None Include="ConnectionString.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -14,12 +14,12 @@ namespace NBi.Core.Configuration
             , new Collection<Type>()
             );
 
-        public static void Initialize(Dictionary<string, string> providers, Collection<Type> extensions)
+        public static void Initialize(Dictionary<string, string> providers, List<Type> extensions)
         {
             configuration  = new Configuration(providers, extensions);
         }
 
-        internal static IConfiguration GetConfiguration()
+        internal static Configuration GetConfiguration()
         {
             return configuration;
         }

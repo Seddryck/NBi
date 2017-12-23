@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Configuration
 {
-    interface IConfiguration
+    public interface IExtensionsConfiguration
     {
-        IReadOnlyDictionary<string, string> Providers { get; }
         IReadOnlyCollection<Type> Extensions { get; }
     }
 }

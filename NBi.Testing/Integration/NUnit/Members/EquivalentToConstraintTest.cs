@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using NBi.Core.Analysis.Request;
+using NBi.Core.Injection;
+using NBi.Core.Query.Resolver;
+using NBi.Core.ResultSet.Resolver;
 using NBi.NUnit.Member;
 using NUnit.Framework;
 #endregion
@@ -51,7 +54,9 @@ namespace NBi.Testing.Integration.NUnit.Members
                 "'Research and Development' union select " +
                 "'Quality Assurance' union select " +
                 "'Sales and Marketing' ";
-            var query = new NBi.Core.Query.Query(sql, ConnectionStringReader.GetSqlClient());
+            var args = new QueryResultSetResolverArgs(new QueryResolverArgs(sql, ConnectionStringReader.GetSqlClient(), null, null, new TimeSpan(0,0,30), System.Data.CommandType.Text));
+            var factory = new ResultSetResolverFactory(new ServiceLocator());
+            var resolver = factory.Instantiate(args);
 
 			var discovery = new DiscoveryRequestFactory().Build(
 						ConnectionStringReader.GetAdomd()
@@ -61,7 +66,7 @@ namespace NBi.Testing.Integration.NUnit.Members
 						, "Departments"
 						, null);
 
-			var ctr = new EquivalentToConstraint(query);
+			var ctr = new EquivalentToConstraint(resolver);
 
 			Assert.That(discovery, ctr);
 		}

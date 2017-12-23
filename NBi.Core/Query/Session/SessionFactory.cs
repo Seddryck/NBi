@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,12 @@ namespace NBi.Core.Query.Session
 
         public SessionFactory()
         {
-            var extensions = Configuration.ConfigurationManager.GetConfiguration().Extensions.Where(x => typeof(ISessionFactory).IsAssignableFrom(x));
+            RegisterFactories(classics);
+        }
+
+        public SessionFactory(IExtensionsConfiguration config)
+        {
+            var extensions = config?.Extensions.Where(x => typeof(ISessionFactory).IsAssignableFrom(x));
             RegisterFactories(classics.Union(extensions).ToArray());
         }
 

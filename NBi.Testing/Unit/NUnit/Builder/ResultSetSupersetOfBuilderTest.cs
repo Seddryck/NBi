@@ -14,6 +14,7 @@ using NBi.Core.Transformation;
 using NBi.NUnit.ResultSetComparison;
 using NBi.Core.ResultSet.Resolver;
 using System.Data.SqlClient;
+using NBi.Core.Injection;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -62,7 +63,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = new SupersetOfXml(SettingsXml.Empty) { ResultSet = new ResultSetXml() };
 
             var builder = new ResultSetSupersetOfBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var ctr = builder.GetConstraint();
 
@@ -86,7 +87,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = ctrXmlStubFactory.Object;
 
             var builder = new ResultSetSupersetOfBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var ctr = builder.GetConstraint();
 
@@ -110,7 +111,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             ctrXmlStubFactory.SetupGet(i => i.Tolerance).Returns("10");
             var ctrXml = ctrXmlStubFactory.Object;
             var builder = new ResultSetSupersetOfBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var ctr = builder.GetConstraint();
 
@@ -136,7 +137,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = ctrXmlStubFactory.Object;
 
             var builder = new ResultSetSupersetOfBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var ctr = builder.GetConstraint();
 
@@ -162,7 +163,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = ctrXmlStubFactory.Object;
 
             var builder = new ResultSetEqualToBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 
@@ -184,7 +185,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = ctrXmlStubFactory.Object;
 
             var builder = new ResultSetEqualToBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 

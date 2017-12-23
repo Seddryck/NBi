@@ -43,12 +43,12 @@ namespace NBi.Testing.Integration.NUnit.Query
         }
         #endregion
 
-        private class FakeQueryResultSetLoader : QueryResultSetResolver
+        private class FakeQueryResultSetResolver : QueryResultSetResolver
         {
             private readonly IQuery query;
 
-            public FakeQueryResultSetLoader(IQuery query)
-                : base(null)
+            public FakeQueryResultSetResolver(IQuery query)
+                : base(null, null)
             {
                 this.query = query;
             }
@@ -62,7 +62,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             var query1 = new NBi.Core.Query.Query("WAITFOR DELAY '00:00:03';SELECT 1;", ConnectionStringReader.GetSqlClient());
             var query2 = new NBi.Core.Query.Query("WAITFOR DELAY '00:00:03';SELECT 1;", ConnectionStringReader.GetSqlClient());
 
-            var loader = new FakeQueryResultSetLoader(query2);
+            var loader = new FakeQueryResultSetResolver(query2);
             var builder = new ResultSetServiceBuilder();
             builder.Setup(loader);
             BaseResultSetComparisonConstraint ctr = new EqualToConstraint(builder.GetService());
@@ -71,7 +71,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             //Method under test
             var chrono = DateTime.Now;
             var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetLoader(query1));
+            actualBuilder.Setup(new FakeQueryResultSetResolver(query1));
             var actual = actualBuilder.GetService();
             Assert.That(actual, ctr);
             var elapsed = DateTime.Now.Subtract(chrono);
@@ -85,7 +85,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             var query1 = new NBi.Core.Query.Query("WAITFOR DELAY '00:00:03';SELECT 1;", ConnectionStringReader.GetSqlClient());
             var query2 = new NBi.Core.Query.Query("WAITFOR DELAY '00:00:03';SELECT 1;", ConnectionStringReader.GetSqlClient());
 
-            var loader = new FakeQueryResultSetLoader(query2);
+            var loader = new FakeQueryResultSetResolver(query2);
             var builder = new ResultSetServiceBuilder();
             builder.Setup(loader);
             BaseResultSetComparisonConstraint ctr = new EqualToConstraint(builder.GetService());
@@ -94,7 +94,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             //Method under test
             var chrono = DateTime.Now;
             var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetLoader(query1));
+            actualBuilder.Setup(new FakeQueryResultSetResolver(query1));
             var actual = actualBuilder.GetService();
 
             Assert.That(actual, ctr);

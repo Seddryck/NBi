@@ -1,4 +1,5 @@
-﻿using NBi.Core.Query;
+﻿using NBi.Core.Injection;
+using NBi.Core.Query;
 using NBi.Core.Query.Resolver;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation;
@@ -25,6 +26,13 @@ namespace NBi.NUnit.Builder.Helper
         private SettingsXml settings = SettingsXml.Empty;
         private IDictionary<string, ITestVariable> globalVariables = new Dictionary<string, ITestVariable>();
         private IScalarResolverArgs args = null;
+
+        private readonly ServiceLocator serviceLocator;
+
+        public ScalarResolverArgsBuilder(ServiceLocator serviceLocator)
+        {
+            this.serviceLocator = serviceLocator;
+        }
 
         public void Setup(object obj)
         {
@@ -54,7 +62,7 @@ namespace NBi.NUnit.Builder.Helper
 
             else if (obj is QueryXml)
             {
-                var builder = new QueryResolverArgsBuilder();
+                var builder = new QueryResolverArgsBuilder(serviceLocator);
                 builder.Setup((QueryXml)obj);
                 builder.Setup(settings);
                 builder.Setup(globalVariables);
@@ -64,7 +72,7 @@ namespace NBi.NUnit.Builder.Helper
 
             else if (obj is ProjectionXml)
             {
-                var builder = new ResultSetResolverArgsBuilder();
+                var builder = new ResultSetResolverArgsBuilder(serviceLocator);
                 builder.Setup(((ProjectionXml)obj).ResultSet);
                 builder.Setup(settings);
                 builder.Build();

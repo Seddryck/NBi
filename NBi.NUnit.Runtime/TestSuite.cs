@@ -18,6 +18,8 @@ using NBi.Xml.Variables;
 using NBi.NUnit.Builder.Helper;
 using NBi.Core.Scalar.Resolver;
 using System.Collections.ObjectModel;
+using Ninject;
+using NBi.Core.Injection;
 
 namespace NBi.NUnit.Runtime
 {
@@ -70,7 +72,10 @@ namespace NBi.NUnit.Runtime
             Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, $"Test loaded by {GetOwnFilename()}");
             Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Test defined in {TestSuiteFinder.Find()}");
             Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"{Variables.Count()} variables defined, {Variables.Count(x => x.Value.IsEvaluated())} already evaluated.");
-            
+
+            if (serviceLocator == null)
+                Initialize();
+
             //check if ignore is set to true
             if (test.IsNotImplemented)
             {
@@ -91,7 +96,7 @@ namespace NBi.NUnit.Runtime
                 {
                     foreach (var ctr in test.Constraints)
                     {
-                        var factory = new TestCaseFactory(Configuration, Variables);
+                        var factory = new TestCaseFactory(Configuration, Variables, serviceLocator);
                         var testCase = factory.Instantiate(tc, ctr);
                         try
                         {
@@ -119,7 +124,7 @@ namespace NBi.NUnit.Runtime
                     Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Test ignored. At least one condition was not validated: '{impl.Message}'");
                     Assert.Ignore($"This test has been ignored because following check wasn't successful: {impl.Message}");
                 }
-                    
+
             }
         }
 
@@ -243,6 +248,10 @@ namespace NBi.NUnit.Runtime
             if (ConnectionStringsFinder != null)
                 TestSuiteManager.ConnectionStrings = ConnectionStringsFinder.Find();
 
+            //Service Locator
+            if (serviceLocator == null)
+                Initialize();
+
             //Build the Test suite
             var testSuiteFilename = TestSuiteFinder.Find();
             TestSuiteManager.Load(testSuiteFilename, SettingsFilename, AllowDtdProcessing);
@@ -256,13 +265,13 @@ namespace NBi.NUnit.Runtime
         private IDictionary<string, ITestVariable> BuildVariables(IEnumerable<GlobalVariableXml> variables)
         {
             var instances = new Dictionary<string, ITestVariable>();
-            var resolverFactory = new ScalarResolverFactory();
+            var resolverFactory = serviceLocator.GetScalarResolverFactory();
             var factory = new TestVariableFactory();
 
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"{variables.Count()} variable{(variables.Count()>1 ? "s" : string.Empty)} defined in the test-suite.");
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"{variables.Count()} variable{(variables.Count() > 1 ? "s" : string.Empty)} defined in the test-suite.");
             foreach (var variable in variables)
             {
-                var builder = new ScalarResolverArgsBuilder();
+                var builder = new ScalarResolverArgsBuilder(serviceLocator);
                 builder.Setup(instances); //Pass the catalog that we're building to itself
                 if (variable.Script != null)
                     builder.Setup(variable.Script);
@@ -274,7 +283,7 @@ namespace NBi.NUnit.Runtime
                 }
                 builder.Build();
                 var args = builder.GetArgs();
-                
+
                 var resolver = resolverFactory.Instantiate<object>(args);
 
                 var instance = factory.Instantiate(resolver);
@@ -346,9 +355,22 @@ namespace NBi.NUnit.Runtime
             AllowDtdProcessing = config.AllowDtdProcessing;
             SettingsFilename = config.SettingsFilename;
             Configuration = new TestConfiguration(config.FailureReportProfile);
-            ConfigurationManager.Initialize(config.Providers.ToDictionary(), new Collection<Type>());
+
+            var notableTypes = new List<Type>();
+            var analyzer = new ExtensionsAnalyzer();
+            foreach (ExtensionElement extension in config.Extensions)
+                notableTypes.AddRange(analyzer.Analyze(extension.Assembly));
+            ConfigurationManager.Initialize(config.Providers.ToDictionary(), notableTypes);
         }
 
+        private static ServiceLocator serviceLocator;
+        public void Initialize()
+        {
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Initializing service locator ...");
+            var stopWatch = new Stopwatch();
+            serviceLocator = new ServiceLocator();
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Service locator initialized in {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");
+        }
 
 
         protected internal string GetOwnFilename()

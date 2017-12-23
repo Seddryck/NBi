@@ -1,7 +1,9 @@
-﻿using NBi.Core.Query.Command;
+﻿using NBi.Core.Configuration;
+using NBi.Core.Query.Command;
 using NBi.Core.Query.Session;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NBi.Core.Query.Execution
 {
@@ -24,10 +26,17 @@ namespace NBi.Core.Query.Execution
             RegisterEngines(classics);
         }
 
-        protected internal ExecutionEngineFactory(SessionFactory sessionFactory, CommandFactory commandFactory)
+        public ExecutionEngineFactory(SessionFactory sessionFactory, CommandFactory commandFactory)
             : base(sessionFactory, commandFactory)
         {
             RegisterEngines(classics);
+        }
+
+        public ExecutionEngineFactory(SessionFactory sessionFactory, CommandFactory commandFactory, IExtensionsConfiguration config)
+            : base(sessionFactory, commandFactory)
+        {
+            var extensions = config?.Extensions.Where(x => typeof(IExecutionEngine).IsAssignableFrom(x));
+            RegisterEngines(classics.Union(extensions).ToArray());
         }
     }
 }

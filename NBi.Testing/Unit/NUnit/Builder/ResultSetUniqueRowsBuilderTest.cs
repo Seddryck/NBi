@@ -18,6 +18,7 @@ using NBi.Xml.Items.Calculation;
 using System.Collections.Generic;
 using NBi.Core.Variable;
 using NBi.Core.ResultSet;
+using NBi.Core.Injection;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -66,7 +67,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = new UniqueRowsXml();
 
             var builder = new ResultSetUniqueRowsBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var ctr = builder.GetConstraint();
 
@@ -87,7 +88,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = new UniqueRowsXml();
 
             var builder = new ResultSetUniqueRowsBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 
@@ -105,7 +106,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = new UniqueRowsXml();
             
             var builder = new ResultSetUniqueRowsBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 

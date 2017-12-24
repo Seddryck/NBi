@@ -36,11 +36,8 @@ namespace NBi.Core.Query.Session
             var providerName = ExtractProviderName(csb, connectionString);
             if (string.IsNullOrEmpty(providerName))
                 return null;
-            providerName = TranslateProviderName(providerName);
-            if (string.IsNullOrEmpty(providerName))
-                return null;
-
-            var factory = GetDbProviderFactory(providerName);
+            
+            var factory = GetDbProviderFactory("System.Data.OleDb");
             return factory;
         }
 
@@ -49,18 +46,6 @@ namespace NBi.Core.Query.Session
             if (connectionStringBuilder.ContainsKey("Provider"))
                 return (connectionStringBuilder["Provider"].ToString());
             return string.Empty;
-        }
-
-        private string TranslateProviderName(string providerName)
-        {
-            if (providerName.ToLowerInvariant().StartsWith("sqlncli")) return "System.Data.OleDb"; //Indeed OleDb it's not a mistake! SQL Server Native Client 
-            if (providerName.ToLowerInvariant().StartsWith("oledb")) return "System.Data.OleDb";
-            if (providerName.ToLowerInvariant().StartsWith("sqloledb")) return "System.Data.OleDb"; // SQL Server OLE DB driver 
-
-            foreach (var provider in providers)
-                if (provider.Key.ToLowerInvariant() == providerName.ToLowerInvariant())
-                    return provider.Value;
-            return null;
         }
     }
 }

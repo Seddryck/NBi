@@ -12,17 +12,9 @@ namespace NBi.Core.Query.Session
 {
     class OleDbSessionFactory : DbSessionFactory
     {
-        private readonly IReadOnlyDictionary<string, string> providers;
-
         public OleDbSessionFactory() 
             : base()
         { }
-
-        public OleDbSessionFactory(IProvidersConfiguration config)
-            : base()
-        {
-            this.providers = config.Providers;
-        }
 
         protected override ISession Instantiate(DbProviderFactory factory, string connectionString)
             => new DbSession(factory, typeof(OleDbConnection), connectionString);

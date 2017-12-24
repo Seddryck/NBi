@@ -8,7 +8,6 @@ namespace NBi.Core.Configuration
 {
     public interface IConfiguration :
         IFailureReportProfileConfiguration, 
-        IProvidersConfiguration,
         IExtensionsConfiguration
     { }
 }

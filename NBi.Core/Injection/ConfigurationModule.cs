@@ -17,7 +17,6 @@ namespace NBi.Core.Injection
             Bind<
                 Configuration.Configuration,
                 IExtensionsConfiguration,
-                IProvidersConfiguration,
                 IFailureReportProfileConfiguration>()
                 .To<Configuration.Configuration>()
                 .InSingletonScope();

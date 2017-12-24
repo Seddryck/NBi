@@ -167,7 +167,6 @@
     <Compile Include="Query\EngineFactory.cs" />
     <Compile Include="Query\Session\ISessionFactory.cs" />
     <Compile Include="Configuration\Configuration.cs" />
-    <Compile Include="Configuration\IProvidersConfiguration.cs" />
     <Compile Include="CommandTimeoutException.cs" />
     <Compile Include="Connection\IConnectionWaitCommand.cs" />
     <Compile Include="Connection\ConnectionWaitCommand.cs" />

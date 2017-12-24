@@ -14,9 +14,9 @@ namespace NBi.Core.Query.Session
             {
                 typeof(AdomdSessionFactory),
                 typeof(OdbcSessionFactory),
-                typeof(OleDbSessionFactory),
                 typeof(SqlSessionFactory),
-                typeof(PowerBiDesktopSessionFactory)
+                typeof(PowerBiDesktopSessionFactory),
+                typeof(OleDbSessionFactory), //It's important to keep this one as the last one because it will handle all the connectionStrings with a provider
             };
 
         public SessionFactory()

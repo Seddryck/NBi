@@ -366,7 +366,6 @@ namespace NBi.NUnit.Runtime
 
             var setupConfiguration = serviceLocator.GetConfiguration();
             setupConfiguration.LoadExtensions(notableTypes);
-            setupConfiguration.LoadProviders(config.Providers.ToDictionary());
             setupConfiguration.LoadFailureReportProfile(config.FailureReportProfile);
             Configuration = setupConfiguration;
         }

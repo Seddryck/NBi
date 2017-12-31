@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="system-under-test">
+      <connectionString>bolt://neo4j:bolt@localhost:7687/</connectionString>
+    </default>
+  </settings>
+  <test name="Tom Hanks'movies after 2000" uid="0001">
+    <system-under-test>
+      <resultSet>
+        <query>
+          MATCH (tom:Person {name: "Tom Hanks"})-[:ACTED_IN]->(tomHanksMovies)
+          WHERE tomHanksMovies.released>2000
+          RETURN tomHanksMovies.title, tomHanksMovies.released
+        </query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet>
+          <row>
+            <cell>Charlie Wilson's War</cell>
+            <cell>2007</cell>
+          </row>
+          <row>
+            <cell>The Polar Express</cell>
+            <cell>2004</cell>
+          </row>
+          <row>
+            <cell>The Da Vinci Code</cell>
+            <cell>2006</cell>
+          </row>
+          <row>
+            <cell>Cloud Atlas</cell>
+            <cell>2012</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+  </test>
+</testSuite>

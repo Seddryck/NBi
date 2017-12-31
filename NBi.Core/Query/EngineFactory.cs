@@ -11,17 +11,17 @@ namespace NBi.Core.Query
 {
     public abstract class EngineFactory<T>
     {
-        private readonly IDictionary<string, Type> engines = new Dictionary<string, Type>();
-        private readonly SessionFactory sessionFactory;
-        private readonly CommandFactory commandFactory;
+        protected readonly IDictionary<string, Type> engines = new Dictionary<string, Type>();
+        private readonly SessionProvider sessionFactory;
+        private readonly CommandProvider commandFactory;
 
         protected internal EngineFactory()
         {
-            this.sessionFactory = new SessionFactory();
-            this.commandFactory = new CommandFactory();
+            this.sessionFactory = new SessionProvider();
+            this.commandFactory = new CommandProvider();
         }
 
-        protected internal EngineFactory(SessionFactory sessionFactory, CommandFactory commandFactory)
+        protected internal EngineFactory(SessionProvider sessionFactory, CommandProvider commandFactory)
         {
             this.sessionFactory = sessionFactory;
             this.commandFactory = commandFactory;

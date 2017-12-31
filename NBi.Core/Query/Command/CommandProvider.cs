@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Query.Command
 {
-    public class CommandFactory
+    public class CommandProvider
     {
         private readonly IList<ICommandFactory> factories = new List<ICommandFactory>();
         private Type[] classics = new[]
@@ -19,12 +19,12 @@ namespace NBi.Core.Query.Command
                 typeof(SqlCommandFactory)
             };
 
-        public CommandFactory()
+        public CommandProvider()
         {
             RegisterFactories(classics);
         }
 
-        public CommandFactory(IExtensionsConfiguration config)
+        public CommandProvider(IExtensionsConfiguration config)
         {
             var extensions = config?.Extensions?.Where(x => typeof(ICommandFactory).IsAssignableFrom(x)) ?? new Type[0];
             RegisterFactories(classics.Union(extensions).ToArray());

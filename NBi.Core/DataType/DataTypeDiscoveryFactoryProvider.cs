@@ -36,7 +36,7 @@ namespace NBi.Core.DataType
 
         public IDataTypeDiscoveryFactory Instantiate(string connectionString)
         {
-            var sessionFactory = new SessionFactory();
+            var sessionFactory = new SessionProvider();
             var connection = sessionFactory.Instantiate(connectionString).CreateNew() as IDbConnection;
             var dbType = MapConnectionTypeToDatabaseType(connection);
 

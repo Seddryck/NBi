@@ -40,7 +40,7 @@ namespace NBi.Core.Structure
 
         public IStructureDiscoveryFactory Instantiate(string connectionString)
         {
-            var sessionFactory = new SessionFactory();
+            var sessionFactory = new SessionProvider();
             var connection = sessionFactory.Instantiate(connectionString).CreateNew() as IDbConnection;
             var dbType = MapConnectionTypeToDatabaseType(connection);
 

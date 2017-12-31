@@ -40,7 +40,7 @@ namespace NBi.Core.Analysis.Member
 
         protected IDbCommand CreateCommand()
         {
-            var factory = new SessionFactory();
+            var factory = new SessionProvider();
             var conn = factory.Instantiate(ConnectionString).CreateNew() as IDbConnection;
             
             var cmd = conn.CreateCommand();

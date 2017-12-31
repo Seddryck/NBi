@@ -13,8 +13,8 @@ namespace NBi.Core.Injection
     {
         public override void Load()
         {
-            Bind<SessionFactory>().ToSelf().InSingletonScope();
-            Bind<CommandFactory>().ToSelf().InSingletonScope();
+            Bind<SessionProvider>().ToSelf().InSingletonScope();
+            Bind<CommandProvider>().ToSelf().InSingletonScope();
         }
     }
 }

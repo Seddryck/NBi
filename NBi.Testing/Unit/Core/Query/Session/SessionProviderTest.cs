@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace NBi.Testing.Unit.Core.Query.Session
 {
     [TestFixture]
-    public class SessionFactoryTest
+    public class SessionProviderTest
     {
         [Test]
         [TestCase("Provider=OleDb.1;Data Source=ds;Initial Catalog=ic;Integrated Security=SSPI;", typeof(OleDbConnection))]
@@ -23,7 +23,7 @@ namespace NBi.Testing.Unit.Core.Query.Session
         [TestCase("Provider = MSOLAP;Data Source = ds;Initial Catalog = ic", typeof(AdomdConnection))]
         public void Instantiate_ConnectionString_CorrectType(string connectionString, Type expectedType)
         {
-            var factory = new SessionFactory();
+            var factory = new SessionProvider();
             var connection = factory.Instantiate(connectionString);
             Assert.That(connection.CreateNew(), Is.TypeOf(expectedType));
         }
@@ -59,7 +59,7 @@ namespace NBi.Testing.Unit.Core.Query.Session
         [Test]
         public void Instantiate_AddCustom_CorrectType()
         {
-            var factory = new SessionFactory();
+            var factory = new SessionProvider();
             factory.RegisterFactories(new[] { typeof(FakeSessionFactory) });
             var connection = factory.Instantiate("fake://MyConnectionString");
             Assert.IsInstanceOf<FakeSession>(connection);
@@ -68,7 +68,7 @@ namespace NBi.Testing.Unit.Core.Query.Session
         [Test]
         public void Add_TwiceTheSame_Exception()
         {
-            var factory = new SessionFactory();
+            var factory = new SessionProvider();
             factory.RegisterFactories(new[] { typeof(FakeSessionFactory) });
             var ex = Assert.Throws<ArgumentException>(() => factory.RegisterFactories(new[] { typeof(FakeSessionFactory) }));
             Assert.That(ex.Message.Contains(typeof(FakeSessionFactory).Name));

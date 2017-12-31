@@ -54,7 +54,7 @@ namespace NBi.Testing.Integration.Core.Query.Command
                 && x.Statement == "select * from [Sales].[Customer] where CustomerID=@Param"
                 && x.Parameters == new List<QueryParameter>() { new QueryParameter("@Param", "int", new LiteralScalarResolver<object>("2")) }
                 );
-            var factory = new CommandFactory();
+            var factory = new CommandProvider();
             var cmd = factory.Instantiate(conn, query).Implementation;
             Assert.IsInstanceOf<SqlCommand>(cmd);
 
@@ -75,7 +75,7 @@ namespace NBi.Testing.Integration.Core.Query.Command
                 && x.Statement == "select * from [Sales].[SalesTerritory] where Name=@Param"
                 && x.Parameters == new List<QueryParameter>() { new QueryParameter("@Param", "nvarchar(50)", new LiteralScalarResolver<object>("Canada")) }
                 );
-            var factory = new CommandFactory();
+            var factory = new CommandProvider();
             var cmd = factory.Instantiate(conn, query).Implementation;
             Assert.IsInstanceOf<SqlCommand>(cmd);
 
@@ -96,7 +96,7 @@ namespace NBi.Testing.Integration.Core.Query.Command
                 && x.Statement == "select * from [Sales].[Customer] where CustomerID=@Param"
                 && x.Parameters == new List<QueryParameter>() { new QueryParameter("@Param", string.Empty, new LiteralScalarResolver<object>(2)) }
                 );
-            var factory = new CommandFactory();
+            var factory = new CommandProvider();
             var cmd = factory.Instantiate(conn, query).Implementation;
             Assert.IsInstanceOf<SqlCommand>(cmd);
 
@@ -119,7 +119,7 @@ namespace NBi.Testing.Integration.Core.Query.Command
                     new QueryParameter("@Param", "Canada"),
                     new QueryParameter("@UnusedParam", "Useless")
                 });
-            var factory = new CommandFactory();
+            var factory = new CommandProvider();
             var cmd = factory.Instantiate(conn, query).Implementation;
             Assert.IsInstanceOf<SqlCommand>(cmd);
 

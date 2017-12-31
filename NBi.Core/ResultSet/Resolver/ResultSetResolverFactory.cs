@@ -13,7 +13,7 @@ namespace NBi.Core.ResultSet.Resolver
     {
         private CsvProfile profile = CsvProfile.SemiColumnDoubleQuote;
         private readonly ServiceLocator serviceLocator;
-
+        
         public ResultSetResolverFactory(ServiceLocator serviceLocator)
         {
             this.serviceLocator = serviceLocator;

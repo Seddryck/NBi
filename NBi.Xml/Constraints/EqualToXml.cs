@@ -145,7 +145,7 @@ namespace NBi.Xml.Constraints
             if (Query==null)
                 return null;
 
-            var conn = new SessionFactory().Instantiate(Query.GetConnectionString()).CreateNew() as IDbConnection;
+            var conn = new SessionProvider().Instantiate(Query.GetConnectionString()).CreateNew() as IDbConnection;
             var cmd = conn.CreateCommand();
             cmd.CommandText = Query.GetQuery();
             

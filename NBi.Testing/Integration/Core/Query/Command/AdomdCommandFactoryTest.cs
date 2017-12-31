@@ -63,7 +63,7 @@ namespace NBi.Testing.Integration.Core.Query.Command
                     new QueryParameter("@Param","[Product].[Model Name].[Bike Wash]"),
                     new QueryParameter("UnusedParam", "Useless")
                 });
-            var factory = new CommandFactory();
+            var factory = new CommandProvider();
             var cmd = factory.Instantiate(conn, query).Implementation;
             Assert.IsInstanceOf<AdomdCommand>(cmd);
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Query.Session
 {
-    public class SessionFactory
+    public class SessionProvider
     {
         private readonly IList<ISessionFactory> factories = new List<ISessionFactory>();
         private Type[] classics = new[]
@@ -19,12 +19,12 @@ namespace NBi.Core.Query.Session
                 typeof(OleDbSessionFactory), //It's important to keep this one as the last one because it will handle all the connectionStrings with a provider
             };
 
-        public SessionFactory()
+        public SessionProvider()
         {
             RegisterFactories(classics);
         }
 
-        public SessionFactory(IExtensionsConfiguration config)
+        public SessionProvider(IExtensionsConfiguration config)
         {
             var extensions = config?.Extensions?.Where(x => typeof(ISessionFactory).IsAssignableFrom(x)) ?? new Type[0];
             RegisterFactories(classics.Union(extensions).ToArray());

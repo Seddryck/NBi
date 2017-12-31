@@ -15,7 +15,7 @@ namespace NBi.Core.Batch
     {
         public IDecorationCommandImplementation Get(IBatchRunCommand command)
         {
-            var sessionFactory = new SessionFactory();
+            var sessionFactory = new SessionProvider();
             var connection = sessionFactory.Instantiate(command.ConnectionString).CreateNew() as IDbConnection;
 
             var directory = AssemblyDirectory;

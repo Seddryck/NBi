@@ -151,7 +151,7 @@
     <Compile Include="Calculation\ResultSetFilter.cs" />
     <Compile Include="Calculation\IResultSetFilter.cs" />
     <Compile Include="Calculation\NoneFilter.cs" />
-    <Compile Include="Configuration\Extension\ExtensionsAnalyzer.cs" />
+    <Compile Include="Configuration\Extension\ExtensionAnalyzer.cs" />
     <Compile Include="Configuration\FailureReport\FailureReportFormat.cs" />
     <Compile Include="Configuration\FailureReport\FailureReportMode.cs" />
     <Compile Include="Configuration\FailureReport\FailureReportProfile.cs" />
@@ -161,7 +161,6 @@
     <Compile Include="Configuration\FailureReport\IFailureReportProfile.cs" />
     <Compile Include="Configuration\IFailureReportProfileConfiguration.cs" />
     <Compile Include="Injection\ConfigurationModule.cs" />
-    <Compile Include="Injection\ResolverModule.cs" />
     <Compile Include="Injection\QueryModule.cs" />
     <Compile Include="Injection\ServiceLocator.cs" />
     <Compile Include="Query\EngineFactory.cs" />

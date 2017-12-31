@@ -26,17 +26,19 @@ namespace NBi.Core.Query.Execution
             RegisterEngines(classics);
         }
 
-        public ExecutionEngineFactory(SessionFactory sessionFactory, CommandFactory commandFactory)
+        public ExecutionEngineFactory(SessionProvider sessionFactory, CommandProvider commandFactory)
             : base(sessionFactory, commandFactory)
         {
             RegisterEngines(classics);
         }
 
-        public ExecutionEngineFactory(SessionFactory sessionFactory, CommandFactory commandFactory, IExtensionsConfiguration config)
+        public ExecutionEngineFactory(SessionProvider sessionFactory, CommandProvider commandFactory, IExtensionsConfiguration config)
             : base(sessionFactory, commandFactory)
         {
             var extensions = config?.Extensions?.Where(x => typeof(IExecutionEngine).IsAssignableFrom(x)) ?? new Type[0];
             RegisterEngines(classics.Union(extensions).ToArray());
         }
+
+        internal int ExtensionCount { get => engines.Count() - classics.Count(); }
     }
 }

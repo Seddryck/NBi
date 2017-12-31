@@ -39,7 +39,7 @@ namespace NBi.NUnit.Builder
 
         protected virtual IResultSetService InstantiateSystemUnderTest(ExecutionXml executionXml)
         {
-            var commandFactory = new CommandFactory();
+            var commandFactory = new CommandProvider();
 
             var argsBuilder = new QueryResolverArgsBuilder(ServiceLocator);
 

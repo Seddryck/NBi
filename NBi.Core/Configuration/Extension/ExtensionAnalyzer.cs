@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Configuration.Extension
 {
-    public class ExtensionsAnalyzer
+    public class ExtensionAnalyzer
     {
-        public Type[] Analyze(string name)
+        public Type[] Execute(string name)
         {
             var types = Assembly.Load(name).GetTypes();
 
@@ -25,7 +25,7 @@ namespace NBi.Core.Configuration.Extension
 
             var notables = new List<Type>();
             foreach (var @interface in interfaces)
-                notables.AddRange(types.Where(x => x.IsAssignableFrom(@interface)));
+                notables.AddRange(types.Where(x => @interface.IsAssignableFrom(x)));
 
             return notables.ToArray();
         }

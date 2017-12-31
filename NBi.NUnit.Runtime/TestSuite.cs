@@ -357,9 +357,12 @@ namespace NBi.NUnit.Runtime
             SettingsFilename = config.SettingsFilename;
 
             var notableTypes = new List<Type>();
-            var analyzer = new ExtensionsAnalyzer();
+            var analyzer = new ExtensionAnalyzer();
+            var filenames = new List<string>();
             foreach (ExtensionElement extension in config.Extensions)
-                notableTypes.AddRange(analyzer.Analyze(extension.Assembly));
+                filenames.Add(extension.Assembly);
+            foreach (var filename in filenames)
+                notableTypes.AddRange(analyzer.Execute(filename));
 
             if (serviceLocator == null)
                 Initialize();
@@ -381,9 +384,11 @@ namespace NBi.NUnit.Runtime
 
             if (ConfigurationFinder != null)
             {
-                Trace.WriteLineIf(NBiTraceSwitch.TraceError, string.Format("Loading configuration"));
+                Trace.WriteLineIf(NBiTraceSwitch.TraceError, string.Format("Loading configuration ..."));
+                stopWatch.Reset();
                 var config = ConfigurationFinder.Find();
                 ApplyConfig(config);
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Configuration loaded in {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");
             }
             else
                 Trace.WriteLineIf(NBiTraceSwitch.TraceError, $"No configuration-finder found.");

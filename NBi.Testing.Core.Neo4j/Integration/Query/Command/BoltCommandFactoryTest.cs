@@ -111,7 +111,7 @@ namespace NBi.Testing.Core.Neo4j.Integration.Query.Command
         }
 
         [Test]
-        [Ignore("Neo4j extension doesn't support non-string parameters at the moment.")]
+        //[Ignore("Neo4j extension doesn't support non-string parameters at the moment.")]
         public void Instantiate_OneParameterWithTypeInt_CorrectResultSet()
         {
             var conn = new BoltSession("127.0.0.1", "7687", "neo4j", "bolt");

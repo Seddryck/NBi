@@ -20,17 +20,18 @@ namespace NBi.Core.Injection
 
         public ServiceLocator()
         {
-            kernel = new StandardKernel(new ConfigurationModule(), new QueryModule(), new ResolverModule());
+            kernel = new StandardKernel(new ConfigurationModule(), new QueryModule());
+            kernel.Bind<ServiceLocator>().ToConstant(this).InSingletonScope();
         }
 
-        public SessionFactory GetSessionFactory()
+        public SessionProvider GetSessionFactory()
         {
-            return kernel.Get<SessionFactory>();
+            return kernel.Get<SessionProvider>();
         }
 
-        public CommandFactory GetCommandFactory()
+        public CommandProvider GetCommandFactory()
         {
-            return kernel.Get<CommandFactory>();
+            return kernel.Get<CommandProvider>();
         }
 
         public ExecutionEngineFactory GetExecutionEngineFactory()

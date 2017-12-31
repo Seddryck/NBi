@@ -8,7 +8,7 @@ namespace NBi.Core.Query
 {
     [AttributeUsage(AttributeTargets.Class)]
 
-    class SupportedCommandTypeAttribute : Attribute
+    public class SupportedCommandTypeAttribute : Attribute
     {
         public Type Value { get; }
 

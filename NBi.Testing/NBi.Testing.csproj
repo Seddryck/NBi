@@ -225,8 +225,9 @@
     <Compile Include="Acceptance\GenbiL\CaseCrossTest.cs" />
     <Compile Include="Acceptance\GenbiL\GenbiLTest.cs" />
     <Compile Include="Acceptance\Resources\AssemblyClass.cs" />
+    <Compile Include="Acceptance\BaseRuntimeOverrider.cs" />
     <Compile Include="Acceptance\RuntimeOverrider.cs" />
-    <Compile Include="Acceptance\TestSuiteRunner.cs" />
+    <Compile Include="Acceptance\TestSuiteOverrider.cs" />
     <Compile Include="ConnectionStringReader.cs" />
     <Compile Include="DiskOnFile.cs" />
     <Compile Include="Integration\Core\Analysis\Member\MembersCommandTest.cs" />
@@ -307,7 +308,7 @@
     <Compile Include="Unit\Core\Query\Command\OleDbCommandFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\Command\SqlCommandFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\Performance\PerformanceEngineFactoryTest.cs" />
-    <Compile Include="Unit\Core\Query\Session\SessionFactoryTest.cs" />
+    <Compile Include="Unit\Core\Query\Session\SessionProviderTest.cs" />
     <Compile Include="Unit\Core\Query\Session\AdomdSessionFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\Session\OdbcSessionFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\Session\SqlSessionFactoryTest.cs" />

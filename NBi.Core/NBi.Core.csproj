@@ -299,7 +299,7 @@
     <Compile Include="Process\WaitCommand.cs" />
     <Compile Include="Process\RunCommand.cs" />
     <Compile Include="Query\Command\AdomdCommandFactory.cs" />
-    <Compile Include="Query\Command\CommandFactory.cs" />
+    <Compile Include="Query\Command\CommandProvider.cs" />
     <Compile Include="Query\Command\OleDbCommandFactory.cs" />
     <Compile Include="Query\Command\OdbcCommandFactory.cs" />
     <Compile Include="Query\Command\SqlCommandFactory.cs" />
@@ -307,7 +307,7 @@
     <Compile Include="Query\Command\ICommand.cs" />
     <Compile Include="Query\Command\ICommandFactory.cs" />
     <Compile Include="Query\Command\Command.cs" />
-    <Compile Include="Query\Session\SessionFactory.cs" />
+    <Compile Include="Query\Session\SessionProvider.cs" />
     <Compile Include="Query\Session\OdbcSessionFactory.cs" />
     <Compile Include="Query\Session\OleDbSessionFactory.cs" />
     <Compile Include="Query\Session\PowerBiDesktopSessionFactory.cs" />

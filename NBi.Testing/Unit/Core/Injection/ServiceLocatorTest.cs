@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Configuration;
 using NBi.Core.Injection;
+using NBi.Core.Query;
 using NBi.Core.Query.Command;
 using NBi.Core.Query.Execution;
 using NBi.Core.Query.Resolver;
@@ -9,7 +10,9 @@ using NBi.Core.Scalar.Resolver;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,17 +20,45 @@ namespace NBi.Testing.Unit.Core.Injection
 {
     public class ServiceLocatorTest
     {
+        #region Fake
+        private class FakeSessionFactory : ISessionFactory
+        {
+            public bool CanHandle(string connectionString) => true;
+
+            public ISession Instantiate(string connectionString) => throw new NotImplementedException();
+        }
+
+        private class FakeCommandFactory : ICommandFactory
+        {
+            public bool CanHandle(ISession session) => true;
+
+            public ISession Instantiate(string connectionString) => throw new NotImplementedException();
+
+            public ICommand Instantiate(ISession session, IQuery query) => throw new NotImplementedException();
+        }
+
+        [SupportedCommandType(typeof(object))]
+        private class FakeExecutionEngine : IExecutionEngine
+        {
+            public DataSet Execute() => throw new NotImplementedException();
+
+            public IEnumerable<T> ExecuteList<T>() => throw new NotImplementedException();
+
+            public object ExecuteScalar() => throw new NotImplementedException();
+        }
+        #endregion
+
         [Test]
-        public void Get_SessionFactory_Instance()
+        public void GetSessionFactory_Instance()
         {
             var locator = new ServiceLocator();
             var obj = locator.GetSessionFactory();
             Assert.That(obj, Is.Not.Null);
-            Assert.IsInstanceOf<SessionFactory>(obj);
+            Assert.IsInstanceOf<SessionProvider>(obj);
         }
 
         [Test]
-        public void Get_SessionFactory_Singleton()
+        public void GetSessionFactory_Singleton()
         {
             var locator = new ServiceLocator();
             var obj1 = locator.GetSessionFactory();
@@ -35,17 +66,8 @@ namespace NBi.Testing.Unit.Core.Injection
             Assert.That(obj1, Is.EqualTo(obj2));
         }
 
-        # region Fake
-        private class FakeSessionFactory : ISessionFactory
-        {
-            public bool CanHandle(string connectionString) => true;
-
-            public ISession Instantiate(string connectionString) => throw new NotImplementedException();
-        }
-        #endregion
-
         [Test]
-        public void Get_SessionFactory_CantAddTwiceTheSameFactory()
+        public void GetSessionFactory_CantAddTwiceTheSameFactory()
         {
             var locator = new ServiceLocator();
             var obj1 = locator.GetSessionFactory();
@@ -55,16 +77,16 @@ namespace NBi.Testing.Unit.Core.Injection
         }
 
         [Test]
-        public void Get_CommandFactory_Instance()
+        public void GetCommandFactory_Instance()
         {
             var locator = new ServiceLocator();
             var obj = locator.GetCommandFactory();
             Assert.That(obj, Is.Not.Null);
-            Assert.IsInstanceOf<CommandFactory>(obj);
+            Assert.IsInstanceOf<CommandProvider>(obj);
         }
 
         [Test]
-        public void Get_CommandFactory_Singleton()
+        public void GetCommandFactory_Singleton()
         {
             var locator = new ServiceLocator();
             var obj1 = locator.GetCommandFactory();
@@ -73,7 +95,7 @@ namespace NBi.Testing.Unit.Core.Injection
         }
 
         [Test]
-        public void Get_ResultSetResolverFactory_Instance()
+        public void GetResultSetResolverFactory_Instance()
         {
             var locator = new ServiceLocator();
             var obj = locator.GetResultSetResolverFactory();
@@ -82,7 +104,7 @@ namespace NBi.Testing.Unit.Core.Injection
         }
 
         [Test]
-        public void Get_ResultSetResolverFactory_NotSingleton()
+        public void GetResultSetResolverFactory_NotSingleton()
         {
             var locator = new ServiceLocator();
             var obj1 = locator.GetResultSetResolverFactory();
@@ -91,7 +113,21 @@ namespace NBi.Testing.Unit.Core.Injection
         }
 
         [Test]
-        public void Get_QueryResolverFactory_Instance()
+        public void GetResultSetResolverFactory_UnderlyingServiceLocatorIsSingleton()
+        {
+            var locator = new ServiceLocator();
+            var obj1 = locator.GetResultSetResolverFactory();
+            var obj2 = locator.GetResultSetResolverFactory();
+
+            var field = typeof(ResultSetResolverFactory).GetField("serviceLocator", BindingFlags.NonPublic | BindingFlags.Instance);
+            var serviceLocator1 = field.GetValue(obj1);
+            var serviceLocator2 = field.GetValue(obj2);
+
+            Assert.That(serviceLocator1, Is.EqualTo(serviceLocator2));
+        }
+
+        [Test]
+        public void GetQueryResolverFactory_Instance()
         {
             var locator = new ServiceLocator();
             var obj = locator.GetQueryResolverFactory();
@@ -100,7 +136,7 @@ namespace NBi.Testing.Unit.Core.Injection
         }
 
         [Test]
-        public void Get_QueryResolverFactory_NotSingleton()
+        public void GetQueryResolverFactory_NotSingleton()
         {
             var locator = new ServiceLocator();
             var obj1 = locator.GetQueryResolverFactory();
@@ -109,7 +145,21 @@ namespace NBi.Testing.Unit.Core.Injection
         }
 
         [Test]
-        public void Get_ScalarResolverFactory_Instance()
+        public void GetQueryResolverFactory_UnderlyingServiceLocatorIsSingleton()
+        {
+            var locator = new ServiceLocator();
+            var obj1 = locator.GetQueryResolverFactory();
+            var obj2 = locator.GetQueryResolverFactory();
+
+            var field = typeof(QueryResolverFactory).GetField("serviceLocator", BindingFlags.NonPublic | BindingFlags.Instance);
+            var serviceLocator1 = field.GetValue(obj1);
+            var serviceLocator2 = field.GetValue(obj2);
+
+            Assert.That(serviceLocator1, Is.EqualTo(serviceLocator2));
+        }
+
+        [Test]
+        public void GetScalarResolverFactory_Instance()
         {
             var locator = new ServiceLocator();
             var obj = locator.GetScalarResolverFactory();
@@ -118,16 +168,29 @@ namespace NBi.Testing.Unit.Core.Injection
         }
 
         [Test]
-        public void Get_ScalarResolverFactory_NotSingleton()
+        public void GetScalarResolverFactory_NotSingleton()
         {
             var locator = new ServiceLocator();
             var obj1 = locator.GetScalarResolverFactory();
             var obj2 = locator.GetScalarResolverFactory();
             Assert.That(obj1, Is.Not.EqualTo(obj2));
         }
+        [Test]
+        public void GetScalarResolverFactory_UnderlyingServiceLocatorIsSingleton()
+        {
+            var locator = new ServiceLocator();
+            var obj1 = locator.GetScalarResolverFactory();
+            var obj2 = locator.GetScalarResolverFactory();
+
+            var field = typeof(ScalarResolverFactory).GetField("serviceLocator", BindingFlags.NonPublic | BindingFlags.Instance);
+            var serviceLocator1 = field.GetValue(obj1);
+            var serviceLocator2 = field.GetValue(obj2);
+
+            Assert.That(serviceLocator1, Is.EqualTo(serviceLocator2));
+        }
 
         [Test]
-        public void Get_Configuration_Instance()
+        public void GetConfiguration_Instance()
         {
             var locator = new ServiceLocator();
             var obj = locator.GetConfiguration();
@@ -136,12 +199,45 @@ namespace NBi.Testing.Unit.Core.Injection
         }
 
         [Test]
-        public void Get_Configuration_Singleton()
+        public void GetConfiguration_Singleton()
         {
             var locator = new ServiceLocator();
             var obj1 = locator.GetConfiguration();
             var obj2 = locator.GetConfiguration();
             Assert.That(obj1, Is.EqualTo(obj2));
+        }
+
+
+        [Test]
+        public void GetExecutionEngineFactory_NoConfig_Instance()
+        {
+            var locator = new ServiceLocator();
+            var obj = locator.GetExecutionEngineFactory();
+            Assert.That(obj, Is.Not.Null);
+            Assert.IsInstanceOf<ExecutionEngineFactory>(obj);
+        }
+
+        [Test]
+        public void GetExecutionEngineFactory_NoConfig_NotSingleton()
+        {
+            var locator = new ServiceLocator();
+            var obj1 = locator.GetExecutionEngineFactory();
+            var obj2 = locator.GetExecutionEngineFactory();
+            Assert.That(obj1, Is.Not.EqualTo(obj2));
+        }
+
+        [Test]
+        public void GetExecutionEngineFactory_Config_ConfigAvailable()
+        {
+            var locator = new ServiceLocator();
+            var obj1 = locator.GetExecutionEngineFactory();
+            Assert.That(obj1.ExtensionCount, Is.EqualTo(0));
+
+            var config = locator.GetConfiguration();
+            config.LoadExtensions(new List<Type>() { typeof(FakeSessionFactory), typeof(FakeCommandFactory), typeof(FakeExecutionEngine) });
+
+            var obj2 = locator.GetExecutionEngineFactory();
+            Assert.That(obj2.ExtensionCount, Is.EqualTo(1));
         }
     }
 }

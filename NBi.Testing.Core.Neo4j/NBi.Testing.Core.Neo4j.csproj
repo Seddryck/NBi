@@ -56,10 +56,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Acceptance\Neo4jRuntimeOverrider.cs" />
     <Compile Include="Integration\Query\Command\BoltCommandFactoryTest.cs" />
     <Compile Include="Integration\Query\Execution\BoltExecutionEngineTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Unit\Configuration\Extension\ExtensionAnalyzerTest.cs" />
     <Compile Include="Unit\Query\Command\BoltCommandTest.cs" />
     <Compile Include="Unit\Query\Command\BoltCommandFactoryTest.cs" />

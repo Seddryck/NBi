@@ -86,6 +86,9 @@ Each predicate is not valid for each data type. The list of possible combinaison
 | lower-case  | Yes | No | No | No
 | upper-case  | Yes | No | No | No
 | matches-regex  | Yes | No | No | No
+| matches-numeric  | Yes | No | No | No
+| matches-date  | Yes | No | No | No
+| matches-time  | Yes | No | No | No
 | within-range  | No | Yes | Yes | No
 | integer  | No | Yes | No | No
 | modulo | No | Yes | No | No
@@ -107,6 +110,8 @@ Each predicate is not valid for each data type. The list of possible combinaison
 {% endhighlight %}
 
 Some of the predicates, require to specify a reference. For example if you want to check that the content of a column is greater than 1000 then your reference is 1000. This value must be specified in the inner text of the predicate element.
+
+The following predicates are expecting a culture: *matches-numeric*, *matches-date*, *matches-time*. The culture is a group of 4 letters separated in two groups of two by the means of a dash. The list of valid cultures is defined at [MSDN](https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx). If this culture is not provided then an invariant culture is applied with the pattern *yyyy-MM-dd* for the date format,  *HH:mm* for the time format and a dot as decimal separator (no thousand seperator) for the numeric format.
 
 {% highlight xml %}
 <assertion>

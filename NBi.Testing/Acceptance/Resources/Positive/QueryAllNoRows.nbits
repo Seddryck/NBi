@@ -332,6 +332,56 @@
       </all-rows>
     </assert>
   </test>
+  <test name="With Predicate matches numeric" uid="00072">
+    <system-under-test>
+      <execution>
+        <query>
+          select '15' union all select '45.1'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="#0" type="text">
+          <matches-numeric/>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate matches-date" uid="00073">
+    <system-under-test>
+      <execution>
+        <query>
+          select '2015-12-05'
+          union all select '2015-12-25'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="#0" type="text">
+          <matches-date/>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate matches-date and french culture" uid="00074">
+    <system-under-test>
+      <execution>
+        <query>
+          select '25/12/2015'
+          union all select '05/12/2015'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="#0" type="text">
+          <matches-date culture="fr-fr"/>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
   <test name="Use a c-sharp variable for the predicate" uid="0008">
     <system-under-test>
       <execution>

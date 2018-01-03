@@ -33,8 +33,11 @@ namespace NBi.Core.Calculation.Predicate
                         case ComparerType.EndsWith: return new TextEndsWith(info.Reference, info.StringComparison);
                         case ComparerType.Contains: return new TextContains(info.Reference, info.StringComparison);
                         case ComparerType.MatchesRegex: return new TextMatchesRegex(info.Reference, info.StringComparison);
+                        case ComparerType.MatchesNumeric: return new TextMatchesNumeric((info as ICultureSensitivePredicateInfo).Culture);
+                        case ComparerType.MatchesDate: return new TextMatchesDate((info as ICultureSensitivePredicateInfo).Culture);
+                        case ComparerType.MatchesTime: return new TextMatchesTime((info as ICultureSensitivePredicateInfo).Culture);
                         default:
-                            throw new ArgumentOutOfRangeException($"Text columns don't support the {info.ComparerType.ToString()} comparer.");
+                            throw new ArgumentOutOfRangeException($"Text columns don't support  the '{info.ComparerType.ToString().ToDashedCase()}' comparer.");
                     }
                 case ResultSet.ColumnType.Numeric:
                     switch (info.ComparerType)
@@ -49,7 +52,7 @@ namespace NBi.Core.Calculation.Predicate
                         case ComparerType.Integer: return new NumericInteger();
                         case ComparerType.Modulo: return new NumericModulo(info.SecondOperand, info.Reference);
                         default:
-                            throw new ArgumentOutOfRangeException($"Numeric columns don't support {info.ComparerType.ToString()} comparer.");
+                            throw new ArgumentOutOfRangeException($"Numeric columns don't support the '{info.ComparerType.ToString().ToDashedCase()}' comparer.");
                     }
                 case ResultSet.ColumnType.DateTime:
                     switch (info.ComparerType)
@@ -65,7 +68,7 @@ namespace NBi.Core.Calculation.Predicate
                         case ComparerType.OnTheHour: return new DateTimeOnTheHour();
                         case ComparerType.OnTheMinute: return new DateTimeOnTheMinute();
                         default:
-                            throw new ArgumentOutOfRangeException($"DateTime columns don't support {info.ComparerType.ToString()} comparer.");
+                            throw new ArgumentOutOfRangeException($"DateTime columns don't support the '{info.ComparerType.ToString().ToDashedCase()}' comparer.");
                     }
                 case ResultSet.ColumnType.Boolean:
                     switch (info.ComparerType)
@@ -75,7 +78,7 @@ namespace NBi.Core.Calculation.Predicate
                         case ComparerType.True: return new BooleanTrue();
                         case ComparerType.False: return new BooleanFalse();
                         default:
-                            throw new ArgumentOutOfRangeException($"Boolean columns only support Equal, Null, True and False comparers and not the {info.ComparerType.ToString()} comparer.");
+                            throw new ArgumentOutOfRangeException($"Boolean columns only support Equal, Null, True and False comparers and not the '{info.ComparerType.ToString().ToDashedCase()}' comparer.");
                     }
                 default:
                     break;

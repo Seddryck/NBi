@@ -58,10 +58,14 @@
     </Compile>
     <Compile Include="Constraints\AbstractConstraintForCollectionXml.cs" />
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
+    <Compile Include="Constraints\Comparer\CultureSensitiveTextPredicateXml.cs" />
     <Compile Include="Constraints\Comparer\CaseSensitiveTextPredicateXml.cs" />
     <Compile Include="Constraints\Comparer\IntegerXml.cs" />
     <Compile Include="Constraints\Comparer\FalseXml.cs" />
     <Compile Include="Constraints\Comparer\ITwoOperandsXml.cs" />
+    <Compile Include="Constraints\Comparer\MatchesTimeXml.cs" />
+    <Compile Include="Constraints\Comparer\MatchesNumericXml.cs" />
+    <Compile Include="Constraints\Comparer\MatchesDateXml.cs" />
     <Compile Include="Constraints\Comparer\ModuloXml.cs" />
     <Compile Include="Constraints\Comparer\TrueXml.cs" />
     <Compile Include="Constraints\Comparer\OnTheHourXml.cs" />

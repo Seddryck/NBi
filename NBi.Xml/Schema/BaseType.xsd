@@ -483,6 +483,13 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
+  <xs:complexType name="culture-specific-type">
+    <xs:simpleContent>
+      <xs:extension base="comparer-type">
+        <xs:attribute name="culture" type="xs:string" use="optional" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
   <xs:complexType name="condition-type">
     <xs:sequence minOccurs="1" maxOccurs="unbounded">
       <xs:element name="service-running" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
@@ -1106,6 +1113,9 @@
       <xs:element name="ends-with" type="text-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="contains" type="text-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="matches-regex" type="text-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="matches-numeric" type="culture-specific-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="matches-date" type="culture-specific-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="matches-time" type="culture-specific-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="within-range" type="comparer-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="integer" type="no-reference-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="modulo" type="two-operands-type" minOccurs="0" maxOccurs="1"/>

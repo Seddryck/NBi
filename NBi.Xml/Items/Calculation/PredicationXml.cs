@@ -12,7 +12,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items.Calculation
 {
-    public class PredicationXml : IPredicateInfo
+    public class PredicationXml : IPredicateInfo, ICultureSensitivePredicateInfo
     {
         public PredicationXml()
         {
@@ -49,6 +49,9 @@ namespace NBi.Xml.Items.Calculation
         [XmlElement(Type = typeof(EndsWithXml), ElementName = "ends-with")]
         [XmlElement(Type = typeof(ContainsXml), ElementName = "contains")]
         [XmlElement(Type = typeof(MatchesRegexXml), ElementName = "matches-regex")]
+        [XmlElement(Type = typeof(MatchesNumericXml), ElementName = "matches-numeric")]
+        [XmlElement(Type = typeof(MatchesDateXml), ElementName = "matches-date")]
+        [XmlElement(Type = typeof(MatchesTimeXml), ElementName = "matches-time")]
         [XmlElement(Type = typeof(WithinRangeXml), ElementName = "within-range")]
         [XmlElement(Type = typeof(IntegerXml), ElementName = "integer")]
         [XmlElement(Type = typeof(ModuloXml), ElementName = "modulo")]
@@ -80,6 +83,18 @@ namespace NBi.Xml.Items.Calculation
             {
                 if (Predicate is CaseSensitiveTextPredicateXml)
                     return ((CaseSensitiveTextPredicateXml)Predicate).IgnoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture;
+                else
+                    throw new InvalidOperationException();
+            }
+        }
+
+        [XmlIgnore]
+        public string Culture
+        {
+            get
+            {
+                if (Predicate is CultureSensitiveTextPredicateXml)
+                    return ((CultureSensitiveTextPredicateXml)Predicate).Culture;
                 else
                     throw new InvalidOperationException();
             }

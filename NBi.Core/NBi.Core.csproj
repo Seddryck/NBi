@@ -94,6 +94,7 @@
     <Compile Include="Calculation\Combination\AndCombinationPredicateFilter.cs" />
     <Compile Include="Calculation\Combination\XOrCombinationPredicateFilter.cs" />
     <Compile Include="Calculation\ComparerType.cs" />
+    <Compile Include="Calculation\ICultureSensitivePredicateInfo.cs" />
     <Compile Include="Calculation\IPredicateInfo.cs" />
     <Compile Include="Calculation\Combination\BaseCombinationPredicateFilter.cs" />
     <Compile Include="Calculation\Combination\OrCombinationPredicateFilter.cs" />
@@ -127,7 +128,10 @@
     <Compile Include="Calculation\Predicate\Numeric\NumericPredicate.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericModulo.cs" />
     <Compile Include="Calculation\Predicate\PredicateFactory.cs" />
+    <Compile Include="Calculation\Predicate\Text\CultureSensitiveTextPredicate.cs" />
     <Compile Include="Calculation\Predicate\Text\AbstractTextPredicate.cs" />
+    <Compile Include="Calculation\Predicate\Text\TextMatchesTime.cs" />
+    <Compile Include="Calculation\Predicate\Text\TextMatchesDate.cs" />
     <Compile Include="Calculation\Predicate\Text\TextMatchesRegex.cs" />
     <Compile Include="Calculation\Predicate\Text\TextEmpty.cs" />
     <Compile Include="Calculation\Predicate\Text\TextContains.cs" />
@@ -143,6 +147,7 @@
     <Compile Include="Calculation\Predicate\Text\TextMoreThan.cs" />
     <Compile Include="Calculation\Predicate\Text\TextEqual.cs" />
     <Compile Include="Calculation\Predicate\IPredicate.cs" />
+    <Compile Include="Calculation\Predicate\Text\TextMatchesNumeric.cs" />
     <Compile Include="Calculation\SinglePredicateFilter.cs" />
     <Compile Include="Calculation\ResultSetFilter.cs" />
     <Compile Include="Calculation\IResultSetFilter.cs" />
@@ -460,6 +465,7 @@
     <Compile Include="Scalar\Resolver\ScalarResolverFactory.cs" />
     <Compile Include="Scalar\ScalarComparer.cs" />
     <Compile Include="StringComparerHelper.cs" />
+    <Compile Include="StringExtensions.cs" />
     <Compile Include="StringHelper.cs" />
     <Compile Include="StringTemplateEngine.cs" />
     <Compile Include="DataManipulation\SqlServer\TruncateCommand.cs" />

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation
 {
-    public interface ICultureSensitivePredicateInfo : IPredicateInfo
+    public interface ICultureSensitivePredicateInfo
     {
         string Culture { get; }
     }

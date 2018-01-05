@@ -95,6 +95,9 @@
     <Compile Include="Calculation\Combination\XOrCombinationPredicateFilter.cs" />
     <Compile Include="Calculation\ComparerType.cs" />
     <Compile Include="Calculation\ICultureSensitivePredicateInfo.cs" />
+    <Compile Include="Calculation\ICaseSensitivePredicateInfo.cs" />
+    <Compile Include="Calculation\ISecondOperandPredicateInfo.cs" />
+    <Compile Include="Calculation\IReferencePredicateInfo.cs" />
     <Compile Include="Calculation\IPredicateInfo.cs" />
     <Compile Include="Calculation\Combination\BaseCombinationPredicateFilter.cs" />
     <Compile Include="Calculation\Combination\OrCombinationPredicateFilter.cs" />

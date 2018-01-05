@@ -15,6 +15,9 @@ namespace NBi.Xml.Constraints.Comparer
         [XmlText]
         public string Value { get; set; }
 
+        [XmlElement("item")]
+        public List<string> Values { get; set; }
+
         [XmlElement("projection")]
         public ProjectionXml Projection { get; set; }
 

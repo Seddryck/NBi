@@ -133,6 +133,7 @@
     <Compile Include="Calculation\Predicate\PredicateFactory.cs" />
     <Compile Include="Calculation\Predicate\Text\CultureSensitiveTextPredicate.cs" />
     <Compile Include="Calculation\Predicate\Text\AbstractTextPredicate.cs" />
+    <Compile Include="Calculation\Predicate\Text\TextWithinList.cs" />
     <Compile Include="Calculation\Predicate\Text\TextMatchesTime.cs" />
     <Compile Include="Calculation\Predicate\Text\TextMatchesDate.cs" />
     <Compile Include="Calculation\Predicate\Text\TextMatchesRegex.cs" />

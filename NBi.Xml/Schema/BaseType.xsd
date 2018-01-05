@@ -483,6 +483,12 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
+  <xs:complexType name="multitext-type">
+    <xs:choice>
+      <xs:element name="item" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+  </xs:complexType>
   <xs:complexType name="culture-specific-type">
     <xs:simpleContent>
       <xs:extension base="comparer-type">
@@ -1117,6 +1123,7 @@
       <xs:element name="matches-date" type="culture-specific-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="matches-time" type="culture-specific-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="within-range" type="comparer-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="within-list" type="multitext-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="integer" type="no-reference-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="modulo" type="two-operands-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="on-the-day" type="no-reference-type" minOccurs="0" maxOccurs="1"/>

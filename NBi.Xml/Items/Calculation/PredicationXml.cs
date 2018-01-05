@@ -53,6 +53,7 @@ namespace NBi.Xml.Items.Calculation
         [XmlElement(Type = typeof(MatchesDateXml), ElementName = "matches-date")]
         [XmlElement(Type = typeof(MatchesTimeXml), ElementName = "matches-time")]
         [XmlElement(Type = typeof(WithinRangeXml), ElementName = "within-range")]
+        [XmlElement(Type = typeof(WithinListXml), ElementName = "within-list")]
         [XmlElement(Type = typeof(IntegerXml), ElementName = "integer")]
         [XmlElement(Type = typeof(ModuloXml), ElementName = "modulo")]
         [XmlElement(Type = typeof(OnTheDayXml), ElementName = "on-the-day")]
@@ -66,7 +67,7 @@ namespace NBi.Xml.Items.Calculation
         [XmlIgnore]
         public object Reference
         {
-            get { return Predicate.Value; }
+            get { return Predicate.Value ?? Predicate.Values as object; }
             set { Predicate.Value = value.ToString(); }
         }
 

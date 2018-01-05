@@ -382,6 +382,27 @@
       </all-rows>
     </assert>
   </test>
+  <test name="With Predicate matches-date and french culture" uid="00075">
+    <system-under-test>
+      <execution>
+        <query>
+          select 'Paris', 'France'
+          union all select 'Brussels', 'Belgium'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="#0" type="text">
+          <within-list>
+            <item>Paris</item>
+            <item>Amsterdam</item>
+            <item>Brussels</item>
+          </within-list>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
   <test name="Use a c-sharp variable for the predicate" uid="0008">
     <system-under-test>
       <execution>

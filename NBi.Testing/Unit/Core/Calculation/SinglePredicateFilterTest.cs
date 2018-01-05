@@ -32,14 +32,13 @@ namespace NBi.Testing.Unit.Core.Calculation
 
             var aliases = new[] { Mock.Of<IColumnAlias>(v => v.Column == 0 && v.Name == "a") };
 
-            var info = Mock.Of<IPredicateInfo>
-                (
-                    p => p.ComparerType == ComparerType.NullOrEmpty
-                        && p.ColumnType == ColumnType.Text
-                        && p.Operand == "a"
-                );
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
+            predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.NullOrEmpty);
+            predicate.SetupGet(p => p.Operand).Returns("a");
+
             var factory = new PredicateFilterFactory();
-            var filter = factory.Instantiate(aliases, new IColumnExpression[0], info);
+            var filter = factory.Instantiate(aliases, new IColumnExpression[0], predicate.Object);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
@@ -58,15 +57,13 @@ namespace NBi.Testing.Unit.Core.Calculation
                     }));
             var rs = service.Execute();
 
-            var info = Mock.Of<IPredicateInfo>
-                (
-                    p => p.ComparerType == ComparerType.NullOrEmpty
-                        && p.ColumnType == ColumnType.Text
-                        && p.Operand == "#0"
-                );
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
+            predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.NullOrEmpty);
+            predicate.SetupGet(p => p.Operand).Returns("#0");
 
             var factory = new PredicateFilterFactory();
-            var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], info);
+            var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], predicate.Object);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
@@ -87,15 +84,13 @@ namespace NBi.Testing.Unit.Core.Calculation
             var rs = service.Execute();
             rs.Table.Columns[0].ColumnName = "first";
 
-            var info = Mock.Of<IPredicateInfo>
-                (
-                    p => p.ComparerType == ComparerType.NullOrEmpty
-                        && p.ColumnType == ColumnType.Text
-                        && p.Operand == "first"
-                );
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
+            predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.NullOrEmpty);
+            predicate.SetupGet(p => p.Operand).Returns("first");
 
             var factory = new PredicateFilterFactory();
-            var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], info);
+            var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], predicate.Object);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
@@ -127,16 +122,14 @@ namespace NBi.Testing.Unit.Core.Calculation
                 Mock.Of<IColumnExpression>(e => e.Value == "[b]*[c]" && e.Name == "e")
             };
 
-            var info = Mock.Of<IPredicateInfo>
-                (
-                    p => p.ComparerType==ComparerType.MoreThanOrEqual
-                        && p.ColumnType==ColumnType.Numeric
-                        && p.Operand == "d"
-                        && p.Reference == (object)200
-                );
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
+            predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.MoreThanOrEqual);
+            predicate.SetupGet(p => p.Operand).Returns("d");
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)200);
 
             var factory = new PredicateFilterFactory();
-            var filter = factory.Instantiate(aliases, expressions, info);
+            var filter = factory.Instantiate(aliases, expressions, predicate.Object);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
@@ -166,17 +159,15 @@ namespace NBi.Testing.Unit.Core.Calculation
                 Mock.Of<IColumnExpression>(e => e.Value == "Abs([a])+[e]" && e.Name == "d"),
                 Mock.Of<IColumnExpression>(e => e.Value == "[#1]*[c1]" && e.Name == "e")
             };
-
-            var info = Mock.Of<IPredicateInfo>
-                (
-                    p => p.ComparerType == ComparerType.MoreThanOrEqual
-                        && p.ColumnType == ColumnType.Numeric
-                        && p.Operand == "d"
-                        && p.Reference == (object)200
-                );
+            
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
+            predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.MoreThanOrEqual);
+            predicate.SetupGet(p => p.Operand).Returns("d");
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)200);
 
             var factory = new PredicateFilterFactory();
-            var filter = factory.Instantiate(aliases, expressions, info);
+            var filter = factory.Instantiate(aliases, expressions, predicate.Object);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));

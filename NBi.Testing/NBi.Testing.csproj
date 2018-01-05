@@ -274,6 +274,7 @@
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Calculation\CombinationPredicateFilterTest.cs" />
     <Compile Include="Unit\Core\Calculation\CultureSensitivePredicateMatchesTest.cs" />
+    <Compile Include="Unit\Core\Calculation\Predicate\Text\TextWithinListTest.cs" />
     <Compile Include="Unit\Core\Calculation\SinglePredicateFilterTest.cs" />
     <Compile Include="Unit\Core\Calculation\PredicateTwoOperandsTest.cs" />
     <Compile Include="Unit\Core\Calculation\PredicateWithoutReferenceTest.cs" />

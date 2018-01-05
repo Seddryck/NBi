@@ -21,13 +21,13 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.MatchesTime, "08:40")]
         public void Compare_Text_Success(ComparerType comparerType, object x)
         {
-            var info = Mock.Of<ICultureSensitivePredicateInfo>(
-                    i => i.ColumnType == ColumnType.Text
-                    && i.ComparerType == comparerType
-                );
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
+            predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
+            predicate.As<ICultureSensitivePredicateInfo>().SetupGet(p => p.Culture).Returns(string.Empty);
 
             var factory = new PredicateFactory();
-            var comparer = factory.Instantiate(info);
+            var comparer = factory.Instantiate(predicate.Object);
             Assert.That(comparer.Apply(x), Is.True);
         }
 
@@ -42,13 +42,13 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.MatchesTime, "08:40:12")]
         public void Compare_Text_Failure(ComparerType comparerType, object x)
         {
-            var info = Mock.Of<ICultureSensitivePredicateInfo>(
-                    i => i.ColumnType == ColumnType.Text
-                    && i.ComparerType == comparerType
-                );
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
+            predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
+            predicate.As<ICultureSensitivePredicateInfo>().SetupGet(p => p.Culture).Returns(string.Empty);
 
             var factory = new PredicateFactory();
-            var comparer = factory.Instantiate(info);
+            var comparer = factory.Instantiate(predicate.Object);
             Assert.That(comparer.Apply(x), Is.False);
         }
 
@@ -64,14 +64,13 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.MatchesNumeric, "1000.21", "en-us")]
         public void Compare_Text_Success(ComparerType comparerType, object x, string culture)
         {
-            var info = Mock.Of<ICultureSensitivePredicateInfo>(
-                    i => i.ColumnType == ColumnType.Text
-                    && i.ComparerType == comparerType
-                    && i.Culture == culture
-                );
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
+            predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
+            predicate.As<ICultureSensitivePredicateInfo>().SetupGet(p => p.Culture).Returns(culture);
 
             var factory = new PredicateFactory();
-            var comparer = factory.Instantiate(info);
+            var comparer = factory.Instantiate(predicate.Object);
             Assert.That(comparer.Apply(x), Is.True);
         }
 
@@ -84,14 +83,13 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.MatchesDate, "5/12/2016", "fr-fr")]
         public void Compare_Text_Failure(ComparerType comparerType, object x, string culture)
         {
-            var info = Mock.Of<ICultureSensitivePredicateInfo>(
-                    i => i.ColumnType == ColumnType.Text
-                    && i.ComparerType == comparerType
-                    && i.Culture == culture
-                );
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
+            predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
+            predicate.As<ICultureSensitivePredicateInfo>().SetupGet(p => p.Culture).Returns(culture);
 
             var factory = new PredicateFactory();
-            var comparer = factory.Instantiate(info);
+            var comparer = factory.Instantiate(predicate.Object);
             Assert.That(comparer.Apply(x), Is.False);
         }
 

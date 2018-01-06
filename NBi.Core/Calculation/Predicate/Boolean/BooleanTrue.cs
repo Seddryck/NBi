@@ -8,16 +8,18 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.Boolean
 {
-    class BooleanTrue : IPredicate
+    class BooleanTrue : AbstractPredicate
     {
-        public bool Apply(object x)
+        public BooleanTrue(bool not)
+               : base(not)
+        { }
+
+        protected override bool Apply(object x)
         {
             var cpr = new BooleanComparer();
             return cpr.Compare(x, true).AreEqual;
         }
-        public override string ToString()
-        {
-            return $"is true";
-        }
+
+        public override string ToString() => $"is true";
     }
 }

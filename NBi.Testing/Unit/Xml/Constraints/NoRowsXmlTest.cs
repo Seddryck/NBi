@@ -81,10 +81,10 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(comparison.ColumnIndex, Is.EqualTo(-1));
             Assert.That(comparison.Operand, Is.EqualTo("ModDepId"));
-            Assert.That(comparison.Not, Is.EqualTo(false));
             Assert.That(comparison.ColumnType, Is.EqualTo(ColumnType.Numeric));
 
             Assert.That(comparison.Predicate, Is.TypeOf<MoreThanXml>());
+            Assert.That(comparison.Predicate.Not, Is.EqualTo(false));
             var moreThan = comparison.Predicate as MoreThanXml;
             Assert.That(moreThan.Value, Is.EqualTo("10"));
         }

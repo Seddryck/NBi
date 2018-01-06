@@ -8,16 +8,17 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.DateTime
 {
-    class DateTimeNull : IPredicate
+    class DateTimeNull : AbstractPredicate
     {
-        public bool Apply(object x)
+        public DateTimeNull(bool not)
+            :base(not)
+        { }
+
+        protected override bool Apply(object x)
         {
             return x == null || x == DBNull.Value || (x as string)=="(null)";
         }
 
-        public override string ToString()
-        {
-            return $"is null";
-        }
+        public override string ToString() => $"is null";
     }
 }

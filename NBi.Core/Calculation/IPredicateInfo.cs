@@ -13,5 +13,6 @@ namespace NBi.Core.Calculation
         ColumnType ColumnType { get; set; }
         ComparerType ComparerType { get; }
         string Operand { get; set; }
+        bool Not { get; set; }
     }
 }

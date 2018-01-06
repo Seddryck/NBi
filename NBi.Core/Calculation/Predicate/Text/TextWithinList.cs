@@ -12,11 +12,11 @@ namespace NBi.Core.Calculation.Predicate.Text
     {
         protected IEnumerable<string> References { get => Reference as IEnumerable<string>; }
 
-        public TextWithinList(object reference, StringComparison stringComparison)
-            : base(reference, stringComparison)
+        public TextWithinList(bool not, object reference, StringComparison stringComparison)
+            : base(not, reference, stringComparison)
         { }
 
-        public override bool Apply(object x)
+        protected override bool Apply(object x)
         {
             var comparer = StringComparer.Create(CultureInfo.InvariantCulture, StringComparison == StringComparison.InvariantCultureIgnoreCase);
 

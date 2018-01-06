@@ -9,10 +9,10 @@ namespace NBi.Core.Calculation.Predicate.Numeric
 {
     abstract class NumericPredicate : AbstractPredicateReference
     {
-        public NumericPredicate(object reference) : base(reference)
+        public NumericPredicate(bool not, object reference) : base(not, reference)
         { }
 
-        public override bool Apply(object x)
+        protected override bool Apply(object x)
         {
             var converter = new NumericConverter();
             var numX = converter.Convert(x);

@@ -9,15 +9,11 @@ namespace NBi.Core.Calculation.Predicate.Text
 {
     class TextMatchesDate : CultureSensitiveTextPredicate
     {
-        public TextMatchesDate()
-            : this(string.Empty)
+        public TextMatchesDate(bool not, string culture)
+            : base(not, culture)
         { }
 
-        public TextMatchesDate(string culture)
-            : base(culture)
-        { }
-
-        public override bool Apply(object x)
+        protected override bool Apply(object x)
         {
             switch (x)
             {

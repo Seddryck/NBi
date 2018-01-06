@@ -12,8 +12,8 @@ namespace NBi.Core.Calculation.Predicate.Numeric
     {
         private object secondOperand;
 
-        public NumericModulo(object secondOperand, object reference) 
-            : base(reference)
+        public NumericModulo(bool not, object secondOperand, object reference) 
+            : base(not, reference)
         {
             this.secondOperand = secondOperand;
         }

@@ -24,15 +24,18 @@ namespace NBi.Xml.Items.Calculation
         [XmlAttribute("column-index")]
         public int ColumnIndex { get; set; }
 
+        [XmlIgnore]
+        public bool Not
+        {
+            get => Predicate.Not; 
+            set => Predicate.Not = value;
+        }
+
         [XmlAttribute("operand")]
         public string Operand { get; set; }
 
         [Obsolete("Deprecated. Use operand in place of name")]
         public string Name { get => Operand; set => Operand=value; }
-
-        [DefaultValue(false)]
-        [XmlAttribute("not")]
-        public bool Not { get; set; }
 
         [DefaultValue(ColumnType.Numeric)]
         [XmlAttribute("type")]
@@ -63,7 +66,6 @@ namespace NBi.Xml.Items.Calculation
         [XmlElement(Type = typeof(FalseXml), ElementName = "false")]
         public PredicateXml Predicate { get; set; }
         
-
         [XmlIgnore]
         public object Reference
         {

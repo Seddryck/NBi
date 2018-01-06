@@ -9,11 +9,11 @@ namespace NBi.Core.Calculation.Predicate.Text
 {
     class TextEndsWith : AbstractTextPredicate
     {
-        public TextEndsWith(object reference, StringComparison stringComparison)
-            : base(reference, stringComparison)
+        public TextEndsWith(bool not, object reference, StringComparison stringComparison)
+            : base(not, reference, stringComparison)
         {
         }
-        public override bool Apply(object x)
+        protected override bool Apply(object x)
         {
             return x.ToString().EndsWith(Reference.ToString(), StringComparison);
         }

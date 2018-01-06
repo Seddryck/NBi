@@ -9,9 +9,13 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.Numeric
 {
-    class NumericInteger : IPredicate
+    class NumericInteger : AbstractPredicate
     {
-        public bool Apply(object x)
+        public NumericInteger(bool not)
+            : base(not)
+        { }
+
+        protected override bool Apply(object x)
         {
             var converter = new NumericConverter();
             var numX = converter.Convert(x);

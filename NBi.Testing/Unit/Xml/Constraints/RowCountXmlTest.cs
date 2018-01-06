@@ -161,13 +161,11 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var rowCount = ts.Tests[testNr].Constraints[0] as RowCountXml;
             var comparison = rowCount.Filter.Predication;
 
-            //Assert.That(comparison.ColumnIndex, Is.EqualTo(2));
-            Assert.That(comparison.Not, Is.EqualTo(true));
             Assert.That(comparison.ColumnType, Is.EqualTo(ColumnType.Text));
-
             Assert.That(comparison.Predicate, Is.TypeOf<EqualXml>());
             var equal = comparison.Predicate as EqualXml;
             Assert.That(equal.Value, Is.EqualTo("N/A"));
+            Assert.That(equal.Not, Is.True);
         }
 
         [Test]
@@ -182,12 +180,12 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(comparison.ColumnIndex, Is.EqualTo(-1));
             Assert.That(comparison.Operand, Is.EqualTo("ModDepId"));
-            Assert.That(comparison.Not, Is.EqualTo(false));
             Assert.That(comparison.ColumnType, Is.EqualTo(ColumnType.Numeric));
 
             Assert.That(comparison.Predicate, Is.TypeOf<LessThanXml>());
             var lessThan = comparison.Predicate as LessThanXml;
             Assert.That(lessThan.Value, Is.EqualTo("1"));
+            Assert.That(lessThan.Not, Is.EqualTo(false));
         }
 
         [Test]

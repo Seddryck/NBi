@@ -26,7 +26,7 @@ namespace NBi.Testing.Unit.Core.Calculation
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
-            Assert.That(comparer.Apply(x), Is.True);
+            Assert.That(comparer.Execute(x), Is.True);
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace NBi.Testing.Unit.Core.Calculation
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
-            Assert.That(comparer.Apply(x), Is.False);
+            Assert.That(comparer.Execute(x), Is.False);
         }
     }
 }

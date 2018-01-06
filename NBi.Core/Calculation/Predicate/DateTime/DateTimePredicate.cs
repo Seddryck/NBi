@@ -9,10 +9,10 @@ namespace NBi.Core.Calculation.Predicate.DateTime
 {
     abstract class DateTimePredicate : AbstractPredicateReference
     {
-        public DateTimePredicate(object reference) : base(reference)
+        public DateTimePredicate(bool not, object reference) : base(not, reference)
         { }
 
-        public override bool Apply(object x)
+        protected override bool Apply(object x)
         {
             var converter = new DateTimeConverter();
             var dtX = converter.Convert(x);

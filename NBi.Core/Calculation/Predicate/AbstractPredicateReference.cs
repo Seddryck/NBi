@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate
 {
-    abstract class AbstractPredicateReference : IPredicate
+    abstract class AbstractPredicateReference : AbstractPredicate
     {
-        public abstract bool Apply(object x);
-        
         public object Reference { get; set; }
 
-        public AbstractPredicateReference(object reference)
+        public AbstractPredicateReference(bool not, object reference)
+            : base(not)
         {
             Reference = reference;
         }

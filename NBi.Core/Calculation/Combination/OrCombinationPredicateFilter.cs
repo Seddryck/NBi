@@ -23,7 +23,7 @@ namespace NBi.Core.Calculation.Predicate.Combination
             foreach (var predication in predications)
             {
                 var value = GetValueFromRow(row, predication.Operand);
-                result |= predication.Predicate.Apply(value);
+                result |= predication.Predicate.Execute(value);
             }
             return result;
         }

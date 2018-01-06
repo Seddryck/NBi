@@ -444,6 +444,7 @@
       <xs:element name="projection" minOccurs="0" maxOccurs="1" type="projection-type"/>
       <xs:element name="query-scalar" minOccurs="0" maxOccurs="1" type="query-scalar-type"/>
     </xs:choice>
+    <xs:attribute name="not" type="xs:boolean" use="optional"/>
   </xs:complexType>
   <xs:complexType name="more-less-enhanced-type" mixed="true">
     <xs:choice>
@@ -451,10 +452,13 @@
       <xs:element name="query-scalar" minOccurs="0" maxOccurs="1" type="query-scalar-type"/>
     </xs:choice>
     <xs:attribute name="or-equal" type="xs:boolean" use="optional" />
+    <xs:attribute name="not" type="xs:boolean" use="optional"/>
   </xs:complexType>
   <xs:complexType name="comparer-type">
     <xs:simpleContent>
-      <xs:extension base="xs:string"/>
+      <xs:extension base="xs:string">
+        <xs:attribute name="not" type="xs:boolean" use="optional"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="more-less-type">
@@ -471,11 +475,23 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
-  <xs:complexType name="no-reference-type"/>
-  <xs:complexType name="empty-type">
-    <xs:attribute name="or-null" type="xs:boolean" use="optional" />
+  <xs:complexType name="no-reference-type">
+    <xs:simpleContent>
+      <xs:extension base="comparer-type"/>
+    </xs:simpleContent>
   </xs:complexType>
-  <xs:complexType name="case-type"/>
+  <xs:complexType name="empty-type">
+    <xs:simpleContent>
+      <xs:extension base="no-reference-type">
+        <xs:attribute name="or-null" type="xs:boolean" use="optional" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="case-type">
+    <xs:simpleContent>
+      <xs:extension base="no-reference-type"/>
+    </xs:simpleContent>
+  </xs:complexType>
   <xs:complexType name="text-type">
     <xs:simpleContent>
       <xs:extension base="comparer-type">
@@ -488,6 +504,7 @@
       <xs:element name="item" minOccurs="0" maxOccurs="unbounded"/>
     </xs:choice>
     <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+    <xs:attribute name="not" type="xs:boolean" use="optional"/>
   </xs:complexType>
   <xs:complexType name="culture-specific-type">
     <xs:simpleContent>
@@ -1135,7 +1152,7 @@
     <xs:attribute name="name" type="xs:string" use="optional"/>
     <xs:attribute name="operand" type="xs:string" use="optional"/>
     <!--<xs:attribute name="column-index" type="xs:nonNegativeInteger" use="optional"/>-->
-    <xs:attribute name="not" type="xs:boolean" use="optional"/>
+    <!--<xs:attribute name="not" type="xs:boolean" use="optional/>-->
     <xs:attribute name="type" type="column-type-enum" use="optional"/>
   </xs:complexType>
   <xs:complexType name="combination-predicate-type">

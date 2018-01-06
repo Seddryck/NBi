@@ -9,9 +9,13 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.DateTime
 {
-    class DateTimeOnTheMinute : IPredicate
+    class DateTimeOnTheMinute : AbstractPredicate
     {
-        public bool Apply(object x)
+        public DateTimeOnTheMinute(bool not)
+            : base(not)
+        { }
+
+        protected override bool Apply(object x)
         {
             var converter = new DateTimeConverter();
             var dtX = converter.Convert(x);
@@ -19,9 +23,6 @@ namespace NBi.Core.Calculation.Predicate.DateTime
             return (dtX.TimeOfDay.Ticks) % (new TimeSpan(0, 1, 0).Ticks) == 0;
         }
 
-        public override string ToString()
-        {
-            return $"is on the minute";
-        }
+        public override string ToString() => $"is on the minute";
     }
 }

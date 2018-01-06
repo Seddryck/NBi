@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.Text
 {
-    public abstract class CultureSensitiveTextPredicate : IPredicate
+    abstract class CultureSensitiveTextPredicate : AbstractPredicate
     {
         protected CultureInfo CultureInfo { get; }
 
-        public CultureSensitiveTextPredicate(string culture)
+        public CultureSensitiveTextPredicate(bool not, string culture)
+            : base(not)
         {
             CultureInfo = GetCultureInfo(culture);
             if (CultureInfo.LCID == CultureInfo.InvariantCulture.LCID)
@@ -21,7 +22,6 @@ namespace NBi.Core.Calculation.Predicate.Text
             }
         }
 
-        public abstract bool Apply(object x);
         private CultureInfo GetCultureInfo(string culture)
         {
             if (!string.IsNullOrEmpty(culture))

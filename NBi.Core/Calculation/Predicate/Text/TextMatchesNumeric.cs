@@ -9,15 +9,12 @@ namespace NBi.Core.Calculation.Predicate.Text
 {
     class TextMatchesNumeric : CultureSensitiveTextPredicate
     {
-        public TextMatchesNumeric()
-            : this(string.Empty)
+        
+        public TextMatchesNumeric(bool not, string culture)
+            : base(not, culture)
         { }
 
-        public TextMatchesNumeric(string culture)
-            : base (culture)
-        { }
-
-        public override bool Apply(object x)
+        protected override bool Apply(object x)
         {
             switch (x)
             {

@@ -12,10 +12,10 @@ namespace NBi.Core.Calculation.Predicate.DateTime
 {
     class DateTimeWithinRange : AbstractPredicateReference
     {
-        public DateTimeWithinRange(object reference) : base(reference)
+        public DateTimeWithinRange(bool not, object reference) : base(not, reference)
         { }
 
-        public override bool Apply(object x)
+        protected override bool Apply(object x)
         {
             var builder = new DateTimeIntervalBuilder(Reference);
             builder.Build();

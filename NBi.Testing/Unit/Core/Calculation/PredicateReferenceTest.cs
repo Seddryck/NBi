@@ -37,7 +37,7 @@ namespace NBi.Testing.Unit.Core.Calculation
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
-            Assert.That(comparer.Apply(x), Is.True);
+            Assert.That(comparer.Execute(x), Is.True);
         }
 
         [TestCase(ComparerType.StartsWith, "Paris", "p")]
@@ -54,7 +54,7 @@ namespace NBi.Testing.Unit.Core.Calculation
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
-            Assert.That(comparer.Apply(x), Is.True);
+            Assert.That(comparer.Execute(x), Is.True);
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace NBi.Testing.Unit.Core.Calculation
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
-            Assert.That(comparer.Apply(x), Is.False);
+            Assert.That(comparer.Execute(x), Is.False);
         }
 
         [Test]
@@ -90,7 +90,7 @@ namespace NBi.Testing.Unit.Core.Calculation
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
-            Assert.That(comparer.Apply(null), Is.True);
+            Assert.That(comparer.Execute(null), Is.True);
         }
 
         [Test]
@@ -117,7 +117,7 @@ namespace NBi.Testing.Unit.Core.Calculation
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
-            Assert.That(comparer.Apply(x), Is.True);
+            Assert.That(comparer.Execute(x), Is.True);
         }
 
         [Test]
@@ -142,7 +142,7 @@ namespace NBi.Testing.Unit.Core.Calculation
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
-            Assert.That(comparer.Apply(x), Is.False);
+            Assert.That(comparer.Execute(x), Is.False);
         }
 
         [Test]
@@ -162,7 +162,7 @@ namespace NBi.Testing.Unit.Core.Calculation
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
-            Assert.That(comparer.Apply(new DateTime(2015, x, 1)), Is.True);
+            Assert.That(comparer.Execute(new DateTime(2015, x, 1)), Is.True);
         }
 
         [Test]
@@ -176,7 +176,7 @@ namespace NBi.Testing.Unit.Core.Calculation
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
-            Assert.That(comparer.Apply(new DateTime(2015, 8, 1)), Is.True);
+            Assert.That(comparer.Execute(new DateTime(2015, 8, 1)), Is.True);
         }
 
         [Test]
@@ -192,7 +192,7 @@ namespace NBi.Testing.Unit.Core.Calculation
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
-            Assert.That(comparer.Apply(x), Is.True);
+            Assert.That(comparer.Execute(x), Is.True);
         }
 
         [Test]

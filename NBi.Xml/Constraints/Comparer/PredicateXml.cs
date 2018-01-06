@@ -15,6 +15,10 @@ namespace NBi.Xml.Constraints.Comparer
         [XmlText]
         public string Value { get; set; }
 
+        [DefaultValue(false)]
+        [XmlAttribute("not")]
+        public bool Not { get; set; }
+
         [XmlElement("item")]
         public List<string> Values { get; set; }
 

@@ -12,10 +12,10 @@ namespace NBi.Core.Calculation.Predicate.Numeric
 {
     class NumericWithinRange : AbstractPredicateReference
     {
-        public NumericWithinRange(object reference) : base(reference)
+        public NumericWithinRange(bool not, object reference) : base(not, reference)
         { }
 
-        public override bool Apply(object x)
+        protected override bool Apply(object x)
         {
             var builder = new NumericIntervalBuilder(Reference);
             builder.Build();
@@ -26,9 +26,6 @@ namespace NBi.Core.Calculation.Predicate.Numeric
             return interval.Contains(numX);
         }
 
-        public override string ToString()
-        {
-            return $"is within the interval {Reference}";
-        }
+        public override string ToString() => $"is within the interval {Reference}";
     }
 }

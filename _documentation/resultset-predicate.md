@@ -131,6 +131,23 @@ The following predicates are expecting a culture: *matches-numeric*, *matches-da
 </assertion>
 {% endhighlight %}
 
+### Negation of a predicate
+
+It could be useful to use the negation of a predicate. By specifying the attribute *not* available for each predicate, the result of the predicate's evalution will be inverted (false will become true and true will become false).
+
+{% highlight xml %}
+<assertion>
+    <all-rows>
+        ...
+        <predicate operand="Name">
+           <lower-case not="true"/>
+        <predicate>
+    </all-rows>
+</assertion>
+{% endhighlight %}
+
+In the example above, the test will succeed if at least one of the charachter of each *Name* is not a lower-case char.
+
 ## Variables for predicate's reference
 
 Sometimes, the reference must be dynamic. One of the most famous examples is the need to check that all rows returned by the query are for the days before today. When you've this kind of issues, you can use a *[variable](..docs/variable-define)*. These items are described at the top of the test-suite and are dynamically evaluated. To reference them in the predicate you must use the name of the variable prefixed by an arrobas (@)

@@ -84,8 +84,8 @@ or a [shared-dataset](../docs/shared-dataset)
 
 You can also define an alteration to the result-set. For the moment, two kinds of alterations are supported by NBi:
 
-* [filter](resultset-rows-count-advanced/#filter).
-* [convert](resultset-alterations/#Converts)
+* [filter](../resultset-rows-count-advanced/#filter).
+* [convert](../resultset-alterations/#Converts)
 
 {% highlight xml %}
 <resultSet>

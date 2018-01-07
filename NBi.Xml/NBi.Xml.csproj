@@ -130,6 +130,11 @@
     <Compile Include="GroupXml.cs" />
     <Compile Include="InheritanceTestXml.cs" />
     <Compile Include="Items\Alteration\AlterationXml.cs" />
+    <Compile Include="Items\Alteration\Conversion\AbstractConverterXml.cs" />
+    <Compile Include="Items\Alteration\Conversion\ConvertXml.cs" />
+    <Compile Include="Items\Alteration\Conversion\TextToDateConverterXml.cs" />
+    <Compile Include="Items\Alteration\Conversion\TextToNumericConverterXml.cs" />
+    <Compile Include="Items\Alteration\Conversion\TextToDateTimeConverterXml.cs" />
     <Compile Include="Items\Calculation\CombinationPredicateXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />

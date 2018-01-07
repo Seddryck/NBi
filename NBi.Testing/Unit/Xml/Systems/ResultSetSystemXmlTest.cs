@@ -1,4 +1,5 @@
 ﻿using NBi.Xml;
+using NBi.Xml.Items.Alteration.Conversion;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 using System;
@@ -127,6 +128,47 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(rs.Query.Report, Is.Not.Null);
 
             Assert.That(rs.Query.Report.Name, Is.EqualTo("MyReport"));
+        }
+
+        public void Deserialize_SampleFile_AlterationFilter()
+        {
+            int testNr = 6;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.Alteration, Is.Not.Null);
+            Assert.That(rs.Alteration.Filters, Is.Not.Null);
+            Assert.That(rs.Alteration.Filters, Has.Count.EqualTo(1));
+
+            Assert.That(rs.Alteration.Filters[0].Predication, Is.Not.Null);
+        }
+        public void Deserialize_SampleFile_AlterationConvert()
+        {
+            int testNr = 7;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.Alteration, Is.Not.Null);
+            Assert.That(rs.Alteration.Conversions, Is.Not.Null);
+            Assert.That(rs.Alteration.Conversions, Has.Count.EqualTo(1));
+
+            Assert.That(rs.Alteration.Conversions[0], Is.Not.Null);
+            Assert.That(rs.Alteration.Conversions[0], Is.TypeOf<ConvertXml>());
+
+            Assert.That(rs.Alteration.Conversions[0].Column, Is.EqualTo("#0"));
+            Assert.That(rs.Alteration.Conversions[0].Converter, Is.TypeOf<TextToDateConverterXml>());
+            Assert.That(rs.Alteration.Conversions[0].Converter.Culture, Is.EqualTo("fr-fr"));
+            Assert.That(rs.Alteration.Conversions[0].Converter.DefaultValue, Is.Null);
         }
     }
 }

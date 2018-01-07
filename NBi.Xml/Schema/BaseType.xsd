@@ -1239,8 +1239,21 @@
   </xs:complexType>
   <xs:complexType name="alteration-type">
     <xs:sequence>
-      <xs:element name="filter" type="filter-type" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="filter" type="filter-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="convert" type="convert-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="convert-type">
+    <xs:choice>
+      <xs:element name="text-to-date" type="conversion-type" />
+      <xs:element name="text-to-dateTime" type="conversion-type" />
+      <xs:element name="text-to-numeric" type="conversion-type" />
+    </xs:choice>
+    <xs:attribute name="column" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="conversion-type">
+    <xs:attribute name="culture" type="xs:string"/>
+    <xs:attribute name="default-value" type="xs:string"/>
   </xs:complexType>
   <xs:complexType name="definition-column-type">
     <xs:attribute name="index" type="xs:int" use="optional" />

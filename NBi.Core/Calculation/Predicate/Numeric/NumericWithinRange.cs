@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.ResultSet.Interval;
-using NBi.Core.ResultSet.Converter;
+using NBi.Core.ResultSet.Caster;
 
 namespace NBi.Core.Calculation.Predicate.Numeric
 {
@@ -21,8 +21,8 @@ namespace NBi.Core.Calculation.Predicate.Numeric
             builder.Build();
             var interval = builder.GetInterval();
 
-            var converter = new NumericConverter();
-            var numX = converter.Convert(x);
+            var caster = new NumericCaster();
+            var numX = caster.Execute(x);
             return interval.Contains(numX);
         }
 

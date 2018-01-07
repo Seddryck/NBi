@@ -16,6 +16,7 @@ using NBi.Core.ResultSet.Alteration;
 using NBi.Core.Evaluate;
 using NBi.Core.Calculation;
 using NBi.NUnit.Builder.Helper;
+using NBi.Core.ResultSet.Caster;
 
 namespace NBi.NUnit.Builder
 {

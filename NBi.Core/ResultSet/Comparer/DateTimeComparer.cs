@@ -1,4 +1,4 @@
-﻿using NBi.Core.ResultSet.Converter;
+﻿using NBi.Core.ResultSet.Caster;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -8,17 +8,17 @@ namespace NBi.Core.ResultSet.Comparer
     class DateTimeComparer : BaseComparer
     {
 
-        private readonly IConverter<DateTime> converter;
+        private readonly ICaster<DateTime> caster;
 
         public DateTimeComparer()
         {
-            converter = new DateTimeConverter();
+            caster = new DateTimeCaster();
         }
 
         protected override ComparerResult CompareObjects(object x, object y)
         {
-            var rxDateTime = converter.Convert(x);
-            var ryDateTime = converter.Convert(y);
+            var rxDateTime = caster.Execute(x);
+            var ryDateTime = caster.Execute(y);
 
             //Compare DateTimes (without tolerance)
             if (IsEqual(rxDateTime, ryDateTime))
@@ -39,8 +39,8 @@ namespace NBi.Core.ResultSet.Comparer
 
         public ComparerResult CompareObjects(object x, object y, DateTimeRounding rounding)
         {
-            var rxDateTime = converter.Convert(x);
-            var ryDateTime = converter.Convert(y);
+            var rxDateTime = caster.Execute(x);
+            var ryDateTime = caster.Execute(y);
 
             rxDateTime = rounding.GetValue(rxDateTime);
             ryDateTime = rounding.GetValue(ryDateTime);
@@ -69,8 +69,8 @@ namespace NBi.Core.ResultSet.Comparer
 
         protected ComparerResult CompareObjects(object x, object y, DateTimeTolerance tolerance)
         {
-            var rxDateTime = converter.Convert(x);
-            var ryDateTime = converter.Convert(y);
+            var rxDateTime = caster.Execute(x);
+            var ryDateTime = caster.Execute(y);
             
             //Compare dateTimes (with tolerance)
             if (IsEqual(rxDateTime, ryDateTime, tolerance.TimeSpan))

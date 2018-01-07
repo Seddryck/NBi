@@ -12,6 +12,8 @@ namespace NBi.Xml.Items.Alteration
     {
         [XmlElement("filter")]
         public List<FilterXml> Filters { get; set; }
+        //[XmlElement("convert")]
+        //public List<ConversionXml> Conversions { get; set; }
 
         public AlterationXml()
         {

@@ -1,4 +1,4 @@
-﻿using NBi.Core.ResultSet.Converter;
+﻿using NBi.Core.ResultSet.Caster;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -44,11 +44,11 @@ namespace NBi.Core.ResultSet
         {
             object v = null;
             if (columnType == ColumnType.Numeric)
-                v = new NumericConverter().Convert(value);
+                v = new NumericCaster().Execute(value);
             else if (columnType == ColumnType.DateTime)
-                v = new DateTimeConverter().Convert(value);
+                v = new DateTimeCaster().Execute(value);
             else if (columnType == ColumnType.Boolean)
-                v = new ThreeStateBooleanConverter().Convert(value);
+                v = new ThreeStateBooleanCaster().Execute(value);
             else
             {
                 if (value is IConvertible)

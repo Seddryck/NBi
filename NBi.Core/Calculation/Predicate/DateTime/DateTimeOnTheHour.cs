@@ -1,5 +1,5 @@
 ﻿using NBi.Core.ResultSet.Comparer;
-using NBi.Core.ResultSet.Converter;
+using NBi.Core.ResultSet.Caster;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -17,8 +17,8 @@ namespace NBi.Core.Calculation.Predicate.DateTime
 
         protected override bool Apply(object x)
         {
-            var converter = new DateTimeConverter();
-            var dtX = converter.Convert(x);
+            var caster = new DateTimeCaster();
+            var dtX = caster.Execute(x);
 
             return (dtX.TimeOfDay.Ticks) % (new TimeSpan(1, 0, 0).Ticks) == 0;
         }

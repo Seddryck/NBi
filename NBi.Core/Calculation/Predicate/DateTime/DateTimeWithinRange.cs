@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.ResultSet.Interval;
-using NBi.Core.ResultSet.Converter;
+using NBi.Core.ResultSet.Caster;
 
 namespace NBi.Core.Calculation.Predicate.DateTime
 {
@@ -21,8 +21,8 @@ namespace NBi.Core.Calculation.Predicate.DateTime
             builder.Build();
             var interval = builder.GetInterval();
 
-            var converter = new DateTimeConverter();
-            var dtX = converter.Convert(x);
+            var caster = new DateTimeCaster();
+            var dtX = caster.Execute(x);
             return interval.Contains(dtX);
         }
 

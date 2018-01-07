@@ -323,8 +323,8 @@
     <Compile Include="Unit\Core\ResultSet\Comparer\TextComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\NumericComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\NumericToleranceFactoryTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Converter\DateTimeConverterTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Converter\BaseNumericConverterTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Casting\DateTimeCasterTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Casting\BaseNumericCasterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Equivalence\NameEquivalerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Equivalence\SettingsEquivalerBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Equivalence\SettingsIndexResultSetTest.cs" />

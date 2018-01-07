@@ -1,5 +1,5 @@
 ﻿using NBi.Core.ResultSet.Comparer;
-using NBi.Core.ResultSet.Converter;
+using NBi.Core.ResultSet.Caster;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -17,8 +17,8 @@ namespace NBi.Core.Calculation.Predicate.Numeric
 
         protected override bool Apply(object x)
         {
-            var converter = new NumericConverter();
-            var numX = converter.Convert(x);
+            var caster = new NumericCaster();
+            var numX = caster.Execute(x);
 
             return numX % 1 == 0;
         }

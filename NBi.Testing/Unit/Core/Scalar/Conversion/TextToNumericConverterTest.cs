@@ -12,11 +12,17 @@ namespace NBi.Testing.Unit.Core.Scalar.Conversion
     public class TextToNumericConverterTest
     {
         [Test]
-        [TestCase("100,456", "fr-fr")]
-        [TestCase("100.456", "en-us")]
-        public void Execute_ValidNumeric_Decimal(string text, string culture)
+        [TestCase("fr-fr")]
+        [TestCase("en-us")]
+        [TestCase("jp-jp")]
+        [TestCase("ru-ru")]
+        [TestCase("ko-ko")]
+        public void Execute_ValidNumeric_Decimal(string culture)
         {
             var cultureInfo = new CultureInfo(culture);
+            var text = (100.456).ToString(cultureInfo.NumberFormat);
+            Console.WriteLine(text);
+
             var converter = new TextToNumericConverter(cultureInfo, -1m);
             var newValue = converter.Execute(text);
             Assert.That(newValue, Is.TypeOf<Decimal>());

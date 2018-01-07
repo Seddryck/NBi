@@ -12,11 +12,17 @@ namespace NBi.Testing.Unit.Core.Scalar.Conversion
     public class TextToDateConverterTest
     {
         [Test]
-        [TestCase("06/01/2018", "fr-fr")]
-        [TestCase("06-JAN-18", "en-us")]
-        public void Execute_ValidDate_Date(string text, string culture)
+        [TestCase("fr-fr")]
+        [TestCase("en-us")]
+        [TestCase("jp-jp")]
+        [TestCase("ru-ru")]
+        [TestCase("ko-ko")]
+        public void Execute_ValidDate_Date(string culture)
         {
             var cultureInfo = new CultureInfo(culture);
+            var text = (new DateTime(2018, 1, 6)).ToString(cultureInfo.DateTimeFormat).Split(' ')[0];
+            Console.WriteLine(text);
+
             var converter = new TextToDateConverter(cultureInfo, DateTime.MinValue);
             var newValue = converter.Execute(text);
             Assert.That(newValue, Is.TypeOf<DateTime>());

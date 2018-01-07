@@ -18,7 +18,7 @@ namespace NBi.Core.Calculation.Predicate.Text
             switch (x)
             {
                 case string s:
-                    return System.DateTime.TryParseExact(s, CultureInfo.DateTimeFormat.ShortTimePattern, CultureInfo, DateTimeStyles.None, out var result);
+                    return System.DateTime.TryParseExact(s, CultureInfo.DateTimeFormat.LongTimePattern, CultureInfo, DateTimeStyles.None, out var result);
                 default:
                     return System.DateTime.TryParse(x.ToString(), out var result2);
             }

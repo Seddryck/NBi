@@ -1139,6 +1139,7 @@
       <xs:element name="matches-numeric" type="culture-specific-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="matches-date" type="culture-specific-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="matches-time" type="culture-specific-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="matches-dateTime" type="culture-specific-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="within-range" type="comparer-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="within-list" type="multitext-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="integer" type="no-reference-type" minOccurs="0" maxOccurs="1"/>

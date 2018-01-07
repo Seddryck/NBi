@@ -679,6 +679,9 @@
     <EmbeddedResource Include="Acceptance\Resources\Positive\QuerySupersetOfQuery.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="Acceptance\Resources\Csv\Orders.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Acceptance\Resources\PowerBiDesktop\Sales Analysis.pbix">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

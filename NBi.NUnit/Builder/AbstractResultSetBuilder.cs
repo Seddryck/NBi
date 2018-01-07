@@ -17,6 +17,8 @@ using NBi.Core.Evaluate;
 using NBi.Core.Calculation;
 using NBi.NUnit.Builder.Helper;
 using NBi.Core.ResultSet.Caster;
+using NBi.Core.Scalar.Conversion;
+using NBi.Core.ResultSet.Conversion;
 
 namespace NBi.NUnit.Builder
 {
@@ -133,18 +135,16 @@ namespace NBi.NUnit.Builder
                 }
             }
 
-            //if (resultSetXml.Alteration.Conversions != null)
-            //{
-            //    foreach (var conversionXml in resultSetXml.Alteration.Conversions)
-            //    {
-            //        var factory = new NBi.Core.Scalar.Conversion.ConverterFactory();
-            //        if (conversionXml.Predication != null)
-            //            yield return factory.Instantiate
-            //                        (
-            //                            conversionXml.Predication
-            //                        ).Execute;
-            //    }
-            //}
+            if (resultSetXml.Alteration.Conversions != null)
+            {
+                foreach (var conversionXml in resultSetXml.Alteration.Conversions)
+                {
+                    var factory = new ConverterFactory();
+                    var converter = factory.Instantiate(conversionXml.Converter.From, conversionXml.Converter.To, conversionXml.Converter.DefaultValue, conversionXml.Converter.Culture);
+                    var engine = new ConverterEngine(conversionXml.Column, converter);
+                    yield return engine.Execute;
+                }
+            }
         }
 
     }

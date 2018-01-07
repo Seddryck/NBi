@@ -10,9 +10,19 @@ namespace NBi.Core.ResultSet.Conversion
 {
     public class ConverterEngine
     {
-        public void Execute(ResultSet rs, int columnIndex, IConverter converter)
+        private readonly string column;
+        private readonly IConverter converter;
+
+        public ConverterEngine(string column, IConverter converter)
         {
-            var columnName = rs.Columns[columnIndex].ColumnName;
+            this.column = !string.IsNullOrEmpty(column) ? column : throw new ArgumentException("The column can't be empty. You should specify the name of the column or the index preceded by a #.", nameof(column));
+            this.converter = converter ?? throw new ArgumentNullException("The converter can't be null.", nameof(converter));
+        }
+
+        public ResultSet Execute(ResultSet rs)
+        {
+            var columnName = column.StartsWith("#") ? rs.Columns[Convert.ToInt32(column.Replace("#", ""))].ColumnName : column;
+            var columnIndex = column.StartsWith("#") ? Convert.ToInt32(column.Replace("#", "")) : rs.Columns[columnName].Ordinal;
             var columnNameTemp = columnName + "__temp";
 
             rs.Columns.Add(new DataColumn(columnNameTemp, converter.DestinationType));
@@ -23,16 +33,7 @@ namespace NBi.Core.ResultSet.Conversion
 
             rs.Columns.RemoveAt(columnIndex);
             rs.Columns[columnNameTemp].ColumnName = columnName;
+            return rs;
         }
-
-        public void Execute(ResultSet rs, string columnName, IConverter converter)
-        {
-            if (!rs.Columns.Contains(columnName))
-                throw new ArgumentException( $"The column '{columnName}' doesn't exist!", nameof(columnName));
-            else
-                Execute(rs, rs.Columns[columnName].Ordinal, converter);
-        }
-
-        
     }
 }

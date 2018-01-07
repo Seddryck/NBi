@@ -25,8 +25,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Conversion
             Assert.That(converter, Is.Not.Null);
             Assert.That(converter, Is.TypeOf<TextToNumericConverter>());
 
-            var engine = new ConverterEngine();
-            engine.Execute(rs, 0, converter);
+            var engine = new ConverterEngine("#0", converter);
+            engine.Execute(rs);
 
             Assert.That(rs.Columns[0].DataType, Is.EqualTo(typeof(decimal)));
             Assert.That(rs.Columns.Count, Is.EqualTo(2));
@@ -47,8 +47,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Conversion
             Assert.That(converter, Is.Not.Null);
             Assert.That(converter, Is.TypeOf<TextToNumericConverter>());
 
-            var engine = new ConverterEngine();
-            engine.Execute(rs, 1, converter);
+            var engine = new ConverterEngine("#1", converter);
+            engine.Execute(rs);
 
             Assert.That(rs.Columns[1].DataType, Is.EqualTo(typeof(decimal)));
             Assert.That(rs.Columns.Count, Is.EqualTo(2));
@@ -69,8 +69,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Conversion
             Assert.That(converter, Is.Not.Null);
             Assert.That(converter, Is.TypeOf<TextToNumericConverter>());
 
-            var engine = new ConverterEngine();
-            engine.Execute(rs, 1, converter);
+            var engine = new ConverterEngine("#1", converter);
+            engine.Execute(rs);
 
             Assert.That(rs.Columns[1].DataType, Is.EqualTo(typeof(decimal)));
             Assert.That(rs.Columns.Count, Is.EqualTo(3));
@@ -91,8 +91,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Conversion
             Assert.That(converter, Is.Not.Null);
             Assert.That(converter, Is.TypeOf<TextToDateConverter>());
 
-            var engine = new ConverterEngine();
-            engine.Execute(rs, 1, converter);
+            var engine = new ConverterEngine("#1", converter);
+            engine.Execute(rs);
 
             Assert.That(rs.Columns[1].DataType, Is.EqualTo(typeof(DateTime)));
             Assert.That(rs.Columns.Count, Is.EqualTo(3));
@@ -113,8 +113,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Conversion
             Assert.That(converter, Is.Not.Null);
             Assert.That(converter, Is.TypeOf<TextToDateTimeConverter>());
 
-            var engine = new ConverterEngine();
-            engine.Execute(rs, 1, converter);
+            var engine = new ConverterEngine("#1", converter);
+            engine.Execute(rs);
 
             Assert.That(rs.Columns[1].DataType, Is.EqualTo(typeof(DateTime)));
             Assert.That(rs.Columns.Count, Is.EqualTo(3));

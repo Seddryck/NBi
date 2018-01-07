@@ -82,7 +82,10 @@ or a [shared-dataset](../docs/shared-dataset)
 <resultSet>
 {% endhighlight %}
 
-You can also define an alteration to the result-set. For the moment the only alteration supported by NBi is a [filter](../docs/resultset-rows-count-advanced/#filter).
+You can also define an alteration to the result-set. For the moment, two kinds of alterations are supported by NBi:
+
+*[filter](../docs/resultset-rows-count-advanced/#filter).
+*[convert](../docs/resultset-alterations/#Converts)
 
 {% highlight xml %}
 <resultSet>

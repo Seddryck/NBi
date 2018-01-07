@@ -139,7 +139,7 @@ It could be useful to use the negation of a predicate. By specifying the attribu
 <assertion>
     <all-rows>
         ...
-        <predicate operand="Name">
+        <predicate operand="Name" type="text">
            <lower-case not="true"/>
         <predicate>
     </all-rows>

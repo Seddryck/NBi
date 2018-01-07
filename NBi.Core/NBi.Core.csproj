@@ -134,6 +134,7 @@
     <Compile Include="Calculation\Predicate\PredicateFactory.cs" />
     <Compile Include="Calculation\Predicate\Text\CultureSensitiveTextPredicate.cs" />
     <Compile Include="Calculation\Predicate\Text\AbstractTextPredicate.cs" />
+    <Compile Include="Calculation\Predicate\Text\TextMatchesDateTime.cs" />
     <Compile Include="Calculation\Predicate\Text\TextWithinList.cs" />
     <Compile Include="Calculation\Predicate\Text\TextMatchesTime.cs" />
     <Compile Include="Calculation\Predicate\Text\TextMatchesDate.cs" />
@@ -456,6 +457,7 @@
     <Compile Include="Scalar\Conversion\ConverterFactory.cs" />
     <Compile Include="Scalar\Conversion\IConverter.cs" />
     <Compile Include="Scalar\Conversion\TextToDateConverter.cs" />
+    <Compile Include="Scalar\Conversion\TextToDateTimeConverter.cs" />
     <Compile Include="Scalar\Conversion\TextToNumericConverter.cs" />
     <Compile Include="Scalar\CultureFactory.cs" />
     <Compile Include="Scalar\Percentage.cs" />

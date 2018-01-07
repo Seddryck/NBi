@@ -36,6 +36,7 @@ namespace NBi.Core.Calculation.Predicate
                         case ComparerType.MatchesNumeric: return new TextMatchesNumeric(info.Not, (info as ICultureSensitivePredicateInfo).Culture);
                         case ComparerType.MatchesDate: return new TextMatchesDate(info.Not, (info as ICultureSensitivePredicateInfo).Culture);
                         case ComparerType.MatchesTime: return new TextMatchesTime(info.Not, (info as ICultureSensitivePredicateInfo).Culture);
+                        case ComparerType.MatchesDateTime: return new TextMatchesDateTime(info.Not, (info as ICultureSensitivePredicateInfo).Culture);
                         case ComparerType.WithinList: return new TextWithinList(info.Not, (info as IReferencePredicateInfo).Reference, (info as ICaseSensitivePredicateInfo).StringComparison);
                         default:
                             throw new ArgumentOutOfRangeException($"Text columns don't support  the '{info.ComparerType.ToString().ToDashedCase()}' comparer.");

@@ -54,6 +54,6 @@ An optional *default-value* attribute will let you define the value returned if 
 
 The different possibilities for the conversion are
 
-* text-to-date: will use the *Short Date Pattern* of the specified culture  to try the conversion from text to a dateTime.
-* text-to-datTime: will use the concatenation of the *Short Date Pattern* and the *Long Time Pattern* of the specified culture to try the conversion from text to a dateTime.
-* text-to-numeric: will use the *Decimal Separator* of the specified culture to try the conversion from text to a numeric.
+* **text-to-date**: will use the *Short Date Pattern* of the specified culture  to try the conversion from text to a dateTime.
+* **text-to-dateTime**: will use the concatenation of the *Short Date Pattern* and the *Long Time Pattern* of the specified culture to try the conversion from text to a dateTime.
+* **text-to-numeric**: will use the *Decimal Separator* of the specified culture to try the conversion from text to a numeric.

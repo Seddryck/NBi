@@ -23,6 +23,7 @@ namespace NBi.Core.Calculation
         MatchesNumeric = 25,
         MatchesDate = 26,
         MatchesTime = 27,
+        MatchesDateTime = 28,
         UpperCase = 30,
         LowerCase = 31,
         WithinRange = 40,

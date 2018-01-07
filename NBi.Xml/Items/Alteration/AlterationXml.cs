@@ -1,4 +1,5 @@
-﻿using NBi.Xml.Items.Calculation;
+﻿using NBi.Xml.Items.Alteration.Conversion;
+using NBi.Xml.Items.Calculation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace NBi.Xml.Items.Alteration
     {
         [XmlElement("filter")]
         public List<FilterXml> Filters { get; set; }
+        [XmlElement("convert")]
+        public List<ConvertXml> Conversions { get; set; }
 
         public AlterationXml()
         {

@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Linq;
 using NBi.Core.ResultSet.Comparer;
 using System.Text;
-using NBi.Core.ResultSet.Converter;
+using NBi.Core.ResultSet.Caster;
 using NBi.Core.ResultSet.Analyzer;
 using System.Collections.ObjectModel;
 using NBi.Core.ResultSet.Equivalence;
@@ -124,7 +124,7 @@ namespace NBi.Core.ResultSet.Uniqueness
                     if (columnType == ColumnType.Numeric && IsNumericField(dataColumn))
                         return;
 
-                    var numericConverter = new NumericConverter();
+                    var numericConverter = new NumericCaster();
                     if (columnType == ColumnType.Numeric && !(numericConverter.IsValid(value) || Comparer.BaseComparer.IsValidInterval(value)))
                     {
                         var exception = string.Format(messages[0]

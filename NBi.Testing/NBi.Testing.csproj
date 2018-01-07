@@ -309,6 +309,7 @@
     <Compile Include="Unit\Core\Query\Resolver\ReportDataSetQueryResolverTest.cs" />
     <Compile Include="Unit\Core\Query\Resolver\SharedDataSetQueryResolverTest.cs" />
     <Compile Include="Unit\Core\Query\Resolver\EmbeddedQueryResolverTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Conversion\ConverterEngineTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetServiceTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Uniqueness\IndexUniqueRowsEvaluatorTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Interval\DateTimeIntervalBuilderTest.cs" />
@@ -323,8 +324,8 @@
     <Compile Include="Unit\Core\ResultSet\Comparer\TextComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\NumericComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Comparer\NumericToleranceFactoryTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Converter\DateTimeConverterTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Converter\BaseNumericConverterTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Casting\DateTimeCasterTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Casting\BaseNumericCasterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Equivalence\NameEquivalerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Equivalence\SettingsEquivalerBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Equivalence\SettingsIndexResultSetTest.cs" />
@@ -336,6 +337,9 @@
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
     <Compile Include="Unit\Core\CsvReaderTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Conversion\TextToDateConverterTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Conversion\TextToNumericConverterTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Conversion\TextToDateTimeConverterTest.cs" />
     <Compile Include="Unit\Core\Scalar\PercentageTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\GlobalVariableScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\LiteralScalarResolverTest.cs" />
@@ -675,6 +679,9 @@
     <EmbeddedResource Include="Acceptance\Resources\Positive\QuerySupersetOfQuery.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="Acceptance\Resources\Csv\Orders.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Acceptance\Resources\PowerBiDesktop\Sales Analysis.pbix">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

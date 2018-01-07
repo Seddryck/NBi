@@ -18,7 +18,8 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.MatchesNumeric, "1.21")]
         [TestCase(ComparerType.MatchesNumeric, "1000.21")]
         [TestCase(ComparerType.MatchesDate, "2016-12-25")]
-        [TestCase(ComparerType.MatchesTime, "08:40")]
+        [TestCase(ComparerType.MatchesTime, "08:40:12")]
+        [TestCase(ComparerType.MatchesDateTime, "2016-12-25 08:40:12")]
         public void Compare_Text_Success(ComparerType comparerType, object x)
         {
             var predicate = new Mock<IPredicateInfo>();
@@ -39,7 +40,9 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.MatchesDate, "206-12-25")]
         [TestCase(ComparerType.MatchesDate, "2016-12-25 07:42:00")]
         [TestCase(ComparerType.MatchesTime, "2016-12-25 07:42:00")]
-        [TestCase(ComparerType.MatchesTime, "08:40:12")]
+        [TestCase(ComparerType.MatchesTime, "08:40")]
+        [TestCase(ComparerType.MatchesTime, "08:40 AM")]
+        [TestCase(ComparerType.MatchesDateTime, "25/12/2015 08:40PM")]
         public void Compare_Text_Failure(ComparerType comparerType, object x)
         {
             var predicate = new Mock<IPredicateInfo>();
@@ -59,6 +62,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.MatchesDate, "25/12/2016", "fr-fr")]
         [TestCase(ComparerType.MatchesDate, "05/12/2016", "fr-fr")]
         [TestCase(ComparerType.MatchesDate, "5/12/2016", "nl-be")]
+        [TestCase(ComparerType.MatchesDateTime, "25/12/2015 08:40:16", "fr-fr")]
         [TestCase(ComparerType.MatchesNumeric, "121", "en-us")]
         [TestCase(ComparerType.MatchesNumeric, "1.21", "en-us")]
         [TestCase(ComparerType.MatchesNumeric, "1000.21", "en-us")]
@@ -81,6 +85,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.MatchesNumeric, "1,211", "en-us")]
         [TestCase(ComparerType.MatchesDate, "12/25/2016", "fr-fr")]
         [TestCase(ComparerType.MatchesDate, "5/12/2016", "fr-fr")]
+        [TestCase(ComparerType.MatchesDateTime, "25/12/2015 08:40:16", "en-us")]
         public void Compare_Text_Failure(ComparerType comparerType, object x, string culture)
         {
             var predicate = new Mock<IPredicateInfo>();

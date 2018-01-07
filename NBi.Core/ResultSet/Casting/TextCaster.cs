@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Converter
+namespace NBi.Core.ResultSet.Caster
 {
-    class TextConverter : IConverter<string>
+    class TextCaster : ICaster<string>
     {
-        public string Convert(object value)
+        public string Execute(object value)
         {
             if (value is string)
                 return (string)value;

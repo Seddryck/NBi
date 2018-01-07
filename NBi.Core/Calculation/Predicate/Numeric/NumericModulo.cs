@@ -1,4 +1,4 @@
-﻿using NBi.Core.ResultSet.Converter;
+﻿using NBi.Core.ResultSet.Caster;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -19,8 +19,8 @@ namespace NBi.Core.Calculation.Predicate.Numeric
         }
         protected override bool Compare(decimal x, decimal y)
         {
-            var converter = new NumericConverter();
-            var z = converter.Convert(secondOperand);
+            var caster = new NumericCaster();
+            var z = caster.Execute(secondOperand);
             return x % z == y;
         }
 

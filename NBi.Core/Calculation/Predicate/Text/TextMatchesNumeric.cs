@@ -19,9 +19,9 @@ namespace NBi.Core.Calculation.Predicate.Text
             switch (x)
             {
                 case string s:
-                    return Double.TryParse(s, NumberStyles.Number & ~NumberStyles.AllowThousands, CultureInfo.NumberFormat, out var result);
+                    return Decimal.TryParse(s, NumberStyles.Number & ~NumberStyles.AllowThousands, CultureInfo.NumberFormat, out var result);
                 default:
-                    return Double.TryParse(x.ToString(), out var result2);
+                    return Decimal.TryParse(x.ToString(), out var result2);
             }
         }
 

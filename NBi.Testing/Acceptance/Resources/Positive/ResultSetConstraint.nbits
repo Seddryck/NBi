@@ -311,5 +311,104 @@
         </equalTo>
       </assert>
     </test>
+    <test name="Conversion with text-to-date" uid="0202">
+      <system-under-test>
+        <resultSet file="..\Csv\Orders.csv">
+          <alteration>
+            <convert column="#1">
+              <text-to-date culture="fr-fr" default-value="2016-01-01"/>
+            </convert>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo keys="first">
+          <column index="0" role="key" type="numeric"/>
+          <column index="1" role="value" type="dateTime"/>
+          <column index="2" role="value" type="text"/>
+          <resultSet>
+            <row>
+              <cell>1</cell>
+              <cell>2017-07-06</cell>
+              <cell>CUST0001</cell>
+              <cell>100</cell>
+            </row>
+            <row>
+              <cell>2</cell>
+              <cell>2017-07-17</cell>
+              <cell>CUST0001</cell>
+              <cell>80</cell>
+            </row>
+            <row>
+              <cell>3</cell>
+              <cell>2017-01-08</cell>
+              <cell>CUST0002</cell>
+              <cell>120</cell>
+            </row>
+            <row>
+              <cell>4</cell>
+              <cell>2016-01-01</cell>
+              <cell>CUST0002</cell>
+              <cell>80</cell>
+            </row>
+            <row>
+              <cell>5</cell>
+              <cell>2017-12-18</cell>
+              <cell>CUST0003</cell>
+              <cell>55</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Conversion with text-to-date previously filtered by matches-date" uid="0203">
+      <system-under-test>
+        <resultSet file="..\Csv\Orders.csv">
+          <alteration>
+            <filter>
+              <predicate operand="#1" type="text">
+                <matches-date culture="fr-fr"/>
+              </predicate>
+            </filter>
+            <convert column="#1">
+              <text-to-date culture="fr-fr"/>
+            </convert>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo keys="first">
+          <column index="0" role="key" type="numeric"/>
+          <column index="1" role="value" type="dateTime"/>
+          <column index="2" role="value" type="text"/>
+          <resultSet>
+            <row>
+              <cell>1</cell>
+              <cell>2017-07-06</cell>
+              <cell>CUST0001</cell>
+              <cell>100</cell>
+            </row>
+            <row>
+              <cell>2</cell>
+              <cell>2017-07-17</cell>
+              <cell>CUST0001</cell>
+              <cell>80</cell>
+            </row>
+            <row>
+              <cell>3</cell>
+              <cell>2017-01-08</cell>
+              <cell>CUST0002</cell>
+              <cell>120</cell>
+            </row>
+            <row>
+              <cell>5</cell>
+              <cell>2017-12-18</cell>
+              <cell>CUST0003</cell>
+              <cell>55</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
   </group>
 </testSuite>

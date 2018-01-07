@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Scalar;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -14,20 +15,8 @@ namespace NBi.Core.Calculation.Predicate.Text
         public CultureSensitiveTextPredicate(bool not, string culture)
             : base(not)
         {
-            CultureInfo = GetCultureInfo(culture);
-            if (CultureInfo.LCID == CultureInfo.InvariantCulture.LCID)
-            {
-                CultureInfo.DateTimeFormat.ShortDatePattern = "yyyy/MM/dd";
-                CultureInfo.DateTimeFormat.DateSeparator = "-";
-            }
-        }
-
-        private CultureInfo GetCultureInfo(string culture)
-        {
-            if (!string.IsNullOrEmpty(culture))
-                return (new CultureInfo(culture).Clone() as CultureInfo);
-            else
-                return CultureInfo.InvariantCulture.Clone() as CultureInfo;
+            var factory = new CultureFactory();
+            CultureInfo = factory.Instantiate(culture);
         }
     }
 }

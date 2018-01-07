@@ -1,4 +1,4 @@
-﻿using NBi.Core.ResultSet.Converter;
+﻿using NBi.Core.ResultSet.Caster;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -7,17 +7,17 @@ namespace NBi.Core.ResultSet.Comparer
 {
     class BooleanComparer : BaseComparer
     {
-        private readonly IConverter<ThreeStateBoolean> converter;
+        private readonly ICaster<ThreeStateBoolean> caster;
 
         public BooleanComparer()
         {
-            converter = new ThreeStateBooleanConverter();
+            caster = new ThreeStateBooleanCaster();
         }
 
         protected override ComparerResult CompareObjects(object x, object y)
         {
-            var xThreeState = converter.Convert(x);
-            var yThreeState = converter.Convert(y);
+            var xThreeState = caster.Execute(x);
+            var yThreeState = caster.Execute(y);
 
             if (IsEqual(xThreeState, yThreeState))
                 return ComparerResult.Equality;
@@ -46,7 +46,7 @@ namespace NBi.Core.ResultSet.Comparer
 
         protected override bool IsValidObject(object x)
         {
-            return converter.IsValid(x);
+            return caster.IsValid(x);
         }
     }
 }

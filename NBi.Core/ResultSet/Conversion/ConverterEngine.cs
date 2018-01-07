@@ -19,7 +19,7 @@ namespace NBi.Core.ResultSet.Conversion
             rs.Columns[columnNameTemp].SetOrdinal(columnIndex + 1);
 
             foreach(DataRow row in rs.Rows)
-                row[columnNameTemp] = converter.Execute(row[columnIndex]);
+                row[columnNameTemp] = converter.Execute(row[columnIndex]) ?? DBNull.Value;
 
             rs.Columns.RemoveAt(columnIndex);
             rs.Columns[columnNameTemp].ColumnName = columnName;

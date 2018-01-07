@@ -21,9 +21,6 @@ namespace NBi.Core.Scalar.Conversion
 
         public BaseConverter(CultureInfo cultureInfo, object defaultValue)
         {
-            //if (defaultValue != null && !(defaultValue is U))
-            //    throw new ArgumentException($"The default value must be of the return type of the converter or null.", nameof(defaultValue));
-
             var info = GetPredicateInfo(cultureInfo);
             var predicateFactory = new PredicateFactory();
             predicate = predicateFactory.Instantiate(info);

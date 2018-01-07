@@ -309,6 +309,7 @@
     <Compile Include="Unit\Core\Query\Resolver\ReportDataSetQueryResolverTest.cs" />
     <Compile Include="Unit\Core\Query\Resolver\SharedDataSetQueryResolverTest.cs" />
     <Compile Include="Unit\Core\Query\Resolver\EmbeddedQueryResolverTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Conversion\ConverterEngineTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetServiceTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Uniqueness\IndexUniqueRowsEvaluatorTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Interval\DateTimeIntervalBuilderTest.cs" />

@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Scalar.Conversion
 {
-    class TextToDateConverter : BaseConverter<string, DateTime>
+    class TextToDateTimeConverter : BaseConverter<string, DateTime>
     {
-        public TextToDateConverter(CultureInfo cultureInfo, DateTime? dateTime)
+        public TextToDateTimeConverter(CultureInfo cultureInfo, DateTime? dateTime)
             : base(cultureInfo, dateTime)
         { }
 
-        protected override DateTime OnExecute(string x, CultureInfo cultureInfo) 
-            => DateTime.ParseExact(x, cultureInfo.DateTimeFormat.ShortDatePattern, cultureInfo, DateTimeStyles.None);
+        protected override DateTime OnExecute(string x, CultureInfo cultureInfo)
+            => DateTime.ParseExact(x, cultureInfo.DateTimeFormat.ShortDatePattern + " " + cultureInfo.DateTimeFormat.LongTimePattern, cultureInfo, DateTimeStyles.None);
 
         protected override IPredicateInfo GetPredicateInfo(CultureInfo cultureInfo) => new PredicateInfo(cultureInfo.Name);
 
@@ -29,7 +29,7 @@ namespace NBi.Core.Scalar.Conversion
             }
 
             public ColumnType ColumnType { get => ColumnType.Text; set => throw new NotImplementedException(); }
-            public ComparerType ComparerType => ComparerType.MatchesDate;
+            public ComparerType ComparerType => ComparerType.MatchesDateTime;
             public string Operand { get => "undefined"; set => throw new NotImplementedException(); }
             public bool Not { get => false; set => throw new NotImplementedException(); }
             public string Culture { get; }

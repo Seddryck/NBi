@@ -100,5 +100,27 @@ namespace NBi.Testing.Unit.Core.ResultSet.Conversion
             Assert.That(rs.Rows[1][1], Is.EqualTo(new DateTime(2015, 12, 17)));
             Assert.That(rs.Rows[2][1], Is.EqualTo(new DateTime(2013, 1, 1)));
         }
+
+        [Test]
+        public void Execute_MiddleColumnIsTextualDateTime_MiddleColumnIsDateTime()
+        {
+            var args = new ObjectsResultSetResolverArgs(new[] { new[] { "Alpha", "06/01/2018 08:12:00", "true" }, new[] { "Beta", "17/12/2015 08:12:00", "false" }, new[] { "Gamma", "Before 2014", "false" } });
+            var resolver = new ObjectsResultSetResolver(args);
+            var rs = resolver.Execute();
+
+            var factory = new ConverterFactory();
+            var converter = factory.Instantiate("text", "dateTime", new DateTime(2019, 12, 31, 23, 59, 59), "fr-fr");
+            Assert.That(converter, Is.Not.Null);
+            Assert.That(converter, Is.TypeOf<TextToDateTimeConverter>());
+
+            var engine = new ConverterEngine();
+            engine.Execute(rs, 1, converter);
+
+            Assert.That(rs.Columns[1].DataType, Is.EqualTo(typeof(DateTime)));
+            Assert.That(rs.Columns.Count, Is.EqualTo(3));
+            Assert.That(rs.Rows[0][1], Is.EqualTo(new DateTime(2018, 1, 6, 8,12,0)));
+            Assert.That(rs.Rows[1][1], Is.EqualTo(new DateTime(2015, 12, 17, 8, 12, 0)));
+            Assert.That(rs.Rows[2][1], Is.EqualTo(new DateTime(2019, 12, 31, 23, 59, 59)));
+        }
     }
 }

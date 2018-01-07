@@ -337,8 +337,9 @@
     <Compile Include="Unit\Core\ConnectionFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
     <Compile Include="Unit\Core\CsvReaderTest.cs" />
-    <Compile Include="Unit\Core\Scalar\Conversion\TextToNumericConverterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Conversion\TextToDateConverterTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Conversion\TextToNumericConverterTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Conversion\TextToDateTimeConverterTest.cs" />
     <Compile Include="Unit\Core\Scalar\PercentageTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\GlobalVariableScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\LiteralScalarResolverTest.cs" />

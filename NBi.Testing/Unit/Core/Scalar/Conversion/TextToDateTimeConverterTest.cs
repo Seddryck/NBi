@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Testing.Unit.Core.Scalar.Conversion
 {
-    public class TextToDateConverterTest
+    public class TextToDateTimeConverterTest
     {
         [Test]
         [TestCase("fr-fr")]
@@ -17,26 +17,26 @@ namespace NBi.Testing.Unit.Core.Scalar.Conversion
         [TestCase("jp-jp")]
         [TestCase("ru-ru")]
         [TestCase("ko-ko")]
-        public void Execute_ValidDate_Date(string culture)
+        public void Execute_ValidDateTime_Date(string culture)
         {
             var cultureInfo = new CultureInfo(culture);
-            var text = (new DateTime(2018, 1, 6)).ToString(cultureInfo.DateTimeFormat).Split(' ')[0];
+            var text = (new DateTime(2018, 1, 6, 5, 12, 25)).ToString(cultureInfo.DateTimeFormat.ShortDatePattern + " " + cultureInfo.DateTimeFormat.LongTimePattern, cultureInfo.DateTimeFormat);
             Console.WriteLine(text);
 
-            var converter = new TextToDateConverter(cultureInfo, DateTime.MinValue);
+            var converter = new TextToDateTimeConverter(cultureInfo, DateTime.MinValue);
             var newValue = converter.Execute(text);
             Assert.That(newValue, Is.TypeOf<DateTime>());
-            Assert.That(newValue, Is.EqualTo(new DateTime(2018, 01, 6)));
+            Assert.That(newValue, Is.EqualTo(new DateTime(2018, 01, 6, 5, 12, 25)));
         }
 
         [Test]
         [TestCase("06 Janvier 2018", "fr-fr")]
+        [TestCase("06/01/2018", "fr-fr")]
         [TestCase("06-JAN", "en-us")]
-        [TestCase("06/07/2012 08:44:12", "fr-fr")]
         public void Execute_InvalidDate_Date(string text, string culture)
         {
             var cultureInfo = new CultureInfo(culture);
-            var converter = new TextToDateConverter(cultureInfo, DateTime.MinValue);
+            var converter = new TextToDateTimeConverter(cultureInfo, DateTime.MinValue);
             var newValue = converter.Execute(text);
             Assert.That(newValue, Is.TypeOf<DateTime>());
             Assert.That(newValue, Is.EqualTo(DateTime.MinValue));
@@ -44,12 +44,12 @@ namespace NBi.Testing.Unit.Core.Scalar.Conversion
 
         [Test]
         [TestCase("06 Janvier 2018", "fr-fr")]
+        [TestCase("06/01/2018", "fr-fr")]
         [TestCase("06-JAN", "en-us")]
-        [TestCase("06/07/2012 08:44:12", "fr-fr")]
         public void Execute_InvalidDate_Null(string text, string culture)
         {
             var cultureInfo = new CultureInfo(culture);
-            var converter = new TextToDateConverter(cultureInfo, null);
+            var converter = new TextToDateTimeConverter(cultureInfo, null);
             var newValue = converter.Execute(text);
             Assert.That(newValue, Is.Null);
         }

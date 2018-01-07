@@ -20,6 +20,7 @@ namespace NBi.Core.Scalar.Conversion
             switch (to)
             {
                 case "date": return new TextToDateConverter(cultureInfo, CastToDateTime(defaultValue));
+                case "dateTime": return new TextToDateTimeConverter(cultureInfo, CastToDateTime(defaultValue));
                 case "numeric": return new TextToNumericConverter(cultureInfo, CastToNumeric(defaultValue));
                 default: throw new ArgumentOutOfRangeException();
             }

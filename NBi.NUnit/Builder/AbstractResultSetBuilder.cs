@@ -132,6 +132,19 @@ namespace NBi.NUnit.Builder
                                     ).Apply;
                 }
             }
+
+            //if (resultSetXml.Alteration.Conversions != null)
+            //{
+            //    foreach (var conversionXml in resultSetXml.Alteration.Conversions)
+            //    {
+            //        var factory = new NBi.Core.Scalar.Conversion.ConverterFactory();
+            //        if (conversionXml.Predication != null)
+            //            yield return factory.Instantiate
+            //                        (
+            //                            conversionXml.Predication
+            //                        ).Execute;
+            //    }
+            //}
         }
 
     }

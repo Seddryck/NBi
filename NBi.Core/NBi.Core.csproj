@@ -325,6 +325,7 @@
     <Compile Include="ResultSet\Comparer\NumericBoundedPercentageTolerance.cs" />
     <Compile Include="ResultSet\Comparer\NumericToleranceFactory.cs" />
     <Compile Include="ResultSet\Comparer\SideTolerance.cs" />
+    <Compile Include="ResultSet\Conversion\ConverterEngine.cs" />
     <Compile Include="ResultSet\Equivalence\EquivalerFactory.cs" />
     <Compile Include="ResultSet\Resolver\CsvResultSetResolverArgs.cs" />
     <Compile Include="ResultSet\Resolver\QueryResultSetResolverArgs.cs" />

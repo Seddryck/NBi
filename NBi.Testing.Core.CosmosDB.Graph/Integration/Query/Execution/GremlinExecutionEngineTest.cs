@@ -84,7 +84,7 @@ namespace NBi.Testing.Core.CosmosDb.Graph.Integration.Query.Execution
                 Assert.That(row["label"], Is.EqualTo("person"));
                 Assert.That(row["type"], Is.EqualTo("vertex"));
             }
-                
+
         }
 
         [Test]

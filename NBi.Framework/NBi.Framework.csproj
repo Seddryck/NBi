@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NBi.Framework</RootNamespace>
     <AssemblyName>NBi.Framework</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -34,8 +34,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MarkdownLog">
-      <HintPath>..\packages\MarkdownLog.0.9.3\lib\portable-windows8+net45\MarkdownLog.dll</HintPath>
+    <Reference Include="MarkdownLog, Version=0.9.3.36, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MarkdownLog.0.9.3\lib\portable-net45+sl50+MonoAndroid10+MonoTouch10\MarkdownLog.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>

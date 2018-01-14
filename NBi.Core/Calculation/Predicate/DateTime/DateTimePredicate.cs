@@ -1,4 +1,4 @@
-﻿using NBi.Core.ResultSet.Converter;
+﻿using NBi.Core.ResultSet.Caster;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +9,14 @@ namespace NBi.Core.Calculation.Predicate.DateTime
 {
     abstract class DateTimePredicate : AbstractPredicateReference
     {
-        public DateTimePredicate(object reference) : base(reference)
+        public DateTimePredicate(bool not, object reference) : base(not, reference)
         { }
 
-        public override bool Apply(object x)
+        protected override bool Apply(object x)
         {
-            var converter = new DateTimeConverter();
-            var dtX = converter.Convert(x);
-            var dtY = converter.Convert(Reference);
+            var caster = new DateTimeCaster();
+            var dtX = caster.Execute(x);
+            var dtY = caster.Execute(Reference);
 
             return Compare(dtX, dtY);
         }

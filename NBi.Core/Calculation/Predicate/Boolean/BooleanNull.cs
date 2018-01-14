@@ -8,16 +8,17 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.Boolean
 {
-    class BooleanNull : IPredicate
+    class BooleanNull : AbstractPredicate
     {
-        public bool Apply(object x)
+        public BooleanNull(bool not)
+            : base(not)
+        { }
+
+        protected override bool Apply(object x)
         {
             return x == null || x == DBNull.Value || (x as string)=="(null)";
         }
 
-        public override string ToString()
-        {
-            return $"is null";
-        }
+        public override string ToString() => $"is null";
     }
 }

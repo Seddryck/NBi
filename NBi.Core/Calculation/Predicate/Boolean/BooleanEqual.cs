@@ -10,18 +10,15 @@ namespace NBi.Core.Calculation.Predicate.Boolean
 {
     class BooleanEqual : AbstractPredicateReference
     {
-        public BooleanEqual(object reference) : base(reference)
+        public BooleanEqual(bool not, object reference) : base(not, reference)
         { }
 
-        public override bool Apply(object x)
+        protected override bool Apply(object x)
         {
             var cpr = new BooleanComparer();
             return cpr.Compare(x, Reference).AreEqual;
         }
 
-        public override string ToString()
-        {
-            return $"is equal to {Reference}";
-        }
+        public override string ToString() => $"is equal to {Reference}";
     }
 }

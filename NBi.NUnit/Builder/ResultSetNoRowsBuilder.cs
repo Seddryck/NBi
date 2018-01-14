@@ -43,9 +43,8 @@ namespace NBi.NUnit.Builder
             var factory = new PredicateFilterFactory();
             if (ConstraintXml.Predication != null)
             {
-                if (ConstraintXml.Predication.Reference != null)
+                if (ConstraintXml.Predication.Reference != null && !(ConstraintXml.Predication.Reference is IEnumerable<string>))
                     ConstraintXml.Predication.Reference = EvaluatePotentialVariable(ConstraintXml.Predication.Reference);
-
 
                 return factory.Instantiate
                             (

@@ -12,7 +12,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items.Calculation
 {
-    public class PredicationXml : IPredicateInfo
+    public class PredicationXml : IPredicateInfo, IReferencePredicateInfo, ISecondOperandPredicateInfo, ICultureSensitivePredicateInfo, ICaseSensitivePredicateInfo 
     {
         public PredicationXml()
         {
@@ -24,15 +24,18 @@ namespace NBi.Xml.Items.Calculation
         [XmlAttribute("column-index")]
         public int ColumnIndex { get; set; }
 
+        [XmlIgnore]
+        public bool Not
+        {
+            get => Predicate.Not; 
+            set => Predicate.Not = value;
+        }
+
         [XmlAttribute("operand")]
         public string Operand { get; set; }
 
         [Obsolete("Deprecated. Use operand in place of name")]
         public string Name { get => Operand; set => Operand=value; }
-
-        [DefaultValue(false)]
-        [XmlAttribute("not")]
-        public bool Not { get; set; }
 
         [DefaultValue(ColumnType.Numeric)]
         [XmlAttribute("type")]
@@ -49,7 +52,11 @@ namespace NBi.Xml.Items.Calculation
         [XmlElement(Type = typeof(EndsWithXml), ElementName = "ends-with")]
         [XmlElement(Type = typeof(ContainsXml), ElementName = "contains")]
         [XmlElement(Type = typeof(MatchesRegexXml), ElementName = "matches-regex")]
+        [XmlElement(Type = typeof(MatchesNumericXml), ElementName = "matches-numeric")]
+        [XmlElement(Type = typeof(MatchesDateXml), ElementName = "matches-date")]
+        [XmlElement(Type = typeof(MatchesTimeXml), ElementName = "matches-time")]
         [XmlElement(Type = typeof(WithinRangeXml), ElementName = "within-range")]
+        [XmlElement(Type = typeof(WithinListXml), ElementName = "within-list")]
         [XmlElement(Type = typeof(IntegerXml), ElementName = "integer")]
         [XmlElement(Type = typeof(ModuloXml), ElementName = "modulo")]
         [XmlElement(Type = typeof(OnTheDayXml), ElementName = "on-the-day")]
@@ -59,11 +66,10 @@ namespace NBi.Xml.Items.Calculation
         [XmlElement(Type = typeof(FalseXml), ElementName = "false")]
         public PredicateXml Predicate { get; set; }
         
-
         [XmlIgnore]
         public object Reference
         {
-            get { return Predicate.Value; }
+            get { return Predicate.Value ?? Predicate.Values as object; }
             set { Predicate.Value = value.ToString(); }
         }
 
@@ -80,6 +86,18 @@ namespace NBi.Xml.Items.Calculation
             {
                 if (Predicate is CaseSensitiveTextPredicateXml)
                     return ((CaseSensitiveTextPredicateXml)Predicate).IgnoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture;
+                else
+                    throw new InvalidOperationException();
+            }
+        }
+
+        [XmlIgnore]
+        public string Culture
+        {
+            get
+            {
+                if (Predicate is CultureSensitiveTextPredicateXml)
+                    return ((CultureSensitiveTextPredicateXml)Predicate).Culture;
                 else
                     throw new InvalidOperationException();
             }

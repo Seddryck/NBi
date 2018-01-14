@@ -8,9 +8,13 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.Text
 {
-    class TextNull : IPredicate
+    class TextNull : AbstractPredicate
     {
-        public bool Apply(object x)
+        public TextNull(bool not)
+            : base(not)
+        { }
+
+        protected override bool Apply(object x)
         {
             return x == null || x == DBNull.Value || (x as string) == "(null)";
         }

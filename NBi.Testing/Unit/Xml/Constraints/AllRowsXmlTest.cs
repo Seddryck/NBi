@@ -88,12 +88,12 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(comparison.ColumnIndex, Is.EqualTo(-1));
             Assert.That(comparison.Operand, Is.EqualTo("ModDepId"));
-            Assert.That(comparison.Not, Is.EqualTo(false));
             Assert.That(comparison.ColumnType, Is.EqualTo(ColumnType.Numeric));
 
             Assert.That(comparison.Predicate, Is.TypeOf<MoreThanXml>());
             var moreThan = comparison.Predicate as MoreThanXml;
             Assert.That(moreThan.Value, Is.EqualTo("10"));
+            Assert.That(moreThan.Not, Is.False);
         }
 
         [Test]
@@ -123,12 +123,12 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
             Assert.That(predicate.Operand, Is.EqualTo("Name"));
-            Assert.That(predicate.Not, Is.EqualTo(false));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
-
             Assert.That(predicate.Predicate, Is.TypeOf<EmptyXml>());
+
             var emptyPredicate = predicate.Predicate as EmptyXml;
             Assert.That(emptyPredicate.OrNull, Is.True);
+            Assert.That(emptyPredicate.Not, Is.False);
         }
 
         [Test]
@@ -161,12 +161,12 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
             Assert.That(predicate.Operand, Is.EqualTo("Name"));
-            Assert.That(predicate.Not, Is.EqualTo(false));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
             Assert.That(predicate.Predicate, Is.TypeOf<StartsWithXml>());
             var cpr = predicate.Predicate as StartsWithXml;
             Assert.That(cpr.IgnoreCase, Is.False);
+            Assert.That(cpr.Not, Is.False);
         }
 
         [Test]
@@ -181,12 +181,12 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
             Assert.That(predicate.Operand, Is.EqualTo("Name"));
-            Assert.That(predicate.Not, Is.EqualTo(false));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
-
             Assert.That(predicate.Predicate, Is.TypeOf<EndsWithXml>());
+
             var cpr = predicate.Predicate as EndsWithXml;
             Assert.That(cpr.IgnoreCase, Is.False);
+            Assert.That(cpr.Not, Is.False);
         }
 
         [Test]
@@ -201,12 +201,12 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
             Assert.That(predicate.Operand, Is.EqualTo("Name"));
-            Assert.That(predicate.Not, Is.EqualTo(false));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
             Assert.That(predicate.Predicate, Is.TypeOf<ContainsXml>());
             var cpr = predicate.Predicate as ContainsXml;
             Assert.That(cpr.IgnoreCase, Is.True);
+            Assert.That(cpr.Not, Is.False);
         }
 
         [Test]
@@ -221,10 +221,10 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
             Assert.That(predicate.Operand, Is.EqualTo("Name"));
-            Assert.That(predicate.Not, Is.EqualTo(false));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
             Assert.That(predicate.Predicate, Is.TypeOf<MatchesRegexXml>());
+            Assert.That(predicate.Predicate.Not, Is.False);
         }
 
         [Test]
@@ -239,10 +239,10 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
             Assert.That(predicate.Operand, Is.EqualTo("Name"));
-            Assert.That(predicate.Not, Is.EqualTo(false));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
             Assert.That(predicate.Predicate, Is.TypeOf<LowerCaseXml>());
+            Assert.That(predicate.Predicate.Not, Is.False);
         }
 
         [Test]
@@ -257,10 +257,10 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
             Assert.That(predicate.Operand, Is.EqualTo("Name"));
-            Assert.That(predicate.Not, Is.EqualTo(false));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
             Assert.That(predicate.Predicate, Is.TypeOf<UpperCaseXml>());
+            Assert.That(predicate.Predicate.Not, Is.False);
         }
 
         [Test]
@@ -275,12 +275,12 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
             Assert.That(predicate.Operand, Is.EqualTo("Value"));
-            Assert.That(predicate.Not, Is.EqualTo(false));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Numeric));
 
             Assert.That(predicate.Predicate, Is.TypeOf<WithinRangeXml>());
             var cpr = predicate.Predicate as WithinRangeXml;
             Assert.That(cpr.Value, Is.EqualTo("[10;30]"));
+            Assert.That(cpr.Not, Is.False);
         }
 
         [Test]

@@ -61,12 +61,52 @@
       </equalTo>
     </assert>
   </test>
-  <test name="'Query from report equal to CSV" uid="0004">
+  <test name="'Query from report equal to report" uid="0005">
     <system-under-test>
       <resultSet>
         <query>
           <report path="/path/" name="MyReport" dataset="MyDataSet"/>
         </query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </equalTo>
+    </assert>
+  </test>
+  <test name="'Alteration has a filter" uid="0010">
+    <system-under-test>
+      <resultSet>
+        <query>
+          <report path="/path/" name="MyReport" dataset="MyDataSet"/>
+        </query>
+        <alteration>
+          <filter>
+            <predicate>
+              <starts-with ignore-case="true">COMP</starts-with>
+            </predicate>
+          </filter>
+        </alteration>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </equalTo>
+    </assert>
+  </test>
+  <test name="'Alteration has a converter" uid="0010">
+    <system-under-test>
+      <resultSet>
+        <query>
+          <report path="/path/" name="MyReport" dataset="MyDataSet"/>
+        </query>
+        <alteration>
+          <convert column="#0">
+            <text-to-date culture="fr-fr"/>
+          </convert>
+        </alteration>
       </resultSet>
     </system-under-test>
     <assert>

@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using NBi.Core.ResultSet.Comparer;
 using System.Text;
-using NBi.Core.ResultSet.Converter;
+using NBi.Core.ResultSet.Caster;
 using NBi.Core.ResultSet.Analyzer;
 using System.Collections.ObjectModel;
 
@@ -217,13 +217,13 @@ namespace NBi.Core.ResultSet.Equivalence
                     if (columnType == ColumnType.Numeric && IsNumericField(dataColumn))
                         return;
 
-                    var numericConverter = new NumericConverter();
-                    if (columnType == ColumnType.Numeric && !(numericConverter.IsValid(value) || Comparer.BaseComparer.IsValidInterval(value)))
+                    var numericCaster = new NumericCaster();
+                    if (columnType == ColumnType.Numeric && !(numericCaster.IsValid(value) || Comparer.BaseComparer.IsValidInterval(value)))
                     {
                         var exception = string.Format(messages[0]
                             , columnName, value.ToString());
 
-                        if (numericConverter.IsValid(value.ToString().Replace(",", ".")))
+                        if (numericCaster.IsValid(value.ToString().Replace(",", ".")))
                             exception += messages[1];
 
                         throw new EquivalerException(exception);

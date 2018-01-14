@@ -9,7 +9,7 @@ namespace NBi.Core.Calculation.Predicate.DateTime
 {
     class DateTimeLessThan : DateTimePredicate
     {
-        public DateTimeLessThan(object reference) : base(reference)
+        public DateTimeLessThan(bool not, object reference) : base(not, reference)
         { }
 
         protected override bool Compare(System.DateTime x, System.DateTime y)

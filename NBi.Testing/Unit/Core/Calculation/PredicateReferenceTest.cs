@@ -29,15 +29,15 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.MatchesRegex, "Paris", "^[A-Z][a-z]+$")]
         public void Compare_Text_Success(ComparerType comparerType, object x, object y)
         {
-            var info = Mock.Of<IPredicateInfo>(
-                    i => i.ColumnType == ColumnType.Text
-                    && i.ComparerType == comparerType
-                    && i.Reference == y
-                );
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
+            predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(y);
+            predicate.As<ICaseSensitivePredicateInfo>().SetupGet(p => p.StringComparison).Returns(StringComparison.InvariantCultureIgnoreCase);
 
             var factory = new PredicateFactory();
-            var comparer = factory.Instantiate(info);
-            Assert.That(comparer.Apply(x), Is.True);
+            var comparer = factory.Instantiate(predicate.Object);
+            Assert.That(comparer.Execute(x), Is.True);
         }
 
         [TestCase(ComparerType.StartsWith, "Paris", "p")]
@@ -46,16 +46,15 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.MatchesRegex, "Paris", "^[A-Z]+$")]
         public void Compare_TextIgnoreCase_Success(ComparerType comparerType, object x, object y)
         {
-            var info = Mock.Of<IPredicateInfo>(
-                    i => i.ColumnType == ColumnType.Text
-                    && i.ComparerType == comparerType
-                    && i.Reference == y
-                    && i.StringComparison == StringComparison.InvariantCultureIgnoreCase
-                );
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
+            predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(y);
+            predicate.As<ICaseSensitivePredicateInfo>().SetupGet(p => p.StringComparison).Returns(StringComparison.InvariantCultureIgnoreCase);
 
             var factory = new PredicateFactory();
-            var comparer = factory.Instantiate(info);
-            Assert.That(comparer.Apply(x), Is.True);
+            var comparer = factory.Instantiate(predicate.Object);
+            Assert.That(comparer.Execute(x), Is.True);
         }
 
         [Test]
@@ -70,29 +69,28 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.MatchesRegex, "Paris", "^[A-Z]+$")]
         public void Compare_Text_Failure(ComparerType comparerType, object x, object y)
         {
-            var info = Mock.Of<IPredicateInfo>(
-                    i => i.ColumnType == ColumnType.Text
-                    && i.ComparerType == comparerType
-                    && i.Reference == y
-                );
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
+            predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(y);
+            predicate.As<ICaseSensitivePredicateInfo>().SetupGet(p => p.StringComparison).Returns(StringComparison.InvariantCulture);
 
             var factory = new PredicateFactory();
-            var comparer = factory.Instantiate(info);
-            Assert.That(comparer.Apply(x), Is.False);
+            var comparer = factory.Instantiate(predicate.Object);
+            Assert.That(comparer.Execute(x), Is.False);
         }
 
         [Test]
         public void Compare_TextNull_Success()
         {
-            var info = Mock.Of<IPredicateInfo>(
-                    i => i.ColumnType == ColumnType.Text
-                    && i.ComparerType == ComparerType.Equal
-                    && i.Reference == (object)"(null)"
-                );
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
+            predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.Equal);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns("(null)");
 
             var factory = new PredicateFactory();
-            var comparer = factory.Instantiate(info);
-            Assert.That(comparer.Apply(null), Is.True);
+            var comparer = factory.Instantiate(predicate.Object);
+            Assert.That(comparer.Execute(null), Is.True);
         }
 
         [Test]
@@ -112,15 +110,14 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.WithinRange, -1, "(<=-1)")]
         public void Compare_Numeric_Success(ComparerType comparerType, object x, object y)
         {
-            var info = Mock.Of<IPredicateInfo>(
-                    i => i.ColumnType == ColumnType.Numeric
-                    && i.ComparerType == comparerType
-                    && i.Reference == y
-                );
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
+            predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(y);
 
             var factory = new PredicateFactory();
-            var comparer = factory.Instantiate(info);
-            Assert.That(comparer.Apply(x), Is.True);
+            var comparer = factory.Instantiate(predicate.Object);
+            Assert.That(comparer.Execute(x), Is.True);
         }
 
         [Test]
@@ -138,15 +135,14 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.WithinRange, -1, "(>-1)")]
         public void Compare_Numeric_Failure(ComparerType comparerType, object x, object y)
         {
-            var info = Mock.Of<IPredicateInfo>(
-                    i => i.ColumnType == ColumnType.Numeric
-                    && i.ComparerType == comparerType
-                    && i.Reference == y
-                );
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
+            predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(y);
 
             var factory = new PredicateFactory();
-            var comparer = factory.Instantiate(info);
-            Assert.That(comparer.Apply(x), Is.False);
+            var comparer = factory.Instantiate(predicate.Object);
+            Assert.That(comparer.Execute(x), Is.False);
         }
 
         [Test]
@@ -159,30 +155,28 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.MoreThanOrEqual, 10, 10)]
         public void Compare_DateTime_Success(ComparerType comparerType, int x, int y)
         {
-            var info = Mock.Of<IPredicateInfo>(
-                    i => i.ColumnType == ColumnType.DateTime
-                    && i.ComparerType == comparerType
-                    && i.Reference == (object)new DateTime(2015, y, 1)
-                );
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.DateTime);
+            predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)new DateTime(2015, y, 1));
 
             var factory = new PredicateFactory();
-            var comparer = factory.Instantiate(info);
-            Assert.That(comparer.Apply(new DateTime(2015, x, 1)), Is.True);
+            var comparer = factory.Instantiate(predicate.Object);
+            Assert.That(comparer.Execute(new DateTime(2015, x, 1)), Is.True);
         }
 
         [Test]
         [TestCase("[2015-05-01;2016-05-01[")]
         public void Compare_DateTimeRange_Success(string range)
         {
-            var info = Mock.Of<IPredicateInfo>(
-                    i => i.ColumnType == ColumnType.DateTime
-                    && i.ComparerType == ComparerType.WithinRange
-                    && i.Reference == (object)range
-                );
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.DateTime);
+            predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.WithinRange);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)range);
 
             var factory = new PredicateFactory();
-            var comparer = factory.Instantiate(info);
-            Assert.That(comparer.Apply(new DateTime(2015, 8, 1)), Is.True);
+            var comparer = factory.Instantiate(predicate.Object);
+            Assert.That(comparer.Execute(new DateTime(2015, 8, 1)), Is.True);
         }
 
         [Test]
@@ -191,15 +185,14 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.Equal, "Yes", true)]
         public void Compare_Boolean_Success(ComparerType comparerType, object x, object y)
         {
-            var info = Mock.Of<IPredicateInfo>(
-                    i => i.ColumnType == ColumnType.Boolean
-                    && i.ComparerType == comparerType
-                    && i.Reference == y
-                );
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Boolean);
+            predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)y);
 
             var factory = new PredicateFactory();
-            var comparer = factory.Instantiate(info);
-            Assert.That(comparer.Apply(x), Is.True);
+            var comparer = factory.Instantiate(predicate.Object);
+            Assert.That(comparer.Execute(x), Is.True);
         }
 
         [Test]

@@ -7,16 +7,17 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.Text
 {
-    class TextLowerCase : IPredicate
+    class TextLowerCase : AbstractPredicate
     {
-        public bool Apply(object x)
+        public TextLowerCase(bool not)
+            : base(not)
+        { }
+
+        protected override bool Apply(object x)
         {
             return (x as string).ToLowerInvariant() == (x as string) || (x as string) == "(empty)" || (x as string) == "(null)";
         }
 
-        public override string ToString()
-        {
-            return $"is in small letters";
-        }
+        public override string ToString() => $"is in small letters";
     }
 }

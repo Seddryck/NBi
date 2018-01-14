@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Converter
+namespace NBi.Core.ResultSet.Caster
 {
-    class ThreeStateBooleanConverter : BooleanConverter, IConverter<ThreeStateBoolean>
+    class ThreeStateBooleanCaster : BooleanCaster, ICaster<ThreeStateBoolean>
     {
-        public new ThreeStateBoolean Convert(object value)
+        public new ThreeStateBoolean Execute(object value)
         {
             if (value is ThreeStateBoolean)
                 return (ThreeStateBoolean)value;

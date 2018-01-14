@@ -246,7 +246,7 @@
       </all-rows>
     </assert>
   </test>
-  <test name="With Predicate match" uid="0004">
+  <test name="With Predicate match-regex" uid="0004">
     <system-under-test>
       <execution>
         <query name="Select first departments">
@@ -259,6 +259,94 @@
         <variable column-index="0">Name</variable>
         <predicate name="Name" type="text">
           <matches-regex>^[A-Z][A-z\s]+$</matches-regex>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate NOT lower case" uid="00050">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select [Name] from [HumanResources].[Department]
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <variable column-index="0">Name</variable>
+        <predicate name="Name" type="text">
+          <lower-case not="true"/>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate is NOT on-the-hour" uid="00051">
+    <system-under-test>
+      <execution>
+        <query>
+          select cast('2015-05-12 14:00:10' as datetime2)
+          union all select cast('2017-04-12 12:10:00' as datetime2)
+          union all select cast('2012-09-12 1:04:00' as datetime2)
+          union all select cast('2013-05-01 00:00:01' as datetime2)
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="#0" type="dateTime">
+          <on-the-hour not="true"/>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate is NOT modulo" uid="00052">
+    <system-under-test>
+      <execution>
+        <query>
+          select 16 union all select 46 union all select 12 union all select 33
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="#0">
+          <modulo not="true" second-operand="15">0</modulo>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate is NOT equal" uid="00053">
+    <system-under-test>
+      <execution>
+        <query>
+          select 'User' union all select 'Developer' union all select 'Power user' union all select 'User'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate operand="#0" type="text">
+          <equal not="true">Admin</equal>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate is NOT within-list" uid="00054">
+    <system-under-test>
+      <execution>
+        <query>
+          select 'Paris' union all select 'Brussels' union all select 'Toronto' union all select 'Madrid'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="#0" type="text">
+          <within-list not="true">
+            <item>Washington</item>
+            <item>Chicago</item>
+            <item>Seattle</item>
+          </within-list>
         </predicate>
       </all-rows>
     </assert>
@@ -328,6 +416,77 @@
       <all-rows>
         <predicate name="#0" type="dateTime">
           <on-the-hour/>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate matches numeric" uid="00072">
+    <system-under-test>
+      <execution>
+        <query>
+          select '15' union all select '45.1'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="#0" type="text">
+          <matches-numeric/>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate matches-date" uid="00073">
+    <system-under-test>
+      <execution>
+        <query>
+          select '2015-12-05'
+          union all select '2015-12-25'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="#0" type="text">
+          <matches-date/>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate matches-date and french culture" uid="00074">
+    <system-under-test>
+      <execution>
+        <query>
+          select '25/12/2015'
+          union all select '05/12/2015'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="#0" type="text">
+          <matches-date culture="fr-fr"/>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate matches-date and french culture" uid="00075">
+    <system-under-test>
+      <execution>
+        <query>
+          select 'Paris', 'France'
+          union all select 'Brussels', 'Belgium'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="#0" type="text">
+          <within-list>
+            <item>Paris</item>
+            <item>Amsterdam</item>
+            <item>Brussels</item>
+          </within-list>
         </predicate>
       </all-rows>
     </assert>

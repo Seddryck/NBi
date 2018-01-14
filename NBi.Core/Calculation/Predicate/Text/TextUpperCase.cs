@@ -7,16 +7,17 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.Text
 {
-    class TextUpperCase : IPredicate
+    class TextUpperCase : AbstractPredicate
     {
-        public bool Apply(object x)
+        public TextUpperCase(bool not)
+            : base(not)
+        { }
+
+        protected override bool Apply(object x)
         {
             return (x as string).ToUpperInvariant() == (x as string) || (x as string) == "(empty)" || (x as string) == "(null)";
         }
 
-        public override string ToString()
-        {
-            return $"is in capital letters";
-        }
+        public override string ToString() => $"is in capital letters";
     }
 }

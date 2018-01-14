@@ -20,7 +20,7 @@ namespace NBi.Core.Calculation
             var factory = new PredicateFactory();
             var predicate = factory.Instantiate(predicateInfo);
 
-            var pf = new SinglePredicateFilter(aliases, expressions, predicateInfo.Operand, predicate.Apply, predicate.ToString);
+            var pf = new SinglePredicateFilter(aliases, expressions, predicateInfo.Operand, predicate.Execute, predicate.ToString);
 
             return pf;
         }

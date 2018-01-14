@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Linq;
 using NBi.Core.ResultSet.Comparer;
 using System.Text;
-using NBi.Core.ResultSet.Converter;
+using NBi.Core.ResultSet.Caster;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Analyzer;
 using NBi.Core.ResultSet.Equivalence;

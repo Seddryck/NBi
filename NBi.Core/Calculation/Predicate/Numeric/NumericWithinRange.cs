@@ -6,29 +6,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.ResultSet.Interval;
-using NBi.Core.ResultSet.Converter;
+using NBi.Core.ResultSet.Caster;
 
 namespace NBi.Core.Calculation.Predicate.Numeric
 {
     class NumericWithinRange : AbstractPredicateReference
     {
-        public NumericWithinRange(object reference) : base(reference)
+        public NumericWithinRange(bool not, object reference) : base(not, reference)
         { }
 
-        public override bool Apply(object x)
+        protected override bool Apply(object x)
         {
             var builder = new NumericIntervalBuilder(Reference);
             builder.Build();
             var interval = builder.GetInterval();
 
-            var converter = new NumericConverter();
-            var numX = converter.Convert(x);
+            var caster = new NumericCaster();
+            var numX = caster.Execute(x);
             return interval.Contains(numX);
         }
 
-        public override string ToString()
-        {
-            return $"is within the interval {Reference}";
-        }
+        public override string ToString() => $"is within the interval {Reference}";
     }
 }

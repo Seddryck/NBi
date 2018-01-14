@@ -9,11 +9,11 @@ namespace NBi.Core.Calculation.Predicate.Text
 {
     class TextContains : AbstractTextPredicate
     {
-        public TextContains(object reference, StringComparison stringComparison)
-            : base(reference, stringComparison)
+        public TextContains(bool not, object reference, StringComparison stringComparison)
+            : base(not, reference, stringComparison)
         {
         }
-        public override bool Apply(object x)
+        protected override bool Apply(object x)
         {
             return x.ToString().IndexOf(Reference.ToString(), StringComparison) >= 0;
         }

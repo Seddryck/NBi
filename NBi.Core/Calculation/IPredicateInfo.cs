@@ -1,6 +1,7 @@
 ﻿using NBi.Core.ResultSet;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,8 +13,6 @@ namespace NBi.Core.Calculation
         ColumnType ColumnType { get; set; }
         ComparerType ComparerType { get; }
         string Operand { get; set; }
-        object Reference { get; }
-        StringComparison StringComparison { get; }
-        object SecondOperand { get; }
+        bool Not { get; set; }
     }
 }

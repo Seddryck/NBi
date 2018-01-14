@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml;
 
-namespace NBi.Testing.Core.CosmosDb.Graph
+namespace NBi.Testing.Core.CosmosDb
 {
     class ConnectionStringReader
     {

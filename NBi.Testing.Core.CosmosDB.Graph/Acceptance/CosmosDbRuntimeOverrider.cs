@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.CosmosDb.Graph.Acceptance
+namespace NBi.Testing.Core.CosmosDb.Acceptance
 {
-    public class CosmosDbGraphRuntimeOverrider : NBi.Testing.Acceptance.RuntimeOverrider
+    public class CosmosDbRuntimeOverrider : NBi.Testing.Acceptance.RuntimeOverrider
     {
         [SetUp]
         public void CopyConnectionStringUserConfig()

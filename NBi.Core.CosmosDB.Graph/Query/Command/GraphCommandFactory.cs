@@ -6,36 +6,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
-using NBi.Core.CosmosDb.Graph.Query.Session;
+using NBi.Core.CosmosDb.Query.Session;
 using NBi.Core.Query.Session;
 using Microsoft.Azure.Documents.Linq;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Graphs;
 using Microsoft.Azure.Documents;
 
-namespace NBi.Core.CosmosDb.Graph.Query.Command
+namespace NBi.Core.CosmosDb.Query.Command
 {
-    class GremlinCommandFactory : ICommandFactory
+    class GraphCommandFactory : ICommandFactory
     {
-        public bool CanHandle(ISession session) => session is GremlinSession;
+        public bool CanHandle(ISession session) => session is GraphSession;
 
         public ICommand Instantiate(ISession session, IQuery query)
         {
             if (!CanHandle(session))
                 throw new ArgumentException();
-            CosmosDbSession cosmosdbSession = session.CreateNew() as CosmosDbSession;
+            GremlinSession cosmosdbSession = session.CreateNew() as GremlinSession;
             var cosmosdbQuery = Instantiate(cosmosdbSession, query);
-            return new GremlinCommand(cosmosdbSession, cosmosdbQuery);
+            return new GraphCommand(cosmosdbSession, cosmosdbQuery);
         }
 
-        protected CosmosDbQuery Instantiate(CosmosDbSession cosmosdbSession, IQuery query)
+        protected GremlinQuery Instantiate(GremlinSession cosmosdbSession, IQuery query)
         {
             var statementText = query.Statement;
 
             if (query.TemplateTokens != null && query.TemplateTokens.Count() > 0)
                 statementText = ApplyVariablesToTemplate(query.Statement, query.TemplateTokens);
 
-            return new CosmosDbQuery(cosmosdbSession, statementText);
+            return new GremlinQuery(cosmosdbSession, statementText);
         }
 
         private object GetParameterValue(object originalValue, string type)

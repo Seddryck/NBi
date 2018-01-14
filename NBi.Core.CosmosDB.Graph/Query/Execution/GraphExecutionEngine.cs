@@ -2,8 +2,8 @@
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Microsoft.Azure.Graphs.Elements;
-using NBi.Core.CosmosDb.Graph.Query.Command;
-using NBi.Core.CosmosDb.Graph.Query.Session;
+using NBi.Core.CosmosDb.Query.Command;
+using NBi.Core.CosmosDb.Query.Session;
 using NBi.Core.Query;
 using NBi.Core.Query.Execution;
 using Newtonsoft.Json.Linq;
@@ -18,17 +18,17 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace NBi.Core.CosmosDb.Graph.Query.Execution
+namespace NBi.Core.CosmosDb.Query.Execution
 {
-    [SupportedCommandType(typeof(CosmosDbQuery))]
-    internal class GremlinExecutionEngine : IExecutionEngine
+    [SupportedCommandType(typeof(GremlinQuery))]
+    internal class GraphExecutionEngine : IExecutionEngine
     {
-        protected CosmosDbQuery Query { get; }
-        protected CosmosDbSession Session { get; }
+        protected GremlinQuery Query { get; }
+        protected GremlinSession Session { get; }
 
         private readonly Stopwatch stopWatch = new Stopwatch();
 
-        protected internal GremlinExecutionEngine(CosmosDbSession session, CosmosDbQuery query)
+        protected internal GraphExecutionEngine(GremlinSession session, GremlinQuery query)
         {
             Session = session;
             Query = query;

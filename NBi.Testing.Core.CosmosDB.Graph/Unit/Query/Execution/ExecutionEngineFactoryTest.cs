@@ -1,8 +1,8 @@
 ﻿using Moq;
 using NBi.Core.Configuration;
-using NBi.Core.CosmosDb.Graph.Query.Command;
-using NBi.Core.CosmosDb.Graph.Query.Execution;
-using NBi.Core.CosmosDb.Graph.Query.Session;
+using NBi.Core.CosmosDb.Query.Command;
+using NBi.Core.CosmosDb.Query.Execution;
+using NBi.Core.CosmosDb.Query.Session;
 using NBi.Core.Query;
 using NBi.Core.Query.Command;
 using NBi.Core.Query.Execution;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.CosmosDb.Graph.Unit.Query.Execution
+namespace NBi.Testing.Core.CosmosDb.Unit.Query.Execution
 {
     public class ExecutionEngineFactoryTest
     {
@@ -24,9 +24,9 @@ namespace NBi.Testing.Core.CosmosDb.Graph.Unit.Query.Execution
         {
             public IReadOnlyCollection<Type> Extensions => new List<Type>()
             {
-                typeof(GremlinSessionFactory),
-                typeof(GremlinCommandFactory),
-                typeof(GremlinExecutionEngine),
+                typeof(GraphSessionFactory),
+                typeof(GraphCommandFactory),
+                typeof(GraphExecutionEngine),
             };
         }
 
@@ -46,7 +46,7 @@ namespace NBi.Testing.Core.CosmosDb.Graph.Unit.Query.Execution
 
             var engine = factory.Instantiate(query);
             Assert.That(engine, Is.Not.Null);
-            Assert.That(engine, Is.TypeOf<GremlinExecutionEngine>());
+            Assert.That(engine, Is.TypeOf<GraphExecutionEngine>());
         }
     }
 }

@@ -54,9 +54,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CosmosDB", "CosmosDB", "{A9E593C1-C197-4A25-83ED-AB9D51689C15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Core.CosmosDb.Graph", "NBi.Core.CosmosDB.Graph\NBi.Core.CosmosDb.Graph.csproj", "{BF427A68-47C4-48B8-83EF-CE01DDEB2B59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Core.CosmosDb", "NBi.Core.CosmosDB.Graph\NBi.Core.CosmosDb.csproj", "{BF427A68-47C4-48B8-83EF-CE01DDEB2B59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Testing.Core.CosmosDb.Graph", "NBi.Testing.Core.CosmosDB.Graph\NBi.Testing.Core.CosmosDb.Graph.csproj", "{73DAC40D-671C-44BB-A67D-C1F7B42B1326}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Testing.Core.CosmosDb", "NBi.Testing.Core.CosmosDB.Graph\NBi.Testing.Core.CosmosDb.csproj", "{73DAC40D-671C-44BB-A67D-C1F7B42B1326}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

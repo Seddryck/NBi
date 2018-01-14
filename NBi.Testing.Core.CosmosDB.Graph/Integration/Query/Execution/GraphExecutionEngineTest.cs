@@ -4,15 +4,15 @@ using System.Linq;
 using NBi.Core.Query;
 using NUnit.Framework;
 using System.Data;
-using NBi.Core.CosmosDb.Graph.Query.Session;
-using NBi.Core.CosmosDb.Graph.Query.Command;
-using NBi.Core.CosmosDb.Graph.Query.Execution;
+using NBi.Core.CosmosDb.Query.Session;
+using NBi.Core.CosmosDb.Query.Command;
+using NBi.Core.CosmosDb.Query.Execution;
 using Moq;
 
-namespace NBi.Testing.Core.CosmosDb.Graph.Integration.Query.Execution
+namespace NBi.Testing.Core.CosmosDb.Integration.Query.Execution
 {
     [TestFixture]
-    public class GremlinExecutionEngineTest
+    public class GraphExecutionEngineTest
     {
 
         #region SetUp & TearDown
@@ -45,11 +45,11 @@ namespace NBi.Testing.Core.CosmosDb.Graph.Integration.Query.Execution
         [Test]
         public void Execute_Vertex_DataSetFilled()
         {
-            GremlinSession session = new GremlinSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GremlinSession;
+            GraphSession session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphSession;
             var statement = Mock.Of<IQuery>(x => x.Statement == "g.V()");
-            CosmosDbQuery cosmosdbQuery = new GremlinCommandFactory().Instantiate(session, statement).Implementation as CosmosDbQuery;
+            GremlinQuery cosmosdbQuery = new GraphCommandFactory().Instantiate(session, statement).Implementation as GremlinQuery;
 
-            var engine = new GremlinExecutionEngine(session.CreateCosmosDbSession(), cosmosdbQuery);
+            var engine = new GraphExecutionEngine(session.CreateCosmosDbSession(), cosmosdbQuery);
 
             var ds = engine.Execute();
             Assert.That(ds.Tables, Has.Count.EqualTo(1));
@@ -90,11 +90,11 @@ namespace NBi.Testing.Core.CosmosDb.Graph.Integration.Query.Execution
         [Test]
         public void Execute_Edge_DataSetFilled()
         {
-            GremlinSession session = new GremlinSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GremlinSession;
+            GraphSession session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphSession;
             var statement = Mock.Of<IQuery>(x => x.Statement == "g.E()");
-            CosmosDbQuery cosmosdbQuery = new GremlinCommandFactory().Instantiate(session, statement).Implementation as CosmosDbQuery;
+            GremlinQuery cosmosdbQuery = new GraphCommandFactory().Instantiate(session, statement).Implementation as GremlinQuery;
 
-            var engine = new GremlinExecutionEngine(session.CreateCosmosDbSession(), cosmosdbQuery);
+            var engine = new GraphExecutionEngine(session.CreateCosmosDbSession(), cosmosdbQuery);
 
             var ds = engine.Execute();
             Assert.That(ds.Tables, Has.Count.EqualTo(1));
@@ -139,11 +139,11 @@ namespace NBi.Testing.Core.CosmosDb.Graph.Integration.Query.Execution
         [Test]
         public void Execute_ProjectionOfObjects_DataSetFilled()
         {
-            GremlinSession session = new GremlinSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GremlinSession;
+            GraphSession session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphSession;
             var statement = Mock.Of<IQuery>(x => x.Statement == "g.V().project('FirstName','KnowsCount').by('firstName').by(out().Count())");
-            CosmosDbQuery cosmosdbQuery = new GremlinCommandFactory().Instantiate(session, statement).Implementation as CosmosDbQuery;
+            GremlinQuery cosmosdbQuery = new GraphCommandFactory().Instantiate(session, statement).Implementation as GremlinQuery;
 
-            var engine = new GremlinExecutionEngine(session.CreateCosmosDbSession(), cosmosdbQuery);
+            var engine = new GraphExecutionEngine(session.CreateCosmosDbSession(), cosmosdbQuery);
 
             var ds = engine.Execute();
             Assert.That(ds.Tables, Has.Count.EqualTo(1));
@@ -174,11 +174,11 @@ namespace NBi.Testing.Core.CosmosDb.Graph.Integration.Query.Execution
         [Test]
         public void Execute_Integer_ScalarReturned()
         {
-            GremlinSession session = new GremlinSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GremlinSession;
+            GraphSession session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphSession;
             var statement = Mock.Of<IQuery>(x => x.Statement == "g.V().Count()");
-            CosmosDbQuery cosmosdbQuery = new GremlinCommandFactory().Instantiate(session, statement).Implementation as CosmosDbQuery;
+            GremlinQuery cosmosdbQuery = new GraphCommandFactory().Instantiate(session, statement).Implementation as GremlinQuery;
 
-            var engine = new GremlinExecutionEngine(session.CreateCosmosDbSession(), cosmosdbQuery);
+            var engine = new GraphExecutionEngine(session.CreateCosmosDbSession(), cosmosdbQuery);
 
             var count = engine.ExecuteScalar();
             Assert.That(count, Is.EqualTo(4));
@@ -187,11 +187,11 @@ namespace NBi.Testing.Core.CosmosDb.Graph.Integration.Query.Execution
         [Test]
         public void Execute_String_ScalarReturned()
         {
-            GremlinSession session = new GremlinSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GremlinSession;
+            GraphSession session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphSession;
             var statement = Mock.Of<IQuery>(x => x.Statement == "g.V('mary').values('lastName')");
-            CosmosDbQuery cosmosdbQuery = new GremlinCommandFactory().Instantiate(session, statement).Implementation as CosmosDbQuery;
+            GremlinQuery cosmosdbQuery = new GraphCommandFactory().Instantiate(session, statement).Implementation as GremlinQuery;
 
-            var engine = new GremlinExecutionEngine(session.CreateCosmosDbSession(), cosmosdbQuery);
+            var engine = new GraphExecutionEngine(session.CreateCosmosDbSession(), cosmosdbQuery);
 
             var count = engine.ExecuteScalar();
             Assert.That(count, Is.EqualTo("Andersen"));
@@ -200,11 +200,11 @@ namespace NBi.Testing.Core.CosmosDb.Graph.Integration.Query.Execution
         [Test]
         public void Execute_NullString_ScalarReturned()
         {
-            GremlinSession session = new GremlinSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GremlinSession;
+            GraphSession session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphSession;
             var statement = Mock.Of<IQuery>(x => x.Statement == "g.V('thomas').values('lastName')");
-            CosmosDbQuery cosmosdbQuery = new GremlinCommandFactory().Instantiate(session, statement).Implementation as CosmosDbQuery;
+            GremlinQuery cosmosdbQuery = new GraphCommandFactory().Instantiate(session, statement).Implementation as GremlinQuery;
 
-            var engine = new GremlinExecutionEngine(session.CreateCosmosDbSession(), cosmosdbQuery);
+            var engine = new GraphExecutionEngine(session.CreateCosmosDbSession(), cosmosdbQuery);
 
             var count = engine.ExecuteScalar();
             Assert.That(count, Is.Null);
@@ -213,11 +213,11 @@ namespace NBi.Testing.Core.CosmosDb.Graph.Integration.Query.Execution
         [Test]
         public void Execute_ListOfString_ListReturned()
         {
-            GremlinSession session = new GremlinSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GremlinSession;
+            GraphSession session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphSession;
             var statement = Mock.Of<IQuery>(x => x.Statement == "g.V().values('lastName')");
-            CosmosDbQuery cosmosdbQuery = new GremlinCommandFactory().Instantiate(session, statement).Implementation as CosmosDbQuery;
+            GremlinQuery cosmosdbQuery = new GraphCommandFactory().Instantiate(session, statement).Implementation as GremlinQuery;
 
-            var engine = new GremlinExecutionEngine(session.CreateCosmosDbSession(), cosmosdbQuery);
+            var engine = new GraphExecutionEngine(session.CreateCosmosDbSession(), cosmosdbQuery);
 
             var count = engine.ExecuteList<string>();
             Assert.That(count, Has.Member("Andersen"));

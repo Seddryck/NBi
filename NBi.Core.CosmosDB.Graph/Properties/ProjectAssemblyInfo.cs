@@ -17,4 +17,4 @@ using System.Runtime.InteropServices;
 [assembly: Guid("4b82dfbb-fad0-4bde-8e1d-dc529db9add2")]
 
 //Reference the testing class to ensure access to internal members
-[assembly: InternalsVisibleTo("NBi.Testing.Core.CosmosDb.Graph")]
+[assembly: InternalsVisibleTo("NBi.Testing.Core.CosmosDb")]

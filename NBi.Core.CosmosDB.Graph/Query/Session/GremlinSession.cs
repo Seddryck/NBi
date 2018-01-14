@@ -1,62 +1,100 @@
 ﻿using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Documents.Linq;
+using Microsoft.Azure.Graphs;
+using Microsoft.Azure.Graphs.Elements;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.CosmosDb.Graph.Query.Session
+namespace NBi.Core.CosmosDb.Query.Session
 {
-    class GremlinSession : NBi.Core.Query.Session.ISession
+    class GremlinSession
     {
-        public const string EndpointToken = "endpoint";
-        public const string AuthKeyToken = "authkey";
-        public const string DatabaseToken = "database";
-        public const string GraphToken = "graph";
+        public DocumentClient Client { get; }
+        public string DatabaseId { get; }
+        public string GraphId { get; }
+        protected DocumentCollection Documents { get; private set; }
 
-        private readonly Uri endpoint;
-
-        protected string AuthKey { get => (string)ConnectionStringTokens[AuthKeyToken]; }
-        protected string Endpoint { get => (string)ConnectionStringTokens[EndpointToken]; }
-        protected string DatabaseId { get => (string)ConnectionStringTokens[DatabaseToken]; }
-        protected string GraphId { get => (string)ConnectionStringTokens[GraphToken]; }
-        protected DbConnectionStringBuilder ConnectionStringTokens => new DbConnectionStringBuilder() { ConnectionString = ConnectionString };
-
-        public string ConnectionString { get; }
-        public Type UnderlyingSessionType => typeof(CosmosDbSession);
-        public object CreateNew() => CreateCosmosDbSession();
-
-        public CosmosDbSession CreateCosmosDbSession()
+        public GremlinSession(Uri endpoint, string authKey, string databaseId, string graphId)
         {
-            return new CosmosDbSession(endpoint, AuthKey, DatabaseId, GraphId);
+            try
+            { Client = new DocumentClient(endpoint, authKey); }
+            catch (FormatException ex)
+            { throw new NBiException($"The connectionString for CosmosDb is expecting an AuthKey encoded in base64. The value '{authKey}' is not a base64-encoded.", ex); }
+
+            DatabaseId = databaseId ?? throw new NBiException($"The connectionString for CosmosDb is expecting a databaseId and this value cannot be null or empty");
+            GraphId = graphId ?? throw new NBiException($"The connectionString for CosmosDb is expecting a graphId and this value cannot be null or empty");
         }
 
-        internal GremlinSession(string subdomain, string api, string authKey, string databaseId, string graphId)
-            : this("https", subdomain, api, 443, authKey, databaseId, graphId)
-        { }
-
-        internal GremlinSession(string protocol, string subdomain, string api, int port, string authKey, string databaseId, string graphId)
-            : this(protocol, subdomain, api, "azure.com", port, authKey, databaseId, graphId)
-        { }
-
-        internal GremlinSession(string protocol, string subdomain, string api, string domain, int port, string authKey, string databaseId, string graphId)
-            : this(new UriBuilder(protocol, $"{subdomain}.{api}.{domain}", port).Uri, authKey, databaseId, graphId)
-        { }
-
-        internal GremlinSession(Uri endpoint, string authkey, string databaseId, string graphId)
+        public IDocumentQuery<dynamic> CreateCommand(string preparedStatement)
         {
-            this.endpoint = endpoint;
+            Initialize();
+            return Client.CreateGremlinQuery<dynamic>(Documents, preparedStatement);
+        }
 
-            var connectionStringBuilder = new DbConnectionStringBuilder
+        public dynamic[] Run(IDocumentQuery<dynamic> query)
+        {
+            var result = Task.Run(async () => await GetAllResultsAsync(query)).Result;
+            return result;
+        }
+
+        private async static Task<T[]> GetAllResultsAsync<T>(IDocumentQuery<T> queryAll)
+        {
+            var list = new List<T>();
+            while (queryAll.HasMoreResults)
             {
-                { EndpointToken, endpoint.ToString() },
-                { AuthKeyToken, authkey },
-                { DatabaseToken, databaseId },
-                { GraphToken, graphId }
-            };
-            ConnectionString = connectionStringBuilder.ToString();
+                var docs = await queryAll.ExecuteNextAsync<T>();
+                foreach (var d in docs)
+                    list.Add(d);
+            }
+            return list.ToArray();
+        }
+
+        protected void Initialize()
+        {
+            var getDatabaseTask = Task.Run(async () => await GetDatabaseAsync(Client, DatabaseId));
+            getDatabaseTask.Wait();
+
+            var getGraphTask = Task.Run(async () => await GetGraphAsync(Client, DatabaseId, GraphId));
+            Documents = getGraphTask.Result;
+        }
+
+        private async Task<Database> GetDatabaseAsync(DocumentClient client, string databaseid)
+        {
+            try
+            {
+                return await client.ReadDatabaseAsync(UriFactory.CreateDatabaseUri(DatabaseId));
+            }
+            catch (DocumentClientException documentClientException)
+            {
+                if (documentClientException.Error?.Code == "NotFound")
+                    throw new NBiException($"The database '{DatabaseId}' does not exist.");
+                else
+                    throw;
+            }
+            throw new InvalidOperationException();
+        }
+
+        private async Task<DocumentCollection> GetGraphAsync(DocumentClient client, string databaseid, string graphId)
+        {
+            try
+            {
+                return await client.ReadDocumentCollectionAsync(UriFactory.CreateDocumentCollectionUri(DatabaseId, GraphId));
+            }
+            catch (DocumentClientException documentClientException)
+            {
+                if (documentClientException.Error?.Code == "NotFound")
+                {
+                    if (documentClientException.Error?.Code == "NotFound")
+                        throw new NBiException($"The collection/graph '{GraphId}' does not exist.");
+                    else
+                        throw;
+                }
+            }
+            throw new InvalidOperationException();
         }
     }
 }

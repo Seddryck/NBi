@@ -6,6 +6,8 @@ using NBi.Core;
 using NBi.Core.Analysis.Request;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Core.Query;
+using NBi.Core.ResultSet.Resolver;
 
 namespace NBi.NUnit.Member
 {
@@ -24,7 +26,7 @@ namespace NBi.NUnit.Member
         /// Construct a SubsetOfConstraint
         /// </summary>
         /// <param name="expected">The list of expected items</param>
-        public ContainedInConstraint(IDbCommand expected)
+        public ContainedInConstraint(IResultSetResolver expected)
             : base(expected)
         {
         }

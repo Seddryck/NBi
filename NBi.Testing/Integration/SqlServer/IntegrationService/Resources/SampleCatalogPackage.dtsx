@@ -1,0 +1,1453 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/25/2016 9:45:15 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ARDITI"
+  DTS:CreatorName="SALSAJEANS\pedro morais"
+  DTS:DTSID="{86183725-73BD-4C9E-B7F5-9512C20DEBB3}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="13.0.2164.0"
+  DTS:LocaleID="2070"
+  DTS:ObjectName="SamplePackage"
+  DTS:PackageType="5"
+  DTS:VersionBuild="13"
+  DTS:VersionGUID="{56EF85A9-8B3F-4EC6-9659-BAAC4BC37755}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Destination]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{B23255E5-6CBA-45D1-BEC7-45C171622695}"
+      DTS:ObjectName="Destination">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="2070"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Users\pedro morais\Desktop\SampleProject\Destination\Destination.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="policyID"
+              DTS:DTSID="{9E3D0009-E413-4022-9AF5-7ED824E288E9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="statecode"
+              DTS:DTSID="{501C9017-7ED4-418B-B828-DB2FA697C393}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="county"
+              DTS:DTSID="{28D8F084-46CF-4C69-8F17-B4E499ABD248}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="eq_site_limit"
+              DTS:DTSID="{7C5E5BDC-2CE3-4BAC-8580-6F8824E267EB}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="hu_site_limit"
+              DTS:DTSID="{86FB0E96-7975-4C42-8A63-E7A23D916C01}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="fl_site_limit"
+              DTS:DTSID="{B6CBE867-3AD4-443C-816C-7745B64BD755}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="fr_site_limit"
+              DTS:DTSID="{21549240-6160-4A90-BEBA-7738C08CBDBC}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="tiv_2011"
+              DTS:DTSID="{7CFB00FE-E77D-4902-B596-D4101B1C0516}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="tiv_2012"
+              DTS:DTSID="{59E6546A-ACB6-46B9-8F4E-3196E4A95FE6}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="eq_site_deductible"
+              DTS:DTSID="{D38761FE-7654-43AE-9595-7C7D38A4534E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="hu_site_deductible"
+              DTS:DTSID="{B6BBCD43-54F5-422E-8230-7EADD88F7AB8}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="fl_site_deductible"
+              DTS:DTSID="{7CA000F9-12F1-43E5-81E5-289C5C37E3E0}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="fr_site_deductible"
+              DTS:DTSID="{EBE5FFA6-F70E-4523-9E58-1BB9528AD228}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="point_latitude"
+              DTS:DTSID="{881C1A32-9922-41EE-8FC3-5B1304FFAE8B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="point_longitude"
+              DTS:DTSID="{B5FE7B17-63A2-4D69-8910-3656901FBCB4}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="line"
+              DTS:DTSID="{A220DF23-8D20-41F7-B10E-848B4FDB3322}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="construction"
+              DTS:DTSID="{53297A94-16C0-45E3-9DE3-6659DF667F52}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="point_granularity"
+              DTS:DTSID="{EE5E1EC7-6C81-488A-9EFA-420BB400A734}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Source]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{D678C6EB-9964-4F44-B533-489A9F5A219C}"
+      DTS:ObjectName="Source">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="2070"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Users\pedro morais\Desktop\SampleProject\Source Data\FL_insurance_sample.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="policyID"
+              DTS:DTSID="{0BD75E24-2936-4689-96AE-BB2AF425463E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="statecode"
+              DTS:DTSID="{A5548ADE-7287-48EE-BF11-D16426A579DA}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="county"
+              DTS:DTSID="{170A8EDD-7479-4C55-9668-4472F85F76C4}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="eq_site_limit"
+              DTS:DTSID="{D62FFB9D-ED71-44A5-B367-B35BB5153E41}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="hu_site_limit"
+              DTS:DTSID="{C97B54D3-271C-4B87-836E-B9AC114045B3}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="fl_site_limit"
+              DTS:DTSID="{9FA18F98-EB8F-4B73-9E58-0CA8C98EAABA}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="fr_site_limit"
+              DTS:DTSID="{2E5881B0-EECD-4E3C-8DE6-9557C916A669}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="tiv_2011"
+              DTS:DTSID="{2D21C4E6-8A59-4B5E-8A4C-52C1914F8218}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="tiv_2012"
+              DTS:DTSID="{23C4680C-F54E-4970-A69C-909B3520DC76}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="eq_site_deductible"
+              DTS:DTSID="{8BF3588E-8D19-4BCD-84BA-BC7A661EE0F7}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="hu_site_deductible"
+              DTS:DTSID="{03862309-DA61-46B9-819A-2E07728DB600}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="fl_site_deductible"
+              DTS:DTSID="{4E4A225C-F32D-433F-9327-077CE675ED06}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="fr_site_deductible"
+              DTS:DTSID="{616E6A00-251C-4DED-8986-E10604DBD328}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="point_latitude"
+              DTS:DTSID="{4EC4B8BC-7D05-4A8D-A6F4-4D6DB3AB8BFD}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="point_longitude"
+              DTS:DTSID="{7B169FED-D021-4EC2-AF3D-D8EF7A23F7BC}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="line"
+              DTS:DTSID="{6A7177B9-83E3-483D-A0E3-3972275447C9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="construction"
+              DTS:DTSID="{3C92CE77-4BE9-45D3-BED0-4E669C449B5A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="point_granularity"
+              DTS:DTSID="{D4AA6DF3-8AA6-47D3-8E92-A9EA4F73391D}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{063CB4F4-0AD5-4E42-AE15-BC87F5C317EB}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT\Filter"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Filter"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT\Filter.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT\Filter.Inputs[Conditional Split Input].Columns[county]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="county"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[county]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT\Filter.Outputs[Filtered]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Filtered"
+                  synchronousInputId="Package\DFT\Filter.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[county]} == @[$Project::CountyFilter]</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">county == @[$Project::CountyFilter]</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT\Filter.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\DFT\Filter.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT\Filter.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\DFT\Filter.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT\Filter.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT\Filter.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT\Filter.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT\Filter.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT\Flat File Destination"
+              componentClassID="Microsoft.FlatFileDestination"
+              contactInfo="Flat File Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Flat File Destination"
+              localeId="2070"
+              name="Flat File Destination">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether the data will overwrite or append to the destination file."
+                  name="Overwrite">true</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the text to write to the destination file before any data is written."
+                  expressionType="Notify"
+                  name="Header" />
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT\Flat File Destination.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Destination]"
+                  connectionManagerRefId="Package.ConnectionManagers[Destination]"
+                  name="FlatFileConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input]"
+                  hasSideEffects="true"
+                  name="Flat File Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].Columns[policyID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="policyID"
+                      externalMetadataColumnId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[policyID]"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[policyID]" />
+                    <inputColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].Columns[statecode]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="statecode"
+                      externalMetadataColumnId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[statecode]"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[statecode]" />
+                    <inputColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].Columns[county]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="county"
+                      externalMetadataColumnId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[county]"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[county]" />
+                    <inputColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].Columns[eq_site_limit]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="eq_site_limit"
+                      externalMetadataColumnId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[eq_site_limit]"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[eq_site_limit]" />
+                    <inputColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].Columns[hu_site_limit]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="hu_site_limit"
+                      externalMetadataColumnId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[hu_site_limit]"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[hu_site_limit]" />
+                    <inputColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].Columns[fl_site_limit]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="fl_site_limit"
+                      externalMetadataColumnId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[fl_site_limit]"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[fl_site_limit]" />
+                    <inputColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].Columns[fr_site_limit]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="fr_site_limit"
+                      externalMetadataColumnId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[fr_site_limit]"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[fr_site_limit]" />
+                    <inputColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].Columns[tiv_2011]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="tiv_2011"
+                      externalMetadataColumnId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[tiv_2011]"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[tiv_2011]" />
+                    <inputColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].Columns[tiv_2012]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="tiv_2012"
+                      externalMetadataColumnId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[tiv_2012]"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[tiv_2012]" />
+                    <inputColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].Columns[eq_site_deductible]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="eq_site_deductible"
+                      externalMetadataColumnId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[eq_site_deductible]"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[eq_site_deductible]" />
+                    <inputColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].Columns[hu_site_deductible]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="hu_site_deductible"
+                      externalMetadataColumnId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[hu_site_deductible]"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[hu_site_deductible]" />
+                    <inputColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].Columns[fl_site_deductible]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="fl_site_deductible"
+                      externalMetadataColumnId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[fl_site_deductible]"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[fl_site_deductible]" />
+                    <inputColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].Columns[fr_site_deductible]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="fr_site_deductible"
+                      externalMetadataColumnId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[fr_site_deductible]"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[fr_site_deductible]" />
+                    <inputColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].Columns[point_latitude]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="point_latitude"
+                      externalMetadataColumnId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[point_latitude]"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[point_latitude]" />
+                    <inputColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].Columns[point_longitude]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="point_longitude"
+                      externalMetadataColumnId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[point_longitude]"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[point_longitude]" />
+                    <inputColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].Columns[line]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="line"
+                      externalMetadataColumnId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[line]"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[line]" />
+                    <inputColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].Columns[construction]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="construction"
+                      externalMetadataColumnId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[construction]"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[construction]" />
+                    <inputColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].Columns[point_granularity]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="point_granularity"
+                      externalMetadataColumnId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[point_granularity]"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[point_granularity]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[policyID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="policyID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[statecode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="statecode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[county]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="county" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[eq_site_limit]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="eq_site_limit" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[hu_site_limit]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="hu_site_limit" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[fl_site_limit]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="fl_site_limit" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[fr_site_limit]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="fr_site_limit" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[tiv_2011]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="tiv_2011" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[tiv_2012]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="tiv_2012" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[eq_site_deductible]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="eq_site_deductible" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[hu_site_deductible]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="hu_site_deductible" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[fl_site_deductible]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="fl_site_deductible" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[fr_site_deductible]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="fr_site_deductible" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[point_latitude]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="point_latitude" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[point_longitude]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="point_longitude" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[line]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="line" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[construction]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="construction" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[point_granularity]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="point_granularity" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+            </component>
+            <component
+              refId="Package\DFT\Flat File Source"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="2070"
+              name="Flat File Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT\Flat File Source.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Source]"
+                  connectionManagerRefId="Package.ConnectionManagers[Source]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[policyID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[policyID]"
+                      length="50"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[policyID]"
+                      name="policyID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[statecode]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[statecode]"
+                      length="50"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[statecode]"
+                      name="statecode"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[county]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[county]"
+                      length="50"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[county]"
+                      name="county"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[eq_site_limit]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[eq_site_limit]"
+                      length="50"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[eq_site_limit]"
+                      name="eq_site_limit"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[hu_site_limit]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[hu_site_limit]"
+                      length="50"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[hu_site_limit]"
+                      name="hu_site_limit"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[fl_site_limit]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[fl_site_limit]"
+                      length="50"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[fl_site_limit]"
+                      name="fl_site_limit"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[fr_site_limit]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[fr_site_limit]"
+                      length="50"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[fr_site_limit]"
+                      name="fr_site_limit"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[tiv_2011]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[tiv_2011]"
+                      length="50"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[tiv_2011]"
+                      name="tiv_2011"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[tiv_2012]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[tiv_2012]"
+                      length="50"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[tiv_2012]"
+                      name="tiv_2012"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[eq_site_deductible]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[eq_site_deductible]"
+                      length="50"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[eq_site_deductible]"
+                      name="eq_site_deductible"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[hu_site_deductible]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[hu_site_deductible]"
+                      length="50"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[hu_site_deductible]"
+                      name="hu_site_deductible"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[fl_site_deductible]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[fl_site_deductible]"
+                      length="50"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[fl_site_deductible]"
+                      name="fl_site_deductible"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[fr_site_deductible]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[fr_site_deductible]"
+                      length="50"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[fr_site_deductible]"
+                      name="fr_site_deductible"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[point_latitude]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[point_latitude]"
+                      length="50"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[point_latitude]"
+                      name="point_latitude"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[point_longitude]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[point_longitude]"
+                      length="50"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[point_longitude]"
+                      name="point_longitude"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[line]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[line]"
+                      length="50"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[line]"
+                      name="line"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[construction]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[construction]"
+                      length="50"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[construction]"
+                      name="construction"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[point_granularity]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[point_granularity]"
+                      length="50"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].Columns[point_granularity]"
+                      name="point_granularity"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[policyID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="policyID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[statecode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="statecode" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[county]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="county" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[eq_site_limit]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="eq_site_limit" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[hu_site_limit]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="hu_site_limit" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[fl_site_limit]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="fl_site_limit" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[fr_site_limit]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="fr_site_limit" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[tiv_2011]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="tiv_2011" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[tiv_2012]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="tiv_2012" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[eq_site_deductible]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="eq_site_deductible" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[hu_site_deductible]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="hu_site_deductible" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[fl_site_deductible]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="fl_site_deductible" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[fr_site_deductible]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="fr_site_deductible" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[point_latitude]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="point_latitude" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[point_longitude]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="point_longitude" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[line]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="line" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[construction]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="construction" />
+                    <externalMetadataColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[point_granularity]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="point_granularity" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT\Flat File Source.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT.Paths[Filtered]"
+              endId="Package\DFT\Flat File Destination.Inputs[Flat File Destination Input]"
+              name="Filtered"
+              startId="Package\DFT\Filter.Outputs[Filtered]" />
+            <path
+              refId="Package\DFT.Paths[Flat File Source Output]"
+              endId="Package\DFT\Filter.Inputs[Conditional Split Input]"
+              name="Flat File Source Output"
+              startId="Package\DFT\Flat File Source.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="98,42"
+          Id="Package\DFT"
+          TopLeft="5.50000000000001,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="172,42"
+          Id="Package\DFT\Flat File Destination"
+          TopLeft="5.50000000000003,209.5" />
+        <NodeLayout
+          Size="151,42"
+          Id="Package\DFT\Flat File Source"
+          TopLeft="16,5.5" />
+        <NodeLayout
+          Size="102,42"
+          Id="Package\DFT\Filter"
+          TopLeft="40.5,107.5" />
+        <EdgeLayout
+          Id="Package\DFT.Paths[Flat File Source Output]"
+          TopLeft="91.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT.Paths[Filtered]"
+          TopLeft="91.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-16.68798828125,21.37548828125,33.3759765625,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Query.Resolver
 {
-    public class AssemblyQueryResolverArgs : QueryResolverArgs
+    public class AssemblyQueryResolverArgs : BaseQueryResolverArgs
     {
         private readonly string path;
         private readonly string className;
@@ -21,7 +21,7 @@ namespace NBi.Core.Query.Resolver
         public bool IsStatic { get => isStatic; }
         public IDictionary<string, object> MethodParameters { get => methodParameters; }
 
-        public AssemblyQueryResolverArgs(string path, string className, string methodName, bool isStatic, IDictionary<string, object> methodParameters, string connectionString, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> variables, int timeout)
+        public AssemblyQueryResolverArgs(string path, string className, string methodName, bool isStatic, IDictionary<string, object> methodParameters, string connectionString, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> variables, TimeSpan timeout)
             : base(connectionString, parameters, variables, timeout)
         {
             this.path = path;

@@ -1,4 +1,5 @@
 ﻿using Moq;
+using NBi.Core.Injection;
 using NBi.Core.Query.Resolver;
 using NBi.Core.Scalar.Resolver;
 using NUnit.Framework;
@@ -17,16 +18,10 @@ namespace NBi.Testing.Integration.Core.Scalar.Resolver
         public void Execute_Query_IsExecuted()
         {
             var args = new QueryScalarResolverArgs(
-                new DbCommandQueryResolverArgs(
-                    new SqlCommand()
-                    {
-                        Connection = new SqlConnection(ConnectionStringReader.GetSqlClient()),
-                        CommandText = "select 10;"
-                    }
-                    )
+                new QueryResolverArgs("select 10;", ConnectionStringReader.GetSqlClient(), null, null, new TimeSpan(0,0,10), System.Data.CommandType.Text)
                 );
 
-            var resolver = new QueryScalarResolver<int>(args);
+            var resolver = new QueryScalarResolver<int>(args, new ServiceLocator());
             Assert.That(resolver.Execute(), Is.EqualTo(10));
         }
     }

@@ -24,8 +24,7 @@ namespace NBi.Testing.Integration.Core.Batch.SqlServer
             //Clean the table if needed
             using (var conn = new SqlConnection(connectionString))
             {
-                var cmd = new SqlCommand();
-                cmd.Connection = conn;
+                var cmd = new SqlCommand() { Connection = conn };
                 conn.Open();
                 cmd.CommandText = string.Format("if (exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = '{0}')) begin drop table dbo.{0}; end", tableName);
                 cmd.ExecuteNonQuery();

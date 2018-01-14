@@ -18,6 +18,7 @@ using NBi.Xml.Items.Calculation;
 using System.Collections.Generic;
 using NBi.Core.Variable;
 using NBi.Core.ResultSet;
+using NBi.Core.Injection;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -72,7 +73,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             };
 
             var builder = new ResultSetAllRowsBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var ctr = builder.GetConstraint();
 
@@ -110,7 +111,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             };
 
             var builder = new ResultSetAllRowsBuilder();
-            builder.Setup(sutXml, ctrXml, null, variables);
+            builder.Setup(sutXml, ctrXml, null, variables, new ServiceLocator());
             builder.Build();
 
             yearResolverMock.Verify(x => x.GetValue(), Times.Once);
@@ -147,7 +148,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             };
 
             var builder = new ResultSetAllRowsBuilder();
-            builder.Setup(sutXml, ctrXml, null, variables);
+            builder.Setup(sutXml, ctrXml, null, variables, new ServiceLocator());
             builder.Build();
 
             notUsedResolverMock.Verify(x => x.GetValue(), Times.Never);
@@ -172,7 +173,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             };
 
             var builder = new ResultSetAllRowsBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 
@@ -196,7 +197,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             };
 
             var builder = new ResultSetAllRowsBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 

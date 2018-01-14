@@ -17,16 +17,14 @@ namespace NBi.Core.Query.Resolver
             this.args = args;
         }
 
-        public IDbCommand Execute()
+        public IQuery Execute()
         {
             if (!System.IO.File.Exists(args.Path))
                 throw new ExternalDependencyNotFoundException(args.Path);
             var commandText = System.IO.File.ReadAllText(args.Path, Encoding.UTF8);
 
-            var commandBuilder = new CommandBuilder();
-            var cmd = commandBuilder.Build(args.ConnectionString, commandText, args.Parameters, args.Variables, args.Timeout);
-
-            return cmd;
+            var query = new Query(commandText, args.ConnectionString, args.Timeout, args.Parameters, args.Variables);
+            return query;
         }
     }
 }

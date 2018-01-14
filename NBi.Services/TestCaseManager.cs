@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using NBi.Core;
 using NBi.Core.Query;
+using NBi.Core.Query.Execution;
 
 namespace NBi.Service
 {
@@ -41,10 +42,10 @@ namespace NBi.Service
             ReadFromQuery(query, connectionString);
         }
 
-        public void ReadFromQuery(string query, string connectionString)
+        public void ReadFromQuery(string sql, string connectionString)
         {
-            var queryEngineFactory = new QueryEngineFactory();
-            var queryEngine = queryEngineFactory.GetExecutor(query, connectionString);
+            var queryEngineFactory = new ExecutionEngineFactory();
+            var queryEngine = queryEngineFactory.Instantiate(new Query(sql, connectionString));
             var ds = queryEngine.Execute();
             content = ds.Tables[0];
 
@@ -111,9 +112,9 @@ namespace NBi.Service
             }
 
             Content.Clear();
-            if (dataReader!=null)
+            if (dataReader != null)
                 Content.Load(dataReader, LoadOption.PreserveChanges);
-            
+
             Content.AcceptChanges();
         }
 
@@ -190,7 +191,7 @@ namespace NBi.Service
         {
             var result = false;
             foreach (var pattern in patterns)
-	            result |= Like(value, pattern);
+                result |= Like(value, pattern);
             return result;
         }
 
@@ -198,7 +199,7 @@ namespace NBi.Service
         {
             var result = false;
             foreach (var pattern in patterns)
-	            result |= value==pattern;
+                result |= value == pattern;
             return result;
         }
 
@@ -214,7 +215,7 @@ namespace NBi.Service
                 dataReader = distinctTable.CreateDataReader();
             }
             Content.Clear();
-            if(dataReader!=null)
+            if (dataReader != null)
                 Content.Load(dataReader, LoadOption.PreserveChanges);
             Content.AcceptChanges();
         }

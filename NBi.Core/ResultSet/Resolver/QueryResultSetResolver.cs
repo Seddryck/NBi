@@ -1,4 +1,6 @@
-﻿using NBi.Core.Query;
+﻿using NBi.Core.Injection;
+using NBi.Core.Query;
+using NBi.Core.Query.Execution;
 using NBi.Core.Query.Resolver;
 using System;
 using System.Collections.Generic;
@@ -12,10 +14,12 @@ namespace NBi.Core.ResultSet.Resolver
     class QueryResultSetResolver : IResultSetResolver
     {
         private readonly QueryResultSetResolverArgs args;
+        private readonly ServiceLocator serviceLocator;
 
-        public QueryResultSetResolver(QueryResultSetResolverArgs args)
+        public QueryResultSetResolver(QueryResultSetResolverArgs args, ServiceLocator serviceLocator)
         {
             this.args = args;
+            this.serviceLocator = serviceLocator;
         }
         
         public ResultSet Execute()
@@ -25,17 +29,18 @@ namespace NBi.Core.ResultSet.Resolver
             return rs;
         }
 
-        protected virtual IDbCommand Resolve()
+        protected virtual IQuery Resolve()
         {
-            var factory = new QueryResolverFactory();
-            var resolver = factory.Instantiate(args.QueryResolverArgs as QueryResolverArgs);
-            var cmd = resolver.Execute();
-            return cmd;
+            var factory = serviceLocator.GetQueryResolverFactory();
+            var resolver = factory.Instantiate(args.QueryResolverArgs as BaseQueryResolverArgs);
+            var query = resolver.Execute();
+            return query;
         }
 
-        protected virtual ResultSet Load(IDbCommand command)
+        protected virtual ResultSet Load(IQuery query)
         {
-            var qe = new QueryEngineFactory().GetExecutor(command);
+            var factory = serviceLocator.GetExecutionEngineFactory();
+            var qe = factory.Instantiate(query);
             var ds = qe.Execute();
             var rs = new ResultSet();
             rs.Load(ds);

@@ -11,6 +11,7 @@ using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Settings;
 using NBi.Xml.Items.Xml;
 using NBi.Core.ResultSet.Equivalence;
+using NBi.Core.Query.Client;
 
 namespace NBi.Xml.Constraints
 {
@@ -56,7 +57,7 @@ namespace NBi.Xml.Constraints
         }
 
         [XmlElement("resultSet")]
-        public ResultSetXml ResultSet { get; set; }
+        public virtual ResultSetXml ResultSet { get; set; }
 
         [XmlElement(Type = typeof(QueryXml), ElementName = "query"),
         ]
@@ -82,7 +83,7 @@ namespace NBi.Xml.Constraints
 
         [XmlAttribute("behavior")]
         [DefaultValue(ComparisonBehavior.MultipleRows)]
-        public ComparisonBehavior Behavior { get; set; }
+        public virtual ComparisonBehavior Behavior { get; set; }
 
         [XmlAttribute("keys")]
         [DefaultValue(SettingsIndexResultSet.KeysChoice.First)]
@@ -113,7 +114,7 @@ namespace NBi.Xml.Constraints
         protected string tolerance;
         [XmlAttribute("tolerance")]
         [DefaultValue("")]
-        public string Tolerance
+        public virtual string Tolerance
         {
             get
             { return tolerance; }
@@ -144,7 +145,7 @@ namespace NBi.Xml.Constraints
             if (Query==null)
                 return null;
 
-            var conn = new ConnectionFactory().Get(Query.GetConnectionString());
+            var conn = new ClientProvider().Instantiate(Query.GetConnectionString()).CreateNew() as IDbConnection;
             var cmd = conn.CreateCommand();
             cmd.CommandText = Query.GetQuery();
             

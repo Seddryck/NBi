@@ -14,6 +14,8 @@ using NBi.Core.ResultSet;
 using NBi.Core.Transformation;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet.Equivalence;
+using System.Data.SqlClient;
+using NBi.Core.Injection;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -62,7 +64,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = new EqualToXml(SettingsXml.Empty) { ResultSet = new ResultSetXml() };
 
             var builder = new ResultSetEqualToBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var ctr = builder.GetConstraint();
 
@@ -79,10 +81,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new EqualToXml(SettingsXml.Empty) { Query = new Items.QueryXml() { InlineQuery = "query" } };
+            var ctrXmlStubFactory = new Mock<EqualToXml>();
+            ctrXmlStubFactory.Setup(i => i.GetCommand()).Returns(new SqlCommand());
+            ctrXmlStubFactory.SetupGet(i => i.BaseItem).Returns(new QueryXml() { InlineQuery="query" });
+            ctrXmlStubFactory.SetupGet(i => i.Settings).Returns(SettingsXml.Empty);
+            var ctrXml = ctrXmlStubFactory.Object;
 
             var builder = new ResultSetEqualToBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var ctr = builder.GetConstraint();
 
@@ -99,14 +105,15 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new EqualToXml(SettingsXml.Empty)
-            {
-                Query = new QueryXml() { InlineQuery = "query" },
-                Tolerance = "10"
-            };
+            var ctrXmlStubFactory = new Mock<EqualToXml>();
+            ctrXmlStubFactory.Setup(i => i.GetCommand()).Returns(new SqlCommand());
+            ctrXmlStubFactory.SetupGet(i => i.BaseItem).Returns(new QueryXml() { InlineQuery = "query" });
+            ctrXmlStubFactory.SetupGet(i => i.Settings).Returns(SettingsXml.Empty);
+            ctrXmlStubFactory.SetupGet(i => i.Tolerance).Returns("10");
+            var ctrXml = ctrXmlStubFactory.Object;
 
             var builder = new ResultSetEqualToBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var ctr = builder.GetConstraint();
 
@@ -129,7 +136,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = new EqualToXml(true) { ResultSet = new ResultSetXml() };
 
             var builder = new ResultSetEqualToBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var ctr = builder.GetConstraint();
 
@@ -154,14 +161,15 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     && c.Type == ColumnType.Text
                 );
 
-            var ctrXml = new EqualToXml(true)
-            {
-                Behavior = EqualToXml.ComparisonBehavior.SingleRow,
-                Query = new QueryXml() { InlineQuery = "select * from Table;" }
-            };
+            var ctrXmlStubFactory = new Mock<EqualToXml>();
+            ctrXmlStubFactory.Setup(i => i.GetCommand()).Returns(new SqlCommand());
+            ctrXmlStubFactory.SetupGet(i => i.BaseItem).Returns(new QueryXml() { InlineQuery = "select top(1) * from Table;" });
+            ctrXmlStubFactory.SetupGet(i => i.Settings).Returns(SettingsXml.Empty);
+            ctrXmlStubFactory.SetupGet(i => i.Behavior).Returns(EqualToXml.ComparisonBehavior.SingleRow);
+            var ctrXml = ctrXmlStubFactory.Object;
 
             var builder = new ResultSetEqualToBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var ctr = builder.GetConstraint();
 
@@ -180,13 +188,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new EqualToXml(SettingsXml.Empty)
-            {
-                Query = new QueryXml() { InlineQuery = "query" }
-            };
+            var ctrXmlStubFactory = new Mock<EqualToXml>();
+            ctrXmlStubFactory.Setup(i => i.GetCommand()).Returns(new SqlCommand());
+            ctrXmlStubFactory.SetupGet(i => i.BaseItem).Returns(new QueryXml() { InlineQuery = "select * from Table;" });
+            ctrXmlStubFactory.SetupGet(i => i.Settings).Returns(SettingsXml.Empty);
+            var ctrXml = ctrXmlStubFactory.Object;
 
             var builder = new ResultSetEqualToBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 
@@ -201,13 +210,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
             sutXmlStub.Setup(s => s.File).Returns("myFile.csv");
             var sutXml = sutXmlStub.Object;
 
-            var ctrXml = new EqualToXml(SettingsXml.Empty)
-            {
-                Query = new QueryXml() { InlineQuery = "select * from query" }
-            };
+            var ctrXmlStubFactory = new Mock<EqualToXml>();
+            ctrXmlStubFactory.Setup(i => i.GetCommand()).Returns(new SqlCommand());
+            ctrXmlStubFactory.SetupGet(i => i.BaseItem).Returns(new QueryXml() { InlineQuery = "select * from Table;" });
+            ctrXmlStubFactory.SetupGet(i => i.Settings).Returns(SettingsXml.Empty);
+            var ctrXml = ctrXmlStubFactory.Object;
 
             var builder = new ResultSetEqualToBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 

@@ -108,12 +108,12 @@ namespace NBi.NUnit.Builder
 
         protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(object obj, SettingsXml settings, TransformationProvider transformation)
         {
-            var argsBuilder = new ResultSetResolverArgsBuilder();
+            var argsBuilder = new ResultSetResolverArgsBuilder(ServiceLocator);
             argsBuilder.Setup(obj);
             argsBuilder.Setup(settings);
             argsBuilder.Build();
 
-            var factory = new ResultSetResolverFactory();
+            var factory = ServiceLocator.GetResultSetResolverFactory();
             var resolver = factory.Instantiate(argsBuilder.GetArgs());
 
             var serviceBuilder = new ResultSetServiceBuilder();

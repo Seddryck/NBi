@@ -2,16 +2,17 @@
 using System.Data;
 using NBi.Core.Query;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Core.Query.Performance;
 
 namespace NBi.NUnit.Query
 {
     public class FasterThanConstraint : NBiConstraint
     {
-        protected IQueryPerformance engine;
+        protected IPerformanceEngine engine;
         /// <summary>
         /// Engine dedicated to ResultSet comparaison
         /// </summary>
-        protected internal IQueryPerformance Engine
+        protected internal IPerformanceEngine Engine
         {
             set
             {
@@ -51,10 +52,10 @@ namespace NBi.NUnit.Query
             return this;
         }
 
-        protected IQueryPerformance GetEngine(IDbCommand actual)
+        protected IPerformanceEngine GetEngine(IQuery actual)
         {
             if (engine == null)
-                engine = new QueryEngineFactory().GetPerformance(actual);
+                engine = new PerformanceEngineFactory().Instantiate(actual);
             return engine;
         }
 
@@ -65,23 +66,18 @@ namespace NBi.NUnit.Query
         /// <returns>true, if the query defined in parameter is executed in less that expected else false</returns>
         public override bool Matches(object actual)
         {
-            if (actual is IDbCommand)
-                return doMatch((IDbCommand)actual);
+            if (actual is IQuery)
+                return doMatch((IQuery)actual);
             else
                 return false;
         }
 
-        /// <summary>
-        /// Handle a sql string and check it with the engine
-        /// </summary>
-        /// <param name="actual">SQL string</param>
-        /// <returns>true, if the query defined in parameter is executed in less that expected else false</returns>
-        public bool doMatch(IDbCommand actual)
+        public bool doMatch(IQuery actual)
         {
             var engine = GetEngine(actual);
             if (cleanCache)
                 engine.CleanCache();
-            performanceResult = engine.CheckPerformance(timeOutMilliSeconds);
+            performanceResult = engine.Execute(new TimeSpan(0,0,0,0,timeOutMilliSeconds));
             return 
                 (
                     performanceResult.TimeElapsed.TotalMilliseconds < maxTimeMilliSeconds

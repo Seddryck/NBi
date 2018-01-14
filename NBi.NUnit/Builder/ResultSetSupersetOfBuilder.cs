@@ -42,11 +42,11 @@ namespace NBi.NUnit.Builder
 
         protected override BaseResultSetComparisonConstraint InstantiateConstraint(object obj, SettingsXml settings, TransformationProvider transformation)
         {
-            var argsBuilder = new ResultSetResolverArgsBuilder();
+            var argsBuilder = new ResultSetResolverArgsBuilder(ServiceLocator);
             argsBuilder.Setup(obj);
             argsBuilder.Build();
 
-            var factory = new ResultSetResolverFactory();
+            var factory = ServiceLocator.GetResultSetResolverFactory();
             var resolver = factory.Instantiate(argsBuilder.GetArgs());
 
             var builder = new ResultSetServiceBuilder();

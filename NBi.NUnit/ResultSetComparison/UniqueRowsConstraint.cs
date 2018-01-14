@@ -10,6 +10,7 @@ using NBi.Core.ResultSet.Uniqueness;
 using NBi.Framework.FailureMessage.Markdown;
 using NBi.Framework;
 using NUnit.Framework;
+using NBi.Core.Configuration.FailureReport;
 
 namespace NBi.NUnit.Query
 {

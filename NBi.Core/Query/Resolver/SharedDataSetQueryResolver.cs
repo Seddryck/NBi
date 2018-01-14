@@ -26,7 +26,7 @@ namespace NBi.Core.Query.Resolver
             this.factory = factory;
         }
 
-        public IDbCommand Execute()
+        public IQuery Execute()
         {
             var parser = factory.Instantiate(args.Source);
 
@@ -34,10 +34,8 @@ namespace NBi.Core.Query.Resolver
 
             var parsingResult = parser.ExtractCommand(request);
 
-            var commandBuilder = new CommandBuilder();
-            var cmd = commandBuilder.Build(args.ConnectionString, parsingResult.Text, parsingResult.CommandType, args.Parameters, args.Variables, args.Timeout);
-
-            return cmd;
+            var query = new Query(parsingResult.Text, args.ConnectionString, args.Timeout, args.Parameters, args.Variables, parsingResult.CommandType);
+            return query;
         }
     }
 }

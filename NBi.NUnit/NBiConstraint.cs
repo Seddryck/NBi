@@ -1,4 +1,5 @@
-﻿using NBi.Core.Variable;
+﻿using NBi.Core.Configuration;
+using NBi.Core.Variable;
 using NBi.Framework;
 using NBi.Framework.FailureMessage;
 using System;
@@ -12,7 +13,7 @@ namespace NBi.NUnit
 {
     public abstract class NBiConstraint : NUnitCtr.Constraint
     {
-        public ITestConfiguration Configuration {get; set;}
+        public IConfiguration Configuration {get; set;}
         public IDictionary<string, ITestVariable> GlobalVariables { get; set; }
 
         public NBiConstraint()

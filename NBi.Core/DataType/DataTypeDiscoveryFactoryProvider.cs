@@ -1,6 +1,7 @@
 ﻿using Microsoft.AnalysisServices;
 using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.DataType.Relational;
+using NBi.Core.Query.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -35,8 +36,8 @@ namespace NBi.Core.DataType
 
         public IDataTypeDiscoveryFactory Instantiate(string connectionString)
         {
-            var connectionFactory = new ConnectionFactory();
-            var connection = connectionFactory.Get(connectionString);
+            var sessionFactory = new ClientProvider();
+            var connection = sessionFactory.Instantiate(connectionString).CreateNew() as IDbConnection;
             var dbType = MapConnectionTypeToDatabaseType(connection);
 
             if (!dico.Keys.Contains(dbType))

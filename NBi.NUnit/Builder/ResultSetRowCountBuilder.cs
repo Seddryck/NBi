@@ -81,7 +81,7 @@ namespace NBi.NUnit.Builder
 
         protected virtual DifferedConstraint BuildChildConstraint(PredicateXml xml)
         {
-            var builder = new ScalarResolverArgsBuilder();
+            var builder = new ScalarResolverArgsBuilder(ServiceLocator);
 
             if (!string.IsNullOrEmpty(xml.Value))
             {
@@ -102,7 +102,7 @@ namespace NBi.NUnit.Builder
             builder.Build();
             var args = builder.GetArgs();
 
-            var factory = new ScalarResolverFactory();
+            var factory = ServiceLocator.GetScalarResolverFactory();
             var resolver = factory.Instantiate<decimal>(args);
 
             Type ctrType = null;

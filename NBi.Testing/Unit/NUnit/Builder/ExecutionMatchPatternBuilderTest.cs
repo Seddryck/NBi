@@ -10,6 +10,8 @@ using NBi.Xml.Systems;
 using NUnit.Framework;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
+using NBi.Core.Query;
+using NBi.Core.Injection;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -60,7 +62,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = new MatchPatternXml();
 
             var builder = new ExecutionMatchPatternBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var ctr = builder.GetConstraint();
 
@@ -82,11 +84,11 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = new MatchPatternXml();
 
             var builder = new ExecutionMatchPatternBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 
-            Assert.That(sut, Is.InstanceOf<IDbCommand>());
+            Assert.That(sut, Is.InstanceOf<IQuery>());
         }
 
     }

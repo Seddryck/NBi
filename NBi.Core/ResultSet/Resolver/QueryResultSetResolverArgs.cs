@@ -11,9 +11,9 @@ namespace NBi.Core.ResultSet.Resolver
 {
     public class QueryResultSetResolverArgs : ResultSetResolverArgs
     {
-        public QueryResolverArgs QueryResolverArgs { get; }
+        public BaseQueryResolverArgs QueryResolverArgs { get; }
 
-        public QueryResultSetResolverArgs(QueryResolverArgs args)
+        public QueryResultSetResolverArgs(BaseQueryResolverArgs args)
         {
             QueryResolverArgs = args;
         }

@@ -22,7 +22,7 @@ namespace NBi.Testing.Integration.Core.Query.Resolver
                 ConnectionStringReader.GetSqlClient(),
                 new List<IQueryParameter>() { new QueryParameter("param", "10") },
                 new List<IQueryTemplateVariable>() { new QueryTemplateVariableXml() { Name = "operator", Value = "not in" } },
-                10);
+                new TimeSpan(0, 0, 10));
         }
 
         [Test]
@@ -38,28 +38,28 @@ namespace NBi.Testing.Integration.Core.Query.Resolver
         public void Execute_Args_ConnectionStringAssigned()
         {
             var resolver = new ExternalFileQueryResolver(BuildArgs());
-            var cmd = resolver.Execute();
+            var query = resolver.Execute();
 
-            Assert.That(cmd.Connection.ConnectionString, Is.Not.Null.And.Not.Empty);
-            Assert.That(cmd.Connection.ConnectionString, Is.EqualTo(ConnectionStringReader.GetSqlClient()));
+            Assert.That(query.ConnectionString, Is.Not.Null.And.Not.Empty);
+            Assert.That(query.ConnectionString, Is.EqualTo(ConnectionStringReader.GetSqlClient()));
         }
 
         [Test]
         public void Execute_Args_CommandTextAssigned()
         {
             var resolver = new ExternalFileQueryResolver(BuildArgs());
-            var cmd = resolver.Execute();
+            var query = resolver.Execute();
 
-            Assert.That(cmd.CommandText, Is.EqualTo("select * from myTable;"));
+            Assert.That(query.Statement, Is.EqualTo("select * from myTable;"));
         }
 
         [Test]
         public void Execute_Args_ParametersAssigned()
         {
             var resolver = new ExternalFileQueryResolver(BuildArgs());
-            var cmd = resolver.Execute();
+            var query = resolver.Execute();
 
-            Assert.That(cmd.Parameters, Has.Count.EqualTo(1));
+            Assert.That(query.Parameters, Has.Count.EqualTo(1));
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace NBi.Testing.Integration.Core.Query.Resolver
                 ConnectionStringReader.GetSqlClient(),
                 new List<IQueryParameter>() { new QueryParameter("param", "10") },
                 new List<IQueryTemplateVariable>() { new QueryTemplateVariableXml() { Name = "operator", Value = "not in" } },
-                10);
+                new TimeSpan(0, 0, 10));
             var resolver = new ExternalFileQueryResolver(args);
             Assert.Throws<ExternalDependencyNotFoundException>(() => resolver.Execute());
         }
@@ -83,7 +83,7 @@ namespace NBi.Testing.Integration.Core.Query.Resolver
                 ConnectionStringReader.GetSqlClient(),
                 new List<IQueryParameter>() { new QueryParameter("param", "10") },
                 new List<IQueryTemplateVariable>() { new QueryTemplateVariableXml() { Name = "operator", Value = "not in" } },
-                10);
+                new TimeSpan(0, 0, 10));
             var resolver = new ExternalFileQueryResolver(args);
             var ex = Assert.Catch<ExternalDependencyNotFoundException>(() => resolver.Execute());
             Assert.That(ex.Message, Is.StringContaining(@"NBi.Testing\bin\"));
@@ -98,7 +98,7 @@ namespace NBi.Testing.Integration.Core.Query.Resolver
                 ConnectionStringReader.GetSqlClient(),
                 new List<IQueryParameter>() { new QueryParameter("param", "10") },
                 new List<IQueryTemplateVariable>() { new QueryTemplateVariableXml() { Name = "operator", Value = "not in" } },
-                10);
+                new TimeSpan(0, 0, 10));
             var resolver = new ExternalFileQueryResolver(args);
             var ex = Assert.Catch<ExternalDependencyNotFoundException>(() => resolver.Execute());
             Assert.That(ex.Message, Is.StringContaining(@"C:\NotExistingFile.sql"));

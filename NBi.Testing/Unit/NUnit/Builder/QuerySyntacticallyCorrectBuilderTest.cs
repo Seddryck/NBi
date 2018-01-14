@@ -9,6 +9,8 @@ using NBi.Xml.Systems;
 using NUnit.Framework;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
+using NBi.Core.Query;
+using NBi.Core.Injection;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -58,7 +60,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = new SyntacticallyCorrectXml();
 
             var builder = new ExecutionSyntacticallyCorrectBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             //Call the method to test
             builder.Build();
             var ctr = builder.GetConstraint();
@@ -81,14 +83,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = new SyntacticallyCorrectXml();
 
             var builder = new ExecutionSyntacticallyCorrectBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             //Call the method to test
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
             Assert.That(sut, Is.Not.Null);
-            Assert.That(sut, Is.InstanceOf<IDbCommand>());
+            Assert.That(sut, Is.InstanceOf<IQuery>());
         }
 
         [Test]
@@ -107,14 +109,14 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = new SyntacticallyCorrectXml();
 
             var builder = new ExecutionSyntacticallyCorrectBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             //Call the method to test
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
             Assert.That(sut, Is.Not.Null);
-            Assert.That(sut, Is.InstanceOf<IDbCommand>());
+            Assert.That(sut, Is.InstanceOf<IQuery>());
         }
 
     }

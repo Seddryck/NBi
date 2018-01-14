@@ -8,14 +8,12 @@ using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
-using NBi.Core;
-using System.Diagnostics;
-using System.IO;
-using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet.Alteration;
 using NBi.Core.Evaluate;
 using NBi.Core.Calculation;
 using NBi.NUnit.Builder.Helper;
+using NBi.Core.Query.Resolver;
+using NBi.Core.Query.Command;
 using NBi.Core.ResultSet.Caster;
 using NBi.Core.Scalar.Conversion;
 using NBi.Core.ResultSet.Conversion;
@@ -44,35 +42,37 @@ namespace NBi.NUnit.Builder
 
         protected virtual IResultSetService InstantiateSystemUnderTest(ExecutionXml executionXml)
         {
-            var commandBuilder = new CommandBuilder();
+            var commandFactory = new CommandProvider();
+
+            var argsBuilder = new QueryResolverArgsBuilder(ServiceLocator);
 
             var connectionString = executionXml.Item.GetConnectionString();
-            var commandText = (executionXml.Item as QueryableXml).GetQuery();
+            var statement = (executionXml.Item as QueryableXml).GetQuery();
 
-            IEnumerable<IQueryParameter> parameters=null;
+            IEnumerable<IQueryParameter> parameters = null;
             IEnumerable<IQueryTemplateVariable> variables = null;
             int timeout = 0;
+            var commandType = System.Data.CommandType.Text;
+
             if (executionXml.BaseItem is QueryXml)
             {
-                var paramBuilder = new QueryResolverArgsBuilder();
-                parameters = paramBuilder.BuildParameters(((QueryXml)executionXml.BaseItem).GetParameters());
+                parameters = argsBuilder.BuildParameters(((QueryXml)executionXml.BaseItem).GetParameters());
                 variables = ((QueryXml)executionXml.BaseItem).GetVariables();
                 timeout = ((QueryXml)executionXml.BaseItem).Timeout;
             }
             if (executionXml.BaseItem is ReportXml)
             {
-                var paramBuilder = new QueryResolverArgsBuilder();
-                parameters = paramBuilder.BuildParameters(((ReportXml)executionXml.BaseItem).GetParameters());
+                parameters = argsBuilder.BuildParameters(((ReportXml)executionXml.BaseItem).GetParameters());
             }
-            var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables, timeout);
 
             if (executionXml.BaseItem is ReportXml)
             {
-                cmd.CommandType = ((ReportXml)executionXml.BaseItem).GetCommandType();
+                commandType = ((ReportXml)executionXml.BaseItem).GetCommandType();
             }
 
-            var args = new QueryResultSetResolverArgs(new DbCommandQueryResolverArgs(cmd));
-            var factory = new ResultSetResolverFactory();
+            var queryArgs = new QueryResolverArgs(statement, connectionString, parameters, variables, new TimeSpan(0, 0, timeout), commandType);
+            var args = new QueryResultSetResolverArgs(queryArgs);
+            var factory = ServiceLocator.GetResultSetResolverFactory();
             var resolver = factory.Instantiate(args);
 
             var builder = new ResultSetServiceBuilder();
@@ -92,13 +92,13 @@ namespace NBi.NUnit.Builder
 
         protected virtual IResultSetResolver InstantiateResolver(ResultSetSystemXml resultSetXml)
         {
-            var argsBuilder = new ResultSetResolverArgsBuilder();
+            var argsBuilder = new ResultSetResolverArgsBuilder(ServiceLocator);
             argsBuilder.Setup(resultSetXml);
             argsBuilder.Setup(resultSetXml.Settings);
             argsBuilder.Setup(base.Variables);
             argsBuilder.Build();
 
-            var factory = new ResultSetResolverFactory();
+            var factory = ServiceLocator.GetResultSetResolverFactory();
             var resolver = factory.Instantiate(argsBuilder.GetArgs());
             return resolver;
         }
@@ -117,7 +117,7 @@ namespace NBi.NUnit.Builder
                         expressions.Add(filterXml.Expression);
 
                     var factory = new PredicateFilterFactory();
-                    if (filterXml.Predication!=null)
+                    if (filterXml.Predication != null)
                         yield return factory.Instantiate
                                     (
                                         filterXml.Aliases

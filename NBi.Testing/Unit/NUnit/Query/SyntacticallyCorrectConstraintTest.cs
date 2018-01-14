@@ -3,6 +3,7 @@ using Moq;
 using NBi.Core.Query;
 using NBi.NUnit.Query;
 using NUnit.Framework;
+using NBi.Core.Query.Validation;
 
 namespace NBi.Testing.Unit.NUnit.Query
 {
@@ -30,15 +31,17 @@ namespace NBi.Testing.Unit.NUnit.Query
         public void Matches_AnyIDbCommand_EngineParseCalledOnce()
         {
 
-            var mock = new Mock<IQueryParser>();
+            var mock = new Mock<IValidationEngine>();
             mock.Setup(engine => engine.Parse())
                 .Returns(ParserResult.NoParsingError());
-            IQueryParser qp = mock.Object;
+            IValidationEngine qp = mock.Object;
 
             var syntacticallyCorrectConstraint = new SyntacticallyCorrectConstraint() { Engine = qp };
 
-            //Method under test
-            syntacticallyCorrectConstraint.Matches(new SqlCommand());
+            var queryFoundry = new Mock<IQuery>();
+            var query = queryFoundry.Object;
+
+            syntacticallyCorrectConstraint.Matches(query);
 
             //Test conclusion            
             mock.Verify(engine => engine.Parse(), Times.Once());
@@ -48,15 +51,18 @@ namespace NBi.Testing.Unit.NUnit.Query
         public void Matches_NoParsingError_ReturnTrue()
         {
 
-            var mock = new Mock<IQueryParser>();
+            var mock = new Mock<IValidationEngine>();
             mock.Setup(engine => engine.Parse())
                 .Returns(ParserResult.NoParsingError());
-            IQueryParser qp = mock.Object;
+            IValidationEngine qp = mock.Object;
 
             var syntacticallyCorrectConstraint = new SyntacticallyCorrectConstraint() { Engine = qp };
 
+            var queryFoundry = new Mock<IQuery>();
+            var query = queryFoundry.Object;
+
             //Method under test
-            var res = syntacticallyCorrectConstraint.Matches(new SqlCommand());
+            var res = syntacticallyCorrectConstraint.Matches(query);
 
             //Test conclusion            
             Assert.That(res, Is.True);
@@ -66,10 +72,10 @@ namespace NBi.Testing.Unit.NUnit.Query
         public void Matches_WithParsingError_ReturnFalse()
         {
 
-            var mock = new Mock<IQueryParser>();
+            var mock = new Mock<IValidationEngine>();
             mock.Setup(engine => engine.Parse())
                 .Returns(new ParserResult(new string[]{"parsing error"}));
-            IQueryParser qp = mock.Object;
+            IValidationEngine qp = mock.Object;
 
             var syntacticallyCorrectConstraint = new SyntacticallyCorrectConstraint() { Engine = qp };
 

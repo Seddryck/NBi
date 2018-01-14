@@ -16,6 +16,7 @@ using NBi.Xml.Items.Calculation;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet;
 using System.Collections.Generic;
+using NBi.Core.Injection;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -66,7 +67,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             ctrXml.MoreThan.Value = "100";
 
             var builder = new ResultSetRowCountBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var ctr = builder.GetConstraint();
 
@@ -93,7 +94,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             ctrXml.Filter.Predication = new PredicationXml() { Predicate = new NullXml(), Operand = "myColumn" };
 
             var builder = new ResultSetRowCountBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var ctr = builder.GetConstraint();
 
@@ -123,7 +124,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             };
 
             var builder = new ResultSetRowCountBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var ctr = builder.GetConstraint();
 
@@ -148,7 +149,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             };
 
             var builder = new ResultSetRowCountBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 
@@ -170,7 +171,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             };
 
             var builder = new ResultSetRowCountBuilder();
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var sut = builder.GetSystemUnderTest();
 

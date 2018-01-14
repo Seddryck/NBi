@@ -22,7 +22,7 @@ namespace NBi.Testing.Unit.Core.Scalar.Resolver
                     new object[] { "Gamma", 3 }
                 });
             var args = new RowCountResultSetScalarResolverArgs(rsArgs);
-            var resolver = new ProjectionResultSetScalarResolver<int>(args);
+            var resolver = new ProjectionResultSetScalarResolver<int>(args, new ResultSetResolverFactory(null));
             Assert.That(resolver.Execute(), Is.EqualTo(3));
         }
 
@@ -35,7 +35,7 @@ namespace NBi.Testing.Unit.Core.Scalar.Resolver
                     
                 });
             var args = new RowCountResultSetScalarResolverArgs(rsArgs);
-            var resolver = new ProjectionResultSetScalarResolver<int>(args);
+            var resolver = new ProjectionResultSetScalarResolver<int>(args, new ResultSetResolverFactory(null));
             Assert.That(resolver.Execute(), Is.EqualTo(0));
         }
     }

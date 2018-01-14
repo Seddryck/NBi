@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Query.Resolver
 {
-    public class EmbeddedQueryResolverArgs : QueryResolverArgs
+    public class EmbeddedQueryResolverArgs : BaseQueryResolverArgs
     {
         private readonly string commandText;
 
         public string CommandText { get => commandText; }
 
-        public EmbeddedQueryResolverArgs(string commandText, string connectionString, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> variables, int timeout)
+        public EmbeddedQueryResolverArgs(string commandText, string connectionString, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> variables, TimeSpan timeout)
             : base(connectionString, parameters, variables, timeout)
         {
             this.commandText = commandText;

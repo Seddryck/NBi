@@ -2,6 +2,7 @@
 using System.Data;
 using NBi.Core.Query;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Core.Query.Validation;
 
 namespace NBi.NUnit.Query
 {
@@ -10,11 +11,11 @@ namespace NBi.NUnit.Query
         /// <summary>
         /// Engine dedicated to query parsing
         /// </summary>
-        protected IQueryParser engine;
+        protected IValidationEngine engine;
         /// <summary>
         /// Engine dedicated to ResultSet comparaison
         /// </summary>
-        protected internal IQueryParser Engine
+        protected internal IValidationEngine Engine
         {
             set
             {
@@ -34,10 +35,10 @@ namespace NBi.NUnit.Query
         {
         }
 
-        protected IQueryParser GetEngine(IDbCommand actual)
+        protected IValidationEngine GetEngine(IQuery actual)
         {
             if (engine == null)
-                engine = new QueryEngineFactory().GetParser(actual);
+                engine = new ValidationEngineFactory().Instantiate(actual);
             return engine;
         }
 
@@ -48,8 +49,8 @@ namespace NBi.NUnit.Query
         /// <returns>true, if the query defined in parameter is syntatically correct else false</returns>
         public override bool Matches(object actual)
         {
-            if (actual is IDbCommand)
-                return doMatch((IDbCommand)actual);
+            if (actual is IQuery)
+                return doMatch((IQuery)actual);
             else
                 return false;               
         }
@@ -59,7 +60,7 @@ namespace NBi.NUnit.Query
         /// </summary>
         /// <param name="actual">SQL string</param>
         /// <returns>true, if the query defined in parameter is syntatically correct else false</returns>
-        protected bool doMatch(IDbCommand actual)
+        protected bool doMatch(IQuery actual)
         {
             parserResult= GetEngine(actual).Parse();
             return parserResult.IsSuccesful;

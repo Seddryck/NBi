@@ -44,20 +44,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SqlServer", "SqlServer", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Core.SqlServer", "NBi.Core.SqlServer\NBi.Core.SqlServer.csproj", "{687F2843-268C-43E2-8369-9EB06B9B59F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Core.Neo4j", "NBi.Core.Neo4j\NBi.Core.Neo4j.csproj", "{1F39430D-F7D8-423A-BCDF-D494FBE2D345}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Testing.Core.Neo4j", "NBi.Testing.Core.Neo4j\NBi.Testing.Core.Neo4j.csproj", "{DBF431EE-57EA-48A0-B5A4-B290F3534086}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Neo4j", "Neo4j", "{A08A1924-A3EF-4296-A926-43C3FD8E95FE}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{626B19D0-17F4-4EB6-92D7-1D67686B96D9}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CosmosDB", "CosmosDB", "{A9E593C1-C197-4A25-83ED-AB9D51689C15}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Core.CosmosDb", "NBi.Core.CosmosDB.Graph\NBi.Core.CosmosDb.csproj", "{BF427A68-47C4-48B8-83EF-CE01DDEB2B59}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Testing.Core.CosmosDb", "NBi.Testing.Core.CosmosDB.Graph\NBi.Testing.Core.CosmosDb.csproj", "{73DAC40D-671C-44BB-A67D-C1F7B42B1326}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

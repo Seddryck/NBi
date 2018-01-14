@@ -31,7 +31,7 @@ Write-Host "Found $($dependencies.Count) dependencies ..."
 $depList = $dependencies.Values -join [Environment]::NewLine + "`t`t"
 
 #For NBi.Framework (dll)
-$lib = "$root\NBi.Framework\lib\45\"
+$lib = "$root\NBi.Framework\lib\461\"
 If (Test-Path $lib)
 {
 	Remove-Item $lib -recurse

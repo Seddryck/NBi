@@ -9,7 +9,7 @@ using NBi.Core;
 using System.Collections.Generic;
 using NBi.Core.Configuration;
 
-namespace NBi.Testing.Acceptance
+namespace NBi.NUnit.Runtime.Runner
 {
     
     public abstract class BaseRuntimeOverrider

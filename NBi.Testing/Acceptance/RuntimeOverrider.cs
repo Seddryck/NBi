@@ -1,14 +1,10 @@
 ﻿using System.IO;
-using NBi.NUnit.Runtime;
-using NBi.Xml;
-using NUnit.Framework;
 using System.Diagnostics;
 using System.Reflection;
-using NBi.Framework;
 using SysConfig = System.Configuration;
-using NBi.Core;
 using System.Collections.Generic;
-using NBi.Core.Configuration;
+using NBi.NUnit.Runtime.Runner;
+using NUnit.Framework;
 
 namespace NBi.Testing.Acceptance
 {

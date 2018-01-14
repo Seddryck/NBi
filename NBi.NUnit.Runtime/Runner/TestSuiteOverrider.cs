@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SysConfig = System.Configuration;
 
-namespace NBi.Testing.Acceptance
+namespace NBi.NUnit.Runtime.Runner
 {
     public class TestSuiteOverrider : TestSuite
     {

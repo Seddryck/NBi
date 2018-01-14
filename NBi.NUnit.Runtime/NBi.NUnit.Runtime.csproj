@@ -70,6 +70,8 @@
     <Compile Include="CustomStackTraceErrorException.cs" />
     <Compile Include="CustomStackTraceAssertionException.cs" />
     <Compile Include="Configuration\NBiSection.cs" />
+    <Compile Include="Runner\BaseRuntimeOverrider.cs" />
+    <Compile Include="Runner\TestSuiteOverrider.cs" />
     <Compile Include="TestSuite.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="TestSuiteFinder.cs" />

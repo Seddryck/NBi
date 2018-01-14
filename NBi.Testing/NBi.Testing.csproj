@@ -215,9 +215,7 @@
     <Compile Include="Acceptance\GenbiL\CaseCrossTest.cs" />
     <Compile Include="Acceptance\GenbiL\GenbiLTest.cs" />
     <Compile Include="Acceptance\Resources\AssemblyClass.cs" />
-    <Compile Include="Acceptance\BaseRuntimeOverrider.cs" />
     <Compile Include="Acceptance\RuntimeOverrider.cs" />
-    <Compile Include="Acceptance\TestSuiteOverrider.cs" />
     <Compile Include="ConnectionStringReader.cs" />
     <Compile Include="DiskOnFile.cs" />
     <Compile Include="Integration\Core\Analysis\Member\MembersCommandTest.cs" />

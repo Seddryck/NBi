@@ -74,7 +74,7 @@ namespace NBi.NUnit.Runtime.Runner
                 }
                 catch (CustomStackTraceAssertionException ex)
                 {
-                    using (Stream stream = Assembly.GetExecutingAssembly()
+                    using (Stream stream = Assembly.GetCallingAssembly()
                                            .GetManifestResourceStream(
                                                 "NBi.Testing.Acceptance.Resources.Negative."
                                                 + filename.Replace(".nbits", string.Empty)
@@ -114,7 +114,7 @@ namespace NBi.NUnit.Runtime.Runner
                 }
                 catch (CustomStackTraceAssertionException ex)
                 {
-                    using (Stream stream = Assembly.GetExecutingAssembly()
+                    using (Stream stream = Assembly.GetCallingAssembly()
                                            .GetManifestResourceStream(
                                                 "NBi.Testing.Acceptance.Resources.Negative."
                                                 + filename.Replace(".nbits", string.Empty)

@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
-using NBi.Core.CosmosDb.Query.Session;
-using NBi.Core.Query.Session;
+using NBi.Core.CosmosDb.Query.Client;
+using NBi.Core.Query.Client;
 using Microsoft.Azure.Documents.Linq;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Graphs;
@@ -17,18 +17,18 @@ namespace NBi.Core.CosmosDb.Query.Command
 {
     class GraphCommandFactory : ICommandFactory
     {
-        public bool CanHandle(ISession session) => session is GraphSession;
+        public bool CanHandle(IClient client) => client is GraphClient;
 
-        public ICommand Instantiate(ISession session, IQuery query)
+        public ICommand Instantiate(IClient client, IQuery query)
         {
-            if (!CanHandle(session))
+            if (!CanHandle(client))
                 throw new ArgumentException();
-            GremlinSession cosmosdbSession = session.CreateNew() as GremlinSession;
+            GremlinClient cosmosdbSession = client.CreateNew() as GremlinClient;
             var cosmosdbQuery = Instantiate(cosmosdbSession, query);
             return new GraphCommand(cosmosdbSession, cosmosdbQuery);
         }
 
-        protected GremlinQuery Instantiate(GremlinSession cosmosdbSession, IQuery query)
+        protected GremlinQuery Instantiate(GremlinClient cosmosdbSession, IQuery query)
         {
             var statementText = query.Statement;
 

@@ -1,6 +1,6 @@
 ﻿using NBi.Core.Configuration;
 using NBi.Core.Query.Command;
-using NBi.Core.Query.Session;
+using NBi.Core.Query.Client;
 using Ninject.Modules;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using NBi.Core.Query.Session;
+﻿using NBi.Core.Query.Client;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +13,7 @@ namespace NBi.Core.Query.Command
 {
     class OdbcCommandFactory : DbCommandFactory
     {
-        public override bool CanHandle(ISession session) => session.UnderlyingSessionType == typeof(OdbcConnection);
+        public override bool CanHandle(IClient client) => client.UnderlyingSessionType == typeof(OdbcConnection);
     }
 }
 

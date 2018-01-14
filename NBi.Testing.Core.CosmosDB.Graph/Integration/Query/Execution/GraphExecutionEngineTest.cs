@@ -4,7 +4,7 @@ using System.Linq;
 using NBi.Core.Query;
 using NUnit.Framework;
 using System.Data;
-using NBi.Core.CosmosDb.Query.Session;
+using NBi.Core.CosmosDb.Query.Client;
 using NBi.Core.CosmosDb.Query.Command;
 using NBi.Core.CosmosDb.Query.Execution;
 using Moq;
@@ -45,7 +45,7 @@ namespace NBi.Testing.Core.CosmosDb.Integration.Query.Execution
         [Test]
         public void Execute_Vertex_DataSetFilled()
         {
-            GraphSession session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphSession;
+            GraphClient session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphClient;
             var statement = Mock.Of<IQuery>(x => x.Statement == "g.V()");
             GremlinQuery cosmosdbQuery = new GraphCommandFactory().Instantiate(session, statement).Implementation as GremlinQuery;
 
@@ -90,7 +90,7 @@ namespace NBi.Testing.Core.CosmosDb.Integration.Query.Execution
         [Test]
         public void Execute_Edge_DataSetFilled()
         {
-            GraphSession session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphSession;
+            GraphClient session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphClient;
             var statement = Mock.Of<IQuery>(x => x.Statement == "g.E()");
             GremlinQuery cosmosdbQuery = new GraphCommandFactory().Instantiate(session, statement).Implementation as GremlinQuery;
 
@@ -139,7 +139,7 @@ namespace NBi.Testing.Core.CosmosDb.Integration.Query.Execution
         [Test]
         public void Execute_ProjectionOfObjects_DataSetFilled()
         {
-            GraphSession session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphSession;
+            GraphClient session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphClient;
             var statement = Mock.Of<IQuery>(x => x.Statement == "g.V().project('FirstName','KnowsCount').by('firstName').by(out().Count())");
             GremlinQuery cosmosdbQuery = new GraphCommandFactory().Instantiate(session, statement).Implementation as GremlinQuery;
 
@@ -174,7 +174,7 @@ namespace NBi.Testing.Core.CosmosDb.Integration.Query.Execution
         [Test]
         public void Execute_Integer_ScalarReturned()
         {
-            GraphSession session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphSession;
+            GraphClient session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphClient;
             var statement = Mock.Of<IQuery>(x => x.Statement == "g.V().Count()");
             GremlinQuery cosmosdbQuery = new GraphCommandFactory().Instantiate(session, statement).Implementation as GremlinQuery;
 
@@ -187,7 +187,7 @@ namespace NBi.Testing.Core.CosmosDb.Integration.Query.Execution
         [Test]
         public void Execute_String_ScalarReturned()
         {
-            GraphSession session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphSession;
+            GraphClient session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphClient;
             var statement = Mock.Of<IQuery>(x => x.Statement == "g.V('mary').values('lastName')");
             GremlinQuery cosmosdbQuery = new GraphCommandFactory().Instantiate(session, statement).Implementation as GremlinQuery;
 
@@ -200,7 +200,7 @@ namespace NBi.Testing.Core.CosmosDb.Integration.Query.Execution
         [Test]
         public void Execute_NullString_ScalarReturned()
         {
-            GraphSession session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphSession;
+            GraphClient session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphClient;
             var statement = Mock.Of<IQuery>(x => x.Statement == "g.V('thomas').values('lastName')");
             GremlinQuery cosmosdbQuery = new GraphCommandFactory().Instantiate(session, statement).Implementation as GremlinQuery;
 
@@ -213,7 +213,7 @@ namespace NBi.Testing.Core.CosmosDb.Integration.Query.Execution
         [Test]
         public void Execute_ListOfString_ListReturned()
         {
-            GraphSession session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphSession;
+            GraphClient session = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphClient;
             var statement = Mock.Of<IQuery>(x => x.Statement == "g.V().values('lastName')");
             GremlinQuery cosmosdbQuery = new GraphCommandFactory().Instantiate(session, statement).Implementation as GremlinQuery;
 

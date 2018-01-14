@@ -1,5 +1,5 @@
 ﻿using NBi.Core.Neo4j.Query.Command;
-using NBi.Core.Neo4j.Query.Session;
+using NBi.Core.Neo4j.Query.Client;
 using NBi.Core.Neo4j.Query.Execution;
 using NUnit.Framework;
 using System;
@@ -26,7 +26,7 @@ namespace NBi.Testing.Core.Neo4j.Unit.Configuration.Extension
         {
             var analyzer = new ExtensionAnalyzer();
             var types = analyzer.Execute("NBi.Core.Neo4j");
-            Assert.That(types, Has.Member(typeof(BoltSessionFactory)));
+            Assert.That(types, Has.Member(typeof(BoltClientFactory)));
         }
 
         [Test]

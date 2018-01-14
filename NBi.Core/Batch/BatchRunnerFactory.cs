@@ -1,4 +1,4 @@
-﻿using NBi.Core.Query.Session;
+﻿using NBi.Core.Query.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,7 +15,7 @@ namespace NBi.Core.Batch
     {
         public IDecorationCommandImplementation Get(IBatchRunCommand command)
         {
-            var sessionFactory = new SessionProvider();
+            var sessionFactory = new ClientProvider();
             var connection = sessionFactory.Instantiate(command.ConnectionString).CreateNew() as IDbConnection;
 
             var directory = AssemblyDirectory;

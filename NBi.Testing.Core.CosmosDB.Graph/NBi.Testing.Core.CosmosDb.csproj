@@ -45,8 +45,8 @@
     <Compile Include="Unit\Configuration\Extension\ExtensionAnalyzerTest.cs" />
     <Compile Include="Unit\Query\Command\GraphCommandFactoryTest.cs" />
     <Compile Include="Unit\Query\Execution\ExecutionEngineFactoryTest.cs" />
-    <Compile Include="Unit\Query\Session\GraphSessionTest.cs" />
-    <Compile Include="Unit\Query\Session\GraphSessionFactoryTest.cs" />
+    <Compile Include="Unit\Query\Client\GraphClientTest.cs" />
+    <Compile Include="Unit\Query\Client\GraphClientFactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Acceptance\Resources\Positive\ResultSetEqualToResultSet.nbits">

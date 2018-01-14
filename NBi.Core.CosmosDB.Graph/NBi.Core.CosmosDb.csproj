@@ -204,9 +204,9 @@
     <Compile Include="Query\Command\GremlinQuery.cs" />
     <Compile Include="Query\Command\GraphCommand.cs" />
     <Compile Include="Query\Command\GraphCommandFactory.cs" />
-    <Compile Include="Query\Session\GremlinSession.cs" />
-    <Compile Include="Query\Session\GraphSessionFactory.cs" />
-    <Compile Include="Query\Session\GraphSession.cs" />
+    <Compile Include="Query\Session\GremlinClient.cs" />
+    <Compile Include="Query\Session\GraphClientFactory.cs" />
+    <Compile Include="Query\Session\GraphClient.cs" />
     <Compile Include="Query\Execution\GraphExecutionEngine.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,5 @@
 ﻿using NBi.Core.Query.Command;
-using NBi.Core.Query.Session;
+using NBi.Core.Query.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,16 +12,16 @@ namespace NBi.Core.Query
     public abstract class EngineFactory<T>
     {
         protected readonly IDictionary<string, Type> engines = new Dictionary<string, Type>();
-        private readonly SessionProvider sessionFactory;
+        private readonly ClientProvider sessionFactory;
         private readonly CommandProvider commandFactory;
 
         protected internal EngineFactory()
         {
-            this.sessionFactory = new SessionProvider();
+            this.sessionFactory = new ClientProvider();
             this.commandFactory = new CommandProvider();
         }
 
-        protected internal EngineFactory(SessionProvider sessionFactory, CommandProvider commandFactory)
+        protected internal EngineFactory(ClientProvider sessionFactory, CommandProvider commandFactory)
         {
             this.sessionFactory = sessionFactory;
             this.commandFactory = commandFactory;
@@ -56,11 +56,11 @@ namespace NBi.Core.Query
         protected T Instantiate(Type type, ICommand cmd)
         {
             var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-            var types = new[] { cmd.Session.GetType(), cmd.Implementation.GetType() };
+            var types = new[] { cmd.Client.GetType(), cmd.Implementation.GetType() };
             var ctor = type.GetConstructor(flags, null, types, null);
             if (ctor == null)
                 throw new ArgumentException($"Unable to find a constructor for the type '{type.FullName}' exposing the following parameters: '{string.Join("', '", types.Select(x => x.FullName))}'");
-            return (T)ctor.Invoke(new[] { cmd.Session, cmd.Implementation });
+            return (T)ctor.Invoke(new[] { cmd.Client, cmd.Implementation });
         }
     }
 }

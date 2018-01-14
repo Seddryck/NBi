@@ -1,4 +1,4 @@
-﻿using NBi.Core.Query.Session;
+﻿using NBi.Core.Query.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace NBi.Core.Query.Command
 {
     public interface ICommandFactory
     {
-        bool CanHandle(ISession session);
-        ICommand Instantiate(ISession session, IQuery query);
+        bool CanHandle(IClient client);
+        ICommand Instantiate(IClient client, IQuery query);
     }
 }

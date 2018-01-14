@@ -64,8 +64,8 @@
     <Compile Include="Unit\Query\Command\BoltCommandTest.cs" />
     <Compile Include="Unit\Query\Command\BoltCommandFactoryTest.cs" />
     <Compile Include="Unit\Query\Execution\ExecutionEngineFactoryTest.cs" />
-    <Compile Include="Unit\Query\Session\BoltSessionTest.cs" />
-    <Compile Include="Unit\Query\Session\BoltSessionFactoryTest.cs" />
+    <Compile Include="Unit\Query\Client\BoltClientTest.cs" />
+    <Compile Include="Unit\Query\Client\BoltClientFactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core.Neo4j\NBi.Core.Neo4j.csproj">

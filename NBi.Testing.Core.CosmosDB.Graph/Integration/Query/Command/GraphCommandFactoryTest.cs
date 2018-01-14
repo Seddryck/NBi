@@ -4,7 +4,7 @@ using System.Linq;
 using NBi.Core.Query;
 using NUnit.Framework;
 using Moq;
-using NBi.Core.CosmosDb.Query.Session;
+using NBi.Core.CosmosDb.Query.Client;
 using NBi.Core.CosmosDb.Query.Command;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -45,7 +45,7 @@ namespace NBi.Testing.Core.CosmosDb.Integration.Query.Command
         [Test]
         public void Instantiate_NoParameter_CorrectResultSet()
         {
-            GraphSession conn = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphSession;
+            GraphClient conn = new GraphSessionFactory().Instantiate(ConnectionStringReader.GetAzureGraph()) as GraphClient;
             var query = Mock.Of<IQuery>(
                 x => x.Statement == "g.V()"
                 );

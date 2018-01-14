@@ -1,5 +1,5 @@
 ﻿using Microsoft.AnalysisServices.AdomdClient;
-using NBi.Core.Query.Session;
+using NBi.Core.Query.Client;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,13 +14,13 @@ namespace NBi.Core.Query.Command
 {
     abstract class DbCommandFactory : ICommandFactory
     {
-        public abstract bool CanHandle(ISession session);
+        public abstract bool CanHandle(IClient client);
 
-        public ICommand Instantiate(ISession session, IQuery query)
+        public ICommand Instantiate(IClient client, IQuery query)
         {
-            if (!CanHandle(session))
+            if (!CanHandle(client))
                 throw new ArgumentException();
-            var connection = session.CreateNew() as IDbConnection;
+            var connection = client.CreateNew() as IDbConnection;
             var cmd = Instantiate(connection, query);
             return new Command(connection, cmd);
         }

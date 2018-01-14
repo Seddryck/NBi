@@ -1,5 +1,5 @@
 ﻿using Microsoft.Azure.Documents.Linq;
-using NBi.Core.CosmosDb.Query.Session;
+using NBi.Core.CosmosDb.Query.Client;
 using Microsoft.Azure.Graphs;
 using System;
 using System.Collections.Generic;
@@ -13,8 +13,8 @@ namespace NBi.Core.CosmosDb.Query.Command
     class GremlinQuery
     {
         public string PreparedStatement { get; }
-        public GremlinSession Session { get; }
-        public GremlinQuery(GremlinSession session, string preparedStatement)
+        public GremlinClient Session { get; }
+        public GremlinQuery(GremlinClient session, string preparedStatement)
         {
             Session = session;
             PreparedStatement = preparedStatement;

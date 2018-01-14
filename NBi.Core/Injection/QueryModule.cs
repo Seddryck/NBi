@@ -1,5 +1,5 @@
 ﻿using NBi.Core.Query.Command;
-using NBi.Core.Query.Session;
+using NBi.Core.Query.Client;
 using Ninject.Modules;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace NBi.Core.Injection
     {
         public override void Load()
         {
-            Bind<SessionProvider>().ToSelf().InSingletonScope();
+            Bind<ClientProvider>().ToSelf().InSingletonScope();
             Bind<CommandProvider>().ToSelf().InSingletonScope();
         }
     }

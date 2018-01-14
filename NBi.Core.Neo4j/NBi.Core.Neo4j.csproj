@@ -49,8 +49,8 @@
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Query\Command\BoltCommand.cs" />
     <Compile Include="Query\Command\BoltCommandFactory.cs" />
-    <Compile Include="Query\Session\BoltSessionFactory.cs" />
-    <Compile Include="Query\Session\BoltSession.cs" />
+    <Compile Include="Query\Client\BoltClientFactory.cs" />
+    <Compile Include="Query\Client\BoltClient.cs" />
     <Compile Include="Query\Execution\BoltExecutionEngine.cs" />
   </ItemGroup>
   <ItemGroup>

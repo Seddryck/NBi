@@ -2,7 +2,7 @@
 using NBi.Core.Query;
 using NBi.Core.Query.Command;
 using NBi.Core.Query.Performance;
-using NBi.Core.Query.Session;
+using NBi.Core.Query.Client;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -68,7 +68,7 @@ namespace NBi.Testing.Unit.Core.Query.Performance
         }
 
         #region Fake
-        public class FakeSession : ISession
+        public class FakeSession : IClient
         {
             public string ConnectionString => "fake://MyConnectionString";
 
@@ -77,18 +77,18 @@ namespace NBi.Testing.Unit.Core.Query.Performance
             public object CreateNew() => throw new NotImplementedException();
         }
 
-        public class FakeSessionFactory : ISessionFactory
+        public class FakeSessionFactory : IClientFactory
         {
             public bool CanHandle(string connectionString) => connectionString.StartsWith("fake://");
 
-            public ISession Instantiate(string connectionString) => new FakeSession();
+            public IClient Instantiate(string connectionString) => new FakeSession();
         }
 
         public class FakeCommand : ICommand
         {
             public object Implementation => new FakeImplementationCommand();
 
-            public object Session => new FakeSession();
+            public object Client => new FakeSession();
 
             public object CreateNew() => throw new NotImplementedException();
         }
@@ -98,9 +98,9 @@ namespace NBi.Testing.Unit.Core.Query.Performance
 
         public class FakeCommandFactory : ICommandFactory
         {
-            public bool CanHandle(ISession session) => session is FakeSession;
+            public bool CanHandle(IClient session) => session is FakeSession;
 
-            public ICommand Instantiate(ISession session, IQuery query) => new FakeCommand();
+            public ICommand Instantiate(IClient session, IQuery query) => new FakeCommand();
         }
 
         [SupportedCommandType(typeof(FakeImplementationCommand))]

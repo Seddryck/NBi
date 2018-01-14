@@ -1,5 +1,5 @@
 ﻿using NBi.Core.Configuration;
-using NBi.Core.Query.Session;
+using NBi.Core.Query.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +42,7 @@ namespace NBi.Core.Query.Command
             }
         }
 
-        public ICommand Instantiate(ISession session, IQuery query)
+        public ICommand Instantiate(IClient session, IQuery query)
         {
             foreach (var factory in factories)
                 if (factory.CanHandle(session))

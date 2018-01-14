@@ -1,7 +1,7 @@
 ﻿using Moq;
 using NBi.Core.Query;
 using NBi.Core.Query.Command;
-using NBi.Core.Query.Session;
+using NBi.Core.Query.Client;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace NBi.Testing.Unit.Core.Query.Command
         [Test]
         public void Build_TimeoutSpecified_TimeoutSet()
         {
-            var conn = new DbSession(DbProviderFactories.GetFactory("System.Data.SqlClient"), typeof(SqlConnection), "Data Source=server;Initial Catalog=database;Integrated Security=SSPI");
+            var conn = new DbClient(DbProviderFactories.GetFactory("System.Data.SqlClient"), typeof(SqlConnection), "Data Source=server;Initial Catalog=database;Integrated Security=SSPI");
             var query = Mock.Of<IQuery>(
                 x => x.ConnectionString == "Data Source=server;Initial Catalog=database;Integrated Security=SSPI"
                 && x.Statement == "WAITFOR DELAY '00:00:15'"
@@ -35,7 +35,7 @@ namespace NBi.Testing.Unit.Core.Query.Command
         [Test]
         public void Build_TimeoutSetToZero_TimeoutSet0Seconds()
         {
-            var conn = new DbSession(DbProviderFactories.GetFactory("System.Data.SqlClient"), typeof(SqlConnection), "Data Source=server;Initial Catalog=database;Integrated Security=SSPI");
+            var conn = new DbClient(DbProviderFactories.GetFactory("System.Data.SqlClient"), typeof(SqlConnection), "Data Source=server;Initial Catalog=database;Integrated Security=SSPI");
             var query = Mock.Of<IQuery>(
                 x => x.ConnectionString == "Data Source=server;Initial Catalog=database;Integrated Security=SSPI"
                 && x.Statement == "WAITFOR DELAY '00:00:15'"
@@ -51,7 +51,7 @@ namespace NBi.Testing.Unit.Core.Query.Command
         [Test]
         public void Build_TimeoutSetTo30_TimeoutSet30Seconds()
         {
-            var conn = new DbSession(DbProviderFactories.GetFactory("System.Data.SqlClient"), typeof(SqlConnection), "Data Source=server;Initial Catalog=database;Integrated Security=SSPI");
+            var conn = new DbClient(DbProviderFactories.GetFactory("System.Data.SqlClient"), typeof(SqlConnection), "Data Source=server;Initial Catalog=database;Integrated Security=SSPI");
             var query = Mock.Of<IQuery>(
                 x => x.ConnectionString == "Data Source=server;Initial Catalog=database;Integrated Security=SSPI"
                 && x.Statement == "WAITFOR DELAY '00:00:15'"
@@ -67,7 +67,7 @@ namespace NBi.Testing.Unit.Core.Query.Command
         [Test]
         public void Build_CommandTypeSetToText_CommandTypeSetText()
         {
-            var conn = new DbSession(DbProviderFactories.GetFactory("System.Data.SqlClient"), typeof(SqlConnection), "Data Source=server;Initial Catalog=database;Integrated Security=SSPI");
+            var conn = new DbClient(DbProviderFactories.GetFactory("System.Data.SqlClient"), typeof(SqlConnection), "Data Source=server;Initial Catalog=database;Integrated Security=SSPI");
             var query = Mock.Of<IQuery>(
                 x => x.ConnectionString == "Data Source=server;Initial Catalog=database;Integrated Security=SSPI"
                 && x.CommandType == System.Data.CommandType.Text
@@ -82,7 +82,7 @@ namespace NBi.Testing.Unit.Core.Query.Command
         [Test]
         public void Build_CommandTypeSetToStoredProcedure_CommandTypeSetStoredProcedure()
         {
-            var conn = new DbSession(DbProviderFactories.GetFactory("System.Data.SqlClient"), typeof(SqlConnection), "Data Source=server;Initial Catalog=database;Integrated Security=SSPI");
+            var conn = new DbClient(DbProviderFactories.GetFactory("System.Data.SqlClient"), typeof(SqlConnection), "Data Source=server;Initial Catalog=database;Integrated Security=SSPI");
             var query = Mock.Of<IQuery>(
                 x => x.ConnectionString == "Data Source=server;Initial Catalog=database;Integrated Security=SSPI"
                 && x.CommandType == System.Data.CommandType.StoredProcedure

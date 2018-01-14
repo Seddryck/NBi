@@ -10,11 +10,11 @@ namespace NBi.Core.Query.Command
     class Command : ICommand
     {
         public object Implementation { get; }
-        public object Session { get; }
+        public object Client { get; }
 
         public Command(IDbConnection connection, IDbCommand command)
         {
-            Session = connection;
+            Client = connection;
             Implementation = command;
         }
     }

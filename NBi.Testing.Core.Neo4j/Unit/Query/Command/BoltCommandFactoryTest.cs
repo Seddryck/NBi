@@ -1,7 +1,7 @@
-﻿using NBi.Core.Neo4j.Query.Session;
+﻿using NBi.Core.Neo4j.Query.Client;
 using NBi.Core.Query;
 using NBi.Core.Query.Command;
-using NBiSession = NBi.Core.Query.Session;
+using NBiSession = NBi.Core.Query.Client;
 using Driver = Neo4j.Driver.V1;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace NBi.Testing.Core.Neo4j.Query.Command
         [Test]
         public void CanHandle_BoltSession_True()
         {
-            var session = new BoltSession("host", "7687", "login", "p@ssw0rd");
+            var session = new BoltClient("host", "7687", "login", "p@ssw0rd");
             var query = Mock.Of<IQuery>();
             var factory = new BoltCommandFactory();
             Assert.That(factory.CanHandle(session), Is.True);
@@ -28,7 +28,7 @@ namespace NBi.Testing.Core.Neo4j.Query.Command
         [Test]
         public void CanHandle_OtherKindOfSession_False()
         {
-            var session = Mock.Of<NBiSession.ISession>();
+            var session = Mock.Of<NBiSession.IClient>();
             var query = Mock.Of<IQuery>();
             var factory = new BoltCommandFactory();
             Assert.That(factory.CanHandle(session), Is.False);
@@ -37,7 +37,7 @@ namespace NBi.Testing.Core.Neo4j.Query.Command
         [Test]
         public void Instantiate_BoltSession_NotNull()
         {
-            var session = new BoltSession("host", "7687", "login", "p@ssw0rd");
+            var session = new BoltClient("host", "7687", "login", "p@ssw0rd");
             var query = Mock.Of<IQuery>();
             var factory = new BoltCommandFactory();
             var command = factory.Instantiate(session, query);
@@ -47,7 +47,7 @@ namespace NBi.Testing.Core.Neo4j.Query.Command
         [Test]
         public void Instantiate_BoltSession_ImplementationCorrectType()
         {
-            var session = new BoltSession("host", "7687", "login", "p@ssw0rd");
+            var session = new BoltClient("host", "7687", "login", "p@ssw0rd");
             var query = Mock.Of<IQuery>();
             var factory = new BoltCommandFactory();
             var command = factory.Instantiate(session, query);
@@ -59,11 +59,11 @@ namespace NBi.Testing.Core.Neo4j.Query.Command
         [Test]
         public void Instantiate_BoltSession_SessionCorrectType()
         {
-            var session = new BoltSession("host", "7687", "login", "p@ssw0rd");
+            var session = new BoltClient("host", "7687", "login", "p@ssw0rd");
             var query = Mock.Of<IQuery>();
             var factory = new BoltCommandFactory();
             var command = factory.Instantiate(session, query);
-            var impl = command.Session;
+            var impl = command.Client;
             Assert.That(impl, Is.Not.Null);
             Assert.That(impl, Is.InstanceOf<Driver.ISession>());
         }

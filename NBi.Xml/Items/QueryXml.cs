@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using NBi.Core;
-using NBi.Core.Query.Session;
+using NBi.Core.Query.Client;
 using NBi.Xml.SerializationOption;
 
 namespace NBi.Xml.Items
@@ -70,7 +70,7 @@ namespace NBi.Xml.Items
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public virtual IDbCommand GetCommand()
         {
-            var conn = new SessionProvider().Instantiate(GetConnectionString()).CreateNew() as IDbConnection;
+            var conn = new ClientProvider().Instantiate(GetConnectionString()).CreateNew() as IDbConnection;
             var cmd = conn.CreateCommand();
             cmd.CommandText = GetQuery();
 

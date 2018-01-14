@@ -9,7 +9,7 @@ using System.Data.SqlClient;
 using Moq;
 using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.Query.Command;
-using NBi.Core.Query.Session;
+using NBi.Core.Query.Client;
 using System.Data.Common;
 
 namespace NBi.Testing.Integration.Core.Query.Command
@@ -55,7 +55,7 @@ namespace NBi.Testing.Integration.Core.Query.Command
                     "strToMember(@Param) on 1 " +
                 "from " +
                     "[Adventure Works]";
-            var conn = new AdomdSession(ConnectionStringReader.GetAdomd());
+            var conn = new AdomdClient(ConnectionStringReader.GetAdomd());
             var query = Mock.Of<IQuery>(
                 x => x.ConnectionString == ConnectionStringReader.GetAdomd()
                 && x.Statement == statement

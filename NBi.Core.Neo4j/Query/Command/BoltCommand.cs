@@ -11,11 +11,11 @@ namespace NBi.Core.Neo4j.Query.Command
     class BoltCommand : ICommand
     {
         public object Implementation { get; }
-        public object Session { get; }
+        public object Client { get; }
 
         public BoltCommand(ISession session, Statement implementation)
         {
-            Session = session;
+            Client = session;
             Implementation = implementation;
         }
     }

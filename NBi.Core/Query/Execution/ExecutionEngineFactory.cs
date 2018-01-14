@@ -1,6 +1,6 @@
 ﻿using NBi.Core.Configuration;
 using NBi.Core.Query.Command;
-using NBi.Core.Query.Session;
+using NBi.Core.Query.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,14 +26,14 @@ namespace NBi.Core.Query.Execution
             RegisterEngines(classics);
         }
 
-        public ExecutionEngineFactory(SessionProvider sessionFactory, CommandProvider commandFactory)
-            : base(sessionFactory, commandFactory)
+        public ExecutionEngineFactory(ClientProvider clientProvider, CommandProvider commandProvider)
+            : base(clientProvider, commandProvider)
         {
             RegisterEngines(classics);
         }
 
-        public ExecutionEngineFactory(SessionProvider sessionFactory, CommandProvider commandFactory, IExtensionsConfiguration config)
-            : base(sessionFactory, commandFactory)
+        public ExecutionEngineFactory(ClientProvider clientProvider, CommandProvider commandProvider, IExtensionsConfiguration config)
+            : base(clientProvider, commandProvider)
         {
             var extensions = config?.Extensions?.Where(x => typeof(IExecutionEngine).IsAssignableFrom(x)) ?? new Type[0];
             RegisterEngines(classics.Union(extensions).ToArray());

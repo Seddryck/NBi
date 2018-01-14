@@ -2,7 +2,7 @@
 using NBi.Core.Query.Command;
 using NBi.Core.Query.Execution;
 using NBi.Core.Query.Resolver;
-using NBi.Core.Query.Session;
+using NBi.Core.Query.Client;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Resolver;
 using Ninject;
@@ -24,9 +24,9 @@ namespace NBi.Core.Injection
             kernel.Bind<ServiceLocator>().ToConstant(this).InSingletonScope();
         }
 
-        public SessionProvider GetSessionFactory()
+        public ClientProvider GetSessionFactory()
         {
-            return kernel.Get<SessionProvider>();
+            return kernel.Get<ClientProvider>();
         }
 
         public CommandProvider GetCommandFactory()

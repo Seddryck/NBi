@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using NBi.Core.Configuration.Extension;
 using NBi.Core.CosmosDb.Query.Execution;
 using NBi.Core.CosmosDb.Query.Command;
-using NBi.Core.CosmosDb.Query.Session;
+using NBi.Core.CosmosDb.Query.Client;
 
 namespace NBi.Testing.Core.CosmosDb.Unit.Configuration.Extension
 {

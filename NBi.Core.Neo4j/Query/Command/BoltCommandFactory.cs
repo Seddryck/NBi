@@ -1,7 +1,7 @@
-﻿using NBi.Core.Neo4j.Query.Session;
+﻿using NBi.Core.Neo4j.Query.Client;
 using NBi.Core.Query;
 using NBi.Core.Query.Command;
-using NBiSession = NBi.Core.Query.Session;
+using NBiSession = NBi.Core.Query.Client;
 using Neo4j.Driver.V1;
 using System;
 using System.Collections.Generic;
@@ -14,14 +14,14 @@ namespace NBi.Core.Neo4j.Query.Command
 {
     class BoltCommandFactory : ICommandFactory
     {
-        public bool CanHandle(NBiSession.ISession session) => session is BoltSession;
+        public bool CanHandle(NBiSession.IClient client) => client is BoltClient;
 
-        public ICommand Instantiate(NBiSession.ISession session, IQuery query)
+        public ICommand Instantiate(NBiSession.IClient client, IQuery query)
         {
-            if (!CanHandle(session))
+            if (!CanHandle(client))
                 throw new ArgumentException();
             var statement = Instantiate(query);
-            return new BoltCommand(session.CreateNew() as ISession, statement);
+            return new BoltCommand(client.CreateNew() as ISession, statement);
         }
 
         protected Statement Instantiate(IQuery query)

@@ -8,7 +8,7 @@ using NBi.Core.Scalar.Resolver;
 using System.Data.SqlClient;
 using Moq;
 using NBi.Core.Query.Command;
-using NBi.Core.Query.Session;
+using NBi.Core.Query.Client;
 using System.Data.Common;
 
 namespace NBi.Testing.Integration.Core.Query.Command
@@ -48,7 +48,7 @@ namespace NBi.Testing.Integration.Core.Query.Command
         [Test, Category("Sql")]
         public void Build_OneParameterWithTypeInt_CorrectResultSet()
         {
-            var conn = new DbSession(DbProviderFactories.GetFactory("System.Data.SqlClient"), typeof(SqlConnection), ConnectionStringReader.GetSqlClient());
+            var conn = new DbClient(DbProviderFactories.GetFactory("System.Data.SqlClient"), typeof(SqlConnection), ConnectionStringReader.GetSqlClient());
             var query = Mock.Of<IQuery>(
                 x => x.ConnectionString == ConnectionStringReader.GetSqlClient()
                 && x.Statement == "select * from [Sales].[Customer] where CustomerID=@Param"
@@ -69,7 +69,7 @@ namespace NBi.Testing.Integration.Core.Query.Command
         [Test, Category("Sql")]
         public void Build_OneParameterWithTypeNvarchar50_CorrectResultSet()
         {
-            var conn = new DbSession(DbProviderFactories.GetFactory("System.Data.SqlClient"), typeof(SqlConnection), ConnectionStringReader.GetSqlClient());
+            var conn = new DbClient(DbProviderFactories.GetFactory("System.Data.SqlClient"), typeof(SqlConnection), ConnectionStringReader.GetSqlClient());
             var query = Mock.Of<IQuery>(
                 x => x.ConnectionString == ConnectionStringReader.GetSqlClient()
                 && x.Statement == "select * from [Sales].[SalesTerritory] where Name=@Param"
@@ -90,7 +90,7 @@ namespace NBi.Testing.Integration.Core.Query.Command
         [Test, Category("Sql")]
         public void Build_OneParameterWithoutTypeInt_CorrectResultSet()
         {
-            var conn = new DbSession(DbProviderFactories.GetFactory("System.Data.SqlClient"), typeof(SqlConnection), ConnectionStringReader.GetSqlClient());
+            var conn = new DbClient(DbProviderFactories.GetFactory("System.Data.SqlClient"), typeof(SqlConnection), ConnectionStringReader.GetSqlClient());
             var query = Mock.Of<IQuery>(
                 x => x.ConnectionString == ConnectionStringReader.GetSqlClient()
                 && x.Statement == "select * from [Sales].[Customer] where CustomerID=@Param"
@@ -111,7 +111,7 @@ namespace NBi.Testing.Integration.Core.Query.Command
         [Test, Category("Sql")]
         public void Build_WithUselessParameter_CorrectResultSet()
         {
-            var conn = new DbSession(DbProviderFactories.GetFactory("System.Data.SqlClient"), typeof(SqlConnection), ConnectionStringReader.GetSqlClient());
+            var conn = new DbClient(DbProviderFactories.GetFactory("System.Data.SqlClient"), typeof(SqlConnection), ConnectionStringReader.GetSqlClient());
             var query = Mock.Of<IQuery>(
                 x => x.ConnectionString == ConnectionStringReader.GetSqlClient()
                 && x.Statement == "select * from [Sales].[SalesTerritory] where Name=@Param"

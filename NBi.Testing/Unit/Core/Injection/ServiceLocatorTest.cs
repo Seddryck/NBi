@@ -4,7 +4,7 @@ using NBi.Core.Query;
 using NBi.Core.Query.Command;
 using NBi.Core.Query.Execution;
 using NBi.Core.Query.Resolver;
-using NBi.Core.Query.Session;
+using NBi.Core.Query.Client;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Resolver;
 using NUnit.Framework;
@@ -21,20 +21,20 @@ namespace NBi.Testing.Unit.Core.Injection
     public class ServiceLocatorTest
     {
         #region Fake
-        private class FakeSessionFactory : ISessionFactory
+        private class FakeSessionFactory : IClientFactory
         {
             public bool CanHandle(string connectionString) => true;
 
-            public ISession Instantiate(string connectionString) => throw new NotImplementedException();
+            public IClient Instantiate(string connectionString) => throw new NotImplementedException();
         }
 
         private class FakeCommandFactory : ICommandFactory
         {
-            public bool CanHandle(ISession session) => true;
+            public bool CanHandle(IClient session) => true;
 
-            public ISession Instantiate(string connectionString) => throw new NotImplementedException();
+            public IClient Instantiate(string connectionString) => throw new NotImplementedException();
 
-            public ICommand Instantiate(ISession session, IQuery query) => throw new NotImplementedException();
+            public ICommand Instantiate(IClient session, IQuery query) => throw new NotImplementedException();
         }
 
         [SupportedCommandType(typeof(object))]
@@ -54,7 +54,7 @@ namespace NBi.Testing.Unit.Core.Injection
             var locator = new ServiceLocator();
             var obj = locator.GetSessionFactory();
             Assert.That(obj, Is.Not.Null);
-            Assert.IsInstanceOf<SessionProvider>(obj);
+            Assert.IsInstanceOf<ClientProvider>(obj);
         }
 
         [Test]

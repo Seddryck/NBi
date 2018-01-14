@@ -1,5 +1,5 @@
 ﻿using Microsoft.AnalysisServices.AdomdClient;
-using NBi.Core.Query.Session;
+using NBi.Core.Query.Client;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +13,7 @@ namespace NBi.Core.Query.Command
 {
     class AdomdCommandFactory : DbCommandFactory
     {
-        public override bool CanHandle(ISession connection) => connection.UnderlyingSessionType == typeof(AdomdConnection);
+        public override bool CanHandle(IClient client) => client.UnderlyingSessionType == typeof(AdomdConnection);
 
         protected override string RenameParameter(string originalName)
         {

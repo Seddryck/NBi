@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.Analysis.Request;
 using System.Data;
-using NBi.Core.Query.Session;
+using NBi.Core.Query.Client;
 
 namespace NBi.Core.Analysis.Member
 {
@@ -40,7 +40,7 @@ namespace NBi.Core.Analysis.Member
 
         protected IDbCommand CreateCommand()
         {
-            var factory = new SessionProvider();
+            var factory = new ClientProvider();
             var conn = factory.Instantiate(ConnectionString).CreateNew() as IDbConnection;
             
             var cmd = conn.CreateCommand();

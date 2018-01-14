@@ -40,9 +40,10 @@ namespace NBi.Testing.Core.CosmosDb
 
             using (var client = new DocumentClient(endpoint, authKey))
             {
-                var database = client.ReadDatabaseAsync(databaseId).Result;
+                var databaseUri = UriFactory.CreateDatabaseUri(databaseId);
+                var database = client.ReadDatabaseAsync(databaseUri).Result;
 
-                var collection = client.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri(databaseId), new DocumentCollection()).Result;
+                var collection = client.CreateDocumentCollectionIfNotExistsAsync(databaseUri, new DocumentCollection() { Id = collectionId }).Result;
 
                 var queryCheck = client.CreateGremlinQuery<dynamic>(collection, "g.V().Count()");
                 var count = queryCheck.ExecuteNextAsync().Result.First();

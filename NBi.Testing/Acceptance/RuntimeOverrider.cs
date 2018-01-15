@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Reflection;
 using SysConfig = System.Configuration;
 using System.Collections.Generic;
-using NBi.NUnit.Runtime.Runner;
 using NUnit.Framework;
 
 namespace NBi.Testing.Acceptance

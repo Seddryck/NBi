@@ -380,6 +380,18 @@ namespace NBi.Testing.Unit.GenbiL.Parser
         }
 
         [Test]
+        public void SentenceParser_CaseAddColumnStringWithDefaultEmpty_ValidCaseAddColumn()
+        {
+            var input = "case add column 'perspective' values empty";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<AddCaseAction>());
+            Assert.That(((AddCaseAction)result).VariableName, Is.EqualTo("perspective"));
+            Assert.That(((AddCaseAction)result).DefaultValue, Is.EqualTo(string.Empty));
+        }
+
+        [Test]
         public void SentenceParser_CaseMerge_ValidMergeAction()
         {
             var input = "case merge with 'scoped-value'";

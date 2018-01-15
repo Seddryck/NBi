@@ -182,7 +182,7 @@ namespace NBi.GenbiL.Parser
                 from axisType in axisTypeParser
                 from columnName in Grammar.QuotedTextual
                 from valuesKeyword in Keyword.Values
-                from defaultValue in Grammar.QuotedTextual
+                from defaultValue in Grammar.QuotedTextual.Or(Grammar.Empty)
                 select new AddCaseAction(columnName, defaultValue)
         );
 

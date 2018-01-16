@@ -39,6 +39,7 @@ If (Test-Path $lib)
 new-item -Path $lib -ItemType directory
 new-item -Path $root\..\.nupkg -ItemType directory -force
 Copy-Item $root\..\NBi.NUnit.Runtime\bin\Debug\NBi.*.dll $lib
+Copy-Item $root\..\NBi.Testing\bin\Debug\NBi.Testing.dll $lib
 
 Write-Host "Setting .nuspec version tag to $version"
 

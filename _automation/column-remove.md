@@ -1,7 +1,7 @@
 ---
 layout: automation
 title: Remove a column
-prev_section: column-add
+prev_section: column-duplicate
 next_section: column-hold
 permalink: /automation/column-remove/
 ---

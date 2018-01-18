@@ -2,7 +2,7 @@
 layout: automation
 title: Add a column
 prev_section: cases-cross
-next_section: column-remove
+next_section: column-duplicate
 permalink: /automation/column-add/
 ---
 This action offers the opportunity to add a column to an existing set of test-cases.

@@ -26,6 +26,7 @@
 - title: Columns of test-cases
   docs:
   - column-add
+  - column-duplicate
   - column-remove
   - column-hold
   - column-rename

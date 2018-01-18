@@ -11,6 +11,8 @@ namespace NBi.Service
 {
     public class StringTemplateEngine
     {
+        private readonly IDictionary<Type, XmlSerializer> cacheSerializer;
+
         public string TemplateXml { get; private set; }
         protected Template Template { get; private set; }
         public string PreProcessedTemplate { get; private set; }
@@ -20,6 +22,7 @@ namespace NBi.Service
         {
             TemplateXml = templateXml;
             Variables = variables;
+            cacheSerializer = new Dictionary<Type, XmlSerializer>();
         }
 
         public IEnumerable<TestXml> Build(List<List<List<object>>> table, IDictionary<string, object> globalVariables)
@@ -88,7 +91,7 @@ namespace NBi.Service
             return (T)XmlDeserializeFromString(objectData, typeof(T));
         }
 
-        protected internal static string XmlSerializeFrom<T>(T objectData)
+        protected internal string XmlSerializeFrom<T>(T objectData)
         {
             return SerializeFrom(objectData, typeof(T));
         }
@@ -106,12 +109,18 @@ namespace NBi.Service
             return result;
         }
 
-        protected static string SerializeFrom(object objectData, Type type)
+        protected string SerializeFrom(object objectData, Type type)
         {
-            var overrides = new WriteOnlyAttributes();
-            overrides.Build();
+            if (!cacheSerializer.ContainsKey(type))
+            {
+                var overrides = new WriteOnlyAttributes();
+                overrides.Build();
+                var builtSerializer = new XmlSerializer(type, overrides);
+                cacheSerializer.Add(type, builtSerializer);
+            }
 
-            var serializer = new XmlSerializer(type, overrides);
+            var serializer = cacheSerializer[type];
+            
             var result = string.Empty;
             using (var writer = new StringWriter())
             {

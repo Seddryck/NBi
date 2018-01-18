@@ -37,6 +37,7 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<string> Group = Parse.IgnoreCase("Group").Text().Token();
         public static readonly Parser<string> Reduce = Parse.IgnoreCase("Reduce").Text().Token();
         public static readonly Parser<string> Split = Parse.IgnoreCase("Split").Text().Token();
+        public static readonly Parser<string> Duplicate = Parse.IgnoreCase("Duplicate").Text().Token();
 
         public static readonly Parser<string> Into = Parse.IgnoreCase("Into").Text().Token();
         public static readonly Parser<string> To = Parse.IgnoreCase("To").Text().Token();

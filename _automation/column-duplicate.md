@@ -1,6 +1,6 @@
 ---
 layout: automation
-title: Add a column
+title: Duplicate a column
 prev_section: cases-add
 next_section: column-remove
 permalink: /automation/column-duplicate/

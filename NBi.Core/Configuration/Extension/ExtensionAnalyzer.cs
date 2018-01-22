@@ -25,7 +25,7 @@ namespace NBi.Core.Configuration.Extension
 
             var notables = new List<Type>();
             foreach (var @interface in interfaces)
-                notables.AddRange(types.Where(x => @interface.IsAssignableFrom(x)));
+                notables.AddRange(types.Where(x => @interface.IsAssignableFrom(x) && !x.IsAbstract));
 
             return notables.ToArray();
         }

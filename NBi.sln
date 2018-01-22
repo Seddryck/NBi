@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 14.0.22823.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Core", "NBi.Core\NBi.Core.csproj", "{3F730647-FE31-4907-8A6E-A0C4A0C970EA}"
 EndProject
@@ -19,13 +19,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.NUnit.Runtime", "NBi.NUnit.Runtime\NBi.NUnit.Runtime.csproj", "{5AA137A9-C158-4A4F-B07D-3DF787618C24}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DD62992F-BA69-4837-AC16-55BFBD8B0F58} = {DD62992F-BA69-4837-AC16-55BFBD8B0F58}
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C217FD2D-79B4-4A88-B900-C4DD5FD6F92D}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generation", "Generation", "{C6B7BEE9-9968-4C0F-B584-4FE09E421B24}"

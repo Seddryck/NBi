@@ -134,6 +134,53 @@
       </no-rows>
     </assert>
   </test>
+  <test name="All-rows with or-combination of numeric information and null" uid="0102">
+    <system-under-test>
+      <execution>
+        <query>
+          select '2015-10-09', 60
+          union all select '2015-10-10', null
+          union all select '2015-10-11', 75
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <combination operator="or">
+          <predicate operand="#1">
+            <null/>
+          </predicate>
+          <predicate name="#1">
+            <less-than>100</less-than>
+          </predicate>
+        </combination>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="Single-row with and-combination of numeric information and null" uid="0102">
+    <system-under-test>
+      <execution>
+        <query>
+          select '2015-10-09', 60
+          union all select '2015-10-10', null
+          union all select '2015-10-11', 75
+          union all select '2015-10-12', 110
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <single-row>
+        <combination operator="and">
+          <predicate operand="#1">
+            <null not="true"/>
+          </predicate>
+          <predicate name="#1">
+            <more-than>100</more-than>
+          </predicate>
+        </combination>
+      </single-row>
+    </assert>
+  </test>
   <test name="No-row also works for textual information" uid="0001">
     <system-under-test>
       <execution>

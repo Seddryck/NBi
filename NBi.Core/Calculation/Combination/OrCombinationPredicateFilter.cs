@@ -20,10 +20,11 @@ namespace NBi.Core.Calculation.Predicate.Combination
         protected override bool RowApply(DataRow row)
         {
             var result = false;
-            foreach (var predication in predications)
+            var enumerator = predications.GetEnumerator();
+            while (enumerator.MoveNext() && !result)
             {
-                var value = GetValueFromRow(row, predication.Operand);
-                result |= predication.Predicate.Execute(value);
+                var value = GetValueFromRow(row, enumerator.Current.Operand);
+                result = enumerator.Current.Predicate.Execute(value);
             }
             return result;
         }

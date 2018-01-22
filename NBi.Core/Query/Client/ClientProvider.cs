@@ -26,7 +26,7 @@ namespace NBi.Core.Query.Client
 
         public ClientProvider(IExtensionsConfiguration config)
         {
-            var extensions = config?.Extensions?.Where(x => typeof(IClientFactory).IsAssignableFrom(x)) ?? new Type[0];
+            var extensions = config?.Extensions?.Where(x => typeof(IClientFactory).IsAssignableFrom(x) && !x.IsAbstract) ?? new Type[0];
             RegisterFactories(classics.Union(extensions).ToArray());
         }
 
@@ -35,6 +35,8 @@ namespace NBi.Core.Query.Client
             foreach (var type in types)
             {
                 var ctor = type.GetConstructor(new Type[] { });
+                if (ctor == null)
+                    throw new NBiException($"Can't load an extension. Can't find a constructor without parameters for the type '{type.Name}'");
                 var factory = (IClientFactory)ctor.Invoke(new object[] { });
                 if (factories.SingleOrDefault(x => x.GetType() == factory.GetType()) != null)
                     throw new ArgumentException($"You can't add twice the same factory. The factory '{factory.GetType().Name}' was already registered.", nameof(types));

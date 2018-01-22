@@ -49,7 +49,7 @@ $content = $content -replace '\$depList\$',$depList
 
 $content | Out-File $root\NBi.Framework\NBi.Framework.compiled.nuspec -Encoding UTF8
 
-& $root\..\.nuget\NuGet.exe pack $root\..\.packages\NBi.Framework\NBi.Framework.compiled.nuspec -Version $version -OutputDirectory $root\..\.nupkg
+& NuGet.exe pack $root\..\.packages\NBi.Framework\NBi.Framework.compiled.nuspec -Version $version -OutputDirectory $root\..\.nupkg
 
 #For NBi.Framework.Tools
 $lib = "$root\NBi.Framework.Tools\tools\"
@@ -69,4 +69,4 @@ $content = $content -replace '\$depList\$',$depList
 
 $content | Out-File $root\NBi.Framework.Tools\NBi.Framework.Tools.compiled.nuspec -Encoding UTF8
 
-& $root\..\.nuget\NuGet.exe pack $root\..\.packages\NBi.Framework.Tools\NBi.Framework.Tools.compiled.nuspec -Version $version -OutputDirectory $root\..\.nupkg
+& NuGet.exe pack $root\..\.packages\NBi.Framework.Tools\NBi.Framework.Tools.compiled.nuspec -Version $version -OutputDirectory $root\..\.nupkg

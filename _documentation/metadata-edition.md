@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Edition
-prev_section: metadata-ignore
+prev_section: metadata-not-implemented
 next_section: metadata-category
 permalink: /docs/metadata-edition/
 ---

@@ -9,6 +9,7 @@ Metadata are additional information about the tests. They represent a set of fac
 
 * [description](../metadata-description)
 * [ignore](../metadata-ignore)
+* [not-implemented](../metadata-not-implemented)
 * [edition (author and updates)](../metadata-edition)
 * [categories](../metadata-category)
 * [traits](../metadata-trait)

@@ -2,7 +2,7 @@
 layout: documentation
 title: Ignore
 prev_section: metadata-description
-next_section: metadata-edition
+next_section: metadata-not-implemented
 permalink: /docs/metadata-ignore/
 ---
 During your test session it can be helpful to ignore a few tests. The xml element named *ignore* indicates that you don't want to run a test. The test runner (Gallio or NUnit) does not run the test or tests marked with this metadata. The progress bar will turn yellow if a test is not run and the test will be mentioned in the reports as *not run*.

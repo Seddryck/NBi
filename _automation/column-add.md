@@ -22,3 +22,9 @@ Example:
 {% highlight xml %}
 case add column 'dimensionName' values 'my-value' ;
 {% endhighlight %}
+
+To add a column with a default value set to an empty string (length equal to 0), you must use empty keyword and not the double single quotes.
+
+{% highlight xml %}
+case add column 'dimensionName' values empty ;
+{% endhighlight %}

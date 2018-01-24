@@ -5,6 +5,8 @@ prev_section: resultset-format
 next_section: transform-column
 permalink: /docs/resultset-calculations/
 ---
+**This feature is deprecated (and not supported since v1.13)** You should switch to the new feature [**all/no/some/single-row**](../resultset-all-no-rows/)
+
 In some result-sets, it's possible to check the result of one field based on the values of other fields **of the same row**. To illustrate this, imagine a result-set with the columns _UnitPrice_ and the _Quantity_, for each product bought on a shop. An existing third field returns the _Price to pay_. This last field is equal to _UnitPrice_ multiplied by _Quantity_ ... well at least you hope that it's the case for each line but you're not sure ... and you probably want to test it!
 
 This test will let you define an expression which must be validated by each result-set's row. If at least one row of this result-set doesn't validate one of the expression defined in the test, the test is failed.

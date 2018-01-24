@@ -86,6 +86,7 @@ You can also define an alteration to the result-set. For the moment, two kinds o
 
 * [filter](../resultset-rows-count-advanced/#filter).
 * [convert](../resultset-alterations/#converts)
+* [transform](../transform-column/)
 
 {% highlight xml %}
 <resultSet>

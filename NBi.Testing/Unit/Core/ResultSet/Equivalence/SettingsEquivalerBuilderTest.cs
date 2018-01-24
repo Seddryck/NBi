@@ -69,5 +69,37 @@ namespace NBi.Testing.Unit.Core.ResultSet.Equivalence
             builder.Setup(ColumnType.Numeric, new DateTimeTolerance(new TimeSpan(1000)));
             Assert.Throws<InvalidOperationException>(() => builder.Build());
         }
+
+
+        [Test]
+        public void Build_OverrideUniqueKey_Exception()
+        {
+            var columnDef = Mock.Of<IColumnDefinition>();
+            columnDef.Index = 0;
+            columnDef.Role = ColumnRole.Value;
+
+            var builder = new SettingsEquivalerBuilder();
+            builder.Setup(true);
+            builder.Setup(new[] { columnDef });
+            builder.Setup(SettingsIndexResultSet.KeysChoice.First, SettingsIndexResultSet.ValuesChoice.AllExpectFirst);
+            Assert.Throws<InvalidOperationException>(() => builder.Build());
+        }
+
+        public void Build_OverrideUniqueKeyButCreateNew_NoException()
+        {
+            var columnDef = Mock.Of<IColumnDefinition>();
+            columnDef.Index = 0;
+            columnDef.Role = ColumnRole.Value;
+
+            var columnDefKey = Mock.Of<IColumnDefinition>();
+            columnDefKey.Index = 1;
+            columnDefKey.Role = ColumnRole.Key;
+
+            var builder = new SettingsEquivalerBuilder();
+            builder.Setup(true);
+            builder.Setup(new[] { columnDef, columnDefKey });
+            builder.Setup(SettingsIndexResultSet.KeysChoice.First, SettingsIndexResultSet.ValuesChoice.AllExpectFirst);
+            Assert.DoesNotThrow(() => builder.Build());
+        }
     }
 }

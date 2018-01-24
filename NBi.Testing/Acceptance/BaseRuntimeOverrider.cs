@@ -123,8 +123,9 @@ namespace NBi.Testing.Acceptance
                         using (StreamReader reader = new StreamReader(stream))
                         {
                             var expected = reader.ReadToEnd();
-                            //Debug.WriteLine(expected);
-                            //Debug.WriteLine("");
+                            //We need to override the timestamp :-)
+                            if (filename.Contains("-Json"))
+                                expected = ex.Message.Substring(0, ex.Message.IndexOf(",")) + expected.Substring(expected.IndexOf(","));
                             Debug.WriteLine(ex.Message);
                             Assert.That(ex.Message, Is.EqualTo(expected));
                         }

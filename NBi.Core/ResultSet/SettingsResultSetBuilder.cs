@@ -64,7 +64,7 @@ namespace NBi.Core.ResultSet
             if (definitionColumns.Any(c => c.Index != 0 && !string.IsNullOrEmpty(c.Name)))
                 throw new InvalidOperationException("You cannot define some columns' definitions where you explicitely give a value to the 'index' attribute and to the 'name' attribute. Use attribute 'index' or 'name' but not both.");
 
-            if (keysSet == SettingsIndexResultSet.KeysChoice.First
+            if (!IsByName() && keysSet == SettingsIndexResultSet.KeysChoice.First
                 && definitionColumns.Any(c => c.Index == 0 && c.Role!=ColumnRole.Key)  
                 && !definitionColumns.Any(c => c.Index != 0 && c.Role == ColumnRole.Key))
                 throw new InvalidOperationException("You cannot define a dataset without key. You've define a unique key, then overriden this key as a value and never set another key. Review your columns' definition.");

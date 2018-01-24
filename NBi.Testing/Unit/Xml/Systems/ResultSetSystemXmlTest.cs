@@ -1,5 +1,8 @@
-﻿using NBi.Xml;
+﻿using NBi.Core.ResultSet;
+using NBi.Core.Transformation;
+using NBi.Xml;
 using NBi.Xml.Items.Alteration.Conversion;
+using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 using System;
@@ -113,6 +116,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(rs.Query.Assembly.Path, Is.EqualTo("NBi.Testing.dll"));
         }
 
+        [Test]
         public void Deserialize_SampleFile_ReportQuery()
         {
             int testNr = 5;
@@ -130,6 +134,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(rs.Query.Report.Name, Is.EqualTo("MyReport"));
         }
 
+        [Test]
         public void Deserialize_SampleFile_AlterationFilter()
         {
             int testNr = 6;
@@ -147,6 +152,8 @@ namespace NBi.Testing.Unit.Xml.Systems
 
             Assert.That(rs.Alteration.Filters[0].Predication, Is.Not.Null);
         }
+
+        [Test]
         public void Deserialize_SampleFile_AlterationConvert()
         {
             int testNr = 7;
@@ -169,6 +176,31 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(rs.Alteration.Conversions[0].Converter, Is.TypeOf<TextToDateConverterXml>());
             Assert.That(rs.Alteration.Conversions[0].Converter.Culture, Is.EqualTo("fr-fr"));
             Assert.That(rs.Alteration.Conversions[0].Converter.DefaultValue, Is.Null);
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_AlterationTransformation()
+        {
+            int testNr = 8;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.Alteration, Is.Not.Null);
+            Assert.That(rs.Alteration.Transformations, Is.Not.Null);
+            Assert.That(rs.Alteration.Transformations, Has.Count.EqualTo(1));
+
+            Assert.That(rs.Alteration.Transformations[0], Is.Not.Null);
+            Assert.That(rs.Alteration.Transformations[0], Is.TypeOf<TransformationXml>());
+
+            Assert.That(rs.Alteration.Transformations[0].Language, Is.EqualTo(LanguageType.CSharp));
+            Assert.That(rs.Alteration.Transformations[0].OriginalType, Is.EqualTo(ColumnType.Text));
+            Assert.That(rs.Alteration.Transformations[0].ColumnIndex, Is.EqualTo(1));
+            Assert.That(rs.Alteration.Transformations[0].Code.Trim(), Is.EqualTo("value.EndsWith(\".\") ? value : value + \".\""));
         }
     }
 }

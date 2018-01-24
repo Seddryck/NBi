@@ -75,7 +75,7 @@
       </equalTo>
     </assert>
   </test>
-  <test name="'Alteration has a filter" uid="0010">
+  <test name="Alteration has a filter" uid="0006">
     <system-under-test>
       <resultSet>
         <query>
@@ -96,7 +96,7 @@
       </equalTo>
     </assert>
   </test>
-  <test name="'Alteration has a converter" uid="0010">
+  <test name="Alteration has a converter" uid="0007">
     <system-under-test>
       <resultSet>
         <query>
@@ -106,6 +106,25 @@
           <convert column="#0">
             <text-to-date culture="fr-fr"/>
           </convert>
+        </alteration>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </equalTo>
+    </assert>
+  </test>
+  <test name="Alteration has a transformation" uid="0008">
+    <system-under-test>
+      <resultSet>
+        <query>
+          <report path="/path/" name="MyReport" dataset="MyDataSet"/>
+        </query>
+        <alteration>
+          <transform language="c-sharp" original-type="text" column-index="1">
+            value.EndsWith(".") ? value : value + "."
+          </transform>
         </alteration>
       </resultSet>
     </system-under-test>

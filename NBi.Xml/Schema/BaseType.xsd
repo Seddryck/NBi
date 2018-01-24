@@ -596,6 +596,13 @@
       <xs:extension base="query-type"/>
     </xs:complexContent>
   </xs:complexType>
+  <xs:complexType name="enhanced-transformation-type">
+    <xs:simpleContent>
+      <xs:extension base="transformation-type">
+        <xs:attribute name="column-index" type="xs:integer" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
   <xs:complexType name="transformation-type">
     <xs:simpleContent>
       <xs:extension base="code-transformation-type">
@@ -1242,6 +1249,7 @@
     <xs:sequence>
       <xs:element name="filter" type="filter-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="convert" type="convert-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="transform" type="enhanced-transformation-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="convert-type">

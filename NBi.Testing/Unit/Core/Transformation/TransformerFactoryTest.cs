@@ -27,7 +27,7 @@ namespace NBi.Testing.Unit.Core.Transformation
                     && i.Code == "value"   
             );
             var factory = new TransformerFactory();
-            var provider = factory.Build(info);
+            var provider = factory.Instantiate(info);
 
             Assert.IsInstanceOf(result, provider);
         }
@@ -46,7 +46,7 @@ namespace NBi.Testing.Unit.Core.Transformation
                     && i.Code == "value"
             );
             var factory = new TransformerFactory();
-            var provider = factory.Build(info);
+            var provider = factory.Instantiate(info);
 
             Assert.IsInstanceOf(result, provider);
         }
@@ -65,7 +65,7 @@ namespace NBi.Testing.Unit.Core.Transformation
                     && i.Code == "value"
             );
             var factory = new TransformerFactory();
-            Assert.Throws<InvalidOperationException>(delegate { factory.Build(info); });
+            Assert.Throws<InvalidOperationException>(delegate { factory.Instantiate(info); });
         }
 
     }

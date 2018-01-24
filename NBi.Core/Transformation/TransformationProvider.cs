@@ -21,8 +21,10 @@ namespace NBi.Core.Transformation
 
         public void Add(int columnIndex, ITransformationInfo transfo)
         {
-            var transformer = factory.Build(transfo);
+            var transformer = factory.Instantiate(transfo);
             transformer.Initialize(transfo.Code);
+            if (cacheTransformers.ContainsKey(columnIndex))
+                throw new NBiException($"You can't define two transformers for the same column. The column with index '{columnIndex}' has already another transformer specified.");
             cacheTransformers.Add(columnIndex, transformer);
         }
 

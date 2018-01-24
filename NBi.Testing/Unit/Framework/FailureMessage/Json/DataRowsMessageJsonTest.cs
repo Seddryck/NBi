@@ -220,5 +220,15 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
             Assert.That(value, Is.StringContaining($"\"{expectedText}\":{{\"total-rows\":3"));
             Assert.That(value, Is.Not.StringContaining($"\"{expectedText}\":{{\"total-rows\":3}}}}"));
         }
+
+        public void RenderMessage_NoAdditional_IncludeTimestamp()
+        {
+            var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
+            var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
+            var value = msg.RenderMessage();
+
+            Assert.That(value, Is.StringContaining($"\"timestamp\":\"{DateTime.Now.Year}-"));
+            Console.WriteLine(value);
+        }
     }
 }

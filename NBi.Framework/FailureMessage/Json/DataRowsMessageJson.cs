@@ -132,6 +132,8 @@ namespace NBi.Framework.FailureMessage.Json
             using (var writer = new JsonTextWriter(sw))
             {
                 writer.WriteStartObject();
+                writer.WritePropertyName("timestamp");
+                writer.WriteValue(DateTime.Now);
                 if (!string.IsNullOrEmpty(expected))
                 {
                     writer.WritePropertyName("expected");

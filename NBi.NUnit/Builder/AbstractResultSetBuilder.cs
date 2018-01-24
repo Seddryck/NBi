@@ -17,6 +17,7 @@ using NBi.Core.Query.Command;
 using NBi.Core.ResultSet.Caster;
 using NBi.Core.Scalar.Conversion;
 using NBi.Core.ResultSet.Conversion;
+using NBi.Core.Transformation;
 
 namespace NBi.NUnit.Builder
 {
@@ -144,6 +145,14 @@ namespace NBi.NUnit.Builder
                     var engine = new ConverterEngine(conversionXml.Column, converter);
                     yield return engine.Execute;
                 }
+            }
+
+            if (resultSetXml.Alteration.Transformations != null)
+            {
+                var provider = new TransformationProvider();
+                foreach (var transformationXml in resultSetXml.Alteration.Transformations)
+                    provider.Add(transformationXml.ColumnIndex, transformationXml);
+                yield return provider.Transform;
             }
         }
 

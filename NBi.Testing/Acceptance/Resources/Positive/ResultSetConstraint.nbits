@@ -311,7 +311,7 @@
         </equalTo>
       </assert>
     </test>
-    <test name="Conversion with text-to-date" uid="0202">
+    <test name="Conversion with text-to-date" uid="0203">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv">
           <alteration>
@@ -361,7 +361,7 @@
         </equalTo>
       </assert>
     </test>
-    <test name="Conversion with text-to-date previously filtered by matches-date" uid="0203">
+    <test name="Conversion with text-to-date previously filtered by matches-date" uid="0204">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv">
           <alteration>
@@ -404,6 +404,59 @@
               <cell>5</cell>
               <cell>2017-12-18</cell>
               <cell>CUST0003</cell>
+              <cell>55</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Transformations" uid="0205">
+      <system-under-test>
+        <resultSet file="..\Csv\Orders.csv">
+          <alteration>
+            <transform column-index="0" language="c-sharp" original-type="text">
+              "AA" + value;
+            </transform>
+            <transform column-index="1" language="c-sharp" original-type="text">
+              value.Substring(value.Length - 4);
+            </transform>
+            <transform column-index="2" language="c-sharp" original-type="text">
+              value.Substring(value.LastIndexOf("0")+1)
+            </transform>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo keys="all-except-last">
+          <resultSet>
+            <row>
+              <cell>AA0001</cell>
+              <cell>2017</cell>
+              <cell>1</cell>
+              <cell>100</cell>
+            </row>
+            <row>
+              <cell>AA0002</cell>
+              <cell>2017</cell>
+              <cell>1</cell>
+              <cell>80</cell>
+            </row>
+            <row>
+              <cell>AA0003</cell>
+              <cell>2017</cell>
+              <cell>2</cell>
+              <cell>120</cell>
+            </row>
+            <row>
+              <cell>AA0004</cell>
+              <cell>2017</cell>
+              <cell>2</cell>
+              <cell>80</cell>
+            </row>
+            <row>
+              <cell>AA0005</cell>
+              <cell>2017</cell>
+              <cell>3</cell>
               <cell>55</cell>
             </row>
           </resultSet>

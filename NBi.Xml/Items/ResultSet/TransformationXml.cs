@@ -15,6 +15,9 @@ namespace NBi.Xml.Items.ResultSet
         [XmlText()]
         public string Code { get; set; }
 
+        [XmlAttribute("column-index")]
+        public int ColumnIndex { get; set; }
+
         [XmlAttribute("language")]
         [DefaultValue(LanguageType.CSharp)]
         public LanguageType Language { get; set; }

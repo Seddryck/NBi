@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 
 namespace NBi.Core.Evaluate
 {

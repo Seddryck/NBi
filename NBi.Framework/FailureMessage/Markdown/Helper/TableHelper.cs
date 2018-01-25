@@ -1,6 +1,6 @@
 ﻿using MarkdownLog;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 using NBi.Framework.Markdown.MarkdownLogExtension;
 using NBi.Unit.Framework.FailureMessage.Common;
 using System;

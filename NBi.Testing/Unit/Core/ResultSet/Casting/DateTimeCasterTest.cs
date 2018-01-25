@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 using NUnit.Framework;
-using NBi.Core.ResultSet.Caster;
+using NBi.Core.Scalar.Caster;
 
 namespace NBi.Testing.Unit.Core.ResultSet.Caster
 {

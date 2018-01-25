@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 using System.Text;
-using NBi.Core.ResultSet.Caster;
+using NBi.Core.Scalar.Caster;
 using NBi.Core.ResultSet.Analyzer;
 using System.Collections.ObjectModel;
 

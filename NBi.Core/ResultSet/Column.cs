@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 using NBi.Core.Transformation;
 
 namespace NBi.Core.ResultSet

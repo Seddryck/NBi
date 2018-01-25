@@ -7,7 +7,7 @@ using NBi.Core.ResultSet;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items.ResultSet;
 using NUnit.Framework;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 using NBi.Core.ResultSet.Equivalence;
 #endregion
 

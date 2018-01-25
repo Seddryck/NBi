@@ -10,7 +10,7 @@ using NBi.Core.Query;
 using Moq;
 using NBi.Core.Injection;
 using System.Collections.Generic;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 using NBi.Core;
 #endregion
 

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using NBi.Core;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 using NBi.NUnit.Query;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;

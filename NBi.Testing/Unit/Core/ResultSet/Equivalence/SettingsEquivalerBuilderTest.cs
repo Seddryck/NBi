@@ -1,6 +1,6 @@
 ﻿using Moq;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 using NBi.Core.ResultSet.Equivalence;
 using NUnit.Framework;
 using System;

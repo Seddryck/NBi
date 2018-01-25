@@ -4,7 +4,7 @@ using NBi.Core.Scalar.Comparer;
 using NUnit.Framework;
 using NBi.Core.Scalar.Caster;
 
-namespace NBi.Testing.Unit.Core.ResultSet.Caster
+namespace NBi.Testing.Unit.Core.Scalar.Caster
 {
     [TestFixture]
     public class BaseNumericConverterTest

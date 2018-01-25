@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.ResultSet.Interval
+namespace NBi.Core.Scalar.Interval
 {
     public abstract class EndPoint<T>
     {

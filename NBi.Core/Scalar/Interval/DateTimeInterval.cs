@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace NBi.Core.ResultSet.Interval
+namespace NBi.Core.Scalar.Interval
 {
 	public class DateTimeInterval : BaseInterval<DateTime>
 	{

@@ -438,12 +438,12 @@
     <Compile Include="ResultSet\Uniqueness\NameEvaluator.cs" />
     <Compile Include="ResultSet\Uniqueness\SettingsEvaluatorBuilder.cs" />
     <Compile Include="ResultSet\Uniqueness\ResultUniqueRows.cs" />
-    <Compile Include="ResultSet\Interval\EndPoint.cs" />
+    <Compile Include="Scalar\Interval\EndPoint.cs" />
     <Compile Include="ResultSet\IContent.cs" />
-    <Compile Include="ResultSet\Interval\DateTimeInterval.cs" />
-    <Compile Include="ResultSet\Interval\BaseInterval.cs" />
-    <Compile Include="ResultSet\Interval\DateTimeIntervalBuilder.cs" />
-    <Compile Include="ResultSet\Interval\NumericIntervalBuilder.cs" />
+    <Compile Include="Scalar\Interval\DateTimeInterval.cs" />
+    <Compile Include="Scalar\Interval\BaseInterval.cs" />
+    <Compile Include="Scalar\Interval\DateTimeIntervalBuilder.cs" />
+    <Compile Include="Scalar\Interval\NumericIntervalBuilder.cs" />
     <Compile Include="ListComparisonFormatter.cs" />
     <Compile Include="ListComparer.cs" />
     <Compile Include="NBiTraceSwitch.cs" />
@@ -481,7 +481,7 @@
     <Compile Include="ResultSet\Equivalence\SingleRowEquivaler.cs" />
     <Compile Include="ResultSet\Equivalence\IndexEquivaler.cs" />
     <Compile Include="ResultSet\DataRowKeysComparer.cs" />
-    <Compile Include="ResultSet\Interval\NumericInterval.cs" />
+    <Compile Include="Scalar\Interval\NumericInterval.cs" />
     <Compile Include="ResultSet\KeyCollection.cs" />
     <Compile Include="ResultSet\ICell.cs" />
     <Compile Include="ResultSet\IColumnDefinition.cs" />

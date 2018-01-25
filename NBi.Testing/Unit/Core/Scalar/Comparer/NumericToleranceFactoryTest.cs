@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Unit.Core.ResultSet.Comparer
+namespace NBi.Testing.Unit.Core.Scalar.Comparer
 {
     public class NumericToleranceFactoryTest
     {

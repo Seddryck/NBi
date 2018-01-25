@@ -4,7 +4,7 @@ using NBi.Core.Scalar.Comparer;
 using NUnit.Framework;
 using NBi.Core.ResultSet;
 
-namespace NBi.Testing.Unit.Core.ResultSet.Comparer
+namespace NBi.Testing.Unit.Core.Scalar.Comparer
 {
     [TestFixture]
     public class CellComparerTest

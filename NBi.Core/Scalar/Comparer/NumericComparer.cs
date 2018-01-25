@@ -2,7 +2,7 @@
 using System;
 using System.Globalization;
 using System.Linq;
-using NBi.Core.ResultSet.Interval;
+using NBi.Core.Scalar.Interval;
 
 namespace NBi.Core.Scalar.Comparer
 {

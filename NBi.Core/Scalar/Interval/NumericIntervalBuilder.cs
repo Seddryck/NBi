@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Linq;
 
-namespace NBi.Core.ResultSet.Interval
+namespace NBi.Core.Scalar.Interval
 {
 	public class NumericIntervalBuilder
 	{

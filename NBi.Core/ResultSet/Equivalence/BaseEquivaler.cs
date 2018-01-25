@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
@@ -18,6 +19,7 @@ namespace NBi.Core.ResultSet.Equivalence
         {
             get { return new ReadOnlyCollection<IRowsAnalyzer>(analyzers); }
         }
+
 
         private readonly CellComparer cellComparer = new CellComparer();
         protected CellComparer CellComparer
@@ -218,7 +220,7 @@ namespace NBi.Core.ResultSet.Equivalence
                         return;
 
                     var numericCaster = new NumericCaster();
-                    if (columnType == ColumnType.Numeric && !(numericCaster.IsValid(value) || Comparer.BaseComparer.IsValidInterval(value)))
+                    if (columnType == ColumnType.Numeric && !(numericCaster.IsValid(value) || BaseComparer.IsValidInterval(value)))
                     {
                         var exception = string.Format(messages[0]
                             , columnName, value.ToString());
@@ -232,7 +234,7 @@ namespace NBi.Core.ResultSet.Equivalence
                     if (columnType == ColumnType.DateTime && IsDateTimeField(dataColumn))
                         return;
 
-                    if (columnType == ColumnType.DateTime && !Comparer.BaseComparer.IsValidDateTime(value.ToString()))
+                    if (columnType == ColumnType.DateTime && !BaseComparer.IsValidDateTime(value.ToString()))
                     {
                         throw new EquivalerException(
                             string.Format(messages[2]

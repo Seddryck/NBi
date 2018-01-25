@@ -57,7 +57,7 @@ namespace NBi.Core.ResultSet
             return ColumnsDef.Any(
                     c => c.Name == name
                     && c.Role == ColumnRole.Value
-                    && c.RoundingStyle != Comparer.Rounding.RoundingStyle.None
+                    && c.RoundingStyle != Rounding.RoundingStyle.None
                     && !string.IsNullOrEmpty(c.RoundingStep));
         }
         

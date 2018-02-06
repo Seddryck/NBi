@@ -406,6 +406,7 @@
     <Compile Include="Unit\GenbiL\Parser\VariableParserTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetAllRowsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetSomeRowsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetReferenceExistsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetUniqueRowsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetSingleRowBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetSupersetOfBuilderTest.cs" />
@@ -431,6 +432,7 @@
     <Compile Include="Unit\NUnit\DataType\IsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\DifferedConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\NoRowsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\ReferenceExistsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\SingleRowConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\SomeRowsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\AllRowsConstraintTest.cs" />

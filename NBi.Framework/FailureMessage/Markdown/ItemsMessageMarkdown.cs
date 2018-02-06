@@ -22,7 +22,6 @@ namespace NBi.Framework.FailureMessage.Markdown
             this.samplers = samplers;
         }
 
-
         public void Build(IEnumerable<string> expectedItems, IEnumerable<string> actualItems, ListComparer.Result result)
         {
             expectedItems = expectedItems ?? new List<string>();

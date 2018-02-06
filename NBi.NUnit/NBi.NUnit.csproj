@@ -68,11 +68,13 @@
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionNonQueryBuilder.cs" />
+    <Compile Include="Builder\Helper\ResultSetSystemHelper.cs" />
     <Compile Include="Builder\Helper\ScalarResolverArgsBuilder.cs" />
     <Compile Include="Builder\Helper\ResultSetResolverArgsBuilder.cs" />
     <Compile Include="Builder\Helper\QueryResolverArgsBuilder.cs" />
     <Compile Include="Builder\ResultSetSingleRowBuilder.cs" />
     <Compile Include="Builder\ResultSetSomeRowsBuilder.cs" />
+    <Compile Include="Builder\ResultSetReferenceExistsBuilder.cs" />
     <Compile Include="Builder\ResultSetUniqueRowsBuilder.cs" />
     <Compile Include="Builder\ResultSetSubsetOfBuilder.cs" />
     <Compile Include="Builder\ResultSetSupersetOfBuilder.cs" />
@@ -109,6 +111,7 @@
     <Compile Include="Query\SingleRowConstraint.cs" />
     <Compile Include="Query\SomeRowsConstraint.cs" />
     <Compile Include="ResultSetComparison\BaseResultSetComparisonConstraint.cs" />
+    <Compile Include="ResultSetComparison\ReferenceExistsConstraint.cs" />
     <Compile Include="ResultSetComparison\UniqueRowsConstraint.cs" />
     <Compile Include="ResultSetComparison\SubsetOfConstraint.cs" />
     <Compile Include="Query\NoRowsConstraint.cs" />

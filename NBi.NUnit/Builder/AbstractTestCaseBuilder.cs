@@ -30,7 +30,7 @@ namespace NBi.NUnit.Builder
             Setup(sutXml, ctrXml, null, null, null);
         }
 
-        public void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, IConfiguration config, IDictionary<string, ITestVariable> variables, ServiceLocator serviceLocator)
+        public virtual void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, IConfiguration config, IDictionary<string, ITestVariable> variables, ServiceLocator serviceLocator)
         {
             Configuration = config ?? Core.Configuration.Configuration.Default;
             Variables = variables ?? new Dictionary<string, ITestVariable>();

@@ -16,6 +16,8 @@ namespace NBi.Core.Scalar.Caster
             return value.ToString();
         }
 
+        object ICaster.Execute(object value) => Execute(value);
+
         public bool IsValid(object value)
         {
             return true;

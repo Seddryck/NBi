@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Scalar.Caster
 {
-    public interface ICaster<T>
+    public interface ICaster<T>: ICaster
     {
-        T Execute(object obj);
+        new T Execute(object obj);
         bool IsValid(object obj);
+    }
+
+    public interface ICaster
+    {
+        object Execute(object obj);
     }
 }

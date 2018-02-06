@@ -36,6 +36,8 @@ namespace NBi.Core.Scalar.Caster
             return System.Convert.ToDateTime(value, DateTimeFormatInfo.InvariantInfo);
         }
 
+        object ICaster.Execute(object value) => Execute(value);
+
         protected virtual DateTime StringParse(string value)
         {
             bool result = false;
@@ -78,8 +80,7 @@ namespace NBi.Core.Scalar.Caster
             
             if (value is string)
             {
-                var temp = DateTime.MinValue;
-                return ValidDateTime((string)value, Cultures, out temp);
+                return ValidDateTime((string)value, Cultures, out var temp);
             }
 
             try

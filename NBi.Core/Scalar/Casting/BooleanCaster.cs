@@ -28,6 +28,9 @@ namespace NBi.Core.Scalar.Caster
             throw new ArgumentOutOfRangeException();
         }
 
+        object ICaster.Execute(object value) => Execute(value);
+
+
         public override bool IsValid(object value)
         {
             if (value is Boolean || value is bool)

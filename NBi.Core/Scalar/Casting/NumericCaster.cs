@@ -16,5 +16,7 @@ namespace NBi.Core.Scalar.Caster
 
             return System.Convert.ToDecimal(value, NumberFormatInfo.InvariantInfo);
         }
+
+        object ICaster.Execute(object value) => Execute(value);
     }
 }

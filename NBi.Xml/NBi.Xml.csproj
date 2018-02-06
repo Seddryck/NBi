@@ -81,6 +81,7 @@
     <Compile Include="Constraints\Comparer\ContainsXml.cs" />
     <Compile Include="Constraints\Comparer\NullXml.cs" />
     <Compile Include="Constraints\Comparer\EmptyXml.cs" />
+    <Compile Include="Constraints\ReferenceExistsXml.cs" />
     <Compile Include="Constraints\SingleRowXml.cs" />
     <Compile Include="Constraints\SomeRowsXml.cs" />
     <Compile Include="Constraints\UniqueRowsXml.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Items\Filters\IOwnerFilter.cs" />
     <Compile Include="Items\ProjectionXml.cs" />
     <Compile Include="Items\QueryScalarXml.cs" />
+    <Compile Include="Items\ResultSet\ColumnMappingXml.cs" />
     <Compile Include="Items\SharedDatasetXml.cs" />
     <Compile Include="Items\ResultSet\TransformationXml.cs" />
     <Compile Include="Items\UrlXml.cs" />

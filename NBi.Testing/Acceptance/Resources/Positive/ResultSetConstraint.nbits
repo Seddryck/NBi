@@ -110,6 +110,19 @@
         </row-count>
       </assert>
     </test>
+    <test name="references exist" uid="0008">
+      <system-under-test>
+        <resultSet file="..\Csv\Orders.csv"/>
+      </system-under-test>
+      <assert>
+        <reference-exists>
+          <column-mapping child="#2" parent="#0" type="text"/>
+          <resultSet>
+            <query>select 'CUST0001' union all select 'CUST0002' union all select 'CUST0003'</query>
+          </resultSet>
+        </reference-exists>
+      </assert>
+    </test>
   </group>
   <group name="system-under-tests">
     <test name="Embedded result-set" uid="0101">

@@ -18,12 +18,22 @@ using NBi.Core.Scalar.Caster;
 using NBi.Core.Scalar.Conversion;
 using NBi.Core.ResultSet.Conversion;
 using NBi.Core.Transformation;
+using NBi.Core.Configuration;
+using NBi.Core.Injection;
+using NBi.Core.Variable;
 
 namespace NBi.NUnit.Builder
 {
     abstract class AbstractResultSetBuilder : AbstractTestCaseBuilder
     {
         protected AbstractSystemUnderTestXml SystemUnderTestXml { get; set; }
+        protected ResultSetSystemHelper Helper { get; private set; }
+
+        public override void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, IConfiguration config, IDictionary<string, ITestVariable> variables, ServiceLocator serviceLocator)
+        {
+            base.Setup(sutXml, ctrXml, config, variables, serviceLocator);
+            Helper = new ResultSetSystemHelper(ServiceLocator, Variables);
+        }
 
         protected override void BaseSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
@@ -86,75 +96,12 @@ namespace NBi.NUnit.Builder
         protected virtual object InstantiateSystemUnderTest(ResultSetSystemXml resultSetXml)
         {
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(InstantiateResolver(resultSetXml));
-            builder.Setup(InstantiateAlterations(resultSetXml));
+            builder.Setup(Helper.InstantiateResolver(resultSetXml));
+            builder.Setup(Helper.InstantiateAlterations(resultSetXml));
             return builder.GetService();
         }
 
-        protected virtual IResultSetResolver InstantiateResolver(ResultSetSystemXml resultSetXml)
-        {
-            var argsBuilder = new ResultSetResolverArgsBuilder(ServiceLocator);
-            argsBuilder.Setup(resultSetXml);
-            argsBuilder.Setup(resultSetXml.Settings);
-            argsBuilder.Setup(base.Variables);
-            argsBuilder.Build();
-
-            var factory = ServiceLocator.GetResultSetResolverFactory();
-            var resolver = factory.Instantiate(argsBuilder.GetArgs());
-            return resolver;
-        }
-
-        private IEnumerable<Alter> InstantiateAlterations(ResultSetSystemXml resultSetXml)
-        {
-            if (resultSetXml.Alteration == null)
-                yield break;
-
-            if (resultSetXml.Alteration.Filters != null)
-            {
-                foreach (var filterXml in resultSetXml.Alteration.Filters)
-                {
-                    var expressions = new List<IColumnExpression>();
-                    if (filterXml.Expression != null)
-                        expressions.Add(filterXml.Expression);
-
-                    var factory = new PredicateFilterFactory();
-                    if (filterXml.Predication != null)
-                        yield return factory.Instantiate
-                                    (
-                                        filterXml.Aliases
-                                        , expressions
-                                        , filterXml.Predication
-                                    ).Apply;
-                    if (filterXml.Combination != null)
-                        yield return factory.Instantiate
-                                    (
-                                        filterXml.Aliases
-                                        , expressions
-                                        , filterXml.Combination.Operator
-                                        , filterXml.Combination.Predicates
-                                    ).Apply;
-                }
-            }
-
-            if (resultSetXml.Alteration.Conversions != null)
-            {
-                foreach (var conversionXml in resultSetXml.Alteration.Conversions)
-                {
-                    var factory = new ConverterFactory();
-                    var converter = factory.Instantiate(conversionXml.Converter.From, conversionXml.Converter.To, conversionXml.Converter.DefaultValue, conversionXml.Converter.Culture);
-                    var engine = new ConverterEngine(conversionXml.Column, converter);
-                    yield return engine.Execute;
-                }
-            }
-
-            if (resultSetXml.Alteration.Transformations != null)
-            {
-                var provider = new TransformationProvider();
-                foreach (var transformationXml in resultSetXml.Alteration.Transformations)
-                    provider.Add(transformationXml.ColumnIndex, transformationXml);
-                yield return provider.Transform;
-            }
-        }
+        
 
     }
 }

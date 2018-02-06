@@ -749,6 +749,42 @@ namespace NBi.Testing.Unit.NUnit
             builderMockFactory.VerifyAll();
 
         }
-        
+
+
+        [Test]
+        public void IsHandling_ResultSetReferenceExists_True()
+        {
+            var sutXml = new ResultSetSystemXml();
+            var ctrXml = new ReferenceExistsXml();
+            var testCaseFactory = new TestCaseFactory();
+
+            var actual = testCaseFactory.IsHandling(sutXml.GetType(), ctrXml.GetType());
+
+            Assert.That(actual, Is.True);
+        }
+
+        [Test]
+        public void Instantiate_ResultSetReferenceExists_TestCase()
+        {
+            var sutXml = new ResultSetSystemXml();
+            var ctrXml = new ReferenceExistsXml();
+
+            var builderMockFactory = new Mock<ITestCaseBuilder>();
+            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, NBi.Core.Configuration.Configuration.Default, It.IsAny<Dictionary<string, ITestVariable>>(), It.IsAny<ServiceLocator>()));
+            builderMockFactory.Setup(b => b.Build());
+            builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new RelationalCommand(new SqlCommand(), null, null));
+            builderMockFactory.Setup(b => b.GetConstraint()).Returns(new IsConstraint("x"));
+            var builder = builderMockFactory.Object;
+
+            var testCaseFactory = new TestCaseFactory();
+            testCaseFactory.Register(typeof(ResultSetSystemXml), typeof(ReferenceExistsXml), builder);
+
+            var tc = testCaseFactory.Instantiate(sutXml, ctrXml);
+
+            Assert.That(tc, Is.Not.Null);
+            builderMockFactory.VerifyAll();
+
+        }
+
     }
 }

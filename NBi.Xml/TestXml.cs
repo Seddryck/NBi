@@ -17,11 +17,11 @@ namespace NBi.Xml
 
         [XmlAttribute("name")]
         public string Name { get; set; }
-        
+
         [XmlAttribute("uid")]
         public string UniqueIdentifier { get; set; }
 
-        [XmlElement("ignore", Order=1)]
+        [XmlElement("ignore", Order = 1)]
         public IgnoreXml IgnoreElement { get; set; }
         [XmlIgnore]
         public bool Ignore
@@ -131,6 +131,7 @@ namespace NBi.Xml
         XmlArrayItem(Type = typeof(SingleRowXml), ElementName = "single-rows"),
         XmlArrayItem(Type = typeof(IsXml), ElementName = "is"),
         XmlArrayItem(Type = typeof(UniqueRowsXml), ElementName = "unique-rows"),
+        XmlArrayItem(Type = typeof(ReferenceExistsXml), ElementName = "reference-exists"),
         ]
         public List<AbstractConstraintXml> Constraints;
 
@@ -173,7 +174,7 @@ namespace NBi.Xml
         public string GetName()
         {
             string newName = Name;
-            if (Systems.Count>0 && Systems[0] != null)
+            if (Systems.Count > 0 && Systems[0] != null)
             {
                 var vals = Systems[0].GetRegexMatch();
 
@@ -182,7 +183,7 @@ namespace NBi.Xml
                 try
                 {
 
-                    newName = re.Replace(Name, delegate(Match match)
+                    newName = re.Replace(Name, delegate (Match match)
                                 {
                                     key = match.Groups[1].Value;
                                     return vals[key];

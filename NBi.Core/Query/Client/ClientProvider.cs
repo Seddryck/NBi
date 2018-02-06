@@ -46,6 +46,9 @@ namespace NBi.Core.Query.Client
 
         public IClient Instantiate(string connectionString)
         {
+            if (string.IsNullOrEmpty(connectionString))
+                throw new ArgumentNullException($"The connection string cannot be null or empty.", nameof(connectionString));
+
             foreach (var factory in factories)
                 if (factory.CanHandle(connectionString))
                     return factory.Instantiate(connectionString);

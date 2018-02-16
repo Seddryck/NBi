@@ -284,6 +284,37 @@ namespace NBi.Testing.Unit.Xml.Constraints
         }
 
         [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyWithinListComparer()
+        {
+            int testNr = 9;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
+            var predicate = allRows.Predication;
+
+            Assert.That(predicate.Predicate, Is.AssignableTo<AnyOfXml>());
+            var cpr = predicate.Predicate as AnyOfXml;
+            Assert.That(cpr.Values, Has.Count.EqualTo(3));
+        }
+
+
+        [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyAnyOfComparer()
+        {
+            int testNr = 10;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
+            var predicate = allRows.Predication;
+
+            Assert.That(predicate.Predicate, Is.AssignableTo<AnyOfXml>());
+            var cpr = predicate.Predicate as AnyOfXml;
+            Assert.That(cpr.Values, Has.Count.EqualTo(3));
+        }
+
+        [Test]
         public void Serialize_AllRowsXml_OnlyAliasNoVariable()
         {
             var allRowsXml = new AllRowsXml();
@@ -308,7 +339,30 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(content, Is.Not.StringContaining("variable"));
         }
 
-        
+        [Test]
+        public void Serialize_AllRowsXml_AnyOfXml()
+        {
+            var allRowsXml = new AllRowsXml();
+            allRowsXml.Predication = new PredicationXml();
+            allRowsXml.Predication.Predicate = new AnyOfXml() { Values = new List<string>() { "first", "second" } };
+
+            var serializer = new XmlSerializer(typeof(AllRowsXml));
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream, Encoding.UTF8);
+            serializer.Serialize(writer, allRowsXml);
+            var content = Encoding.UTF8.GetString(stream.ToArray());
+            writer.Close();
+            stream.Close();
+
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("any-of"));
+            Assert.That(content, Is.StringContaining("item"));
+            Assert.That(content, Is.StringContaining("first"));
+            Assert.That(content, Is.StringContaining("second"));
+        }
+
+
 
     }
 }

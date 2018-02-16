@@ -71,7 +71,7 @@
     <Compile Include="Constraints\Comparer\OnTheHourXml.cs" />
     <Compile Include="Constraints\Comparer\OnTheMinuteXml.cs" />
     <Compile Include="Constraints\Comparer\OnTheDayXml.cs" />
-    <Compile Include="Constraints\Comparer\WithinListXml.cs" />
+    <Compile Include="Constraints\Comparer\AnyOfXml.cs" />
     <Compile Include="Constraints\Comparer\WithinRangeXml.cs" />
     <Compile Include="Constraints\Comparer\UpperCaseXml.cs" />
     <Compile Include="Constraints\Comparer\MatchesRegexXml.cs" />

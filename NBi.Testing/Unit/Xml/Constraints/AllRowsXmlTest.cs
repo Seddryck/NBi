@@ -318,11 +318,13 @@ namespace NBi.Testing.Unit.Xml.Constraints
         public void Serialize_AllRowsXml_OnlyAliasNoVariable()
         {
             var allRowsXml = new AllRowsXml();
+            #pragma warning disable 0618
             allRowsXml.InternalAliasesOld = new List<AliasXml>()
             {
                 new AliasXml() {Column = 1, Name="Col1"},
                 new AliasXml() {Column = 0, Name="Col2"}
             };
+            #pragma warning restore 0618
             allRowsXml.Predication = new PredicationXml();
             
             var serializer = new XmlSerializer(typeof(AllRowsXml));

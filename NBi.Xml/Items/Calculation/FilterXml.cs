@@ -29,6 +29,7 @@ namespace NBi.Xml.Items.Calculation
         }
 
         [XmlIgnore]
+        [Obsolete("Use InternalAlias in place of InternalAliasOld")]
         public List<AliasXml> InternalAliasesOld
         {
             get { return internalAliases; }

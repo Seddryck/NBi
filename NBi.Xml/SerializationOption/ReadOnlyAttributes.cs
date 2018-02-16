@@ -77,5 +77,7 @@ namespace NBi.Xml.SerializationOption
 
             throw new ArgumentException("Expression is not a member access", "expression");
         }
+
+        private string GetXmlName(string input) => string.Concat(input.Select((x, i) => i > 0 && char.IsUpper(x) ? "-" + x.ToString() : x.ToString().ToLowerInvariant()));
     }
 }

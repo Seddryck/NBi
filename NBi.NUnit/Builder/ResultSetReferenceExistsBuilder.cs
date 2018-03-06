@@ -33,6 +33,7 @@ namespace NBi.NUnit.Builder
         protected override void SpecificBuild()
         {
             var ctrXml = ConstraintXml as ReferenceExistsXml;
+            ctrXml.ResultSet.Settings = ctrXml.Settings;
 
             var mappings = new ColumnMappingCollection();
             foreach (var mapping in ctrXml.Mappings)

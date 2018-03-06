@@ -10,6 +10,9 @@
     <default apply-to="variable">
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </default>
+    <reference name="ref1">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </reference>
   </settings>
   <variables>
     <variable name="var1">
@@ -110,7 +113,20 @@
         </row-count>
       </assert>
     </test>
-    <test name="references exist" uid="0008">
+    <test name="references exist" uid="00080">
+      <system-under-test>
+        <resultSet file="..\Csv\Orders.csv"/>
+      </system-under-test>
+      <assert>
+        <reference-exists>
+          <column-mapping child="#2" parent="#0" type="text"/>
+          <resultSet>
+            <query connectionString="@ref1">select 'CUST0001' union all select 'CUST0002' union all select 'CUST0003'</query>
+          </resultSet>
+        </reference-exists>
+      </assert>
+    </test>
+    <test name="references exist" uid="00081">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv"/>
       </system-under-test>

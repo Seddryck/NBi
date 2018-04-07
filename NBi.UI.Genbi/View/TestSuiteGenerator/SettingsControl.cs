@@ -20,8 +20,14 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
 
                 settingsName.DataBindings.Add("SelectedItem", presenter, "SettingsNameSelected", true, DataSourceUpdateMode.OnValidation);
                 settingsName.SelectedIndexChanged += (s, args) => settingsName.DataBindings["SelectedItem"].WriteValue();
+                settingsValue.TextChanged += (s, args) => presenter.UpdateValue((string)settingsName.SelectedValue, settingsValue.Text);
                 settingsValue.DataBindings.Add("Text", presenter, "SettingsValue", true, DataSourceUpdateMode.OnPropertyChanged);
             }
+        }
+
+        private void toto(object s, EventArgs args)
+        {
+            MessageBox.Show("Hello");
         }
 
 

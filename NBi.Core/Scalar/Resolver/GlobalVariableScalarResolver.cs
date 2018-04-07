@@ -25,7 +25,14 @@ namespace NBi.Core.Scalar.Resolver
         public T Execute()
         {
             if (!args.GlobalVariables.ContainsKey(args.VariableName))
-                throw new NBiException($"The variable named '{args.VariableName}' is not defined.");
+            {
+                var caseIssues = args.GlobalVariables.Keys.Where(k => String.Equals(k, args.VariableName, StringComparison.OrdinalIgnoreCase));
+                if (caseIssues.Count() == 0)
+                    throw new NBiException($"The variable named '{args.VariableName}' is not defined.");
+                else
+                    throw new NBiException($"The variable named '{args.VariableName}' is not defined. Pay attention variables are case-sensitive. Did you mean '{string.Join("' or '", caseIssues)}'?");
+            }
+                
 
             var variable = args.GlobalVariables[args.VariableName];
 

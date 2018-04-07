@@ -37,6 +37,15 @@ namespace NBi.Testing.Unit.Core.Structure
         }
 
         [Test]
+        public void Instantiate_EmptyConnectionString_GetDatabaseStructureDiscoveryFactory()
+        {
+            var connectionString = string.Empty;
+
+            var provider = new StructureDiscoveryFactoryProvider();
+            Assert.Throws<ArgumentNullException>(() => provider.Instantiate(connectionString));
+        }
+
+        [Test]
         public void Instantiate_SqlConnection_GetDatabaseStructureDiscoveryFactory()
         {
             var connectionString = ConnectionStringReader.GetSqlClient();

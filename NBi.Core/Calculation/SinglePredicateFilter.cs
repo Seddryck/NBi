@@ -33,6 +33,8 @@ namespace NBi.Core.Calculation
             return implementation(value);
         }
 
+        
+
         public override string Describe()
         {
             return $"{operand} {describeFunction()}.";

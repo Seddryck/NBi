@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Calculation.Predicate;
 using NBi.Core.Evaluate;
+using NBi.Core.ResultSet;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,46 +10,25 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation
 {
-    public abstract class BasePredicateFilter : IResultSetFilter
+    public abstract class BaseRankingFilter : IResultSetFilter
     {
         protected readonly IEnumerable<IColumnExpression> expressions;
         protected readonly IEnumerable<IColumnAlias> aliases;
+        protected readonly string operand;
+        protected readonly ColumnType columnType;
 
-        protected BasePredicateFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
+        protected BaseRankingFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, string operand, ColumnType columnType)
         {
             this.aliases = aliases;
             this.expressions = expressions;
+            this.operand = operand;
+            this.columnType = columnType;
         }
 
         public ResultSet.ResultSet AntiApply(ResultSet.ResultSet rs)
-        {
-            return Apply(rs, (x => !x));
-        }
+            => throw new NotImplementedException();
 
-        public ResultSet.ResultSet Apply(ResultSet.ResultSet rs)
-        {
-            return Apply(rs, (x => x));
-        }
-
-        protected ResultSet.ResultSet Apply(ResultSet.ResultSet rs, Func<bool,bool> onApply)
-        {
-            var filteredRs = new ResultSet.ResultSet();
-            var table = rs.Table.Clone();
-            filteredRs.Load(table);
-            
-            foreach (DataRow row in rs.Rows)
-            {
-                if (onApply(RowApply(row)))
-                    filteredRs.Table.ImportRow(row);
-            }
-
-            filteredRs.Table.AcceptChanges();
-            return filteredRs;
-        }
-
-        protected abstract bool RowApply(DataRow row);
-        public bool Execute(DataRow row) => RowApply(row);
-
+        public abstract ResultSet.ResultSet Apply(ResultSet.ResultSet rs);
 
         protected object GetValueFromRow(DataRow row, string name)
         {

@@ -2,6 +2,7 @@
 using NBi.Core.Calculation;
 using NBi.Core.Calculation.Predicate;
 using NBi.Core.Calculation.Ranking;
+using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NUnit.Framework;
@@ -80,6 +81,49 @@ namespace NBi.Testing.Unit.Core.Calculation.Ranking
             Assert.That(filteredRs.Rows[1].ItemArray[1], Is.EqualTo(values.Except(Enumerable.Repeat(values.Min(), 1)).Min()));
             Assert.That(filteredRs.Rows[values.Count() - 1].ItemArray[0], Is.EqualTo(index[2].ToString()));
             Assert.That(filteredRs.Rows[values.Count() - 1].ItemArray[1], Is.EqualTo(values.Max()));
+        }
+
+        [Test]
+        [TestCase(new object[] { "100", "120", "110", "130", "105" }, ColumnType.Numeric, 1)]
+        public void Apply_Alias_Success(object[] values, ColumnType columnType, int index)
+        { 
+            var i = 0;
+            var objs = values.Select(x => new object[] { ++i, x }).ToArray();
+
+            var args = new ObjectsResultSetResolverArgs(objs);
+            var resolver = new ObjectsResultSetResolver(args);
+            var rs = resolver.Execute();
+
+            var alias = Mock.Of<IColumnAlias>(x => x.Column == 1 && x.Name == "myValue");
+
+            var ranking = new BottomRanking("myValue", columnType, Enumerable.Repeat(alias, 1), null);
+            var filteredRs = ranking.Apply(rs);
+
+            Assert.That(filteredRs.Rows.Count, Is.EqualTo(1));
+            Assert.That(filteredRs.Rows[0].ItemArray[0], Is.EqualTo(index.ToString()));
+            Assert.That(filteredRs.Rows[0].ItemArray[1], Is.EqualTo(values.Min()));
+        }
+
+        [Test]
+        [TestCase(new object[] { "108", "128", "118", "137", "125" }, ColumnType.Numeric, 5)]
+        public void Apply_Exp_Success(object[] values, ColumnType columnType, int index)
+        {
+            var i = 0;
+            var objs = values.Select(x => new object[] { ++i, x }).ToArray();
+
+            var args = new ObjectsResultSetResolverArgs(objs);
+            var resolver = new ObjectsResultSetResolver(args);
+            var rs = resolver.Execute();
+
+            var alias = Mock.Of<IColumnAlias>(x => x.Column == 1 && x.Name == "myValue");
+            var exp = Mock.Of<IColumnExpression>(x => x.Name=="exp" && x.Value == "myValue % 10");
+
+            var ranking = new BottomRanking("exp", columnType, Enumerable.Repeat(alias, 1), Enumerable.Repeat(exp, 1));
+            var filteredRs = ranking.Apply(rs);
+
+            Assert.That(filteredRs.Rows.Count, Is.EqualTo(1));
+            Assert.That(filteredRs.Rows[0].ItemArray[0], Is.EqualTo(index.ToString()));
+            Assert.That(filteredRs.Rows[0].ItemArray[1], Is.EqualTo("125"));
         }
 
     }

@@ -32,7 +32,12 @@ namespace NBi.Framework.FailureMessage.Json
             foreach (var violation in violations)
                 rows = rows.Union(violation.Value).ToList();
 
-            analysis = BuildTable(rows, samplers["analysis"]);
+            analysis = BuildMultipleTables(
+                new[]
+                {
+                    new Tuple<string, IEnumerable<DataRow>, TableHelperJson>("missing", rows, new CompareTableHelperJson()),
+                }, samplers["analysis"]
+             );
         }
 
         private string BuildTable(IEnumerable<DataRow> rows, ISampler<DataRow> sampler)
@@ -52,6 +57,23 @@ namespace NBi.Framework.FailureMessage.Json
         public string RenderParent() => parent;
         public string RenderAnalysis() => analysis;
         public virtual string RenderPredicate() => "Some references are missing and violate referential integrity";
+        private string BuildMultipleTables(IEnumerable<Tuple<string, IEnumerable<DataRow>, TableHelperJson>> tableInfos, ISampler<DataRow> sampler)
+        {
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+            var writer = new JsonTextWriter(sw);
+
+            writer.WriteStartObject();
+            foreach (var item in tableInfos)
+            {
+                writer.WritePropertyName(item.Item1);
+                writer.WriteRawValue(BuildTable(item.Item2, sampler));
+            }
+            writer.WriteEndObject();
+
+            writer.Close();
+            return sb.ToString();
+        }
 
         public string RenderMessage()
         {

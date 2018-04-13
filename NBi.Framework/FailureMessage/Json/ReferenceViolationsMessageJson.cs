@@ -14,8 +14,8 @@ namespace NBi.Framework.FailureMessage.Json
     class ReferenceViolationsMessageJson : IReferenceViolationsMessageFormatter
     {
         private readonly IDictionary<string, ISampler<DataRow>> samplers;
-        private string child;
-        private string parent;
+        private string actual;
+        private string expected;
         private string analysis;
 
         public ReferenceViolationsMessageJson(IDictionary<string, ISampler<DataRow>> samplers)
@@ -25,8 +25,8 @@ namespace NBi.Framework.FailureMessage.Json
 
         public void Generate(IEnumerable<DataRow> parentRows, IEnumerable<DataRow> childRows, ReferenceViolations violations)
         {
-            parent = BuildTable(parentRows, samplers["expected"]);
-            child = BuildTable(childRows, samplers["actual"]);
+            expected = BuildTable(parentRows, samplers["expected"]);
+            actual = BuildTable(childRows, samplers["actual"]);
 
             var rows = new List<DataRow>();
             foreach (var violation in violations)
@@ -53,8 +53,8 @@ namespace NBi.Framework.FailureMessage.Json
             return sb.ToString();
         }
 
-        public string RenderChild() => child;
-        public string RenderParent() => parent;
+        public string RenderActual() => actual;
+        public string RenderExpected() => expected;
         public string RenderAnalysis() => analysis;
         public virtual string RenderPredicate() => "Some references are missing and violate referential integrity";
         private string BuildMultipleTables(IEnumerable<Tuple<string, IEnumerable<DataRow>, TableHelperJson>> tableInfos, ISampler<DataRow> sampler)
@@ -84,15 +84,15 @@ namespace NBi.Framework.FailureMessage.Json
                 writer.WriteStartObject();
                 writer.WritePropertyName("timestamp");
                 writer.WriteValue(DateTime.Now);
-                if (!string.IsNullOrEmpty(child))
+                if (!string.IsNullOrEmpty(actual))
                 {
-                    writer.WritePropertyName("child");
-                    writer.WriteRawValue(child);
+                    writer.WritePropertyName("actual");
+                    writer.WriteRawValue(actual);
                 }
-                if (!string.IsNullOrEmpty(parent))
+                if (!string.IsNullOrEmpty(expected))
                 {
-                    writer.WritePropertyName("parent");
-                    writer.WriteRawValue(parent);
+                    writer.WritePropertyName("expected");
+                    writer.WriteRawValue(expected);
                 }
                 if (!string.IsNullOrEmpty(analysis))
                 {

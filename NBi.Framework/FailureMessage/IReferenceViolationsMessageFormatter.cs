@@ -11,8 +11,8 @@ namespace NBi.Framework.FailureMessage
     public interface IReferenceViolationsMessageFormatter
     {
         void Generate(IEnumerable<DataRow> parentRows, IEnumerable<DataRow> childRows, ReferenceViolations violations);
-        string RenderParent();
-        string RenderChild();
+        string RenderExpected();
+        string RenderActual();
         string RenderAnalysis();
         string RenderPredicate();
         string RenderMessage();

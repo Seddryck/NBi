@@ -110,7 +110,7 @@ namespace NBi.NUnit.ResultSetComparison
                 return;
 
             writer.WriteLine();
-            writer.WriteLine(Failure.RenderParent());
+            writer.WriteLine(Failure.RenderExpected());
         }
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
@@ -119,7 +119,7 @@ namespace NBi.NUnit.ResultSetComparison
                 return;
 
             writer.WriteLine();
-            writer.WriteLine(Failure.RenderChild());
+            writer.WriteLine(Failure.RenderActual());
         }
 
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)

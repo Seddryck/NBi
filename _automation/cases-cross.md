@@ -20,7 +20,7 @@ case cross 'first set' with 'second set';
 
 A *cross on column* will select all rows from both sets as long as there is a match between the values of the column specified. You should compare this feature to a *inner join* in SQL.
 
-The name of the column on which you apply your matching condition must be the same on the two tables. To rename a column, use the action [Rename (case)].
+The name of the column on which you apply your matching condition must be the same on the two tables. To rename a column, use the action [Rename (case)](../column-rename/).
 
 The syntax is the same than for a full cross but you must also specify the name of the column after the keyword *on*.
 

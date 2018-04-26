@@ -31,6 +31,7 @@ Write-Host "Found $($dependencies.Count) dependencies ..."
 $depList = $dependencies.Values -join [Environment]::NewLine + "`t`t"
 
 #For NBi.Framework (dll)
+Write-Host "Packaging NBi.Framework"
 $lib = "$root\NBi.Framework\lib\461\"
 If (Test-Path $lib)
 {
@@ -50,8 +51,10 @@ $content = $content -replace '\$depList\$',$depList
 $content | Out-File $root\NBi.Framework\NBi.Framework.compiled.nuspec -Encoding UTF8
 
 & NuGet.exe pack $root\..\.packages\NBi.Framework\NBi.Framework.compiled.nuspec -Version $version -OutputDirectory $root\..\.nupkg
+Write-Host "Package for NBi.Framework is ready"
 
 #For NBi.Framework.Tools
+Write-Host "Packaging NBi.Framework.Tools"
 $lib = "$root\NBi.Framework.Tools\tools\"
 If (Test-Path $lib)
 {
@@ -70,3 +73,25 @@ $content = $content -replace '\$depList\$',$depList
 $content | Out-File $root\NBi.Framework.Tools\NBi.Framework.Tools.compiled.nuspec -Encoding UTF8
 
 & NuGet.exe pack $root\..\.packages\NBi.Framework.Tools\NBi.Framework.Tools.compiled.nuspec -Version $version -OutputDirectory $root\..\.nupkg
+Write-Host "Package for NBi.Framework.Tools is ready"
+
+#For NBi.Extensibility
+Write-Host "Packaging NBi.Extensibility"
+$lib = "$root\NBi.Extensibility\lib\461\"
+If (Test-Path $lib)
+{
+	Remove-Item $lib -recurse
+}
+new-item -Path $lib -ItemType directory
+new-item -Path $root\..\.nupkg -ItemType directory -force
+Copy-Item $root\..\NBi.Extensibility\bin\Debug\NBi.Extensibility.dll $lib
+
+Write-Host "Setting .nuspec version tag to $version"
+
+$content = (Get-Content $root\NBi.Extensibility\NBi.Extensibility.nuspec -Encoding UTF8) 
+$content = $content -replace '\$version\$',$version
+
+$content | Out-File $root\NBi.Extensibility\NBi.Extensibility.compiled.nuspec -Encoding UTF8
+
+& NuGet.exe pack $root\..\.packages\NBi.Extensibility\NBi.Extensibility.compiled.nuspec -Version $version -OutputDirectory $root\..\.nupkg
+Write-Host "Package for NBi.Extensibility is ready"

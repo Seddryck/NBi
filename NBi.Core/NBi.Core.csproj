@@ -218,7 +218,6 @@
     <Compile Include="FileManipulation\ICopyCommand.cs" />
     <Compile Include="GroupCommand.cs" />
     <Compile Include="GroupCommandFactory.cs" />
-    <Compile Include="Query\Client\IClient.cs" />
     <Compile Include="IExecutionResult.cs" />
     <Compile Include="Etl\EtlRunnerFactory.cs" />
     <Compile Include="Etl\EtlRunResult.cs" />
@@ -313,7 +312,6 @@
     <Compile Include="Query\Command\OdbcCommandFactory.cs" />
     <Compile Include="Query\Command\SqlCommandFactory.cs" />
     <Compile Include="Query\Command\DbCommandFactory.cs" />
-    <Compile Include="Query\Command\ICommand.cs" />
     <Compile Include="Query\Command\ICommandFactory.cs" />
     <Compile Include="Query\Command\Command.cs" />
     <Compile Include="Query\Client\ClientProvider.cs" />
@@ -457,7 +455,6 @@
     <Compile Include="Query\ListBuilder.cs" />
     <Compile Include="ExternalDependencyNotFoundException.cs" />
     <Compile Include="NBiException.cs" />
-    <Compile Include="Query\Execution\IExecutionEngine.cs" />
     <Compile Include="ResultSet\Column.cs" />
     <Compile Include="ResultSet\RowHelper.cs" />
     <Compile Include="Scalar\Comparer\BaseComparer.cs" />
@@ -653,6 +650,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj">
+      <Project>{a06cba63-d848-4dbc-abfc-63172613999d}</Project>
+      <Name>NBi.Extensibility</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

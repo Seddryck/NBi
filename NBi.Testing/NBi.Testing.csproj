@@ -887,6 +887,10 @@
       <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
       <Name>NBi.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj">
+      <Project>{a06cba63-d848-4dbc-abfc-63172613999d}</Project>
+      <Name>NBi.Extensibility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NBi.Framework\NBi.Framework.csproj">
       <Project>{1ad339dc-60e0-4334-86cf-60eeafeaa6e4}</Project>
       <Name>NBi.Framework</Name>

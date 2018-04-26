@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace NBi.Core.Query.Execution
+namespace NBi.Extensibility.Query
 {
     /// <summary>
     /// Interface defining methods implemented by engines able to execute queries and retrieve the result

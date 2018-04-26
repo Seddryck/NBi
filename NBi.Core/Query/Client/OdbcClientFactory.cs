@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Common;
 using System.Data.Odbc;
+using NBi.Extensibility.Query;
 
 namespace NBi.Core.Query.Client
 {

@@ -3,6 +3,7 @@ using System.Data;
 using NBi.Core.Query;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Core.Query.Validation;
+using NBi.Extensibility.Query;
 
 namespace NBi.NUnit.Query
 {

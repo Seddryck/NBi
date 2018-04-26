@@ -4,6 +4,7 @@ using NBi.Core.Query;
 using NBi.NUnit.Query;
 using NUnit.Framework;
 using NBi.Core.Query.Validation;
+using NBi.Extensibility.Query;
 
 namespace NBi.Testing.Unit.NUnit.Query
 {

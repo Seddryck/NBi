@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core.Query;
+using NBi.Extensibility.Query;
 
 namespace NBi.Xml.Items
 {

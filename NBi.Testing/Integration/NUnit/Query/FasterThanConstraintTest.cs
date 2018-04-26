@@ -2,9 +2,8 @@
 using System.Data.SqlClient;
 using NBi.NUnit.Query;
 using NUnit.Framework;
-using NBi.Core.ResultSet.Resolver;
-using NBi.Core.Query;
 using Moq;
+using NBi.Extensibility.Query;
 #endregion
 
 namespace NBi.Testing.Integration.NUnit.Query

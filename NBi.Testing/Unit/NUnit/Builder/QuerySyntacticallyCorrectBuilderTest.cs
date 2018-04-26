@@ -11,6 +11,7 @@ using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Query;
 using NBi.Core.Injection;
+using NBi.Extensibility.Query;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder

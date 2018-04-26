@@ -11,6 +11,7 @@ using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.Query.Command;
 using NBi.Core.Query.Client;
 using System.Data.Common;
+using NBi.Extensibility.Query;
 
 namespace NBi.Testing.Integration.Core.Query.Command
 {

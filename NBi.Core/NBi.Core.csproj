@@ -173,7 +173,6 @@
     <Compile Include="Injection\QueryModule.cs" />
     <Compile Include="Injection\ServiceLocator.cs" />
     <Compile Include="Query\EngineFactory.cs" />
-    <Compile Include="Query\Client\IClientFactory.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="CommandTimeoutException.cs" />
     <Compile Include="Connection\IConnectionWaitCommand.cs" />
@@ -312,7 +311,6 @@
     <Compile Include="Query\Command\OdbcCommandFactory.cs" />
     <Compile Include="Query\Command\SqlCommandFactory.cs" />
     <Compile Include="Query\Command\DbCommandFactory.cs" />
-    <Compile Include="Query\Command\ICommandFactory.cs" />
     <Compile Include="Query\Command\Command.cs" />
     <Compile Include="Query\Client\ClientProvider.cs" />
     <Compile Include="Query\Client\OdbcClientFactory.cs" />
@@ -330,7 +328,6 @@
     <Compile Include="Query\Format\AdomdFormatEngine.cs" />
     <Compile Include="Query\Format\FormatEngineFactory.cs" />
     <Compile Include="Query\Format\IFormatEngine.cs" />
-    <Compile Include="Query\IQuery.cs" />
     <Compile Include="Query\Performance\AdomdPerformanceEngine.cs" />
     <Compile Include="Query\Performance\DbCommandPerformanceEngine.cs" />
     <Compile Include="Query\Performance\PerformanceEngineFactory.cs" />
@@ -343,14 +340,11 @@
     <Compile Include="Query\Query.cs" />
     <Compile Include="Query\Resolver\QueryResolver.cs" />
     <Compile Include="Query\Resolver\QueryResolverArgs.cs" />
-    <Compile Include="Query\SupportedCommandTypeAttribute.cs" />
     <Compile Include="Query\Validation\OdbcValidationEngine.cs" />
     <Compile Include="Query\Execution\OleDbExecutionEngine.cs" />
     <Compile Include="Query\Execution\DbCommandExecutionEngine.cs" />
     <Compile Include="Query\Execution\SqlExecutionEngine.cs" />
     <Compile Include="Query\DbTypeBuilder.cs" />
-    <Compile Include="Query\IQueryParameter.cs" />
-    <Compile Include="Query\IQueryTemplateVariable.cs" />
     <Compile Include="Query\QueryParameter.cs" />
     <Compile Include="Query\Validation\AdomdValidationEngine.cs" />
     <Compile Include="Query\Validation\DbCommandValidationEngine.cs" />

@@ -45,8 +45,14 @@
     </Compile>
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Query\IClient.cs" />
+    <Compile Include="Query\IClientFactory.cs" />
     <Compile Include="Query\ICommand.cs" />
+    <Compile Include="Query\ICommandFactory.cs" />
     <Compile Include="Query\IExecutionEngine.cs" />
+    <Compile Include="Query\IQuery.cs" />
+    <Compile Include="Query\IQueryParameter.cs" />
+    <Compile Include="Query\IQueryTemplateVariable.cs" />
+    <Compile Include="Query\SupportedCommandTypeAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -21,6 +21,7 @@ using NBi.Core.Transformation;
 using NBi.Core.Configuration;
 using NBi.Core.Injection;
 using NBi.Core.Variable;
+using NBi.Extensibility.Query;
 
 namespace NBi.NUnit.Builder
 {

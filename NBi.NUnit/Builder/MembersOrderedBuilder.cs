@@ -5,6 +5,7 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
 using NBi.Xml.Items;
 using NBi.Core.Query;
+using NBi.Extensibility.Query;
 
 namespace NBi.NUnit.Builder
 {

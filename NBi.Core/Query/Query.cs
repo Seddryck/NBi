@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.Scalar.Resolver;
 using System.Data;
+using NBi.Extensibility.Query;
 
 namespace NBi.Core.Query
 {

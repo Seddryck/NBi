@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace NBi.Core.Query
+namespace NBi.Extensibility.Query
 {
     public interface IQuery
     {

@@ -6,6 +6,7 @@ using System.IO;
 using System.Reflection;
 using System.Data.Common;
 using System.Collections.Generic;
+using NBi.Extensibility.Query;
 
 namespace NBi.Core.Query.Validation
 {

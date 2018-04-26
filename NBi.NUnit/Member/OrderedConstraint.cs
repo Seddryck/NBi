@@ -12,6 +12,7 @@ using NBi.Core.Query.Resolver;
 using NBi.Core.Query;
 using System.Linq;
 using NBi.Core.Query.Execution;
+using NBi.Extensibility.Query;
 
 namespace NBi.NUnit.Member
 {

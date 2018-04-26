@@ -7,6 +7,7 @@ using System.Data.Common;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using NBi.Extensibility.Query;
 
 namespace NBi.Core.Query.Performance
 {

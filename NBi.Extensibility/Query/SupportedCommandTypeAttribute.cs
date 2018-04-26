@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Query
+namespace NBi.Extensibility.Query
 {
     [AttributeUsage(AttributeTargets.Class)]
 

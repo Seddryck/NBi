@@ -16,8 +16,8 @@ namespace NBi.Core.Configuration.Extension
 
             var interfaces = new[]
             {
-                typeof(Query.Client.IClientFactory),
-                typeof(Query.Command.ICommandFactory),
+                typeof(IClientFactory),
+                typeof(ICommandFactory),
                 typeof(IExecutionEngine),
                 typeof(Query.Performance.IPerformanceEngine),
                 typeof(Query.Validation.IValidationEngine),

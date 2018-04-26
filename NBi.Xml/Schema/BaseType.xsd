@@ -1150,6 +1150,7 @@
       <xs:element name="matches-dateTime" type="culture-specific-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="within-range" type="comparer-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="within-list" type="multitext-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="any-of" type="multitext-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="integer" type="no-reference-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="modulo" type="two-operands-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="on-the-day" type="no-reference-type" minOccurs="0" maxOccurs="1"/>

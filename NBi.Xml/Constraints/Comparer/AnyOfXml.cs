@@ -9,8 +9,13 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Constraints.Comparer
 {
-    public class WithinListXml : CaseSensitiveTextPredicateXml
+    public class AnyOfXml : CaseSensitiveTextPredicateXml
     {
         internal override ComparerType ComparerType { get => ComparerType.WithinList; }
     }
+
+    public class WithinListXml : AnyOfXml
+    { }
 }
+
+

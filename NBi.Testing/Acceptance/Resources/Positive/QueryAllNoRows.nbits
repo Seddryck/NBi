@@ -17,6 +17,11 @@
         select year(getdate())+1;
       </query-scalar>
     </variable>
+    <variable name="twoDaysAgo">
+      <script language="c-sharp">
+        DateTime.Now.AddDays(-2)
+      </script>
+    </variable>
   </variables>
   <test name="All-rows is doing the job for numeric info" uid="0001">
     <system-under-test>
@@ -538,7 +543,7 @@
       </all-rows>
     </assert>
   </test>
-  <test name="Use a c-sharp variable for the predicate" uid="0008">
+  <test name="Use a c-sharp variable for the predicate with an integer" uid="00080">
     <system-under-test>
       <execution>
         <query>
@@ -556,7 +561,24 @@
       </all-rows>
     </assert>
   </test>
-  <test name="Use a query-scalar variable for the predicate" uid="0008">
+  <test name="Use a c-sharp variable for the predicate with a dateTime" uid="00081">
+    <system-under-test>
+      <resultSet>
+        <query>
+          <![CDATA[ select getdate() as Now, @TwoDaysAgo ]]>
+          <parameter name="@TwoDaysAgo">@twoDaysAgo</parameter>
+        </query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate operand="Now" type="dateTime">
+          <more-than>@twoDaysAgo</more-than>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="Use a query-scalar variable for the predicate" uid="00082">
     <system-under-test>
       <execution>
         <query>
@@ -574,7 +596,7 @@
       </all-rows>
     </assert>
   </test>
-  <test name="Use a variable and combine predicates" uid="0008">
+  <test name="Use a variable and combine predicates" uid="00083">
     <system-under-test>
       <execution>
         <query>

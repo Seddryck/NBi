@@ -89,7 +89,7 @@ Each predicate is not valid for each data type. The list of possible combinaison
 | matches-numeric  | Yes | No | No | No
 | matches-date  | Yes | No | No | No
 | matches-time  | Yes | No | No | No
-| within-list  | Yes | No | No | No
+| any-of (aka within-list)  | Yes | No | No | No
 | within-range  | No | Yes | Yes | No
 | integer  | No | Yes | No | No
 | modulo | No | Yes | No | No

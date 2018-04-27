@@ -7,7 +7,7 @@ permalink: /docs/resultset-predicate/
 ---
 A predicate is a condition that will be tested for each row of the result-set. If this condition is positively evaluated then the row will validate the predicate else not. Constraints such as *all-rows* or *no-rows* will check that respectively all and no rows are validating the predicate.
 
-## content of cells for each row.
+# content of cells for each row
 
 For this kind of test, you'll assert the value of one cell (or a combination of cells) of each row with a predicate (see bellow). This cell is named the *operand* and must be specified to the predicate by the means of the *operand* attribute. Before version 1.17, this attribute was named *name*, this notation is now deprecated.
 
@@ -36,7 +36,7 @@ To identify a column, you can refer to it by its name but you've more options:
 
 If the name of an alias is conflecting with the name of a column, the alias has the precedence.
 
-Before version 1.16, only the third option was available and the element was named *variable* and not *alias*. The notation *variable* is now deprecated. 
+Before version 1.16, only the third option was available and the element was named *variable* and not *alias*. The notation *variable* is now deprecated.
 
 ## Expressions
 
@@ -65,7 +65,7 @@ It's possible to use an expression in an expression (nested expressions). The pr
 
 The functions supported in an *expression* are these supported by [NCalc](https://ncalc.codeplex.com/wikipage?title=functions&referringTitle=Home)
 
-## Different predicates
+# List of predicates
 
 The predicate can be used with the previously defined assertions: *no-rows* and *all-rows*. They supports many different operators, see the table here under for the full list. The two options *more-than* and *less-than* also supports the variant *or-equal* moreover the option *empty* supports the variant *or-null*. Some of the text specific operators (*starts-with*, *ends-with*, *contains*, *matches-regex*) supports the variant *ignore-case*. The operator *modulo* is expecting a second operand (the divisor) that you can specify in the attribute *second-operand*.
 
@@ -73,7 +73,7 @@ In addition to this operator, you must also define [the column or expression](..
 
 Each predicate is not valid for each data type. The list of possible combinaison is described here under:
 
-| Predicate | Text | Numeric | DateTime | Boolean 
+| Predicate | Text | Numeric | DateTime | Boolean
 |-------------|:-----------------:|:-------------------:|
 | equal  | Yes | Yes | Yes | Yes
 | more-than  | Yes | Yes | Yes | No
@@ -118,8 +118,6 @@ The predicates *equal*, *more/less-than*, *starts/ends-with*, *contains*, *match
 
 The following predicates are expecting a culture: *matches-numeric*, *matches-date*, *matches-time*. The culture is a group of 4 letters separated in two groups of two by the means of a dash. The list of valid cultures is defined at [MSDN](https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx). If this culture is not provided then an invariant culture is applied with the pattern *yyyy-MM-dd* for the date format,  *HH:mm* for the time format and a dot as decimal separator (no thousand seperator) for the numeric format.
 
-
-
 {% highlight xml %}
 <assertion>
     <all-rows>
@@ -131,7 +129,7 @@ The following predicates are expecting a culture: *matches-numeric*, *matches-da
 </assertion>
 {% endhighlight %}
 
-### Negation of a predicate
+## Negation of a predicate
 
 It could be useful to use the negation of a predicate. By specifying the attribute *not* available for each predicate, the result of the predicate's evalution will be inverted (false will become true and true will become false).
 

@@ -92,6 +92,10 @@
   - setup-wait
   - setup-condition
 
+- title: Extensions
+  docs:
+  - extension-support
+
 - title: Configuration and settings
   docs:
   - config-defaults-references

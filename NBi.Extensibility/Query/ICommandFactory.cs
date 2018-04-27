@@ -10,6 +10,6 @@ namespace NBi.Extensibility.Query
     public interface ICommandFactory
     {
         bool CanHandle(IClient client);
-        ICommand Instantiate(IClient client, IQuery query);
+        ICommand Instantiate(IClient client, IQuery query, ITemplateEngine engine);
     }
 }

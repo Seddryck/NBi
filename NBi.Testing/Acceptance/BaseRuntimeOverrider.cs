@@ -32,7 +32,7 @@ namespace NBi.Testing.Acceptance
                 }
                 catch (IgnoreException)
                 {
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceWarning, $"Not stopping the test suite, continue on ignore.");
+                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceWarning, $"Not stopping the test suite, continue on ignore.");
                     ignoredTests.Add(((TestXml)testCaseData.Arguments[0]).Name);
                 }
             }
@@ -155,7 +155,7 @@ namespace NBi.Testing.Acceptance
                 catch (IgnoreException)
                 {
                     isSuccess = true;
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, $"Expectation was met: test ignored.");
+                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Expectation was met: test ignored.");
                 }
                 Assert.That(isSuccess);
             }

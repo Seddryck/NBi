@@ -93,13 +93,13 @@ namespace NBi.NUnit.Builder.Helper
 
         private ResultSetResolverArgs BuildEmbeddedResolverArgs(IContent content)
         {
-            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in embedded resultSet.");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "ResultSet defined in embedded resultSet.");
             return new ContentResultSetResolverArgs(content);
         }
 
         private ResultSetResolverArgs BuildQueryResolverArgs(QueryXml queryXml)
         {
-            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined through a query.");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "ResultSet defined through a query.");
             var argsBuilder = new Helper.QueryResolverArgsBuilder(serviceLocator);
             argsBuilder.Setup(queryXml);
             argsBuilder.Setup(settings);
@@ -112,7 +112,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private ResultSetResolverArgs BuildCsvResolverArgs(string path)
         {
-            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined in external CSV file.");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "ResultSet defined in external CSV file.");
             var file = string.Empty;
             if (Path.IsPathRooted(path))
                 file = path;
@@ -124,7 +124,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private ResultSetResolverArgs BuildXPathResolverArgs(XmlSourceXml xmlSource)
         {
-            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "ResultSet defined through an xml-source.");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "ResultSet defined through an xml-source.");
 
             var selects = new List<AbstractSelect>();
             var selectFactory = new SelectFactory();

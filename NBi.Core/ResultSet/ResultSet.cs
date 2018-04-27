@@ -127,7 +127,7 @@ namespace NBi.Core.ResultSet
 
         protected void ConsoleDisplay()
         {
-            if (!NBiTraceSwitch.TraceVerbose)
+            if (!Extensibility.NBiTraceSwitch.TraceVerbose)
                 return;
 
             Trace.WriteLine(string.Format(new string('-', 30)));

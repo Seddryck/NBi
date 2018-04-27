@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
+using NBi.Extensibility;
 
 namespace NBi.Testing.Unit.Core.Injection
 {
@@ -35,7 +36,7 @@ namespace NBi.Testing.Unit.Core.Injection
 
             public IClient Instantiate(string connectionString) => throw new NotImplementedException();
 
-            public ICommand Instantiate(IClient session, IQuery query) => throw new NotImplementedException();
+            public ICommand Instantiate(IClient session, IQuery query, ITemplateEngine engine) => throw new NotImplementedException();
         }
 
         [SupportedCommandType(typeof(object))]

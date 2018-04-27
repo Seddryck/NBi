@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
+using NBi.Extensibility;
 
 namespace NBi.Testing.Unit.Core.Query.Performance
 {
@@ -101,7 +102,7 @@ namespace NBi.Testing.Unit.Core.Query.Performance
         {
             public bool CanHandle(IClient session) => session is FakeSession;
 
-            public ICommand Instantiate(IClient session, IQuery query) => new FakeCommand();
+            public ICommand Instantiate(IClient session, IQuery query, ITemplateEngine engine) => new FakeCommand();
         }
 
         [SupportedCommandType(typeof(FakeImplementationCommand))]

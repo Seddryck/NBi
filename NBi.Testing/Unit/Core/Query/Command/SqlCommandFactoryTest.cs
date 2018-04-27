@@ -28,7 +28,7 @@ namespace NBi.Testing.Unit.Core.Query.Command
                 );
 
             var factory = new SqlCommandFactory();
-            var cmd = factory.Instantiate(conn, query);
+            var cmd = factory.Instantiate(conn, query, null);
             Assert.IsInstanceOf<SqlCommand>(cmd.Implementation);
             Assert.That((cmd.Implementation as SqlCommand).CommandTimeout, Is.EqualTo(5));
         }
@@ -44,7 +44,7 @@ namespace NBi.Testing.Unit.Core.Query.Command
                 );
 
             var factory = new SqlCommandFactory();
-            var cmd = factory.Instantiate(conn, query);
+            var cmd = factory.Instantiate(conn, query, null);
             Assert.IsInstanceOf<SqlCommand>(cmd.Implementation);
             Assert.That((cmd.Implementation as SqlCommand).CommandTimeout, Is.EqualTo(0));
         }
@@ -60,7 +60,7 @@ namespace NBi.Testing.Unit.Core.Query.Command
                 );
 
             var factory = new SqlCommandFactory();
-            var cmd = factory.Instantiate(conn, query);
+            var cmd = factory.Instantiate(conn, query, null);
             Assert.IsInstanceOf<SqlCommand>(cmd.Implementation);
             Assert.That((cmd.Implementation as SqlCommand).CommandTimeout, Is.EqualTo(30));
         }
@@ -75,7 +75,7 @@ namespace NBi.Testing.Unit.Core.Query.Command
                 );
 
             var factory = new SqlCommandFactory();
-            var cmd = factory.Instantiate(conn, query);
+            var cmd = factory.Instantiate(conn, query, null);
             Assert.IsInstanceOf<SqlCommand>(cmd.Implementation);
             Assert.That((cmd.Implementation as SqlCommand).CommandType, Is.EqualTo(System.Data.CommandType.Text));
         }
@@ -90,7 +90,7 @@ namespace NBi.Testing.Unit.Core.Query.Command
                 );
 
             var factory = new SqlCommandFactory();
-            var cmd = factory.Instantiate(conn, query);
+            var cmd = factory.Instantiate(conn, query, null);
             Assert.IsInstanceOf<SqlCommand>(cmd.Implementation);
             Assert.That((cmd.Implementation as SqlCommand).CommandType, Is.EqualTo(System.Data.CommandType.StoredProcedure));
         }

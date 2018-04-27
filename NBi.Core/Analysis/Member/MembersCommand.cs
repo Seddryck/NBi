@@ -179,7 +179,7 @@ namespace NBi.Core.Analysis.Member
             var commandText = string.Empty;
             commandText = string.Format("select {0} on 0, {1} on 1 from [{2}]", "{}", members, perspective);
 
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, commandText);
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, commandText);
             return commandText;
         }
 

@@ -18,7 +18,7 @@ namespace NBi.Core.ResultSet.Analyzer
             var rows = ExtractRows(x, y);
             stopWatch.Stop();
             Trace.WriteLineIf(
-                NBiTraceSwitch.TraceInfo, 
+                Extensibility.NBiTraceSwitch.TraceInfo, 
                 string.Format(
                     "{0}: {1}  [{2}]",
                     Sentence,

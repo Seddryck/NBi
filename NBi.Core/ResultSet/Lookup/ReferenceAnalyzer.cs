@@ -36,12 +36,12 @@ namespace NBi.Core.ResultSet.Lookup
             stopWatch.Start();
             var parentKeyRetriever = BuildKeysRetriever(settings, x => x.ParentColumn);
             var references = BuildReferences(parent, parentKeyRetriever);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Building collection of keys from parent: {0} [{1}]", references.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Building collection of keys from parent: {0} [{1}]", references.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
             stopWatch.Reset();
             var childKeyBuilder = BuildKeysRetriever(settings, x => x.ChildColumn);
             var violations = ExtractReferenceViolation(child, childKeyBuilder, references);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Analyzing potential reference violation for {0} rows [{1}]", child.Rows.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Analyzing potential reference violation for {0} rows [{1}]", child.Rows.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
             return violations;
         }

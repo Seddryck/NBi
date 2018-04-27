@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
+using NBi.Extensibility;
 
 namespace NBi.Core.Query.Command
 {
@@ -17,20 +18,20 @@ namespace NBi.Core.Query.Command
     {
         public abstract bool CanHandle(IClient client);
 
-        public ICommand Instantiate(IClient client, IQuery query)
+        public ICommand Instantiate(IClient client, IQuery query, ITemplateEngine engine)
         {
             if (!CanHandle(client))
                 throw new ArgumentException();
             var connection = client.CreateNew() as IDbConnection;
-            var cmd = Instantiate(connection, query);
+            var cmd = Instantiate(connection, query, engine);
             return new Command(connection, cmd);
         }
 
-        protected IDbCommand Instantiate(IDbConnection connection, IQuery query)
+        protected IDbCommand Instantiate(IDbConnection connection, IQuery query, ITemplateEngine engine)
         {
             var cmd = connection.CreateCommand();
             if (query.TemplateTokens != null && query.TemplateTokens.Count() > 0)
-                cmd.CommandText = ApplyVariablesToTemplate(query.Statement, query.TemplateTokens);
+                cmd.CommandText = ApplyVariablesToTemplate(engine, query.Statement, query.TemplateTokens);
             else
                 cmd.CommandText = query.Statement;
 
@@ -65,10 +66,13 @@ namespace NBi.Core.Query.Command
 
         protected virtual string RenameParameter(string originalName) => originalName;
 
-        private string ApplyVariablesToTemplate(string template, IEnumerable<IQueryTemplateVariable> variables)
+        private string ApplyVariablesToTemplate(ITemplateEngine engine, string template, IEnumerable<IQueryTemplateVariable> variables)
         {
-            var templateEngine = new StringTemplateEngine(template, variables);
-            return templateEngine.Build();
+            var valuePairs = new List<KeyValuePair<string, object>>();
+            foreach (var variable in variables)
+                valuePairs.Add(new KeyValuePair<string, object>(variable.Name, variable.Value));
+
+            return engine.Render(template, valuePairs);
         }
 
     }

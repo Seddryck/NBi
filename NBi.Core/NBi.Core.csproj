@@ -445,7 +445,6 @@
     <Compile Include="Scalar\Interval\NumericIntervalBuilder.cs" />
     <Compile Include="ListComparisonFormatter.cs" />
     <Compile Include="ListComparer.cs" />
-    <Compile Include="NBiTraceSwitch.cs" />
     <Compile Include="Query\ListBuilder.cs" />
     <Compile Include="ExternalDependencyNotFoundException.cs" />
     <Compile Include="NBiException.cs" />

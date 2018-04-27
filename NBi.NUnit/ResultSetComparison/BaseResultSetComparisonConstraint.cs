@@ -148,7 +148,7 @@ namespace NBi.NUnit.ResultSetComparison
 
         public ResultSet ProcessParallel(IResultSetService actual)
         {
-            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Queries exectued in parallel."));
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("Queries exectued in parallel."));
             
             ResultSet rsActual = null;
             System.Threading.Tasks.Parallel.Invoke(

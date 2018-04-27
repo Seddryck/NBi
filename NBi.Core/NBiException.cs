@@ -9,10 +9,10 @@ namespace NBi.Core
         public NBiException(string message, Exception innerException)
             : base(message, innerException)
         {
-            Trace.WriteLineIf(NBiTraceSwitch.TraceWarning, "!!!! NBiException !!!!");
-            Trace.WriteLineIf(NBiTraceSwitch.TraceWarning, message);
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceWarning, "!!!! NBiException !!!!");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceWarning, message);
             if (innerException != null)
-                Trace.WriteLineIf(NBiTraceSwitch.TraceWarning, innerException.Message);
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceWarning, innerException.Message);
         }
 
         public NBiException(string message)

@@ -95,6 +95,7 @@
 - title: Extensions
   docs:
   - extension-support
+  - extension-installation
 
 - title: Configuration and settings
   docs:

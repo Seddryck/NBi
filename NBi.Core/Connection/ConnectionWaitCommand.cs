@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Query.Client;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
@@ -26,25 +27,25 @@ namespace NBi.Core.Connection
         {
             var stopWatch = new Stopwatch();
             var isConnectionAvailable = false;
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, String.Format("Will try to connect to '{0}' during {1} milli-seconds.", connectionString, timeOut));
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, String.Format("Will try to connect to '{0}' during {1} milli-seconds.", connectionString, timeOut));
             stopWatch.Start();
             while (stopWatch.ElapsedMilliseconds < timeOut && !isConnectionAvailable)
             {
                 try
                 {
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, String.Format("Building connection string with '{0}'.", connectionString));
-                    var connectionFactory = new ConnectionFactory();
-                    var connection = connectionFactory.Get(connectionString);
+                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, String.Format("Building connection string with '{0}'.", connectionString));
+                    var sessionFactory = new ClientProvider();
+                    var connection = sessionFactory.Instantiate(connectionString).CreateNew() as IDbConnection;
 
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, String.Format("Trying to connect to '{0}'.", connection.ConnectionString));
+                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, String.Format("Trying to connect to '{0}'.", connection.ConnectionString));
                     connection.Open();
                     connection.Close();
                     isConnectionAvailable = true;
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, String.Format("Successful connection to '{0}'.", connection.ConnectionString));
+                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, String.Format("Successful connection to '{0}'.", connection.ConnectionString));
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, String.Format("Fail to connect to '{0}': {1}", connectionString, ex.Message));
+                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, String.Format("Fail to connect to '{0}': {1}", connectionString, ex.Message));
                 }
             }        
    

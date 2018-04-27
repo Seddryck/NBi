@@ -11,9 +11,9 @@ namespace NBi.Core.Scalar.Resolver
 {
     public class QueryScalarResolverArgs : IScalarResolverArgs
     {
-        public QueryResolverArgs QueryArgs { get; }
+        public BaseQueryResolverArgs QueryArgs { get; }
 
-        public QueryScalarResolverArgs(QueryResolverArgs args)
+        public QueryScalarResolverArgs(BaseQueryResolverArgs args)
         {
             this.QueryArgs = args;
         }

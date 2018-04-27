@@ -1,5 +1,5 @@
 ﻿using NBi.Core.ResultSet.Analyzer;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

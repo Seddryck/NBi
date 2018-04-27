@@ -9,6 +9,9 @@ using NBi.Xml.Systems;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.NUnit.Builder.Helper;
+using NBi.Core.Query.Resolver;
+using NBi.Core.Query.Command;
+using NBi.Extensibility.Query;
 
 namespace NBi.NUnit.Builder
 {
@@ -29,42 +32,47 @@ namespace NBi.NUnit.Builder
             SystemUnderTest = InstantiateSystemUnderTest((ExecutionXml)SystemUnderTestXml);
         }
 
-        protected virtual IDbCommand InstantiateSystemUnderTest(ExecutionXml executionXml)
+        protected virtual IQuery InstantiateSystemUnderTest(ExecutionXml executionXml)
         {
-            var cmd = GetCommand(executionXml);
-            return cmd;
+            var query = GetQuery(executionXml);
+            return query;
         }
 
-        protected virtual IDbCommand GetCommand(ExecutionXml executionXml)
+        protected virtual IQuery GetQuery(ExecutionXml executionXml)
         {
-            var commandBuilder = new CommandBuilder();
+            var commandFactory = ServiceLocator.GetCommandFactory();
 
             var connectionString = executionXml.Item.GetConnectionString();
             var commandText = (executionXml.Item as QueryableXml).GetQuery();
 
             IEnumerable<IQueryParameter> parameters = null;
             IEnumerable<IQueryTemplateVariable> variables = null;
+            var commandType = CommandType.Text;
             int timeout = 0;
+
             if (executionXml.BaseItem is QueryXml)
             {
-                var builder = new QueryResolverArgsBuilder();
+                var builder = new QueryResolverArgsBuilder(ServiceLocator);
                 parameters = builder.BuildParameters(((QueryXml)executionXml.BaseItem).GetParameters());
                 variables = ((QueryXml)executionXml.BaseItem).GetVariables();
                 timeout = ((QueryXml)executionXml.BaseItem).Timeout;
             }
             if (executionXml.BaseItem is ReportXml)
             {
-                var builder = new QueryResolverArgsBuilder();
+                var builder = new QueryResolverArgsBuilder(ServiceLocator);
                 parameters = builder.BuildParameters(((ReportXml)executionXml.BaseItem).GetParameters());
             }
-            var cmd = commandBuilder.Build(connectionString, commandText, parameters, variables, timeout);
 
             if (executionXml.BaseItem is ReportXml)
             {
-                cmd.CommandType = ((ReportXml)executionXml.BaseItem).GetCommandType();
+                commandType = ((ReportXml)executionXml.BaseItem).GetCommandType();
             }
 
-            return cmd;
+            var queryArgs = new QueryResolverArgs(commandText, connectionString, parameters, variables, new TimeSpan(0, 0, timeout), commandType);
+            var factory = ServiceLocator.GetQueryResolverFactory();
+            var resolver = factory.Instantiate(queryArgs);
+            var query = resolver.Execute();
+            return query;
 
         }
 

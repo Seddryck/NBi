@@ -22,14 +22,14 @@ namespace NBi.NUnit.Runtime
 
                 if (configuration.ConnectionStrings != null)
 				{
-					Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Section 'connectionStrings' found."));
+					Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("Section 'connectionStrings' found."));
 					if (!string.IsNullOrEmpty(configuration.ConnectionStrings.SectionInformation.ConfigSource))
-						Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Section 'connectionStrings' overriden by '{0}'.", configuration.ConnectionStrings.SectionInformation.ConfigSource));
+						Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("Section 'connectionStrings' overriden by '{0}'.", configuration.ConnectionStrings.SectionInformation.ConfigSource));
 
 					foreach (ConnectionStringSettings css in configuration.ConnectionStrings.ConnectionStrings)
 					{
 						list.Add(css.Name, css.ConnectionString);
-						Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Connection string named '{0}' loaded with value '{1}'", css.Name, css.ConnectionString));
+						Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("Connection string named '{0}' loaded with value '{1}'", css.Name, css.ConnectionString));
 					}
 				}
 					

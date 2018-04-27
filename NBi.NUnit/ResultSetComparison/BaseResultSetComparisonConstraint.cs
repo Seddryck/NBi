@@ -15,6 +15,7 @@ using NBi.Core.ResultSet.Resolver;
 using NBi.Framework.FailureMessage.Markdown;
 using NBi.Core.ResultSet.Equivalence;
 using NUnit.Framework;
+using NBi.Core.Configuration.FailureReport;
 
 namespace NBi.NUnit.ResultSetComparison
 {
@@ -147,7 +148,7 @@ namespace NBi.NUnit.ResultSetComparison
 
         public ResultSet ProcessParallel(IResultSetService actual)
         {
-            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Queries exectued in parallel."));
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("Queries exectued in parallel."));
             
             ResultSet rsActual = null;
             System.Threading.Tasks.Parallel.Invoke(

@@ -10,6 +10,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Extensibility.Query;
 
 namespace NBi.Testing.Unit.Core.Query.Resolver
 {
@@ -23,7 +24,7 @@ namespace NBi.Testing.Unit.Core.Query.Resolver
                 ConnectionStringReader.GetSqlClient(),
                 new List<IQueryParameter>() { new QueryParameter("param", "10") },
                 new List<IQueryTemplateVariable>() { new QueryTemplateVariableXml() { Name = "operator", Value = "not in" } },
-                10);
+                new TimeSpan(0, 0, 10));
         }
 
         [Test]
@@ -31,7 +32,7 @@ namespace NBi.Testing.Unit.Core.Query.Resolver
         {
             var reportingParserStub = new Mock<IReportingParser>();
             reportingParserStub.Setup(x => x.ExtractCommand(It.IsAny<ReportDataSetRequest>())).Returns(
-                new ReportingCommand() { Text="select * from myTable;", CommandType=CommandType.Text });
+                new ReportingCommand() { Text = "select * from myTable;", CommandType = CommandType.Text });
 
             var factoryStub = new Mock<ReportingParserFactory>();
             factoryStub.Setup(x => x.Instantiate(It.IsAny<string>())).Returns(reportingParserStub.Object);
@@ -53,10 +54,10 @@ namespace NBi.Testing.Unit.Core.Query.Resolver
             factoryStub.Setup(x => x.Instantiate(It.IsAny<string>())).Returns(reportingParserStub.Object);
 
             var resolver = new ReportDataSetQueryResolver(BuildArgs(), factoryStub.Object);
-            var cmd = resolver.Execute();
+            var query = resolver.Execute();
 
-            Assert.That(cmd.Connection.ConnectionString, Is.Not.Null.And.Not.Empty);
-            Assert.That(cmd.Connection.ConnectionString, Is.EqualTo(ConnectionStringReader.GetSqlClient()));
+            Assert.That(query.ConnectionString, Is.Not.Null.And.Not.Empty);
+            Assert.That(query.ConnectionString, Is.EqualTo(ConnectionStringReader.GetSqlClient()));
         }
 
         [Test]
@@ -70,9 +71,9 @@ namespace NBi.Testing.Unit.Core.Query.Resolver
             factoryStub.Setup(x => x.Instantiate(It.IsAny<string>())).Returns(reportingParserStub.Object);
 
             var resolver = new ReportDataSetQueryResolver(BuildArgs(), factoryStub.Object);
-            var cmd = resolver.Execute();
+            var query = resolver.Execute();
 
-            Assert.That(cmd.CommandText, Is.EqualTo("select * from myTable;"));
+            Assert.That(query.Statement, Is.EqualTo("select * from myTable;"));
         }
 
         [Test]
@@ -86,10 +87,10 @@ namespace NBi.Testing.Unit.Core.Query.Resolver
             factoryStub.Setup(x => x.Instantiate(It.IsAny<string>())).Returns(reportingParserStub.Object);
 
             var resolver = new ReportDataSetQueryResolver(BuildArgs(), factoryStub.Object);
-            var cmd = resolver.Execute();
+            var query = resolver.Execute();
 
-            Assert.That(cmd.CommandText, Is.EqualTo("myStoredProcedure"));
-            Assert.That(cmd.CommandType, Is.EqualTo(CommandType.StoredProcedure));
+            Assert.That(query.Statement, Is.EqualTo("myStoredProcedure"));
+            Assert.That(query.CommandType, Is.EqualTo(CommandType.StoredProcedure));
         }
 
         public void Execute_Args_ReportingParserCalledOnce()
@@ -102,7 +103,7 @@ namespace NBi.Testing.Unit.Core.Query.Resolver
             factoryStub.Setup(x => x.Instantiate(It.IsAny<string>())).Returns(reportingParserMock.Object);
 
             var resolver = new ReportDataSetQueryResolver(BuildArgs(), factoryStub.Object);
-            var cmd = resolver.Execute();
+            var query = resolver.Execute();
 
             reportingParserMock.Verify(x => x.ExtractCommand(It.IsAny<ReportDataSetRequest>()), Times.Once);
         }
@@ -118,10 +119,10 @@ namespace NBi.Testing.Unit.Core.Query.Resolver
             factoryStub.Setup(x => x.Instantiate(It.IsAny<string>())).Returns(reportingParserStub.Object);
 
             var resolver = new ReportDataSetQueryResolver(BuildArgs(), factoryStub.Object);
-            var cmd = resolver.Execute();
+            var query = resolver.Execute();
 
-            Assert.That(cmd.Parameters, Has.Count.EqualTo(1));
+            Assert.That(query.Parameters, Has.Count.EqualTo(1));
         }
-        
+
     }
 }

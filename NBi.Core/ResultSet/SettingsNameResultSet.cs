@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 using System.Collections.ObjectModel;
 
 namespace NBi.Core.ResultSet
@@ -57,7 +57,7 @@ namespace NBi.Core.ResultSet
             return ColumnsDef.Any(
                     c => c.Name == name
                     && c.Role == ColumnRole.Value
-                    && c.RoundingStyle != Comparer.Rounding.RoundingStyle.None
+                    && c.RoundingStyle != Rounding.RoundingStyle.None
                     && !string.IsNullOrEmpty(c.RoundingStep));
         }
         

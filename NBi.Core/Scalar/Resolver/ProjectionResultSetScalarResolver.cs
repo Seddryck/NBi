@@ -10,14 +10,15 @@ namespace NBi.Core.Scalar.Resolver
     class ProjectionResultSetScalarResolver<T> : IScalarResolver<T>
     {
         private readonly ProjectionResultSetScalarResolverArgs args;
-        public ProjectionResultSetScalarResolver(ProjectionResultSetScalarResolverArgs args)
+        private readonly ResultSetResolverFactory factory;
+        public ProjectionResultSetScalarResolver(ProjectionResultSetScalarResolverArgs args, ResultSetResolverFactory factory)
         {
             this.args = args;
+            this.factory = factory;
         }
 
         public T Execute()
         {
-            var factory = new ResultSetResolverFactory();
             var resolver = factory.Instantiate(args.ResultSetArgs);
             var resultSet = resolver.Execute();
 

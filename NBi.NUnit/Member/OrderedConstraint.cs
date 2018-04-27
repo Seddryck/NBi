@@ -11,6 +11,8 @@ using NBi.Core.ResultSet;
 using NBi.Core.Query.Resolver;
 using NBi.Core.Query;
 using System.Linq;
+using NBi.Core.Query.Execution;
+using NBi.Extensibility.Query;
 
 namespace NBi.NUnit.Member
 {
@@ -18,7 +20,7 @@ namespace NBi.NUnit.Member
 	{
 		private bool reversed;
 		private IList<object> specific;
-        private IDbCommand command;
+        private IQuery query;
 
 		/// <summary>
 		/// Construct a CollectionContainsConstraint specific for Members
@@ -88,9 +90,9 @@ namespace NBi.NUnit.Member
 			return this;
 		}
 
-        public OrderedConstraint Specific(IDbCommand command)
+        public OrderedConstraint Specific(IQuery query)
         {
-            this.command = command;
+            this.query = query;
             Comparer = null;
             return this;
         }
@@ -142,21 +144,14 @@ namespace NBi.NUnit.Member
         protected override void PreInitializeMatching()
         {
             base.PreInitializeMatching();
-            if (command != null)
-                specific = GetMembersFromResultSet(command);
+            if (query is IQuery)
+                specific = GetMembersFromResultSet(query as IQuery);
         }
 
-        protected IList<object> GetMembersFromResultSet(Object obj)
+        protected IList<object> GetMembersFromResultSet(IQuery query)
         {
-            if (!(obj is IDbCommand))
-                throw new ArgumentException();
-
-            var args = new DbCommandQueryResolverArgs((IDbCommand)obj);
-            var factory = new QueryResolverFactory();
-            var resolver = factory.Instantiate(args);
-            var command = resolver.Execute();
-
-            var qe = new QueryEngineFactory().GetExecutor(command);
+            var engineFactory = new ExecutionEngineFactory();
+            var qe = engineFactory.Instantiate(query);
             var members = qe.ExecuteList<string>();
 
             return members.Cast<object>().ToList();

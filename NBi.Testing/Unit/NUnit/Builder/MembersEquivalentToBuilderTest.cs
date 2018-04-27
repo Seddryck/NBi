@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Moq;
 using NBi.Core.Analysis.Member;
 using NBi.Core.Analysis.Request;
+using NBi.Core.Injection;
 using NBi.Core.Members.Predefined;
 using NBi.NUnit.Builder;
 using NBi.NUnit.Member;
@@ -73,7 +74,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var discoFactoStub = discoFactoStubFactory.Object;
 
             var builder = new MembersEquivalentToBuilder(discoFactoStub);
-            builder.Setup(sutXml, ctrXml);
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var ctr = builder.GetConstraint();
 

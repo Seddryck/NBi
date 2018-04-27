@@ -1,11 +1,12 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 using System.Text;
-using NBi.Core.ResultSet.Converter;
+using NBi.Core.Scalar.Caster;
 using NBi.Core.ResultSet.Analyzer;
 using System.Collections.ObjectModel;
 
@@ -18,6 +19,7 @@ namespace NBi.Core.ResultSet.Equivalence
         {
             get { return new ReadOnlyCollection<IRowsAnalyzer>(analyzers); }
         }
+
 
         private readonly CellComparer cellComparer = new CellComparer();
         protected CellComparer CellComparer
@@ -62,12 +64,12 @@ namespace NBi.Core.ResultSet.Equivalence
 
             stopWatch.Start();
             BuildRowDictionary(x, xDict, keyComparer, false);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Building first rows dictionary: {0} [{1}]", x.Rows.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Building first rows dictionary: {0} [{1}]", x.Rows.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             stopWatch.Reset();
 
             stopWatch.Start();
             BuildRowDictionary(y, yDict, keyComparer, true);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Building second rows dictionary: {0} [{1}]", y.Rows.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Building second rows dictionary: {0} [{1}]", y.Rows.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             stopWatch.Reset();
 
             var missingRowsAnalyzer = analyzers.FirstOrDefault(a => a.GetType() == typeof(MissingRowsAnalyzer));
@@ -81,7 +83,7 @@ namespace NBi.Core.ResultSet.Equivalence
 
             stopWatch.Start();
             var nonMatchingValueRows = !CanSkipValueComparison() ? CompareSets(keyMatchingRows) : new List<DataRow>();
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key but without matching value: {0} [{1}]", nonMatchingValueRows.Count(), stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key but without matching value: {0} [{1}]", nonMatchingValueRows.Count(), stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             stopWatch.Reset();
 
             var duplicatedRows = new List<DataRow>(); // Dummy placeholder
@@ -123,7 +125,7 @@ namespace NBi.Core.ResultSet.Equivalence
 
                 if (i==1)
                     Trace.WriteLineIf(
-                        NBiTraceSwitch.TraceInfo,
+                        Extensibility.NBiTraceSwitch.TraceInfo,
                         $"Comparison of first row: [{stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")}]"
                         );
             }
@@ -217,13 +219,13 @@ namespace NBi.Core.ResultSet.Equivalence
                     if (columnType == ColumnType.Numeric && IsNumericField(dataColumn))
                         return;
 
-                    var numericConverter = new NumericConverter();
-                    if (columnType == ColumnType.Numeric && !(numericConverter.IsValid(value) || Comparer.BaseComparer.IsValidInterval(value)))
+                    var numericCaster = new NumericCaster();
+                    if (columnType == ColumnType.Numeric && !(numericCaster.IsValid(value) || BaseComparer.IsValidInterval(value)))
                     {
                         var exception = string.Format(messages[0]
                             , columnName, value.ToString());
 
-                        if (numericConverter.IsValid(value.ToString().Replace(",", ".")))
+                        if (numericCaster.IsValid(value.ToString().Replace(",", ".")))
                             exception += messages[1];
 
                         throw new EquivalerException(exception);
@@ -232,7 +234,7 @@ namespace NBi.Core.ResultSet.Equivalence
                     if (columnType == ColumnType.DateTime && IsDateTimeField(dataColumn))
                         return;
 
-                    if (columnType == ColumnType.DateTime && !Comparer.BaseComparer.IsValidDateTime(value.ToString()))
+                    if (columnType == ColumnType.DateTime && !BaseComparer.IsValidDateTime(value.ToString()))
                     {
                         throw new EquivalerException(
                             string.Format(messages[2]

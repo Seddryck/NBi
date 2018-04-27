@@ -10,19 +10,7 @@ namespace NBi.Core.Query
     /// </summary>
     public class ListBuilder
     {
-        /// <summary>
-        /// Execute the command and take the first cell of each row to build an Enumerable of string
-        /// </summary>
-        /// <param name="cmd">A sql or mdx query to execute</param>
-        /// <returns>The first cell of row returned by the query</returns>
-        public virtual IEnumerable<string> Build(IDbCommand cmd)
-        {
-            var qe = new QueryEngineFactory().GetExecutor(cmd);
-            var ds = qe.Execute();
-            var list = Load(ds);
-            return list;
-        }
-
+        
         protected List<string> Load(DataSet dataSet)
         {
             return Load(dataSet.Tables[0]);

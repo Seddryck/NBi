@@ -5,24 +5,24 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NBi.Core.ResultSet.Interval;
-using NBi.Core.ResultSet.Converter;
+using NBi.Core.Scalar.Interval;
+using NBi.Core.Scalar.Caster;
 
 namespace NBi.Core.Calculation.Predicate.DateTime
 {
     class DateTimeWithinRange : AbstractPredicateReference
     {
-        public DateTimeWithinRange(object reference) : base(reference)
+        public DateTimeWithinRange(bool not, object reference) : base(not, reference)
         { }
 
-        public override bool Apply(object x)
+        protected override bool Apply(object x)
         {
             var builder = new DateTimeIntervalBuilder(Reference);
             builder.Build();
             var interval = builder.GetInterval();
 
-            var converter = new DateTimeConverter();
-            var dtX = converter.Convert(x);
+            var caster = new DateTimeCaster();
+            var dtX = caster.Execute(x);
             return interval.Contains(dtX);
         }
 

@@ -34,7 +34,7 @@ namespace NBi.Core.Scalar.Resolver
                 converter.ConvertFrom(null, System.Globalization.CultureInfo.InvariantCulture, args.Object)
                 : Convert.ChangeType(args.Object, typeof(T));
 
-            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, $"Literal evaluated to: {output}");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Literal evaluated to: {output}");
             return (T)output;
         }
     }

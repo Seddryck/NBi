@@ -2,29 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using Antlr4.StringTemplate;
-using NBi.Core.Query;
+using NBi.Extensibility.Query;
 
 namespace NBi.Core
 {
-    public class StringTemplateEngine
+    public class StringTemplateEngine : Extensibility.ITemplateEngine
     {
-        public string Template { get; private set; }
-        public IEnumerable<IQueryTemplateVariable> Variables { get; private set; }
+        public StringTemplateEngine()
+        { }
 
-        public StringTemplateEngine(string template, IEnumerable<IQueryTemplateVariable> variables)
+        public string Render(string template, IEnumerable<KeyValuePair<string, object>> variables)
         {
-            Template = template;
-            Variables = variables;
-        }
+            var stringTemplate = new Template(template, '$', '$');
 
-        public string Build()
-        {
-            var template = new Template(Template, '$', '$');
+            foreach (var variable in variables)
+                stringTemplate.Add(variable.Key, variable.Value);
 
-            foreach (IQueryTemplateVariable variable in Variables)
-                template.Add(variable.Name, variable.Value);
-
-            var str = template.Render();
+            var str = stringTemplate.Render();
 
             return str;
         }

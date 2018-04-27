@@ -51,7 +51,7 @@ namespace NBi.Core.Structure.Olap
 
         protected AdomdDataReader ExecuteReader(AdomdCommand cmd)
         {
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, cmd.CommandText);
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, cmd.CommandText);
 
             AdomdDataReader rdr = null;
             try

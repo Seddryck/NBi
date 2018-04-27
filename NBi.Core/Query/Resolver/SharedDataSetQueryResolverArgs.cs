@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Extensibility.Query;
 
 namespace NBi.Core.Query.Resolver
 {
-    public class SharedDataSetQueryResolverArgs : QueryResolverArgs
+    public class SharedDataSetQueryResolverArgs : BaseQueryResolverArgs
     {
         private readonly string source;
         private readonly string path;
@@ -19,7 +20,7 @@ namespace NBi.Core.Query.Resolver
 
         public SharedDataSetQueryResolverArgs(string source, string path, string name, 
             string connectionString, IEnumerable<IQueryParameter> parameters,
-            IEnumerable<IQueryTemplateVariable> variables, int timeout)
+            IEnumerable<IQueryTemplateVariable> variables, TimeSpan timeout)
             : base(connectionString, parameters, variables, timeout)
         {
             this.source = source;

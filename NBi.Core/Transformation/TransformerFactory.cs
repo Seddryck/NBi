@@ -9,7 +9,7 @@ namespace NBi.Core.Transformation
 {
     public class TransformerFactory
     {
-        public ITransformer Build(ITransformationInfo info)
+        public ITransformer Instantiate(ITransformationInfo info)
         {
             if (info.Language == LanguageType.Format && (info.OriginalType == ResultSet.ColumnType.Boolean || info.OriginalType == ResultSet.ColumnType.Text))
                 throw new InvalidOperationException("Language 'format' is only supporting transformation from 'numeric' and 'dateTime' data types");

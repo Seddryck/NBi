@@ -10,8 +10,8 @@ namespace NBi.Core.Calculation.Predicate
     {
         public StringComparison StringComparison { get; private set; }
 
-        public AbstractTextPredicate(object reference, StringComparison stringComparison) 
-            : base(reference)
+        public AbstractTextPredicate(bool not, object reference, StringComparison stringComparison) 
+            : base(not, reference)
         {
             this.StringComparison = stringComparison;
         }

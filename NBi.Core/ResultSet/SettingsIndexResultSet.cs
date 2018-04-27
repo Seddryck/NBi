@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 
 namespace NBi.Core.ResultSet
 {
@@ -16,6 +16,8 @@ namespace NBi.Core.ResultSet
             AllExpectLast = 1,
             [XmlEnum(Name = "all")]
             All = 2,
+            [XmlEnum(Name = "none")]
+            None = 3,
         }
 
         public enum ValuesChoice
@@ -91,7 +93,7 @@ namespace NBi.Core.ResultSet
             return ColumnsDef.Any(
                     c => c.Index == index
                     && c.Role == ColumnRole.Value
-                    && c.RoundingStyle != Comparer.Rounding.RoundingStyle.None
+                    && c.RoundingStyle != Rounding.RoundingStyle.None
                     && !string.IsNullOrEmpty(c.RoundingStep));
         }
 
@@ -225,6 +227,10 @@ namespace NBi.Core.ResultSet
         {
             ApplyTo(columnsCount);
         }
+
+        public SettingsIndexResultSet(IReadOnlyCollection<IColumnDefinition> columnsDef)
+            : this(KeysChoice.None, ValuesChoice.None, ColumnType.Numeric, NumericAbsoluteTolerance.None, columnsDef)
+        { }
 
         public SettingsIndexResultSet(KeysChoice keysDef, ValuesChoice valuesDef, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : this(keysDef, valuesDef, ColumnType.Numeric, NumericAbsoluteTolerance.None, columnsDef)

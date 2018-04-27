@@ -10,11 +10,11 @@ namespace NBi.Core.Calculation.Predicate.Text
 {
     class TextMatchesRegex : AbstractTextPredicate
     {
-        public TextMatchesRegex(object reference, StringComparison stringComparison)
-            : base(reference, stringComparison)
-        {
-        }
-        public override bool Apply(object x)
+        public TextMatchesRegex(bool not, object reference, StringComparison stringComparison)
+            : base(not, reference, stringComparison)
+        { }
+
+        protected override bool Apply(object x)
         {
             var regexOption = StringComparison == StringComparison.InvariantCultureIgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
             var regex = new Regex(Reference.ToString(), regexOption);

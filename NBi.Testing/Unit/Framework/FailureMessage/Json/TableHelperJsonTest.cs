@@ -9,7 +9,7 @@ using NBi.Framework.FailureMessage.Json;
 using NBi.Framework.Sampling;
 using Newtonsoft.Json;
 using System.IO;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 using System.Globalization;
 using System.Threading;
 

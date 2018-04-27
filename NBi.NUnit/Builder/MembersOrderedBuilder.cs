@@ -3,6 +3,9 @@ using System.Linq;
 using NBi.Core.Analysis.Request;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
+using NBi.Xml.Items;
+using NBi.Core.Query;
+using NBi.Extensibility.Query;
 
 namespace NBi.NUnit.Builder
 {
@@ -51,7 +54,7 @@ namespace NBi.NUnit.Builder
                     break;
                 case OrderedXml.Order.Specific:
                     if (ctrXml.Query != null)
-                        ctr = ctr.Specific(ctrXml.Query.GetCommand());
+                        ctr = ctr.Specific(BuildQuery(ctrXml.Query));
                     else
                         ctr = ctr.Specific(ctrXml.Definition);
                     break;
@@ -62,7 +65,12 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
-        
+        private IQuery BuildQuery(QueryXml queryXml)
+        {
+            return new NBi.Core.Query.Query(queryXml.GetQuery(), queryXml.GetConnectionString(), new TimeSpan(0, 0, 0));
+        }
+
+
 
     }
 }

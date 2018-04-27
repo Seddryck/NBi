@@ -3,6 +3,9 @@ using System.Linq;
 using NBi.Core.Analysis.Request;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
+using NBi.Core.Query.Resolver;
+using NBi.NUnit.Builder.Helper;
+using NBi.Core.ResultSet.Resolver;
 
 namespace NBi.NUnit.Builder
 {
@@ -34,16 +37,25 @@ namespace NBi.NUnit.Builder
 
         protected NBiConstraint InstantiateConstraint(ContainedInXml ctrXml)
         {
-            NBi.NUnit.Member.ContainedInConstraint ctr;
+            Member.ContainedInConstraint ctr;
             if (ctrXml.Query != null)
-                ctr = new NBi.NUnit.Member.ContainedInConstraint(ctrXml.Query.GetCommand());
+            {
+                var builder = new ResultSetResolverArgsBuilder(ServiceLocator);
+                builder.Setup(ctrXml.Query);
+                builder.Setup(ctrXml.Settings);
+                builder.Build();
+
+                var factory = ServiceLocator.GetResultSetResolverFactory();
+                var resolver = factory.Instantiate(builder.GetArgs());
+                ctr = new Member.ContainedInConstraint(resolver);
+            }
             else if (ctrXml.Members != null)
             {
                 var disco = InstantiateMembersDiscovery(ctrXml.Members);
-                ctr = new NBi.NUnit.Member.ContainedInConstraint(disco);
+                ctr = new Member.ContainedInConstraint(disco);
             }
             else
-                ctr = new NBi.NUnit.Member.ContainedInConstraint(ctrXml.GetItems());
+                ctr = new Member.ContainedInConstraint(ctrXml.GetItems());
 
             //Ignore-case if requested
             if (ctrXml.IgnoreCase)

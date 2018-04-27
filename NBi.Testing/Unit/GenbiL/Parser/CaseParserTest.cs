@@ -380,6 +380,18 @@ namespace NBi.Testing.Unit.GenbiL.Parser
         }
 
         [Test]
+        public void SentenceParser_CaseAddColumnStringWithDefaultEmpty_ValidCaseAddColumn()
+        {
+            var input = "case add column 'perspective' values empty";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<AddCaseAction>());
+            Assert.That(((AddCaseAction)result).VariableName, Is.EqualTo("perspective"));
+            Assert.That(((AddCaseAction)result).DefaultValue, Is.EqualTo(string.Empty));
+        }
+
+        [Test]
         public void SentenceParser_CaseMerge_ValidMergeAction()
         {
             var input = "case merge with 'scoped-value'";
@@ -511,7 +523,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
         }
 
         [Test]
-        public void SentenceParser_CaseSplit_ValidSeparateAction()
+        public void SentenceParser_CaseSplit_ValidSplitAction()
         {
             var input = "case split columns 'foo', 'bar' with value '-';";
             var result = Case.Parser.Parse(input);
@@ -521,6 +533,33 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(((SplitCaseAction)result).Columns, Has.Member("foo"));
             Assert.That(((SplitCaseAction)result).Columns, Has.Member("bar"));
             Assert.That(((SplitCaseAction)result).Separator, Is.EqualTo("-"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseDuplicateOneColumn_ValidDuplicateAction()
+        {
+            var input = "case duplicate column 'foo' as 'bar';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<DuplicateCaseAction>());
+            Assert.That(((DuplicateCaseAction)result).OriginalColumn, Is.EqualTo("foo"));
+            Assert.That(((DuplicateCaseAction)result).NewColumns, Has.Member("bar"));
+            Assert.That(((DuplicateCaseAction)result).NewColumns.Count, Is.EqualTo(1));
+        }
+
+
+        [Test]
+        public void SentenceParser_CaseDuplicateTwoColumns_ValidDuplicateAction()
+        {
+            var input = "case duplicate column 'foo' as 'bar', 'space';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<DuplicateCaseAction>());
+            Assert.That(((DuplicateCaseAction)result).NewColumns, Has.Member("bar"));
+            Assert.That(((DuplicateCaseAction)result).NewColumns, Has.Member("space"));
+            Assert.That(((DuplicateCaseAction)result).NewColumns.Count, Is.EqualTo(2));
         }
     }
 }

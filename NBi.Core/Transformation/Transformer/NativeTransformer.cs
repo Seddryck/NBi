@@ -1,5 +1,5 @@
 ﻿using Microsoft.CSharp;
-using NBi.Core.ResultSet.Converter;
+using NBi.Core.Scalar.Caster;
 using NBi.Core.Transformation.Transformer.Native;
 using System;
 using System.CodeDom.Compiler;
@@ -45,9 +45,9 @@ namespace NBi.Core.Transformation.Transformer
             if (transformation == null)
                 throw new InvalidOperationException();
 
-            var factory = new ConverterFactory<T>();
-            var converter = factory.Build();
-            var typedValue = converter.Convert(value);
+            var factory = new CasterFactory<T>();
+            var caster = factory.Instantiate();
+            var typedValue = caster.Execute(value);
 
             var transformedValue = transformation.Evaluate(typedValue);
 

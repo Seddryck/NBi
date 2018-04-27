@@ -187,9 +187,9 @@ namespace NBi.Service
             if (!categories.Contains(categoryName))
             {
                 categories.Add(categoryName);
-                test.Reference.Content = StringTemplateEngine.XmlSerializeFrom<TestStandaloneXml>((TestStandaloneXml)test.Reference);
+                //test.Reference.Content = StringTemplateEngine.XmlSerializeFrom<TestStandaloneXml>((TestStandaloneXml)test.Reference);
             }
-                
+
         }
 
         public IEnumerable<char> GetCategoryForbiddenChars()

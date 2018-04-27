@@ -1,5 +1,6 @@
 ﻿using Microsoft.AnalysisServices;
 using Microsoft.AnalysisServices.AdomdClient;
+using NBi.Core.Query.Client;
 using NBi.Core.Structure.Olap;
 using NBi.Core.Structure.Relational;
 using NBi.Core.Structure.Tabular;
@@ -39,8 +40,8 @@ namespace NBi.Core.Structure
 
         public IStructureDiscoveryFactory Instantiate(string connectionString)
         {
-            var connectionFactory = new ConnectionFactory();
-            var connection = connectionFactory.Get(connectionString);
+            var sessionFactory = new ClientProvider();
+            var connection = sessionFactory.Instantiate(connectionString).CreateNew() as IDbConnection;
             var dbType = MapConnectionTypeToDatabaseType(connection);
 
             if (!dico.Keys.Contains(dbType))
@@ -94,7 +95,7 @@ namespace NBi.Core.Structure
             }
             catch (Exception ex)
             {
-                Trace.WriteLineIf(NBiTraceSwitch.TraceWarning,"Can't detect server mode for SSAS, using Olap. Initial message:" + ex.Message);
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceWarning,"Can't detect server mode for SSAS, using Olap. Initial message:" + ex.Message);
                 return Olap;
             }
             return Olap;
@@ -111,7 +112,7 @@ namespace NBi.Core.Structure
             var serverModeNode = root.SelectSingleNode("//ddl300:ServerMode", nm);
             if (serverModeNode == null)
             {
-                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "Trying to detect the server mode for SSAS but the server doesn't return this information. Trying to get it from version.");
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "Trying to detect the server mode for SSAS but the server doesn't return this information. Trying to get it from version.");
                 var versionNode = root.SelectSingleNode("//default:Version", nm);
                 if (versionNode != null)
                 {

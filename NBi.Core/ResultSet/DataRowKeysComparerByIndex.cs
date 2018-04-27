@@ -1,4 +1,4 @@
-﻿using NBi.Core.ResultSet.Converter;
+﻿using NBi.Core.Scalar.Caster;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -27,7 +27,6 @@ namespace NBi.Core.ResultSet
             var keys = new List<object>();
             for (int i = 0; i < row.Table.Columns.Count; i++)
             {
-                
                 if (settings.GetColumnRole(i) == ColumnRole.Key)
                 {
                     try

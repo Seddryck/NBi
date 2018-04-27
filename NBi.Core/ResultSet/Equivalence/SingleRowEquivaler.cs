@@ -41,7 +41,7 @@ namespace NBi.Core.ResultSet.Equivalence
 
             if (x != null && y == null)
                 missingRows.Add(x);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Analyzing length of result-sets: [{0}]", DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Analyzing length of result-sets: [{0}]", DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
             IList<DataRow> nonMatchingValueRows = new List<DataRow>();
             if (missingRows.Count == 0 && unexpectedRows.Count == 0)
@@ -54,7 +54,7 @@ namespace NBi.Core.ResultSet.Equivalence
                     Settings.ApplyTo(columnsCount);
 
                 PreliminaryChecks(x.Table, y.Table);
-                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Analyzing length and format of result-sets: [{0}]", DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Analyzing length and format of result-sets: [{0}]", DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
                 // If all of the columns make up the key, then we already know which rows match and which don't.
                 //  So there is no need to continue testing
@@ -62,7 +62,7 @@ namespace NBi.Core.ResultSet.Equivalence
                 var nonMatchingValueRow = CompareRows(x, y);
                 if (nonMatchingValueRow!=null)
                     nonMatchingValueRows.Add(nonMatchingValueRow);
-                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key but without matching value: {0} [{1}]", nonMatchingValueRows.Count(), DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key but without matching value: {0} [{1}]", nonMatchingValueRows.Count(), DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             }
 
             return ResultResultSet.Build(

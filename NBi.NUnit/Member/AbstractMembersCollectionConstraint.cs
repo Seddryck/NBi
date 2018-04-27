@@ -13,13 +13,14 @@ using NBi.Framework.FailureMessage;
 using NBi.Framework.FailureMessage.Markdown;
 using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet.Resolver;
+using NBi.Core.Query;
 
 namespace NBi.NUnit.Member
 {
     public abstract class AbstractMembersCollectionConstraint : AbstractMembersConstraint
     {
 
-        private readonly IDbCommand commandToRetrieveExpectedItems;
+        private readonly IResultSetResolver expectedResolver;
         private readonly MembersDiscoveryRequest membersDiscoveryRequest;
         
         private IEnumerable<string> expectedItems;
@@ -67,10 +68,10 @@ namespace NBi.NUnit.Member
         /// Construct a AbstractMembersConstraint
         /// </summary>
         /// <param name="expected">The command to retrieve the list of expected items</param>
-        public AbstractMembersCollectionConstraint(IDbCommand expected)
+        public AbstractMembersCollectionConstraint(IResultSetResolver expected)
             : base()
         {
-            commandToRetrieveExpectedItems = expected;
+            expectedResolver = expected;
         }
 
         /// <summary>
@@ -98,21 +99,14 @@ namespace NBi.NUnit.Member
 
         protected override void PreInitializeMatching()
         {
-            if (commandToRetrieveExpectedItems != null)
-                expectedItems = GetMembersFromResultSet(commandToRetrieveExpectedItems);
+            if (expectedResolver != null)
+                expectedItems = GetMembersFromResultSet(expectedResolver);
             if (membersDiscoveryRequest != null)
                 expectedItems = GetMembersFromDiscoveryRequest(membersDiscoveryRequest);
         }
 
-
-        protected IEnumerable<string> GetMembersFromResultSet(Object obj)
+        protected IEnumerable<string> GetMembersFromResultSet(IResultSetResolver resolver)
         {
-            if (!(obj is IDbCommand))
-                throw new ArgumentException();
-
-            var args = new QueryResultSetResolverArgs(new DbCommandQueryResolverArgs((IDbCommand)obj));
-            var factory = new ResultSetResolverFactory();
-            var resolver = factory.Instantiate(args);
             var rs = resolver.Execute();
 
             var members = new List<string>();

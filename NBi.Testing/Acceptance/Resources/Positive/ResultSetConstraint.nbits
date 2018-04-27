@@ -10,6 +10,9 @@
     <default apply-to="variable">
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </default>
+    <reference name="ref1">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </reference>
   </settings>
   <variables>
     <variable name="var1">
@@ -108,6 +111,32 @@
         <row-count>
           <equal>4</equal>
         </row-count>
+      </assert>
+    </test>
+    <test name="references exist" uid="00080">
+      <system-under-test>
+        <resultSet file="..\Csv\Orders.csv"/>
+      </system-under-test>
+      <assert>
+        <reference-exists>
+          <column-mapping child="#2" parent="#0" type="text"/>
+          <resultSet>
+            <query connectionString="@ref1">select 'CUST0001' union all select 'CUST0002' union all select 'CUST0003'</query>
+          </resultSet>
+        </reference-exists>
+      </assert>
+    </test>
+    <test name="references exist" uid="00081">
+      <system-under-test>
+        <resultSet file="..\Csv\Orders.csv"/>
+      </system-under-test>
+      <assert>
+        <reference-exists>
+          <column-mapping child="#2" parent="#0" type="text"/>
+          <resultSet>
+            <query>select 'CUST0001' union all select 'CUST0002' union all select 'CUST0003'</query>
+          </resultSet>
+        </reference-exists>
       </assert>
     </test>
   </group>
@@ -306,6 +335,158 @@
             <row>
               <cell>CY 2007</cell>
               <cell>1521</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Conversion with text-to-date" uid="0203">
+      <system-under-test>
+        <resultSet file="..\Csv\Orders.csv">
+          <alteration>
+            <convert column="#1">
+              <text-to-date culture="fr-fr" default-value="2016-01-01"/>
+            </convert>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo keys="first">
+          <column index="0" role="key" type="numeric"/>
+          <column index="1" role="value" type="dateTime"/>
+          <column index="2" role="value" type="text"/>
+          <resultSet>
+            <row>
+              <cell>1</cell>
+              <cell>2017-07-06</cell>
+              <cell>CUST0001</cell>
+              <cell>100</cell>
+            </row>
+            <row>
+              <cell>2</cell>
+              <cell>2017-07-17</cell>
+              <cell>CUST0001</cell>
+              <cell>80</cell>
+            </row>
+            <row>
+              <cell>3</cell>
+              <cell>2017-01-08</cell>
+              <cell>CUST0002</cell>
+              <cell>120</cell>
+            </row>
+            <row>
+              <cell>4</cell>
+              <cell>2016-01-01</cell>
+              <cell>CUST0002</cell>
+              <cell>80</cell>
+            </row>
+            <row>
+              <cell>5</cell>
+              <cell>2017-12-18</cell>
+              <cell>CUST0003</cell>
+              <cell>55</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Conversion with text-to-date previously filtered by matches-date" uid="0204">
+      <system-under-test>
+        <resultSet file="..\Csv\Orders.csv">
+          <alteration>
+            <filter>
+              <predicate operand="#1" type="text">
+                <matches-date culture="fr-fr"/>
+              </predicate>
+            </filter>
+            <convert column="#1">
+              <text-to-date culture="fr-fr"/>
+            </convert>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo keys="first">
+          <column index="0" role="key" type="numeric"/>
+          <column index="1" role="value" type="dateTime"/>
+          <column index="2" role="value" type="text"/>
+          <resultSet>
+            <row>
+              <cell>1</cell>
+              <cell>2017-07-06</cell>
+              <cell>CUST0001</cell>
+              <cell>100</cell>
+            </row>
+            <row>
+              <cell>2</cell>
+              <cell>2017-07-17</cell>
+              <cell>CUST0001</cell>
+              <cell>80</cell>
+            </row>
+            <row>
+              <cell>3</cell>
+              <cell>2017-01-08</cell>
+              <cell>CUST0002</cell>
+              <cell>120</cell>
+            </row>
+            <row>
+              <cell>5</cell>
+              <cell>2017-12-18</cell>
+              <cell>CUST0003</cell>
+              <cell>55</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Transformations" uid="0205">
+      <system-under-test>
+        <resultSet file="..\Csv\Orders.csv">
+          <alteration>
+            <transform column-index="0" language="c-sharp" original-type="text">
+              "AA" + value;
+            </transform>
+            <transform column-index="1" language="c-sharp" original-type="text">
+              value.Substring(value.Length - 4);
+            </transform>
+            <transform column-index="2" language="c-sharp" original-type="text">
+              value.Substring(value.LastIndexOf("0")+1)
+            </transform>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo keys="all-except-last">
+          <resultSet>
+            <row>
+              <cell>AA0001</cell>
+              <cell>2017</cell>
+              <cell>1</cell>
+              <cell>100</cell>
+            </row>
+            <row>
+              <cell>AA0002</cell>
+              <cell>2017</cell>
+              <cell>1</cell>
+              <cell>80</cell>
+            </row>
+            <row>
+              <cell>AA0003</cell>
+              <cell>2017</cell>
+              <cell>2</cell>
+              <cell>120</cell>
+            </row>
+            <row>
+              <cell>AA0004</cell>
+              <cell>2017</cell>
+              <cell>2</cell>
+              <cell>80</cell>
+            </row>
+            <row>
+              <cell>AA0005</cell>
+              <cell>2017</cell>
+              <cell>3</cell>
+              <cell>55</cell>
             </row>
           </resultSet>
         </equalTo>

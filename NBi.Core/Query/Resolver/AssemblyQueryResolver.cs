@@ -1,11 +1,11 @@
 ﻿using NBi.Core.Assemblies;
-using NBi.Core.Query;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Extensibility.Query;
 
 namespace NBi.Core.Query.Resolver
 {
@@ -18,7 +18,7 @@ namespace NBi.Core.Query.Resolver
             this.args = args;
         }
 
-        public IDbCommand Execute()
+        public IQuery Execute()
         {
             var assemblyManager = new AssemblyManager();
             object methodExecution = null;
@@ -36,10 +36,9 @@ namespace NBi.Core.Query.Resolver
             if (!(methodExecution is string)) //It means that we've a query
                 throw new InvalidOperationException("The method should return a string (query)");
 
-            var commandBuilder = new CommandBuilder();
-            var cmd = commandBuilder.Build(args.ConnectionString, methodExecution as string, args.Parameters, args.Variables, args.Timeout);
+            var query = new Query( methodExecution as string, args.ConnectionString, args.Timeout, args.Parameters, args.Variables);
 
-            return cmd;
+            return query;
         }
     }
 }

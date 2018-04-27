@@ -1,30 +1,24 @@
 ﻿using NBi.Core.Query;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Extensibility.Query;
 
 namespace NBi.Core.Query.Resolver
 {
-    public abstract class QueryResolverArgs
+    public class QueryResolverArgs : BaseQueryResolverArgs
     {
-        private readonly string connectionString;
-        private readonly IEnumerable<IQueryParameter> parameters;
-        private readonly IEnumerable<IQueryTemplateVariable> variables;
-        private readonly int timeout;
+        public string Statement { get; }
+        public CommandType CommandType { get; }
 
-        public string ConnectionString { get => connectionString; }
-        public IEnumerable<IQueryParameter> Parameters { get => parameters; }
-        public IEnumerable<IQueryTemplateVariable> Variables { get => variables; }
-        public int Timeout { get => timeout; }
-
-        public QueryResolverArgs(string connectionString, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> variables, int timeout)
+        public QueryResolverArgs(string statement, string connectionString, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> variables, TimeSpan timeout, CommandType commandType)
+            : base(connectionString, parameters, variables, timeout)
         {
-            this.connectionString = connectionString;
-            this.parameters = parameters;
-            this.variables = variables;
-            this.timeout = timeout;
+            Statement = statement;
+            CommandType = commandType;
         }
     }
 }

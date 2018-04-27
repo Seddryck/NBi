@@ -15,10 +15,10 @@ namespace NBi.NUnit.Runtime
         {
             string configFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
             //Try to find a config file, if existing take the path inside for the TestSuite
-            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Looking for the config file located at '{0}'.", configFile));
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("Looking for the config file located at '{0}'.", configFile));
             if (File.Exists(configFile))
             {
-                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "The config file has been found.");
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "The config file has been found.");
                 
                 //line bellow to avoid .Net framework bug: http://support.microsoft.com/kb/2580188/en-us
                 var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
@@ -30,24 +30,24 @@ namespace NBi.NUnit.Runtime
                     return configFullPath;
                 }
                 else
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "The config file is not redirecting to a test suite.");
+                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "The config file is not redirecting to a test suite.");
             }
             else
-                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "No config file has been found!");
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "No config file has been found!");
 
             // If no config file is registered then search the first "nbits" (NBi Test Suite) file
             string codeBase = Assembly.GetExecutingAssembly().CodeBase;
             var uri = new UriBuilder(codeBase);
             string path = Uri.UnescapeDataString(uri.Path);
             string directory = Path.GetDirectoryName(path);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Looking for a 'nbits' files in directory '{0}'.", directory));
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("Looking for a 'nbits' files in directory '{0}'.", directory));
             var files = System.IO.Directory.GetFiles(directory, "*.nbits");
             if (files.Count() > 0)
             {
                 if (files.Count() == 1)
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("'{0}' found, using it!", files[0]));
+                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("'{0}' found, using it!", files[0]));
                 else
-                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("{0} 'nbits' files found, using the first found: '{1}'!", files.Count(), files[0]));
+                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("{0} 'nbits' files found, using the first found: '{1}'!", files.Count(), files[0]));
                 return files[0];
             }
 

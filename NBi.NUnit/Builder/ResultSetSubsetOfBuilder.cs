@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using NBi.Core;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 using NBi.NUnit.Query;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
@@ -47,12 +47,12 @@ namespace NBi.NUnit.Builder
 
         protected override BaseResultSetComparisonConstraint InstantiateConstraint(object obj, SettingsXml settings, TransformationProvider transformation)
         {
-            var argsBuilder = new ResultSetResolverArgsBuilder();
+            var argsBuilder = new ResultSetResolverArgsBuilder(ServiceLocator);
             argsBuilder.Setup(obj);
             argsBuilder.Setup(settings);
             argsBuilder.Build();
 
-            var factory = new ResultSetResolverFactory();
+            var factory = ServiceLocator.GetResultSetResolverFactory();
             var resolver = factory.Instantiate(argsBuilder.GetArgs());
 
             var builder = new ResultSetServiceBuilder();

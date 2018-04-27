@@ -1,4 +1,5 @@
 ﻿using Moq;
+using NBi.Core.Injection;
 using NBi.Core.Query.Resolver;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation;
@@ -29,8 +30,8 @@ namespace NBi.Testing.Unit.Core.Variable
         public void Instantiate_QueryScalar_TestVariable()
         {
             var factory = new TestVariableFactory();
-            var queryResolverArgsMock = new Mock<QueryResolverArgs>(null, null, null, null);
-            var resolver = new QueryScalarResolver<object>(new QueryScalarResolverArgs(queryResolverArgsMock.Object));
+            var queryResolverArgsMock = new Mock<BaseQueryResolverArgs>(null, null, null, null);
+            var resolver = new QueryScalarResolver<object>(new QueryScalarResolverArgs(queryResolverArgsMock.Object), new ServiceLocator());
             var variable = factory.Instantiate(resolver);
 
             Assert.That(variable, Is.AssignableTo<ITestVariable>());

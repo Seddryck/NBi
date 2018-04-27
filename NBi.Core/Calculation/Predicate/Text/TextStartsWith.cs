@@ -9,11 +9,11 @@ namespace NBi.Core.Calculation.Predicate.Text
 {
     class TextStartsWith : AbstractTextPredicate
     {
-        public TextStartsWith(object reference, StringComparison stringComparison) 
-            : base(reference, stringComparison)
+        public TextStartsWith(bool not, object reference, StringComparison stringComparison)
+            : base(not, reference, stringComparison)
         {
         }
-        public override bool Apply(object x)
+        protected override bool Apply(object x)
         {
             return x.ToString().StartsWith(Reference.ToString(), StringComparison);
         }

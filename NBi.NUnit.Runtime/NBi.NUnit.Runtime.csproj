@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NBi.NUnit.Runtime</RootNamespace>
     <AssemblyName>NBi.NUnit.Runtime</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -46,8 +46,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -61,8 +63,8 @@
     </Compile>
     <Compile Include="CategoryHelper.cs" />
     <Compile Include="Configuration\FailureReportProfileElement.cs" />
-    <Compile Include="Configuration\ProviderCollection.cs" />
-    <Compile Include="Configuration\ProviderElement.cs" />
+    <Compile Include="Configuration\ExtensionCollection.cs" />
+    <Compile Include="Configuration\ExtensionElement.cs" />
     <Compile Include="ConnectionStringsFinder.cs" />
     <Compile Include="ConfigurationFinder.cs" />
     <Compile Include="CustomStackTraceErrorException.cs" />
@@ -83,6 +85,10 @@
       <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
       <Name>NBi.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj">
+      <Project>{a06cba63-d848-4dbc-abfc-63172613999d}</Project>
+      <Name>NBi.Extensibility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NBi.Framework\NBi.Framework.csproj">
       <Project>{1ad339dc-60e0-4334-86cf-60eeafeaa6e4}</Project>
       <Name>NBi.Framework</Name>
@@ -99,8 +105,10 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Runner\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /Q /Y "$(SolutionDir)NBi.Core\$(OutDir)Microsoft.AnalysisServices.AdomdClient.dll" "$(TargetDir)"
 rmdir /Q /S "$(TargetDir)Schema\"

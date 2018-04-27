@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Extensibility.Query;
 
 namespace NBi.Core.Query.Resolver
 {
@@ -17,12 +18,10 @@ namespace NBi.Core.Query.Resolver
             this.args = args;
         }
 
-        public IDbCommand Execute()
+        public IQuery Execute()
         {
-            var commandBuilder = new CommandBuilder();
-            var cmd = commandBuilder.Build(args.ConnectionString, args.CommandText, args.Parameters, args.Variables, args.Timeout);
-
-            return cmd;
+            var query = new Query(args.CommandText, args.ConnectionString, args.Timeout, args.Parameters, args.Variables);
+            return query;
         }
     }
 }

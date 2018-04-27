@@ -182,7 +182,7 @@ namespace NBi.GenbiL.Parser
                 from axisType in axisTypeParser
                 from columnName in Grammar.QuotedTextual
                 from valuesKeyword in Keyword.Values
-                from defaultValue in Grammar.QuotedTextual
+                from defaultValue in Grammar.QuotedTextual.Or(Grammar.Empty)
                 select new AddCaseAction(columnName, defaultValue)
         );
 
@@ -284,6 +284,16 @@ namespace NBi.GenbiL.Parser
                 select new SplitCaseAction(columns, separator)
         );
 
+        readonly static Parser<ICaseAction> caseDuplicateParser =
+        (
+                from duplicate in Keyword.Duplicate
+                from axisType in Keyword.Column
+                from original in Grammar.QuotedTextual
+                from asKeyword in Keyword.As
+                from duplicates in Grammar.QuotedRecordSequence
+                select new DuplicateCaseAction(original, duplicates)
+        );
+
         public readonly static Parser<IAction> Parser =
         (
                 from @case in Keyword.Case
@@ -311,6 +321,7 @@ namespace NBi.GenbiL.Parser
                                     .Or(caseGroupParser)
                                     .Or(caseReduceParser)
                                     .Or(caseSplitParser)
+                                    .Or(caseDuplicateParser)
                 select action
         );
     }

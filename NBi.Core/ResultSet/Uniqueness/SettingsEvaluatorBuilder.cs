@@ -1,4 +1,4 @@
-﻿using NBi.Core.ResultSet.Comparer;
+﻿using NBi.Core.Scalar.Comparer;
 using System;
 using System.Collections.Generic;
 using System.Linq;

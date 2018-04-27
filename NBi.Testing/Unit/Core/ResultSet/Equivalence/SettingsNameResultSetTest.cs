@@ -8,7 +8,7 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Items.ResultSet;
 using NUnit.Framework;
 using NBi.Core.ResultSet.Equivalence;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 #endregion
 
 namespace NBi.Testing.Unit.Core.ResultSet.Equivalence

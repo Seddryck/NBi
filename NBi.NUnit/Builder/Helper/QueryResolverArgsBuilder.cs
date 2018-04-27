@@ -1,4 +1,5 @@
-﻿using NBi.Core.Query;
+﻿using NBi.Core.Injection;
+using NBi.Core.Query;
 using NBi.Core.Query.Resolver;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Variable;
@@ -10,17 +11,24 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Extensibility.Query;
 
 namespace NBi.NUnit.Builder.Helper
 {
     class QueryResolverArgsBuilder
     {
         private bool isSetup = false;
+        private readonly ServiceLocator serviceLocator;
 
         private QueryXml queryXml = null;
         private SettingsXml settingsXml = null;
         private IDictionary<string, ITestVariable> globalVariables = null;
-        private QueryResolverArgs args = null;
+        private BaseQueryResolverArgs args = null;
+
+        public QueryResolverArgsBuilder(ServiceLocator serviceLocator)
+        {
+            this.serviceLocator = serviceLocator;
+        }
 
         public void Setup(QueryXml queryXml)
         {
@@ -50,14 +58,14 @@ namespace NBi.NUnit.Builder.Helper
 
             if (!string.IsNullOrEmpty(queryXml.InlineQuery))
                 args = new EmbeddedQueryResolverArgs(queryXml.InlineQuery
-                    , connectionString, parameters, variables, timeout);
+                    , connectionString, parameters, variables, new TimeSpan(0, 0, timeout));
 
             else if (!string.IsNullOrEmpty(queryXml.File))
             {
                 var file = GetFullPath(settingsXml?.BasePath, queryXml.File);
 
                 args = new ExternalFileQueryResolverArgs(file
-                    , connectionString, parameters, variables, timeout);
+                    , connectionString, parameters, variables, new TimeSpan(0, 0, timeout));
             }
 
             else if (queryXml.Assembly != null)
@@ -67,7 +75,7 @@ namespace NBi.NUnit.Builder.Helper
                 args = new AssemblyQueryResolverArgs(
                     file, queryXml.Assembly.Klass, queryXml.Assembly.Method,
                     queryXml.Assembly.Static, queryXml.Assembly.GetMethodParameters()
-                    , connectionString, parameters, variables, timeout);
+                    , connectionString, parameters, variables, new TimeSpan(0, 0, timeout));
             }
 
             else if (queryXml.Report != null)
@@ -76,7 +84,7 @@ namespace NBi.NUnit.Builder.Helper
 
                 args = new ReportDataSetQueryResolverArgs(
                     queryXml.Report.Source, path, queryXml.Report.Name, queryXml.Report.Dataset
-                    , connectionString, parameters, variables, timeout);
+                    , connectionString, parameters, variables, new TimeSpan(0, 0, timeout));
             }
 
             else if (queryXml.SharedDataset != null)
@@ -85,7 +93,7 @@ namespace NBi.NUnit.Builder.Helper
 
                 args = new SharedDataSetQueryResolverArgs(
                     queryXml.SharedDataset.Source, queryXml.SharedDataset.Path, queryXml.SharedDataset.Name
-                    , connectionString, parameters, variables, timeout);
+                    , connectionString, parameters, variables, new TimeSpan(0, 0, timeout));
             }
 
             if (args == null)
@@ -106,19 +114,19 @@ namespace NBi.NUnit.Builder.Helper
             {
                 var stringWithoutSpecialChars = parameterXml.StringValue.Replace("\r", "").Replace("\n", "").Replace("\t", "").Trim();
 
-                var builder = new ScalarResolverArgsBuilder();
+                var builder = new ScalarResolverArgsBuilder(serviceLocator);
                 builder.Setup(stringWithoutSpecialChars);
                 builder.Setup(globalVariables);
                 builder.Build();
                 var args = builder.GetArgs();
 
-                var factory = new ScalarResolverFactory();
+                var factory = serviceLocator.GetScalarResolverFactory();
                 var resolver = factory.Instantiate<object>(args);
                 yield return new QueryParameter(parameterXml.Name, parameterXml.SqlType, resolver);
             }
         }
 
-        public QueryResolverArgs GetArgs()
+        public BaseQueryResolverArgs GetArgs()
         {
             return args;
         }

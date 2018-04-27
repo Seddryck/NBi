@@ -1,4 +1,4 @@
-﻿using NBi.Core.ResultSet.Comparer;
+﻿using NBi.Core.Scalar.Comparer;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,10 +10,10 @@ namespace NBi.Core.Calculation.Predicate.Text
 {
     class TextEqual : AbstractPredicateReference
     {
-        public TextEqual(object reference) : base(reference)
+        public TextEqual(bool not, object reference) : base(not, reference)
         { }
 
-        public override bool Apply(object x)
+        protected override bool Apply(object x)
         {
             var cpr = new TextComparer();
             return cpr.Compare(x, Reference).AreEqual;

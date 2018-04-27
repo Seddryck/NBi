@@ -7,24 +7,28 @@ using System.Linq;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework;
 using NBi.Core.Variable;
+using NBi.Core.Injection;
+using NBi.Core.Configuration;
 
 namespace NBi.NUnit
 {
     public class TestCaseFactory
     {
         private readonly ICollection<BuilderRegistration> registrations;
-        private readonly ITestConfiguration configuration;
+        private readonly IConfiguration configuration;
         private readonly IDictionary<string, ITestVariable> variables;
+        private readonly ServiceLocator serviceLocator;
 
         public TestCaseFactory()
-            : this(TestConfiguration.Default, new Dictionary<string, ITestVariable>())
+            : this(Configuration.Default, new Dictionary<string, ITestVariable>(), null)
         {
         }
 
-        public TestCaseFactory(ITestConfiguration configuration, IDictionary<string, ITestVariable> variables)
+        public TestCaseFactory(IConfiguration configuration, IDictionary<string, ITestVariable> variables, ServiceLocator serviceLocator)
         {
             this.configuration = configuration;
             this.variables = variables;
+            this.serviceLocator = serviceLocator;
             registrations = new List<BuilderRegistration>();
             RegisterDefault();
         }
@@ -60,6 +64,7 @@ namespace NBi.NUnit
             Register(typeof(ResultSetSystemXml), typeof(SomeRowsXml), new ResultSetSomeRowsBuilder());
             Register(typeof(ResultSetSystemXml), typeof(SingleRowXml), new ResultSetSingleRowBuilder());
             Register(typeof(ResultSetSystemXml), typeof(UniqueRowsXml), new ResultSetUniqueRowsBuilder());
+            Register(typeof(ResultSetSystemXml), typeof(ReferenceExistsXml), new ResultSetReferenceExistsBuilder());
 
             Register(typeof(MembersXml), typeof(CountXml), new MembersCountBuilder());
             Register(typeof(MembersXml), typeof(OrderedXml), new MembersOrderedBuilder());
@@ -160,7 +165,7 @@ namespace NBi.NUnit
 
             //Get Builder and initiate it
             builder = registration.Builder;
-            builder.Setup(sutXml, ctrXml, configuration, variables);
+            builder.Setup(sutXml, ctrXml, configuration, variables, serviceLocator);
 
             //Build
             builder.Build();

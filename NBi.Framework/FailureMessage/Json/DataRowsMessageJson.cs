@@ -110,20 +110,11 @@ namespace NBi.Framework.FailureMessage.Json
         }
 
 
-        public string RenderExpected()
-        {
-            return expected;
-        }
+        public string RenderExpected() => expected;
 
-        public string RenderActual()
-        {
-            return actual;
-        }
+        public string RenderActual() => actual;
 
-        public string RenderAnalysis()
-        {
-            return analysis;
-        }
+        public string RenderAnalysis() => analysis;
 
         public string RenderMessage()
         {
@@ -132,6 +123,8 @@ namespace NBi.Framework.FailureMessage.Json
             using (var writer = new JsonTextWriter(sw))
             {
                 writer.WriteStartObject();
+                writer.WritePropertyName("timestamp");
+                writer.WriteValue(DateTime.Now);
                 if (!string.IsNullOrEmpty(expected))
                 {
                     writer.WritePropertyName("expected");

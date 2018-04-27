@@ -18,7 +18,7 @@ namespace NBi.Core.ResultSet.Resolver
                 if (items != null)
                     foreach (var item in items)
                     {
-                        var cell = new Cell() { Value = item.ToString() };
+                        var cell = new Cell() { Value = item?.ToString() };
                         row.Cells.Add(cell);
                     }
                 rows.Add(row);

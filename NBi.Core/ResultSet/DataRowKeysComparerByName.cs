@@ -1,4 +1,4 @@
-﻿using NBi.Core.ResultSet.Converter;
+﻿using NBi.Core.Scalar.Caster;
 using System;
 using System.Collections.Generic;
 using System.Data;

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 using NBi.Xml;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;

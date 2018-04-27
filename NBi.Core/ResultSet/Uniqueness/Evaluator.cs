@@ -4,9 +4,9 @@ using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 using System.Text;
-using NBi.Core.ResultSet.Converter;
+using NBi.Core.Scalar.Caster;
 using NBi.Core.ResultSet.Analyzer;
 using System.Collections.ObjectModel;
 using NBi.Core.ResultSet.Equivalence;
@@ -57,7 +57,7 @@ namespace NBi.Core.ResultSet.Uniqueness
 
             stopWatch.Start();
             BuildRowDictionary(x, keyComparer, dict);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Building dictionary: {0} [{1}]", x.Rows.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Building dictionary: {0} [{1}]", x.Rows.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             stopWatch.Reset();
 
             var duplicatedRows = dict.Where(r => r.Value > 1);
@@ -124,8 +124,8 @@ namespace NBi.Core.ResultSet.Uniqueness
                     if (columnType == ColumnType.Numeric && IsNumericField(dataColumn))
                         return;
 
-                    var numericConverter = new NumericConverter();
-                    if (columnType == ColumnType.Numeric && !(numericConverter.IsValid(value) || Comparer.BaseComparer.IsValidInterval(value)))
+                    var numericConverter = new NumericCaster();
+                    if (columnType == ColumnType.Numeric && !(numericConverter.IsValid(value) || BaseComparer.IsValidInterval(value)))
                     {
                         var exception = string.Format(messages[0]
                             , columnName, value.ToString());
@@ -139,7 +139,7 @@ namespace NBi.Core.ResultSet.Uniqueness
                     if (columnType == ColumnType.DateTime && IsDateTimeField(dataColumn))
                         return;
 
-                    if (columnType == ColumnType.DateTime && !Comparer.BaseComparer.IsValidDateTime(value.ToString()))
+                    if (columnType == ColumnType.DateTime && !BaseComparer.IsValidDateTime(value.ToString()))
                     {
                         throw new EquivalerException(
                             string.Format(messages[2]

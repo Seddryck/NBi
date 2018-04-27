@@ -21,8 +21,10 @@ namespace NBi.Core.Transformation
 
         public void Add(int columnIndex, ITransformationInfo transfo)
         {
-            var transformer = factory.Build(transfo);
+            var transformer = factory.Instantiate(transfo);
             transformer.Initialize(transfo.Code);
+            if (cacheTransformers.ContainsKey(columnIndex))
+                throw new NBiException($"You can't define two transformers for the same column. The column with index '{columnIndex}' has already another transformer specified.");
             cacheTransformers.Add(columnIndex, transformer);
         }
 
@@ -42,7 +44,7 @@ namespace NBi.Core.Transformation
                 resultSet.Table.Columns.RemoveAt(index);
                 newColumn.SetOrdinal(index);
 
-                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to transform column with index {0}: {1}", index, DateTime.Now.Subtract(tsStart).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Time needed to transform column with index {0}: {1}", index, DateTime.Now.Subtract(tsStart).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             }
 
             return resultSet;

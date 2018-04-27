@@ -1,4 +1,4 @@
-﻿using NBi.Core.ResultSet.Comparer;
+﻿using NBi.Core.Scalar.Comparer;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,9 +8,13 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.Text
 {
-    class TextEmpty : IPredicate
+    class TextEmpty : AbstractPredicate
     {
-        public bool Apply(object x)
+        public TextEmpty(bool not)
+            : base(not)
+        { }
+
+        protected override bool Apply(object x)
         {
             return (x as string).Length == 0 || (x as string)=="(empty)";
         }

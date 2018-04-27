@@ -1,4 +1,4 @@
-﻿using NBi.Core.ResultSet.Comparer;
+﻿using NBi.Core.Scalar.Comparer;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,10 +10,10 @@ namespace NBi.Core.Calculation.Predicate.DateTime
 {
     class DateTimeEqual : AbstractPredicateReference
     {
-        public DateTimeEqual(object reference) : base(reference)
+        public DateTimeEqual(bool not, object reference) : base(not, reference)
         { }
 
-        public override bool Apply(object x)
+        protected override bool Apply(object x)
         {
             var cpr = new DateTimeComparer();
             return cpr.Compare(x, Reference).AreEqual;

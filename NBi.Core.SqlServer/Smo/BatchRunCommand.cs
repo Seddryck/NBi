@@ -28,7 +28,7 @@ namespace NBi.Core.SqlServer.Smo
                 throw new ExternalDependencyNotFoundException(fullPath);
 
             var script = File.ReadAllText(fullPath);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, script);
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, script);
 
             var server = new Server();
             server.ConnectionContext.ConnectionString = connectionString;

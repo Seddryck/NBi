@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NBi.Xml</RootNamespace>
     <AssemblyName>NBi.Xml</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -58,15 +58,20 @@
     </Compile>
     <Compile Include="Constraints\AbstractConstraintForCollectionXml.cs" />
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
+    <Compile Include="Constraints\Comparer\CultureSensitiveTextPredicateXml.cs" />
     <Compile Include="Constraints\Comparer\CaseSensitiveTextPredicateXml.cs" />
     <Compile Include="Constraints\Comparer\IntegerXml.cs" />
     <Compile Include="Constraints\Comparer\FalseXml.cs" />
     <Compile Include="Constraints\Comparer\ITwoOperandsXml.cs" />
+    <Compile Include="Constraints\Comparer\MatchesTimeXml.cs" />
+    <Compile Include="Constraints\Comparer\MatchesNumericXml.cs" />
+    <Compile Include="Constraints\Comparer\MatchesDateXml.cs" />
     <Compile Include="Constraints\Comparer\ModuloXml.cs" />
     <Compile Include="Constraints\Comparer\TrueXml.cs" />
     <Compile Include="Constraints\Comparer\OnTheHourXml.cs" />
     <Compile Include="Constraints\Comparer\OnTheMinuteXml.cs" />
     <Compile Include="Constraints\Comparer\OnTheDayXml.cs" />
+    <Compile Include="Constraints\Comparer\AnyOfXml.cs" />
     <Compile Include="Constraints\Comparer\WithinRangeXml.cs" />
     <Compile Include="Constraints\Comparer\UpperCaseXml.cs" />
     <Compile Include="Constraints\Comparer\MatchesRegexXml.cs" />
@@ -76,6 +81,7 @@
     <Compile Include="Constraints\Comparer\ContainsXml.cs" />
     <Compile Include="Constraints\Comparer\NullXml.cs" />
     <Compile Include="Constraints\Comparer\EmptyXml.cs" />
+    <Compile Include="Constraints\ReferenceExistsXml.cs" />
     <Compile Include="Constraints\SingleRowXml.cs" />
     <Compile Include="Constraints\SomeRowsXml.cs" />
     <Compile Include="Constraints\UniqueRowsXml.cs" />
@@ -125,6 +131,11 @@
     <Compile Include="GroupXml.cs" />
     <Compile Include="InheritanceTestXml.cs" />
     <Compile Include="Items\Alteration\AlterationXml.cs" />
+    <Compile Include="Items\Alteration\Conversion\AbstractConverterXml.cs" />
+    <Compile Include="Items\Alteration\Conversion\ConvertXml.cs" />
+    <Compile Include="Items\Alteration\Conversion\TextToDateConverterXml.cs" />
+    <Compile Include="Items\Alteration\Conversion\TextToNumericConverterXml.cs" />
+    <Compile Include="Items\Alteration\Conversion\TextToDateTimeConverterXml.cs" />
     <Compile Include="Items\Calculation\CombinationPredicateXml.cs" />
     <Compile Include="Items\ColumnXml.cs" />
     <Compile Include="Items\ColumnsXml.cs" />
@@ -132,6 +143,7 @@
     <Compile Include="Items\Filters\IOwnerFilter.cs" />
     <Compile Include="Items\ProjectionXml.cs" />
     <Compile Include="Items\QueryScalarXml.cs" />
+    <Compile Include="Items\ResultSet\ColumnMappingXml.cs" />
     <Compile Include="Items\SharedDatasetXml.cs" />
     <Compile Include="Items\ResultSet\TransformationXml.cs" />
     <Compile Include="Items\UrlXml.cs" />
@@ -278,6 +290,10 @@
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
       <Project>{3F730647-FE31-4907-8A6E-A0C4A0C970EA}</Project>
       <Name>NBi.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj">
+      <Project>{a06cba63-d848-4dbc-abfc-63172613999d}</Project>
+      <Name>NBi.Extensibility</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

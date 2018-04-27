@@ -1,4 +1,4 @@
-﻿using NBi.Core.ResultSet.Converter;
+﻿using NBi.Core.Scalar.Caster;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,15 +12,15 @@ namespace NBi.Core.Calculation.Predicate.Numeric
     {
         private object secondOperand;
 
-        public NumericModulo(object secondOperand, object reference) 
-            : base(reference)
+        public NumericModulo(bool not, object secondOperand, object reference) 
+            : base(not, reference)
         {
             this.secondOperand = secondOperand;
         }
         protected override bool Compare(decimal x, decimal y)
         {
-            var converter = new NumericConverter();
-            var z = converter.Convert(secondOperand);
+            var caster = new NumericCaster();
+            var z = caster.Execute(secondOperand);
             return x % z == y;
         }
 

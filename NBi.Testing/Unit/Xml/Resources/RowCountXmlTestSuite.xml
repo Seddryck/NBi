@@ -59,8 +59,8 @@
       <row-count>
         <filter>
           <alias column-index="0">Gname</alias>
-          <predicate name="Gname" not="true" type="text">
-            <equal>N/A</equal>
+          <predicate name="Gname" type="text">
+            <equal not="true">N/A</equal>
           </predicate>
         </filter>
         <equal>2</equal>

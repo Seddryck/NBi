@@ -2,7 +2,8 @@
 using System.Data.SqlClient;
 using NBi.NUnit.Query;
 using NUnit.Framework;
-using NBi.Core.ResultSet.Resolver;
+using Moq;
+using NBi.Extensibility.Query;
 #endregion
 
 namespace NBi.Testing.Integration.NUnit.Query
@@ -41,54 +42,46 @@ namespace NBi.Testing.Integration.NUnit.Query
         [Test, Category("Sql")]
         public void Matches_FasterThanMaxTime_Success()
         {
-            var command = new SqlCommand()
-            {
-                Connection = new SqlConnection(ConnectionStringReader.GetSqlClient()),
-                CommandText = "WAITFOR DELAY '00:00:00';"
-            };
+            var queryMock = new Mock<IQuery>();
+            queryMock.SetupGet(x => x.ConnectionString).Returns(ConnectionStringReader.GetSqlClient());
+            queryMock.SetupGet(x => x.Statement).Returns("WAITFOR DELAY '00:00:00';");
 
             var ctr = new FasterThanConstraint();
             ctr = ctr.MaxTimeMilliSeconds(1000);
             ctr = ctr.TimeOutMilliSeconds(2000);
 
             //Method under test
-            Assert.That(command, ctr);
-
+            Assert.That(queryMock.Object, ctr);
+            queryMock.Verify(x => x.ConnectionString, Times.Once());
+            queryMock.Verify(x => x.Statement, Times.Once());
         }
 
         [Test, Category("Sql")]
         public void Matches_SlowerThanMaxTime_Failure()
         {
-            var command = new SqlCommand
-            {
-                Connection = new SqlConnection(ConnectionStringReader.GetSqlClient()),
-                CommandText = "WAITFOR DELAY '00:00:01';"
-            };
+            var queryMock = new Mock<IQuery>();
+            queryMock.SetupGet(x => x.ConnectionString).Returns(ConnectionStringReader.GetSqlClient());
+            queryMock.SetupGet(x => x.Statement).Returns("WAITFOR DELAY '00:00:01';");
 
             var ctr = new FasterThanConstraint();
             ctr = ctr.MaxTimeMilliSeconds(100);
             ctr = ctr.TimeOutMilliSeconds(5000);
 
-            //Method under test
-            Assert.That(ctr.Matches(command), Is.False);
-            //Error Message
+            Assert.That(ctr.Matches(queryMock.Object), Is.False);
         }
 
         [Test, Category("Sql")]
         public void Matches_SlowerThanMaxTimeAndTimeOut_Failure()
         {
-            var command = new SqlCommand
-            {
-                Connection = new SqlConnection(ConnectionStringReader.GetSqlClient()),
-                CommandText = "WAITFOR DELAY '00:00:10';"
-            };
+            var queryMock = new Mock<IQuery>();
+            queryMock.SetupGet(x => x.ConnectionString).Returns(ConnectionStringReader.GetSqlClient());
+            queryMock.SetupGet(x => x.Statement).Returns("WAITFOR DELAY '00:00:10';");
 
             var ctr = new FasterThanConstraint();
             ctr = ctr.MaxTimeMilliSeconds(100);
             ctr = ctr.TimeOutMilliSeconds(1000);
 
-            //Method under test
-            Assert.That(ctr.Matches(command), Is.False);
+            Assert.That(ctr.Matches(queryMock.Object), Is.False);
         }
     }
 

@@ -1,5 +1,5 @@
-﻿using NBi.Core.ResultSet.Comparer;
-using NBi.Core.ResultSet.Converter;
+﻿using NBi.Core.Scalar.Comparer;
+using NBi.Core.Scalar.Caster;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,19 +9,20 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.DateTime
 {
-    class DateTimeOnTheHour : IPredicate
+    class DateTimeOnTheHour : AbstractPredicate
     {
-        public bool Apply(object x)
+        public DateTimeOnTheHour(bool not)
+            : base(not)
+        { }
+
+        protected override bool Apply(object x)
         {
-            var converter = new DateTimeConverter();
-            var dtX = converter.Convert(x);
+            var caster = new DateTimeCaster();
+            var dtX = caster.Execute(x);
 
             return (dtX.TimeOfDay.Ticks) % (new TimeSpan(1, 0, 0).Ticks) == 0;
         }
 
-        public override string ToString()
-        {
-            return $"is on the hour";
-        }
+        public override string ToString() => $"is on the hour";
     }
 }

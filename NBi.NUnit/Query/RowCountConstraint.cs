@@ -9,6 +9,7 @@ using NBi.Framework.FailureMessage.Markdown;
 using NUnit.Framework;
 using NBi.Framework;
 using NBi.Core.Scalar.Resolver;
+using NBi.Core.Configuration.FailureReport;
 
 namespace NBi.NUnit.Query
 {

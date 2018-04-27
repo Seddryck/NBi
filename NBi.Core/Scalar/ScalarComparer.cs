@@ -13,7 +13,7 @@ namespace NBi.Core.Scalar
 
         public int Compare(T x, T y)
         {
-            return Comparer.DefaultInvariant.Compare(x, y);
+            return System.Collections.Comparer.DefaultInvariant.Compare(x, y);
         }
 
         public int Compare(IScalarResolver<T> x, IScalarResolver<T> y)

@@ -1,5 +1,5 @@
 ﻿using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Comparer;
+using NBi.Core.Scalar.Comparer;
 using NBi.Framework.FailureMessage.Markdown.Helper;
 using NUnit.Framework;
 using System;

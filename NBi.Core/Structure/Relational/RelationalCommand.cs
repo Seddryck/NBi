@@ -50,7 +50,7 @@ namespace NBi.Core.Structure.Relational
 
         protected IDataReader ExecuteReader(IDbCommand cmd)
         {
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, cmd.CommandText);
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, cmd.CommandText);
 
             IDataReader rdr = null;
             try

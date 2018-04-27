@@ -1,5 +1,5 @@
-﻿using NBi.Core.ResultSet.Comparer;
-using NBi.Core.ResultSet.Converter;
+﻿using NBi.Core.Scalar.Comparer;
+using NBi.Core.Scalar.Caster;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,12 +9,16 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.Numeric
 {
-    class NumericInteger : IPredicate
+    class NumericInteger : AbstractPredicate
     {
-        public bool Apply(object x)
+        public NumericInteger(bool not)
+            : base(not)
+        { }
+
+        protected override bool Apply(object x)
         {
-            var converter = new NumericConverter();
-            var numX = converter.Convert(x);
+            var caster = new NumericCaster();
+            var numX = caster.Execute(x);
 
             return numX % 1 == 0;
         }

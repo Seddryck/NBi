@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Testing.Unit.Core.Calculation.Predicate.Text
 {
-    public class TextWithinListTest
+    public class TextAnyOfTest
     {
         [Test]
         [TestCase("Paris", new[] { "Paris", "Bruxelles", "Amsterdam" }, StringComparison.InvariantCulture)]

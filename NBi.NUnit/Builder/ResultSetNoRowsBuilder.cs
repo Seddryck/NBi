@@ -58,7 +58,7 @@ namespace NBi.NUnit.Builder
                 var predicateInfos = new List<IPredicateInfo>();
                 foreach (var predicateXml in ConstraintXml.Combination.Predicates)
                 {
-                    if (predicateXml.Reference != null)
+                    if (predicateXml.Reference != null && !(predicateXml.Reference is IEnumerable<string>))
                         predicateXml.Reference = EvaluatePotentialVariable(predicateXml.Reference);
 
                     predicateInfos.Add(predicateXml);

@@ -65,12 +65,13 @@ namespace NBi.Xml.Items.Calculation
         [XmlElement(Type = typeof(TrueXml), ElementName = "true")]
         [XmlElement(Type = typeof(FalseXml), ElementName = "false")]
         public PredicateXml Predicate { get; set; }
-        
+
+        private object reference;
         [XmlIgnore]
         public object Reference
         {
-            get { return Predicate.Value ?? Predicate.Values as object; }
-            set { Predicate.Value = value.ToString(); }
+            get { return reference ?? Predicate.Value ?? Predicate.Values as object; }
+            set { reference = value; }
         }
 
         [XmlIgnore]

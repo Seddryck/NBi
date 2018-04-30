@@ -680,4 +680,44 @@
       </no-rows>
     </assert>
   </test>
+  <test name="Combination 'and' and any-of" uid="0101">
+    <system-under-test>
+      <resultSet>
+        <row>
+          <cell>F</cell>
+          <cell>366</cell>
+        </row>
+        <row>
+          <cell>M</cell>
+          <cell>1015</cell>
+        </row>
+        <row>
+          <cell>F</cell>
+          <cell>1521</cell>
+        </row>
+        <row>
+          <cell>M</cell>
+          <cell>894</cell>
+        </row>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <combination operator="and">
+          <predicate operand="#0" type="text">
+            <any-of>
+              <item>M</item>
+              <item>F</item>
+            </any-of>
+          </predicate>
+          <predicate operand="#1">
+            <less-than>1800</less-than>
+          </predicate>
+          <predicate operand="#1">
+            <within-range>[200;2000]</within-range>
+          </predicate>
+        </combination>
+      </all-rows>
+    </assert>
+  </test>
 </testSuite>

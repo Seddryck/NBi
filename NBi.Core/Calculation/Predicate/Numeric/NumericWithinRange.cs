@@ -19,6 +19,8 @@ namespace NBi.Core.Calculation.Predicate.Numeric
         {
             var builder = new NumericIntervalBuilder(Reference);
             builder.Build();
+            if (!builder.IsValid())
+                throw builder.GetException();
             var interval = builder.GetInterval();
 
             var caster = new NumericCaster();

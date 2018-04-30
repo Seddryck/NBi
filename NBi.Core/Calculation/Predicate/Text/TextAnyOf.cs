@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate.Text
 {
-    class TextWithinList : AbstractTextPredicate
+    class TextAnyOf : AbstractTextPredicate
     {
         protected IEnumerable<string> References { get => Reference as IEnumerable<string>; }
 
-        public TextWithinList(bool not, object reference, StringComparison stringComparison)
+        public TextAnyOf(bool not, object reference, StringComparison stringComparison)
             : base(not, reference, stringComparison)
         { }
 

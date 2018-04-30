@@ -137,7 +137,7 @@
     <Compile Include="Calculation\Predicate\Text\CultureSensitiveTextPredicate.cs" />
     <Compile Include="Calculation\Predicate\Text\AbstractTextPredicate.cs" />
     <Compile Include="Calculation\Predicate\Text\TextMatchesDateTime.cs" />
-    <Compile Include="Calculation\Predicate\Text\TextWithinList.cs" />
+    <Compile Include="Calculation\Predicate\Text\TextAnyOf.cs" />
     <Compile Include="Calculation\Predicate\Text\TextMatchesTime.cs" />
     <Compile Include="Calculation\Predicate\Text\TextMatchesDate.cs" />
     <Compile Include="Calculation\Predicate\Text\TextMatchesRegex.cs" />

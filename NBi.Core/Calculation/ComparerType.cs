@@ -27,7 +27,7 @@ namespace NBi.Core.Calculation
         UpperCase = 30,
         LowerCase = 31,
         WithinRange = 40,
-        WithinList = 41,
+        AnyOf = 41,
         Integer = 50,
         Modulo = 51,
         OnTheDay = 60,

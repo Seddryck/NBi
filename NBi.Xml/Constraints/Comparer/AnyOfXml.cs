@@ -11,7 +11,7 @@ namespace NBi.Xml.Constraints.Comparer
 {
     public class AnyOfXml : CaseSensitiveTextPredicateXml
     {
-        internal override ComparerType ComparerType { get => ComparerType.WithinList; }
+        internal override ComparerType ComparerType { get => ComparerType.AnyOf; }
     }
 
     public class WithinListXml : AnyOfXml

@@ -20,7 +20,7 @@ namespace NBi.Testing.Unit.Core.Calculation.Predicate.Text
         {
             var predicate = new Mock<IPredicateInfo>();
             predicate.SetupGet(i => i.ColumnType).Returns(ColumnType.Text);
-            predicate.SetupGet(i => i.ComparerType).Returns(ComparerType.WithinList);
+            predicate.SetupGet(i => i.ComparerType).Returns(ComparerType.AnyOf);
             predicate.As<IReferencePredicateInfo>().SetupGet(i => i.Reference).Returns(reference);
             predicate.As<ICaseSensitivePredicateInfo>().SetupGet(i => i.StringComparison).Returns(stringComparison);
 
@@ -37,7 +37,7 @@ namespace NBi.Testing.Unit.Core.Calculation.Predicate.Text
         {
             var predicate = new Mock<IPredicateInfo>();
             predicate.SetupGet(i => i.ColumnType).Returns(ColumnType.Text);
-            predicate.SetupGet(i => i.ComparerType).Returns(ComparerType.WithinList);
+            predicate.SetupGet(i => i.ComparerType).Returns(ComparerType.AnyOf);
             predicate.As<IReferencePredicateInfo>().SetupGet(i => i.Reference).Returns(reference);
             predicate.As<ICaseSensitivePredicateInfo>().SetupGet(i => i.StringComparison).Returns(stringComparison);
 

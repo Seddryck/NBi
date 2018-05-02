@@ -97,6 +97,11 @@
     <Compile Include="Calculation\Combination\AndCombinationPredicateFilter.cs" />
     <Compile Include="Calculation\Combination\XOrCombinationPredicateFilter.cs" />
     <Compile Include="Calculation\ComparerType.cs" />
+    <Compile Include="Calculation\Grouping\AbstractByColumnGrouping.cs" />
+    <Compile Include="Calculation\Grouping\ByColumnGroupingFactory.cs" />
+    <Compile Include="Calculation\Grouping\IByColumnGrouping.cs" />
+    <Compile Include="Calculation\Grouping\NameByColumnGrouping.cs" />
+    <Compile Include="Calculation\Grouping\IndexByColumnGrouping.cs" />
     <Compile Include="Calculation\ICultureSensitivePredicateInfo.cs" />
     <Compile Include="Calculation\ICaseSensitivePredicateInfo.cs" />
     <Compile Include="Calculation\ISecondOperandPredicateInfo.cs" />

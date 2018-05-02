@@ -13,9 +13,8 @@ namespace NBi.Core.ResultSet.Resolver
             var rows = new List<IRow>();
             foreach (var obj in objects)
             {
-                var items = obj as IEnumerable<object>;
                 var row = new Row();
-                if (items != null)
+                if (obj is IEnumerable<object> items)
                     foreach (var item in items)
                     {
                         var cell = new Cell() { Value = item?.ToString() };

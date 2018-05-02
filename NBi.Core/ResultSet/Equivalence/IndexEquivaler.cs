@@ -10,7 +10,7 @@ namespace NBi.Core.ResultSet.Equivalence
     {
         private new SettingsIndexResultSet Settings
         {
-            get { return base.Settings as SettingsIndexResultSet; }
+            get => base.Settings as SettingsIndexResultSet;
         }
 
         public IndexEquivaler(IEnumerable<IRowsAnalyzer> analyzers, SettingsIndexResultSet settings)
@@ -39,22 +39,14 @@ namespace NBi.Core.ResultSet.Equivalence
 
         public override EngineStyle Style
         {
-            get
-            {
-                return EngineStyle.ByIndex;
-            }
+            get => EngineStyle.ByIndex;
         }
 
         protected override DataRowKeysComparer BuildDataRowsKeyComparer(DataTable x)
-        {
-            return new DataRowKeysComparerByIndex(Settings, x.Columns.Count);
-        }
+            => new DataRowKeysComparerByIndex(Settings, x.Columns.Count);
 
         protected override bool CanSkipValueComparison()
-        {
-            return Settings.KeysDef == SettingsIndexResultSet.KeysChoice.All;
-        }
-
+            => Settings.KeysDef == SettingsIndexResultSet.KeysChoice.All;
 
         protected override DataRow CompareRows(DataRow rx, DataRow ry)
         {

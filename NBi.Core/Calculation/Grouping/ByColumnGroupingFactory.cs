@@ -9,9 +9,10 @@ namespace NBi.Core.Calculation.Grouping
 {
     public class ByColumnGroupingFactory
     {
+        public IByColumnGrouping None() => new NoneGrouping();
+
         public IByColumnGrouping Instantiate(ISettingsResultSet settings)
         {
-
             if (settings is SettingsIndexResultSet)
                 return new IndexByColumnGrouping(settings as SettingsIndexResultSet);
 

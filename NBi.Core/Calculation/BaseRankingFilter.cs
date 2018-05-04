@@ -46,11 +46,11 @@ namespace NBi.Core.Calculation
                     throw new ArgumentException($"The variable of the predicate is identified as '{name}'. All names starting by a '#' matches to a column position and must be followed by an integer.");
             }
 
-            var alias = aliases.SingleOrDefault(x => x.Name == name);
+            var alias = aliases?.SingleOrDefault(x => x.Name == name);
             if (alias != null)
                 return row.ItemArray[alias.Column];
 
-            var expression = expressions.SingleOrDefault(x => x.Name == name);
+            var expression = expressions?.SingleOrDefault(x => x.Name == name);
             if (expression != null)
                 return EvaluateExpression(expression, row);
 

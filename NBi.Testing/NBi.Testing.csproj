@@ -271,6 +271,7 @@
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Calculation\CombinationPredicateFilterTest.cs" />
     <Compile Include="Unit\Core\Calculation\CultureSensitivePredicateMatchesTest.cs" />
+    <Compile Include="Unit\Core\Calculation\FilterGroupByFilterTest.cs" />
     <Compile Include="Unit\Core\Calculation\Grouping\NameByColumnGroupingTest.cs" />
     <Compile Include="Unit\Core\Calculation\Grouping\IndexByColumnGroupingTest.cs" />
     <Compile Include="Unit\Core\Calculation\Predicate\Text\TextWithinListTest.cs" />

@@ -99,6 +99,7 @@
     <Compile Include="Calculation\ComparerType.cs" />
     <Compile Include="Calculation\Grouping\AbstractByColumnGrouping.cs" />
     <Compile Include="Calculation\Grouping\ByColumnGroupingFactory.cs" />
+    <Compile Include="Calculation\Grouping\NoneGrouping.cs" />
     <Compile Include="Calculation\Grouping\IByColumnGrouping.cs" />
     <Compile Include="Calculation\Grouping\NameByColumnGrouping.cs" />
     <Compile Include="Calculation\Grouping\IndexByColumnGrouping.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="Calculation\Predicate\Text\TextEqual.cs" />
     <Compile Include="Calculation\Predicate\IPredicate.cs" />
     <Compile Include="Calculation\Predicate\Text\TextMatchesNumeric.cs" />
+    <Compile Include="Calculation\FilterGroupByFilter.cs" />
     <Compile Include="Calculation\Ranking\AbstractRanking.cs" />
     <Compile Include="Calculation\Ranking\BottomRanking.cs" />
     <Compile Include="Calculation\Ranking\TopRanking.cs" />

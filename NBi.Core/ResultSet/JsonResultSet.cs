@@ -98,9 +98,7 @@ namespace NBi.Core.ResultSet
 
 
             var rs = new ResultSet();
-            rs.table = dt;
-
-
+            rs.Load(dt);
             return rs;
         }
     }

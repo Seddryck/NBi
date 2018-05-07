@@ -9,7 +9,7 @@ using NBi.Xml.Items.Calculation;
 
 namespace NBi.Xml.SerializationOption
 {
-    internal class ReadOnlyAttributes : XmlAttributeOverrides
+    public class ReadOnlyAttributes : XmlAttributeOverrides
     {
 
         public ReadOnlyAttributes()

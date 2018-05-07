@@ -11,6 +11,7 @@ using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 using NBi.Core.Structure.Olap;
+using System.Collections.Generic;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -60,8 +61,10 @@ namespace NBi.Testing.Unit.NUnit.Builder
             ((MeasureGroupsXml)sutXml.Item).Perspective = "Perspective";
             sutXml.Item.Caption = "MeasureGroup";
 
-            var ctrXml = new ContainXml();
-            ctrXml.Caption = "Search";
+            var ctrXml = new ContainXml
+            {
+                Items = new List<string> { "Search" }
+            };
 
             var builder = new StructureContainBuilder();
             builder.Setup(sutXml, ctrXml);

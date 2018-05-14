@@ -2,6 +2,7 @@
 using NBi.Core.ResultSet;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,12 +20,15 @@ namespace NBi.Xml.Items.Calculation
         public string Name { get; set; }
 
         [XmlAttribute("column-index")]
+        [DefaultValue(0)]
         public int Column { get; set; }
 
         [XmlAttribute("type")]
+        [DefaultValue(ColumnType.Text)]
         public ColumnType Type { get; set; }
 
         [XmlAttribute("tolerance")]
+        [DefaultValue("")]
         public string Tolerance { get; set; }
     }
 }

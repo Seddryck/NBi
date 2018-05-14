@@ -385,6 +385,7 @@
     <Compile Include="Unit\GenbiL\Action\Case\SplitCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\SeparateCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\DuplicateCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\TrimCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\SubstituteCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\ConcatenateCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\CrossVectorCaseActionTest.cs" />

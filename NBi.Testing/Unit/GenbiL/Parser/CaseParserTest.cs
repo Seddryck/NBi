@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NBi.GenbiL;
 using NBi.GenbiL.Action.Case;
 using NBi.GenbiL.Parser;
 using NBi.Service;
@@ -560,6 +561,45 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(((DuplicateCaseAction)result).NewColumns, Has.Member("bar"));
             Assert.That(((DuplicateCaseAction)result).NewColumns, Has.Member("space"));
             Assert.That(((DuplicateCaseAction)result).NewColumns.Count, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void SentenceParser_CaseTrimDirectionOneColumn_ValidTrimAction()
+        {
+            var input = "case trim left column 'foo';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<TrimCaseAction>());
+            Assert.That(((TrimCaseAction)result).ColumnNames.Count(), Is.EqualTo(1));
+            Assert.That(((TrimCaseAction)result).ColumnNames, Has.Member("foo"));
+            Assert.That(((TrimCaseAction)result).Direction, Is.EqualTo(Directions.Left));
+        }
+
+        [Test]
+        public void SentenceParser_CaseTrimDirectionTwoColumns_ValidTrimAction()
+        {
+            var input = "case trim right column 'foo', 'bar';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<TrimCaseAction>());
+            Assert.That(((TrimCaseAction)result).ColumnNames.Count(), Is.EqualTo(2));
+            Assert.That(((TrimCaseAction)result).ColumnNames, Has.Member("foo"));
+            Assert.That(((TrimCaseAction)result).ColumnNames, Has.Member("bar"));
+            Assert.That(((TrimCaseAction)result).Direction, Is.EqualTo(Directions.Right));
+        }
+
+        [Test]
+        public void SentenceParser_CaseTrimBothAllColumns_ValidTrimAction()
+        {
+            var input = "case trim columns all;";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<TrimCaseAction>());
+            Assert.That(((TrimCaseAction)result).ColumnNames.Count(), Is.EqualTo(0));
+            Assert.That(((TrimCaseAction)result).Direction, Is.EqualTo(Directions.Both));
         }
     }
 }

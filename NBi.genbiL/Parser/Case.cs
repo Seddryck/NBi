@@ -294,6 +294,17 @@ namespace NBi.GenbiL.Parser
                 select new DuplicateCaseAction(original, duplicates)
         );
 
+        readonly static Parser<ICaseAction> caseTrimParser =
+        (
+                from substitute in Keyword.Trim
+                from direction in Parse.IgnoreCase("Left").Return(Directions.Left)
+                                                .Or(Parse.IgnoreCase("Right").Return(Directions.Right))
+                                                .Optional()
+                from axisType in Keyword.Columns.Or(Keyword.Column)
+                from columnNames in Grammar.QuotedRecordSequence.Or(Keyword.All.Return(new string[] { }))
+                select new TrimCaseAction(columnNames, direction.GetOrElse(Directions.Both))
+        );
+
         public readonly static Parser<IAction> Parser =
         (
                 from @case in Keyword.Case
@@ -322,6 +333,7 @@ namespace NBi.GenbiL.Parser
                                     .Or(caseReduceParser)
                                     .Or(caseSplitParser)
                                     .Or(caseDuplicateParser)
+                                    .Or(caseTrimParser)
                 select action
         );
     }

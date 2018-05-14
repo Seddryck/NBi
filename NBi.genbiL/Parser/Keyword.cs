@@ -38,6 +38,7 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<string> Reduce = Parse.IgnoreCase("Reduce").Text().Token();
         public static readonly Parser<string> Split = Parse.IgnoreCase("Split").Text().Token();
         public static readonly Parser<string> Duplicate = Parse.IgnoreCase("Duplicate").Text().Token();
+        public static readonly Parser<string> Trim = Parse.IgnoreCase("Trim").Text().Token();
 
         public static readonly Parser<string> Into = Parse.IgnoreCase("Into").Text().Token();
         public static readonly Parser<string> To = Parse.IgnoreCase("To").Text().Token();
@@ -58,5 +59,8 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<string> Embedded = Parse.IgnoreCase("Embedded").Text().Token();
         public static readonly Parser<string> Folder = Parse.IgnoreCase("Folder").Text().Token();
         public static readonly Parser<string> When = Parse.IgnoreCase("When").Text().Token();
+        public static readonly Parser<string> Left = Parse.IgnoreCase("Left").Text().Token();
+        public static readonly Parser<string> Right = Parse.IgnoreCase("Right").Text().Token();
+        public static readonly Parser<string> All = Parse.IgnoreCase("All").Text().Token();
     }
 }

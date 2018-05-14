@@ -364,6 +364,37 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(content, Is.StringContaining("second"));
         }
 
+        [Test]
+        public void Serialize_ExecutionXml_NoColumnIndex()
+        {
+            var allRowsXml = new AllRowsXml();
+            allRowsXml.Expression = new ExpressionXml()
+            {
+                Value = "a + b = c",
+                Type = ColumnType.Boolean,
+                Name = "calculate"
+            };
+
+            var serializer = new XmlSerializer(typeof(AllRowsXml));
+            var content = string.Empty;
+            using (var stream = new MemoryStream())
+            {
+                using (var writer = new StreamWriter(stream, Encoding.UTF8))
+                    serializer.Serialize(writer, allRowsXml);
+                content = Encoding.UTF8.GetString(stream.ToArray());
+            }
+             
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("expression"));
+            Assert.That(content, Is.StringContaining("type"));
+            Assert.That(content, Is.StringContaining("name"));
+            Assert.That(content, Is.StringContaining(">a + b = c<"));
+            Assert.That(content, Is.Not.StringContaining("column-type"));
+            Assert.That(content, Is.Not.StringContaining("column-index"));
+            Assert.That(content, Is.Not.StringContaining("tolerance"));
+        }
+
 
 
     }

@@ -2,7 +2,7 @@
 layout: automation
 title: Substitute part of the content
 prev_section: column-replace
-next_section: column-concatenate
+next_section: column-trim
 permalink: /automation/column-substitute/
 ---
 At the difference of the command [replace](../column-replace), the command *substitute* doesn't replace the whole content of a cell but only a subpart of it. It has the same definition than the function *substitute* in excel or *replace* in SQL and .Net

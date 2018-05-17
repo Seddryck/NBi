@@ -33,6 +33,7 @@
   - column-move
   - column-replace
   - column-substitute
+  - column-trim
   - column-concatenate
   - column-separate
 

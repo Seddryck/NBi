@@ -1,7 +1,7 @@
 ---
 layout: automation
 title: Concatenate content
-prev_section: column-substitute
+prev_section: column-trim
 next_section: column-separate
 permalink: /automation/column-concatenate/
 ---

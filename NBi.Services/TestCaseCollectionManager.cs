@@ -169,10 +169,10 @@ namespace NBi.Service
         {
             var table = new DataTable();
             foreach (DataColumn column in firstSet.Columns)
-                table.Columns.Add(column.ColumnName);
+                table.Columns.Add(column.ColumnName, typeof(object));
             foreach (DataColumn column in secondSet.Columns)
                 if (!table.Columns.Contains(column.ColumnName))
-                    table.Columns.Add(column.ColumnName);
+                    table.Columns.Add(column.ColumnName, typeof(object));
 
             return table;
         }

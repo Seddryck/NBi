@@ -11,6 +11,7 @@ namespace NBi.Xml.Constraints
     public class ContainXml : AbstractConstraintForCollectionXml
     {
         [XmlIgnore]
+        [Obsolete("Use Items in place of Caption")]
         public string Caption 
         { 
             get

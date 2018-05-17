@@ -128,8 +128,10 @@ namespace NBi.Testing.Unit.NUnit.Builder
             item.Perspective = "perspective";
             item.Dimension = "dimension";
             item.Caption = "hierarchy";
-            var ctrXml = new ContainXml();
-            ctrXml.Caption = "caption";
+            var ctrXml = new ContainXml
+            {
+                Items = new List<string>() { "caption" }
+            };
 
             var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();
             discoFactoMockFactory.Setup(dfs =>

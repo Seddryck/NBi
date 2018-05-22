@@ -29,7 +29,7 @@ namespace NBi.Testing.Unit.Core.Calculation.Ranking
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var ranking = new TopRanking("#1", columnType, null, null);
+            var ranking = new TopRanking(new ColumnPositionIdentifier(1), columnType, null, null);
             var filteredRs = ranking.Apply(rs);
 
             Assert.That(filteredRs.Rows.Count, Is.EqualTo(1));
@@ -50,7 +50,7 @@ namespace NBi.Testing.Unit.Core.Calculation.Ranking
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var ranking = new TopRanking(2, "#1", columnType, null, null);
+            var ranking = new TopRanking(2, new ColumnPositionIdentifier(1), columnType, null, null);
             var filteredRs = ranking.Apply(rs);
 
             Assert.That(filteredRs.Rows.Count, Is.EqualTo(2));
@@ -71,7 +71,7 @@ namespace NBi.Testing.Unit.Core.Calculation.Ranking
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var ranking = new TopRanking(10, "#1", columnType, null, null);
+            var ranking = new TopRanking(10, new ColumnPositionIdentifier(1), columnType, null, null);
             var filteredRs = ranking.Apply(rs);
 
             Assert.That(filteredRs.Rows.Count, Is.EqualTo(values.Count()));
@@ -97,7 +97,7 @@ namespace NBi.Testing.Unit.Core.Calculation.Ranking
 
             var alias = Mock.Of<IColumnAlias>(x => x.Column == 1 && x.Name == "myValue");
 
-            var ranking = new TopRanking("myValue", columnType, Enumerable.Repeat(alias, 1), null);
+            var ranking = new TopRanking(new ColumnNameIdentifier("myValue"), columnType, Enumerable.Repeat(alias, 1), null);
             var filteredRs = ranking.Apply(rs);
 
             Assert.That(filteredRs.Rows.Count, Is.EqualTo(1));
@@ -119,7 +119,7 @@ namespace NBi.Testing.Unit.Core.Calculation.Ranking
             var alias = Mock.Of<IColumnAlias>(x => x.Column == 1 && x.Name == "myValue");
             var exp = Mock.Of<IColumnExpression>(x => x.Name == "exp" && x.Value == "myValue % 10");
 
-            var ranking = new TopRanking("exp", columnType, Enumerable.Repeat(alias, 1), Enumerable.Repeat(exp, 1));
+            var ranking = new TopRanking(new ColumnNameIdentifier("exp"), columnType, Enumerable.Repeat(alias, 1), Enumerable.Repeat(exp, 1));
             var filteredRs = ranking.Apply(rs);
 
             Assert.That(filteredRs.Rows.Count, Is.EqualTo(1));

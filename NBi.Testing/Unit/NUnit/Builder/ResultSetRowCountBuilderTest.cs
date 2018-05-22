@@ -62,9 +62,10 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new RowCountXml(SettingsXml.Empty);
-            ctrXml.MoreThan = new MoreThanXml();
-            ctrXml.MoreThan.Value = "100";
+            var ctrXml = new RowCountXml(SettingsXml.Empty)
+            {
+                MoreThan = new MoreThanXml() { Value = "100"} 
+            };
 
             var builder = new ResultSetRowCountBuilder();
             builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
@@ -86,12 +87,16 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new RowCountXml(SettingsXml.Empty);
-            ctrXml.Equal = new EqualXml();
-            ctrXml.Equal.Value = "50";
-            ctrXml.Filter = new FilterXml();
+            var ctrXml = new RowCountXml(SettingsXml.Empty)
+            {
+                Equal = new EqualXml
+                {
+                    Value = "50"
+                },
+                Filter = new FilterXml()
+            };
             ctrXml.Filter.InternalAliases.Add(new AliasXml());
-            ctrXml.Filter.Predication = new PredicationXml() { Predicate = new NullXml(), Operand = "myColumn" };
+            ctrXml.Filter.Predication = new PredicationXml() { Predicate = new NullXml(), Operand = new ColumnNameIdentifier("myColumn") };
 
             var builder = new ResultSetRowCountBuilder();
             builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
@@ -119,7 +124,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                 Filter = new FilterXml()
                 {
                     InternalAliases = new List<AliasXml>() { new AliasXml()},
-                    Predication = new PredicationXml() { Predicate = new NullXml(), Operand = "myColumn" }
+                    Predication = new PredicationXml() { Predicate = new NullXml(), Operand = new ColumnNameIdentifier("myColumn") }
                 }
             };
 

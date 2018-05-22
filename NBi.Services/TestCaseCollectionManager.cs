@@ -130,7 +130,7 @@ namespace NBi.Service
             if (!dico[secondSet].Content.Columns.Contains(matchingColumn))
                 throw new ArgumentException(String.Format("The test case set named '{0}' doesn't contain a column named '{1}'.", secondSet, matchingColumn));
 
-            Func<DataRow, DataRow, bool> matchingRow = (a, b) => a[matchingColumn].Equals(b[matchingColumn]);
+            bool matchingRow(DataRow a, DataRow b) => a[matchingColumn].Equals(b[matchingColumn]);
             CrossContent(dico[firstSet].Content, dico[secondSet].Content, matchingRow);
         }
 

@@ -225,8 +225,7 @@ namespace NBi.NUnit.Member
 					return DateTime.Compare((DateTime)x,(DateTime)y);
 				if (x is DateTime && y is String)
 				{
-					DateTime newY;
-					if (DateTime.TryParse((string)y, out newY))
+					if (DateTime.TryParse((string)y, out var newY))
 						return DateTime.Compare((DateTime)x, newY);
 					else
 						return 0;
@@ -234,8 +233,7 @@ namespace NBi.NUnit.Member
 				}
 				if (x is String && y is DateTime)
 				{
-					DateTime newX;
-					if (DateTime.TryParse((string)x, out newX))
+					if (DateTime.TryParse((string)x, out var newX))
 						return DateTime.Compare(newX, (DateTime)y);
 					else
 						return 0;
@@ -243,8 +241,7 @@ namespace NBi.NUnit.Member
 				}
 				if (x is String && y is String)
 				{
-					DateTime newX, newY;
-					if (DateTime.TryParse((string)x, out newX) && DateTime.TryParse((string)y, out newY))
+					if (DateTime.TryParse((string)x, out var newX) && DateTime.TryParse((string)y, out var newY))
 						return DateTime.Compare(newX, newY);
 					else
 						return 0;
@@ -275,8 +272,7 @@ namespace NBi.NUnit.Member
 				x = x is NBi.Core.Analysis.Member.Member ? ((NBi.Core.Analysis.Member.Member)x).Caption : x;
 				y = y is NBi.Core.Analysis.Member.Member ? ((NBi.Core.Analysis.Member.Member)y).Caption : y;
 
-				Decimal newX, newY;
-				if (Decimal.TryParse(x.ToString(), out newX) && Decimal.TryParse(y.ToString(), out newY))
+				if (Decimal.TryParse(x.ToString(), out var newX) && Decimal.TryParse(y.ToString(), out var newY))
 					return Decimal.Compare(newX, newY);
 				else
 					return 0;

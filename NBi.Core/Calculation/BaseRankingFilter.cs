@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Calculation.Predicate;
+using NBi.Core.Calculation.Ranking.Scoring;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
 using System;
@@ -14,10 +15,10 @@ namespace NBi.Core.Calculation
     {
         protected readonly IEnumerable<IColumnExpression> expressions;
         protected readonly IEnumerable<IColumnAlias> aliases;
-        protected readonly string operand;
+        protected readonly IColumnIdentifier operand;
         protected readonly ColumnType columnType;
 
-        protected BaseRankingFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, string operand, ColumnType columnType)
+        protected BaseRankingFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IColumnIdentifier operand, ColumnType columnType)
         {
             this.aliases = aliases;
             this.expressions = expressions;
@@ -28,50 +29,23 @@ namespace NBi.Core.Calculation
         public ResultSet.ResultSet AntiApply(ResultSet.ResultSet rs)
             => throw new NotImplementedException();
 
-        public abstract ResultSet.ResultSet Apply(ResultSet.ResultSet rs);
-
-        protected object GetValueFromRow(DataRow row, string name)
+        public ResultSet.ResultSet Apply(ResultSet.ResultSet rs)
         {
-            if (name.StartsWith("[") && name.EndsWith("]"))
-                name = name.Substring(1, name.Length - 2);
-
-            if (name.StartsWith("#"))
+            IList<ScoredObject> subset = new List<ScoredObject>();
+            var scorer = new DataRowScorer(operand, aliases, expressions);
+            foreach (DataRow row in rs.Rows)
             {
-                if (int.TryParse(name.Replace("#", ""), out var ordinal))
-                    if (ordinal <= row.Table.Columns.Count)
-                        return row.ItemArray[ordinal];
-                    else
-                        throw new ArgumentException($"The variable of the predicate is identified as '{name}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.Table.Columns.Count} columns.");
-                else
-                    throw new ArgumentException($"The variable of the predicate is identified as '{name}'. All names starting by a '#' matches to a column position and must be followed by an integer.");
+                var score = scorer.Execute(row);
+                InsertRow(score, ref subset);
             }
 
-            var alias = aliases?.SingleOrDefault(x => x.Name == name);
-            if (alias != null)
-                return row.ItemArray[alias.Column];
-
-            var expression = expressions?.SingleOrDefault(x => x.Name == name);
-            if (expression != null)
-                return EvaluateExpression(expression, row);
-
-            var column = row.Table.Columns.Cast<DataColumn>().SingleOrDefault(x => x.ColumnName == name);
-            if (column != null)
-                return row[column.ColumnName];
-
-            throw new ArgumentException($"The value '{name}' is not recognized as a column name or a column position or a column alias or an expression.");
+            var newRs = rs.Clone();
+            newRs.Load(subset.Select(x => x.Value as DataRow));
+            return newRs;
         }
 
-        protected object EvaluateExpression(IColumnExpression expression, DataRow row)
-        {
-            var exp = new NCalc.Expression(expression.Value);
-
-            exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
-            {
-                args.Result=GetValueFromRow(row, name);
-            };
-
-            return exp.Evaluate();
-        }
+        protected abstract void InsertRow(ScoredObject score, ref IList<ScoredObject> subset);
+        
 
         public abstract string Describe();
     }

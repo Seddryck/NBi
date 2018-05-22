@@ -1,5 +1,4 @@
-﻿using NBi.Core.Calculation.Predicate;
-using NBi.Core.Evaluate;
+﻿using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
 using System;
 using System.Collections.Generic;
@@ -8,48 +7,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Calculation
+namespace NBi.Core.Calculation.Ranking.Scoring
 {
-    public abstract class BasePredicateFilter : IResultSetFilter
+    class DataRowScorer : IScorer<DataRow>
     {
+        protected readonly IColumnIdentifier operand;
         protected readonly IEnumerable<IColumnExpression> expressions;
         protected readonly IEnumerable<IColumnAlias> aliases;
 
-        protected BasePredicateFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
+        public DataRowScorer(IColumnIdentifier operand, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
         {
+            this.operand = operand;
             this.aliases = aliases;
             this.expressions = expressions;
         }
 
-        public ResultSet.ResultSet AntiApply(ResultSet.ResultSet rs)
-        {
-            return Apply(rs, (x => !x));
-        }
-
-        public ResultSet.ResultSet Apply(ResultSet.ResultSet rs)
-        {
-            return Apply(rs, (x => x));
-        }
-
-        protected ResultSet.ResultSet Apply(ResultSet.ResultSet rs, Func<bool,bool> onApply)
-        {
-            var filteredRs = new ResultSet.ResultSet();
-            var table = rs.Table.Clone();
-            filteredRs.Load(table);
-            
-            foreach (DataRow row in rs.Rows)
-            {
-                if (onApply(RowApply(row)))
-                    filteredRs.Table.ImportRow(row);
-            }
-
-            filteredRs.Table.AcceptChanges();
-            return filteredRs;
-        }
-
-        protected abstract bool RowApply(DataRow row);
-        public bool Execute(DataRow row) => RowApply(row);
-
+        public ScoredObject Execute(DataRow row)
+            => new ScoredObject(GetValueFromRow(row, operand), row);
 
         protected object GetValueFromRow(DataRow row, IColumnIdentifier identifier)
         {
@@ -75,22 +49,23 @@ namespace NBi.Core.Calculation
             if (column != null)
                 return row[column.ColumnName];
 
-            throw new ArgumentException($"The value '{name}' is not recognized as a column name or a column position or a column alias or an expression."); 
+            throw new ArgumentException($"The value '{name}' is not recognized as a column name or a column position or a column alias or an expression.");
         }
 
         protected object EvaluateExpression(IColumnExpression expression, DataRow row)
         {
             var exp = new NCalc.Expression(expression.Value);
-            var factory = new ColumnIdentifierFactory();
+            var factory = new ColumnIdentifierFactory(); 
 
             exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
             {
-                args.Result=GetValueFromRow(row, factory.Instantiate(name));
+                args.Result = GetValueFromRow(row, factory.Instantiate(name));
             };
 
             return exp.Evaluate();
         }
 
-        public abstract string Describe();
+        
+
     }
 }

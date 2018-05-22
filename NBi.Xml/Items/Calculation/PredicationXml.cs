@@ -32,10 +32,17 @@ namespace NBi.Xml.Items.Calculation
         }
 
         [XmlAttribute("operand")]
-        public string Operand { get; set; }
+        public string OperandSerialized
+        {
+            get => Operand?.Label;
+            set { Operand = new ColumnIdentifierFactory().Instantiate(value); }
+        }
+
+        [XmlIgnore()]
+        public IColumnIdentifier Operand { get; set; }
 
         [Obsolete("Deprecated. Use operand in place of name")]
-        public string Name { get => Operand; set => Operand=value; }
+        public string Name { get => Operand.Label; set => Operand=new ColumnIdentifierFactory().Instantiate(value); }
 
         [DefaultValue(ColumnType.Numeric)]
         [XmlAttribute("type")]

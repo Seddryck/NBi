@@ -315,6 +315,7 @@
     <Compile Include="Unit\Core\Query\Execution\ExecutionEngineFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\QueryParameterTest.cs" />
     <Compile Include="Unit\Core\Report\FileReportingParserTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\ColumnIdentifierFactory.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\ColumnMappingCollectionTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByNameTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByIndexTest.cs" />

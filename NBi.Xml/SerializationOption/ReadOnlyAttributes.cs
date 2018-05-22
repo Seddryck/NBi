@@ -19,16 +19,22 @@ namespace NBi.Xml.SerializationOption
 
             XmlAttributes attrs = null;
 
-            attrs = new XmlAttributes();
-            attrs.XmlAttribute = new XmlAttributeAttribute("description");
+            attrs = new XmlAttributes
+            {
+                XmlAttribute = new XmlAttributeAttribute("description")
+            };
             Add(typeof(TestXml), "Description", attrs);
 
-            attrs = new XmlAttributes();
-            attrs.XmlAttribute = new XmlAttributeAttribute("ignore");
+            attrs = new XmlAttributes
+            {
+                XmlAttribute = new XmlAttributeAttribute("ignore")
+            };
             Add(typeof(TestXml), "Ignore", attrs);
 
-            attrs = new XmlAttributes();
-            attrs.XmlAttribute = new XmlAttributeAttribute("caption");
+            attrs = new XmlAttributes
+            {
+                XmlAttribute = new XmlAttributeAttribute("caption")
+            };
             Add(typeof(ContainXml), "Caption", attrs);
 
             attrs = new XmlAttributes();
@@ -39,15 +45,19 @@ namespace NBi.Xml.SerializationOption
             attrs.XmlElements.Add(new XmlElementAttribute("variable"));
             Add(typeof(FilterXml), "InternalAliasesOld", attrs);
 
-            attrs = new XmlAttributes();
-            attrs.XmlAttribute = (new XmlAttributeAttribute("name"));
+            attrs = new XmlAttributes
+            {
+                XmlAttribute = (new XmlAttributeAttribute("name"))
+            };
             Add(typeof(PredicationXml), "Name", attrs);
 
             var property = typeof(TestXml).GetField("Constraints");
             var arrayAttr = (XmlArrayAttribute)property.GetCustomAttributes(typeof(XmlArrayAttribute), false)[0];
             var arrayItemAttrs = property.GetCustomAttributes(typeof(XmlArrayItemAttribute), false).Cast<XmlArrayItemAttribute>().ToList();
-            attrs = new XmlAttributes();
-            attrs.XmlArray = arrayAttr;
+            attrs = new XmlAttributes
+            {
+                XmlArray = arrayAttr
+            };
             arrayItemAttrs.ForEach(i => attrs.XmlArrayItems.Add(i));
             attrs.XmlArrayItems.Add(new XmlArrayItemAttribute("subsetOf", typeof(SubsetOf1xXml)));
             Add(typeof(TestXml), "Constraints", attrs);

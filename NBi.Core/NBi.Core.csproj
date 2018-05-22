@@ -166,6 +166,12 @@
     <Compile Include="Calculation\FilterGroupByFilter.cs" />
     <Compile Include="Calculation\Ranking\AbstractRanking.cs" />
     <Compile Include="Calculation\Ranking\BottomRanking.cs" />
+    <Compile Include="Calculation\Ranking\IRankingInfo.cs" />
+    <Compile Include="Calculation\Ranking\Scoring\IScorer.cs" />
+    <Compile Include="Calculation\Ranking\RankingFactory.cs" />
+    <Compile Include="Calculation\Ranking\RankingOption.cs" />
+    <Compile Include="Calculation\Ranking\Scoring\DataRowScorer.cs" />
+    <Compile Include="Calculation\Ranking\Scoring\ScoredObject.cs" />
     <Compile Include="Calculation\Ranking\TopRanking.cs" />
     <Compile Include="Calculation\SinglePredicateFilter.cs" />
     <Compile Include="Calculation\ResultSetFilter.cs" />
@@ -383,8 +389,12 @@
     <Compile Include="ResultSet\Analyzer\KeyMatchingRowsAnalyzer.cs" />
     <Compile Include="ResultSet\Analyzer\UnexpectedRowsAnalyzer.cs" />
     <Compile Include="ResultSet\Analyzer\MissingRowsAnalyzer.cs" />
+    <Compile Include="ResultSet\ColumnIdentifierFactory.cs" />
+    <Compile Include="ResultSet\ColumnPositionIdentifier.cs" />
+    <Compile Include="ResultSet\ColumnNameIdentifier.cs" />
     <Compile Include="ResultSet\ColumnRole.cs" />
     <Compile Include="ResultSet\ColumnType.cs" />
+    <Compile Include="ResultSet\IColumnIdentifier.cs" />
     <Compile Include="ResultSet\Lookup\ReferenceAnalyzer.cs" />
     <Compile Include="ResultSet\Lookup\ColumnMapping.cs" />
     <Compile Include="ResultSet\Lookup\KeysRetriever.cs" />

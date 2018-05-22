@@ -34,8 +34,7 @@ namespace NBi.Core.Analysis.Member
 
         protected void Inform(string text)
         {
-            if (ProgressStatusChanged != null)
-                ProgressStatusChanged(this, new ProgressStatusEventArgs(text));
+            ProgressStatusChanged?.Invoke(this, new ProgressStatusEventArgs(text));
         }
 
         protected IDbCommand CreateCommand()

@@ -27,8 +27,7 @@ namespace NBi.Core.ResultSet
                     var newColumns = new List<DataColumn>();
                     foreach (DataRow row in dt.Rows)
                     {
-                        var rowTable = (row.ItemArray[column.Ordinal]) as DataTable;
-                        if (rowTable!=null) //could be the case if the array is empty
+                        if ((row.ItemArray[column.Ordinal]) is DataTable rowTable) //could be the case if the array is empty
                             foreach (DataColumn subColumn in rowTable.Columns)
                             {
                                 var columnName = string.Format("{0}.{1}", column.ColumnName, subColumn.ColumnName);

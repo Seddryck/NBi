@@ -12,10 +12,10 @@ namespace NBi.Core.Calculation.Ranking
 {
     class BottomRanking : AbstractRanking
     {
-        public BottomRanking(string operand, ColumnType columnType, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
+        public BottomRanking(IColumnIdentifier operand, ColumnType columnType, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
             : this(1, operand, columnType, aliases, expressions) { }
 
-        public BottomRanking(int count, string operand, ColumnType columnType, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
+        public BottomRanking(int count, IColumnIdentifier operand, ColumnType columnType, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
             : base(count, operand, columnType, aliases, expressions) { }
 
         protected override ComparerType GetComparerType() => ComparerType.LessThan; 

@@ -47,8 +47,10 @@ namespace NBi.Core.Evaluate
             if (!isParsed)
                 throw new InvalidOperationException("Before calling the Evaluate function, you must call the Parse function.");
 
-            var exp = new NCalc.Expression(Expression);
-            exp.Parameters = variables;
+            var exp = new NCalc.Expression(Expression)
+            {
+                Parameters = variables
+            };
             return exp.Evaluate();
         }
     }

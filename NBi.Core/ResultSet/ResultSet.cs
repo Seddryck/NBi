@@ -37,7 +37,6 @@ namespace NBi.Core.ResultSet
 
         public void Load(IEnumerable<DataRow> rows)
         {
-            Table = new DataTable();
             rows.CopyToDataTable(Table, LoadOption.OverwriteChanges);
 
             //display for debug
@@ -51,8 +50,10 @@ namespace NBi.Core.ResultSet
 
         public ResultSet Clone()
         {
-            var newRs = new ResultSet();
-            newRs.Table = Table.Clone();
+            var newRs = new ResultSet
+            {
+                Table = Table.Clone()
+            };
             return newRs;
         }
 

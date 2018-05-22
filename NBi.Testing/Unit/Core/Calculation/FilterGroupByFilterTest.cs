@@ -27,7 +27,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             var settings = new SettingsIndexResultSet(KeysChoice.First, ValuesChoice.None, NumericAbsoluteTolerance.None);
             var grouping = new IndexByColumnGrouping(settings);
 
-            var filter = new TopRanking(2, "#1", ColumnType.Numeric);
+            var filter = new TopRanking(2, new ColumnPositionIdentifier(1), ColumnType.Numeric);
 
             var rankingByGroup = new FilterGroupByFilter(filter, grouping);
 
@@ -44,7 +44,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var filter = new TopRanking(2, "#1", ColumnType.Numeric);
+            var filter = new TopRanking(2, new ColumnPositionIdentifier(1), ColumnType.Numeric);
 
             var rankingByGroup = new FilterGroupByFilter(filter, new NoneGrouping());
 

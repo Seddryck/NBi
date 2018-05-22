@@ -12,13 +12,13 @@ namespace NBi.Core.Calculation.Ranking
 {
     class TopRanking : AbstractRanking
     {
-        public TopRanking(string operand, ColumnType columnType, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
+        public TopRanking(IColumnIdentifier operand, ColumnType columnType, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
             : this(1, operand, columnType, aliases, expressions) { }
 
-        public TopRanking(int count, string operand, ColumnType columnType)
+        public TopRanking(int count, IColumnIdentifier operand, ColumnType columnType)
             : this(count, operand, columnType, null, null) { }
 
-        public TopRanking(int count, string operand, ColumnType columnType, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
+        public TopRanking(int count, IColumnIdentifier operand, ColumnType columnType, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
             : base(count, operand, columnType, aliases, expressions) { }
 
         protected override ComparerType GetComparerType() => ComparerType.MoreThan; 

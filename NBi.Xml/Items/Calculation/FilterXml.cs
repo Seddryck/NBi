@@ -46,6 +46,9 @@ namespace NBi.Xml.Items.Calculation
         [XmlElement("combination")]
         public CombinationPredicateXml Combination { get; set; }
 
+        //[XmlElement("ranking")]
+        //public RankingXml Ranking { get; set; }
+
         public FilterXml()
         {
             internalAliases = new List<AliasXml>();

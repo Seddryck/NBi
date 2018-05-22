@@ -10,6 +10,6 @@ namespace NBi.Core.Calculation
 {
     public interface IPredicateInfo : IBasePredicateInfo
     {
-        string Operand { get; set; }
+        IColumnIdentifier Operand { get; set; }
     }
 }

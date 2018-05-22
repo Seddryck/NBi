@@ -14,7 +14,7 @@ namespace NBi.Core.Calculation
     {
         public BasePredicateFilter Instantiate(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IPredicateInfo predicateInfo)
         {
-            if (string.IsNullOrEmpty(predicateInfo.Operand))
+            if (predicateInfo.Operand == null)
                 throw new ArgumentException("You must specify an operand for a predicate. The operand is the column or alias or expression on which the predicate will be evaluated.");
 
             var factory = new PredicateFactory();
@@ -32,7 +32,7 @@ namespace NBi.Core.Calculation
             var factory = new PredicateFactory();
             foreach (var predicateInfo in predicateInfos)
             {
-                if (string.IsNullOrEmpty(predicateInfo.Operand))
+                if (predicateInfo.Operand == null)
                     throw new ArgumentException("You must specify an operand for a predicate. The operand is the column or alias or expression on which the predicate will be evaluated.");
 
                 var predicate = factory.Instantiate(predicateInfo);

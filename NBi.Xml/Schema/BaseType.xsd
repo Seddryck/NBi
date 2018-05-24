@@ -1195,7 +1195,7 @@
   <xs:complexType name="filter-type">
     <xs:complexContent>
       <xs:extension base="filter-base-type">
-        <xs:choice minOccurs="1" maxOccurs="1">
+        <xs:choice minOccurs="0" maxOccurs="1">
           <xs:element name="ranking" type="ranking-type"/>
         </xs:choice>
       </xs:extension>

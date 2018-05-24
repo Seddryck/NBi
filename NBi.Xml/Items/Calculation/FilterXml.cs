@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Evaluate;
 using NBi.Xml.Items.Calculation;
+using NBi.Xml.Items.Calculation.Ranking;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -42,6 +43,9 @@ namespace NBi.Xml.Items.Calculation
 
         [XmlElement("predicate")]
         public PredicationXml Predication { get; set; }
+
+        [XmlElement("ranking")]
+        public RankingXml Ranking { get; set; }
 
         [XmlElement("combination")]
         public CombinationPredicateXml Combination { get; set; }

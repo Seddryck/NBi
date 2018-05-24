@@ -17,7 +17,7 @@ namespace NBi.Core.Calculation.Ranking
             : this(1, operand, columnType, aliases, expressions) { }
 
         public AbstractRanking(int count, IColumnIdentifier operand, ColumnType columnType, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
-            : base(aliases, expressions, operand, columnType)
+            : base(operand, columnType, aliases, expressions)
         {
             if (count <= 0)
                 throw new ArgumentOutOfRangeException("The value of count must be strictly positive.");

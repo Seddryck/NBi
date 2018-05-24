@@ -1,4 +1,5 @@
-﻿using NBi.Core.ResultSet;
+﻿using NBi.Core.Calculation.Ranking;
+using NBi.Core.ResultSet;
 using NBi.Xml.Items.Calculation.Grouping;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items.Calculation.Ranking
 {
-    public class RankingXml
+    public class RankingXml : IRankingInfo
     {
         [XmlAttribute("operand")]
         public string OperandSerialized
@@ -29,6 +30,18 @@ namespace NBi.Xml.Items.Calculation.Ranking
         [XmlElement(Type = typeof(TopRankingXml), ElementName = "top")]
         [XmlElement(Type = typeof(BottomRankingXml), ElementName = "bottom")]
         public BaseRankXml Rank { get; set; }
+
+        [XmlIgnore]
+        public RankingOption Option
+        {
+            get => Rank.Option;
+        }
+
+        [XmlIgnore]
+        public int Count
+        {
+            get => Rank.Count;
+        }
 
         [XmlElement(ElementName = "group-by")]
         public GroupByXml  GroupBy { get; set; }

@@ -10,11 +10,9 @@ namespace NBi.Core.Calculation.Ranking
 {
     public interface IRankingInfo
     {
-        RankingOption Option { get; set; }
-        int Count { get; set; }
+        RankingOption Option { get; }
+        int Count { get; }
         IColumnIdentifier Operand { get; set; }
-        ColumnType ColumnType { get; set; }
-        IEnumerable<IColumnAlias> Aliases { get; set; }
-        IEnumerable<IColumnExpression> Expressions { get; set; }
+        ColumnType Type { get; set; }
     }
 }

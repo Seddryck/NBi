@@ -37,11 +37,11 @@ namespace NBi.Core.Calculation.Ranking.Scoring
             }
 
             var name = (identifier as ColumnNameIdentifier).Name;
-            var alias = aliases.SingleOrDefault(x => x.Name == name);
+            var alias = aliases?.SingleOrDefault(x => x.Name == name);
             if (alias != null)
                 return row.ItemArray[alias.Column];
 
-            var expression = expressions.SingleOrDefault(x => x.Name == name);
+            var expression = expressions?.SingleOrDefault(x => x.Name == name);
             if (expression != null)
                 return EvaluateExpression(expression, row);
 

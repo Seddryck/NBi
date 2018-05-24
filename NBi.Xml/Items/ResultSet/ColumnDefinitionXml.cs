@@ -6,7 +6,7 @@ using NBi.Core.Transformation;
 
 namespace NBi.Xml.Items.ResultSet
 {
-    public class ColumnDefinitionLightXml
+    public class ColumnDefinitionLightXml : IColumnDefinitionLight
     {
         [XmlAttribute("identifier")]
         public string IdentifierSerializer { get; set; }

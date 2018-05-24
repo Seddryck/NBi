@@ -3,6 +3,12 @@ using NBi.Core.Transformation;
 
 namespace NBi.Core.ResultSet
 {
+    public interface IColumnDefinitionLight
+    {
+        IColumnIdentifier Identifier { get; set; }
+        ColumnType Type { get; set; }
+    }
+
     public interface IColumnDefinition
     {
         int Index { get; set; }

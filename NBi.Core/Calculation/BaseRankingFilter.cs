@@ -13,17 +13,17 @@ namespace NBi.Core.Calculation
 {
     public abstract class BaseRankingFilter : IResultSetFilter
     {
-        protected readonly IEnumerable<IColumnExpression> expressions;
-        protected readonly IEnumerable<IColumnAlias> aliases;
         protected readonly IColumnIdentifier operand;
         protected readonly ColumnType columnType;
+        protected readonly IEnumerable<IColumnAlias> aliases;
+        protected readonly IEnumerable<IColumnExpression> expressions;
 
-        protected BaseRankingFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IColumnIdentifier operand, ColumnType columnType)
+        protected BaseRankingFilter(IColumnIdentifier operand, ColumnType columnType, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
         {
-            this.aliases = aliases;
-            this.expressions = expressions;
             this.operand = operand;
             this.columnType = columnType;
+            this.aliases = aliases;
+            this.expressions = expressions;
         }
 
         public ResultSet.ResultSet AntiApply(ResultSet.ResultSet rs)

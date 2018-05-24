@@ -1,4 +1,5 @@
-﻿using NBi.Core.ResultSet;
+﻿using NBi.Core.Calculation.Ranking;
+using NBi.Core.ResultSet;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,11 +10,14 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items.Calculation.Ranking
 {
-    public class BaseRankXml
+    public abstract class BaseRankXml
     {
         [XmlAttribute("count")]
         [DefaultValue(1)]
         public int Count { get; set; }
+
+        [XmlIgnore]
+        internal abstract RankingOption Option { get; }
 
         public BaseRankXml()
         {
@@ -21,6 +25,12 @@ namespace NBi.Xml.Items.Calculation.Ranking
         }
     }
 
-    public class TopRankingXml : BaseRankXml { }
-    public class BottomRankingXml : BaseRankXml { }
+    public class TopRankingXml : BaseRankXml
+    {
+        internal override RankingOption Option { get => RankingOption.Top; }
+    }
+    public class BottomRankingXml : BaseRankXml
+    {
+        internal override RankingOption Option { get => RankingOption.Bottom; }
+    }
 }

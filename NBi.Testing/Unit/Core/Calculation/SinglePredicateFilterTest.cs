@@ -37,7 +37,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.NullOrEmpty);
             predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("a"));
 
-            var factory = new PredicateFilterFactory();
+            var factory = new ResultSetFilterFactory();
             var filter = factory.Instantiate(aliases, new IColumnExpression[0], predicate.Object);
             var result = filter.Apply(rs);
 
@@ -62,7 +62,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.NullOrEmpty);
             predicate.SetupGet(p => p.Operand).Returns(new ColumnPositionIdentifier(0));
 
-            var factory = new PredicateFilterFactory();
+            var factory = new ResultSetFilterFactory();
             var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], predicate.Object);
             var result = filter.Apply(rs);
 
@@ -89,7 +89,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.NullOrEmpty);
             predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("first"));
 
-            var factory = new PredicateFilterFactory();
+            var factory = new ResultSetFilterFactory();
             var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], predicate.Object);
             var result = filter.Apply(rs);
 
@@ -128,7 +128,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("d"));
             predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)200);
 
-            var factory = new PredicateFilterFactory();
+            var factory = new ResultSetFilterFactory();
             var filter = factory.Instantiate(aliases, expressions, predicate.Object);
             var result = filter.Apply(rs);
 
@@ -166,7 +166,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("d"));
             predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)200);
 
-            var factory = new PredicateFilterFactory();
+            var factory = new ResultSetFilterFactory();
             var filter = factory.Instantiate(aliases, expressions, predicate.Object);
             var result = filter.Apply(rs);
 

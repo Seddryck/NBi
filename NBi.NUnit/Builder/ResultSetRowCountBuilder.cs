@@ -52,7 +52,7 @@ namespace NBi.NUnit.Builder
 
                 var value = EvaluatePotentialVariable(ConstraintXml.Comparer.Value.Replace(" ", ""));
 
-                var factory = new PredicateFilterFactory();
+                var factory = new ResultSetFilterFactory();
                 if (filterXml.Predication != null)
                     filter = factory.Instantiate
                                 (

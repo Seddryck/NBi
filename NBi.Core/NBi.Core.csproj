@@ -111,7 +111,7 @@
     <Compile Include="Calculation\Combination\BaseCombinationPredicateFilter.cs" />
     <Compile Include="Calculation\Combination\OrCombinationPredicateFilter.cs" />
     <Compile Include="Calculation\BasePredicateFilter.cs" />
-    <Compile Include="Calculation\PredicateFilterFactory.cs" />
+    <Compile Include="Calculation\ResultSetFilterFactory.cs" />
     <Compile Include="Calculation\Predicate\AbstractPredicate.cs" />
     <Compile Include="Calculation\Predicate\AbstractPredicateReference.cs" />
     <Compile Include="Calculation\Predicate\Boolean\BooleanFalse.cs" />

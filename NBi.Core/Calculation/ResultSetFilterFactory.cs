@@ -1,6 +1,9 @@
-﻿using NBi.Core.Calculation.Predicate;
+﻿using NBi.Core.Calculation.Grouping;
+using NBi.Core.Calculation.Predicate;
 using NBi.Core.Calculation.Predicate.Combination;
+using NBi.Core.Calculation.Ranking;
 using NBi.Core.Evaluate;
+using NBi.Core.ResultSet;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,9 +13,9 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation
 {
-    public class PredicateFilterFactory
+    public class ResultSetFilterFactory
     {
-        public BasePredicateFilter Instantiate(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IPredicateInfo predicateInfo)
+        public IResultSetFilter Instantiate(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IPredicateInfo predicateInfo)
         {
             if (predicateInfo.Operand == null)
                 throw new ArgumentException("You must specify an operand for a predicate. The operand is the column or alias or expression on which the predicate will be evaluated.");
@@ -25,7 +28,7 @@ namespace NBi.Core.Calculation
             return pf;
         }
 
-        public BasePredicateFilter Instantiate(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, CombinationOperator combinationOperator, IEnumerable<IPredicateInfo> predicateInfos)
+        public IResultSetFilter Instantiate(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, CombinationOperator combinationOperator, IEnumerable<IPredicateInfo> predicateInfos)
         {
             var predications = new List<Predication>();
 
@@ -50,6 +53,17 @@ namespace NBi.Core.Calculation
                 default:
                     throw new ArgumentOutOfRangeException(nameof(combinationOperator));
             }
+        }
+
+        public IResultSetFilter Instantiate(IRankingInfo rankingInfo, IEnumerable<IColumnDefinitionLight> columns)
+        {
+            var groupingFactory = new ByColumnGroupingFactory();
+            var grouping = groupingFactory.Instantiate(columns);
+
+            var rankingFactory = new RankingFactory();
+            var ranking = rankingFactory.Instantiate(rankingInfo);
+
+            return new FilterGroupByFilter(ranking, grouping);
         }
     }
 }

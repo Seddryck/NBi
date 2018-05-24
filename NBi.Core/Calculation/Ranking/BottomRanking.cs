@@ -15,6 +15,9 @@ namespace NBi.Core.Calculation.Ranking
         public BottomRanking(IColumnIdentifier operand, ColumnType columnType, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
             : this(1, operand, columnType, aliases, expressions) { }
 
+        public BottomRanking(int count, IColumnIdentifier operand, ColumnType columnType)
+            : this(count, operand, columnType, null, null) { }
+
         public BottomRanking(int count, IColumnIdentifier operand, ColumnType columnType, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
             : base(count, operand, columnType, aliases, expressions) { }
 

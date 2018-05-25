@@ -8,11 +8,8 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation
 {
-    public interface IPredicateInfo
+    public interface IPredicateInfo : IBasePredicateInfo
     {
-        ColumnType ColumnType { get; set; }
-        ComparerType ComparerType { get; }
-        string Operand { get; set; }
-        bool Not { get; set; }
+        IColumnIdentifier Operand { get; set; }
     }
 }

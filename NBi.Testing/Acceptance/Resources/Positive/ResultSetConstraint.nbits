@@ -340,7 +340,50 @@
         </equalTo>
       </assert>
     </test>
-    <test name="Conversion with text-to-date" uid="0203">
+    <test name="Filter with one predicate" uid="0211">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
+          <alteration>
+            <filter>
+              <ranking operand="#1">
+                <top count="2"/>
+              </ranking>
+            </filter>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <all-rows>
+          <predicate operand="#1">
+            <more-than>1000</more-than>
+          </predicate>
+        </all-rows>
+      </assert>
+    </test>
+    <test name="Filter with one predicate" uid="0212">
+      <system-under-test>
+        <resultSet file="..\Csv\Orders.csv">
+          <alteration>
+            <filter>
+              <ranking operand="#3">
+                <bottom/>
+                <group-by>
+                  <column identifier="#2" type="text"/>
+                </group-by>
+              </ranking>
+            </filter>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <all-rows>
+          <predicate operand="#0">
+            <more-than>1</more-than>
+          </predicate>
+        </all-rows>
+      </assert>
+    </test>
+    <test name="Conversion with text-to-date" uid="0221">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv">
           <alteration>
@@ -390,7 +433,7 @@
         </equalTo>
       </assert>
     </test>
-    <test name="Conversion with text-to-date previously filtered by matches-date" uid="0204">
+    <test name="Conversion with text-to-date previously filtered by matches-date" uid="0222">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv">
           <alteration>
@@ -439,7 +482,7 @@
         </equalTo>
       </assert>
     </test>
-    <test name="Transformations" uid="0205">
+    <test name="Transformations" uid="0230">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv">
           <alteration>

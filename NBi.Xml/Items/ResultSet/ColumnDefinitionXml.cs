@@ -6,6 +6,26 @@ using NBi.Core.Transformation;
 
 namespace NBi.Xml.Items.ResultSet
 {
+    public class ColumnDefinitionLightXml : IColumnDefinitionLight
+    {
+        [XmlAttribute("identifier")]
+        public string IdentifierSerializer { get; set; }
+        [XmlIgnore]
+        public IColumnIdentifier Identifier
+        {
+            get => new ColumnIdentifierFactory().Instantiate(IdentifierSerializer);
+            set => IdentifierSerializer = value.Label;
+        }
+        [XmlAttribute("type")]
+        [DefaultValue(ColumnType.Text)]
+        public ColumnType Type { get; set; }
+
+        public ColumnDefinitionLightXml()
+        {
+            Type = ColumnType.Text;
+        }
+    }
+
     public class ColumnDefinitionXml: IColumnDefinition
     {
         [XmlAttribute("index")]

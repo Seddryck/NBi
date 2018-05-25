@@ -159,6 +159,13 @@ namespace NBi.Core.ResultSet
             ValueNames = new List<string>();
         }
 
+        internal SettingsNameResultSet(IEnumerable<IColumnDefinition> columnsDef)
+        : base(ColumnType.Numeric, NumericAbsoluteTolerance.None, new ReadOnlyCollection<IColumnDefinition>(columnsDef.ToList()))
+        {
+            KeyNames = new List<string>();
+            ValueNames = new List<string>();
+        }
+
         public IEnumerable<string> GetKeyNames()
         {
             var result = new List<string>(KeyNames);

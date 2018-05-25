@@ -79,9 +79,7 @@ namespace NBi.Service
         public event EventHandler<ProgressEventArgs> Progressed;
         public void InvokeProgress(ProgressEventArgs e)
         {
-            var handler = Progressed;
-            if (handler != null)
-                handler(this, e);
+            Progressed?.Invoke(this, e);
         }
 
         public bool CanUndo
@@ -103,10 +101,12 @@ namespace NBi.Service
             var value = new List<Test>();
             foreach (var test in tests)
             {
-                var t = new Test();
-                t.Content = test.Content;
-                t.Title = test.Name;
-                t.Reference = test;
+                var t = new Test
+                {
+                    Content = test.Content,
+                    Title = test.Name,
+                    Reference = test
+                };
                 value.Add(t);
             }
             return value;

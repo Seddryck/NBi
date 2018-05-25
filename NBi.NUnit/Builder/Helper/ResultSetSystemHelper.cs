@@ -1,12 +1,16 @@
 ﻿using NBi.Core.Calculation;
+using NBi.Core.Calculation.Grouping;
+using NBi.Core.Calculation.Ranking;
 using NBi.Core.Evaluate;
 using NBi.Core.Injection;
+using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Alteration;
 using NBi.Core.ResultSet.Conversion;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Conversion;
 using NBi.Core.Transformation;
 using NBi.Core.Variable;
+using NBi.Xml.Items.Calculation.Ranking;
 using NBi.Xml.Systems;
 using System;
 using System.Collections.Generic;
@@ -48,28 +52,38 @@ namespace NBi.NUnit.Builder.Helper
 
             if (resultSetXml.Alteration.Filters != null)
             {
+                var factory = new ResultSetFilterFactory();
                 foreach (var filterXml in resultSetXml.Alteration.Filters)
                 {
-                    var expressions = new List<IColumnExpression>();
-                    if (filterXml.Expression != null)
-                        expressions.Add(filterXml.Expression);
-
-                    var factory = new PredicateFilterFactory();
-                    if (filterXml.Predication != null)
-                        yield return factory.Instantiate
-                                    (
-                                        filterXml.Aliases
-                                        , expressions
-                                        , filterXml.Predication
-                                    ).Apply;
-                    if (filterXml.Combination != null)
-                        yield return factory.Instantiate
-                                    (
-                                        filterXml.Aliases
-                                        , expressions
-                                        , filterXml.Combination.Operator
-                                        , filterXml.Combination.Predicates
-                                    ).Apply;
+                    if (filterXml.Ranking == null)
+                    {
+                        var expressions = new List<IColumnExpression>();
+                        if (filterXml.Expression != null)
+                            expressions.Add(filterXml.Expression);
+                        
+                        if (filterXml.Predication != null)
+                            yield return factory.Instantiate
+                                        (
+                                            filterXml.Aliases
+                                            , expressions
+                                            , filterXml.Predication
+                                        ).Apply;
+                        if (filterXml.Combination != null)
+                            yield return factory.Instantiate
+                                        (
+                                            filterXml.Aliases
+                                            , expressions
+                                            , filterXml.Combination.Operator
+                                            , filterXml.Combination.Predicates
+                                        ).Apply;
+                    }
+                    else
+                    {
+                        yield return factory.Instantiate(
+                            filterXml.Ranking, 
+                            filterXml.Ranking?.GroupBy?.Columns
+                            ).Apply;
+                    }
                 }
             }
 

@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Calculation.Predicate;
 using NBi.Core.Evaluate;
+using NBi.Core.ResultSet;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -47,23 +48,21 @@ namespace NBi.Core.Calculation
         }
 
         protected abstract bool RowApply(DataRow row);
+        public bool Execute(DataRow row) => RowApply(row);
 
-        protected object GetValueFromRow(DataRow row, string name)
+
+        protected object GetValueFromRow(DataRow row, IColumnIdentifier identifier)
         {
-            if (name.StartsWith("[") && name.EndsWith("]"))
-                name = name.Substring(1, name.Length - 2);
-
-            if (name.StartsWith("#"))
+            if (identifier is ColumnPositionIdentifier)
             {
-                if (int.TryParse(name.Replace("#", ""), out var ordinal))
-                    if (ordinal <= row.Table.Columns.Count)
-                        return row.ItemArray[ordinal];
-                    else
-                        throw new ArgumentException($"The variable of the predicate is identified as '{name}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.Table.Columns.Count} columns.");
+                var ordinal = (identifier as ColumnPositionIdentifier).Position;
+                if (ordinal <= row.Table.Columns.Count)
+                    return row.ItemArray[ordinal];
                 else
-                    throw new ArgumentException($"The variable of the predicate is identified as '{name}'. All names starting by a '#' matches to a column position and must be followed by an integer.");
+                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.Table.Columns.Count} columns.");
             }
 
+            var name = (identifier as ColumnNameIdentifier).Name;
             var alias = aliases.SingleOrDefault(x => x.Name == name);
             if (alias != null)
                 return row.ItemArray[alias.Column];
@@ -76,16 +75,17 @@ namespace NBi.Core.Calculation
             if (column != null)
                 return row[column.ColumnName];
 
-            throw new ArgumentException($"The value '{name}' is not recognized as a column name or a column position or a column alias or an expression.");
+            throw new ArgumentException($"The value '{name}' is not recognized as a column name or a column position or a column alias or an expression."); 
         }
 
         protected object EvaluateExpression(IColumnExpression expression, DataRow row)
         {
             var exp = new NCalc.Expression(expression.Value);
+            var factory = new ColumnIdentifierFactory();
 
             exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
             {
-                args.Result=GetValueFromRow(row, name);
+                args.Result=GetValueFromRow(row, factory.Instantiate(name));
             };
 
             return exp.Evaluate();

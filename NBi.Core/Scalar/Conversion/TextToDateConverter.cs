@@ -30,7 +30,7 @@ namespace NBi.Core.Scalar.Conversion
 
             public ColumnType ColumnType { get => ColumnType.Text; set => throw new NotImplementedException(); }
             public ComparerType ComparerType => ComparerType.MatchesDate;
-            public string Operand { get => "undefined"; set => throw new NotImplementedException(); }
+            public IColumnIdentifier Operand { get => null; set => throw new NotImplementedException(); }
             public bool Not { get => false; set => throw new NotImplementedException(); }
             public string Culture { get; }
         }

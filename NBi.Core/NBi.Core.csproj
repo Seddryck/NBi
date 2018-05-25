@@ -92,10 +92,17 @@
     <Compile Include="Analysis\Request\FactoryValidations\TableNotNullIfColumn.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\ValidationFilter.cs" />
     <Compile Include="AttributeExtensions.cs" />
+    <Compile Include="Calculation\BaseRankingFilter.cs" />
     <Compile Include="Calculation\CombinationOperator.cs" />
     <Compile Include="Calculation\Combination\AndCombinationPredicateFilter.cs" />
     <Compile Include="Calculation\Combination\XOrCombinationPredicateFilter.cs" />
     <Compile Include="Calculation\ComparerType.cs" />
+    <Compile Include="Calculation\Grouping\AbstractByColumnGrouping.cs" />
+    <Compile Include="Calculation\Grouping\ByColumnGroupingFactory.cs" />
+    <Compile Include="Calculation\Grouping\NoneGrouping.cs" />
+    <Compile Include="Calculation\Grouping\IByColumnGrouping.cs" />
+    <Compile Include="Calculation\Grouping\NameByColumnGrouping.cs" />
+    <Compile Include="Calculation\Grouping\IndexByColumnGrouping.cs" />
     <Compile Include="Calculation\ICultureSensitivePredicateInfo.cs" />
     <Compile Include="Calculation\ICaseSensitivePredicateInfo.cs" />
     <Compile Include="Calculation\ISecondOperandPredicateInfo.cs" />
@@ -104,7 +111,7 @@
     <Compile Include="Calculation\Combination\BaseCombinationPredicateFilter.cs" />
     <Compile Include="Calculation\Combination\OrCombinationPredicateFilter.cs" />
     <Compile Include="Calculation\BasePredicateFilter.cs" />
-    <Compile Include="Calculation\PredicateFilterFactory.cs" />
+    <Compile Include="Calculation\ResultSetFilterFactory.cs" />
     <Compile Include="Calculation\Predicate\AbstractPredicate.cs" />
     <Compile Include="Calculation\Predicate\AbstractPredicateReference.cs" />
     <Compile Include="Calculation\Predicate\Boolean\BooleanFalse.cs" />
@@ -156,6 +163,16 @@
     <Compile Include="Calculation\Predicate\Text\TextEqual.cs" />
     <Compile Include="Calculation\Predicate\IPredicate.cs" />
     <Compile Include="Calculation\Predicate\Text\TextMatchesNumeric.cs" />
+    <Compile Include="Calculation\FilterGroupByFilter.cs" />
+    <Compile Include="Calculation\Ranking\AbstractRanking.cs" />
+    <Compile Include="Calculation\Ranking\BottomRanking.cs" />
+    <Compile Include="Calculation\Ranking\IRankingInfo.cs" />
+    <Compile Include="Calculation\Ranking\Scoring\IScorer.cs" />
+    <Compile Include="Calculation\Ranking\RankingFactory.cs" />
+    <Compile Include="Calculation\Ranking\RankingOption.cs" />
+    <Compile Include="Calculation\Ranking\Scoring\DataRowScorer.cs" />
+    <Compile Include="Calculation\Ranking\Scoring\ScoredObject.cs" />
+    <Compile Include="Calculation\Ranking\TopRanking.cs" />
     <Compile Include="Calculation\SinglePredicateFilter.cs" />
     <Compile Include="Calculation\ResultSetFilter.cs" />
     <Compile Include="Calculation\IResultSetFilter.cs" />
@@ -172,6 +189,7 @@
     <Compile Include="Injection\ConfigurationModule.cs" />
     <Compile Include="Injection\QueryModule.cs" />
     <Compile Include="Injection\ServiceLocator.cs" />
+    <Compile Include="Calculation\IBasePredicateInfo.cs" />
     <Compile Include="Query\EngineFactory.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="CommandTimeoutException.cs" />
@@ -363,8 +381,12 @@
     <Compile Include="ResultSet\Analyzer\KeyMatchingRowsAnalyzer.cs" />
     <Compile Include="ResultSet\Analyzer\UnexpectedRowsAnalyzer.cs" />
     <Compile Include="ResultSet\Analyzer\MissingRowsAnalyzer.cs" />
+    <Compile Include="ResultSet\ColumnIdentifierFactory.cs" />
+    <Compile Include="ResultSet\ColumnPositionIdentifier.cs" />
+    <Compile Include="ResultSet\ColumnNameIdentifier.cs" />
     <Compile Include="ResultSet\ColumnRole.cs" />
     <Compile Include="ResultSet\ColumnType.cs" />
+    <Compile Include="ResultSet\IColumnIdentifier.cs" />
     <Compile Include="ResultSet\Lookup\ReferenceAnalyzer.cs" />
     <Compile Include="ResultSet\Lookup\ColumnMapping.cs" />
     <Compile Include="ResultSet\Lookup\KeysRetriever.cs" />
@@ -650,6 +672,7 @@
       <Name>NBi.Extensibility</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

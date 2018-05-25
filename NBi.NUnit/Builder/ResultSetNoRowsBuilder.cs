@@ -34,13 +34,13 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
-        protected BasePredicateFilter InstantiateFilter()
+        protected IResultSetFilter InstantiateFilter()
         {
             var expressions = new List<IColumnExpression>();
             if (ConstraintXml.Expression != null)
                 expressions.Add(ConstraintXml.Expression);
 
-            var factory = new PredicateFilterFactory();
+            var factory = new ResultSetFilterFactory();
             if (ConstraintXml.Predication != null)
             {
                 if (ConstraintXml.Predication.Reference != null && !(ConstraintXml.Predication.Reference is IEnumerable<string>))

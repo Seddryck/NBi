@@ -93,6 +93,9 @@ namespace NBi.Framework.Markdown.MarkdownLogExtension
                                    let text = BuildCellMarkdownCode(column, cell)
                                    select text).ToList();
 
+                if (headerCells.All(h => h.Trim() == string.Empty))
+                    return;
+
                 _builder.Append("    ");
                 _builder.AppendLine(" " + string.Join(" | ", headerCells));
             }

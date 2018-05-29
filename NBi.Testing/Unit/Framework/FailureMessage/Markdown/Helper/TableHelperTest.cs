@@ -90,6 +90,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
+            dataTable.Columns["Id"].ExtendedProperties.Add("NBi::Role", ColumnRole.Key);
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);

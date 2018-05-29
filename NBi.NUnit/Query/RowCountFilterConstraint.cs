@@ -28,14 +28,6 @@ namespace NBi.NUnit.Query
             filterFunction = filter.Apply;
         }
 
-        public IResultSetFilter Filter
-        {
-            get
-            {
-                return filter;
-            }
-        }
-
         protected override IDataRowsMessageFormatter BuildFailure()
         {
             var factory = new DataRowsMessageFormatterFactory();

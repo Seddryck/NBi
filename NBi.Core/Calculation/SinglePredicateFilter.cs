@@ -38,7 +38,7 @@ namespace NBi.Core.Calculation
 
         public override string Describe()
         {
-            return $"{operand} {describeFunction()}.";
+            return $"{operand.Label} {describeFunction()}.";
         }
     }
 }

@@ -315,10 +315,24 @@ namespace NBi.Testing.Unit.Xml.Constraints
         }
 
         [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyMultipleExpressions()
+        {
+            int testNr = 11;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
+            var expressions = allRows.Expressions;
+
+            Assert.That(allRows.Expressions, Is.AssignableTo<IEnumerable<ExpressionXml>>());
+            Assert.That(allRows.Expressions, Has.Count.EqualTo(2));
+        }
+
+        [Test]
         public void Serialize_AllRowsXml_OnlyAliasNoVariable()
         {
             var allRowsXml = new AllRowsXml
-            #pragma warning disable 0618
+#pragma warning disable 0618
             {
                 InternalAliasesOld = new List<AliasXml>()
             {
@@ -327,7 +341,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             },
                 Predication = new PredicationXml()
             };
-            #pragma warning restore 0618
+#pragma warning restore 0618
 
             var serializer = new XmlSerializer(typeof(AllRowsXml));
             var stream = new MemoryStream();
@@ -346,9 +360,16 @@ namespace NBi.Testing.Unit.Xml.Constraints
         [Test]
         public void Serialize_AllRowsXml_AnyOfXml()
         {
-            var allRowsXml = new AllRowsXml();
-            allRowsXml.Predication = new PredicationXml();
-            allRowsXml.Predication.Predicate = new AnyOfXml() { Values = new List<string>() { "first", "second" } };
+            var allRowsXml = new AllRowsXml
+            {
+                Predication = new PredicationXml()
+                {
+                    Predicate = new AnyOfXml()
+                    {
+                        Values = new List<string>() { "first", "second" }
+                    }
+                }
+            };
 
             var serializer = new XmlSerializer(typeof(AllRowsXml));
             var stream = new MemoryStream();
@@ -369,12 +390,17 @@ namespace NBi.Testing.Unit.Xml.Constraints
         [Test]
         public void Serialize_ExecutionXml_NoColumnIndex()
         {
-            var allRowsXml = new AllRowsXml();
-            allRowsXml.Expression = new ExpressionXml()
+            var allRowsXml = new AllRowsXml
             {
-                Value = "a + b = c",
-                Type = ColumnType.Boolean,
-                Name = "calculate"
+                Expressions = new List<ExpressionXml>()
+                {
+                    new ExpressionXml()
+                    {
+                        Value = "a + b = c",
+                        Type = ColumnType.Boolean,
+                        Name = "calculate"
+                    }
+                }
             };
 
             var serializer = new XmlSerializer(typeof(AllRowsXml));
@@ -385,7 +411,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
                     serializer.Serialize(writer, allRowsXml);
                 content = Encoding.UTF8.GetString(stream.ToArray());
             }
-             
+
             Debug.WriteLine(content);
 
             Assert.That(content, Is.StringContaining("expression"));

@@ -178,12 +178,14 @@ namespace NBi.Testing.Unit.Xml
                     { new ReferenceXml() 
                         { Name = "Bob", ConnectionString = "connStr" } 
                     };
-            var perspectiveXml = new PerspectiveXml();
-            perspectiveXml.Caption = "My Caption";
-            perspectiveXml.Default = new DefaultXml() { ApplyTo = SettingsXml.DefaultScope.Assert, ConnectionString = "connStr" };
-            perspectiveXml.Settings = new SettingsXml()
+            var perspectiveXml = new PerspectiveXml
             {
-                References = references
+                Caption = "My Caption",
+                Default = new DefaultXml() { ApplyTo = SettingsXml.DefaultScope.Assert, ConnectionString = "connStr" },
+                Settings = new SettingsXml()
+                {
+                    References = references
+                }
             };
             var structureXml = new StructureXml() 
             {

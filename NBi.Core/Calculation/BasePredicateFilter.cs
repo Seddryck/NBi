@@ -36,11 +36,22 @@ namespace NBi.Core.Calculation
             var filteredRs = new ResultSet.ResultSet();
             var table = rs.Table.Clone();
             filteredRs.Load(table);
+            filteredRs.Table.Clear();
             
             foreach (DataRow row in rs.Rows)
             {
                 if (onApply(RowApply(row)))
+                {
+                    if (filteredRs.Rows.Count == 0 && filteredRs.Columns.Count != row.Table.Columns.Count)
+                    {
+                        foreach (DataColumn column in row.Table.Columns)
+                        {
+                            if (!filteredRs.Columns.Cast<DataColumn>().Any(x => x.ColumnName == column.ColumnName))
+                                filteredRs.Columns.Add(column.ColumnName, typeof(object));
+                        }
+                    }
                     filteredRs.Table.ImportRow(row);
+                }
             }
 
             filteredRs.Table.AcceptChanges();
@@ -69,7 +80,18 @@ namespace NBi.Core.Calculation
 
             var expression = expressions.SingleOrDefault(x => x.Name == name);
             if (expression != null)
-                return EvaluateExpression(expression, row);
+            {
+                var result = EvaluateExpression(expression, row);
+                var expColumnName = $"exp::{name}";
+                if (!row.Table.Columns.Contains(expColumnName))
+                {
+                    var newColumn = new DataColumn(expColumnName, typeof(object));
+                    row.Table.Columns.Add(newColumn);
+                }
+                    
+                row[expColumnName] = result;
+                return result;
+            }
 
             var column = row.Table.Columns.Cast<DataColumn>().SingleOrDefault(x => x.ColumnName == name);
             if (column != null)

@@ -37,8 +37,8 @@ namespace NBi.NUnit.Builder
         protected IResultSetFilter InstantiateFilter()
         {
             var expressions = new List<IColumnExpression>();
-            if (ConstraintXml.Expression != null)
-                expressions.Add(ConstraintXml.Expression);
+            if (ConstraintXml.Expressions != null)
+                expressions.AddRange(ConstraintXml.Expressions);
 
             var factory = new ResultSetFilterFactory();
             if (ConstraintXml.Predication != null)

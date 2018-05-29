@@ -28,7 +28,7 @@ namespace NBi.Xml.Constraints
         }
 
         [XmlElement("expression")]
-        public ExpressionXml Expression { get; set; }
+        public List<ExpressionXml> Expressions { get; set; }
 
         [XmlElement("alias")]
         public List<AliasXml> InternalAliases
@@ -56,6 +56,7 @@ namespace NBi.Xml.Constraints
         public NoRowsXml()
         {
             internalAliases = new List<AliasXml>();
+            Expressions = new List<ExpressionXml>();
         }
     }
 }

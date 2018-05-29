@@ -204,4 +204,19 @@
       </all-rows>
     </assert>
   </test>
+  <test name="With multiple expressions" uid="0011">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select 10 union select 20 union select 30
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <expression name="div">[#0] / 2</expression>
+        <expression name="multi">[#0] * 2</expression>
+      </all-rows>
+    </assert>
+  </test>
 </testSuite>

@@ -394,6 +394,8 @@
     <Compile Include="ResultSet\Lookup\KeysRetrieverByName.cs" />
     <Compile Include="ResultSet\Lookup\ColumnMappingCollection.cs" />
     <Compile Include="ResultSet\Lookup\ReferenceViolations.cs" />
+    <Compile Include="ResultSet\Mutation\ColumnBased\FilterIdentification.cs" />
+    <Compile Include="ResultSet\Mutation\ColumnBased\SkipIdentification.cs" />
     <Compile Include="Scalar\Comparer\CellComparer.cs" />
     <Compile Include="Scalar\Comparer\ComparerFactory.cs" />
     <Compile Include="Report\DatabaseReportingParser.cs" />

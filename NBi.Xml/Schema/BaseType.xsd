@@ -1300,6 +1300,8 @@
   <xs:complexType name="alteration-type">
     <xs:sequence>
       <xs:element name="filter" type="filter-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="filter-columns" type="filtering-columns-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="skip-columns" type="filtering-columns-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="convert" type="convert-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="transform" type="enhanced-transformation-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
@@ -1311,6 +1313,11 @@
       <xs:element name="text-to-numeric" type="conversion-type" />
     </xs:choice>
     <xs:attribute name="column" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="filtering-columns-type">
+    <xs:choice>
+      <xs:element name="column" type="definition-column-base-type" maxOccurs="unbounded"/>
+    </xs:choice>
   </xs:complexType>
   <xs:complexType name="conversion-type">
     <xs:attribute name="culture" type="xs:string"/>

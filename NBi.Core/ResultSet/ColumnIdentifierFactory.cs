@@ -10,6 +10,9 @@ namespace NBi.Core.ResultSet
     {
         public IColumnIdentifier Instantiate(string identifier)
         {
+            if (string.IsNullOrWhiteSpace(identifier))
+                throw new ArgumentException("You can't define a column's identifier with an empty name.");
+
             identifier = identifier.Trim();
             if (identifier.StartsWith("#"))
             {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet
 {
-    class ColumnPositionIdentifier : IColumnIdentifier
+    class ColumnPositionIdentifier : IColumnIdentifier, IEquatable<ColumnPositionIdentifier>
     {
         public int Position { get; private set; }
 
@@ -15,6 +15,16 @@ namespace NBi.Core.ResultSet
         public ColumnPositionIdentifier(int position)
         {
             Position = position;
+        }
+
+        public override bool Equals(object obj) => this.Equals(obj as ColumnPositionIdentifier);
+        public override int GetHashCode() => Position.GetHashCode();
+
+        public bool Equals(ColumnPositionIdentifier other)
+        {
+            if (other is null)
+                return false;
+            return (other.Position == Position);
         }
     }
 }

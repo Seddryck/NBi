@@ -1,4 +1,5 @@
 ﻿using NBi.Xml.Items.Alteration.Conversion;
+using NBi.Xml.Items.Alteration.Mutation;
 using NBi.Xml.Items.Calculation;
 using NBi.Xml.Items.ResultSet;
 using System;
@@ -18,6 +19,9 @@ namespace NBi.Xml.Items.Alteration
         public List<ConvertXml> Conversions { get; set; }
         [XmlElement("transform")]
         public List<TransformationXml> Transformations { get; set; }
+        [XmlElement(Type = typeof(FilterColumnXml), ElementName = "filter-columns")]
+        [XmlElement(Type = typeof(SkipColumnXml), ElementName = "skip-columns")]
+        public List<MutationXml> Mutations { get; set; }
 
 
         public AlterationXml()
@@ -25,6 +29,7 @@ namespace NBi.Xml.Items.Alteration
             Filters = new List<FilterXml>();
             Conversions = new List<ConvertXml>();
             Transformations = new List<TransformationXml>();
+            Mutations = new List<MutationXml>();
         }
     }
 }

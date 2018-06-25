@@ -487,6 +487,7 @@
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\Decoration\ConditionXmlTest.cs" />
     <Compile Include="Unit\Xml\Decoration\DecorationXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\Alteration\MutationXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\Calculation\RankingXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\Calculation\PredicateXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\ResultSet\TransformationXmlTest.cs" />
@@ -981,6 +982,7 @@
     <Content Include="Integration\Core\Resources\query.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Unit\Xml\Resources\MutationXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\RankingXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\ReferenceExistsXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\PredicateXmlTestSuite.xml" />

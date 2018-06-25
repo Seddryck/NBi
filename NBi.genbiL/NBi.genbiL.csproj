@@ -51,6 +51,7 @@
     </Compile>
     <Compile Include="Action\AxisType.cs" />
     <Compile Include="Action\Case\DuplicateCaseAction.cs" />
+    <Compile Include="Action\Case\LoadCaseFromDatatableAction.cs" />
     <Compile Include="Action\Case\ReduceCaseAction.cs" />
     <Compile Include="Action\Case\GroupCaseAction.cs" />
     <Compile Include="Action\Case\SplitCaseAction.cs" />
@@ -87,9 +88,11 @@
     <Compile Include="Action\Suite\SaveSuiteAction.cs" />
     <Compile Include="Action\Suite\ISuiteAction.cs" />
     <Compile Include="Action\Template\AddEmbeddedTemplateAction.cs" />
+    <Compile Include="Action\Template\AddStringTemplateAction.cs" />
     <Compile Include="Action\Template\ClearTemplateAction.cs" />
     <Compile Include="Action\Template\ITemplateAction.cs" />
     <Compile Include="Action\Template\AddFileTemplateAction.cs" />
+    <Compile Include="Action\Template\LoadStringTemplateAction.cs" />
     <Compile Include="Action\Template\LoadTemplateAction.cs" />
     <Compile Include="Action\Template\LoadFileTemplateAction.cs" />
     <Compile Include="Action\Consumable\RevokeConsumableAction.cs" />

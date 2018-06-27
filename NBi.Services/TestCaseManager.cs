@@ -54,7 +54,16 @@ namespace NBi.Service
                 variables.Add(col.ColumnName);
         }
 
-        private DataTable content;
+        public void ReadFromDataTable(DataTable datatable)
+        {
+            content = datatable.Copy();
+
+            variables.Clear();
+            foreach (DataColumn col in Content.Columns)
+                variables.Add(col.ColumnName);
+        }
+        
+private DataTable content;
         public DataTable Content
         {
             get

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Xml.Items.Alteration.Mutation
 {
-    public class FilterColumnXml: FilteringColumnXml
+    public class RemoveColumnXml : FilteringColumnXml
     {
     }
 }

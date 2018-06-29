@@ -1300,8 +1300,8 @@
   <xs:complexType name="alteration-type">
     <xs:sequence>
       <xs:element name="filter" type="filter-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="filter-columns" type="filtering-columns-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="skip-columns" type="filtering-columns-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="hold" type="filtering-columns-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="remove" type="filtering-columns-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="convert" type="convert-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="transform" type="enhanced-transformation-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>

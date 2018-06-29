@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items.Alteration.Mutation
 {
-    public class FilteringColumnXml : MutationXml
+    public class FilteringColumnXml : AlterationItemXml
     {
         [XmlElement("column")]
         public List<ColumnDefinitionLightXml> Columns { get; set; }

@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace NBi.Xml.Items.Alteration.Mutation
 {
-    public class MutationXml
+    public class AlterationItemXml
     { }
 }

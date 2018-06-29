@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
-  <test name="Alteration has a filter-columns" uid="0000">
+  <test name="Alteration has a hold" uid="0000">
     <system-under-test>
       <resultSet>
         <query>
           <report path="/path/" name="MyReport" dataset="MyDataSet"/>
         </query>
         <alteration>
-          <filter-columns>
+          <hold>
             <column identifier="#0"/>
             <column identifier="Foo"/>
-          </filter-columns>
+          </hold>
         </alteration>
       </resultSet>
     </system-under-test>
@@ -27,10 +27,10 @@
           <report path="/path/" name="MyReport" dataset="MyDataSet"/>
         </query>
         <alteration>
-          <skip-columns>
+          <remove>
             <column identifier="#0"/>
             <column identifier="Foo"/>
-          </skip-columns>
+          </remove>
         </alteration>
       </resultSet>
     </system-under-test>

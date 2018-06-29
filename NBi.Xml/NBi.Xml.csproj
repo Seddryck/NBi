@@ -136,10 +136,10 @@
     <Compile Include="Items\Alteration\Conversion\TextToDateConverterXml.cs" />
     <Compile Include="Items\Alteration\Conversion\TextToNumericConverterXml.cs" />
     <Compile Include="Items\Alteration\Conversion\TextToDateTimeConverterXml.cs" />
-    <Compile Include="Items\Alteration\Mutation\FilterColumnXml.cs" />
+    <Compile Include="Items\Alteration\Mutation\HoldColumnXml.cs" />
     <Compile Include="Items\Alteration\Mutation\FilteringColumnXml.cs" />
-    <Compile Include="Items\Alteration\Mutation\MutationXml.cs" />
-    <Compile Include="Items\Alteration\Mutation\SkipColumnXml.cs" />
+    <Compile Include="Items\Alteration\Mutation\AlterationItemXml.cs" />
+    <Compile Include="Items\Alteration\Mutation\RemoveColumnXml.cs" />
     <Compile Include="Items\Calculation\CombinationPredicateXml.cs" />
     <Compile Include="Items\Calculation\Grouping\GroupByXml.cs" />
     <Compile Include="Items\Calculation\Ranking\BaseRankXml.cs" />

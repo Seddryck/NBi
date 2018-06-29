@@ -386,6 +386,9 @@
     <Compile Include="Unit\Framework\Sampling\BasicSamplerTest.cs" />
     <Compile Include="Unit\Framework\Sampling\FullSamplerTest.cs" />
     <Compile Include="Unit\Framework\Sampling\NoneSamplerTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\CopyCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\CrossJoinCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\CrossFullCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\ReduceCaseTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\GroupCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\SplitCaseActionTest.cs" />

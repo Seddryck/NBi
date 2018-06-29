@@ -118,18 +118,18 @@ namespace NBi.GenbiL.Parser
                 from first in Grammar.QuotedTextual
                 from withKeyword in Keyword.With
                 from second in Grammar.QuotedTextual
-                select new CrossCaseAction(first, second)
+                select new CrossFullCaseAction(first, second)
         );
 
-        readonly static Parser<ICaseAction> caseCrossOnColumnParser =
+        readonly static Parser<ICaseAction> caseCrossJoinParser =
         (
                 from cross in Keyword.Cross
                 from first in Grammar.QuotedTextual
                 from withKeyword in Keyword.With
                 from second in Grammar.QuotedTextual
                 from onKeyword in Keyword.On
-                from matchingColumn in Grammar.QuotedTextual
-                select new CrossCaseAction(first, second, matchingColumn)
+                from matchingColumns in Grammar.QuotedRecordSequence
+                select new CrossJoinCaseAction(first, second, matchingColumns)
         );
 
         readonly static Parser<ICaseAction> caseCrossVectorParser =
@@ -316,7 +316,7 @@ namespace NBi.GenbiL.Parser
                                     .Or(caseFilterParser)
                                     .Or(caseFilterDistinctParser)
                                     .Or(caseScopeParser)
-                                    .Or(caseCrossOnColumnParser)
+                                    .Or(caseCrossJoinParser)
                                     .Or(caseCrossFullParser)
                                     .Or(caseCrossVectorParser)
                                     .Or(caseSaveParser)

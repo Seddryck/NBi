@@ -50,6 +50,8 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Action\AxisType.cs" />
+    <Compile Include="Action\Case\CrossJoinCaseAction.cs" />
+    <Compile Include="Action\Case\CrossFullCaseAction.cs" />
     <Compile Include="Action\Case\DuplicateCaseAction.cs" />
     <Compile Include="Action\Case\LoadCaseFromDatatableAction.cs" />
     <Compile Include="Action\Case\ReduceCaseAction.cs" />

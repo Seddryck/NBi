@@ -6,30 +6,24 @@ using System.Threading.Tasks;
 
 namespace NBi.GenbiL.Action.Case
 {
-    class CrossVectorCaseAction : ICaseAction
+    class CrossVectorCaseAction : CrossCaseAction
     {
-        public string FirstSet { get; set; }
-        public string VectorName { get; set; }
         public IEnumerable<string> Values { get; set; }
 
         public CrossVectorCaseAction(string firstSet, string vectorName, IEnumerable<string> values)
+            : base(firstSet, vectorName)
         {
-            FirstSet = firstSet;
-            VectorName = vectorName;
             Values = values;
         }
 
-        public void Execute(GenerationState state)
+        public override void Execute(GenerationState state)
         {
-            state.TestCaseCollection.Cross(FirstSet, VectorName, Values);
+            state.TestCaseCollection.Cross(FirstSet, SecondSet, Values);
         }
 
-        public virtual string Display
+        public override string Display
         {
-            get
-            {
-                return string.Format("Crossing test cases set '{0}' with vector '{1}' defined as '{2}'", FirstSet, VectorName, String.Join("', '", Values));
-            }
+            get => $"Crossing test cases set '{FirstSet}' with vector '{SecondSet}' defined as '{String.Join("', '", Values)}'";
         }
 
         

@@ -104,24 +104,5 @@ namespace NBi.Service
 
             connectionStrings[name] = newValue;
         }
-
-        public void Copy(string from, string to)
-        {
-            if (!dico.Keys.Contains(from))
-                throw new ArgumentException(String.Format("The test case set named '{0}' doesn't exist.", from), "from");
-
-            if (dico.Keys.Contains(to))
-                throw new ArgumentException(String.Format("The test case set named '{0}' already exists. The copy command cannot be performed on an existing test cases set", to), "to");
-
-            var dataReader = Item(from).Content.CreateDataReader();
-
-            Item(to).Content.Clear();
-            Item(to).Content.Load(dataReader, LoadOption.PreserveChanges);
-            Item(to).Content.AcceptChanges();
-
-            Item(to).Variables.Clear();
-            foreach (DataColumn col in Item(to).Content.Columns)
-                Item(to).Variables.Add(col.ColumnName);
-        }
     }
 }

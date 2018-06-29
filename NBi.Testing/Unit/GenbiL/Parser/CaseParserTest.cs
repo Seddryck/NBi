@@ -303,7 +303,25 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             var crossCase = result as CrossJoinCaseAction;
             Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
             Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
-            Assert.That(crossCase.MatchingColumn, Is.EqualTo("myKey"));
+            Assert.That(crossCase.MatchingColumns.Count(), Is.EqualTo(1));
+            Assert.That(crossCase.MatchingColumns, Has.Member("myKey"));
+        }
+
+        [Test]
+        public void SentenceParser_CaseCrossOnColumns_ValidCrossAction()
+        {
+            var input = "case cross 'alpha' with 'beta' on 'myKey1', 'myKey2'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<CrossJoinCaseAction>());
+
+            var crossCase = result as CrossJoinCaseAction;
+            Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
+            Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
+            Assert.That(crossCase.MatchingColumns.Count(), Is.EqualTo(2));
+            Assert.That(crossCase.MatchingColumns, Has.Member("myKey1"));
+            Assert.That(crossCase.MatchingColumns, Has.Member("myKey2"));
         }
 
         [Test]

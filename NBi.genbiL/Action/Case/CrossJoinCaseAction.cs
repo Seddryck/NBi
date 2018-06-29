@@ -9,21 +9,27 @@ namespace NBi.GenbiL.Action.Case
 {
     class CrossJoinCaseAction : CrossCaseAction
     {
-        public string MatchingColumn { get; set; }
+        public IEnumerable<string> MatchingColumns { get; set; }
 
 
-        public CrossJoinCaseAction(string firstSet, string secondSet, string matchingColumn)
+        public CrossJoinCaseAction(string firstSet, string secondSet, IEnumerable<string> matchingColumns)
             : base(firstSet, secondSet)
         {
-            MatchingColumn = matchingColumn;
+            MatchingColumns = matchingColumns;
         }
 
-        public override bool MatchingRow(DataRow first, DataRow second) 
-            => first[MatchingColumn].Equals(second[MatchingColumn]);
+        public override bool MatchingRow(DataRow first, DataRow second)
+        {
+            var result = true;
+            var enumerator = MatchingColumns.GetEnumerator();
+            while (enumerator.MoveNext() && result)
+                result = first[enumerator.Current].Equals(second[enumerator.Current]);
+            return result;
+        }
 
         public override string Display
         {
-            get => $"Crossing the set of test-cases '{FirstSet}' with '{SecondSet}' on column '{MatchingColumn}'";
+            get => $"Crossing the set of test-cases '{FirstSet}' with '{SecondSet}' on column '{MatchingColumns}'";
         }
 
     }

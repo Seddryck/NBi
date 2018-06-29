@@ -51,11 +51,106 @@ namespace NBi.Testing.Unit.GenbiL.Action.Case
             thirdBetaRow[1] = "secondBetaCell3";
             betaCase.Content.Rows.Add(thirdBetaRow);
 
-            var action = new CrossJoinCaseAction("alpha", "beta", "keyColumn");
+            var action = new CrossJoinCaseAction("alpha", "beta", new[] { "keyColumn" });
             action.Execute(state);
 
             Assert.That(alphaCase.Content.Rows, Has.Count.EqualTo(3));
             Assert.That(alphaCase.Content.Columns, Has.Count.EqualTo(4));
+        }
+
+        [Test]
+        public void Cross_ThreeTimesTwoWithTwoCommonColumnNames_ThreeRowsThreeColumns()
+        {
+            var state = new GenerationState();
+            var alphaCase = state.TestCaseCollection.Item("alpha");
+            alphaCase.Content.Columns.Add("keyColumn1");
+            alphaCase.Content.Columns.Add("keyColumn2");
+            alphaCase.Content.Columns.Add("thirdColumn");
+            alphaCase.Variables.Add("keyColumn1");
+            alphaCase.Variables.Add("keyColumn2");
+            alphaCase.Variables.Add("thirdColumn");
+            var firstAlphaRow = alphaCase.Content.NewRow();
+            firstAlphaRow[0] = "key1";
+            firstAlphaRow[1] = "keyA";
+            firstAlphaRow[2] = "thirdAlphaCell1";
+            alphaCase.Content.Rows.Add(firstAlphaRow);
+            var secondAlphaRow = alphaCase.Content.NewRow();
+            secondAlphaRow[0] = "key2";
+            secondAlphaRow[1] = "keyB";
+            secondAlphaRow[2] = "thirdAlphaCell2";
+            alphaCase.Content.Rows.Add(secondAlphaRow);
+
+            var betaCase = state.TestCaseCollection.Item("beta");
+            betaCase.Content.Columns.Add("keyColumn1");
+            betaCase.Content.Columns.Add("keyColumn2");
+            betaCase.Variables.Add("keyColumn1");
+            betaCase.Variables.Add("keyColumn2");
+            var firstBetaRow = betaCase.Content.NewRow();
+            firstBetaRow[0] = "key1";
+            firstBetaRow[1] = "keyA";
+            betaCase.Content.Rows.Add(firstBetaRow);
+            var secondBetaRow = betaCase.Content.NewRow();
+            secondBetaRow[0] = "key1";
+            secondBetaRow[1] = "keyA";
+            betaCase.Content.Rows.Add(secondBetaRow);
+            var thirdBetaRow = betaCase.Content.NewRow();
+            thirdBetaRow[0] = "key2";
+            thirdBetaRow[1] = "keyB";
+            betaCase.Content.Rows.Add(thirdBetaRow);
+
+            var action = new CrossJoinCaseAction("alpha", "beta", new[] { "keyColumn1", "keyColumn2" });
+            action.Execute(state);
+
+            Assert.That(alphaCase.Content.Rows, Has.Count.EqualTo(3));
+            Assert.That(alphaCase.Content.Columns, Has.Count.EqualTo(3));
+        }
+
+
+        [Test]
+        public void Cross_MissingMatch_LessRows()
+        {
+            var state = new GenerationState();
+            var alphaCase = state.TestCaseCollection.Item("alpha");
+            alphaCase.Content.Columns.Add("keyColumn1");
+            alphaCase.Content.Columns.Add("keyColumn2");
+            alphaCase.Content.Columns.Add("thirdColumn");
+            alphaCase.Variables.Add("keyColumn1");
+            alphaCase.Variables.Add("keyColumn2");
+            alphaCase.Variables.Add("thirdColumn");
+            var firstAlphaRow = alphaCase.Content.NewRow();
+            firstAlphaRow[0] = "key1";
+            firstAlphaRow[1] = "keyA";
+            firstAlphaRow[2] = "thirdAlphaCell1";
+            alphaCase.Content.Rows.Add(firstAlphaRow);
+            var secondAlphaRow = alphaCase.Content.NewRow();
+            secondAlphaRow[0] = "key2";
+            secondAlphaRow[1] = "keyB";
+            secondAlphaRow[2] = "thirdAlphaCell2";
+            alphaCase.Content.Rows.Add(secondAlphaRow);
+
+            var betaCase = state.TestCaseCollection.Item("beta");
+            betaCase.Content.Columns.Add("keyColumn1");
+            betaCase.Content.Columns.Add("keyColumn2");
+            betaCase.Variables.Add("keyColumn1");
+            betaCase.Variables.Add("keyColumn2");
+            var firstBetaRow = betaCase.Content.NewRow();
+            firstBetaRow[0] = "key1";
+            firstBetaRow[1] = "keyA";
+            betaCase.Content.Rows.Add(firstBetaRow);
+            var secondBetaRow = betaCase.Content.NewRow();
+            secondBetaRow[0] = "key1";
+            secondBetaRow[1] = "keyZ";
+            betaCase.Content.Rows.Add(secondBetaRow);
+            var thirdBetaRow = betaCase.Content.NewRow();
+            thirdBetaRow[0] = "key2";
+            thirdBetaRow[1] = "keyB";
+            betaCase.Content.Rows.Add(thirdBetaRow);
+
+            var action = new CrossJoinCaseAction("alpha", "beta", new[] { "keyColumn1", "keyColumn2" });
+            action.Execute(state);
+
+            Assert.That(alphaCase.Content.Rows, Has.Count.EqualTo(2));
+            Assert.That(alphaCase.Content.Columns, Has.Count.EqualTo(3));
         }
 
     }

@@ -16,17 +16,17 @@ Sample:
 case cross 'first set' with 'second set';
 {% endhighlight %}
 
-## Cross with jointure on a column
+## Cross with jointure on one or more columns
 
-A *cross on column* will select all rows from both sets as long as there is a match between the values of the column specified. You should compare this feature to a *inner join* in SQL.
+A *cross on column* will select all rows from both sets as long as there is a match between the values of the specified columns. You should compare this feature to a *inner join* in SQL.
 
-The name of the column on which you apply your matching condition must be the same on the two tables. To rename a column, use the action [Rename (case)](../column-rename/).
+The columns' name on which you apply your matching condition must be the same on the two tables. To rename a column, use the action [Rename (case)](../column-rename/).
 
-The syntax is the same than for a full cross but you must also specify the name of the column after the keyword *on*.
+The syntax is the same than for a full cross but you must also specify the columns' name after the keyword *on*.
 
 Sample:
 {% highlight xml %}
-case cross 'first set' with 'second set' on 'column-name';
+case cross 'first set' with 'second set' on 'column-name-1', 'column-name-1';
 {% endhighlight %}
 
 ## Cross with a vector

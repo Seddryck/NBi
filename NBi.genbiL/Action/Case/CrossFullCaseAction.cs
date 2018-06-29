@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,16 +13,11 @@ namespace NBi.GenbiL.Action.Case
             : base(firstSet, secondSet){ }
 
         
-        public override void Execute(GenerationState state)
-        {
-            state.TestCaseCollection.Cross(FirstSet, SecondSet);
-        }
+        public override bool MatchingRow(DataRow first, DataRow second) => true;
 
         public override string Display
         {
-            get => $"Fully crossing test cases set '{FirstSet}' with '{SecondSet}'";
+            get => $"Fully crossing the set of test-cases '{FirstSet}' with '{SecondSet}'";
         }
-
-        
     }
 }

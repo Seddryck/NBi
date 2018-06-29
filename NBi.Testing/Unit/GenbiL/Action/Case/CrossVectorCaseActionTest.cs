@@ -70,7 +70,7 @@ namespace NBi.Testing.Unit.GenbiL.Action.Case
         public void Display_SecondAndThirdColumns_CorrectMessage()
         {
             var action = new CrossVectorCaseAction("initialSet", "vector", new[] { "Hello", "World" });
-            Assert.That(action.Display, Is.EqualTo("Crossing test cases set 'initialSet' with vector 'vector' defined as 'Hello', 'World'"));
+            Assert.That(action.Display, Is.EqualTo("Crossing set of test-cases 'initialSet' with vector 'vector' defined as 'Hello', 'World'"));
         }
     }
 }

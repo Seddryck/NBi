@@ -105,78 +105,6 @@ namespace NBi.Service
             connectionStrings[name] = newValue;
         }
 
-        public void Cross(string firstSet, string secondSet)
-        {
-            if (!dico.Keys.Contains(firstSet))
-                throw new ArgumentException(String.Format("The test case set named '{0}' doesn't exist.", firstSet), "firstSet");
-
-            if (!dico.Keys.Contains(secondSet))
-                throw new ArgumentException(String.Format("The test case set named '{0}' doesn't exist.", secondSet), "secondSet");
-
-            CrossContent(dico[firstSet].Content, dico[secondSet].Content, delegate { return true; });
-        }
-
-        public void Cross(string firstSet, string secondSet, string matchingColumn)
-        {
-            if (!dico.Keys.Contains(firstSet))
-                throw new ArgumentException(String.Format("The test case set named '{0}' doesn't exist.", firstSet), "firstSet");
-
-            if (!dico.Keys.Contains(secondSet))
-                throw new ArgumentException(String.Format("The test case set named '{0}' doesn't exist.", secondSet), "secondSet");
-
-            if (!dico[firstSet].Content.Columns.Contains(matchingColumn))
-                throw new ArgumentException(String.Format("The test case set named '{0}' doesn't contain a column named '{1}'.", firstSet, matchingColumn));
-
-            if (!dico[secondSet].Content.Columns.Contains(matchingColumn))
-                throw new ArgumentException(String.Format("The test case set named '{0}' doesn't contain a column named '{1}'.", secondSet, matchingColumn));
-
-            bool matchingRow(DataRow a, DataRow b) => a[matchingColumn].Equals(b[matchingColumn]);
-            CrossContent(dico[firstSet].Content, dico[secondSet].Content, matchingRow);
-        }
-
-        private void CrossContent(DataTable first, DataTable second, Func<DataRow, DataRow, bool> matchingRow)
-        {
-            var table = BuildStructure(first, second);
-
-            foreach(DataRow firstRow in first.Rows)
-            {
-                foreach (DataRow secondRow in second.Rows)
-                {
-                    if (matchingRow(firstRow, secondRow))
-                    {
-                        var newRow = table.NewRow();
-                        foreach (DataColumn column in firstRow.Table.Columns)
-                            newRow[column.ColumnName] = firstRow[column.ColumnName];
-                        foreach (DataColumn column in secondRow.Table.Columns)
-                            newRow[column.ColumnName] = secondRow[column.ColumnName];
-                        table.Rows.Add(newRow);
-                    }
-                }
-            }
-
-            var dataReader = table.CreateDataReader();
-            Scope.Content.Clear();
-            Scope.Content.Load(dataReader, LoadOption.PreserveChanges);
-            Scope.Content.AcceptChanges();
-            Scope.Variables.Clear();
-            foreach (DataColumn column in Scope.Content.Columns)
-                Scope.Variables.Add(column.ColumnName);
-        }
-
-
-
-        private DataTable BuildStructure(DataTable firstSet, DataTable secondSet)
-        {
-            var table = new DataTable();
-            foreach (DataColumn column in firstSet.Columns)
-                table.Columns.Add(column.ColumnName, typeof(object));
-            foreach (DataColumn column in secondSet.Columns)
-                if (!table.Columns.Contains(column.ColumnName))
-                    table.Columns.Add(column.ColumnName, typeof(object));
-
-            return table;
-        }
-
         public void Copy(string from, string to)
         {
             if (!dico.Keys.Contains(from))
@@ -194,23 +122,6 @@ namespace NBi.Service
             Item(to).Variables.Clear();
             foreach (DataColumn col in Item(to).Content.Columns)
                 Item(to).Variables.Add(col.ColumnName);
-        }
-
-        public void Cross(string firstSet, string vectorName, IEnumerable<string> values)
-        {
-            if (!dico.Keys.Contains(firstSet))
-                throw new ArgumentException(String.Format("The test case set named '{0}' doesn't exist.", firstSet), "firstSet");
-
-            var vector = new DataTable();
-            vector.Columns.Add(vectorName);
-            foreach (var item in values)
-            {
-                var row = vector.NewRow();
-                row.ItemArray = new[] { item };
-                vector.Rows.Add(row);
-            }
-
-            CrossContent(dico[firstSet].Content, vector, delegate { return true; });
         }
     }
 }

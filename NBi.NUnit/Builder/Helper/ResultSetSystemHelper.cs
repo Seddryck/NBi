@@ -10,6 +10,7 @@ using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Conversion;
 using NBi.Core.Transformation;
 using NBi.Core.Variable;
+using NBi.Xml.Items.Alteration.Mutation;
 using NBi.Xml.Items.Calculation.Ranking;
 using NBi.Xml.Systems;
 using System;
@@ -104,6 +105,22 @@ namespace NBi.NUnit.Builder.Helper
                 foreach (var transformationXml in resultSetXml.Alteration.Transformations)
                     provider.Add(transformationXml.ColumnIndex, transformationXml);
                 yield return provider.Transform;
+            }
+
+            if (resultSetXml.Alteration.Mutations != null)
+            {
+                var factory = new AlterationFactory();
+                foreach (var mutationXml in resultSetXml.Alteration.Mutations)
+                {
+                    if (mutationXml is FilteringColumnXml)
+                    {
+                        var alterationXml = mutationXml as FilteringColumnXml;
+                        var alteration = factory.Instantiate(alterationXml.Type, alterationXml.Columns.Select(x => x.Identifier));
+                        yield return alteration.Execute;
+                    }
+                    
+                }
+
             }
         }
     }

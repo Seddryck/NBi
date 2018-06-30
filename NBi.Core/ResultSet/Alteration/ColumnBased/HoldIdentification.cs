@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Mutation.ColumnBased
+namespace NBi.Core.ResultSet.Alteration.ColumnBased
 {
-    class FilterIdentification : SkipIdentification
+    class HoldIdentification : RemoveIdentification
     {
-        public FilterIdentification(IEnumerable<IColumnIdentifier> identifiers)
+        public HoldIdentification(IEnumerable<IColumnIdentifier> identifiers)
             : base(identifiers) { }
 
         protected override bool IsColumnToRemove(ResultSet resultSet, IEnumerable<DataColumn> identifiedColumns, int index)

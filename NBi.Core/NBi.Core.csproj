@@ -375,6 +375,9 @@
     <Compile Include="Report\ReportDataSetRequest.cs" />
     <Compile Include="Report\ReportingCommand.cs" />
     <Compile Include="ResultSet\Alteration\Alter.cs" />
+    <Compile Include="ResultSet\Alteration\AlterationFactory.cs" />
+    <Compile Include="ResultSet\Alteration\AlterationType.cs" />
+    <Compile Include="ResultSet\Alteration\IAlteration.cs" />
     <Compile Include="ResultSet\Analyzer\AnalyzersFactory.cs" />
     <Compile Include="ResultSet\Analyzer\BaseRowsAnalyzer.cs" />
     <Compile Include="ResultSet\Analyzer\IRowsAnalyzer.cs" />
@@ -394,8 +397,8 @@
     <Compile Include="ResultSet\Lookup\KeysRetrieverByName.cs" />
     <Compile Include="ResultSet\Lookup\ColumnMappingCollection.cs" />
     <Compile Include="ResultSet\Lookup\ReferenceViolations.cs" />
-    <Compile Include="ResultSet\Mutation\ColumnBased\FilterIdentification.cs" />
-    <Compile Include="ResultSet\Mutation\ColumnBased\SkipIdentification.cs" />
+    <Compile Include="ResultSet\Alteration\ColumnBased\HoldIdentification.cs" />
+    <Compile Include="ResultSet\Alteration\ColumnBased\RemoveIdentification.cs" />
     <Compile Include="Scalar\Comparer\CellComparer.cs" />
     <Compile Include="Scalar\Comparer\ComparerFactory.cs" />
     <Compile Include="Report\DatabaseReportingParser.cs" />

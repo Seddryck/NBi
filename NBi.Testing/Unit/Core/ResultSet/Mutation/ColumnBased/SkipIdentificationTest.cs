@@ -1,5 +1,5 @@
 ﻿using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Mutation.ColumnBased;
+using NBi.Core.ResultSet.Alteration.ColumnBased;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Mutation.ColumnBased
             var factory = new ColumnIdentifierFactory();
             var id = factory.Instantiate(identifier);
 
-            var skip = new SkipIdentification(new[] { id });
+            var skip = new RemoveIdentification(new[] { id });
             skip.Execute(rs);
 
             Assert.That(rs.Columns.Count, Is.EqualTo(2));
@@ -47,7 +47,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Mutation.ColumnBased
 
             var factory = new ColumnIdentifierFactory();
 
-            var skip = new SkipIdentification(new[] { factory.Instantiate(id1), factory.Instantiate(id2) });
+            var skip = new RemoveIdentification(new[] { factory.Instantiate(id1), factory.Instantiate(id2) });
             skip.Execute(rs);
 
             Assert.That(rs.Columns.Count, Is.EqualTo(1));
@@ -68,7 +68,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Mutation.ColumnBased
 
             var factory = new ColumnIdentifierFactory();
 
-            var skip = new SkipIdentification(new[] { factory.Instantiate(id1), factory.Instantiate(id2) });
+            var skip = new RemoveIdentification(new[] { factory.Instantiate(id1), factory.Instantiate(id2) });
             skip.Execute(rs);
 
             Assert.That(rs.Columns.Count, Is.EqualTo(2));
@@ -87,7 +87,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Mutation.ColumnBased
 
             var factory = new ColumnIdentifierFactory();
 
-            var skip = new SkipIdentification(new[] { factory.Instantiate(id) });
+            var skip = new RemoveIdentification(new[] { factory.Instantiate(id) });
             skip.Execute(rs);
 
             Assert.That(rs.Columns.Count, Is.EqualTo(3));

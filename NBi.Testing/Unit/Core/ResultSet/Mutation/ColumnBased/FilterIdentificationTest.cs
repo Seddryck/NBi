@@ -1,5 +1,5 @@
 ﻿using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Mutation.ColumnBased;
+using NBi.Core.ResultSet.Alteration.ColumnBased;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Mutation.ColumnBased
             var factory = new ColumnIdentifierFactory();
             var id = factory.Instantiate(identifier);
 
-            var filter = new FilterIdentification(new[] { id });
+            var filter = new HoldIdentification(new[] { id });
             filter.Execute(rs);
 
             Assert.That(rs.Columns.Count, Is.EqualTo(1));
@@ -46,7 +46,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Mutation.ColumnBased
 
             var factory = new ColumnIdentifierFactory();
 
-            var filter = new FilterIdentification(new[] { factory.Instantiate(id1), factory.Instantiate(id2) });
+            var filter = new HoldIdentification(new[] { factory.Instantiate(id1), factory.Instantiate(id2) });
             filter.Execute(rs);
 
             Assert.That(rs.Columns.Count, Is.EqualTo(2));
@@ -68,7 +68,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Mutation.ColumnBased
 
             var factory = new ColumnIdentifierFactory();
 
-            var filter = new FilterIdentification(new[] { factory.Instantiate(id1), factory.Instantiate(id2) });
+            var filter = new HoldIdentification(new[] { factory.Instantiate(id1), factory.Instantiate(id2) });
             filter.Execute(rs);
 
             Assert.That(rs.Columns.Count, Is.EqualTo(1));
@@ -87,7 +87,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Mutation.ColumnBased
 
             var factory = new ColumnIdentifierFactory();
 
-            var filter = new FilterIdentification(new[] { factory.Instantiate(id) });
+            var filter = new HoldIdentification(new[] { factory.Instantiate(id) });
             filter.Execute(rs);
 
             Assert.That(rs.Columns.Count, Is.EqualTo(0));

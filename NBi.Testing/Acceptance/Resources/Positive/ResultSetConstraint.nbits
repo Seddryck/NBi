@@ -19,7 +19,7 @@
       <query-scalar>select 1963</query-scalar>
     </variable>
   </variables>
-  <group name="asserts">
+  <!--<group name="asserts">
     <test name="Csv equal to embedded result-set" uid="0001">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
@@ -275,9 +275,9 @@
         </equalTo>
       </assert>
     </test>
-  </group>
+  </group>-->
   <group name="alterations">
-    <test name="Filter with one predicate" uid="0201">
+    <!--<test name="Filter with one predicate" uid="0201">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
           <alteration>
@@ -529,6 +529,82 @@
               <cell>AA0005</cell>
               <cell>2017</cell>
               <cell>3</cell>
+              <cell>55</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>-->
+    <test name="Hold columns" uid="0241">
+      <system-under-test>
+        <resultSet file="..\Csv\Orders.csv">
+          <alteration>
+            <hold>
+              <column identifier="#0"/>
+              <column identifier="#3"/>
+            </hold>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo keys="first">
+          <resultSet>
+            <row>
+              <cell>0001</cell>
+              <cell>100</cell>
+            </row>
+            <row>
+              <cell>0002</cell>
+              <cell>80</cell>
+            </row>
+            <row>
+              <cell>0003</cell>
+              <cell>120</cell>
+            </row>
+            <row>
+              <cell>0004</cell>
+              <cell>80</cell>
+            </row>
+            <row>
+              <cell>0005</cell>
+              <cell>55</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Remove columns" uid="0242">
+      <system-under-test>
+        <resultSet file="..\Csv\Orders.csv">
+          <alteration>
+            <remove>
+              <column identifier="#1"/>
+              <column identifier="#2"/>
+            </remove>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo keys="first">
+          <resultSet>
+            <row>
+              <cell>0001</cell>
+              <cell>100</cell>
+            </row>
+            <row>
+              <cell>0002</cell>
+              <cell>80</cell>
+            </row>
+            <row>
+              <cell>0003</cell>
+              <cell>120</cell>
+            </row>
+            <row>
+              <cell>0004</cell>
+              <cell>80</cell>
+            </row>
+            <row>
+              <cell>0005</cell>
               <cell>55</cell>
             </row>
           </resultSet>

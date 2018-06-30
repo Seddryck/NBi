@@ -1,22 +1,23 @@
-﻿using System;
+﻿using NBi.Core.ResultSet.Alteration;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Mutation.ColumnBased
+namespace NBi.Core.ResultSet.Alteration.ColumnBased
 {
-    class SkipIdentification
+    class RemoveIdentification : IAlteration
     {
         private IEnumerable<IColumnIdentifier> Identifiers { get; }
 
-        public SkipIdentification(IEnumerable<IColumnIdentifier> identifiers)
+        public RemoveIdentification(IEnumerable<IColumnIdentifier> identifiers)
         {
             Identifiers = identifiers;
         }
 
-        public void Execute(ResultSet resultSet)
+        public ResultSet Execute(ResultSet resultSet)
         {
             var factory = new ColumnIdentifierFactory();
             var columns = new List<DataColumn>();
@@ -39,6 +40,7 @@ namespace NBi.Core.ResultSet.Mutation.ColumnBased
                     i++;
             }
             resultSet.Table.AcceptChanges();
+            return resultSet;
         }
 
         protected virtual bool IsColumnToRemove(ResultSet resultSet, IEnumerable<DataColumn> identifiedColumns, int index)

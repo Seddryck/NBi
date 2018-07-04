@@ -22,6 +22,11 @@ namespace NBi.Core.ResultSet
                         return new ColumnPositionIdentifier(position);
                 throw new ArgumentException($"The column identification '{positionString}' is starting by a '#' implying that it's a position but the position is not a numeric value or not a positive value or not an integer value.");
             }
+            else if(identifier.StartsWith("&"))
+            {
+                var positionString = identifier.Substring(1);
+                return new ColumnDynamicIdentifier(positionString, (int i) => i + 1);
+            }
             else
             {
                 if (identifier.StartsWith("[") && identifier.EndsWith("]"))
@@ -30,5 +35,6 @@ namespace NBi.Core.ResultSet
                     return new ColumnNameIdentifier(identifier);
             }
         }
+
     }
 }

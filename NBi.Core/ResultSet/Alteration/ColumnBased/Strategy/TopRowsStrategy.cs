@@ -13,27 +13,21 @@ namespace NBi.Core.ResultSet.Alteration.ColumnBased.Strategy
     {
         public int Value { get => 1; }
 
-        public ResultSet Execute(ResultSet resultSet, IPredicateInfo predicateInfo, IAlteration baseAlteration, Func<DataRow, IColumnIdentifier, object> getValueFromRow)
+        public bool Execute(ResultSet resultSet, IPredicateInfo predicateInfo, Func<DataRow, IColumnIdentifier, object> getValueFromRow)
         {
-            var result = true;
-            while (result)
-            {
-                result = false;
-                var factory = new PredicateFactory();
-                var predicate = factory.Instantiate(predicateInfo);
-                var i = 0;
-                var enumeratorRow = resultSet.Rows.GetEnumerator();
+            var result = false;
+            var factory = new PredicateFactory();
+            var predicate = factory.Instantiate(predicateInfo);
+            var i = 0;
+            var enumeratorRow = resultSet.Rows.GetEnumerator();
 
-                while (enumeratorRow.MoveNext() && !result && i<Value)
-                {
-                    var value = getValueFromRow(enumeratorRow.Current as DataRow, predicateInfo.Operand);
-                    result = predicate.Execute(value);
-                    i++;
-                }
-                if (result)
-                    baseAlteration.Execute(resultSet);
+            while (enumeratorRow.MoveNext() && !result && i < Value)
+            {
+                var value = getValueFromRow(enumeratorRow.Current as DataRow, predicateInfo.Operand);
+                result = predicate.Execute(value);
+                i++;
             }
-            return resultSet;
+            return result;
         }
     }
 }

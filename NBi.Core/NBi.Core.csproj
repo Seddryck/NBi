@@ -377,9 +377,9 @@
     <Compile Include="ResultSet\Alteration\Alter.cs" />
     <Compile Include="ResultSet\Alteration\AlterationFactory.cs" />
     <Compile Include="ResultSet\Alteration\AlterationType.cs" />
+    <Compile Include="ResultSet\Alteration\ColumnBased\HoldWhileCondition.cs" />
     <Compile Include="ResultSet\Alteration\ColumnBased\Strategy\ApplyToRow.cs" />
     <Compile Include="ResultSet\Alteration\ColumnBased\RemoveWhileCondition.cs" />
-    <Compile Include="ResultSet\Alteration\ColumnBased\StartFrom.cs" />
     <Compile Include="ResultSet\Alteration\ColumnBased\Strategy\TopRowsStrategy.cs" />
     <Compile Include="ResultSet\Alteration\ColumnBased\Strategy\AnyRowsStrategy.cs" />
     <Compile Include="ResultSet\Alteration\ColumnBased\Strategy\AllRowsStrategy.cs" />
@@ -393,6 +393,7 @@
     <Compile Include="ResultSet\Analyzer\UnexpectedRowsAnalyzer.cs" />
     <Compile Include="ResultSet\Analyzer\MissingRowsAnalyzer.cs" />
     <Compile Include="ResultSet\ColumnIdentifierFactory.cs" />
+    <Compile Include="ResultSet\ColumnDynamicIdentifier.cs" />
     <Compile Include="ResultSet\ColumnPositionIdentifier.cs" />
     <Compile Include="ResultSet\ColumnNameIdentifier.cs" />
     <Compile Include="ResultSet\ColumnRole.cs" />

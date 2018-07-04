@@ -315,6 +315,7 @@
     <Compile Include="Unit\Core\Query\Execution\ExecutionEngineFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\QueryParameterTest.cs" />
     <Compile Include="Unit\Core\Report\FileReportingParserTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Alteration\ColumnBased\HoldWhileConditionTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Alteration\ColumnBased\RemoveWhileConditionTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ColumnIdentifierFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\ColumnMappingCollectionTest.cs" />

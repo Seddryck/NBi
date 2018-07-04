@@ -10,6 +10,6 @@ namespace NBi.Core.ResultSet.Alteration.ColumnBased.Strategy
 {
     public interface IStrategy
     {
-        ResultSet Execute(ResultSet resultSet, IPredicateInfo predicateInfo, IAlteration baseAlteration, Func<DataRow, IColumnIdentifier, object> getValueFromRow);
+        bool Execute(ResultSet resultSet, IPredicateInfo predicateInfo, Func<DataRow, IColumnIdentifier, object> getValueFromRow);
     }
 }

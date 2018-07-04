@@ -8,9 +8,9 @@ namespace NBi.Core.ResultSet
 {
     class ColumnPositionIdentifier : IColumnIdentifier, IEquatable<ColumnPositionIdentifier>
     {
-        public int Position { get; private set; }
+        public int Position { get; protected set; }
 
-        public string Label => $"#{Position.ToString()}";
+        public virtual string Label => $"#{Position.ToString()}";
 
         public ColumnPositionIdentifier(int position)
         {

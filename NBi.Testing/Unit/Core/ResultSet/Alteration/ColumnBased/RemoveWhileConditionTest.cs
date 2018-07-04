@@ -16,7 +16,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Alteration.ColumnBased
     public class RemoveWhileConditionTest
     {
         [Test]
-        public void Execute_FirstAllStrategyFirstColumnNullOrEmpty_OneColumnRemoved()
+        public void Execute_AllStrategyFirstColumnNullOrEmpty_OneColumnRemoved()
         {
             var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load(new[] { new object[] { "(null)", 1, 120 }, new object[] { "(empty)", 2, 155 } });
@@ -41,7 +41,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Alteration.ColumnBased
         }
 
         [Test]
-        public void Execute_FirstAnyStrategyFirstColumnNullOrEmpty_OneColumnRemoved()
+        public void Execute_AnyStrategyFirstColumnNullOrEmpty_OneColumnRemoved()
         {
             var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load(new[] { new object[] { "12", 1, 120 }, new object[] { "(empty)", 2, 155 } });
@@ -66,7 +66,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Alteration.ColumnBased
         }
 
         [Test]
-        public void Execute_FirstTopStrategyFirstColumnNullOrEmpty_OneColumnRemoved()
+        public void Execute_TopStrategyFirstColumnNullOrEmpty_OneColumnRemoved()
         {
             var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load(new[] { new object[] { "(empty)", 1, 120 }, new object[] { "12", 2, 155 } });
@@ -91,7 +91,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Alteration.ColumnBased
         }
 
         [Test]
-        public void Execute_FirstColumnNotFullyNullOrEmpty_NoColumnRemoved()
+        public void Execute_AllStrategyColumnNotFullyNullOrEmpty_NoColumnRemoved()
         {
             var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load(new[] { new object[] { "(null)", 1, 120 }, new object[] { "(empty)", 2, 155 } , new object[] { "xyz", 3, 178 } });
@@ -170,7 +170,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Alteration.ColumnBased
 
 
         [Test]
-        public void Execute_TwoFirstColumnNotFullyNullOrEmpty_TwoColumnsRemoved()
+        public void Execute_AllStrategyTwoFirstColumnNotFullyNullOrEmpty_TwoColumnsRemoved()
         {
             var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load(new[] { new object[] { "(null)", "(null)", 1, 120 }, new object[] { "(empty)", "(null)", 2, 155 }, new object[] { "(null)", "(empty)", 3, 178 } });

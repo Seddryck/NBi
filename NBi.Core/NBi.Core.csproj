@@ -377,6 +377,14 @@
     <Compile Include="ResultSet\Alteration\Alter.cs" />
     <Compile Include="ResultSet\Alteration\AlterationFactory.cs" />
     <Compile Include="ResultSet\Alteration\AlterationType.cs" />
+    <Compile Include="ResultSet\Alteration\ColumnBased\Strategy\ApplyToRow.cs" />
+    <Compile Include="ResultSet\Alteration\ColumnBased\RemoveWhileCondition.cs" />
+    <Compile Include="ResultSet\Alteration\ColumnBased\StartFrom.cs" />
+    <Compile Include="ResultSet\Alteration\ColumnBased\Strategy\TopRowsStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\ColumnBased\Strategy\AnyRowsStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\ColumnBased\Strategy\AllRowsStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\ColumnBased\Strategy\IStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\ColumnBased\Strategy\StrategyFactory.cs" />
     <Compile Include="ResultSet\Alteration\IAlteration.cs" />
     <Compile Include="ResultSet\Analyzer\AnalyzersFactory.cs" />
     <Compile Include="ResultSet\Analyzer\BaseRowsAnalyzer.cs" />

@@ -7,15 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Unit.Core.ResultSet.Mutation.ColumnBased
+namespace NBi.Testing.Unit.Core.ResultSet.Alteration.ColumnBased
 {
 
-    public class FiterIdentificationTest
+    public class RemoveIdentificationTest
     {
         [TestCase("#0")]
         [TestCase("Foo")]
         [Test]
-        public void Execute_Identifier_ColumnFilterped(string identifier)
+        public void Execute_Identifier_ColumnSkipped(string identifier)
         {
             var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load("a;1;120");
@@ -26,17 +26,18 @@ namespace NBi.Testing.Unit.Core.ResultSet.Mutation.ColumnBased
             var factory = new ColumnIdentifierFactory();
             var id = factory.Instantiate(identifier);
 
-            var filter = new HoldIdentification(new[] { id });
-            filter.Execute(rs);
+            var remove = new RemoveIdentification(new[] { id });
+            remove.Execute(rs);
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(1));
-            Assert.That(rs.Columns[0].ColumnName, Is.EqualTo("Foo"));
+            Assert.That(rs.Columns.Count, Is.EqualTo(2));
+            Assert.That(rs.Columns[0].ColumnName, Is.EqualTo("Col1"));
+            Assert.That(rs.Columns[1].ColumnName, Is.EqualTo("Col2"));
         }
 
         [TestCase("#0", "#2")]
         [TestCase("Foo", "Bar")]
         [Test]
-        public void Execute_MultipleIdentifiers_ColumnFilterped(string id1, string id2)
+        public void Execute_MultipleIdentifiers_ColumnSkipped(string id1, string id2)
         {
             var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load("a;1;120");
@@ -46,19 +47,18 @@ namespace NBi.Testing.Unit.Core.ResultSet.Mutation.ColumnBased
 
             var factory = new ColumnIdentifierFactory();
 
-            var filter = new HoldIdentification(new[] { factory.Instantiate(id1), factory.Instantiate(id2) });
-            filter.Execute(rs);
+            var remove = new RemoveIdentification(new[] { factory.Instantiate(id1), factory.Instantiate(id2) });
+            remove.Execute(rs);
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(2));
-            Assert.That(rs.Columns[0].ColumnName, Is.EqualTo("Foo"));
-            Assert.That(rs.Columns[1].ColumnName, Is.EqualTo("Bar"));
+            Assert.That(rs.Columns.Count, Is.EqualTo(1));
+            Assert.That(rs.Columns[0].ColumnName, Is.EqualTo("Col1"));
         }
 
         [TestCase("#0", "#0")]
         [TestCase("Foo", "Foo")]
         [TestCase("Foo", "#0")]
         [Test]
-        public void Execute_DuplicatedIdentifiers_ColumnFilterped(string id1, string id2)
+        public void Execute_DuplicatedIdentifiers_ColumnSkipped(string id1, string id2)
         {
             var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load("a;1;120");
@@ -68,16 +68,16 @@ namespace NBi.Testing.Unit.Core.ResultSet.Mutation.ColumnBased
 
             var factory = new ColumnIdentifierFactory();
 
-            var filter = new HoldIdentification(new[] { factory.Instantiate(id1), factory.Instantiate(id2) });
-            filter.Execute(rs);
+            var remove = new RemoveIdentification(new[] { factory.Instantiate(id1), factory.Instantiate(id2) });
+            remove.Execute(rs);
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(1));
+            Assert.That(rs.Columns.Count, Is.EqualTo(2));
         }
 
         [TestCase("#999")]
         [TestCase("Bar")]
         [Test]
-        public void Execute_NonExistingIdentifiers_ColumnFilterped(string id)
+        public void Execute_NonExistingIdentifiers_ColumnSkipped(string id)
         {
             var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load("a;1;120");
@@ -87,10 +87,10 @@ namespace NBi.Testing.Unit.Core.ResultSet.Mutation.ColumnBased
 
             var factory = new ColumnIdentifierFactory();
 
-            var filter = new HoldIdentification(new[] { factory.Instantiate(id) });
-            filter.Execute(rs);
+            var remove = new RemoveIdentification(new[] { factory.Instantiate(id) });
+            remove.Execute(rs);
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(0));
+            Assert.That(rs.Columns.Count, Is.EqualTo(3));
         }
 
     }

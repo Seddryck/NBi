@@ -16,7 +16,7 @@ namespace NBi.Core.Calculation.Predicate.Text
 
         protected override bool Apply(object x)
         {
-            return (x as string).Length == 0 || (x as string)=="(empty)";
+            return (x as string)!=null && ((x as string).Length == 0 || (x as string)=="(empty)");
         }
 
 

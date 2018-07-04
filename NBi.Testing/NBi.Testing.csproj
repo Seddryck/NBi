@@ -315,13 +315,14 @@
     <Compile Include="Unit\Core\Query\Execution\ExecutionEngineFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\QueryParameterTest.cs" />
     <Compile Include="Unit\Core\Report\FileReportingParserTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Alteration\ColumnBased\RemoveWhileConditionTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ColumnIdentifierFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\ColumnMappingCollectionTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByNameTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByIndexTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\ReferenceAnalyzerTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Mutation\ColumnBased\FilterIdentificationTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Mutation\ColumnBased\SkipIdentificationTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Alteration\ColumnBased\HoldIdentificationTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Alteration\ColumnBased\RemoveIdentificationTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\CellComparerTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\TextToleranceFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\Resolver\ReportDataSetQueryResolverTest.cs" />

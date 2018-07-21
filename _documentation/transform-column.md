@@ -18,13 +18,13 @@ At the moment, you can make usage of three different languages and a few ready-t
 * C# - ```c-sharp```
 * Native - ```native```
 
-These options support different purposes. 
+These options support different purposes:
 
-*NCalc* is specifically dedicated to calculations on numerical values but also offers limited features for booleans and texts. 
+*NCalc* is specifically dedicated to calculations on numerical values but also offers limited features for booleans and texts.
 
-*Format* is a quick way to transform a *dateTime* or *numeric* to a text representation taking into account culture specific formats (leading 0, 2 or 4 digits for years, coma or point for decimal spearator and many more). 
+*Format* is a quick way to transform a *dateTime* or *numeric* to a text representation taking into account culture specific formats (leading 0, 2 or 4 digits for years, coma or point for decimal spearator and many more).
 
-*C#* is there to support advanced transformations requiring a little bit more of code. 
+*C#* is there to support advanced transformations requiring a little bit more of code.
 
 *Native* is a collection of ready-to-go transformations for general purposes. It's especially useful around *null*, *empty*, *blank* and *text*
 
@@ -37,7 +37,7 @@ These options support different purposes.
 
 Technically, the destination could be something else that the option(s) defined in the table above, but most of the time it has no added-value.
 
-The content of the cell is always casted on .NET based on the information provided into the attribute *source-type*
+The content of the cell is always casted on .NET based on the information provided into the attribute *original-type*
 
 ### NCalc
 
@@ -55,10 +55,10 @@ The exemple here under is transformating the content of two columns:
 <assert>
   <equalTo>
     <column index="1" role="value" type="text">
-      <transform language="ncalc" source-type="numeric">value * 1.21</transform>
+      <transform language="ncalc" original-type="numeric">value * 1.21</transform>
     </column>
     <column index="2" role="value" type="text">
-      <transform language="ncalc" source-type="numeric">Round(value/1000, 2)</transform>
+      <transform language="ncalc" original-type="numeric">Round(value/1000, 2)</transform>
     </column>
   </row-count>
 </assert>
@@ -66,11 +66,9 @@ The exemple here under is transformating the content of two columns:
 
 ### Format
 
-The syntax is exactly the one supported by the *Format* function and is available 
-[for dateTime](https://msdn.microsoft.com/en-us/library/8kb3ddd4(v=vs.110).aspx) and 
-[numeric](https://msdn.microsoft.com/en-us/library/0c899ak8(v=vs.110).aspx) 
+The syntax is exactly the one supported by the *Format* function and is available [for dateTime](https://msdn.microsoft.com/en-us/library/8kb3ddd4(v=vs.110).aspx) and [numeric](https://msdn.microsoft.com/en-us/library/0c899ak8(v=vs.110).aspx)
 
-The exemple here under is transformating the content of three columns. 
+The exemple here under is transformating the content of three columns:
 
 * The first column is hosting a *dateTime* that will be converted to a year/month representation: 4 digits for years, 2 for months and seperated by a dot.
 * The second column is hosting a *numeric* that will be converted to a currency representation: a euro symbol followed by 3 digits before the decimal separator (a coma in this case because we use the french culture) and 2 digits after this seperator 
@@ -80,13 +78,13 @@ The exemple here under is transformating the content of three columns.
 <assert>
   <equalTo>
     <column index="0" role="key" type="text">
-      <transform language="format" source-type="dateTime">yyyy.MM</transform>
+      <transform language="format" original-type="dateTime">yyyy.MM</transform>
     </column>
     <column index="1" role="value" type="text" culture="fr-fr">
-      <transform language="format" source-type="numeric">€000.00</transform>
+      <transform language="format" original-type="numeric">€000.00</transform>
     </column>
     <column index="2" role="value" type="text">
-      <transform language="format" source-type="numeric">k€000,</transform>
+      <transform language="format" original-type="numeric">k€000,</transform>
     </column>
   </row-count>
 </assert>
@@ -94,32 +92,31 @@ The exemple here under is transformating the content of three columns.
 
 ### C-Sharp
 
-Currently, it's limited to one line of code (one expression) but later you'll be able to call functions defined in an assembly or directly write a few lines of code in your test's definition. 
-The syntax is the syntax supported by C# 5.0 without a terminator (;) at the end of the expression.
+Currently, it's limited to one line of code (one expression) but later you'll be able to call functions defined in an assembly or directly write a few lines of code in your test's definition. The syntax is the syntax supported by C# 5.0 without a terminator (;) at the end of the expression.
 
 The cell's content is available through the variable *value*.
 
-The exemple here under is transformating the content of two columns. 
+The exemple here under is transformating the content of two columns:
 
-* The first column is hosting a *dateTime* that will be manipulated to add a month and extract the year and month 
-* The second column is hosting a *numeric* that will be multiplied by 1.21 after taking the absolute value 
+* The first column is hosting a *dateTime* that will be manipulated to add a month and extract the year and month
+* The second column is hosting a *numeric* that will be multiplied by 1.21 after taking the absolute value
 * The third column is hosting a *numeric* that will be divided by 1000 before rounded with 2 digits, then we'll add the symbols k€ in front of the result.
 
 {% highlight xml %}
 <assert>
   <equalTo>
     <column index="0" role="key" type="text">
-      <transform language="c-sharp" source-type="dateTime">
+      <transform language="c-sharp" original-type="dateTime">
         value.AddMonth(1).Year.ToString() + "." + (value.AddMonth(1).Month.ToString()
       </transform>
     </column>
     <column index="1" role="value" type="text">
-      <transform language="c-sharp" source-type="numeric">
+      <transform language="c-sharp" original-type="numeric">
         Math.Abs(value * 1.21)
       </transform>
     </column>
     <column index="2" role="value" type="text">
-      <transform language="c-sharp" source-type="numeric">
+      <transform language="c-sharp" original-type="numeric">
         value < 5000 ? string.Format(€{0:##00.00}, value) : "k€" + Math.Round(value/1000, 2).ToString()
       </transform>
     </column>
@@ -129,41 +126,39 @@ The exemple here under is transformating the content of two columns.
 
 ### Native
 
-Currently, you cannot assemble native transformations, it means that you're limited to use one and only one of them in  a column's transformation. 
+Currently, you cannot assemble native transformations, it means that you're limited to use one and only one of them in  a column's transformation.
 
-Following transformations are supported by NBi v1.16
-
-- ```blank-to-empty```: if the current content of the cell is ```blank``` (zero or many spaces) replace the content by ```(empty)```
-- ```blank-to-null```: if the current content of the cell is ```blank``` (zero or many spaces) replace the content by ```(null)```
-- ```empty-to-null```: if the current content of the cell is ```empty``` (length=0) replace the content by ```(null)```
-- ```null-to-empty```: if the current content of the cell is ```null``` replace the content by ```(empty)```
-- ```null-to-value```: if the current content of the cell is ```null``` replace the content by ```(value)```
-- ```any-to-any```: replaces the content of the cell by ```(any)```
-- ```value-to-value```: if the cell's value is not ```null``` will replace the content by ```(value)```
-- ```text-to-without-diacritics```: if the current cell's value contains any accents or diacritics, they are removed
-- ```text-to-upper```: returns a copy of this text converted to uppercase
-- ```text-to-lower```: returns a copy of this text converted to lowercase
-- ```html-to-text```: decodes the html to text
-- ```text-to-html```: encodes the content to html
-- ```text-to-trim```: removes blanks from the beginning and end of the cell.
-- ```text-to-length```: returns the length of the *text* value of the cell. If the cell is ```null``` or ```empty```, it returns 0.
-- ```date-to-age```: returns the age according to the *dateTime* value of the cell at the moment of execution of the test.
+* ```blank-to-empty```: if the current content of the cell is ```blank``` (zero or many spaces) replace the content by ```(empty)```
+* ```blank-to-null```: if the current content of the cell is ```blank``` (zero or many spaces) replace the content by ```(null)```
+* ```empty-to-null```: if the current content of the cell is ```empty``` (length=0) replace the content by ```(null)```
+* ```null-to-empty```: if the current content of the cell is ```null``` replace the content by ```(empty)```
+* ```null-to-value```: if the current content of the cell is ```null``` replace the content by ```(value)```
+* ```any-to-any```: replaces the content of the cell by ```(any)```
+* ```value-to-value```: if the cell's value is not ```null``` will replace the content by ```(value)```
+* ```text-to-without-diacritics```: if the current cell's value contains any accents or diacritics, they are removed
+* ```text-to-upper```: returns a copy of this text converted to uppercase
+* ```text-to-lower```: returns a copy of this text converted to lowercase
+* ```html-to-text```: decodes the html to text
+* ```text-to-html```: encodes the content to html
+* ```text-to-trim```: removes blanks from the beginning and end of the cell.
+* ```text-to-length```: returns the length of the *text* value of the cell. If the cell is ```null``` or ```empty```, it returns 0.
+* ```date-to-age```: returns the age according to the *dateTime* value of the cell at the moment of execution of the test.
 
 {% highlight xml %}
 <assert>
   <equalTo>
     <column index="0" role="key" type="text">
-      <transform language="native" source-type="text">
+      <transform language="native" original-type="text">
         string-to-trim
       </transform>
     </column>
     <column index="1" role="value" type="text">
-      <transform language="native" source-type="text">
+      <transform language="native" original-type="text">
         empty-to-null
       </transform>
     </column>
     <column index="2" role="value" type="text">
-      <transform language="native" source-type="text">
+      <transform language="native" original-type="text">
         any-to-value
       </transform>
     </column>

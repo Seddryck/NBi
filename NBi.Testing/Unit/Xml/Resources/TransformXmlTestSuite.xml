@@ -9,9 +9,24 @@
     <assert>
       <equalTo>
         <column index="0" role="key">
-          <transformation language="c-sharp">
+          <transform language="c-sharp">
             value.Trim().ToUpper();
-          </transformation>
+          </transform>
+        </column>
+        <query>select * from table1</query>
+      </equalTo>
+    </assert>
+  </test>
+  <test name="native transformation">
+    <system-under-test>
+      <execution>
+        <query>select * from table</query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <column index="0" role="key">
+          <transform language="native">empty-to-null</transform>
         </column>
         <query>select * from table1</query>
       </equalTo>

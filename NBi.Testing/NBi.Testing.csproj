@@ -492,7 +492,7 @@
     <Compile Include="Unit\Xml\Decoration\DecorationXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\Calculation\RankingXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\Calculation\PredicateXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\ResultSet\TransformationXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\ResultSet\TransformXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\SharedDatasetXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\RoutineParameterXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\RoutineXmlTest.cs" />
@@ -990,7 +990,7 @@
     <EmbeddedResource Include="Unit\Xml\Resources\ResultSetSystemXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteWithVariablesTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\UniqueRowsXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\TransformationXmlTestSuite.xml">
+    <EmbeddedResource Include="Unit\Xml\Resources\TransformXmlTestSuite.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\Resources\SupersetOfXmlTestSuite.xml" />

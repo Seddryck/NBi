@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using NBi.Xml.Constraints;
 using NBi.Xml.Constraints.Comparer;
 using NBi.Xml.Items.Calculation;
+using NBi.Xml.Items.ResultSet;
 
 namespace NBi.Xml.SerializationOption
 {
@@ -26,6 +27,7 @@ namespace NBi.Xml.SerializationOption
 
             AddAsElement((NoRowsXml c) => c.InternalAliasesOld, "variable");
             AddAsElement((FilterXml f) => f.InternalAliasesOld, "variable");
+            AddAsElement((ColumnDefinitionXml c) => c.InternalTransformationInner, "transformation");
 
             AddAsAttribute((PredicationXml p) => p.Name, "name");
 

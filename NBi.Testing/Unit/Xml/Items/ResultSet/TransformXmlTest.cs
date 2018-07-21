@@ -9,12 +9,13 @@ using NBi.Xml.Systems;
 using NUnit.Framework;
 using NBi.Core.Transformation;
 using NBi.Xml.Items.ResultSet;
+using NBi.Xml.Items.Alteration.Transform;
 #endregion
 
 namespace NBi.Testing.Unit.Xml.Items.ResultSet
 {
     [TestFixture]
-    public class TransformationXmlTest
+    public class TransformXmlTest
     {
 
         #region SetUp & TearDown
@@ -51,7 +52,7 @@ namespace NBi.Testing.Unit.Xml.Items.ResultSet
 
             // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.TransformationXmlTestSuite.xml"))
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.TransformXmlTestSuite.xml"))
             using (StreamReader reader = new StreamReader(stream))
             {
                 manager.Read(reader);
@@ -63,7 +64,7 @@ namespace NBi.Testing.Unit.Xml.Items.ResultSet
         public void Deserialize_CSharp_CSharpAndCode()
         {
             int testNr = 0;
-            
+
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
@@ -87,7 +88,20 @@ namespace NBi.Testing.Unit.Xml.Items.ResultSet
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
             var transfo = ((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[0].Transformation;
 
+            Assert.That(transfo.Language, Is.EqualTo(LanguageType.Native));
+            Assert.That(transfo.Code, Is.EqualTo("empty-to-null"));
+        }
 
+        [Test]
+        public void Deserialize_OldValueTransformation_CorrectlyRead()
+        {
+            int testNr = 2;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            var transfo = ((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[0].Transformation;
 
             Assert.That(transfo.Language, Is.EqualTo(LanguageType.Native));
             Assert.That(transfo.Code, Is.EqualTo("empty-to-null"));
@@ -96,49 +110,60 @@ namespace NBi.Testing.Unit.Xml.Items.ResultSet
         [Test]
         public void Serialize_CSharp_CodeTransfo()
         {
-            var def = new ColumnDefinitionXml();
-            def.TransformationInner = new TransformationXml();
-            def.TransformationInner.Language = LanguageType.CSharp;
-            def.TransformationInner.Code = "value.Trim().ToUpper();";
-
+            var def = new ColumnDefinitionXml()
+            {
+                TransformationInner = new LightTransformXml()
+                {
+                    Language = LanguageType.CSharp,
+                    Code = "value.Trim().ToUpper();"
+                }
+            };
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom<ColumnDefinitionXml>(def);
 
             Assert.That(xml, Is.StringContaining(">value.Trim().ToUpper();<"));
+            Assert.That(xml, Is.Not.StringContaining("column-index"));
         }
 
         [Test]
         public void Serialize_Format_CodeTransfo()
         {
-            var def = new ColumnDefinitionXml();
-            def.TransformationInner = new TransformationXml();
-            def.TransformationInner.Language = LanguageType.Format;
-            def.TransformationInner.Code = "##.000";
-
+            var def = new ColumnDefinitionXml()
+            {
+                TransformationInner = new LightTransformXml()
+                {
+                    Language = LanguageType.Format,
+                    Code = "##.000"
+                }
+            };
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom<ColumnDefinitionXml>(def);
 
             Assert.That(xml, Is.StringContaining("format"));
             Assert.That(xml, Is.StringContaining(">##.000<"));
+            Assert.That(xml, Is.Not.StringContaining("column-index"));
         }
 
         [Test]
         public void Serialize_Native_CodeTransfo()
         {
-            var def = new ColumnDefinitionXml();
-            def.TransformationInner = new TransformationXml();
-            def.TransformationInner.Language = LanguageType.Native;
-            def.TransformationInner.Code = "empty-to-null";
-
+            var def = new ColumnDefinitionXml()
+            {
+                TransformationInner = new LightTransformXml()
+                {
+                    Language = LanguageType.Native,
+                    Code = "empty-to-null"
+                }
+            };
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom<ColumnDefinitionXml>(def);
 
             Assert.That(xml, Is.StringContaining("native"));
             Assert.That(xml, Is.StringContaining(">empty-to-null<"));
+            Assert.That(xml, Is.Not.StringContaining("column-index"));
         }
-
     }
 }

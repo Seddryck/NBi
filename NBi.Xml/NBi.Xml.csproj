@@ -136,6 +136,7 @@
     <Compile Include="Items\Alteration\Conversion\TextToDateConverterXml.cs" />
     <Compile Include="Items\Alteration\Conversion\TextToNumericConverterXml.cs" />
     <Compile Include="Items\Alteration\Conversion\TextToDateTimeConverterXml.cs" />
+    <Compile Include="Items\Alteration\Transformation\LightTransformXml.cs" />
     <Compile Include="Items\Calculation\CombinationPredicateXml.cs" />
     <Compile Include="Items\Calculation\Grouping\GroupByXml.cs" />
     <Compile Include="Items\Calculation\Ranking\BaseRankXml.cs" />
@@ -148,7 +149,7 @@
     <Compile Include="Items\QueryScalarXml.cs" />
     <Compile Include="Items\ResultSet\ColumnMappingXml.cs" />
     <Compile Include="Items\SharedDatasetXml.cs" />
-    <Compile Include="Items\ResultSet\TransformationXml.cs" />
+    <Compile Include="Items\Alteration\Transformation\TransformXml.cs" />
     <Compile Include="Items\UrlXml.cs" />
     <Compile Include="Items\Filters\IParameterDirectionFilter.cs" />
     <Compile Include="Items\Filters\IResultFilter.cs" />

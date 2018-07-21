@@ -8,15 +8,12 @@ using NBi.Core.ResultSet;
 using System.Xml.Serialization;
 using System.ComponentModel;
 
-namespace NBi.Xml.Items.ResultSet
+namespace NBi.Xml.Items.Alteration.Transform
 {
-    public class TransformationXml : ITransformationInfo
+    public class LightTransformXml : ITransformationInfo
     {
         [XmlText()]
         public string Code { get; set; }
-
-        [XmlAttribute("column-index")]
-        public int ColumnIndex { get; set; }
 
         [XmlAttribute("language")]
         [DefaultValue(LanguageType.CSharp)]

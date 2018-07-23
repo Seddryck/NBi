@@ -59,6 +59,7 @@ namespace NBi.Xml.Items.ResultSet
         [XmlElement("transform")]
         public LightTransformXml TransformationInner { get; set; }
 
+        [XmlIgnore]
         public LightTransformXml InternalTransformationInner { get => TransformationInner; set => TransformationInner=value; }
 
         [XmlIgnore]

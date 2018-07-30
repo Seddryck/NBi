@@ -32,7 +32,7 @@ $depList = $dependencies.Values -join [Environment]::NewLine + "`t`t"
 
 #For NBi.Framework (dll)
 Write-Host "Packaging NBi.Framework"
-$lib = "$root\NBi.Framework\lib\461\"
+$lib = "$root\NBi.Framework\lib\net461\"
 If (Test-Path $lib)
 {
 	Remove-Item $lib -recurse
@@ -77,7 +77,7 @@ Write-Host "Package for NBi.Framework.Tools is ready"
 
 #For NBi.Extensibility
 Write-Host "Packaging NBi.Extensibility"
-$lib = "$root\NBi.Extensibility\lib\461\"
+$lib = "$root\NBi.Extensibility\lib\net461\"
 If (Test-Path $lib)
 {
 	Remove-Item $lib -recurse

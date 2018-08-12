@@ -25,7 +25,7 @@ namespace NBi.Xml.SerializationOption
             AddAsAttribute((TestXml t) => t.Ignore, "ignore");
             AddAsAttribute((ContainXml c) => c.Caption, "caption");
 
-            AddAsElement((NoRowsXml c) => c.InternalAliasesOld, "variable");
+            AddAsElement((NoRowsXml c) => c.InternalAliasesOld, "variable", 2);
             AddAsElement((FilterXml f) => f.InternalAliasesOld, "variable");
             AddAsElement((ColumnDefinitionXml c) => c.InternalTransformationInner, "transformation");
 
@@ -48,6 +48,15 @@ namespace NBi.Xml.SerializationOption
             var parent = GetMemberInfo(expression);
             var attrs = new XmlAttributes();
             attrs.XmlElements.Add(new XmlElementAttribute(alias));
+            Add(parent.DeclaringType, parent.Name, attrs);
+        }
+
+        private void AddAsElement<T, U>(Expression<Func<T, U>> expression, string alias, int order)
+        {
+            var parent = GetMemberInfo(expression);
+            var attrs = new XmlAttributes();
+            var attr = new XmlElementAttribute(alias) { Order = order };
+            attrs.XmlElements.Add(attr);
             Add(parent.DeclaringType, parent.Name, attrs);
         }
 

@@ -36,11 +36,8 @@ namespace NBi.Xml.Constraints
             set { internalAliases = value; }
         }
 
-
-        [XmlElement("expression", Order = 2)]
-        public List<ExpressionXml> Expressions { get; set; }
-
-        [XmlIgnore]
+        //Receiving the order 2 when readonly attribute is activated
+        [XmlIgnore()]
         [Obsolete("Use InternalAlias in place of InternalAliasOld")]
         public List<AliasXml> InternalAliasesOld
         {
@@ -48,12 +45,16 @@ namespace NBi.Xml.Constraints
             set { internalAliases = value; }
         }
 
+
+        [XmlElement("expression", Order = 3)]
+        public List<ExpressionXml> Expressions { get; set; }
+
         private List<AliasXml> internalAliases;
 
-        [XmlElement("predicate", Order = 3)]
+        [XmlElement("predicate", Order = 4)]
         public PredicationXml Predication { get; set; }
 
-        [XmlElement("combination", Order = 4)]
+        [XmlElement("combination", Order = 5)]
         public CombinationPredicateXml Combination { get; set; }
 
         public NoRowsXml()

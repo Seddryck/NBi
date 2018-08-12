@@ -423,7 +423,68 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(content, Is.Not.StringContaining("tolerance"));
         }
 
+        [Test]
+        public void Serialize_ExecutionAndAliasesXml_AliasesBeforeExecution()
+        {
+            var allRowsXml = new AllRowsXml
+            {
+                Expressions = new List<ExpressionXml>()
+                {
+                    new ExpressionXml()
+                    {
+                        Value = "a + b - c",
+                        Type = ColumnType.Numeric,
+                        Name = "calculate"
+                    }
+                },
 
+                InternalAliases = new List<AliasXml>()
+                {
+                    new AliasXml()
+                    {
+                        Column = 0,
+                        Name = "a"
+                    },
+                    new AliasXml()
+                    {
+                        Column = 1,
+                        Name = "b"
+                    },
+                    new AliasXml()
+                    {
+                        Column = 2,
+                        Name = "c"
+                    }
+                },
+
+                Predication = new PredicationXml()
+                {
+                    Operand = new ColumnNameIdentifier("calculate"),
+                    ColumnType = ColumnType.Numeric,
+                    Predicate = new EqualXml()
+                    {
+                        Value = "100"
+                    }
+                }
+            };
+
+            var serializer = new XmlSerializer(typeof(AllRowsXml));
+            var content = string.Empty;
+            using (var stream = new MemoryStream())
+            {
+                using (var writer = new StreamWriter(stream, Encoding.UTF8))
+                    serializer.Serialize(writer, allRowsXml);
+                content = Encoding.UTF8.GetString(stream.ToArray());
+            }
+
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("<alias"));
+            Assert.That(content, Is.StringContaining("<expression"));
+            Assert.That(content, Is.StringContaining("<predicate"));
+            Assert.That(content.LastIndexOf("<alias"), Is.LessThan(content.IndexOf("<expression")));
+            Assert.That(content.LastIndexOf("<expression"), Is.LessThan(content.IndexOf("<predicate")));
+        }
 
     }
 }

@@ -612,6 +612,7 @@
     <Compile Include="Structure\Target.cs" />
     <Compile Include="Transformation\Transformer\FormatTransformer.cs" />
     <Compile Include="Transformation\Transformer\NativeTransformer.cs" />
+    <Compile Include="Transformation\Transformer\Native\NullToDate.cs" />
     <Compile Include="Transformation\Transformer\Native\TextToHtml.cs" />
     <Compile Include="Transformation\Transformer\Native\INativeTransformation.cs" />
     <Compile Include="Transformation\Transformer\Native\DateToAge.cs" />
@@ -623,6 +624,9 @@
     <Compile Include="Transformation\Transformer\Native\TextToUpper.cs" />
     <Compile Include="Transformation\Transformer\Native\TextToLower.cs" />
     <Compile Include="Transformation\Transformer\Native\TextToTrim.cs" />
+    <Compile Include="Transformation\Transformer\Native\LocalToUtc.cs" />
+    <Compile Include="Transformation\Transformer\Native\DateTimeToDate.cs" />
+    <Compile Include="Transformation\Transformer\Native\UtcToLocal.cs" />
     <Compile Include="Transformation\Transformer\Native\ValueToValue.cs" />
     <Compile Include="Transformation\Transformer\Native\AnyToAny.cs" />
     <Compile Include="Transformation\Transformer\Native\NullToEmpty.cs" />

@@ -640,6 +640,10 @@
       <xs:enumeration value="text-to-without-diacritics"/>
       <xs:enumeration value="html-to-text"/>
       <xs:enumeration value="date-to-age"/>
+      <xs:enumeration value="utc-to-local("/>
+      <xs:enumeration value="local-to-utc("/>
+      <xs:enumeration value="dateTime-to-date"/>
+      <xs:enumeration value="null-to-date"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="not-native-transformation-type">

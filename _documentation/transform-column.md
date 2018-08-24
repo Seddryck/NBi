@@ -126,7 +126,7 @@ The exemple here under is transformating the content of two columns:
 
 ### Native
 
-Currently, you cannot assemble native transformations, it means that you're limited to use one and only one of them in  a column's transformation.
+Currently, you cannot assemble native transformations, it means that you're limited to use one and only one of them in a column's transformation.
 
 * ```blank-to-empty```: if the current content of the cell is ```blank``` (zero or many spaces) replace the content by ```(empty)```
 * ```blank-to-null```: if the current content of the cell is ```blank``` (zero or many spaces) replace the content by ```(null)```
@@ -143,6 +143,17 @@ Currently, you cannot assemble native transformations, it means that you're limi
 * ```text-to-trim```: removes blanks from the beginning and end of the cell.
 * ```text-to-length```: returns the length of the *text* value of the cell. If the cell is ```null``` or ```empty```, it returns 0.
 * ```date-to-age```: returns the age according to the *dateTime* value of the cell at the moment of execution of the test.
+* ```dateTime-to-date```: remove information about the time (equivalent to set the dateTime to midnight)
+
+The following transformations except parameters to operate. You must replace the information beween parenthesis with a string matching your expectation.
+
+The parameter is a valid TimeZone. User must specify the identification of a time zone (Romance Standard Time ...) or the name of one of the city listed in the display (Brussels, Paris ...).
+
+* ```utc-to-local(TimeZone)```: returns the dateTime converted from UTC to the local time of the specified time zone
+* ```local-to-utc(TimeZone)```: returns the dateTime converted from the local time of the specified time zone to utc. If the local time was ambiguous (at the moment of the switch between summer and winter the same local time occurs twice) then the first occurance is selected.
+
+* ```null-to-date(dateTime)```: returns the original date if the value wasn't null or empty else returns the value specified as a parameter. ```dateTime``` must be expressed as string: ```2018-05-09```
+
 
 {% highlight xml %}
 <assert>

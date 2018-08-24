@@ -7,14 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.ResultSet
+namespace NBi.Xml.Items.ResultSet.Lookup
 {
-    public class ColumnMappingXml
+    public class ColumnUsingXml
     {
-        [XmlAttribute("child")]
-        public string Child { get; set; }
-        [XmlAttribute("parent")]
-        public string Parent { get; set; }
+        [XmlText]
+        public string Column { get; set; }
+
         [XmlAttribute("type")]
         [DefaultValue(ColumnType.Text)]
         public ColumnType Type { get; set; }

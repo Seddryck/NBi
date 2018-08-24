@@ -15,7 +15,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.ResultSetComparison
 {
-    public class ReferenceExistsConstraint : NBiConstraint
+    public class LookupExistsConstraint : NBiConstraint
     {
         protected IResultSetService parentService;
 
@@ -44,13 +44,13 @@ namespace NBi.NUnit.ResultSetComparison
             return msg;
         }
         
-        protected ReferenceAnalyzer engine;
-        protected internal virtual ReferenceAnalyzer Engine
+        protected LookupAnalyzer engine;
+        protected internal virtual LookupAnalyzer Engine
         {
             get
             {
                 if (engine == null)
-                    engine = new ReferenceAnalyzer(mappings ?? ColumnMappingCollection.Default);
+                    engine = new LookupAnalyzer(mappings ?? ColumnMappingCollection.Default);
                 return engine;
             }
             set
@@ -59,13 +59,13 @@ namespace NBi.NUnit.ResultSetComparison
             }
         }
 
-        public ReferenceExistsConstraint(IResultSetService parent)
+        public LookupExistsConstraint(IResultSetService parent)
         {
             parentService = parent;
         }
 
         private ColumnMappingCollection mappings;
-        public ReferenceExistsConstraint Using(ColumnMappingCollection mappings)
+        public LookupExistsConstraint Using(ColumnMappingCollection mappings)
         {
             this.mappings = mappings;
             return this;
@@ -83,7 +83,7 @@ namespace NBi.NUnit.ResultSetComparison
 
         public bool ProcessParallel(IResultSetService actual)
         {
-            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Queries exectued in parallel."));
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("Queries exectued in parallel."));
 
             Parallel.Invoke(
                 () => { rsChild = actual.Execute(); },
@@ -110,7 +110,7 @@ namespace NBi.NUnit.ResultSetComparison
                 return;
 
             writer.WriteLine();
-            writer.WriteLine(Failure.RenderParent());
+            writer.WriteLine(Failure.RenderExpected());
         }
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
@@ -119,7 +119,7 @@ namespace NBi.NUnit.ResultSetComparison
                 return;
 
             writer.WriteLine();
-            writer.WriteLine(Failure.RenderChild());
+            writer.WriteLine(Failure.RenderActual());
         }
 
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)

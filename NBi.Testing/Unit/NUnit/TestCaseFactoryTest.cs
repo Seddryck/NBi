@@ -755,7 +755,7 @@ namespace NBi.Testing.Unit.NUnit
         public void IsHandling_ResultSetReferenceExists_True()
         {
             var sutXml = new ResultSetSystemXml();
-            var ctrXml = new ReferenceExistsXml();
+            var ctrXml = new LookupExistsXml();
             var testCaseFactory = new TestCaseFactory();
 
             var actual = testCaseFactory.IsHandling(sutXml.GetType(), ctrXml.GetType());
@@ -767,7 +767,7 @@ namespace NBi.Testing.Unit.NUnit
         public void Instantiate_ResultSetReferenceExists_TestCase()
         {
             var sutXml = new ResultSetSystemXml();
-            var ctrXml = new ReferenceExistsXml();
+            var ctrXml = new LookupExistsXml();
 
             var builderMockFactory = new Mock<ITestCaseBuilder>();
             builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, NBi.Core.Configuration.Configuration.Default, It.IsAny<Dictionary<string, ITestVariable>>(), It.IsAny<ServiceLocator>()));
@@ -777,7 +777,7 @@ namespace NBi.Testing.Unit.NUnit
             var builder = builderMockFactory.Object;
 
             var testCaseFactory = new TestCaseFactory();
-            testCaseFactory.Register(typeof(ResultSetSystemXml), typeof(ReferenceExistsXml), builder);
+            testCaseFactory.Register(typeof(ResultSetSystemXml), typeof(LookupExistsXml), builder);
 
             var tc = testCaseFactory.Instantiate(sutXml, ctrXml);
 

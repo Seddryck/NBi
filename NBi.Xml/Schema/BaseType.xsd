@@ -1073,7 +1073,7 @@
                 <xs:element name="some-rows" type="filter-type"/>
                 <xs:element name="single-row" type="filter-type"/>
                 <xs:element name="unique-rows" type="unique-rows-type"/>
-                <xs:element name="reference-exists" type="reference-exists-type"/>
+                <xs:element name="lookup-exists" type="lookup-exists-type"/>
               </xs:choice>
             </xs:complexType>
           </xs:element>
@@ -1197,15 +1197,33 @@
     <xs:attribute name="keys" type="keys-set-type" use="optional" />
     <xs:attribute name="values" type="values-set-type" use="optional" />
   </xs:complexType>
-  <xs:complexType name="reference-exists-type">
+  <xs:complexType name="lookup-exists-type">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">
-      <xs:element name="column-mapping" type="column-mapping-type" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="join" type="join-type" minOccurs="1" maxOccurs="1" />
       <xs:element name="resultSet" type="resultSet-type" minOccurs="1" maxOccurs="1"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="join-type">
+    <xs:sequence>
+      <xs:element name="using" type="column-using-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="mapping" type="column-mapping-type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="column-using-type">
+    <xs:attribute name="type" use="optional" >
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="text"/>
+          <xs:enumeration value="numeric"/>
+          <xs:enumeration value="dateTime"/>
+          <xs:enumeration value="boolean"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
   <xs:complexType name="column-mapping-type">
-    <xs:attribute name="child" type="xs:string" use="required"/>
-    <xs:attribute name="parent" type="xs:string" use="required"/>
+    <xs:attribute name="candidate" type="xs:string" use="required"/>
+    <xs:attribute name="reference" type="xs:string" use="required"/>
     <xs:attribute name="type" use="optional" >
       <xs:simpleType>
         <xs:restriction base="xs:string">

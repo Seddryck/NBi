@@ -2,6 +2,7 @@
 using NBi.Xml;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items.ResultSet;
+using NBi.Xml.Items.ResultSet.Lookup;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 using System;
@@ -17,7 +18,7 @@ using System.Xml.Serialization;
 namespace NBi.Testing.Unit.Xml.Constraints
 {
     [TestFixture]
-    public class ReferenceExistsXmlTest
+    public class LookupExistsXmlTest
     {
         protected TestSuiteXml DeserializeSample()
         {
@@ -26,7 +27,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             // A Stream is needed to read the XML document.
             using (var stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.ReferenceExistsXmlTestSuite.xml"))
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.LookupExistsXmlTestSuite.xml"))
             using (var reader = new StreamReader(stream))
             {
                 manager.Read(reader);
@@ -42,7 +43,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<ReferenceExistsXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<LookupExistsXml>());
             Assert.That(ts.Tests[testNr].Constraints[0].Not, Is.False);
         }
 
@@ -53,12 +54,12 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
-            var refExists = ts.Tests[testNr].Constraints[0] as ReferenceExistsXml;
-            var mappings = refExists.Mappings;
+            var refExists = ts.Tests[testNr].Constraints[0] as LookupExistsXml;
+            var mappings = refExists.Join.Mappings;
 
             Assert.That(mappings, Has.Count.EqualTo(1));
-            Assert.That(mappings[0].Child, Is.EqualTo("GroupId"));
-            Assert.That(mappings[0].Parent, Is.EqualTo("Id"));
+            Assert.That(mappings[0].Candidate, Is.EqualTo("GroupId"));
+            Assert.That(mappings[0].Reference, Is.EqualTo("Id"));
             Assert.That(mappings[0].Type, Is.EqualTo(ColumnType.Numeric));
         }
 
@@ -68,8 +69,8 @@ namespace NBi.Testing.Unit.Xml.Constraints
             int testNr = 1;
 
             TestSuiteXml ts = DeserializeSample();
-            var refExists = ts.Tests[testNr].Constraints[0] as ReferenceExistsXml;
-            var mappings = refExists.Mappings;
+            var refExists = ts.Tests[testNr].Constraints[0] as LookupExistsXml;
+            var mappings = refExists.Join.Mappings;
 
             Assert.That(mappings, Has.Count.EqualTo(2));
         }
@@ -77,17 +78,20 @@ namespace NBi.Testing.Unit.Xml.Constraints
         [Test]
         public void Serialize_ReferenceExistsXml_Correct()
         {
-            var refExistsXml = new ReferenceExistsXml()
+            var refExistsXml = new LookupExistsXml()
             {
-                Mappings = new List<ColumnMappingXml>()
+                Join = new JoinXml()
                 {
-                    new ColumnMappingXml() {Child = "#1", Parent="Col1", Type=ColumnType.Numeric},
-                    new ColumnMappingXml() {Child = "#0", Parent="Col2", Type=ColumnType.Text}
+                    Mappings = new List<ColumnMappingXml>()
+                    {
+                        new ColumnMappingXml() {Candidate = "#1", Reference="Col1", Type=ColumnType.Numeric},
+                        new ColumnMappingXml() {Candidate = "#0", Reference="Col2", Type=ColumnType.Text}
+                    }
                 },
                 ResultSet = new ResultSetSystemXml()
             };
 
-            var serializer = new XmlSerializer(typeof(ReferenceExistsXml));
+            var serializer = new XmlSerializer(typeof(LookupExistsXml));
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream, Encoding.UTF8);
             serializer.Serialize(writer, refExistsXml);
@@ -97,9 +101,9 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Debug.WriteLine(content);
 
-            Assert.That(content, Is.StringContaining("column-mapping"));
-            Assert.That(content, Is.StringContaining("parent"));
-            Assert.That(content, Is.StringContaining("type"));
+            Assert.That(content, Is.StringContaining("mapping"));
+            Assert.That(content, Is.StringContaining("reference"));
+            Assert.That(content, Is.StringContaining("candidate"));
             Assert.That(content, Is.StringContaining("numeric"));
         }
     }

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
-    public class ReferenceExistsConstraintTest
+    public class LookupExistsConstraintTest
     {
         [Test]
         public void Matches_ResultSetService_CallToExecuteOnce()
@@ -39,7 +39,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             };
 
 
-            var referenceExists = new ReferenceExistsConstraint(parentService);
+            var referenceExists = new LookupExistsConstraint(parentService);
             referenceExists = referenceExists.Using(mappings);
 
             //Method under test
@@ -74,8 +74,8 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             };
 
 
-            var referenceExists = new ReferenceExistsConstraint(parentService);
-            var analyzer = new Mock<ReferenceAnalyzer>(mappings);
+            var referenceExists = new LookupExistsConstraint(parentService);
+            var analyzer = new Mock<LookupAnalyzer>(mappings);
             analyzer.Setup(x => x.Execute(It.IsAny<ResultSet>(), It.IsAny<ResultSet>())).Returns(new ReferenceViolations());
             referenceExists.Engine = analyzer.Object;
 

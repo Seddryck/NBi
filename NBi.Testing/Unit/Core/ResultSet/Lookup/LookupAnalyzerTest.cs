@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 {
-    public class ReferenceAnalyzerTest
+    public class LookupAnalyzerTest
     {
         protected DataTable BuildDataTable(object[] keys, object[] values)
         {
@@ -66,7 +66,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
             var child = BuildDataTable(new[] { "Key0", "Key1" }, new object[] { 0, 1 });
             var parent = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new object[] { 1, 1, 1 });
 
-            var referencer = new ReferenceAnalyzer(BuildColumnMapping(1));
+            var referencer = new LookupAnalyzer(BuildColumnMapping(1));
             var violations = referencer.Execute(child, parent);
             Assert.That(violations.Count(), Is.EqualTo(0));
         }
@@ -77,7 +77,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
             var child = BuildDataTable(new[] { "Key0", "Key1" }, new object[] { 0, 1 });
             var parent = BuildDataTable(new[] { "Key0", "Key1", "Key2", "Key1", "Key2" }, new object[] { 1, 1, 1, 1, 1 });
 
-            var referencer = new ReferenceAnalyzer(BuildColumnMapping(1));
+            var referencer = new LookupAnalyzer(BuildColumnMapping(1));
             var violations = referencer.Execute(child, parent);
             Assert.That(violations.Count(), Is.EqualTo(0));
         }
@@ -88,7 +88,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
             var child = BuildDataTable(new[] { "Key0", "Key1" }, new object[] { 0, 1 });
             var parent = BuildDataTable(new[] { "Key0", "Key2", "Key2", "Key0", "Key2" }, new object[] { 1, 1, 1, 1, 1 });
 
-            var referencer = new ReferenceAnalyzer(BuildColumnMapping(1));
+            var referencer = new LookupAnalyzer(BuildColumnMapping(1));
             var violations = referencer.Execute(child, parent);
             Assert.That(violations.Count(), Is.EqualTo(1));
         }
@@ -99,7 +99,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
             var child = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, new object[] { 0, 1 });
             var parent = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new[] { "Foo", "Bar", "Bar" }, new object[] { 1, 2, 3 });
 
-            var referencer = new ReferenceAnalyzer(BuildColumnMapping(2));
+            var referencer = new LookupAnalyzer(BuildColumnMapping(2));
             var violations = referencer.Execute(child, parent);
             Assert.That(violations.Count(), Is.EqualTo(0));
         }
@@ -110,7 +110,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
             var child = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, new object[] { 0, 1 });
             var parent = BuildDataTable(new[] { "Key0" }, new[] { "Foo" }, new object[] { 1 });
 
-            var referencer = new ReferenceAnalyzer(BuildColumnMapping(2));
+            var referencer = new LookupAnalyzer(BuildColumnMapping(2));
             var violations = referencer.Execute(child, parent);
             Assert.That(violations.Count(), Is.EqualTo(1));
         }
@@ -122,7 +122,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
             var parent = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new[] { "Foo", "Bar",  "Fie" }, new object[] { 1, 2, 3 });
             parent.Columns[2].SetOrdinal(0);
 
-            var referencer = new ReferenceAnalyzer(BuildColumnMapping(2, 1));
+            var referencer = new LookupAnalyzer(BuildColumnMapping(2, 1));
             var violations = referencer.Execute(child, parent);
             Assert.That(violations.Count(), Is.EqualTo(0));
         }
@@ -134,7 +134,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
             var parent = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, new object[] { 0, 1 });
             parent.Columns[2].SetOrdinal(0);
 
-            var referencer = new ReferenceAnalyzer(BuildColumnMapping(2, 1));
+            var referencer = new LookupAnalyzer(BuildColumnMapping(2, 1));
             var violations = referencer.Execute(child, parent);
             Assert.That(violations.Count(), Is.EqualTo(1));
         }
@@ -151,7 +151,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
                 new ColumnMapping("#0", "#1", ColumnType.Text),
                 new ColumnMapping("#1", "#0", ColumnType.Text)
             };
-            var referencer = new ReferenceAnalyzer(mapping);
+            var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
             Assert.That(violations.Count(), Is.EqualTo(0));
         }
@@ -168,7 +168,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
                 new ColumnMapping("#0", "#1", ColumnType.Text),
                 new ColumnMapping("#1", "#0", ColumnType.Text)
             };
-            var referencer = new ReferenceAnalyzer(mapping);
+            var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
             Assert.That(violations.Count(), Is.EqualTo(1));
         }
@@ -184,7 +184,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
                 new ColumnMapping("#0", "#0", ColumnType.Text),
                 new ColumnMapping("#1", "#1", ColumnType.Text)
             };
-            var referencer = new ReferenceAnalyzer(mapping);
+            var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
             Assert.That(violations.Count(), Is.EqualTo(0));
         }
@@ -200,7 +200,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
                 new ColumnMapping("#0", "#0", ColumnType.Text),
                 new ColumnMapping("#1", "#1", ColumnType.Text)
             };
-            var referencer = new ReferenceAnalyzer(mapping);
+            var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
             Assert.That(violations.Count(), Is.EqualTo(0));
         }
@@ -217,7 +217,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
                 new ColumnMapping("#1", "#1", ColumnType.Text),
                 new ColumnMapping("#2", "#2", ColumnType.Numeric)
             };
-            var referencer = new ReferenceAnalyzer(mapping);
+            var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
             Assert.That(violations.Count(), Is.EqualTo(0));
         }
@@ -235,7 +235,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
                 new ColumnMapping("one", "one", ColumnType.Text),
                 new ColumnMapping("two", "two", ColumnType.Numeric)
             };
-            var referencer = new ReferenceAnalyzer(mapping);
+            var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
             Assert.That(violations.Count(), Is.EqualTo(0));
         }
@@ -253,7 +253,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
                 new ColumnMapping("one", "one", ColumnType.Text),
                 new ColumnMapping("two", "two", ColumnType.Numeric)
             };
-            var referencer = new ReferenceAnalyzer(mapping);
+            var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
             Assert.That(violations.Count(), Is.EqualTo(0));
         }
@@ -272,7 +272,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
                 new ColumnMapping("one", "one", ColumnType.Text),
                 new ColumnMapping("two", "myColumn", ColumnType.Numeric)
             };
-            var referencer = new ReferenceAnalyzer(mapping);
+            var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
             Assert.That(violations.Count(), Is.EqualTo(0));
         }
@@ -291,7 +291,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
                 new ColumnMapping("#1", "one", ColumnType.Text),
                 new ColumnMapping("#2", "myColumn", ColumnType.Numeric)
             };
-            var referencer = new ReferenceAnalyzer(mapping);
+            var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
             Assert.That(violations.Count(), Is.EqualTo(0));
         }

@@ -373,7 +373,7 @@
     <Compile Include="ResultSet\Analyzer\MissingRowsAnalyzer.cs" />
     <Compile Include="ResultSet\ColumnRole.cs" />
     <Compile Include="ResultSet\ColumnType.cs" />
-    <Compile Include="ResultSet\Lookup\ReferenceAnalyzer.cs" />
+    <Compile Include="ResultSet\Lookup\LookupAnalyzer.cs" />
     <Compile Include="ResultSet\Lookup\ColumnMapping.cs" />
     <Compile Include="ResultSet\Lookup\KeysRetriever.cs" />
     <Compile Include="ResultSet\Lookup\KeysRetrieverByIndex.cs" />

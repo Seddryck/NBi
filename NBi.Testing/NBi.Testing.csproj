@@ -313,7 +313,7 @@
     <Compile Include="Unit\Core\ResultSet\Lookup\ColumnMappingCollectionTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByNameTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByIndexTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Lookup\ReferenceAnalyzerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Lookup\LookupAnalyzerTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\CellComparerTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\TextToleranceFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\Resolver\ReportDataSetQueryResolverTest.cs" />
@@ -406,7 +406,7 @@
     <Compile Include="Unit\GenbiL\Parser\VariableParserTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetAllRowsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetSomeRowsBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\ResultSetReferenceExistsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetLookupExistsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetUniqueRowsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetSingleRowBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetSupersetOfBuilderTest.cs" />
@@ -432,7 +432,7 @@
     <Compile Include="Unit\NUnit\DataType\IsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\DifferedConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\NoRowsConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\ResultSetComparison\ReferenceExistsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\LookupExistsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\SingleRowConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\SomeRowsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\AllRowsConstraintTest.cs" />
@@ -463,7 +463,7 @@
     <Compile Include="Unit\Service\TestCaseCollectionManagerTest.cs" />
     <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\ReferenceExistsXmlTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\LookupExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\UniqueRowsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\SupersetOfXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\NoRowsXmlTest.cs" />
@@ -969,7 +969,7 @@
     <Content Include="Integration\Core\Resources\query.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Unit\Xml\Resources\ReferenceExistsXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\LookupExistsXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\PredicateXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\ResultSetSystemXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteWithVariablesTestSuite.xml" />

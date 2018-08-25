@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Extensibility.Query;
 
 namespace NBi.Core.Query.Command
 {
@@ -48,7 +49,7 @@ namespace NBi.Core.Query.Command
         {
             foreach (var factory in factories)
                 if (factory.CanHandle(session))
-                    return factory.Instantiate(session, query);
+                    return factory.Instantiate(session, query, new StringTemplateEngine());
             throw new ArgumentException(nameof(session), $"NBi is not able to identify the command factory for a connection supporting the underlying type: {session.UnderlyingSessionType.Name}");
         }
     }

@@ -41,7 +41,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
 
         protected TableExtended BuildNonEmptyTable(IEnumerable<DataRow> dataRows)
         {
-            var headers = BuildColumns(dataRows, out List<ColumnType> columnTypes);
+            var headers = BuildColumns(dataRows, out var columnTypes);
             var rows = BuildRows(dataRows, columnTypes);
 
             return new TableExtended() { Columns = headers, Rows = rows };
@@ -89,10 +89,10 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
                 switch (style)
                 {
                     case EngineStyle.ByIndex:
-                        headerCell.Text = string.Format("#{0} ({1})", headers.Count, dataColumn.ColumnName);
+                        headerCell.Text = $"#{headers.Count} ({dataColumn.ColumnName})";
                         break;
                     case EngineStyle.ByName:
-                        headerCell.Text = string.Format("{0}", dataColumn.ColumnName);
+                        headerCell.Text = $"{dataColumn.ColumnName}";
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

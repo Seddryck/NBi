@@ -54,18 +54,12 @@ namespace NBi.NUnit.Builder
                 var disco = InstantiateMembersDiscovery(ctrXml.Members);
                 ctr = new Member.ContainConstraint(disco);
             }
-            else if (ctrXml.GetItems().Count() == 1)
-                ctr = new Member.ContainConstraint(ctrXml.Caption);
-            else
+            else 
                 ctr = new Member.ContainConstraint(ctrXml.GetItems());
 
             //Ignore-case if requested
             if (ctrXml.IgnoreCase)
                 ctr = ctr.IgnoreCase;
-
-            //Exactly
-            //if (ctrXml.Exactly)
-                //ctr = ctr.Exactly;
 
             return ctr;
         }

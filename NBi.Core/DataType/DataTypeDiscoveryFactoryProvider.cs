@@ -91,7 +91,7 @@ namespace NBi.Core.DataType
             }
             catch (Exception ex)
             {
-                Trace.WriteLineIf(NBiTraceSwitch.TraceWarning,"Can't detect server mode for SSAS, using Olap. Initial message:" + ex.Message);
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceWarning,"Can't detect server mode for SSAS, using Olap. Initial message:" + ex.Message);
                 return Olap;
             }
             return Olap;
@@ -108,7 +108,7 @@ namespace NBi.Core.DataType
             var serverModeNode = root.SelectSingleNode("//ddl300:ServerMode", nm);
             if (serverModeNode == null)
             {
-                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "Trying to detect the server mode for SSAS but the server doesn't return this information. Trying to get it from version.");
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "Trying to detect the server mode for SSAS but the server doesn't return this information. Trying to get it from version.");
                 var versionNode = root.SelectSingleNode("//default:Version", nm);
                 if (versionNode != null)
                 {

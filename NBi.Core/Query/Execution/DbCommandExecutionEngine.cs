@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using NBi.Extensibility.Query;
 
 namespace NBi.Core.Query.Execution
 {
@@ -108,10 +109,10 @@ namespace NBi.Core.Query.Execution
 
         protected void InitializeCommand(IDbCommand command, TimeSpan commandTimeout, IDataParameterCollection parameters, IDbConnection connection)
         {
-            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, command.CommandText);
             command.Connection = connection;
             foreach (IDataParameter param in parameters)
-                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("{0} => {1}", param.ParameterName, param.Value));
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("{0} => {1}", param.ParameterName, param.Value));
             command.CommandTimeout = Convert.ToInt32(commandTimeout.TotalSeconds);
         }
 
@@ -129,7 +130,7 @@ namespace NBi.Core.Query.Execution
         protected void StopWatch()
         {
             stopWatch.Stop();
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Time needed to execute query: {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Time needed to execute query: {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");
         }
 
         protected internal TimeSpan Elapsed { get => stopWatch.Elapsed; }

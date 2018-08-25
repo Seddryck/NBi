@@ -5,6 +5,7 @@ using NBi.NUnit.Query;
 using NUnit.Framework;
 using NBi.Core.Query.Performance;
 using System;
+using NBi.Extensibility.Query;
 
 namespace NBi.Testing.Unit.NUnit.Query
 {

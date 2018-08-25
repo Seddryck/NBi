@@ -3,6 +3,7 @@ using System.Data;
 using NBi.Core.Query;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Core.Query.Validation;
+using NBi.Extensibility.Query;
 
 namespace NBi.NUnit.Query
 {
@@ -19,9 +20,7 @@ namespace NBi.NUnit.Query
         {
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
-                engine = value;
+                engine = value ?? throw new ArgumentNullException();
             }
         }
         

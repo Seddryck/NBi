@@ -75,8 +75,10 @@ namespace NBi.Core.Structure
                 using (var conn = new AdomdConnection(connectionString))
                 {
                     conn.Open();
-                    var restrictions = new AdomdRestrictionCollection();
-                    restrictions.Add(new AdomdRestriction("ObjectExpansion", "ReferenceOnly"));
+                    var restrictions = new AdomdRestrictionCollection
+                    {
+                        new AdomdRestriction("ObjectExpansion", "ReferenceOnly")
+                    };
                     var ds = conn.GetSchemaDataSet("DISCOVER_XML_METADATA", restrictions);
                     var xml = ds.Tables[0].Rows[0].ItemArray[0].ToString();
                     var doc = new XmlDocument();
@@ -95,7 +97,7 @@ namespace NBi.Core.Structure
             }
             catch (Exception ex)
             {
-                Trace.WriteLineIf(NBiTraceSwitch.TraceWarning,"Can't detect server mode for SSAS, using Olap. Initial message:" + ex.Message);
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceWarning,"Can't detect server mode for SSAS, using Olap. Initial message:" + ex.Message);
                 return Olap;
             }
             return Olap;
@@ -112,7 +114,7 @@ namespace NBi.Core.Structure
             var serverModeNode = root.SelectSingleNode("//ddl300:ServerMode", nm);
             if (serverModeNode == null)
             {
-                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, "Trying to detect the server mode for SSAS but the server doesn't return this information. Trying to get it from version.");
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "Trying to detect the server mode for SSAS but the server doesn't return this information. Trying to get it from version.");
                 var versionNode = root.SelectSingleNode("//default:Version", nm);
                 if (versionNode != null)
                 {

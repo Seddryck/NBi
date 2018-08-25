@@ -11,6 +11,7 @@ using NBi.Core.ResultSet.Resolver;
 using NBi.NUnit.Builder.Helper;
 using NBi.Core.Query.Resolver;
 using NBi.Core.Query.Command;
+using NBi.Extensibility.Query;
 
 namespace NBi.NUnit.Builder
 {

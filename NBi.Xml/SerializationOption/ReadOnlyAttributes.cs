@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Xml.Serialization;
 using NBi.Xml.Constraints;
+using NBi.Xml.Constraints.Comparer;
 using NBi.Xml.Items.Calculation;
+using NBi.Xml.Items.ResultSet;
 
 namespace NBi.Xml.SerializationOption
 {
-    internal class ReadOnlyAttributes : XmlAttributeOverrides
+    public class ReadOnlyAttributes : XmlAttributeOverrides
     {
 
         public ReadOnlyAttributes()
@@ -16,41 +20,75 @@ namespace NBi.Xml.SerializationOption
 
         public void Build()
         {
+            #pragma warning disable 0618
+            AddAsAttribute((TestXml t) => t.Description, "description");
+            AddAsAttribute((TestXml t) => t.Ignore, "ignore");
+            AddAsAttribute((ContainXml c) => c.Caption, "caption");
 
-            XmlAttributes attrs = null;
+            AddAsElement((NoRowsXml c) => c.InternalAliasesOld, "variable", 2);
+            AddAsElement((FilterXml f) => f.InternalAliasesOld, "variable");
+            AddAsElement((ColumnDefinitionXml c) => c.InternalTransformationInner, "transformation");
 
-            attrs = new XmlAttributes();
-            attrs.XmlAttribute = new XmlAttributeAttribute("description");
-            Add(typeof(TestXml), "Description", attrs);
+            AddAsAttribute((PredicationXml p) => p.Name, "name");
 
-            attrs = new XmlAttributes();
-            attrs.XmlAttribute = new XmlAttributeAttribute("ignore");
-            Add(typeof(TestXml), "Ignore", attrs);
-
-            attrs = new XmlAttributes();
-            attrs.XmlAttribute = new XmlAttributeAttribute("caption");
-            Add(typeof(ContainXml), "Caption", attrs);
-
-            attrs = new XmlAttributes();
-            attrs.XmlElements.Add(new XmlElementAttribute("variable"));
-            Add(typeof(NoRowsXml), "InternalAliasesOld", attrs);
-
-            attrs = new XmlAttributes();
-            attrs.XmlElements.Add(new XmlElementAttribute("variable"));
-            Add(typeof(FilterXml), "InternalAliasesOld", attrs);
-
-            attrs = new XmlAttributes();
-            attrs.XmlAttribute = (new XmlAttributeAttribute("name"));
-            Add(typeof(PredicationXml), "Name", attrs);
-
-            var property = typeof(TestXml).GetField("Constraints");
-            var arrayAttr = (XmlArrayAttribute)property.GetCustomAttributes(typeof(XmlArrayAttribute), false)[0];
-            var arrayItemAttrs = property.GetCustomAttributes(typeof(XmlArrayItemAttribute), false).Cast<XmlArrayItemAttribute>().ToList();
-            attrs = new XmlAttributes();
-            attrs.XmlArray = arrayAttr;
-            arrayItemAttrs.ForEach(i => attrs.XmlArrayItems.Add(i));
-            attrs.XmlArrayItems.Add(new XmlArrayItemAttribute("subsetOf", typeof(SubsetOf1xXml)));
-            Add(typeof(TestXml), "Constraints", attrs);
+            AddToArrayyAttributes((TestXml t) => t.Constraints, "subsetOf", typeof(SubsetOf1xXml));
+            AddToElements((PredicationXml p) => p.Predicate, "within-list", typeof(WithinListXml));
+            #pragma warning restore 0618
         }
+
+        private void AddAsAttribute<T, U>(Expression<Func<T, U>> expression, string alias)
+        {
+            var parent = GetMemberInfo(expression);
+            var attrs = new XmlAttributes() { XmlAttribute = (new XmlAttributeAttribute(alias)) };
+            Add(parent.DeclaringType, parent.Name, attrs);
+        }
+
+        private void AddAsElement<T, U>(Expression<Func<T, U>> expression, string alias)
+        {
+            var parent = GetMemberInfo(expression);
+            var attrs = new XmlAttributes();
+            attrs.XmlElements.Add(new XmlElementAttribute(alias));
+            Add(parent.DeclaringType, parent.Name, attrs);
+        }
+
+        private void AddAsElement<T, U>(Expression<Func<T, U>> expression, string alias, int order)
+        {
+            var parent = GetMemberInfo(expression);
+            var attrs = new XmlAttributes();
+            var attr = new XmlElementAttribute(alias) { Order = order };
+            attrs.XmlElements.Add(attr);
+            Add(parent.DeclaringType, parent.Name, attrs);
+        }
+
+        private void AddToArrayyAttributes<T, U>(Expression<Func<T, U>> expression, string alias, Type aliasType)
+        {
+            var parent = GetMemberInfo(expression);
+            var arrayAttr = (XmlArrayAttribute)parent.GetCustomAttributes(typeof(XmlArrayAttribute), false)[0];
+            var arrayItemAttrs = parent.GetCustomAttributes(typeof(XmlArrayItemAttribute), false).Cast<XmlArrayItemAttribute>().ToList();
+            var attrs = new XmlAttributes() { XmlArray = arrayAttr };
+            arrayItemAttrs.ForEach(i => attrs.XmlArrayItems.Add(i));
+            attrs.XmlArrayItems.Add(new XmlArrayItemAttribute(alias, aliasType));
+            Add(parent.DeclaringType, parent.Name, attrs);
+        }
+
+        private void AddToElements<T, U>(Expression<Func<T, U>> expression, string alias, Type aliasType)
+        {
+            var parent = GetMemberInfo(expression);
+            var arrayAttr = parent.GetCustomAttributes(typeof(XmlElementAttribute), false).Cast<XmlElementAttribute>().ToList();
+            var attrs = new XmlAttributes();
+            arrayAttr.ForEach(i => attrs.XmlElements.Add(i));
+            attrs.XmlElements.Add((new XmlElementAttribute(alias, aliasType)));
+            Add(parent.DeclaringType, parent.Name, attrs);
+        }
+
+        private MemberInfo GetMemberInfo<T, U>(Expression<Func<T, U>> expression)
+        {
+            if (expression.Body is MemberExpression member)
+                return member.Member;
+
+            throw new ArgumentException("Expression is not a member access", "expression");
+        }
+
+        private string GetXmlName(string input) => string.Concat(input.Select((x, i) => i > 0 && char.IsUpper(x) ? "-" + x.ToString() : x.ToString().ToLowerInvariant()));
     }
 }

@@ -54,10 +54,10 @@ namespace NBi.Core.Query.Validation
 
         protected void InitializeCommand(IDbCommand command, IDbConnection connection)
         {
-            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, command.CommandText);
             command.Connection = connection;
             foreach (IDataParameter param in command.Parameters)
-                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("{0} => {1}", param.ParameterName, param.Value));
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("{0} => {1}", param.ParameterName, param.Value));
         }
         
         protected abstract IDbConnection NewConnection(string connectionString);
@@ -71,7 +71,7 @@ namespace NBi.Core.Query.Validation
         protected void StopWatch()
         {
             stopWatch.Stop();
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Time needed to parse query: {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Time needed to parse query: {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");
         }
     }
 }

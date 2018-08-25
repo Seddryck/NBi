@@ -217,18 +217,14 @@ namespace NBi.UI.Genbi.Presenter
 
         protected void OnGenerationStarted(EventArgs e)
         {
-            EventHandler<EventArgs> handler = GenerationStarted;
-            if (handler != null)
-                handler(this, e);
+            GenerationStarted?.Invoke(this, e);
         }
 
         public event EventHandler<EventArgs> GenerationEnded;
 
         protected void OnGenerationEnded(EventArgs e)
         {
-            EventHandler<EventArgs> handler = GenerationEnded;
-            if (handler != null)
-                handler(this, e);
+            GenerationEnded?.Invoke(this, e);
         }
 
         internal void Refresh()

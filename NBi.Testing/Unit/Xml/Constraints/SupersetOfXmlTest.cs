@@ -9,6 +9,7 @@ using NBi.Xml.Items;
 using NUnit.Framework;
 using NBi.Xml.Items.ResultSet;
 using NBi.Core.Transformation;
+using NBi.Xml.Items.Alteration.Transform;
 #endregion
 
 namespace NBi.Testing.Unit.Xml.Constraints
@@ -227,8 +228,8 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var ctr = ts.Tests[testNr].Constraints[0] as SupersetOfXml;
 
 
-            Assert.That(ctr.ColumnsDef[0].Transformation, Is.TypeOf<TransformationXml>());
-            var transfo = ctr.ColumnsDef[0].Transformation as TransformationXml;
+            Assert.That(ctr.ColumnsDef[0].Transformation, Is.TypeOf<LightTransformXml>());
+            var transfo = ctr.ColumnsDef[0].Transformation as LightTransformXml;
 
             Assert.That(transfo.Language, Is.EqualTo(LanguageType.CSharp));
             Assert.That(transfo.OriginalType, Is.EqualTo(ColumnType.Text));
@@ -247,8 +248,8 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var ctr = ts.Tests[testNr].Constraints[0] as SupersetOfXml;
 
 
-            Assert.That(ctr.ColumnsDef[1].Transformation, Is.TypeOf<TransformationXml>());
-            var transfo = ctr.ColumnsDef[1].Transformation as TransformationXml;
+            Assert.That(ctr.ColumnsDef[1].Transformation, Is.TypeOf<LightTransformXml>());
+            var transfo = ctr.ColumnsDef[1].Transformation as LightTransformXml;
 
             Assert.That(transfo.Language, Is.EqualTo(LanguageType.CSharp));
             Assert.That(transfo.OriginalType, Is.EqualTo(ColumnType.DateTime));

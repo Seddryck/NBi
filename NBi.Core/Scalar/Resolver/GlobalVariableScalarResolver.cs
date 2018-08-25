@@ -25,7 +25,14 @@ namespace NBi.Core.Scalar.Resolver
         public T Execute()
         {
             if (!args.GlobalVariables.ContainsKey(args.VariableName))
-                throw new NBiException($"The variable named '{args.VariableName}' is not defined.");
+            {
+                var caseIssues = args.GlobalVariables.Keys.Where(k => String.Equals(k, args.VariableName, StringComparison.OrdinalIgnoreCase));
+                if (caseIssues.Count() == 0)
+                    throw new NBiException($"The variable named '{args.VariableName}' is not defined.");
+                else
+                    throw new NBiException($"The variable named '{args.VariableName}' is not defined. Pay attention variables are case-sensitive. Did you mean '{string.Join("' or '", caseIssues)}'?");
+            }
+                
 
             var variable = args.GlobalVariables[args.VariableName];
 
@@ -34,7 +41,7 @@ namespace NBi.Core.Scalar.Resolver
                 var stopWatch = new Stopwatch();
                 stopWatch.Start();
                 variable.GetValue();
-                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Time needed for evaluation of variable '{args.VariableName}': {stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")}");
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Time needed for evaluation of variable '{args.VariableName}': {stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")}");
             }
 
             var output = variable.GetValue();
@@ -46,7 +53,7 @@ namespace NBi.Core.Scalar.Resolver
                 output = output.ToString().Substring(0, output.ToString().Length-1);
 
             output = Convert.ChangeType(output, typeof(T), formatProvider);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $@"Variable '{args.VariableName}' evaluated to: {
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $@"Variable '{args.VariableName}' evaluated to: {
                     (
                         output==null ? "(null)" : 
                         output is string && string.IsNullOrEmpty(output.ToString()) ? "(empty)" : output

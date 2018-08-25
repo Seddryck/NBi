@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Extensibility.Query;
 
 namespace NBi.Core.Configuration.Extension
 {
@@ -15,9 +16,9 @@ namespace NBi.Core.Configuration.Extension
 
             var interfaces = new[]
             {
-                typeof(Query.Client.IClientFactory),
-                typeof(Query.Command.ICommandFactory),
-                typeof(Query.Execution.IExecutionEngine),
+                typeof(IClientFactory),
+                typeof(ICommandFactory),
+                typeof(IExecutionEngine),
                 typeof(Query.Performance.IPerformanceEngine),
                 typeof(Query.Validation.IValidationEngine),
                 typeof(Query.Format.IFormatEngine),

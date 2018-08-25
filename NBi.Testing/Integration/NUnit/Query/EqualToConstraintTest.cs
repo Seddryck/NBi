@@ -6,12 +6,11 @@ using NUnit.Framework;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet;
 using System.Data;
-using NBi.Core.Query;
-using Moq;
 using NBi.Core.Injection;
 using System.Collections.Generic;
 using NBi.Core.Scalar.Comparer;
 using NBi.Core;
+using NBi.Extensibility.Query;
 #endregion
 
 namespace NBi.Testing.Integration.NUnit.Query

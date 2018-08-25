@@ -4,6 +4,7 @@ using NBi.Core.Query.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NBi.Extensibility.Query;
 
 namespace NBi.Core.Query.Execution
 {

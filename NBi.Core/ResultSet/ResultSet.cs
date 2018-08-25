@@ -8,19 +8,17 @@ namespace NBi.Core.ResultSet
 {
     public class ResultSet
     {
-        protected internal DataTable table;
-
-        internal DataTable Table { get { return table; } }
+        protected internal DataTable Table { get; protected set; }
         
         public DataColumnCollection Columns
         {
-            get { return table.Columns; }
+            get { return Table.Columns; }
         }
 
 
         public DataRowCollection Rows
         {
-            get { return table.Rows; }
+            get { return Table.Rows; }
         }
 
         public ResultSet()
@@ -34,21 +32,34 @@ namespace NBi.Core.ResultSet
 
         public void Load(DataTable table)
         {
-            this.table = table;
+            this.Table = table;
         }
 
         public void Load(IEnumerable<DataRow> rows)
         {
-            table = new DataTable();
-            rows.CopyToDataTable<DataRow>(table, LoadOption.OverwriteChanges);
+            rows.CopyToDataTable(Table, LoadOption.OverwriteChanges);
 
             //display for debug
             ConsoleDisplay();
         }
 
+        public void AddRange(IEnumerable<DataRow> rows)
+        {
+            rows.CopyToDataTable(Table, LoadOption.OverwriteChanges);
+        }
+
+        public ResultSet Clone()
+        {
+            var newRs = new ResultSet
+            {
+                Table = Table.Clone()
+            };
+            return newRs;
+        }
+
         public void Load(string record)
         {
-            table = new DataTable();
+            Table = new DataTable();
             var fields = record.Split(';');
 
             //if > 0 row
@@ -57,23 +68,23 @@ namespace NBi.Core.ResultSet
                 //Build structure
                 for (int i = 0; i < fields.Length; i++)
                     Columns.Add(string.Format("Column{0}", i), typeof(string));
-                
+
                 //load each row one by one
-                table.BeginLoadData();
+                Table.BeginLoadData();
                 //Transform (null) [string] into null
                 for (int i = 0; i < fields.Count(); i++)
                 {
                     if (fields[i] != null && fields[i].ToString().ToLower() == "(null)".ToLower())
                         fields[i] = null;
                 }
-                table.LoadDataRow(fields, LoadOption.OverwriteChanges);
-                table.EndLoadData();  
+                Table.LoadDataRow(fields, LoadOption.OverwriteChanges);
+                Table.EndLoadData();  
             }
         }
 
         public void Load(IEnumerable<object[]> objects)
         {
-            table = new DataTable();
+            Table = new DataTable();
 
             //if > 0 row
             if (objects.Count() > 0)
@@ -89,7 +100,7 @@ namespace NBi.Core.ResultSet
                 }
 
                 //load each row one by one
-                table.BeginLoadData();
+                Table.BeginLoadData();
                 foreach (var obj in objects)
                 {
                     //Transform (null) [string] into null
@@ -99,9 +110,9 @@ namespace NBi.Core.ResultSet
                             obj[i] = null;
                     }
 
-                    table.LoadDataRow(obj, LoadOption.OverwriteChanges);
+                    Table.LoadDataRow(obj, LoadOption.OverwriteChanges);
                 }
-                table.EndLoadData();
+                Table.EndLoadData();
             }
 
             //display for debug
@@ -127,7 +138,7 @@ namespace NBi.Core.ResultSet
 
         protected void ConsoleDisplay()
         {
-            if (!NBiTraceSwitch.TraceVerbose)
+            if (!Extensibility.NBiTraceSwitch.TraceVerbose)
                 return;
 
             Trace.WriteLine(string.Format(new string('-', 30)));

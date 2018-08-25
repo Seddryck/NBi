@@ -34,8 +34,7 @@ namespace NBi.Core.Analysis.Member
 
         protected void Inform(string text)
         {
-            if (ProgressStatusChanged != null)
-                ProgressStatusChanged(this, new ProgressStatusEventArgs(text));
+            ProgressStatusChanged?.Invoke(this, new ProgressStatusEventArgs(text));
         }
 
         protected IDbCommand CreateCommand()
@@ -179,7 +178,7 @@ namespace NBi.Core.Analysis.Member
             var commandText = string.Empty;
             commandText = string.Format("select {0} on 0, {1} on 1 from [{2}]", "{}", members, perspective);
 
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, commandText);
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, commandText);
             return commandText;
         }
 

@@ -162,4 +162,61 @@
       </all-rows>
     </assert>
   </test>
+  <test name="With Predicate is within-list" uid="0009">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select 10 union select 20 union select 30
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <variable column-index="0">Value</variable>
+        <predicate name="Value" type="numeric">
+          <within-list>
+            <item>10</item>
+            <item>20</item>
+            <item>30</item>
+          </within-list>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With Predicate is within-list" uid="0010">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select 10 union select 20 union select 30
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <variable column-index="0">Value</variable>
+        <predicate name="Value" type="numeric">
+          <any-of>
+            <item>10</item>
+            <item>20</item>
+            <item>30</item>
+          </any-of>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <test name="With multiple expressions" uid="0011">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select 10 union select 20 union select 30
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <expression name="div">[#0] / 2</expression>
+        <expression name="multi">[#0] * 2</expression>
+      </all-rows>
+    </assert>
+  </test>
 </testSuite>

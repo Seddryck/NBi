@@ -282,6 +282,88 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         }
 
         [Test]
+        [TestCase("2018-02-01 00:00:00", "2018-02-01 01:00:00")]
+        [TestCase("2018-08-01 00:00:00", "2018-08-01 02:00:00")]
+        public void Execute_UtcToLocalWithStandardName_Valid(object value, DateTime expected)
+        {
+            var code = "utc-to-local(Romance Standard Time)";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+
+        [Test]
+        [TestCase("2018-02-01 00:00:00", "2018-02-01 01:00:00")]
+        [TestCase("2018-08-01 00:00:00", "2018-08-01 02:00:00")]
+        public void Execute_UtcToLocalWithCityName_Valid(object value, DateTime expected)
+        {
+            var code = "utc-to-local(Brussels)";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+
+        [Test]
+        [TestCase("2018-02-01 03:00:00", "2018-02-01 02:00:00")]
+        [TestCase("2018-08-01 02:00:00", "2018-08-01 00:00:00")]
+        public void Execute_LocalToUtcWithStandardName_Valid(object value, DateTime expected)
+        {
+            var code = "local-to-utc(Romance Standard Time)";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+
+        [Test]
+        [TestCase("2018-02-01 07:00:00", "2018-02-01 06:00:00")]
+        [TestCase("2018-08-01 01:00:00", "2018-07-31 23:00:00")]
+        public void Execute_LocalToUtcWithCityName_Valid(object value, DateTime expected)
+        {
+            var code = "local-to-utc(Brussels)";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2018-02-01 07:00:00")]
+        public void Execute_DateTimeToDate_Valid(object value)
+        {
+            var code = "dateTime-to-date";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(new DateTime(2018, 2, 1)));
+        }
+
+        [Test]
+        [TestCase("2018-02-01 07:00:00", "2018-02-01 07:00:00")]
+        [TestCase(null, "2001-01-01")]
+        [TestCase("", "2001-01-01")]
+        [TestCase("(null)", "2001-01-01")]
+        public void Execute_NullToDate_Valid(object value, DateTime expected)
+        {
+            var code = "null-to-date(2001-01-01)";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
         public void Execute_NotInitialized_InvalidOperation()
         {
             var provider = new NativeTransformer<string>();

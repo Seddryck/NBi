@@ -62,8 +62,8 @@ namespace NBi.NUnit.Builder
             var output = variable.GetValue();
             if (isFirstEvaluation)
             {
-                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Time needed for evaluation of variable '{value}': {stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")}");
-                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Variable '{value}' evaluated to: {output}");
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Time needed for evaluation of variable '{value}': {stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")}");
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Variable '{value}' evaluated to: {output}");
             }
             return output;
         }

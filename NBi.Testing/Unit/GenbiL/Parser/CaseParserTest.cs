@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NBi.GenbiL;
 using NBi.GenbiL.Action.Case;
 using NBi.GenbiL.Parser;
 using NBi.Service;
@@ -266,6 +267,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.InstanceOf<FilterDistinctCaseAction>());
         }
 
+        [Test]
         public void SentenceParser_CaseFocus_ValidFocusAction()
         {
             var input = "case scope 'alpha'";
@@ -275,34 +277,54 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.InstanceOf<ScopeCaseAction>());
         }
 
+        [Test]
         public void SentenceParser_CaseCross_ValidCrossAction()
         {
             var input = "case cross 'alpha' with 'beta'";
             var result = Case.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<CrossCaseAction>());
+            Assert.That(result, Is.InstanceOf<CrossFullCaseAction>());
 
-            var crossCase = result as CrossCaseAction;
+            var crossCase = result as CrossFullCaseAction;
             Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
             Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
-            Assert.That(crossCase.MatchingColumn, Is.Null.Or.Empty);
         }
 
+        [Test]
         public void SentenceParser_CaseCrossOnColumn_ValidCrossAction()
         {
             var input = "case cross 'alpha' with 'beta' on 'myKey'";
             var result = Case.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<CrossCaseAction>());
+            Assert.That(result, Is.InstanceOf<CrossJoinCaseAction>());
 
-            var crossCase = result as CrossCaseAction;
+            var crossCase = result as CrossJoinCaseAction;
             Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
             Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
-            Assert.That(crossCase.MatchingColumn, Is.EqualTo("myKey"));
+            Assert.That(crossCase.MatchingColumns.Count(), Is.EqualTo(1));
+            Assert.That(crossCase.MatchingColumns, Has.Member("myKey"));
         }
 
+        [Test]
+        public void SentenceParser_CaseCrossOnColumns_ValidCrossAction()
+        {
+            var input = "case cross 'alpha' with 'beta' on 'myKey1', 'myKey2'";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<CrossJoinCaseAction>());
+
+            var crossCase = result as CrossJoinCaseAction;
+            Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
+            Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
+            Assert.That(crossCase.MatchingColumns.Count(), Is.EqualTo(2));
+            Assert.That(crossCase.MatchingColumns, Has.Member("myKey1"));
+            Assert.That(crossCase.MatchingColumns, Has.Member("myKey2"));
+        }
+
+        [Test]
         public void SentenceParser_CaseCrossWithVector_ValidCrossAction()
         {
             var input = "case cross 'alpha' with vector 'beta' values 'value1', 'value2'";
@@ -313,11 +335,12 @@ namespace NBi.Testing.Unit.GenbiL.Parser
 
             var crossCase = result as CrossVectorCaseAction;
             Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
-            Assert.That(crossCase.VectorName, Is.EqualTo("beta"));
+            Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
             Assert.That(crossCase.Values, Has.Member("value1"));
             Assert.That(crossCase.Values, Has.Member("value2"));
         }
 
+        [Test]
         public void SentenceParser_CaseSave_ValidSaveAction()
         {
             var input = "case save 'myfile.csv'";
@@ -330,6 +353,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(saveCase.Filename, Is.EqualTo("myfile.csv"));
         }
 
+        [Test]
         public void SentenceParser_CaseSaveAs_ValidSaveAction()
         {
             var input = "case save as 'myfile.csv'";
@@ -342,6 +366,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(saveCase.Filename, Is.EqualTo("myfile.csv"));
         }
 
+        [Test]
         public void SentenceParser_CaseCopy_ValidCopyAction()
         {
             var input = "case copy 'master' to 'copied-to'";
@@ -560,6 +585,45 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(((DuplicateCaseAction)result).NewColumns, Has.Member("bar"));
             Assert.That(((DuplicateCaseAction)result).NewColumns, Has.Member("space"));
             Assert.That(((DuplicateCaseAction)result).NewColumns.Count, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void SentenceParser_CaseTrimDirectionOneColumn_ValidTrimAction()
+        {
+            var input = "case trim left column 'foo';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<TrimCaseAction>());
+            Assert.That(((TrimCaseAction)result).ColumnNames.Count(), Is.EqualTo(1));
+            Assert.That(((TrimCaseAction)result).ColumnNames, Has.Member("foo"));
+            Assert.That(((TrimCaseAction)result).Direction, Is.EqualTo(Directions.Left));
+        }
+
+        [Test]
+        public void SentenceParser_CaseTrimDirectionTwoColumns_ValidTrimAction()
+        {
+            var input = "case trim right column 'foo', 'bar';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<TrimCaseAction>());
+            Assert.That(((TrimCaseAction)result).ColumnNames.Count(), Is.EqualTo(2));
+            Assert.That(((TrimCaseAction)result).ColumnNames, Has.Member("foo"));
+            Assert.That(((TrimCaseAction)result).ColumnNames, Has.Member("bar"));
+            Assert.That(((TrimCaseAction)result).Direction, Is.EqualTo(Directions.Right));
+        }
+
+        [Test]
+        public void SentenceParser_CaseTrimBothAllColumns_ValidTrimAction()
+        {
+            var input = "case trim columns all;";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<TrimCaseAction>());
+            Assert.That(((TrimCaseAction)result).ColumnNames.Count(), Is.EqualTo(0));
+            Assert.That(((TrimCaseAction)result).Direction, Is.EqualTo(Directions.Both));
         }
     }
 }

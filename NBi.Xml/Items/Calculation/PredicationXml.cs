@@ -32,10 +32,17 @@ namespace NBi.Xml.Items.Calculation
         }
 
         [XmlAttribute("operand")]
-        public string Operand { get; set; }
+        public string OperandSerialized
+        {
+            get => Operand?.Label;
+            set { Operand = new ColumnIdentifierFactory().Instantiate(value); }
+        }
+
+        [XmlIgnore()]
+        public IColumnIdentifier Operand { get; set; }
 
         [Obsolete("Deprecated. Use operand in place of name")]
-        public string Name { get => Operand; set => Operand=value; }
+        public string Name { get => Operand.Label; set => Operand=new ColumnIdentifierFactory().Instantiate(value); }
 
         [DefaultValue(ColumnType.Numeric)]
         [XmlAttribute("type")]
@@ -56,7 +63,7 @@ namespace NBi.Xml.Items.Calculation
         [XmlElement(Type = typeof(MatchesDateXml), ElementName = "matches-date")]
         [XmlElement(Type = typeof(MatchesTimeXml), ElementName = "matches-time")]
         [XmlElement(Type = typeof(WithinRangeXml), ElementName = "within-range")]
-        [XmlElement(Type = typeof(WithinListXml), ElementName = "within-list")]
+        [XmlElement(Type = typeof(AnyOfXml), ElementName = "any-of")]
         [XmlElement(Type = typeof(IntegerXml), ElementName = "integer")]
         [XmlElement(Type = typeof(ModuloXml), ElementName = "modulo")]
         [XmlElement(Type = typeof(OnTheDayXml), ElementName = "on-the-day")]
@@ -65,12 +72,13 @@ namespace NBi.Xml.Items.Calculation
         [XmlElement(Type = typeof(TrueXml), ElementName = "true")]
         [XmlElement(Type = typeof(FalseXml), ElementName = "false")]
         public PredicateXml Predicate { get; set; }
-        
+
+        private object reference;
         [XmlIgnore]
         public object Reference
         {
-            get { return Predicate.Value ?? Predicate.Values as object; }
-            set { Predicate.Value = value.ToString(); }
+            get { return reference ?? Predicate.Value ?? Predicate.Values as object; }
+            set { reference = value; }
         }
 
         [XmlIgnore]

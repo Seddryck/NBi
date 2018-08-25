@@ -56,8 +56,11 @@
     <Reference Include="MarkdownLog, Version=0.9.3.36, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MarkdownLog.0.9.3\lib\portable-net45+sl50+MonoAndroid10+MonoTouch10\MarkdownLog.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.12.0.2000.8\lib\net40\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
+    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=15.3.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.retail.amd64.15.3.1\lib\net45\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AnalysisServices.SPClient.Interfaces, Version=15.3.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.retail.amd64.15.3.1\lib\net45\Microsoft.AnalysisServices.SPClient.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.AzureStorageEnum, Version=14.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.140.17218.0\lib\net40\Microsoft.SqlServer.AzureStorageEnum.dll</HintPath>
@@ -271,7 +274,12 @@
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Calculation\CombinationPredicateFilterTest.cs" />
     <Compile Include="Unit\Core\Calculation\CultureSensitivePredicateMatchesTest.cs" />
-    <Compile Include="Unit\Core\Calculation\Predicate\Text\TextWithinListTest.cs" />
+    <Compile Include="Unit\Core\Calculation\Predicate\Text\TextAnyOfTest.cs" />
+    <Compile Include="Unit\Core\Calculation\FilterGroupByFilterTest.cs" />
+    <Compile Include="Unit\Core\Calculation\Grouping\NameByColumnGroupingTest.cs" />
+    <Compile Include="Unit\Core\Calculation\Grouping\IndexByColumnGroupingTest.cs" />
+    <Compile Include="Unit\Core\Calculation\Ranking\BottomRankingTest.cs" />
+    <Compile Include="Unit\Core\Calculation\Ranking\TopRankingTest.cs" />
     <Compile Include="Unit\Core\Calculation\SinglePredicateFilterTest.cs" />
     <Compile Include="Unit\Core\Calculation\PredicateTwoOperandsTest.cs" />
     <Compile Include="Unit\Core\Calculation\PredicateWithoutReferenceTest.cs" />
@@ -310,6 +318,7 @@
     <Compile Include="Unit\Core\Query\Execution\ExecutionEngineFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\QueryParameterTest.cs" />
     <Compile Include="Unit\Core\Report\FileReportingParserTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\ColumnIdentifierFactory.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\ColumnMappingCollectionTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByNameTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByIndexTest.cs" />
@@ -380,11 +389,15 @@
     <Compile Include="Unit\Framework\Sampling\BasicSamplerTest.cs" />
     <Compile Include="Unit\Framework\Sampling\FullSamplerTest.cs" />
     <Compile Include="Unit\Framework\Sampling\NoneSamplerTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\CopyCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\CrossJoinCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\CrossFullCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\ReduceCaseTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\GroupCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\SplitCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\SeparateCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\DuplicateCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\TrimCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\SubstituteCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\ConcatenateCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\CrossVectorCaseActionTest.cs" />
@@ -480,8 +493,9 @@
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\Decoration\ConditionXmlTest.cs" />
     <Compile Include="Unit\Xml\Decoration\DecorationXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\Calculation\RankingXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\Calculation\PredicateXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\ResultSet\TransformationXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\ResultSet\TransformXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\SharedDatasetXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\RoutineParameterXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\RoutineXmlTest.cs" />
@@ -887,6 +901,10 @@
       <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
       <Name>NBi.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj">
+      <Project>{a06cba63-d848-4dbc-abfc-63172613999d}</Project>
+      <Name>NBi.Extensibility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NBi.Framework\NBi.Framework.csproj">
       <Project>{1ad339dc-60e0-4334-86cf-60eeafeaa6e4}</Project>
       <Name>NBi.Framework</Name>
@@ -970,11 +988,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Unit\Xml\Resources\LookupExistsXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\RankingXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\PredicateXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\ResultSetSystemXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteWithVariablesTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\UniqueRowsXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\TransformationXmlTestSuite.xml">
+    <EmbeddedResource Include="Unit\Xml\Resources\TransformXmlTestSuite.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\Resources\SupersetOfXmlTestSuite.xml" />

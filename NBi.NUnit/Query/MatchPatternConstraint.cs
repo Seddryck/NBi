@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-using NBi.Core.Query;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Core.Query.Format;
 using System.Collections.Generic;
+using NBi.Extensibility.Query;
 
 namespace NBi.NUnit.Query
 {

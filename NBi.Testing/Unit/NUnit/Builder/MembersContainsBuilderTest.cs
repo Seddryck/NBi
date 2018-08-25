@@ -79,18 +79,22 @@ namespace NBi.Testing.Unit.NUnit.Builder
         [Test]
         public void GetSystemUnderTest_ConnectionStringInDefault_CorrectlyInitialized()
         {
-            var sutXml = new MembersXml();
-            sutXml.ChildrenOf = "memberCaption";
+            var sutXml = new MembersXml
+            {
+                ChildrenOf = "memberCaption"
+            };
             var item = new HierarchyXml();
             sutXml.Item = item;
             item.Perspective = "perspective";
             item.Dimension = "dimension";
             item.Caption = "hierarchy";
 
-            var defXml = new DefaultXml();
-            defXml.ConnectionString = "connectionString-default";
+            var defXml = new DefaultXml
+            {
+                ConnectionString = "connectionString-default"
+            };
             sutXml.Default = defXml;
-            
+
             var ctrXml = new ContainXml();
 
             var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();
@@ -120,16 +124,20 @@ namespace NBi.Testing.Unit.NUnit.Builder
         [Test]
         public void GetSystemUnderTest_BuildWithHierarchy_CorrectCallToDiscoverFactory()
         {
-            var sutXml = new MembersXml();
-            sutXml.ChildrenOf = "memberCaption";
+            var sutXml = new MembersXml
+            {
+                ChildrenOf = "memberCaption"
+            };
             var item = new HierarchyXml();
             sutXml.Item = item;
             item.ConnectionString = "connectionString";
             item.Perspective = "perspective";
             item.Dimension = "dimension";
             item.Caption = "hierarchy";
-            var ctrXml = new ContainXml();
-            ctrXml.Caption = "caption";
+            var ctrXml = new ContainXml
+            {
+                Items = new List<string>() { "caption" }
+            };
 
             var discoFactoMockFactory = new Mock<DiscoveryRequestFactory>();
             discoFactoMockFactory.Setup(dfs =>
@@ -157,8 +165,10 @@ namespace NBi.Testing.Unit.NUnit.Builder
         [Test]
         public void GetSystemUnderTest_BuildWithLevel_CorrectCallToDiscoverFactory()
         {
-            var sutXml = new MembersXml();
-            sutXml.ChildrenOf = "memberCaption";
+            var sutXml = new MembersXml
+            {
+                ChildrenOf = "memberCaption"
+            };
             var item = new LevelXml();
             sutXml.Item = item;
             item.ConnectionString = "connectionString";
@@ -196,13 +206,16 @@ namespace NBi.Testing.Unit.NUnit.Builder
         [Test]
         public void GetSystemUnderTest_BuildWithDimension_Failure()
         {
-            var sutXml = new MembersXml();
-            sutXml.ChildrenOf = "memberCaption";
-            var item = new DimensionXml();
-            sutXml.Item = item;
-            item.ConnectionString = "connectionString";
-            item.Perspective = "perspective";
-            item.Caption = "dimension";
+            var sutXml = new MembersXml
+            {
+                ChildrenOf = "memberCaption",
+                Item = new DimensionXml()
+                {
+                    ConnectionString = "connectionString",
+                    Perspective = "perspective",
+                    Caption = "dimension"
+                }
+            };
             var ctrXml = new ContainXml();
 
             var discoFactoStubFactory = new Mock<DiscoveryRequestFactory>();

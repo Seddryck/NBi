@@ -50,7 +50,10 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Action\AxisType.cs" />
+    <Compile Include="Action\Case\CrossJoinCaseAction.cs" />
+    <Compile Include="Action\Case\CrossFullCaseAction.cs" />
     <Compile Include="Action\Case\DuplicateCaseAction.cs" />
+    <Compile Include="Action\Case\LoadCaseFromDatatableAction.cs" />
     <Compile Include="Action\Case\ReduceCaseAction.cs" />
     <Compile Include="Action\Case\GroupCaseAction.cs" />
     <Compile Include="Action\Case\SplitCaseAction.cs" />
@@ -73,6 +76,7 @@
     <Compile Include="Action\Case\MoveCaseAction.cs" />
     <Compile Include="Action\Case\RenameCaseAction.cs" />
     <Compile Include="Action\Case\RemoveCaseAction.cs" />
+    <Compile Include="Action\Case\TrimCaseAction.cs" />
     <Compile Include="Action\DefaultType.cs" />
     <Compile Include="Action\Case\ICaseAction.cs" />
     <Compile Include="Action\EmptyAction.cs" />
@@ -86,9 +90,11 @@
     <Compile Include="Action\Suite\SaveSuiteAction.cs" />
     <Compile Include="Action\Suite\ISuiteAction.cs" />
     <Compile Include="Action\Template\AddEmbeddedTemplateAction.cs" />
+    <Compile Include="Action\Template\AddStringTemplateAction.cs" />
     <Compile Include="Action\Template\ClearTemplateAction.cs" />
     <Compile Include="Action\Template\ITemplateAction.cs" />
     <Compile Include="Action\Template\AddFileTemplateAction.cs" />
+    <Compile Include="Action\Template\LoadStringTemplateAction.cs" />
     <Compile Include="Action\Template\LoadTemplateAction.cs" />
     <Compile Include="Action\Template\LoadFileTemplateAction.cs" />
     <Compile Include="Action\Consumable\RevokeConsumableAction.cs" />
@@ -99,6 +105,7 @@
     <Compile Include="Action\Variable\IVariableAction.cs" />
     <Compile Include="Parser\Action.cs" />
     <Compile Include="Parser\Consumable.cs" />
+    <Compile Include="Directions.cs" />
     <Compile Include="Parser\Valuable\Column.cs" />
     <Compile Include="Parser\Comment.cs" />
     <Compile Include="Parser\Valuable\IValuable.cs" />

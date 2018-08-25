@@ -103,8 +103,8 @@ namespace NBi.Framework.FailureMessage.Markdown
             return ($"Result-set with {rowCount} row{(rowCount > 1 ? "s" : string.Empty)}".ToMarkdownParagraph());
         }
 
-        public virtual string RenderParent() => keysCollectionSamplers["expected"] is NoneSampler<KeyCollection> ?  "Display skipped." : parent.ToMarkdown();
-        public virtual string RenderChild() => keysCollectionSamplers["actual"] is NoneSampler<KeyCollection> ? "Display skipped." : child.ToMarkdown();
+        public virtual string RenderExpected() => keysCollectionSamplers["expected"] is NoneSampler<KeyCollection> ?  "Display skipped." : parent.ToMarkdown();
+        public virtual string RenderActual() => keysCollectionSamplers["actual"] is NoneSampler<KeyCollection> ? "Display skipped." : child.ToMarkdown();
         public virtual string RenderAnalysis() => keysCollectionSamplers["analysis"] is NoneSampler<KeyCollection> ? "Display skipped." : analysis.ToMarkdown();
         public virtual string RenderPredicate() => "Some references are missing and violate referential integrity";
 
@@ -113,9 +113,9 @@ namespace NBi.Framework.FailureMessage.Markdown
             var sb = new StringBuilder();
             sb.AppendLine(RenderPredicate());
             sb.AppendLine();
-            sb.AppendLine(RenderParent());
+            sb.AppendLine(RenderExpected());
             sb.AppendLine();
-            sb.AppendLine(RenderChild());
+            sb.AppendLine(RenderActual());
             sb.AppendLine();
             sb.AppendLine(RenderAnalysis());
             return sb.ToString();

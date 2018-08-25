@@ -34,13 +34,13 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
-        protected BasePredicateFilter InstantiateFilter()
+        protected IResultSetFilter InstantiateFilter()
         {
             var expressions = new List<IColumnExpression>();
-            if (ConstraintXml.Expression != null)
-                expressions.Add(ConstraintXml.Expression);
+            if (ConstraintXml.Expressions != null)
+                expressions.AddRange(ConstraintXml.Expressions);
 
-            var factory = new PredicateFilterFactory();
+            var factory = new ResultSetFilterFactory();
             if (ConstraintXml.Predication != null)
             {
                 if (ConstraintXml.Predication.Reference != null && !(ConstraintXml.Predication.Reference is IEnumerable<string>))
@@ -58,7 +58,7 @@ namespace NBi.NUnit.Builder
                 var predicateInfos = new List<IPredicateInfo>();
                 foreach (var predicateXml in ConstraintXml.Combination.Predicates)
                 {
-                    if (predicateXml.Reference != null)
+                    if (predicateXml.Reference != null && !(predicateXml.Reference is IEnumerable<string>))
                         predicateXml.Reference = EvaluatePotentialVariable(predicateXml.Reference);
 
                     predicateInfos.Add(predicateXml);

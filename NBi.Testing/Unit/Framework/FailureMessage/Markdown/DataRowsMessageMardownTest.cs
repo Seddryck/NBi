@@ -73,7 +73,28 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
 
             Assert.That(lines[0], Is.EqualTo("Result-set with 1 row"));
         }
-        
+
+        [Test]
+        public void RenderExpected_MoreThanMaxRowsCount_ReturnSampleRowsCountAndHeadersAndSeparation()
+        {
+            var dataSet = new DataSet();
+            var dataTable = new DataTable() { TableName = "MyTable" };
+            dataTable.Columns.Add(new DataColumn("Id"));
+            dataTable.Columns.Add(new DataColumn("Numeric value"));
+            dataTable.Columns.Add(new DataColumn("Boolean value"));
+            dataTable.Columns["Id"].ExtendedProperties.Add("NBi::Role", ColumnRole.Key);
+            for (int i = 0; i < 20; i++)
+                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+
+            var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
+            var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
+            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
+            var value = msg.RenderExpected();
+            var lines = value.Replace("\n", string.Empty).Split('\r');
+
+            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(10 + 3));
+        }
+
         [Test]
         public void RenderExpected_MoreThanMaxRowsCount_ReturnSampleRowsCountAndHeaderAndSeparation()
         {
@@ -91,8 +112,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
-
-            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(10 + 3));
+            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(10 + 3 -1)); //-1 because we've no ExtendedProperties
         }
 
         [Test]
@@ -105,6 +125,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
+            dataTable.Columns["Id"].ExtendedProperties.Add("NBi::Role", ColumnRole.Key);
             for (int i = 0; i < rowCount; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
@@ -113,8 +134,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
-
-
+            
             Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(rowCount + 3));
         }
 
@@ -130,6 +150,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
+            dataTable.Columns["Id"].ExtendedProperties.Add("NBi::Role", ColumnRole.Key);
             for (int i = 0; i < rowCount; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
@@ -144,8 +165,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
-
-
+            
             Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(max + 3));
         }
 
@@ -161,6 +181,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
+            dataTable.Columns["Id"].ExtendedProperties.Add("NBi::Role", ColumnRole.Key);
             for (int i = 0; i < rowCount; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
 
@@ -175,8 +196,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
             msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
-
-
+            
             Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(rowCount + 3));
         }
 

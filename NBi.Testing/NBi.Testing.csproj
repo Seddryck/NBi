@@ -987,7 +987,9 @@
     <Content Include="Integration\Core\Resources\query.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Unit\Xml\Resources\LookupExistsXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\LookupExistsXmlTestSuite.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\Resources\RankingXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\PredicateXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\ResultSetSystemXmlTestSuite.xml" />

@@ -26,7 +26,7 @@ namespace NBi.Core.ResultSet
 
         protected override bool IsValue(int index)
         {
-            if (ColumnsDef.Any(c => c.Index == index && c.Role == ColumnRole.Ignore))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnPositionIdentifier)?.Position == index && c.Role == ColumnRole.Ignore))
                 return false;
 
             return true;

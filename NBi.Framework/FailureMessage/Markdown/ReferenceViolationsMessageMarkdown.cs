@@ -27,7 +27,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             this.dataRowsSamplers = dataRowSamplers;
         }
 
-        public void Generate(IEnumerable<DataRow> parentRows, IEnumerable<DataRow> childRows, ReferenceViolations violations)
+        public void Generate(IEnumerable<DataRow> parentRows, IEnumerable<DataRow> childRows, LookupViolations violations)
         {
             parent = BuildTable(parentRows, dataRowsSamplers["expected"]);
             child = BuildTable(childRows, dataRowsSamplers["actual"]);
@@ -67,7 +67,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             return container;
         }
 
-        private MarkdownContainer BuildMultipleTable(ReferenceViolations violations, string title, ISampler<KeyCollection> keyCollectionSampler, ISampler<DataRow> dataRowSampler)
+        private MarkdownContainer BuildMultipleTable(LookupViolations violations, string title, ISampler<KeyCollection> keyCollectionSampler, ISampler<DataRow> dataRowSampler)
         {
             var tableBuilder = new TableHelper(EngineStyle.ByIndex);
             var container = new MarkdownContainer();

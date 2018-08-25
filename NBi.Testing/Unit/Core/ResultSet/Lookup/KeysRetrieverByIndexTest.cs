@@ -40,7 +40,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Index =0, Type=ColumnType.Text}
+                new Column() { Identifier= new ColumnPositionIdentifier(0), Type=ColumnType.Text}
             };
 
             var keyRetriever = new KeysRetrieverByIndex(columns);
@@ -56,7 +56,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Index =2, Type=ColumnType.Numeric}
+                new Column() { Identifier= new ColumnPositionIdentifier(2), Type=ColumnType.Numeric}
             };
 
             var keyRetriever = new KeysRetrieverByIndex(columns);
@@ -72,7 +72,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Index =2, Type=ColumnType.Numeric}
+                new Column() { Identifier= new ColumnPositionIdentifier(2), Type=ColumnType.Numeric}
             };
 
             var keyRetriever = new KeysRetrieverByIndex(columns);
@@ -88,8 +88,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Index = 0, Type=ColumnType.Text},
-                new Column() { Index = 1, Type=ColumnType.Text}
+                new Column() { Identifier= new ColumnPositionIdentifier(0), Type=ColumnType.Text},
+                new Column() { Identifier= new ColumnPositionIdentifier(1), Type=ColumnType.Text}
             };
 
             var keyRetriever = new KeysRetrieverByIndex(columns);
@@ -105,8 +105,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Index = 0, Type=ColumnType.Text},
-                new Column() { Index = 2, Type=ColumnType.Numeric}
+                new Column() { Identifier= new ColumnPositionIdentifier(0), Type=ColumnType.Text},
+                new Column() { Identifier= new ColumnPositionIdentifier(2), Type=ColumnType.Numeric}
             };
 
             var keyRetriever = new KeysRetrieverByIndex(columns);
@@ -122,8 +122,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Index = 1, Type=ColumnType.Text},
-                new Column() { Index = 0, Type=ColumnType.Text}
+                new Column() { Identifier= new ColumnPositionIdentifier(1), Type=ColumnType.Text},
+                new Column() { Identifier= new ColumnPositionIdentifier(0), Type=ColumnType.Text}
             };
 
             var keyRetriever = new KeysRetrieverByIndex(columns);

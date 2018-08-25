@@ -18,31 +18,25 @@ namespace NBi.Core.ResultSet.Lookup
             var keys = new List<object>();
             foreach (var setting in Settings)
             {
+                var index = (setting.Identifier as ColumnPositionIdentifier).Position;
                 try
                 {
-                    var value = FormatValue(setting.Type, row[setting.Index]);
+                    var value = FormatValue(setting.Type, row[index]);
                     keys.Add(value);
                 }
                 catch (FormatException)
                 {
-                    var txt = "In the column with index '{0}', NBi can't convert the value '{0}' to the type '{1}'. Key columns must match with their respective types and don't support null, generic or interval values.";
-                    var msg = string.Format(txt, setting.Index, row[setting.Index], setting.Type);
-                    throw new NBiException(msg);
+                    throw new NBiException($"In the column with index '{index}', NBi can't convert the value '{row[index]}' to the type '{setting.Type}'. Key columns must match with their respective types and don't support null, generic or interval values.");
                 }
                 catch (InvalidCastException ex)
                 {
                     if (ex.Message.Contains("Object cannot be cast from DBNull to other types"))
-                    {
-                        var txt = "In the column with index '{0}', NBi can't convert the value 'DBNull' to the type '{1}'. Key columns must match with their respective types and don't support null, generic or interval values.";
-                        var msg = string.Format(txt, setting.Index, row[setting.Index], setting.Type);
-                        throw new NBiException(msg);
-                    }
+                        throw new NBiException($"In the column with index '{index}', NBi can't convert the value 'DBNull' to the type '{setting.Type}'. Key columns must match with their respective types and don't support null, generic or interval values.");
                     else
                         throw ex;
                 }
             }
             return new KeyCollection(keys.ToArray());
         }
-
     }
 }

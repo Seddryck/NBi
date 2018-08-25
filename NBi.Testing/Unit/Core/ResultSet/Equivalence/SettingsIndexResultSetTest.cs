@@ -110,7 +110,7 @@ namespace NBi.Testing.Unit.Core.ResultSet
             //Build a value column (numeric, specific tolerance)
             var column = new Column()
             {
-                Index = 1,
+                Identifier = new ColumnPositionIdentifier(1),
                 Role = ColumnRole.Value,
                 Type = ColumnType.Numeric,
                 Tolerance = "1"
@@ -118,20 +118,20 @@ namespace NBi.Testing.Unit.Core.ResultSet
             //Build a value column (without info)
             var colLightXml = new Column()
             {
-                Index = 2,
+                Identifier = new ColumnPositionIdentifier(2),
                 Role = ColumnRole.Value,
             };
             //Build a value column (numeric)
             var col4Xml = new Column()
             {
-                Index = 4,
+                Identifier = new ColumnPositionIdentifier(4),
                 Role = ColumnRole.Value,
                 Type = ColumnType.Numeric,
             };
             //Build a ignore column (without info)
             var colIgnoreXml = new Column()
             {
-                Index = 5,
+                Identifier = new ColumnPositionIdentifier(5),
                 Role = ColumnRole.Ignore,
             };
             //Add columns to definition

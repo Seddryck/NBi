@@ -109,7 +109,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Equivalence
             //Build a value column (numeric, specific tolerance)
             var column = new Column()
             {
-                Name = "One",
+                Identifier = new ColumnNameIdentifier("One"),
                 Role = ColumnRole.Value,
                 Type = ColumnType.Numeric,
                 Tolerance = "1"
@@ -117,20 +117,20 @@ namespace NBi.Testing.Unit.Core.ResultSet.Equivalence
             //Build a value column (without info)
             var colLightXml = new Column()
             {
-                Name = "Two",
+                Identifier = new ColumnNameIdentifier("Two"),
                 Role = ColumnRole.Value,
             };
             //Build a value column (numeric)
             var col4Xml = new Column()
             {
-                Name = "Four",
+                Identifier = new ColumnNameIdentifier("Four"),
                 Role = ColumnRole.Value,
                 Type = ColumnType.Numeric,
             };
                         //Build a ignore column (without info)
             var colIgnoreXml = new Column()
             {
-                Name = "Five",
+                Identifier = new ColumnNameIdentifier("Five"),
                 Role = ColumnRole.Ignore,
             };
             //Add columns to definition

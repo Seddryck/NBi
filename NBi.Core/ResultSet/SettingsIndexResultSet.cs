@@ -36,10 +36,10 @@ namespace NBi.Core.ResultSet
         protected override bool IsKey(int index)
         {
 
-            if (ColumnsDef.Any(c => c.Index == index && c.Role != ColumnRole.Key))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnPositionIdentifier)?.Position == index && c.Role != ColumnRole.Key))
                 return false;
 
-            if (ColumnsDef.Any(c => c.Index == index && c.Role == ColumnRole.Key))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnPositionIdentifier)?.Position == index && c.Role == ColumnRole.Key))
                 return true;
 
             switch (KeysDef)
@@ -57,10 +57,10 @@ namespace NBi.Core.ResultSet
 
         protected override bool IsValue(int index)
         {
-            if (ColumnsDef.Any(c => c.Index == index && c.Role != ColumnRole.Value))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnPositionIdentifier)?.Position == index && c.Role != ColumnRole.Value))
                 return false;
 
-            if (ColumnsDef.Any(c => c.Index == index && c.Role == ColumnRole.Value))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnPositionIdentifier)?.Position == index && c.Role == ColumnRole.Value))
                 return true;
 
             switch (KeysDef)
@@ -91,7 +91,7 @@ namespace NBi.Core.ResultSet
         public override bool IsRounding(int index)
         {
             return ColumnsDef.Any(
-                    c => c.Index == index
+                    c => (c.Identifier as ColumnPositionIdentifier)?.Position == index
                     && c.Role == ColumnRole.Value
                     && c.RoundingStyle != Rounding.RoundingStyle.None
                     && !string.IsNullOrEmpty(c.RoundingStep));
@@ -103,7 +103,7 @@ namespace NBi.Core.ResultSet
                 return null;
 
             return RoundingFactory.Build(ColumnsDef.Single(
-                    c => c.Index == index
+                    c => (c.Identifier as ColumnPositionIdentifier)?.Position == index
                     && c.Role == ColumnRole.Value));
         }
 
@@ -140,10 +140,10 @@ namespace NBi.Core.ResultSet
 
         protected override bool IsType(int index, ColumnType type)
         {
-            if (ColumnsDef.Any(c => c.Index == index && c.Type != type))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnPositionIdentifier)?.Position == index && c.Type != type))
                 return false;
 
-            if (ColumnsDef.Any(c => c.Index == index && c.Type == type))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnPositionIdentifier)?.Position == index && c.Type == type))
                 return true;
 
             return (IsValue(index) && ValuesDefaultType == type);
@@ -154,7 +154,7 @@ namespace NBi.Core.ResultSet
             if (GetColumnType(index) != ColumnType.Numeric && GetColumnType(index) != ColumnType.DateTime && GetColumnType(index) != ColumnType.Text)
                 return null;
 
-            var col = ColumnsDef.FirstOrDefault(c => c.Index == index);
+            var col = ColumnsDef.FirstOrDefault(c => (c.Identifier as ColumnPositionIdentifier)?.Position == index);
             if (col == null || !col.IsToleranceSpecified)
             {
                 switch (GetColumnType(index))
@@ -184,7 +184,7 @@ namespace NBi.Core.ResultSet
         public int GetMinColumnIndexDefined()
         {
             if (ColumnsDef.Count > 0)
-                return ColumnsDef.Min(cd => cd.Index);
+                return ColumnsDef.Where(cd => cd.Identifier is ColumnPositionIdentifier).Min(cd => ((ColumnPositionIdentifier)(cd.Identifier)).Position);
             else
                 return -1;
         }
@@ -192,7 +192,7 @@ namespace NBi.Core.ResultSet
         public int GetMaxColumnIndexDefined()
         {
             if (ColumnsDef.Count > 0)
-                return ColumnsDef.Max(cd => cd.Index);
+                return ColumnsDef.Where(cd => cd.Identifier is ColumnPositionIdentifier).Max(cd => ((ColumnPositionIdentifier)(cd.Identifier)).Position);
             else
                 return -1;
         }

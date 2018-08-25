@@ -279,7 +279,7 @@ namespace NBi.Testing.Integration.NUnit.Query
                     {
                         new Column()
                         {
-                            Index=1,
+                            Identifier= new ColumnPositionIdentifier(1),
                             Role= ColumnRole.Value,
                             Type=ColumnType.Numeric,
                             Tolerance= "10"
@@ -324,7 +324,7 @@ namespace NBi.Testing.Integration.NUnit.Query
                         {
                             new Column()
                             {
-                                Index = 1,
+                                Identifier= new ColumnPositionIdentifier(1),
                                 Role = ColumnRole.Value,
                                 Type = ColumnType.Numeric,
                                 Tolerance = "5"
@@ -435,7 +435,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             var expectedQuery = new NBi.Core.Query.Query(expectedSql, ConnectionStringReader.GetSqlClient());
 
             var columns = new List<IColumnDefinition>(){
-                new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
+                new Column() { Identifier= new ColumnPositionIdentifier(1), Role = ColumnRole.Value, Type = ColumnType.DateTime }
             };
             var resolver = new FakeQueryResultSetResolver(expectedQuery, serviceLocator);
             var builder = new ResultSetServiceBuilder();
@@ -469,7 +469,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             var expectedQuery = new NBi.Core.Query.Query(expectedSql, ConnectionStringReader.GetSqlClient());
 
             var columns = new List<IColumnDefinition>(){
-                new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
+                new Column() { Identifier= new ColumnPositionIdentifier(1), Role = ColumnRole.Value, Type = ColumnType.DateTime }
             };
             var resolver = new FakeQueryResultSetResolver(expectedQuery, serviceLocator);
             var builder = new ResultSetServiceBuilder();
@@ -503,7 +503,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             var expectedQuery = new NBi.Core.Query.Query(expectedSql, ConnectionStringReader.GetSqlClient());
 
             var columns = new List<IColumnDefinition>(){
-                new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
+                new Column() { Identifier= new ColumnPositionIdentifier(1), Role = ColumnRole.Value, Type = ColumnType.DateTime }
             };
 
             var expectedLoader = new FakeQueryResultSetResolver(expectedQuery, serviceLocator);

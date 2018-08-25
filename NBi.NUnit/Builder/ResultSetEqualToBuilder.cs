@@ -58,7 +58,7 @@ namespace NBi.NUnit.Builder
             foreach (var columnDef in ConstraintXml.ColumnsDef)
             {
                 if (columnDef.Transformation != null)
-                    transformationProvider.Add(columnDef.Index, columnDef.Transformation);
+                    transformationProvider.Add(columnDef.Identifier, columnDef.Transformation);
             }
 
             if (ConstraintXml.GetCommand() != null)

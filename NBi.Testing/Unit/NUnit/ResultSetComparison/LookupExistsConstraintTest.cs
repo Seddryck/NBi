@@ -34,16 +34,15 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 
             var mappings = new ColumnMappingCollection()
             {
-                new ColumnMapping("#0", "#0", ColumnType.Text),
-                new ColumnMapping("#1", "#1", ColumnType.Text),
+                new ColumnMapping(new ColumnPositionIdentifier(0), ColumnType.Text),
+                new ColumnMapping(new ColumnPositionIdentifier(1), ColumnType.Text),
             };
 
-
-            var referenceExists = new LookupExistsConstraint(parentService);
-            referenceExists = referenceExists.Using(mappings);
+            var lookupExists = new LookupExistsConstraint(parentService);
+            lookupExists = lookupExists.Using(mappings);
 
             //Method under test
-            referenceExists.Matches(childService);
+            lookupExists.Matches(childService);
 
             //Test conclusion            
             childMock.Verify(s => s.Execute(), Times.Once());
@@ -69,18 +68,17 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 
             var mappings = new ColumnMappingCollection()
             {
-                new ColumnMapping("#0", "#0", ColumnType.Text),
-                new ColumnMapping("#1", "#1", ColumnType.Text),
+                new ColumnMapping(new ColumnPositionIdentifier(0), ColumnType.Text),
+                new ColumnMapping(new ColumnPositionIdentifier(1), ColumnType.Text),
             };
 
-
-            var referenceExists = new LookupExistsConstraint(parentService);
+            var lookupExists = new LookupExistsConstraint(parentService);
             var analyzer = new Mock<LookupAnalyzer>(mappings);
-            analyzer.Setup(x => x.Execute(It.IsAny<ResultSet>(), It.IsAny<ResultSet>())).Returns(new ReferenceViolations());
-            referenceExists.Engine = analyzer.Object;
+            analyzer.Setup(x => x.Execute(It.IsAny<ResultSet>(), It.IsAny<ResultSet>())).Returns(new LookupViolations());
+            lookupExists.Engine = analyzer.Object;
 
             //Method under test
-            referenceExists.Matches(childService);
+            lookupExists.Matches(childService);
 
             //Test conclusion            
             analyzer.Verify(x => x.Execute(child, parent), Times.Once());

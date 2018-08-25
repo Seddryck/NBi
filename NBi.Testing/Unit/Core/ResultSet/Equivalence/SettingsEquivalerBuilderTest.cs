@@ -27,7 +27,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Equivalence
         public void Build_NonDefaultKeyAndNamedColumn_Exception()
         {
             var columnDef = Mock.Of<IColumnDefinition>();
-            columnDef.Name = "MyKey";
+            columnDef.Identifier = new ColumnNameIdentifier("MyKey");
 
             var builder = new SettingsEquivalerBuilder();
             builder.Setup(SettingsIndexResultSet.KeysChoice.All, SettingsIndexResultSet.ValuesChoice.AllExpectFirst);
@@ -39,7 +39,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Equivalence
         public void Build_TwiceTheSameNamedColumn_Exception()
         {
             var columnDef = Mock.Of<IColumnDefinition>();
-            columnDef.Name = "MyKey";
+            columnDef.Identifier = new ColumnNameIdentifier("MyKey");
 
             var builder = new SettingsEquivalerBuilder();
             builder.Setup(SettingsIndexResultSet.KeysChoice.All, SettingsIndexResultSet.ValuesChoice.AllExpectFirst);
@@ -51,7 +51,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Equivalence
         public void Build_TwiceTheSameIndexedColumn_Exception()
         {
             var columnDef = Mock.Of<IColumnDefinition>();
-            columnDef.Index = 1;
+            columnDef.Identifier = new ColumnPositionIdentifier(1);
 
             var builder = new SettingsEquivalerBuilder();
             builder.Setup(SettingsIndexResultSet.KeysChoice.All, SettingsIndexResultSet.ValuesChoice.AllExpectFirst);
@@ -63,7 +63,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Equivalence
         public void Build_IncoherenceDefaultToleranceAndValueType_Exception()
         {
             var columnDef = Mock.Of<IColumnDefinition>();
-            columnDef.Index = 1;
+            columnDef.Identifier = new ColumnPositionIdentifier(1);
 
             var builder = new SettingsEquivalerBuilder();
             builder.Setup(ColumnType.Numeric, new DateTimeTolerance(new TimeSpan(1000)));
@@ -75,7 +75,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Equivalence
         public void Build_OverrideUniqueKey_Exception()
         {
             var columnDef = Mock.Of<IColumnDefinition>();
-            columnDef.Index = 0;
+            columnDef.Identifier = new ColumnPositionIdentifier(0);
             columnDef.Role = ColumnRole.Value;
 
             var builder = new SettingsEquivalerBuilder();
@@ -88,11 +88,11 @@ namespace NBi.Testing.Unit.Core.ResultSet.Equivalence
         public void Build_OverrideUniqueKeyButCreateNew_NoException()
         {
             var columnDef = Mock.Of<IColumnDefinition>();
-            columnDef.Index = 0;
+            columnDef.Identifier = new ColumnPositionIdentifier(0);
             columnDef.Role = ColumnRole.Value;
 
             var columnDefKey = Mock.Of<IColumnDefinition>();
-            columnDefKey.Index = 1;
+            columnDefKey.Identifier = new ColumnPositionIdentifier(1);
             columnDefKey.Role = ColumnRole.Key;
 
             var builder = new SettingsEquivalerBuilder();

@@ -56,7 +56,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
         {
             var mappings = new ColumnMappingCollection();
             for (int i = 0; i < count; i++)
-                mappings.Add(new ColumnMapping($"#{i}", $"#{i + shift}", ColumnType.Text));
+                mappings.Add(new ColumnMapping(new ColumnPositionIdentifier(i), new ColumnPositionIdentifier(i + shift), ColumnType.Text));
             return mappings;
         }
 
@@ -148,8 +148,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var mapping = new ColumnMappingCollection
             {
-                new ColumnMapping("#0", "#1", ColumnType.Text),
-                new ColumnMapping("#1", "#0", ColumnType.Text)
+                new ColumnMapping(new ColumnPositionIdentifier(0), new ColumnPositionIdentifier(1), ColumnType.Text),
+                new ColumnMapping(new ColumnPositionIdentifier(1), new ColumnPositionIdentifier(0), ColumnType.Text)
             };
             var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
@@ -165,8 +165,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var mapping = new ColumnMappingCollection
             {
-                new ColumnMapping("#0", "#1", ColumnType.Text),
-                new ColumnMapping("#1", "#0", ColumnType.Text)
+                new ColumnMapping(new ColumnPositionIdentifier(0), new ColumnPositionIdentifier(1), ColumnType.Text),
+                new ColumnMapping(new ColumnPositionIdentifier(1), new ColumnPositionIdentifier(0), ColumnType.Text)
             };
             var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
@@ -181,8 +181,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var mapping = new ColumnMappingCollection
             {
-                new ColumnMapping("#0", "#0", ColumnType.Text),
-                new ColumnMapping("#1", "#1", ColumnType.Text)
+                new ColumnMapping(new ColumnPositionIdentifier(0), ColumnType.Text),
+                new ColumnMapping(new ColumnPositionIdentifier(1), ColumnType.Text)
             };
             var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
@@ -197,8 +197,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var mapping = new ColumnMappingCollection
             {
-                new ColumnMapping("#0", "#0", ColumnType.Text),
-                new ColumnMapping("#1", "#1", ColumnType.Text)
+                new ColumnMapping(new ColumnPositionIdentifier(0), ColumnType.Text),
+                new ColumnMapping(new ColumnPositionIdentifier(1), ColumnType.Text)
             };
             var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
@@ -213,9 +213,9 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var mapping = new ColumnMappingCollection
             {
-                new ColumnMapping("#0", "#0", ColumnType.Text),
-                new ColumnMapping("#1", "#1", ColumnType.Text),
-                new ColumnMapping("#2", "#2", ColumnType.Numeric)
+                new ColumnMapping(new ColumnPositionIdentifier(0), ColumnType.Text),
+                new ColumnMapping(new ColumnPositionIdentifier(1), ColumnType.Text),
+                new ColumnMapping(new ColumnPositionIdentifier(2), ColumnType.Numeric)
             };
             var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
@@ -231,9 +231,9 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var mapping = new ColumnMappingCollection
             {
-                new ColumnMapping("zero", "zero", ColumnType.Text),
-                new ColumnMapping("one", "one", ColumnType.Text),
-                new ColumnMapping("two", "two", ColumnType.Numeric)
+                new ColumnMapping(new ColumnNameIdentifier("zero"), ColumnType.Text),
+                new ColumnMapping(new ColumnNameIdentifier("one"), ColumnType.Text),
+                new ColumnMapping(new ColumnNameIdentifier("two"), ColumnType.Numeric)
             };
             var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
@@ -249,9 +249,9 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var mapping = new ColumnMappingCollection
             {
-                new ColumnMapping("zero", "zero", ColumnType.Text),
-                new ColumnMapping("one", "one", ColumnType.Text),
-                new ColumnMapping("two", "two", ColumnType.Numeric)
+                new ColumnMapping(new ColumnNameIdentifier("zero"), ColumnType.Text),
+                new ColumnMapping(new ColumnNameIdentifier("one"), ColumnType.Text),
+                new ColumnMapping(new ColumnNameIdentifier("two"), ColumnType.Numeric)
             };
             var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
@@ -268,9 +268,9 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var mapping = new ColumnMappingCollection
             {
-                new ColumnMapping("zero", "zero", ColumnType.Text),
-                new ColumnMapping("one", "one", ColumnType.Text),
-                new ColumnMapping("two", "myColumn", ColumnType.Numeric)
+                new ColumnMapping(new ColumnNameIdentifier("zero"), ColumnType.Text),
+                new ColumnMapping(new ColumnNameIdentifier("one"), ColumnType.Text),
+                new ColumnMapping(new ColumnNameIdentifier("two"), new ColumnNameIdentifier("myColumn"), ColumnType.Numeric)
             };
             var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
@@ -287,9 +287,9 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var mapping = new ColumnMappingCollection
             {
-                new ColumnMapping("#0", "zero", ColumnType.Text),
-                new ColumnMapping("#1", "one", ColumnType.Text),
-                new ColumnMapping("#2", "myColumn", ColumnType.Numeric)
+                new ColumnMapping(new ColumnNameIdentifier("zero"), ColumnType.Text),
+                new ColumnMapping(new ColumnNameIdentifier("one"), ColumnType.Text),
+                new ColumnMapping(new ColumnNameIdentifier("two"), new ColumnNameIdentifier("myColumn"), ColumnType.Numeric)
             };
             var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);

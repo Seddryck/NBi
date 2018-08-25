@@ -23,7 +23,7 @@ namespace NBi.NUnit.ResultSetComparison
 
         protected ResultSet rsParent;
         protected ResultSet rsChild;
-        private ReferenceViolations violations;
+        private LookupViolations violations;
 
         private IReferenceViolationsMessageFormatter failure;
         protected IReferenceViolationsMessageFormatter Failure

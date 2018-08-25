@@ -392,7 +392,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Equivalence
                 SettingsIndexResultSet.ValuesChoice.None,
                 new List<IColumnDefinition>()
                 {
-                    new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.Numeric }
+                    new Column() { Identifier = new ColumnPositionIdentifier(1), Role = ColumnRole.Value, Type = ColumnType.Numeric }
                 }
                 );
 
@@ -580,8 +580,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Equivalence
         {
             var columnsDef = new List<IColumnDefinition>()
             {
-                new Column() { Index = 0, Role = ColumnRole.Key, Type = keyType},
-                new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance.ToString() }
+                new Column() { Identifier = new ColumnPositionIdentifier(0), Role = ColumnRole.Key, Type = keyType},
+                new Column() { Identifier = new ColumnPositionIdentifier(1), Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance.ToString() }
             };
             return new SettingsIndexResultSet(
                 SettingsIndexResultSet.KeysChoice.First,
@@ -594,8 +594,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Equivalence
         {
             var columnsDef = new List<IColumnDefinition>()
             {
-                new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance.ToString() },
-                new Column() { Index = 2, Role = ColumnRole.Ignore }
+                new Column() { Identifier = new ColumnPositionIdentifier(1), Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance.ToString() },
+                new Column() { Identifier = new ColumnPositionIdentifier(2), Role = ColumnRole.Ignore }
             };
             return new SettingsIndexResultSet(
                 SettingsIndexResultSet.KeysChoice.First,

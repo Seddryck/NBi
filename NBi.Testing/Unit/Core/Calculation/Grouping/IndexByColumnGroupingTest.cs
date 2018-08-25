@@ -56,8 +56,8 @@ namespace NBi.Testing.Unit.Core.Calculation.Grouping
 
             var settings = new SettingsIndexResultSet(new List<IColumnDefinition>()
                 {
-                    new Column() { Index = 0, Role = ColumnRole.Key, Type = ColumnType.Text },
-                    new Column() { Index = 1, Role = ColumnRole.Key, Type = ColumnType.Numeric },
+                    new Column() { Identifier = new ColumnPositionIdentifier(0), Role = ColumnRole.Key, Type = ColumnType.Text },
+                    new Column() { Identifier = new ColumnPositionIdentifier(1), Role = ColumnRole.Key, Type = ColumnType.Numeric },
                 }
             );
             var grouping = new IndexByColumnGrouping(settings);

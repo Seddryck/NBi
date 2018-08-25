@@ -25,8 +25,7 @@ namespace NBi.Core.Calculation.Grouping
             {
                 var definition = new ColumnDefinition()
                 {
-                    Index = (column.Identifier as ColumnPositionIdentifier)?.Position ?? 0,
-                    Name = (column.Identifier as ColumnNameIdentifier)?.Name ?? string.Empty,
+                    Identifier = column.Identifier as ColumnPositionIdentifier,
                     Type = column.Type
                 };
                 definitions.Add(definition);
@@ -49,8 +48,7 @@ namespace NBi.Core.Calculation.Grouping
 
         private class ColumnDefinition : IColumnDefinition
         {
-            public int Index { get; set; }
-            public string Name { get; set; }
+            public IColumnIdentifier Identifier { get; set; }
             public ColumnRole Role { get => ColumnRole.Key; set => throw new NotImplementedException(); }
             public ColumnType Type { get; set; }
 

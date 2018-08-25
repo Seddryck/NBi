@@ -24,7 +24,7 @@ namespace NBi.Testing.Unit.Core.Calculation.Grouping
 
             var settings = new SettingsNameResultSet(new List<IColumnDefinition>()
                 {
-                    new Column() { Name = "first", Role = ColumnRole.Key, Type = ColumnType.Text },
+                    new Column() { Identifier = new ColumnNameIdentifier("first"), Role = ColumnRole.Key, Type = ColumnType.Text },
                 }
             );
             var grouping = new NameByColumnGrouping(settings);
@@ -46,8 +46,8 @@ namespace NBi.Testing.Unit.Core.Calculation.Grouping
 
             var settings = new SettingsNameResultSet(new List<IColumnDefinition>()
                 {
-                    new Column() { Name = "first", Role = ColumnRole.Key, Type = ColumnType.Text },
-                    new Column() { Name = "second", Role = ColumnRole.Key, Type = ColumnType.Text },
+                    new Column() { Identifier = new ColumnNameIdentifier("first"), Role = ColumnRole.Key, Type = ColumnType.Text },
+                    new Column() { Identifier = new ColumnNameIdentifier("second"), Role = ColumnRole.Key, Type = ColumnType.Text },
                 }
             );
             var grouping = new NameByColumnGrouping(settings);
@@ -71,8 +71,8 @@ namespace NBi.Testing.Unit.Core.Calculation.Grouping
 
             var settings = new SettingsNameResultSet(new List<IColumnDefinition>()
                 {
-                    new Column() { Name = "first", Role = ColumnRole.Key, Type = ColumnType.Text },
-                    new Column() { Name = "second", Role = ColumnRole.Key, Type = ColumnType.Numeric },
+                    new Column() { Identifier = new ColumnNameIdentifier("first"), Role = ColumnRole.Key, Type = ColumnType.Text },
+                    new Column() { Identifier = new ColumnNameIdentifier("second"), Role = ColumnRole.Key, Type = ColumnType.Numeric },
                 }
             );
             var grouping = new NameByColumnGrouping(settings);

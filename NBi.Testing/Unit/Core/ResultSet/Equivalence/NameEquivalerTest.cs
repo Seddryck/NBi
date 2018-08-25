@@ -161,8 +161,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Equivalence
         protected SettingsNameResultSet BuildSettingsKeyValue(decimal tolerance, ColumnType keyType)
         {
             var columnsDef = new List<IColumnDefinition>() {
-                    new Column() { Name = "KeyName", Role = ColumnRole.Key, Type = keyType},
-                    new Column() { Name = "ValueName", Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance.ToString() }
+                    new Column() { Identifier = new ColumnNameIdentifier("KeyName"), Role = ColumnRole.Key, Type = keyType},
+                    new Column() { Identifier = new ColumnNameIdentifier("ValueName"), Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance.ToString() }
             };
 
             return new SettingsNameResultSet(

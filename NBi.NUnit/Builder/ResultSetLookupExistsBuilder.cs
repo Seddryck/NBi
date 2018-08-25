@@ -35,9 +35,18 @@ namespace NBi.NUnit.Builder
             var ctrXml = ConstraintXml as LookupExistsXml;
             ctrXml.ResultSet.Settings = ctrXml.Settings;
 
-            var mappings = new ColumnMappingCollection();
-            foreach (var mapping in ctrXml.Join.Mappings)
-                mappings.Add(new ColumnMapping(mapping.Candidate, mapping.Reference, mapping.Type));
+            var factory = new ColumnIdentifierFactory();
+            var mappings = new ColumnMappingCollection(
+                ctrXml.Join?.Mappings
+                    .Select(mapping => new ColumnMapping(
+                        factory.Instantiate(mapping.Candidate)
+                        , factory.Instantiate(mapping.Reference)
+                        , mapping.Type))
+                .Union(
+                    ctrXml.Join?.Usings.Select(@using => new ColumnMapping(
+                        factory.Instantiate(@using.Column)
+                        , @using.Type)
+                    )));
 
             var builder = new ResultSetServiceBuilder();
             builder.Setup(Helper.InstantiateResolver(ctrXml.ResultSet));

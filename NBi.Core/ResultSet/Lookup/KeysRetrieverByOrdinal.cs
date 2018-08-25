@@ -7,9 +7,9 @@ using System.Linq;
 
 namespace NBi.Core.ResultSet.Lookup
 {
-    class KeysRetrieverByIndex : KeysRetriever
+    class KeysRetrieverByOrdinal : KeysRetriever
     {
-        public KeysRetrieverByIndex(IEnumerable<IColumnDefinition> settings)
+        public KeysRetrieverByOrdinal(IEnumerable<IColumnDefinition> settings)
             : base(settings)
         { }
 
@@ -18,7 +18,7 @@ namespace NBi.Core.ResultSet.Lookup
             var keys = new List<object>();
             foreach (var setting in Settings)
             {
-                var index = (setting.Identifier as ColumnPositionIdentifier).Position;
+                var index = (setting.Identifier as ColumnOrdinalIdentifier).Ordinal;
                 try
                 {
                     var value = FormatValue(setting.Type, row[index]);

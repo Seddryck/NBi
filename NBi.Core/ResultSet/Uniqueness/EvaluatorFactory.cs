@@ -10,8 +10,8 @@ namespace NBi.Core.ResultSet.Uniqueness
     {
         public Evaluator Instantiate(ISettingsResultSet settings)
         {
-            if (settings is SettingsIndexResultSet)
-                return new IndexEvaluator(settings as SettingsIndexResultSet);
+            if (settings is SettingsOrdinalResultSet)
+                return new OrdinalEvaluator(settings as SettingsOrdinalResultSet);
             else if (settings is SettingsNameResultSet)
                 return new NameEvaluator(settings as SettingsNameResultSet);
             throw new ArgumentOutOfRangeException();

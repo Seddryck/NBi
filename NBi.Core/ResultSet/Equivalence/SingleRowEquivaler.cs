@@ -7,7 +7,7 @@ using NBi.Core.ResultSet.Analyzer;
 
 namespace NBi.Core.ResultSet.Equivalence
 {
-    public class SingleRowEquivaler : IndexEquivaler
+    public class SingleRowEquivaler : OrdinalEquivaler
     {
         private new SettingsSingleRowResultSet Settings
         {

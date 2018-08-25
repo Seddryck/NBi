@@ -39,7 +39,7 @@ namespace NBi.Core.Transformation
                 var newColumn = new DataColumn() { DataType = typeof(object) };
                 resultSet.Table.Columns.Add(newColumn);
 
-                var ordinal = (identifier as ColumnPositionIdentifier)?.Position ?? resultSet.Table.Columns[(identifier as ColumnNameIdentifier).Name].Ordinal;
+                var ordinal = (identifier as ColumnOrdinalIdentifier)?.Ordinal ?? resultSet.Table.Columns[(identifier as ColumnNameIdentifier).Name].Ordinal;
 
                 foreach (DataRow row in resultSet.Table.Rows)
                     row[newColumn.Ordinal] = transformer.Execute(row[ordinal]);

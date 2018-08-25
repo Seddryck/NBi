@@ -34,8 +34,8 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 
             var mappings = new ColumnMappingCollection()
             {
-                new ColumnMapping(new ColumnPositionIdentifier(0), ColumnType.Text),
-                new ColumnMapping(new ColumnPositionIdentifier(1), ColumnType.Text),
+                new ColumnMapping(new ColumnOrdinalIdentifier(0), ColumnType.Text),
+                new ColumnMapping(new ColumnOrdinalIdentifier(1), ColumnType.Text),
             };
 
             var lookupExists = new LookupExistsConstraint(parentService);
@@ -68,8 +68,8 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 
             var mappings = new ColumnMappingCollection()
             {
-                new ColumnMapping(new ColumnPositionIdentifier(0), ColumnType.Text),
-                new ColumnMapping(new ColumnPositionIdentifier(1), ColumnType.Text),
+                new ColumnMapping(new ColumnOrdinalIdentifier(0), ColumnType.Text),
+                new ColumnMapping(new ColumnOrdinalIdentifier(1), ColumnType.Text),
             };
 
             var lookupExists = new LookupExistsConstraint(parentService);

@@ -18,8 +18,8 @@ namespace NBi.Core.ResultSet.Uniqueness
         {
             PerformInconsistencyChecks();
             PerformSetsAndColumnsCheck(
-                SettingsIndexResultSet.KeysChoice.All
-                , SettingsIndexResultSet.ValuesChoice.None);
+                SettingsOrdinalResultSet.KeysChoice.All
+                , SettingsOrdinalResultSet.ValuesChoice.None);
             PerformDuplicationChecks();
         }
     }

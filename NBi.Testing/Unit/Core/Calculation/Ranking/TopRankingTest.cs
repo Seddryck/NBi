@@ -29,7 +29,7 @@ namespace NBi.Testing.Unit.Core.Calculation.Ranking
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var ranking = new TopRanking(new ColumnPositionIdentifier(1), columnType, null, null);
+            var ranking = new TopRanking(new ColumnOrdinalIdentifier(1), columnType, null, null);
             var filteredRs = ranking.Apply(rs);
 
             Assert.That(filteredRs.Rows.Count, Is.EqualTo(1));
@@ -50,7 +50,7 @@ namespace NBi.Testing.Unit.Core.Calculation.Ranking
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var ranking = new TopRanking(2, new ColumnPositionIdentifier(1), columnType, null, null);
+            var ranking = new TopRanking(2, new ColumnOrdinalIdentifier(1), columnType, null, null);
             var filteredRs = ranking.Apply(rs);
 
             Assert.That(filteredRs.Rows.Count, Is.EqualTo(2));
@@ -71,7 +71,7 @@ namespace NBi.Testing.Unit.Core.Calculation.Ranking
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var ranking = new TopRanking(10, new ColumnPositionIdentifier(1), columnType, null, null);
+            var ranking = new TopRanking(10, new ColumnOrdinalIdentifier(1), columnType, null, null);
             var filteredRs = ranking.Apply(rs);
 
             Assert.That(filteredRs.Rows.Count, Is.EqualTo(values.Count()));

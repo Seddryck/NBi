@@ -11,17 +11,17 @@ namespace NBi.Xml.Constraints
         
         public UniqueRowsXml()
         {
-            KeysSet = SettingsIndexResultSet.KeysChoice.All;
-            ValuesSet = SettingsIndexResultSet.ValuesChoice.None;
+            KeysSet = SettingsOrdinalResultSet.KeysChoice.All;
+            ValuesSet = SettingsOrdinalResultSet.ValuesChoice.None;
         }
 
         [XmlAttribute("keys")]
-        [DefaultValue(SettingsIndexResultSet.KeysChoice.All)]
-        public SettingsIndexResultSet.KeysChoice KeysSet { get; set; }
+        [DefaultValue(SettingsOrdinalResultSet.KeysChoice.All)]
+        public SettingsOrdinalResultSet.KeysChoice KeysSet { get; set; }
 
         [XmlAttribute("values")]
-        [DefaultValue(SettingsIndexResultSet.ValuesChoice.None)]
-        public SettingsIndexResultSet.ValuesChoice ValuesSet { get; set; }
+        [DefaultValue(SettingsOrdinalResultSet.ValuesChoice.None)]
+        public SettingsOrdinalResultSet.ValuesChoice ValuesSet { get; set; }
 
         [XmlElement("column")]
         public List<ColumnDefinitionXml> Columns { get; set; }

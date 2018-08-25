@@ -13,9 +13,9 @@ namespace NBi.Core.ResultSet
     {
         protected bool isBuild = false;
 
-        protected SettingsIndexResultSet.KeysChoice keysSet;
+        protected SettingsOrdinalResultSet.KeysChoice keysSet;
         protected IEnumerable<string> nameKeys = new string[0];
-        protected SettingsIndexResultSet.ValuesChoice valuesSet;
+        protected SettingsOrdinalResultSet.ValuesChoice valuesSet;
         protected IEnumerable<string> nameValues = new string[0];
         protected IReadOnlyList<IColumnDefinition> definitionColumns = new IColumnDefinition[0];
 
@@ -28,7 +28,7 @@ namespace NBi.Core.ResultSet
             this.nameValues = nameValues ?? new string[0];
         }
 
-        public void Setup(SettingsIndexResultSet.KeysChoice keysSet, SettingsIndexResultSet.ValuesChoice valuesSet)
+        public void Setup(SettingsOrdinalResultSet.KeysChoice keysSet, SettingsOrdinalResultSet.ValuesChoice valuesSet)
         {
             isBuild = false;
             this.keysSet = keysSet;
@@ -58,16 +58,16 @@ namespace NBi.Core.ResultSet
 
             
             if ((nameKeys.Count() > 0 || nameValues.Count() > 0)
-                && definitionColumns.Any(c => c.Identifier is ColumnPositionIdentifier))
+                && definitionColumns.Any(c => c.Identifier is ColumnOrdinalIdentifier))
                 throw new InvalidOperationException("You cannot define an engine based on columns' name and specify some column's definitions where you explicitely give a value to the 'index' attribute. Use attribute 'index' in place of 'name'.");
 
-            if (!IsByName() && keysSet == SettingsIndexResultSet.KeysChoice.First
-                && definitionColumns.Any(c => (c.Identifier as ColumnPositionIdentifier).Position == 0 && c.Role!=ColumnRole.Key)  
-                && !definitionColumns.Any(c => (c.Identifier as ColumnPositionIdentifier).Position != 0 && c.Role == ColumnRole.Key))
+            if (!IsByName() && keysSet == SettingsOrdinalResultSet.KeysChoice.First
+                && definitionColumns.Any(c => (c.Identifier as ColumnOrdinalIdentifier).Ordinal == 0 && c.Role!=ColumnRole.Key)  
+                && !definitionColumns.Any(c => (c.Identifier as ColumnOrdinalIdentifier).Ordinal != 0 && c.Role == ColumnRole.Key))
                 throw new InvalidOperationException("You cannot define a dataset without key. You've define a unique key, then overriden this key as a value and never set another key. Review your columns' definition.");
         }
 
-        protected void PerformSetsAndColumnsCheck(SettingsIndexResultSet.KeysChoice defaultKeysSet, SettingsIndexResultSet.ValuesChoice defaultValuesSet)
+        protected void PerformSetsAndColumnsCheck(SettingsOrdinalResultSet.KeysChoice defaultKeysSet, SettingsOrdinalResultSet.ValuesChoice defaultValuesSet)
         {
             if ((keysSet != defaultKeysSet || valuesSet != defaultValuesSet)
                 && definitionColumns.Any(c => c.Identifier is ColumnNameIdentifier))
@@ -126,7 +126,7 @@ namespace NBi.Core.ResultSet
             }
             else
             {
-                settings = new SettingsIndexResultSet(keysSet, valuesSet, valuesDefaultType, defaultTolerance, definitionColumns);
+                settings = new SettingsOrdinalResultSet(keysSet, valuesSet, valuesDefaultType, defaultTolerance, definitionColumns);
             }
         }
 

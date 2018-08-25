@@ -104,7 +104,7 @@ namespace NBi.NUnit.Builder.Helper
 
                 var provider = new TransformationProvider();
                 foreach (var transformationXml in resultSetXml.Alteration.Transformations)
-                    provider.Add(identifierFactory.Instantiate($"#{transformationXml.ColumnIndex}"), transformationXml);
+                    provider.Add(transformationXml.Identifier, transformationXml);
                 yield return provider.Transform;
             }
         }

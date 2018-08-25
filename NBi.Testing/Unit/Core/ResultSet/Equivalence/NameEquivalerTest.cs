@@ -14,7 +14,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Equivalence
     [TestFixture]
     public class NameComparerTest
     {
-        private Random random = new Random();
+        private readonly Random random = new Random();
 
         #region SetUp & TearDown
         //Called only at instance creation

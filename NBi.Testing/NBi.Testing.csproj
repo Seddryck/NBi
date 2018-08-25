@@ -277,7 +277,7 @@
     <Compile Include="Unit\Core\Calculation\Predicate\Text\TextAnyOfTest.cs" />
     <Compile Include="Unit\Core\Calculation\FilterGroupByFilterTest.cs" />
     <Compile Include="Unit\Core\Calculation\Grouping\NameByColumnGroupingTest.cs" />
-    <Compile Include="Unit\Core\Calculation\Grouping\IndexByColumnGroupingTest.cs" />
+    <Compile Include="Unit\Core\Calculation\Grouping\OrdinalByColumnGroupingTest.cs" />
     <Compile Include="Unit\Core\Calculation\Ranking\BottomRankingTest.cs" />
     <Compile Include="Unit\Core\Calculation\Ranking\TopRankingTest.cs" />
     <Compile Include="Unit\Core\Calculation\SinglePredicateFilterTest.cs" />
@@ -321,7 +321,7 @@
     <Compile Include="Unit\Core\ResultSet\ColumnIdentifierFactory.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\ColumnMappingCollectionTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByNameTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByIndexTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByOrdinalTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\LookupAnalyzerTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\CellComparerTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\TextToleranceFactoryTest.cs" />
@@ -330,7 +330,7 @@
     <Compile Include="Unit\Core\Query\Resolver\EmbeddedQueryResolverTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Conversion\ConverterEngineTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetServiceTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Uniqueness\IndexUniqueRowsEvaluatorTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Uniqueness\OrdinalUniqueRowsEvaluatorTest.cs" />
     <Compile Include="Unit\Core\Scalar\Interval\DateTimeIntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\JsonResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\KeyCollectionTest.cs" />
@@ -347,9 +347,9 @@
     <Compile Include="Unit\Core\Scalar\Casting\BaseNumericCasterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Equivalence\NameEquivalerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Equivalence\SettingsEquivalerBuilderTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Equivalence\SettingsIndexResultSetTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Equivalence\SettingsOrdinalResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Equivalence\SingleRowEquivalerTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Equivalence\IndexEquivalerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Equivalence\OrdinalEquivalerTest.cs" />
     <Compile Include="Unit\Core\Scalar\Interval\NumericIntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Equivalence\SettingsNameResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetTest.cs" />

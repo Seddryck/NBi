@@ -96,7 +96,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<SupersetOfXml>());
-            Assert.That(((SupersetOfXml)ts.Tests[testNr].Constraints[0]).KeysDef, Is.EqualTo(SettingsIndexResultSet.KeysChoice.First));
+            Assert.That(((SupersetOfXml)ts.Tests[testNr].Constraints[0]).KeysDef, Is.EqualTo(SettingsOrdinalResultSet.KeysChoice.First));
         }
 
         [Test]
@@ -151,7 +151,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<SupersetOfXml>());
 
-            Assert.That(((SupersetOfXml)ts.Tests[testNr].Constraints[0]).ValuesDef, Is.EqualTo(SettingsIndexResultSet.ValuesChoice.Last));
+            Assert.That(((SupersetOfXml)ts.Tests[testNr].Constraints[0]).ValuesDef, Is.EqualTo(SettingsOrdinalResultSet.ValuesChoice.Last));
             Assert.That(((SupersetOfXml)ts.Tests[testNr].Constraints[0]).Tolerance, Is.EqualTo("100"));
 
             

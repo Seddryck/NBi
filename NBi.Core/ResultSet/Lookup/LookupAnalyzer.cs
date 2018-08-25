@@ -55,8 +55,8 @@ namespace NBi.Core.ResultSet.Lookup
                 defColumns.Add(defColumn);
             }
 
-            if (settings.Any(x => target(x) is ColumnPositionIdentifier))
-                return new KeysRetrieverByIndex(defColumns);
+            if (settings.Any(x => target(x) is ColumnOrdinalIdentifier))
+                return new KeysRetrieverByOrdinal(defColumns);
             else
                 return new KeysRetrieverByName(defColumns);
         }

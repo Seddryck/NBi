@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static NBi.Core.ResultSet.SettingsIndexResultSet;
+using static NBi.Core.ResultSet.SettingsOrdinalResultSet;
 
 namespace NBi.Testing.Unit.Core.Calculation.Grouping
 {

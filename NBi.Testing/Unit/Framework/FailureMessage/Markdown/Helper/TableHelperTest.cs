@@ -39,7 +39,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
         }
 
         [Test]
-        public void Build_TwoRowsByIndex_FirstRow()
+        public void Build_TwoRowsByOrdinal_FirstRow()
         {
             var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };

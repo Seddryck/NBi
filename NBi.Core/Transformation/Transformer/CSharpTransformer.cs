@@ -56,9 +56,11 @@ namespace NBi.Core.Transformation.Transformer
             string finalCode = string.Format(codeTemplate, code, type);
 
             CSharpCodeProvider provider = new CSharpCodeProvider();
-            CompilerParameters parameters = new CompilerParameters();
-            parameters.GenerateInMemory = true;
-            parameters.GenerateExecutable = false;
+            CompilerParameters parameters = new CompilerParameters
+            {
+                GenerateInMemory = true,
+                GenerateExecutable = false
+            };
 
             CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
 

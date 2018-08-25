@@ -18,9 +18,11 @@ namespace NBi.Core.Scalar.Caster
 
         protected DateTimeCaster(string culture)
         {
-            var cultures = new List<CultureInfo>();
-            cultures.Add(CultureInfo.InvariantCulture);
-            cultures.Add(new CultureInfo(culture));
+            var cultures = new List<CultureInfo>
+            {
+                CultureInfo.InvariantCulture,
+                new CultureInfo(culture)
+            };
 
             Cultures = cultures;
         }
@@ -41,8 +43,7 @@ namespace NBi.Core.Scalar.Caster
         protected virtual DateTime StringParse(string value)
         {
             bool result = false;
-            DateTime dateTime;
-            result = ValidDateTime(value, Cultures, out dateTime);
+            result = ValidDateTime(value, Cultures, out DateTime dateTime);
             if (!result)
                 throw new ArgumentException(string.Format("'{0}' is not recognized as a valid date", value), "value");
 

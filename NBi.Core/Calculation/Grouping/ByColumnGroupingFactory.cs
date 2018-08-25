@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static NBi.Core.ResultSet.SettingsIndexResultSet;
+using static NBi.Core.ResultSet.SettingsOrdinalResultSet;
 
 namespace NBi.Core.Calculation.Grouping
 {
@@ -25,7 +25,7 @@ namespace NBi.Core.Calculation.Grouping
             {
                 var definition = new ColumnDefinition()
                 {
-                    Identifier = column.Identifier as ColumnPositionIdentifier,
+                    Identifier = column.Identifier as ColumnOrdinalIdentifier,
                     Type = column.Type
                 };
                 definitions.Add(definition);
@@ -37,8 +37,8 @@ namespace NBi.Core.Calculation.Grouping
             builder.Build();
 
             var settings = builder.GetSettings();
-            if (settings is SettingsIndexResultSet)
-                return new IndexByColumnGrouping(settings as SettingsIndexResultSet);
+            if (settings is SettingsOrdinalResultSet)
+                return new OrdinalByColumnGrouping(settings as SettingsOrdinalResultSet);
 
             else if (settings is SettingsNameResultSet)
                 return new NameByColumnGrouping(settings as SettingsNameResultSet);

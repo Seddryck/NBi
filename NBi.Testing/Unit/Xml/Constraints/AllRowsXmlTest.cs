@@ -86,7 +86,6 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             var comparison = allRows.Predication;
 
-            Assert.That(comparison.ColumnIndex, Is.EqualTo(-1));
             Assert.That((comparison.Operand as ColumnNameIdentifier).Name, Is.EqualTo("ModDepId"));
             Assert.That(comparison.ColumnType, Is.EqualTo(ColumnType.Numeric));
 
@@ -121,7 +120,6 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             var predicate = allRows.Predication;
 
-            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
             Assert.That((predicate.Operand as ColumnNameIdentifier).Name, Is.EqualTo("Name"));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
             Assert.That(predicate.Predicate, Is.TypeOf<EmptyXml>());
@@ -159,7 +157,6 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             var predicate = allRows.Predication;
 
-            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
             Assert.That((predicate.Operand as ColumnNameIdentifier).Name, Is.EqualTo("Name"));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
@@ -179,7 +176,6 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             var predicate = allRows.Predication;
 
-            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
             Assert.That((predicate.Operand as ColumnNameIdentifier).Name, Is.EqualTo("Name"));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
             Assert.That(predicate.Predicate, Is.TypeOf<EndsWithXml>());
@@ -199,7 +195,6 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             var predicate = allRows.Predication;
 
-            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
             Assert.That((predicate.Operand as ColumnNameIdentifier).Name, Is.EqualTo("Name"));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
@@ -219,7 +214,6 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             var predicate = allRows.Predication;
 
-            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
             Assert.That((predicate.Operand as ColumnNameIdentifier).Name, Is.EqualTo("Name"));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
@@ -237,7 +231,6 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             var predicate = allRows.Predication;
 
-            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
             Assert.That((predicate.Operand as ColumnNameIdentifier).Name, Is.EqualTo("Name"));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
@@ -255,7 +248,6 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             var predicate = allRows.Predication;
 
-            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
             Assert.That((predicate.Operand as ColumnNameIdentifier).Name, Is.EqualTo("Name"));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
@@ -273,7 +265,6 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             var predicate = allRows.Predication;
 
-            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
             Assert.That((predicate.Operand as ColumnNameIdentifier).Name, Is.EqualTo("Value"));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Numeric));
 
@@ -388,7 +379,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
         }
 
         [Test]
-        public void Serialize_ExecutionXml_NoColumnIndex()
+        public void Serialize_ExecutionXml_NoColumnOrdinal()
         {
             var allRowsXml = new AllRowsXml
             {

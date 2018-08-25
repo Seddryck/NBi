@@ -241,8 +241,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Equivalence
         {
             var columnsDef = new List<IColumnDefinition>()
             {
-                new Column() { Identifier= new ColumnPositionIdentifier(0), Role = ColumnRole.Value, Type = ColumnType.Text},
-                new Column() { Identifier= new ColumnPositionIdentifier(1), Role = ColumnRole.Value, Type = ColumnType.Numeric}
+                new Column() { Identifier= new ColumnOrdinalIdentifier(0), Role = ColumnRole.Value, Type = ColumnType.Text},
+                new Column() { Identifier= new ColumnOrdinalIdentifier(1), Role = ColumnRole.Value, Type = ColumnType.Numeric}
             };
             return columnsDef.AsReadOnly();
         }

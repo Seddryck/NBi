@@ -15,19 +15,19 @@ namespace NBi.Testing.Unit.Core.ResultSet
         [TestCase(1)]
         [TestCase(20)]
         [Test]
-        public void Instantiate_Position_PositionIdentifier(int identifier)
+        public void Instantiate_Ordinal_PositionIdentifier(int identifier)
         {
             var factory = new ColumnIdentifierFactory();
             var id = factory.Instantiate("#" + identifier.ToString());
-            Assert.That(id, Is.TypeOf<ColumnPositionIdentifier>());
-            Assert.That((id as ColumnPositionIdentifier).Position, Is.EqualTo(identifier));
+            Assert.That(id, Is.TypeOf<ColumnOrdinalIdentifier>());
+            Assert.That((id as ColumnOrdinalIdentifier).Ordinal, Is.EqualTo(identifier));
         }
 
         [Test]
         [TestCase("#0.1")]
         [TestCase("#-1")]
         [TestCase("#Alpha")]
-        public void Instantiate_Position_Failure(string identifier)
+        public void Instantiate_Ordinal_Failure(string identifier)
         {
             var factory = new ColumnIdentifierFactory();
             Assert.Throws<ArgumentException>(() => factory.Instantiate(identifier));

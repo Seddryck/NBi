@@ -12,7 +12,21 @@ namespace NBi.Xml.Items.Alteration.Transform
 {
     public class TransformXml : LightTransformXml
     {
-        [XmlAttribute("column-index")]
-        public int ColumnIndex { get; set; }
+        [XmlIgnore]
+        [Obsolete("Use Identifier in place of ColumnOrdinal")]
+        public int ColumnOrdinal
+        {
+            get => throw new InvalidOperationException();
+            set => Identifier = new ColumnIdentifierFactory().Instantiate($"#{value}");
+        }
+
+        [XmlAttribute("column")]
+        public string IdentifierSerializer { get; set; }
+        [XmlIgnore]
+        public IColumnIdentifier Identifier
+        {
+            get => new ColumnIdentifierFactory().Instantiate(IdentifierSerializer);
+            set => IdentifierSerializer = value.Label;
+        }
     }
 }

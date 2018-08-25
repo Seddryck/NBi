@@ -7,11 +7,11 @@ using System.Linq;
 
 namespace NBi.Core.ResultSet
 {
-    public class DataRowKeysComparerByIndex : DataRowKeysComparer
+    public class DataRowKeysComparerByOrdinal : DataRowKeysComparer
     {
-        private readonly SettingsIndexResultSet settings;
+        private readonly SettingsOrdinalResultSet settings;
 
-        public DataRowKeysComparerByIndex(SettingsIndexResultSet settings, int columnCount)
+        public DataRowKeysComparerByOrdinal(SettingsOrdinalResultSet settings, int columnCount)
         {
             this.settings = settings;
             settings.ApplyTo(columnCount);
@@ -19,7 +19,7 @@ namespace NBi.Core.ResultSet
         
         protected override bool CheckKeysExist(DataRow dr)
         {
-            return settings.GetLastKeyColumnIndex() < dr.Table.Columns.Count;
+            return settings.GetLastKeyColumnOrdinal() < dr.Table.Columns.Count;
         }
         
         public override KeyCollection GetKeys(DataRow row)

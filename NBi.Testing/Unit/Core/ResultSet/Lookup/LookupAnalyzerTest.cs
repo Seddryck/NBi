@@ -56,7 +56,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
         {
             var mappings = new ColumnMappingCollection();
             for (int i = 0; i < count; i++)
-                mappings.Add(new ColumnMapping(new ColumnPositionIdentifier(i), new ColumnPositionIdentifier(i + shift), ColumnType.Text));
+                mappings.Add(new ColumnMapping(new ColumnOrdinalIdentifier(i), new ColumnOrdinalIdentifier(i + shift), ColumnType.Text));
             return mappings;
         }
 
@@ -148,8 +148,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var mapping = new ColumnMappingCollection
             {
-                new ColumnMapping(new ColumnPositionIdentifier(0), new ColumnPositionIdentifier(1), ColumnType.Text),
-                new ColumnMapping(new ColumnPositionIdentifier(1), new ColumnPositionIdentifier(0), ColumnType.Text)
+                new ColumnMapping(new ColumnOrdinalIdentifier(0), new ColumnOrdinalIdentifier(1), ColumnType.Text),
+                new ColumnMapping(new ColumnOrdinalIdentifier(1), new ColumnOrdinalIdentifier(0), ColumnType.Text)
             };
             var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
@@ -165,8 +165,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var mapping = new ColumnMappingCollection
             {
-                new ColumnMapping(new ColumnPositionIdentifier(0), new ColumnPositionIdentifier(1), ColumnType.Text),
-                new ColumnMapping(new ColumnPositionIdentifier(1), new ColumnPositionIdentifier(0), ColumnType.Text)
+                new ColumnMapping(new ColumnOrdinalIdentifier(0), new ColumnOrdinalIdentifier(1), ColumnType.Text),
+                new ColumnMapping(new ColumnOrdinalIdentifier(1), new ColumnOrdinalIdentifier(0), ColumnType.Text)
             };
             var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
@@ -181,8 +181,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var mapping = new ColumnMappingCollection
             {
-                new ColumnMapping(new ColumnPositionIdentifier(0), ColumnType.Text),
-                new ColumnMapping(new ColumnPositionIdentifier(1), ColumnType.Text)
+                new ColumnMapping(new ColumnOrdinalIdentifier(0), ColumnType.Text),
+                new ColumnMapping(new ColumnOrdinalIdentifier(1), ColumnType.Text)
             };
             var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
@@ -197,8 +197,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var mapping = new ColumnMappingCollection
             {
-                new ColumnMapping(new ColumnPositionIdentifier(0), ColumnType.Text),
-                new ColumnMapping(new ColumnPositionIdentifier(1), ColumnType.Text)
+                new ColumnMapping(new ColumnOrdinalIdentifier(0), ColumnType.Text),
+                new ColumnMapping(new ColumnOrdinalIdentifier(1), ColumnType.Text)
             };
             var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
@@ -213,9 +213,9 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 
             var mapping = new ColumnMappingCollection
             {
-                new ColumnMapping(new ColumnPositionIdentifier(0), ColumnType.Text),
-                new ColumnMapping(new ColumnPositionIdentifier(1), ColumnType.Text),
-                new ColumnMapping(new ColumnPositionIdentifier(2), ColumnType.Numeric)
+                new ColumnMapping(new ColumnOrdinalIdentifier(0), ColumnType.Text),
+                new ColumnMapping(new ColumnOrdinalIdentifier(1), ColumnType.Text),
+                new ColumnMapping(new ColumnOrdinalIdentifier(2), ColumnType.Numeric)
             };
             var referencer = new LookupAnalyzer(mapping);
             var violations = referencer.Execute(child, parent);
@@ -278,7 +278,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
         }
 
         [Test]
-        public void Execute_MixNameAndIndex_NoViolation()
+        public void Execute_MixNameAndOrdinal_NoViolation()
         {
             var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 0, 1, 0 });
             var parent = BuildDataTable(new[] { "Key0", "Key1", "Key1" }, new[] { "Foo", "Bar", "Bar" }, new[] { "0.000", "1.0", "2" });

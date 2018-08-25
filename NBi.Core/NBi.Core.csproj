@@ -105,7 +105,7 @@
     <Compile Include="Calculation\Grouping\NoneGrouping.cs" />
     <Compile Include="Calculation\Grouping\IByColumnGrouping.cs" />
     <Compile Include="Calculation\Grouping\NameByColumnGrouping.cs" />
-    <Compile Include="Calculation\Grouping\IndexByColumnGrouping.cs" />
+    <Compile Include="Calculation\Grouping\OrdinalByColumnGrouping.cs" />
     <Compile Include="Calculation\ICultureSensitivePredicateInfo.cs" />
     <Compile Include="Calculation\ICaseSensitivePredicateInfo.cs" />
     <Compile Include="Calculation\ISecondOperandPredicateInfo.cs" />
@@ -385,7 +385,7 @@
     <Compile Include="ResultSet\Analyzer\UnexpectedRowsAnalyzer.cs" />
     <Compile Include="ResultSet\Analyzer\MissingRowsAnalyzer.cs" />
     <Compile Include="ResultSet\ColumnIdentifierFactory.cs" />
-    <Compile Include="ResultSet\ColumnPositionIdentifier.cs" />
+    <Compile Include="ResultSet\ColumnOrdinalIdentifier.cs" />
     <Compile Include="ResultSet\ColumnNameIdentifier.cs" />
     <Compile Include="ResultSet\ColumnRole.cs" />
     <Compile Include="ResultSet\ColumnType.cs" />
@@ -393,7 +393,7 @@
     <Compile Include="ResultSet\IColumnIdentifier.cs" />
     <Compile Include="ResultSet\Lookup\ColumnMapping.cs" />
     <Compile Include="ResultSet\Lookup\KeysRetriever.cs" />
-    <Compile Include="ResultSet\Lookup\KeysRetrieverByIndex.cs" />
+    <Compile Include="ResultSet\Lookup\KeysRetrieverByOrdinal.cs" />
     <Compile Include="ResultSet\Lookup\KeysRetrieverByName.cs" />
     <Compile Include="ResultSet\Lookup\ColumnMappingCollection.cs" />
     <Compile Include="ResultSet\Lookup\LookupViolations.cs" />
@@ -432,7 +432,7 @@
     <Compile Include="Scalar\Casting\NumericCaster.cs" />
     <Compile Include="Scalar\Casting\TextCaster.cs" />
     <Compile Include="ResultSet\DataRowKeysComparerByName.cs" />
-    <Compile Include="ResultSet\DataRowKeysComparerByIndex.cs" />
+    <Compile Include="ResultSet\DataRowKeysComparerByOrdinal.cs" />
     <Compile Include="ResultSet\Resolver\CsvResultSetResolver.cs" />
     <Compile Include="ResultSet\Resolver\IResultSetResolver.cs" />
     <Compile Include="ResultSet\IResultSetService.cs" />
@@ -494,14 +494,14 @@
     <Compile Include="ResultSet\ISettingsResultSet.cs" />
     <Compile Include="ResultSet\Uniqueness\Evaluator.cs" />
     <Compile Include="ResultSet\Equivalence\BaseEquivaler.cs" />
-    <Compile Include="ResultSet\Uniqueness\IndexEvaluator.cs" />
+    <Compile Include="ResultSet\Uniqueness\OrdinalEvaluator.cs" />
     <Compile Include="ResultSet\Equivalence\NameEquivaler.cs" />
-    <Compile Include="ResultSet\SettingsIndexResultSet.cs" />
+    <Compile Include="ResultSet\SettingsOrdinalResultSet.cs" />
     <Compile Include="ResultSet\SettingsNameResultSet.cs" />
     <Compile Include="ResultSet\Equivalence\SettingsEquivalerBuilder.cs" />
     <Compile Include="ResultSet\SettingsSingleRowResultSet.cs" />
     <Compile Include="ResultSet\Equivalence\SingleRowEquivaler.cs" />
-    <Compile Include="ResultSet\Equivalence\IndexEquivaler.cs" />
+    <Compile Include="ResultSet\Equivalence\OrdinalEquivaler.cs" />
     <Compile Include="ResultSet\DataRowKeysComparer.cs" />
     <Compile Include="Scalar\Interval\NumericInterval.cs" />
     <Compile Include="ResultSet\KeyCollection.cs" />

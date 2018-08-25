@@ -8,11 +8,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static NBi.Core.ResultSet.SettingsIndexResultSet;
+using static NBi.Core.ResultSet.SettingsOrdinalResultSet;
 
 namespace NBi.Testing.Unit.Core.Calculation.Grouping
 {
-    public class IndexByColumnGroupingTest
+    public class OrdinalByColumnGroupingTest
     {
         [Test]
         public void Execute_SingleColumn_TwoGroups()
@@ -21,8 +21,8 @@ namespace NBi.Testing.Unit.Core.Calculation.Grouping
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var settings = new SettingsIndexResultSet(KeysChoice.First, ValuesChoice.None, NumericAbsoluteTolerance.None);
-            var grouping = new IndexByColumnGrouping(settings);
+            var settings = new SettingsOrdinalResultSet(KeysChoice.First, ValuesChoice.None, NumericAbsoluteTolerance.None);
+            var grouping = new OrdinalByColumnGrouping(settings);
 
             var result = grouping.Execute(rs);
             Assert.That(result, Has.Count.EqualTo(2));
@@ -37,8 +37,8 @@ namespace NBi.Testing.Unit.Core.Calculation.Grouping
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var settings = new SettingsIndexResultSet(KeysChoice.AllExpectLast, ValuesChoice.None, NumericAbsoluteTolerance.None);
-            var grouping = new IndexByColumnGrouping(settings);
+            var settings = new SettingsOrdinalResultSet(KeysChoice.AllExpectLast, ValuesChoice.None, NumericAbsoluteTolerance.None);
+            var grouping = new OrdinalByColumnGrouping(settings);
 
             var result = grouping.Execute(rs);
             Assert.That(result, Has.Count.EqualTo(3));
@@ -54,13 +54,13 @@ namespace NBi.Testing.Unit.Core.Calculation.Grouping
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var settings = new SettingsIndexResultSet(new List<IColumnDefinition>()
+            var settings = new SettingsOrdinalResultSet(new List<IColumnDefinition>()
                 {
-                    new Column() { Identifier = new ColumnPositionIdentifier(0), Role = ColumnRole.Key, Type = ColumnType.Text },
-                    new Column() { Identifier = new ColumnPositionIdentifier(1), Role = ColumnRole.Key, Type = ColumnType.Numeric },
+                    new Column() { Identifier = new ColumnOrdinalIdentifier(0), Role = ColumnRole.Key, Type = ColumnType.Text },
+                    new Column() { Identifier = new ColumnOrdinalIdentifier(1), Role = ColumnRole.Key, Type = ColumnType.Numeric },
                 }
             );
-            var grouping = new IndexByColumnGrouping(settings);
+            var grouping = new OrdinalByColumnGrouping(settings);
 
             var result = grouping.Execute(rs);
             Assert.That(result, Has.Count.EqualTo(3));

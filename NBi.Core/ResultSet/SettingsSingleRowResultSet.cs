@@ -6,7 +6,7 @@ using NBi.Core.Scalar.Comparer;
 
 namespace NBi.Core.ResultSet
 {
-	public class SettingsSingleRowResultSet: SettingsIndexResultSet
+	public class SettingsSingleRowResultSet: SettingsOrdinalResultSet
 	{
         
 		public SettingsSingleRowResultSet(ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
@@ -26,7 +26,7 @@ namespace NBi.Core.ResultSet
 
         protected override bool IsValue(int index)
         {
-            if (ColumnsDef.Any(c => (c.Identifier as ColumnPositionIdentifier)?.Position == index && c.Role == ColumnRole.Ignore))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnOrdinalIdentifier)?.Ordinal == index && c.Role == ColumnRole.Ignore))
                 return false;
 
             return true;

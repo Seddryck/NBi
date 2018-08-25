@@ -18,13 +18,13 @@ namespace NBi.Core.ResultSet.Lookup
 
         protected override void InsertItem(int index, ColumnMapping item)
         {
-            if (!(CheckNameOrPosition(x => x.CandidateColumn, item) && CheckNameOrPosition(x => x.ReferenceColumn, item)))
+            if (!(CheckIdentifierConformity(x => x.CandidateColumn, item) && CheckIdentifierConformity(x => x.ReferenceColumn, item)))
                 throw new NBiException("You can't specify some column-mappings using a column's position and others using column's name. Use only one of these methods to identify columns.");
 
             base.InsertItem(index, item);
         }
 
-        private bool CheckNameOrPosition(Func<ColumnMapping, IColumnIdentifier> target, ColumnMapping item)
+        private bool CheckIdentifierConformity(Func<ColumnMapping, IColumnIdentifier> target, ColumnMapping item)
             => this.All(x => target(x).GetType() == target(item).GetType());
 
         private static ColumnMappingCollection @default;
@@ -32,7 +32,7 @@ namespace NBi.Core.ResultSet.Lookup
         {
             get
             {
-                @default = @default ?? new ColumnMappingCollection() { new ColumnMapping(new ColumnPositionIdentifier(0), ColumnType.Text) };
+                @default = @default ?? new ColumnMappingCollection() { new ColumnMapping(new ColumnOrdinalIdentifier(0), ColumnType.Text) };
                 return @default;
             }
         }

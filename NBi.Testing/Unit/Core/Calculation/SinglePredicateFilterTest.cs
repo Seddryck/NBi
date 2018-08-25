@@ -45,7 +45,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         }
 
         [Test]
-        public void Apply_ColumnIndex_CorrectResult()
+        public void Apply_ColumnOrdinal_CorrectResult()
         {
             var service = new ObjectsResultSetResolver(
                 new ObjectsResultSetResolverArgs(
@@ -60,7 +60,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             var predicate = new Mock<IPredicateInfo>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.NullOrEmpty);
-            predicate.SetupGet(p => p.Operand).Returns(new ColumnPositionIdentifier(0));
+            predicate.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(0));
 
             var factory = new ResultSetFilterFactory();
             var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], predicate.Object);

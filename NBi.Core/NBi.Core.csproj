@@ -389,7 +389,7 @@
     <Compile Include="ResultSet\ColumnNameIdentifier.cs" />
     <Compile Include="ResultSet\ColumnRole.cs" />
     <Compile Include="ResultSet\ColumnType.cs" />
-    <Compile Include="ResultSet\Lookup\LookupAnalyzer.cs" />
+    <Compile Include="ResultSet\Lookup\LookupExistsAnalyzer.cs" />
     <Compile Include="ResultSet\IColumnIdentifier.cs" />
     <Compile Include="ResultSet\Lookup\ColumnMapping.cs" />
     <Compile Include="ResultSet\Lookup\KeysRetriever.cs" />

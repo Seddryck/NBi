@@ -73,7 +73,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             };
 
             var lookupExists = new LookupExistsConstraint(parentService);
-            var analyzer = new Mock<LookupAnalyzer>(mappings);
+            var analyzer = new Mock<LookupExistsAnalyzer>(mappings);
             analyzer.Setup(x => x.Execute(It.IsAny<ResultSet>(), It.IsAny<ResultSet>())).Returns(new LookupViolations());
             lookupExists.Engine = analyzer.Object;
 

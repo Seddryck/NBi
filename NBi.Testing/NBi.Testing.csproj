@@ -322,7 +322,7 @@
     <Compile Include="Unit\Core\ResultSet\Lookup\ColumnMappingCollectionTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByNameTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByOrdinalTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Lookup\LookupAnalyzerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Lookup\LookupExistsAnalyzerTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\CellComparerTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\TextToleranceFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\Resolver\ReportDataSetQueryResolverTest.cs" />

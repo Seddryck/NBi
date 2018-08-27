@@ -44,13 +44,13 @@ namespace NBi.NUnit.ResultSetComparison
             return msg;
         }
         
-        protected LookupAnalyzer engine;
-        protected internal virtual LookupAnalyzer Engine
+        protected LookupExistsAnalyzer engine;
+        protected internal virtual LookupExistsAnalyzer Engine
         {
             get
             {
                 if (engine == null)
-                    engine = new LookupAnalyzer(mappings ?? ColumnMappingCollection.Default);
+                    engine = new LookupExistsAnalyzer(mappings ?? ColumnMappingCollection.Default);
                 return engine;
             }
             set

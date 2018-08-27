@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Lookup
 {
-    public class LookupAnalyzer
+    public class LookupExistsAnalyzer
     {
         private readonly ColumnMappingCollection settings;
 
-        public LookupAnalyzer(ColumnMappingCollection settings)
+        public LookupExistsAnalyzer(ColumnMappingCollection settings)
         {
             this.settings = settings;
         }

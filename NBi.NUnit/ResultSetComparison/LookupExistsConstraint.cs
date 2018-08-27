@@ -15,7 +15,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.ResultSetComparison
 {
-    public class ReferenceExistsConstraint : NBiConstraint
+    public class LookupExistsConstraint : NBiConstraint
     {
         protected IResultSetService parentService;
 
@@ -23,7 +23,7 @@ namespace NBi.NUnit.ResultSetComparison
 
         protected ResultSet rsParent;
         protected ResultSet rsChild;
-        private ReferenceViolations violations;
+        private LookupViolations violations;
 
         private IReferenceViolationsMessageFormatter failure;
         protected IReferenceViolationsMessageFormatter Failure
@@ -44,13 +44,13 @@ namespace NBi.NUnit.ResultSetComparison
             return msg;
         }
         
-        protected ReferenceAnalyzer engine;
-        protected internal virtual ReferenceAnalyzer Engine
+        protected LookupExistsAnalyzer engine;
+        protected internal virtual LookupExistsAnalyzer Engine
         {
             get
             {
                 if (engine == null)
-                    engine = new ReferenceAnalyzer(mappings ?? ColumnMappingCollection.Default);
+                    engine = new LookupExistsAnalyzer(mappings ?? ColumnMappingCollection.Default);
                 return engine;
             }
             set
@@ -59,13 +59,13 @@ namespace NBi.NUnit.ResultSetComparison
             }
         }
 
-        public ReferenceExistsConstraint(IResultSetService parent)
+        public LookupExistsConstraint(IResultSetService parent)
         {
             parentService = parent;
         }
 
         private ColumnMappingCollection mappings;
-        public ReferenceExistsConstraint Using(ColumnMappingCollection mappings)
+        public LookupExistsConstraint Using(ColumnMappingCollection mappings)
         {
             this.mappings = mappings;
             return this;

@@ -14,14 +14,16 @@
       </resultSet>
     </system-under-test>
     <assert>
-      <reference-exists>
-        <column-mapping child="GroupId" parent="Id" type="numeric"/>
+      <lookup-exists>
+        <join>
+          <mapping candidate="GroupId" reference="Id" type="numeric"/>
+        </join>
         <resultSet>
           <query>
             select [Id] from [HumanResources].[Group] order by Name
           </query>
         </resultSet>
-      </reference-exists>
+      </lookup-exists>
     </assert>
   </test>
   <test name="With two columns mapped" uid="0000">
@@ -33,16 +35,18 @@
       </resultSet>
     </system-under-test>
     <assert>
-      <reference-exists>
-        <column-mapping child="GroupName" parent="Name" type="text"/>
-        <column-mapping child="GroupCountry" parent="Country" type="text"/>
+      <lookup-exists>
+        <join>
+          <mapping candidate="GroupName" reference="Name" type="text"/>
+          <mapping candidate="GroupCountry" reference="Country" type="text"/>
+        </join>
         <resultSet>
           <query>
             select [Name], [Country] from [HumanResources].[Group] order by Name
           </query>
         </resultSet>
-      </reference-exists>
+      </lookup-exists>
     </assert>
   </test>
-  
+
 </testSuite>

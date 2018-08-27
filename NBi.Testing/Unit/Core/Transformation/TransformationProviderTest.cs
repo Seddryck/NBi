@@ -1,4 +1,5 @@
 ﻿using Moq;
+using NBi.Core.ResultSet;
 using NBi.Core.Transformation;
 using NBi.Core.Transformation.Transformer.Native;
 using NUnit.Framework;
@@ -27,7 +28,7 @@ namespace NBi.Testing.Unit.Core.Transformation
                 );
 
             var provider = new TransformationProvider();
-            provider.Add(0, transformation);
+            provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
             Assert.That(resultSet.Rows[0][0], Is.EqualTo("a"));
@@ -47,7 +48,7 @@ namespace NBi.Testing.Unit.Core.Transformation
                 );
 
             var provider = new TransformationProvider();
-            provider.Add(0, transformation);
+            provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
             Assert.That(resultSet.Rows[0][0], Is.EqualTo("aaaa"));
@@ -67,7 +68,7 @@ namespace NBi.Testing.Unit.Core.Transformation
                 );
 
             var provider = new TransformationProvider();
-            provider.Add(0, transformation);
+            provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
             Assert.That(resultSet.Rows[0][0], Is.EqualTo("(null)"));
@@ -89,7 +90,7 @@ namespace NBi.Testing.Unit.Core.Transformation
 
             var provider = new TransformationProvider();
 
-            Assert.Throws<NotImplementedTransformationException>(() => provider.Add(0, transformation));
+            Assert.Throws<NotImplementedTransformationException>(() => provider.Add(new ColumnOrdinalIdentifier(0), transformation));
         }
 
         [Test]
@@ -107,7 +108,7 @@ namespace NBi.Testing.Unit.Core.Transformation
                 );
 
             var provider = new TransformationProvider();
-            provider.Add(0, transformation);
+            provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
             Assert.That(resultSet.Rows[0][0], Is.EqualTo(202));

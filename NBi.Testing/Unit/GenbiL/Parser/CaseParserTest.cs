@@ -114,7 +114,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<MoveCaseAction>());
             Assert.That(((MoveCaseAction)result).VariableName, Is.EqualTo("perspective"));
-            Assert.That(((MoveCaseAction)result).Position, Is.EqualTo(-1));
+            Assert.That(((MoveCaseAction)result).Ordinal, Is.EqualTo(-1));
         }
 
         [Test]
@@ -126,7 +126,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<MoveCaseAction>());
             Assert.That(((MoveCaseAction)result).VariableName, Is.EqualTo("perspective"));
-            Assert.That(((MoveCaseAction)result).Position, Is.EqualTo(1));
+            Assert.That(((MoveCaseAction)result).Ordinal, Is.EqualTo(1));
         }
 
         [Test]
@@ -138,7 +138,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<MoveCaseAction>());
             Assert.That(((MoveCaseAction)result).VariableName, Is.EqualTo("perspective"));
-            Assert.That(((MoveCaseAction)result).Position, Is.EqualTo(int.MinValue));
+            Assert.That(((MoveCaseAction)result).Ordinal, Is.EqualTo(int.MinValue));
         }
 
         [Test]
@@ -150,7 +150,7 @@ namespace NBi.Testing.Unit.GenbiL.Parser
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<MoveCaseAction>());
             Assert.That(((MoveCaseAction)result).VariableName, Is.EqualTo("perspective"));
-            Assert.That(((MoveCaseAction)result).Position, Is.EqualTo(int.MaxValue));
+            Assert.That(((MoveCaseAction)result).Ordinal, Is.EqualTo(int.MaxValue));
         }
 
         [Test]

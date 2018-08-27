@@ -86,12 +86,12 @@ namespace NBi.Xml.Constraints
         public virtual ComparisonBehavior Behavior { get; set; }
 
         [XmlAttribute("keys")]
-        [DefaultValue(SettingsIndexResultSet.KeysChoice.First)]
-        public SettingsIndexResultSet.KeysChoice KeysDef { get; set; }
+        [DefaultValue(SettingsOrdinalResultSet.KeysChoice.First)]
+        public SettingsOrdinalResultSet.KeysChoice KeysDef { get; set; }
 
         [XmlAttribute("values")]
-        [DefaultValue(SettingsIndexResultSet.ValuesChoice.AllExpectFirst)]
-        public SettingsIndexResultSet.ValuesChoice ValuesDef { get; set; }
+        [DefaultValue(SettingsOrdinalResultSet.ValuesChoice.AllExpectFirst)]
+        public SettingsOrdinalResultSet.ValuesChoice ValuesDef { get; set; }
 
         [XmlAttribute("keys-names")]
         public string KeyName { get; set; }

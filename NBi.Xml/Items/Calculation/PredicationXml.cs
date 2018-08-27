@@ -16,13 +16,17 @@ namespace NBi.Xml.Items.Calculation
     {
         public PredicationXml()
         {
-            ColumnIndex = -1;
             ColumnType = ColumnType.Numeric;
         }
 
-        [DefaultValue(-1)]
+        [XmlIgnore()]
         [XmlAttribute("column-index")]
-        public int ColumnIndex { get; set; }
+        [Obsolete("Deprecated. Use operand in place of column-index")]
+        public int ColumnIndex
+        {
+            get => throw new InvalidOperationException();
+            set => Operand = new ColumnIdentifierFactory().Instantiate($"#{value}");
+        }
 
         [XmlIgnore]
         public bool Not
@@ -42,6 +46,7 @@ namespace NBi.Xml.Items.Calculation
         public IColumnIdentifier Operand { get; set; }
 
         [Obsolete("Deprecated. Use operand in place of name")]
+        [XmlIgnore()]
         public string Name { get => Operand.Label; set => Operand=new ColumnIdentifierFactory().Instantiate(value); }
 
         [DefaultValue(ColumnType.Numeric)]

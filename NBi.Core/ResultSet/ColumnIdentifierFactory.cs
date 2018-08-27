@@ -16,7 +16,7 @@ namespace NBi.Core.ResultSet
                 var positionString = identifier.Substring(1);
                 if (int.TryParse(positionString, out var position))
                     if (position>=0)
-                        return new ColumnPositionIdentifier(position);
+                        return new ColumnOrdinalIdentifier(position);
                 throw new ArgumentException($"The column identification '{positionString}' is starting by a '#' implying that it's a position but the position is not a numeric value or not a positive value or not an integer value.");
             }
             else

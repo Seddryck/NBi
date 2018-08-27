@@ -13,38 +13,47 @@ using NBi.NUnit.ResultSetComparison;
 
 namespace NBi.NUnit.Builder
 {
-    class ResultSetReferenceExistsBuilder : AbstractResultSetBuilder
+    class ResultSetLookupExistsBuilder : AbstractResultSetBuilder
     {
-        protected ReferenceExistsXml ConstraintXml {get; set;}
+        protected LookupExistsXml ConstraintXml {get; set;}
 
-        public ResultSetReferenceExistsBuilder()
+        public ResultSetLookupExistsBuilder()
         {
 
         }
 
         protected override void SpecificSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
-            if (!(ctrXml is ReferenceExistsXml))
+            if (!(ctrXml is LookupExistsXml))
                 throw new ArgumentException("Constraint must be a 'ReferenceExistsXml'");
 
-            ConstraintXml = (ReferenceExistsXml)ctrXml;
+            ConstraintXml = (LookupExistsXml)ctrXml;
         }
 
         protected override void SpecificBuild()
         {
-            var ctrXml = ConstraintXml as ReferenceExistsXml;
+            var ctrXml = ConstraintXml as LookupExistsXml;
             ctrXml.ResultSet.Settings = ctrXml.Settings;
 
-            var mappings = new ColumnMappingCollection();
-            foreach (var mapping in ctrXml.Mappings)
-                mappings.Add(new ColumnMapping(mapping.Child, mapping.Parent, mapping.Type));
+            var factory = new ColumnIdentifierFactory();
+            var mappings = new ColumnMappingCollection(
+                ctrXml.Join?.Mappings
+                    .Select(mapping => new ColumnMapping(
+                        factory.Instantiate(mapping.Candidate)
+                        , factory.Instantiate(mapping.Reference)
+                        , mapping.Type))
+                .Union(
+                    ctrXml.Join?.Usings.Select(@using => new ColumnMapping(
+                        factory.Instantiate(@using.Column)
+                        , @using.Type)
+                    )));
 
             var builder = new ResultSetServiceBuilder();
             builder.Setup(Helper.InstantiateResolver(ctrXml.ResultSet));
             builder.Setup(Helper.InstantiateAlterations(ctrXml.ResultSet));
             var service = builder.GetService();
 
-            var ctr = new ReferenceExistsConstraint(service);
+            var ctr = new LookupExistsConstraint(service);
             Constraint = ctr.Using(mappings);
         }
 

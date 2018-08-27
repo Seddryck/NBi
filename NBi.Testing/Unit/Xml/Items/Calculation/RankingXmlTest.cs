@@ -138,7 +138,7 @@ namespace NBi.Testing.Unit.Xml.Items.Calculation
             {
                 Ranking = new RankingXml()
                 {
-                    Operand = new ColumnPositionIdentifier(1),
+                    Operand = new ColumnOrdinalIdentifier(1),
                     Rank = new TopRankingXml()
                 }
             };
@@ -166,7 +166,7 @@ namespace NBi.Testing.Unit.Xml.Items.Calculation
             {
                 Ranking = new RankingXml()
                 {
-                    Operand = new ColumnPositionIdentifier(1),
+                    Operand = new ColumnOrdinalIdentifier(1),
                     Type = ColumnType.DateTime,
                     Rank = new BottomRankingXml()
                     {

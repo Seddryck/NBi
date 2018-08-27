@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
-    public class ReferenceExistsConstraintTest
+    public class LookupExistsConstraintTest
     {
         [Test]
         public void Matches_ResultSetService_CallToExecuteOnce()
@@ -34,16 +34,15 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 
             var mappings = new ColumnMappingCollection()
             {
-                new ColumnMapping("#0", "#0", ColumnType.Text),
-                new ColumnMapping("#1", "#1", ColumnType.Text),
+                new ColumnMapping(new ColumnOrdinalIdentifier(0), ColumnType.Text),
+                new ColumnMapping(new ColumnOrdinalIdentifier(1), ColumnType.Text),
             };
 
-
-            var referenceExists = new ReferenceExistsConstraint(parentService);
-            referenceExists = referenceExists.Using(mappings);
+            var lookupExists = new LookupExistsConstraint(parentService);
+            lookupExists = lookupExists.Using(mappings);
 
             //Method under test
-            referenceExists.Matches(childService);
+            lookupExists.Matches(childService);
 
             //Test conclusion            
             childMock.Verify(s => s.Execute(), Times.Once());
@@ -69,18 +68,17 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 
             var mappings = new ColumnMappingCollection()
             {
-                new ColumnMapping("#0", "#0", ColumnType.Text),
-                new ColumnMapping("#1", "#1", ColumnType.Text),
+                new ColumnMapping(new ColumnOrdinalIdentifier(0), ColumnType.Text),
+                new ColumnMapping(new ColumnOrdinalIdentifier(1), ColumnType.Text),
             };
 
-
-            var referenceExists = new ReferenceExistsConstraint(parentService);
-            var analyzer = new Mock<ReferenceAnalyzer>(mappings);
-            analyzer.Setup(x => x.Execute(It.IsAny<ResultSet>(), It.IsAny<ResultSet>())).Returns(new ReferenceViolations());
-            referenceExists.Engine = analyzer.Object;
+            var lookupExists = new LookupExistsConstraint(parentService);
+            var analyzer = new Mock<LookupExistsAnalyzer>(mappings);
+            analyzer.Setup(x => x.Execute(It.IsAny<ResultSet>(), It.IsAny<ResultSet>())).Returns(new LookupViolations());
+            lookupExists.Engine = analyzer.Object;
 
             //Method under test
-            referenceExists.Matches(childService);
+            lookupExists.Matches(childService);
 
             //Test conclusion            
             analyzer.Verify(x => x.Execute(child, parent), Times.Once());

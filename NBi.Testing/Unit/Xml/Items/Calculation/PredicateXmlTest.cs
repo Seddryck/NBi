@@ -82,7 +82,7 @@ namespace NBi.Testing.Unit.Xml.Items.Calculation
             {
                 Predication = new PredicationXml()
                 {
-                    Operand = new ColumnPositionIdentifier(1),
+                    Operand = new ColumnOrdinalIdentifier(1),
                     Predicate = new FalseXml()
                 }
             };
@@ -108,7 +108,7 @@ namespace NBi.Testing.Unit.Xml.Items.Calculation
             {
                 Predication = new PredicationXml()
                 {
-                    Operand = new ColumnPositionIdentifier(1),
+                    Operand = new ColumnOrdinalIdentifier(1),
                     Predicate = new ModuloXml() { SecondOperand = "10", Value = "5" }
                 }
             };

@@ -44,6 +44,19 @@ namespace NBi.Xml.Items.ResultSet
             get { return !string.IsNullOrEmpty(Tolerance); }
         }
 
+        [XmlIgnore]
+        public IColumnIdentifier Identifier
+        {
+            get => new ColumnIdentifierFactory().Instantiate(string.IsNullOrEmpty(Name) ? $"#{Index}" : Name);
+            set
+            {
+                if (value.Label.StartsWith("#"))
+                    Index = int.Parse(value.Label.Substring(1));
+                else
+                    Name = value.Label;
+            }
+        }
+
         [XmlAttribute("tolerance")]
         [DefaultValue("")]
         public string Tolerance { get; set; }

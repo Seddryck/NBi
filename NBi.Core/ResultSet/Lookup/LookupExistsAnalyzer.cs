@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Lookup
 {
-    public class ReferenceAnalyzer
+    public class LookupExistsAnalyzer
     {
         private readonly ColumnMappingCollection settings;
 
-        public ReferenceAnalyzer(ColumnMappingCollection settings)
+        public LookupExistsAnalyzer(ColumnMappingCollection settings)
         {
             this.settings = settings;
         }
 
-        public virtual ReferenceViolations Execute(object child, object parent)
+        public virtual LookupViolations Execute(object child, object parent)
         {
             if (child is DataTable && parent is DataTable)
                 return Execute((DataTable)child, (DataTable)parent);
@@ -30,23 +30,23 @@ namespace NBi.Core.ResultSet.Lookup
             throw new ArgumentException();
         }
 
-        protected ReferenceViolations Execute(DataTable child, DataTable parent)
+        protected LookupViolations Execute(DataTable child, DataTable parent)
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var parentKeyRetriever = BuildKeysRetriever(settings, x => x.ParentColumn);
-            var references = BuildReferences(parent, parentKeyRetriever);
+            var referenceKeyRetriever = BuildKeysRetriever(settings, x => x.ReferenceColumn);
+            var references = BuildReferences(parent, referenceKeyRetriever);
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Building collection of keys from parent: {0} [{1}]", references.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
             stopWatch.Reset();
-            var childKeyBuilder = BuildKeysRetriever(settings, x => x.ChildColumn);
-            var violations = ExtractReferenceViolation(child, childKeyBuilder, references);
+            var candidateKeyBuilder = BuildKeysRetriever(settings, x => x.CandidateColumn);
+            var violations = ExtractReferenceViolation(child, candidateKeyBuilder, references);
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Analyzing potential reference violation for {0} rows [{1}]", child.Rows.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
             return violations;
         }
 
-        private KeysRetriever BuildKeysRetriever(ColumnMappingCollection settings, Func<ColumnMapping, string> target)
+        private KeysRetriever BuildKeysRetriever(ColumnMappingCollection settings, Func<ColumnMapping, IColumnIdentifier> target)
         {
             var defColumns = new Collection<IColumnDefinition>();
             foreach (var setting in settings)
@@ -55,8 +55,8 @@ namespace NBi.Core.ResultSet.Lookup
                 defColumns.Add(defColumn);
             }
 
-            if (settings.Any(x => target(x).StartsWith("#")))
-                return new KeysRetrieverByIndex(defColumns);
+            if (settings.Any(x => target(x) is ColumnOrdinalIdentifier))
+                return new KeysRetrieverByOrdinal(defColumns);
             else
                 return new KeysRetrieverByName(defColumns);
         }
@@ -76,9 +76,9 @@ namespace NBi.Core.ResultSet.Lookup
             return references;
         }
 
-        private ReferenceViolations ExtractReferenceViolation(DataTable table, KeysRetriever keyRetriever, IEnumerable<KeyCollection> references)
+        private LookupViolations ExtractReferenceViolation(DataTable table, KeysRetriever keyRetriever, IEnumerable<KeyCollection> references)
         {
-            var violations = new ReferenceViolations();
+            var violations = new LookupViolations();
 
             foreach (DataRow row in table.Rows)
             {

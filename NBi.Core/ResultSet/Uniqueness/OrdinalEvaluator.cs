@@ -1,80 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
 using NBi.Core.Scalar.Comparer;
+using System.Text;
+using NBi.Core.Scalar.Caster;
+using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Analyzer;
+using NBi.Core.ResultSet.Equivalence;
 
-namespace NBi.Core.ResultSet.Equivalence
+namespace NBi.Core.ResultSet.Uniqueness
 {
-    public class IndexEquivaler : BaseEquivaler
+    public class OrdinalEvaluator : Evaluator
     {
-        private new SettingsIndexResultSet Settings
+        private new SettingsOrdinalResultSet Settings
         {
-            get => base.Settings as SettingsIndexResultSet;
+            get { return base.Settings as SettingsOrdinalResultSet; }
+        }
+        
+        public OrdinalEvaluator()
+            : base()
+        { }
+
+        public OrdinalEvaluator(SettingsOrdinalResultSet settings)
+            : base(settings)
+        {
         }
 
-        public IndexEquivaler(IEnumerable<IRowsAnalyzer> analyzers, SettingsIndexResultSet settings)
-            : base(analyzers)
+        protected override void PreliminaryChecks(DataTable x)
         {
-            base.Settings = settings;
-        }
-
-        protected override void PreliminaryChecks(DataTable x, DataTable y)
-        {
-            var columnsCount = Math.Max(y.Columns.Count, x.Columns.Count);
+            var columnsCount = x.Columns.Count;
             if (Settings == null)
                 BuildDefaultSettings(columnsCount);
             else
                 Settings.ApplyTo(columnsCount);
 
-            WriteSettingsToDataTableProperties(y, Settings);
             WriteSettingsToDataTableProperties(x, Settings);
-
-            CheckSettingsAndDataTable(y, Settings);
             CheckSettingsAndDataTable(x, Settings);
-
-            CheckSettingsAndFirstRow(y, Settings);
             CheckSettingsAndFirstRow(x, Settings);
         }
 
-        public override EngineStyle Style
-        {
-            get => EngineStyle.ByIndex;
-        }
-
         protected override DataRowKeysComparer BuildDataRowsKeyComparer(DataTable x)
-            => new DataRowKeysComparerByIndex(Settings, x.Columns.Count);
-
-        protected override bool CanSkipValueComparison()
-            => Settings.KeysDef == SettingsIndexResultSet.KeysChoice.All;
-
-        protected override DataRow CompareRows(DataRow rx, DataRow ry)
         {
-            var isRowOnError = false;
-            for (int i = 0; i < rx.Table.Columns.Count; i++)
-            {
-                if (Settings.GetColumnRole(i) == ColumnRole.Value)
-                {
-                    var x = rx.IsNull(i) ? DBNull.Value : rx[i];
-                    var y = ry.IsNull(i) ? DBNull.Value : ry[i];
-                    var rounding = Settings.IsRounding(i) ? Settings.GetRounding(i) : null;
-                    var result = CellComparer.Compare(x, y, Settings.GetColumnType(i), Settings.GetTolerance(i), rounding);
-
-                    if (!result.AreEqual)
-                    {
-                        ry.SetColumnError(i, result.Message);
-                        if (!isRowOnError)
-                            isRowOnError = true;
-                    }
-                }
-            }
-            if (isRowOnError)
-                return ry;
-            else
-                return null;
+            return new DataRowKeysComparerByOrdinal(Settings, x.Columns.Count);
         }
 
-        protected void WriteSettingsToDataTableProperties(DataTable dt, SettingsIndexResultSet settings)
+
+        protected void WriteSettingsToDataTableProperties(DataTable dt, SettingsOrdinalResultSet settings)
         {
             foreach (DataColumn column in dt.Columns)
             {
@@ -82,15 +56,15 @@ namespace NBi.Core.ResultSet.Equivalence
                     column
                     , settings.GetColumnRole(column.Ordinal)
                     , settings.GetColumnType(column.Ordinal)
-                    , settings.GetTolerance(column.Ordinal)
-                    , settings.GetRounding(column.Ordinal)
+                    , null
+                    , null
                 );
             }
         }
 
-        protected void CheckSettingsAndDataTable(DataTable dt, SettingsIndexResultSet settings)
+        protected void CheckSettingsAndDataTable(DataTable dt, SettingsOrdinalResultSet settings)
         {
-            var max = settings.GetMaxColumnIndexDefined();
+            var max = settings.GetMaxColumnOrdinalDefined();
             if (dt.Columns.Count <= max)
             {
                 var exception = string.Format("You've defined a column with an index of {0}, meaning that your result set would have at least {1} columns but your result set has only {2} columns."
@@ -98,14 +72,14 @@ namespace NBi.Core.ResultSet.Equivalence
                     , max + 1
                     , dt.Columns.Count);
 
-                if (dt.Columns.Count == max && settings.GetMinColumnIndexDefined() == 1)
+                if (dt.Columns.Count == max && settings.GetMinColumnOrdinalDefined() == 1)
                     exception += " You've no definition for a column with an index of 0. Are you sure you'vent started to index at 1 in place of 0?";
 
                 throw new EquivalerException(exception);
             }
         }
 
-        protected void CheckSettingsAndFirstRow(DataTable dt, SettingsIndexResultSet settings)
+        protected void CheckSettingsAndFirstRow(DataTable dt, SettingsOrdinalResultSet settings)
         {
             if (dt.Rows.Count == 0)
                 return;
@@ -130,11 +104,10 @@ namespace NBi.Core.ResultSet.Equivalence
 
         protected virtual void BuildDefaultSettings(int columnsCount)
         {
-            base.Settings = new SettingsIndexResultSet(
+            base.Settings = new SettingsOrdinalResultSet(
                 columnsCount,
-                SettingsIndexResultSet.KeysChoice.AllExpectLast,
-                SettingsIndexResultSet.ValuesChoice.Last);
+                SettingsOrdinalResultSet.KeysChoice.All,
+                SettingsOrdinalResultSet.ValuesChoice.None);
         }
-
     }
 }

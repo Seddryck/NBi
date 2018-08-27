@@ -11,7 +11,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static NBi.Core.ResultSet.SettingsIndexResultSet;
+using static NBi.Core.ResultSet.SettingsOrdinalResultSet;
 
 namespace NBi.Testing.Unit.Core.Calculation
 {
@@ -24,10 +24,10 @@ namespace NBi.Testing.Unit.Core.Calculation
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var settings = new SettingsIndexResultSet(KeysChoice.First, ValuesChoice.None, NumericAbsoluteTolerance.None);
-            var grouping = new IndexByColumnGrouping(settings);
+            var settings = new SettingsOrdinalResultSet(KeysChoice.First, ValuesChoice.None, NumericAbsoluteTolerance.None);
+            var grouping = new OrdinalByColumnGrouping(settings);
 
-            var filter = new TopRanking(2, new ColumnPositionIdentifier(1), ColumnType.Numeric);
+            var filter = new TopRanking(2, new ColumnOrdinalIdentifier(1), ColumnType.Numeric);
 
             var rankingByGroup = new FilterGroupByFilter(filter, grouping);
 
@@ -44,7 +44,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var filter = new TopRanking(2, new ColumnPositionIdentifier(1), ColumnType.Numeric);
+            var filter = new TopRanking(2, new ColumnOrdinalIdentifier(1), ColumnType.Numeric);
 
             var rankingByGroup = new FilterGroupByFilter(filter, new NoneGrouping());
 

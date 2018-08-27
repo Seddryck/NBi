@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Lookup
 {
-    public class ReferenceViolations : Dictionary<KeyCollection, Collection<DataRow>>
+    public class LookupViolations : Dictionary<KeyCollection, Collection<DataRow>>
     { }
 }

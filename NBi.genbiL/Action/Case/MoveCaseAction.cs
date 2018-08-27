@@ -15,11 +15,11 @@ namespace NBi.GenbiL.Action.Case
         /// +1 = right
         /// Int.Max = Last
         /// </summary>
-        public int Position { get; set; }
-        public MoveCaseAction(string variableName, int position)
+        public int Ordinal { get; set; }
+        public MoveCaseAction(string variableName, int ordinal)
         {
             VariableName = variableName;
-            Position = position;
+            Ordinal = ordinal;
         }
 
 
@@ -27,13 +27,13 @@ namespace NBi.GenbiL.Action.Case
         {
             var currentPosition = state.TestCaseCollection.Scope.Variables.IndexOf(VariableName);
 
-            if (Position != int.MinValue && Position != int.MaxValue)
-                state.TestCaseCollection.Scope.MoveVariable(VariableName, currentPosition + Position);
+            if (Ordinal != int.MinValue && Ordinal != int.MaxValue)
+                state.TestCaseCollection.Scope.MoveVariable(VariableName, currentPosition + Ordinal);
 
-            if (Position == int.MinValue)
+            if (Ordinal == int.MinValue)
                 state.TestCaseCollection.Scope.MoveVariable(VariableName, 0);
 
-            if (Position == int.MaxValue)
+            if (Ordinal == int.MaxValue)
                 state.TestCaseCollection.Scope.MoveVariable(VariableName, state.TestCaseCollection.Scope.Variables.Count-1);
         }
 
@@ -41,10 +41,10 @@ namespace NBi.GenbiL.Action.Case
         {
             get
             {
-                if (Position != int.MinValue && Position != int.MaxValue)
-                    return string.Format("Moving column '{0}' to the {1}", VariableName, Position == 1 ? "right" : "left");
+                if (Ordinal != int.MinValue && Ordinal != int.MaxValue)
+                    return string.Format("Moving column '{0}' to the {1}", VariableName, Ordinal == 1 ? "right" : "left");
                 else
-                    return string.Format("Moving column '{0}' to the extreme {1}", VariableName, Position > 1 ? "right" : "left");
+                    return string.Format("Moving column '{0}' to the extreme {1}", VariableName, Ordinal > 1 ? "right" : "left");
             }
         }
     }

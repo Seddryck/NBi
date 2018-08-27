@@ -100,9 +100,11 @@ namespace NBi.NUnit.Builder.Helper
 
             if (resultSetXml.Alteration.Transformations != null)
             {
+                var identifierFactory = new ColumnIdentifierFactory();
+
                 var provider = new TransformationProvider();
                 foreach (var transformationXml in resultSetXml.Alteration.Transformations)
-                    provider.Add(transformationXml.ColumnIndex, transformationXml);
+                    provider.Add(transformationXml.Identifier, transformationXml);
                 yield return provider.Transform;
             }
         }

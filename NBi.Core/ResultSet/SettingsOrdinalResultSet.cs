@@ -6,7 +6,7 @@ using NBi.Core.Scalar.Comparer;
 
 namespace NBi.Core.ResultSet
 {
-    public class SettingsIndexResultSet : SettingsResultSet<int>
+    public class SettingsOrdinalResultSet : SettingsResultSet<int>
     {
         public enum KeysChoice
         {
@@ -36,10 +36,10 @@ namespace NBi.Core.ResultSet
         protected override bool IsKey(int index)
         {
 
-            if (ColumnsDef.Any(c => c.Index == index && c.Role != ColumnRole.Key))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnOrdinalIdentifier)?.Ordinal == index && c.Role != ColumnRole.Key))
                 return false;
 
-            if (ColumnsDef.Any(c => c.Index == index && c.Role == ColumnRole.Key))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnOrdinalIdentifier)?.Ordinal == index && c.Role == ColumnRole.Key))
                 return true;
 
             switch (KeysDef)
@@ -47,7 +47,7 @@ namespace NBi.Core.ResultSet
                 case KeysChoice.First:
                     return index == 0;
                 case KeysChoice.AllExpectLast:
-                    return index != GetLastColumnIndex();
+                    return index != GetLastColumnOrdinal();
                 case KeysChoice.All:
                     return true;
             }
@@ -57,10 +57,10 @@ namespace NBi.Core.ResultSet
 
         protected override bool IsValue(int index)
         {
-            if (ColumnsDef.Any(c => c.Index == index && c.Role != ColumnRole.Value))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnOrdinalIdentifier)?.Ordinal == index && c.Role != ColumnRole.Value))
                 return false;
 
-            if (ColumnsDef.Any(c => c.Index == index && c.Role == ColumnRole.Value))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnOrdinalIdentifier)?.Ordinal == index && c.Role == ColumnRole.Value))
                 return true;
 
             switch (KeysDef)
@@ -69,7 +69,7 @@ namespace NBi.Core.ResultSet
                     if (index == 0) return false;
                     break;
                 case KeysChoice.AllExpectLast:
-                    if (index != GetLastColumnIndex()) return false;
+                    if (index != GetLastColumnOrdinal()) return false;
                     break;
                 case KeysChoice.All:
                     return false;
@@ -80,7 +80,7 @@ namespace NBi.Core.ResultSet
                 case ValuesChoice.AllExpectFirst:
                     return index != 0;
                 case ValuesChoice.Last:
-                    return index == GetLastColumnIndex();
+                    return index == GetLastColumnOrdinal();
                 case ValuesChoice.None:
                     return false;
             }
@@ -91,7 +91,7 @@ namespace NBi.Core.ResultSet
         public override bool IsRounding(int index)
         {
             return ColumnsDef.Any(
-                    c => c.Index == index
+                    c => (c.Identifier as ColumnOrdinalIdentifier)?.Ordinal == index
                     && c.Role == ColumnRole.Value
                     && c.RoundingStyle != Rounding.RoundingStyle.None
                     && !string.IsNullOrEmpty(c.RoundingStep));
@@ -103,7 +103,7 @@ namespace NBi.Core.ResultSet
                 return null;
 
             return RoundingFactory.Build(ColumnsDef.Single(
-                    c => c.Index == index
+                    c => (c.Identifier as ColumnOrdinalIdentifier)?.Ordinal == index
                     && c.Role == ColumnRole.Value));
         }
 
@@ -140,10 +140,10 @@ namespace NBi.Core.ResultSet
 
         protected override bool IsType(int index, ColumnType type)
         {
-            if (ColumnsDef.Any(c => c.Index == index && c.Type != type))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnOrdinalIdentifier)?.Ordinal == index && c.Type != type))
                 return false;
 
-            if (ColumnsDef.Any(c => c.Index == index && c.Type == type))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnOrdinalIdentifier)?.Ordinal == index && c.Type == type))
                 return true;
 
             return (IsValue(index) && ValuesDefaultType == type);
@@ -154,7 +154,7 @@ namespace NBi.Core.ResultSet
             if (GetColumnType(index) != ColumnType.Numeric && GetColumnType(index) != ColumnType.DateTime && GetColumnType(index) != ColumnType.Text)
                 return null;
 
-            var col = ColumnsDef.FirstOrDefault(c => c.Index == index);
+            var col = ColumnsDef.FirstOrDefault(c => (c.Identifier as ColumnOrdinalIdentifier)?.Ordinal == index);
             if (col == null || !col.IsToleranceSpecified)
             {
                 switch (GetColumnType(index))
@@ -173,34 +173,34 @@ namespace NBi.Core.ResultSet
             return ToleranceFactory.Instantiate(col);
         }
 
-        public int GetLastColumnIndex()
+        public int GetLastColumnOrdinal()
         {
-            if (!isLastColumnIndexDefined)
+            if (!isLastColumnOrdinalDefined)
                 throw new InvalidOperationException("You must call the method ApplyTo() before trying to call GetLastColumnIndex()");
 
-            return lastColumnIndex;
+            return lastColumnOrdinal;
         }
 
-        public int GetMinColumnIndexDefined()
+        public int GetMinColumnOrdinalDefined()
         {
             if (ColumnsDef.Count > 0)
-                return ColumnsDef.Min(cd => cd.Index);
+                return ColumnsDef.Where(cd => cd.Identifier is ColumnOrdinalIdentifier).Min(cd => ((ColumnOrdinalIdentifier)(cd.Identifier)).Ordinal);
             else
                 return -1;
         }
 
-        public int GetMaxColumnIndexDefined()
+        public int GetMaxColumnOrdinalDefined()
         {
             if (ColumnsDef.Count > 0)
-                return ColumnsDef.Max(cd => cd.Index);
+                return ColumnsDef.Where(cd => cd.Identifier is ColumnOrdinalIdentifier).Max(cd => ((ColumnOrdinalIdentifier)(cd.Identifier)).Ordinal);
             else
                 return -1;
         }
 
-        public int GetLastKeyColumnIndex()
+        public int GetLastKeyColumnOrdinal()
         {
             var max = 0;
-            for (int i = 0; i < GetLastColumnIndex(); i++)
+            for (int i = 0; i < GetLastColumnOrdinal(); i++)
             {
                 if (IsKey(i))
                     max = i;
@@ -209,40 +209,40 @@ namespace NBi.Core.ResultSet
             return max;
         }
 
-        private bool isLastColumnIndexDefined = false;
-        private int lastColumnIndex;
+        private bool isLastColumnOrdinalDefined = false;
+        private int lastColumnOrdinal;
 
         public void ApplyTo(int columnCount)
         {
-            isLastColumnIndexDefined = true;
-            lastColumnIndex = columnCount - 1;
+            isLastColumnOrdinalDefined = true;
+            lastColumnOrdinal = columnCount - 1;
         }
 
-        protected SettingsIndexResultSet(ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
+        protected SettingsOrdinalResultSet(ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : base(valuesDefaultType, defaultTolerance, columnsDef)
         { }
 
-        public SettingsIndexResultSet(int columnsCount, KeysChoice keysDef, ValuesChoice valuesDef)
+        public SettingsOrdinalResultSet(int columnsCount, KeysChoice keysDef, ValuesChoice valuesDef)
             : this(keysDef, valuesDef, ColumnType.Numeric, NumericAbsoluteTolerance.None, null)
         {
             ApplyTo(columnsCount);
         }
 
-        public SettingsIndexResultSet(IReadOnlyCollection<IColumnDefinition> columnsDef)
+        public SettingsOrdinalResultSet(IReadOnlyCollection<IColumnDefinition> columnsDef)
             : this(KeysChoice.None, ValuesChoice.None, ColumnType.Numeric, NumericAbsoluteTolerance.None, columnsDef)
         { }
 
-        public SettingsIndexResultSet(KeysChoice keysDef, ValuesChoice valuesDef, IReadOnlyCollection<IColumnDefinition> columnsDef)
+        public SettingsOrdinalResultSet(KeysChoice keysDef, ValuesChoice valuesDef, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : this(keysDef, valuesDef, ColumnType.Numeric, NumericAbsoluteTolerance.None, columnsDef)
         {
         }
 
-        public SettingsIndexResultSet(KeysChoice keysDef, ValuesChoice valuesDef, Tolerance defaultTolerance)
+        public SettingsOrdinalResultSet(KeysChoice keysDef, ValuesChoice valuesDef, Tolerance defaultTolerance)
             : this(keysDef, valuesDef, ColumnType.Numeric, defaultTolerance, null)
         {
         }
 
-        public SettingsIndexResultSet(KeysChoice keysDef, ValuesChoice valuesDef, ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
+        public SettingsOrdinalResultSet(KeysChoice keysDef, ValuesChoice valuesDef, ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : base(valuesDefaultType, defaultTolerance, columnsDef)
         {
             KeysDef = keysDef;

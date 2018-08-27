@@ -10,7 +10,7 @@ namespace NBi.Framework.FailureMessage
 {
     public interface IReferenceViolationsMessageFormatter
     {
-        void Generate(IEnumerable<DataRow> parentRows, IEnumerable<DataRow> childRows, ReferenceViolations violations);
+        void Generate(IEnumerable<DataRow> parentRows, IEnumerable<DataRow> childRows, LookupViolations violations);
         string RenderExpected();
         string RenderActual();
         string RenderAnalysis();

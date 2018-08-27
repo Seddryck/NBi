@@ -178,7 +178,6 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var rowCount = ts.Tests[testNr].Constraints[0] as RowCountXml;
             var comparison = rowCount.Filter.Predication;
 
-            Assert.That(comparison.ColumnIndex, Is.EqualTo(-1));
             Assert.That((comparison.Operand as ColumnNameIdentifier).Name, Is.EqualTo("ModDepId"));
             Assert.That(comparison.ColumnType, Is.EqualTo(ColumnType.Numeric));
 

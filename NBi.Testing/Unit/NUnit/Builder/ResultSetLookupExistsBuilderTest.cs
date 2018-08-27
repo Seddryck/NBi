@@ -20,12 +20,13 @@ using NBi.Core.Variable;
 using NBi.Core.ResultSet;
 using NBi.Core.Injection;
 using NBi.NUnit.ResultSetComparison;
+using NBi.Xml.Items.ResultSet.Lookup;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
 {
     [TestFixture]
-    public class ResultSetReferenceExistsBuilderTest
+    public class ResultSetLookupExistsBuilderTest
     {
 
         #region SetUp & TearDown
@@ -56,23 +57,24 @@ namespace NBi.Testing.Unit.NUnit.Builder
         #endregion
 
         [Test]
-        public void GetConstraint_ReferenceExistsXml_ReferenceExistsConstraint()
+        public void GetConstraint_LookupExistsXml_ReferenceExistsConstraint()
         {
             var sutXmlStub = new Mock<Systems.ResultSetSystemXml>();
-            sutXmlStub.Setup(s => s.File).Returns("myChild.csv");
+            sutXmlStub.Setup(s => s.File).Returns("myCandidate.csv");
             var sutXml = sutXmlStub.Object;
 
-            var ctrXml = new ReferenceExistsXml();
-            var parentXmlStub = new Mock<Systems.ResultSetSystemXml>();
-            parentXmlStub.Setup(s => s.File).Returns("myParent.csv");
-            ctrXml.ResultSet = parentXmlStub.Object;
+            var ctrXml = new LookupExistsXml();
+            var referenceXmlStub = new Mock<Systems.ResultSetSystemXml>();
+            referenceXmlStub.Setup(s => s.File).Returns("myReference.csv");
+            ctrXml.ResultSet = referenceXmlStub.Object;
+            ctrXml.Join = new JoinXml();
 
-            var builder = new ResultSetReferenceExistsBuilder();
+            var builder = new ResultSetLookupExistsBuilder();
             builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var ctr = builder.GetConstraint();
 
-            Assert.That(ctr, Is.InstanceOf<ReferenceExistsConstraint>());
+            Assert.That(ctr, Is.InstanceOf<LookupExistsConstraint>());
         }
 
 
@@ -83,12 +85,13 @@ namespace NBi.Testing.Unit.NUnit.Builder
             sutXmlStub.Setup(s => s.File).Returns("myFile.csv");
             var sutXml = sutXmlStub.Object;
 
-            var ctrXml = new ReferenceExistsXml();
+            var ctrXml = new LookupExistsXml();
             var parentXmlStub = new Mock<Systems.ResultSetSystemXml>();
             parentXmlStub.Setup(s => s.File).Returns("myParent.csv");
             ctrXml.ResultSet = parentXmlStub.Object;
+            ctrXml.Join = new JoinXml();
 
-            var builder = new ResultSetReferenceExistsBuilder();
+            var builder = new ResultSetLookupExistsBuilder();
             builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
             builder.Build();
             var sut = builder.GetSystemUnderTest();

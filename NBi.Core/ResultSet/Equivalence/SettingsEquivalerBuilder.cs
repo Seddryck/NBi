@@ -41,8 +41,8 @@ namespace NBi.Core.ResultSet.Equivalence
             {
                 PerformInconsistencyChecks();
                 PerformSetsAndColumnsCheck(
-                    SettingsIndexResultSet.KeysChoice.First
-                    , SettingsIndexResultSet.ValuesChoice.AllExpectFirst);
+                    SettingsOrdinalResultSet.KeysChoice.First
+                    , SettingsOrdinalResultSet.ValuesChoice.AllExpectFirst);
             }
 
             PerformToleranceChecks();

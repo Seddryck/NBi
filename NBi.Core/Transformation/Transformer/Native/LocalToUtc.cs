@@ -8,8 +8,6 @@ namespace NBi.Core.Transformation.Transformer.Native
 {
     class LocalToUtc : UtcToLocal
     {
-        private readonly string timeZoneLabel;
-
         public LocalToUtc(string timeZoneLabel)
             : base(timeZoneLabel)
         { }

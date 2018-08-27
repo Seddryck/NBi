@@ -41,7 +41,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             var predicate2 = new Mock<IPredicateInfo>();
             predicate2.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate2.SetupGet(p => p.ComparerType).Returns(ComparerType.MoreThanOrEqual);
-            predicate2.SetupGet(p => p.Operand).Returns(new ColumnPositionIdentifier(1));
+            predicate2.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(1));
             predicate2.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)10);
 
             var factory = new ResultSetFilterFactory();
@@ -74,12 +74,12 @@ namespace NBi.Testing.Unit.Core.Calculation
             predicate1.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate1.SetupGet(p => p.ComparerType).Returns(ComparerType.Null);
             predicate1.SetupGet(p => p.Not).Returns(true);
-            predicate1.SetupGet(p => p.Operand).Returns(new ColumnPositionIdentifier(0));
+            predicate1.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(0));
 
             var predicate2 = new Mock<IPredicateInfo>();
             predicate2.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate2.SetupGet(p => p.ComparerType).Returns(ComparerType.LessThan);
-            predicate2.SetupGet(p => p.Operand).Returns(new ColumnPositionIdentifier(0));
+            predicate2.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(0));
             predicate2.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(10);
 
             var factory = new ResultSetFilterFactory();
@@ -116,7 +116,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             var predicate2 = new Mock<IPredicateInfo>();
             predicate2.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate2.SetupGet(p => p.ComparerType).Returns(ComparerType.LessThan);
-            predicate2.SetupGet(p => p.Operand).Returns(new ColumnPositionIdentifier(1));
+            predicate2.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(1));
             predicate2.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)10);
 
             var factory = new ResultSetFilterFactory();
@@ -147,12 +147,12 @@ namespace NBi.Testing.Unit.Core.Calculation
             var predicate1 = new Mock<IPredicateInfo>();
             predicate1.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate1.SetupGet(p => p.ComparerType).Returns(ComparerType.Null);
-            predicate1.SetupGet(p => p.Operand).Returns(new ColumnPositionIdentifier(0));
+            predicate1.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(0));
 
             var predicate2 = new Mock<IPredicateInfo>();
             predicate2.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate2.SetupGet(p => p.ComparerType).Returns(ComparerType.LessThan);
-            predicate2.SetupGet(p => p.Operand).Returns(new ColumnPositionIdentifier(0));
+            predicate2.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(0));
             predicate2.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(10);
 
             var factory = new ResultSetFilterFactory();
@@ -188,7 +188,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             var predicate2 = new Mock<IPredicateInfo>();
             predicate2.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate2.SetupGet(p => p.ComparerType).Returns(ComparerType.LessThan);
-            predicate2.SetupGet(p => p.Operand).Returns(new ColumnPositionIdentifier(1));
+            predicate2.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(1));
             predicate2.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)10);
 
             var factory = new ResultSetFilterFactory();

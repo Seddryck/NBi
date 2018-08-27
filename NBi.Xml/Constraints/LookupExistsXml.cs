@@ -1,4 +1,5 @@
 ﻿using NBi.Xml.Items.ResultSet;
+using NBi.Xml.Items.ResultSet.Lookup;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using System;
@@ -10,18 +11,13 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Constraints
 {
-    public class ReferenceExistsXml : AbstractConstraintXml
+    public class LookupExistsXml : AbstractConstraintXml
     {
-        [XmlElement("column-mapping")]
-        public List<ColumnMappingXml> Mappings { get; set; }
+        [XmlElement("join")]
+        public JoinXml Join { get; set; }
 
         [XmlElement("resultSet")]
         public ResultSetSystemXml ResultSet { get; set; }
-
-        public ReferenceExistsXml()
-        {
-            Mappings = new List<ColumnMappingXml>();
-        }
 
         [XmlIgnore()]
         public override DefaultXml Default

@@ -18,7 +18,7 @@ namespace NBi.Testing.Integration.NUnit.Query
     [TestFixture]
     public class EqualToConstraintTest
     {
-        private ServiceLocator serviceLocator = new ServiceLocator();
+        private readonly ServiceLocator serviceLocator = new ServiceLocator();
 
         #region SetUp & TearDown
         //Called only at instance creation
@@ -153,9 +153,9 @@ namespace NBi.Testing.Integration.NUnit.Query
             var builder = new ResultSetServiceBuilder();
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
-            ctr.Using(new SettingsIndexResultSet(
-                    SettingsIndexResultSet.KeysChoice.First,
-                    SettingsIndexResultSet.ValuesChoice.Last,
+            ctr.Using(new SettingsOrdinalResultSet(
+                    SettingsOrdinalResultSet.KeysChoice.First,
+                    SettingsOrdinalResultSet.ValuesChoice.Last,
                     new NumericAbsoluteTolerance(500, SideTolerance.Both)
                 )
             );
@@ -187,9 +187,9 @@ namespace NBi.Testing.Integration.NUnit.Query
             var builder = new ResultSetServiceBuilder();
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
-            ctr.Using(new SettingsIndexResultSet(
-                SettingsIndexResultSet.KeysChoice.First,
-                SettingsIndexResultSet.ValuesChoice.Last,
+            ctr.Using(new SettingsOrdinalResultSet(
+                SettingsOrdinalResultSet.KeysChoice.First,
+                SettingsOrdinalResultSet.ValuesChoice.Last,
                 NumericAbsoluteTolerance.None)
             );
 
@@ -214,9 +214,9 @@ namespace NBi.Testing.Integration.NUnit.Query
             var builder = new ResultSetServiceBuilder();
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
-            ctr.Using(new SettingsIndexResultSet(
-                SettingsIndexResultSet.KeysChoice.First,
-                SettingsIndexResultSet.ValuesChoice.Last,
+            ctr.Using(new SettingsOrdinalResultSet(
+                SettingsOrdinalResultSet.KeysChoice.First,
+                SettingsOrdinalResultSet.ValuesChoice.Last,
                 NumericAbsoluteTolerance.None)
             );
 
@@ -243,9 +243,9 @@ namespace NBi.Testing.Integration.NUnit.Query
             var builder = new ResultSetServiceBuilder();
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
-            ctr.Using(new SettingsIndexResultSet(
-                SettingsIndexResultSet.KeysChoice.First,
-                SettingsIndexResultSet.ValuesChoice.Last,
+            ctr.Using(new SettingsOrdinalResultSet(
+                SettingsOrdinalResultSet.KeysChoice.First,
+                SettingsOrdinalResultSet.ValuesChoice.Last,
                 NumericAbsoluteTolerance.None)
             );
 
@@ -272,14 +272,14 @@ namespace NBi.Testing.Integration.NUnit.Query
             var builder = new ResultSetServiceBuilder();
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
-            ctr.Using(new SettingsIndexResultSet(
-                    SettingsIndexResultSet.KeysChoice.First,
-                    SettingsIndexResultSet.ValuesChoice.Last,
+            ctr.Using(new SettingsOrdinalResultSet(
+                    SettingsOrdinalResultSet.KeysChoice.First,
+                    SettingsOrdinalResultSet.ValuesChoice.Last,
                     new List<IColumnDefinition>()
                     {
                         new Column()
                         {
-                            Index=1,
+                            Identifier= new ColumnOrdinalIdentifier(1),
                             Role= ColumnRole.Value,
                             Type=ColumnType.Numeric,
                             Tolerance= "10"
@@ -317,14 +317,14 @@ namespace NBi.Testing.Integration.NUnit.Query
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
-                    new SettingsIndexResultSet(
-                        SettingsIndexResultSet.KeysChoice.AllExpectLast,
-                        SettingsIndexResultSet.ValuesChoice.Last,
+                    new SettingsOrdinalResultSet(
+                        SettingsOrdinalResultSet.KeysChoice.AllExpectLast,
+                        SettingsOrdinalResultSet.ValuesChoice.Last,
                         new List<IColumnDefinition>()
                         {
                             new Column()
                             {
-                                Index = 1,
+                                Identifier= new ColumnOrdinalIdentifier(1),
                                 Role = ColumnRole.Value,
                                 Type = ColumnType.Numeric,
                                 Tolerance = "5"
@@ -379,9 +379,9 @@ namespace NBi.Testing.Integration.NUnit.Query
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
-                    new SettingsIndexResultSet(
-                        SettingsIndexResultSet.KeysChoice.AllExpectLast,
-                        SettingsIndexResultSet.ValuesChoice.Last,
+                    new SettingsOrdinalResultSet(
+                        SettingsOrdinalResultSet.KeysChoice.AllExpectLast,
+                        SettingsOrdinalResultSet.ValuesChoice.Last,
                         NumericAbsoluteTolerance.None
                     )
                 );
@@ -409,9 +409,9 @@ namespace NBi.Testing.Integration.NUnit.Query
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
-                    new SettingsIndexResultSet(
-                        SettingsIndexResultSet.KeysChoice.AllExpectLast,
-                        SettingsIndexResultSet.ValuesChoice.Last,
+                    new SettingsOrdinalResultSet(
+                        SettingsOrdinalResultSet.KeysChoice.AllExpectLast,
+                        SettingsOrdinalResultSet.ValuesChoice.Last,
                         NumericAbsoluteTolerance.None
                     )
                 );
@@ -435,16 +435,16 @@ namespace NBi.Testing.Integration.NUnit.Query
             var expectedQuery = new NBi.Core.Query.Query(expectedSql, ConnectionStringReader.GetSqlClient());
 
             var columns = new List<IColumnDefinition>(){
-                new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
+                new Column() { Identifier= new ColumnOrdinalIdentifier(1), Role = ColumnRole.Value, Type = ColumnType.DateTime }
             };
             var resolver = new FakeQueryResultSetResolver(expectedQuery, serviceLocator);
             var builder = new ResultSetServiceBuilder();
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
-                    new SettingsIndexResultSet(
-                        SettingsIndexResultSet.KeysChoice.AllExpectLast,
-                        SettingsIndexResultSet.ValuesChoice.Last,
+                    new SettingsOrdinalResultSet(
+                        SettingsOrdinalResultSet.KeysChoice.AllExpectLast,
+                        SettingsOrdinalResultSet.ValuesChoice.Last,
                         columns
                     )
                 );
@@ -469,16 +469,16 @@ namespace NBi.Testing.Integration.NUnit.Query
             var expectedQuery = new NBi.Core.Query.Query(expectedSql, ConnectionStringReader.GetSqlClient());
 
             var columns = new List<IColumnDefinition>(){
-                new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
+                new Column() { Identifier= new ColumnOrdinalIdentifier(1), Role = ColumnRole.Value, Type = ColumnType.DateTime }
             };
             var resolver = new FakeQueryResultSetResolver(expectedQuery, serviceLocator);
             var builder = new ResultSetServiceBuilder();
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());
             ctr.Using(
-                    new SettingsIndexResultSet(
-                        SettingsIndexResultSet.KeysChoice.AllExpectLast,
-                        SettingsIndexResultSet.ValuesChoice.Last,
+                    new SettingsOrdinalResultSet(
+                        SettingsOrdinalResultSet.KeysChoice.AllExpectLast,
+                        SettingsOrdinalResultSet.ValuesChoice.Last,
                         columns
                     )
                 );
@@ -503,7 +503,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             var expectedQuery = new NBi.Core.Query.Query(expectedSql, ConnectionStringReader.GetSqlClient());
 
             var columns = new List<IColumnDefinition>(){
-                new Column() { Index = 1, Role = ColumnRole.Value, Type = ColumnType.DateTime }
+                new Column() { Identifier= new ColumnOrdinalIdentifier(1), Role = ColumnRole.Value, Type = ColumnType.DateTime }
             };
 
             var expectedLoader = new FakeQueryResultSetResolver(expectedQuery, serviceLocator);
@@ -511,9 +511,9 @@ namespace NBi.Testing.Integration.NUnit.Query
             expectedBuilder.Setup(expectedLoader);
             var ctr = new EqualToConstraint(expectedBuilder.GetService());
             ctr.Using(
-                                new SettingsIndexResultSet(
-                                    SettingsIndexResultSet.KeysChoice.AllExpectLast,
-                                    SettingsIndexResultSet.ValuesChoice.Last,
+                                new SettingsOrdinalResultSet(
+                                    SettingsOrdinalResultSet.KeysChoice.AllExpectLast,
+                                    SettingsOrdinalResultSet.ValuesChoice.Last,
                                     columns
                                 )
                             );

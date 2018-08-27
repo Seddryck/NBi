@@ -366,9 +366,11 @@ namespace NBi.Testing.Unit.Xml.Settings
         [Test]
         public void Serialize_CardinalForFieldSeparator_FieldSeparatorSpecified()
         {
-            var profile = new CsvProfileXml();
-            profile.FieldSeparator = '#';
-            profile.RecordSeparator = "\r";
+            var profile = new CsvProfileXml
+            {
+                FieldSeparator = '#',
+                RecordSeparator = "\r"
+            };
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
@@ -390,9 +392,11 @@ namespace NBi.Testing.Unit.Xml.Settings
         [Test]
         public void Serialize_CrLfForRecordSeparator_RecordSeparatorNotSpecified()
         {
-            var profile = new CsvProfileXml();
-            profile.FieldSeparator = '#';
-            profile.RecordSeparator = "\r\n";
+            var profile = new CsvProfileXml
+            {
+                FieldSeparator = '#',
+                RecordSeparator = "\r\n"
+            };
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
@@ -403,8 +407,10 @@ namespace NBi.Testing.Unit.Xml.Settings
         [Test]
         public void Serialize_TrueForFirstRowHeader_FirstRowHeaderSpecified()
         {
-            var profile = new CsvProfileXml();
-            profile.FirstRowHeader=true;
+            var profile = new CsvProfileXml
+            {
+                FirstRowHeader = true
+            };
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
@@ -415,8 +421,7 @@ namespace NBi.Testing.Unit.Xml.Settings
         [Test]
         public void Serialize_FalseForFirstRowHeader_FirstRowHeaderSpecified()
         {
-            var profile = new CsvProfileXml();
-            profile.FirstRowHeader = false;
+            var profile = new CsvProfileXml { FirstRowHeader = false };
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
@@ -427,8 +432,7 @@ namespace NBi.Testing.Unit.Xml.Settings
         [Test]
         public void Serialize_EmptyForEmpytCell_EmptyCellNotSpecified()
         {
-            var profile = new CsvProfileXml();
-            profile.EmptyCell = "(empty)";
+            var profile = new CsvProfileXml { EmptyCell = "(empty)" };
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
@@ -439,8 +443,7 @@ namespace NBi.Testing.Unit.Xml.Settings
         [Test]
         public void Serialize_StringForEmpytCell_EmptyCellSpecified()
         {
-            var profile = new CsvProfileXml();
-            profile.EmptyCell = "my value";
+            var profile = new CsvProfileXml { EmptyCell = "my value" };
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
@@ -452,9 +455,11 @@ namespace NBi.Testing.Unit.Xml.Settings
         [Test]
         public void Serialize_SemiColumnForFieldSeparator_FieldSeparatorNotSpecified()
         {
-            var profile = new CsvProfileXml();
-            profile.FieldSeparator = ';';
-            profile.RecordSeparator = "#";
+            var profile = new CsvProfileXml
+            {
+                FieldSeparator = ';',
+                RecordSeparator = "#"
+            };
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);

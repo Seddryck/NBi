@@ -18,35 +18,35 @@ namespace NBi.Testing.Acceptance
         {
         }
 
-        public TestSuiteOverrider(string filename, string configFilename) : base()
-        {
-            TestSuiteFinder = new TestSuiteFinderOverrider(filename);
-            ConfigurationFinder = new ConfigurationFinderOverrider(configFilename);
-            ConnectionStringsFinder = new ConnectionStringsFinderOverrider(configFilename);
-        }
+        public TestSuiteOverrider(string filename, string configFilename) 
+            : base(new TestSuiteProviderOverrider(filename)
+                  , new ConfigurationProviderOverrider(configFilename)
+                  , new ConnectionStringsFinderOverrider(configFilename))
+        { }
 
-        internal class TestSuiteFinderOverrider : TestSuiteFinder
+        internal class TestSuiteProviderOverrider : TestSuiteProvider
         {
             private readonly string filename;
-            public TestSuiteFinderOverrider(string filename)
+            public TestSuiteProviderOverrider(string filename)
             {
                 this.filename = filename;
             }
 
-            protected internal override string Find()
+            public override string GetFilename(string path)
             {
-                return @"Acceptance\Resources\" + filename;
+                if (string.IsNullOrEmpty(path))
+                    return @"Acceptance\Resources\" + filename;
+                else
+                    return @"Acceptance\Resources\" + path;
             }
         }
 
-        internal class ConfigurationFinderOverrider : ConfigurationFinder
+        internal class ConfigurationProviderOverrider : ConfigurationProvider
         {
             private readonly string filename;
-            public ConfigurationFinderOverrider(string filename)
-            {
-                this.filename = filename;
-            }
-            protected internal override NBiSection Find()
+            public ConfigurationProviderOverrider(string filename) => this.filename = filename;
+
+            public override NBiSection GetSection()
             {
                 if (!string.IsNullOrEmpty(filename))
                 {

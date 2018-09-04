@@ -186,8 +186,17 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.core">
+      <HintPath>..\Librairies\nunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core.interfaces">
+      <HintPath>..\Librairies\nunit.core.interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.util">
+      <HintPath>..\Librairies\nunit.util.dll</HintPath>
     </Reference>
     <Reference Include="Sprache, Version=2.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Sprache.2.1.2\lib\net45\Sprache.dll</HintPath>
@@ -239,6 +248,7 @@
     <Compile Include="Integration\Core\Query\Performance\SqlPerformanceEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Resolver\AssemblyQueryResolverTest.cs" />
     <Compile Include="Integration\Core\Query\Resolver\ExternalFileQueryResolverTest.cs" />
+    <Compile Include="Integration\NUnit\Runtime\Embed\EngineTest.cs" />
     <Compile Include="Integration\SqlServer\IntegrationService\EtlCatalogRunnerTest.cs" />
     <Compile Include="Integration\Core\Query\Validation\OdbcValidationEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Validation\OleDbValidationEngineTest.cs" />
@@ -461,6 +471,7 @@
     <Compile Include="Unit\NUnit\Member\OrderedConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\MatchPatternConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\SupersetOfConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Runtime\Embed\Result\FlatResultBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Runtime\TestSuiteTest.cs" />
     <Compile Include="Unit\NUnit\Structure\ContainConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Structure\SubsetOfConstraintTest.cs" />
@@ -782,6 +793,13 @@
     <EmbeddedResource Include="Unit\Core\Report\Resources\EmpSalesMonth.rsd" />
     <EmbeddedResource Include="Unit\Core\Report\Resources\SalesEmployees.rsd" />
     <EmbeddedResource Include="Unit\Core\Report\Resources\Currency_List - SProc.rdl" />
+    <None Include="Integration\NUnit\Runtime\Embed\Resources\SmallTestSuite.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <EmbeddedResource Include="Integration\NUnit\Runtime\Embed\Resources\SmallTestSuite.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

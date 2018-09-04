@@ -40,38 +40,55 @@ namespace NBi.NUnit.Runtime
         public static IDictionary<string, ITestVariable> Variables { get; set; }
 
         internal XmlManager TestSuiteManager { get; private set; }
-        internal TestSuiteFinder TestSuiteFinder { get; set; }
+        internal TestSuiteProvider TestSuiteProvider { get; private set; }
         internal ConnectionStringsFinder ConnectionStringsFinder { get; set; }
-        internal ConfigurationFinder ConfigurationFinder { get; set; }
+        internal ConfigurationProvider ConfigurationProvider { get; private set; }
 
         public TestSuite()
-        {
-            TestSuiteManager = new XmlManager();
-            TestSuiteFinder = new TestSuiteFinder();
-            ConnectionStringsFinder = new ConnectionStringsFinder();
-            ConfigurationFinder = new ConfigurationFinder();
-        }
+            : this(new XmlManager(), new TestSuiteProvider(), new ConfigurationProvider(), new ConnectionStringsFinder())
+        { }
 
-        internal TestSuite(XmlManager testSuiteManager, TestSuiteFinder testSuiteFinder)
+        public TestSuite(XmlManager testSuiteManager)
+            : this(testSuiteManager, null, new NullConfigurationProvider(), new ConnectionStringsFinder())
+        { }
+
+        public TestSuite(XmlManager testSuiteManager, TestSuiteProvider testSuiteProvider)
+            : this(testSuiteManager, testSuiteProvider, new NullConfigurationProvider(), new ConnectionStringsFinder())
+        { }
+
+        public TestSuite(TestSuiteProvider testSuiteProvider)
+            : this(new XmlManager(), testSuiteProvider, new NullConfigurationProvider(), null)
+        { }
+
+        public TestSuite(TestSuiteProvider testSuiteProvider, ConfigurationProvider configurationProvider)
+            : this(new XmlManager(), testSuiteProvider, configurationProvider ?? new NullConfigurationProvider(), null)
+        { }
+
+        public TestSuite(TestSuiteProvider testSuiteProvider, ConfigurationProvider configurationProvider, ConnectionStringsFinder connectionStringsFinder)
+            : this(new XmlManager(), testSuiteProvider, configurationProvider ?? new NullConfigurationProvider(), connectionStringsFinder)
+        { }
+
+        protected TestSuite(XmlManager testSuiteManager, TestSuiteProvider testSuiteProvider, ConfigurationProvider configurationProvider, ConnectionStringsFinder connectionStringsFinder)
         {
             TestSuiteManager = testSuiteManager;
-            TestSuiteFinder = testSuiteFinder;
+            TestSuiteProvider = testSuiteProvider;
+            ConfigurationProvider = configurationProvider;
+            ConnectionStringsFinder = connectionStringsFinder;
         }
 
         [Test, TestCaseSource("GetTestCases")]
         public virtual void ExecuteTestCases(TestXml test)
         {
-            if (ConfigurationFinder != null)
+            if (ConfigurationProvider != null)
             {
                 Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceError, string.Format("Loading configuration"));
-                var config = ConfigurationFinder.Find();
+                var config = ConfigurationProvider.GetSection();
                 ApplyConfig(config);
             }
             else
                 Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceError, $"No configuration-finder found.");
 
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Test loaded by {GetOwnFilename()}");
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Test defined in {TestSuiteFinder.Find()}");
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"{Variables.Count()} variables defined, {Variables.Count(x => x.Value.IsEvaluated())} already evaluated.");
 
             if (serviceLocator == null)
@@ -236,14 +253,8 @@ namespace NBi.NUnit.Runtime
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"GetTestCases() has been called");
             //Find configuration of NBi
-            if (ConfigurationFinder != null)
-            {
-                var config = ConfigurationFinder.Find();
-                ApplyConfig(config);
-            }
-            else
-                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceError, string.Format("No configuration-finder found."));
-
+            var config = ConfigurationProvider.GetSection();
+            ApplyConfig(config);
 
             //Find connection strings referecned from an external file
             if (ConnectionStringsFinder != null)
@@ -254,7 +265,7 @@ namespace NBi.NUnit.Runtime
                 Initialize();
 
             //Build the Test suite
-            var testSuiteFilename = TestSuiteFinder.Find();
+            var testSuiteFilename = TestSuiteProvider.GetFilename(config.TestSuiteFilename);
             TestSuiteManager.Load(testSuiteFilename, SettingsFilename, AllowDtdProcessing);
 
             //Build the variables
@@ -382,11 +393,11 @@ namespace NBi.NUnit.Runtime
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Service locator initialized in {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");
 
 
-            if (ConfigurationFinder != null)
+            if (ConfigurationProvider != null)
             {
                 Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceError, string.Format("Loading configuration ..."));
                 stopWatch.Reset();
-                var config = ConfigurationFinder.Find();
+                var config = ConfigurationProvider.GetSection();
                 ApplyConfig(config);
                 Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Configuration loaded in {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");
             }

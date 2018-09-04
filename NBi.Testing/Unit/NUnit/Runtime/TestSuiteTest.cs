@@ -102,8 +102,8 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             testSuiteManagerStub.Setup(mgr => mgr.TestSuite).Returns(testSuiteXml);
 
             //Building a stub for TestSuiteFinder
-            var testSuiteFinderStub = new Mock<TestSuiteFinder>();
-            testSuiteFinderStub.Setup(finder => finder.Find()).Returns(string.Empty);
+            var testSuiteFinderStub = new Mock<TestSuiteProvider>();
+            testSuiteFinderStub.Setup(finder => finder.GetFilename(string.Empty)).Returns(string.Empty);
 
             var testSuite = new TestSuite(testSuiteManagerStub.Object, testSuiteFinderStub.Object);
 
@@ -241,7 +241,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
                 manager.Read(reader);
             }
 
-            var testSuite = new TestSuite(manager, null);
+            var testSuite = new TestSuite(manager);
             var testCases = testSuite.BuildTestCases();
             Assert.That(testCases.Count(), Is.EqualTo(2+2+1+1));
         }

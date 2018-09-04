@@ -19,22 +19,25 @@ namespace NBi.Testing.Acceptance
         }
 
         public TestSuiteOverrider(string filename, string configFilename) 
-            : base(new TestSuiteFinderOverrider(filename)
+            : base(new TestSuiteProviderOverrider(filename)
                   , new ConfigurationProviderOverrider(configFilename)
                   , new ConnectionStringsFinderOverrider(configFilename))
         { }
 
-        internal class TestSuiteFinderOverrider : TestSuiteProvider
+        internal class TestSuiteProviderOverrider : TestSuiteProvider
         {
             private readonly string filename;
-            public TestSuiteFinderOverrider(string filename)
+            public TestSuiteProviderOverrider(string filename)
             {
                 this.filename = filename;
             }
 
             public override string GetFilename(string path)
             {
-                return @"Acceptance\Resources\" + path;
+                if (string.IsNullOrEmpty(path))
+                    return @"Acceptance\Resources\" + filename;
+                else
+                    return @"Acceptance\Resources\" + path;
             }
         }
 

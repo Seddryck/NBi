@@ -484,6 +484,7 @@
     <Compile Include="Unit\Service\TestCaseCollectionManagerTest.cs" />
     <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\ScoreXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\LookupExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\UniqueRowsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\SupersetOfXmlTest.cs" />
@@ -1002,6 +1003,7 @@
     <Content Include="Integration\Core\Resources\query.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Unit\Xml\Resources\ScoreXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\LookupExistsXmlTestSuite.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

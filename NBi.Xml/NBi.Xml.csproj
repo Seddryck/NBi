@@ -58,6 +58,7 @@
     </Compile>
     <Compile Include="Constraints\AbstractConstraintForCollectionXml.cs" />
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
+    <Compile Include="Constraints\ScoreXml.cs" />
     <Compile Include="Constraints\Comparer\CultureSensitiveTextPredicateXml.cs" />
     <Compile Include="Constraints\Comparer\CaseSensitiveTextPredicateXml.cs" />
     <Compile Include="Constraints\Comparer\IntegerXml.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="Constraints\EqualToXml.cs" />
     <Compile Include="Items\AssemblyXml.cs" />
     <Compile Include="Items\AssemblyParameterXml.cs" />
+    <Compile Include="Systems\ScalarXml.cs" />
     <Compile Include="Systems\ResultSetSystemXml.cs" />
     <Compile Include="Systems\MembersXml.cs" />
     <Compile Include="Constraints\SyntacticallyCorrectXml.cs" />

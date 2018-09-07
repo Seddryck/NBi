@@ -27,14 +27,11 @@ namespace NBi.Testing.Unit.NUnit
 
         [SetUp]
         public void SetUp()
-        {
-            
-        }
+        { }
 
         [TearDown]
         public void TearDown()
-        {
-        }
+        { }
 
         #endregion
 
@@ -70,7 +67,6 @@ namespace NBi.Testing.Unit.NUnit
 
             Assert.That(tc, Is.Not.Null);
             builderMockFactory.VerifyAll();
-
         }
 
         [Test]
@@ -117,7 +113,6 @@ namespace NBi.Testing.Unit.NUnit
             Assert.Throws<ArgumentException>(delegate { testCaseFactory.Instantiate(sutXml, ctrXml); });
         }
 
-
         [Test]
         public void IsHandling_QueryFasterThan_True()
         {
@@ -150,7 +145,6 @@ namespace NBi.Testing.Unit.NUnit
 
             Assert.That(tc, Is.Not.Null);
             builderMockFactory.VerifyAll();
-
         }
 
         [Test]
@@ -241,7 +235,6 @@ namespace NBi.Testing.Unit.NUnit
 
             Assert.That(tc, Is.Not.Null);
             builderMockFactory.VerifyAll();
-
         }
 
         [Test]
@@ -533,7 +526,6 @@ namespace NBi.Testing.Unit.NUnit
             Assert.Throws<ArgumentException>(delegate { testCaseFactory.Instantiate(sutXml, ctrXml); });
         }
 
-
         [Test]
         public void IsHandling_QueryExists_False()
         {
@@ -611,7 +603,6 @@ namespace NBi.Testing.Unit.NUnit
             Assert.That(tc, Is.Not.Null);
             builderMockFactory.VerifyAll();
         }
-
 
         [Test]
         public void IsHandling_MembersMatchPattern_True()
@@ -712,7 +703,6 @@ namespace NBi.Testing.Unit.NUnit
 
             Assert.That(tc, Is.Not.Null);
             builderMockFactory.VerifyAll();
-
         }
 
         [Test]
@@ -747,9 +737,7 @@ namespace NBi.Testing.Unit.NUnit
 
             Assert.That(tc, Is.Not.Null);
             builderMockFactory.VerifyAll();
-
         }
-
 
         [Test]
         public void IsHandling_ResultSetReferenceExists_True()
@@ -783,8 +771,6 @@ namespace NBi.Testing.Unit.NUnit
 
             Assert.That(tc, Is.Not.Null);
             builderMockFactory.VerifyAll();
-
         }
-
     }
 }

@@ -39,7 +39,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
         {
             var msg = new ScoreMessageMarkdown();
             msg.Initialize(0.62m, 0.75m, false);
-            Assert.That(msg.RenderMessage(), Is.StringContaining("insufficient"));
+            Assert.That(msg.RenderMessage(), Is.StringContaining("insufficient score"));
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
         {
             var msg = new ScoreMessageMarkdown();
             msg.Initialize(0.98m, 0.75m, true);
-            Assert.That(msg.RenderMessage(), Is.StringContaining("good"));
+            Assert.That(msg.RenderMessage(), Is.StringContaining("good score"));
         }
 
     }

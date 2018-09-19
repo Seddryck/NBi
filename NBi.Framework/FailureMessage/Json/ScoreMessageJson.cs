@@ -28,6 +28,7 @@ namespace NBi.Framework.FailureMessage.Json
 
         public string RenderMessage() => WriteJson(
             new Dictionary<string, object>() {
+                { "timestamp", DateTime.Now },
                 { "success", Result },
                 { "score", Score },
                 { "threshold", Threshold },

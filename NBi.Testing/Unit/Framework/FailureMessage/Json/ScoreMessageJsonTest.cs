@@ -23,7 +23,8 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
         {
             var msg = new ScoreMessageJson();
             msg.Initialize(0.62m, 0.75m, false);
-            Assert.That(msg.RenderMessage(), Is.EqualTo("{\"success\":false,\"score\":0.62,\"threshold\":0.75}"));
+            Assert.That(msg.RenderMessage(), Is.StringEnding("\"success\":false,\"score\":0.62,\"threshold\":0.75}"));
+            Assert.That(msg.RenderMessage(), Is.StringStarting("{\"timestamp\":\"20"));
         }
 
         [Test]
@@ -31,7 +32,8 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown
         {
             var msg = new ScoreMessageJson();
             msg.Initialize(0.98m, 0.75m, true);
-            Assert.That(msg.RenderMessage(), Is.EqualTo("{\"success\":true,\"score\":0.98,\"threshold\":0.75}"));
+            Assert.That(msg.RenderMessage(), Is.StringEnding("\"success\":true,\"score\":0.98,\"threshold\":0.75}"));
+            Assert.That(msg.RenderMessage(), Is.StringStarting("{\"timestamp\":\"20"));
         }
 
     }

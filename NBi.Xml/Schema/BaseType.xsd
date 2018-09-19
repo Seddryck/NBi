@@ -827,6 +827,7 @@
                   </xs:complexType>
                 </xs:element>
                 <xs:element name="resultSet" type ="resultSet-type"/>
+                <xs:element name="scalar" type ="scalar-type"/>
                 <xs:element name="members" type="members-type"/>
                 <xs:element name="structure">
                   <xs:complexType>
@@ -1078,6 +1079,7 @@
                 <xs:element name="single-row" type="filter-base-type"/>
                 <xs:element name="unique-rows" type="unique-rows-type"/>
                 <xs:element name="lookup-exists" type="lookup-exists-type"/>
+                <xs:element name="score" type="score-type"/>
               </xs:choice>
             </xs:complexType>
           </xs:element>
@@ -1270,6 +1272,9 @@
       </xs:simpleType>
     </xs:attribute>
   </xs:complexType>
+  <xs:complexType name="score-type">
+    <xs:attribute name="threshold" use="optional"/>
+  </xs:complexType>
   <xs:complexType name="contained-in-type">
     <xs:sequence>
       <xs:choice>
@@ -1318,6 +1323,13 @@
       <xs:element name="alteration" type="alteration-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
     <xs:attribute name="file" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="scalar-type">
+    <xs:sequence>
+      <xs:choice>
+        <xs:element name="query-scalar" type="query-scalar-type"/>
+      </xs:choice>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="alteration-type">
     <xs:sequence>

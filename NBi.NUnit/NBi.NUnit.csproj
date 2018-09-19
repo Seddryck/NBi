@@ -61,6 +61,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Builder\AbstractScalarBuilder.cs" />
     <Compile Include="Builder\AbstractResultSetBuilder.cs" />
     <Compile Include="Builder\AbstractMembersBuilder.cs" />
     <Compile Include="Builder\AbstractDataTypeBuilder.cs" />
@@ -68,10 +69,12 @@
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionNonQueryBuilder.cs" />
+    <Compile Include="Builder\Helper\ScalarHelper.cs" />
     <Compile Include="Builder\Helper\ResultSetSystemHelper.cs" />
     <Compile Include="Builder\Helper\ScalarResolverArgsBuilder.cs" />
     <Compile Include="Builder\Helper\ResultSetResolverArgsBuilder.cs" />
     <Compile Include="Builder\Helper\QueryResolverArgsBuilder.cs" />
+    <Compile Include="Builder\ScalarScoreBuilder.cs" />
     <Compile Include="Builder\ResultSetSingleRowBuilder.cs" />
     <Compile Include="Builder\ResultSetSomeRowsBuilder.cs" />
     <Compile Include="Builder\ResultSetLookupExistsBuilder.cs" />
@@ -129,6 +132,7 @@
     <Compile Include="Query\EvaluateRowsConstraint.cs" />
     <Compile Include="Query\MatchPatternConstraint.cs" />
     <Compile Include="ResultSetComparison\SupersetOfConstraint.cs" />
+    <Compile Include="Scoring\ScoreConstraint.cs" />
     <Compile Include="Structure\AbstractCollectionConstraint.cs" />
     <Compile Include="Structure\AbstractStructureConstraint.cs" />
     <Compile Include="Structure\EquivalentToConstraint.cs" />

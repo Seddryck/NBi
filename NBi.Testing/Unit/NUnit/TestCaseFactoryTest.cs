@@ -17,6 +17,7 @@ using NBi.Core.Structure.Relational;
 using System.Collections.Generic;
 using NBi.Core.Variable;
 using NBi.Core.Injection;
+using NBi.NUnit.Scoring;
 
 namespace NBi.Testing.Unit.NUnit
 {
@@ -772,5 +773,29 @@ namespace NBi.Testing.Unit.NUnit
             Assert.That(tc, Is.Not.Null);
             builderMockFactory.VerifyAll();
         }
+
+        [Test]
+        public void Instantiate_ScalarScoreExists_TestCase()
+        {
+            var sutXml = new ScalarXml();
+            var ctrXml = new ScoreXml();
+
+            var builderMockFactory = new Mock<ITestCaseBuilder>();
+            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, NBi.Core.Configuration.Configuration.Default, It.IsAny<Dictionary<string, ITestVariable>>(), It.IsAny<ServiceLocator>()));
+            builderMockFactory.Setup(b => b.Build());
+            builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(1);
+            builderMockFactory.Setup(b => b.GetConstraint()).Returns(new ScoreConstraint(1m));
+            var builder = builderMockFactory.Object;
+
+            var testCaseFactory = new TestCaseFactory();
+            testCaseFactory.Register(typeof(ScalarXml), typeof(ScoreXml), builder);
+
+            var tc = testCaseFactory.Instantiate(sutXml, ctrXml);
+
+            Assert.That(tc, Is.Not.Null);
+            builderMockFactory.VerifyAll();
+
+        }
+
     }
 }

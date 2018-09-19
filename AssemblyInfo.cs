@@ -23,6 +23,6 @@ using System.Runtime.CompilerServices;
 //
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.17")]
-[assembly: AssemblyFileVersion("1.17")]
-[assembly: AssemblyInformationalVersion("1.17")]
+[assembly: AssemblyVersion("1.19")]
+[assembly: AssemblyFileVersion("1.19")]
+[assembly: AssemblyInformationalVersion("1.19")]

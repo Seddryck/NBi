@@ -69,6 +69,10 @@ namespace NBi.NUnit.Scoring
         {
             Actual = value;
             Success = Actual >= Threshold;
+
+            if (Success && Configuration?.FailureReportProfile.Mode == FailureReportMode.Always)
+                Assert.Pass(Failure.RenderMessage());
+
             return Success;
         }
 

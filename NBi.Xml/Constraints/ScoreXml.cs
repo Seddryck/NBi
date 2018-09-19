@@ -23,6 +23,6 @@ namespace NBi.Xml.Constraints
         }
 
         [XmlAttribute("threshold")]
-        public double Threshold { get; set; }
+        public virtual decimal Threshold { get; set; }
     }
 }

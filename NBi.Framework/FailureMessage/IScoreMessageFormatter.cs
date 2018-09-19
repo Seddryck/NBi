@@ -11,6 +11,8 @@ namespace NBi.Framework.FailureMessage
 {
     public interface IScoreMessageFormatter
     {
+
+        void Initialize(decimal score, decimal threshold, bool result);
         string RenderExpected();
         string RenderActual();
         string RenderMessage();

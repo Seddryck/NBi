@@ -35,7 +35,7 @@ namespace NBi.NUnit.Builder.Helper
         public IScalarResolver<decimal> InstantiateResolver(ScalarXml scalarXml)
         {
             var argsBuilder = new ScalarResolverArgsBuilder(serviceLocator);
-            argsBuilder.Setup(scalarXml);
+            argsBuilder.Setup(scalarXml.BaseItem);
             argsBuilder.Setup(scalarXml.Settings);
             argsBuilder.Setup(variables);
             argsBuilder.Build();

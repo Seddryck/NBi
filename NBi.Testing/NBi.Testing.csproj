@@ -387,8 +387,10 @@
     <Compile Include="Unit\Core\Variable\TestVariableFactoryTest.cs" />
     <Compile Include="Unit\Core\Xml\XPathEngineTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\DataRowsMessageJsonTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Json\ScoreMessageJsonTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\TableHelperJsonTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Markdown\DataRowsMessageMardownTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Markdown\ScoreMessageMardownTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Markdown\ItemsMessageMardownTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Common\CellFormatterTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Common\ColumnPropertiesFormatterTest.cs" />
@@ -425,6 +427,7 @@
     <Compile Include="Unit\GenbiL\Parser\GrammarParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\VariableParserTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetAllRowsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ScalarScoreBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetSomeRowsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetLookupExistsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetUniqueRowsBuilderTest.cs" />
@@ -470,6 +473,7 @@
     <Compile Include="Unit\NUnit\ResultSetComparison\SupersetOfConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Runtime\Embed\Result\FlatResultBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Runtime\TestSuiteTest.cs" />
+    <Compile Include="Unit\NUnit\Scoring\ScoreConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Structure\ContainConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Structure\SubsetOfConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Structure\EquivalentToConstraintTest.cs" />

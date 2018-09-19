@@ -31,7 +31,7 @@ namespace NBi.Xml.Items
         }
 
         [XmlText]
-        public string InlineQuery
+        public virtual string InlineQuery
         {
             get { return inlineQuery; }
             set { inlineQuery = value; }

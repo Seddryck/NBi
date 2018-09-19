@@ -1,27 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using NBi.Core.Query;
 using NBi.Xml.Constraints;
-using NBi.Xml.Items;
 using NBi.Xml.Systems;
-using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Resolver;
-using NBi.Core.ResultSet.Alteration;
-using NBi.Core.Evaluate;
-using NBi.Core.Calculation;
 using NBi.NUnit.Builder.Helper;
-using NBi.Core.Query.Resolver;
-using NBi.Core.Query.Command;
-using NBi.Core.Scalar.Caster;
-using NBi.Core.Scalar.Conversion;
-using NBi.Core.ResultSet.Conversion;
-using NBi.Core.Transformation;
 using NBi.Core.Configuration;
 using NBi.Core.Injection;
 using NBi.Core.Variable;
-using NBi.Extensibility.Query;
 using NBi.Core.Scalar.Resolver;
 
 namespace NBi.NUnit.Builder
@@ -51,7 +35,7 @@ namespace NBi.NUnit.Builder
                 SystemUnderTest = InstantiateSystemUnderTest((ScalarXml)SystemUnderTestXml);
         }
 
-        protected virtual IScalarResolver InstantiateSystemUnderTest(ScalarXml scalarXml) => Helper.InstantiateResolver(scalarXml));
+        protected virtual IScalarResolver<decimal> InstantiateSystemUnderTest(ScalarXml scalarXml) => Helper.InstantiateResolver(scalarXml);
 
     }
 }

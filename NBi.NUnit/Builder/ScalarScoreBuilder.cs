@@ -19,10 +19,11 @@ using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet.Equivalence;
 using NBi.NUnit.Builder.Helper;
 using NBi.Xml.Settings;
+using NBi.NUnit.Scoring;
 
 namespace NBi.NUnit.Builder
 {
-    class ScalarScoreBuilder : AbstractResultSetBuilder
+    class ScalarScoreBuilder : AbstractScalarBuilder
     {
         protected ScoreXml ConstraintXml { get; set; }
 
@@ -42,9 +43,7 @@ namespace NBi.NUnit.Builder
             Constraint = InstantiateConstraint();
         }
 
-        protected NBiConstraint InstantiateConstraint()
-        {
-            return new ScoreConstraint(ConstraintXml.Threshold);
-        }
+        protected NBiConstraint InstantiateConstraint() => new ScoreConstraint(ConstraintXml.Threshold);
+        
     }
 }

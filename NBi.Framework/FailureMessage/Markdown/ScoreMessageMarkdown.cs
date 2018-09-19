@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework.FailureMessage.Json
+namespace NBi.Framework.FailureMessage.Markdown
 {
     class ScoreMessageMarkdown : IScoreMessageFormatter
     {
@@ -26,7 +26,7 @@ namespace NBi.Framework.FailureMessage.Json
         public string RenderExpected() => $"threshold was set to {Threshold}";
         public string RenderActual() => $"score is {Score}";
 
-        public string RenderMessage() => $"{(Result ? "A good " : "An insufficient ")} score of {Score} when the threshold was set {Threshold}.";
+        public string RenderMessage() => $"{(Result ? "A good " : "An insufficient ")} score of {Score} was received when the threshold was set {Threshold}.";
 
         private string WriteJson(IDictionary<string, decimal> values)
         {

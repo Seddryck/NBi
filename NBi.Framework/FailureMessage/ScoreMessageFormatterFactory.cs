@@ -14,7 +14,7 @@ namespace NBi.Framework.FailureMessage
 {
     public class ScoreMessageFormatterFactory
     {
-        public IScoreMessageFormatter Instantiate()
+        public IScoreMessageFormatter Instantiate(IFailureReportProfile profile)
         {
             switch (profile.Format)
             {

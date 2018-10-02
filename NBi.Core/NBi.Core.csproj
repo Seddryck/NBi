@@ -640,6 +640,7 @@
     <Compile Include="Transformation\LanguageType.cs" />
     <Compile Include="Transformation\TransformerFactory.cs" />
     <Compile Include="Transformation\TransformationProvider.cs" />
+    <Compile Include="Variable\OverridenTestVariable.cs" />
     <Compile Include="Variable\TestVariable.cs" />
     <Compile Include="Variable\ITestVariable.cs" />
     <Compile Include="Variable\TestVariableBuilder.cs" />

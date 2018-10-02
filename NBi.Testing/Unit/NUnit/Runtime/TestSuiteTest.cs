@@ -5,7 +5,9 @@ using System.Linq;
 using System.Reflection;
 using Moq;
 using NBi.Core;
+using NBi.Core.ResultSet;
 using NBi.NUnit.Runtime;
+using NBi.NUnit.Runtime.Configuration;
 using NBi.Xml;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
@@ -244,6 +246,19 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             var testSuite = new TestSuite(manager);
             var testCases = testSuite.BuildTestCases();
             Assert.That(testCases.Count(), Is.EqualTo(2+2+1+1));
+        }
+
+        [Test]
+        public void ApplyConfig_OneOverridenVariable_Set()
+        {
+            var testSuite = new TestSuite(new XmlManager());
+            var config = new NBiSection();
+            config.Variables.Add(new VariableElement("myVar", "123.12", ColumnType.Numeric));
+
+            testSuite.ApplyConfig(config);
+            Assert.That(TestSuite.OverridenVariables.Count, Is.EqualTo(1));
+            Assert.That(TestSuite.OverridenVariables.ContainsKey("myVar"), Is.True);
+            Assert.That(TestSuite.OverridenVariables["myVar"], Is.EqualTo(123.12));
         }
 
     }

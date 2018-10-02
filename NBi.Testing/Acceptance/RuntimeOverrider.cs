@@ -67,6 +67,7 @@ namespace NBi.Testing.Acceptance
 
         [Test]
         [TestCase("QueryEqualToResultSetProvider.nbits")]
+        [TestCase("Variable.nbits")]
         [Category("Acceptance")]
         public override void RunPositiveTestSuiteWithConfig(string filename)
         {

@@ -21,6 +21,7 @@ using System.Collections.ObjectModel;
 using Ninject;
 using NBi.Core.Injection;
 using NBi.Core.Configuration.Extension;
+using NBi.Core.Scalar.Caster;
 
 namespace NBi.NUnit.Runtime
 {
@@ -38,6 +39,8 @@ namespace NBi.NUnit.Runtime
         public string SettingsFilename { get; set; }
         public IConfiguration Configuration { get; set; }
         public static IDictionary<string, ITestVariable> Variables { get; set; }
+
+        public static IDictionary<string, object> OverridenVariables { get; set; }
 
         internal XmlManager TestSuiteManager { get; private set; }
         internal TestSuiteProvider TestSuiteProvider { get; private set; }
@@ -269,12 +272,12 @@ namespace NBi.NUnit.Runtime
             TestSuiteManager.Load(testSuiteFilename, SettingsFilename, AllowDtdProcessing);
 
             //Build the variables
-            Variables = BuildVariables(TestSuiteManager.TestSuite.Variables);
+            Variables = BuildVariables(TestSuiteManager.TestSuite.Variables, OverridenVariables);
 
             return BuildTestCases();
         }
 
-        private IDictionary<string, ITestVariable> BuildVariables(IEnumerable<GlobalVariableXml> variables)
+        private IDictionary<string, ITestVariable> BuildVariables(IEnumerable<GlobalVariableXml> variables, IDictionary<string, object> overridenVariables)
         {
             var instances = new Dictionary<string, ITestVariable>();
             var resolverFactory = serviceLocator.GetScalarResolverFactory();
@@ -283,23 +286,32 @@ namespace NBi.NUnit.Runtime
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"{variables.Count()} variable{(variables.Count() > 1 ? "s" : string.Empty)} defined in the test-suite.");
             foreach (var variable in variables)
             {
-                var builder = new ScalarResolverArgsBuilder(serviceLocator);
-                builder.Setup(instances); //Pass the catalog that we're building to itself
-                if (variable.Script != null)
-                    builder.Setup(variable.Script);
-                else if (variable.QueryScalar != null)
+                if (overridenVariables.ContainsKey(variable.Name))
                 {
-                    variable.QueryScalar.Settings = TestSuiteManager.TestSuite.Settings;
-                    variable.QueryScalar.Default = TestSuiteManager.TestSuite.Settings.GetDefault(Xml.Settings.SettingsXml.DefaultScope.Variable);
-                    builder.Setup(variable.QueryScalar);
+                    var instance = new OverridenTestVariable(variable.Name, overridenVariables[variable.Name]);
+                    instances.Add(variable.Name, instance);
                 }
-                builder.Build();
-                var args = builder.GetArgs();
+                else
+                {
+                    var builder = new ScalarResolverArgsBuilder(serviceLocator);
+                    builder.Setup(instances); //Pass the catalog that we're building to itself
+                    if (variable.Script != null)
+                        builder.Setup(variable.Script);
+                    else if (variable.QueryScalar != null)
+                    {
+                        variable.QueryScalar.Settings = TestSuiteManager.TestSuite.Settings;
+                        variable.QueryScalar.Default = TestSuiteManager.TestSuite.Settings.GetDefault(Xml.Settings.SettingsXml.DefaultScope.Variable);
+                        builder.Setup(variable.QueryScalar);
+                    }
+                    builder.Build();
+                    var args = builder.GetArgs();
 
-                var resolver = resolverFactory.Instantiate<object>(args);
+                    var resolver = resolverFactory.Instantiate<object>(args);
 
-                var instance = factory.Instantiate(resolver);
-                instances.Add(variable.Name, instance);
+                    var instance = factory.Instantiate(resolver);
+                    instances.Add(variable.Name, instance);
+                }
+                
             }
 
             return instances;
@@ -382,6 +394,8 @@ namespace NBi.NUnit.Runtime
             setupConfiguration.LoadExtensions(notableTypes);
             setupConfiguration.LoadFailureReportProfile(config.FailureReportProfile);
             Configuration = setupConfiguration;
+
+            OverridenVariables = config.Variables.Cast<VariableElement>().ToDictionary(x => x.Name, y => new CasterFactory().Instantiate(y.Type).Execute(y.Value));
         }
 
         private static ServiceLocator serviceLocator;

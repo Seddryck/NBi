@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="system-under-test">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
+  </settings>
+  <variables>
+    <variable name="myVar">
+      <script>new DateTime(DateTime.Now.Year+1, 1, 1)</script>
+    </variable>
+  </variables>
+	<test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">
+		<system-under-test>
+      <resultSet>
+        <query>
+          <parameter name="var">@myVar</parameter>
+          select @var;
+        </query>
+      </resultSet>
+		</system-under-test>
+		<assert>
+      <all-rows>
+        <predicate operand="#0" type="dateTime">
+          <less-than>2010-01-01</less-than>
+        </predicate>
+      </all-rows>
+		</assert>
+	</test>
+</testSuite>

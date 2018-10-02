@@ -71,6 +71,8 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="CategoryHelper.cs" />
+    <Compile Include="Configuration\VariableElement.cs" />
+    <Compile Include="Configuration\VariableCollection.cs" />
     <Compile Include="Embed\Engine.cs" />
     <Compile Include="Embed\Filter\NBiNameFilter.cs" />
     <Compile Include="Embed\Filter\PropertyFilter.cs" />

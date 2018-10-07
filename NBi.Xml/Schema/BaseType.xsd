@@ -1483,6 +1483,7 @@
           <xs:choice>
             <xs:element name="script" type="script-type"/>
             <xs:element name="query-scalar" type="query-scalar-type"/>
+            <xs:element name="environment" type="environment-type"/>
           </xs:choice>
           <xs:attribute name="name" type="xs:string" use="required" />
         </xs:complexType>
@@ -1499,6 +1500,13 @@
             </xs:restriction>
           </xs:simpleType>
         </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="environment-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" use="required"/>
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>

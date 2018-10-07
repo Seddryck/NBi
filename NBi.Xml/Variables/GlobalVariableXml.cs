@@ -19,5 +19,8 @@ namespace NBi.Xml.Variables
         [XmlElement("query-scalar")]
         public QueryScalarXml QueryScalar { get; set; }
 
+        [XmlElement("environment")]
+        public EnvironmentXml Environment { get; set; }
+
     }
 }

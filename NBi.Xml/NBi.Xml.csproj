@@ -139,6 +139,7 @@
     <Compile Include="Items\Alteration\Conversion\TextToDateTimeConverterXml.cs" />
     <Compile Include="Items\Alteration\Transformation\LightTransformXml.cs" />
     <Compile Include="Items\Calculation\CombinationPredicateXml.cs" />
+    <Compile Include="Items\EnvironmentXml.cs" />
     <Compile Include="Items\Calculation\Grouping\GroupByXml.cs" />
     <Compile Include="Items\Calculation\Ranking\BaseRankXml.cs" />
     <Compile Include="Items\Calculation\Ranking\RankingXml.cs" />

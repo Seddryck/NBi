@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="system-under-test">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
+  </settings>
+  <variables>
+    <variable name="myEnvVar">
+      <environment name="FirstJanuary2015"/>
+    </variable>
+  </variables>
+	<test name="Get content of environment variable into a test variable" uid="0001">
+		<system-under-test>
+      <resultSet>
+        <query>
+          <parameter name="var">@myEnvVar</parameter>
+          select @var;
+        </query>
+      </resultSet>
+		</system-under-test>
+		<assert>
+      <equalTo behavior="single-row">
+        <column index="0" type="dateTime" role="value"/>
+        <resultSet>
+          <row>
+            <cell>2015-01-01</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+		</assert>
+	</test>
+</testSuite>

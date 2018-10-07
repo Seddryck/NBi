@@ -524,6 +524,8 @@
     <Compile Include="ProgressStatusHandler.cs" />
     <Compile Include="ProgressStatusEventArgs.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Scalar\Resolver\EnvironmentScalarResolverArgs.cs" />
+    <Compile Include="Scalar\Resolver\EnvironmentScalarResolver.cs" />
     <Compile Include="Scalar\ThreeStateBoolean.cs" />
     <Compile Include="ResultSet\Uniqueness\ResultOccurenceUniqueRows.cs" />
     <Compile Include="Scalar\Conversion\BaseConverter.cs" />

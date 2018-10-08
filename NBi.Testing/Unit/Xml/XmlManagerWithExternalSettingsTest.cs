@@ -36,12 +36,12 @@ namespace NBi.Testing.Unit.Xml
             //defaults
             Assert.That(manager.TestSuite.Settings.Defaults, Is.Not.Null);
             Assert.That(manager.TestSuite.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest), Is.Not.Null);
-            Assert.That(manager.TestSuite.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest).ConnectionString, Is.EqualTo("My Sut Default Connection String"));
+            Assert.That(manager.TestSuite.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest).ConnectionString.Inline, Is.EqualTo("My Sut Default Connection String"));
 
             //references
             Assert.That(manager.TestSuite.Settings.References, Is.Not.Null);
             Assert.That(manager.TestSuite.Settings.GetReference("MyReference"), Is.Not.Null);
-            Assert.That(manager.TestSuite.Settings.GetReference("MyReference").ConnectionString, Is.EqualTo("My Reference Connection String"));
+            Assert.That(manager.TestSuite.Settings.GetReference("MyReference").ConnectionString.Inline, Is.EqualTo("My Reference Connection String"));
         }
 
         [Test]
@@ -56,12 +56,12 @@ namespace NBi.Testing.Unit.Xml
             //defaults
             Assert.That(manager.TestSuite.Settings.Defaults, Is.Not.Null);
             Assert.That(manager.TestSuite.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest), Is.Not.Null);
-            Assert.That(manager.TestSuite.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest).ConnectionString, Is.EqualTo("My Sut Default Connection String"));
+            Assert.That(manager.TestSuite.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest).ConnectionString.Inline, Is.EqualTo("My Sut Default Connection String"));
 
             //references
             Assert.That(manager.TestSuite.Settings.References, Is.Not.Null);
             Assert.That(manager.TestSuite.Settings.GetReference("MyReference"), Is.Not.Null);
-            Assert.That(manager.TestSuite.Settings.GetReference("MyReference").ConnectionString, Is.EqualTo("My Reference Connection String"));
+            Assert.That(manager.TestSuite.Settings.GetReference("MyReference").ConnectionString.Inline, Is.EqualTo("My Reference Connection String"));
         }
 
         [Test]

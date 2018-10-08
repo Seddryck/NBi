@@ -82,7 +82,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXmlStubFactory = new Mock<SupersetOfXml>();
             ctrXmlStubFactory.Setup(i => i.GetCommand()).Returns(new SqlCommand());
-            ctrXmlStubFactory.SetupGet(i => i.BaseItem).Returns(new QueryXml() { InlineQuery = "select * from Table;" });
+            ctrXmlStubFactory.SetupGet(i => i.BaseItem).Returns(new QueryXml() { InlineQuery = "select * from Table;", ConnectionString = "connStr" });
             ctrXmlStubFactory.SetupGet(i => i.Settings).Returns(SettingsXml.Empty);
             var ctrXml = ctrXmlStubFactory.Object;
 
@@ -106,7 +106,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXmlStubFactory = new Mock<SupersetOfXml>();
             ctrXmlStubFactory.Setup(i => i.GetCommand()).Returns(new SqlCommand());
-            ctrXmlStubFactory.SetupGet(i => i.BaseItem).Returns(new QueryXml() { InlineQuery = "select * from Table;" });
+            ctrXmlStubFactory.SetupGet(i => i.BaseItem).Returns(new QueryXml() { InlineQuery = "select * from Table;", ConnectionString = "connStr" });
             ctrXmlStubFactory.SetupGet(i => i.Settings).Returns(SettingsXml.Empty);
             ctrXmlStubFactory.SetupGet(i => i.Tolerance).Returns("10");
             var ctrXml = ctrXmlStubFactory.Object;
@@ -158,7 +158,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXmlStubFactory = new Mock<SupersetOfXml>();
             ctrXmlStubFactory.Setup(i => i.GetCommand()).Returns(new SqlCommand());
-            ctrXmlStubFactory.SetupGet(i => i.BaseItem).Returns(new QueryXml() { InlineQuery = "select * from Table;" });
+            ctrXmlStubFactory.SetupGet(i => i.BaseItem).Returns(new QueryXml() { InlineQuery = "select * from Table;", ConnectionString = "connStr" });
             ctrXmlStubFactory.SetupGet(i => i.Settings).Returns(SettingsXml.Empty);
             var ctrXml = ctrXmlStubFactory.Object;
 
@@ -180,7 +180,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXmlStubFactory = new Mock<SupersetOfXml>();
             ctrXmlStubFactory.Setup(i => i.GetCommand()).Returns(new SqlCommand());
-            ctrXmlStubFactory.SetupGet(i => i.BaseItem).Returns(new QueryXml() { InlineQuery = "select * from Table;" });
+            ctrXmlStubFactory.SetupGet(i => i.BaseItem).Returns(new QueryXml() { InlineQuery = "select * from Table;", ConnectionString = "connStr" });
             ctrXmlStubFactory.SetupGet(i => i.Settings).Returns(SettingsXml.Empty);
             var ctrXml = ctrXmlStubFactory.Object;
 

@@ -10,7 +10,14 @@ namespace NBi.Xml.Settings
         public SettingsXml.DefaultScope ApplyTo { get; set; }
 
         [XmlElement ("connectionString")]
-        public string ConnectionString { get; set; }
+        public ConnectionStringXml ConnectionString { get; set; }
+
+        [XmlIgnore]
+        public bool ConnectionStringSpecified
+        {
+            get { return !string.IsNullOrEmpty(ConnectionString.Inline) || ConnectionString.Environment!=null; }
+            set { return; }
+        }
 
         [XmlElement("parameter")]
         public List<QueryParameterXml> Parameters { get; set; }
@@ -45,11 +52,14 @@ namespace NBi.Xml.Settings
 
         public DefaultXml()
         {
+            ConnectionString = new ConnectionStringXml();
             Parameters = new List<QueryParameterXml>();
             Variables = new List<QueryTemplateVariableXml>();
             Report = new ReportBaseXml();
             Etl = new EtlBaseXml();
         }
+
+
 
     }
 }

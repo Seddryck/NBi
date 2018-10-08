@@ -48,9 +48,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
         [Test]
         public void GetConstraint_Build_CorrectConstraint()
         {
-            var sutXml = new MembersXml();
-            var item = new HierarchyXml();
-            sutXml.Item = item;
+            var sutXml = new MembersXml() { Item = new HierarchyXml() { ConnectionString = "connStr" } };
             var ctrXml = new OrderedXml();
 
             var discoFactoStubFactory = new Mock<DiscoveryRequestFactory>();
@@ -87,7 +85,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             item.Caption = "hierarchy";
 
             var defXml = new DefaultXml();
-            defXml.ConnectionString = "connectionString-default";
+            defXml.ConnectionString = new ConnectionStringXml() { Inline = "connectionString-default" };
             sutXml.Default = defXml;
 
             var ctrXml = new OrderedXml();

@@ -21,11 +21,11 @@ namespace NBi.Service
             foreach (var s in settings)
             {
                 if (s.Name.StartsWith("Default - System-under-test"))
-                    this.settingsXml.Defaults.Add(new DefaultXml { ApplyTo = SettingsXml.DefaultScope.SystemUnderTest, ConnectionString = s.Value });
+                    this.settingsXml.Defaults.Add(new DefaultXml { ApplyTo = SettingsXml.DefaultScope.SystemUnderTest, ConnectionString = new ConnectionStringXml() { Inline = s.Value } });
                 else if (s.Name.StartsWith("Default - Assert"))
-                    this.settingsXml.Defaults.Add(new DefaultXml { ApplyTo = SettingsXml.DefaultScope.Assert, ConnectionString = s.Value });
+                    this.settingsXml.Defaults.Add(new DefaultXml { ApplyTo = SettingsXml.DefaultScope.Assert, ConnectionString = new ConnectionStringXml() { Inline = s.Value } });
                 else
-                    this.settingsXml.References.Add(new ReferenceXml() { Name = s.Name.Split(' ')[2], ConnectionString = s.Value });
+                    this.settingsXml.References.Add(new ReferenceXml() { Name = s.Name.Split(' ')[2], ConnectionString = new ConnectionStringXml() { Inline = s.Value } });
             }
         }
 
@@ -41,19 +41,22 @@ namespace NBi.Service
 
         public IEnumerable<Setting> GetSettings()
         {
-            var settings = new List<Setting>();
-            settings.Add(new Setting { Name = "Default - System-under-test" });
-            settings.Add(new Setting { Name = "Default - Assert" });
+            var settings = new List<Setting>()
+            {
+                new Setting { Name = "Default - System-under-test" },
+                new Setting { Name = "Default - Assert" },
+            };
+
             foreach (var s in settingsXml.Defaults)
             {
                 if (s.ApplyTo == SettingsXml.DefaultScope.SystemUnderTest)
-                    settings[0].Value = s.ConnectionString;
+                    settings[0].Value = s.ConnectionString.Inline;
                 else
-                    settings[1].Value = s.ConnectionString;
+                    settings[1].Value = s.ConnectionString.Inline;
             }
             foreach (var s in settingsXml.References)
             {
-                settings.Add(new Setting { Name = "Reference - " + s.Name, Value = s.ConnectionString });
+                settings.Add(new Setting { Name = "Reference - " + s.Name, Value = s.ConnectionString.Inline });
             }
             return settings;
         }

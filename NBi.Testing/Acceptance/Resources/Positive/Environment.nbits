@@ -4,6 +4,16 @@
     <default apply-to="system-under-test">
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </default>
+    <default apply-to="assert">
+      <connectionString>
+        <environment name="ConnStrAdvWorksCloud"/>
+      </connectionString>
+    </default>
+    <reference name="refConnStr">
+      <connectionString>
+        <environment name="ConnStrAdvWorksCloud"/>
+      </connectionString>
+    </reference>
   </settings>
   <variables>
     <variable name="myEnvVar">
@@ -30,4 +40,36 @@
       </equalTo>
 		</assert>
 	</test>
+  <test name="Get content of environment variable for the connection string (from default)" uid="0002">
+    <system-under-test>
+      <resultSet>
+        <query>
+          select 2812;
+        </query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <equalTo behavior="single-row">
+        <query>
+          select 2812;
+        </query>
+      </equalTo>
+    </assert>
+  </test>
+  <test name="Get content of environment variable for the connection string (from reference)" uid="0002">
+    <system-under-test>
+      <resultSet>
+        <query>
+          select 2812;
+        </query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <equalTo behavior="single-row">
+        <query connectionString="@refConnStr">
+          select 2812;
+        </query>
+      </equalTo>
+    </assert>
+  </test>
 </testSuite>

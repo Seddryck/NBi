@@ -21,6 +21,7 @@ namespace NBi.Testing.Acceptance
 
             //Set environment variable
             Environment.SetEnvironmentVariable("FirstJanuary2015", "2015-01-01", EnvironmentVariableTarget.User);
+            Environment.SetEnvironmentVariable("ConnStrAdvWorksCloud", ConnectionStringReader.GetSqlClient(), EnvironmentVariableTarget.User);
         }
 
         [TestFixtureTearDown]
@@ -28,6 +29,8 @@ namespace NBi.Testing.Acceptance
         {
             //Delete environment variable
             Environment.SetEnvironmentVariable("FirstJanuary2015", null, EnvironmentVariableTarget.User);
+            Environment.SetEnvironmentVariable("ConnStrAdvWorksCloud", null, EnvironmentVariableTarget.User);
+
         }
 
         //By Acceptance Test Suite (file) create a Test Case

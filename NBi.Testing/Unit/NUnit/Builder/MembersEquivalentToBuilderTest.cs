@@ -51,14 +51,15 @@ namespace NBi.Testing.Unit.NUnit.Builder
         [Test]
         public void GetConstraint_BuildWithQuery_CorrectConstraint()
         {
-            var sutXml = new MembersXml();
-            var item = new HierarchyXml();
-            sutXml.Item = item;
-            var ctrXml = new EquivalentToXml();
-            ctrXml.Query = new QueryXml();
-            ctrXml.Query.ConnectionString = "Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly";
-            ctrXml.Query.InlineQuery = "select * from one-column-table";
-
+            var sutXml = new MembersXml() { Item = new HierarchyXml() { ConnectionString = "connStr" } };
+            var ctrXml = new EquivalentToXml()
+            {
+                Query = new QueryXml()
+                {
+                    ConnectionString = "Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly",
+                    InlineQuery = "select * from one-column-table"
+                }
+            };
             var discoFactoStubFactory = new Mock<DiscoveryRequestFactory>();
             discoFactoStubFactory.Setup(dfs =>
                 dfs.Build(
@@ -84,11 +85,8 @@ namespace NBi.Testing.Unit.NUnit.Builder
         [Test]
         public void GetConstraint_BuildWithItems_CorrectConstraint()
         {
-            var sutXml = new MembersXml();
-            var item = new HierarchyXml();
-            sutXml.Item = item;
-            var ctrXml = new EquivalentToXml();
-            ctrXml.Items = new List<string>() { "Hello", "World" };
+            var sutXml = new MembersXml() { Item = new HierarchyXml() { ConnectionString = "connStr" } };
+            var ctrXml = new EquivalentToXml() { Items = new List<string>() { "Hello", "World" } };
 
             var discoFactoStubFactory = new Mock<DiscoveryRequestFactory>();
             discoFactoStubFactory.Setup(dfs =>
@@ -115,11 +113,8 @@ namespace NBi.Testing.Unit.NUnit.Builder
         [Test]
         public void GetConstraint_BuildWithPredefinedItems_CorrectConstraint()
         {
-            var sutXml = new MembersXml();
-            var item = new HierarchyXml();
-            sutXml.Item = item;
-            var ctrXml = new EquivalentToXml();
-            ctrXml.PredefinedItems = new PredefinedItemsXml() { Type=PredefinedMembers.DaysOfWeek, Language = "en" };
+            var sutXml = new MembersXml() { Item = new HierarchyXml() { ConnectionString = "connStr" } };
+            var ctrXml = new EquivalentToXml() { PredefinedItems = new PredefinedItemsXml() { Type = PredefinedMembers.DaysOfWeek, Language = "en" } };
 
             var discoFactoStubFactory = new Mock<DiscoveryRequestFactory>();
             discoFactoStubFactory.Setup(dfs =>
@@ -146,9 +141,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
         [Test]
         public void GetConstraint_BuildWithRange_CorrectConstraint()
         {
-            var sutXml = new MembersXml();
-            var item = new HierarchyXml();
-            sutXml.Item = item;
+            var sutXml = new MembersXml() { Item = new HierarchyXml() { ConnectionString = "connStr" } };
             var ctrXml = new EquivalentToXml();
             ctrXml.Range = new IntegerRangeXml() { Start = 1, End = 10, Step = 2 };
 

@@ -223,6 +223,7 @@
     <Compile Include="LocalXmlUrlResolver.cs" />
     <Compile Include="SerializationOption\CData.cs" />
     <Compile Include="SerializationOption\WriteOnlyAttributes.cs" />
+    <Compile Include="Settings\ConnectionStringXml.cs" />
     <Compile Include="Settings\CsvProfileXml.cs" />
     <Compile Include="Settings\SettingsStandaloneXml.cs" />
     <Compile Include="Settings\TraitXml.cs" />

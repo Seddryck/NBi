@@ -61,14 +61,14 @@ namespace NBi.Xml.Items
         {
             var connectionString = string.Empty;
             if (!string.IsNullOrEmpty(ConnectionString) && ConnectionString.StartsWith("@"))
-                connectionString = Settings.GetReference(ConnectionString.Remove(0, 1)).ConnectionString;    
+                connectionString = Settings.GetReference(ConnectionString.Remove(0, 1)).ConnectionString.GetValue();    
             //Else get the ConnectionString as-is
             //if ConnectionString is specified then return it
             else if (!string.IsNullOrEmpty(ConnectionString))
                 connectionString = ConnectionString;
             //Else get the default ConnectionString 
-            else if (Default != null && !string.IsNullOrEmpty(Default.ConnectionString))
-                connectionString = Default.ConnectionString;
+            else if (Default != null && Default.ConnectionString != null)
+                connectionString = Default.ConnectionString.GetValue();
             else
                 return null;
 

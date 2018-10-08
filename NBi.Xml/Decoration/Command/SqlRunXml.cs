@@ -46,11 +46,11 @@ namespace NBi.Xml.Decoration.Command
             get
             {
                 if (!string.IsNullOrEmpty(SpecificConnectionString) && SpecificConnectionString.StartsWith("@"))
-                    return Settings.GetReference(SpecificConnectionString.Remove(0, 1)).ConnectionString;
+                    return Settings.GetReference(SpecificConnectionString.Remove(0, 1)).ConnectionString.GetValue();
                 if (!String.IsNullOrWhiteSpace(SpecificConnectionString))
                     return SpecificConnectionString;
                 if (Settings != null && Settings.GetDefault(SettingsXml.DefaultScope.Decoration) != null)
-                    return Settings.GetDefault(SettingsXml.DefaultScope.Decoration).ConnectionString;
+                    return Settings.GetDefault(SettingsXml.DefaultScope.Decoration).ConnectionString.GetValue();
                 return string.Empty;
             }
         }

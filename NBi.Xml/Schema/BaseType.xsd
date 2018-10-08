@@ -23,16 +23,14 @@
     <xs:attribute name="empty-cell" type="xs:string"/>
     <xs:attribute name="missing-cell" type="xs:string"/>
   </xs:complexType>
+  <xs:complexType name="connectionString-type" mixed="true">
+    <xs:sequence>
+      <xs:element name="environment" minOccurs="0" maxOccurs="1" type="environment-type"/>
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name ="default-type">
     <xs:sequence>
-      <xs:element name="connectionString" minOccurs="0" maxOccurs="1">
-        <xs:complexType>
-          <xs:simpleContent>
-            <xs:extension base="xs:string">
-            </xs:extension>
-          </xs:simpleContent>
-        </xs:complexType>
-      </xs:element>
+      <xs:element type="connectionString-type" minOccurs="0" maxOccurs="1" name="connectionString"/>
       <xs:element type="parameter-type" minOccurs="0" maxOccurs="unbounded" name="parameter"/>
       <xs:element type="variable-type" minOccurs="0" maxOccurs="unbounded" name="variable"/>
       <xs:element type="report-base-type" minOccurs="0" maxOccurs="1" name="report"/>
@@ -52,14 +50,7 @@
   </xs:complexType>
   <xs:complexType name="reference-type">
     <xs:sequence>
-      <xs:element name="connectionString" minOccurs="0" maxOccurs="1">
-        <xs:complexType>
-          <xs:simpleContent>
-            <xs:extension base="xs:string">
-            </xs:extension>
-          </xs:simpleContent>
-        </xs:complexType>
-      </xs:element>
+      <xs:element type="connectionString-type" minOccurs="0" maxOccurs="1" name="connectionString"/>
       <xs:element name="regex" minOccurs="0" maxOccurs="1"/>
       <xs:element name="numeric-format" type="numeric-format-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="currency-format" type="currency-format-type" minOccurs="0" maxOccurs="1"/>
@@ -1483,6 +1474,7 @@
           <xs:choice>
             <xs:element name="script" type="script-type"/>
             <xs:element name="query-scalar" type="query-scalar-type"/>
+            <xs:element name="environment" type="environment-type"/>
           </xs:choice>
           <xs:attribute name="name" type="xs:string" use="required" />
         </xs:complexType>
@@ -1499,6 +1491,13 @@
             </xs:restriction>
           </xs:simpleType>
         </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="environment-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" use="required"/>
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>

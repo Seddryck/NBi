@@ -4,6 +4,7 @@ using System.Reflection;
 using SysConfig = System.Configuration;
 using System.Collections.Generic;
 using NUnit.Framework;
+using System;
 
 namespace NBi.Testing.Acceptance
 {
@@ -17,6 +18,19 @@ namespace NBi.Testing.Acceptance
             //Build the fullpath for the file to read
             Directory.CreateDirectory("Etl");
             DiskOnFile.CreatePhysicalFile(@"Etl\Sample.dtsx", "NBi.Testing.Integration.SqlServer.IntegrationService.Resources.Sample.dtsx");
+
+            //Set environment variable
+            Environment.SetEnvironmentVariable("FirstJanuary2015", "2015-01-01", EnvironmentVariableTarget.User);
+            Environment.SetEnvironmentVariable("ConnStrAdvWorksCloud", ConnectionStringReader.GetSqlClient(), EnvironmentVariableTarget.User);
+        }
+
+        [TestFixtureTearDown]
+        public void TearDownMethods()
+        {
+            //Delete environment variable
+            Environment.SetEnvironmentVariable("FirstJanuary2015", null, EnvironmentVariableTarget.User);
+            Environment.SetEnvironmentVariable("ConnStrAdvWorksCloud", null, EnvironmentVariableTarget.User);
+
         }
 
         //By Acceptance Test Suite (file) create a Test Case
@@ -57,6 +71,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("QueryAllNoRows.nbits")]
         [TestCase("ResultSetConstraint.nbits")]
         [TestCase("Scoring.nbits")]
+        [TestCase("Environment.nbits")]
         //[TestCase("PowerBiDesktop.nbits")]
         //[TestCase("EvaluateRows.nbits")]
         [Category("Acceptance")]

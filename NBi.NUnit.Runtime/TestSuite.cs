@@ -303,6 +303,8 @@ namespace NBi.NUnit.Runtime
                         variable.QueryScalar.Default = TestSuiteManager.TestSuite.Settings.GetDefault(Xml.Settings.SettingsXml.DefaultScope.Variable);
                         builder.Setup(variable.QueryScalar);
                     }
+                    else if (variable.Environment != null)
+                        builder.Setup(variable.Environment);
                     builder.Build();
                     var args = builder.GetArgs();
 

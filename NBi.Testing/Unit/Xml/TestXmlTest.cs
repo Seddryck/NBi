@@ -175,13 +175,13 @@ namespace NBi.Testing.Unit.Xml
         public void Serialize_StructureXml_NoDefaultAndSettings()
         {
             var references = new List<ReferenceXml>() 
-                    { new ReferenceXml() 
-                        { Name = "Bob", ConnectionString = "connStr" } 
+                    { new ReferenceXml()
+                        { Name = "Bob", ConnectionString = new ConnectionStringXml() { Inline = "connStr" } }
                     };
             var perspectiveXml = new PerspectiveXml
             {
                 Caption = "My Caption",
-                Default = new DefaultXml() { ApplyTo = SettingsXml.DefaultScope.Assert, ConnectionString = "connStr" },
+                Default = new DefaultXml() { ApplyTo = SettingsXml.DefaultScope.Assert, ConnectionString = new ConnectionStringXml() { Inline = "connStr" } },
                 Settings = new SettingsXml()
                 {
                     References = references
@@ -190,7 +190,7 @@ namespace NBi.Testing.Unit.Xml
             var structureXml = new StructureXml() 
             {
                 Item = perspectiveXml,
-                Default = new DefaultXml() { ApplyTo = SettingsXml.DefaultScope.Assert, ConnectionString = "connStr" },
+                Default = new DefaultXml() { ApplyTo = SettingsXml.DefaultScope.Assert, ConnectionString = new ConnectionStringXml() { Inline = "connStr" } },
                 Settings = new SettingsXml() {References= references}
             };
             var testXml = new TestXml()

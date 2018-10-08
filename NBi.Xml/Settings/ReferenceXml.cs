@@ -10,7 +10,14 @@ namespace NBi.Xml.Settings
         public string Name { get; set; }
 
         [XmlElement("connectionString")]
-        public string ConnectionString { get; set; }
+        public ConnectionStringXml ConnectionString { get; set; }
+
+        [XmlIgnore]
+        public bool ConnectionStringSpecified
+        {
+            get { return !string.IsNullOrEmpty(ConnectionString.Inline) || ConnectionString.Environment != null; }
+            set { return; }
+        }
 
         [XmlElement("regex")]
         public string Regex { get; set; }
@@ -26,6 +33,11 @@ namespace NBi.Xml.Settings
 
         [XmlElement("etl")]
         public EtlBaseXml Etl { get; set; }
+
+        public ReferenceXml()
+        {
+            ConnectionString = new ConnectionStringXml();
+        }
 
     }
 }

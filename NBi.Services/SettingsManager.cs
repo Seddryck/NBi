@@ -29,16 +29,16 @@ namespace NBi.Service
             switch (name)
             {
                 case DefaultSutName:
-                    settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest).ConnectionString = value;
+                    settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest).ConnectionString.Inline = value;
                     return;
                 case DefaultAssertName:
-                    settings.GetDefault(SettingsXml.DefaultScope.Assert).ConnectionString = value;
+                    settings.GetDefault(SettingsXml.DefaultScope.Assert).ConnectionString.Inline = value;
                     return;
                 case DefaultSetupCleanupName:
-                    settings.GetDefault(SettingsXml.DefaultScope.Decoration).ConnectionString = value;
+                    settings.GetDefault(SettingsXml.DefaultScope.Decoration).ConnectionString.Inline = value;
                     return;
                 case DefaultEverywhereName:
-                    settings.GetDefault(SettingsXml.DefaultScope.Everywhere).ConnectionString = value;
+                    settings.GetDefault(SettingsXml.DefaultScope.Everywhere).ConnectionString.Inline = value;
                     return;
             }
 
@@ -50,7 +50,7 @@ namespace NBi.Service
             if (reference == null)
                 throw new ArgumentException();
 
-            reference.ConnectionString = value;
+            reference.ConnectionString.Inline = value;
         }
 
         public bool Exists(string name)
@@ -79,7 +79,7 @@ namespace NBi.Service
             if (reference != null)
                 throw new ArgumentException();
 
-            settings.References.Add(new ReferenceXml() { Name = name, ConnectionString = value });
+            settings.References.Add(new ReferenceXml() { Name = name, ConnectionString = new ConnectionStringXml() { Inline = value } });
         }
 
         public bool IsValidReferenceName(string name)
@@ -91,18 +91,21 @@ namespace NBi.Service
 
         public IEnumerable<Setting> GetSettings()
         {
-            var list = new List<Setting>();
-            list.Add(new Setting() { Name = DefaultSutName, Value = settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest).ConnectionString });
-            list.Add(new Setting() { Name = DefaultAssertName, Value = settings.GetDefault(SettingsXml.DefaultScope.Assert).ConnectionString });
-            list.Add(new Setting() { Name = DefaultSetupCleanupName, Value = settings.GetDefault(SettingsXml.DefaultScope.Decoration).ConnectionString });
-            list.Add(new Setting() { Name = DefaultEverywhereName, Value = settings.GetDefault(SettingsXml.DefaultScope.Everywhere).ConnectionString });
+            var list = new List<Setting>()
+            {
+
+                new Setting() { Name = DefaultSutName, Value = settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest).ConnectionString.GetValue() },
+                new Setting() { Name = DefaultAssertName, Value = settings.GetDefault(SettingsXml.DefaultScope.Assert).ConnectionString.GetValue() },
+                new Setting() { Name = DefaultSetupCleanupName, Value = settings.GetDefault(SettingsXml.DefaultScope.Decoration).ConnectionString.GetValue() },
+                new Setting() { Name = DefaultEverywhereName, Value = settings.GetDefault(SettingsXml.DefaultScope.Everywhere).ConnectionString.GetValue() }
+            };
 
             foreach (var reference in settings.References)
             {
                 var setting = new Setting()
                 {
                     Name = string.Format(ReferenceFormatName, reference.Name),
-                    Value = reference.ConnectionString
+                    Value = reference.ConnectionString.Inline
                 };
                 list.Add(setting);
             }

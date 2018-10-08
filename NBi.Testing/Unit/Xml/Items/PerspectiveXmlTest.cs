@@ -37,16 +37,18 @@ namespace NBi.Testing.Unit.Xml.Items
         [Test]
         public void Serialize_PerspectiveXml_NoDefaultAndSettings()
         {
-            var perspectiveXml = new PerspectiveXml();
-            perspectiveXml.Caption = "My Caption";
-            perspectiveXml.Default = new DefaultXml() { ApplyTo = SettingsXml.DefaultScope.Assert, ConnectionString = "connStr" };
-            perspectiveXml.Settings = new SettingsXml()
+            var perspectiveXml = new PerspectiveXml()
+            {
+                Caption = "My Caption",
+                Default = new DefaultXml() { ApplyTo = SettingsXml.DefaultScope.Assert, ConnectionString = new ConnectionStringXml() { Inline = "connStr" } },
+                Settings = new SettingsXml()
                 {
-                    References = new List<ReferenceXml>() 
-                    { new ReferenceXml() 
-                        { Name = "Bob", ConnectionString = "connStr" } 
-                    }
-                };
+                    References = new List<ReferenceXml>()
+                        { new ReferenceXml()
+                            { Name = "Bob", ConnectionString = new ConnectionStringXml() { Inline = "connStr" }}
+                        }
+                }
+            };
 
             var serializer = new XmlSerializer(typeof(PerspectiveXml));
             var stream = new MemoryStream();

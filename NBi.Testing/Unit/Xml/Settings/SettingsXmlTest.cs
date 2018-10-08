@@ -67,8 +67,9 @@ namespace NBi.Testing.Unit.Xml.Settings
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithDefault");
 
             Assert.That(ts.Settings.Defaults.Count, Is.EqualTo(2)); //(One empty and one initialized)
-            var sutDefault = ts.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
-            Assert.That(sutDefault.ConnectionString, Is.Not.Null.And.Not.Empty);
+            var sutDefault = ts.Settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest);
+            Assert.That(sutDefault.ConnectionStringSpecified, Is.True);
+            Assert.That(sutDefault.ConnectionString.Inline, Is.Not.Null.And.Not.Empty);
             Assert.That(sutDefault.Parameters, Is.Not.Null);
         }
 
@@ -147,9 +148,9 @@ namespace NBi.Testing.Unit.Xml.Settings
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithoutDefault");
 
-            Assert.That(ts.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest), Is.Not.Null);
-            Assert.That(ts.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest).ConnectionString, Is.Null);
-            Assert.That(ts.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest).Parameters, Has.Count.EqualTo(0));
+            Assert.That(ts.Settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest), Is.Not.Null);
+            Assert.That(ts.Settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest).ConnectionStringSpecified, Is.False);
+            Assert.That(ts.Settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest).Parameters, Has.Count.EqualTo(0));
         }
 
         [Test]
@@ -162,9 +163,9 @@ namespace NBi.Testing.Unit.Xml.Settings
 
             Assert.That(ts.Settings.References.Count, Is.EqualTo(2));
             Assert.That(ts.Settings.GetReference("first-ref"), Is.Not.Null);
-            Assert.That(ts.Settings.GetReference("first-ref").ConnectionString, Is.EqualTo("My First Connection String"));
+            Assert.That(ts.Settings.GetReference("first-ref").ConnectionString.Inline, Is.EqualTo("My First Connection String"));
             Assert.That(ts.Settings.GetReference("second-ref"), Is.Not.Null);
-            Assert.That(ts.Settings.GetReference("second-ref").ConnectionString, Is.EqualTo("My Second Connection String"));
+            Assert.That(ts.Settings.GetReference("second-ref").ConnectionString.Inline, Is.EqualTo("My Second Connection String"));
         }
 
         [Test]
@@ -198,7 +199,7 @@ namespace NBi.Testing.Unit.Xml.Settings
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithReference");
             Assert.That(((QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).Item).GetConnectionString(), Is.Null.Or.Empty);
-            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.Null);
+            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.Null.Or.Empty);
         }
 
         [Test]

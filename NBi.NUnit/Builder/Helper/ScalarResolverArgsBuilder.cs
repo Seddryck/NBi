@@ -79,6 +79,11 @@ namespace NBi.NUnit.Builder.Helper
                 args = new RowCountResultSetScalarResolverArgs(builder.GetArgs());
             }
 
+            else if (obj is EnvironmentXml)
+            {
+                args = new EnvironmentScalarResolverArgs((obj as EnvironmentXml).Name);
+            }
+
             else if (obj is string && !string.IsNullOrEmpty((string)obj) && ((string)obj).Trim().StartsWith("@"))
             {
                 var variableName = ((string)obj).Trim().Substring(1, ((string)obj).Trim().Length - 1);

@@ -17,8 +17,6 @@ namespace NBi.Testing.Unit.Xml.Systems
     [TestFixture]
     public class DataTypeXmlTest
     {
-
-
         #region SetUp & TearDown
         //Called only at instance creation
         [TestFixtureSetUp]
@@ -68,7 +66,7 @@ namespace NBi.Testing.Unit.Xml.Systems
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
-            
+
             // Check the properties of the object.
             Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<DataTypeXml>());
             Assert.That(((DataTypeXml)ts.Tests[testNr].Systems[0]).Item, Is.TypeOf<ColumnXml>());
@@ -83,16 +81,18 @@ namespace NBi.Testing.Unit.Xml.Systems
         [Test]
         public void Serialize_DataTypeXml_NoDefaultAndSettings()
         {
-            var columnXml = new ColumnXml();
-            columnXml.Caption = "My Caption";
-            columnXml.Perspective = "My Schema";
-            columnXml.Default = new DefaultXml() { ApplyTo = SettingsXml.DefaultScope.Assert, ConnectionString = "connStr" };
-            columnXml.Settings = new SettingsXml()
+            var columnXml = new ColumnXml()
             {
-                References = new List<ReferenceXml>() 
-                    { new ReferenceXml() 
-                        { Name = "Bob", ConnectionString = "connStr" } 
+                Caption = "My Caption",
+                Perspective = "My Schema",
+                Default = new DefaultXml() { ApplyTo = SettingsXml.DefaultScope.Assert, ConnectionString = new ConnectionStringXml() { Inline = "connStr" } },
+                Settings = new SettingsXml()
+                {
+                    References = new List<ReferenceXml>()
+                    { new ReferenceXml()
+                        { Name = "Bob", ConnectionString = new ConnectionStringXml() { Inline = "connStr" } }
                     }
+                }
             };
             var dataTypeXml = new DataTypeXml() { Item = columnXml };
 
@@ -112,7 +112,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(content, Is.Not.StringContaining("efault"));
             Assert.That(content, Is.Not.StringContaining("eference"));
         }
-        
+
 
     }
 }

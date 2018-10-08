@@ -29,6 +29,8 @@ namespace NBi.Core.Scalar.Resolver
                 return new ProjectionResultSetScalarResolver<T>((ProjectionResultSetScalarResolverArgs)args, serviceLocator.GetResultSetResolverFactory());
             else if (args is CSharpScalarResolverArgs)
                 return new CSharpScalarResolver<T>((CSharpScalarResolverArgs)args);
+            else if (args is EnvironmentScalarResolverArgs)
+                return new EnvironmentScalarResolver<T>((EnvironmentScalarResolverArgs)args);
 
             throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a Scalar");
         }

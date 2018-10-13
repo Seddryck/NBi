@@ -373,6 +373,13 @@
     <Compile Include="Integration\Core\Scalar\Resolver\QueryScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\ScalarResolverFactoryTest.cs" />
     <Compile Include="Unit\Core\Scalar\ScalarComparerTest.cs" />
+    <Compile Include="Unit\Core\Sequence\Resolver\LoopSequenceResolverTest.cs" />
+    <Compile Include="Unit\Core\Sequence\Resolver\ListSequenceResolverTest.cs" />
+    <Compile Include="Unit\Core\Sequence\Resolver\Loop\SentinelNumericLoopStrategyTest.cs" />
+    <Compile Include="Unit\Core\Sequence\Resolver\Loop\SentinelDateTimeLoopStrategyTest.cs" />
+    <Compile Include="Unit\Core\Sequence\Resolver\Loop\CountDateTimeLoopStrategyTest.cs" />
+    <Compile Include="Unit\Core\Sequence\Resolver\Loop\CountNumericLoopStrategyTest.cs" />
+    <Compile Include="Unit\Core\Sequence\Resolver\SequenceResolverFactory.cs" />
     <Compile Include="Unit\Core\SqlServer\Smo\SmoBatchRunnerFactoryTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\HierarchyDiscoveryCommandBuilderTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\MeasureDiscoveryCommandBuilderTest.cs" />

@@ -426,7 +426,7 @@
     <Compile Include="Scalar\Casting\BaseNumericCaster.cs" />
     <Compile Include="Scalar\Casting\CasterFactory.cs" />
     <Compile Include="Scalar\Casting\ICaster.cs" />
-    <Compile Include="Scalar\Casting\DateTimeCast.cs" />
+    <Compile Include="Scalar\Casting\DateTimeCaster.cs" />
     <Compile Include="Scalar\Casting\BooleanCaster.cs" />
     <Compile Include="Scalar\Casting\ThreeStateBooleanCaster.cs" />
     <Compile Include="Scalar\Casting\NumericCaster.cs" />

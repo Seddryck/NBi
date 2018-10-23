@@ -54,8 +54,8 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
-            var refExists = ts.Tests[testNr].Constraints[0] as LookupExistsXml;
-            var mappings = refExists.Join.Mappings;
+            var lookupExists = ts.Tests[testNr].Constraints[0] as LookupExistsXml;
+            var mappings = lookupExists.Join.Mappings;
 
             Assert.That(mappings, Has.Count.EqualTo(1));
             Assert.That(mappings[0].Candidate, Is.EqualTo("GroupId"));
@@ -64,21 +64,58 @@ namespace NBi.Testing.Unit.Xml.Constraints
         }
 
         [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyReverseWhenMissing()
+        {
+            int testNr = 0;
+
+            TestSuiteXml ts = DeserializeSample();
+            var lookupExists = ts.Tests[testNr].Constraints[0] as LookupExistsXml;
+            var isReversed = lookupExists.IsReversed;
+
+            Assert.That(isReversed, Is.False);
+        }
+
+        [Test]
         public void Deserialize_SampleFile_ReadCorrectlyMappings()
         {
             int testNr = 1;
 
             TestSuiteXml ts = DeserializeSample();
-            var refExists = ts.Tests[testNr].Constraints[0] as LookupExistsXml;
-            var mappings = refExists.Join.Mappings;
+            var lookupExists = ts.Tests[testNr].Constraints[0] as LookupExistsXml;
+            var mappings = lookupExists.Join.Mappings;
 
             Assert.That(mappings, Has.Count.EqualTo(2));
         }
 
         [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyReverse()
+        {
+            int testNr = 2;
+
+            TestSuiteXml ts = DeserializeSample();
+            var lookupExists = ts.Tests[testNr].Constraints[0] as LookupExistsXml;
+            var isReversed = lookupExists.IsReversed;
+
+            Assert.That(isReversed, Is.True);
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyUsing()
+        {
+            int testNr = 3;
+
+            TestSuiteXml ts = DeserializeSample();
+            var lookupExists = ts.Tests[testNr].Constraints[0] as LookupExistsXml;
+            var usings = lookupExists.Join.Usings;
+
+            Assert.That(usings, Has.Count.EqualTo(1));
+            Assert.That(usings[0].Column, Is.EqualTo("#0"));
+        }
+
+        [Test]
         public void Serialize_ReferenceExistsXml_Correct()
         {
-            var refExistsXml = new LookupExistsXml()
+            var lookupExistsXml = new LookupExistsXml()
             {
                 Join = new JoinXml()
                 {
@@ -94,7 +131,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var serializer = new XmlSerializer(typeof(LookupExistsXml));
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream, Encoding.UTF8);
-            serializer.Serialize(writer, refExistsXml);
+            serializer.Serialize(writer, lookupExistsXml);
             var content = Encoding.UTF8.GetString(stream.ToArray());
             writer.Close();
             stream.Close();
@@ -105,6 +142,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(content, Is.StringContaining("reference"));
             Assert.That(content, Is.StringContaining("candidate"));
             Assert.That(content, Is.StringContaining("numeric"));
+            Assert.That(content, Is.Not.StringContaining("reverse"));
         }
     }
 }

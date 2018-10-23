@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage
 {
-    public interface IReferenceViolationsMessageFormatter
+    public interface ILookupViolationsMessageFormatter
     {
         void Generate(IEnumerable<DataRow> parentRows, IEnumerable<DataRow> childRows, LookupViolations violations);
         string RenderExpected();

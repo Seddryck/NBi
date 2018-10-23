@@ -13,9 +13,9 @@ using System.Data;
 
 namespace NBi.Framework.FailureMessage
 {
-    public class ReferenceViolationsMessageFormatterFactory
+    public class LookupViolationsMessageFormatterFactory
     {
-        public IReferenceViolationsMessageFormatter Instantiate(IFailureReportProfile profile)
+        public ILookupViolationsMessageFormatter Instantiate(IFailureReportProfile profile)
         {
             var dataRowsFactory = new SamplersFactory<DataRow>();
             var dataRowsSamplers = dataRowsFactory.Instantiate(profile);
@@ -26,7 +26,7 @@ namespace NBi.Framework.FailureMessage
             switch (profile.Format)
             {
                 case FailureReportFormat.Markdown:
-                    return new ReferenceViolationsMessageMarkdown(keysCollectionSamplers, dataRowsSamplers);
+                    return new LookupViolationsMessageMarkdown(keysCollectionSamplers, dataRowsSamplers);
                 case FailureReportFormat.Json:
                     return new ReferenceViolationsMessageJson(dataRowsSamplers);
                 default:

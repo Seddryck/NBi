@@ -57,16 +57,16 @@ namespace NBi.Testing.Unit.NUnit.Builder
         #endregion
 
         [Test]
-        public void GetConstraint_LookupExistsXml_ReferenceExistsConstraint()
+        public void GetConstraint_LookupExistsXml_LookupExistsConstraint()
         {
             var sutXmlStub = new Mock<Systems.ResultSetSystemXml>();
             sutXmlStub.Setup(s => s.File).Returns("myCandidate.csv");
             var sutXml = sutXmlStub.Object;
 
             var ctrXml = new LookupExistsXml();
-            var referenceXmlStub = new Mock<Systems.ResultSetSystemXml>();
-            referenceXmlStub.Setup(s => s.File).Returns("myReference.csv");
-            ctrXml.ResultSet = referenceXmlStub.Object;
+            var rsXmlStub = new Mock<Systems.ResultSetSystemXml>();
+            rsXmlStub.Setup(s => s.File).Returns("myReference.csv");
+            ctrXml.ResultSet = rsXmlStub.Object;
             ctrXml.Join = new JoinXml();
 
             var builder = new ResultSetLookupExistsBuilder();
@@ -75,6 +75,27 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctr = builder.GetConstraint();
 
             Assert.That(ctr, Is.InstanceOf<LookupExistsConstraint>());
+        }
+
+        [Test]
+        public void GetConstraint_LookupExistsXml_LookupReverseExistsConstraint()
+        {
+            var sutXmlStub = new Mock<Systems.ResultSetSystemXml>();
+            sutXmlStub.Setup(s => s.File).Returns("myCandidate.csv");
+            var sutXml = sutXmlStub.Object;
+
+            var ctrXml = new LookupExistsXml() { IsReversed = true };
+            var rsXmlStub = new Mock<Systems.ResultSetSystemXml>();
+            rsXmlStub.Setup(s => s.File).Returns("myReference.csv");
+            ctrXml.ResultSet = rsXmlStub.Object;
+            ctrXml.Join = new JoinXml();
+
+            var builder = new ResultSetLookupExistsBuilder();
+            builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
+            builder.Build();
+            var ctr = builder.GetConstraint();
+
+            Assert.That(ctr, Is.InstanceOf<LookupReverseExistsConstraint>());
         }
 
 

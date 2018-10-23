@@ -143,6 +143,21 @@
         </lookup-exists>
       </assert>
     </test>
+    <test name="lookup-exist with using" uid="00082">
+      <system-under-test>
+        <resultSet file="..\Csv\Orders.csv"/>
+      </system-under-test>
+      <assert>
+        <lookup-exists>
+          <join>
+            <using type="text">#2</using>
+          </join>
+          <resultSet>
+            <query>select 'Foo', 'A', 'CUST0001' union all select 'Foo', 'A', 'CUST0002' union all select 'Bar', 'B', 'CUST0003'</query>
+          </resultSet>
+        </lookup-exists>
+      </assert>
+    </test>
     <test name="lookup-exist reversed" uid="00081">
       <system-under-test>
         <resultSet>

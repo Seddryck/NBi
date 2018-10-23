@@ -8,7 +8,7 @@ using NBi.Core;
 namespace NBi.Testing.Unit.Core.Scalar.Caster
 {
     [TestFixture]
-    public class DateTimeConverterTest
+    public class DateTimeCasterTest
     {
         #region SetUp & TearDown
         //Called only at instance creation

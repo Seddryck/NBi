@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NBi.Core;
 using NBi.Core.Scalar.Comparer;
 using NUnit.Framework;
 
@@ -79,7 +80,7 @@ namespace NBi.Testing.Unit.Core.Scalar.Comparer
         public void Compare_StringAndAny_ArgumentException()
         {
             var comparer = new DateTimeComparer();
-            Assert.Throws<ArgumentException>(delegate {comparer.Compare("Not a date", "(any)");});
+            Assert.Throws<NBiException>(delegate {comparer.Compare("Not a date", "(any)");});
         }
 
         [Test]

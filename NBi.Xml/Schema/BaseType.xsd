@@ -1230,6 +1230,7 @@
       <xs:element name="join" type="join-type" minOccurs="1" maxOccurs="1" />
       <xs:element name="resultSet" type="resultSet-type" minOccurs="1" maxOccurs="1"/>
     </xs:sequence>
+    <xs:attribute name="reverse" type="xs:boolean"/>
   </xs:complexType>
   <xs:complexType name="join-type">
     <xs:sequence>

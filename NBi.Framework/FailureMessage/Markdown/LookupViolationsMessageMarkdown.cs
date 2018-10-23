@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Markdown
 {
-    class ReferenceViolationsMessageMarkdown : IReferenceViolationsMessageFormatter
+    class LookupViolationsMessageMarkdown : ILookupViolationsMessageFormatter
     {
         private readonly IDictionary<string, ISampler<KeyCollection>> keysCollectionSamplers;
         private readonly IDictionary<string, ISampler<DataRow>> dataRowsSamplers;
@@ -21,7 +21,7 @@ namespace NBi.Framework.FailureMessage.Markdown
         private MarkdownContainer child;
         private MarkdownContainer analysis;
 
-        public ReferenceViolationsMessageMarkdown(IDictionary<string, ISampler<KeyCollection>> keyCollectionSamplers, IDictionary<string, ISampler<DataRow>> dataRowSamplers)
+        public LookupViolationsMessageMarkdown(IDictionary<string, ISampler<KeyCollection>> keyCollectionSamplers, IDictionary<string, ISampler<DataRow>> dataRowSamplers)
         {
             this.keysCollectionSamplers = keyCollectionSamplers;
             this.dataRowsSamplers = dataRowSamplers;

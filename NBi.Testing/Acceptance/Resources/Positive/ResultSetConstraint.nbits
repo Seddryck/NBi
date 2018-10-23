@@ -20,7 +20,7 @@
     </variable>
   </variables>
   <group name="asserts">
-    <!--<test name="Csv equal to embedded result-set" uid="0001">
+    <test name="Csv equal to embedded result-set" uid="0001">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -128,7 +128,7 @@
         </lookup-exists>
       </assert>
     </test>
-    <test name="references exist" uid="00081">
+    <test name="lookup-exist" uid="00081">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv"/>
       </system-under-test>
@@ -140,6 +140,21 @@
           <resultSet>
             <query>select 'CUST0001' union all select 'CUST0002' union all select 'CUST0003'</query>
           </resultSet>
+        </lookup-exists>
+      </assert>
+    </test>
+    <test name="lookup-exist reversed" uid="00081">
+      <system-under-test>
+        <resultSet>
+          <query>select 'CUST0001' union all select 'CUST0002' union all select 'CUST0003' union all select 'NOT EXISTING'</query>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <lookup-exists reverse="true">
+          <join>
+            <mapping candidate="#2" reference="#0" type="text"/>
+          </join>
+          <resultSet file="..\Csv\Orders.csv"/>
         </lookup-exists>
       </assert>
     </test>
@@ -386,7 +401,7 @@
           </predicate>
         </all-rows>
       </assert>
-    </test>-->
+    </test>
     <test name="Conversion with text-to-date" uid="0221">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv">

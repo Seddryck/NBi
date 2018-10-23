@@ -64,6 +64,18 @@ namespace NBi.Testing.Unit.Xml.Constraints
         }
 
         [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyReverseWhenMissing()
+        {
+            int testNr = 0;
+
+            TestSuiteXml ts = DeserializeSample();
+            var refExists = ts.Tests[testNr].Constraints[0] as LookupExistsXml;
+            var isReversed = refExists.IsReversed;
+
+            Assert.That(isReversed, Is.False);
+        }
+
+        [Test]
         public void Deserialize_SampleFile_ReadCorrectlyMappings()
         {
             int testNr = 1;
@@ -73,6 +85,18 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var mappings = refExists.Join.Mappings;
 
             Assert.That(mappings, Has.Count.EqualTo(2));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyReverse()
+        {
+            int testNr = 2;
+
+            TestSuiteXml ts = DeserializeSample();
+            var refExists = ts.Tests[testNr].Constraints[0] as LookupExistsXml;
+            var isReversed = refExists.IsReversed;
+
+            Assert.That(isReversed, Is.True);
         }
 
         [Test]
@@ -105,6 +129,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(content, Is.StringContaining("reference"));
             Assert.That(content, Is.StringContaining("candidate"));
             Assert.That(content, Is.StringContaining("numeric"));
+            Assert.That(content, Is.Not.StringContaining("reverse"));
         }
     }
 }

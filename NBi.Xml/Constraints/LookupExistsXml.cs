@@ -4,6 +4,7 @@ using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,10 @@ namespace NBi.Xml.Constraints
 {
     public class LookupExistsXml : AbstractConstraintXml
     {
+        [XmlAttribute("reverse")]
+        [DefaultValue(false)]
+        public bool IsReversed { get; set; }
+
         [XmlElement("join")]
         public JoinXml Join { get; set; }
 

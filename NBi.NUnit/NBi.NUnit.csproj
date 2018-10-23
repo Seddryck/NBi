@@ -114,6 +114,7 @@
     <Compile Include="Query\SingleRowConstraint.cs" />
     <Compile Include="Query\SomeRowsConstraint.cs" />
     <Compile Include="ResultSetComparison\BaseResultSetComparisonConstraint.cs" />
+    <Compile Include="ResultSetComparison\LookupReverseExistsConstraint.cs" />
     <Compile Include="ResultSetComparison\LookupExistsConstraint.cs" />
     <Compile Include="ResultSetComparison\UniqueRowsConstraint.cs" />
     <Compile Include="ResultSetComparison\SubsetOfConstraint.cs" />

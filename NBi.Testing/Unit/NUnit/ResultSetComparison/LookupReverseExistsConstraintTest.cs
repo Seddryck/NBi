@@ -13,17 +13,17 @@ using System.Threading.Tasks;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
-    public class LookupExistsConstraintTest
+    public class LookupReverseExistsConstraintTest
     {
         [Test]
         public void Matches_ResultSetService_CallToExecuteOnce()
         {
-            var sut = new ResultSet();
-            sut.Load("a;b;1");
+            var candidate = new ResultSet();
+            candidate.Load("a;b;1");
             var sutMock = new Mock<IResultSetService>();
             sutMock.Setup(s => s.Execute())
-                .Returns(sut);
-            var sutService = sutMock.Object;
+                .Returns(candidate);
+            var candidateService = sutMock.Object;
 
             var assert = new ResultSet();
             assert.Load("a;b");
@@ -38,11 +38,11 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                 new ColumnMapping(new ColumnOrdinalIdentifier(1), ColumnType.Text),
             };
 
-            var lookupExists = new LookupExistsConstraint(assertService);
+            var lookupExists = new LookupReverseExistsConstraint(candidateService);
             lookupExists = lookupExists.Using(mappings);
 
             //Method under test
-            lookupExists.Matches(sutService);
+            lookupExists.Matches(assertService);
 
             //Test conclusion            
             sutMock.Verify(s => s.Execute(), Times.Once());
@@ -50,7 +50,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         }
 
         [Test]
-        public void Matches_ReferenceAnalyzer_CallToExecuteOnce()
+        public void Matches_LookupAnalyzer_CallToExecuteOnce()
         {
             var sut = new ResultSet();
             sut.Load("a;b;1");
@@ -72,7 +72,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                 new ColumnMapping(new ColumnOrdinalIdentifier(1), ColumnType.Text),
             };
 
-            var lookupExists = new LookupExistsConstraint(assertService);
+            var lookupExists = new LookupReverseExistsConstraint(assertService);
             var analyzer = new Mock<LookupExistsAnalyzer>(mappings);
             analyzer.Setup(x => x.Execute(It.IsAny<ResultSet>(), It.IsAny<ResultSet>())).Returns(new LookupViolations());
             lookupExists.Engine = analyzer.Object;
@@ -81,7 +81,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             lookupExists.Matches(sutService);
 
             //Test conclusion            
-            analyzer.Verify(x => x.Execute(sut, assert), Times.Once());
+            analyzer.Verify(x => x.Execute(assert, sut), Times.Once());
         }
     }
 }

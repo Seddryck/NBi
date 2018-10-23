@@ -53,7 +53,7 @@ namespace NBi.NUnit.Builder
             builder.Setup(Helper.InstantiateAlterations(ctrXml.ResultSet));
             var service = builder.GetService();
 
-            var ctr = new LookupExistsConstraint(service);
+            var ctr = ctrXml.IsReversed ? new LookupReverseExistsConstraint(service) : new LookupExistsConstraint(service);
             Constraint = ctr.Using(mappings);
         }
 

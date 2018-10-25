@@ -16,7 +16,7 @@ namespace NBi.Core.Calculation.Predicate.Text
             : base(not, reference, stringComparison)
         { }
 
-        protected override bool Apply(object x)
+        protected override bool ApplyWithReference(object reference, object x)
         {
             var comparer = StringComparer.Create(CultureInfo.InvariantCulture, StringComparison == StringComparison.InvariantCultureIgnoreCase);
 

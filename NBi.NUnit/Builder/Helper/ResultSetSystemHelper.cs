@@ -52,7 +52,7 @@ namespace NBi.NUnit.Builder.Helper
 
             if (resultSetXml.Alteration.Filters != null)
             {
-                var factory = new ResultSetFilterFactory();
+                var factory = new ResultSetFilterFactory(variables);
                 foreach (var filterXml in resultSetXml.Alteration.Filters)
                 {
                     if (filterXml.Ranking == null)

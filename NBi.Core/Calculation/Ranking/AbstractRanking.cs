@@ -54,8 +54,6 @@ namespace NBi.Core.Calculation.Ranking
             return predicate.Execute(newObj.Score);
         }
 
-        
-
         private IPredicateInfo BuildPredicateInfo(object reference)
             => new PredicateInfo()
             {

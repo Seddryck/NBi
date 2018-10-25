@@ -13,10 +13,10 @@ namespace NBi.Core.Calculation.Predicate.Text
         public TextEqual(bool not, object reference) : base(not, reference)
         { }
 
-        protected override bool Apply(object x)
+        protected override bool ApplyWithReference(object reference, object x)
         {
             var cpr = new TextComparer();
-            return cpr.Compare(x, Reference).AreEqual;
+            return cpr.Compare(x, reference).AreEqual;
         }
 
         public override string ToString()

@@ -15,9 +15,9 @@ namespace NBi.Core.Calculation.Predicate.Numeric
         public NumericWithinRange(bool not, object reference) : base(not, reference)
         { }
 
-        protected override bool Apply(object x)
+        protected override bool ApplyWithReference(object reference, object x)
         {
-            var builder = new NumericIntervalBuilder(Reference);
+            var builder = new NumericIntervalBuilder(reference);
             builder.Build();
             if (!builder.IsValid())
                 throw builder.GetException();

@@ -405,6 +405,7 @@
     <Compile Include="Report\ReportingParserFactory.cs" />
     <Compile Include="Scalar\Comparer\DateTimeToleranceFactory.cs" />
     <Compile Include="Scalar\Comparer\TextMultipleMethodsTolerance.cs" />
+    <Compile Include="Scalar\Comparer\TextCaseTolerance.cs" />
     <Compile Include="Scalar\Comparer\TextTolerance.cs" />
     <Compile Include="Scalar\Comparer\TextToleranceFactory.cs" />
     <Compile Include="Scalar\Comparer\TextSingleMethodTolerance.cs" />

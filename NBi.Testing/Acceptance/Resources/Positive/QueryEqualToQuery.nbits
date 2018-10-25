@@ -578,5 +578,26 @@
         </equalTo>
       </assert>
     </test>
+    <test name="Text tolerance as column tolerance" uid="0075">
+      <system-under-test>
+        <execution>
+          <query>
+            select 1 as [key], 'Toronto' as [value]
+            union all select 2, 'Ottawa'
+            union all select 3, 'Vancouver'
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <column index="1" role="value" type="text" tolerance="Ignore-case"/>
+          <query>
+            select 1 as [key], 'TORONTO' as [value]
+            union all select 2, 'OTTawa'
+            union all select 3, 'VancouveR'
+          </query>
+        </equalTo>
+      </assert>
+    </test>
   </group>
 </testSuite>

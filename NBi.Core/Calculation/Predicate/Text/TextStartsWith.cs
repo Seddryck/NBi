@@ -13,9 +13,9 @@ namespace NBi.Core.Calculation.Predicate.Text
             : base(not, reference, stringComparison)
         {
         }
-        protected override bool Apply(object x)
+        protected override bool ApplyWithReference(object reference, object x)
         {
-            return x.ToString().StartsWith(Reference.ToString(), StringComparison);
+            return x.ToString().StartsWith(reference.ToString(), StringComparison);
         }
         public override string ToString()
         {

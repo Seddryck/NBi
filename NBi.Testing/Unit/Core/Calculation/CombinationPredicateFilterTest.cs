@@ -44,7 +44,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             predicate2.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(1));
             predicate2.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)10);
 
-            var factory = new ResultSetFilterFactory();
+            var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate(aliases, new IColumnExpression[0], CombinationOperator.And , new[] { predicate1.Object, predicate2.Object });
             var result = filter.Apply(rs);
 
@@ -82,7 +82,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             predicate2.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(0));
             predicate2.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(10);
 
-            var factory = new ResultSetFilterFactory();
+            var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate(aliases, new IColumnExpression[0], CombinationOperator.And, new[] { predicate1.Object, predicate2.Object });
             var result = filter.Apply(rs);
 
@@ -119,7 +119,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             predicate2.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(1));
             predicate2.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)10);
 
-            var factory = new ResultSetFilterFactory();
+            var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate(aliases, new IColumnExpression[0], CombinationOperator.Or, new[] { predicate1.Object, predicate2.Object });
             var result = filter.Apply(rs);
 
@@ -155,7 +155,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             predicate2.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(0));
             predicate2.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(10);
 
-            var factory = new ResultSetFilterFactory();
+            var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate(aliases, new IColumnExpression[0], CombinationOperator.Or, new[] { predicate1.Object, predicate2.Object });
             var result = filter.Apply(rs);
 
@@ -191,7 +191,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             predicate2.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(1));
             predicate2.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)10);
 
-            var factory = new ResultSetFilterFactory();
+            var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate(aliases, new IColumnExpression[0], CombinationOperator.XOr, new[] { predicate1.Object, predicate2.Object });
             var result = filter.Apply(rs);
 

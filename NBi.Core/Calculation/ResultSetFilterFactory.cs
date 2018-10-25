@@ -4,6 +4,7 @@ using NBi.Core.Calculation.Predicate.Combination;
 using NBi.Core.Calculation.Ranking;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
+using NBi.Core.Variable;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,13 +16,20 @@ namespace NBi.Core.Calculation
 {
     public class ResultSetFilterFactory
     {
+        private readonly IDictionary<string, ITestVariable> variables;
+
+        public ResultSetFilterFactory(IDictionary<string, ITestVariable> variables)
+        {
+            this.variables = variables;
+        }
+
         public IResultSetFilter Instantiate(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IPredicateInfo predicateInfo)
         {
             if (predicateInfo.Operand == null)
                 throw new ArgumentException("You must specify an operand for a predicate. The operand is the column or alias or expression on which the predicate will be evaluated.");
 
             var factory = new PredicateFactory();
-            var predicate = factory.Instantiate(predicateInfo);
+            var predicate = factory.Instantiate(predicateInfo, variables);
 
             var pf = new SinglePredicateFilter(aliases, expressions, predicateInfo.Operand, predicate.Execute, predicate.ToString);
 
@@ -38,7 +46,7 @@ namespace NBi.Core.Calculation
                 if (predicateInfo.Operand == null)
                     throw new ArgumentException("You must specify an operand for a predicate. The operand is the column or alias or expression on which the predicate will be evaluated.");
 
-                var predicate = factory.Instantiate(predicateInfo);
+                var predicate = factory.Instantiate(predicateInfo, variables);
                 predications.Add(new Predication(predicate, predicateInfo.Operand));
             }
 
@@ -54,6 +62,7 @@ namespace NBi.Core.Calculation
                     throw new ArgumentOutOfRangeException(nameof(combinationOperator));
             }
         }
+
 
         public IResultSetFilter Instantiate(IRankingInfo rankingInfo, IEnumerable<IColumnDefinitionLight> columns)
         {

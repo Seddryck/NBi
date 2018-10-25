@@ -12,11 +12,11 @@ namespace NBi.Core.Calculation.Predicate.Numeric
         public NumericPredicate(bool not, object reference) : base(not, reference)
         { }
 
-        protected override bool Apply(object x)
+        protected override bool ApplyWithReference(object reference, object x)
         {
             var caster = new NumericCaster();
             var numX = caster.Execute(x);
-            var numY = caster.Execute(Reference);
+            var numY = caster.Execute(reference);
 
             return Compare(numX, numY);
         }

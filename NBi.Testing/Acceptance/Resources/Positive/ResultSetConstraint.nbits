@@ -18,6 +18,9 @@
     <variable name="var1">
       <query-scalar>select 1963</query-scalar>
     </variable>
+    <variable name="CY2007">
+      <script language="c-sharp">"CY 2007"</script>
+    </variable>
   </variables>
   <group name="asserts">
     <test name="Csv equal to embedded result-set" uid="0001">
@@ -374,7 +377,35 @@
         </equalTo>
       </assert>
     </test>
-    <test name="Filter with one predicate" uid="0211">
+    <test name="Filter with one predicate and a reference variable" uid="0202">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
+          <alteration>
+            <filter>
+              <predicate name="#0" type="text">
+                <less-than>@CY2007</less-than>
+              </predicate>
+            </filter>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet>
+            <row>
+              <cell>CY 2005</cell>
+              <cell>366</cell>
+            </row>
+            <row>
+              <cell>CY 2006</cell>
+              <cell>1015</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+    
+    <test name="Filter with one ranking top" uid="0211">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
           <alteration>
@@ -394,7 +425,7 @@
         </all-rows>
       </assert>
     </test>
-    <test name="Filter with one predicate" uid="0212">
+    <test name="Filter with one ranking bottom" uid="0212">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv">
           <alteration>

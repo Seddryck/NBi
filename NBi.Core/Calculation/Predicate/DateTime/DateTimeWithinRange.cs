@@ -15,9 +15,9 @@ namespace NBi.Core.Calculation.Predicate.DateTime
         public DateTimeWithinRange(bool not, object reference) : base(not, reference)
         { }
 
-        protected override bool Apply(object x)
+        protected override bool ApplyWithReference(object reference, object x)
         {
-            var builder = new DateTimeIntervalBuilder(Reference);
+            var builder = new DateTimeIntervalBuilder(reference);
             builder.Build();
             var interval = builder.GetInterval();
 

@@ -40,7 +40,7 @@ namespace NBi.NUnit.Builder
             if (ConstraintXml.Expressions != null)
                 expressions.AddRange(ConstraintXml.Expressions);
 
-            var factory = new ResultSetFilterFactory();
+            var factory = new ResultSetFilterFactory(Variables);
             if (ConstraintXml.Predication != null)
             {
                 if (ConstraintXml.Predication.Reference != null && !(ConstraintXml.Predication.Reference is IEnumerable<string>))

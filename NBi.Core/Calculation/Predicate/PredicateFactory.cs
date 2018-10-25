@@ -120,9 +120,9 @@ namespace NBi.Core.Calculation.Predicate
 
             return Instantiate(info.ComparerType, info.ColumnType, info.Not
                 , reference
-                , info is ICultureSensitivePredicateInfo ? (info as ICultureSensitivePredicateInfo).Culture : null
-                , info is ICaseSensitivePredicateInfo ? (info as ICaseSensitivePredicateInfo).StringComparison : StringComparison.InvariantCulture
-                , info is ISecondOperandPredicateInfo ? (info as ISecondOperandPredicateInfo).SecondOperand : null
+                , (info as ICultureSensitivePredicateInfo)?.Culture
+                , (info as ICaseSensitivePredicateInfo)?.StringComparison ?? StringComparison.InvariantCulture
+                , (info as ISecondOperandPredicateInfo)?.SecondOperand
                 );
         }
     }

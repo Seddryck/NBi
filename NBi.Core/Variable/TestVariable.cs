@@ -4,6 +4,7 @@ using NBi.Core.Transformation;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -24,10 +25,16 @@ namespace NBi.Core.Variable
 
         public object GetValue()
         {
+            
             if (!IsEvaluated())
             {
+                var stopWatch = new Stopwatch();
+                stopWatch.Start();
                 value = resolver.Execute();
                 isEvaluated = true;
+
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Time needed for evaluation of the variable: {stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")}");
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Variable evaluated to: {value}");
             }
 
             return value;

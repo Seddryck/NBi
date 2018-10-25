@@ -43,9 +43,6 @@ namespace NBi.NUnit.Builder
             var factory = new ResultSetFilterFactory(Variables);
             if (ConstraintXml.Predication != null)
             {
-                if (ConstraintXml.Predication.Reference != null && !(ConstraintXml.Predication.Reference is IEnumerable<string>))
-                    ConstraintXml.Predication.Reference = EvaluatePotentialVariable(ConstraintXml.Predication.Reference);
-
                 return factory.Instantiate
                             (
                                 ConstraintXml.Aliases
@@ -57,12 +54,7 @@ namespace NBi.NUnit.Builder
             {
                 var predicateInfos = new List<IPredicateInfo>();
                 foreach (var predicateXml in ConstraintXml.Combination.Predicates)
-                {
-                    if (predicateXml.Reference != null && !(predicateXml.Reference is IEnumerable<string>))
-                        predicateXml.Reference = EvaluatePotentialVariable(predicateXml.Reference);
-
                     predicateInfos.Add(predicateXml);
-                }
 
                 return factory.Instantiate
                             (

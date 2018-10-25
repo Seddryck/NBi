@@ -578,7 +578,7 @@
         </equalTo>
       </assert>
     </test>
-    <test name="Text tolerance as column tolerance" uid="0075">
+    <test name="Ignore-case tolerance as column tolerance" uid="0075">
       <system-under-test>
         <execution>
           <query>

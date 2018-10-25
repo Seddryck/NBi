@@ -232,5 +232,16 @@ namespace NBi.Testing.Unit.Core.Scalar.Comparer
             var result = comparer.Compare("Seddryck", "Undefined", tolerance);
             Assert.That(result.AreEqual, Is.False);
         }
+
+        [Test]
+        [TestCase("ignore-case")]
+        [TestCase(" IGnOre-Case ")]
+        public void Compare_IgnoreCase_true(string def)
+        {
+            var tolerance = new TextToleranceFactory().Instantiate(def);
+            var comparer = new TextComparer();
+            var result = comparer.Compare("Seddryck", "seddryck", tolerance);
+            Assert.That(result.AreEqual, Is.True);
+        }
     }
 }

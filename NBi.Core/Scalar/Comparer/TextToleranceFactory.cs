@@ -20,6 +20,10 @@ namespace NBi.Core.Scalar.Comparer
 
             value = value.Trim().Replace(" ", "");
 
+            //Empty equals ignore-case then ignore-case
+            if (string.Compare(value, "ignore-case", true) == 0)
+                return new TextCaseTolerance();
+
             //extract the value between parenthesis
             var distanceString = Regex.Match(value, @"\(([^)]*)\)").Groups[1].Value;
             var isDistanceNumeric = Double.TryParse(distanceString, NumberStyles.Float, CultureInfo.InvariantCulture, out var distanceNumeric);
@@ -116,7 +120,7 @@ namespace NBi.Core.Scalar.Comparer
             else
                 return false;
 
-             correctValue = (FuzzyStringComparisonOptions)Enum.Parse(type, correctName);
+            correctValue = (FuzzyStringComparisonOptions)Enum.Parse(type, correctName);
 
             return true;
         }

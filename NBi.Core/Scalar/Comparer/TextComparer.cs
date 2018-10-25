@@ -13,8 +13,7 @@ namespace NBi.Core.Scalar.Comparer
             var rxText = x.ToString();
             var ryText = y.ToString();
 
-            //Compare decimals (with tolerance)
-            if (IsEqual(rxText, ryText))
+            if (IsEqual(rxText, ryText, StringComparer.InvariantCulture))
                 return ComparerResult.Equality;
 
             return new ComparerResult(string.IsNullOrEmpty(rxText) ? "(empty)" : rxText);
@@ -22,7 +21,9 @@ namespace NBi.Core.Scalar.Comparer
 
         protected override ComparerResult CompareObjects(object x, object y, Tolerance tolerance)
         {
-            if (tolerance is TextSingleMethodTolerance)
+            if (tolerance is TextCaseTolerance)
+                return CompareObjects(x, y, ((TextCaseTolerance)tolerance).Comparison);
+            else if (tolerance is TextSingleMethodTolerance)
                 return CompareObjects(x, y, (TextSingleMethodTolerance)tolerance);
             else if (tolerance is TextMultipleMethodsTolerance)
                 return CompareObjects(x, y, (TextMultipleMethodsTolerance)tolerance);
@@ -30,21 +31,25 @@ namespace NBi.Core.Scalar.Comparer
             throw new ArgumentException("Tolerance must be of type 'TextTolerance'");
         }
 
+        protected ComparerResult CompareObjects(object x, object y, StringComparer comparer)
+            => CompareStrings(x as string, y as string, comparer);
+
         protected ComparerResult CompareObjects(object x, object y, TextSingleMethodTolerance tolerance)
-        {
-            return CompareStrings(x as string, y as string, tolerance);
-        }
+            => CompareStrings(x as string, y as string, tolerance);
+
 
         protected ComparerResult CompareObjects(object x, object y, TextMultipleMethodsTolerance tolerance)
-        {
-            return CompareStrings(x as string, y as string, tolerance);
-        }
+            => CompareStrings(x as string, y as string, tolerance);
+
+
+        protected ComparerResult CompareStrings(string x, string y, StringComparer comparer)
+            => IsEqual(x, y, comparer) ? ComparerResult.Equality : new ComparerResult(string.IsNullOrEmpty(x) ? "(empty)" : x);
 
         protected ComparerResult CompareStrings(string x, string y, TextSingleMethodTolerance tolerance)
         {
             var distance = tolerance.Implementation.Invoke(x, y);
-            
-            if (tolerance.Predicate.Invoke(distance,tolerance.Value))
+
+            if (tolerance.Predicate.Invoke(distance, tolerance.Value))
                 return ComparerResult.Equality;
             else
                 return new ComparerResult(distance.ToString());
@@ -59,14 +64,12 @@ namespace NBi.Core.Scalar.Comparer
         }
 
         protected override ComparerResult CompareObjects(object x, object y, Rounding rounding)
-        {
-            throw new NotImplementedException("You cannot compare with a text comparer and a rounding.");
-        }
+            => throw new NotImplementedException("You cannot compare with a text comparer and a rounding.");
 
-        protected bool IsEqual(string x, string y)
+        protected bool IsEqual(string x, string y, StringComparer comparer)
         {
             //quick check
-            if (x == y)
+            if (comparer.Compare(x, y) == 0)
                 return true;
 
             if (x == "(empty)" && string.IsNullOrEmpty(y))

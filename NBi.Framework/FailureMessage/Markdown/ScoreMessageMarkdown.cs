@@ -3,6 +3,7 @@ using NBi.Framework.Sampling;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,10 +24,10 @@ namespace NBi.Framework.FailureMessage.Markdown
             Result = result;
         }
 
-        public string RenderExpected() => $"threshold was set to {Threshold}";
-        public string RenderActual() => $"score is {Score}";
+        public string RenderExpected() => $"threshold was set to {Threshold.ToString(CultureInfo.InvariantCulture.NumberFormat)}";
+        public string RenderActual() => $"score is {Score.ToString(CultureInfo.InvariantCulture.NumberFormat)}";
 
-        public string RenderMessage() => $"{(Result ? "A good" : "An insufficient")} score of {Score} was received when the threshold was set {Threshold}.";
+        public string RenderMessage() => $"{(Result ? "A good" : "An insufficient")} score of {Score.ToString(CultureInfo.InvariantCulture.NumberFormat)} was received when the threshold was set {Threshold.ToString(CultureInfo.InvariantCulture.NumberFormat)}.";
 
         private string WriteJson(IDictionary<string, decimal> values)
         {

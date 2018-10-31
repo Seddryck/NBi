@@ -111,6 +111,7 @@ namespace NBi.NUnit.Builder
             var argsBuilder = new ResultSetResolverArgsBuilder(ServiceLocator);
             argsBuilder.Setup(obj);
             argsBuilder.Setup(settings);
+            argsBuilder.Setup(Variables);
             argsBuilder.Build();
 
             var factory = ServiceLocator.GetResultSetResolverFactory();

@@ -44,7 +44,7 @@ namespace NBi.Xml.Items
             return list;
         }
 
-        public virtual List<QueryTemplateVariableXml> GetVariables()
+        public virtual List<QueryTemplateVariableXml> GetTemplateVariables()
         {
             var list = Variables;
             foreach (var variable in Default.Variables)

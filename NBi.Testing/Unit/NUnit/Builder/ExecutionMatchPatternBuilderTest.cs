@@ -55,7 +55,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var itemXmlStubFactory = new Mock<QueryableXml>();
             itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
             itemXmlStubFactory.Setup(i => i.GetParameters()).Returns(new List<QueryParameterXml>());
-            itemXmlStubFactory.Setup(i => i.GetVariables()).Returns(new List<QueryTemplateVariableXml>());
+            itemXmlStubFactory.Setup(i => i.GetTemplateVariables()).Returns(new List<QueryTemplateVariableXml>());
             sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
@@ -77,7 +77,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var itemXmlStubFactory = new Mock<QueryableXml>();
             itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
             itemXmlStubFactory.Setup(i => i.GetParameters()).Returns(new List<QueryParameterXml>());
-            itemXmlStubFactory.Setup(i => i.GetVariables()).Returns(new List<QueryTemplateVariableXml>());
+            itemXmlStubFactory.Setup(i => i.GetTemplateVariables()).Returns(new List<QueryTemplateVariableXml>());
             sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;

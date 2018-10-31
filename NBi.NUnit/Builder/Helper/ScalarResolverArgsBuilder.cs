@@ -75,6 +75,7 @@ namespace NBi.NUnit.Builder.Helper
                 var builder = new ResultSetResolverArgsBuilder(serviceLocator);
                 builder.Setup(((ProjectionXml)obj).ResultSet);
                 builder.Setup(settings);
+                builder.Setup(globalVariables);
                 builder.Build();
                 args = new RowCountResultSetScalarResolverArgs(builder.GetArgs());
             }

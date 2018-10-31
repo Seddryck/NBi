@@ -62,14 +62,14 @@ namespace NBi.NUnit.Builder
             var statement = (executionXml.Item as QueryableXml).GetQuery();
 
             IEnumerable<IQueryParameter> parameters = null;
-            IEnumerable<IQueryTemplateVariable> variables = null;
+            IEnumerable<IQueryTemplateVariable> templateVariables = null;
             int timeout = 0;
-            var commandType = System.Data.CommandType.Text;
+            var commandType = CommandType.Text;
 
             if (executionXml.BaseItem is QueryXml)
             {
                 parameters = argsBuilder.BuildParameters(((QueryXml)executionXml.BaseItem).GetParameters());
-                variables = ((QueryXml)executionXml.BaseItem).GetVariables();
+                templateVariables = ((QueryXml)executionXml.BaseItem).GetTemplateVariables();
                 timeout = ((QueryXml)executionXml.BaseItem).Timeout;
             }
             if (executionXml.BaseItem is ReportXml)
@@ -82,7 +82,7 @@ namespace NBi.NUnit.Builder
                 commandType = ((ReportXml)executionXml.BaseItem).GetCommandType();
             }
 
-            var queryArgs = new QueryResolverArgs(statement, connectionString, parameters, variables, new TimeSpan(0, 0, timeout), commandType);
+            var queryArgs = new QueryResolverArgs(statement, connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout), commandType);
             var args = new QueryResultSetResolverArgs(queryArgs);
             var factory = ServiceLocator.GetResultSetResolverFactory();
             var resolver = factory.Instantiate(args);

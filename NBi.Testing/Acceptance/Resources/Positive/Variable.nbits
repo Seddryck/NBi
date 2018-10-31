@@ -41,6 +41,7 @@
     </system-under-test>
     <assert>
       <equalTo>
+        <column index="0" type="dateTime" role="key"/>
         <query>
           <parameter name="common">@common</parameter>
           select @common;

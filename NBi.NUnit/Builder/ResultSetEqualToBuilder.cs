@@ -27,14 +27,10 @@ namespace NBi.NUnit.Builder
         protected EqualToXml ConstraintXml { get; set; }
 
         protected virtual EquivalenceKind EquivalenceKind
-        {
-            get { return EquivalenceKind.EqualTo; }
-        }
+            { get => EquivalenceKind.EqualTo; }
 
         public ResultSetEqualToBuilder()
-        {
-
-        }
+        { }
 
         protected override void SpecificSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
@@ -111,6 +107,7 @@ namespace NBi.NUnit.Builder
             var argsBuilder = new ResultSetResolverArgsBuilder(ServiceLocator);
             argsBuilder.Setup(obj);
             argsBuilder.Setup(settings);
+            argsBuilder.Setup(Variables);
             argsBuilder.Build();
 
             var factory = ServiceLocator.GetResultSetResolverFactory();
@@ -123,9 +120,10 @@ namespace NBi.NUnit.Builder
 
             var service = serviceBuilder.GetService();
 
-            return new EqualToConstraint(service);
+            return InstantiateConstraint(service);
         }
 
-
+        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(IResultSetService service)
+            => new EqualToConstraint(service);
     }
 }

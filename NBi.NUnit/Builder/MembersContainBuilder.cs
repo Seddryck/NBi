@@ -43,6 +43,7 @@ namespace NBi.NUnit.Builder
                 var builder = new ResultSetResolverArgsBuilder(ServiceLocator);
                 builder.Setup(ctrXml.Query);
                 builder.Setup(ctrXml.Settings);
+                builder.Setup(Variables);
                 builder.Build();
 
                 var factory = ServiceLocator.GetResultSetResolverFactory();

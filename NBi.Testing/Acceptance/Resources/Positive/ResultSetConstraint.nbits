@@ -600,5 +600,37 @@
         </equalTo>
       </assert>
     </test>
+    <test name="Transformations" uid="0231">
+      <system-under-test>
+        <resultSet>
+          <query>
+            select 'a', 'FOO' union all select 'B', 'bar'
+          </query>
+          <alteration>
+            <transform column-index="0" language="native" original-type="text">
+              text-to-upper
+            </transform>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo keys="first">
+          <column index="0" type="text" role="key">
+            <transform language="native" original-type="text">text-to-upper</transform>
+          </column>
+          <column index="1" type="text" role="value" tolerance="ignore-case"/>
+          <resultSet>
+            <row>
+              <cell>A</cell>
+              <cell>foo</cell>
+            </row>
+            <row>
+              <cell>b</cell>
+              <cell>BaR</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
   </group>
 </testSuite>

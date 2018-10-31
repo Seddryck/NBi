@@ -53,19 +53,19 @@ namespace NBi.NUnit.Builder.Helper
 
             var connectionString = queryXml.GetConnectionString();
             var parameters = BuildParameters(queryXml.GetParameters());
-            var variables = queryXml.GetVariables();
+            var templateVariables = queryXml.GetTemplateVariables();
             var timeout = queryXml.Timeout;
 
             if (!string.IsNullOrEmpty(queryXml.InlineQuery))
                 args = new EmbeddedQueryResolverArgs(queryXml.InlineQuery
-                    , connectionString, parameters, variables, new TimeSpan(0, 0, timeout));
+                    , connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout));
 
             else if (!string.IsNullOrEmpty(queryXml.File))
             {
                 var file = GetFullPath(settingsXml?.BasePath, queryXml.File);
 
                 args = new ExternalFileQueryResolverArgs(file
-                    , connectionString, parameters, variables, new TimeSpan(0, 0, timeout));
+                    , connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout));
             }
 
             else if (queryXml.Assembly != null)
@@ -75,7 +75,7 @@ namespace NBi.NUnit.Builder.Helper
                 args = new AssemblyQueryResolverArgs(
                     file, queryXml.Assembly.Klass, queryXml.Assembly.Method,
                     queryXml.Assembly.Static, queryXml.Assembly.GetMethodParameters()
-                    , connectionString, parameters, variables, new TimeSpan(0, 0, timeout));
+                    , connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout));
             }
 
             else if (queryXml.Report != null)
@@ -84,7 +84,7 @@ namespace NBi.NUnit.Builder.Helper
 
                 args = new ReportDataSetQueryResolverArgs(
                     queryXml.Report.Source, path, queryXml.Report.Name, queryXml.Report.Dataset
-                    , connectionString, parameters, variables, new TimeSpan(0, 0, timeout));
+                    , connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout));
             }
 
             else if (queryXml.SharedDataset != null)
@@ -93,7 +93,7 @@ namespace NBi.NUnit.Builder.Helper
 
                 args = new SharedDataSetQueryResolverArgs(
                     queryXml.SharedDataset.Source, queryXml.SharedDataset.Path, queryXml.SharedDataset.Name
-                    , connectionString, parameters, variables, new TimeSpan(0, 0, timeout));
+                    , connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout));
             }
 
             if (args == null)

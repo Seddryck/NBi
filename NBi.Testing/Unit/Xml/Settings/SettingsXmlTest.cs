@@ -267,7 +267,7 @@ namespace NBi.Testing.Unit.Xml.Settings
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithVariables");
 
-            var parameters = ((QueryXml)ts.Tests[testNr].Systems[0].BaseItem).GetVariables();
+            var parameters = ((QueryXml)ts.Tests[testNr].Systems[0].BaseItem).GetTemplateVariables();
             Assert.That(parameters.Count, Is.EqualTo(3));
         }
 

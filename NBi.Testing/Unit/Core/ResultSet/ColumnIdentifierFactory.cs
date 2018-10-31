@@ -54,5 +54,26 @@ namespace NBi.Testing.Unit.Core.ResultSet
             Assert.That(id, Is.TypeOf<ColumnNameIdentifier>());
             Assert.That((id as ColumnNameIdentifier).Name, Is.EqualTo("Foo"));
         }
+
+
+        [Test]
+        [TestCase("[Measures].[Foo]")]
+        [TestCase("[dimension].[hierarchy].[level]")]
+        public void Instantiate_SsasName_NameIdentifier(string identifier)
+        {
+            var factory = new ColumnIdentifierFactory();
+            var id = factory.Instantiate(identifier);
+            Assert.That(id, Is.TypeOf<ColumnNameIdentifier>());
+            Assert.That((id as ColumnNameIdentifier).Name, Is.EqualTo(identifier));
+        }
+
+        [Test]
+        public void Instantiate_SsasNameWithDoubleBrackets_NameIdentifier()
+        {
+            var factory = new ColumnIdentifierFactory();
+            var id = factory.Instantiate("[[dimension].[hierarchy].[level]]");
+            Assert.That(id, Is.TypeOf<ColumnNameIdentifier>());
+            Assert.That((id as ColumnNameIdentifier).Name, Is.EqualTo("[dimension].[hierarchy].[level]"));
+        }
     }
 }

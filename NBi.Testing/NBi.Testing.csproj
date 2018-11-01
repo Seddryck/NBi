@@ -214,6 +214,7 @@
     </Compile>
     <Compile Include="Acceptance\BaseRuntimeOverrider.cs" />
     <Compile Include="Acceptance\GenbiL\ConcatenateSplitGroupTest.cs" />
+    <Compile Include="Acceptance\GenbiL\DictionaryTest.cs" />
     <Compile Include="Acceptance\GenbiL\ConsumablesTest.cs" />
     <Compile Include="Acceptance\GenbiL\MultipleTemplatesTest.cs" />
     <Compile Include="Acceptance\GenbiL\VariablesTest.cs" />
@@ -651,10 +652,19 @@
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\MultipleTemplates1.nbitt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="Acceptance\GenbiL\Resources\dictionary.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Acceptance\GenbiL\Resources\Consumables.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\Consumables.genbil">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\dictionary.nbitt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\dictionary.genbil">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Acceptance\GenbiL\Resources\MultipleTemplates.csv">

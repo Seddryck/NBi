@@ -1,0 +1,20 @@
+﻿<test name="All rows from '$field$' validate the rules.">
+  <trait name="template-name">dictionary.nbitt</trait>
+	<system-under-test>
+    <resultSet>
+      <query>
+        select foo, bar, wax from table where foo='$field$'
+      </query>
+    </resultSet>
+	</system-under-test>
+	<assert>
+    <all-rows>
+      <combination operator="and">
+        $ruleKeys, ruleValues :{key, value |<predicate operand="$key$">
+          <equal>$value$</equal>
+        </predicate> 
+        }$
+      </combination>
+    </all-rows>
+	</assert>
+</test>

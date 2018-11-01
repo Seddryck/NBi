@@ -109,6 +109,7 @@
 - title: Global variables
   docs:
   - variable-define
+  - variable-override
 
 - title: Metadata
   docs:

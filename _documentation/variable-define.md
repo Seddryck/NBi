@@ -2,7 +2,7 @@
 layout: documentation
 title: Define variables
 prev_section: config-traces-debugging
-next_section: metadata-concept
+next_section: variable-override
 permalink: /docs/variable-define/
 ---
 Version 1.17 has introduced the notion of *variable*. A variable is a scalar-value (a unique value, not a list of a result-set) that can be reused in different places of your test-suites. another big advantage of variables is that they are evaluated during the test-suite execution. Suppose that you have a query expecting a date as a parameter and that you want to specify the current date: without a variable, it's not possible!
@@ -26,15 +26,47 @@ The variables are defined at the top of the test-suite (after *settings* but bef
   </variables>
 {% endhighlight %}
 
-As you can understand fom the fragment above, a variable can be evaluated based on two engines: *C#* and *query-scalar*
+As you can understand fom the fragment above, a variable can be evaluated based on different engines.
 
 ## C# engine
 
 This engine evaluates one unique sentence of C# and returns the corresponding value. In order to specify this engine use the element *script* and specify the attribute *language* to the value *c-sharp*. Then you'll be ableto specify your c# sentence in the inner text of this element. Note that thsi sentence shouldn't start by *return* and neither end by a semi-column (;).
 
+In this example, the variable named *FirstOfCurrentMonth* is set to the value returned by the C# script:
+
+{% highlight xml %}
+<variable name="FirstOfCurrentMonth">
+  <script language="c-sharp">
+    DateTime.Now.AddDays(1 - DateTime.Now.Day)
+  </script>
+</variable>
+{% endhighlight %}
+
 ## Query engine
 
 This engine evaluates a query and returns the first cell of the first row returned by this query. In order to specify this engine use the element *query-scalar* and specify. Then you'll be able to specify a query with the different methods available in the [NBi syntax 2.0 to define a query](../docs/syntax-2-0).
+
+In this example, the variable named *CurrencyCode* is set to the single value returned by the query here under:
+
+{% highlight xml %}
+<variable name="CurrencyCode">
+  <query-scalar>
+    <![CDATA[select top(1) CurrencyCode from [Sales].[Currency] where Name like '%Canad%']]>
+  </query-scalar>
+</variable>
+{% endhighlight %}
+
+## Environment variable
+
+This engine retrieves the value of an environment variable.
+
+In this example, the variable named *myVar* is set to the value of the environment variable named *MyEnvVar*:
+
+{% highlight xml %}
+<variable name="myVar"/>
+  <environment name="MyEnvVar"/>
+</variable>
+{% endhighlight %}
 
 # Usage
 
@@ -42,9 +74,9 @@ In this first release, you can't use the variables at many places. the usage is 
 
 * *[Parameter](..docs/query-parameter)* (of a query)
 * In the [comparisons (*equal*, *more-than*, *less-than*)](../docs/resultset-rows-count) for a *row-count*
-* In the [predicates](../docs/resultset-predicate) of the assertions *row-count*, *all-rows*, *no-rows*, *some-rows* and *single-row*
+* In the operators of [predicates](../docs/resultset-predicate) of the assertions *row-count*, *all-rows*, *no-rows*, *some-rows* and *single-row*
 
-If you've other places, where you think that a variable would be helpful, report it by creating an [issues](http://github.com/Seddryck/nbi/issues)
+If you've other places, where you think that a variable would be helpful, report it by creating an [issue](http://github.com/Seddryck/nbi/issues)
 
 # Notes about the future of variables
 

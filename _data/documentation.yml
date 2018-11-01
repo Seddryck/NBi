@@ -34,8 +34,8 @@
   - resultset-rows-count
   - resultset-rows-count-advanced
   - resultset-rows-uniqueness
+  - referential-integrity
   - resultset-format
-  - resultset-calculations
 
 - title: Transform a result-set
   docs:

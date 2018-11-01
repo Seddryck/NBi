@@ -1,8 +1,8 @@
 ---
 layout: documentation
 title: Cell's format in a result-set
-prev_section: resultset-rows-uniqueness
-next_section: resultset-calculations
+prev_section: referential-integrity
+next_section: transform-column
 permalink: /docs/resultset-format/
 ---
 Other features offer the opportunity to test the values returned by a query and compare them to expected value. This feature is not working on the value but on the format. This is only relevant for SSAS because this application see the value and the format as two different matters.

@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Transform a column
-prev_section: resultset-calculations
+prev_section: resultset-format
 next_section: query-syntax
 permalink: /docs/transform-column/
 ---

@@ -74,7 +74,7 @@ It's possible to define more than one key and you can combine the two syntaxes
 
 ## Reference Result-set
 
-The reference result-set is defined in the assertion and could be any result-set More info [here](/docs/compare-equivalence-resultsets).
+The reference result-set is defined in the assertion and could be any result-set More info [here](../compare-equivalence-resultsets).
 
 {% highlight xml %}
 <assert>

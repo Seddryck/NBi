@@ -43,7 +43,7 @@ This alteration is useful when you want to convert a column of type *text* to a 
 <resultSet>
 {% endhighlight %}
 
-The column to convert can be defined by its position (to achieve this, precede the zero-based position by a *#*) or by its name. 
+The column to convert can be defined by its position (to achieve this, precede the zero-based position by a *#*) or by its name.
 The attribute culture is defined as one of the *Language Culture Name* at [this page](https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx)
 
 An optional *default-value* attribute will let you define the value returned if the conversion doesn't succeed. If this attribute is not set, the *null* value will be used. When the attribute is set, it must be conform to the correct notation of the expected type (*yyyy-MM-dd hh:mm:ss* or *yyyy-MM-dd* for dateTime or *###.###* for numeric)

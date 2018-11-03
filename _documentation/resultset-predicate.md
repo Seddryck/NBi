@@ -74,30 +74,30 @@ In addition to this operator, you must also define [the column or expression](..
 Each predicate is not valid for each data type. The list of possible combinaison is described here under:
 
 | Predicate | Text | Numeric | DateTime | Boolean | Remarks
-|-------------|:-----------------:|:-------------------:|
-| equal  | Yes | Yes | Yes | Yes | [case-sensitive](`#case-sensitive), [reference](#reference)
-| more-than  | Yes | Yes | Yes | No | [case-sensitive](`#case-sensitive), [reference](#reference), [inline alternative](#inline-alternative)
-| less-than  | Yes | Yes | Yes | No | [case-sensitive](`#case-sensitive), [reference](#reference), [inline alternative](#inline-alternative)
-| null  | Yes | Yes | Yes | Yes
+|-------------|:----:|:----:|:----:|:----:|----:|
+| equal  | Yes | Yes | Yes | Yes | [case-sensitive](#case-sensitive), [reference](#reference)
+| more-than  | Yes | Yes | Yes | No | [case-sensitive](#case-sensitive), [reference](#reference), [inline alternative](#inline-alternative)
+| less-than  | Yes | Yes | Yes | No | [case-sensitive](#case-sensitive), [reference](#reference), [inline alternative](#inline-alternative)
+| null  | Yes | Yes | Yes | Yes |
 | empty  | Yes | No | No | No | [inline alternative](#inline-alternative)
-| starts-with  | Yes | No | No | No | [case-sensitive](`#case-sensitive), [reference](#reference)
-| ends-with  | Yes | No | No | No | [case-sensitive](`#case-sensitive), [reference](#reference)
-| contains  | Yes | No | No | No | [case-sensitive](`#case-sensitive), [reference](#reference)
-| lower-case  | Yes | No | No | No
-| upper-case  | Yes | No | No | No
+| starts-with  | Yes | No | No | No | [case-sensitive](#case-sensitive), [reference](#reference)
+| ends-with  | Yes | No | No | No | [case-sensitive](#case-sensitive), [reference](#reference)
+| contains  | Yes | No | No | No | [case-sensitive](#case-sensitive), [reference](#reference)
+| lower-case  | Yes | No | No | No |
+| upper-case  | Yes | No | No | No |
 | matches-regex  | Yes | No | No | No | [reference](#reference)
 | matches-numeric  | Yes | No | No | No | [culture](#culture)
 | matches-date  | Yes | No | No | No | [culture](#culture)
 | matches-time  | Yes | No | No | No | [culture](#culture)
 | any-of (aka within-list)  | Yes | No | No | No | [reference](#reference)
 | within-range  | No | Yes | Yes | No | [reference](#reference)
-| integer  | No | Yes | No | No
+| integer  | No | Yes | No | No |
 | modulo | No | Yes | No | No | [reference](#reference), [second-operand](#second-operand)
 | on-the-day  | No | No | Yes | No | [reference](#reference)
 | on-the-minute | No | No | Yes | No | [reference](#reference)
 | on-the-second | No | No | Yes | No | [reference](#reference)
-| true | No | No | No | Yes
-| false | No | No | No | Yes
+| true | No | No | No | Yes |
+| false | No | No | No | Yes |
 
 {% highlight xml %}
 <assertion>
@@ -173,15 +173,15 @@ The following predicates are expecting a culture: *matches-numeric*, *matches-da
 
 ## Second operand
 
-The operator *modulo* is expecting a second operand (the divisor) that you can specify in the attribute *second-operand*.
+The predicate *modulo* is expecting a second operand (the divisor) that you can specify in the attribute *second-operand*.
 
 {% highlight xml %}
 <assertion>
     <all-rows>
         ...
-        <predicate operand="FirstName" type="text">
-           <equal ignore-case="true">My Value</equal>
-        <predicate>
+        <predicate name="#0">
+          <modulo second-operand="15">0</modulo>
+        </predicate>
     </all-rows>
 </assertion>
 {% endhighlight %}

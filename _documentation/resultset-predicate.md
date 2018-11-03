@@ -67,11 +67,24 @@ The functions supported in an *expression* are these supported by [NCalc](https:
 
 # List of predicates
 
-The predicate can be used with the previously defined assertions: *no-rows* and *all-rows*. They supports many different operators, see the table here under for the full list.
+The predicate can be used with the previously defined assertions: *no-rows*, *all-rows*, *some-rows* and *single-row*. They supports many different operators, see the table here under for the full list.
 
 In addition to this operator, you must also define [the column or expression](../resultset-all-no-rows/) that you want to validate with this predicate. This indication is provided by identifying the column or the expression in the attribute *name*. Once again, you can use the three strategies described above to identify a column and for an expression, you can use its name.
 
-Each predicate is not valid for each data type. The list of possible combinaison is described here under:
+As most predicates are valid for different types, you must specify the type of the column or expression that will be tested. By default the type is set to *numeric* but you configure it to any other type.
+
+{% highlight xml %}
+<assertion>
+    <all-rows>
+        ...
+        <predicate operand="FirstName" type="text">
+           ...
+        <predicate>
+    </all-rows>
+</assertion>
+{% endhighlight %}
+
+Each predicate is not valid for each data type. The list of possible combinaison is described here under.
 
 | Predicate | Text | Numeric | DateTime | Boolean | Remarks
 |-------------|:----:|:----:|:----:|:----:|----:|
@@ -103,7 +116,7 @@ Each predicate is not valid for each data type. The list of possible combinaison
 <assertion>
     <all-rows>
         ...
-        <predicate operand="FirstName">
+        <predicate operand="FirstName" type="text">
            <upper-case>
         <predicate>
     </all-rows>
@@ -131,7 +144,7 @@ The predicate *any-of* is not expecting a unique reference but a list of items a
 <assertion>
     <all-rows>
         ...
-        <predicate operand="FirstName">
+        <predicate operand="FirstName" type="text">
            <any-of>
                <item>first</item>
                <item>second</item>
@@ -156,7 +169,7 @@ The predicates *equal*, *more/less-than*, *starts/ends-with*, *contains*, *match
 </assertion>
 {% endhighlight %}
 
-## Culture specific
+## Culture
 
 The following predicates are expecting a culture: *matches-numeric*, *matches-date*, *matches-time*. The culture is a group of 4 letters separated in two groups of two by the means of a dash. The list of valid cultures is defined at [MSDN](https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx). If this culture is not provided then an invariant culture is applied with the pattern *yyyy-MM-dd* for the date format,  *HH:mm* for the time format and a dot as decimal separator (no thousand seperator) for the numeric format.
 
@@ -220,7 +233,7 @@ In the example above, the test will succeed if at least one of the charachter of
 
 ## Variables for predicate's reference
 
-Sometimes, the reference must be dynamic. One of the most famous examples is the need to check that all rows returned by the query are for the days before today. When you've this kind of issues, you can use a *[variable](..docs/variable-define)*. These items are described at the top of the test-suite and are dynamically evaluated. To reference them in the predicate you must use the name of the variable prefixed by an arrobas (@)
+Sometimes, the [reference](#reference) must be dynamic. One of the most famous examples is the need to check that all rows returned by the query are for the days before today. When you're facing this kind of issues, you can use a *[variable](../variable-define)*. These items are described at the top of the test-suite and are dynamically evaluated. To reference them in the predicate you must use the name of the variable prefixed by an arrobas (@)
 
 {% highlight xml %}
 <variables>

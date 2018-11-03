@@ -19,7 +19,7 @@ To work-around the two first limitations, or if you want to validate a more rest
 
 ## System under test
 
-The system-under-test is a result-set, please check to other tests for more information about how to define a result-set. More info [here](/docs/compare-equivalence-resultsets).
+The system-under-test is a result-set, please check to other tests for more information about how to define a result-set. More info [here](../compare-equivalence-resultsets).
 
 ## Assertion
 
@@ -72,7 +72,7 @@ It's possible to define more than one key and you can combine the two syntaxes
 </assert>
 {% endhighlight %}
 
-## Reference Result-set
+### Reference Result-set
 
 The reference result-set is defined in the assertion and could be any result-set More info [here](../compare-equivalence-resultsets).
 

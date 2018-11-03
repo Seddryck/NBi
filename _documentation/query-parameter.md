@@ -14,6 +14,7 @@ Unlike a [template-value](../query-template), a parameter input is treated as a 
 When creating a parameterized query, you identify the parameter name by prefixing the name with the at sign (@). For example, @Year would be a valid parameter name. Parameters must be named parameters, NBi doesn't support the question mark syntax.
 
 ## SQL parameters
+
 In your test definition, in addition of the element *query*, you'll also need to describe your *parameter* by defining its name, sql-type and its value within an xml element named *parameter*.
 
 {% highlight xml %}
@@ -115,7 +116,7 @@ Within the code snippet here under, we're defining twice a *parameter* named *lo
 </settings>
 {% endhighlight %}
 
-### Overriding Parameters defined at the test-suite level
+### Overriding parameters defined at the test-suite level
 
 If a parameter is defined at the test-suite level and at the query level, the definition at the query level will be used. The value defined at the test-suite level will be overridden by the value provided at the query level.
 

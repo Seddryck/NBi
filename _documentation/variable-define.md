@@ -68,7 +68,7 @@ In this example, the variable named *myVar* is set to the value of the environme
 </variable>
 {% endhighlight %}
 
-# Usage
+## Usage
 
 In this first release, you can't use the variables at many places. the usage is strictly limited to the following places:
 
@@ -78,6 +78,6 @@ In this first release, you can't use the variables at many places. the usage is 
 
 If you've other places, where you think that a variable would be helpful, report it by creating an [issue](http://github.com/Seddryck/nbi/issues)
 
-# Notes about the future of variables
+## Notes about the future of variables
 
 Variables will be extented in the next releases. The goal is to let you define them at different places (*groups* and perhaps *tests*). The goal is also to evaluate them only when needed (execution) and not during the load of the test-suite (currently depending of the place where the variable is used). A variable should not be evaluated twice, once it has been evaluated, the value will be cached. In these early releases, relying on these features is hazardous.

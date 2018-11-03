@@ -67,35 +67,35 @@ The functions supported in an *expression* are these supported by [NCalc](https:
 
 # List of predicates
 
-The predicate can be used with the previously defined assertions: *no-rows* and *all-rows*. They supports many different operators, see the table here under for the full list. The two options *more-than* and *less-than* also supports the variant *or-equal* moreover the option *empty* supports the variant *or-null*. Some of the text specific operators (*starts-with*, *ends-with*, *contains*, *matches-regex*) supports the variant *ignore-case*. The operator *modulo* is expecting a second operand (the divisor) that you can specify in the attribute *second-operand*.
+The predicate can be used with the previously defined assertions: *no-rows* and *all-rows*. They supports many different operators, see the table here under for the full list.
 
 In addition to this operator, you must also define [the column or expression](../resultset-all-no-rows/) that you want to validate with this predicate. This indication is provided by identifying the column or the expression in the attribute *name*. Once again, you can use the three strategies described above to identify a column and for an expression, you can use its name.
 
 Each predicate is not valid for each data type. The list of possible combinaison is described here under:
 
-| Predicate | Text | Numeric | DateTime | Boolean
+| Predicate | Text | Numeric | DateTime | Boolean | Remarks
 |-------------|:-----------------:|:-------------------:|
-| equal  | Yes | Yes | Yes | Yes
-| more-than  | Yes | Yes | Yes | No
-| less-than  | Yes | Yes | Yes | No
+| equal  | Yes | Yes | Yes | Yes | [case-sensitive](`#case-sensitive), [reference](#reference)
+| more-than  | Yes | Yes | Yes | No | [case-sensitive](`#case-sensitive), [reference](#reference), [inline alternative](#inline-alternative)
+| less-than  | Yes | Yes | Yes | No | [case-sensitive](`#case-sensitive), [reference](#reference), [inline alternative](#inline-alternative)
 | null  | Yes | Yes | Yes | Yes
-| empty  | Yes | No | No | No
-| starts-with  | Yes | No | No | No
-| ends-with  | Yes | No | No | No
-| contains  | Yes | No | No | No
+| empty  | Yes | No | No | No | [inline alternative](#inline-alternative)
+| starts-with  | Yes | No | No | No | [case-sensitive](`#case-sensitive), [reference](#reference)
+| ends-with  | Yes | No | No | No | [case-sensitive](`#case-sensitive), [reference](#reference)
+| contains  | Yes | No | No | No | [case-sensitive](`#case-sensitive), [reference](#reference)
 | lower-case  | Yes | No | No | No
 | upper-case  | Yes | No | No | No
-| matches-regex  | Yes | No | No | No
-| matches-numeric  | Yes | No | No | No
-| matches-date  | Yes | No | No | No
-| matches-time  | Yes | No | No | No
-| any-of (aka within-list)  | Yes | No | No | No
-| within-range  | No | Yes | Yes | No
+| matches-regex  | Yes | No | No | No | [reference](#reference)
+| matches-numeric  | Yes | No | No | No | [culture](#culture)
+| matches-date  | Yes | No | No | No | [culture](#culture)
+| matches-time  | Yes | No | No | No | [culture](#culture)
+| any-of (aka within-list)  | Yes | No | No | No | [reference](#reference)
+| within-range  | No | Yes | Yes | No | [reference](#reference)
 | integer  | No | Yes | No | No
-| modulo | No | Yes | No | No
-| on-the-day  | No | No | Yes | No
-| on-the-minute | No | No | Yes | No
-| on-the-second | No | No | Yes | No
+| modulo | No | Yes | No | No | [reference](#reference), [second-operand](#second-operand)
+| on-the-day  | No | No | Yes | No | [reference](#reference)
+| on-the-minute | No | No | Yes | No | [reference](#reference)
+| on-the-second | No | No | Yes | No | [reference](#reference)
 | true | No | No | No | Yes
 | false | No | No | No | Yes
 
@@ -110,13 +110,85 @@ Each predicate is not valid for each data type. The list of possible combinaison
 </assertion>
 {% endhighlight %}
 
-Some of the predicates, require to specify a reference. For example if you want to check that the content of a column is greater than 1000 then your reference is 1000. This value must be specified in the inner text of the predicate element.
+## Reference
 
-The predicate *within-list* is not expecting a unique reference but a list of items as reference. Use the xml element *item* to delimitate each item.
+Some of the predicates, require to specify a *reference*. For example if you want to check that the content of a column is equal to 1000 then your *reference* is ```1000```. This value must be specified in the inner text of the predicate element.
+
+{% highlight xml %}
+<assertion>
+    <all-rows>
+        ...
+        <predicate operand="Value">
+           <equal>1000</equal>
+        <predicate>
+    </all-rows>
+</assertion>
+{% endhighlight %}
+
+The predicate *any-of* is not expecting a unique reference but a list of items as the reference. Use the xml element *item* to delimitate each item that you want to put in your reference.
+
+{% highlight xml %}
+<assertion>
+    <all-rows>
+        ...
+        <predicate operand="FirstName">
+           <any-of>
+               <item>first</item>
+               <item>second</item>
+           </any-of>
+        <predicate>
+    </all-rows>
+</assertion>
+{% endhighlight %}
+
+## Case-sensitive
 
 The predicates *equal*, *more/less-than*, *starts/ends-with*, *contains*, *matches-regex* and *within-list* are supporting two kinds of comparison for textual: case-sensitive (default) and case-insensitive. To change this behaviour adapat the value of the xml attribute *ignore-case* (default is false).
 
+{% highlight xml %}
+<assertion>
+    <all-rows>
+        ...
+        <predicate operand="FirstName" type="text">
+           <equal ignore-case="true">John</equal>
+        <predicate>
+    </all-rows>
+</assertion>
+{% endhighlight %}
+
+## Culture specific
+
 The following predicates are expecting a culture: *matches-numeric*, *matches-date*, *matches-time*. The culture is a group of 4 letters separated in two groups of two by the means of a dash. The list of valid cultures is defined at [MSDN](https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx). If this culture is not provided then an invariant culture is applied with the pattern *yyyy-MM-dd* for the date format,  *HH:mm* for the time format and a dot as decimal separator (no thousand seperator) for the numeric format.
+
+{% highlight xml %}
+<assertion>
+    <all-rows>
+        ...
+        <predicate operand="birthDate" type="text">
+           <matches-date culture="fr-fr"/>
+        <predicate>
+    </all-rows>
+</assertion>
+{% endhighlight %}
+
+## Second operand
+
+The operator *modulo* is expecting a second operand (the divisor) that you can specify in the attribute *second-operand*.
+
+{% highlight xml %}
+<assertion>
+    <all-rows>
+        ...
+        <predicate operand="FirstName" type="text">
+           <equal ignore-case="true">My Value</equal>
+        <predicate>
+    </all-rows>
+</assertion>
+{% endhighlight %}
+
+## Inline alternative
+
+The two predicates *more-than* and *less-than* also supports the variant *or-equal* moreover the option *empty* supports the variant *or-null*.
 
 {% highlight xml %}
 <assertion>
@@ -170,7 +242,7 @@ Sometimes, the reference must be dynamic. One of the most famous examples is the
 
 ## Combination of predicates
 
-Since version 1.17, it's possible to combine predicates with one of the three operators *and*, *or* and *xor*. To achieve this you must specify the element *combination* and specify the operator in the attribute *operator*. This operator will be used between each operator. To specify that the *TotalPriceWithVAT* must be greater or eaqual to *@maxAmount* or that the column with index 0 must be in upper-case, apply the following guidelines.
+It's possible to combine predicates with one of the three operators *and*, *or* and *xor*. To achieve this you must specify the element *combination* and specify the operator in the attribute *operator*. This operator will be used between each operator. To specify that the *TotalPriceWithVAT* must be greater or equal to *@maxAmount* or that the column with index 0 must be in upper-case, apply the following guidelines.
 
 {% highlight xml %}
 <assertion>
@@ -181,7 +253,7 @@ Since version 1.17, it's possible to combine predicates with one of the three op
             <predicate operand="TotalPriceWithVAT">
                 <more-than or-equal="true">@maxAmount<more-than>
             <predicate>
-            <predicate operand="#0">
+            <predicate operand="#0" type="text">
                 <upper-case/>
             <predicate>
         </combination>

@@ -463,6 +463,9 @@
     <Compile Include="ResultSet\Uniqueness\NameEvaluator.cs" />
     <Compile Include="ResultSet\Uniqueness\SettingsEvaluatorBuilder.cs" />
     <Compile Include="ResultSet\Uniqueness\ResultUniqueRows.cs" />
+    <Compile Include="Scalar\Format\FormatterFactory.cs" />
+    <Compile Include="Scalar\Format\IFormatter.cs" />
+    <Compile Include="Scalar\Format\InvariantFormatter.cs" />
     <Compile Include="Scalar\Interval\EndPoint.cs" />
     <Compile Include="ResultSet\IContent.cs" />
     <Compile Include="Scalar\Interval\DateTimeInterval.cs" />
@@ -525,8 +528,10 @@
     <Compile Include="ProgressStatusHandler.cs" />
     <Compile Include="ProgressStatusEventArgs.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Scalar\Resolver\FormatScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\EnvironmentScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\EnvironmentScalarResolver.cs" />
+    <Compile Include="Scalar\Resolver\FormatScalarResolver.cs" />
     <Compile Include="Scalar\ThreeStateBoolean.cs" />
     <Compile Include="ResultSet\Uniqueness\ResultOccurenceUniqueRows.cs" />
     <Compile Include="Scalar\Conversion\BaseConverter.cs" />

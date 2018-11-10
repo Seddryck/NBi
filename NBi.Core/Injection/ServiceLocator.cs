@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Core.Scalar.Format;
 
 namespace NBi.Core.Injection
 {
@@ -57,6 +58,11 @@ namespace NBi.Core.Injection
         public Configuration.Configuration GetConfiguration()
         {
             return kernel.Get<Configuration.Configuration>();
+        }
+
+        public FormatterFactory GetFormatterFactory()
+        {
+            return kernel.Get<FormatterFactory>();
         }
     }
 }

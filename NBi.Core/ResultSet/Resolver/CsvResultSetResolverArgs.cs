@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Query;
+using NBi.Core.Scalar.Resolver;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,12 +11,14 @@ namespace NBi.Core.ResultSet.Resolver
 {
     public class CsvResultSetResolverArgs : ResultSetResolverArgs
     {
-        public string Path { get; }
+        public IScalarResolver<string> Path { get; }
+        public string BasePath { get; }
         public CsvProfile Profile { get; }
 
-        public CsvResultSetResolverArgs(string path, CsvProfile profile)
+        public CsvResultSetResolverArgs(IScalarResolver<string> path, string basePath, CsvProfile profile)
         {
             this.Path = path;
+            this.BasePath = basePath;
             this.Profile = profile;
         }
     }

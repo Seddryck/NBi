@@ -64,13 +64,15 @@ namespace NBi.Core.Scalar.Resolver
                 output = output.ToString().Substring(0, output.ToString().Length - 1);
 
             output = Convert.ChangeType(output, typeof(T), formatProvider);
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $@"Variable '{args.VariableName}' evaluated to: {
+            var invariantCulture = new CultureFactory().Invariant;
+            var msg = $@"Variable '{args.VariableName}' evaluated to: {
                     (
                         output == null ? "(null)" :
                         output is string && string.IsNullOrEmpty(output.ToString()) ? "(empty)" : output
                     )
                 }
-            ");
+            ";
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, msg.ToString(invariantCulture));
 
             return (T)output;
         }

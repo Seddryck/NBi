@@ -87,8 +87,14 @@ namespace NBi.NUnit.Builder.Helper
 
             else if (obj is string && !string.IsNullOrEmpty((string)obj) && ((string)obj).Trim().StartsWith("@"))
             {
-                var variableName = ((string)obj).Trim().Substring(1, ((string)obj).Trim().Length - 1);
+                var variableName = ((string)obj).Trim().Substring(1);
                 args = new GlobalVariableScalarResolverArgs(variableName, globalVariables);
+            }
+
+            else if (obj is string && !string.IsNullOrEmpty((string)obj) && ((string)obj).Trim().StartsWith("~"))
+            {
+                var formatText = ((string)obj).Trim().Substring(1);
+                args = new FormatScalarResolverArgs(formatText, globalVariables);
             }
 
             else if (obj is object && obj != null)

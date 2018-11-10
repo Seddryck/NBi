@@ -340,6 +340,7 @@
     <Compile Include="Unit\Core\ResultSet\Conversion\ConverterEngineTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetServiceTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Uniqueness\OrdinalUniqueRowsEvaluatorTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Format\InvariantFormatterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Interval\DateTimeIntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\JsonResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\KeyCollectionTest.cs" />
@@ -369,6 +370,7 @@
     <Compile Include="Unit\Core\Scalar\Conversion\TextToDateTimeConverterTest.cs" />
     <Compile Include="Unit\Core\Scalar\PercentageTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\EnvironmentScalarResolverTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Resolver\FormatScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\GlobalVariableScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\LiteralScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\ProjectionResultSetScalarResolverTest.cs" />

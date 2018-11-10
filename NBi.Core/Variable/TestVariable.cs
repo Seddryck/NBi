@@ -1,4 +1,5 @@
 ﻿using Microsoft.CSharp;
+using NBi.Core.Scalar;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation;
 using System;
@@ -33,8 +34,11 @@ namespace NBi.Core.Variable
                 value = resolver.Execute();
                 isEvaluated = true;
 
-                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Time needed for evaluation of the variable: {stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")}");
-                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Variable evaluated to: {value}");
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Time needed for evaluation of the variable: {stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")}");
+
+                var invariantCulture = new CultureFactory().Invariant;
+                var msg = $"Variable evaluated to: {value}";
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, msg.ToString(invariantCulture));
             }
 
             return value;

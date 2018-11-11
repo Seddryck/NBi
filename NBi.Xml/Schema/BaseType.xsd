@@ -63,6 +63,7 @@
     <xs:attribute name="source" type="xs:string"/>
     <xs:attribute name="path" type="xs:string"/>
     <xs:attribute name="connectionString" type="xs:string" use="optional"/>
+    <xs:attribute name="connection-string" type="xs:string" use="optional"/>
   </xs:complexType>
   <xs:complexType name="numeric-format-type">
     <xs:attribute name="ref" use="optional"/>

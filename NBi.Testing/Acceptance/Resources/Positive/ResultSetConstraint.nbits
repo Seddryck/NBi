@@ -128,15 +128,15 @@
           <join>
             <mapping candidate="#2" reference="#0" type="text"/>
           </join>
-          <resultSet>
-            <query connectionString="@ref1">select 'CUST0001' union all select 'CUST0002' union all select 'CUST0003'</query>
-          </resultSet>
+          <result-set>
+            <query connection-string="@ref1">select 'CUST0001' union all select 'CUST0002' union all select 'CUST0003'</query>
+          </result-set>
         </lookup-exists>
       </assert>
     </test>
     <test name="lookup-exist" uid="00081">
       <system-under-test>
-        <resultSet file="..\Csv\Orders.csv"/>
+        <result-set file="..\Csv\Orders.csv"/>
       </system-under-test>
       <assert>
         <lookup-exists>
@@ -166,16 +166,16 @@
     </test>
     <test name="lookup-exist reversed" uid="00081">
       <system-under-test>
-        <resultSet>
+        <result-set>
           <query>select 'CUST0001' union all select 'CUST0002' union all select 'CUST0003' union all select 'NOT EXISTING'</query>
-        </resultSet>
+        </result-set>
       </system-under-test>
       <assert>
         <lookup-exists reverse="true">
           <join>
             <mapping candidate="#2" reference="#0" type="text"/>
           </join>
-          <resultSet file="..\Csv\Orders.csv"/>
+          <result-set file="..\Csv\Orders.csv"/>
         </lookup-exists>
       </assert>
     </test>

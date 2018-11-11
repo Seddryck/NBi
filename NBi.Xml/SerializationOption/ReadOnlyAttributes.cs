@@ -12,6 +12,7 @@ using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.Calculation;
 using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Settings;
+using NBi.Xml.Systems;
 
 namespace NBi.Xml.SerializationOption
 {
@@ -46,13 +47,23 @@ namespace NBi.Xml.SerializationOption
             AddToArrayAttributes((TestXml t) => t.Constraints,
                 new Dictionary<string, Type>()
                 {
-                    { "subsetOf", typeof(SubsetOf1xXml) },
+                    { "subsetOf", typeof(SubsetOfOldXml) },
                     { "fasterThan", typeof(FasterThanOldXml) },
                     { "syntacticallyCorrect", typeof(SyntacticallyCorrectOldXml) },
                     { "equalTo", typeof(EqualToOldXml) },
                     { "equivalentTo", typeof(EquivalentToOldXml) },
                 });
+
+            AddToArrayAttributes((TestXml t) => t.Systems,
+                new Dictionary<string, Type>()
+                {
+                    { "resultSet", typeof(ResultSetSystemOldXml) },
+                });
+
             AddToElements((PredicationXml p) => p.Predicate, "within-list", typeof(WithinListXml));
+
+            AddToElements((ProjectionXml x) => x.ResultSetOld, "resultSet", typeof(ResultSetSystemXml));
+            AddToElements((LookupExistsXml x) => x.ResultSetOld, "resultSet", typeof(ResultSetSystemXml));
             #pragma warning restore 0618
         }
 

@@ -10,7 +10,7 @@
   </test>
   <test name="Result-set has embedded" uid="0001">
     <system-under-test>
-      <resultSet>
+      <result-set>
         <row>
           <cell>A</cell>
           <cell>120</cell>
@@ -19,7 +19,7 @@
           <cell>B</cell>
           <cell>120</cell>
         </row>
-      </resultSet>
+      </result-set>
     </system-under-test>
     <assert>
       <unique-rows/>
@@ -98,7 +98,7 @@
   </test>
   <test name="Alteration has a converter" uid="0007">
     <system-under-test>
-      <resultSet>
+      <result-set>
         <query>
           <report path="/path/" name="MyReport" dataset="MyDataSet"/>
         </query>
@@ -107,7 +107,7 @@
             <text-to-date culture="fr-fr"/>
           </convert>
         </alteration>
-      </resultSet>
+      </result-set>
     </system-under-test>
     <assert>
       <equalTo>

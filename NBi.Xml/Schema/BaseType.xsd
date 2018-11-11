@@ -429,7 +429,10 @@
   </xs:complexType>
   <xs:complexType name="projection-type">
     <xs:sequence>
-      <xs:element name="resultSet" minOccurs="1" maxOccurs="1" type="resultSet-type"/>
+      <xs:choice minOccurs="1" maxOccurs="1">
+        <xs:element name="resultSet" minOccurs="1" maxOccurs="1" type="result-set-type"/>
+        <xs:element name="result-set" minOccurs="1" maxOccurs="1" type="result-set-type"/>
+      </xs:choice>
     </xs:sequence>
     <xs:attribute name="type" use="required">
       <xs:simpleType>
@@ -831,8 +834,9 @@
                     </xs:choice>
                   </xs:complexType>
                 </xs:element>
-                <xs:element name="resultSet" type ="resultSet-type"/>
-                <xs:element name="scalar" type ="scalar-type"/>
+                <xs:element name="resultSet" type="result-set-type"/>
+                <xs:element name="result-set" type="result-set-type"/>
+                <xs:element name="scalar" type="scalar-type"/>
                 <xs:element name="members" type="members-type"/>
                 <xs:element name="structure">
                   <xs:complexType>
@@ -1203,7 +1207,10 @@
   <xs:complexType name="lookup-exists-type">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">
       <xs:element name="join" type="join-type" minOccurs="1" maxOccurs="1" />
-      <xs:element name="resultSet" type="resultSet-type" minOccurs="1" maxOccurs="1"/>
+      <xs:choice minOccurs="1" maxOccurs="1">
+        <xs:element name="resultSet" type="result-set-type" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="result-set" type="result-set-type" minOccurs="1" maxOccurs="1"/>
+      </xs:choice>
     </xs:sequence>
     <xs:attribute name="reverse" type="xs:boolean"/>
   </xs:complexType>
@@ -1271,7 +1278,7 @@
     <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
     <xs:attribute name="not" type="xs:boolean" use="optional" />
   </xs:complexType>
-  <xs:complexType name="resultSet-type">
+  <xs:complexType name="result-set-type">
     <xs:sequence>
       <xs:choice>
         <xs:element name="row" minOccurs="0" maxOccurs="unbounded">

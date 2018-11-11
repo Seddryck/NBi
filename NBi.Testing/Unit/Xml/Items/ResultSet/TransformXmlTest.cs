@@ -68,7 +68,7 @@ namespace NBi.Testing.Unit.Xml.Items.ResultSet
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
             var transfo = ((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[0].Transformation;
 
 
@@ -85,7 +85,7 @@ namespace NBi.Testing.Unit.Xml.Items.ResultSet
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
             var transfo = ((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[0].Transformation;
 
             Assert.That(transfo.Language, Is.EqualTo(LanguageType.Native));
@@ -100,7 +100,7 @@ namespace NBi.Testing.Unit.Xml.Items.ResultSet
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
             var transfo = ((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[0].Transformation;
 
             Assert.That(transfo.Language, Is.EqualTo(LanguageType.Native));

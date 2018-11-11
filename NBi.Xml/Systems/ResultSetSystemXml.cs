@@ -78,4 +78,6 @@ namespace NBi.Xml.Systems
             _rows = new List<RowXml>();
         }
     }
+
+    public class ResultSetSystemOldXml : ResultSetSystemXml { }
 }

@@ -101,7 +101,7 @@ namespace NBi.Xml
 
         [XmlArray("system-under-test", Order = 8),
         XmlArrayItem(Type = typeof(ExecutionXml), ElementName = "execution"),
-        XmlArrayItem(Type = typeof(ResultSetSystemXml), ElementName = "resultSet"),
+        XmlArrayItem(Type = typeof(ResultSetSystemXml), ElementName = "result-set"),
         XmlArrayItem(Type = typeof(ScalarXml), ElementName = "scalar"),
         XmlArrayItem(Type = typeof(MembersXml), ElementName = "members"),
         XmlArrayItem(Type = typeof(StructureXml), ElementName = "structure"),

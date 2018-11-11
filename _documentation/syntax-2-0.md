@@ -13,11 +13,11 @@ Some of the names of the xml elements are written in Pascal-case and not with da
 
 The system-under-test *execution* was a bit ambiguous, sometimes used for performance or successfulness of a query/ETL and sometimes for the result-set of a query. The new syntax will clarify this by introducing the system-under-test *result-set*.
 
-This result-set can be defined in different way. 
+This result-set can be defined in different way.
 
 ### Inline definition
 
-The most straightforward is to define rows and cells inline. 
+The most straightforward is to define rows and cells inline.
 
 {% highlight xml %}
 <resultSet>
@@ -31,25 +31,3 @@ The most straightforward is to define rows and cells inline.
   </row>
 </resultSet>
 {% endhighlight %}
-
-### External definition
-
-You can also refer to an external CSV file:
-
-{% highlight xml %}
-<resultSet file="myFile.csv"/>
-{% endhighlight %}
-
-the filename can be dynamically evaulated based on a variable (formatting). To enable this featureou must precede the filename by a tilt (```~```) and mix static part of the filename with dynamic part. The dynamic part must be contained between curly barces {% highlight xml %} and start by the variable name to consider.
-
-{% highlight xml %}
-<resultSet file="File_{@myVar}.csv"/>
-{% endhighlight %}
-
-In case the variable is a numeric or dateTime, it can be useful to format it. This formatting must be specified after a column (```:```).
-
-{% highlight xml %}
-<resultSet file="File_{@myDate:yyyy}_{@myDate:MM}.csv"/>
-{% endhighlight %}
-
-The formatting syntax is the one supported by .Net and explained in MSDN for the [numerics](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-numeric-format-strings) and [dateTimes](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings)

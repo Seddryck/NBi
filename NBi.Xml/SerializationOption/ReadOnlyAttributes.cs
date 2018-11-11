@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Xml.Serialization;
 using NBi.Xml.Constraints;
 using NBi.Xml.Constraints.Comparer;
+using NBi.Xml.Items;
 using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.Calculation;
 using NBi.Xml.Items.ResultSet;
@@ -26,6 +27,7 @@ namespace NBi.Xml.SerializationOption
             AddAsAttribute((TestXml t) => t.Ignore, "ignore");
             AddAsAttribute((ContainXml c) => c.Caption, "caption");
             AddAsAttribute((TransformXml t) => t.ColumnOrdinal, "column-index");
+            AddAsAttribute((BaseItem q) => q.ConnectionStringOld, "connectionString");
 
             AddAsElement((NoRowsXml c) => c.InternalAliasesOld, "variable", 2);
             AddAsElement((FilterXml f) => f.InternalAliasesOld, "variable");

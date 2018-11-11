@@ -131,6 +131,7 @@
   <xs:complexType name="any-structure-type">
     <xs:attribute name="caption" type="xs:string" use="required" />
     <xs:attribute name="connectionString" type="xs:string" use="optional" />
+    <xs:attribute name="connection-string" type="xs:string" use="optional" />
   </xs:complexType>
   <xs:complexType name="perspective-type">
     <xs:complexContent>
@@ -240,6 +241,7 @@
   </xs:complexType>
   <xs:complexType name="any-structures-type">
     <xs:attribute name="connectionString" type="xs:string" use="optional" />
+    <xs:attribute name="connection-string" type="xs:string" use="optional" />
   </xs:complexType>
   <xs:complexType name="perspectives-type">
     <xs:complexContent>

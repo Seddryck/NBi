@@ -3,7 +3,7 @@
 	<test name="With dimension attribute">
 		<system-under-test>
 			<structure>
-				<hierarchies dimension="dimension" perspective="Perspective" connectionString="ConnectionString"/>
+				<hierarchies dimension="dimension" perspective="Perspective" connection-string="connStr"/>
 			</structure>
 		</system-under-test>
 		<assert>

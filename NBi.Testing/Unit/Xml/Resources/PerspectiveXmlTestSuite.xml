@@ -3,7 +3,7 @@
 	<test name="With perspective element">
 		<system-under-test>
 			<structure>
-				<perspective caption="Perspective" connectionString="ConnectionString"/>
+				<perspective caption="Perspective" connection-string="ConnectionString"/>
 			</structure>
 		</system-under-test>
 		<assert>

@@ -31,6 +31,7 @@ namespace NBi.Xml.SerializationOption
             AddAsAttribute((BaseItem x) => x.ConnectionStringOld, "connectionString");
             AddAsAttribute((ConnectionWaitXml c) =>  c.SpecificConnectionStringOld, "connectionString");
             AddAsAttribute((DataManipulationAbstractXml x) => x.SpecificConnectionStringOld, "connectionString");
+            AddAsAttribute((SqlRunXml x) => x.SpecificConnectionStringOld, "connectionString");
 
             AddAsElement((NoRowsXml c) => c.InternalAliasesOld, "variable", 2);
             AddAsElement((FilterXml f) => f.InternalAliasesOld, "variable");

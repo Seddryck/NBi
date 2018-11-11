@@ -35,3 +35,100 @@ The most straightforward is to define rows and cells inline.
 ### External definition
 
 You can also refer to an external CSV file:
+
+{% highlight xml %}
+<resultSet file="myFile.csv"/>
+{% endhighlight %}
+
+the filename can be dynamically evaulated based on a variable (formatting). To enable this featureou must precede the filename by a tilt and mix static part of the filename with dynamic part. The dynamic part must be contained between curly barces {% highlight xml %} and start by the variable name to consider.
+
+{% highlight xml %}
+<resultSet file="File_{@myVar}.csv"/>
+{% endhighlight %}
+
+In case the variable is a numeric or dateTime, it can be useful to format it. This formatting must be specified after a column (```:```).
+
+{% highlight xml %}
+<resultSet file="File_{@myDate:yyyy}_{@myDate:MM}.csv"/>
+{% endhighlight %}
+
+The formatting syntax is the one supported by .Net and explained in MSDN for the [numerics](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-numeric-format-strings) and [dateTimes](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings)
+
+### Query-based definition
+
+Naturally, all the queries defined here under can take advantage of all features: [parameters](../query-parameter), [template-variables](../query-template), [timeout](../query-timeout) for the old syntax of a query.
+
+#### Inline query
+
+This query can be sourced from an inline definition
+
+{% highlight xml %}
+<resultSet>
+  <query>
+    select * from myTable
+  </query>
+<resultSet>
+{% endhighlight %}
+
+#### Query defined in an external file
+
+{% highlight xml %}
+<resultSet>
+  <query file="myQuery.sql"/>
+<resultSet>
+{% endhighlight %}
+
+#### Query defined in an assembly's method
+
+More info about [assembly](../docs/query-assembly)
+
+{% highlight xml %}
+<resultSet>
+  <query>
+    <assembly ...>
+  <query>
+<resultSet>
+{% endhighlight %}
+
+#### Query defined in a report (SQL Server Reporting Server)
+
+More info about [report](../docs/query-report#dataset)
+
+{% highlight xml %}
+<resultSet>
+  <query>
+    <report ...>
+  <query>
+<resultSet>
+{% endhighlight %}
+
+#### Query defined in a shared dataset (SQL Server Reporting Server)
+
+More info about [shared-dataset](../docs/shared-dataset)
+
+{% highlight xml %}
+<resultSet>
+  <query>
+    <shared-dataset ...>
+  <query>
+<resultSet>
+{% endhighlight %}
+
+## Alterations
+
+You can also define an alteration to the result-set. For the moment, three kinds of alterations are supported by NBi:
+
+* [filter](../resultset-rows-count-advanced/#filter).
+* [convert](../resultset-alterations/#converts)
+* [transform](../transform-column/)
+
+{% highlight xml %}
+<resultSet>
+  <query>
+    ...
+  <query>
+  <alteration>
+    <filter ...>
+  </alteration>
+<resultSet>
+{% endhighlight %}

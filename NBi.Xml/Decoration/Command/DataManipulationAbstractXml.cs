@@ -8,8 +8,16 @@ namespace NBi.Xml.Decoration.Command
 {
     public class DataManipulationAbstractXml : DecorationCommandXml, IDataManipulationCommand
     {
-        [XmlAttribute("connectionString")]
+        [XmlAttribute("connection-string")]
         public string SpecificConnectionString { get; set; }
+
+        [XmlIgnore]
+        [Obsolete("Replaced by connection-string")]
+        public string SpecificConnectionStringOld
+        {
+            get => SpecificConnectionString;
+            set { SpecificConnectionString = value; }
+        }
 
         [XmlIgnore]
         public string ConnectionString

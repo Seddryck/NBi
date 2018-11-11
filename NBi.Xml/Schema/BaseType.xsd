@@ -706,6 +706,7 @@
   </xs:complexType>
   <xs:complexType name="table-reset-type">
     <xs:attribute name="connectionString" type="xs:string" use="optional"/>
+    <xs:attribute name="connection-string" type="xs:string" use="optional"/>
     <xs:attribute name="name" type="xs:string" use="required"/>
   </xs:complexType>
   <xs:complexType name="table-load-type" >
@@ -747,6 +748,7 @@
   <xs:complexType name="connection-wait-type" >
     <xs:attribute name="timeout-milliseconds"  type="xs:positiveInteger" use="optional"/>
     <xs:attribute name="connectionString" type="xs:string" use="optional"/>
+    <xs:attribute name="connection-string" type="xs:string" use="optional"/>
   </xs:complexType>
   <xs:complexType name="settings-type">
     <xs:sequence>

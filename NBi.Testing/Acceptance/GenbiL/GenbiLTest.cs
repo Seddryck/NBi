@@ -78,17 +78,17 @@ namespace NBi.Testing.Acceptance.GenbiL
 
             Assert.That(content, Is.StringContaining("<default"));
             Assert.That(content, Is.StringContaining("apply-to=\"assert\""));
-            Assert.That(content, Is.StringContaining("<connectionString>youyou-default-assert</connectionString>"));
+            Assert.That(content, Is.StringContaining("<connection-string>youyou-default-assert</connection-string>"));
 
             Assert.That(content, Is.StringContaining("<default"));
             Assert.That(content, Is.StringContaining("apply-to=\"system-under-test\""));
-            Assert.That(content, Is.StringContaining("<connectionString>youyou-default-sut</connectionString>"));
+            Assert.That(content, Is.StringContaining("<connection-string>youyou-default-sut</connection-string>"));
             Assert.That(content, Is.Not.StringContaining("name=\"System-Under-Test\""));
             Assert.That(content, Is.Not.StringContaining("<report />"));
 
             Assert.That(content, Is.StringContaining("<reference"));
             Assert.That(content, Is.StringContaining("name=\"noway\""));
-            Assert.That(content, Is.StringContaining("<connectionString>youyou-reference-noway</connectionString>"));
+            Assert.That(content, Is.StringContaining("<connection-string>youyou-reference-noway</connection-string>"));
 
             Assert.That(content, Is.StringContaining("<hierarchy "));
             Assert.That(content, Is.StringContaining("caption=\"first-hierarchy\""));

@@ -1,4 +1,5 @@
-﻿using NBi.Core.Sequence.Resolver;
+﻿using NBi.Core.Scalar.Duration;
+using NBi.Core.Sequence.Resolver;
 using NBi.Core.Sequence.Resolver.Loop;
 using NUnit.Framework;
 using System;
@@ -25,7 +26,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Resolver
         [Test]
         public void Execute_CountDateTime_ExactSequence()
         {
-            var args = new CountDateTimeLoopStrategy(3, new DateTime(2018, 1, 30), new TimeSpan(1, 0, 0, 0));
+            var args = new CountDateTimeLoopStrategy(3, new DateTime(2018, 1, 30), new FixedDuration(new TimeSpan(1, 0, 0, 0)));
             var resolver = new LoopSequenceResolver<DateTime>(args);
             var elements = resolver.Execute();
             Assert.That(elements.Count(), Is.EqualTo(3));
@@ -45,7 +46,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Resolver
         [Test]
         public void Execute_SentinelDateTime_ExactSequence()
         {
-            var args = new SentinelDateTimeLoopStrategy(new DateTime(2018, 1, 28), new DateTime(2018, 2, 2), new TimeSpan(2, 0, 0, 0));
+            var args = new SentinelDateTimeLoopStrategy(new DateTime(2018, 1, 28), new DateTime(2018, 2, 2), new FixedDuration(new TimeSpan(2, 0, 0, 0)));
             var resolver = new LoopSequenceResolver<DateTime>(args);
             var elements = resolver.Execute();
             Assert.That(elements.Count(), Is.EqualTo(3));

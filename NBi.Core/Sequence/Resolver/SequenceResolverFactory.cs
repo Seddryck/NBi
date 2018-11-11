@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Injection;
+using NBi.Core.Scalar.Duration;
 using NBi.Core.Sequence.Resolver.Loop;
 using System;
 using System.Collections.Generic;
@@ -28,9 +29,9 @@ namespace NBi.Core.Sequence.Resolver
                     else if (args is SentinelLoopSequenceResolverArgs<decimal, decimal>)
                         strategy = new SentinelNumericLoopStrategy((args as SentinelLoopSequenceResolverArgs<decimal, decimal>).Seed, (args as SentinelLoopSequenceResolverArgs<decimal, decimal>).Terminal, (args as SentinelLoopSequenceResolverArgs<decimal, decimal>).Step) as ILoopStrategy<T>;
                     else if (args is CountLoopSequenceResolverArgs<DateTime, TimeSpan>)
-                        strategy = new CountDateTimeLoopStrategy((args as CountLoopSequenceResolverArgs<DateTime, TimeSpan>).Count, (args as CountLoopSequenceResolverArgs<DateTime, TimeSpan>).Seed, (args as CountLoopSequenceResolverArgs<DateTime, TimeSpan>).Step) as ILoopStrategy<T>;
+                        strategy = new CountDateTimeLoopStrategy((args as CountLoopSequenceResolverArgs<DateTime, TimeSpan>).Count, (args as CountLoopSequenceResolverArgs<DateTime, TimeSpan>).Seed, (args as CountLoopSequenceResolverArgs<DateTime, IDuration>).Step) as ILoopStrategy<T>;
                     else if (args is SentinelLoopSequenceResolverArgs<DateTime, TimeSpan>)
-                        strategy = new SentinelDateTimeLoopStrategy((args as SentinelLoopSequenceResolverArgs<DateTime, TimeSpan>).Seed, (args as SentinelLoopSequenceResolverArgs<DateTime, TimeSpan>).Terminal, (args as SentinelLoopSequenceResolverArgs<DateTime, TimeSpan>).Step) as ILoopStrategy<T>;
+                        strategy = new SentinelDateTimeLoopStrategy((args as SentinelLoopSequenceResolverArgs<DateTime, TimeSpan>).Seed, (args as SentinelLoopSequenceResolverArgs<DateTime, TimeSpan>).Terminal, (args as SentinelLoopSequenceResolverArgs<DateTime, IDuration>).Step) as ILoopStrategy<T>;
 
                     return new LoopSequenceResolver<T>(strategy);
             }

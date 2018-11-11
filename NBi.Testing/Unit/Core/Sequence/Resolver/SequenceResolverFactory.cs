@@ -1,4 +1,5 @@
-﻿using NBi.Core.Sequence.Resolver;
+﻿using NBi.Core.Scalar.Duration;
+using NBi.Core.Sequence.Resolver;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Resolver
         [Test]
         public void Instantiate_CountLoopDateTime_LoopSequenceResolver()
         {
-            var args = new CountLoopSequenceResolverArgs<DateTime, TimeSpan>(3, new DateTime(2018,3,1), new TimeSpan(1,0,0,0));
+            var args = new CountLoopSequenceResolverArgs<DateTime, IDuration>(3, new DateTime(2018,3,1), new FixedDuration(new TimeSpan(1,0,0,0)));
 
             var factory = new SequenceResolverFactory(null);
             var resolver = factory.Instantiate<DateTime>(args);
@@ -54,7 +55,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Resolver
         [Test]
         public void Instantiate_SentinelLoopDateTime_LoopSequenceResolver()
         {
-            var args = new SentinelLoopSequenceResolverArgs<DateTime, TimeSpan>(new DateTime(2018, 1, 1), new DateTime(2018, 3, 1), new TimeSpan(1, 0, 0, 0));
+            var args = new SentinelLoopSequenceResolverArgs<DateTime, IDuration>(new DateTime(2018, 1, 1), new DateTime(2018, 3, 1), new FixedDuration(new TimeSpan(1, 0, 0, 0)));
 
             var factory = new SequenceResolverFactory(null);
             var resolver = factory.Instantiate<DateTime>(args);

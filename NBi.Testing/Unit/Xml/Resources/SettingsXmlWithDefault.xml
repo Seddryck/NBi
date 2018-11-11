@@ -7,9 +7,9 @@
       </connection-string>
 		</default>
     <default apply-to="variable">
-      <connection-string>
+      <connectionString>
         My Other connection String
-      </connection-string>
+      </connectionString>
     </default>
 	</settings>
 	<test name="My first test case" uid="0001">

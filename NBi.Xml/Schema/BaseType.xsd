@@ -898,27 +898,10 @@
                     </xs:sequence>
                   </xs:complexType>
                 </xs:element>
-                <xs:element name="syntacticallyCorrect">
-                </xs:element>
-                <xs:element name="fasterThan">
-                  <xs:complexType>
-                    <xs:attribute name="max-time-milliSeconds" use="required" >
-                      <xs:simpleType>
-                        <xs:restriction base="xs:positiveInteger">
-                          <xs:maxInclusive value="2147483647"/>
-                        </xs:restriction>
-                      </xs:simpleType>
-                    </xs:attribute>
-                    <xs:attribute name="timeout-milliSeconds" use="optional" >
-                      <xs:simpleType>
-                        <xs:restriction base="xs:positiveInteger">
-                          <xs:maxInclusive value="2147483647"/>
-                        </xs:restriction>
-                      </xs:simpleType>
-                    </xs:attribute>
-                    <xs:attribute name="clean-cache" type="xs:boolean" use="optional" />
-                  </xs:complexType>
-                </xs:element>
+                <xs:element name="syntacticallyCorrect"/>
+                <xs:element name="syntactically-correct"/>
+                <xs:element name="fasterThan" type="faster-than-type"/>
+                <xs:element name="faster-than" type="faster-than-type"/>
                 <xs:element name="count">
                   <xs:complexType>
                     <xs:simpleContent>
@@ -1471,6 +1454,23 @@
     </xs:attribute>
     <xs:attribute name="keys-names" type="xs:string" use="optional" />
     <xs:attribute name="values-names" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="faster-than-type">
+    <xs:attribute name="max-time-milliSeconds" use="required" >
+      <xs:simpleType>
+        <xs:restriction base="xs:positiveInteger">
+          <xs:maxInclusive value="2147483647"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="timeout-milliSeconds" use="optional" >
+      <xs:simpleType>
+        <xs:restriction base="xs:positiveInteger">
+          <xs:maxInclusive value="2147483647"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="clean-cache" type="xs:boolean" use="optional" />
   </xs:complexType>
   <xs:simpleType name="keys-set-type">
     <xs:restriction base="xs:string">

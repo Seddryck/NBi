@@ -9,7 +9,7 @@
 			</execution>
 		</system-under-test>
 		<assert>
-			<fasterThan max-time-milliSeconds="100" clean-cache="true"/>
+			<faster-than max-time-milliSeconds="100" clean-cache="true"/>
 		</assert>
 	</test>
 	<test name="Accept Int.MaxValue (around 25 days) as a value for max-time-milliSeconds">
@@ -21,7 +21,7 @@
 			</execution>
 		</system-under-test>
 		<assert>
-			<fasterThan max-time-milliSeconds="2147483647"/>
+			<faster-than max-time-milliSeconds="2147483647"/>
 		</assert>
 	</test>
 	<test name="Default value for clean-cache is false">

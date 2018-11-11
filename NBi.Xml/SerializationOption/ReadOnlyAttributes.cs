@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -42,7 +43,13 @@ namespace NBi.Xml.SerializationOption
 
             AddAsAttribute((PredicationXml p) => p.Name, "name");
 
-            AddToArrayyAttributes((TestXml t) => t.Constraints, "subsetOf", typeof(SubsetOf1xXml));
+            AddToArrayAttributes((TestXml t) => t.Constraints,
+                new Dictionary<string, Type>()
+                {
+                    { "subsetOf", typeof(SubsetOf1xXml) },
+                    { "fasterThan", typeof(FasterThanOldXml) },
+                    { "syntacticallyCorrect", typeof(SyntacticallyCorrectOldXml) },
+                });
             AddToElements((PredicationXml p) => p.Predicate, "within-list", typeof(WithinListXml));
             #pragma warning restore 0618
         }
@@ -71,14 +78,15 @@ namespace NBi.Xml.SerializationOption
             Add(parent.DeclaringType, parent.Name, attrs);
         }
 
-        private void AddToArrayyAttributes<T, U>(Expression<Func<T, U>> expression, string alias, Type aliasType)
+        private void AddToArrayAttributes<T, U>(Expression<Func<T, U>> expression, Dictionary<string, Type> mappings)
         {
             var parent = GetMemberInfo(expression);
             var arrayAttr = (XmlArrayAttribute)parent.GetCustomAttributes(typeof(XmlArrayAttribute), false)[0];
             var arrayItemAttrs = parent.GetCustomAttributes(typeof(XmlArrayItemAttribute), false).Cast<XmlArrayItemAttribute>().ToList();
             var attrs = new XmlAttributes() { XmlArray = arrayAttr };
             arrayItemAttrs.ForEach(i => attrs.XmlArrayItems.Add(i));
-            attrs.XmlArrayItems.Add(new XmlArrayItemAttribute(alias, aliasType));
+            foreach (var key in mappings.Keys)
+                attrs.XmlArrayItems.Add(new XmlArrayItemAttribute(key, mappings[key]));
             Add(parent.DeclaringType, parent.Name, attrs);
         }
 

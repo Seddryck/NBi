@@ -110,8 +110,8 @@ namespace NBi.Xml
         public List<AbstractSystemUnderTestXml> Systems;
 
         [XmlArray("assert", Order = 9),
-        XmlArrayItem(Type = typeof(SyntacticallyCorrectXml), ElementName = "syntacticallyCorrect"),
-        XmlArrayItem(Type = typeof(FasterThanXml), ElementName = "fasterThan"),
+        XmlArrayItem(Type = typeof(SyntacticallyCorrectXml), ElementName = "syntactically-correct"),
+        XmlArrayItem(Type = typeof(FasterThanXml), ElementName = "faster-than"),
         XmlArrayItem(Type = typeof(EqualToXml), ElementName = "equalTo"),
         XmlArrayItem(Type = typeof(SupersetOfXml), ElementName = "superset-of"),
         XmlArrayItem(Type = typeof(SubsetOfXml), ElementName = "subset-of"),

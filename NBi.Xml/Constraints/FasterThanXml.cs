@@ -16,4 +16,6 @@ namespace NBi.Xml.Constraints
         [DefaultValue(0)]
         public int TimeOutMilliSeconds { get; set; }
     }
+
+    public class FasterThanOldXml : FasterThanXml { }
 }

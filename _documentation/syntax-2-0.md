@@ -20,7 +20,7 @@ This result-set can be defined in different way.
 The most straightforward is to define rows and cells inline.
 
 {% highlight xml %}
-<resultSet>
+<result-set>
   <row>
     <cell>Canada</cell>
     <cell>130</cell>
@@ -29,7 +29,7 @@ The most straightforward is to define rows and cells inline.
     <cell>Belgium</cell>
     <cell>45</cell>
   </row>
-</resultSet>
+</result-set>
 {% endhighlight %}
 
 ### External definition
@@ -37,5 +37,11 @@ The most straightforward is to define rows and cells inline.
 You can also refer to an external CSV file:
 
 {% highlight xml %}
-<resultSet file="myFile.csv"/>
+<result-set file="myFile.csv"/>
+{% endhighlight %}
+
+the filename can be dynamically evaulated based on a variable (formatting). To enable this featureou must precede the filename by a tilt and mix static part of the filename with dynamic part. The dynamic part must be contained between curly barces {% highlight xml %} and start by the variable name to consider.
+
+{% highlight xml %}
+<result-set file="File_{@myVar}.csv"/>
 {% endhighlight %}

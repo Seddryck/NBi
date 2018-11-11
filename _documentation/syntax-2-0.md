@@ -13,7 +13,11 @@ Some of the names of the xml elements are written in Pascal-case and not with da
 
 The system-under-test *execution* was a bit ambiguous, sometimes used for performance or successfulness of a query/ETL and sometimes for the result-set of a query. The new syntax will clarify this by introducing the system-under-test *result-set*.
 
-This result-set can be defined in different way. The most straightforward is to define rows and cells inline. 
+This result-set can be defined in different way. 
+
+### Inline definition
+
+The most straightforward is to define rows and cells inline. 
 
 {% highlight xml %}
 <resultSet>
@@ -28,13 +32,35 @@ This result-set can be defined in different way. The most straightforward is to 
 </resultSet>
 {% endhighlight %}
 
+### External definition
+
 You can also refer to an external CSV file:
 
 {% highlight xml %}
 <resultSet file="myFile.csv"/>
 {% endhighlight %}
 
-Or through a query. This query can be sourced from an inline definition
+the filename can be dynamically evaulated based on a variable (formatting). To enable this featureou must precede the filename by a tilt (```~```) and mix static part of the filename with dynamic part. The dynamic part must be contained between curly barces {% highlight xml %} and start by the variable name to consider.
+
+{% highlight xml %}
+<resultSet file="File_{@myVar}.csv"/>
+{% endhighlight %}
+
+In case the variable is a numeric or dateTime, it can be useful to format it. This formatting must be specified after a column (```:```).
+
+{% highlight xml %}
+<resultSet file="File_{@myDate:yyyy}_{@myDate:MM}.csv"/>
+{% endhighlight %}
+
+The formatting syntax is the one supported by .Net and explained in MSDN for the [numerics](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-numeric-format-strings) and [dateTimes](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings)
+
+### Query-based definition
+
+Naturally, all the queries defined here under can take advantage of all features: [parameters](../query-parameter), [template-variables](../query-template), [timeout](../query-timeout) for the old syntax of a query.
+
+#### Inline query
+
+This query can be sourced from an inline definition
 
 {% highlight xml %}
 <resultSet>
@@ -44,7 +70,7 @@ Or through a query. This query can be sourced from an inline definition
 <resultSet>
 {% endhighlight %}
 
-Or an external file
+#### Query defined in an external file
 
 {% highlight xml %}
 <resultSet>
@@ -52,7 +78,9 @@ Or an external file
 <resultSet>
 {% endhighlight %}
 
-Or an [assembly](../docs/query-assembly)
+#### Query defined in an assembly's method
+
+More info about [assembly](../docs/query-assembly)
 
 {% highlight xml %}
 <resultSet>
@@ -62,7 +90,9 @@ Or an [assembly](../docs/query-assembly)
 <resultSet>
 {% endhighlight %}
 
-or a [report](../docs/query-report#dataset)
+#### Query defined in a report (SQL Server Reporting Server)
+
+More info about [report](../docs/query-report#dataset)
 
 {% highlight xml %}
 <resultSet>
@@ -72,7 +102,9 @@ or a [report](../docs/query-report#dataset)
 <resultSet>
 {% endhighlight %}
 
-or a [shared-dataset](../docs/shared-dataset)
+#### Query defined in a shared dataset (SQL Server Reporting Server)
+
+More info about [shared-dataset](../docs/shared-dataset)
 
 {% highlight xml %}
 <resultSet>
@@ -82,7 +114,9 @@ or a [shared-dataset](../docs/shared-dataset)
 <resultSet>
 {% endhighlight %}
 
-You can also define an alteration to the result-set. For the moment, two kinds of alterations are supported by NBi:
+## Alterations
+
+You can also define an alteration to the result-set. For the moment, three kinds of alterations are supported by NBi:
 
 * [filter](../resultset-rows-count-advanced/#filter).
 * [convert](../resultset-alterations/#converts)

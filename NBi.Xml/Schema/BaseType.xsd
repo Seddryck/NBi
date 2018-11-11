@@ -30,7 +30,10 @@
   </xs:complexType>
   <xs:complexType name ="default-type">
     <xs:sequence>
-      <xs:element type="connectionString-type" minOccurs="0" maxOccurs="1" name="connectionString"/>
+      <xs:choice minOccurs="0" maxOccurs="1">
+        <xs:element type="connectionString-type" minOccurs="0" maxOccurs="1" name="connectionString"/>
+        <xs:element type="connectionString-type" minOccurs="0" maxOccurs="1" name="connection-string"/>
+      </xs:choice>
       <xs:element type="parameter-type" minOccurs="0" maxOccurs="unbounded" name="parameter"/>
       <xs:element type="variable-type" minOccurs="0" maxOccurs="unbounded" name="variable"/>
       <xs:element type="report-base-type" minOccurs="0" maxOccurs="1" name="report"/>
@@ -50,7 +53,10 @@
   </xs:complexType>
   <xs:complexType name="reference-type">
     <xs:sequence>
-      <xs:element type="connectionString-type" minOccurs="0" maxOccurs="1" name="connectionString"/>
+      <xs:choice minOccurs="0" maxOccurs="1">
+        <xs:element type="connectionString-type" minOccurs="0" maxOccurs="1" name="connectionString"/>
+        <xs:element type="connectionString-type" minOccurs="0" maxOccurs="1" name="connection-string"/>
+      </xs:choice>
       <xs:element name="regex" minOccurs="0" maxOccurs="1"/>
       <xs:element name="numeric-format" type="numeric-format-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="currency-format" type="currency-format-type" minOccurs="0" maxOccurs="1"/>

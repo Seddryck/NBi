@@ -10,6 +10,7 @@ using NBi.Xml.Items;
 using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.Calculation;
 using NBi.Xml.Items.ResultSet;
+using NBi.Xml.Settings;
 
 namespace NBi.Xml.SerializationOption
 {
@@ -32,10 +33,12 @@ namespace NBi.Xml.SerializationOption
             AddAsAttribute((ConnectionWaitXml c) =>  c.SpecificConnectionStringOld, "connectionString");
             AddAsAttribute((DataManipulationAbstractXml x) => x.SpecificConnectionStringOld, "connectionString");
             AddAsAttribute((SqlRunXml x) => x.SpecificConnectionStringOld, "connectionString");
-
+            
             AddAsElement((NoRowsXml c) => c.InternalAliasesOld, "variable", 2);
             AddAsElement((FilterXml f) => f.InternalAliasesOld, "variable");
             AddAsElement((ColumnDefinitionXml c) => c.InternalTransformationInner, "transformation");
+            AddAsElement((DefaultXml x) => x.ConnectionStringOld, "connectionString");
+            AddAsElement((ReferenceXml x) => x.ConnectionStringOld, "connectionString");
 
             AddAsAttribute((PredicationXml p) => p.Name, "name");
 

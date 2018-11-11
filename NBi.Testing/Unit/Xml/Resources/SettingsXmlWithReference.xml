@@ -2,7 +2,7 @@
 <testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
 	<settings>
 		<reference name="first-ref">
-			<connectionString>My First Connection String</connectionString>
+			<connection-string>My First Connection String</connection-string>
 		</reference>
 		<reference name="second-ref">
 			<connectionString>My Second Connection String</connectionString>

@@ -49,6 +49,8 @@ namespace NBi.Xml.SerializationOption
                     { "subsetOf", typeof(SubsetOf1xXml) },
                     { "fasterThan", typeof(FasterThanOldXml) },
                     { "syntacticallyCorrect", typeof(SyntacticallyCorrectOldXml) },
+                    { "equalTo", typeof(EqualToOldXml) },
+                    { "equivalentTo", typeof(EquivalentToOldXml) },
                 });
             AddToElements((PredicationXml p) => p.Predicate, "within-list", typeof(WithinListXml));
             #pragma warning restore 0618

@@ -14,7 +14,7 @@
 			</execution>
 		</system-under-test>
 		<assert>
-			<equalTo>
+			<equal-to>
 				<resultSet>
 					<row>
 						<cell>12</cell>
@@ -27,7 +27,7 @@
 						<cell>Research and Development</cell>
 					</row>
 				</resultSet>
-			</equalTo>
+			</equal-to>
 		</assert>
 	</test>
 	<test name="external resultSet file">

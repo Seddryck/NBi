@@ -880,6 +880,7 @@
             <xs:complexType>
               <xs:choice>
                 <xs:element name="equalTo" type="result-set-comparison-type"/>
+                <xs:element name="equal-to" type="result-set-comparison-type"/>
                 <xs:element name="subset-of" type="result-set-comparison-type"/>
                 <xs:element name="superset-of" type="result-set-comparison-type"/>
                 <xs:element name="evaluate-rows">
@@ -941,31 +942,8 @@
                     <xs:attribute name="not" type="xs:boolean" use="optional" />
                   </xs:complexType>
                 </xs:element>
-                <xs:element name="equivalentTo">
-                  <xs:complexType>
-                    <xs:choice>
-                      <xs:sequence>
-                        <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
-                          <xs:complexType>
-                            <xs:simpleContent>
-                              <xs:extension base="xs:string"/>
-                            </xs:simpleContent>
-                          </xs:complexType>
-                        </xs:element>
-                        <xs:choice minOccurs="0">
-                          <xs:element name="predefined" type="predefined-type"/>
-                          <xs:element name="range-integer" type="range-integer-type"/>
-                          <xs:element name="range-date" type="range-date-type"/>
-                          <xs:element name="range-integer-pattern" type="range-integer-pattern-type"/>
-                        </xs:choice>
-                      </xs:sequence>
-                      <xs:element name="one-column-query" type ="query-type"/>
-                      <xs:element name="members" type="members-type"/>
-                    </xs:choice>
-                    <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
-                    <xs:attribute name="not" type="xs:boolean" use="optional" />
-                  </xs:complexType>
-                </xs:element>
+                <xs:element name="equivalentTo" type="equivalent-to-type"/>
+                <xs:element name="equivalent-to" type="equivalent-to-type"/>
                 <xs:element name="subsetOf" type="contained-in-type" />
                 <xs:element name="contained-in" type="contained-in-type" />
                 <xs:element name="exists">
@@ -1454,6 +1432,29 @@
     </xs:attribute>
     <xs:attribute name="keys-names" type="xs:string" use="optional" />
     <xs:attribute name="values-names" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="equivalent-to-type">
+    <xs:choice>
+      <xs:sequence>
+        <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string"/>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+        <xs:choice minOccurs="0">
+          <xs:element name="predefined" type="predefined-type"/>
+          <xs:element name="range-integer" type="range-integer-type"/>
+          <xs:element name="range-date" type="range-date-type"/>
+          <xs:element name="range-integer-pattern" type="range-integer-pattern-type"/>
+        </xs:choice>
+      </xs:sequence>
+      <xs:element name="one-column-query" type ="query-type"/>
+      <xs:element name="members" type="members-type"/>
+    </xs:choice>
+    <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+    <xs:attribute name="not" type="xs:boolean" use="optional" />
   </xs:complexType>
   <xs:complexType name="faster-than-type">
     <xs:attribute name="max-time-milliSeconds" use="required" >

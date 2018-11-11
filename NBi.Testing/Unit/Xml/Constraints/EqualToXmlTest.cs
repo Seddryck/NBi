@@ -13,6 +13,7 @@ using NBi.Xml.Items.Alteration.Transform;
 using System.Xml.Serialization;
 using System.Text;
 using System.Diagnostics;
+using System.Collections.Generic;
 #endregion
 
 namespace NBi.Testing.Unit.Xml.Constraints
@@ -70,7 +71,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSet, Is.Not.Null);
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSet.Rows, Has.Count.EqualTo(2));
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSet.Rows[0].Cells, Has.Count.EqualTo(3));
@@ -84,7 +85,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSet, Is.Not.Null);
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSet.File, Is.Not.Null.And.Not.Empty);
         }
@@ -97,7 +98,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).KeysDef, Is.EqualTo(SettingsOrdinalResultSet.KeysChoice.First));
         }
 
@@ -109,7 +110,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef, Has.Count.EqualTo(2));
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[0], Has.Property("Index").EqualTo(3));
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[0], Has.Property("Tolerance").EqualTo("10"));
@@ -125,7 +126,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Query, Is.TypeOf<QueryXml>());
 
             var connStr = ((EqualToXml)ts.Tests[testNr].Constraints[0]).Query.GetConnectionString();
@@ -151,7 +152,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
 
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ValuesDef, Is.EqualTo(SettingsOrdinalResultSet.ValuesChoice.Last));
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Tolerance, Is.EqualTo("100"));
@@ -167,7 +168,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
 
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[1].RoundingStyle, Is.EqualTo(Rounding.RoundingStyle.Round));
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[1].RoundingStep, Is.EqualTo("100"));
@@ -184,7 +185,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
 
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[1].Tolerance, Is.EqualTo("16%"));
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ColumnsDef[2].Tolerance, Is.EqualTo("1.12:00:00"));
@@ -200,7 +201,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
 
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ValuesDefaultType, Is.EqualTo(ColumnType.Numeric));
         }
@@ -213,7 +214,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
 
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ValuesDefaultType, Is.EqualTo(ColumnType.DateTime));
         }
@@ -226,7 +227,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
             var ctr = ts.Tests[testNr].Constraints[0] as EqualToXml;
 
 
@@ -246,7 +247,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
             var ctr = ts.Tests[testNr].Constraints[0] as EqualToXml;
 
 
@@ -266,7 +267,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
             var ctr = ts.Tests[testNr].Constraints[0] as EqualToXml;
 
             Assert.That(ctr.Behavior, Is.EqualTo(EqualToXml.ComparisonBehavior.SingleRow));
@@ -304,6 +305,36 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(content, Is.Not.StringContaining("index=\"0\""));
             Assert.That(content, Is.StringContaining("value * 1000"));
             Assert.That(content, Is.Not.StringContaining("Intern"));
+        }
+
+        [Test]
+        public void SerializeEqualToQuery_EqualTo_NewSyntax()
+        {
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            var cdXml = new TestXml()
+            {
+                Constraints = new List<AbstractConstraintXml>()
+                {
+                    new EqualToXml()
+                    {
+                        Query = new QueryXml()
+                    }
+                }
+            };
+
+            var serializer = new XmlSerializer(typeof(TestXml));
+            var content = string.Empty;
+            using (var stream = new MemoryStream())
+            {
+                using (var writer = new StreamWriter(stream, Encoding.UTF8))
+                    serializer.Serialize(writer, cdXml);
+                content = Encoding.UTF8.GetString(stream.ToArray());
+            }
+
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("<equal-to"));
         }
     }
 }

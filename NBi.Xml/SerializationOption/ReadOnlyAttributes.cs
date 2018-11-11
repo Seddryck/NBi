@@ -16,15 +16,13 @@ using NBi.Xml.Systems;
 
 namespace NBi.Xml.SerializationOption
 {
-    public class ReadOnlyAttributes : XmlAttributeOverrides
+    public class ReadOnlyAttributes : ReadWriteAttributes
     {
 
         public ReadOnlyAttributes()
-            : base()
-        {
-        }
+            : base() { }
 
-        public void Build()
+        protected override void AdditionalBuild()
         {
             #pragma warning disable 0618
             AddAsAttribute((TestXml t) => t.Description, "description");
@@ -44,83 +42,11 @@ namespace NBi.Xml.SerializationOption
 
             AddAsAttribute((PredicationXml p) => p.Name, "name");
 
-            AddToArrayAttributes((TestXml t) => t.Constraints,
-                new Dictionary<string, Type>()
-                {
-                    { "subsetOf", typeof(SubsetOfOldXml) },
-                    { "fasterThan", typeof(FasterThanOldXml) },
-                    { "syntacticallyCorrect", typeof(SyntacticallyCorrectOldXml) },
-                    { "equalTo", typeof(EqualToOldXml) },
-                    { "equivalentTo", typeof(EquivalentToOldXml) },
-                });
-
-            AddToArrayAttributes((TestXml t) => t.Systems,
-                new Dictionary<string, Type>()
-                {
-                    { "resultSet", typeof(ResultSetSystemOldXml) },
-                });
-
             AddToElements((PredicationXml p) => p.Predicate, "within-list", typeof(WithinListXml));
 
             AddToElements((ProjectionXml x) => x.ResultSetOld, "resultSet", typeof(ResultSetSystemXml));
             AddToElements((LookupExistsXml x) => x.ResultSetOld, "resultSet", typeof(ResultSetSystemXml));
             #pragma warning restore 0618
         }
-
-        private void AddAsAttribute<T, U>(Expression<Func<T, U>> expression, string alias)
-        {
-            var parent = GetMemberInfo(expression);
-            var attrs = new XmlAttributes() { XmlAttribute = (new XmlAttributeAttribute(alias)) };
-            Add(parent.DeclaringType, parent.Name, attrs);
-        }
-
-        private void AddAsElement<T, U>(Expression<Func<T, U>> expression, string alias)
-        {
-            var parent = GetMemberInfo(expression);
-            var attrs = new XmlAttributes();
-            attrs.XmlElements.Add(new XmlElementAttribute(alias));
-            Add(parent.DeclaringType, parent.Name, attrs);
-        }
-
-        private void AddAsElement<T, U>(Expression<Func<T, U>> expression, string alias, int order)
-        {
-            var parent = GetMemberInfo(expression);
-            var attrs = new XmlAttributes();
-            var attr = new XmlElementAttribute(alias) { Order = order };
-            attrs.XmlElements.Add(attr);
-            Add(parent.DeclaringType, parent.Name, attrs);
-        }
-
-        private void AddToArrayAttributes<T, U>(Expression<Func<T, U>> expression, Dictionary<string, Type> mappings)
-        {
-            var parent = GetMemberInfo(expression);
-            var arrayAttr = (XmlArrayAttribute)parent.GetCustomAttributes(typeof(XmlArrayAttribute), false)[0];
-            var arrayItemAttrs = parent.GetCustomAttributes(typeof(XmlArrayItemAttribute), false).Cast<XmlArrayItemAttribute>().ToList();
-            var attrs = new XmlAttributes() { XmlArray = arrayAttr };
-            arrayItemAttrs.ForEach(i => attrs.XmlArrayItems.Add(i));
-            foreach (var key in mappings.Keys)
-                attrs.XmlArrayItems.Add(new XmlArrayItemAttribute(key, mappings[key]));
-            Add(parent.DeclaringType, parent.Name, attrs);
-        }
-
-        private void AddToElements<T, U>(Expression<Func<T, U>> expression, string alias, Type aliasType)
-        {
-            var parent = GetMemberInfo(expression);
-            var arrayAttr = parent.GetCustomAttributes(typeof(XmlElementAttribute), false).Cast<XmlElementAttribute>().ToList();
-            var attrs = new XmlAttributes();
-            arrayAttr.ForEach(i => attrs.XmlElements.Add(i));
-            attrs.XmlElements.Add((new XmlElementAttribute(alias, aliasType)));
-            Add(parent.DeclaringType, parent.Name, attrs);
-        }
-
-        private MemberInfo GetMemberInfo<T, U>(Expression<Func<T, U>> expression)
-        {
-            if (expression.Body is MemberExpression member)
-                return member.Member;
-
-            throw new ArgumentException("Expression is not a member access", "expression");
-        }
-
-        private string GetXmlName(string input) => string.Concat(input.Select((x, i) => i > 0 && char.IsUpper(x) ? "-" + x.ToString() : x.ToString().ToLowerInvariant()));
     }
 }

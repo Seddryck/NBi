@@ -49,7 +49,7 @@ the filename can be dynamically evaulated based on a variable (formatting). To e
 In case the variable is a numeric or dateTime, it can be useful to format it. This formatting must be specified after a column (```:```).
 
 {% highlight xml %}
-<resultSet file="File_{@myDate:yyyy}_{@myDate:MM}.csv"/>
+<result-set file="File_{@myDate:yyyy}_{@myDate:MM}.csv"/>
 {% endhighlight %}
 
 The formatting syntax is the one supported by .Net and explained in MSDN for the [numerics](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-numeric-format-strings) and [dateTimes](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings)
@@ -63,19 +63,19 @@ Naturally, all the queries defined here under can take advantage of all features
 This query can be sourced from an inline definition
 
 {% highlight xml %}
-<resultSet>
+<result-set>
   <query>
     select * from myTable
   </query>
-<resultSet>
+<result-set>
 {% endhighlight %}
 
 #### Query defined in an external file
 
 {% highlight xml %}
-<resultSet>
+<result-set>
   <query file="myQuery.sql"/>
-<resultSet>
+<result-set>
 {% endhighlight %}
 
 #### Query defined in an assembly's method
@@ -83,11 +83,11 @@ This query can be sourced from an inline definition
 More info about [assembly](../docs/query-assembly)
 
 {% highlight xml %}
-<resultSet>
+<result-set>
   <query>
     <assembly ...>
   <query>
-<resultSet>
+<result-set>
 {% endhighlight %}
 
 #### Query defined in a report (SQL Server Reporting Server)
@@ -95,11 +95,11 @@ More info about [assembly](../docs/query-assembly)
 More info about [report](../docs/query-report#dataset)
 
 {% highlight xml %}
-<resultSet>
+<result-set>
   <query>
     <report ...>
   <query>
-<resultSet>
+<result-set>
 {% endhighlight %}
 
 #### Query defined in a shared dataset (SQL Server Reporting Server)
@@ -107,11 +107,11 @@ More info about [report](../docs/query-report#dataset)
 More info about [shared-dataset](../docs/shared-dataset)
 
 {% highlight xml %}
-<resultSet>
+<result-set>
   <query>
     <shared-dataset ...>
   <query>
-<resultSet>
+<result-set>
 {% endhighlight %}
 
 ## Alterations
@@ -123,12 +123,12 @@ You can also define an alteration to the result-set. For the moment, three kinds
 * [transform](../transform-column/)
 
 {% highlight xml %}
-<resultSet>
+<result-set>
   <query>
     ...
   <query>
   <alteration>
     <filter ...>
   </alteration>
-<resultSet>
+<result-set>
 {% endhighlight %}

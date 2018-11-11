@@ -1,13 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
   <settings>
-    <default apply-to="system-under-test">
+    <default apply-to="everywhere">
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </default>
   </settings>
   <variables>
     <variable name="myVar">
       <script>new DateTime(DateTime.Now.Year+1, 1, 1)</script>
+    </variable>
+    <variable name="common">
+      <script>new DateTime(DateTime.Now.Year+2, 1, 1)</script>
     </variable>
   </variables>
 	<test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">
@@ -27,4 +30,23 @@
       </all-rows>
 		</assert>
 	</test>
+  <test name="Usage of the same variable in Sut and Assert" uid="0010">
+    <system-under-test>
+      <resultSet>
+        <query>
+          <parameter name="common">@common</parameter>
+          select @common;
+        </query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <column index="0" type="dateTime" role="key"/>
+        <query>
+          <parameter name="common">@common</parameter>
+          select @common;
+        </query>
+      </equalTo>
+    </assert>
+  </test>
 </testSuite>

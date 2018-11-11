@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Json
 {
-    class ReferenceViolationsMessageJson : IReferenceViolationsMessageFormatter
+    class ReferenceViolationsMessageJson : ILookupViolationsMessageFormatter
     {
         private readonly IDictionary<string, ISampler<DataRow>> samplers;
         private string actual;

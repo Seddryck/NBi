@@ -2,6 +2,7 @@
 using NBi.Core.Calculation;
 using NBi.Core.Calculation.Predicate;
 using NBi.Core.ResultSet;
+using NBi.Core.Variable;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -209,6 +210,64 @@ namespace NBi.Testing.Unit.Core.Calculation
 
             var factory = new PredicateFactory();
             Assert.Throws<ArgumentOutOfRangeException>(delegate { factory.Instantiate(info); });
+        }
+
+        [Test]
+        public void Compare_NumericVariable_VariableIsEvaluated()
+        {
+            var variable = new Mock<ITestVariable>();
+            variable.Setup(v => v.GetValue()).Returns(10);
+
+            var info = new Mock<IPredicateInfo>();
+            info.SetupGet(i => i.ColumnType).Returns(ColumnType.Numeric);
+            info.SetupGet(i => i.ComparerType).Returns(ComparerType.LessThan);
+            info.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(variable.Object);
+
+            var factory = new PredicateFactory();
+            var predicate = factory.Instantiate(info.Object);
+            Assert.That(predicate.Execute(9), Is.True);
+            Assert.That(predicate.Execute(11), Is.False);
+            variable.Verify(x => x.GetValue(), Times.Exactly(2));
+        }
+
+        [Test]
+        public void Compare_NumericVariablePartOfDictionary_VariableIsEvaluated()
+        {
+            var variable = new Mock<ITestVariable>();
+            variable.Setup(v => v.GetValue()).Returns(10);
+            var variables = new Dictionary<string, ITestVariable>() { { "var", variable.Object } };
+
+            var info = new Mock<IPredicateInfo>();
+            info.SetupGet(i => i.ColumnType).Returns(ColumnType.Numeric);
+            info.SetupGet(i => i.ComparerType).Returns(ComparerType.LessThan);
+            info.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns("@var");
+
+            var factory = new PredicateFactory();
+            var predicate = factory.Instantiate(info.Object, variables);
+            Assert.That(predicate.Execute(9), Is.True);
+            Assert.That(predicate.Execute(11), Is.False);
+            variable.Verify(x => x.GetValue(), Times.Exactly(2));
+        }
+
+        [Test]
+        public void Compare_NumericVariablePartOfDictionary_PointlessVariableIsNotEvaluated()
+        {
+            var variableUsed = new Mock<ITestVariable>();
+            variableUsed.Setup(v => v.GetValue()).Returns(10);
+            var variablePointless = new Mock<ITestVariable>();
+            variablePointless.Setup(v => v.GetValue()).Returns(0);
+            var variables = new Dictionary<string, ITestVariable>() { { "var", variableUsed.Object }, { "x", variablePointless.Object } };
+
+            var info = new Mock<IPredicateInfo>();
+            info.SetupGet(i => i.ColumnType).Returns(ColumnType.Numeric);
+            info.SetupGet(i => i.ComparerType).Returns(ComparerType.LessThan);
+            info.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns("@var");
+
+            var factory = new PredicateFactory();
+            var predicate = factory.Instantiate(info.Object, variables);
+            Assert.That(predicate.Execute(9), Is.True);
+            Assert.That(predicate.Execute(11), Is.False);
+            variablePointless.Verify(x => x.GetValue(), Times.Never);
         }
     }
 }

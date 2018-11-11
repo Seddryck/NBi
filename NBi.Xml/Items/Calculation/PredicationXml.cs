@@ -5,6 +5,7 @@ using NBi.Xml.Constraints.Comparer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -100,7 +101,7 @@ namespace NBi.Xml.Items.Calculation
                 if (Predicate is CaseSensitiveTextPredicateXml)
                     return ((CaseSensitiveTextPredicateXml)Predicate).IgnoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture;
                 else
-                    throw new InvalidOperationException();
+                    return StringComparison.InvariantCulture;
             }
         }
 
@@ -112,7 +113,7 @@ namespace NBi.Xml.Items.Calculation
                 if (Predicate is CultureSensitiveTextPredicateXml)
                     return ((CultureSensitiveTextPredicateXml)Predicate).Culture;
                 else
-                    throw new InvalidOperationException();
+                    return CultureInfo.InvariantCulture.Name;
             }
         }
 

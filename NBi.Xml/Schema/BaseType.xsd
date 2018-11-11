@@ -1230,6 +1230,7 @@
       <xs:element name="join" type="join-type" minOccurs="1" maxOccurs="1" />
       <xs:element name="resultSet" type="resultSet-type" minOccurs="1" maxOccurs="1"/>
     </xs:sequence>
+    <xs:attribute name="reverse" type="xs:boolean"/>
   </xs:complexType>
   <xs:complexType name="join-type">
     <xs:sequence>
@@ -1238,16 +1239,20 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="column-using-type">
-    <xs:attribute name="type" use="optional" >
-      <xs:simpleType>
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="text"/>
-          <xs:enumeration value="numeric"/>
-          <xs:enumeration value="dateTime"/>
-          <xs:enumeration value="boolean"/>
-        </xs:restriction>
-      </xs:simpleType>
-    </xs:attribute>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="type" use="optional" >
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="text"/>
+              <xs:enumeration value="numeric"/>
+              <xs:enumeration value="dateTime"/>
+              <xs:enumeration value="boolean"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="column-mapping-type">
     <xs:attribute name="candidate" type="xs:string" use="required"/>

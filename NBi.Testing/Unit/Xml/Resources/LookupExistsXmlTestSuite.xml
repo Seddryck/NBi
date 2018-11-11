@@ -26,7 +26,7 @@
       </lookup-exists>
     </assert>
   </test>
-  <test name="With two columns mapped" uid="0000">
+  <test name="With two columns mapped" uid="0001">
     <system-under-test>
       <resultSet>
         <query>
@@ -48,5 +48,46 @@
       </lookup-exists>
     </assert>
   </test>
-
+  <test name="Reverse" uid="0002">
+    <system-under-test>
+      <resultSet>
+        <query>
+          select [Id] from [HumanResources].[Group]
+        </query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <lookup-exists reverse="true">
+        <join>
+          <mapping candidate="Id" reference="GroupId" type="numeric"/>
+        </join>
+        <resultSet>
+          <query>
+            select distinct DeptId from [HumanResources].[Department]
+          </query>
+        </resultSet>
+      </lookup-exists>
+    </assert>
+  </test>
+  <test name="Reverse" uid="0002">
+    <system-under-test>
+      <resultSet>
+        <query>
+          select [Id] from [HumanResources].[Group]
+        </query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <lookup-exists>
+        <join>
+          <using type="numeric">#0</using>
+        </join>
+        <resultSet>
+          <query>
+            select distinct DeptId from [HumanResources].[Department]
+          </query>
+        </resultSet>
+      </lookup-exists>
+    </assert>
+  </test>
 </testSuite>

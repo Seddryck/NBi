@@ -214,6 +214,7 @@
     </Compile>
     <Compile Include="Acceptance\BaseRuntimeOverrider.cs" />
     <Compile Include="Acceptance\GenbiL\ConcatenateSplitGroupTest.cs" />
+    <Compile Include="Acceptance\GenbiL\DictionaryTest.cs" />
     <Compile Include="Acceptance\GenbiL\ConsumablesTest.cs" />
     <Compile Include="Acceptance\GenbiL\MultipleTemplatesTest.cs" />
     <Compile Include="Acceptance\GenbiL\VariablesTest.cs" />
@@ -330,6 +331,7 @@
     <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByNameTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByOrdinalTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\LookupExistsAnalyzerTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Casting\NumericCasterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\CellComparerTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\TextToleranceFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\Resolver\ReportDataSetQueryResolverTest.cs" />
@@ -338,6 +340,7 @@
     <Compile Include="Unit\Core\ResultSet\Conversion\ConverterEngineTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetServiceTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Uniqueness\OrdinalUniqueRowsEvaluatorTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Format\InvariantFormatterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Interval\DateTimeIntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\JsonResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\KeyCollectionTest.cs" />
@@ -367,6 +370,7 @@
     <Compile Include="Unit\Core\Scalar\Conversion\TextToDateTimeConverterTest.cs" />
     <Compile Include="Unit\Core\Scalar\PercentageTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\EnvironmentScalarResolverTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Resolver\FormatScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\GlobalVariableScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\LiteralScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\ProjectionResultSetScalarResolverTest.cs" />
@@ -463,6 +467,7 @@
     <Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
     <Compile Include="Unit\NUnit\DataType\IsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\DifferedConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\LookupReverseExistsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\NoRowsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\LookupExistsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\SingleRowConstraintTest.cs" />
@@ -656,10 +661,19 @@
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\MultipleTemplates1.nbitt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="Acceptance\GenbiL\Resources\dictionary.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Acceptance\GenbiL\Resources\Consumables.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\Consumables.genbil">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\dictionary.nbitt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\dictionary.genbil">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Acceptance\GenbiL\Resources\MultipleTemplates.csv">

@@ -17,16 +17,16 @@ namespace NBi.NUnit.ResultSetComparison
 {
     public class LookupExistsConstraint : NBiConstraint
     {
-        protected IResultSetService parentService;
+        protected IResultSetService referenceService;
 
         protected bool parallelizeQueries = false;
 
-        protected ResultSet rsParent;
-        protected ResultSet rsChild;
-        private LookupViolations violations;
+        protected ResultSet rsReference;
+        protected ResultSet rsCandidate;
+        protected LookupViolations violations;
 
-        private IReferenceViolationsMessageFormatter failure;
-        protected IReferenceViolationsMessageFormatter Failure
+        private ILookupViolationsMessageFormatter failure;
+        protected ILookupViolationsMessageFormatter Failure
         {
             get
             {
@@ -36,11 +36,11 @@ namespace NBi.NUnit.ResultSetComparison
             }
         }
 
-        protected virtual IReferenceViolationsMessageFormatter BuildFailure()
+        protected virtual ILookupViolationsMessageFormatter BuildFailure()
         {
-            var factory = new ReferenceViolationsMessageFormatterFactory();
+            var factory = new LookupViolationsMessageFormatterFactory();
             var msg = factory.Instantiate(Configuration.FailureReportProfile);
-            msg.Generate(rsParent.Rows.Cast<DataRow>(), rsChild.Rows.Cast<DataRow>(), violations);
+            msg.Generate(rsReference.Rows.Cast<DataRow>(), rsCandidate.Rows.Cast<DataRow>(), violations);
             return msg;
         }
         
@@ -59,9 +59,9 @@ namespace NBi.NUnit.ResultSetComparison
             }
         }
 
-        public LookupExistsConstraint(IResultSetService parent)
+        public LookupExistsConstraint(IResultSetService reference)
         {
-            parentService = parent;
+            referenceService = reference;
         }
 
         private ColumnMappingCollection mappings;
@@ -81,21 +81,21 @@ namespace NBi.NUnit.ResultSetComparison
                 throw new ArgumentException($"The type of the actual object is '{actual.GetType().Name}' and is not supported for a constraint of type '{this.GetType().Name}'. Use a ResultSet or a ResultSetService.", nameof(actual));
         }
 
-        public bool ProcessParallel(IResultSetService actual)
+        public virtual bool ProcessParallel(IResultSetService actual)
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("Queries exectued in parallel."));
 
             Parallel.Invoke(
-                () => { rsChild = actual.Execute(); },
-                () => { rsParent = parentService.Execute(); }
+                () => { rsCandidate = actual.Execute(); },
+                () => { rsReference = referenceService.Execute(); }
             );
 
-            return Matches(rsChild);
+            return Matches(rsCandidate);
         }
 
-        protected bool doMatch(ResultSet actual)
+        protected virtual bool doMatch(ResultSet actual)
         {
-            violations = Engine.Execute(actual, rsParent);
+            violations = Engine.Execute(actual, rsReference);
             var output = violations.Count == 0;
 
             if (output && Configuration?.FailureReportProfile.Mode == FailureReportMode.Always)

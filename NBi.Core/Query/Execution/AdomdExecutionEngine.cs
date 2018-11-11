@@ -39,7 +39,7 @@ namespace NBi.Core.Query.Execution
         {
             if (ex is AdomdConnectionException)
                 throw new ConnectionException(ex, command.Connection.ConnectionString);
-            if (ex is AdomdErrorResponseException && !ex.Message.StartsWith("Timeout expired."))
+            if (ex is AdomdErrorResponseException && ex.Message.StartsWith("Timeout expired."))
                 OnTimeout(ex, command);
             throw ex;
         }

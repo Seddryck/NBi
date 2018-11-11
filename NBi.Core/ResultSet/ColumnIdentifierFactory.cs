@@ -21,7 +21,11 @@ namespace NBi.Core.ResultSet
             }
             else
             {
-                if (identifier.StartsWith("[") && identifier.EndsWith("]"))
+                if (identifier.StartsWith("[[") && identifier.EndsWith("]]") && identifier.Contains("].[") )
+                    return new ColumnNameIdentifier(identifier.Substring(1, identifier.Length - 2));
+                else if (identifier.StartsWith("[") && identifier.EndsWith("]") && identifier.Contains("].["))
+                        return new ColumnNameIdentifier(identifier);
+                else if (identifier.StartsWith("[") && identifier.EndsWith("]"))
                     return new ColumnNameIdentifier(identifier.Substring(1, identifier.Length - 2));
                 else
                     return new ColumnNameIdentifier(identifier);

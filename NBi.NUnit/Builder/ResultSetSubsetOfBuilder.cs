@@ -22,14 +22,11 @@ namespace NBi.NUnit.Builder
 {
     class ResultSetSubsetOfBuilder : ResultSetEqualToBuilder
     {
-        public ResultSetSubsetOfBuilder()
-        {
-
-        }
         protected override EquivalenceKind EquivalenceKind
-        {
-            get { return EquivalenceKind.SubsetOf; }
-        }
+        { get => EquivalenceKind.SubsetOf; }
+
+        public ResultSetSubsetOfBuilder()
+        { }
 
         protected override void SpecificSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
@@ -39,30 +36,7 @@ namespace NBi.NUnit.Builder
             ConstraintXml = (SubsetOfXml)ctrXml;
         }
 
-        protected override void SpecificBuild()
-        {
-            Constraint = InstantiateConstraint();
-        }
-
-
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(object obj, SettingsXml settings, TransformationProvider transformation)
-        {
-            var argsBuilder = new ResultSetResolverArgsBuilder(ServiceLocator);
-            argsBuilder.Setup(obj);
-            argsBuilder.Setup(settings);
-            argsBuilder.Build();
-
-            var factory = ServiceLocator.GetResultSetResolverFactory();
-            var resolver = factory.Instantiate(argsBuilder.GetArgs());
-
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(resolver);
-            if (transformation != null)
-                builder.Setup(transformation.Transform);
-            var service = builder.GetService();
-
-            return new SubsetOfConstraint(service);
-        }
-        
+        protected override BaseResultSetComparisonConstraint InstantiateConstraint(IResultSetService service)
+            => new SubsetOfConstraint(service);
     }
 }

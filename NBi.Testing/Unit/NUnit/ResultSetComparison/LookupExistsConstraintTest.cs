@@ -18,19 +18,19 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         [Test]
         public void Matches_ResultSetService_CallToExecuteOnce()
         {
-            var child = new ResultSet();
-            child.Load("a;b;1");
-            var childMock = new Mock<IResultSetService>();
-            childMock.Setup(s => s.Execute())
-                .Returns(child);
-            var childService = childMock.Object;
+            var sut = new ResultSet();
+            sut.Load("a;b;1");
+            var sutMock = new Mock<IResultSetService>();
+            sutMock.Setup(s => s.Execute())
+                .Returns(sut);
+            var sutService = sutMock.Object;
 
-            var parent = new ResultSet();
-            parent.Load("a;b");
-            var parentMock = new Mock<IResultSetService>();
-            parentMock.Setup(s => s.Execute())
-                .Returns(parent);
-            var parentService = parentMock.Object;
+            var assert = new ResultSet();
+            assert.Load("a;b");
+            var assertMock = new Mock<IResultSetService>();
+            assertMock.Setup(s => s.Execute())
+                .Returns(assert);
+            var assertService = assertMock.Object;
 
             var mappings = new ColumnMappingCollection()
             {
@@ -38,33 +38,33 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                 new ColumnMapping(new ColumnOrdinalIdentifier(1), ColumnType.Text),
             };
 
-            var lookupExists = new LookupExistsConstraint(parentService);
+            var lookupExists = new LookupExistsConstraint(assertService);
             lookupExists = lookupExists.Using(mappings);
 
             //Method under test
-            lookupExists.Matches(childService);
+            lookupExists.Matches(sutService);
 
             //Test conclusion            
-            childMock.Verify(s => s.Execute(), Times.Once());
-            parentMock.Verify(s => s.Execute(), Times.Once());
+            sutMock.Verify(s => s.Execute(), Times.Once());
+            assertMock.Verify(s => s.Execute(), Times.Once());
         }
 
         [Test]
         public void Matches_ReferenceAnalyzer_CallToExecuteOnce()
         {
-            var child = new ResultSet();
-            child.Load("a;b;1");
-            var childMock = new Mock<IResultSetService>();
-            childMock.Setup(s => s.Execute())
-                .Returns(child);
-            var childService = childMock.Object;
+            var sut = new ResultSet();
+            sut.Load("a;b;1");
+            var sutMock = new Mock<IResultSetService>();
+            sutMock.Setup(s => s.Execute())
+                .Returns(sut);
+            var sutService = sutMock.Object;
 
-            var parent = new ResultSet();
-            parent.Load("a;b");
-            var parentMock = new Mock<IResultSetService>();
-            parentMock.Setup(s => s.Execute())
-                .Returns(parent);
-            var parentService = parentMock.Object;
+            var assert = new ResultSet();
+            assert.Load("a;b");
+            var assertMock = new Mock<IResultSetService>();
+            assertMock.Setup(s => s.Execute())
+                .Returns(assert);
+            var assertService = assertMock.Object;
 
             var mappings = new ColumnMappingCollection()
             {
@@ -72,16 +72,16 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
                 new ColumnMapping(new ColumnOrdinalIdentifier(1), ColumnType.Text),
             };
 
-            var lookupExists = new LookupExistsConstraint(parentService);
+            var lookupExists = new LookupExistsConstraint(assertService);
             var analyzer = new Mock<LookupExistsAnalyzer>(mappings);
             analyzer.Setup(x => x.Execute(It.IsAny<ResultSet>(), It.IsAny<ResultSet>())).Returns(new LookupViolations());
             lookupExists.Engine = analyzer.Object;
 
             //Method under test
-            lookupExists.Matches(childService);
+            lookupExists.Matches(sutService);
 
             //Test conclusion            
-            analyzer.Verify(x => x.Execute(child, parent), Times.Once());
+            analyzer.Verify(x => x.Execute(sut, assert), Times.Once());
         }
     }
 }

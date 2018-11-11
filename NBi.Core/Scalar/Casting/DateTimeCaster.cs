@@ -45,7 +45,7 @@ namespace NBi.Core.Scalar.Caster
             bool result = false;
             result = ValidDateTime(value, Cultures, out DateTime dateTime);
             if (!result)
-                throw new ArgumentException(string.Format("'{0}' is not recognized as a valid date", value), "value");
+                throw new NBiException($"The value '{value}' is not recognized as a valid date");
 
             return dateTime;
         }

@@ -40,7 +40,7 @@ You can also refer to an external CSV file:
 <result-set file="myFile.csv"/>
 {% endhighlight %}
 
-the filename can be dynamically evaulated based on a variable (formatting). To enable this featureou must precede the filename by a tilt and mix static part of the filename with dynamic part. The dynamic part must be contained between curly barces ```{}``` and start by the variable name to consider.
+the filename can be dynamically evaulated based on a variable (formatting). To enable this featureou must precede the filename by a tilt ```~``` and mix static part of the filename with dynamic part. The dynamic part must be contained between curly barces ```{}``` and start by the variable name to consider.
 
 {% highlight xml %}
 <result-set file="File_{@myVar}.csv"/>

@@ -97,7 +97,11 @@ namespace NBi.Core.Calculation
             if (column != null)
                 return row[column.ColumnName];
 
-            throw new ArgumentException($"The value '{name}' is not recognized as a column name, a column position, a column alias or an expression."); 
+            var existingNames = row.Table.Columns.Cast<DataColumn>().Select(x => x.ColumnName)
+                .Union(aliases.Select(x => x.Name)
+                .Union(expressions.Select(x => x.Name)));
+
+            throw new ArgumentException($"The value '{name}' is not recognized as a column position, a column name, a column alias or an expression. Possible arguments are: '{string.Join("', '", existingNames.ToArray())}'");
         }
 
         protected object EvaluateExpression(IColumnExpression expression, DataRow row)

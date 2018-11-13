@@ -521,6 +521,7 @@
     <Compile Include="Unit\Xml\Items\RoutineXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\SetXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\TablesXmlTest.cs" />
+    <Compile Include="Unit\Xml\Settings\CsvProfileXmlTest.cs" />
     <Compile Include="Unit\Xml\Systems\DataTypeXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\XmlSourceTest.cs" />
     <Compile Include="Unit\Xml\Systems\ResultSetSystemXmlTest.cs" />

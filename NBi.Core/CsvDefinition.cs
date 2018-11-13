@@ -61,25 +61,16 @@
             }
         }
 
-        public bool ShouldSerializeTextQualifier()
-        {
-            return false;
-        }
+        public bool ShouldSerializeTextQualifier() => false;
 
-        public bool ShouldSerializeFieldSeparator()
-        {
-            return false;
-        }
+        public bool ShouldSerializeFieldSeparator() => false;
 
-        public bool ShouldSerializeRecordSeparator()
-        {
-            return false;
-        }
+        public bool ShouldSerializeRecordSeparator() => false;
 
-        public bool ShouldSerializeFirstRowHeader()
-        {
-            return false;
-        }
+        public bool ShouldSerializeFirstRowHeader() => false;
+        public bool ShouldSerializeEmptyCell() => false;
+        public bool ShouldSerializeMissingCell() => false;
+
 
     }
 }

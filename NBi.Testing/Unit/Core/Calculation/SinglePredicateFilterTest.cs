@@ -97,6 +97,32 @@ namespace NBi.Testing.Unit.Core.Calculation
         }
 
         [Test]
+        public void Apply_ColumnNameCaseNotMatching_CorrectResult()
+        {
+            var service = new ObjectsResultSetResolver(
+                new ObjectsResultSetResolverArgs(
+                    new object[]
+                    {
+                        new List<object>() { "(null)", 10, 100 },
+                        new List<object>() { "(empty)", 2, 75 },
+                        new List<object>() { "C", 5, 50 }
+                    }));
+            var rs = service.Execute();
+            rs.Table.Columns[0].ColumnName = "first";
+
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
+            predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.NullOrEmpty);
+            predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("FirST"));
+
+            var factory = new ResultSetFilterFactory(null);
+            var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], predicate.Object);
+            var result = filter.Apply(rs);
+
+            Assert.That(result.Rows, Has.Count.EqualTo(2));
+        }
+
+        [Test]
         public void Apply_NestedExpression_CorrectResult()
         {
             var service = new ObjectsResultSetResolver(

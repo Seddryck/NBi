@@ -669,10 +669,15 @@
     <Compile Include="Transformation\LanguageType.cs" />
     <Compile Include="Transformation\TransformerFactory.cs" />
     <Compile Include="Transformation\TransformationProvider.cs" />
-    <Compile Include="Variable\OverridenTestVariable.cs" />
+    <Compile Include="Variable\GlobalVariable.cs" />
+    <Compile Include="Variable\IInstanceArgs.cs" />
+    <Compile Include="Variable\Instance.cs" />
+    <Compile Include="Variable\InstanceFactory.cs" />
+    <Compile Include="Variable\InstanceVariable.cs" />
+    <Compile Include="Variable\OverridenVariable.cs" />
+    <Compile Include="Variable\SingleInstanceVariableArgs.cs" />
     <Compile Include="Variable\TestVariable.cs" />
     <Compile Include="Variable\ITestVariable.cs" />
-    <Compile Include="Variable\TestVariableBuilder.cs" />
     <Compile Include="WindowsService\IWindowsServiceCheck.cs" />
     <Compile Include="WindowsService\WindowsServiceCheck.cs" />
     <Compile Include="WindowsService\WindowsServiceCheckFactory.cs" />

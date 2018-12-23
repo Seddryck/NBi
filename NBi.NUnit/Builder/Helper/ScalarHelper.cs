@@ -32,7 +32,7 @@ namespace NBi.NUnit.Builder.Helper
             this.variables = variables;
         }
 
-        public IScalarResolver<decimal> InstantiateResolver(ScalarXml scalarXml)
+        public IScalarResolver<T> InstantiateResolver<T>(ScalarXml scalarXml)
         {
             var argsBuilder = new ScalarResolverArgsBuilder(serviceLocator);
             argsBuilder.Setup(scalarXml.BaseItem);
@@ -41,7 +41,18 @@ namespace NBi.NUnit.Builder.Helper
             argsBuilder.Build();
 
             var factory = serviceLocator.GetScalarResolverFactory();
-            var resolver = factory.Instantiate<decimal>(argsBuilder.GetArgs());
+            var resolver = factory.Instantiate<T>(argsBuilder.GetArgs());
+            return resolver;
+        }
+
+        public IScalarResolver<T> InstantiateResolver<T>(string value)
+        {
+            var argsBuilder = new ScalarResolverArgsBuilder(serviceLocator);
+            argsBuilder.Setup(variables);
+            argsBuilder.Build();
+
+            var factory = serviceLocator.GetScalarResolverFactory();
+            var resolver = factory.Instantiate<T>(argsBuilder.GetArgs());
             return resolver;
         }
     }

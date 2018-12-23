@@ -763,6 +763,7 @@
   </xs:complexType>
   <xs:complexType name="test-type">
     <xs:sequence>
+      <xs:element name="instances" type="instance-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="ignore" minOccurs="0" maxOccurs="1">
         <xs:complexType>
           <xs:simpleContent>
@@ -1086,6 +1087,23 @@
     <xs:attribute name="uid" type="xs:unsignedInt" use="optional" />
     <xs:attribute name="ignore" type="xs:boolean" use="optional" />
     <xs:attribute name="description" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="instance-type">
+    <xs:choice minOccurs="1" maxOccurs="1">
+      <xs:element name="variable" type="instance-variable-type"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="instance-variable-type">
+    <xs:choice minOccurs="1" maxOccurs="1">
+      <xs:element name="loop-sentinel" type="loop-sentinel-type"/>
+    </xs:choice>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="type" type="column-type-enum"/>
+  </xs:complexType>
+  <xs:complexType name="loop-sentinel-type">
+    <xs:attribute name="seed" type="xs:string"/>
+    <xs:attribute name="terminal" type="xs:string"/>
+    <xs:attribute name="step" type="xs:string"/>
   </xs:complexType>
   <xs:simpleType name="column-type-enum">
     <xs:restriction base="xs:string">

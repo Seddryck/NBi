@@ -23,11 +23,9 @@ namespace NBi.GenbiL.Action.Variable
 
         public void Execute(GenerationState state)
         {
-                var variables = ReadXml(Filename);
-                var factory = new TestVariableFactory();
-
-                foreach (var variable in variables)
-                    state.Variables.Add(variable.Name, variable);
+            var variables = ReadXml(Filename);
+            foreach (var variable in variables)
+                state.Variables.Add(variable.Name, variable);
         }
 
         protected virtual IEnumerable<GlobalVariableXml> ReadXml(string filename)

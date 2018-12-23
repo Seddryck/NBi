@@ -281,14 +281,13 @@ namespace NBi.NUnit.Runtime
         {
             var instances = new Dictionary<string, ITestVariable>();
             var resolverFactory = serviceLocator.GetScalarResolverFactory();
-            var factory = new TestVariableFactory();
 
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"{variables.Count()} variable{(variables.Count() > 1 ? "s" : string.Empty)} defined in the test-suite.");
             foreach (var variable in variables)
             {
                 if (overridenVariables.ContainsKey(variable.Name))
                 {
-                    var instance = new OverridenTestVariable(variable.Name, overridenVariables[variable.Name]);
+                    var instance = new OverridenVariable(variable.Name, overridenVariables[variable.Name]);
                     instances.Add(variable.Name, instance);
                 }
                 else
@@ -309,11 +308,9 @@ namespace NBi.NUnit.Runtime
                     var args = builder.GetArgs();
 
                     var resolver = resolverFactory.Instantiate<object>(args);
-
-                    var instance = factory.Instantiate(resolver);
-                    instances.Add(variable.Name, instance);
+                    instances.Add(variable.Name, new GlobalVariable(resolver));
                 }
-                
+
             }
 
             return instances;
@@ -335,29 +332,43 @@ namespace NBi.NUnit.Runtime
 
             foreach (var test in tests)
             {
-                TestCaseData testCaseDataNUnit = new TestCaseData(test);
-                testCaseDataNUnit.SetName(test.GetName());
-                testCaseDataNUnit.SetDescription(test.Description);
-                foreach (var category in test.Categories)
-                    testCaseDataNUnit.SetCategory(CategoryHelper.Format(category));
-                foreach (var property in test.Traits)
-                    testCaseDataNUnit.SetProperty(property.Name, property.Value);
+                var instanceArgsBuilder = new InstanceArgsBuilder(serviceLocator, Variables);
+                instanceArgsBuilder.Setup(test.Instance);
+                instanceArgsBuilder.Build;
 
-                //Assign auto-categories
-                if (EnableAutoCategories)
-                {
-                    foreach (var system in test.Systems)
-                        foreach (var category in system.GetAutoCategories())
-                            testCaseDataNUnit.SetCategory(CategoryHelper.Format(category));
-                }
-                //Assign auto-categories
-                if (EnableGroupAsCategory)
-                {
-                    foreach (var groupName in test.GroupNames)
-                        testCaseDataNUnit.SetCategory(CategoryHelper.Format(groupName));
-                }
+                var factory = new InstanceFactory();
+                var instances = factory.Instantiate(instanceArgsBuilder.GetArgs());
 
-                testCases.Add(testCaseDataNUnit);
+                foreach (var instance in instances)
+                {
+                    TestCaseData testCaseDataNUnit = new TestCaseData(test, instance);
+                    if (instance.IsDefault)
+                        testCaseDataNUnit.SetName($"{test.GetName()}");
+                    else
+                        testCaseDataNUnit.SetName($"{test.GetName()} ({instance.GetName()})");
+
+                    testCaseDataNUnit.SetDescription(test.Description);
+                    foreach (var category in test.Categories)
+                        testCaseDataNUnit.SetCategory(CategoryHelper.Format(category));
+                    foreach (var property in test.Traits)
+                        testCaseDataNUnit.SetProperty(property.Name, property.Value);
+
+                    //Assign auto-categories
+                    if (EnableAutoCategories)
+                    {
+                        foreach (var system in test.Systems)
+                            foreach (var category in system.GetAutoCategories())
+                                testCaseDataNUnit.SetCategory(CategoryHelper.Format(category));
+                    }
+                    //Assign auto-categories
+                    if (EnableGroupAsCategory)
+                    {
+                        foreach (var groupName in test.GroupNames)
+                            testCaseDataNUnit.SetCategory(CategoryHelper.Format(groupName));
+                    }
+
+                    testCases.Add(testCaseDataNUnit);
+                }
             }
             return testCases;
         }

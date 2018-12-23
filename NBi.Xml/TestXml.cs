@@ -9,6 +9,7 @@ using NBi.Xml.Decoration.Command;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using System.Xml;
+using NBi.Xml.Variables;
 
 namespace NBi.Xml
 {
@@ -21,7 +22,10 @@ namespace NBi.Xml
         [XmlAttribute("uid")]
         public string UniqueIdentifier { get; set; }
 
-        [XmlElement("ignore", Order = 1)]
+        [XmlElement("instance", Order = 1)]
+        public InstanceDefinitionXml Instance { get; set; }
+
+        [XmlElement("ignore", Order = 2)]
         public IgnoreXml IgnoreElement { get; set; }
         [XmlIgnore]
         public bool Ignore
@@ -44,7 +48,7 @@ namespace NBi.Xml
             }
         }
 
-        [XmlElement("description", Order = 2)]
+        [XmlElement("description", Order = 3)]
         public DescriptionXml DescriptionElement { get; set; }
         [XmlIgnore]
         public string Description
@@ -68,17 +72,17 @@ namespace NBi.Xml
             }
         }
 
-        [XmlElement("edition", Order = 3)]
+        [XmlElement("edition", Order = 4)]
         public EditionXml Edition;
 
-        [XmlElement("category", Order = 4)]
+        [XmlElement("category", Order = 5)]
         public List<string> Categories
         {
             get { return categories; }
             set { categories = value; }
         }
 
-        [XmlElement("trait", Order = 5)]
+        [XmlElement("trait", Order = 6)]
         public List<TraitXml> Traits
         {
             get { return traits; }
@@ -89,17 +93,17 @@ namespace NBi.Xml
         [DefaultValue(0)]
         public int Timeout { get; set; }
 
-        [XmlElement("condition", Order = 6)]
+        [XmlElement("condition", Order = 7)]
         public ConditionXml Condition;
 
-        [XmlElement("setup", Order = 7)]
+        [XmlElement("setup", Order = 8)]
         public SetupXml Setup
         {
             get { return setup; }
             set { setup = value; }
         }
 
-        [XmlArray("system-under-test", Order = 8),
+        [XmlArray("system-under-test", Order = 9),
         XmlArrayItem(Type = typeof(ExecutionXml), ElementName = "execution"),
         XmlArrayItem(Type = typeof(ResultSetSystemXml), ElementName = "resultSet"),
         XmlArrayItem(Type = typeof(ScalarXml), ElementName = "scalar"),
@@ -109,7 +113,7 @@ namespace NBi.Xml
         ]
         public List<AbstractSystemUnderTestXml> Systems;
 
-        [XmlArray("assert", Order = 9),
+        [XmlArray("assert", Order = 10),
         XmlArrayItem(Type = typeof(SyntacticallyCorrectXml), ElementName = "syntacticallyCorrect"),
         XmlArrayItem(Type = typeof(FasterThanXml), ElementName = "fasterThan"),
         XmlArrayItem(Type = typeof(EqualToXml), ElementName = "equalTo"),
@@ -137,17 +141,17 @@ namespace NBi.Xml
         ]
         public List<AbstractConstraintXml> Constraints;
 
-        [XmlElement("cleanup", Order = 10)]
+        [XmlElement("cleanup", Order = 11)]
         public CleanupXml Cleanup
         {
             get { return cleanup; }
             set { cleanup = value; }
         }
 
-        [XmlElement("not-implemented", Order = 11)]
+        [XmlElement("not-implemented", Order = 12)]
         public IgnoreXml NotImplemented { get; set; }
 
-        [XmlAnyElement(Order = 12)]
+        [XmlAnyElement(Order = 13)]
         public List<XmlElement> Drafts { get; set; }
 
         public TestXml() : base()
@@ -248,6 +252,8 @@ namespace NBi.Xml
         }
 
         [XmlIgnore]
+        public bool InstanceSpecified { get => !(Instance==null); }
+        [XmlIgnore]
         public bool SystemsSpecified { get => !(Systems == null || Systems.Count == 0); }
         [XmlIgnore]
         public bool ConstraintsSpecified { get => !(Constraints == null || Constraints.Count == 0); }
@@ -284,5 +290,6 @@ namespace NBi.Xml
 
         [XmlIgnore]
         public bool IsNotImplemented { get => NotImplemented != null; }
+
     }
 }

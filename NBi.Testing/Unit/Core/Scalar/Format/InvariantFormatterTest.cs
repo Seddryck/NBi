@@ -17,7 +17,7 @@ namespace NBi.Testing.Unit.Core.Scalar.Format
         {
             var globalVariables = new Dictionary<string, ITestVariable>()
             {
-                { "myVar", new OverridenTestVariable("myVar", "2018") }
+                { "myVar", new OverridenVariable("myVar", "2018") }
             };
             var formatter = new InvariantFormatter(new ServiceLocator(), globalVariables);
             var result = formatter.Execute("This year, we are in {@myVar}");
@@ -29,8 +29,8 @@ namespace NBi.Testing.Unit.Core.Scalar.Format
         {
             var globalVariables = new Dictionary<string, ITestVariable>()
             {
-                { "myVar", new OverridenTestVariable("myVar", "2018") },
-                { "myTime", new OverridenTestVariable("myTime", "YEAR") }
+                { "myVar", new OverridenVariable("myVar", "2018") },
+                { "myTime", new OverridenVariable("myTime", "YEAR") }
             };
             var formatter = new InvariantFormatter(new ServiceLocator(), globalVariables);
             var result = formatter.Execute("This {@myTime}, we are in {@myVar}");
@@ -42,7 +42,7 @@ namespace NBi.Testing.Unit.Core.Scalar.Format
         {
             var globalVariables = new Dictionary<string, ITestVariable>()
             {
-                { "myVar", new OverridenTestVariable("myVar", new DateTime(2018, 11, 6)) },
+                { "myVar", new OverridenVariable("myVar", new DateTime(2018, 11, 6)) },
             };
             var formatter = new InvariantFormatter(new ServiceLocator(), globalVariables);
             var result = formatter.Execute("This month is {@myVar:MM}");
@@ -55,7 +55,7 @@ namespace NBi.Testing.Unit.Core.Scalar.Format
         {
             var globalVariables = new Dictionary<string, ITestVariable>()
             {
-                { "myVar", new OverridenTestVariable("myVar", new DateTime(2018, 8, 6)) },
+                { "myVar", new OverridenVariable("myVar", new DateTime(2018, 8, 6)) },
             };
             var formatter = new InvariantFormatter(new ServiceLocator(), globalVariables);
             var result = formatter.Execute("This month is {@myVar:MMMM}");
@@ -67,7 +67,7 @@ namespace NBi.Testing.Unit.Core.Scalar.Format
         {
             var globalVariables = new Dictionary<string, ITestVariable>()
             {
-                { "myVar", new OverridenTestVariable("myVar", new DateTime(2018, 8, 6)) },
+                { "myVar", new OverridenVariable("myVar", new DateTime(2018, 8, 6)) },
             };
             var formatter = new InvariantFormatter(new ServiceLocator(), globalVariables);
             var result = formatter.Execute("This month is {@myVar:%M}");

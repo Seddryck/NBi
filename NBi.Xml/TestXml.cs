@@ -48,6 +48,10 @@ namespace NBi.Xml
             }
         }
 
+        [XmlElement("instance", Order = 2)]
+        [DefaultValue(InstanceXml.Unique)]
+        public InstanceXml Instances { get; set; }
+
         [XmlElement("description", Order = 3)]
         public DescriptionXml DescriptionElement { get; set; }
         [XmlIgnore]
@@ -200,6 +204,17 @@ namespace NBi.Xml
                     Console.WriteLine(string.Format("Unknown tag '{0}' in test name has stopped the replacement of tag in test name", key));
                 }
             }
+            return newName;
+        }
+
+        public string GetName(IDictionary<string, TestVariable> dico)
+        {
+            var newName = GetName() + ".";
+            foreach (var token in dico)
+                newName = $"{newName}{token.Key}={token.Value};";
+            if (newName.EndsWith(";"))
+                newName = newName.PadLeft(newName.Length - 1);
+
             return newName;
         }
 

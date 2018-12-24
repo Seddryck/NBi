@@ -11,7 +11,5 @@ namespace NBi.Core.Variable
     {
         object GetValue();
         bool IsEvaluated();
-
-        
     }
 }

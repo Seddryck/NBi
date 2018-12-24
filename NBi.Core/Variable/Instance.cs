@@ -15,6 +15,21 @@ namespace NBi.Core.Variable
             Variables = variables;
         }
 
-        public string GetName() => Variables.ElementAt(0).Value.GetValue().ToString();
+        public virtual string GetName() => Variables.ElementAt(0).Value.GetValue().ToString();
+
+        public bool IsDefault
+        {
+            get => this == Default;
+        }
+        public static Instance Default { get; } = new DefaultInstance();
+
+        public class DefaultInstance : Instance
+        {
+            public DefaultInstance()
+                : base(new Dictionary<string, InstanceVariable>())
+            { }
+
+            public override string GetName() => string.Empty;
+        }
     }
 }

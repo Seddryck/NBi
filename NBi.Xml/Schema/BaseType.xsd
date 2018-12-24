@@ -1090,10 +1090,10 @@
   </xs:complexType>
   <xs:complexType name="instance-type">
     <xs:choice minOccurs="1" maxOccurs="1">
-      <xs:element name="variable" type="instance-variable-type"/>
+      <xs:element name="local-variable" type="local-variable-type"/>
     </xs:choice>
   </xs:complexType>
-  <xs:complexType name="instance-variable-type">
+  <xs:complexType name="local-variable-type">
     <xs:choice minOccurs="1" maxOccurs="1">
       <xs:element name="loop-sentinel" type="loop-sentinel-type"/>
     </xs:choice>

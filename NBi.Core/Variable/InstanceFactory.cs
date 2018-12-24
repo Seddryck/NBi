@@ -9,7 +9,14 @@ namespace NBi.Core.Variable
 {
     public class InstanceFactory
     {
-        public IEnumerable<Instance> Instantiate(string variableName, ISequenceResolver<object> resolver)
+        public IEnumerable<Instance> Instantiate(IInstanceArgs args)
+        {
+            if (args is SingleVariableInstanceArgs)
+                return Instantiate((args as SingleVariableInstanceArgs).Name, (args as SingleVariableInstanceArgs).Resolver);
+            throw new ArgumentOutOfRangeException();
+        }
+
+        private IEnumerable<Instance> Instantiate(string variableName, ISequenceResolver<object> resolver)
         {
             foreach (var obj in resolver.Execute())
             {

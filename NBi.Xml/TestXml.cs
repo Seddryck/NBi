@@ -10,6 +10,7 @@ using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using System.Xml;
 using NBi.Xml.Variables;
+using NBi.Core.Variable;
 
 namespace NBi.Xml
 {
@@ -22,10 +23,8 @@ namespace NBi.Xml
         [XmlAttribute("uid")]
         public string UniqueIdentifier { get; set; }
 
-        [XmlElement("instance", Order = 1)]
-        public InstanceDefinitionXml Instance { get; set; }
 
-        [XmlElement("ignore", Order = 2)]
+        [XmlElement("ignore", Order = 1)]
         public IgnoreXml IgnoreElement { get; set; }
         [XmlIgnore]
         public bool Ignore
@@ -49,7 +48,6 @@ namespace NBi.Xml
         }
 
         [XmlElement("instance", Order = 2)]
-        [DefaultValue(InstanceXml.Unique)]
         public InstanceXml Instances { get; set; }
 
         [XmlElement("description", Order = 3)]
@@ -207,7 +205,7 @@ namespace NBi.Xml
             return newName;
         }
 
-        public string GetName(IDictionary<string, TestVariable> dico)
+        public string GetName(IDictionary<string, ITestVariable> dico)
         {
             var newName = GetName() + ".";
             foreach (var token in dico)
@@ -267,7 +265,7 @@ namespace NBi.Xml
         }
 
         [XmlIgnore]
-        public bool InstanceSpecified { get => !(Instance==null); }
+        public bool InstanceSpecified { get => !(Instances==null); }
         [XmlIgnore]
         public bool SystemsSpecified { get => !(Systems == null || Systems.Count == 0); }
         [XmlIgnore]

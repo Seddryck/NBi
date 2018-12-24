@@ -1,5 +1,7 @@
 ﻿using NBi.Core.Injection;
+using NBi.Core.Sequence.Resolver;
 using NBi.Core.Variable;
+using NBi.Xml;
 using NBi.Xml.Settings;
 using NBi.Xml.Variables;
 using System;
@@ -18,8 +20,7 @@ namespace NBi.NUnit.Builder.Helper
         private bool isSetup = false;
         private object obj = null;
         private SettingsXml settings = SettingsXml.Empty;
-
-        private ResultSetAllRowsBuilder = null
+        private IInstanceArgs args = null;
 
         public InstanceArgsBuilder(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> globalVariables)
         {
@@ -32,23 +33,33 @@ namespace NBi.NUnit.Builder.Helper
             this.settings = settings;
         }
 
-        public void Setup(InstanceDefinitionXml definition)
+        public void Setup(InstanceXml definition)
         {
-            this.obj = obj;
+            obj = definition;
         }
 
         public void Build()
         {
-            if ((obj as InstanceDefinitionXml).Variable != null)
+            if ((obj as InstanceXml).Variable != null)
             {
-                var args = new SingleVariableInstanceArgs(
-                    (obj as InstanceDefinitionXml).Variable.Name
-                    (obj as InstanceDefinitionXml).Variable.ColumnType
+                var variable = (obj as InstanceXml).Variable;
 
-                    , )
-                
+                var argsBuilder = new SequenceResolverArgsBuilder(serviceLocator);
+                argsBuilder.Setup(settings);
+                argsBuilder.Setup(globalVariables);
+                argsBuilder.Setup(variable.SentinelLoop);
+                argsBuilder.Setup(variable.Type);
+                argsBuilder.Build();
+                var factory = new SequenceResolverFactory(serviceLocator);
+
+                args = new SingleVariableInstanceArgs()
+                {
+                    Name = variable.Name,
+                    Resolver = factory.Instantiate<object>(argsBuilder.GetArgs())
+                };
             }
         }
 
+        public IInstanceArgs GetArgs() => args ?? throw new InvalidOperationException();
     }
 }

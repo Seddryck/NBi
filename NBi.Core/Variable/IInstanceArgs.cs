@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Variable
 {
-    class IInstanceArgs
+    public interface IInstanceArgs
     {
     }
 }

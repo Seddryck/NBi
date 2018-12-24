@@ -34,7 +34,7 @@ namespace NBi.Testing.Unit.Xml.Variables
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[0].Instance, Is.Not.Null);
+            Assert.That(ts.Tests[0].Instances, Is.Not.Null);
         }
 
 

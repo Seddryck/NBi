@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Xml.Variables;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,8 @@ namespace NBi.Xml
 {
     public class InstanceXml
     {
-        [XmlElement("variation")]
-        public VariationXml Variation { get; set; }
+        [XmlElement("variable")]
+        public InstanceVariableXml Variable { get; set; }
 
         private static InstanceXml _unique { get; set; }
         public static InstanceXml Unique

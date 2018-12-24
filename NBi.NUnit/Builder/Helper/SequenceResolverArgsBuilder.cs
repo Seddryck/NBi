@@ -87,6 +87,8 @@ namespace NBi.NUnit.Builder.Helper
                 throw new ArgumentException();
         }
 
+        public ISequenceResolverArgs GetArgs() => args ?? throw new InvalidOperationException();
+        
         private ISequenceResolverArgs BuildSentinelLoopResolverArgs<T, U>(string seed, string terminal, string step)
         {
             var helper = new ScalarHelper(serviceLocator, globalVariables);

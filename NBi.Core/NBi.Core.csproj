@@ -675,9 +675,10 @@
     <Compile Include="Variable\InstanceFactory.cs" />
     <Compile Include="Variable\InstanceVariable.cs" />
     <Compile Include="Variable\OverridenVariable.cs" />
-    <Compile Include="Variable\SingleInstanceVariableArgs.cs" />
+    <Compile Include="Variable\SingleVariableInstanceArgs.cs" />
     <Compile Include="Variable\TestVariable.cs" />
     <Compile Include="Variable\ITestVariable.cs" />
+    <Compile Include="Variable\TestVariableFactory.cs" />
     <Compile Include="WindowsService\IWindowsServiceCheck.cs" />
     <Compile Include="WindowsService\WindowsServiceCheck.cs" />
     <Compile Include="WindowsService\WindowsServiceCheckFactory.cs" />

@@ -722,6 +722,15 @@
     <EmbeddedResource Include="Acceptance\Resources\Negative\Scoring-Json.nbits.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Csv\MyData_2016_02.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Csv\MyData_2016_01.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Csv\MyData_2016_03.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\OrderCountByYear.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -1051,6 +1060,9 @@
     <EmbeddedResource Include="Unit\Xml\Resources\LocalVariableXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\InstanceSettlingXmlTestSuite.xml" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Scoring-Json-0001.txt" />
+    <None Include="Acceptance\Resources\Positive\MultipleInstance.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="Acceptance\Resources\Query\ResellerOrderCount.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

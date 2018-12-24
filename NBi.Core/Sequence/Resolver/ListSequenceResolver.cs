@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Scalar.Resolver;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -17,8 +18,10 @@ namespace NBi.Core.Sequence.Resolver
         {
             this.args = args;
         }
-        
-        public IList<T> Execute()
+
+        IList ISequenceResolver.Execute() => this.Execute();
+
+        public List<T> Execute()
         {
             var list = new List<T>();
             foreach (var arg in args.Objects)

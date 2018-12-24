@@ -22,6 +22,8 @@ namespace NBi.Core.Sequence.Resolver.Loop
         public T Seed { get; }
         public U Step { get; }
 
+
+        object ILoopStrategy.GetNext() => GetNext();
         public T GetNext()
         {
             if (LoopCount == 0)

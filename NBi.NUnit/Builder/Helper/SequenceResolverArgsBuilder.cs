@@ -73,7 +73,7 @@ namespace NBi.NUnit.Builder.Helper
                 switch (columnType)
                 {
                     case ColumnType.Numeric:
-                        args = BuildSentinelLoopResolverArgs<int,int>(loop.Seed, loop.Terminal, loop.Step);
+                        args = BuildSentinelLoopResolverArgs<decimal,decimal>(loop.Seed, loop.Terminal, loop.Step);
                         break;
                     case ColumnType.DateTime:
                         args = BuildSentinelLoopResolverArgs<DateTime,IDuration>(loop.Seed, loop.Terminal, loop.Step);

@@ -1,11 +1,13 @@
 ﻿namespace NBi.Core.Sequence.Resolver.Loop
 {
     public interface ILoopStrategy
-    { }
+    {
+        bool IsOngoing();
+        object GetNext();
+    }
 
     public interface ILoopStrategy<T> : ILoopStrategy
     {
-        T GetNext();
-        bool IsOngoing();
+        new T GetNext();
     }
 }

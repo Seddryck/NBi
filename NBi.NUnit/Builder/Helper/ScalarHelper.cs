@@ -49,6 +49,7 @@ namespace NBi.NUnit.Builder.Helper
         {
             var argsBuilder = new ScalarResolverArgsBuilder(serviceLocator);
             argsBuilder.Setup(variables);
+            argsBuilder.Setup(value);
             argsBuilder.Build();
 
             var factory = serviceLocator.GetScalarResolverFactory();

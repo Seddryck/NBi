@@ -90,8 +90,6 @@
     <Compile Include="CustomStackTraceErrorException.cs" />
     <Compile Include="CustomStackTraceAssertionException.cs" />
     <Compile Include="Configuration\NBiSection.cs" />
-    <Compile Include="TestInstance.cs" />
-    <Compile Include="TestInstanceEngine.cs" />
     <Compile Include="TestSuite.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="TestSuiteProvider.cs" />

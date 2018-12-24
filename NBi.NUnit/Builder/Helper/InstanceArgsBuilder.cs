@@ -45,7 +45,7 @@ namespace NBi.NUnit.Builder.Helper
             if (!isSetup)
                 throw new InvalidOperationException();
 
-            if (obj == null)
+            if (obj == InstanceSettlingXml.Unique)
                 args = new DefaultInstanceArgs();
 
             else if ((obj as InstanceSettlingXml).Variable != null)

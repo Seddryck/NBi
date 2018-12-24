@@ -334,6 +334,7 @@ namespace NBi.NUnit.Runtime
 
             foreach (var test in tests)
             {
+                // Build different instances for a test, if no instance-settling is defined then the default instance is created
                 var instanceArgsBuilder = new InstanceArgsBuilder(serviceLocator, Variables);
                 instanceArgsBuilder.Setup(test.InstanceSettling);
                 instanceArgsBuilder.Build();
@@ -341,6 +342,7 @@ namespace NBi.NUnit.Runtime
                 var factory = new InstanceFactory();
                 var instances = factory.Instantiate(instanceArgsBuilder.GetArgs());
 
+                // For each instance create a test-case
                 foreach (var instance in instances)
                 {
                     TestCaseData testCaseDataNUnit = new TestCaseData(test, instance);

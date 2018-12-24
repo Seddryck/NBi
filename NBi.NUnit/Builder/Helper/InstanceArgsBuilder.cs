@@ -36,10 +36,14 @@ namespace NBi.NUnit.Builder.Helper
         public void Setup(InstanceXml definition)
         {
             obj = definition;
+            isSetup = true;
         }
 
         public void Build()
         {
+            if (!isSetup)
+                throw new InvalidOperationException();
+
             if ((obj as InstanceXml).Variable != null)
             {
                 var variable = (obj as InstanceXml).Variable;

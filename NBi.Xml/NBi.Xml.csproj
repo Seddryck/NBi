@@ -131,7 +131,7 @@
     <Compile Include="Decoration\Command\CommandGroupXml.cs" />
     <Compile Include="GroupXml.cs" />
     <Compile Include="InheritanceTestXml.cs" />
-    <Compile Include="InstanceXml.cs" />
+    <Compile Include="InstanceSettlingXml.cs" />
     <Compile Include="Items\Alteration\AlterationXml.cs" />
     <Compile Include="Items\Alteration\Conversion\AbstractConverterXml.cs" />
     <Compile Include="Items\Alteration\Conversion\ConvertXml.cs" />

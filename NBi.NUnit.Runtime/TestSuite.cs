@@ -335,7 +335,7 @@ namespace NBi.NUnit.Runtime
             foreach (var test in tests)
             {
                 var instanceArgsBuilder = new InstanceArgsBuilder(serviceLocator, Variables);
-                instanceArgsBuilder.Setup(test.Instances);
+                instanceArgsBuilder.Setup(test.InstanceSettling);
                 instanceArgsBuilder.Build();
 
                 var factory = new InstanceFactory();

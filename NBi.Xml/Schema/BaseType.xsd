@@ -763,7 +763,7 @@
   </xs:complexType>
   <xs:complexType name="test-type">
     <xs:sequence>
-      <xs:element name="instances" type="instance-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="instance-settling" type="instance-settling-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="ignore" minOccurs="0" maxOccurs="1">
         <xs:complexType>
           <xs:simpleContent>
@@ -1088,7 +1088,7 @@
     <xs:attribute name="ignore" type="xs:boolean" use="optional" />
     <xs:attribute name="description" type="xs:string" use="optional" />
   </xs:complexType>
-  <xs:complexType name="instance-type">
+  <xs:complexType name="instance-settling-type">
     <xs:choice minOccurs="1" maxOccurs="1">
       <xs:element name="local-variable" type="local-variable-type"/>
     </xs:choice>

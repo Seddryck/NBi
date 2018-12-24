@@ -47,8 +47,8 @@ namespace NBi.Xml
             }
         }
 
-        [XmlElement("instance", Order = 2)]
-        public InstanceXml Instances { get; set; }
+        [XmlElement("instance-settling", Order = 2)]
+        public InstanceSettlingXml InstanceSettling { get; set; }
 
         [XmlElement("description", Order = 3)]
         public DescriptionXml DescriptionElement { get; set; }
@@ -158,6 +158,7 @@ namespace NBi.Xml
 
         public TestXml() : base()
         {
+            InstanceSettling = InstanceSettlingXml.Unique;
             Constraints = new List<AbstractConstraintXml>();
             Systems = new List<AbstractSystemUnderTestXml>();
             Condition = new ConditionXml();
@@ -265,7 +266,7 @@ namespace NBi.Xml
         }
 
         [XmlIgnore]
-        public bool InstanceSpecified { get => !(Instances==null); }
+        public bool InstanceSettlingSpecified { get => !(InstanceSettling==InstanceSettlingXml.Unique); }
         [XmlIgnore]
         public bool SystemsSpecified { get => !(Systems == null || Systems.Count == 0); }
         [XmlIgnore]

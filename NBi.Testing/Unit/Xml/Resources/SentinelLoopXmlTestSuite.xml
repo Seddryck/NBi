@@ -10,12 +10,12 @@
       <script language="c-sharp">new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)</script>
     </variable>
   </variables>
-  <test name="Instances are defined through a single variable" uid="0001">
-    <instances>
-      <variable name="firstDayOfMonth" type="dateTime">
+  <test name="Instances are defined through a single variable" uid="0000">
+    <instance-settling>
+      <local-variable name="firstDayOfMonth" type="dateTime">
         <loop-sentinel seed="2016-01-01" terminal="2016-12-01" step="1 month"/>
-      </variable>
-    </instances>
+      </local-variable>
+    </instance-settling>
     <system-under-test>
       <resultSet file="~MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
     </system-under-test>
@@ -27,14 +27,26 @@
       </no-rows>
     </assert>
   </test>
-  <test name="Instances are defined through a single variable with a dynamic evaluation of terminal" uid="0002">
-    <instances>
-      <variable name="firstDayOfMonth" type="dateTime">
+  <test name="Instances are defined through a single variable with a dynamic evaluation of terminal" uid="0001">
+    <instance-settling>
+      <local-variable name="firstDayOfMonth" type="dateTime">
         <loop-sentinel seed="2016-01-01" terminal="@firstDayOfCurrentMonth" step="1 month"/>
-      </variable>
-    </instances>
+      </local-variable>
+    </instance-settling>
     <system-under-test>
       <resultSet file="~MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#1">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+  <test name="Instance is not specified (single test)" uid="0002">
+    <system-under-test>
+      <resultSet file="MyData_2016_02.csv"/>
     </system-under-test>
     <assert>
       <no-rows>

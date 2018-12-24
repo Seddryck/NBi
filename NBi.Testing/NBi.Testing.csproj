@@ -558,8 +558,10 @@
     <Compile Include="Unit\NUnit\TestCaseFactoryTest.cs" />
     <Compile Include="Unit\Xml\Systems\ExecutionXmlTest.cs" />
     <Compile Include="Unit\Xml\TestSuiteWithVariablesTest.cs" />
-    <Compile Include="Unit\Xml\Variables\InstanceDefinitionXmlTest.cs" />
+    <Compile Include="Unit\Xml\InstanceSettlingXmlTest.cs" />
     <Compile Include="Unit\Xml\Variables\GlobalVariableXmlTest.cs" />
+    <Compile Include="Unit\Xml\Variables\LocalVariableXmlTest.cs" />
+    <Compile Include="Unit\Xml\Variables\Sequences\SentinelLoopXmlTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerWithExternalSettingsTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerWithDtdTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerTest.cs" />
@@ -1045,7 +1047,9 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\InstanceDefinitionXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\SentinelLoopXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\LocalVariableXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\InstanceSettlingXmlTestSuite.xml" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Scoring-Json-0001.txt" />
     <Content Include="Acceptance\Resources\Query\ResellerOrderCount.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

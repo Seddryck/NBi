@@ -8,13 +8,13 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml
 {
-    public class InstanceXml
+    public class InstanceSettlingXml
     {
-        [XmlElement("variable")]
+        [XmlElement("local-variable")]
         public InstanceVariableXml Variable { get; set; }
 
-        private static InstanceXml _unique { get; set; }
-        public static InstanceXml Unique
+        private static InstanceSettlingXml _unique { get; set; }
+        public static InstanceSettlingXml Unique
         {
             get
             {
@@ -23,7 +23,7 @@ namespace NBi.Xml
             }
         }
 
-        internal class InstanceUnique : InstanceXml
+        internal class InstanceUnique : InstanceSettlingXml
         { }
     }
 }

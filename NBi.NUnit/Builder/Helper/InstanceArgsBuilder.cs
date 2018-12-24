@@ -34,7 +34,7 @@ namespace NBi.NUnit.Builder.Helper
             this.settings = settings;
         }
 
-        public void Setup(InstanceXml definition)
+        public void Setup(InstanceSettlingXml definition)
         {
             obj = definition;
             isSetup = true;
@@ -48,9 +48,9 @@ namespace NBi.NUnit.Builder.Helper
             if (obj == null)
                 args = new DefaultInstanceArgs();
 
-            else if ((obj as InstanceXml).Variable != null)
+            else if ((obj as InstanceSettlingXml).Variable != null)
             {
-                var variable = (obj as InstanceXml).Variable;
+                var variable = (obj as InstanceSettlingXml).Variable;
 
                 var argsBuilder = new SequenceResolverArgsBuilder(serviceLocator);
                 argsBuilder.Setup(settings);

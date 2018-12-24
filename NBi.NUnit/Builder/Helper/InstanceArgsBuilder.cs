@@ -1,6 +1,7 @@
 ﻿using NBi.Core.Injection;
 using NBi.Core.Sequence.Resolver;
 using NBi.Core.Variable;
+using NBi.Core.Variable.Instantiation;
 using NBi.Xml;
 using NBi.Xml.Settings;
 using NBi.Xml.Variables;
@@ -44,7 +45,10 @@ namespace NBi.NUnit.Builder.Helper
             if (!isSetup)
                 throw new InvalidOperationException();
 
-            if ((obj as InstanceXml).Variable != null)
+            if (obj == null)
+                args = new DefaultInstanceArgs();
+
+            else if ((obj as InstanceXml).Variable != null)
             {
                 var variable = (obj as InstanceXml).Variable;
 

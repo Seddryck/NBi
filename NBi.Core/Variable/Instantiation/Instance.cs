@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Variable
+namespace NBi.Core.Variable.Instantiation
 {
     public class Instance
     {

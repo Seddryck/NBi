@@ -22,6 +22,7 @@ using Ninject;
 using NBi.Core.Injection;
 using NBi.Core.Configuration.Extension;
 using NBi.Core.Scalar.Caster;
+using NBi.Core.Variable.Instantiation;
 
 namespace NBi.NUnit.Runtime
 {
@@ -283,6 +284,7 @@ namespace NBi.NUnit.Runtime
             var resolverFactory = serviceLocator.GetScalarResolverFactory();
 
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"{variables.Count()} variable{(variables.Count() > 1 ? "s" : string.Empty)} defined in the test-suite.");
+            var variableFactory = new VariableFactory();
             foreach (var variable in variables)
             {
                 if (overridenVariables.ContainsKey(variable.Name))
@@ -308,7 +310,7 @@ namespace NBi.NUnit.Runtime
                     var args = builder.GetArgs();
 
                     var resolver = resolverFactory.Instantiate<object>(args);
-                    instances.Add(variable.Name, new GlobalVariable(resolver));
+                    instances.Add(variable.Name, variableFactory.Instantiate(VariableScope.Global, resolver));
                 }
 
             }

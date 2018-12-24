@@ -5,15 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Variable
+namespace NBi.Core.Variable.Instantiation
 {
     public class InstanceFactory
     {
         public IEnumerable<Instance> Instantiate(IInstanceArgs args)
         {
-            if (args is SingleVariableInstanceArgs)
-                return Instantiate((args as SingleVariableInstanceArgs).Name, (args as SingleVariableInstanceArgs).Resolver);
-            throw new ArgumentOutOfRangeException();
+            switch (args)
+            {
+                case DefaultInstanceArgs d: return new[] { Instance.Default };
+                case SingleVariableInstanceArgs s: return Instantiate(s.Name, s.Resolver);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private IEnumerable<Instance> Instantiate(string variableName, ISequenceResolver<object> resolver)

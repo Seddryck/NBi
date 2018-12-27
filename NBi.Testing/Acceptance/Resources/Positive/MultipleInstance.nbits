@@ -10,7 +10,7 @@
       <script language="c-sharp">new DateTime(2016, 3, 1)</script>
     </variable>
   </variables>
-  <!--<test name="Instances are defined through a single variable and an integer step" uid="0001">
+  <test name="Instances are defined through a single variable and an integer step" uid="0001">
     <instance-settling>
       <local-variable name="integer" type="numeric">
         <loop-sentinel seed="1" terminal="3" step="1"/>
@@ -26,8 +26,7 @@
         </predicate>
       </no-rows>
     </assert>
-  </test>-->
-  <!--
+  </test>
   <test name="Instances are defined through a single variable and a duration step" uid="0002">
     <instance-settling>
       <local-variable name="firstDayOfMonth" type="dateTime">
@@ -45,7 +44,6 @@
       </no-rows>
     </assert>
   </test>
-  -->
   <test name="Instances are defined through a single variable with a dynamic evaluation of terminal" uid="0003">
     <instance-settling>
       <local-variable name="firstDayOfMonth" type="dateTime">

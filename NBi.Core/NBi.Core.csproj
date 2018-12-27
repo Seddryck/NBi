@@ -466,6 +466,7 @@
     <Compile Include="Scalar\Duration\DateTimeExtensions.cs" />
     <Compile Include="Scalar\Duration\FixedDuration.cs" />
     <Compile Include="Scalar\Duration\IDuration.cs" />
+    <Compile Include="Scalar\Duration\DurationConverter.cs" />
     <Compile Include="Scalar\Duration\YearDuration.cs" />
     <Compile Include="Scalar\Duration\MonthDuration.cs" />
     <Compile Include="Scalar\Format\FormatterFactory.cs" />

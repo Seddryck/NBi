@@ -340,6 +340,7 @@
     <Compile Include="Unit\Core\ResultSet\Conversion\ConverterEngineTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetServiceTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Uniqueness\OrdinalUniqueRowsEvaluatorTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Duration\DurationConverterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Format\InvariantFormatterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Interval\DateTimeIntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\JsonResultSetTest.cs" />

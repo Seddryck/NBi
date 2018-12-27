@@ -25,7 +25,7 @@ namespace NBi.Core.Variable.Instantiation
             foreach (var obj in resolver.Execute())
             {
                 var instanceVariable = new InstanceVariable(obj);
-                yield return new Instance(new Dictionary<string, InstanceVariable>() { { variableName, instanceVariable } });
+                yield return new Instance(new Dictionary<string, ITestVariable>() { { variableName, instanceVariable } });
             }
         }
     }

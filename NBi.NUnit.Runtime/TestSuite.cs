@@ -81,7 +81,7 @@ namespace NBi.NUnit.Runtime
         }
 
         [Test, TestCaseSource("GetTestCases")]
-        public virtual void ExecuteTestCases(TestXml test)
+        public virtual void ExecuteTestCases(TestXml test, TestCaseData testCaseData, IDictionary<string, ITestVariable> localVariables)
         {
             if (ConfigurationProvider != null)
             {
@@ -111,15 +111,16 @@ namespace NBi.NUnit.Runtime
             }
             else
             {
-                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Running test '{test.Name}' #{test.UniqueIdentifier}");
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Running test '{testCaseData.TestName}' #{test.UniqueIdentifier}");
                 ExecuteChecks(test.Condition);
                 ExecuteSetup(test.Setup);
-                foreach (var tc in test.Systems)
+                var allVariables = Variables.Union(localVariables).ToDictionary(x => x.Key, x=>x.Value);
+                foreach (var sut in test.Systems)
                 {
                     foreach (var ctr in test.Constraints)
                     {
-                        var factory = new TestCaseFactory(Configuration, Variables, serviceLocator);
-                        var testCase = factory.Instantiate(tc, ctr);
+                        var factory = new TestCaseFactory(Configuration, allVariables, serviceLocator);
+                        var testCase = factory.Instantiate(sut, ctr);
                         try
                         {
                             AssertTestCase(testCase.SystemUnderTest, testCase.Constraint, test.Content);
@@ -345,7 +346,7 @@ namespace NBi.NUnit.Runtime
                 // For each instance create a test-case
                 foreach (var instance in instances)
                 {
-                    TestCaseData testCaseDataNUnit = new TestCaseData(test, instance);
+                    TestCaseData testCaseDataNUnit = new TestCaseData(test, instance.Variables);
                     if (instance.IsDefault)
                         testCaseDataNUnit.SetName($"{test.GetName()}");
                     else

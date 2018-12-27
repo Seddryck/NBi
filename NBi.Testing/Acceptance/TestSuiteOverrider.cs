@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Configuration;
+using NBi.Core.Variable;
 using NBi.NUnit.Runtime;
 using NBi.Xml;
 using NUnit.Framework;
@@ -81,16 +82,16 @@ namespace NBi.Testing.Acceptance
         }
 
         [Ignore]
-        public override void ExecuteTestCases(TestXml test)
+        public override void ExecuteTestCases(TestXml test, TestCaseData testCaseData, IDictionary<string, ITestVariable> localVariables)
         {
-            base.ExecuteTestCases(test);
+            base.ExecuteTestCases(test, testCaseData, localVariables);
         }
 
         [Ignore]
-        public void ExecuteTestCases(TestXml test, IConfiguration configuration)
+        public void ExecuteTestCases(TestXml test, TestCaseData testCaseData, IConfiguration configuration)
         {
             base.Configuration = configuration;
-            base.ExecuteTestCases(test);
+            base.ExecuteTestCases(test, testCaseData, null);
         }
     }
 }

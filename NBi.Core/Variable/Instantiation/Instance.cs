@@ -8,9 +8,9 @@ namespace NBi.Core.Variable.Instantiation
 {
     public class Instance
     {
-        public IDictionary<string, InstanceVariable> Variables { get; }
+        public IDictionary<string, ITestVariable> Variables { get; }
 
-        public Instance(IDictionary<string, InstanceVariable> variables)
+        public Instance(IDictionary<string, ITestVariable> variables)
         {
             Variables = variables;
         }
@@ -26,7 +26,7 @@ namespace NBi.Core.Variable.Instantiation
         public class DefaultInstance : Instance
         {
             public DefaultInstance()
-                : base(new Dictionary<string, InstanceVariable>())
+                : base(new Dictionary<string, ITestVariable>())
             { }
 
             public override string GetName() => string.Empty;

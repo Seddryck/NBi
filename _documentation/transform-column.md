@@ -142,6 +142,10 @@ Currently, you cannot assemble native transformations, it means that you're limi
 * ```text-to-html```: encodes the content to html
 * ```text-to-trim```: removes blanks from the beginning and end of the cell.
 * ```text-to-length```: returns the length of the *text* value of the cell. If the cell is ```null``` or ```empty```, it returns 0.
+* ```null-to-zero```: if the cell is ```null``` or ```empty```, it replaces the content by ```0```.
+* ```numeric-to-floor```: returns the largest integral value less than or equal to the specified number.
+* ```numeric-to-ceiling```: returns the smallest integral value greater than or equal to the specified number.
+* ```numeric-to-integer```: rounds a value to the nearest integer.
 * ```date-to-age```: returns the age according to the *dateTime* value of the cell at the moment of execution of the test.
 * ```dateTime-to-date```: remove information about the time (equivalent to set the dateTime to midnight)
 
@@ -154,6 +158,7 @@ The parameter is a valid TimeZone. User must specify the identification of a tim
 
 * ```null-to-date(dateTime)```: returns the original date if the value wasn't null or empty else returns the value specified as a parameter. ```dateTime``` must be expressed as string: ```2018-05-09```
 
+* ```numeric-to-round(integer)```: rounds a value to the specified number of fractional digits.
 
 {% highlight xml %}
 <assert>

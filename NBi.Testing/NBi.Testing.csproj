@@ -56,8 +56,11 @@
     <Reference Include="MarkdownLog, Version=0.9.3.36, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MarkdownLog.0.9.3\lib\portable-net45+sl50+MonoAndroid10+MonoTouch10\MarkdownLog.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.12.0.2000.8\lib\net40\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
+    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=15.3.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.retail.amd64.15.3.1\lib\net45\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AnalysisServices.SPClient.Interfaces, Version=15.3.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.retail.amd64.15.3.1\lib\net45\Microsoft.AnalysisServices.SPClient.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.AzureStorageEnum, Version=14.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.140.17218.0\lib\net40\Microsoft.SqlServer.AzureStorageEnum.dll</HintPath>
@@ -183,6 +186,12 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.core, Version=2.7.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnitV2.Core.2.7.0\lib\nunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core.interfaces, Version=2.7.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnitV2.Core.2.7.0\lib\nunit.core.interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -205,6 +214,7 @@
     </Compile>
     <Compile Include="Acceptance\BaseRuntimeOverrider.cs" />
     <Compile Include="Acceptance\GenbiL\ConcatenateSplitGroupTest.cs" />
+    <Compile Include="Acceptance\GenbiL\DictionaryTest.cs" />
     <Compile Include="Acceptance\GenbiL\ConsumablesTest.cs" />
     <Compile Include="Acceptance\GenbiL\MultipleTemplatesTest.cs" />
     <Compile Include="Acceptance\GenbiL\VariablesTest.cs" />
@@ -236,6 +246,7 @@
     <Compile Include="Integration\Core\Query\Performance\SqlPerformanceEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Resolver\AssemblyQueryResolverTest.cs" />
     <Compile Include="Integration\Core\Query\Resolver\ExternalFileQueryResolverTest.cs" />
+    <Compile Include="Integration\NUnit\Runtime\Embed\EngineTest.cs" />
     <Compile Include="Integration\SqlServer\IntegrationService\EtlCatalogRunnerTest.cs" />
     <Compile Include="Integration\Core\Query\Validation\OdbcValidationEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Validation\OleDbValidationEngineTest.cs" />
@@ -271,7 +282,12 @@
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Calculation\CombinationPredicateFilterTest.cs" />
     <Compile Include="Unit\Core\Calculation\CultureSensitivePredicateMatchesTest.cs" />
-    <Compile Include="Unit\Core\Calculation\Predicate\Text\TextWithinListTest.cs" />
+    <Compile Include="Unit\Core\Calculation\Predicate\Text\TextAnyOfTest.cs" />
+    <Compile Include="Unit\Core\Calculation\FilterGroupByFilterTest.cs" />
+    <Compile Include="Unit\Core\Calculation\Grouping\NameByColumnGroupingTest.cs" />
+    <Compile Include="Unit\Core\Calculation\Grouping\OrdinalByColumnGroupingTest.cs" />
+    <Compile Include="Unit\Core\Calculation\Ranking\BottomRankingTest.cs" />
+    <Compile Include="Unit\Core\Calculation\Ranking\TopRankingTest.cs" />
     <Compile Include="Unit\Core\Calculation\SinglePredicateFilterTest.cs" />
     <Compile Include="Unit\Core\Calculation\PredicateTwoOperandsTest.cs" />
     <Compile Include="Unit\Core\Calculation\PredicateWithoutReferenceTest.cs" />
@@ -310,10 +326,12 @@
     <Compile Include="Unit\Core\Query\Execution\ExecutionEngineFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\QueryParameterTest.cs" />
     <Compile Include="Unit\Core\Report\FileReportingParserTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\ColumnIdentifierFactory.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\ColumnMappingCollectionTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByNameTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByIndexTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Lookup\ReferenceAnalyzerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByOrdinalTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Lookup\LookupExistsAnalyzerTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Casting\NumericCasterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\CellComparerTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\TextToleranceFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\Resolver\ReportDataSetQueryResolverTest.cs" />
@@ -321,7 +339,8 @@
     <Compile Include="Unit\Core\Query\Resolver\EmbeddedQueryResolverTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Conversion\ConverterEngineTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetServiceTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Uniqueness\IndexUniqueRowsEvaluatorTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Uniqueness\OrdinalUniqueRowsEvaluatorTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Format\InvariantFormatterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Interval\DateTimeIntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\JsonResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\KeyCollectionTest.cs" />
@@ -338,9 +357,9 @@
     <Compile Include="Unit\Core\Scalar\Casting\BaseNumericCasterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Equivalence\NameEquivalerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Equivalence\SettingsEquivalerBuilderTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Equivalence\SettingsIndexResultSetTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Equivalence\SettingsOrdinalResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Equivalence\SingleRowEquivalerTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Equivalence\IndexEquivalerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Equivalence\OrdinalEquivalerTest.cs" />
     <Compile Include="Unit\Core\Scalar\Interval\NumericIntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Equivalence\SettingsNameResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetTest.cs" />
@@ -350,10 +369,13 @@
     <Compile Include="Unit\Core\Scalar\Conversion\TextToNumericConverterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Conversion\TextToDateTimeConverterTest.cs" />
     <Compile Include="Unit\Core\Scalar\PercentageTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Resolver\EnvironmentScalarResolverTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Resolver\FormatScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\GlobalVariableScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\LiteralScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\ProjectionResultSetScalarResolverTest.cs" />
     <Compile Include="Integration\Core\Scalar\Resolver\QueryScalarResolverTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Resolver\ScalarResolverFactoryTest.cs" />
     <Compile Include="Unit\Core\Scalar\ScalarComparerTest.cs" />
     <Compile Include="Unit\Core\SqlServer\Smo\SmoBatchRunnerFactoryTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\HierarchyDiscoveryCommandBuilderTest.cs" />
@@ -371,8 +393,10 @@
     <Compile Include="Unit\Core\Variable\TestVariableFactoryTest.cs" />
     <Compile Include="Unit\Core\Xml\XPathEngineTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\DataRowsMessageJsonTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Json\ScoreMessageJsonTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\TableHelperJsonTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Markdown\DataRowsMessageMardownTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Markdown\ScoreMessageMardownTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Markdown\ItemsMessageMardownTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Common\CellFormatterTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Common\ColumnPropertiesFormatterTest.cs" />
@@ -380,11 +404,15 @@
     <Compile Include="Unit\Framework\Sampling\BasicSamplerTest.cs" />
     <Compile Include="Unit\Framework\Sampling\FullSamplerTest.cs" />
     <Compile Include="Unit\Framework\Sampling\NoneSamplerTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\CopyCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\CrossJoinCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\CrossFullCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\ReduceCaseTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\GroupCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\SplitCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\SeparateCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\DuplicateCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\TrimCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\SubstituteCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\ConcatenateCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\CrossVectorCaseActionTest.cs" />
@@ -405,8 +433,9 @@
     <Compile Include="Unit\GenbiL\Parser\GrammarParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\VariableParserTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetAllRowsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ScalarScoreBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetSomeRowsBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\ResultSetReferenceExistsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetLookupExistsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetUniqueRowsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetSingleRowBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetSupersetOfBuilderTest.cs" />
@@ -431,8 +460,9 @@
     <Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
     <Compile Include="Unit\NUnit\DataType\IsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\DifferedConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\LookupReverseExistsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\NoRowsConstraintTest.cs" />
-    <Compile Include="Unit\NUnit\ResultSetComparison\ReferenceExistsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\LookupExistsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\SingleRowConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\SomeRowsConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\AllRowsConstraintTest.cs" />
@@ -448,7 +478,9 @@
     <Compile Include="Unit\NUnit\Member\OrderedConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\MatchPatternConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\SupersetOfConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Runtime\Embed\Result\FlatResultBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Runtime\TestSuiteTest.cs" />
+    <Compile Include="Unit\NUnit\Scoring\ScoreConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Structure\ContainConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Structure\SubsetOfConstraintTest.cs" />
     <Compile Include="Unit\NUnit\Structure\EquivalentToConstraintTest.cs" />
@@ -463,7 +495,8 @@
     <Compile Include="Unit\Service\TestCaseCollectionManagerTest.cs" />
     <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\ReferenceExistsXmlTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\ScoreXmlTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\LookupExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\UniqueRowsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\SupersetOfXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\NoRowsXmlTest.cs" />
@@ -480,13 +513,15 @@
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\Decoration\ConditionXmlTest.cs" />
     <Compile Include="Unit\Xml\Decoration\DecorationXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\Calculation\RankingXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\Calculation\PredicateXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\ResultSet\TransformationXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\ResultSet\TransformXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\SharedDatasetXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\RoutineParameterXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\RoutineXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\SetXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\TablesXmlTest.cs" />
+    <Compile Include="Unit\Xml\Settings\CsvProfileXmlTest.cs" />
     <Compile Include="Unit\Xml\Systems\DataTypeXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\XmlSourceTest.cs" />
     <Compile Include="Unit\Xml\Systems\ResultSetSystemXmlTest.cs" />
@@ -620,10 +655,19 @@
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\MultipleTemplates1.nbitt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="Acceptance\GenbiL\Resources\dictionary.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Acceptance\GenbiL\Resources\Consumables.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\Consumables.genbil">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\dictionary.nbitt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\dictionary.genbil">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Acceptance\GenbiL\Resources\MultipleTemplates.csv">
@@ -662,6 +706,13 @@
     <EmbeddedResource Include="Acceptance\Resources\Ignored\Ignored.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Scoring-Json.nbits">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Scoring-Json.nbits.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\OrderCountByYear.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -685,6 +736,19 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\Scoring.nbits">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\Variable.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\Environment.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="Acceptance\Resources\Positive\Variable.nbits.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Acceptance\Resources\Positive\QueryEqualToResultSetProvider.nbits.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -768,6 +832,13 @@
     <EmbeddedResource Include="Unit\Core\Report\Resources\EmpSalesMonth.rsd" />
     <EmbeddedResource Include="Unit\Core\Report\Resources\SalesEmployees.rsd" />
     <EmbeddedResource Include="Unit\Core\Report\Resources\Currency_List - SProc.rdl" />
+    <None Include="Integration\NUnit\Runtime\Embed\Resources\SmallTestSuite.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <EmbeddedResource Include="Integration\NUnit\Runtime\Embed\Resources\SmallTestSuite.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -967,18 +1038,23 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Scoring-Json-0001.txt" />
     <Content Include="Acceptance\Resources\Query\ResellerOrderCount.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Integration\Core\Resources\query.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Unit\Xml\Resources\ReferenceExistsXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\ScoreXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\LookupExistsXmlTestSuite.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Unit\Xml\Resources\RankingXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\PredicateXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\ResultSetSystemXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteWithVariablesTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\UniqueRowsXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\TransformationXmlTestSuite.xml">
+    <EmbeddedResource Include="Unit\Xml\Resources\TransformXmlTestSuite.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\Resources\SupersetOfXmlTestSuite.xml" />

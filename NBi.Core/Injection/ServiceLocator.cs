@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Core.Scalar.Format;
 
 namespace NBi.Core.Injection
 {
@@ -24,32 +25,32 @@ namespace NBi.Core.Injection
             kernel.Bind<ServiceLocator>().ToConstant(this).InSingletonScope();
         }
 
-        public ClientProvider GetSessionFactory()
+        public virtual ClientProvider GetSessionFactory()
         {
             return kernel.Get<ClientProvider>();
         }
 
-        public CommandProvider GetCommandFactory()
+        public virtual CommandProvider GetCommandFactory()
         {
             return kernel.Get<CommandProvider>();
         }
 
-        public ExecutionEngineFactory GetExecutionEngineFactory()
+        public virtual ExecutionEngineFactory GetExecutionEngineFactory()
         {
             return kernel.Get<ExecutionEngineFactory>();
         }
 
-        public ResultSetResolverFactory GetResultSetResolverFactory()
+        public virtual ResultSetResolverFactory GetResultSetResolverFactory()
         {
             return kernel.Get<ResultSetResolverFactory>();
         }
-        
-        public QueryResolverFactory GetQueryResolverFactory()
+
+        public virtual QueryResolverFactory GetQueryResolverFactory()
         {
             return kernel.Get<QueryResolverFactory>();
         }
 
-        public ScalarResolverFactory GetScalarResolverFactory()
+        public virtual ScalarResolverFactory GetScalarResolverFactory()
         {
             return kernel.Get<ScalarResolverFactory>();
         }
@@ -57,6 +58,11 @@ namespace NBi.Core.Injection
         public Configuration.Configuration GetConfiguration()
         {
             return kernel.Get<Configuration.Configuration>();
+        }
+
+        public FormatterFactory GetFormatterFactory()
+        {
+            return kernel.Get<FormatterFactory>();
         }
     }
 }

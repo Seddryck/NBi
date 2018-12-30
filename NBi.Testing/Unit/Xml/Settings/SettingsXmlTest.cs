@@ -67,8 +67,9 @@ namespace NBi.Testing.Unit.Xml.Settings
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithDefault");
 
             Assert.That(ts.Settings.Defaults.Count, Is.EqualTo(2)); //(One empty and one initialized)
-            var sutDefault = ts.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
-            Assert.That(sutDefault.ConnectionString, Is.Not.Null.And.Not.Empty);
+            var sutDefault = ts.Settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest);
+            Assert.That(sutDefault.ConnectionStringSpecified, Is.True);
+            Assert.That(sutDefault.ConnectionString.Inline, Is.Not.Null.And.Not.Empty);
             Assert.That(sutDefault.Parameters, Is.Not.Null);
         }
 
@@ -147,9 +148,9 @@ namespace NBi.Testing.Unit.Xml.Settings
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithoutDefault");
 
-            Assert.That(ts.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest), Is.Not.Null);
-            Assert.That(ts.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest).ConnectionString, Is.Null);
-            Assert.That(ts.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest).Parameters, Has.Count.EqualTo(0));
+            Assert.That(ts.Settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest), Is.Not.Null);
+            Assert.That(ts.Settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest).ConnectionStringSpecified, Is.False);
+            Assert.That(ts.Settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest).Parameters, Has.Count.EqualTo(0));
         }
 
         [Test]
@@ -162,9 +163,9 @@ namespace NBi.Testing.Unit.Xml.Settings
 
             Assert.That(ts.Settings.References.Count, Is.EqualTo(2));
             Assert.That(ts.Settings.GetReference("first-ref"), Is.Not.Null);
-            Assert.That(ts.Settings.GetReference("first-ref").ConnectionString, Is.EqualTo("My First Connection String"));
+            Assert.That(ts.Settings.GetReference("first-ref").ConnectionString.Inline, Is.EqualTo("My First Connection String"));
             Assert.That(ts.Settings.GetReference("second-ref"), Is.Not.Null);
-            Assert.That(ts.Settings.GetReference("second-ref").ConnectionString, Is.EqualTo("My Second Connection String"));
+            Assert.That(ts.Settings.GetReference("second-ref").ConnectionString.Inline, Is.EqualTo("My Second Connection String"));
         }
 
         [Test]
@@ -198,7 +199,7 @@ namespace NBi.Testing.Unit.Xml.Settings
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithReference");
             Assert.That(((QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).Item).GetConnectionString(), Is.Null.Or.Empty);
-            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.Null);
+            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.Null.Or.Empty);
         }
 
         [Test]
@@ -266,7 +267,7 @@ namespace NBi.Testing.Unit.Xml.Settings
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithVariables");
 
-            var parameters = ((QueryXml)ts.Tests[testNr].Systems[0].BaseItem).GetVariables();
+            var parameters = ((QueryXml)ts.Tests[testNr].Systems[0].BaseItem).GetTemplateVariables();
             Assert.That(parameters.Count, Is.EqualTo(3));
         }
 
@@ -296,185 +297,6 @@ namespace NBi.Testing.Unit.Xml.Settings
             //The param is overriden
             Assert.That(((QueryXml)ts.Tests[testNr].Constraints[0].BaseItem).GetParameters().Find(p => p.Name == "paramToOverrideTwice").StringValue, Is.EqualTo("1"));
 
-        }
-
-        [Test]
-        public void DeserializeCsvProfile_CsvProfileSetToTabCardinalLineFeed_True()
-        {
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample("CsvProfileXmlTestSuite");
-
-            //The Csv Profile is correctly set
-            var profile = ts.Settings.CsvProfile;
-            Assert.That(profile, Is.Not.Null);
-            Assert.That(profile.InternalFieldSeparator, Is.EqualTo("Tab"));
-            Assert.That(profile.FieldSeparator, Is.EqualTo('\t'));
-            Assert.That(profile.InternalRecordSeparator, Is.EqualTo("#Lf"));
-            Assert.That(profile.RecordSeparator, Is.EqualTo("#\n"));
-        }
-
-        [Test]
-        public void DeserializeCsvProfile_CsvProfileSetToDefaultFirstRowHeader_False()
-        {
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample("CsvProfileXmlTestSuite");
-
-            //The Csv Profile is correctly set
-            var profile = ts.Settings.CsvProfile;
-            Assert.That(profile, Is.Not.Null);
-            Assert.That(profile.FirstRowHeader, Is.False);
-        }
-
-        [Test]
-        public void DeserializeCsvProfile_CsvProfileSetToDefaultMissingemptyValues_Default()
-        {
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample("CsvProfileXmlTestSuite");
-
-            //The Csv Profile is correctly set
-            var profile = ts.Settings.CsvProfile;
-            Assert.That(profile, Is.Not.Null);
-            Assert.That(profile.EmptyCell, Is.EqualTo("(empty)"));
-            Assert.That(profile.MissingCell, Is.EqualTo("(null)"));
-        }
-
-        [Test]
-        public void DeserializeCsvProfile_CsvProfileSetToFirstRowHeader_True()
-        {
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample("CsvProfileXmlTestSuite2");
-
-            //The Csv Profile is correctly set
-            var profile = ts.Settings.CsvProfile;
-            Assert.That(profile, Is.Not.Null);
-            Assert.That(profile.FirstRowHeader, Is.True);
-        }
-
-        [Test]
-        public void DeserializeCsvProfile_CsvProfileSetToEmptyCell_True()
-        {
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample("CsvProfileXmlTestSuite2");
-
-            //The Csv Profile is correctly set
-            var profile = ts.Settings.CsvProfile;
-            Assert.That(profile, Is.Not.Null);
-            Assert.That(profile.EmptyCell, Is.EqualTo("empty value"));
-            Assert.That(profile.MissingCell, Is.EqualTo("missing value"));
-        }
-
-        [Test]
-        public void Serialize_CardinalForFieldSeparator_FieldSeparatorSpecified()
-        {
-            var profile = new CsvProfileXml();
-            profile.FieldSeparator = '#';
-            profile.RecordSeparator = "\r";
-
-            var manager = new XmlManager();
-            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
-
-            Assert.That(xml, Is.StringContaining("field-separator"));
-            Assert.That(xml, Is.StringContaining("#"));
-
-            Assert.That(xml, Is.StringContaining("record-separator"));
-            Assert.That(xml, Is.StringContaining("Cr"));
-
-            Assert.That(xml, Is.Not.StringContaining("<FieldSeparator>"));
-            Assert.That(xml, Is.Not.StringContaining("<TextQualifier>"));
-            Assert.That(xml, Is.Not.StringContaining("<RecordSeparator>"));
-            Assert.That(xml, Is.Not.StringContaining("<FirstRowHeader>"));
-
-            Assert.That(xml, Is.Not.StringContaining("first-row-header"));
-        }
-
-        [Test]
-        public void Serialize_CrLfForRecordSeparator_RecordSeparatorNotSpecified()
-        {
-            var profile = new CsvProfileXml();
-            profile.FieldSeparator = '#';
-            profile.RecordSeparator = "\r\n";
-
-            var manager = new XmlManager();
-            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
-
-            Assert.That(xml, Is.Not.StringContaining("record-separator"));
-        }
-
-        [Test]
-        public void Serialize_TrueForFirstRowHeader_FirstRowHeaderSpecified()
-        {
-            var profile = new CsvProfileXml();
-            profile.FirstRowHeader=true;
-
-            var manager = new XmlManager();
-            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
-
-            Assert.That(xml, Is.StringContaining("first-row-header"));
-        }
-
-        [Test]
-        public void Serialize_FalseForFirstRowHeader_FirstRowHeaderSpecified()
-        {
-            var profile = new CsvProfileXml();
-            profile.FirstRowHeader = false;
-
-            var manager = new XmlManager();
-            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
-
-            Assert.That(xml, Is.Not.StringContaining("first-row-header"));
-        }
-
-        [Test]
-        public void Serialize_EmptyForEmpytCell_EmptyCellNotSpecified()
-        {
-            var profile = new CsvProfileXml();
-            profile.EmptyCell = "(empty)";
-
-            var manager = new XmlManager();
-            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
-
-            Assert.That(xml, Is.Not.StringContaining("empty-cell"));
-        }
-
-        [Test]
-        public void Serialize_StringForEmpytCell_EmptyCellSpecified()
-        {
-            var profile = new CsvProfileXml();
-            profile.EmptyCell = "my value";
-
-            var manager = new XmlManager();
-            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
-
-            Assert.That(xml, Is.StringContaining("empty-cell"));
-            Assert.That(xml, Is.StringContaining("my value"));
-        }
-
-        [Test]
-        public void Serialize_SemiColumnForFieldSeparator_FieldSeparatorNotSpecified()
-        {
-            var profile = new CsvProfileXml();
-            profile.FieldSeparator = ';';
-            profile.RecordSeparator = "#";
-
-            var manager = new XmlManager();
-            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
-
-            Assert.That(xml, Is.Not.StringContaining("field-separator"));
-        }
-
-        [Test]
-        public void Serialize_SemiColumnAndCrLf_CsvProfileNotSpecified()
-        {
-            var settings = new SettingsXml();
-            settings.CsvProfile.FieldSeparator = ';';
-            settings.CsvProfile.RecordSeparator = "\r\n";
-
-            var manager = new XmlManager();
-            var xml = manager.XmlSerializeFrom<SettingsXml>(settings);
-
-            Assert.That(xml, Is.Not.StringContaining("field-separator"));
-            Assert.That(xml, Is.Not.StringContaining("record-separator"));
-            Assert.That(xml, Is.Not.StringContaining("csv-profile"));
         }
     }
 }

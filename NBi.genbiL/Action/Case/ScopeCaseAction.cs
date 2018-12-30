@@ -4,7 +4,7 @@ using NBi.Service;
 
 namespace NBi.GenbiL.Action.Case
 {
-    class ScopeCaseAction : ICaseAction
+    public class ScopeCaseAction : ICaseAction
     {
         public string Name { get; set; }
         

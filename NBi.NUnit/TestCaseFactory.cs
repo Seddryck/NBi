@@ -64,7 +64,9 @@ namespace NBi.NUnit
             Register(typeof(ResultSetSystemXml), typeof(SomeRowsXml), new ResultSetSomeRowsBuilder());
             Register(typeof(ResultSetSystemXml), typeof(SingleRowXml), new ResultSetSingleRowBuilder());
             Register(typeof(ResultSetSystemXml), typeof(UniqueRowsXml), new ResultSetUniqueRowsBuilder());
-            Register(typeof(ResultSetSystemXml), typeof(ReferenceExistsXml), new ResultSetReferenceExistsBuilder());
+            Register(typeof(ResultSetSystemXml), typeof(LookupExistsXml), new ResultSetLookupExistsBuilder());
+
+            Register(typeof(ScalarXml), typeof(ScoreXml), new ScalarScoreBuilder());
 
             Register(typeof(MembersXml), typeof(CountXml), new MembersCountBuilder());
             Register(typeof(MembersXml), typeof(OrderedXml), new MembersOrderedBuilder());

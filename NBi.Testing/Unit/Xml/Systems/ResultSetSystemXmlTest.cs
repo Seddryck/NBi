@@ -2,6 +2,7 @@
 using NBi.Core.Transformation;
 using NBi.Xml;
 using NBi.Xml.Items.Alteration.Conversion;
+using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Systems;
 using NUnit.Framework;
@@ -195,11 +196,13 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(rs.Alteration.Transformations, Has.Count.EqualTo(1));
 
             Assert.That(rs.Alteration.Transformations[0], Is.Not.Null);
-            Assert.That(rs.Alteration.Transformations[0], Is.TypeOf<TransformationXml>());
+            Assert.That(rs.Alteration.Transformations[0], Is.TypeOf<TransformXml>());
 
             Assert.That(rs.Alteration.Transformations[0].Language, Is.EqualTo(LanguageType.CSharp));
             Assert.That(rs.Alteration.Transformations[0].OriginalType, Is.EqualTo(ColumnType.Text));
-            Assert.That(rs.Alteration.Transformations[0].ColumnIndex, Is.EqualTo(1));
+            Assert.That(rs.Alteration.Transformations[0].Identifier.Label, Is.EqualTo("#1"));
+            Assert.That(rs.Alteration.Transformations[0].Identifier, Is.TypeOf<ColumnOrdinalIdentifier>());
+            Assert.That((rs.Alteration.Transformations[0].Identifier as ColumnOrdinalIdentifier).Ordinal, Is.EqualTo(1));
             Assert.That(rs.Alteration.Transformations[0].Code.Trim(), Is.EqualTo("value.EndsWith(\".\") ? value : value + \".\""));
         }
     }

@@ -64,7 +64,7 @@ namespace NBi.Xml.Settings
             var defEverywhere = Defaults.SingleOrDefault(d => d.ApplyTo == DefaultScope.Everywhere);
             if (defEverywhere != null)
             {
-                if (string.IsNullOrEmpty(def.ConnectionString))
+                if (!def.ConnectionStringSpecified)
                     def.ConnectionString = defEverywhere.ConnectionString;
 
                 foreach (var param in defEverywhere.Parameters)
@@ -111,31 +111,31 @@ namespace NBi.Xml.Settings
         {
             foreach (var def in Defaults)
             {
-                if (!string.IsNullOrEmpty(def.ConnectionString) && def.ConnectionString.StartsWith("@"))
+                if (!string.IsNullOrEmpty(def.ConnectionString.Inline) && def.ConnectionString.Inline.StartsWith("@"))
                 {
                     if (connectionStrings.Count == 0)
                         throw new ArgumentOutOfRangeException(string.Format("No connectionString is provided through the config file. The default connection string stipulated in nbits file is trying to reference a connection string named '{0}'", def.ConnectionString));
 
-                    var key = connectionStrings.AllKeys.SingleOrDefault(k => k == def.ConnectionString.Substring(1) || k == def.ConnectionString);
+                    var key = connectionStrings.AllKeys.SingleOrDefault(k => k == def.ConnectionString.Inline.Substring(1) || k == def.ConnectionString.Inline);
                     if (string.IsNullOrEmpty(key))
                         throw new ArgumentOutOfRangeException(string.Format("Some connectionStrings are provided through the config file but the default connection string is trying to reference a connection string named '{0}' which has not been found.", def.ConnectionString));
 
-                    def.ConnectionString = connectionStrings.Get(key);
+                    def.ConnectionString.Inline = connectionStrings.Get(key);
                 }
             }
 
             foreach (var reference in References)
             {
-                if (!string.IsNullOrEmpty(reference.ConnectionString) && reference.ConnectionString.StartsWith("@"))
+                if (!string.IsNullOrEmpty(reference.ConnectionString.Inline) && reference.ConnectionString.Inline.StartsWith("@"))
                 {
                     if (connectionStrings.Count == 0)
                         throw new ArgumentOutOfRangeException(string.Format("No connectionString is provided through the config file. The connection string named '{0}' has not been found and cannot be created as a reference.", reference.ConnectionString));
 
-                    var key = connectionStrings.AllKeys.SingleOrDefault(k => k == reference.ConnectionString.Substring(1) || k == reference.ConnectionString);
+                    var key = connectionStrings.AllKeys.SingleOrDefault(k => k == reference.ConnectionString.Inline.Substring(1) || k == reference.ConnectionString.Inline);
                     if (string.IsNullOrEmpty(key))
                         throw new ArgumentOutOfRangeException(string.Format("Some connectionStrings are provided through the config file but a reference connection string is trying to reference a connection string named '{0}' which has not been found.", reference.ConnectionString));
 
-                    reference.ConnectionString = connectionStrings.Get(key);
+                    reference.ConnectionString.Inline = connectionStrings.Get(key);
                 }
             }
         }

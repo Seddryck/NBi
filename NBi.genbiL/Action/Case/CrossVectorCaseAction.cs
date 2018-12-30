@@ -1,35 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NBi.GenbiL.Action.Case
 {
-    class CrossVectorCaseAction : ICaseAction
+    class CrossVectorCaseAction : CrossCaseAction
     {
-        public string FirstSet { get; set; }
-        public string VectorName { get; set; }
         public IEnumerable<string> Values { get; set; }
 
         public CrossVectorCaseAction(string firstSet, string vectorName, IEnumerable<string> values)
+            : base(firstSet, vectorName)
         {
-            FirstSet = firstSet;
-            VectorName = vectorName;
             Values = values;
         }
 
-        public void Execute(GenerationState state)
+        public override void Execute(GenerationState state)
         {
-            state.TestCaseCollection.Cross(FirstSet, VectorName, Values);
+            if (!state.TestCaseCollection.ItemExists(FirstSet))
+                throw new ArgumentException($"The set of test-cases named '{FirstSet}' doesn't exist.", nameof(FirstSet));
+
+            var vector = new DataTable();
+            vector.Columns.Add(SecondSet);
+            foreach (var item in Values)
+            {
+                var row = vector.NewRow();
+                row.ItemArray = new[] { item };
+                vector.Rows.Add(row);
+            }
+
+            Cross(
+                state.TestCaseCollection.Item(FirstSet).Content,
+                vector,
+                state.TestCaseCollection.Scope,
+                MatchingRow);
         }
 
-        public virtual string Display
+        public override bool MatchingRow(DataRow first, DataRow second) => true;
+
+        public override string Display
         {
-            get
-            {
-                return string.Format("Crossing test cases set '{0}' with vector '{1}' defined as '{2}'", FirstSet, VectorName, String.Join("', '", Values));
-            }
+            get => $"Crossing set of test-cases '{FirstSet}' with vector '{SecondSet}' defined as '{String.Join("', '", Values)}'";
         }
 
         

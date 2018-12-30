@@ -12,10 +12,10 @@ namespace NBi.Core.Calculation.Predicate.Text
         public TextLessThanOrEqual(bool not, object reference) : base(not, reference)
         { }
 
-        protected override bool Apply(object x)
+        protected override bool ApplyWithReference(object reference, object x)
         {
             var cpr = StringComparer.Create(CultureInfo.InvariantCulture, false);
-            return cpr.Compare(x.ToString(), Reference.ToString()) <= 0;
+            return cpr.Compare(x.ToString(), reference.ToString()) <= 0;
         }
 
         public override string ToString()

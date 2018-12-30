@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Json
 {
-    class ReferenceViolationsMessageJson : IReferenceViolationsMessageFormatter
+    class ReferenceViolationsMessageJson : ILookupViolationsMessageFormatter
     {
         private readonly IDictionary<string, ISampler<DataRow>> samplers;
         private string actual;
@@ -23,7 +23,7 @@ namespace NBi.Framework.FailureMessage.Json
             this.samplers = samplers;
         }
 
-        public void Generate(IEnumerable<DataRow> parentRows, IEnumerable<DataRow> childRows, ReferenceViolations violations)
+        public void Generate(IEnumerable<DataRow> parentRows, IEnumerable<DataRow> childRows, LookupViolations violations)
         {
             expected = BuildTable(parentRows, samplers["expected"]);
             actual = BuildTable(childRows, samplers["actual"]);

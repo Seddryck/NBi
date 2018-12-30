@@ -118,18 +118,18 @@ namespace NBi.GenbiL.Parser
                 from first in Grammar.QuotedTextual
                 from withKeyword in Keyword.With
                 from second in Grammar.QuotedTextual
-                select new CrossCaseAction(first, second)
+                select new CrossFullCaseAction(first, second)
         );
 
-        readonly static Parser<ICaseAction> caseCrossOnColumnParser =
+        readonly static Parser<ICaseAction> caseCrossJoinParser =
         (
                 from cross in Keyword.Cross
                 from first in Grammar.QuotedTextual
                 from withKeyword in Keyword.With
                 from second in Grammar.QuotedTextual
                 from onKeyword in Keyword.On
-                from matchingColumn in Grammar.QuotedTextual
-                select new CrossCaseAction(first, second, matchingColumn)
+                from matchingColumns in Grammar.QuotedRecordSequence
+                select new CrossJoinCaseAction(first, second, matchingColumns)
         );
 
         readonly static Parser<ICaseAction> caseCrossVectorParser =
@@ -294,6 +294,17 @@ namespace NBi.GenbiL.Parser
                 select new DuplicateCaseAction(original, duplicates)
         );
 
+        readonly static Parser<ICaseAction> caseTrimParser =
+        (
+                from substitute in Keyword.Trim
+                from direction in Parse.IgnoreCase("Left").Return(Directions.Left)
+                                                .Or(Parse.IgnoreCase("Right").Return(Directions.Right))
+                                                .Optional()
+                from axisType in Keyword.Columns.Or(Keyword.Column)
+                from columnNames in Grammar.QuotedRecordSequence.Or(Keyword.All.Return(new string[] { }))
+                select new TrimCaseAction(columnNames, direction.GetOrElse(Directions.Both))
+        );
+
         public readonly static Parser<IAction> Parser =
         (
                 from @case in Keyword.Case
@@ -305,7 +316,7 @@ namespace NBi.GenbiL.Parser
                                     .Or(caseFilterParser)
                                     .Or(caseFilterDistinctParser)
                                     .Or(caseScopeParser)
-                                    .Or(caseCrossOnColumnParser)
+                                    .Or(caseCrossJoinParser)
                                     .Or(caseCrossFullParser)
                                     .Or(caseCrossVectorParser)
                                     .Or(caseSaveParser)
@@ -322,6 +333,7 @@ namespace NBi.GenbiL.Parser
                                     .Or(caseReduceParser)
                                     .Or(caseSplitParser)
                                     .Or(caseDuplicateParser)
+                                    .Or(caseTrimParser)
                 select action
         );
     }

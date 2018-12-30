@@ -135,7 +135,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             sutXml.Item = new MeasureGroupsXml();
             ((MeasureGroupsXml)sutXml.Item).Perspective = "Perspective";
 
-            sutXml.Default = new DefaultXml() { ConnectionString = ConnectionStringReader.GetAdomd() };
+            sutXml.Default = new DefaultXml() { ConnectionString = new ConnectionStringXml() { Inline = ConnectionStringReader.GetAdomd() } };
 
             var builder = new StructureContainedInBuilder();
             builder.Setup(sutXml, ctrXml);

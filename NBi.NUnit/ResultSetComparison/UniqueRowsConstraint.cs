@@ -23,7 +23,7 @@ namespace NBi.NUnit.Query
 
         public UniqueRowsConstraint()
         {
-            Engine = new IndexEvaluator();
+            Engine = new OrdinalEvaluator();
         }
 
         public UniqueRowsConstraint Using(Evaluator evaluator)
@@ -51,7 +51,7 @@ namespace NBi.NUnit.Query
                 if (!result.AreUnique || Configuration.FailureReportProfile.Mode == FailureReportMode.Always)
                 {
                     var factory = new DataRowsMessageFormatterFactory();
-                    failure = factory.Instantiate(Configuration.FailureReportProfile, Engine is IndexEvaluator ? EngineStyle.ByIndex : EngineStyle.ByName);
+                    failure = factory.Instantiate(Configuration.FailureReportProfile, Engine is OrdinalEvaluator ? EngineStyle.ByIndex : EngineStyle.ByName);
                     failure.BuildDuplication(actualResultSet.Rows.Cast<DataRow>(), result);
                 }
 

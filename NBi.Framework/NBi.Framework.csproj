@@ -52,12 +52,16 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="FailureMessage\IReferenceViolationsMessageFormatter.cs" />
+    <Compile Include="FailureMessage\IScoreMessageFormatter.cs" />
+    <Compile Include="FailureMessage\Json\ScoreMessageJson.cs" />
+    <Compile Include="FailureMessage\Markdown\ScoreMessageMarkdown.cs" />
+    <Compile Include="FailureMessage\ScoreMessageFormatterFactory.cs" />
+    <Compile Include="FailureMessage\ILookupViolationsMessageFormatter.cs" />
     <Compile Include="FailureMessage\Json\CompareTableHelperJson.cs" />
     <Compile Include="FailureMessage\Json\ItemsMessageJson.cs" />
     <Compile Include="FailureMessage\Json\ReferenceViolationsMessageJson.cs" />
-    <Compile Include="FailureMessage\Markdown\ReferenceViolationsMessageMarkdown.cs" />
-    <Compile Include="FailureMessage\ReferenceViolationsMessageFormatterFactory.cs" />
+    <Compile Include="FailureMessage\Markdown\LookupViolationsMessageMarkdown.cs" />
+    <Compile Include="FailureMessage\LookupViolationsMessageFormatterFactory.cs" />
     <Compile Include="Sampling\FullSampler.cs" />
     <Compile Include="Sampling\NoneSampler.cs" />
     <Compile Include="Sampling\ISampler.cs" />

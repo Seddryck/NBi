@@ -1,0 +1,7 @@
+﻿case load file 'Acceptance\GenbiL\Resources\Dictionary.csv';
+case split columns 'ruleKeys', 'ruleValues' with value '/';
+
+template load file 'Acceptance\GenbiL\Resources\Dictionary.nbitt';
+suite generate;
+suite save as 'Acceptance\GenbiL\Resources\Dictionary.nbits';
+

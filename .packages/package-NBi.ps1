@@ -32,15 +32,15 @@ $depList = $dependencies.Values -join [Environment]::NewLine + "`t`t"
 
 #For NBi.Framework (dll)
 Write-Host "Packaging NBi.Framework"
-$lib = "$root\NBi.Framework\lib\"
+$lib = "$root\NBi.Framework\lib\net461\"
 If (Test-Path $lib)
 {
 	Remove-Item $lib -recurse
 }
+new-item -Path $lib -ItemType directory
 new-item -Path $root\..\.nupkg -ItemType directory -force
-new-item -Path $lib\net46 -ItemType directory
-Copy-Item $root\..\NBi.NUnit.Runtime\bin\Debug\NBi.*.dll $lib\net46
-Copy-Item $root\..\NBi.Testing\bin\Debug\NBi.Testing.dll $lib\net46
+Copy-Item $root\..\NBi.NUnit.Runtime\bin\Debug\NBi.*.dll $lib
+Copy-Item $root\..\NBi.Testing\bin\Debug\NBi.Testing.dll $lib
 
 Write-Host "Setting .nuspec version tag to $version"
 
@@ -77,14 +77,14 @@ Write-Host "Package for NBi.Framework.Tools is ready"
 
 #For NBi.Extensibility
 Write-Host "Packaging NBi.Extensibility"
-$lib = "$root\NBi.Extensibility\lib\"
+$lib = "$root\NBi.Extensibility\lib\net461\"
 If (Test-Path $lib)
 {
 	Remove-Item $lib -recurse
 }
+new-item -Path $lib -ItemType directory
 new-item -Path $root\..\.nupkg -ItemType directory -force
-new-item -Path $lib\net46 -ItemType directory
-Copy-Item $root\..\NBi.Extensibility\bin\Debug\NBi.Extensibility.dll $lib\net46
+Copy-Item $root\..\NBi.Extensibility\bin\Debug\NBi.Extensibility.dll $lib
 
 Write-Host "Setting .nuspec version tag to $version"
 

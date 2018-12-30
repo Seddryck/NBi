@@ -5,11 +5,13 @@ using System.Reflection;
 using System.Xml.Serialization;
 using NBi.Xml.Constraints;
 using NBi.Xml.Constraints.Comparer;
+using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.Calculation;
+using NBi.Xml.Items.ResultSet;
 
 namespace NBi.Xml.SerializationOption
 {
-    internal class ReadOnlyAttributes : XmlAttributeOverrides
+    public class ReadOnlyAttributes : XmlAttributeOverrides
     {
 
         public ReadOnlyAttributes()
@@ -23,9 +25,11 @@ namespace NBi.Xml.SerializationOption
             AddAsAttribute((TestXml t) => t.Description, "description");
             AddAsAttribute((TestXml t) => t.Ignore, "ignore");
             AddAsAttribute((ContainXml c) => c.Caption, "caption");
+            AddAsAttribute((TransformXml t) => t.ColumnOrdinal, "column-index");
 
-            AddAsElement((NoRowsXml c) => c.InternalAliasesOld, "variable");
+            AddAsElement((NoRowsXml c) => c.InternalAliasesOld, "variable", 2);
             AddAsElement((FilterXml f) => f.InternalAliasesOld, "variable");
+            AddAsElement((ColumnDefinitionXml c) => c.InternalTransformationInner, "transformation");
 
             AddAsAttribute((PredicationXml p) => p.Name, "name");
 
@@ -46,6 +50,15 @@ namespace NBi.Xml.SerializationOption
             var parent = GetMemberInfo(expression);
             var attrs = new XmlAttributes();
             attrs.XmlElements.Add(new XmlElementAttribute(alias));
+            Add(parent.DeclaringType, parent.Name, attrs);
+        }
+
+        private void AddAsElement<T, U>(Expression<Func<T, U>> expression, string alias, int order)
+        {
+            var parent = GetMemberInfo(expression);
+            var attrs = new XmlAttributes();
+            var attr = new XmlElementAttribute(alias) { Order = order };
+            attrs.XmlElements.Add(attr);
             Add(parent.DeclaringType, parent.Name, attrs);
         }
 

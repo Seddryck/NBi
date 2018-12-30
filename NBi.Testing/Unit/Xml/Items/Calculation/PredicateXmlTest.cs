@@ -1,4 +1,5 @@
-﻿using NBi.Xml;
+﻿using NBi.Core.ResultSet;
+using NBi.Xml;
 using NBi.Xml.Constraints;
 using NBi.Xml.Constraints.Comparer;
 using NBi.Xml.Items.Calculation;
@@ -43,7 +44,7 @@ namespace NBi.Testing.Unit.Xml.Items.Calculation
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<AllRowsXml>());
             var ctr = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             Assert.That(ctr.Predication, Is.Not.Null);
-            Assert.That(ctr.Predication.Operand, Is.EqualTo("ModDepId"));
+            Assert.That((ctr.Predication.Operand as ColumnNameIdentifier).Name, Is.EqualTo("ModDepId"));
         }
 
         [Test]
@@ -57,7 +58,7 @@ namespace NBi.Testing.Unit.Xml.Items.Calculation
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<AllRowsXml>());
             var ctr = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             Assert.That(ctr.Predication, Is.Not.Null);
-            Assert.That(ctr.Predication.Operand, Is.EqualTo("ModDepId"));
+            Assert.That((ctr.Predication.Operand as ColumnNameIdentifier).Name, Is.EqualTo("ModDepId"));
         }
 
         [Test]
@@ -81,7 +82,7 @@ namespace NBi.Testing.Unit.Xml.Items.Calculation
             {
                 Predication = new PredicationXml()
                 {
-                    Operand = "#1",
+                    Operand = new ColumnOrdinalIdentifier(1),
                     Predicate = new FalseXml()
                 }
             };
@@ -107,7 +108,7 @@ namespace NBi.Testing.Unit.Xml.Items.Calculation
             {
                 Predication = new PredicationXml()
                 {
-                    Operand = "#1",
+                    Operand = new ColumnOrdinalIdentifier(1),
                     Predicate = new ModuloXml() { SecondOperand = "10", Value = "5" }
                 }
             };

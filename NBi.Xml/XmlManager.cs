@@ -60,7 +60,7 @@ namespace NBi.Xml
                 }
             }
 
-            //Load the settings eventually define in another file or in the config file.
+            //Load the settings optionally define in another file or in the config file.
             if (!string.IsNullOrEmpty(settingsFilename))
             {
                 var fullPath = System.IO.Path.IsPathRooted(settingsFilename) ? settingsFilename : basePath + settingsFilename;
@@ -128,10 +128,8 @@ namespace NBi.Xml
                         var match = regex.Match(ex.InnerException.Message);
                         if (match.Success)
                         {
-                            int line = 0;
-                            Int32.TryParse(match.Groups[1].Value, out line);
-                            int position = 0;
-                            Int32.TryParse(match.Groups[2].Value, out position);
+                            Int32.TryParse(match.Groups[1].Value, out var line);
+                            Int32.TryParse(match.Groups[2].Value, out var position);
                             xmlSchemaException = new XmlSchemaException(ex.InnerException.Message, ex, line, position);
                         }
                         else
@@ -182,10 +180,15 @@ namespace NBi.Xml
         private XmlReaderSettings BuildXmlReaderBaseSettings(bool isDtdProcessing)
         {
             // Set the validation settings.
-            XmlReaderSettings settings = new XmlReaderSettings();
-
-            //Define the type/level of validation
-            settings.ValidationType = ValidationType.Schema;
+            XmlReaderSettings settings = new XmlReaderSettings
+            {
+                ValidationType = ValidationType.Schema,
+                DtdProcessing = isDtdProcessing ? DtdProcessing.Parse : DtdProcessing.Prohibit,
+                XmlResolver = new LocalXmlUrlResolver(basePath)
+                {
+                    Credentials = System.Net.CredentialCache.DefaultCredentials
+                }
+            };
             settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings;
             settings.ValidationEventHandler += delegate (object sender, ValidationEventArgs args)
             {
@@ -196,14 +199,6 @@ namespace NBi.Xml
 
                 validationExceptions.Add(args.Exception);
             };
-
-            //Allow DTD processing
-            settings.DtdProcessing = isDtdProcessing ? DtdProcessing.Parse : DtdProcessing.Prohibit;
-
-            // Supply the credentials necessary to access the DTD file stored on the network.
-            var resolver = new LocalXmlUrlResolver(basePath);
-            resolver.Credentials = System.Net.CredentialCache.DefaultCredentials;
-            settings.XmlResolver = resolver;
 
             return settings;
         }
@@ -251,10 +246,12 @@ namespace NBi.Xml
 
             //Create an empty XmlRoot.
             //This is needed because the class settingsXml is not decorated with an attribute "XmlRoot".
-            XmlRootAttribute xmlRoot = new XmlRootAttribute();
-            xmlRoot.ElementName = "settings";
-            xmlRoot.Namespace = "http://NBi/TestSuite";
-            xmlRoot.IsNullable = true;
+            XmlRootAttribute xmlRoot = new XmlRootAttribute
+            {
+                ElementName = "settings",
+                Namespace = "http://NBi/TestSuite",
+                IsNullable = true
+            };
 
             SettingsXml settings = null;
             // Create the XmlReader object.

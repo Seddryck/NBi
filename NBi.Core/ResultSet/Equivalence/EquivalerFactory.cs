@@ -18,8 +18,8 @@ namespace NBi.Core.ResultSet.Equivalence
                 var factory = new AnalyzersFactory();
                 var analyzers = factory.Instantiate(kind);
 
-                if (settings is SettingsIndexResultSet)
-                    return new IndexEquivaler(analyzers, settings as SettingsIndexResultSet);
+                if (settings is SettingsOrdinalResultSet)
+                    return new OrdinalEquivaler(analyzers, settings as SettingsOrdinalResultSet);
 
                 else if (settings is SettingsNameResultSet)
                     return new NameEquivaler(analyzers, settings as SettingsNameResultSet);

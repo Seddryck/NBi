@@ -54,7 +54,7 @@ namespace NBi.NUnit.Builder
             {
                 var builder = new QueryResolverArgsBuilder(ServiceLocator);
                 parameters = builder.BuildParameters(((QueryXml)executionXml.BaseItem).GetParameters());
-                variables = ((QueryXml)executionXml.BaseItem).GetVariables();
+                variables = ((QueryXml)executionXml.BaseItem).GetTemplateVariables();
                 timeout = ((QueryXml)executionXml.BaseItem).Timeout;
             }
             if (executionXml.BaseItem is ReportXml)

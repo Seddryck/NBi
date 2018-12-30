@@ -8,10 +8,6 @@ namespace NBi.Core.Calculation
 {
     public abstract class ResultSetFilter
     {
-        private readonly static IResultSetFilter none = new NoneFilter();
-        public static IResultSetFilter None
-        {
-            get { return none; }
-        }
+        public static IResultSetFilter None { get; } = new NoneFilter();
     }
 }

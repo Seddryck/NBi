@@ -86,8 +86,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             var comparison = allRows.Predication;
 
-            Assert.That(comparison.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(comparison.Operand, Is.EqualTo("ModDepId"));
+            Assert.That((comparison.Operand as ColumnNameIdentifier).Name, Is.EqualTo("ModDepId"));
             Assert.That(comparison.ColumnType, Is.EqualTo(ColumnType.Numeric));
 
             Assert.That(comparison.Predicate, Is.TypeOf<MoreThanXml>());
@@ -121,8 +120,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             var predicate = allRows.Predication;
 
-            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(predicate.Operand, Is.EqualTo("Name"));
+            Assert.That((predicate.Operand as ColumnNameIdentifier).Name, Is.EqualTo("Name"));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
             Assert.That(predicate.Predicate, Is.TypeOf<EmptyXml>());
 
@@ -159,8 +157,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             var predicate = allRows.Predication;
 
-            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(predicate.Operand, Is.EqualTo("Name"));
+            Assert.That((predicate.Operand as ColumnNameIdentifier).Name, Is.EqualTo("Name"));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
             Assert.That(predicate.Predicate, Is.TypeOf<StartsWithXml>());
@@ -179,8 +176,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             var predicate = allRows.Predication;
 
-            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(predicate.Operand, Is.EqualTo("Name"));
+            Assert.That((predicate.Operand as ColumnNameIdentifier).Name, Is.EqualTo("Name"));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
             Assert.That(predicate.Predicate, Is.TypeOf<EndsWithXml>());
 
@@ -199,8 +195,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             var predicate = allRows.Predication;
 
-            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(predicate.Operand, Is.EqualTo("Name"));
+            Assert.That((predicate.Operand as ColumnNameIdentifier).Name, Is.EqualTo("Name"));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
             Assert.That(predicate.Predicate, Is.TypeOf<ContainsXml>());
@@ -219,8 +214,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             var predicate = allRows.Predication;
 
-            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(predicate.Operand, Is.EqualTo("Name"));
+            Assert.That((predicate.Operand as ColumnNameIdentifier).Name, Is.EqualTo("Name"));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
             Assert.That(predicate.Predicate, Is.TypeOf<MatchesRegexXml>());
@@ -237,8 +231,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             var predicate = allRows.Predication;
 
-            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(predicate.Operand, Is.EqualTo("Name"));
+            Assert.That((predicate.Operand as ColumnNameIdentifier).Name, Is.EqualTo("Name"));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
             Assert.That(predicate.Predicate, Is.TypeOf<LowerCaseXml>());
@@ -255,8 +248,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             var predicate = allRows.Predication;
 
-            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(predicate.Operand, Is.EqualTo("Name"));
+            Assert.That((predicate.Operand as ColumnNameIdentifier).Name, Is.EqualTo("Name"));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Text));
 
             Assert.That(predicate.Predicate, Is.TypeOf<UpperCaseXml>());
@@ -273,8 +265,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
             var predicate = allRows.Predication;
 
-            Assert.That(predicate.ColumnIndex, Is.EqualTo(-1));
-            Assert.That(predicate.Operand, Is.EqualTo("Value"));
+            Assert.That((predicate.Operand as ColumnNameIdentifier).Name, Is.EqualTo("Value"));
             Assert.That(predicate.ColumnType, Is.EqualTo(ColumnType.Numeric));
 
             Assert.That(predicate.Predicate, Is.TypeOf<WithinRangeXml>());
@@ -315,18 +306,34 @@ namespace NBi.Testing.Unit.Xml.Constraints
         }
 
         [Test]
+        public void Deserialize_SampleFile_ReadCorrectlyMultipleExpressions()
+        {
+            int testNr = 11;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
+            var expressions = allRows.Expressions;
+
+            Assert.That(allRows.Expressions, Is.AssignableTo<IEnumerable<ExpressionXml>>());
+            Assert.That(allRows.Expressions, Has.Count.EqualTo(2));
+        }
+
+        [Test]
         public void Serialize_AllRowsXml_OnlyAliasNoVariable()
         {
-            var allRowsXml = new AllRowsXml();
-            #pragma warning disable 0618
-            allRowsXml.InternalAliasesOld = new List<AliasXml>()
+            var allRowsXml = new AllRowsXml
+#pragma warning disable 0618
+            {
+                InternalAliasesOld = new List<AliasXml>()
             {
                 new AliasXml() {Column = 1, Name="Col1"},
                 new AliasXml() {Column = 0, Name="Col2"}
+            },
+                Predication = new PredicationXml()
             };
-            #pragma warning restore 0618
-            allRowsXml.Predication = new PredicationXml();
-            
+#pragma warning restore 0618
+
             var serializer = new XmlSerializer(typeof(AllRowsXml));
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream, Encoding.UTF8);
@@ -344,9 +351,16 @@ namespace NBi.Testing.Unit.Xml.Constraints
         [Test]
         public void Serialize_AllRowsXml_AnyOfXml()
         {
-            var allRowsXml = new AllRowsXml();
-            allRowsXml.Predication = new PredicationXml();
-            allRowsXml.Predication.Predicate = new AnyOfXml() { Values = new List<string>() { "first", "second" } };
+            var allRowsXml = new AllRowsXml
+            {
+                Predication = new PredicationXml()
+                {
+                    Predicate = new AnyOfXml()
+                    {
+                        Values = new List<string>() { "first", "second" }
+                    }
+                }
+            };
 
             var serializer = new XmlSerializer(typeof(AllRowsXml));
             var stream = new MemoryStream();
@@ -364,7 +378,104 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(content, Is.StringContaining("second"));
         }
 
+        [Test]
+        public void Serialize_ExecutionXml_NoColumnOrdinal()
+        {
+            var allRowsXml = new AllRowsXml
+            {
+                Expressions = new List<ExpressionXml>()
+                {
+                    new ExpressionXml()
+                    {
+                        Value = "a + b = c",
+                        Type = ColumnType.Boolean,
+                        Name = "calculate"
+                    }
+                }
+            };
 
+            var serializer = new XmlSerializer(typeof(AllRowsXml));
+            var content = string.Empty;
+            using (var stream = new MemoryStream())
+            {
+                using (var writer = new StreamWriter(stream, Encoding.UTF8))
+                    serializer.Serialize(writer, allRowsXml);
+                content = Encoding.UTF8.GetString(stream.ToArray());
+            }
+
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("expression"));
+            Assert.That(content, Is.StringContaining("type"));
+            Assert.That(content, Is.StringContaining("name"));
+            Assert.That(content, Is.StringContaining(">a + b = c<"));
+            Assert.That(content, Is.Not.StringContaining("column-type"));
+            Assert.That(content, Is.Not.StringContaining("column-index"));
+            Assert.That(content, Is.Not.StringContaining("tolerance"));
+        }
+
+        [Test]
+        public void Serialize_ExecutionAndAliasesXml_AliasesBeforeExecution()
+        {
+            var allRowsXml = new AllRowsXml
+            {
+                Expressions = new List<ExpressionXml>()
+                {
+                    new ExpressionXml()
+                    {
+                        Value = "a + b - c",
+                        Type = ColumnType.Numeric,
+                        Name = "calculate"
+                    }
+                },
+
+                InternalAliases = new List<AliasXml>()
+                {
+                    new AliasXml()
+                    {
+                        Column = 0,
+                        Name = "a"
+                    },
+                    new AliasXml()
+                    {
+                        Column = 1,
+                        Name = "b"
+                    },
+                    new AliasXml()
+                    {
+                        Column = 2,
+                        Name = "c"
+                    }
+                },
+
+                Predication = new PredicationXml()
+                {
+                    Operand = new ColumnNameIdentifier("calculate"),
+                    ColumnType = ColumnType.Numeric,
+                    Predicate = new EqualXml()
+                    {
+                        Value = "100"
+                    }
+                }
+            };
+
+            var serializer = new XmlSerializer(typeof(AllRowsXml));
+            var content = string.Empty;
+            using (var stream = new MemoryStream())
+            {
+                using (var writer = new StreamWriter(stream, Encoding.UTF8))
+                    serializer.Serialize(writer, allRowsXml);
+                content = Encoding.UTF8.GetString(stream.ToArray());
+            }
+
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("<alias"));
+            Assert.That(content, Is.StringContaining("<expression"));
+            Assert.That(content, Is.StringContaining("<predicate"));
+            Assert.That(content.LastIndexOf("<alias"), Is.LessThan(content.IndexOf("<expression")));
+            Assert.That(content.LastIndexOf("<expression"), Is.LessThan(content.IndexOf("<predicate")));
+        }
 
     }
 }

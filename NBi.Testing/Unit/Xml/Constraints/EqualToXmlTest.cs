@@ -9,6 +9,10 @@ using NBi.Xml.Items;
 using NUnit.Framework;
 using NBi.Xml.Items.ResultSet;
 using NBi.Core.Transformation;
+using NBi.Xml.Items.Alteration.Transform;
+using System.Xml.Serialization;
+using System.Text;
+using System.Diagnostics;
 #endregion
 
 namespace NBi.Testing.Unit.Xml.Constraints
@@ -16,7 +20,6 @@ namespace NBi.Testing.Unit.Xml.Constraints
     [TestFixture]
     public class EqualToXmlTest
     {
-
         #region SetUp & TearDown
         //Called only at instance creation
         [TestFixtureSetUp]
@@ -63,7 +66,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
         public void DeserializeEqualToResultSet_QueryFile0_Inline()
         {
             int testNr = 0;
-            
+
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
@@ -77,7 +80,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
         public void DeserializeEqualToResultSet_QueryFile1_ExternalFile()
         {
             int testNr = 1;
-            
+
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
@@ -90,12 +93,12 @@ namespace NBi.Testing.Unit.Xml.Constraints
         public void DeserializeEqualToKey_QueryFile2_List()
         {
             int testNr = 2;
-            
+
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).KeysDef, Is.EqualTo(SettingsIndexResultSet.KeysChoice.First));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).KeysDef, Is.EqualTo(SettingsOrdinalResultSet.KeysChoice.First));
         }
 
         [Test]
@@ -137,7 +140,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(cmd, Is.Not.Null);
             Assert.That(cmd.Connection.ConnectionString, Contains.Substring("Adventure"));
             Assert.That(cmd.CommandText, Contains.Substring("select top 2 [Name]"));
-            
+
         }
 
         [Test]
@@ -150,10 +153,10 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
 
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ValuesDef, Is.EqualTo(SettingsIndexResultSet.ValuesChoice.Last));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ValuesDef, Is.EqualTo(SettingsOrdinalResultSet.ValuesChoice.Last));
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Tolerance, Is.EqualTo("100"));
 
-            
+
         }
 
         [Test]
@@ -227,8 +230,8 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var ctr = ts.Tests[testNr].Constraints[0] as EqualToXml;
 
 
-            Assert.That(ctr.ColumnsDef[0].Transformation, Is.TypeOf<TransformationXml>());
-            var transfo = ctr.ColumnsDef[0].Transformation as TransformationXml;
+            Assert.That(ctr.ColumnsDef[0].Transformation, Is.TypeOf<LightTransformXml>());
+            var transfo = ctr.ColumnsDef[0].Transformation as LightTransformXml;
 
             Assert.That(transfo.Language, Is.EqualTo(LanguageType.CSharp));
             Assert.That(transfo.OriginalType, Is.EqualTo(ColumnType.Text));
@@ -247,8 +250,8 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var ctr = ts.Tests[testNr].Constraints[0] as EqualToXml;
 
 
-            Assert.That(ctr.ColumnsDef[1].Transformation, Is.TypeOf<TransformationXml>());
-            var transfo = ctr.ColumnsDef[1].Transformation as TransformationXml;
+            Assert.That(ctr.ColumnsDef[1].Transformation, Is.TypeOf<LightTransformXml>());
+            var transfo = ctr.ColumnsDef[1].Transformation as LightTransformXml;
 
             Assert.That(transfo.Language, Is.EqualTo(LanguageType.CSharp));
             Assert.That(transfo.OriginalType, Is.EqualTo(ColumnType.DateTime));
@@ -267,6 +270,40 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var ctr = ts.Tests[testNr].Constraints[0] as EqualToXml;
 
             Assert.That(ctr.Behavior, Is.EqualTo(EqualToXml.ComparisonBehavior.SingleRow));
+        }
+
+        [Test]
+        public void SerializeEqualToQuery_Transform_SingleRow()
+        {
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            var cdXml = new ColumnDefinitionXml()
+            {
+                Index = 1,
+                Role = ColumnRole.Key,
+                TransformationInner = new LightTransformXml()
+                {
+                    Language = LanguageType.CSharp,
+                    OriginalType = ColumnType.Numeric,
+                    Code = "value * 1000"
+                }
+            };
+
+            var serializer = new XmlSerializer(typeof(ColumnDefinitionXml));
+            var content = string.Empty;
+            using (var stream = new MemoryStream())
+            {
+                using (var writer = new StreamWriter(stream, Encoding.UTF8))
+                    serializer.Serialize(writer, cdXml);
+                content = Encoding.UTF8.GetString(stream.ToArray());
+            }
+
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("<transform "));
+            Assert.That(content, Is.Not.StringContaining("index=\"0\""));
+            Assert.That(content, Is.StringContaining("value * 1000"));
+            Assert.That(content, Is.Not.StringContaining("Intern"));
         }
     }
 }

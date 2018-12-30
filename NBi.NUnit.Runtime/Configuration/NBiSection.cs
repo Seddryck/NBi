@@ -64,5 +64,12 @@ namespace NBi.NUnit.Runtime
             get => (ExtensionCollection)this["extensions"];
             set => this["extensions"] = value;
         }
+
+        [ConfigurationProperty("variables", IsRequired = false)]
+        public VariableCollection Variables
+        {
+            get => (VariableCollection)this["variables"];
+            set => this["variables"] = value;
+        }
     }
 }

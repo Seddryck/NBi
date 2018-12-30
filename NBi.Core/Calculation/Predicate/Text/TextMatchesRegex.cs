@@ -14,10 +14,10 @@ namespace NBi.Core.Calculation.Predicate.Text
             : base(not, reference, stringComparison)
         { }
 
-        protected override bool Apply(object x)
+        protected override bool ApplyWithReference(object reference, object x)
         {
             var regexOption = StringComparison == StringComparison.InvariantCultureIgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
-            var regex = new Regex(Reference.ToString(), regexOption);
+            var regex = new Regex(reference.ToString(), regexOption);
             return regex.IsMatch(x.ToString());
         }
 

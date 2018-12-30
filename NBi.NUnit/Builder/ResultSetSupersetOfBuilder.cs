@@ -35,27 +35,8 @@ namespace NBi.NUnit.Builder
             ConstraintXml = (SupersetOfXml)ctrXml;
         }
 
-        protected override void SpecificBuild()
-        {
-            Constraint = InstantiateConstraint();
-        }
+        protected override BaseResultSetComparisonConstraint InstantiateConstraint(IResultSetService service)
+            => new SupersetOfConstraint(service);
 
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(object obj, SettingsXml settings, TransformationProvider transformation)
-        {
-            var argsBuilder = new ResultSetResolverArgsBuilder(ServiceLocator);
-            argsBuilder.Setup(obj);
-            argsBuilder.Build();
-
-            var factory = ServiceLocator.GetResultSetResolverFactory();
-            var resolver = factory.Instantiate(argsBuilder.GetArgs());
-
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(resolver);
-            if (transformation != null)
-                builder.Setup(transformation.Transform);
-            var service = builder.GetService();
-
-            return new SupersetOfConstraint(service);
-        }
     }
 }

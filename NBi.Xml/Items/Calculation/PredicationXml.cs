@@ -5,6 +5,7 @@ using NBi.Xml.Constraints.Comparer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,13 +17,17 @@ namespace NBi.Xml.Items.Calculation
     {
         public PredicationXml()
         {
-            ColumnIndex = -1;
             ColumnType = ColumnType.Numeric;
         }
 
-        [DefaultValue(-1)]
+        [XmlIgnore()]
         [XmlAttribute("column-index")]
-        public int ColumnIndex { get; set; }
+        [Obsolete("Deprecated. Use operand in place of column-index")]
+        public int ColumnIndex
+        {
+            get => throw new InvalidOperationException();
+            set => Operand = new ColumnIdentifierFactory().Instantiate($"#{value}");
+        }
 
         [XmlIgnore]
         public bool Not
@@ -32,10 +37,18 @@ namespace NBi.Xml.Items.Calculation
         }
 
         [XmlAttribute("operand")]
-        public string Operand { get; set; }
+        public string OperandSerialized
+        {
+            get => Operand?.Label;
+            set { Operand = new ColumnIdentifierFactory().Instantiate(value); }
+        }
+
+        [XmlIgnore()]
+        public IColumnIdentifier Operand { get; set; }
 
         [Obsolete("Deprecated. Use operand in place of name")]
-        public string Name { get => Operand; set => Operand=value; }
+        [XmlIgnore()]
+        public string Name { get => Operand.Label; set => Operand=new ColumnIdentifierFactory().Instantiate(value); }
 
         [DefaultValue(ColumnType.Numeric)]
         [XmlAttribute("type")]
@@ -65,12 +78,13 @@ namespace NBi.Xml.Items.Calculation
         [XmlElement(Type = typeof(TrueXml), ElementName = "true")]
         [XmlElement(Type = typeof(FalseXml), ElementName = "false")]
         public PredicateXml Predicate { get; set; }
-        
+
+        private object reference;
         [XmlIgnore]
         public object Reference
         {
-            get { return Predicate.Value ?? Predicate.Values as object; }
-            set { Predicate.Value = value.ToString(); }
+            get { return reference ?? Predicate.Value ?? Predicate.Values as object; }
+            set { reference = value; }
         }
 
         [XmlIgnore]
@@ -87,7 +101,7 @@ namespace NBi.Xml.Items.Calculation
                 if (Predicate is CaseSensitiveTextPredicateXml)
                     return ((CaseSensitiveTextPredicateXml)Predicate).IgnoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture;
                 else
-                    throw new InvalidOperationException();
+                    return StringComparison.InvariantCulture;
             }
         }
 
@@ -99,7 +113,7 @@ namespace NBi.Xml.Items.Calculation
                 if (Predicate is CultureSensitiveTextPredicateXml)
                     return ((CultureSensitiveTextPredicateXml)Predicate).Culture;
                 else
-                    throw new InvalidOperationException();
+                    return CultureInfo.InvariantCulture.Name;
             }
         }
 

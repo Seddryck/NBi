@@ -3,10 +3,15 @@ using NBi.Core.Transformation;
 
 namespace NBi.Core.ResultSet
 {
+    public interface IColumnDefinitionLight
+    {
+        IColumnIdentifier Identifier { get; set; }
+        ColumnType Type { get; set; }
+    }
+
     public interface IColumnDefinition
     {
-        int Index { get; set; }
-        string Name { get; set; }
+        IColumnIdentifier Identifier { get; set; }
         ColumnRole Role {get; set;}
         ColumnType Type { get; set; }
         string Tolerance {get; set;}

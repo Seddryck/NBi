@@ -68,7 +68,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             {
                 Predication = new PredicationXml() {
                     Predicate = new MoreThanXml() { Value = "100" },
-                    Operand = "#0"
+                    Operand = new ColumnOrdinalIdentifier(0)
                 }
             };
 
@@ -83,7 +83,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
         }
 
         [Test]
-        public void GetConstraint_Build_HandleVariable()
+        public void GetConstraint_Build_DontEvaluateVariable()
         {
             var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
             var itemXmlStubFactory = new Mock<QueryableXml>();
@@ -97,7 +97,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                 Predication = new PredicationXml()
                 {
                     Predicate = new MoreThanXml { Value = "@year" },
-                    Operand = "#0"
+                    Operand = new ColumnOrdinalIdentifier(0)
                 }
             };
 
@@ -114,7 +114,8 @@ namespace NBi.Testing.Unit.NUnit.Builder
             builder.Setup(sutXml, ctrXml, null, variables, new ServiceLocator());
             builder.Build();
 
-            yearResolverMock.Verify(x => x.GetValue(), Times.Once);
+            //The variable is not evaluated during the build of constraint (introduced in 1.19)
+            yearResolverMock.Verify(x => x.GetValue(), Times.Never); 
         }
 
         [Test]
@@ -132,7 +133,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                 Predication = new PredicationXml()
                 {
                     Predicate = new MoreThanXml() { Value = "@year" },
-                    Operand = "#0"
+                    Operand = new ColumnOrdinalIdentifier(0)
                 }
             };
 
@@ -168,7 +169,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             {
                 Predication = new PredicationXml() {
                     Predicate = new MoreThanXml() { Value = "10" },
-                    Operand = "#0"
+                    Operand = new ColumnOrdinalIdentifier(0)
                 }
             };
 
@@ -192,7 +193,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             {
                 Predication = new PredicationXml() {
                     Predicate = new MoreThanXml() { Value = "10" },
-                    Operand = "#0"
+                    Operand = new ColumnOrdinalIdentifier(0)
                 }
             };
 

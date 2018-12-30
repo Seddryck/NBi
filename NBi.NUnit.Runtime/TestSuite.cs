@@ -21,6 +21,7 @@ using System.Collections.ObjectModel;
 using Ninject;
 using NBi.Core.Injection;
 using NBi.Core.Configuration.Extension;
+using NBi.Core.Scalar.Caster;
 
 namespace NBi.NUnit.Runtime
 {
@@ -39,39 +40,58 @@ namespace NBi.NUnit.Runtime
         public IConfiguration Configuration { get; set; }
         public static IDictionary<string, ITestVariable> Variables { get; set; }
 
+        public static IDictionary<string, object> OverridenVariables { get; set; }
+
         internal XmlManager TestSuiteManager { get; private set; }
-        internal TestSuiteFinder TestSuiteFinder { get; set; }
+        internal TestSuiteProvider TestSuiteProvider { get; private set; }
         internal ConnectionStringsFinder ConnectionStringsFinder { get; set; }
-        internal ConfigurationFinder ConfigurationFinder { get; set; }
+        internal ConfigurationProvider ConfigurationProvider { get; private set; }
 
         public TestSuite()
-        {
-            TestSuiteManager = new XmlManager();
-            TestSuiteFinder = new TestSuiteFinder();
-            ConnectionStringsFinder = new ConnectionStringsFinder();
-            ConfigurationFinder = new ConfigurationFinder();
-        }
+            : this(new XmlManager(), new TestSuiteProvider(), new ConfigurationProvider(), new ConnectionStringsFinder())
+        { }
 
-        internal TestSuite(XmlManager testSuiteManager, TestSuiteFinder testSuiteFinder)
+        public TestSuite(XmlManager testSuiteManager)
+            : this(testSuiteManager, null, new NullConfigurationProvider(), new ConnectionStringsFinder())
+        { }
+
+        public TestSuite(XmlManager testSuiteManager, TestSuiteProvider testSuiteProvider)
+            : this(testSuiteManager, testSuiteProvider, new NullConfigurationProvider(), new ConnectionStringsFinder())
+        { }
+
+        public TestSuite(TestSuiteProvider testSuiteProvider)
+            : this(new XmlManager(), testSuiteProvider, new NullConfigurationProvider(), null)
+        { }
+
+        public TestSuite(TestSuiteProvider testSuiteProvider, ConfigurationProvider configurationProvider)
+            : this(new XmlManager(), testSuiteProvider, configurationProvider ?? new NullConfigurationProvider(), null)
+        { }
+
+        public TestSuite(TestSuiteProvider testSuiteProvider, ConfigurationProvider configurationProvider, ConnectionStringsFinder connectionStringsFinder)
+            : this(new XmlManager(), testSuiteProvider, configurationProvider ?? new NullConfigurationProvider(), connectionStringsFinder)
+        { }
+
+        protected TestSuite(XmlManager testSuiteManager, TestSuiteProvider testSuiteProvider, ConfigurationProvider configurationProvider, ConnectionStringsFinder connectionStringsFinder)
         {
             TestSuiteManager = testSuiteManager;
-            TestSuiteFinder = testSuiteFinder;
+            TestSuiteProvider = testSuiteProvider;
+            ConfigurationProvider = configurationProvider;
+            ConnectionStringsFinder = connectionStringsFinder;
         }
 
         [Test, TestCaseSource("GetTestCases")]
         public virtual void ExecuteTestCases(TestXml test)
         {
-            if (ConfigurationFinder != null)
+            if (ConfigurationProvider != null)
             {
                 Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceError, string.Format("Loading configuration"));
-                var config = ConfigurationFinder.Find();
+                var config = ConfigurationProvider.GetSection();
                 ApplyConfig(config);
             }
             else
                 Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceError, $"No configuration-finder found.");
 
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Test loaded by {GetOwnFilename()}");
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Test defined in {TestSuiteFinder.Find()}");
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"{Variables.Count()} variables defined, {Variables.Count(x => x.Value.IsEvaluated())} already evaluated.");
 
             if (serviceLocator == null)
@@ -236,14 +256,8 @@ namespace NBi.NUnit.Runtime
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"GetTestCases() has been called");
             //Find configuration of NBi
-            if (ConfigurationFinder != null)
-            {
-                var config = ConfigurationFinder.Find();
-                ApplyConfig(config);
-            }
-            else
-                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceError, string.Format("No configuration-finder found."));
-
+            var config = ConfigurationProvider.GetSection();
+            ApplyConfig(config);
 
             //Find connection strings referecned from an external file
             if (ConnectionStringsFinder != null)
@@ -254,16 +268,16 @@ namespace NBi.NUnit.Runtime
                 Initialize();
 
             //Build the Test suite
-            var testSuiteFilename = TestSuiteFinder.Find();
+            var testSuiteFilename = TestSuiteProvider.GetFilename(config.TestSuiteFilename);
             TestSuiteManager.Load(testSuiteFilename, SettingsFilename, AllowDtdProcessing);
 
             //Build the variables
-            Variables = BuildVariables(TestSuiteManager.TestSuite.Variables);
+            Variables = BuildVariables(TestSuiteManager.TestSuite.Variables, OverridenVariables);
 
             return BuildTestCases();
         }
 
-        private IDictionary<string, ITestVariable> BuildVariables(IEnumerable<GlobalVariableXml> variables)
+        private IDictionary<string, ITestVariable> BuildVariables(IEnumerable<GlobalVariableXml> variables, IDictionary<string, object> overridenVariables)
         {
             var instances = new Dictionary<string, ITestVariable>();
             var resolverFactory = serviceLocator.GetScalarResolverFactory();
@@ -272,23 +286,34 @@ namespace NBi.NUnit.Runtime
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"{variables.Count()} variable{(variables.Count() > 1 ? "s" : string.Empty)} defined in the test-suite.");
             foreach (var variable in variables)
             {
-                var builder = new ScalarResolverArgsBuilder(serviceLocator);
-                builder.Setup(instances); //Pass the catalog that we're building to itself
-                if (variable.Script != null)
-                    builder.Setup(variable.Script);
-                else if (variable.QueryScalar != null)
+                if (overridenVariables.ContainsKey(variable.Name))
                 {
-                    variable.QueryScalar.Settings = TestSuiteManager.TestSuite.Settings;
-                    variable.QueryScalar.Default = TestSuiteManager.TestSuite.Settings.GetDefault(Xml.Settings.SettingsXml.DefaultScope.Variable);
-                    builder.Setup(variable.QueryScalar);
+                    var instance = new OverridenTestVariable(variable.Name, overridenVariables[variable.Name]);
+                    instances.Add(variable.Name, instance);
                 }
-                builder.Build();
-                var args = builder.GetArgs();
+                else
+                {
+                    var builder = new ScalarResolverArgsBuilder(serviceLocator);
+                    builder.Setup(instances); //Pass the catalog that we're building to itself
+                    if (variable.Script != null)
+                        builder.Setup(variable.Script);
+                    else if (variable.QueryScalar != null)
+                    {
+                        variable.QueryScalar.Settings = TestSuiteManager.TestSuite.Settings;
+                        variable.QueryScalar.Default = TestSuiteManager.TestSuite.Settings.GetDefault(Xml.Settings.SettingsXml.DefaultScope.Variable);
+                        builder.Setup(variable.QueryScalar);
+                    }
+                    else if (variable.Environment != null)
+                        builder.Setup(variable.Environment);
+                    builder.Build();
+                    var args = builder.GetArgs();
 
-                var resolver = resolverFactory.Instantiate<object>(args);
+                    var resolver = resolverFactory.Instantiate<object>(args);
 
-                var instance = factory.Instantiate(resolver);
-                instances.Add(variable.Name, instance);
+                    var instance = factory.Instantiate(resolver);
+                    instances.Add(variable.Name, instance);
+                }
+                
             }
 
             return instances;
@@ -371,6 +396,8 @@ namespace NBi.NUnit.Runtime
             setupConfiguration.LoadExtensions(notableTypes);
             setupConfiguration.LoadFailureReportProfile(config.FailureReportProfile);
             Configuration = setupConfiguration;
+
+            OverridenVariables = config.Variables.Cast<VariableElement>().ToDictionary(x => x.Name, y => new CasterFactory().Instantiate(y.Type).Execute(y.Value));
         }
 
         private static ServiceLocator serviceLocator;
@@ -382,11 +409,11 @@ namespace NBi.NUnit.Runtime
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Service locator initialized in {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");
 
 
-            if (ConfigurationFinder != null)
+            if (ConfigurationProvider != null)
             {
                 Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceError, string.Format("Loading configuration ..."));
                 stopWatch.Reset();
-                var config = ConfigurationFinder.Find();
+                var config = ConfigurationProvider.GetSection();
                 ApplyConfig(config);
                 Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Configuration loaded in {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");
             }

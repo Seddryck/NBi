@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
 using NBi.Extensibility;
+using NBi.Core.Scalar.Format;
 
 namespace NBi.Testing.Unit.Core.Injection
 {
@@ -177,6 +178,26 @@ namespace NBi.Testing.Unit.Core.Injection
             var obj2 = locator.GetScalarResolverFactory();
             Assert.That(obj1, Is.Not.EqualTo(obj2));
         }
+
+
+        [Test]
+        public void GetFormatterFactory_Instance()
+        {
+            var locator = new ServiceLocator();
+            var obj = locator.GetFormatterFactory();
+            Assert.That(obj, Is.Not.Null);
+            Assert.IsInstanceOf<FormatterFactory>(obj);
+        }
+
+        [Test]
+        public void GetFormatterFactory_NotSingleton()
+        {
+            var locator = new ServiceLocator();
+            var obj1 = locator.GetFormatterFactory();
+            var obj2 = locator.GetFormatterFactory();
+            Assert.That(obj1, Is.Not.EqualTo(obj2));
+        }
+
         [Test]
         public void GetScalarResolverFactory_UnderlyingServiceLocatorIsSingleton()
         {

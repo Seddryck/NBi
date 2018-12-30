@@ -76,6 +76,36 @@ namespace NBi.Testing.Unit.Xml.Variables
         }
 
         [Test]
+        public void Serialize_OneEnvironment_Correct()
+        {
+            var testSuiteXml = new TestSuiteXml()
+            {
+                Variables = new List<GlobalVariableXml>()
+                {
+                    new GlobalVariableXml()
+                    {
+                        Name="myVar",
+                        Environment = new EnvironmentXml() {Name="myEnvVar"}
+                    }
+                }
+            };
+
+            var serializer = new XmlSerializer(typeof(TestSuiteXml));
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream, Encoding.UTF8);
+            serializer.Serialize(writer, testSuiteXml);
+            var content = Encoding.UTF8.GetString(stream.ToArray());
+            writer.Close();
+            stream.Close();
+
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("<variables"));
+            Assert.That(content, Is.StringContaining("<variable name=\"myVar\""));
+            Assert.That(content, Is.StringContaining("<environment name=\"myEnvVar\""));
+        }
+
+        [Test]
         public void Serialize_TwoVariables_Correct()
         {
             var testSuiteXml = new TestSuiteXml()

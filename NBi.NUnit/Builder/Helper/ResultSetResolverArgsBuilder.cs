@@ -113,13 +113,18 @@ namespace NBi.NUnit.Builder.Helper
         private ResultSetResolverArgs BuildCsvResolverArgs(string path)
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "ResultSet defined in external CSV file.");
-            var file = string.Empty;
-            if (Path.IsPathRooted(path))
-                file = path;
-            else
-                file = settings?.BasePath + path;
 
-            return new CsvResultSetResolverArgs(file, settings?.CsvProfile);
+            var builder = new ScalarResolverArgsBuilder(serviceLocator);
+            builder.Setup(path);
+            builder.Setup(settings);
+            builder.Setup(globalVariables);
+            builder.Build();
+            var argsPath = builder.GetArgs();
+
+            var factory = serviceLocator.GetScalarResolverFactory();
+            var resolverPath = factory.Instantiate<string>(argsPath);
+
+            return new CsvResultSetResolverArgs(resolverPath, settings?.BasePath, settings?.CsvProfile);
         }
 
         private ResultSetResolverArgs BuildXPathResolverArgs(XmlSourceXml xmlSource)

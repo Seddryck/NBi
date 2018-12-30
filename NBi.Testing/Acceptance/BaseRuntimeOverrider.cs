@@ -94,7 +94,7 @@ namespace NBi.Testing.Acceptance
 
         public virtual void RunNegativeTestSuiteWithConfig(string filename)
         {
-            var testSuite = new TestSuiteOverrider(@"Negative\" + filename, @"Negative\" + filename);
+            var testSuite = new TestSuiteOverrider($@"Negative\{ filename }", $@"Negative\{filename}" );
 
             //First retrieve the NUnit TestCases with base class (NBi.NUnit.Runtime)
             //These NUnit TestCases are defined in the Test Suite file

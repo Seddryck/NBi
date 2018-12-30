@@ -12,11 +12,11 @@ namespace NBi.Core.Calculation.Predicate.DateTime
         public DateTimePredicate(bool not, object reference) : base(not, reference)
         { }
 
-        protected override bool Apply(object x)
+        protected override bool ApplyWithReference(object reference, object x)
         {
             var caster = new DateTimeCaster();
             var dtX = caster.Execute(x);
-            var dtY = caster.Execute(Reference);
+            var dtY = caster.Execute(reference);
 
             return Compare(dtX, dtY);
         }

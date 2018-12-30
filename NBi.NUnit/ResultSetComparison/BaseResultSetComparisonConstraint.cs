@@ -57,7 +57,7 @@ namespace NBi.NUnit.ResultSetComparison
             get
             {
                 if(_engine==null)
-                    _engine = new IndexEquivaler(AnalyzersFactory.EqualTo(), null);
+                    _engine = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), null);
                 return _engine;
             }
             set

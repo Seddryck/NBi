@@ -12,26 +12,13 @@ namespace NBi.Service
 {
     public class TestListManager
     {
-
-        private IList<TestXml> tests;
         private IList<TestXml> lastGeneration;
 
-        internal IList<TestXml> Tests 
-        { 
-            get 
-            {
-                return tests;
-            }
-            set 
-            {
-                tests=value;
-            }
-        }
-        
-        
+        internal IList<TestXml> Tests { get; set; }
+
         public TestListManager()
         {
-            tests = new List<TestXml>();
+            Tests = new List<TestXml>();
             lastGeneration = new List<TestXml>();
         }
 
@@ -43,7 +30,7 @@ namespace NBi.Service
             generator.Progressed += new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
             lastGeneration = generator.Build(cases, globalVariables).ToList();
             generator.Progressed -= new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
-            tests = tests.Concat(lastGeneration).ToList();
+            Tests = Tests.Concat(lastGeneration).ToList();
         }
 
         public void Build(IEnumerable<string> templates, string[] variables, DataTable dataTable, bool useGrouping, IDictionary<string, object> globalVariables)
@@ -65,7 +52,7 @@ namespace NBi.Service
                         generator.Progressed += new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
                         lastGeneration = generator.Build(new List<List<List<object>>>() { indiv }, globalVariables).ToList();
                         generator.Progressed -= new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
-                        tests = tests.Concat(lastGeneration).ToList();
+                        Tests = Tests.Concat(lastGeneration).ToList();
                     }
                 }
             }
@@ -79,9 +66,7 @@ namespace NBi.Service
         public event EventHandler<ProgressEventArgs> Progressed;
         public void InvokeProgress(ProgressEventArgs e)
         {
-            var handler = Progressed;
-            if (handler != null)
-                handler(this, e);
+            Progressed?.Invoke(this, e);
         }
 
         public bool CanUndo
@@ -93,7 +78,7 @@ namespace NBi.Service
         {
             foreach (var test in lastGeneration)
             {
-                tests.Remove(test);
+                Tests.Remove(test);
             }
             lastGeneration.Clear();
         }
@@ -101,12 +86,14 @@ namespace NBi.Service
         public IList<Test> GetTests()
         {
             var value = new List<Test>();
-            foreach (var test in tests)
+            foreach (var test in Tests)
             {
-                var t = new Test();
-                t.Content = test.Content;
-                t.Title = test.Name;
-                t.Reference = test;
+                var t = new Test
+                {
+                    Content = test.Content,
+                    Title = test.Name,
+                    Reference = test
+                };
                 value.Add(t);
             }
             return value;
@@ -116,7 +103,7 @@ namespace NBi.Service
         protected List<List<List<object>>> GetCases(DataTable dataTable, bool useGrouping)
         {
             if (dataTable.Rows.Count==0)
-                return new List<List<List<object>>>(); ;
+                return new List<List<List<object>>>();
 
             int groupedColumn = dataTable.Rows[0].ItemArray.Length - 1;
 
@@ -159,18 +146,18 @@ namespace NBi.Service
 
         public void Clear()
         {
-            tests.Clear();
+            Tests.Clear();
             lastGeneration.Clear();
         }
 
         public void RemoveAt(int index)
         {
-            tests.RemoveAt(index);
+            Tests.RemoveAt(index);
         }
 
         public void Remove(Test test)
         {
-            tests.Remove(test.Reference);
+            Tests.Remove(test.Reference);
         }
 
         public void SetTests(IEnumerable<Test> tests)
@@ -203,7 +190,7 @@ namespace NBi.Service
         public IEnumerable<string> GetExistingCategories()
         {
             var categories = new List<string>();
-            foreach (var test in tests)
+            foreach (var test in Tests)
             {
                 foreach (var category in test.Categories)
                 {
@@ -233,7 +220,7 @@ namespace NBi.Service
 
                 foreach (var test in testSuite.GetAllTests())
                 {
-                    tests.Add(test);
+                    Tests.Add(test);
                 }
             }
         }
@@ -256,7 +243,7 @@ namespace NBi.Service
                 test = XmlDeserializeFromString<TestStandaloneXml>(str);
 
                 test.Content = XmlSerializeFrom<TestStandaloneXml>(test);
-                tests.Add(test);
+                Tests.Add(test);
             }            
         }
 

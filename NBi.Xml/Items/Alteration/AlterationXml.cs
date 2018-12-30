@@ -1,4 +1,5 @@
 ﻿using NBi.Xml.Items.Alteration.Conversion;
+using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.Calculation;
 using NBi.Xml.Items.ResultSet;
 using System;
@@ -17,14 +18,14 @@ namespace NBi.Xml.Items.Alteration
         [XmlElement("convert")]
         public List<ConvertXml> Conversions { get; set; }
         [XmlElement("transform")]
-        public List<TransformationXml> Transformations { get; set; }
+        public List<TransformXml> Transformations { get; set; }
 
 
         public AlterationXml()
         {
             Filters = new List<FilterXml>();
             Conversions = new List<ConvertXml>();
-            Transformations = new List<TransformationXml>();
+            Transformations = new List<TransformXml>();
         }
     }
 }

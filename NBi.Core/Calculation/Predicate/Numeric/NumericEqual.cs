@@ -13,10 +13,10 @@ namespace NBi.Core.Calculation.Predicate.Numeric
         public NumericEqual(bool not, object reference) : base(not, reference)
         { }
 
-        protected override bool Apply(object x)
+        protected override bool ApplyWithReference(object reference, object x)
         {
             var comparer = new NumericComparer();
-            return comparer.Compare(x, Reference).AreEqual;
+            return comparer.Compare(x, reference).AreEqual;
         }
         public override string ToString() => $"is equal to {Reference}";
     }

@@ -3,9 +3,30 @@ using System.Xml.Serialization;
 using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Comparer;
 using NBi.Core.Transformation;
+using NBi.Xml.Items.Alteration.Transform;
 
 namespace NBi.Xml.Items.ResultSet
 {
+    public class ColumnDefinitionLightXml : IColumnDefinitionLight
+    {
+        [XmlAttribute("identifier")]
+        public string IdentifierSerializer { get; set; }
+        [XmlIgnore]
+        public IColumnIdentifier Identifier
+        {
+            get => new ColumnIdentifierFactory().Instantiate(IdentifierSerializer);
+            set => IdentifierSerializer = value.Label;
+        }
+        [XmlAttribute("type")]
+        [DefaultValue(ColumnType.Text)]
+        public ColumnType Type { get; set; }
+
+        public ColumnDefinitionLightXml()
+        {
+            Type = ColumnType.Text;
+        }
+    }
+
     public class ColumnDefinitionXml: IColumnDefinition
     {
         [XmlAttribute("index")]
@@ -20,7 +41,26 @@ namespace NBi.Xml.Items.ResultSet
         [XmlIgnore()]
         public bool IsToleranceSpecified
         {
-            get { return !string.IsNullOrEmpty(Tolerance); }
+            get => string.IsNullOrEmpty(Tolerance);
+        }
+
+        [XmlIgnore()]
+        public bool IndexSpecified
+        {
+            get => string.IsNullOrEmpty(Name);
+        }
+
+        [XmlIgnore]
+        public IColumnIdentifier Identifier
+        {
+            get => new ColumnIdentifierFactory().Instantiate(string.IsNullOrEmpty(Name) ? $"#{Index}" : Name);
+            set
+            {
+                if (value.Label.StartsWith("#"))
+                    Index = int.Parse(value.Label.Substring(1));
+                else
+                    Name = value.Label;
+            }
         }
 
         [XmlAttribute("tolerance")]
@@ -35,8 +75,11 @@ namespace NBi.Xml.Items.ResultSet
         [DefaultValue("")]
         public string RoundingStep {get; set;}
 
-        [XmlElement("transformation")]
-        public TransformationXml TransformationInner { get; set; }
+        [XmlElement("transform")]
+        public LightTransformXml TransformationInner { get; set; }
+
+        [XmlIgnore]
+        public LightTransformXml InternalTransformationInner { get => TransformationInner; set => TransformationInner=value; }
 
         [XmlIgnore]
         public ITransformationInfo Transformation

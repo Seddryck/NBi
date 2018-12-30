@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NBi.Core;
 using NBi.Core.Scalar.Comparer;
 using NUnit.Framework;
 
@@ -151,7 +152,7 @@ namespace NBi.Testing.Unit.Core.Scalar.Comparer
         public void Compare_NonNumericAndAny_FormatException()
         {
             var comparer = new NumericComparer();
-            Assert.Throws<FormatException>(delegate { comparer.Compare("string", "(any)", 1, SideTolerance.Both); });
+            Assert.Throws<NBiException>(delegate { comparer.Compare("string", "(any)", 1, SideTolerance.Both); });
         }
 
         [Test]

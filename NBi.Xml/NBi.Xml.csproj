@@ -222,6 +222,7 @@
     <Compile Include="Items\Xml\XPathXml.cs" />
     <Compile Include="LocalXmlUrlResolver.cs" />
     <Compile Include="SerializationOption\CData.cs" />
+    <Compile Include="SerializationOption\ReadWriteAttributes.cs" />
     <Compile Include="SerializationOption\WriteOnlyAttributes.cs" />
     <Compile Include="Settings\ConnectionStringXml.cs" />
     <Compile Include="Settings\CsvProfileXml.cs" />

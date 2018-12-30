@@ -101,7 +101,7 @@ namespace NBi.Xml
 
         [XmlArray("system-under-test", Order = 8),
         XmlArrayItem(Type = typeof(ExecutionXml), ElementName = "execution"),
-        XmlArrayItem(Type = typeof(ResultSetSystemXml), ElementName = "resultSet"),
+        XmlArrayItem(Type = typeof(ResultSetSystemXml), ElementName = "result-set"),
         XmlArrayItem(Type = typeof(ScalarXml), ElementName = "scalar"),
         XmlArrayItem(Type = typeof(MembersXml), ElementName = "members"),
         XmlArrayItem(Type = typeof(StructureXml), ElementName = "structure"),
@@ -110,9 +110,9 @@ namespace NBi.Xml
         public List<AbstractSystemUnderTestXml> Systems;
 
         [XmlArray("assert", Order = 9),
-        XmlArrayItem(Type = typeof(SyntacticallyCorrectXml), ElementName = "syntacticallyCorrect"),
-        XmlArrayItem(Type = typeof(FasterThanXml), ElementName = "fasterThan"),
-        XmlArrayItem(Type = typeof(EqualToXml), ElementName = "equalTo"),
+        XmlArrayItem(Type = typeof(SyntacticallyCorrectXml), ElementName = "syntactically-correct"),
+        XmlArrayItem(Type = typeof(FasterThanXml), ElementName = "faster-than"),
+        XmlArrayItem(Type = typeof(EqualToXml), ElementName = "equal-to"),
         XmlArrayItem(Type = typeof(SupersetOfXml), ElementName = "superset-of"),
         XmlArrayItem(Type = typeof(SubsetOfXml), ElementName = "subset-of"),
         XmlArrayItem(Type = typeof(CountXml), ElementName = "count"),
@@ -121,7 +121,7 @@ namespace NBi.Xml
         XmlArrayItem(Type = typeof(OrderedXml), ElementName = "ordered"),
         XmlArrayItem(Type = typeof(LinkedToXml), ElementName = "linkedTo"),
         XmlArrayItem(Type = typeof(ContainedInXml), ElementName = "contained-in"),
-        XmlArrayItem(Type = typeof(EquivalentToXml), ElementName = "equivalentTo"),
+        XmlArrayItem(Type = typeof(EquivalentToXml), ElementName = "equivalent-to"),
         XmlArrayItem(Type = typeof(MatchPatternXml), ElementName = "matchPattern"),
         XmlArrayItem(Type = typeof(EvaluateRowsXml), ElementName = "evaluate-rows"),
         XmlArrayItem(Type = typeof(SuccessfulXml), ElementName = "successful"),

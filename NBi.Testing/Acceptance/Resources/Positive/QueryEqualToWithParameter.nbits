@@ -2,7 +2,7 @@
 <testSuite name="Acceptance Testing: query equalTo with parameters" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="everywhere">
-      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <connection-string>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connection-string>
       <parameter name="@CurrencyCode" sql-type="varchar">AED</parameter>
     </default>
   </settings>
@@ -22,13 +22,13 @@
       </execution>
     </system-under-test>
     <assert>
-      <equalTo>
+      <equal-to>
         <resultSet>
           <row>
             <cell>1</cell>
           </row>
         </resultSet>
-      </equalTo>
+      </equal-to>
     </assert>
   </test>
   <test name="Using a parameter referring to a variable">

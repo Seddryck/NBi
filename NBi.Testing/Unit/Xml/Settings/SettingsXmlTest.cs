@@ -66,11 +66,16 @@ namespace NBi.Testing.Unit.Xml.Settings
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithDefault");
 
-            Assert.That(ts.Settings.Defaults.Count, Is.EqualTo(2)); //(One empty and one initialized)
+            Assert.That(ts.Settings.Defaults.Count, Is.EqualTo(3)); //(One empty and one initialized)
             var sutDefault = ts.Settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest);
             Assert.That(sutDefault.ConnectionStringSpecified, Is.True);
             Assert.That(sutDefault.ConnectionString.Inline, Is.Not.Null.And.Not.Empty);
             Assert.That(sutDefault.Parameters, Is.Not.Null);
+
+            var varDefault = ts.Settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest);
+            Assert.That(varDefault.ConnectionStringSpecified, Is.True);
+            Assert.That(varDefault.ConnectionString.Inline, Is.Not.Null.And.Not.Empty);
+            Assert.That(varDefault.Parameters, Is.Not.Null);
         }
 
         [Test]

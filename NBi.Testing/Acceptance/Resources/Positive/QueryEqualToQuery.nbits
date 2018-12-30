@@ -2,10 +2,10 @@
 <testSuite name="Acceptance Testing: query equalTo query" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
-      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <connection-string>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connection-string>
     </default>
     <default apply-to="assert">
-      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <connection-string>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connection-string>
     </default>
   </settings>
   <test name="'Reseller Order Count' by year before 2006" uid="0001">
@@ -14,7 +14,7 @@
     </condition>
     <system-under-test>
       <execution>
-        <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+        <query name="MDX Except" connection-string="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
           WITH MEMBER
           [Measures].[Reseller Order Count Divided by 7]
           AS
@@ -28,7 +28,7 @@
       </execution>
     </system-under-test>
     <assert>
-      <equalTo>
+      <equal-to>
         <column index="0" role="key" type="text"/>
         <column index="1" role="value" type="numeric" tolerance="0.01"/>
         <query>
@@ -38,7 +38,7 @@
           UNION ALL SELECT 'CY 2008', 894.0/7
           UNION ALL SELECT 'CY 2009', NULL
         </query>
-      </equalTo>
+      </equal-to>
     </assert>
   </test>
   <test name="'Reseller Order Count' by year before 2006" uid="0001" ignore="false">

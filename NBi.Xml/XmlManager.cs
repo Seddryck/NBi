@@ -257,8 +257,11 @@ namespace NBi.Xml
             // Create the XmlReader object.
             using (var xmlReader = BuildXmlReaderForSettings(settingsFilename, false))
             {
+                var overrides = new ReadOnlyAttributes();
+                overrides.Build();
+
                 // Create an instance of the XmlSerializer specifying type.
-                var serializer = new XmlSerializer(typeof(SettingsXml), xmlRoot);
+                var serializer = new XmlSerializer(typeof(SettingsXml), overrides, null, xmlRoot, string.Empty);
                 // Use the Deserialize method to restore the object's state.
                 settings = (SettingsXml)serializer.Deserialize(xmlReader);
             }

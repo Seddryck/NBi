@@ -45,7 +45,7 @@ namespace NBi.Testing.Unit.Xml.Items.Calculation
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var alteration = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alteration;
             Assert.That(alteration.Filters, Is.Not.Null.And.Not.Empty);
             Assert.That(alteration.Filters[0].Ranking, Is.Not.Null);
@@ -61,7 +61,7 @@ namespace NBi.Testing.Unit.Xml.Items.Calculation
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var alteration = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alteration;
             Assert.That(alteration.Filters, Is.Not.Null.And.Not.Empty);
             Assert.That(alteration.Filters[0].Ranking.Rank, Is.Not.Null);
@@ -77,7 +77,7 @@ namespace NBi.Testing.Unit.Xml.Items.Calculation
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var alteration = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alteration;
             Assert.That(alteration.Filters, Is.Not.Null.And.Not.Empty);
             Assert.That(alteration.Filters[0].Ranking.Rank, Is.Not.Null);
@@ -93,7 +93,7 @@ namespace NBi.Testing.Unit.Xml.Items.Calculation
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var alteration = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alteration;
             Assert.That(alteration.Filters, Is.Not.Null.And.Not.Empty);
             Assert.That(alteration.Filters[0].Ranking.GroupBy, Is.Not.Null);
@@ -109,7 +109,7 @@ namespace NBi.Testing.Unit.Xml.Items.Calculation
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var alteration = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alteration;
             Assert.That(alteration.Filters, Is.Not.Null.And.Not.Empty);
             Assert.That(alteration.Filters[0].Ranking.GroupBy.Columns[0].Identifier, Is.InstanceOf<IColumnIdentifier>());
@@ -124,7 +124,7 @@ namespace NBi.Testing.Unit.Xml.Items.Calculation
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var alteration = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alteration;
             Assert.That(alteration.Filters, Is.Not.Null.And.Not.Empty);
             Assert.That(alteration.Filters[0].Ranking.GroupBy.Columns[1].Identifier, Is.InstanceOf<IColumnIdentifier>());

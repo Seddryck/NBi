@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using NBi.Xml.Items;
 
@@ -9,8 +10,16 @@ namespace NBi.Xml.Settings
         [XmlAttribute("apply-to")]
         public SettingsXml.DefaultScope ApplyTo { get; set; }
 
-        [XmlElement ("connectionString")]
+        [XmlElement ("connection-string")]
         public ConnectionStringXml ConnectionString { get; set; }
+
+        [Obsolete("Replaced by connection-string")]
+        [XmlIgnore]
+        public ConnectionStringXml ConnectionStringOld
+        {
+            get => ConnectionString;
+            set { ConnectionString = value; }
+        }
 
         [XmlIgnore]
         public bool ConnectionStringSpecified

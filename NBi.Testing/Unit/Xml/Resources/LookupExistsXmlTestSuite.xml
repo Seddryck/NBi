@@ -18,11 +18,11 @@
         <join>
           <mapping candidate="GroupId" reference="Id" type="numeric"/>
         </join>
-        <resultSet>
+        <result-set>
           <query>
             select [Id] from [HumanResources].[Group] order by Name
           </query>
-        </resultSet>
+        </result-set>
       </lookup-exists>
     </assert>
   </test>

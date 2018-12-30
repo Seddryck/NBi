@@ -12,10 +12,10 @@
 			</members>
 		</system-under-test>
 		<assert>
-			<equivalentTo>
+			<equivalent-to>
 				<item>Hello</item>
 				<item>World</item>
-			</equivalentTo>
+			</equivalent-to>
 		</assert>
 	</test>
 	<test name="Manage one-column-query" uid="0002">

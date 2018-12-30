@@ -43,7 +43,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
 
             Assert.That(rs.File, Is.EqualTo("myFile.csv"));
@@ -58,7 +58,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
 
             Assert.That(rs.Content, Is.Not.Null);
@@ -74,7 +74,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
 
             Assert.That(rs.Query, Is.Not.Null);
@@ -90,7 +90,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
 
             Assert.That(rs.Query, Is.Not.Null);
@@ -108,7 +108,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
 
             Assert.That(rs.Query, Is.Not.Null);
@@ -126,7 +126,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
 
             Assert.That(rs.Query, Is.Not.Null);
@@ -144,7 +144,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
 
             Assert.That(rs.Alteration, Is.Not.Null);
@@ -163,7 +163,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
 
             Assert.That(rs.Alteration, Is.Not.Null);
@@ -188,7 +188,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
 
             Assert.That(rs.Alteration, Is.Not.Null);

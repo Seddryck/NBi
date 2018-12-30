@@ -42,6 +42,22 @@ namespace NBi.Testing.Unit.Xml.Items
         }
 
         [Test]
+        public void Deserialize_SampleFile_ConnectionStringLoaded()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<StructureXml>());
+            Assert.That(((StructureXml)ts.Tests[testNr].Systems[0]).Item, Is.TypeOf<HierarchiesXml>());
+
+            HierarchiesXml item = (HierarchiesXml)((StructureXml)ts.Tests[testNr].Systems[0]).Item;
+            Assert.That(item.ConnectionString, Is.EqualTo("connStr"));
+        }
+
+        [Test]
         public void Deserialize_SampleFile_DisplayFolderLoaded()
         {
             int testNr = 1;

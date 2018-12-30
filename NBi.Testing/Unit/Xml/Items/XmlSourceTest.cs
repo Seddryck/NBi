@@ -34,7 +34,7 @@ namespace NBi.Testing.Unit.Xml.Items
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EqualToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
             Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).BaseItem, Is.TypeOf<XmlSourceXml>());
         }
 

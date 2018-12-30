@@ -8,10 +8,10 @@
   <test name="decoration with setup and cleanup">
     <setup>
       <table-reset  name="Users"
-					connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"/>
+					connection-string="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"/>
       <table-load   name="Users"
 					file ="Users.csv"
-					connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"/>
+					connection-string="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2012;Integrated Security=true"/>
       <sql-run name="MySQLtoRun.sql" version="SqlServer2016" />
       <sql-run name="MySQLtoRun.sql" />
     </setup>
@@ -274,7 +274,7 @@
     </test>
     <test name="Wait connection Power BI">
       <setup>
-        <connection-wait timeout-milliseconds="30000" connectionString="pbix = My Solution"/>
+        <connection-wait timeout-milliseconds="30000" connection-string="pbix = My Solution"/>
       </setup>
       <system-under-test>
         <execution>
@@ -289,7 +289,7 @@
   <group name="sql manipulation">
     <test name="sql run">
       <setup>
-        <sql-run path="Batches\" name="build.sql" connectionString="Data source=(local);Initial Catalog=MyDB"/>
+        <sql-run path="Batches\" name="build.sql" connection-string="Data source=(local);Initial Catalog=MyDB"/>
         <sql-run name="import.sql"/>
       </setup>
       <system-under-test>

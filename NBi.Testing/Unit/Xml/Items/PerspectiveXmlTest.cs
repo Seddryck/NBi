@@ -35,7 +35,7 @@ namespace NBi.Testing.Unit.Xml.Items
 
 
         [Test]
-        public void Serialize_PerspectiveXml_NoDefaultAndSettings()
+        public void Serialize_PerspectiveXml_WithDefaultAndSettings()
         {
             var perspectiveXml = new PerspectiveXml()
             {
@@ -64,6 +64,30 @@ namespace NBi.Testing.Unit.Xml.Items
             Assert.That(content, Is.Not.StringContaining("efault"));
             Assert.That(content, Is.Not.StringContaining("eference"));
             Assert.That(content, Is.Not.StringContaining("owner"));
+        }
+
+        [Test]
+        public void Serialize_PerspectiveXml_WithoutDefaultAndSettings()
+        {
+            var perspectiveXml = new PerspectiveXml()
+            {
+                Caption = "My Caption",
+                ConnectionString = "connStr"
+            };
+
+            var serializer = new XmlSerializer(typeof(PerspectiveXml));
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream, Encoding.UTF8);
+            serializer.Serialize(writer, perspectiveXml);
+            var content = Encoding.UTF8.GetString(stream.ToArray());
+            writer.Close();
+            stream.Close();
+
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("My Caption"));
+            Assert.That(content, Is.Not.StringContaining("connectionString"));
+            Assert.That(content, Is.StringContaining("connection-string"));
         }
 
         [Test]

@@ -4,7 +4,7 @@
     <connectionString>myDefaultConnectionString</connectionString>
   </default>
   <reference name="olap">
-    <connectionString>myReferenceConnectionString</connectionString>
+    <connection-string>myReferenceConnectionString</connection-string>
     <regex>[AZ-az]</regex>
   </reference>
   <csv-profile field-separator="Tab" record-separator="CrLf"/>

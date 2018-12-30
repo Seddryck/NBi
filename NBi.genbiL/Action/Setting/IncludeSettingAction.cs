@@ -1,4 +1,5 @@
 ﻿using NBi.Xml;
+using NBi.Xml.SerializationOption;
 using NBi.Xml.Settings;
 using System;
 using System.Collections.Generic;
@@ -34,11 +35,13 @@ namespace NBi.GenbiL.Action.Setting
             {
                 var str = reader.ReadToEnd();
                 var standalone = XmlDeserializeFromString<SettingsStandaloneXml>(str);
-                var settings = new SettingsXml();
-                settings.Defaults = standalone.Defaults;
-                settings.References = standalone.References;
-                settings.ParallelizeQueries = standalone.ParallelizeQueries;
-                settings.CsvProfile = standalone.CsvProfile;
+                var settings = new SettingsXml()
+                {
+                    Defaults = standalone.Defaults,
+                    References = standalone.References,
+                    ParallelizeQueries = standalone.ParallelizeQueries,
+                    CsvProfile = standalone.CsvProfile,
+                };
                 return settings;
             }
         }
@@ -50,7 +53,10 @@ namespace NBi.GenbiL.Action.Setting
 
         protected object XmlDeserializeFromString(string objectData, Type type)
         {
-            var serializer = new XmlSerializer(type);
+            var overrides = new ReadOnlyAttributes();
+            overrides.Build();
+
+            var serializer = new XmlSerializer(type, overrides);
             object result;
 
             using (TextReader reader = new StringReader(objectData))

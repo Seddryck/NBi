@@ -21,7 +21,8 @@ namespace NBi.Core.Scalar.Comparer
 
         public static Tolerance Instantiate(ColumnType type, string value)
         {
-            
+            if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
+                return None(type);
 
             Tolerance tolerance=null;
             switch (type)

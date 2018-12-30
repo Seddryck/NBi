@@ -775,6 +775,40 @@ namespace NBi.Testing.Unit.NUnit
         }
 
         [Test]
+        public void IsHandling_ExecutionEqualToOld_True()
+        {
+            var sutXml = new ExecutionXml();
+            var ctrXml = new EqualToOldXml();
+            var testCaseFactory = new TestCaseFactory();
+
+            var actual = testCaseFactory.IsHandling(sutXml.GetType(), ctrXml.GetType());
+
+            Assert.That(actual, Is.True);
+        }
+
+        [Test]
+        public void Instantiate_ExecutionEqualToOld_TestCase()
+        {
+            var sutXml = new ExecutionXml();
+            var ctrXml = new EqualToOldXml();
+
+            var builderMockFactory = new Mock<ITestCaseBuilder>();
+            builderMockFactory.Setup(b => b.Setup(sutXml, ctrXml, NBi.Core.Configuration.Configuration.Default, It.IsAny<Dictionary<string, ITestVariable>>(), It.IsAny<ServiceLocator>()));
+            builderMockFactory.Setup(b => b.Build());
+            builderMockFactory.Setup(b => b.GetSystemUnderTest()).Returns(new RelationalCommand(new SqlCommand(), null, null));
+            builderMockFactory.Setup(b => b.GetConstraint()).Returns(new IsConstraint("x"));
+            var builder = builderMockFactory.Object;
+
+            var testCaseFactory = new TestCaseFactory();
+            testCaseFactory.Register(typeof(ExecutionXml), typeof(EqualToOldXml), builder);
+
+            var tc = testCaseFactory.Instantiate(sutXml, ctrXml);
+
+            Assert.That(tc, Is.Not.Null);
+            builderMockFactory.VerifyAll();
+        }
+
+        [Test]
         public void Instantiate_ScalarScoreExists_TestCase()
         {
             var sutXml = new ScalarXml();

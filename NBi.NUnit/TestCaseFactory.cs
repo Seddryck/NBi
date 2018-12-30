@@ -95,7 +95,7 @@ namespace NBi.NUnit
         internal void Register(Type sutType, Type ctrType, ITestCaseBuilder builder)
         {
             if (IsHandling(sutType, ctrType))
-                registrations.FirstOrDefault(reg => reg.SystemUnderTestType.Equals(sutType) && reg.ConstraintType.Equals(ctrType)).Builder = builder;
+                registrations.FirstOrDefault(reg => IsRegistered(reg, sutType, ctrType)).Builder = builder;
             else
                 registrations.Add(new BuilderRegistration(sutType, ctrType, builder));
         }
@@ -108,11 +108,11 @@ namespace NBi.NUnit
                 registrations.Add(new BuilderRegistration(sutType, ctrType, chooser));
         }
 
-        internal bool IsHandling(Type sutType, Type ctrType)
-        {
-            var existing = registrations.FirstOrDefault(reg => reg.SystemUnderTestType.Equals(sutType) && reg.ConstraintType.Equals(ctrType));
-            return (existing != null);
-        }
+        internal bool IsHandling(Type sutType, Type ctrType) => registrations.Any(reg => IsRegistered(reg, sutType, ctrType));
+
+        private bool IsRegistered(BuilderRegistration reg, Type sutType, Type ctrType) 
+            => (reg.SystemUnderTestType.Equals(sutType) || reg.SystemUnderTestType.Name == sutType.Name.Replace("OldXml", "Xml"))
+                    && (reg.ConstraintType.Equals(ctrType) || reg.ConstraintType.Name == ctrType.Name.Replace("OldXml", "Xml"));
 
         internal class BuilderRegistration
         {
@@ -157,7 +157,7 @@ namespace NBi.NUnit
             ITestCaseBuilder builder = null;
 
             //Look for registration ...
-            var registration = registrations.FirstOrDefault(reg => sutXml.GetType() == reg.SystemUnderTestType && ctrXml.GetType() == reg.ConstraintType);
+            var registration = registrations.FirstOrDefault(reg => IsRegistered(reg, sutXml.GetType(), ctrXml.GetType()));
             if (registration == null)
                 throw new ArgumentException(string.Format("'{0}' is not an expected type for a constraint with a system-under-test '{1}'.", ctrXml.GetType().Name, sutXml.GetType().Name));
 

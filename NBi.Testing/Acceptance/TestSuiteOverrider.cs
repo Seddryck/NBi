@@ -91,7 +91,7 @@ namespace NBi.Testing.Acceptance
         public void ExecuteTestCases(TestXml test, string testName, IConfiguration configuration)
         {
             base.Configuration = configuration;
-            base.ExecuteTestCases(test, testName, null);
+            base.ExecuteTestCases(test, testName, new Dictionary<string, ITestVariable>());
         }
     }
 }

@@ -81,7 +81,7 @@ namespace NBi.NUnit.Runtime
         }
 
         [Test, TestCaseSource("GetTestCases")]
-        public virtual void ExecuteTestCases(TestXml test, TestCaseData testCaseData, IDictionary<string, ITestVariable> localVariables)
+        public virtual void ExecuteTestCases(TestXml test, string testName, IDictionary<string, ITestVariable> localVariables)
         {
             if (ConfigurationProvider != null)
             {
@@ -111,7 +111,7 @@ namespace NBi.NUnit.Runtime
             }
             else
             {
-                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Running test '{testCaseData.TestName}' #{test.UniqueIdentifier}");
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Running test '{testName}' #{test.UniqueIdentifier}");
                 ExecuteChecks(test.Condition);
                 ExecuteSetup(test.Setup);
                 var allVariables = Variables.Union(localVariables).ToDictionary(x => x.Key, x=>x.Value);
@@ -346,11 +346,9 @@ namespace NBi.NUnit.Runtime
                 // For each instance create a test-case
                 foreach (var instance in instances)
                 {
-                    TestCaseData testCaseDataNUnit = new TestCaseData(test, instance.Variables);
-                    if (instance.IsDefault)
-                        testCaseDataNUnit.SetName($"{test.GetName()}");
-                    else
-                        testCaseDataNUnit.SetName($"{test.GetName()} ({instance.GetName()})");
+
+                    var testName = instance.IsDefault ? $"{test.GetName()}" : $"{test.GetName()} ({instance.GetName()})";
+                    var testCaseDataNUnit = new TestCaseData(test, testName, instance.Variables);
 
                     testCaseDataNUnit.SetDescription(test.Description);
                     foreach (var category in test.Categories)

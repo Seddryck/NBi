@@ -10,6 +10,9 @@ namespace NBi.Core.Scalar.Comparer
 
         public static Tolerance Instantiate(IColumnDefinition columnDefinition)
         {
+            if (string.IsNullOrEmpty(columnDefinition.Tolerance) || string.IsNullOrWhiteSpace(columnDefinition.Tolerance))
+                return null;
+
             if (columnDefinition.Role != ColumnRole.Value)
                 throw new ArgumentException("The ColumnDefinition must have have a role defined as 'Value' and is defined as 'Key'", "columnDefinition");
 
@@ -18,8 +21,7 @@ namespace NBi.Core.Scalar.Comparer
 
         public static Tolerance Instantiate(ColumnType type, string value)
         {
-            if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
-                return null;
+            
 
             Tolerance tolerance=null;
             switch (type)

@@ -133,19 +133,21 @@ Currently, you cannot assemble native transformations, it means that you're limi
 * ```empty-to-null```: if the current content of the cell is ```empty``` (length=0) replace the content by ```(null)```
 * ```null-to-empty```: if the current content of the cell is ```null``` replace the content by ```(empty)```
 * ```null-to-value```: if the current content of the cell is ```null``` replace the content by ```(value)```
-* ```any-to-any```: replaces the content of the cell by ```(any)```
+* ```any-to-any```: replaces the content of each cell by ```(any)```
 * ```value-to-value```: if the cell's value is not ```null``` will replace the content by ```(value)```
 * ```text-to-without-diacritics```: if the current cell's value contains any accents or diacritics, they are removed
+* ```text-to-without-whitespaces```: removes blanks from anywhere within the cell. If the cell is ```null```, it returns ```null``` but if ```empty``` or ```blank```, it returns ```empty```.
 * ```text-to-upper```: returns a copy of this text converted to uppercase
 * ```text-to-lower```: returns a copy of this text converted to lowercase
 * ```html-to-text```: decodes the html to text
 * ```text-to-html```: encodes the content to html
 * ```text-to-trim```: removes blanks from the beginning and end of the cell.
 * ```text-to-length```: returns the length of the *text* value of the cell. If the cell is ```null``` or ```empty```, it returns 0.
-* ```null-to-zero```: if the cell is ```null``` or ```empty```, it replaces the content by ```0```.
-* ```numeric-to-floor```: returns the largest integral value less than or equal to the specified number.
-* ```numeric-to-ceiling```: returns the smallest integral value greater than or equal to the specified number.
-* ```numeric-to-integer```: rounds a value to the nearest integer.
+* ```text-to-token-count```: returns the count of tokens. A token is considered as one or more letter or digit or hyphen seperated by one or more whitespace. If the cell is ```null``` or ```empty``` or ```blank```, it returns 0.
+* ```null-to-zero```: if the cell is ```null``` or ```empty``` or ```blank```, it replaces the content by ```0```.
+* ```numeric-to-floor```: returns the largest integral value less than or equal to the specified number. If the cell is ```null``` or ```empty``` or ```blank```, it returns ```null```.
+* ```numeric-to-ceiling```: returns the smallest integral value greater than or equal to the specified number. If the cell is ```null``` or ```empty``` or ```blank```, it returns ```null```.
+* ```numeric-to-integer```: rounds a value to the nearest integer. If the cell is ```null``` or ```empty``` or ```blank```, it returns ```null```.
 * ```date-to-age```: returns the age according to the *dateTime* value of the cell at the moment of execution of the test.
 * ```dateTime-to-date```: remove information about the time (equivalent to set the dateTime to midnight)
 

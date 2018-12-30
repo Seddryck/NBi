@@ -27,6 +27,9 @@ namespace NBi.Core.Scalar.Duration
             if (str.EndsWith("year") || str.EndsWith("years"))
                 return new YearDuration(ParseValue(str));
 
+            if (str.EndsWith("day") || str.EndsWith("days"))
+                return new FixedDuration(new TimeSpan(ParseValue(str),0,0,0));
+
             var ts = TimeSpan.Parse(str, culture.DateTimeFormat);
             return new FixedDuration(ts);
         }

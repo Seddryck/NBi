@@ -28,7 +28,7 @@ namespace NBi.Testing.Unit.Core.Scalar.Duration
         [TestCase(1, "1 month")]
         [TestCase(2, "2 months")]
         [TestCase(10, "10 months")]
-        public void ConvertTo_ValidStringMonth_yearDuration(int value, string expected)
+        public void ConvertTo_MonthDuration_StringMonth(int value, string expected)
         {
             var converter = new DurationConverter();
             var converted = converter.ConvertTo(new MonthDuration(value), typeof(string));
@@ -42,7 +42,7 @@ namespace NBi.Testing.Unit.Core.Scalar.Duration
         [TestCase("2 year", 2)]
         [TestCase("2 years", 2)]
         [TestCase("10 years", 10)]
-        public void ConvertFrom_ValidStringyear_yearDuration(string value, int expected)
+        public void ConvertFrom_ValidStringYear_YearDuration(string value, int expected)
         {
             var converter = new DurationConverter();
             var converted = converter.ConvertFrom(value);
@@ -55,10 +55,39 @@ namespace NBi.Testing.Unit.Core.Scalar.Duration
         [TestCase(1, "1 year")]
         [TestCase(2, "2 years")]
         [TestCase(10, "10 years")]
-        public void ConvertTo_ValidStringYear_yearDuration(int value, string expected)
+        public void ConvertTo_YearDuration_StringYear(int value, string expected)
         {
             var converter = new DurationConverter();
             var converted = converter.ConvertTo(new YearDuration(value), typeof(string));
+
+            Assert.That(converted, Is.TypeOf<string>());
+            Assert.That(converted, Is.EqualTo(expected));
+        }
+
+        [TestCase("1 day", 24)]
+        [TestCase("3 days", 72)]
+        [TestCase("1.00:00:00", 24)]
+        [TestCase("1.01:00:00", 25)]
+        [TestCase("02:00:00", 2)]
+        [TestCase("17:00:00", 17)]
+        public void ConvertFrom_ValidStringDuration_TotalHours(string value, int expected)
+        {
+            var converter = new DurationConverter();
+            var converted = converter.ConvertFrom(value);
+
+            Assert.That(converted, Is.AssignableTo<IDuration>());
+            Assert.That(converted, Is.TypeOf<FixedDuration>());
+            Assert.That((converted as FixedDuration).TimeSpan.TotalHours, Is.EqualTo(expected));
+        }
+
+        [TestCase(1, "01:00:00")]
+        [TestCase(2, "02:00:00")]
+        [TestCase(24, "1.00:00:00")]
+        [TestCase(56, "2.08:00:00")]
+        public void ConvertTo_TotalHours_FixedDuration(int value, string expected)
+        {
+            var converter = new DurationConverter();
+            var converted = converter.ConvertTo(new FixedDuration(new TimeSpan(0, value, 0, 0)), typeof(string));
 
             Assert.That(converted, Is.TypeOf<string>());
             Assert.That(converted, Is.EqualTo(expected));

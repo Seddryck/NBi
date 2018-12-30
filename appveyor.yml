@@ -1,0 +1,48 @@
+version: build.{build}
+image: Visual Studio 2017
+init:
+- cmd: git config --global core.autocrlf true
+before_build:
+- cmd: >-
+    gitversion /l console /output buildserver /updateAssemblyInfo
+
+    nuget restore
+build:
+  verbosity: minimal
+before_package:
+- cmd: clone-extensions.cmd
+after_build:
+- ps: >-
+    .\NBi.Core.SqlServer\build-multiple-version.ps1 @("2008R2", "2012", "2014", "2016", "2017", "2019")
+
+    $nuget_version = "$env:GitVersion_NuGetVersionV2"
+
+    .\.packages\package-NBi.ps1 $nuget_version
+test_script:
+- cmd: nunit-console-x86 NBi.Testing\bin\debug\NBi.Testing.dll /exclude:Acceptance,Olap,Etl,WindowsService,ReportServerDB,LocalSQL
+artifacts:
+- path: NBi.NUnit.Runtime\bin\Debug
+  name: Framework
+- path: NBi.UI.Genbi\bin\Debug
+  name: UI
+- path: Extensions\genbil
+  name: TextMate Bundle
+- path: .nupkg\NBi.*.nupkg
+  name: Nuget packages
+deploy:
+- provider: NuGet
+  api_key:
+    secure: 7LDAnpfRuEmLf/4hhERYnfy3tHLBqC7wqScUEviYVYkNvrM7C3NN0h73se3QuoNh
+  on:
+    branch: develop
+- provider: NuGet
+  api_key:
+    secure: 7LDAnpfRuEmLf/4hhERYnfy3tHLBqC7wqScUEviYVYkNvrM7C3NN0h73se3QuoNh
+  on:
+    APPVEYOR_REPO_TAG: true
+- provider: NuGet
+  server: https://www.myget.org/F/nbi-framework/api/v2/package
+  api_key:
+    secure: +E89GuWTCkM1DpiRGoO3oRLIvLIjb8aPsHqNvga0ID/xdUx0cvDjI7XVdF12rmEm
+  on:
+    branch: /^(develop|feature\/.+|hotfix\/.+)$/

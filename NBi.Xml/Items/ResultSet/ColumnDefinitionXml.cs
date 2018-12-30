@@ -41,7 +41,7 @@ namespace NBi.Xml.Items.ResultSet
         [XmlIgnore()]
         public bool IsToleranceSpecified
         {
-            get => string.IsNullOrEmpty(Tolerance);
+            get => !string.IsNullOrEmpty(Tolerance);
         }
 
         [XmlIgnore()]

@@ -307,6 +307,7 @@
     <Compile Include="Unit\Core\ResultSet\Lookup\LookupExistsAnalyzerTest.cs" />
     <Compile Include="Unit\Core\Scalar\Casting\NumericCasterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\CellComparerTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Comparer\ToleranceFactoryTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\TextToleranceFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\Resolver\ReportDataSetQueryResolverTest.cs" />
     <Compile Include="Unit\Core\Query\Resolver\SharedDataSetQueryResolverTest.cs" />

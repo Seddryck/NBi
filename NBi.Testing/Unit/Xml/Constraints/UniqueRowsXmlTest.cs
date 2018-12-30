@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.IO;
+using System.Collections.Generic;
 using System.Reflection;
 using NBi.Xml;
 using NBi.Xml.Constraints;
@@ -7,6 +8,7 @@ using NUnit.Framework;
 using System.Xml.Serialization;
 using System.Text;
 using System.Diagnostics;
+using NBi.Xml.Items.ResultSet;
 #endregion
 
 namespace NBi.Testing.Unit.Xml.Constraints
@@ -86,6 +88,60 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Debug.WriteLine(content);
 
             Assert.That(content, Is.StringContaining("<unique-rows />"));
+        }
+
+        [Test]
+        public void Serialize_UniqueRowsWithColumnName_CorrectConstraint()
+        {
+            var uniqueRows = new UniqueRowsXml()
+            {
+                Columns = new List<ColumnDefinitionXml>() { new ColumnDefinitionXml() { Name = "myName" } }
+
+            };
+
+            var testXml = new TestXml();
+            testXml.Constraints.Add(uniqueRows);
+
+            var serializer = new XmlSerializer(typeof(TestXml));
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream, Encoding.UTF8);
+            serializer.Serialize(writer, testXml);
+            var content = Encoding.UTF8.GetString(stream.ToArray());
+            writer.Close();
+            stream.Close();
+
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("name="));
+            Assert.That(content, Is.StringContaining("myName"));
+            Assert.That(content, Is.Not.StringContaining("index="));
+        }
+
+        [Test]
+        public void Serialize_UniqueRowsWithColumnIndex_CorrectConstraint()
+        {
+            var uniqueRows = new UniqueRowsXml()
+            {
+                Columns = new List<ColumnDefinitionXml>() { new ColumnDefinitionXml() { Index = 0 } }
+
+            };
+
+            var testXml = new TestXml();
+            testXml.Constraints.Add(uniqueRows);
+
+            var serializer = new XmlSerializer(typeof(TestXml));
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream, Encoding.UTF8);
+            serializer.Serialize(writer, testXml);
+            var content = Encoding.UTF8.GetString(stream.ToArray());
+            writer.Close();
+            stream.Close();
+
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("index="));
+            Assert.That(content, Is.StringContaining("0"));
+            Assert.That(content, Is.Not.StringContaining("name="));
         }
     }
 }

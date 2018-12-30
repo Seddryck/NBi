@@ -82,6 +82,8 @@ namespace NBi.Testing.Acceptance.GenbiL
 
             Assert.That(content, Is.StringContaining("<csv-profile"));
             Assert.That(content, Is.StringContaining("field-separator=\"Tab\""));
+            Assert.That(content, Is.Not.StringContaining("<MissingCell"));
+            Assert.That(content, Is.Not.StringContaining("<EmptyCell"));
         }
 
     }

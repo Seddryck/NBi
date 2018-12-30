@@ -346,9 +346,10 @@ namespace NBi.NUnit.Runtime
                 // For each instance create a test-case
                 foreach (var instance in instances)
                 {
-
                     var testName = instance.IsDefault ? $"{test.GetName()}" : $"{test.GetName()} ({instance.GetName()})";
+                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Loading test named: {testName}");
                     var testCaseDataNUnit = new TestCaseData(test, testName, instance.Variables);
+                    testCaseDataNUnit.SetName(testName);
 
                     testCaseDataNUnit.SetDescription(test.Description);
                     foreach (var category in test.Categories)

@@ -333,6 +333,7 @@
     <Compile Include="Unit\Core\ResultSet\Lookup\LookupExistsAnalyzerTest.cs" />
     <Compile Include="Unit\Core\Scalar\Casting\NumericCasterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\CellComparerTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Comparer\ToleranceFactoryTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\TextToleranceFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\Resolver\ReportDataSetQueryResolverTest.cs" />
     <Compile Include="Unit\Core\Query\Resolver\SharedDataSetQueryResolverTest.cs" />
@@ -529,6 +530,7 @@
     <Compile Include="Unit\Xml\Items\RoutineXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\SetXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\TablesXmlTest.cs" />
+    <Compile Include="Unit\Xml\Settings\CsvProfileXmlTest.cs" />
     <Compile Include="Unit\Xml\Systems\DataTypeXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\XmlSourceTest.cs" />
     <Compile Include="Unit\Xml\Systems\ResultSetSystemXmlTest.cs" />

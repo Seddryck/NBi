@@ -31,13 +31,13 @@ namespace NBi.Core.Calculation
             return Apply(rs, (x => x));
         }
 
-        protected ResultSet.ResultSet Apply(ResultSet.ResultSet rs, Func<bool,bool> onApply)
+        protected ResultSet.ResultSet Apply(ResultSet.ResultSet rs, Func<bool, bool> onApply)
         {
             var filteredRs = new ResultSet.ResultSet();
             var table = rs.Table.Clone();
             filteredRs.Load(table);
             filteredRs.Table.Clear();
-            
+
             foreach (DataRow row in rs.Rows)
             {
                 if (onApply(RowApply(row)))
@@ -74,11 +74,11 @@ namespace NBi.Core.Calculation
             }
 
             var name = (identifier as ColumnNameIdentifier).Name;
-            var alias = aliases.SingleOrDefault(x => x.Name == name);
+            var alias = aliases.SingleOrDefault(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
             if (alias != null)
                 return row.ItemArray[alias.Column];
 
-            var expression = expressions.SingleOrDefault(x => x.Name == name);
+            var expression = expressions.SingleOrDefault(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
             if (expression != null)
             {
                 var result = EvaluateExpression(expression, row);
@@ -88,16 +88,20 @@ namespace NBi.Core.Calculation
                     var newColumn = new DataColumn(expColumnName, typeof(object));
                     row.Table.Columns.Add(newColumn);
                 }
-                    
+
                 row[expColumnName] = result;
                 return result;
             }
 
-            var column = row.Table.Columns.Cast<DataColumn>().SingleOrDefault(x => x.ColumnName == name);
+            var column = row.Table.Columns.Cast<DataColumn>().SingleOrDefault(x => string.Equals(x.ColumnName, name, StringComparison.OrdinalIgnoreCase));
             if (column != null)
                 return row[column.ColumnName];
 
-            throw new ArgumentException($"The value '{name}' is not recognized as a column name or a column position or a column alias or an expression."); 
+            var existingNames = row.Table.Columns.Cast<DataColumn>().Select(x => x.ColumnName)
+                .Union(aliases.Select(x => x.Name)
+                .Union(expressions.Select(x => x.Name)));
+
+            throw new ArgumentException($"The value '{name}' is not recognized as a column position, a column name, a column alias or an expression. Possible arguments are: '{string.Join("', '", existingNames.ToArray())}'");
         }
 
         protected object EvaluateExpression(IColumnExpression expression, DataRow row)
@@ -107,7 +111,7 @@ namespace NBi.Core.Calculation
 
             exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
             {
-                args.Result=GetValueFromRow(row, factory.Instantiate(name));
+                args.Result = GetValueFromRow(row, factory.Instantiate(name));
             };
 
             return exp.Evaluate();

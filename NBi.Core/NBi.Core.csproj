@@ -656,6 +656,8 @@
     <Compile Include="Transformation\Transformer\Native\NullToValue.cs" />
     <Compile Include="Transformation\Transformer\Native\TextToLength.cs" />
     <Compile Include="Transformation\Transformer\Native\HtmlToText.cs" />
+    <Compile Include="Transformation\Transformer\Native\TextToTokenCount.cs" />
+    <Compile Include="Transformation\Transformer\Native\TextToWithoutWhitespaces.cs" />
     <Compile Include="Transformation\Transformer\Native\TextToWithoutDiacritics.cs" />
     <Compile Include="Transformation\Transformer\Native\TextToUpper.cs" />
     <Compile Include="Transformation\Transformer\Native\TextToLower.cs" />

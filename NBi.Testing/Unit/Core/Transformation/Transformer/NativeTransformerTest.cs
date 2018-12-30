@@ -282,6 +282,43 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         }
 
         [Test]
+        [TestCase("My taylor is rich", "Mytaylorisrich")]
+        [TestCase(" My Lord ! ", "MyLord!")]
+        [TestCase("My Lord !\r\nMy taylor is \t rich", "MyLord!Mytaylorisrich")]
+        [TestCase("(null)", null)]
+        [TestCase(null, null)]
+        [TestCase("(empty)", "(empty)")]
+        [TestCase("(blank)", "(empty)")]
+        public void Execute_Whitespace_Valid(object value, string expected)
+        {
+            var code = "text-to-without-whitespaces";
+            var provider = new NativeTransformer<string>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("My taylor is rich", 4)]
+        [TestCase(" My Lord ! ", 2)]
+        [TestCase("  My     Lord    !   ", 2)]
+        [TestCase("  My     Lord    !   C.", 3)]
+        [TestCase("(null)", 0)]
+        [TestCase(null, 0)]
+        [TestCase("(empty)", 0)]
+        [TestCase("(blank)", 0)]
+        public void Execute_TokenCount_Valid(object value, int expected)
+        {
+            var code = "text-to-token-count";
+            var provider = new NativeTransformer<string>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
         [TestCase("2018-02-01 00:00:00", "2018-02-01 01:00:00")]
         [TestCase("2018-08-01 00:00:00", "2018-08-01 02:00:00")]
         public void Execute_UtcToLocalWithStandardName_Valid(object value, DateTime expected)

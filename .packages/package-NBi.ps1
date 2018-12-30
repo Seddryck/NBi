@@ -30,6 +30,9 @@ foreach($proj in $projects)
 Write-Host "Found $($dependencies.Count) dependencies ..."
 $depList = $dependencies.Values -join [Environment]::NewLine + "`t`t"
 
+$thisYear = get-date -Format yyyy
+Write-Host "Setting copyright until $thisYear"
+
 #For NBi.Framework (dll)
 Write-Host "Packaging NBi.Framework"
 $lib = "$root\NBi.Framework\lib\net461\"
@@ -44,8 +47,11 @@ Copy-Item $root\..\NBi.Testing\bin\Debug\NBi.Testing.dll $lib
 
 Write-Host "Setting .nuspec version tag to $version"
 
+
+
 $content = (Get-Content $root\NBi.Framework\NBi.Framework.nuspec -Encoding UTF8) 
 $content = $content -replace '\$version\$',$version
+$content = $content -replace '\$thisYear\$',$thisYear
 $content = $content -replace '\$depList\$',$depList
 
 $content | Out-File $root\NBi.Framework\NBi.Framework.compiled.nuspec -Encoding UTF8
@@ -68,6 +74,7 @@ Write-Host "Setting .nuspec version tag to $version"
 
 $content = (Get-Content $root\NBi.Framework.Tools\NBi.Framework.Tools.nuspec -Encoding UTF8) 
 $content = $content -replace '\$version\$',$version
+$content = $content -replace '\$thisYear\$',$thisYear
 $content = $content -replace '\$depList\$',$depList
 
 $content | Out-File $root\NBi.Framework.Tools\NBi.Framework.Tools.compiled.nuspec -Encoding UTF8
@@ -90,6 +97,7 @@ Write-Host "Setting .nuspec version tag to $version"
 
 $content = (Get-Content $root\NBi.Extensibility\NBi.Extensibility.nuspec -Encoding UTF8) 
 $content = $content -replace '\$version\$',$version
+$content = $content -replace '\$thisYear\$',$thisYear
 
 $content | Out-File $root\NBi.Extensibility\NBi.Extensibility.compiled.nuspec -Encoding UTF8
 

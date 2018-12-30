@@ -316,6 +316,7 @@
     <Compile Include="Unit\Core\ResultSet\Conversion\ConverterEngineTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetServiceTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Uniqueness\OrdinalUniqueRowsEvaluatorTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Duration\DurationConverterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Format\InvariantFormatterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Interval\DateTimeIntervalBuilderTest.cs" />
     <Compile Include="Unit\Core\ResultSet\JsonResultSetTest.cs" />
@@ -353,6 +354,13 @@
     <Compile Include="Integration\Core\Scalar\Resolver\QueryScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\ScalarResolverFactoryTest.cs" />
     <Compile Include="Unit\Core\Scalar\ScalarComparerTest.cs" />
+    <Compile Include="Unit\Core\Sequence\Resolver\LoopSequenceResolverTest.cs" />
+    <Compile Include="Unit\Core\Sequence\Resolver\ListSequenceResolverTest.cs" />
+    <Compile Include="Unit\Core\Sequence\Resolver\Loop\SentinelNumericLoopStrategyTest.cs" />
+    <Compile Include="Unit\Core\Sequence\Resolver\Loop\SentinelDateTimeLoopStrategyTest.cs" />
+    <Compile Include="Unit\Core\Sequence\Resolver\Loop\CountDateTimeLoopStrategyTest.cs" />
+    <Compile Include="Unit\Core\Sequence\Resolver\Loop\CountNumericLoopStrategyTest.cs" />
+    <Compile Include="Unit\Core\Sequence\Resolver\SequenceResolverFactory.cs" />
     <Compile Include="Unit\Core\SqlServer\Smo\SmoBatchRunnerFactoryTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\HierarchyDiscoveryCommandBuilderTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\MeasureDiscoveryCommandBuilderTest.cs" />
@@ -366,7 +374,7 @@
     <Compile Include="Unit\Core\Transformation\TransformerFactoryTest.cs" />
     <Compile Include="Unit\Core\Transformation\Transformer\CSharpTransformerTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\CSharpScalarResolverTest.cs" />
-    <Compile Include="Unit\Core\Variable\TestVariableFactoryTest.cs" />
+    <Compile Include="Unit\Core\Variable\VariableFactoryTest.cs" />
     <Compile Include="Unit\Core\Xml\XPathEngineTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\DataRowsMessageJsonTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\ScoreMessageJsonTest.cs" />
@@ -528,7 +536,10 @@
     <Compile Include="Unit\NUnit\TestCaseFactoryTest.cs" />
     <Compile Include="Unit\Xml\Systems\ExecutionXmlTest.cs" />
     <Compile Include="Unit\Xml\TestSuiteWithVariablesTest.cs" />
+    <Compile Include="Unit\Xml\InstanceSettlingXmlTest.cs" />
     <Compile Include="Unit\Xml\Variables\GlobalVariableXmlTest.cs" />
+    <Compile Include="Unit\Xml\Variables\LocalVariableXmlTest.cs" />
+    <Compile Include="Unit\Xml\Variables\Sequences\SentinelLoopXmlTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerWithExternalSettingsTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerWithDtdTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerTest.cs" />
@@ -704,6 +715,15 @@
     <None Include="Acceptance\GenbiL\Resources\SyntaxOldNew.expected.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <EmbeddedResource Include="Acceptance\Resources\Csv\MyData_2016_02.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Csv\MyData_2016_01.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Csv\MyData_2016_03.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\OrderCountByYear.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -1029,7 +1049,13 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\SentinelLoopXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\LocalVariableXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\InstanceSettlingXmlTestSuite.xml" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Scoring-Json-0001.txt" />
+    <None Include="Acceptance\Resources\Positive\MultipleInstance.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="Acceptance\Resources\Query\ResellerOrderCount.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

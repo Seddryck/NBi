@@ -7,11 +7,9 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Variable
 {
-    public class TestVariableFactory
+    public class GlobalVariable : TestVariable
     {
-        public ITestVariable Instantiate(IScalarResolver<object> resolver)
-        {
-            return new TestVariable(resolver);
-        }
+        public GlobalVariable(IScalarResolver<object> resolver)
+            : base(resolver) { }
     }
 }

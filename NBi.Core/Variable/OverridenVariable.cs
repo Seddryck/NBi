@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Variable
 {
-    public class OverridenTestVariable : ITestVariable
+    public class OverridenVariable : ITestVariable
     {
         private string Name { get; set; }
         private object Value { get; set; }
 
-        public OverridenTestVariable(string name, object value)
+        public OverridenVariable(string name, object value)
         {
             Name = name;
             Value = value;

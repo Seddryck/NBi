@@ -17,8 +17,8 @@ namespace NBi.Testing.Unit.Core.Scalar.Resolver
         {
             var globalVariables = new Dictionary<string, ITestVariable>()
             {
-                { "myVar" , new TestVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10*10"))) },
-                { "otherVar" , new TestVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10+10"))) }
+                { "myVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10*10"))) },
+                { "otherVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10+10"))) }
             };
             var args = new FormatScalarResolverArgs("Twenty = {@otherVar:#0.00}?", globalVariables);
             var resolver = new FormatScalarResolver(args, new ServiceLocator());
@@ -31,7 +31,7 @@ namespace NBi.Testing.Unit.Core.Scalar.Resolver
         {
             var globalVariables = new Dictionary<string, ITestVariable>()
             {
-                { "myVar" , new TestVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("new DateTime(2018,1,1)"))) },
+                { "myVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("new DateTime(2018,1,1)"))) },
             };
             var args = new FormatScalarResolverArgs("First day of 2018 is a {@myVar:dddd}", globalVariables);
             var resolver = new FormatScalarResolver(args, new ServiceLocator());

@@ -131,6 +131,7 @@
     <Compile Include="Decoration\Command\CommandGroupXml.cs" />
     <Compile Include="GroupXml.cs" />
     <Compile Include="InheritanceTestXml.cs" />
+    <Compile Include="InstanceSettlingXml.cs" />
     <Compile Include="Items\Alteration\AlterationXml.cs" />
     <Compile Include="Items\Alteration\Conversion\AbstractConverterXml.cs" />
     <Compile Include="Items\Alteration\Conversion\ConvertXml.cs" />
@@ -260,9 +261,11 @@
     <Compile Include="Systems\ExecutionXml.cs" />
     <Compile Include="TestSuiteXml.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Variables\InstanceVariableXml.cs" />
     <Compile Include="Variables\ScriptXml.cs" />
     <Compile Include="Variables\GlobalVariableXml.cs" />
     <Compile Include="Variables\GlobalVariablesStandaloneXml.cs" />
+    <Compile Include="Variables\Sequence\SentinelLoopXml.cs" />
     <Compile Include="XmlBeautifier.cs" />
     <Compile Include="XmlManager.cs" />
   </ItemGroup>

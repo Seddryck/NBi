@@ -370,5 +370,86 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
 
             Assert.Throws<InvalidOperationException>(delegate { provider.Execute(200); });
         }
+
+        [Test]
+        [TestCase(10, 10)]
+        [TestCase(10.566, 10.566)]
+        [TestCase(null, 0)]
+        [TestCase("", 0)]
+        [TestCase("(null)", 0)]
+        public void Execute_NullToZero_Valid(object value, decimal expected)
+        {
+            var code = "null-to-zero";
+            var provider = new NativeTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase(10.1, 11)]
+        [TestCase(11, 11)]
+        [TestCase(10.5, 11)]
+        [TestCase(10.7, 11)]
+        [TestCase(null, null)]
+        [TestCase("", null)]
+        [TestCase("(null)", null)]
+        public void Execute_NumericToCeiling_Valid(object value, decimal expected)
+        {
+            var code = "numeric-to-ceiling";
+            var provider = new NativeTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            if (expected == 0)
+                Assert.That(result, Is.Null);
+            else
+                Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase(10.1, 10)]
+        [TestCase(11, 11)]
+        [TestCase(10.5, 10)]
+        [TestCase(10.7, 10)]
+        public void Execute_NumericToFloor_Valid(object value, decimal expected)
+        {
+            var code = "numeric-to-floor";
+            var provider = new NativeTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase(10.1, 10)]
+        [TestCase(11, 11)]
+        [TestCase(10.5, 10)]
+        [TestCase(10.7, 11)]
+        public void Execute_NumericToInteger_Valid(object value, decimal expected)
+        {
+            var code = "numeric-to-integer";
+            var provider = new NativeTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase(10.158, 10.16)]
+        [TestCase(11, 11)]
+        [TestCase(10.153, 10.15)]
+        public void Execute_NumericToRound_Valid(object value, decimal expected)
+        {
+            var code = "numeric-to-round(2)";
+            var provider = new NativeTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
     }
 }

@@ -642,6 +642,12 @@
     <Compile Include="Structure\Target.cs" />
     <Compile Include="Transformation\Transformer\FormatTransformer.cs" />
     <Compile Include="Transformation\Transformer\NativeTransformer.cs" />
+    <Compile Include="Transformation\Transformer\Native\NumericToRound.cs" />
+    <Compile Include="Transformation\Transformer\Native\NumericToInteger.cs" />
+    <Compile Include="Transformation\Transformer\Native\NumericToFloor.cs" />
+    <Compile Include="Transformation\Transformer\Native\NumericToCeiling.cs" />
+    <Compile Include="Transformation\Transformer\Native\AbstractNumericToTruncation.cs" />
+    <Compile Include="Transformation\Transformer\Native\NullToZero.cs" />
     <Compile Include="Transformation\Transformer\Native\NullToDate.cs" />
     <Compile Include="Transformation\Transformer\Native\TextToHtml.cs" />
     <Compile Include="Transformation\Transformer\Native\INativeTransformation.cs" />

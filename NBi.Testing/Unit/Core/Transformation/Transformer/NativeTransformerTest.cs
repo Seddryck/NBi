@@ -303,7 +303,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         [TestCase("My taylor is rich", 4)]
         [TestCase(" My Lord ! ", 2)]
         [TestCase("  My     Lord    !   ", 2)]
-        [TestCase("  My     Lord    !   C.", 3)]
+        [TestCase("  My     Lord    !   C-L.", 3)]
         [TestCase("(null)", 0)]
         [TestCase(null, 0)]
         [TestCase("(empty)", 0)]

@@ -150,6 +150,10 @@ Currently, you cannot assemble native transformations, it means that you're limi
 * ```numeric-to-integer```: rounds a value to the nearest integer. If the cell is ```null``` or ```empty``` or ```blank```, it returns ```null```.
 * ```date-to-age```: returns the age according to the *dateTime* value of the cell at the moment of execution of the test.
 * ```dateTime-to-date```: remove information about the time (equivalent to set the dateTime to midnight)
+* ```dateTime-to-first-of-month```: returns the first day of the month where a given date lies in.
+* ```dateTime-to-first-of-year```: returns the first day of the year where a given date lies in.
+* ```dateTime-to-last-of-month```: returns the last day of the month where a given date lies in.
+* ```dateTime-to-last-of-year```: returns the last day of the year where a given date lies in.
 
 The following transformations except parameters to operate. You must replace the information beween parenthesis with a string matching your expectation.
 

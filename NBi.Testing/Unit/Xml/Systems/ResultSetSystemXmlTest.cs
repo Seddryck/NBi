@@ -1,18 +1,24 @@
 ﻿using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Lookup;
 using NBi.Core.Transformation;
 using NBi.Xml;
+using NBi.Xml.Items.Alteration;
 using NBi.Xml.Items.Alteration.Conversion;
+using NBi.Xml.Items.Alteration.Lookup;
 using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.ResultSet;
+using NBi.Xml.Items.ResultSet.Lookup;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace NBi.Testing.Unit.Xml.Systems
 {
@@ -204,6 +210,95 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(rs.Alteration.Transformations[0].Identifier, Is.TypeOf<ColumnOrdinalIdentifier>());
             Assert.That((rs.Alteration.Transformations[0].Identifier as ColumnOrdinalIdentifier).Ordinal, Is.EqualTo(1));
             Assert.That(rs.Alteration.Transformations[0].Code.Trim(), Is.EqualTo("value.EndsWith(\".\") ? value : value + \".\""));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_AlterationLookup()
+        {
+            int testNr = 9;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.Alteration, Is.Not.Null);
+            Assert.That(rs.Alteration.Lookups, Is.Not.Null);
+            Assert.That(rs.Alteration.Lookups, Has.Count.EqualTo(1));
+
+            Assert.That(rs.Alteration.Lookups[0], Is.Not.Null);
+            Assert.That(rs.Alteration.Lookups[0], Is.TypeOf<LookupXml>());
+
+            Assert.That(rs.Alteration.Lookups[0].Missing, Is.TypeOf<MissingXml>());
+            Assert.That(rs.Alteration.Lookups[0].Join, Is.TypeOf<JoinXml>());
+            Assert.That(rs.Alteration.Lookups[0].ResultSet, Is.TypeOf<ResultSetSystemXml>());
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_AlterationLookupMissing()
+        {
+            int testNr = 9;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.Alteration.Lookups[0].Missing, Is.Not.Null);
+            Assert.That(rs.Alteration.Lookups[0].Missing, Is.TypeOf<MissingXml>());
+
+            var missingXml = rs.Alteration.Lookups[0].Missing as MissingXml;
+            Assert.That(missingXml.Behavior, Is.EqualTo(Behavior.Discard));
+        }
+
+        [Test]
+        public void Serialize_Lookup_LookupCorrectlySerialized()
+        {
+            var alteration = new AlterationXml()
+            {
+                Lookups = new List<LookupXml>()
+                {
+                    new LookupXml()
+                    {
+                        Missing = new MissingXml()
+                        {
+                            Behavior = Behavior.Maintain,
+                            DefaultValue = "Not found!",
+                        },
+                        Join = new JoinXml()
+                        {
+                            Mappings = new List<ColumnMappingXml>()
+                        {
+                            new ColumnMappingXml() { Reference = "#0", Candidate = "#1", Type = ColumnType.Text },
+                            new ColumnMappingXml() { Reference = "#2", Candidate = "#5", Type = ColumnType.Numeric },
+                        },
+                        },
+                        ResultSet = new ResultSetSystemXml(),
+                    }
+                }
+            };
+
+            var serializer = new XmlSerializer(alteration.GetType());
+            using (var stream = new MemoryStream())
+            using (var writer = new StreamWriter(stream, Encoding.UTF8))
+            {
+                serializer.Serialize(writer, alteration);
+                var content = Encoding.UTF8.GetString(stream.ToArray());
+
+                Debug.WriteLine(content);
+
+                Assert.That(content, Is.StringContaining("<lookup>"));
+                Assert.That(content, Is.StringContaining("<missing"));
+                Assert.That(content, Is.Not.StringContaining("behavior"));
+                Assert.That(content, Is.StringContaining(">Not found!<"));
+                Assert.That(content, Is.StringContaining("<mapping candidate=\"#1\" reference=\"#0\" />"));
+                Assert.That(content, Is.StringContaining("<mapping candidate=\"#5\" reference=\"#2\" type=\"numeric\" />"));
+                Assert.That(content, Is.StringContaining("<result-set"));
+            }
         }
     }
 }

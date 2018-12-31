@@ -134,4 +134,38 @@
       </equalTo>
     </assert>
   </test>
+  <test name="Transformation lookup" uid="0240">
+    <system-under-test>
+      <resultSet>
+        <query>
+          select 'A' as Id, 1 as FooBarId  union all select 'B', 2 union all select 'C', 2 union all select 'D', 3
+        </query>
+        <alteration>
+          <lookup>
+            <missing behavior="discard"/>
+            <join>
+              <mapping candidate="#1" reference="#0"/>
+            </join>
+            <result-set>
+              <row>
+                <cell>1</cell>
+                <cell>Foo</cell>
+              </row>
+              <row>
+                <cell>2</cell>
+                <cell>Bar</cell>
+              </row>
+            </result-set>
+          </lookup>
+        </alteration>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <equal-to keys="first">
+        <column index="0" type="text" role="key"/>
+        <column index="1" type="text" role="value"/>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </equal-to>
+    </assert>
+  </test>
 </testSuite>

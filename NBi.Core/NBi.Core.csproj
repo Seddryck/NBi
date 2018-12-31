@@ -642,6 +642,7 @@
     <Compile Include="Structure\Target.cs" />
     <Compile Include="Transformation\Transformer\FormatTransformer.cs" />
     <Compile Include="Transformation\Transformer\NativeTransformer.cs" />
+    <Compile Include="Transformation\Transformer\Native\DateTimeToPointInTime.cs" />
     <Compile Include="Transformation\Transformer\Native\NumericToRound.cs" />
     <Compile Include="Transformation\Transformer\Native\NumericToInteger.cs" />
     <Compile Include="Transformation\Transformer\Native\NumericToFloor.cs" />

@@ -17,6 +17,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         [TestCase(" \t")]
         [TestCase(" ")]
         [TestCase("\r\n")]
+        [TestCase("\r\n \t \r  ")]
         public void Execute_BlankToEmpty_Empty(string value)
         {
             var code = "blank-to-empty";
@@ -398,6 +399,83 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
 
             var result = provider.Execute(value);
             Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2018-02-01 00:00:00", "2018-02-01")]
+        [TestCase("2018-02-01 07:00:00", "2018-02-01")]
+        [TestCase("2018-02-12 07:00:00", "2018-02-01")]
+        [TestCase(null, null)]
+        [TestCase("(null)", null)]
+        public void Execute_DateTimeToFirstOfMonth_Valid(object value, DateTime expected)
+        {
+            var code = "dateTime-to-first-of-month";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            if (expected == new DateTime(1, 1, 1))
+                Assert.That(result, Is.Null);
+            else
+                Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2018-02-01 00:00:00", "2018-01-01")]
+        [TestCase("2018-02-01 07:00:00", "2018-01-01")]
+        [TestCase("2018-02-12 07:00:00", "2018-01-01")]
+        [TestCase(null, null)]
+        [TestCase("(null)", null)]
+        public void Execute_DateTimeToFirstOfYear_Valid(object value, DateTime expected)
+        {
+            var code = "dateTime-to-first-of-year";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            if (expected == new DateTime(1, 1, 1))
+                Assert.That(result, Is.Null);
+            else
+                Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2018-02-01 00:00:00", "2018-02-28")]
+        [TestCase("2018-02-01 07:00:00", "2018-02-28")]
+        [TestCase("2018-02-12 07:00:00", "2018-02-28")]
+        [TestCase("2020-02-12 07:00:00", "2020-02-29")]
+        [TestCase(null, null)]
+        [TestCase("(null)", null)]
+        public void Execute_DateTimeToLastOfMonth_Valid(object value, DateTime expected)
+        {
+            var code = "dateTime-to-last-of-month";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            if (expected == new DateTime(1, 1, 1))
+                Assert.That(result, Is.Null);
+            else
+                Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2018-02-01 00:00:00", "2018-12-31")]
+        [TestCase("2018-02-01 07:00:00", "2018-12-31")]
+        [TestCase("2018-02-12 07:00:00", "2018-12-31")]
+        [TestCase(null, null)]
+        [TestCase("(null)", null)]
+        public void Execute_DateTimeToLastOfYear_Valid(object value, DateTime expected)
+        {
+            var code = "dateTime-to-last-of-year";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            if (expected == new DateTime(1, 1, 1))
+                Assert.That(result, Is.Null);
+            else
+                Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]

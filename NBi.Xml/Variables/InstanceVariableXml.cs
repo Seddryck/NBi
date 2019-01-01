@@ -19,5 +19,11 @@ namespace NBi.Xml.Variables
 
         [XmlElement("loop-sentinel")]
         public SentinelLoopXml SentinelLoop { get; set; }
+
+        [XmlElement("item")]
+        public List<string> Items { get; set; } = new List<string>();
+
+        [XmlIgnore]
+        public bool ItemsSpecified { get => Items.Count > 0; set { } }
     }
 }

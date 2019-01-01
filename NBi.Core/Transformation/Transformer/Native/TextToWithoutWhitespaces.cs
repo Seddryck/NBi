@@ -6,25 +6,10 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Transformation.Transformer.Native
 {
-    class TextToWithoutWhitespaces : INativeTransformation
+    class TextToWithoutWhitespaces : AbstractTextToText
     {
-        public object Evaluate(object value)
-        {
-            if (value is string || value == null)
-                return EvaluateString(value as string);
-            else
-                throw new NotImplementedException();
-        }
-
-        private object EvaluateString(string value)
-        {
-            if (string.IsNullOrEmpty(value) || value == "(null)" || value == "(empty)")
-                return value;
-            else if (value == "(blank)")
-                return "(empty)";
-            else
-                return RemoveWhitespaces(value);
-        }
+        protected override object SpecialValue(string value) => value == "(blank)" ? "(empty)" : value;
+        protected override object EvaluateString(string value) => RemoveWhitespaces(value);
 
         private string RemoveWhitespaces(string value)
         {
@@ -43,6 +28,5 @@ namespace NBi.Core.Transformation.Transformer.Native
                 return value;
             }
         }
-
     }
 }

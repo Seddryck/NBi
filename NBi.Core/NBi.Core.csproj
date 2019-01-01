@@ -643,14 +643,10 @@
     <Compile Include="Transformation\Transformer\FormatTransformer.cs" />
     <Compile Include="Transformation\Transformer\NativeTransformer.cs" />
     <Compile Include="Transformation\Transformer\Native\DateTimeToPointInTime.cs" />
-    <Compile Include="Transformation\Transformer\Native\NumericToRound.cs" />
-    <Compile Include="Transformation\Transformer\Native\NumericToInteger.cs" />
-    <Compile Include="Transformation\Transformer\Native\NumericToFloor.cs" />
-    <Compile Include="Transformation\Transformer\Native\NumericToCeiling.cs" />
-    <Compile Include="Transformation\Transformer\Native\AbstractNumericToTruncation.cs" />
+    <Compile Include="Transformation\Transformer\Native\NumericToTruncation.cs" />
     <Compile Include="Transformation\Transformer\Native\NullToZero.cs" />
     <Compile Include="Transformation\Transformer\Native\NullToDate.cs" />
-    <Compile Include="Transformation\Transformer\Native\TextToHtml.cs" />
+    <Compile Include="Transformation\Transformer\Native\TextToText.cs" />
     <Compile Include="Transformation\Transformer\Native\INativeTransformation.cs" />
     <Compile Include="Transformation\Transformer\Native\DateToAge.cs" />
     <Compile Include="Transformation\Transformer\Native\NotImplementedTransformationException.cs" />
@@ -660,9 +656,6 @@
     <Compile Include="Transformation\Transformer\Native\TextToTokenCount.cs" />
     <Compile Include="Transformation\Transformer\Native\TextToWithoutWhitespaces.cs" />
     <Compile Include="Transformation\Transformer\Native\TextToWithoutDiacritics.cs" />
-    <Compile Include="Transformation\Transformer\Native\TextToUpper.cs" />
-    <Compile Include="Transformation\Transformer\Native\TextToLower.cs" />
-    <Compile Include="Transformation\Transformer\Native\TextToTrim.cs" />
     <Compile Include="Transformation\Transformer\Native\LocalToUtc.cs" />
     <Compile Include="Transformation\Transformer\Native\DateTimeToDate.cs" />
     <Compile Include="Transformation\Transformer\Native\UtcToLocal.cs" />

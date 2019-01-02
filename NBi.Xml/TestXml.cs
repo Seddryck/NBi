@@ -167,17 +167,20 @@ namespace NBi.Xml
 
         public TestXml(TestStandaloneXml standalone)
         {
-            this.Name = standalone.Name;
-            this.DescriptionElement = standalone.DescriptionElement;
-            this.IgnoreElement = standalone.IgnoreElement;
-            this.Categories = standalone.Categories;
-            this.Traits = standalone.Traits;
-            this.Constraints = standalone.Constraints;
-            this.Setup = standalone.Setup;
-            this.Cleanup = standalone.Cleanup;
-            this.Systems = standalone.Systems;
-            this.UniqueIdentifier = standalone.UniqueIdentifier;
-            this.Edition = standalone.Edition;
+            Categories = standalone.Categories;
+            Cleanup = standalone.Cleanup;
+            Condition = standalone.Condition;
+            Constraints = standalone.Constraints;
+            DescriptionElement = standalone.DescriptionElement;
+            Drafts = standalone.Drafts;
+            Edition = standalone.Edition;
+            IgnoreElement = standalone.IgnoreElement;
+            InstanceSettling = standalone.InstanceSettling;
+            Name = standalone.Name;
+            Setup = standalone.Setup;
+            Systems = standalone.Systems;
+            Traits = standalone.Traits;
+            UniqueIdentifier = standalone.UniqueIdentifier;
         }
 
         public string GetName()

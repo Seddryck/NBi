@@ -1,4 +1,5 @@
-﻿using NBi.Core.Scalar.Resolver;
+﻿using NBi.Core.Scalar.Caster;
+using NBi.Core.Scalar.Resolver;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,8 +25,14 @@ namespace NBi.Core.Sequence.Resolver
         public List<T> Execute()
         {
             var list = new List<T>();
-            foreach (var arg in args.Objects)
-                list.Add(new LiteralScalarResolver<T>(arg).Execute());
+            foreach (var resolver in args.Resolvers)
+            {
+                var obj = resolver.Execute();
+                var caster = new CasterFactory<T>().Instantiate();
+                var value = caster.Execute(obj);
+                list.Add(value);
+            }
+                
             return list;
         }
     }

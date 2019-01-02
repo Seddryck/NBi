@@ -1,4 +1,5 @@
-﻿using NBi.Core.Variable;
+﻿using NBi.Core.Scalar.Resolver;
+using NBi.Core.Variable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ namespace NBi.Core.Sequence.Resolver
 {
     public class ListSequenceResolverArgs : ISequenceResolverArgs
     {
-        public IEnumerable<object> Objects { get; }
+        public IEnumerable<IScalarResolver> Resolvers { get; }
 
-        public ListSequenceResolverArgs(IEnumerable<object> objects)
+        public ListSequenceResolverArgs(IEnumerable<IScalarResolver> resolvers)
         {
-            this.Objects = objects;
+            Resolvers = resolvers;
         }
     }
 }

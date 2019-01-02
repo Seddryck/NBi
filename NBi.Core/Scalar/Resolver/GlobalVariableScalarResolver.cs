@@ -76,5 +76,7 @@ namespace NBi.Core.Scalar.Resolver
 
             return (T)output;
         }
+
+        object IScalarResolver.Execute() => Execute();
     }
 }

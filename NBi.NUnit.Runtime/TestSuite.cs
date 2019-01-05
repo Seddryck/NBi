@@ -346,7 +346,13 @@ namespace NBi.NUnit.Runtime
                 // For each instance create a test-case
                 foreach (var instance in instances)
                 {
-                    var testName = instance.IsDefault ? $"{test.GetName()}" : $"{test.GetName()} ({instance.GetName()})";
+                    var scalarHelper = new ScalarHelper(serviceLocator, instance.Variables);
+
+                    var testName = instance.IsDefault 
+                        ? $"{test.GetName()}" 
+                        : test.GetName().StartsWith("~")
+                            ? scalarHelper.InstantiateResolver<string>(test.GetName()).Execute()
+                            : $"{test.GetName()} ({instance.GetName()})";
                     Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Loading test named: {testName}");
                     var testCaseDataNUnit = new TestCaseData(test, testName, instance.Variables);
                     testCaseDataNUnit.SetName(testName);
@@ -356,6 +362,19 @@ namespace NBi.NUnit.Runtime
                         testCaseDataNUnit.SetCategory(CategoryHelper.Format(category));
                     foreach (var property in test.Traits)
                         testCaseDataNUnit.SetProperty(property.Name, property.Value);
+
+                    //Assign instance categories and traits
+                    foreach (var category in instance.Categories)
+                    {
+                        var evaluatedCategory = scalarHelper.InstantiateResolver<string>(category).Execute();
+                        testCaseDataNUnit.SetCategory(CategoryHelper.Format(evaluatedCategory));
+                    }
+
+                    foreach (var trait in instance.Traits)
+                    {
+                        var evaluatedTraitValue = scalarHelper.InstantiateResolver<string>(trait.Value).Execute();
+                        testCaseDataNUnit.SetProperty(trait.Key, evaluatedTraitValue);
+                    }
 
                     //Assign auto-categories
                     if (EnableAutoCategories)

@@ -8,5 +8,7 @@ namespace NBi.Core.Variable.Instantiation
 {
     public interface IInstanceArgs
     {
+        IEnumerable<string> Categories { get; }
+        IDictionary<string, string> Traits { get; }
     }
 }

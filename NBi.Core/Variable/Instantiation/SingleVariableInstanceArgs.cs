@@ -11,5 +11,8 @@ namespace NBi.Core.Variable.Instantiation
     {
         public string Name { get; set; }
         public ISequenceResolver<object> Resolver { get; set; }
+
+        public IEnumerable<string> Categories { get; set; } = new List<string>();
+        public IDictionary<string, string> Traits { get; set; } = new Dictionary<string, string>();
     }
 }

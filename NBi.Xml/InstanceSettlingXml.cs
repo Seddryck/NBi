@@ -1,4 +1,5 @@
-﻿using NBi.Xml.Variables;
+﻿using NBi.Xml.Settings;
+using NBi.Xml.Variables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,12 @@ namespace NBi.Xml
     {
         [XmlElement("local-variable")]
         public InstanceVariableXml Variable { get; set; }
+
+        [XmlElement("category")]
+        public List<string> Categories { get; set; } = new List<string>();
+
+        [XmlElement("trait")]
+        public List<TraitXml> Traits { get; set; } = new List<TraitXml>();
 
         private static InstanceSettlingXml _unique { get; set; }
         public static InstanceSettlingXml Unique

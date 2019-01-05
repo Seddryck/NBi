@@ -248,7 +248,7 @@ namespace NBi.UI.Genbi.Presenter
         }
         internal void FilterDistinct()
         {
-            testCaseCollectionManager.Scope.FilterDistinct();
+            var action = new FilterDistinctCaseAction();
             Reload();
             OnPropertyChanged("TestCases");
         }

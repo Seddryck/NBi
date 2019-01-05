@@ -1,0 +1,33 @@
+﻿<test name="The measure '$name$' should be defined with the currency EUR">
+  <category>Validity</category>
+  <category>Target day</category>
+  <trait name="Identifier">$identifier$</trait>
+  <trait name="quality-class">Validity</trait>
+  <trait name="quality-horizon">Target</trait>
+  <system-under-test>
+    <resultSet file="~$ftpRoot$\\$fileIdentification$\{@$targetDay$:yyyy}_{@$targetDay$:%M}_$fileIdentification$.csv">
+      <alteration>
+        <filter>
+          <combination operator="and">
+            $filterColumns, filterValues: {column, value |
+            <predicate name="$column$" type="text">
+              <equal>$value$</equal>
+            </predicate>
+            }
+            $
+            <predicate name="$dateTimeColumn$" type="text">
+              <starts-with>@$targetDay$</starts-with>
+            </predicate>
+          </combination>
+        </filter>
+      </alteration>
+    </resultSet>
+  </system-under-test>
+  <assert>
+    <all-rows>
+      <predicate operand="Currency" type="text">
+        <equal>EUR</equal>
+      </predicate>
+    </all-rows>
+  </assert>
+</test>

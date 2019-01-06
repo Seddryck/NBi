@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.FlatFile;
+using System;
 using System.Data.SqlClient;
 using System.Linq;
 
@@ -31,19 +32,20 @@ namespace NBi.Core.DataManipulation.SqlServer
                 SqlBulkCopy bulkCopy =
                     new SqlBulkCopy
                     (
-                    connection,
-                    SqlBulkCopyOptions.TableLock |
-                    SqlBulkCopyOptions.UseInternalTransaction,
-                    null
-                    );
-
-                // set the destination table name
-                bulkCopy.DestinationTableName = tableName;
+                        connection,
+                        SqlBulkCopyOptions.TableLock |
+                        SqlBulkCopyOptions.UseInternalTransaction,
+                        null
+                    )
+                    {
+                        // set the destination table name
+                        DestinationTableName = tableName
+                    };
                 connection.Open();
 
                 // write the data in the "dataTable"
                 var fileReader = new CsvReader();
-                var dataTable = fileReader.Read(filename, false);
+                var dataTable = fileReader.ToDataTable(filename, false);
                 bulkCopy.WriteToServer(dataTable);
 
                 connection.Close();

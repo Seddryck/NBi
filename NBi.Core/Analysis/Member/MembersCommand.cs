@@ -6,6 +6,7 @@ using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.Analysis.Request;
 using System.Data;
 using NBi.Core.Query.Client;
+using NBi.Extensibility;
 
 namespace NBi.Core.Analysis.Member
 {

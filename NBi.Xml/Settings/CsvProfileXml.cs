@@ -1,4 +1,5 @@
 ﻿using NBi.Core;
+using NBi.Core.FlatFile;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

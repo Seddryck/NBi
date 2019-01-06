@@ -1,4 +1,5 @@
-﻿using NBi.Core.Injection;
+﻿using NBi.Core.FlatFile;
+using NBi.Core.Injection;
 using NBi.Core.Query;
 using NBi.Core.Scalar.Resolver;
 using System;
@@ -11,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Resolver
 {
-    class CsvResultSetResolver : IResultSetResolver
+    class FlatFileResultSetResolver : IResultSetResolver
     {
-        private readonly CsvResultSetResolverArgs args;
+        private readonly FlatFileResultSetResolverArgs args;
 
-        public CsvResultSetResolver(CsvResultSetResolverArgs args)
+        public FlatFileResultSetResolver(FlatFileResultSetResolverArgs args)
         {
             this.args = args;
         }
@@ -28,8 +29,9 @@ namespace NBi.Core.ResultSet.Resolver
             if (!File.Exists(file))
                 throw new ExternalDependencyNotFoundException(file);
 
-            var reader = new CsvReader(args.Profile);
-            var dataTable = reader.Read(file);
+            var factory = new FlatFileReaderFactory();
+            var reader = factory.Instantiate(args.ParserName, args.Profile);
+            var dataTable = reader.ToDataTable(file);
 
             var rs = new ResultSet();
             rs.Load(dataTable);

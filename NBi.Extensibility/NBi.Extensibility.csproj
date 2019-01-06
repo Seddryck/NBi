@@ -43,8 +43,12 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="FlatFile\IFlatFileProfile.cs" />
+    <Compile Include="FlatFile\IFlatFileReader.cs" />
     <Compile Include="ITemplateEngine.cs" />
     <Compile Include="NBiTraceSwitch.cs" />
+    <Compile Include="ProgressStatusEventArgs.cs" />
+    <Compile Include="ProgressStatusHandler.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Query\IClient.cs" />
     <Compile Include="Query\IClientFactory.cs" />

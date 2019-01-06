@@ -6,6 +6,7 @@ using NBi.Core.Query;
 using NBi.Core.Xml;
 using NBi.Core.Query.Resolver;
 using NBi.Core.Injection;
+using NBi.Core.FlatFile;
 
 namespace NBi.Core.ResultSet.Resolver
 {
@@ -33,8 +34,8 @@ namespace NBi.Core.ResultSet.Resolver
                 return new RowsResultSetResolver(args as RowsResultSetResolverArgs);
             else if (args is QueryResultSetResolverArgs)
                 return new QueryResultSetResolver(args as QueryResultSetResolverArgs, serviceLocator);
-            else if (args is CsvResultSetResolverArgs)
-                return new CsvResultSetResolver(args as CsvResultSetResolverArgs);
+            else if (args is FlatFileResultSetResolverArgs)
+                return new FlatFileResultSetResolver(args as FlatFileResultSetResolverArgs);
             else if (args is XPathResultSetResolverArgs)
                 return new XPathResultSetResolver(args as XPathResultSetResolverArgs);
             else if (args is ObjectsResultSetResolverArgs)

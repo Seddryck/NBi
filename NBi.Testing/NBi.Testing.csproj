@@ -274,7 +274,7 @@
     <Compile Include="Unit\Core\Assemblies\Resource\Klass.cs" />
     <Compile Include="Unit\Core\Assemblies\TypeConverterTest.cs" />
     <Compile Include="Unit\Core\Connection\ConnectionWaitFactoryTest.cs" />
-    <Compile Include="Unit\Core\CsvWriterTest.cs" />
+    <Compile Include="Unit\Core\FlatFile\CsvWriterTest.cs" />
     <Compile Include="Unit\Core\DataType\DataTypeInfoFactoryTest.cs" />
     <Compile Include="Unit\Core\GroupCommandFactoryTest.cs" />
     <Compile Include="Unit\Core\Etl\SsisEtlRunnerFactoryTest.cs" />
@@ -341,7 +341,7 @@
     <Compile Include="Unit\Core\ResultSet\Equivalence\SettingsNameResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetTest.cs" />
     <Compile Include="Unit\Core\ResultSetManagerTest.cs" />
-    <Compile Include="Unit\Core\CsvReaderTest.cs" />
+    <Compile Include="Unit\Core\FlatFile\CsvReaderTest.cs" />
     <Compile Include="Unit\Core\Scalar\Conversion\TextToDateConverterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Conversion\TextToNumericConverterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Conversion\TextToDateTimeConverterTest.cs" />

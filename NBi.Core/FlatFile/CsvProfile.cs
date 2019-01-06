@@ -73,6 +73,7 @@ namespace NBi.Core.FlatFile
         public bool ShouldSerializeFirstRowHeader() => false;
         public bool ShouldSerializeEmptyCell() => false;
         public bool ShouldSerializeMissingCell() => false;
+        public bool ShouldSerializePerformanceOptmized() => false;
 
 
     }

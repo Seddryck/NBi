@@ -51,8 +51,10 @@ namespace NBi.Core.FlatFile
         public DataTable ToDataTable(string filename)
         {
             CheckFileExists(filename);
+            var encoding = GetFileEncoding(filename);
+
             using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
-                return Read(stream, Profile.FirstRowHeader, Profile.RecordSeparator, Profile.FieldSeparator, Profile.TextQualifier, Profile.EmptyCell, Profile.MissingCell);
+                return Read(stream, encoding, Profile.FirstRowHeader, Profile.RecordSeparator, Profile.FieldSeparator, Profile.TextQualifier, Profile.EmptyCell, Profile.MissingCell);
         }
 
         /// <summary>
@@ -64,8 +66,10 @@ namespace NBi.Core.FlatFile
         public DataTable ToDataTable(string filename, bool isFirstRowHeader)
         {
             CheckFileExists(filename);
+            var encoding = GetFileEncoding(filename);
+
             using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
-                return Read(stream, isFirstRowHeader, Profile.RecordSeparator, Profile.FieldSeparator, Profile.TextQualifier, Profile.EmptyCell, Profile.MissingCell);
+                return Read(stream, encoding, isFirstRowHeader, Profile.RecordSeparator, Profile.FieldSeparator, Profile.TextQualifier, Profile.EmptyCell, Profile.MissingCell);
         }
 
         protected virtual void CheckFileExists(string filename)
@@ -75,18 +79,17 @@ namespace NBi.Core.FlatFile
         }
 
         protected internal DataTable Read(Stream stream)
-            => this.Read(stream, Profile.FirstRowHeader, Profile.RecordSeparator, Profile.FieldSeparator, Profile.TextQualifier, Profile.EmptyCell, Profile.MissingCell);
+            => this.Read(stream, Encoding.UTF8, Profile.FirstRowHeader, Profile.RecordSeparator, Profile.FieldSeparator, Profile.TextQualifier, Profile.EmptyCell, Profile.MissingCell);
 
-        protected internal DataTable Read(Stream stream, bool isFirstRowHeader, string recordSeparator, char fieldSeparator, char textQualifier, string emptyCell, string missingCell)
+        protected internal DataTable Read(Stream stream, Encoding encoding, bool isFirstRowHeader, string recordSeparator, char fieldSeparator, char textQualifier, string emptyCell, string missingCell)
         {
             RaiseProgressStatus("Starting to process the CSV file ...");
             int i = 0;
 
-            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8, true))
+            using (StreamReader reader = new StreamReader(stream, encoding, false))
             {
                 var count = CountRecords(reader, Profile.RecordSeparator, isFirstRowHeader, Profile.PerformanceOptmized);
-                int encodingBytesCount = CalculateEncodingBytes(reader);
-                var table = DefineFields(reader, recordSeparator, fieldSeparator, textQualifier, isFirstRowHeader, encodingBytesCount);
+                var table = DefineFields(reader, recordSeparator, fieldSeparator, textQualifier, isFirstRowHeader);
 
                 bool isLastRecord = false;
                 i = 0;
@@ -105,8 +108,8 @@ namespace NBi.Core.FlatFile
                     {
                         var recordToParse = record;
 
-                        if (i == 0 && encodingBytesCount > 0)
-                            recordToParse = recordToParse.Substring(encodingBytesCount, recordToParse.Length - encodingBytesCount);
+                        //if (i == 0 && encodingBytesCount > 0)
+                        //    recordToParse = recordToParse.Substring(encodingBytesCount, recordToParse.Length - encodingBytesCount);
 
                         i++;
                         if (i != 1 || !isFirstRowHeader)
@@ -144,15 +147,15 @@ namespace NBi.Core.FlatFile
             }
         }
 
-        protected virtual DataTable DefineFields(StreamReader reader, string recordSeparator, char fieldSeparator, char textQualifier, bool isFirstRowHeader, int encodingBytesCount)
+        protected virtual DataTable DefineFields(StreamReader reader, string recordSeparator, char fieldSeparator, char textQualifier, bool isFirstRowHeader)
         {
             //Get first record to know the count of fields
             RaiseProgressStatus("Defining fields");
             var columnCount = 0;
             var columnNames = new List<string>();
             var firstLine = GetFirstRecord(reader, recordSeparator, BufferSize);
-            if (encodingBytesCount > 0)
-                firstLine = firstLine.Substring(encodingBytesCount, firstLine.Length - encodingBytesCount);
+            //if (encodingBytesCount > 0)
+            //    firstLine = firstLine.Substring(encodingBytesCount, firstLine.Length - encodingBytesCount);
             if (firstLine.EndsWith(recordSeparator))
                 firstLine = firstLine.Substring(0, firstLine.Length - recordSeparator.Length);
             columnCount = firstLine.Split(fieldSeparator).Length;
@@ -189,6 +192,35 @@ namespace NBi.Core.FlatFile
             reader.BaseStream.Position = 0;
             reader.DiscardBufferedData();
             return encodingBytesCount;
+        }
+
+        /// <summary>
+        /// Detects the byte order mark of a file and returns
+        /// an appropriate encoding for the file.
+        /// </summary>
+        /// <param name="srcFile"></param>
+        /// <returns></returns>
+        protected virtual Encoding GetFileEncoding(string srcFile)
+        {
+            // Default  = Ansi CodePage
+            var encoding = Encoding.Default;
+
+            // Detect byte order mark if any - otherwise assume default
+            var buffer = new byte[5];
+            var file = new FileStream(srcFile, FileMode.Open);
+            file.Read(buffer, 0, 5);
+            file.Close();
+
+            if (buffer[0] == 0xef && buffer[1] == 0xbb && buffer[2] == 0xbf)
+                encoding = Encoding.UTF8;
+            else if (buffer[0] == 0xfe && buffer[1] == 0xff)
+                encoding = Encoding.Unicode;
+            else if (buffer[0] == 0 && buffer[1] == 0 && buffer[2] == 0xfe && buffer[3] == 0xff)
+                encoding = Encoding.UTF32;
+            else if (buffer[0] == 0x2b && buffer[1] == 0x2f && buffer[2] == 0x76)
+                encoding = Encoding.UTF7;
+
+            return encoding;
         }
 
         protected virtual int? CountRecords(StreamReader reader, string recordSeparator, bool isFirstRowHeader, bool isPerformanceOptimized)

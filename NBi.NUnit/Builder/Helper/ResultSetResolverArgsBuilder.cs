@@ -63,7 +63,7 @@ namespace NBi.NUnit.Builder.Helper
                 //ResultSet (external flat file)
                 if (!string.IsNullOrEmpty((obj as ResultSetSystemXml).File))
                 {
-                    ParseFileInfo((obj as ResultSetXml).File, out var filename, out var parserName);
+                    ParseFileInfo((obj as ResultSetSystemXml).File, out var filename, out var parserName);
                     args = BuildCsvResolverArgs(filename, parserName);
                 }
                 //Query

@@ -14,7 +14,6 @@ namespace NBi.Testing.Unit.Core.FlatFile
     [TestFixture]
     public class CsvReaderTest
     {
-        
         class CsvReaderProxy : CsvReader
         {
             public CsvReaderProxy()
@@ -240,7 +239,7 @@ namespace NBi.Testing.Unit.Core.FlatFile
 
                 stream.Position = 0;
                 var reader = new CsvReader();
-                var dataTable = reader.Read(stream, false, recordSeparator, fieldSeparator, '\"', "_", missingCell);
+                var dataTable = reader.Read(stream, Encoding.UTF8, false, recordSeparator, fieldSeparator, '\"', "_", missingCell);
 
                 Assert.That(dataTable.Rows[0].ItemArray[0], Is.EqualTo("a"));
                 Assert.That(dataTable.Rows[0].ItemArray[1], Is.EqualTo("b"));
@@ -275,7 +274,7 @@ namespace NBi.Testing.Unit.Core.FlatFile
 
                 stream.Position = 0;
                 var reader = new CsvReader();
-                var dataTable = reader.Read(stream, false, recordSeparator, fieldSeparator, '\"', emptyCell, "_");
+                var dataTable = reader.Read(stream, Encoding.UTF8, false, recordSeparator, fieldSeparator, '\"', emptyCell, "_");
 
                 Assert.That(dataTable.Rows[0].ItemArray[0], Is.EqualTo("a"));
                 Assert.That(dataTable.Rows[0].ItemArray[1], Is.EqualTo("b"));

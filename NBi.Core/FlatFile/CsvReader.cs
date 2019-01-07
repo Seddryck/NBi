@@ -86,10 +86,17 @@ namespace NBi.Core.FlatFile
             RaiseProgressStatus("Starting to process the CSV file ...");
             int i = 0;
 
-            using (StreamReader reader = new StreamReader(stream, encoding, true))
+            using (var reader = new StreamReader(stream, encoding, false))
             {
+                //Move and rewind to be sure that the BOM is not skipped by internal implementation of StreamReader
+                var buffer = new char[1];
+                reader.Read(buffer, 0, buffer.Length);
+                Rewind(reader);
+
                 var count = CountRecords(reader, Profile.RecordSeparator, isFirstRowHeader, Profile.PerformanceOptmized);
+                Rewind(reader);
                 var table = DefineFields(reader, recordSeparator, fieldSeparator, textQualifier, isFirstRowHeader, encodingBytesCount);
+                Rewind(reader);
 
                 bool isLastRecord = false;
                 i = 0;
@@ -147,6 +154,12 @@ namespace NBi.Core.FlatFile
             }
         }
 
+        private static void Rewind(StreamReader reader)
+        {
+            reader.BaseStream.Position = 0;
+            reader.DiscardBufferedData();
+        }
+
         protected virtual DataTable DefineFields(StreamReader reader, string recordSeparator, char fieldSeparator, char textQualifier, bool isFirstRowHeader, int encodingBytesCount)
         {
             //Get first record to know the count of fields
@@ -174,10 +187,7 @@ namespace NBi.Core.FlatFile
             }
             RaiseProgressStatus($"{table.Columns.Count} field{(table.Columns.Count > 1 ? "s were" : " was")}  identified.");
 
-            //Parse the whole file
-            reader.BaseStream.Position = 0;
-            reader.DiscardBufferedData();
-
+            
             return table;
         }
 
@@ -221,6 +231,7 @@ namespace NBi.Core.FlatFile
                 encoding = Encoding.UTF7;
 
             encodingBytesCount = Convert.ToInt32(encoding != Encoding.Default);
+            encoding = encoding == Encoding.Default ? Encoding.UTF8 : encoding;
 
             return encoding;
         }

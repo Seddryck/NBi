@@ -161,7 +161,7 @@ namespace NBi.Testing.Unit.Xml.Settings
             };
 
             var manager = new XmlManager();
-            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
+            var xml = manager.XmlSerializeFrom(profile);
 
             Assert.That(xml, Is.Not.StringContaining("record-separator"));
         }
@@ -175,7 +175,7 @@ namespace NBi.Testing.Unit.Xml.Settings
             };
 
             var manager = new XmlManager();
-            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
+            var xml = manager.XmlSerializeFrom(profile);
 
             Assert.That(xml, Is.StringContaining("first-row-header"));
         }
@@ -186,7 +186,7 @@ namespace NBi.Testing.Unit.Xml.Settings
             var profile = new CsvProfileXml { FirstRowHeader = false };
 
             var manager = new XmlManager();
-            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
+            var xml = manager.XmlSerializeFrom(profile);
 
             Assert.That(xml, Is.Not.StringContaining("first-row-header"));
         }
@@ -197,7 +197,7 @@ namespace NBi.Testing.Unit.Xml.Settings
             var profile = new CsvProfileXml { EmptyCell = "(empty)" };
 
             var manager = new XmlManager();
-            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
+            var xml = manager.XmlSerializeFrom(profile);
 
             Assert.That(xml, Is.Not.StringContaining("empty-cell"));
         }
@@ -225,7 +225,7 @@ namespace NBi.Testing.Unit.Xml.Settings
             };
 
             var manager = new XmlManager();
-            var xml = manager.XmlSerializeFrom<CsvProfileXml>(profile);
+            var xml = manager.XmlSerializeFrom(profile);
 
             Assert.That(xml, Is.Not.StringContaining("field-separator"));
         }
@@ -238,7 +238,7 @@ namespace NBi.Testing.Unit.Xml.Settings
             settings.CsvProfile.RecordSeparator = "\r\n";
 
             var manager = new XmlManager();
-            var xml = manager.XmlSerializeFrom<SettingsXml>(settings);
+            var xml = manager.XmlSerializeFrom(settings);
 
             Assert.That(xml, Is.Not.StringContaining("field-separator"));
             Assert.That(xml, Is.Not.StringContaining("record-separator"));

@@ -1,5 +1,4 @@
-﻿using NBi.Core;
-using NBi.Core.FlatFile;
+﻿using NBi.Core.FlatFile;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Unit.Core.FlatFile
+namespace NBi.Testing.Core.FlatFile
 {
     [TestFixture]
     public class CsvReaderTest
@@ -17,37 +16,35 @@ namespace NBi.Testing.Unit.Core.FlatFile
         class CsvReaderProxy : CsvReader
         {
             public CsvReaderProxy()
-            : base() { }
-
+                : base(new CsvProfile(false)) { }
+            public CsvReaderProxy(CsvProfile profile)
+                : base(profile) { }
+            public CsvReaderProxy(CsvProfile profile, int bufferSize)
+                : base(profile, bufferSize) { }
             public CsvReaderProxy(int bufferSize)
-            : base(bufferSize) { }
+                : base(CsvProfile.SemiColumnDoubleQuote, bufferSize) { }
 
             public new string RemoveTextQualifier(string item, char textQualifier)
                 => base.RemoveTextQualifier(item, textQualifier);
-
             public new IEnumerable<string> SplitLine(string row, char fieldSeparator, char textQualifier, string emptyCell)
                 => base.SplitLine(row, fieldSeparator, textQualifier, emptyCell);
-
             public new int CountRecordSeparators(StreamReader reader, string recordSeparator, int bufferSize)
                 => base.CountRecordSeparators(reader, recordSeparator, bufferSize);
-
             public new string GetFirstRecord(StreamReader reader, string recordSeparator, int bufferSize)
                 => base.GetFirstRecord(reader, recordSeparator, bufferSize);
-
             public new IEnumerable<string> GetNextRecords(StreamReader reader, string recordSeparator, int bufferSize, string alreadyRead, out string extraRead)
                 => base.GetNextRecords(reader, recordSeparator, bufferSize, alreadyRead, out extraRead);
-
             public new bool IsLastRecord(string record)
                 => base.IsLastRecord(record);
-
             public new int IdentifyPartialRecordSeparator(string text, string recordSeparator)
                 => base.IdentifyPartialRecordSeparator(text, recordSeparator);
-
             public new string CleanRecord(string record, string recordSeparator)
                 => base.CleanRecord(record, recordSeparator);
-
+            public new DataTable Read(Stream stream)
+                => base.Read(stream);
+            public new DataTable Read(Stream stream, Encoding encoding, int encodingBytesCount, bool isFirstRowHeader, string recordSeparator, char fieldSeparator, char textQualifier, string emptyCell, string missingCell)
+                => base.Read(stream, encoding, encodingBytesCount, isFirstRowHeader, recordSeparator, fieldSeparator, textQualifier, emptyCell, missingCell);
         }
-
 
         [Test]
         [TestCase(null, "")]
@@ -116,7 +113,6 @@ namespace NBi.Testing.Unit.Core.FlatFile
                 }
                 writer.Dispose();
             }
-
         }
 
         [Test]
@@ -157,7 +153,6 @@ namespace NBi.Testing.Unit.Core.FlatFile
                 }
                 writer.Dispose();
             }
-
         }
 
         [Test]
@@ -238,7 +233,7 @@ namespace NBi.Testing.Unit.Core.FlatFile
                 writer.Flush();
 
                 stream.Position = 0;
-                var reader = new CsvReader();
+                var reader = new CsvReaderProxy();
                 var dataTable = reader.Read(stream, Encoding.UTF8, 0, false, recordSeparator, fieldSeparator, '\"', "_", missingCell);
 
                 Assert.That(dataTable.Rows[0].ItemArray[0], Is.EqualTo("a"));
@@ -273,7 +268,7 @@ namespace NBi.Testing.Unit.Core.FlatFile
                 writer.Flush();
 
                 stream.Position = 0;
-                var reader = new CsvReader();
+                var reader = new CsvReaderProxy();
                 var dataTable = reader.Read(stream, Encoding.UTF8, 0, false, recordSeparator, fieldSeparator, '\"', emptyCell, "_");
 
                 Assert.That(dataTable.Rows[0].ItemArray[0], Is.EqualTo("a"));
@@ -291,7 +286,6 @@ namespace NBi.Testing.Unit.Core.FlatFile
                 Assert.That(dataTable.Rows[3].ItemArray[0], Is.EqualTo("?"));
                 Assert.That(dataTable.Rows[3].ItemArray[1], Is.EqualTo("b"));
                 Assert.That(dataTable.Rows[3].ItemArray[2], Is.EqualTo("?"));
-
 
                 writer.Dispose();
             }
@@ -340,7 +334,7 @@ namespace NBi.Testing.Unit.Core.FlatFile
 
                 stream.Position = 0;
 
-                var reader = new CsvReader(bufferSize);
+                var reader = new CsvReaderProxy(new CsvProfile(';', '\"', "\r\n", false, false, "(empty)", "(null)"), bufferSize);
                 var dataTable = reader.Read(stream);
                 Assert.That(dataTable.Rows, Has.Count.EqualTo(4));
                 Assert.That(dataTable.Columns, Has.Count.EqualTo(columnCount));
@@ -384,8 +378,7 @@ namespace NBi.Testing.Unit.Core.FlatFile
                     stream.Position = 0;
 
                     var profile = CsvProfile.SemiColumnDoubleQuote;
-                    profile.FirstRowHeader = true;
-                    var reader = new CsvReader(profile, 1024);
+                    var reader = new CsvReaderProxy(profile);
 
                     var ex = Assert.Throws<InvalidDataException>(delegate { reader.Read(stream); });
                     Assert.That(ex.Message, Is.StringContaining(string.Format("record {0} ", rowNumber + 1)));

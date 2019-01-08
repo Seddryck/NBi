@@ -2,79 +2,25 @@
 
 namespace NBi.Core.FlatFile
 {
-    public class CsvProfile : IFlatFileProfile
+    public class CsvProfile : PocketCsvReader.CsvProfile, IFlatFileProfile
     {
-        public virtual char FieldSeparator { get; set; }
-        public virtual char TextQualifier { get; set; }
-        public virtual string RecordSeparator { get; set; }
-        public virtual bool FirstRowHeader { get; set; }
-        public virtual bool PerformanceOptmized { get; set; } = true;
-        public virtual string MissingCell { get; set; }
-        public virtual string EmptyCell { get; set; }
+        public static new CsvProfile SemiColumnDoubleQuote { get; private set; } = new CsvProfile(';');
 
-        protected CsvProfile()
-        {
-        }
+        private CsvProfile(char fieldSeparator)
+            : base(fieldSeparator, '\"') { }
 
-        public CsvProfile(char fieldSeparator, char textQualifier)
-            : this(fieldSeparator, textQualifier, "\r\n")
-        {
-        }
+        internal CsvProfile(bool firstRowHeader)
+            : base(firstRowHeader) { }
 
-        public CsvProfile(char fieldSeparator, string recordSeparator)
-            : this(fieldSeparator, '\"', recordSeparator)
-        {
-        }
+        internal CsvProfile(char fieldSeparator, char textQualifier, string recordSeparator, bool firstRowHeader, bool performanceOptimized, string emptyCell, string missingCell)
+            : base(fieldSeparator, textQualifier, recordSeparator, firstRowHeader, performanceOptimized, emptyCell, missingCell) { }
 
-        public CsvProfile(char fieldSeparator, char textQualifier, string recordSeparator)
-            : this(fieldSeparator, textQualifier, recordSeparator, false)
-        {
-        }
-
-        public CsvProfile(char fieldSeparator, char textQualifier, string recordSeparator, bool firstRowHeader)
-            : this(fieldSeparator, textQualifier, recordSeparator, firstRowHeader, "(empty)", "(null)")
-        {
-
-        }
-
-        public CsvProfile(char fieldSeparator, char textQualifier, string recordSeparator, bool firstRowHeader, string emptyCell, string missingCell)
-            : this()
-        {
-            FieldSeparator = fieldSeparator;
-            TextQualifier = textQualifier;
-            RecordSeparator = recordSeparator;
-            FirstRowHeader = firstRowHeader;
-            EmptyCell = emptyCell;
-            MissingCell = missingCell;
-        }
-
-        public static CsvProfile CommaDoubleQuote
-        {
-            get
-            {
-                return new CsvProfile(',', '\"');
-            }
-        }
-
-        public static CsvProfile SemiColumnDoubleQuote
-        {
-            get
-            {
-                return new CsvProfile(';', '\"');
-            }
-        }
-
-        public bool ShouldSerializeTextQualifier() => false;
-
-        public bool ShouldSerializeFieldSeparator() => false;
-
-        public bool ShouldSerializeRecordSeparator() => false;
-
-        public bool ShouldSerializeFirstRowHeader() => false;
-        public bool ShouldSerializeEmptyCell() => false;
-        public bool ShouldSerializeMissingCell() => false;
-        public bool ShouldSerializePerformanceOptmized() => false;
-
-
+        //public bool ShouldSerializeFieldSeparator() => false;
+        //public bool ShouldSerializeTextQualifier() => false;
+        //public bool ShouldSerializeRecordSeparator() => false;
+        //public bool ShouldSerializeFirstRowHeader() => false;
+        //public bool ShouldSerializePerformanceOptmized() => false;
+        //public bool ShouldSerializeEmptyCell() => false;
+        //public bool ShouldSerializeMissingCell() => false;
     }
 }

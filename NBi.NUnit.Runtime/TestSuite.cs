@@ -415,13 +415,11 @@ namespace NBi.NUnit.Runtime
             AllowDtdProcessing = config.AllowDtdProcessing;
             SettingsFilename = config.SettingsFilename;
 
-            var notableTypes = new List<Type>();
+            var notableTypes = new Dictionary<Type, IDictionary<string, string>>();
             var analyzer = new ExtensionAnalyzer();
-            var filenames = new List<string>();
             foreach (ExtensionElement extension in config.Extensions)
-                filenames.Add(extension.Assembly);
-            foreach (var filename in filenames)
-                notableTypes.AddRange(analyzer.Execute(filename));
+                foreach (var type in analyzer.Execute(extension.Assembly))
+                    notableTypes.Add(type, extension.Parameters);
 
             if (serviceLocator == null)
                 Initialize();

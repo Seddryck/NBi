@@ -204,6 +204,7 @@
     <Compile Include="Acceptance\GenbiL\CaseCrossTest.cs" />
     <Compile Include="Acceptance\GenbiL\GenbiLTest.cs" />
     <Compile Include="Acceptance\Resources\AssemblyClass.cs" />
+    <Compile Include="Acceptance\Resources\TsvReader.cs" />
     <Compile Include="Acceptance\RuntimeOverrider.cs" />
     <Compile Include="Acceptance\TestSuiteOverrider.cs" />
     <Compile Include="ConnectionStringReader.cs" />
@@ -279,6 +280,7 @@
     <Compile Include="Unit\Core\Connection\ConnectionWaitFactoryTest.cs" />
     <Compile Include="Unit\Core\FlatFile\CsvWriterTest.cs" />
     <Compile Include="Unit\Core\DataType\DataTypeInfoFactoryTest.cs" />
+    <Compile Include="Unit\Core\FlatFile\FlatFileReaderfactoryTest.cs" />
     <Compile Include="Unit\Core\GroupCommandFactoryTest.cs" />
     <Compile Include="Unit\Core\Etl\SsisEtlRunnerFactoryTest.cs" />
     <Compile Include="Unit\Core\Evaluate\RowValidatorTest.cs" />
@@ -727,6 +729,12 @@
     <EmbeddedResource Include="Acceptance\Resources\Csv\MyData_2016_03.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="Acceptance\Resources\Csv\Entsoe.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\CustomFlatFileParser.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\OrderCountByYear.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -760,6 +768,9 @@
     <EmbeddedResource Include="Acceptance\Resources\Positive\Environment.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="Acceptance\Resources\Positive\CustomFlatFileParser.nbits.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Acceptance\Resources\Positive\Variable.nbits.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

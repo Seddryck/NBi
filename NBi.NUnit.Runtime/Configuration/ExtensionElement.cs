@@ -9,6 +9,8 @@ namespace NBi.NUnit.Runtime.Configuration
 {
     public class ExtensionElement : ConfigurationElement
     {
+        public IDictionary<string, string> Parameters { get; private set; } = new Dictionary<string, string>();
+
         public ExtensionElement(string assembly)
         {
             Assembly = assembly;
@@ -25,5 +27,12 @@ namespace NBi.NUnit.Runtime.Configuration
             get => (string)this["assembly"];
             set =>this["assembly"] = value;
         }
+
+        protected override bool OnDeserializeUnrecognizedAttribute(string name, string value)
+        {
+            Parameters.Add(name, value);
+            return true;
+        }
+
     }
 }

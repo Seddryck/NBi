@@ -35,7 +35,7 @@ namespace NBi.Core.ResultSet.Resolver
             else if (args is QueryResultSetResolverArgs)
                 return new QueryResultSetResolver(args as QueryResultSetResolverArgs, serviceLocator);
             else if (args is FlatFileResultSetResolverArgs)
-                return new FlatFileResultSetResolver(args as FlatFileResultSetResolverArgs);
+                return new FlatFileResultSetResolver(args as FlatFileResultSetResolverArgs, serviceLocator);
             else if (args is XPathResultSetResolverArgs)
                 return new XPathResultSetResolver(args as XPathResultSetResolverArgs);
             else if (args is ObjectsResultSetResolverArgs)

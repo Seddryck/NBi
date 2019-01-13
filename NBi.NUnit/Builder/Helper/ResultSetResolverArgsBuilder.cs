@@ -1,7 +1,4 @@
-﻿using NBi.Core;
-using NBi.Core.Injection;
-using NBi.Core.Query;
-using NBi.Core.Query.Resolver;
+﻿using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Variable;

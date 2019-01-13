@@ -15,10 +15,12 @@ namespace NBi.Core.ResultSet.Resolver
     class FlatFileResultSetResolver : IResultSetResolver
     {
         private readonly FlatFileResultSetResolverArgs args;
+        private readonly ServiceLocator serviceLocator;
 
-        public FlatFileResultSetResolver(FlatFileResultSetResolverArgs args)
+        public FlatFileResultSetResolver(FlatFileResultSetResolverArgs args, ServiceLocator serviceLocator)
         {
             this.args = args;
+            this.serviceLocator = serviceLocator;
         }
 
         public virtual ResultSet Execute()
@@ -29,7 +31,7 @@ namespace NBi.Core.ResultSet.Resolver
             if (!File.Exists(file))
                 throw new ExternalDependencyNotFoundException(file);
 
-            var factory = new FlatFileReaderFactory();
+            var factory = serviceLocator.GetFlatFileReaderFactory();
             var reader = factory.Instantiate(args.ParserName, args.Profile);
             var dataTable = reader.ToDataTable(file);
 

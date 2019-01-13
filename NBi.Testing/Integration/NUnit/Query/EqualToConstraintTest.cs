@@ -352,7 +352,7 @@ namespace NBi.Testing.Integration.NUnit.Query
         {
             //Buiding object used during test
             var filename = DiskOnFile.CreatePhysicalFile("NonEmptyAmountByYear.csv", "NBi.Testing.Integration.NUnit.Resources.NonEmptyAmountByYear.csv");
-            var resolver = new FlatFileResultSetResolver(new FlatFileResultSetResolverArgs(new LiteralScalarResolver<string>(filename), string.Empty, string.Empty, CsvProfile.SemiColumnDoubleQuote));
+            var resolver = new FlatFileResultSetResolver(new FlatFileResultSetResolverArgs(new LiteralScalarResolver<string>(filename), string.Empty, string.Empty, CsvProfile.SemiColumnDoubleQuote), null);
             var builder = new ResultSetServiceBuilder();
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());

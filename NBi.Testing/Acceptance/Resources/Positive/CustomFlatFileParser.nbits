@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+	<test name="Read the file with the default parser" uid="0001">
+		<system-under-test>
+      <result-set file="..\Csv\entsoe.tsv"></result-set>
+		</system-under-test>
+		<assert>
+      <row-count>
+        <equal>24</equal>
+      </row-count>
+		</assert>
+	</test>
+  <test name="Read the file with a custom parser without parameter in the constructor" uid="0002">
+    <system-under-test>
+      <result-set file="..\Csv\entsoe.tsv!custom"></result-set>
+    </system-under-test>
+    <assert>
+      <row-count>
+        <less-than or-equal="true">14</less-than>
+      </row-count>
+    </assert>
+  </test>
+</testSuite>

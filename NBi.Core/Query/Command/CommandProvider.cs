@@ -27,7 +27,7 @@ namespace NBi.Core.Query.Command
 
         public CommandProvider(IExtensionsConfiguration config)
         {
-            var extensions = config?.Extensions?.Where(x => typeof(ICommandFactory).IsAssignableFrom(x) && !x.IsAbstract) ?? new Type[0];
+            var extensions = config?.Extensions?.Where(x => typeof(ICommandFactory).IsAssignableFrom(x.Key) && !x.Key.IsAbstract)?.Select(x => x.Key) ?? new Type[0];
             RegisterFactories(classics.Union(extensions).ToArray());
         }
 

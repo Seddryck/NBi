@@ -8,5 +8,7 @@ using System.Threading.Tasks;
 namespace NBi.Extensibility.FlatFile
 {
     public interface IFlatFileProfile
-    { }
+    {
+        IDictionary<string, object> Attributes { get; }
+    }
 }

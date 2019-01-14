@@ -34,9 +34,12 @@ namespace NBi.Testing.Acceptance.Resources
             {
                 var value = reader.ReadLine();
                 
-                if ((!string.IsNullOrEmpty(value)) && value.Contains("10YBE") && !IsFirstLine)
+                //The first line should also be submitted because it will be skipped in the base class implementation
+                if (((!string.IsNullOrEmpty(value)) && value.Contains("10YBE")) || IsFirstLine)
+                {
+                    IsFirstLine = false;
                     return new List<string>() { value };
-                IsFirstLine = false;
+                }
             }
             return new List<string>();
         }

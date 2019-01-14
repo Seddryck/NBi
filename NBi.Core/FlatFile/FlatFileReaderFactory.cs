@@ -17,7 +17,7 @@ namespace NBi.Core.FlatFile
         {
             if (string.IsNullOrEmpty(fileExtension))
             {
-                var csvProfile = CsvProfile.SemiColumnDoubleQuote;
+                var csvProfile = new CsvProfile(profile.Attributes);
                 return new CsvReader(csvProfile);
             }
 

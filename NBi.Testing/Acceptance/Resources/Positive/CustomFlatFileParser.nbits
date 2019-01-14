@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
+  <settings>
+    <csv-profile field-separator="Tab" first-row-header="true"/>
+  </settings>
 	<test name="Read the file with the default parser" uid="0001">
 		<system-under-test>
       <result-set file="..\Csv\entsoe.tsv"></result-set>
@@ -16,7 +19,7 @@
     </system-under-test>
     <assert>
       <row-count>
-        <less-than or-equal="true">14</less-than>
+        <equal>14</equal>
       </row-count>
     </assert>
   </test>

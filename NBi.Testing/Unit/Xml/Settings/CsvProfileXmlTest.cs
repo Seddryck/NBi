@@ -9,6 +9,7 @@ using NBi.Xml.Systems;
 using NUnit.Framework;
 using NBi.Xml.Settings;
 using System;
+using System.Collections.Generic;
 #endregion
 
 namespace NBi.Testing.Unit.Xml.Settings
@@ -242,7 +243,79 @@ namespace NBi.Testing.Unit.Xml.Settings
 
             Assert.That(xml, Is.Not.StringContaining("field-separator"));
             Assert.That(xml, Is.Not.StringContaining("record-separator"));
+            Assert.That(xml, Is.Not.StringContaining("text-qualifier"));
             Assert.That(xml, Is.Not.StringContaining("csv-profile"));
+        }
+
+        [Test]
+        public void Serialize_SingleQuote_CsvProfileSpecified()
+        {
+            var settings = new SettingsXml();
+            settings.CsvProfile.TextQualifier = '\'';
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(settings);
+
+            Assert.That(xml, Is.Not.StringContaining("field-separator"));
+            Assert.That(xml, Is.Not.StringContaining("record-separator"));
+            Assert.That(xml, Is.StringContaining("text-qualifier"));
+            Assert.That(xml, Is.StringContaining("csv-profile"));
+        }
+
+        [Test]
+        public void Serialize_DoubleQuote_CsvProfileNotSpecified()
+        {
+            var settings = new SettingsXml();
+            settings.CsvProfile.TextQualifier = '\"';
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(settings);
+
+            Assert.That(xml, Is.Not.StringContaining("field-separator"));
+            Assert.That(xml, Is.Not.StringContaining("record-separator"));
+            Assert.That(xml, Is.Not.StringContaining("text-qualifier"));
+            Assert.That(xml, Is.Not.StringContaining("csv-profile"));
+        }
+
+
+        [Test]
+        public void Attributes_Default_CorrectValue()
+        {
+            var settings = new SettingsXml();
+
+            var expected = new Dictionary<string, object>()
+                {
+                    { "field-separator", ';' },
+                    { "text-qualifier", '\"' },
+                    { "record-separator", "\r\n" },
+                    { "first-row-header", false },
+                    { "missing-cell", "(null)" },
+                    { "empty-cell", "(empty)" },
+                };
+
+            Assert.That(settings.CsvProfile.Attributes, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void Attributes_Custom_CorrectValue()
+        {
+            var settings = new SettingsXml();
+            settings.CsvProfile.EmptyCell = "(null)";
+            settings.CsvProfile.TextQualifier = '\'';
+            settings.CsvProfile.RecordSeparator = "\n";
+            settings.CsvProfile.FirstRowHeader = true;
+
+            var expected = new Dictionary<string, object>()
+                {
+                    { "field-separator", ';' },
+                    { "text-qualifier", '\'' },
+                    { "record-separator", "\n" },
+                    { "first-row-header", true },
+                    { "missing-cell", "(null)" },
+                    { "empty-cell", "(null)" },
+                };
+
+            Assert.That(settings.CsvProfile.Attributes, Is.EqualTo(expected));
         }
     }
 }

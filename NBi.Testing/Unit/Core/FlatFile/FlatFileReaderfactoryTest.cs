@@ -59,7 +59,7 @@ namespace NBi.Testing.Unit.Core.FlatFile
             config.LoadExtensions(extensions);
 
             var factory = localServiceLocator.GetFlatFileReaderFactory();
-            var engine = factory.Instantiate(string.Empty, null);
+            var engine = factory.Instantiate(string.Empty, CsvProfile.SemiColumnDoubleQuote);
             Assert.IsInstanceOf<CsvReader>(engine);
         }
 

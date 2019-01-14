@@ -40,11 +40,14 @@ namespace NBi.Core.FlatFile
         {
             foreach (var reader in readers)
             {
-                var extension = reader.Value.ContainsKey("extension") ? reader.Value["extension"] : "*.*";
-                var ctor = reader.Key.GetConstructor(new Type[] { });
+                var type = reader.Key;
+                var parameters = reader.Value;
+
+                var extension = parameters.ContainsKey("extension") ? parameters["extension"] : "*.*";
+                var ctor = type.GetConstructor(new Type[] { });
 
                 if (ctor == null)
-                    throw new ArgumentException($"Can't load an extension. Can't find a constructor without parameter for the type '{reader.Key.Name}'");
+                    throw new ArgumentException($"Can't load an extension. Can't find a constructor without parameter for the type '{type.Name}'");
                 object ctorInvocation() => ctor.Invoke(new object[] { });
 
                 if (Readers.ContainsKey(extension))
@@ -53,7 +56,7 @@ namespace NBi.Core.FlatFile
                     var sentence = otherTypes.Count() > 1
                         ? $"the other types '{string.Join("', '", otherTypes.Take(otherTypes.Count() - 1))}' and '{otherTypes.ElementAt(otherTypes.Count() - 1)}' are"
                         : $"another type '{otherTypes.ElementAt(0)}' is";
-                    throw new ArgumentException($"Can't register an extension. The type '{reader.Key.Name}' is trying to register for the file extension '{extension}' but {sentence} also trying to register for the same file extension.");
+                    throw new ArgumentException($"Can't register an extension. The type '{type.Name}' is trying to register for the file extension '{extension}' but {sentence} also trying to register for the same file extension.");
                 }
 
                 Readers.Add(extension, ctorInvocation);

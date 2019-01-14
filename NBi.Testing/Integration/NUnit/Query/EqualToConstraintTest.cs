@@ -12,6 +12,7 @@ using NBi.Core.Scalar.Comparer;
 using NBi.Core;
 using NBi.Extensibility.Query;
 using NBi.Core.Scalar.Resolver;
+using NBi.Core.FlatFile;
 #endregion
 
 namespace NBi.Testing.Integration.NUnit.Query
@@ -351,7 +352,7 @@ namespace NBi.Testing.Integration.NUnit.Query
         {
             //Buiding object used during test
             var filename = DiskOnFile.CreatePhysicalFile("NonEmptyAmountByYear.csv", "NBi.Testing.Integration.NUnit.Resources.NonEmptyAmountByYear.csv");
-            var resolver = new CsvResultSetResolver(new CsvResultSetResolverArgs(new LiteralScalarResolver<string>(filename), string.Empty, CsvProfile.SemiColumnDoubleQuote));
+            var resolver = new FlatFileResultSetResolver(new FlatFileResultSetResolverArgs(new LiteralScalarResolver<string>(filename), string.Empty, string.Empty, CsvProfile.SemiColumnDoubleQuote), null);
             var builder = new ResultSetServiceBuilder();
             builder.Setup(resolver);
             var ctr = new EqualToConstraint(builder.GetService());

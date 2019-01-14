@@ -2,8 +2,9 @@ param(
     [parameter(Mandatory=$true)]
     [string]$version
 )
-
-Write-Host "Looking to setup the version $version"
+(Get-childitem -Path ".") | Foreach-Object { 
+    Write-Host "$_"
+    }
 
 $parts = $version -split '-'
 $arr = $parts[0] -split '\.'
@@ -21,7 +22,7 @@ Write-Host "Patch: $($arr[2])"
 Write-Host "Build number: $($arr[3])"
 
 
-(Get-childitem -include AssemblyInfo.cs -recurse) | Foreach-Object { 
+(Get-childitem -Path . -include AssemblyInfo.cs -recurse) | Foreach-Object { 
     $path = $_
 	(Get-Content $_) | ForEach-Object{
 		if($_ -match '\[assembly: AssemblyVersion\("(.*)"\)\]'){

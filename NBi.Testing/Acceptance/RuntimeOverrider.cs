@@ -82,8 +82,9 @@ namespace NBi.Testing.Acceptance
         }
 
         [Test]
-        [TestCase("QueryEqualToResultSetProvider.nbits")]
-        [TestCase("Variable.nbits")]
+        //[TestCase("QueryEqualToResultSetProvider.nbits")]
+        //[TestCase("Variable.nbits")]
+        [TestCase("CustomFlatFileParser.nbits")]
         [Category("Acceptance")]
         public override void RunPositiveTestSuiteWithConfig(string filename)
         {

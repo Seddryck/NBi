@@ -36,12 +36,12 @@ namespace NBi.Core.ResultSet.Lookup
             stopWatch.Start();
             var referenceKeyRetriever = BuildKeysRetriever(settings, x => x.ReferenceColumn);
             var references = BuildReferences(parent, referenceKeyRetriever);
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Building collection of keys from parent: {0} [{1}]", references.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Building collection of keys from parent: {references.Count} [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
 
             stopWatch.Reset();
             var candidateKeyBuilder = BuildKeysRetriever(settings, x => x.CandidateColumn);
             var violations = ExtractReferenceViolation(child, candidateKeyBuilder, references);
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Analyzing potential reference violation for {0} rows [{1}]", child.Rows.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Analyzing potential reference violation for {child.Rows.Count} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
 
             return violations;
         }
@@ -63,8 +63,7 @@ namespace NBi.Core.ResultSet.Lookup
 
         private IList<KeyCollection> BuildReferences(DataTable table, KeysRetriever keyRetriever)
         {
-
-            var references = new List<KeyCollection>();
+            var references = new HashSet<KeyCollection>();
 
             foreach (DataRow row in table.Rows)
             {
@@ -73,7 +72,7 @@ namespace NBi.Core.ResultSet.Lookup
                     references.Add(keys);
             }
 
-            return references;
+            return references.ToList();
         }
 
         private LookupViolations ExtractReferenceViolation(DataTable table, KeysRetriever keyRetriever, IEnumerable<KeyCollection> references)

@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -294,6 +295,66 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
             var referencer = new LookupExistsAnalyzer(mapping);
             var violations = referencer.Execute(child, reference);
             Assert.That(violations.Count(), Is.EqualTo(0));
+        }
+
+        [Test]
+        [TestCase(1000)]
+        [TestCase(10000)]
+        [TestCase(100000)]
+        [TestCase(1000000)]
+        public void Execute_LargeVolumeReference_Fast(int maxItem)
+        {
+            var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 1, 2, 3 });
+            var reference = new DataTable();
+            var dt = reference.Columns.Add("two");
+            for (int i = 0; i < maxItem; i++)
+            {
+                var dr = reference.NewRow();
+                dr.SetField<object>(dt, i);
+                reference.Rows.Add(dr);
+            }
+            reference.AcceptChanges();
+
+            var mapping = new ColumnMappingCollection
+            {
+                new ColumnMapping(new ColumnNameIdentifier("two"), new ColumnNameIdentifier("two"), ColumnType.Numeric)
+            };
+            var referencer = new LookupExistsAnalyzer(mapping);
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            var violations = referencer.Execute(child, reference);
+            stopWatch.Stop();
+            Assert.That(stopWatch.Elapsed.TotalSeconds, Is.LessThan(5));
+        }
+
+        [Test]
+        [TestCase(1000)]
+        [TestCase(10000)]
+        [TestCase(100000)]
+        [TestCase(1000000)]
+        public void Execute_LargeVolumeChild_Fast(int maxItem)
+        {
+            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 1, 2, 3 });
+            var child = new DataTable();
+            var dt = child.Columns.Add("two");
+            for (int i = 0; i < maxItem; i++)
+            {
+                var dr = child.NewRow();
+                dr.SetField<object>(dt, i);
+                child.Rows.Add(dr);
+            }
+            child.AcceptChanges();
+
+            var mapping = new ColumnMappingCollection
+            {
+                new ColumnMapping(new ColumnNameIdentifier("two"), new ColumnNameIdentifier("two"), ColumnType.Numeric)
+            };
+            var referencer = new LookupExistsAnalyzer(mapping);
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            var violations = referencer.Execute(child, reference);
+            stopWatch.Stop();
+            Assert.That(stopWatch.Elapsed.TotalSeconds, Is.LessThan(5));
         }
     }
 }

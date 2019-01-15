@@ -5,6 +5,7 @@ using NBi.Core.Scalar.Resolver;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -31,12 +32,19 @@ namespace NBi.Core.ResultSet.Resolver
             if (!File.Exists(file))
                 throw new ExternalDependencyNotFoundException(file);
 
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Loading data from flat file '{file}'");
+
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
             var factory = serviceLocator.GetFlatFileReaderFactory();
             var reader = factory.Instantiate(args.ParserName, args.Profile);
             var dataTable = reader.ToDataTable(file);
 
             var rs = new ResultSet();
             rs.Load(dataTable);
+            stopWatch.Stop();
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Time needed to load data from flat file: {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Result-set contains {dataTable.Rows.Count} row{(dataTable.Rows.Count>1 ? "s" : string.Empty)} and {dataTable.Columns.Count} column{(dataTable.Columns.Count > 1 ? "s" : string.Empty)}");
             return rs;
         }
     }

@@ -24,6 +24,11 @@ namespace NBi.Core.ResultSet.Lookup
                     var value = FormatValue(setting.Type, row[name]);
                     keys.Add(value);
                 }
+                catch (ArgumentException ex)
+                {
+                    var columnNames = row.Table.Columns.Cast<DataColumn>().Select(x => x.ColumnName);
+                    throw new NBiException($"{ex.Message} This table contains the following column{(columnNames.Count()>1 ? "s" : string.Empty)}: '{string.Join("', '",  columnNames)}'.");
+                }
                 catch (FormatException)
                 {
                     throw new NBiException($"In the column with name '{name}', NBi can't convert the value '{row[name]}' to the type '{setting.Type}'. Key columns must match with their respective types and don't support null, generic or interval values.");

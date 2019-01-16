@@ -1,4 +1,5 @@
-﻿using NBi.Core.ResultSet;
+﻿using NBi.Core;
+using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
 using NUnit.Framework;
 using System;
@@ -130,6 +131,23 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
             Assert.That(keyRetriever.GetKeys(table.Rows[0]).Members, Is.EqualTo(new[] { "Foo", "Key0" }));
             Assert.That(keyRetriever.GetKeys(table.Rows[1]).Members, Is.EqualTo(new[] { "Bar", "Key1" }));
             Assert.That(keyRetriever.GetKeys(table.Rows[2]).Members, Is.EqualTo(new[] { "Foo", "Key0" }));
+        }
+
+
+        [Test]
+        public void GetKeys_NonExistingCell_CorrectMessage()
+        {
+            var table = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 0, 1, 0 });
+
+            var columns = new List<IColumnDefinition>()
+            {
+                new Column() { Identifier = new ColumnNameIdentifier("notExisting"), Type=ColumnType.Text},
+                new Column() { Identifier = new ColumnNameIdentifier("zero"), Type=ColumnType.Text}
+            };
+
+            var keyRetriever = new KeysRetrieverByName(columns);
+            var ex = Assert.Throws<NBiException>(() => keyRetriever.GetKeys(table.Rows[0]));
+            Assert.That(ex.Message, Is.StringContaining(": 'zero', 'one', 'two'."));
         }
 
     }

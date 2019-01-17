@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Testing.Unit.Core.ResultSet.Lookup
 {
-    public class KeysRetrieverByNameTest
+    public class CellsRetrieverByNameTest
     {
         protected DataTable BuildDataTable(object[] keys, object[] secondKeys, object[] values)
         {
@@ -44,10 +44,10 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
                 new Column() { Identifier = new ColumnNameIdentifier("zero"), Type=ColumnType.Text}
             };
 
-            var keyRetriever = new KeysRetrieverByName(columns);
-            Assert.That(keyRetriever.GetKeys(table.Rows[0]).Members, Is.EqualTo(new[] { "Key0" }));
-            Assert.That(keyRetriever.GetKeys(table.Rows[1]).Members, Is.EqualTo(new[] { "Key1" }));
-            Assert.That(keyRetriever.GetKeys(table.Rows[2]).Members, Is.EqualTo(new[] { "Key0" }));
+            var keyRetriever = new CellsRetrieverByName(columns);
+            Assert.That(keyRetriever.GetColumns(table.Rows[0]).Members, Is.EqualTo(new[] { "Key0" }));
+            Assert.That(keyRetriever.GetColumns(table.Rows[1]).Members, Is.EqualTo(new[] { "Key1" }));
+            Assert.That(keyRetriever.GetColumns(table.Rows[2]).Members, Is.EqualTo(new[] { "Key0" }));
         }
 
         [Test]
@@ -60,10 +60,10 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
                 new Column() { Identifier = new ColumnNameIdentifier("two"), Type=ColumnType.Numeric}
             };
 
-            var keyRetriever = new KeysRetrieverByName(columns);
-            Assert.That(keyRetriever.GetKeys(table.Rows[0]).Members, Is.EqualTo(new[] { 0 }));
-            Assert.That(keyRetriever.GetKeys(table.Rows[1]).Members, Is.EqualTo(new[] { 1 }));
-            Assert.That(keyRetriever.GetKeys(table.Rows[2]).Members, Is.EqualTo(new[] { 0 }));
+            var keyRetriever = new CellsRetrieverByName(columns);
+            Assert.That(keyRetriever.GetColumns(table.Rows[0]).Members, Is.EqualTo(new[] { 0 }));
+            Assert.That(keyRetriever.GetColumns(table.Rows[1]).Members, Is.EqualTo(new[] { 1 }));
+            Assert.That(keyRetriever.GetColumns(table.Rows[2]).Members, Is.EqualTo(new[] { 0 }));
         }
 
         [Test]
@@ -76,10 +76,10 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
                 new Column() { Identifier = new ColumnNameIdentifier("two"), Type=ColumnType.Numeric}
             };
 
-            var keyRetriever = new KeysRetrieverByName(columns);
-            Assert.That(keyRetriever.GetKeys(table.Rows[0]).Members, Is.EqualTo(new[] { 0 }));
-            Assert.That(keyRetriever.GetKeys(table.Rows[1]).Members, Is.EqualTo(new[] { 1 }));
-            Assert.That(keyRetriever.GetKeys(table.Rows[2]).Members, Is.EqualTo(new[] { 0 }));
+            var keyRetriever = new CellsRetrieverByName(columns);
+            Assert.That(keyRetriever.GetColumns(table.Rows[0]).Members, Is.EqualTo(new[] { 0 }));
+            Assert.That(keyRetriever.GetColumns(table.Rows[1]).Members, Is.EqualTo(new[] { 1 }));
+            Assert.That(keyRetriever.GetColumns(table.Rows[2]).Members, Is.EqualTo(new[] { 0 }));
         }
 
         [Test]
@@ -93,10 +93,10 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
                 new Column() { Identifier = new ColumnNameIdentifier("one"), Type=ColumnType.Text}
             };
 
-            var keyRetriever = new KeysRetrieverByName(columns);
-            Assert.That(keyRetriever.GetKeys(table.Rows[0]).Members, Is.EqualTo(new[] { "Key0", "Foo" }));
-            Assert.That(keyRetriever.GetKeys(table.Rows[1]).Members, Is.EqualTo(new[] { "Key1", "Bar" }));
-            Assert.That(keyRetriever.GetKeys(table.Rows[2]).Members, Is.EqualTo(new[] { "Key0", "Foo" }));
+            var keyRetriever = new CellsRetrieverByName(columns);
+            Assert.That(keyRetriever.GetColumns(table.Rows[0]).Members, Is.EqualTo(new[] { "Key0", "Foo" }));
+            Assert.That(keyRetriever.GetColumns(table.Rows[1]).Members, Is.EqualTo(new[] { "Key1", "Bar" }));
+            Assert.That(keyRetriever.GetColumns(table.Rows[2]).Members, Is.EqualTo(new[] { "Key0", "Foo" }));
         }
 
         [Test]
@@ -110,10 +110,10 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
                 new Column() { Identifier = new ColumnNameIdentifier("two"), Type=ColumnType.Numeric}
             };
 
-            var keyRetriever = new KeysRetrieverByName(columns);
-            Assert.That(keyRetriever.GetKeys(table.Rows[0]).Members, Is.EqualTo(new object[] { "Key0", 0 }));
-            Assert.That(keyRetriever.GetKeys(table.Rows[1]).Members, Is.EqualTo(new object[] { "Key1", 1 }));
-            Assert.That(keyRetriever.GetKeys(table.Rows[2]).Members, Is.EqualTo(new object[] { "Key0", 0 }));
+            var keyRetriever = new CellsRetrieverByName(columns);
+            Assert.That(keyRetriever.GetColumns(table.Rows[0]).Members, Is.EqualTo(new object[] { "Key0", 0 }));
+            Assert.That(keyRetriever.GetColumns(table.Rows[1]).Members, Is.EqualTo(new object[] { "Key1", 1 }));
+            Assert.That(keyRetriever.GetColumns(table.Rows[2]).Members, Is.EqualTo(new object[] { "Key0", 0 }));
         }
 
         [Test]
@@ -127,10 +127,10 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
                 new Column() { Identifier = new ColumnNameIdentifier("zero"), Type=ColumnType.Text}
             };
 
-            var keyRetriever = new KeysRetrieverByName(columns);
-            Assert.That(keyRetriever.GetKeys(table.Rows[0]).Members, Is.EqualTo(new[] { "Foo", "Key0" }));
-            Assert.That(keyRetriever.GetKeys(table.Rows[1]).Members, Is.EqualTo(new[] { "Bar", "Key1" }));
-            Assert.That(keyRetriever.GetKeys(table.Rows[2]).Members, Is.EqualTo(new[] { "Foo", "Key0" }));
+            var keyRetriever = new CellsRetrieverByName(columns);
+            Assert.That(keyRetriever.GetColumns(table.Rows[0]).Members, Is.EqualTo(new[] { "Foo", "Key0" }));
+            Assert.That(keyRetriever.GetColumns(table.Rows[1]).Members, Is.EqualTo(new[] { "Bar", "Key1" }));
+            Assert.That(keyRetriever.GetColumns(table.Rows[2]).Members, Is.EqualTo(new[] { "Foo", "Key0" }));
         }
 
 
@@ -145,8 +145,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
                 new Column() { Identifier = new ColumnNameIdentifier("zero"), Type=ColumnType.Text}
             };
 
-            var keyRetriever = new KeysRetrieverByName(columns);
-            var ex = Assert.Throws<NBiException>(() => keyRetriever.GetKeys(table.Rows[0]));
+            var keyRetriever = new CellsRetrieverByName(columns);
+            var ex = Assert.Throws<NBiException>(() => keyRetriever.GetColumns(table.Rows[0]));
             Assert.That(ex.Message, Is.StringContaining(": 'zero', 'one', 'two'."));
         }
 

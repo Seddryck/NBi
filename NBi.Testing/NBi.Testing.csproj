@@ -314,8 +314,9 @@
     <Compile Include="Unit\Core\Report\FileReportingParserTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ColumnIdentifierFactory.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\ColumnMappingCollectionTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByNameTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByOrdinalTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Lookup\CellsRetrieverByNameTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Lookup\CellsRetrieverByOrdinalTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Lookup\LookupMatchesAnalyzerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\LookupExistsAnalyzerTest.cs" />
     <Compile Include="Unit\Core\Scalar\Casting\NumericCasterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\CellComparerTest.cs" />

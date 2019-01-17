@@ -393,12 +393,13 @@
     <Compile Include="ResultSet\ColumnNameIdentifier.cs" />
     <Compile Include="ResultSet\ColumnRole.cs" />
     <Compile Include="ResultSet\ColumnType.cs" />
+    <Compile Include="ResultSet\Lookup\LookupMatchesAnalyzer.cs" />
     <Compile Include="ResultSet\Lookup\LookupExistsAnalyzer.cs" />
     <Compile Include="ResultSet\IColumnIdentifier.cs" />
     <Compile Include="ResultSet\Lookup\ColumnMapping.cs" />
-    <Compile Include="ResultSet\Lookup\KeysRetriever.cs" />
-    <Compile Include="ResultSet\Lookup\KeysRetrieverByOrdinal.cs" />
-    <Compile Include="ResultSet\Lookup\KeysRetrieverByName.cs" />
+    <Compile Include="ResultSet\Lookup\CellsRetriever.cs" />
+    <Compile Include="ResultSet\Lookup\CellsRetrieverByOrdinal.cs" />
+    <Compile Include="ResultSet\Lookup\CellsRetrieverByName.cs" />
     <Compile Include="ResultSet\Lookup\ColumnMappingCollection.cs" />
     <Compile Include="ResultSet\Lookup\LookupViolations.cs" />
     <Compile Include="Scalar\Comparer\CellComparer.cs" />

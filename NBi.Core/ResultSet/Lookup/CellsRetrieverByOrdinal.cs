@@ -7,13 +7,13 @@ using System.Linq;
 
 namespace NBi.Core.ResultSet.Lookup
 {
-    class KeysRetrieverByOrdinal : KeysRetriever
+    class CellsRetrieverByOrdinal : CellsRetriever
     {
-        public KeysRetrieverByOrdinal(IEnumerable<IColumnDefinition> settings)
+        public CellsRetrieverByOrdinal(IEnumerable<IColumnDefinition> settings)
             : base(settings)
         { }
 
-        public override KeyCollection GetKeys(DataRow row)
+        public override KeyCollection GetColumns(DataRow row)
         {
             var keys = new List<object>();
             foreach (var setting in Settings)

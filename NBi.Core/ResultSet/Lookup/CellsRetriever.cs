@@ -7,16 +7,16 @@ using System.Linq;
 
 namespace NBi.Core.ResultSet.Lookup
 {
-    abstract class KeysRetriever
+    abstract public class CellsRetriever
     {
         protected IEnumerable<IColumnDefinition> Settings { get; }
 
-        public KeysRetriever(IEnumerable<IColumnDefinition> settings)
+        public CellsRetriever(IEnumerable<IColumnDefinition> settings)
         {
             Settings = settings;
         }
 
-        public abstract KeyCollection GetKeys(DataRow row);
+        public abstract KeyCollection GetColumns(DataRow row);
 
         protected internal object FormatValue(ColumnType columnType, object value)
         {

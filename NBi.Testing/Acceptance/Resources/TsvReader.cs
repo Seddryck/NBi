@@ -44,7 +44,7 @@ namespace NBi.Testing.Acceptance.Resources
             return new List<string>();
         }
 
-        protected override IEnumerable<string> SplitLine(string row, char fieldSeparator, char textQualifier, string emptyCell)
+        protected override IEnumerable<string> SplitLine(string row, char fieldSeparator, char textQualifier, char escapeTextQualifier, string emptyCell)
             => row.Split(new[] { fieldSeparator }).Select(x => x == string.Empty ? emptyCell : x);
 
         protected override string CleanRecord(string record, string recordSeparator)

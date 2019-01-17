@@ -28,12 +28,7 @@ namespace NBi.NUnit.ResultSetComparison
         private ILookupViolationsMessageFormatter failure;
         protected ILookupViolationsMessageFormatter Failure
         {
-            get
-            {
-                if (failure == null)
-                    failure = BuildFailure();
-                return failure;
-            }
+            get => failure ?? (failure = BuildFailure());
         }
 
         protected virtual ILookupViolationsMessageFormatter BuildFailure()
@@ -44,19 +39,11 @@ namespace NBi.NUnit.ResultSetComparison
             return msg;
         }
         
-        protected LookupExistsAnalyzer engine;
-        protected internal virtual LookupExistsAnalyzer Engine
+        protected ILookupAnalyzer engine;
+        protected internal virtual ILookupAnalyzer Engine
         {
-            get
-            {
-                if (engine == null)
-                    engine = new LookupExistsAnalyzer(mappings ?? ColumnMappingCollection.Default);
-                return engine;
-            }
-            set
-            {
-                engine = value ?? throw new ArgumentNullException();
-            }
+            get => engine ?? (engine = new LookupExistsAnalyzer(mappings ?? ColumnMappingCollection.Default));
+            set => engine = value ?? throw new ArgumentNullException();
         }
 
         public LookupExistsConstraint(IResultSetService reference)

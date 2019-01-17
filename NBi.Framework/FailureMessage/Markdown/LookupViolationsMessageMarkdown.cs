@@ -45,7 +45,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             rows = rows ?? new List<DataRow>();
 
             sampler.Build(rows);
-            var table = tableBuilder.Build(sampler.GetResult());
+            var table = tableBuilder.Build(sampler.GetResult().ToList());
 
             var container = new MarkdownContainer();
 
@@ -81,7 +81,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             {
                 var rows = violations[keyCollection];
                 container.Append($"Following reference is missing ({rows.Count} occurence{(rows.Count > 1 ? "s" : string.Empty)}):".ToMarkdownParagraph());
-                container.Append(new BulletedList(keyCollection.Members.Cast<string>()));
+                container.Append(new BulletedList(keyCollection.Members.Select(x => x.ToString())));
 
                 dataRowSampler.Build(rows);
                 var table = tableBuilder.Build(dataRowSampler.GetResult());

@@ -27,13 +27,13 @@ namespace NBi.Core.ResultSet.Lookup
             var referenceKeyRetriever = BuildColumnsRetriever(Keys, x => x.ReferenceColumn);
             var referenceValueRetriever = BuildColumnsRetriever(Values, x => x.ReferenceColumn);
             var references = BuildReferenceIndex(reference, referenceKeyRetriever, referenceValueRetriever);
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Building the index for keys from reference table (including value columns) containing {references.Count} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Building the index (including value columns) for keys from the reference table containing {references.Count} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
 
             stopWatch.Restart();
             var candidateKeyBuilder = BuildColumnsRetriever(Keys, x => x.CandidateColumn);
             var candidateValueRetriever = BuildColumnsRetriever(Values, x => x.CandidateColumn);
             var violations = ExtractLookupViolation(candidate, candidateKeyBuilder, candidateValueRetriever, references);
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Analyzing potential lookup violations based on keys and values for {candidate.Rows.Count} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Analyzing potential lookup violations (based on keys and values) for the {candidate.Rows.Count} rows from candidate table [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
 
             return violations;
         }
@@ -59,22 +59,34 @@ namespace NBi.Core.ResultSet.Lookup
         {
             var violations = new LookupViolations();
 
-            foreach (DataRow row in table.Rows)
+            try
             {
-                var keys = keyRetriever.GetColumns(row);
-                if (!references.ContainsKey(keys))
+                foreach (DataRow row in table.Rows)
                 {
-                    if (violations.ContainsKey(keys))
-                        violations[keys].Add(row);
+                    var keys = keyRetriever.GetColumns(row);
+                    if (!references.ContainsKey(keys))
+                    {
+                        if (violations.ContainsKey(keys))
+                            violations[keys].Add(row);
+                        else
+                            violations.Add(keys, new Collection<DataRow>() { row });
+                    }
                     else
-                        violations.Add(keys, new Collection<DataRow>() { row });
+                    {
+                        var values = valueRetriever.GetColumns(row);
+                        if (!references[keys].Contains(values))
+                        { 
+                            if (violations.ContainsKey(keys))
+                                violations[keys].Add(row);
+                            else
+                                violations.Add(keys, new Collection<DataRow>() { row });
+                        }
+                    }
                 }
-                else
-                {
-                    var values = valueRetriever.GetColumns(row);
-                    if (!references[keys].Contains(values))
-                        violations.Add(keys, new Collection<DataRow>() { row });
-                }
+            }
+            catch (ArgumentException ex)
+            {
+                var str = ex.Message;
             }
             return violations;
         }

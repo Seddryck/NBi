@@ -1051,6 +1051,7 @@
                 <xs:element name="single-row" type="filter-base-type"/>
                 <xs:element name="unique-rows" type="unique-rows-type"/>
                 <xs:element name="lookup-exists" type="lookup-exists-type"/>
+                <xs:element name="lookup-matches" type="lookup-matches-type"/>
                 <xs:element name="score" type="score-type"/>
               </xs:choice>
             </xs:complexType>
@@ -1228,6 +1229,17 @@
   <xs:complexType name="lookup-exists-type">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">
       <xs:element name="join" type="join-type" minOccurs="1" maxOccurs="1" />
+      <xs:choice minOccurs="1" maxOccurs="1">
+        <xs:element name="resultSet" type="result-set-type" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="result-set" type="result-set-type" minOccurs="1" maxOccurs="1"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="reverse" type="xs:boolean"/>
+  </xs:complexType>
+  <xs:complexType name="lookup-matches-type">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="join" type="join-type" minOccurs="1" maxOccurs="1" />
+      <xs:element name="inclusion" type="join-type" minOccurs="1" maxOccurs="1" />
       <xs:choice minOccurs="1" maxOccurs="1">
         <xs:element name="resultSet" type="result-set-type" minOccurs="1" maxOccurs="1"/>
         <xs:element name="result-set" type="result-set-type" minOccurs="1" maxOccurs="1"/>

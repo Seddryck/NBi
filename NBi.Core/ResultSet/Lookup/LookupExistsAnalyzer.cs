@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Lookup
 {
-    public class LookupExistsAnalyzer
+    public class LookupExistsAnalyzer : ILookupAnalyzer
     {
         protected ColumnMappingCollection Keys { get; private set; }
 
@@ -41,7 +41,7 @@ namespace NBi.Core.ResultSet.Lookup
             stopWatch.Restart();
             var candidateKeyBuilder = BuildColumnsRetriever(Keys, x => x.CandidateColumn);
             var violations = ExtractLookupViolation(candidate, candidateKeyBuilder, references);
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Analyzing potential lookup violations based on keys for {candidate.Rows.Count} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Analyzing potential lookup violations (based on keys) for the {candidate.Rows.Count} rows from candidate table [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
 
             return violations;
         }

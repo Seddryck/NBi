@@ -76,6 +76,7 @@
     <Compile Include="Builder\Helper\ScalarResolverArgsBuilder.cs" />
     <Compile Include="Builder\Helper\ResultSetResolverArgsBuilder.cs" />
     <Compile Include="Builder\Helper\QueryResolverArgsBuilder.cs" />
+    <Compile Include="Builder\ResultSetLookupMatchesBuilder.cs" />
     <Compile Include="Builder\ScalarScoreBuilder.cs" />
     <Compile Include="Builder\ResultSetSingleRowBuilder.cs" />
     <Compile Include="Builder\ResultSetSomeRowsBuilder.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Query\SingleRowConstraint.cs" />
     <Compile Include="Query\SomeRowsConstraint.cs" />
     <Compile Include="ResultSetComparison\BaseResultSetComparisonConstraint.cs" />
+    <Compile Include="ResultSetComparison\LookupMatchesConstraint.cs" />
     <Compile Include="ResultSetComparison\LookupReverseExistsConstraint.cs" />
     <Compile Include="ResultSetComparison\LookupExistsConstraint.cs" />
     <Compile Include="ResultSetComparison\UniqueRowsConstraint.cs" />

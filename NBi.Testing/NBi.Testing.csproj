@@ -491,6 +491,7 @@
     <Compile Include="Unit\Service\TestCaseCollectionManagerTest.cs" />
     <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\LookupMatchesXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\ScoreXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\LookupExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\UniqueRowsXmlTest.cs" />
@@ -1070,6 +1071,9 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\LookupMatchesXmlTestSuite.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\Resources\SentinelLoopXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\LocalVariableXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\InstanceSettlingXmlTestSuite.xml" />

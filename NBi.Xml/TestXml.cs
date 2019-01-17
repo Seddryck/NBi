@@ -139,6 +139,7 @@ namespace NBi.Xml
         XmlArrayItem(Type = typeof(IsXml), ElementName = "is"),
         XmlArrayItem(Type = typeof(UniqueRowsXml), ElementName = "unique-rows"),
         XmlArrayItem(Type = typeof(LookupExistsXml), ElementName = "lookup-exists"),
+        XmlArrayItem(Type = typeof(LookupMatchesXml), ElementName = "lookup-matches"),
         XmlArrayItem(Type = typeof(ScoreXml), ElementName = "score"),
         ]
         public List<AbstractConstraintXml> Constraints;

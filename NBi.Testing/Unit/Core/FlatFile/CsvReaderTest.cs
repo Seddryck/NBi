@@ -402,7 +402,7 @@ namespace NBi.Testing.Core.FlatFile
                     var profile = CsvProfile.SemiColumnDoubleQuote;
                     var reader = new CsvReaderProxy(profile);
                     var dataTable = reader.Read(stream);
-                    Assert.That(dataTable.Rows[0][1], Is.EqualTo(string.Empty));
+                    Assert.That(dataTable.Rows[0][1], Is.EqualTo(string.Empty).Or.EqualTo("(empty)"));
                 }
             }
         }

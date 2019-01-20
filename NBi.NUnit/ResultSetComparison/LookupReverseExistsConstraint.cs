@@ -39,7 +39,7 @@ namespace NBi.NUnit.ResultSetComparison
         protected override bool doMatch(ResultSet actual)
         {
             violations = Engine.Execute(rsCandidate, actual);
-            var output = violations.Count == 0;
+            var output = violations.Count() == 0;
 
             if (output && Configuration?.FailureReportProfile.Mode == FailureReportMode.Always)
                 Assert.Pass(Failure.RenderMessage());

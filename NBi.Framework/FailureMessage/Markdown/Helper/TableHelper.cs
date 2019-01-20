@@ -67,7 +67,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
         protected string GetText(List<ColumnType> columnTypes, DataRow dataRow, int i)
         {
             var factory = new CellFormatterFactory();
-            var formatter = factory.GetObject(columnTypes[i]);
+            var formatter = factory.Instantiate(columnTypes[i]);
 
             var text = string.Empty;
             if (dataRow.IsNull(i))

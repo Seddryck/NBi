@@ -35,51 +35,49 @@ namespace NBi.Testing.Acceptance
 
         //By Acceptance Test Suite (file) create a Test Case
         [Test]
-        //[TestCase("QueryUniqueRows.nbits")]
-        //[TestCase("AssemblyEqualToResultSet.nbits")]
-        //[TestCase("CsvEqualToResultSet.nbits")]
-        //[TestCase("QueryEqualToWithParameter.nbits")]
-        //[TestCase("QueryEqualToCsv.nbits")]
-        //[TestCase("QueryEqualToCsvWithProfile.nbits")]
-        //[TestCase("QueryEqualToQuery.nbits")]
-        //[TestCase("QuerySubsetOfQuery.nbits")]
-        //[TestCase("QuerySupersetOfQuery.nbits")]
-        //[TestCase("QueryEqualToResultSet.nbits")]
-        //[TestCase("QueryEqualToResultSetWithNull.nbits")]
-        //[TestCase("QueryWithReference.nbits")]
-        //[TestCase("Ordered.nbits")]
-        //[TestCase("Count.nbits")]
-        //[TestCase("Contain.nbits")]
-        //[TestCase("ContainStructure.nbits")]
-        //[TestCase("FasterThan.nbits")]
-        //[TestCase("SyntacticallyCorrect.nbits")]
-        //[TestCase("Exists.nbits")]
-        //[TestCase("LinkedTo.nbits")]
-        //[TestCase("SubsetOfStructure.nbits")]
-        //[TestCase("EquivalentToStructure.nbits")]
-        //[TestCase("SubsetOfMembers.nbits")]
-        //[TestCase("EquivalentToMembers.nbits")]
-        //[TestCase("MatchPatternMembers.nbits")]
-        //[TestCase("ResultSetMatchPattern.nbits")]
-        //[TestCase("QueryWithParameters.nbits")]
-        //[TestCase("ReportEqualTo.nbits")]
-        //[TestCase("Etl.nbits")]
-        //[TestCase("Decoration.nbits")]
-        //[TestCase("Is.nbits")]
-        //[TestCase("QueryEqualToXml.nbits")]
-        //[TestCase("QueryRowCount.nbits")]
-        //[TestCase("QueryAllNoRows.nbits")]
+        [TestCase("QueryUniqueRows.nbits")]
+        [TestCase("AssemblyEqualToResultSet.nbits")]
+        [TestCase("CsvEqualToResultSet.nbits")]
+        [TestCase("QueryEqualToWithParameter.nbits")]
+        [TestCase("QueryEqualToCsv.nbits")]
+        [TestCase("QueryEqualToCsvWithProfile.nbits")]
+        [TestCase("QueryEqualToQuery.nbits")]
+        [TestCase("QuerySubsetOfQuery.nbits")]
+        [TestCase("QuerySupersetOfQuery.nbits")]
+        [TestCase("QueryEqualToResultSet.nbits")]
+        [TestCase("QueryEqualToResultSetWithNull.nbits")]
+        [TestCase("QueryWithReference.nbits")]
+        [TestCase("Ordered.nbits")]
+        [TestCase("Count.nbits")]
+        [TestCase("Contain.nbits")]
+        [TestCase("ContainStructure.nbits")]
+        [TestCase("FasterThan.nbits")]
+        [TestCase("SyntacticallyCorrect.nbits")]
+        [TestCase("Exists.nbits")]
+        [TestCase("LinkedTo.nbits")]
+        [TestCase("SubsetOfStructure.nbits")]
+        [TestCase("EquivalentToStructure.nbits")]
+        [TestCase("SubsetOfMembers.nbits")]
+        [TestCase("EquivalentToMembers.nbits")]
+        [TestCase("MatchPatternMembers.nbits")]
+        [TestCase("ResultSetMatchPattern.nbits")]
+        [TestCase("QueryWithParameters.nbits")]
+        [TestCase("ReportEqualTo.nbits")]
+        [TestCase("Etl.nbits")]
+        [TestCase("Decoration.nbits")]
+        [TestCase("Is.nbits")]
+        [TestCase("QueryEqualToXml.nbits")]
+        [TestCase("QueryRowCount.nbits")]
+        [TestCase("QueryAllNoRows.nbits")]
         [TestCase("ResultSetConstraint.nbits")]
-        //[TestCase("Scoring.nbits")]
-        //[TestCase("Environment.nbits")]
-        //[TestCase("MultipleInstance.nbits")]
+        [TestCase("Scoring.nbits")]
+        [TestCase("Environment.nbits")]
+        [TestCase("MultipleInstance.nbits")]
         //[TestCase("PowerBiDesktop.nbits")]
         //[TestCase("EvaluateRows.nbits")]
         [Category("Acceptance")]
         public override void RunPositiveTestSuite(string filename)
-        {
-            base.RunPositiveTestSuite(filename);
-        }
+            => base.RunPositiveTestSuite(filename);
 
         [Test]
         //[TestCase("QueryEqualToResultSetProvider.nbits")]
@@ -87,18 +85,14 @@ namespace NBi.Testing.Acceptance
         [TestCase("CustomFlatFileParser.nbits")]
         [Category("Acceptance")]
         public override void RunPositiveTestSuiteWithConfig(string filename)
-        {
-            base.RunPositiveTestSuiteWithConfig(filename);
-        }
+            => base.RunPositiveTestSuiteWithConfig(filename);
 
         [Test]
         [TestCase("DataRowsMessage.nbits")]
         [TestCase("ItemsMessage.nbits")]
         [Category("Acceptance")]
         public override void RunNegativeTestSuite(string filename)
-        {
-            base.RunNegativeTestSuite(filename);
-        }
+            => base.RunNegativeTestSuite(filename);
 
         [Test]
         //[TestCase("Config-Full-Json.nbits")]
@@ -107,15 +101,11 @@ namespace NBi.Testing.Acceptance
         [TestCase("Scoring-Json.nbits")]
         [Category("Acceptance")]
         public override void RunNegativeTestSuiteWithConfig(string filename)
-        {
-            base.RunNegativeTestSuiteWithConfig(filename);
-        }
+            => base.RunNegativeTestSuiteWithConfig(filename);
 
         [Test]
         [TestCase("Ignored.nbits")]
         public override void RunIgnoredTests(string filename)
-        {
-            base.RunIgnoredTests(filename);
-        }
+            => base.RunIgnoredTests(filename);
     }
 }

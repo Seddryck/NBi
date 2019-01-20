@@ -9,7 +9,7 @@ namespace NBi.Unit.Framework.FailureMessage.Common
 {
     public class CellFormatterFactory
     {
-        public CellFormatter GetObject(ColumnType columnType)
+        public CellFormatter Instantiate(ColumnType columnType)
         {
             switch (columnType)
             {

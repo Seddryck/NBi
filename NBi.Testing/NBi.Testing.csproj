@@ -395,6 +395,8 @@
     <Compile Include="Unit\Framework\FailureMessage\Json\ScoreMessageJsonTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\TableHelperJsonTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Markdown\DataRowsMessageMardownTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Markdown\Helper\LookupTableHelperTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Markdown\Helper\StandardTableHelperTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Markdown\ScoreMessageMardownTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Markdown\ItemsMessageMardownTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Common\CellFormatterTest.cs" />

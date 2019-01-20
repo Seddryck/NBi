@@ -40,7 +40,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
                 return string.Empty;
             
             var factory = new CellFormatterFactory();
-            var formatter = factory.GetObject(columnTypes[i]);
+            var formatter = factory.Instantiate(columnTypes[i]);
 
             return formatter.Format(dataRow.GetColumnError(i));
         }

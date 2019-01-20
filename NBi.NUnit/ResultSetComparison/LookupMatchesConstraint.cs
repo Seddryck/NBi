@@ -26,6 +26,14 @@ namespace NBi.NUnit.ResultSetComparison
             set => engine = value ?? throw new ArgumentNullException();
         }
 
+        protected override ILookupViolationsMessageFormatter BuildFailure()
+        {
+            var factory = new LookupViolationsMessageFormatterFactory();
+            var msg = factory.Instantiate(Configuration.FailureReportProfile);
+            msg.Generate(rsReference.Rows.Cast<DataRow>(), rsCandidate.Rows.Cast<DataRow>(), violations, keyMappings, valueMappings);
+            return msg;
+        }
+
         public LookupMatchesConstraint(IResultSetService reference)
         : base(reference) { }
 

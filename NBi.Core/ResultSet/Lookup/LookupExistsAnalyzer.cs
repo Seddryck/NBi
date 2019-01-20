@@ -1,4 +1,5 @@
-﻿using NBi.Core.Scalar.Caster;
+﻿using NBi.Core.ResultSet.Lookup.Violation;
+using NBi.Core.Scalar.Caster;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,7 +20,7 @@ namespace NBi.Core.ResultSet.Lookup
             Keys = keys;
         }
 
-        public virtual LookupViolations Execute(object candidate, object reference)
+        public virtual LookupViolationCollection Execute(object candidate, object reference)
         {
             if (candidate is DataTable && reference is DataTable)
                 return Execute((DataTable)candidate, (DataTable)reference);
@@ -30,7 +31,7 @@ namespace NBi.Core.ResultSet.Lookup
             throw new ArgumentException();
         }
 
-        protected virtual LookupViolations Execute(DataTable candidate, DataTable reference)
+        protected virtual LookupViolationCollection Execute(DataTable candidate, DataTable reference)
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -46,7 +47,7 @@ namespace NBi.Core.ResultSet.Lookup
             return violations;
         }
 
-        protected CellsRetriever BuildColumnsRetriever(ColumnMappingCollection columns, Func<ColumnMapping, IColumnIdentifier> target)
+        protected CellRetriever BuildColumnsRetriever(ColumnMappingCollection columns, Func<ColumnMapping, IColumnIdentifier> target)
         {
             var defColumns = new Collection<IColumnDefinition>();
             foreach (var column in columns)
@@ -56,12 +57,12 @@ namespace NBi.Core.ResultSet.Lookup
             }
 
             if (columns.Any(x => target(x) is ColumnOrdinalIdentifier))
-                return new CellsRetrieverByOrdinal(defColumns);
+                return new CellRetrieverByOrdinal(defColumns);
             else
-                return new CellsRetrieverByName(defColumns);
+                return new CellRetrieverByName(defColumns);
         }
 
-        protected IEnumerable<KeyCollection> BuildReferenceIndex(DataTable table, CellsRetriever keyRetriever)
+        protected IEnumerable<KeyCollection> BuildReferenceIndex(DataTable table, CellRetriever keyRetriever)
         {
             var references = new HashSet<KeyCollection>();
 
@@ -75,20 +76,15 @@ namespace NBi.Core.ResultSet.Lookup
             return references.ToList();
         }
 
-        protected virtual LookupViolations ExtractLookupViolation(DataTable table, CellsRetriever keyRetriever, IEnumerable<KeyCollection> references)
+        protected virtual LookupViolationCollection ExtractLookupViolation(DataTable table, CellRetriever keyRetriever, IEnumerable<KeyCollection> references)
         {
-            var violations = new LookupViolations();
+            var violations = new LookupExistsViolationCollection(Keys);
 
             foreach (DataRow row in table.Rows)
             {
                 var keys = keyRetriever.GetColumns(row);
                 if (!references.Contains(keys))
-                {
-                    if (violations.ContainsKey(keys))
-                        violations[keys].Add(row);
-                    else
-                        violations.Add(keys, new Collection<DataRow>() { row });
-                }
+                    violations.Register(keys, row);
             }
             return violations;
         }

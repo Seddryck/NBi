@@ -1,4 +1,6 @@
-﻿using NBi.Core.Scalar.Caster;
+﻿using NBi.Core.ResultSet.Lookup.Violation;
+using NBi.Core.Scalar.Caster;
+using NBi.Core.Scalar.Comparer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,7 +22,7 @@ namespace NBi.Core.ResultSet.Lookup
             Values = values;
         }
 
-        protected override LookupViolations Execute(DataTable candidate, DataTable reference)
+        protected override LookupViolationCollection Execute(DataTable candidate, DataTable reference)
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -38,7 +40,7 @@ namespace NBi.Core.ResultSet.Lookup
             return violations;
         }
 
-        protected IDictionary<KeyCollection, ICollection<KeyCollection>> BuildReferenceIndex(DataTable table, CellsRetriever keyRetriever, CellsRetriever valuesRetriever)
+        protected IDictionary<KeyCollection, ICollection<KeyCollection>> BuildReferenceIndex(DataTable table, CellRetriever keyRetriever, CellRetriever valuesRetriever)
         {
             var references = new Dictionary<KeyCollection, ICollection<KeyCollection>>();
 
@@ -55,38 +57,57 @@ namespace NBi.Core.ResultSet.Lookup
             return references;
         }
 
-        private LookupViolations ExtractLookupViolation(DataTable table, CellsRetriever keyRetriever, CellsRetriever valueRetriever, IDictionary<KeyCollection, ICollection<KeyCollection>> references)
+        private LookupViolationCollection ExtractLookupViolation(DataTable table, CellRetriever keyRetriever, CellRetriever valueRetriever, IDictionary<KeyCollection, ICollection<KeyCollection>> references)
         {
-            var violations = new LookupViolations();
+            var violations = new LookupMatchesViolationCollection(Keys, Values);
 
-            try
+            foreach (DataRow row in table.Rows)
             {
-                foreach (DataRow row in table.Rows)
+                var keys = keyRetriever.GetColumns(row);
+                if (!references.ContainsKey(keys))
+                    violations.Register(keys, row);
+                else
                 {
-                    var keys = keyRetriever.GetColumns(row);
-                    if (!references.ContainsKey(keys))
+                    var setResults = new List<Dictionary<DataColumn, ComparerResult>>();
+                    foreach (var valueFields in references[keys])
                     {
-                        if (violations.ContainsKey(keys))
-                            violations[keys].Add(row);
-                        else
-                            violations.Add(keys, new Collection<DataRow>() { row });
-                    }
-                    else
-                    {
-                        var values = valueRetriever.GetColumns(row);
-                        if (!references[keys].Contains(values))
-                        { 
-                            if (violations.ContainsKey(keys))
-                                violations[keys].Add(row);
-                            else
-                                violations.Add(keys, new Collection<DataRow>() { row });
+                        var rowResults = new Dictionary<DataColumn, ComparerResult>();
+                        var tuples = valueFields.Members.Zip(Values,
+                            (x, c) => new {
+                                ReferenceValue = x,
+                                CandidateValue = row.GetValue(c.CandidateColumn),
+                                c.Type,
+                                Column = row.Table.GetColumn(c.CandidateColumn)
+                            } );
+
+                        foreach (var tuple in tuples)
+                        {
+                            var cellComparer = new CellComparer();
+                            var cellResult = cellComparer.Compare(tuple.ReferenceValue, tuple.CandidateValue, tuple.Type, null, null);
+                            rowResults.Add(tuple.Column, cellResult);
                         }
+                        setResults.Add(rowResults);
+
+                        if (rowResults.Values.All(x => x.AreEqual))
+                            break;
+                    }
+
+                    if (!setResults.Any(x => x.All(y => y.Value.AreEqual)))
+                    {
+                        var composite = new LookupMatchesViolationComposite(row, new List<LookupMatchesViolationRecord>());
+                        foreach (var rowResults in setResults)
+                        {
+                            var cases = new LookupMatchesViolationRecord();
+                            foreach (var cellResult in rowResults)
+                            {
+                                var data = new LookupMatchesViolationData(cellResult.Value.AreEqual, cellResult.Value.Message);
+                                cases.Add(cellResult.Key, data);
+                            }
+                            composite.Records.Add(cases);
+                        }
+                        violations.Register(keys, composite);
                     }
                 }
-            }
-            catch (ArgumentException ex)
-            {
-                var str = ex.Message;
             }
             return violations;
         }

@@ -7,9 +7,9 @@ using System.Linq;
 
 namespace NBi.Core.ResultSet.Lookup
 {
-    class CellsRetrieverByName : CellsRetriever
+    class CellRetrieverByName : CellRetriever
     {
-        public CellsRetrieverByName(IEnumerable<IColumnDefinition> settings)
+        public CellRetrieverByName(IEnumerable<IColumnDefinition> settings)
             : base(settings)
         { }
 

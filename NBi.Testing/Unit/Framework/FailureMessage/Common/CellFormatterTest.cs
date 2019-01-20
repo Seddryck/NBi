@@ -20,7 +20,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Common
         public void Format_NullValue_NullDisplay(ColumnType columnType)
         {
             var factory = new CellFormatterFactory();
-            var formatter = factory.GetObject(columnType);
+            var formatter = factory.Instantiate(columnType);
             var text = formatter.Format(null);
             Assert.That(text, Is.EqualTo("(null)"));
         }
@@ -33,7 +33,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Common
         public void Format_DBNullValue_NullDisplay(ColumnType columnType)
         {
             var factory = new CellFormatterFactory();
-            var formatter = factory.GetObject(columnType);
+            var formatter = factory.Instantiate(columnType);
             var text = formatter.Format(DBNull.Value);
             Assert.That(text, Is.EqualTo("(null)"));
         }
@@ -46,7 +46,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Common
         public void Format_StringNullValue_NullDisplay(ColumnType columnType)
         {
             var factory = new CellFormatterFactory();
-            var formatter = factory.GetObject(columnType);
+            var formatter = factory.Instantiate(columnType);
             var text = formatter.Format("(null)");
             Assert.That(text, Is.EqualTo("(null)"));
         }
@@ -61,7 +61,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Common
         public void Format_TextColumnObjectValue_CorrectDisplay(object value, string expected)
         {
             var factory = new CellFormatterFactory();
-            var formatter = factory.GetObject(ColumnType.Text);
+            var formatter = factory.Instantiate(ColumnType.Text);
             var text = formatter.Format(value);
             Assert.That(text, Is.EqualTo(expected));
         }
@@ -73,7 +73,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Common
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(culture);
             var factory = new CellFormatterFactory();
-            var formatter = factory.GetObject(ColumnType.Text);
+            var formatter = factory.Instantiate(ColumnType.Text);
             var text = formatter.Format(value);
             Assert.That(text, Is.EqualTo(expected));
         }
@@ -86,7 +86,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Common
         public void Format_NumericColumnObjectValue_CorrectDisplay(object value, string expected)
         {
             var factory = new CellFormatterFactory();
-            var formatter = factory.GetObject(ColumnType.Numeric);
+            var formatter = factory.Instantiate(ColumnType.Numeric);
             var text = formatter.Format(value);
             Assert.That(text, Is.EqualTo(expected));
         }
@@ -100,7 +100,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Common
         public void Format_DateTimeColumnObjectValue_CorrectDisplay(object value, string expected)
         {
             var factory = new CellFormatterFactory();
-            var formatter = factory.GetObject(ColumnType.DateTime);
+            var formatter = factory.Instantiate(ColumnType.DateTime);
             var text = formatter.Format(value);
             Assert.That(text, Is.EqualTo(expected));
         }
@@ -110,7 +110,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Common
         public void Format_DateTimeColumnDateTimeValue_CorrectDisplay(object value, string expected)
         {
             var factory = new CellFormatterFactory();
-            var formatter = factory.GetObject(ColumnType.DateTime);
+            var formatter = factory.Instantiate(ColumnType.DateTime);
             var text = formatter.Format(value);
             Assert.That(text, Is.EqualTo(expected));
         }
@@ -131,7 +131,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Common
         public void Format_BooleanColumnObjectValueForTrue_DisplayIsTrue(object value)
         {
             var factory = new CellFormatterFactory();
-            var formatter = factory.GetObject(ColumnType.Boolean);
+            var formatter = factory.Instantiate(ColumnType.Boolean);
             var text = formatter.Format(value);
             Assert.That(text, Is.EqualTo("True"));
         }
@@ -144,7 +144,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Common
         public void Format_BooleanColumnObjectValueForFalse_DisplayIsFalse(object value)
         {
             var factory = new CellFormatterFactory();
-            var formatter = factory.GetObject(ColumnType.Boolean);
+            var formatter = factory.Instantiate(ColumnType.Boolean);
             var text = formatter.Format(value);
             Assert.That(text, Is.EqualTo("False"));
         }

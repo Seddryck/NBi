@@ -53,7 +53,7 @@ namespace NBi.Framework.FailureMessage.Json
                     writer.WriteValue(cpFormatter.GetRoleText((ColumnRole)(column.ExtendedProperties["NBi::Role"] ?? ColumnRole.Key)));
                     writer.WritePropertyName("type");
                     writer.WriteValue(cpFormatter.GetTypeText((ColumnType)(column.ExtendedProperties["NBi::Type"] ?? ColumnType.Text)));
-                    formatters.Add(new CellFormatterFactory().GetObject((ColumnType)(column.ExtendedProperties["NBi::Type"] ?? ColumnType.Text)));
+                    formatters.Add(new CellFormatterFactory().Instantiate((ColumnType)(column.ExtendedProperties["NBi::Type"] ?? ColumnType.Text)));
                     var tolerance = (Tolerance)(column.ExtendedProperties["NBi::Tolerance"]);
                     if (!Tolerance.IsNullOrNone(tolerance))
                     {

@@ -57,13 +57,17 @@
     </Compile>
     <Compile Include="FailureMessage\IScoreMessageFormatter.cs" />
     <Compile Include="FailureMessage\Json\ScoreMessageJson.cs" />
+    <Compile Include="FailureMessage\Markdown\Helper\ITableHelper.cs" />
+    <Compile Include="FailureMessage\Markdown\Helper\StandardTableHelper.cs" />
+    <Compile Include="FailureMessage\Markdown\Helper\LookupTableHelper.cs" />
+    <Compile Include="FailureMessage\Markdown\Helper\BaseTableHelper.cs" />
     <Compile Include="FailureMessage\Markdown\ScoreMessageMarkdown.cs" />
     <Compile Include="FailureMessage\ScoreMessageFormatterFactory.cs" />
     <Compile Include="FailureMessage\ILookupViolationsMessageFormatter.cs" />
     <Compile Include="FailureMessage\Json\CompareTableHelperJson.cs" />
     <Compile Include="FailureMessage\Json\ItemsMessageJson.cs" />
-    <Compile Include="FailureMessage\Json\ReferenceViolationsMessageJson.cs" />
-    <Compile Include="FailureMessage\Markdown\LookupViolationsMessageMarkdown.cs" />
+    <Compile Include="FailureMessage\Json\LookupViolationsMessageJson.cs" />
+    <Compile Include="FailureMessage\Markdown\LookupViolationMessageMarkdown.cs" />
     <Compile Include="FailureMessage\LookupViolationsMessageFormatterFactory.cs" />
     <Compile Include="Sampling\FullSampler.cs" />
     <Compile Include="Sampling\NoneSampler.cs" />

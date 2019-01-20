@@ -1,4 +1,5 @@
 ﻿using NBi.Core.ResultSet.Lookup;
+using NBi.Core.ResultSet.Lookup.Violation;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,9 +11,9 @@ namespace NBi.Framework.FailureMessage
 {
     public interface ILookupViolationsMessageFormatter
     {
-        void Generate(IEnumerable<DataRow> parentRows, IEnumerable<DataRow> childRows, LookupViolations violations);
-        string RenderExpected();
-        string RenderActual();
+        void Generate(IEnumerable<DataRow> referenceRows, IEnumerable<DataRow> candidateRows, LookupViolationCollection violations, ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings);
+        string RenderReference();
+        string RenderCandidate();
         string RenderAnalysis();
         string RenderPredicate();
         string RenderMessage();

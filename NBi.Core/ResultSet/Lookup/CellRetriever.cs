@@ -7,11 +7,11 @@ using System.Linq;
 
 namespace NBi.Core.ResultSet.Lookup
 {
-    abstract public class CellsRetriever
+    abstract public class CellRetriever
     {
         protected IEnumerable<IColumnDefinition> Settings { get; }
 
-        public CellsRetriever(IEnumerable<IColumnDefinition> settings)
+        public CellRetriever(IEnumerable<IColumnDefinition> settings)
         {
             Settings = settings;
         }

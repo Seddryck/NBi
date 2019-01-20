@@ -17,6 +17,26 @@ namespace NBi.Framework.FailureMessage.Json
     class TableHelperJson
     {
         public void Execute(IEnumerable<DataRow> rows, ISampler<DataRow> sampler, JsonWriter writer)
+            => Execute(rows, sampler, BuildMetadataFromTable((rows ?? new DataRow[0]).Count()>0 ? rows.ElementAt(0).Table : null), writer);
+
+        private IEnumerable<ColumnMetadata> BuildMetadataFromTable(DataTable table)
+        {
+            if (table == null)
+                yield break;
+
+            foreach (DataColumn column in table.Columns)
+            {
+                yield return new ColumnMetadata()
+                {
+                    Role = (ColumnRole)(column.ExtendedProperties["NBi::Role"] ?? ColumnRole.Key),
+                    Type = (ColumnType)(column.ExtendedProperties["NBi::Type"] ?? ColumnType.Text),
+                    Tolerance = (Tolerance)(column.ExtendedProperties["NBi::Tolerance"]),
+                    Rounding = (Rounding)(column.ExtendedProperties["NBi::Rounding"])
+                };
+            }
+        }
+
+        public void Execute(IEnumerable<DataRow> rows, ISampler<DataRow> sampler, IEnumerable<ColumnMetadata> metadata, JsonWriter writer)
         {
             rows = rows ?? new List<DataRow>();
             sampler.Build(rows);
@@ -40,38 +60,40 @@ namespace NBi.Framework.FailureMessage.Json
                 writer.WriteStartArray();
                 var formatters = new List<CellFormatter>();
 
-                foreach (DataColumn column in sampled.ElementAt(0).Table.Columns)
+                var columns = sampled.ElementAt(0).Table.Columns;
+                for (var i = 0; i < columns.Count; i++)
                 {
+                    var meta = metadata.ElementAt(i);
+
                     writer.WriteStartObject();
                     writer.WritePropertyName("position");
-                    writer.WriteValue(column.Ordinal);
+                    writer.WriteValue(columns[i].Ordinal);
                     writer.WritePropertyName("name");
-                    writer.WriteValue(column.ColumnName);
+                    writer.WriteValue(columns[i].ColumnName);
 
                     var cpFormatter = new ColumnPropertiesFormatter();
                     writer.WritePropertyName("role");
-                    writer.WriteValue(cpFormatter.GetRoleText((ColumnRole)(column.ExtendedProperties["NBi::Role"] ?? ColumnRole.Key)));
+                    writer.WriteValue(cpFormatter.GetRoleText(meta.Role));
                     writer.WritePropertyName("type");
-                    writer.WriteValue(cpFormatter.GetTypeText((ColumnType)(column.ExtendedProperties["NBi::Type"] ?? ColumnType.Text)));
-                    formatters.Add(new CellFormatterFactory().Instantiate((ColumnType)(column.ExtendedProperties["NBi::Type"] ?? ColumnType.Text)));
-                    var tolerance = (Tolerance)(column.ExtendedProperties["NBi::Tolerance"]);
-                    if (!Tolerance.IsNullOrNone(tolerance))
+                    writer.WriteValue(cpFormatter.GetTypeText(meta.Type));
+                    if (!Tolerance.IsNullOrNone(meta.Tolerance))
                     {
                         writer.WritePropertyName("tolerance");
-                        writer.WriteValue(cpFormatter.GetToleranceText(tolerance).Trim());
+                        writer.WriteValue(cpFormatter.GetToleranceText(meta.Tolerance).Trim());
                     }
-                    var rounding = (Rounding)(column.ExtendedProperties["NBi::Rounding"]);
-                    if (rounding != null)
+                    if (meta.Rounding != null)
                     {
                         writer.WritePropertyName("rounding");
-                        writer.WriteValue(cpFormatter.GetRoundingText(rounding));
+                        writer.WriteValue(cpFormatter.GetRoundingText(meta.Rounding));
                     }
+
+                    formatters.Add(new CellFormatterFactory().Instantiate(metadata.ElementAt(i).Type));
                     writer.WriteEndObject();
                 }
                 writer.WriteEndArray(); //columns
 
                 BuildRows(sampled, formatters, writer);
-                
+
                 writer.WriteEndObject(); //table
             }
             writer.WriteEndObject();
@@ -83,7 +105,7 @@ namespace NBi.Framework.FailureMessage.Json
             writer.WriteStartArray();
             foreach (DataRow row in rows)
             {
-                
+
                 writer.WriteStartArray();
                 for (int i = 0; i < row.ItemArray.Count(); i++)
                 {

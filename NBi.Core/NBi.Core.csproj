@@ -393,6 +393,7 @@
     <Compile Include="ResultSet\Analyzer\UnexpectedRowsAnalyzer.cs" />
     <Compile Include="ResultSet\Analyzer\MissingRowsAnalyzer.cs" />
     <Compile Include="ResultSet\ColumnIdentifierFactory.cs" />
+    <Compile Include="ResultSet\ColumnMetadata.cs" />
     <Compile Include="ResultSet\ColumnOrdinalIdentifier.cs" />
     <Compile Include="ResultSet\ColumnNameIdentifier.cs" />
     <Compile Include="ResultSet\ColumnRole.cs" />

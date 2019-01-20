@@ -26,13 +26,13 @@ namespace NBi.NUnit.ResultSetComparison
         protected ResultSet rsCandidate;
         protected LookupViolationCollection violations;
 
-        private ILookupViolationsMessageFormatter failure;
-        protected ILookupViolationsMessageFormatter Failure
+        private ILookupViolationMessageFormatter failure;
+        protected ILookupViolationMessageFormatter Failure
         {
             get => failure ?? (failure = BuildFailure());
         }
 
-        protected virtual ILookupViolationsMessageFormatter BuildFailure()
+        protected virtual ILookupViolationMessageFormatter BuildFailure()
         {
             var factory = new LookupViolationsMessageFormatterFactory();
             var msg = factory.Instantiate(Configuration.FailureReportProfile);

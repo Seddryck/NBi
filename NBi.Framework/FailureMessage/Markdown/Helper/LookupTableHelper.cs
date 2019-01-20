@@ -17,16 +17,16 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
 {
     class LookupTableHelper : BaseTableHelper<LookupMatchesViolationComposite>
     {
-        public LookupTableHelper(IEnumerable<LookupMatchesViolationComposite> composites, IEnumerable<IColumnDefinition> definitions)
-            : base(composites, definitions) { }
+        public LookupTableHelper(IEnumerable<LookupMatchesViolationComposite> composites, IEnumerable<ColumnMetadata> metadatas)
+            : base(composites, metadatas) { }
 
         protected override TableExtended RenderNonEmptyTable()
         {
-            var extendedDefinitions = ExtendDefinitions(Rows.ElementAt(0).CandidateRow.Table, Definitions);
+            var extendedDefinitions = ExtendDefinitions(Rows.ElementAt(0).CandidateRow.Table, Metadatas);
             return new TableExtended() { Columns = RenderColumns(extendedDefinitions), Rows = RenderRows(Rows, extendedDefinitions) };
         }
 
-        protected override IEnumerable<TableRowExtended> RenderRows(IEnumerable<LookupMatchesViolationComposite> composites, IEnumerable<ExtendedColumnDefinition> definitions)
+        protected override IEnumerable<TableRowExtended> RenderRows(IEnumerable<LookupMatchesViolationComposite> composites, IEnumerable<ExtendedMetadata> definitions)
         {
             foreach (var composite in composites)
             {
@@ -41,7 +41,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             }
         }
 
-        private TableRowExtended RenderFirstRow(DataRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedColumnDefinition> definitions)
+        private TableRowExtended RenderFirstRow(DataRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedMetadata> definitions)
         {
             var cells = new List<TableCellExtended>();
             for (int i = 0; i < row.Table.Columns.Count; i++)
@@ -63,7 +63,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return new TableRowExtended() { Cells = cells }; 
         }
 
-        private TableRowExtended RenderSupplementaryRow(DataRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedColumnDefinition> definitions)
+        private TableRowExtended RenderSupplementaryRow(DataRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedMetadata> definitions)
         {
             var cells = new List<TableCellExtended>();
             for (int i = 0; i < row.Table.Columns.Count; i++)

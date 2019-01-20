@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage
 {
-    public interface ILookupViolationsMessageFormatter
+    public interface ILookupViolationMessageFormatter
     {
         void Generate(IEnumerable<DataRow> referenceRows, IEnumerable<DataRow> candidateRows, LookupViolationCollection violations, ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings);
         string RenderReference();

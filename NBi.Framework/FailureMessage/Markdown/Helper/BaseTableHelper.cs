@@ -17,10 +17,10 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
     abstract class BaseTableHelper<T> : ITableHelper
     {
         public IReadOnlyCollection<T> Rows { get; }
-        public IEnumerable<IColumnDefinition> Definitions { get; }
+        public IEnumerable<ColumnMetadata> Metadatas { get; }
 
-        public BaseTableHelper(IEnumerable<T> rows, IEnumerable<IColumnDefinition> definitions)
-            => (Rows, Definitions) = (new ReadOnlyCollection<T>(rows.ToList()), definitions);
+        public BaseTableHelper(IEnumerable<T> rows, IEnumerable<ColumnMetadata> metadata)
+            => (Rows, Metadatas) = (new ReadOnlyCollection<T>(rows.ToList()), metadata);
 
         public MarkdownContainer Render()
         {
@@ -33,7 +33,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
 
         protected abstract TableExtended RenderNonEmptyTable();
 
-        protected virtual IEnumerable<TableRowExtended> RenderRows(IEnumerable<T> rows, IEnumerable<ExtendedColumnDefinition> columnDefinitions)
+        protected virtual IEnumerable<TableRowExtended> RenderRows(IEnumerable<T> rows, IEnumerable<ExtendedMetadata> columnDefinitions)
         {
             foreach (var row in rows)
             {
@@ -51,50 +51,50 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return formatter.Format(value);
         }
 
-        protected IEnumerable<TableColumnExtended> RenderColumns(IEnumerable<ExtendedColumnDefinition> columnDefinitions)
+        protected IEnumerable<TableColumnExtended> RenderColumns(IEnumerable<ExtendedMetadata> metadatas)
         {
             var formatter = new ColumnPropertiesFormatter();
-            foreach (var definition in columnDefinitions)
+            foreach (var metadata in metadatas)
             {
                 var tableColumn = new TableColumnExtended()
                 {
                     HeaderCell = new TableCellExtended()
-                    { Text = (definition.Identifier)==null ? $"#{definition.Ordinal} ({definition.Name})" :  $"{definition.Identifier.Label}" },
-                    SubHeaderCell = new TableCellExtended() { Text = formatter.GetText(definition) }
+                    { Text = (metadata.Identifier)==null ? $"#{metadata.Ordinal} ({metadata.Name})" :  $"{metadata.Identifier.Label}" },
+                    SubHeaderCell = new TableCellExtended() { Text = formatter.GetText(metadata) }
                 };
                 yield return tableColumn;
             }
         }
 
-        protected internal virtual IEnumerable<ExtendedColumnDefinition> ExtendDefinitions(DataTable table, IEnumerable<IColumnDefinition> existingDefinitions)
+        protected internal virtual IEnumerable<ExtendedMetadata> ExtendDefinitions(DataTable table, IEnumerable<ColumnMetadata> existingDefinitions)
         {
-            var definedColumns = new Dictionary<DataColumn, IColumnDefinition>();
+            var metadataDico = new Dictionary<DataColumn, ColumnMetadata>();
             foreach (var definition in existingDefinitions)
-                definedColumns.Add(table.GetColumn(definition.Identifier), definition);
+                metadataDico.Add(table.GetColumn(definition.Identifier), definition);
 
             var identifierFactory = new ColumnIdentifierFactory();
             foreach (DataColumn dataColumn in table.Columns)
             {
-                var definition = definedColumns.ContainsKey(dataColumn) 
-                    ? new ExtendedColumnDefinition()
+                var metadata = metadataDico.ContainsKey(dataColumn) 
+                    ? new ExtendedMetadata()
                     {
                         Ordinal = dataColumn.Ordinal,
                         Name = dataColumn.ColumnName,
-                        Role = definedColumns[dataColumn].Role,
-                        Type = definedColumns[dataColumn].Type
+                        Role = metadataDico[dataColumn].Role,
+                        Type = metadataDico[dataColumn].Type
                     }
-                    : new ExtendedColumnDefinition()
+                    : new ExtendedMetadata()
                     {
                         Ordinal = dataColumn.Ordinal,
                         Name = dataColumn.ColumnName,
                         Role = ColumnRole.Ignore,
                         Type = ColumnType.Text
                     };
-                yield return definition;
+                yield return metadata;
             }
         }
 
-        protected internal class ExtendedColumnDefinition : Column
+        protected internal class ExtendedMetadata : ColumnMetadata
         {
             public string Name { get; set; }
             public int Ordinal { get; set; }

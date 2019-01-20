@@ -16,13 +16,13 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
 {
     class StandardTableHelper : BaseTableHelper<DataRow>
     {
-        public StandardTableHelper(IEnumerable<DataRow> rows, IEnumerable<IColumnDefinition> definitions)
+        public StandardTableHelper(IEnumerable<DataRow> rows, IEnumerable<ColumnMetadata> definitions)
             : base(rows, definitions) { }
 
 
         protected override TableExtended RenderNonEmptyTable()
         {
-            var extendedDefinitions = ExtendDefinitions(Rows.ElementAt(0).Table, Definitions);
+            var extendedDefinitions = ExtendDefinitions(Rows.ElementAt(0).Table, Metadatas);
             return new TableExtended() { Columns = RenderColumns(extendedDefinitions), Rows = RenderRows(Rows, extendedDefinitions) };
         }
 

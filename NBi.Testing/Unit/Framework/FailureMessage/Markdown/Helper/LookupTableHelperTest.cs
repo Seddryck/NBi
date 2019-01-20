@@ -23,8 +23,8 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             candidateTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             candidateTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
 
-            var foreignKeyDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
-            var numericDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value };
+            var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
+            var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value };
 
             var keyMappings = new ColumnMappingCollection() { new ColumnMapping(foreignKeyDefinition.Identifier, ColumnType.Text) };
             var valueMappings = new ColumnMappingCollection() { new ColumnMapping(numericDefinition.Identifier, ColumnType.Numeric) };
@@ -70,9 +70,9 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             candidateTable.LoadDataRow(new object[] { 1, "Alpha", 10, true }, false);
             candidateTable.LoadDataRow(new object[] { 2, "Beta", 20, false }, false);
 
-            var foreignKeyDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
-            var numericDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value };
-            var booleanDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("Boolean value"), Role = ColumnRole.Value };
+            var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
+            var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value };
+            var booleanDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Boolean value"), Role = ColumnRole.Value };
 
             var records = new List<LookupMatchesViolationRecord>()
             {
@@ -104,9 +104,9 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             candidateTable.LoadDataRow(new object[] { 1, "Alpha", 10, true }, false);
             candidateTable.LoadDataRow(new object[] { 2, "Beta", 20, false }, false);
 
-            var foreignKeyDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
-            var numericDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value, Type = ColumnType.Numeric };
-            var booleanDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("Boolean value"), Role = ColumnRole.Value, Type = ColumnType.Boolean };
+            var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
+            var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value, Type = ColumnType.Numeric };
+            var booleanDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Boolean value"), Role = ColumnRole.Value, Type = ColumnType.Boolean };
 
             var records = new List<LookupMatchesViolationRecord>()
             {
@@ -137,9 +137,9 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             candidateTable.LoadDataRow(new object[] { 1, "Alpha", 10, true }, false);
             candidateTable.LoadDataRow(new object[] { 2, "Beta", 20, false }, false);
 
-            var foreignKeyDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
-            var numericDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value, Type = ColumnType.Numeric };
-            var booleanDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("Boolean value"), Role = ColumnRole.Value, Type = ColumnType.Boolean };
+            var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
+            var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value, Type = ColumnType.Numeric };
+            var booleanDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Boolean value"), Role = ColumnRole.Value, Type = ColumnType.Boolean };
 
             var records = new List<LookupMatchesViolationRecord>()
             {
@@ -185,9 +185,9 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             candidateTable.LoadDataRow(new object[] { 1, "Alpha", 10, true }, false);
             candidateTable.LoadDataRow(new object[] { 2, "Alpha", 20, false }, false);
 
-            var foreignKeyDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
-            var numericDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value, Type = ColumnType.Numeric };
-            var booleanDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("Boolean value"), Role = ColumnRole.Value, Type = ColumnType.Boolean };
+            var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
+            var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value, Type = ColumnType.Numeric };
+            var booleanDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Boolean value"), Role = ColumnRole.Value, Type = ColumnType.Boolean };
 
             var records = new List<LookupMatchesViolationRecord>()
             {

@@ -14,6 +14,9 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
         public virtual string GetText(IColumnDefinition definition)
             => GetText(definition.Role, definition.Type, ToleranceFactory.Instantiate(definition) , null);
 
+        public virtual string GetText(ColumnMetadata metadata)
+            => GetText(metadata.Role, metadata.Type, metadata.Tolerance, metadata.Rounding);
+
         public virtual string GetText(ColumnRole role, ColumnType type, Tolerance tolerance, Rounding rounding)
         {
             var roleText = GetRoleText(role);

@@ -21,9 +21,9 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
 
-            var idDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("Id"), Role = ColumnRole.Key };
+            var idDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Id"), Role = ColumnRole.Key };
 
-            var msg = new StandardTableHelper(dataTable.Rows.Cast<DataRow>(), new Column[] { idDefinition });
+            var msg = new StandardTableHelper(dataTable.Rows.Cast<DataRow>(), new ColumnMetadata[] { idDefinition });
             var value = msg.Render().ToMarkdown();
 
             Assert.That(value.Count(c => c == '\n'), Is.EqualTo(5));
@@ -48,11 +48,11 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
 
-            var idDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("#0"), Role = ColumnRole.Key };
-            var numericDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("#1"), Role = ColumnRole.Value };
-            var booleanDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("#2"), Role = ColumnRole.Value };
+            var idDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#0"), Role = ColumnRole.Key };
+            var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#1"), Role = ColumnRole.Value };
+            var booleanDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#2"), Role = ColumnRole.Value };
 
-            var msg = new StandardTableHelper(dataTable.Rows.Cast<DataRow>(), new Column[] { idDefinition, numericDefinition, booleanDefinition });
+            var msg = new StandardTableHelper(dataTable.Rows.Cast<DataRow>(), new ColumnMetadata[] { idDefinition, numericDefinition, booleanDefinition });
             var value = msg.Render().ToMarkdown();
 
             Assert.That(value.Count<char>(c => c == '\n'), Is.EqualTo(5));
@@ -74,9 +74,9 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
 
-            var idDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("#0"), Role = ColumnRole.Key };
+            var idDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#0"), Role = ColumnRole.Key };
 
-            var msg = new StandardTableHelper(dataTable.Rows.Cast<DataRow>(), new Column[] { idDefinition });
+            var msg = new StandardTableHelper(dataTable.Rows.Cast<DataRow>(), new ColumnMetadata[] { idDefinition });
             var value = msg.Render().ToMarkdown();
 
             Assert.That(value.Count(c => c == '\n'), Is.EqualTo(5));
@@ -97,9 +97,9 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
 
-            var idDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("#0"), Role = ColumnRole.Key };
+            var idDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#0"), Role = ColumnRole.Key };
 
-            var msg = new StandardTableHelper(dataTable.Rows.Cast<DataRow>(), new Column[] { idDefinition });
+            var msg = new StandardTableHelper(dataTable.Rows.Cast<DataRow>(), new ColumnMetadata[] { idDefinition });
             var value = msg.Render().ToMarkdown();
 
             var secondLineIndex = value.IndexOf('\n');
@@ -122,9 +122,9 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
 
-            var idDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("#0"), Role = ColumnRole.Key };
+            var idDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#0"), Role = ColumnRole.Key };
 
-            var msg = new StandardTableHelper(dataTable.Rows.Cast<DataRow>(), new Column[] { idDefinition });
+            var msg = new StandardTableHelper(dataTable.Rows.Cast<DataRow>(), new ColumnMetadata[] { idDefinition });
             var value = msg.Render().ToMarkdown();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
@@ -149,9 +149,9 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             dataTable.LoadDataRow(new object[] { "Alpha", 10.752, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20.8445585, false }, false);
 
-            var numericDefinition = new Column() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value, Type=ColumnType.Numeric };
+            var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value, Type=ColumnType.Numeric };
 
-            var msg = new StandardTableHelper(dataTable.Rows.Cast<DataRow>(), new Column[] { numericDefinition });
+            var msg = new StandardTableHelper(dataTable.Rows.Cast<DataRow>(), new ColumnMetadata[] { numericDefinition });
             var value = msg.Render().ToMarkdown();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 

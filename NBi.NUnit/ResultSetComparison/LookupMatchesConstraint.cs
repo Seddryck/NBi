@@ -26,7 +26,7 @@ namespace NBi.NUnit.ResultSetComparison
             set => engine = value ?? throw new ArgumentNullException();
         }
 
-        protected override ILookupViolationsMessageFormatter BuildFailure()
+        protected override ILookupViolationMessageFormatter BuildFailure()
         {
             var factory = new LookupViolationsMessageFormatterFactory();
             var msg = factory.Instantiate(Configuration.FailureReportProfile);

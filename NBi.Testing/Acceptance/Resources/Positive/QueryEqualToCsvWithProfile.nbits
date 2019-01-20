@@ -25,7 +25,7 @@
 				<resultSet file="..\Csv\ResellerOrderCountByYearBefore2006WithProfile.csv"/>
 			</equalTo>
 		</assert>
-	</test>-->
+	</test>
   <test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">
     <system-under-test>
       <execution>

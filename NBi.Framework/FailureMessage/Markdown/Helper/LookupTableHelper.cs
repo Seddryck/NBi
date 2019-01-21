@@ -2,8 +2,8 @@
 using NBi.Core;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup.Violation;
+using NBi.Core.Scalar.Presentation;
 using NBi.Framework.Markdown.MarkdownLogExtension;
-using NBi.Unit.Framework.FailureMessage.Common;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -88,9 +88,9 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
 
         protected virtual string RenderCell(object value, LookupMatchesViolationData data, ColumnType columnType)
         {
-            var factory = new CellFormatterFactory();
+            var factory = new PresenterFactory();
             var formatter = factory.Instantiate(columnType);
-            return data.IsEqual ? formatter.Format(value) : $"{formatter.Format(value)} <> {formatter.Format(data.Value)}";
+            return data.IsEqual ? formatter.Execute(value) : $"{formatter.Execute(value)} <> {formatter.Execute(data.Value)}";
         }
 
         protected override IEnumerable<TableCellExtended> RenderRow(LookupMatchesViolationComposite row, IEnumerable<ColumnType> columnTypes)

@@ -5,22 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Unit.Framework.FailureMessage.Common
+namespace NBi.Core.Scalar.Presentation
 {
-    public class CellFormatterFactory
+    public class PresenterFactory
     {
-        public CellFormatter Instantiate(ColumnType columnType)
+        public IPresenter Instantiate(ColumnType columnType)
         {
             switch (columnType)
             {
                 case ColumnType.Text:
-                    return new TextCellFormatter();
+                    return new TextPresenter();
                 case ColumnType.Numeric:
-                    return new NumericCellFormatter();
+                    return new NumericPresenter();
                 case ColumnType.DateTime:
-                    return new DateTimeCellFormatter();
+                    return new DateTimePresenter();
                 case ColumnType.Boolean:
-                    return new BooleanCellFormatter();
+                    return new BooleanPresenter();
                 default:
                     throw new ArgumentOutOfRangeException();
             }

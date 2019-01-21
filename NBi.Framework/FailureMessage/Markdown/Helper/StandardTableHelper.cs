@@ -2,7 +2,6 @@
 using NBi.Core;
 using NBi.Core.ResultSet;
 using NBi.Framework.Markdown.MarkdownLogExtension;
-using NBi.Unit.Framework.FailureMessage.Common;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

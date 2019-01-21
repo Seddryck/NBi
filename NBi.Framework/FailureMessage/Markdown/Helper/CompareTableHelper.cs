@@ -1,6 +1,6 @@
 ﻿using NBi.Core.ResultSet;
+using NBi.Core.Scalar.Presentation;
 using NBi.Framework.Markdown.MarkdownLogExtension;
-using NBi.Unit.Framework.FailureMessage.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -39,10 +39,10 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             if (string.IsNullOrEmpty(dataRow.GetColumnError(i)))
                 return string.Empty;
             
-            var factory = new CellFormatterFactory();
+            var factory = new PresenterFactory();
             var formatter = factory.Instantiate(columnTypes[i]);
 
-            return formatter.Format(dataRow.GetColumnError(i));
+            return formatter.Execute(dataRow.GetColumnError(i));
         }
     }
 }

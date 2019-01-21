@@ -89,12 +89,6 @@
     <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\TableRowExtended.cs" />
     <Compile Include="Sampling\SamplersFactory.cs" />
     <Compile Include="FailureMessage\Markdown\ItemsMessageMarkdown.cs" />
-    <Compile Include="FailureMessage\Common\BooleanCellFormatter.cs" />
-    <Compile Include="FailureMessage\Common\CellFormatter.cs" />
-    <Compile Include="FailureMessage\Common\CellFormatterFactory.cs" />
-    <Compile Include="FailureMessage\Common\DateTimeCellFormatter.cs" />
-    <Compile Include="FailureMessage\Common\NumericCellFormatter.cs" />
-    <Compile Include="FailureMessage\Common\TextCellFormatter.cs" />
     <Compile Include="FailureMessage\Common\ColumnPropertiesFormatter.cs" />
     <Compile Include="FailureMessage\Markdown\Helper\CompareTableHelper.cs" />
     <Compile Include="FailureMessage\Markdown\Helper\TableHelper.cs" />

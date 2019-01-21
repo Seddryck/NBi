@@ -479,6 +479,13 @@
     <Compile Include="ResultSet\Uniqueness\NameEvaluator.cs" />
     <Compile Include="ResultSet\Uniqueness\SettingsEvaluatorBuilder.cs" />
     <Compile Include="ResultSet\Uniqueness\ResultUniqueRows.cs" />
+    <Compile Include="Scalar\Presentation\BooleanPresenter.cs" />
+    <Compile Include="Scalar\Presentation\BasePresenter.cs" />
+    <Compile Include="Scalar\Presentation\IPresenter.cs" />
+    <Compile Include="Scalar\Presentation\NumericPresenter.cs" />
+    <Compile Include="Scalar\Presentation\PresenterFactory.cs" />
+    <Compile Include="Scalar\Presentation\DateTimePresenter.cs" />
+    <Compile Include="Scalar\Presentation\TextPresenter.cs" />
     <Compile Include="Scalar\Duration\DateTimeExtensions.cs" />
     <Compile Include="Scalar\Duration\FixedDuration.cs" />
     <Compile Include="Scalar\Duration\IDuration.cs" />

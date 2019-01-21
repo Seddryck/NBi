@@ -361,6 +361,10 @@
     <Compile Include="Unit\Core\Scalar\Conversion\TextToNumericConverterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Conversion\TextToDateTimeConverterTest.cs" />
     <Compile Include="Unit\Core\Scalar\PercentageTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Presentation\BooleanPresenterTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Presentation\DateTimePresenterTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Presentation\NumericPresenterTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Presentation\TextPresenterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\EnvironmentScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\FormatScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\GlobalVariableScalarResolverTest.cs" />
@@ -399,7 +403,7 @@
     <Compile Include="Unit\Framework\FailureMessage\Markdown\Helper\StandardTableHelperTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Markdown\ScoreMessageMardownTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Markdown\ItemsMessageMardownTest.cs" />
-    <Compile Include="Unit\Framework\FailureMessage\Common\CellFormatterTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Presentation\BasePresenterTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Common\ColumnPropertiesFormatterTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Markdown\Helper\TableHelperTest.cs" />
     <Compile Include="Unit\Framework\Sampling\BasicSamplerTest.cs" />

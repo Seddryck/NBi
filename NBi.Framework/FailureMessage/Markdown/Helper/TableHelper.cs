@@ -1,8 +1,8 @@
 ﻿using MarkdownLog;
 using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Comparer;
+using NBi.Core.Scalar.Presentation;
 using NBi.Framework.Markdown.MarkdownLogExtension;
-using NBi.Unit.Framework.FailureMessage.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -66,14 +66,14 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
 
         protected string GetText(List<ColumnType> columnTypes, DataRow dataRow, int i)
         {
-            var factory = new CellFormatterFactory();
+            var factory = new PresenterFactory();
             var formatter = factory.Instantiate(columnTypes[i]);
 
             var text = string.Empty;
             if (dataRow.IsNull(i))
-                text = formatter.Format(DBNull.Value);
+                text = formatter.Execute(DBNull.Value);
             else
-                text = formatter.Format(dataRow.ItemArray[i]);
+                text = formatter.Execute(dataRow.ItemArray[i]);
             return text;
         }
 

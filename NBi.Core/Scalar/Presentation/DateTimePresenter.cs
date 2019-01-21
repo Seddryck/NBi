@@ -5,23 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Unit.Framework.FailureMessage.Common
+namespace NBi.Core.Scalar.Presentation
 {
-    public class DateTimeCellFormatter : CellFormatter
+    public class DateTimePresenter : BasePresenter
     {
-        protected override string FormatNotNull(object value)
+        protected override string PresentNotNull(object value)
         {
-            var typeName = value.GetType().Name.ToLower();
-            switch (typeName)
+            switch (value)
             {
-                case "datetime": return FormatDateTime((DateTime)value);
-                case "string": return FormatString((string)value);
+                case DateTime x: return PresentDateTime(x);
+                case string x: return PresentString(x);
                 default:
-                    return FormatString(value.ToString());
+                    return PresentString(value.ToString());
             }
         }
 
-        protected string FormatDateTime(DateTime value)
+        protected string PresentDateTime(DateTime value)
         {
             if (value.TimeOfDay.Ticks == 0)
                 return value.ToString("yyyy-MM-dd");
@@ -32,11 +31,11 @@ namespace NBi.Unit.Framework.FailureMessage.Common
         }
 
         
-        protected string FormatString(string value)
+        protected string PresentString(string value)
         {
             DateTime valueDateTime = DateTime.MinValue;
             if (DateTime.TryParse(value, out valueDateTime))
-                return FormatDateTime(valueDateTime);
+                return PresentDateTime(valueDateTime);
             else
                 return value;
         }

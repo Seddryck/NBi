@@ -6,13 +6,16 @@ using System.Text;
 using NUnit.Framework;
 using NBi.Core.ResultSet;
 using NBi.Framework.FailureMessage.Markdown.Helper;
+using MarkdownLog;
+using NBi.Framework.Sampling;
+using System.Text.RegularExpressions;
 
 namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
 {
-    public class StandardTableHelperTest
+    public class StandardTableHelperMarkdownTest
     {
         [Test]
-        public void Build_TwoRows_5Lines()
+        public void Build_TwoRows_SevenLines()
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
@@ -23,19 +26,23 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
 
             var idDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Id"), Role = ColumnRole.Key };
 
-            var msg = new StandardTableHelper(dataTable.Rows.Cast<DataRow>(), new ColumnMetadata[] { idDefinition });
-            var value = msg.Render().ToMarkdown();
+            var sampler = new FullSampler<DataRow>();
+            sampler.Build(dataTable.Rows.Cast<DataRow>());
+            var msg = new StandardTableHelperMarkdown(dataTable.Rows.Cast<DataRow>()
+                , new ColumnMetadata[] { idDefinition }
+                , sampler);
+            var container = new MarkdownContainer();
+            msg.Render(container);
+            var value = container.ToMarkdown();
 
-            Assert.That(value.Count(c => c == '\n'), Is.EqualTo(5));
+            Assert.That(value.Count(c => c == '\n'), Is.EqualTo(7));
 
-            var secondLineIndex = value.IndexOf('\n');
-            var thirdLineIndex = value.IndexOf('\n', secondLineIndex + 1);
-            var fourthLineIndex = value.IndexOf('\n', thirdLineIndex + 1);
-            var thirdLine = value.Substring(thirdLineIndex+1, fourthLineIndex-thirdLineIndex-2);
-            Assert.That(thirdLine.Distinct().Count(), Is.EqualTo(3));
-            Assert.That(thirdLine.Distinct(), Has.Member(' '));
-            Assert.That(thirdLine.Distinct(), Has.Member('-'));
-            Assert.That(thirdLine.Distinct(), Has.Member('|'));
+            var indexes = value.IndexOfAll('\n').ToArray();
+            var dashLine = value.Substring(indexes[3] + 1, indexes[4] - indexes[3] - 2);
+            Assert.That(dashLine.Distinct().Count(), Is.EqualTo(3));
+            Assert.That(dashLine.Distinct(), Has.Member(' '));
+            Assert.That(dashLine.Distinct(), Has.Member('-'));
+            Assert.That(dashLine.Distinct(), Has.Member('|'));
         }
 
         [Test]
@@ -52,15 +59,21 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#1"), Role = ColumnRole.Value };
             var booleanDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#2"), Role = ColumnRole.Value };
 
-            var msg = new StandardTableHelper(dataTable.Rows.Cast<DataRow>(), new ColumnMetadata[] { idDefinition, numericDefinition, booleanDefinition });
-            var value = msg.Render().ToMarkdown();
+            var sampler = new FullSampler<DataRow>();
+            sampler.Build(dataTable.Rows.Cast<DataRow>());
+            var msg = new StandardTableHelperMarkdown(dataTable.Rows.Cast<DataRow>()
+                , new ColumnMetadata[] { idDefinition, numericDefinition, booleanDefinition }
+                , sampler);
+            var container = new MarkdownContainer();
+            msg.Render(container);
+            var value = container.ToMarkdown();
 
-            Assert.That(value.Count<char>(c => c == '\n'), Is.EqualTo(5));
+            Assert.That(value.Count(c => c == '\n'), Is.EqualTo(7));
 
-            var secondLineIndex = value.IndexOf('\n');
-            
-            var firstLine = value.Substring(0, secondLineIndex - 1);
-            Assert.That(firstLine.Replace(" ",""), Is.EqualTo("#0(Id)|#1(Numericvalue)|#2(Booleanvalue)"));
+            var indexes = value.IndexOfAll('\n').ToArray();
+
+            var titleLine = value.Substring(indexes[1] + 1, indexes[2] - indexes[1] - 2);
+            Assert.That(titleLine.Replace(" ", ""), Is.EqualTo("#0(Id)|#1(Numericvalue)|#2(Booleanvalue)"));
         }
 
         [Test]
@@ -76,15 +89,21 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
 
             var idDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#0"), Role = ColumnRole.Key };
 
-            var msg = new StandardTableHelper(dataTable.Rows.Cast<DataRow>(), new ColumnMetadata[] { idDefinition });
-            var value = msg.Render().ToMarkdown();
+            var sampler = new FullSampler<DataRow>();
+            sampler.Build(dataTable.Rows.Cast<DataRow>());
+            var msg = new StandardTableHelperMarkdown(dataTable.Rows.Cast<DataRow>()
+                , new ColumnMetadata[] { idDefinition }
+                , sampler);
+            var container = new MarkdownContainer();
+            msg.Render(container);
+            var value = container.ToMarkdown();
 
-            Assert.That(value.Count(c => c == '\n'), Is.EqualTo(5));
+            Assert.That(value.Count(c => c == '\n'), Is.EqualTo(7));
 
-            var secondLineIndex = value.IndexOf('\n');
+            var indexes = value.IndexOfAll('\n').ToArray();
 
-            var firstLine = value.Substring(0, secondLineIndex - 1);
-            Assert.That(firstLine.Replace(" ", ""), Is.EqualTo("#0(Id)|#1(Numericvalue)|#2(Booleanvalue)"));
+            var thirdLine = value.Substring(indexes[1] + 1, indexes[2] - indexes[1] - 2);
+            Assert.That(thirdLine.Replace(" ", ""), Is.EqualTo("#0(Id)|#1(Numericvalue)|#2(Booleanvalue)"));
         }
 
         [Test]
@@ -99,17 +118,21 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
 
             var idDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#0"), Role = ColumnRole.Key };
 
-            var msg = new StandardTableHelper(dataTable.Rows.Cast<DataRow>(), new ColumnMetadata[] { idDefinition });
-            var value = msg.Render().ToMarkdown();
+            var sampler = new FullSampler<DataRow>();
+            sampler.Build(dataTable.Rows.Cast<DataRow>());
+            var msg = new StandardTableHelperMarkdown(dataTable.Rows.Cast<DataRow>()
+                , new ColumnMetadata[] { idDefinition }
+                , sampler);
+            var container = new MarkdownContainer();
+            msg.Render(container);
+            var value = container.ToMarkdown();
 
-            var secondLineIndex = value.IndexOf('\n');
-            var thirdLineIndex = value.IndexOf('\n', secondLineIndex + 1);
-            var fourthLineIndex = value.IndexOf('\n', thirdLineIndex + 1);
-            var thirdLine = value.Substring(thirdLineIndex + 1, fourthLineIndex - thirdLineIndex - 2);
-            Assert.That(thirdLine.Distinct().Count(), Is.EqualTo(3));
-            Assert.That(thirdLine.Distinct(), Has.Member(' '));
-            Assert.That(thirdLine.Distinct(), Has.Member('-'));
-            Assert.That(thirdLine.Distinct(), Has.Member('|'));
+            var indexes = value.IndexOfAll('\n').ToArray();
+            var dashLine = value.Substring(indexes[3] + 1, indexes[4] - indexes[3] - 2);
+            Assert.That(dashLine.Distinct().Count(), Is.EqualTo(3));
+            Assert.That(dashLine.Distinct(), Has.Member(' '));
+            Assert.That(dashLine.Distinct(), Has.Member('-'));
+            Assert.That(dashLine.Distinct(), Has.Member('|'));
         }
 
         [Test]
@@ -124,15 +147,21 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
 
             var idDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#0"), Role = ColumnRole.Key };
 
-            var msg = new StandardTableHelper(dataTable.Rows.Cast<DataRow>(), new ColumnMetadata[] { idDefinition });
-            var value = msg.Render().ToMarkdown();
+            var sampler = new FullSampler<DataRow>();
+            sampler.Build(dataTable.Rows.Cast<DataRow>());
+            var msg = new StandardTableHelperMarkdown(dataTable.Rows.Cast<DataRow>()
+                , new ColumnMetadata[] { idDefinition }
+                , sampler);
+            var container = new MarkdownContainer();
+            msg.Render(container);
+            var value = container.ToMarkdown();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
             int pos = 0;
             while ((pos = lines[0].IndexOf('|', pos + 1)) > 0)
             {
-                foreach (var line in lines.TakeWhile(l => l.Length>0))
-                    Assert.That(line[pos], Is.EqualTo('|'), "The line '{0}' was expecting to have a '|' at position {1} but it was a '{2}'", new object[] {line, pos, line[pos]});
+                foreach (var line in lines.TakeWhile(l => l.Length > 0))
+                    Assert.That(line[pos], Is.EqualTo('|'), "The line '{0}' was expecting to have a '|' at position {1} but it was a '{2}'", new object[] { line, pos, line[pos] });
             }
         }
 
@@ -149,16 +178,20 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             dataTable.LoadDataRow(new object[] { "Alpha", 10.752, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20.8445585, false }, false);
 
-            var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value, Type=ColumnType.Numeric };
+            var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value, Type = ColumnType.Numeric };
 
-            var msg = new StandardTableHelper(dataTable.Rows.Cast<DataRow>(), new ColumnMetadata[] { numericDefinition });
-            var value = msg.Render().ToMarkdown();
+            var sampler = new FullSampler<DataRow>();
+            sampler.Build(dataTable.Rows.Cast<DataRow>());
+            var msg = new StandardTableHelperMarkdown(dataTable.Rows.Cast<DataRow>()
+                , new ColumnMetadata[] { numericDefinition }
+                , sampler);
+            var container = new MarkdownContainer();
+            msg.Render(container);
+            var value = container.ToMarkdown();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
             Assert.That(value, Is.StringContaining("10.752 "));
             Assert.That(value, Is.StringContaining("20.8445585"));
         }
-
-        
     }
 }

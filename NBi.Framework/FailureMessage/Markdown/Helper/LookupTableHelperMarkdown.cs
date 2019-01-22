@@ -4,6 +4,7 @@ using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup.Violation;
 using NBi.Core.Scalar.Presentation;
 using NBi.Framework.Markdown.MarkdownLogExtension;
+using NBi.Framework.Sampling;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,16 +16,14 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Markdown.Helper
 {
-    class LookupTableHelper : BaseTableHelper<LookupMatchesViolationComposite>
+    class LookupTableHelperMarkdown : BaseTableHelperMarkdown<LookupMatchesViolationComposite>
     {
-        public LookupTableHelper(IEnumerable<LookupMatchesViolationComposite> composites, IEnumerable<ColumnMetadata> metadatas)
-            : base(composites, metadatas) { }
+        public LookupTableHelperMarkdown(IEnumerable<LookupMatchesViolationComposite> composites, IEnumerable<ColumnMetadata> metadatas, ISampler<LookupMatchesViolationComposite> sampler)
+            : base(composites, metadatas, sampler) { }
 
-        protected override TableExtended RenderNonEmptyTable()
-        {
-            var extendedDefinitions = ExtendDefinitions(Rows.ElementAt(0).CandidateRow.Table, Metadatas);
-            return new TableExtended() { Columns = RenderColumns(extendedDefinitions), Rows = RenderRows(Rows, extendedDefinitions) };
-        }
+
+        protected override IEnumerable<ExtendedMetadata> BuildExtendedMetadatas(LookupMatchesViolationComposite row, IEnumerable<ColumnMetadata> metadatas)
+                => ExtendMetadata(row.CandidateRow.Table, metadatas);
 
         protected override IEnumerable<TableRowExtended> RenderRows(IEnumerable<LookupMatchesViolationComposite> composites, IEnumerable<ExtendedMetadata> definitions)
         {
@@ -41,7 +40,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             }
         }
 
-        private TableRowExtended RenderFirstRow(DataRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedMetadata> definitions)
+        private TableRowExtended RenderFirstRow(DataRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedMetadata> metadatas)
         {
             var cells = new List<TableCellExtended>();
             for (int i = 0; i < row.Table.Columns.Count; i++)
@@ -51,19 +50,19 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
                     var displayValue = RenderCell(
                         row.IsNull(i) ? DBNull.Value : row.ItemArray[i]
                         , record[row.Table.Columns[i]]
-                        , definitions.ElementAt(i).Type);
+                        , metadatas.ElementAt(i).Type);
                     cells.Add(new TableCellExtended() { Text = displayValue });
                 }
                 else
                 {
-                    var displayValue = RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i], definitions.ElementAt(i).Type);
+                    var displayValue = RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i], metadatas.ElementAt(i).Type);
                     cells.Add(new TableCellExtended() { Text = displayValue });
                 }
             }
-            return new TableRowExtended() { Cells = cells }; 
+            return new TableRowExtended() { Cells = cells };
         }
 
-        private TableRowExtended RenderSupplementaryRow(DataRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedMetadata> definitions)
+        private TableRowExtended RenderSupplementaryRow(DataRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedMetadata> metadatas)
         {
             var cells = new List<TableCellExtended>();
             for (int i = 0; i < row.Table.Columns.Count; i++)
@@ -73,7 +72,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
                     var displayValue = RenderCell(
                         row.IsNull(i) ? DBNull.Value : row.ItemArray[i]
                         , record[row.Table.Columns[i]]
-                        , definitions.ElementAt(i).Type);
+                        , metadatas.ElementAt(i).Type);
                     cells.Add(new TableCellExtended() { Text = displayValue });
                 }
                 else
@@ -89,12 +88,12 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
         protected virtual string RenderCell(object value, LookupMatchesViolationData data, ColumnType columnType)
         {
             var factory = new PresenterFactory();
-            var formatter = factory.Instantiate(columnType);
-            return data.IsEqual ? formatter.Execute(value) : $"{formatter.Execute(value)} <> {formatter.Execute(data.Value)}";
+            var presenter = factory.Instantiate(columnType);
+            return data.IsEqual ? presenter.Execute(value) : $"{presenter.Execute(value)} <> {presenter.Execute(data.Value)}";
         }
 
         protected override IEnumerable<TableCellExtended> RenderRow(LookupMatchesViolationComposite row, IEnumerable<ColumnType> columnTypes)
             => throw new NotImplementedException();
-        
+
     }
 }

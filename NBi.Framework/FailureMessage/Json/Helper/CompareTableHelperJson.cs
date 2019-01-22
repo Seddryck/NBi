@@ -38,4 +38,3 @@ namespace NBi.Framework.FailureMessage.Json
         }
     }
 }
-

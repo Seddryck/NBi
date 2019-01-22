@@ -12,8 +12,9 @@ using System.IO;
 using NBi.Core.Scalar.Comparer;
 using System.Globalization;
 using System.Threading;
+using NBi.Framework.FailureMessage.Json.Helper;
 
-namespace NBi.Testing.Unit.Framework.FailureMessage.Json
+namespace NBi.Testing.Unit.Framework.FailureMessage.Json.Helper
 {
     public class TableHelperJsonTest
     {
@@ -31,11 +32,11 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
 
             var helper = new TableHelperJson();
             var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
+            using (var sw = new StringWriter(sb))
             using (var writer = new JsonTextWriter(sw))
             {
                 helper.Execute(dataTable.Rows.Cast<DataRow>(), new FullSampler<DataRow>(), writer);
-
+                Console.WriteLine(sb.ToString());
                 Assert.That(sb.ToString, Is.StringContaining("total-rows"));
                 Assert.That(sb.ToString, Is.Not.StringContaining("sampled-rows"));
             }
@@ -54,11 +55,11 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
 
             var helper = new TableHelperJson();
             var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
+            using (var sw = new StringWriter(sb))
             using (var writer = new JsonTextWriter(sw))
             {
                 helper.Execute(dataTable.Rows.Cast<DataRow>(), new BasicSampler<DataRow>(1, 1), writer);
-
+                Console.WriteLine(sb.ToString());
                 Assert.That(sb.ToString, Is.StringContaining("total-rows"));
                 Assert.That(sb.ToString, Is.StringContaining("sampled-rows"));
             }

@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Markdown.Helper
 {
-    class CompareTableHelper : TableHelper
+    class CompareTableHelperMarkdown : TableHelperMarkdown
     {
-        public CompareTableHelper(EngineStyle style)
+        public CompareTableHelperMarkdown(EngineStyle style)
         : base(style) { }
 
         protected override List<TableRowExtended> BuildRows(IEnumerable<DataRow> dataRows, List<ColumnType> columnTypes)

@@ -2,6 +2,7 @@
 using NBi.Core;
 using NBi.Core.ResultSet;
 using NBi.Framework.Markdown.MarkdownLogExtension;
+using NBi.Framework.Sampling;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,17 +14,13 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Markdown.Helper
 {
-    class StandardTableHelper : BaseTableHelper<DataRow>
+    class StandardTableHelperMarkdown : BaseTableHelperMarkdown<DataRow>
     {
-        public StandardTableHelper(IEnumerable<DataRow> rows, IEnumerable<ColumnMetadata> definitions)
-            : base(rows, definitions) { }
+        public StandardTableHelperMarkdown(IEnumerable<DataRow> rows, IEnumerable<ColumnMetadata> definitions, ISampler<DataRow> sampler)
+            : base(rows, definitions, sampler) { }
 
-
-        protected override TableExtended RenderNonEmptyTable()
-        {
-            var extendedDefinitions = ExtendDefinitions(Rows.ElementAt(0).Table, Metadatas);
-            return new TableExtended() { Columns = RenderColumns(extendedDefinitions), Rows = RenderRows(Rows, extendedDefinitions) };
-        }
+        protected override IEnumerable<ExtendedMetadata> BuildExtendedMetadatas(DataRow row, IEnumerable<ColumnMetadata> metadatas)
+            => ExtendMetadata(row.Table, Metadatas);
 
         protected override IEnumerable<TableCellExtended> RenderRow(DataRow row, IEnumerable<ColumnType> columnTypes)
         {

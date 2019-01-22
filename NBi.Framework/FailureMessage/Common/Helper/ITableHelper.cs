@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework.FailureMessage.Markdown.Helper
+namespace NBi.Framework.FailureMessage.Common.Helper
 {
-    public interface ITableHelper
+    public interface ITableHelper<U>
     {
-        MarkdownContainer Render();
+        void Render(U writer);
     }
 }

@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Markdown.Helper
 {
-    class TableHelper
+    class TableHelperMarkdown
     {
         
         private readonly EngineStyle style;
-        public TableHelper(EngineStyle style)
+        public TableHelperMarkdown(EngineStyle style)
         {
             this.style = style;
         }

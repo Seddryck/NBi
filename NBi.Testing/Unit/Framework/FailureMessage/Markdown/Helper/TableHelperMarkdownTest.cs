@@ -9,7 +9,7 @@ using NBi.Framework.FailureMessage.Markdown.Helper;
 
 namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
 {
-    public class TableHelperTest
+    public class TableHelperMarkdownTest
     {
         [Test]
         public void Build_TwoRows_5Lines()
@@ -23,7 +23,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
 
-            var msg = new TableHelper(EngineStyle.ByIndex);
+            var msg = new TableHelperMarkdown(EngineStyle.ByIndex);
             var value = msg.Build(dataTable.Rows.Cast<DataRow>()).ToMarkdown();
 
             Assert.That(value.Count<char>(c => c == '\n'), Is.EqualTo(5));
@@ -50,7 +50,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
 
-            var msg = new TableHelper(EngineStyle.ByName);
+            var msg = new TableHelperMarkdown(EngineStyle.ByName);
             var value = msg.Build(dataTable.Rows.Cast<DataRow>()).ToMarkdown();
 
             Assert.That(value.Count<char>(c => c == '\n'), Is.EqualTo(5));
@@ -73,7 +73,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
 
-            var msg = new TableHelper(EngineStyle.ByIndex);
+            var msg = new TableHelperMarkdown(EngineStyle.ByIndex);
             var value = msg.Build(dataTable.Rows.Cast<DataRow>()).ToMarkdown();
 
             Assert.That(value.Count<char>(c => c == '\n'), Is.EqualTo(5));
@@ -96,7 +96,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
 
-            var msg = new TableHelper(EngineStyle.ByIndex);
+            var msg = new TableHelperMarkdown(EngineStyle.ByIndex);
             var value = msg.Build(dataTable.Rows.Cast<DataRow>()).ToMarkdown();
 
             var secondLineIndex = value.IndexOf('\n');
@@ -120,7 +120,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
 
-            var msg = new TableHelper(EngineStyle.ByIndex);
+            var msg = new TableHelperMarkdown(EngineStyle.ByIndex);
             var value = msg.Build(dataTable.Rows.Cast<DataRow>()).ToMarkdown();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
@@ -146,7 +146,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             dataTable.LoadDataRow(new object[] { "Alpha", 10.752, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20.8445585, false }, false);
 
-            var msg = new TableHelper(EngineStyle.ByIndex);
+            var msg = new TableHelperMarkdown(EngineStyle.ByIndex);
             var value = msg.Build(dataTable.Rows.Cast<DataRow>()).ToMarkdown();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 

@@ -2,6 +2,7 @@
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Lookup.Violation;
 using NBi.Framework.FailureMessage.Common;
+using NBi.Framework.FailureMessage.Json.Helper;
 using NBi.Framework.Sampling;
 using Newtonsoft.Json;
 using System;
@@ -25,7 +26,7 @@ namespace NBi.Framework.FailureMessage.Json
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
             using (var writer = new JsonTextWriter(sw))
-                new TableHelperJson().Execute(rows, sampler, metadata, writer);
+                new StandardTableHelperJson(rows, metadata, sampler).Render(writer);
             return sb.ToString();
         }
 
@@ -38,15 +39,20 @@ namespace NBi.Framework.FailureMessage.Json
                 foreach (var state in violations.Values.Select(x => x.State).Distinct())
                 {
                     writer.WriteStartObject();
-                    var rows = state == RowViolationState.Mismatch
-                        ?  violations.Values.Where(x => x is LookupMatchesViolationInformation)
+                    if (state == RowViolationState.Mismatch)
+                    {
+                        var rows = violations.Values.Where(x => x is LookupMatchesViolationInformation)
                                 .Cast<LookupMatchesViolationInformation>()
-                                .SelectMany(x => x.CandidateRows)
-                                .Select(x => x.CandidateRow)
-                        : violations.Values.Where(x => x is LookupExistsViolationInformation)
+                                .SelectMany(x => x.CandidateRows);
+                        new LookupTableHelperJson(rows, metadata, new FullSampler<LookupMatchesViolationComposite>()).Render(writer);
+                    }
+                    else
+                    {
+                        var rows = violations.Values.Where(x => x is LookupExistsViolationInformation)
                                 .Cast<LookupExistsViolationInformation>()
                                 .SelectMany(x => x.CandidateRows);
-                    new TableHelperJson().Execute(rows, sampler, metadata, writer);
+                        new StandardTableHelperJson(rows, metadata, sampler).Render(writer);
+                    }
                     writer.WriteEndObject();
                 }
             }
@@ -83,9 +89,7 @@ namespace NBi.Framework.FailureMessage.Json
         }
 
         public override string RenderReference() => reference;
-
         public override string RenderCandidate() => candidate;
-
         public override string RenderAnalysis() => analysis;
     }
 }

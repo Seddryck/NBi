@@ -8,10 +8,12 @@ using NBi.Core.ResultSet;
 using NBi.Framework.FailureMessage.Markdown.Helper;
 using NBi.Core.ResultSet.Lookup.Violation;
 using NBi.Core.ResultSet.Lookup;
+using MarkdownLog;
+using NBi.Framework.Sampling;
 
 namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
 {
-    public class LookupTableHelperTest
+    public class LookupTableHelperMarkdownTest
     {
         [Test]
         public void Render_OneViolationWithOneRecordOfOneField_Correct()
@@ -38,25 +40,25 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             };
             var association = new LookupMatchesViolationComposite(candidateTable.Rows[0], records);
 
-            var msg = new LookupTableHelper(new[] { association }, new[] { foreignKeyDefinition, numericDefinition });
-            var value = msg.Render().ToMarkdown();
+            var sampler = new FullSampler<LookupMatchesViolationComposite>();
+            sampler.Build(new[] { association });
+            var msg = new LookupTableHelperMarkdown(new[] { association }
+                , new[] { foreignKeyDefinition, numericDefinition }
+                , sampler);
+            var container = new MarkdownContainer();
+            msg.Render(container);
+            var value = container.ToMarkdown();
 
             Console.WriteLine(value);
 
-            Assert.That(value.Count(c => c == '\n'), Is.EqualTo(4));
+            Assert.That(value.Count(c => c == '\n'), Is.EqualTo(6));
 
-            var secondLineIndex = value.IndexOf('\n');
-            var dashLineIndex = value.IndexOf('\n', secondLineIndex + 1);
-            var firstLineViolationIndex = value.IndexOf('\n', dashLineIndex + 1);
-            var dashLine = value.Substring(dashLineIndex + 1, firstLineViolationIndex - dashLineIndex - 2);
-
+            var indexes = value.IndexOfAll('\n').ToArray();
+            var dashLine = value.Substring(indexes[3] + 1, indexes[4] - indexes[3] - 2);
             Assert.That(dashLine.Distinct().Count(), Is.EqualTo(3));
             Assert.That(dashLine.Distinct(), Has.Member(' '));
             Assert.That(dashLine.Distinct(), Has.Member('-'));
             Assert.That(dashLine.Distinct(), Has.Member('|'));
-
-            var firstLineViolation = value.Substring(firstLineViolationIndex + 1, value.Length - firstLineViolationIndex - 1);
-            Assert.That(firstLineViolation, Is.StringContaining("| 10 <> 15"));
         }
 
         [Test]
@@ -84,11 +86,17 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             };
             var association = new LookupMatchesViolationComposite(candidateTable.Rows[0], records);
 
-            var msg = new LookupTableHelper(new[] { association }, new[] { foreignKeyDefinition, numericDefinition, booleanDefinition });
-            var value = msg.Render().ToMarkdown();
+            var sampler = new FullSampler<LookupMatchesViolationComposite>();
+            sampler.Build(new[] { association });
+            var msg = new LookupTableHelperMarkdown(new[] { association }
+                , new[] { foreignKeyDefinition, numericDefinition, booleanDefinition }
+                , sampler);
+            var container = new MarkdownContainer();
+            msg.Render(container);
+            var value = container.ToMarkdown();
 
             Console.WriteLine(value);
-            Assert.That(value.Count(c => c == '\n'), Is.EqualTo(4));
+            Assert.That(value.Count(c => c == '\n'), Is.EqualTo(6));
             Assert.That(value, Is.StringContaining("| 10 <> 15"));
             Assert.That(value, Is.StringContaining("| True <> False"));
         }
@@ -117,11 +125,17 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             };
             var association = new LookupMatchesViolationComposite(candidateTable.Rows[0], records);
 
-            var msg = new LookupTableHelper(new[] { association }, new[] { foreignKeyDefinition, numericDefinition, booleanDefinition });
-            var value = msg.Render().ToMarkdown();
+            var sampler = new FullSampler<LookupMatchesViolationComposite>();
+            sampler.Build(new[] { association });
+            var msg = new LookupTableHelperMarkdown(new[] { association }
+                , new[] { foreignKeyDefinition, numericDefinition, booleanDefinition }
+                , sampler);
+            var container = new MarkdownContainer();
+            msg.Render(container);
+            var value = container.ToMarkdown();
 
             Console.WriteLine(value);
-            Assert.That(value.Count(c => c == '\n'), Is.EqualTo(4));
+            Assert.That(value.Count(c => c == '\n'), Is.EqualTo(6));
             Assert.That(value, Is.StringContaining("| 10   "));
             Assert.That(value, Is.StringContaining("| True <> False"));
         }
@@ -161,11 +175,17 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             };
             var association = new LookupMatchesViolationComposite(candidateTable.Rows[0], records);
 
-            var msg = new LookupTableHelper(new[] { association }, new[] { foreignKeyDefinition, numericDefinition, booleanDefinition });
-            var value = msg.Render().ToMarkdown();
+            var sampler = new FullSampler<LookupMatchesViolationComposite>();
+            sampler.Build(new[] { association });
+            var msg = new LookupTableHelperMarkdown(new[] { association }
+                , new[] { foreignKeyDefinition, numericDefinition, booleanDefinition }
+                , sampler);
+            var container = new MarkdownContainer();
+            msg.Render(container);
+            var value = container.ToMarkdown();
 
             Console.WriteLine(value);
-            Assert.That(value.Count(c => c == '\n'), Is.EqualTo(6));
+            Assert.That(value.Count(c => c == '\n'), Is.EqualTo(8));
             Assert.That(value, Is.StringContaining("| 10   "));
             Assert.That(value, Is.StringContaining("| True <> False"));
             Assert.That(value, Is.StringContaining("| 10 <> 12  "));
@@ -210,21 +230,25 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Markdown.Helper
             var firstAssociation = new LookupMatchesViolationComposite(candidateTable.Rows[0], records);
             var secondAssociation = new LookupMatchesViolationComposite(candidateTable.Rows[1], records);
 
-
-            var msg = new LookupTableHelper(new[] { firstAssociation, secondAssociation }, new[] { foreignKeyDefinition, numericDefinition, booleanDefinition });
-            var value = msg.Render().ToMarkdown();
+            var sampler = new FullSampler<LookupMatchesViolationComposite>();
+            sampler.Build(new[] { firstAssociation, secondAssociation });
+            var msg = new LookupTableHelperMarkdown(new[] { firstAssociation, secondAssociation }
+                , new[] { foreignKeyDefinition, numericDefinition, booleanDefinition }
+                , sampler);
+            var container = new MarkdownContainer();
+            msg.Render(container);
+            var value = container.ToMarkdown();
 
             Console.WriteLine(value);
-            Assert.That(value.Count(c => c == '\n'), Is.EqualTo(9));
-            Assert.That(value, Is.StringContaining("| 10 <> 17"));
-            Assert.That(value, Is.StringContaining("| True <> False"));
-            Assert.That(value, Is.StringContaining("| 10 <> 12  "));
-            Assert.That(value, Is.StringContaining("| True <> False"));
-            Assert.That(value, Is.StringContaining("| 10 <> 18  "));
-            Assert.That(value, Is.StringContaining("| True   "));
-            Assert.That(value, Is.StringContaining("| 20 <> 17"));
-            Assert.That(value, Is.StringContaining("| 20 <> 12  "));
-            Assert.That(value, Is.StringContaining("| 20 <> 18  "));
+            Assert.That(value.Count(c => c == '\n'), Is.EqualTo(11));
+            Assert.That(value, Is.StringContaining("Result-set with 2 rows"));
+            Assert.That(value, Is.StringContaining("#0 (Id) | #1 (ForeignKey) | #2 (Numeric value) | #3 (Boolean value)"));
+            Assert.That(value, Is.StringContaining("1       | Alpha           | 10 <> 17           | True <> False"));
+            Assert.That(value, Is.StringContaining(">>      | >>              | 10 <> 12           | True <> False"));
+            Assert.That(value, Is.StringContaining(">>      | >>              | 10 <> 18           | True"));
+            Assert.That(value, Is.StringContaining("2       | Alpha           | 20 <> 17           | False <> False"));
+            Assert.That(value, Is.StringContaining(">>      | >>              | 20 <> 12           | False <> False"));
+            Assert.That(value, Is.StringContaining(">>      | >>              | 20 <> 18           | False"));
         }
     }
 }

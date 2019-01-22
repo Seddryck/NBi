@@ -17,7 +17,7 @@ namespace NBi.Framework.FailureMessage.Json
     class TableHelperJson
     {
         public void Execute(IEnumerable<DataRow> rows, ISampler<DataRow> sampler, JsonWriter writer)
-            => Execute(rows, sampler, BuildMetadataFromTable((rows ?? new DataRow[0]).Count()>0 ? rows.ElementAt(0).Table : null), writer);
+            => Execute(rows, sampler, BuildMetadataFromTable((rows ?? new DataRow[0]).Count() > 0 ? rows.ElementAt(0).Table : null), writer);
 
         private IEnumerable<ColumnMetadata> BuildMetadataFromTable(DataTable table)
         {
@@ -118,4 +118,3 @@ namespace NBi.Framework.FailureMessage.Json
         }
     }
 }
-

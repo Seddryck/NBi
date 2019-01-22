@@ -3,6 +3,7 @@ using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Lookup.Violation;
 using NBi.Framework.FailureMessage.Common;
+using NBi.Framework.FailureMessage.Common.Helper;
 using NBi.Framework.FailureMessage.Markdown.Helper;
 using NBi.Framework.Sampling;
 using System;
@@ -23,10 +24,10 @@ namespace NBi.Framework.FailureMessage.Markdown
         protected override MarkdownContainer RenderStandardTable(IEnumerable<DataRow> rows, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, string title)
         {
             sampler.Build(rows);
-            var tableHelper = new StandardTableHelper(sampler.GetResult(), metadata);
-
-            var table = tableHelper.Render();
-            return RenderTextAroundTable(table, rows, title, sampler);
+            var tableHelper = new StandardTableHelperMarkdown(rows, metadata, sampler);
+            var container = new MarkdownContainer();
+            tableHelper.Render(container);
+            return RenderTextAroundTable(container, rows, title, sampler);
         }
 
         private MarkdownContainer RenderTextAroundTable(MarkdownContainer table, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
@@ -36,12 +37,9 @@ namespace NBi.Framework.FailureMessage.Markdown
             var container = new MarkdownContainer();
 
             if (!string.IsNullOrEmpty(title))
-            {
-                var titleText = string.Format($"{title} rows:");
-                container.Append(titleText.ToMarkdownSubHeader());
-            }
+                container.Append($"{title} rows:".ToMarkdownSubHeader());
 
-            container.Append(BuildRowCount(rows.Count()));
+            container.Append($"Result-set with {rows.Count()} row{(rows.Count() > 1 ? "s" : string.Empty)}".ToMarkdownParagraph());
             container.Append(table);
 
             if (sampler?.GetIsSampled() ?? false)
@@ -61,26 +59,27 @@ namespace NBi.Framework.FailureMessage.Markdown
             foreach (var state in violations.Values.Select(x => x.State).Distinct())
             {
                 container.Append(GetExplanationText(violations, state).ToMarkdownParagraph());
-                ITableHelper tableHelper = null;
+                ITableHelper<MarkdownContainer> tableHelper = null;
                     
                 if (state == RowViolationState.Mismatch)
                 {
-                    tableHelper = new LookupTableHelper(
+                    tableHelper = new LookupTableHelperMarkdown(
                             violations.Values.Where(x => x is LookupMatchesViolationInformation)
                             .Cast<LookupMatchesViolationInformation>()
                             .SelectMany(x => x.CandidateRows)
-                        , metadata);
+                        , metadata, new FullSampler<LookupMatchesViolationComposite>());
                 }
                 else
                 {
-                    var rows = violations.Values.Where(x => x is LookupExistsViolationInformation)
+                    tableHelper = new StandardTableHelperMarkdown(
+                            violations.Values.Where(x => x is LookupExistsViolationInformation)
                             .Cast<LookupExistsViolationInformation>()
-                            .SelectMany(x => x.CandidateRows);
-                    sampler.Build(rows);
-                    tableHelper = new StandardTableHelper(sampler.GetResult(), metadata);
+                            .SelectMany(x => x.CandidateRows)
+                        , metadata, sampler);
                 }
-                var table = tableHelper.Render();
-                container.Append(RenderTextAroundTable(table, violations.GetRows(state), Textify(state), state == RowViolationState.Mismatch ? null : sampler));
+                var tableContainer = new MarkdownContainer();
+                tableHelper.Render(tableContainer);
+                container.Append(RenderTextAroundTable(tableContainer, violations.GetRows(state), Textify(state), state == RowViolationState.Mismatch ? null : sampler));
             }
             return container;
         }
@@ -95,9 +94,6 @@ namespace NBi.Framework.FailureMessage.Markdown
                     Type = mapping.Type,
                 };
         }
-
-        private Paragraph BuildRowCount(int rowCount)
-            => ($"Result-set with {rowCount} row{(rowCount > 1 ? "s" : string.Empty)}".ToMarkdownParagraph());
 
         public override string RenderReference() => reference.ToMarkdown();
         public override string RenderCandidate() => candidate.ToMarkdown();

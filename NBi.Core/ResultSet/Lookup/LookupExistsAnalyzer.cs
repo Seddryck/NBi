@@ -1,4 +1,5 @@
-﻿using NBi.Core.Scalar.Caster;
+﻿using NBi.Core.ResultSet.Lookup.Violation;
+using NBi.Core.Scalar.Caster;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,64 +11,64 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Lookup
 {
-    public class LookupExistsAnalyzer
+    public class LookupExistsAnalyzer : ILookupAnalyzer
     {
-        private readonly ColumnMappingCollection settings;
+        protected ColumnMappingCollection Keys { get; private set; }
 
-        public LookupExistsAnalyzer(ColumnMappingCollection settings)
+        public LookupExistsAnalyzer(ColumnMappingCollection keys)
         {
-            this.settings = settings;
+            Keys = keys;
         }
 
-        public virtual LookupViolations Execute(object child, object parent)
+        public virtual LookupViolationCollection Execute(object candidate, object reference)
         {
-            if (child is DataTable && parent is DataTable)
-                return Execute((DataTable)child, (DataTable)parent);
+            if (candidate is DataTable && reference is DataTable)
+                return Execute((DataTable)candidate, (DataTable)reference);
 
-            if (child is ResultSet && parent is ResultSet)
-                return Execute(((ResultSet)child).Table, ((ResultSet)parent).Table);
+            if (candidate is ResultSet && reference is ResultSet)
+                return Execute(((ResultSet)candidate).Table, ((ResultSet)reference).Table);
 
             throw new ArgumentException();
         }
 
-        protected LookupViolations Execute(DataTable child, DataTable parent)
+        protected virtual LookupViolationCollection Execute(DataTable candidate, DataTable reference)
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var referenceKeyRetriever = BuildKeysRetriever(settings, x => x.ReferenceColumn);
-            var references = BuildReferences(parent, referenceKeyRetriever);
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Building collection of keys from parent: {references.Count} [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
+            var referenceKeyRetriever = BuildColumnsRetriever(Keys, x => x.ReferenceColumn);
+            var references = BuildReferenceIndex(reference, referenceKeyRetriever);
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Building the index for keys from reference table containing {references.Count()} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
 
-            stopWatch.Reset();
-            var candidateKeyBuilder = BuildKeysRetriever(settings, x => x.CandidateColumn);
-            var violations = ExtractReferenceViolation(child, candidateKeyBuilder, references);
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Analyzing potential reference violation for {child.Rows.Count} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
+            stopWatch.Restart();
+            var candidateKeyBuilder = BuildColumnsRetriever(Keys, x => x.CandidateColumn);
+            var violations = ExtractLookupViolation(candidate, candidateKeyBuilder, references);
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Analyzing potential lookup violations (based on keys) for the {candidate.Rows.Count} rows from candidate table [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
 
             return violations;
         }
 
-        private KeysRetriever BuildKeysRetriever(ColumnMappingCollection settings, Func<ColumnMapping, IColumnIdentifier> target)
+        protected CellRetriever BuildColumnsRetriever(ColumnMappingCollection columns, Func<ColumnMapping, IColumnIdentifier> target)
         {
             var defColumns = new Collection<IColumnDefinition>();
-            foreach (var setting in settings)
+            foreach (var column in columns)
             {
-                var defColumn = setting.ToColumnDefinition(() => target(setting));
+                var defColumn = column.ToColumnDefinition(() => target(column));
                 defColumns.Add(defColumn);
             }
 
-            if (settings.Any(x => target(x) is ColumnOrdinalIdentifier))
-                return new KeysRetrieverByOrdinal(defColumns);
+            if (columns.Any(x => target(x) is ColumnOrdinalIdentifier))
+                return new CellRetrieverByOrdinal(defColumns);
             else
-                return new KeysRetrieverByName(defColumns);
+                return new CellRetrieverByName(defColumns);
         }
 
-        private IList<KeyCollection> BuildReferences(DataTable table, KeysRetriever keyRetriever)
+        protected IEnumerable<KeyCollection> BuildReferenceIndex(DataTable table, CellRetriever keyRetriever)
         {
             var references = new HashSet<KeyCollection>();
 
             foreach (DataRow row in table.Rows)
             {
-                var keys = keyRetriever.GetKeys(row);
+                var keys = keyRetriever.GetColumns(row);
                 if (!references.Contains(keys))
                     references.Add(keys);
             }
@@ -75,20 +76,15 @@ namespace NBi.Core.ResultSet.Lookup
             return references.ToList();
         }
 
-        private LookupViolations ExtractReferenceViolation(DataTable table, KeysRetriever keyRetriever, IEnumerable<KeyCollection> references)
+        protected virtual LookupViolationCollection ExtractLookupViolation(DataTable table, CellRetriever keyRetriever, IEnumerable<KeyCollection> references)
         {
-            var violations = new LookupViolations();
+            var violations = new LookupExistsViolationCollection(Keys);
 
             foreach (DataRow row in table.Rows)
             {
-                var keys = keyRetriever.GetKeys(row);
+                var keys = keyRetriever.GetColumns(row);
                 if (!references.Contains(keys))
-                {
-                    if (violations.ContainsKey(keys))
-                        violations[keys].Add(row);
-                    else
-                        violations.Add(keys, new Collection<DataRow>() { row });
-                }
+                    violations.Register(keys, row);
             }
             return violations;
         }

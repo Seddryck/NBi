@@ -64,11 +64,11 @@ namespace NBi.Framework.FailureMessage.Markdown
 
         private MarkdownContainer BuildTable(EngineStyle style, IEnumerable<DataRow> rows, ISampler<DataRow> sampler)
         {
-            var tableBuilder = new TableHelper(style);
+            var tableBuilder = new TableHelperMarkdown(style);
             return BuildTable(tableBuilder, rows, string.Empty, sampler);
         }
 
-        private MarkdownContainer BuildTable(TableHelper tableBuilder, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
+        private MarkdownContainer BuildTable(TableHelperMarkdown tableBuilder, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
         {
             rows = rows ?? new List<DataRow>();
 
@@ -97,7 +97,7 @@ namespace NBi.Framework.FailureMessage.Markdown
 
         private MarkdownContainer BuildNonEmptyTable(EngineStyle style, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
         {
-            var tableBuilder = new TableHelper(style);
+            var tableBuilder = new TableHelperMarkdown(style);
             if (rows !=null && rows.Count() > 0)
                 return BuildTable(tableBuilder, rows, title, sampler);
             else
@@ -107,7 +107,7 @@ namespace NBi.Framework.FailureMessage.Markdown
 
         private MarkdownContainer BuildCompareTable(EngineStyle style, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
         {
-            var tableBuilder = new CompareTableHelper(style);
+            var tableBuilder = new CompareTableHelperMarkdown(style);
             if (rows.Count() > 0)
                 return BuildTable(tableBuilder, rows, title, sampler);
             else

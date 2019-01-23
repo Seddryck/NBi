@@ -2,6 +2,7 @@
 using NBi.Core.Configuration.FailureReport;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
+using NBi.Core.ResultSet.Lookup.Violation;
 using NBi.Framework.FailureMessage;
 using NUnit.Framework;
 using System;
@@ -23,40 +24,27 @@ namespace NBi.NUnit.ResultSetComparison
 
         protected ResultSet rsReference;
         protected ResultSet rsCandidate;
-        protected LookupViolations violations;
+        protected LookupViolationCollection violations;
 
-        private ILookupViolationsMessageFormatter failure;
-        protected ILookupViolationsMessageFormatter Failure
+        private ILookupViolationMessageFormatter failure;
+        protected ILookupViolationMessageFormatter Failure
         {
-            get
-            {
-                if (failure == null)
-                    failure = BuildFailure();
-                return failure;
-            }
+            get => failure ?? (failure = BuildFailure());
         }
 
-        protected virtual ILookupViolationsMessageFormatter BuildFailure()
+        protected virtual ILookupViolationMessageFormatter BuildFailure()
         {
             var factory = new LookupViolationsMessageFormatterFactory();
             var msg = factory.Instantiate(Configuration.FailureReportProfile);
-            msg.Generate(rsReference.Rows.Cast<DataRow>(), rsCandidate.Rows.Cast<DataRow>(), violations);
+            msg.Generate(rsReference.Rows.Cast<DataRow>(), rsCandidate.Rows.Cast<DataRow>(), violations, mappings, null);
             return msg;
         }
         
-        protected LookupExistsAnalyzer engine;
-        protected internal virtual LookupExistsAnalyzer Engine
+        protected ILookupAnalyzer engine;
+        protected internal virtual ILookupAnalyzer Engine
         {
-            get
-            {
-                if (engine == null)
-                    engine = new LookupExistsAnalyzer(mappings ?? ColumnMappingCollection.Default);
-                return engine;
-            }
-            set
-            {
-                engine = value ?? throw new ArgumentNullException();
-            }
+            get => engine ?? (engine = new LookupExistsAnalyzer(mappings ?? ColumnMappingCollection.Default));
+            set => engine = value ?? throw new ArgumentNullException();
         }
 
         public LookupExistsConstraint(IResultSetService reference)
@@ -96,7 +84,7 @@ namespace NBi.NUnit.ResultSetComparison
         protected virtual bool doMatch(ResultSet actual)
         {
             violations = Engine.Execute(actual, rsReference);
-            var output = violations.Count == 0;
+            var output = violations.Count() == 0;
 
             if (output && Configuration?.FailureReportProfile.Mode == FailureReportMode.Always)
                 Assert.Pass(Failure.RenderMessage());
@@ -110,7 +98,7 @@ namespace NBi.NUnit.ResultSetComparison
                 return;
 
             writer.WriteLine();
-            writer.WriteLine(Failure.RenderExpected());
+            writer.WriteLine(Failure.RenderReference());
         }
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
@@ -119,7 +107,7 @@ namespace NBi.NUnit.ResultSetComparison
                 return;
 
             writer.WriteLine();
-            writer.WriteLine(Failure.RenderActual());
+            writer.WriteLine(Failure.RenderCandidate());
         }
 
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)

@@ -14,8 +14,8 @@ namespace NBi.Core.FlatFile
             (string)(attributes.ContainsKey("record-separator")         ? attributes["record-separator"]        : "\r\n"),
             (bool)  (attributes.ContainsKey("first-row-header")         ? attributes["first-row-header"]        : false),
             (bool)  (attributes.ContainsKey("performance-optimized")    ? attributes["performance-optimized"]   : true),
-            (string)(attributes.ContainsKey("missing-cell")             ? attributes["missing-cell"]            : "(null)"),
-            (string)(attributes.ContainsKey("empty-cell")               ? attributes["empty-cell"]              : "(empty)")
+            (string)(attributes.ContainsKey("empty-cell")               ? attributes["empty-cell"]              : "(empty)"),
+            (string)(attributes.ContainsKey("missing-cell")             ? attributes["missing-cell"]            : "(null)")
         ) {}
 
         public IDictionary<string, object> Attributes => new Dictionary<string, object>()
@@ -30,7 +30,7 @@ namespace NBi.Core.FlatFile
                 };
 
         private CsvProfile(char fieldSeparator)
-            : base(fieldSeparator, '\"') { }
+            : base(fieldSeparator, '\"', '\\', "\r\n", false, true, "(empty)", "(null)") { }
 
         public CsvProfile(bool firstRowHeader)
             : base(firstRowHeader) { }

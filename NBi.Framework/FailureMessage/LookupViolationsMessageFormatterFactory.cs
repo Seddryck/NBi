@@ -15,10 +15,10 @@ namespace NBi.Framework.FailureMessage
 {
     public class LookupViolationsMessageFormatterFactory
     {
-        public ILookupViolationsMessageFormatter Instantiate(IFailureReportProfile profile)
+        public ILookupViolationMessageFormatter Instantiate(IFailureReportProfile profile)
         {
             var dataRowsFactory = new SamplersFactory<DataRow>();
-            var dataRowsSamplers = dataRowsFactory.Instantiate(profile);
+            var dataRowsSamplers = dataRowsFactory.InstantiateLookup(profile);
 
             var keysCollectionFactory = new SamplersFactory<KeyCollection>();
             var keysCollectionSamplers = keysCollectionFactory.Instantiate(profile);
@@ -26,9 +26,9 @@ namespace NBi.Framework.FailureMessage
             switch (profile.Format)
             {
                 case FailureReportFormat.Markdown:
-                    return new LookupViolationsMessageMarkdown(keysCollectionSamplers, dataRowsSamplers);
+                    return new LookupViolationMessageMarkdown(dataRowsSamplers);
                 case FailureReportFormat.Json:
-                    return new ReferenceViolationsMessageJson(dataRowsSamplers);
+                    return new LookupViolationMessageJson(dataRowsSamplers);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

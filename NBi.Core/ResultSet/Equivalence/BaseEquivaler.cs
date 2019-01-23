@@ -19,13 +19,7 @@ namespace NBi.Core.ResultSet.Equivalence
         {
             get { return new ReadOnlyCollection<IRowsAnalyzer>(analyzers); }
         }
-
-
-        private readonly CellComparer cellComparer = new CellComparer();
-        protected CellComparer CellComparer
-        {
-            get { return cellComparer; }
-        }
+        protected CellComparer CellComparer { get; } = new CellComparer();
 
         public BaseEquivaler(IEnumerable<IRowsAnalyzer> analyzers)
         {

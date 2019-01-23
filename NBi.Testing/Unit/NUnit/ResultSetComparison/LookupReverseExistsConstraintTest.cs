@@ -2,6 +2,7 @@
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
+using NBi.Core.ResultSet.Lookup.Violation;
 using NBi.NUnit.ResultSetComparison;
 using NUnit.Framework;
 using System;
@@ -74,7 +75,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 
             var lookupExists = new LookupReverseExistsConstraint(assertService);
             var analyzer = new Mock<LookupExistsAnalyzer>(mappings);
-            analyzer.Setup(x => x.Execute(It.IsAny<ResultSet>(), It.IsAny<ResultSet>())).Returns(new LookupViolations());
+            analyzer.Setup(x => x.Execute(It.IsAny<ResultSet>(), It.IsAny<ResultSet>())).Returns(new LookupExistsViolationCollection(null));
             lookupExists.Engine = analyzer.Object;
 
             //Method under test

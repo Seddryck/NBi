@@ -65,6 +65,7 @@ namespace NBi.NUnit
             Register(typeof(ResultSetSystemXml), typeof(SingleRowXml), new ResultSetSingleRowBuilder());
             Register(typeof(ResultSetSystemXml), typeof(UniqueRowsXml), new ResultSetUniqueRowsBuilder());
             Register(typeof(ResultSetSystemXml), typeof(LookupExistsXml), new ResultSetLookupExistsBuilder());
+            Register(typeof(ResultSetSystemXml), typeof(LookupMatchesXml), new ResultSetLookupMatchesBuilder());
 
             Register(typeof(ScalarXml), typeof(ScoreXml), new ScalarScoreBuilder());
 
@@ -149,10 +150,8 @@ namespace NBi.NUnit
         /// <returns></returns>
         public TestCase Instantiate(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
-            if (sutXml == null)
-                throw new ArgumentNullException("sutXml");
-            if (ctrXml == null)
-                throw new ArgumentNullException("ctrXml");
+            sutXml = sutXml ?? throw new ArgumentNullException("sutXml");
+            ctrXml = ctrXml ?? throw new ArgumentNullException("ctrXml");
 
             ITestCaseBuilder builder = null;
 

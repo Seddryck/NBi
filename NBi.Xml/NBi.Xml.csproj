@@ -46,6 +46,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,6 +61,7 @@
     </Compile>
     <Compile Include="Constraints\AbstractConstraintForCollectionXml.cs" />
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
+    <Compile Include="Constraints\LookupMatchesXml.cs" />
     <Compile Include="Constraints\ScoreXml.cs" />
     <Compile Include="Constraints\Comparer\CultureSensitiveTextPredicateXml.cs" />
     <Compile Include="Constraints\Comparer\CaseSensitiveTextPredicateXml.cs" />
@@ -152,6 +156,7 @@
     <Compile Include="Items\QueryScalarXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\ColumnUsingXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\ColumnMappingXml.cs" />
+    <Compile Include="Items\ResultSet\Lookup\InclusionXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\JoinXml.cs" />
     <Compile Include="Items\SharedDatasetXml.cs" />
     <Compile Include="Items\Alteration\Transformation\TransformXml.cs" />

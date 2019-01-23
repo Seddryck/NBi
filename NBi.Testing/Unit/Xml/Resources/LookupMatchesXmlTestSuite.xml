@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Reference exists TestSuite" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="system-under-test">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
+  </settings>
+  <test name="With one column mapped" uid="0000">
+    <system-under-test>
+      <resultSet>
+        <query>
+          select NationalIdNumber, h.[DepartmentID], d.Name as DepartmentName  from [HumanResources].[Employee] e
+          inner join [HumanResources].[EmployeeDepartmentHistory] h on e.BusinessEntityId = h.BusinessEntityId
+          inner join [HumanResources].[Department] d on h.DepartmentId = d.DepartmentId
+        </query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <lookup-matches>
+        <join>
+          <mapping candidate="DepartmentID" reference="Id" type="numeric"/>
+        </join>
+        <inclusion>
+          <mapping candidate="DepartmentName" reference="Name" type="text"/>
+        </inclusion>
+        <result-set>
+          <query>
+            select [DepartmentID] as Id, [Name] from [HumanResources].[Department]
+          </query>
+        </result-set>
+      </lookup-matches>
+    </assert>
+  </test>
+</testSuite>

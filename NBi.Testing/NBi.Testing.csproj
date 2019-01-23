@@ -185,6 +185,9 @@
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -264,6 +267,7 @@
     <Compile Include="Integration\NUnit\Structure\EquivalentToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\LinkedToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Structure\ExistsConstraintTest.cs" />
+    <Compile Include="StringExtensions.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Calculation\CombinationPredicateFilterTest.cs" />
     <Compile Include="Unit\Core\Calculation\CultureSensitivePredicateMatchesTest.cs" />
@@ -314,8 +318,9 @@
     <Compile Include="Unit\Core\Report\FileReportingParserTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ColumnIdentifierFactory.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\ColumnMappingCollectionTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByNameTest.cs" />
-    <Compile Include="Unit\Core\ResultSet\Lookup\KeysRetrieverByOrdinalTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Lookup\CellsRetrieverByNameTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Lookup\CellsRetrieverByOrdinalTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Lookup\LookupMatchesAnalyzerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\LookupExistsAnalyzerTest.cs" />
     <Compile Include="Unit\Core\Scalar\Casting\NumericCasterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\CellComparerTest.cs" />
@@ -357,6 +362,10 @@
     <Compile Include="Unit\Core\Scalar\Conversion\TextToNumericConverterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Conversion\TextToDateTimeConverterTest.cs" />
     <Compile Include="Unit\Core\Scalar\PercentageTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Presentation\BooleanPresenterTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Presentation\DateTimePresenterTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Presentation\NumericPresenterTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Presentation\TextPresenterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\EnvironmentScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\FormatScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\GlobalVariableScalarResolverTest.cs" />
@@ -388,14 +397,18 @@
     <Compile Include="Unit\Core\Variable\VariableFactoryTest.cs" />
     <Compile Include="Unit\Core\Xml\XPathEngineTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\DataRowsMessageJsonTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Json\Helper\LookupTableHelperJsonTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Json\Helper\StandardTableHelperJsonTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\ScoreMessageJsonTest.cs" />
-    <Compile Include="Unit\Framework\FailureMessage\Json\TableHelperJsonTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Json\Helper\TableHelperJsonTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Markdown\DataRowsMessageMardownTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Markdown\Helper\LookupTableHelperMarkdownTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Markdown\Helper\StandardTableHelperMarkdownTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Markdown\ScoreMessageMardownTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Markdown\ItemsMessageMardownTest.cs" />
-    <Compile Include="Unit\Framework\FailureMessage\Common\CellFormatterTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Presentation\BasePresenterTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Common\ColumnPropertiesFormatterTest.cs" />
-    <Compile Include="Unit\Framework\FailureMessage\Markdown\Helper\TableHelperTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Markdown\Helper\TableHelperMarkdownTest.cs" />
     <Compile Include="Unit\Framework\Sampling\BasicSamplerTest.cs" />
     <Compile Include="Unit\Framework\Sampling\FullSamplerTest.cs" />
     <Compile Include="Unit\Framework\Sampling\NoneSamplerTest.cs" />
@@ -490,6 +503,7 @@
     <Compile Include="Unit\Service\TestCaseCollectionManagerTest.cs" />
     <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\LookupMatchesXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\ScoreXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\LookupExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\UniqueRowsXmlTest.cs" />
@@ -1069,6 +1083,9 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\LookupMatchesXmlTestSuite.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\Resources\SentinelLoopXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\LocalVariableXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\InstanceSettlingXmlTestSuite.xml" />

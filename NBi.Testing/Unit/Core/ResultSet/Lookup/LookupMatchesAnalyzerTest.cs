@@ -150,7 +150,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
             stopWatch.Start();
             analyzer.Execute(candidate, reference);
             stopWatch.Stop();
-            Assert.That(stopWatch.Elapsed.TotalSeconds, Is.LessThan(5));
+            Assert.That(stopWatch.Elapsed.TotalSeconds, Is.LessThan(7));
         }
 
         [Test]
@@ -187,7 +187,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
             stopWatch.Start();
             var violations = analyzer.Execute(candidate, reference);
             stopWatch.Stop();
-            Assert.That(stopWatch.Elapsed.TotalSeconds, Is.LessThan(5));
+            Assert.That(stopWatch.Elapsed.TotalSeconds, Is.LessThan(7));
         }
     }
 }

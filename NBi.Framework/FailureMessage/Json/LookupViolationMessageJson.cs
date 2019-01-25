@@ -23,6 +23,8 @@ namespace NBi.Framework.FailureMessage.Json
 
         protected override string RenderStandardTable(IEnumerable<DataRow> rows, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, string title)
         {
+            sampler.Build(rows);
+
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
             using (var writer = new JsonTextWriter(sw))
@@ -41,16 +43,19 @@ namespace NBi.Framework.FailureMessage.Json
                     writer.WriteStartObject();
                     if (state == RowViolationState.Mismatch)
                     {
+                        var fullSampler = new FullSampler<LookupMatchesViolationComposite>();
                         var rows = violations.Values.Where(x => x is LookupMatchesViolationInformation)
                                 .Cast<LookupMatchesViolationInformation>()
                                 .SelectMany(x => x.CandidateRows);
-                        new LookupTableHelperJson(rows, metadata, new FullSampler<LookupMatchesViolationComposite>()).Render(writer);
+                        fullSampler.Build(rows);
+                        new LookupTableHelperJson(rows, metadata, fullSampler).Render(writer);
                     }
                     else
                     {
                         var rows = violations.Values.Where(x => x is LookupExistsViolationInformation)
                                 .Cast<LookupExistsViolationInformation>()
                                 .SelectMany(x => x.CandidateRows);
+                        sampler.Build(rows);
                         new StandardTableHelperJson(rows, metadata, sampler).Render(writer);
                     }
                     writer.WriteEndObject();

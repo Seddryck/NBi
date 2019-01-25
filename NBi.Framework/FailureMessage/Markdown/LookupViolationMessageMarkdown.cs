@@ -27,27 +27,6 @@ namespace NBi.Framework.FailureMessage.Markdown
             var tableHelper = new StandardTableHelperMarkdown(rows, metadata, sampler);
             var container = new MarkdownContainer();
             tableHelper.Render(container);
-            return RenderTextAroundTable(container, rows, title, sampler);
-        }
-
-        private MarkdownContainer RenderTextAroundTable(MarkdownContainer table, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
-        {
-            rows = rows ?? new List<DataRow>();
-
-            var container = new MarkdownContainer();
-
-            if (!string.IsNullOrEmpty(title))
-                container.Append($"{title} rows:".ToMarkdownSubHeader());
-
-            container.Append($"Result-set with {rows.Count()} row{(rows.Count() > 1 ? "s" : string.Empty)}".ToMarkdownParagraph());
-            container.Append(table);
-
-            if (sampler?.GetIsSampled() ?? false)
-            {
-                var rowsSkipped = string.Format($"{sampler.GetExcludedRowCount()} (of {rows.Count()}) rows have been skipped for display purpose.");
-                container.Append(rowsSkipped.ToMarkdownParagraph());
-            }
-
             return container;
         }
 
@@ -63,23 +42,24 @@ namespace NBi.Framework.FailureMessage.Markdown
                     
                 if (state == RowViolationState.Mismatch)
                 {
-                    tableHelper = new LookupTableHelperMarkdown(
-                            violations.Values.Where(x => x is LookupMatchesViolationInformation)
+                    var fullSampler = new FullSampler<LookupMatchesViolationComposite>();
+                    var rows = violations.Values.Where(x => x is LookupMatchesViolationInformation)
                             .Cast<LookupMatchesViolationInformation>()
-                            .SelectMany(x => x.CandidateRows)
-                        , metadata, new FullSampler<LookupMatchesViolationComposite>());
+                            .SelectMany(x => x.CandidateRows);
+                    fullSampler.Build(rows);
+                    tableHelper = new LookupTableHelperMarkdown(rows, metadata, fullSampler);
                 }
                 else
                 {
-                    tableHelper = new StandardTableHelperMarkdown(
-                            violations.Values.Where(x => x is LookupExistsViolationInformation)
+                    var rows = violations.Values.Where(x => x is LookupExistsViolationInformation)
                             .Cast<LookupExistsViolationInformation>()
-                            .SelectMany(x => x.CandidateRows)
-                        , metadata, sampler);
+                            .SelectMany(x => x.CandidateRows);
+                    sampler.Build(rows);
+                    tableHelper = new StandardTableHelperMarkdown(rows, metadata, sampler);
                 }
                 var tableContainer = new MarkdownContainer();
                 tableHelper.Render(tableContainer);
-                container.Append(RenderTextAroundTable(tableContainer, violations.GetRows(state), Textify(state), state == RowViolationState.Mismatch ? null : sampler));
+                container.Append(tableContainer);
             }
             return container;
         }

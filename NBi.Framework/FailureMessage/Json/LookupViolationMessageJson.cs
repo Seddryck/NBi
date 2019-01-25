@@ -40,7 +40,6 @@ namespace NBi.Framework.FailureMessage.Json
             {
                 foreach (var state in violations.Values.Select(x => x.State).Distinct())
                 {
-                    writer.WriteStartObject();
                     if (state == RowViolationState.Mismatch)
                     {
                         var fullSampler = new FullSampler<LookupMatchesViolationComposite>();
@@ -58,7 +57,6 @@ namespace NBi.Framework.FailureMessage.Json
                         sampler.Build(rows);
                         new StandardTableHelperJson(rows, metadata, sampler).Render(writer);
                     }
-                    writer.WriteEndObject();
                 }
             }
             return sb.ToString();

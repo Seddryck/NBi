@@ -95,13 +95,13 @@ namespace NBi.Testing.Acceptance
             => base.RunNegativeTestSuite(filename);
 
         [Test]
-        //[TestCase("Config-Full-Json.nbits")]
-        //[TestCase("Config-Full.nbits")]
-        //[TestCase("Config-Light.nbits")]
-        //[TestCase("Scoring-Json.nbits")]
-        //[TestCase("Lookup-Exists-Json.nbits")]
+        [TestCase("Config-Full-Json.nbits")]
+        [TestCase("Config-Full.nbits")]
+        [TestCase("Config-Light.nbits")]
+        [TestCase("Scoring-Json.nbits")]
+        [TestCase("Lookup-Exists-Json.nbits")]
         [TestCase("Lookup-ReverseExists-Json.nbits")]
-        //[TestCase("Lookup-Matches-Json.nbits")]
+        [TestCase("Lookup-Matches-Json.nbits")]
         [Category("Acceptance")]
         public override void RunNegativeTestSuiteWithConfig(string filename)
             => base.RunNegativeTestSuiteWithConfig(filename);

@@ -33,8 +33,5 @@ namespace NBi.Framework.FailureMessage.Json
             tableHelper.Render(writer);
             writer.WriteEndObject();
         }
-
-        protected override string ReferenceName { get => "actual"; }
-        protected override string CandidateName { get => "expected"; }
     }
 }

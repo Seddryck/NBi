@@ -44,6 +44,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
             referenceTable.LoadDataRow(new object[] { "Alpha", 15 }, false);
             referenceTable.LoadDataRow(new object[] { "Beta", 20 }, false);
             referenceTable.LoadDataRow(new object[] { "Delta", 30 }, false);
+            referenceTable.LoadDataRow(new object[] { "Epsilon", 40 }, false);
 
             var candidateTable = new DataTable() { TableName = "MyTable" };
             candidateTable.Columns.Add(new DataColumn("ForeignKey"));
@@ -73,8 +74,8 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
 
             var text = message.RenderMessage();
             Console.WriteLine(text);
-            Assert.That(text, Is.StringContaining("\"actual\":{\"total-rows\":3,\"table\""));
-            Assert.That(text, Is.StringContaining("\"expected\":{\"total-rows\":2,\"table\""));
+            Assert.That(text, Is.StringContaining("\"expected\":{\"total-rows\":4,\"table\""));
+            Assert.That(text, Is.StringContaining("\"actual\":{\"total-rows\":2,\"table\""));
             Assert.That(text, Is.StringContaining("\"analysis\":{\"missing\":{\"total-rows\":1,"));
             Assert.That(text, Is.StringContaining("[[\"Gamma\",\"20\",\"False\"]]"));
         }
@@ -88,6 +89,7 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
             referenceTable.LoadDataRow(new object[] { "Alpha", 15 }, false);
             referenceTable.LoadDataRow(new object[] { "Beta", 20 }, false);
             referenceTable.LoadDataRow(new object[] { "Delta", 30 }, false);
+            referenceTable.LoadDataRow(new object[] { "Epsilon", 40 }, false);
 
             var candidateTable = new DataTable() { TableName = "MyTable" };
             candidateTable.Columns.Add(new DataColumn("ForeignKey"));
@@ -116,8 +118,8 @@ namespace NBi.Testing.Unit.Framework.FailureMessage.Json
 
             var text = message.RenderMessage();
             Console.WriteLine(text);
-            Assert.That(text, Is.StringContaining("\"actual\":{\"total-rows\":3}"));
-            Assert.That(text, Is.StringContaining("\"expected\":{\"total-rows\":2}"));
+            Assert.That(text, Is.StringContaining("\"expected\":{\"total-rows\":4}"));
+            Assert.That(text, Is.StringContaining("\"actual\":{\"total-rows\":2}"));
             Assert.That(text, Is.StringContaining("\"analysis\":{\"missing\":{\"total-rows\":1}"));
         }
     }

@@ -85,6 +85,9 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
 
         private string RenderSupplementaryCell() => " >> ";
 
+        protected override IEnumerable<TableCellExtended> RenderRow(LookupMatchesViolationComposite row, IEnumerable<ColumnType> columnTypes)
+            => throw new NotImplementedException();
+
         protected virtual string RenderCell(object value, LookupMatchesViolationData data, ColumnType columnType)
         {
             var factory = new PresenterFactory();
@@ -92,8 +95,11 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return data.IsEqual ? presenter.Execute(value) : $"{presenter.Execute(value)} <> {presenter.Execute(data.Value)}";
         }
 
-        protected override IEnumerable<TableCellExtended> RenderRow(LookupMatchesViolationComposite row, IEnumerable<ColumnType> columnTypes)
-            => throw new NotImplementedException();
-
+        protected virtual string RenderCell(object value, ColumnType columnType)
+        {
+            var factory = new PresenterFactory();
+            var presenter = factory.Instantiate(columnType);
+            return presenter.Execute(value);
+        }
     }
 }

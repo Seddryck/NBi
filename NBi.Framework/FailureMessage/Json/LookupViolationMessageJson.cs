@@ -2,6 +2,7 @@
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Lookup.Violation;
 using NBi.Framework.FailureMessage.Common;
+using NBi.Framework.FailureMessage.Common.Helper;
 using NBi.Framework.FailureMessage.Json.Helper;
 using NBi.Framework.Sampling;
 using Newtonsoft.Json;
@@ -15,51 +16,26 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Json
 {
-    class LookupViolationMessageJson : LookupViolationMessage<string>
+    abstract class LookupViolationMessageJson : LookupViolationMessage<JsonWriter>
     {
+        private readonly StringBuilder sbReference = new StringBuilder();
+        private readonly StringBuilder sbCandidate = new StringBuilder();
+        private readonly StringBuilder sbAnalysis = new StringBuilder();
+
         public LookupViolationMessageJson(IDictionary<string, ISampler<DataRow>> samplers)
-            : base(samplers) { }
-
-
-        protected override string RenderStandardTable(IEnumerable<DataRow> rows, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, string title)
+            : base(samplers)
         {
-            sampler.Build(rows);
-
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            using (var writer = new JsonTextWriter(sw))
-                new StandardTableHelperJson(rows, metadata, sampler).Render(writer);
-            return sb.ToString();
+            reference = new JsonTextWriter(new StringWriter(sbReference));
+            candidate = new JsonTextWriter(new StringWriter(sbCandidate));
+            analysis = new JsonTextWriter(new StringWriter(sbAnalysis));
         }
 
-        protected override string RenderAnalysis(LookupViolationCollection violations, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings)
+
+        protected override void RenderStandardTable(IEnumerable<DataRow> rows, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, string title, JsonWriter writer)
         {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            using (var writer = new JsonTextWriter(sw))
-            {
-                foreach (var state in violations.Values.Select(x => x.State).Distinct())
-                {
-                    if (state == RowViolationState.Mismatch)
-                    {
-                        var fullSampler = new FullSampler<LookupMatchesViolationComposite>();
-                        var rows = violations.Values.Where(x => x is LookupMatchesViolationInformation)
-                                .Cast<LookupMatchesViolationInformation>()
-                                .SelectMany(x => x.CandidateRows);
-                        fullSampler.Build(rows);
-                        new LookupTableHelperJson(rows, metadata, fullSampler).Render(writer);
-                    }
-                    else
-                    {
-                        var rows = violations.Values.Where(x => x is LookupExistsViolationInformation)
-                                .Cast<LookupExistsViolationInformation>()
-                                .SelectMany(x => x.CandidateRows);
-                        sampler.Build(rows);
-                        new StandardTableHelperJson(rows, metadata, sampler).Render(writer);
-                    }
-                }
-            }
-            return sb.ToString();
+            sampler.Build(rows);
+            var tableHelper = new StandardTableHelperJson(rows, metadata, sampler);
+            tableHelper.Render(writer);
         }
 
         public override string RenderMessage()
@@ -71,28 +47,31 @@ namespace NBi.Framework.FailureMessage.Json
                 writer.WriteStartObject();
                 writer.WritePropertyName("timestamp");
                 writer.WriteValue(DateTime.Now);
-                if (!string.IsNullOrEmpty(reference))
+                if (!string.IsNullOrEmpty(sbReference.ToString()))
                 {
-                    writer.WritePropertyName("reference");
-                    writer.WriteRawValue(reference);
+                    writer.WritePropertyName(ReferenceName);
+                    writer.WriteRawValue(sbReference.ToString());
                 }
-                if (!string.IsNullOrEmpty(candidate))
+                if (!string.IsNullOrEmpty(sbCandidate.ToString()))
                 {
-                    writer.WritePropertyName("candidate");
-                    writer.WriteRawValue(candidate);
+                    writer.WritePropertyName(CandidateName);
+                    writer.WriteRawValue(sbCandidate.ToString());
                 }
-                if (!string.IsNullOrEmpty(analysis))
+                if (!string.IsNullOrEmpty(sbAnalysis.ToString()))
                 {
                     writer.WritePropertyName("analysis");
-                    writer.WriteRawValue(analysis);
+                    writer.WriteRawValue(sbAnalysis.ToString());
                 }
                 writer.WriteEndObject();
                 return sb.ToString();
             }
         }
 
-        public override string RenderReference() => reference;
-        public override string RenderCandidate() => candidate;
-        public override string RenderAnalysis() => analysis;
+        protected virtual string ReferenceName { get => "expected"; }
+        protected virtual string CandidateName { get => "actual"; }
+
+        public override string RenderReference() => sbReference.ToString();
+        public override string RenderCandidate() => sbCandidate.ToString();
+        public override string RenderAnalysis() => sbAnalysis.ToString();
     }
 }

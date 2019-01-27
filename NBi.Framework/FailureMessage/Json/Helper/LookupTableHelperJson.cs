@@ -51,16 +51,15 @@ namespace NBi.Framework.FailureMessage.Json.Helper
             {
                 if (record.ContainsKey(row.Table.Columns[i]))
                 {
-                    var displayValue = RenderCell(
+                    RenderCell(
                         row.IsNull(i) ? DBNull.Value : row.ItemArray[i]
                         , record[row.Table.Columns[i]]
-                        , metadatas.ElementAt(i).Type);
-                    writer.WriteValue(displayValue);
+                        , metadatas.ElementAt(i).Type
+                        , writer);
                 }
                 else
                 {
-                    var displayValue = RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i], metadatas.ElementAt(i).Type);
-                    writer.WriteValue(displayValue);
+                    RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i], metadatas.ElementAt(i).Type, writer);
                 }
             }
             writer.WriteEndArray();
@@ -73,16 +72,15 @@ namespace NBi.Framework.FailureMessage.Json.Helper
             {
                 if (record.ContainsKey(row.Table.Columns[i]))
                 {
-                    var displayValue = RenderCell(
+                    RenderCell(
                         row.IsNull(i) ? DBNull.Value : row.ItemArray[i]
                         , record[row.Table.Columns[i]]
-                        , metadatas.ElementAt(i).Type);
-                    writer.WriteValue(displayValue);
+                        , metadatas.ElementAt(i).Type
+                        , writer);
                 }
                 else
                 {
-                    var displayValue = RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i], metadatas.ElementAt(i).Type);
-                    writer.WriteValue(displayValue);
+                    RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i], metadatas.ElementAt(i).Type, writer);
                 }
             }
             writer.WriteEndArray();
@@ -90,11 +88,19 @@ namespace NBi.Framework.FailureMessage.Json.Helper
 
         private string RenderSupplementaryCell() => " >> ";
 
-        protected virtual string RenderCell(object value, LookupMatchesViolationData data, ColumnType columnType)
+        protected virtual void RenderCell(object value, LookupMatchesViolationData data, ColumnType columnType, JsonWriter writer)
         {
             var factory = new PresenterFactory();
             var formatter = factory.Instantiate(columnType);
-            return data.IsEqual ? formatter.Execute(value) : $"{formatter.Execute(value)} <> {formatter.Execute(data.Value)}";
+            writer.WriteStartObject();
+            writer.WritePropertyName("value");
+            writer.WriteValue(formatter.Execute(value));
+            if (!data.IsEqual)
+            {
+                writer.WritePropertyName("expectation");
+                writer.WriteValue(formatter.Execute(data.Value));
+            }
+            writer.WriteEndObject();
         }
 
         protected override void RenderRow(LookupMatchesViolationComposite row, IEnumerable<ColumnType> columnTypes, JsonWriter writer)

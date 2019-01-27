@@ -13,7 +13,7 @@ using System.Data;
 
 namespace NBi.Framework.FailureMessage
 {
-    public class LookupViolationsMessageFormatterFactory
+    public class LookupExistsViolationsMessageFormatterFactory
     {
         public ILookupViolationMessageFormatter Instantiate(IFailureReportProfile profile)
         {
@@ -26,9 +26,9 @@ namespace NBi.Framework.FailureMessage
             switch (profile.Format)
             {
                 case FailureReportFormat.Markdown:
-                    return new LookupViolationMessageMarkdown(dataRowsSamplers);
+                    return new LookupExistsViolationMessageMarkdown(dataRowsSamplers);
                 case FailureReportFormat.Json:
-                    return new LookupViolationMessageJson(dataRowsSamplers);
+                    return new LookupExistsViolationMessageJson(dataRowsSamplers);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

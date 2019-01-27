@@ -28,7 +28,7 @@ namespace NBi.NUnit.ResultSetComparison
 
         protected override ILookupViolationMessageFormatter BuildFailure()
         {
-            var factory = new LookupViolationsMessageFormatterFactory();
+            var factory = new LookupMatchesViolationsMessageFormatterFactory();
             var msg = factory.Instantiate(Configuration.FailureReportProfile);
             msg.Generate(rsReference.Rows.Cast<DataRow>(), rsCandidate.Rows.Cast<DataRow>(), violations, keyMappings, valueMappings);
             return msg;

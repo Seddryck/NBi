@@ -46,5 +46,13 @@ namespace NBi.NUnit.ResultSetComparison
 
             return output;
         }
+
+        protected override ILookupViolationMessageFormatter BuildFailure()
+        {
+            var factory = new LookupReverseExistsViolationsMessageFormatterFactory();
+            var msg = factory.Instantiate(Configuration.FailureReportProfile);
+            msg.Generate(rsReference.Rows.Cast<DataRow>(), rsCandidate.Rows.Cast<DataRow>(), violations, mappings, null);
+            return msg;
+        }
     }
 }

@@ -34,7 +34,7 @@ namespace NBi.NUnit.ResultSetComparison
 
         protected virtual ILookupViolationMessageFormatter BuildFailure()
         {
-            var factory = new LookupViolationsMessageFormatterFactory();
+            var factory = new LookupExistsViolationsMessageFormatterFactory();
             var msg = factory.Instantiate(Configuration.FailureReportProfile);
             msg.Generate(rsReference.Rows.Cast<DataRow>(), rsCandidate.Rows.Cast<DataRow>(), violations, mappings, null);
             return msg;
@@ -52,7 +52,7 @@ namespace NBi.NUnit.ResultSetComparison
             referenceService = reference;
         }
 
-        private ColumnMappingCollection mappings;
+        protected ColumnMappingCollection mappings;
         public LookupExistsConstraint Using(ColumnMappingCollection mappings)
         {
             this.mappings = mappings;

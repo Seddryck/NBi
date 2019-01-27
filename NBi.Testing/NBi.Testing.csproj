@@ -396,6 +396,9 @@
     <Compile Include="Unit\Core\Scalar\Resolver\CSharpScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Variable\VariableFactoryTest.cs" />
     <Compile Include="Unit\Core\Xml\XPathEngineTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Json\LookupReverseExistsViolationMessageJsonTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Json\LookupExistsViolationMessageJsonTest.cs" />
+    <Compile Include="Unit\Framework\FailureMessage\Json\LookupMatchesViolationMessageJsonTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\DataRowsMessageJsonTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\Helper\LookupTableHelperJsonTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\Helper\StandardTableHelperJsonTest.cs" />
@@ -755,6 +758,24 @@
     <EmbeddedResource Include="Acceptance\Resources\Positive\CustomFlatFileParser.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Lookup-Matches-Json.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Lookup-Matches-Json.nbits.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Lookup-Exists-Json.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Lookup-Exists-Json.nbits.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Lookup-ReverseExists-Json.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Lookup-ReverseExists-Json.nbits.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\OrderCountByYear.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -1093,6 +1114,9 @@
     <None Include="Acceptance\Resources\Positive\MultipleInstance.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Lookup-Matches-Json-0001.txt" />
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Lookup-ReverseExists-Json-0001.txt" />
+    <EmbeddedResource Include="Acceptance\Resources\Negative\Lookup-Exists-Json-0001.txt" />
     <Content Include="Acceptance\Resources\Query\ResellerOrderCount.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

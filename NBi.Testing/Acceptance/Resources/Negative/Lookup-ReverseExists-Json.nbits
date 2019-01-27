@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: query equalTo query" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+		</default>
+		<default apply-to="assert">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+		</default>
+	</settings>
+  <test name="lookup-reverse-exists" uid="0001">
+    <description>Assert that the list of employees contains at least one employee for each department</description>
+    <system-under-test>
+      <result-set>
+        <query>
+          select
+          NationalIdNumber,
+          h.[DepartmentID]as DepartmentID,
+          case when h.[DepartmentID] % 5 = 1 then d.Name + 's' else d.Name end as DepartmentName
+          from
+          [HumanResources].[Employee] e
+          inner join [HumanResources].[EmployeeDepartmentHistory]
+          h on e.BusinessEntityId = h.BusinessEntityId
+          inner join [HumanResources].[Department] d on
+          h.DepartmentId = d.DepartmentId
+        </query>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <lookup-exists reverse="true">
+        <join>
+          <mapping candidate="Id" reference="DepartmentID" type="numeric"/>
+        </join>
+        <result-set>
+          <query>
+            select [DepartmentID] as Id, [Name] from [HumanResources].[Department]
+          </query>
+        </result-set>
+      </lookup-exists>
+    </assert>
+  </test>
+</testSuite>

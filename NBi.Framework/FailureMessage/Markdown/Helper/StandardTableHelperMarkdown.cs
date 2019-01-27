@@ -1,6 +1,7 @@
 ﻿using MarkdownLog;
 using NBi.Core;
 using NBi.Core.ResultSet;
+using NBi.Core.Scalar.Presentation;
 using NBi.Framework.Markdown.MarkdownLogExtension;
 using NBi.Framework.Sampling;
 using System;
@@ -29,6 +30,13 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
                 var displayValue = RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i], columnTypes.ElementAt(i));
                 yield return new TableCellExtended() { Text = displayValue };
             }
+        }
+
+        protected virtual string RenderCell(object value, ColumnType columnType)
+        {
+            var factory = new PresenterFactory();
+            var presenter = factory.Instantiate(columnType);
+            return $"{presenter.Execute(value)}";
         }
     }
 }

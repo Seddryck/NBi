@@ -15,53 +15,18 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Markdown
 {
-    class LookupViolationMessageMarkdown : LookupViolationMessage<MarkdownContainer>
+    abstract class LookupViolationMessageMarkdown : LookupViolationMessage<MarkdownContainer>
     {
 
         public LookupViolationMessageMarkdown(IDictionary<string, ISampler<DataRow>> samplers)
-            : base(samplers) { }
+            : base(samplers)
+        { }
 
-        protected override MarkdownContainer RenderStandardTable(IEnumerable<DataRow> rows, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, string title)
+        protected override void RenderStandardTable(IEnumerable<DataRow> rows, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, string title, MarkdownContainer container)
         {
             sampler.Build(rows);
             var tableHelper = new StandardTableHelperMarkdown(rows, metadata, sampler);
-            var container = new MarkdownContainer();
             tableHelper.Render(container);
-            return container;
-        }
-
-        protected override MarkdownContainer RenderAnalysis(LookupViolationCollection violations, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings)
-        {
-            var container = new MarkdownContainer();
-            container.Append("Analysis".ToMarkdownHeader());
-
-            foreach (var state in violations.Values.Select(x => x.State).Distinct())
-            {
-                container.Append(GetExplanationText(violations, state).ToMarkdownParagraph());
-                ITableHelper<MarkdownContainer> tableHelper = null;
-                    
-                if (state == RowViolationState.Mismatch)
-                {
-                    var fullSampler = new FullSampler<LookupMatchesViolationComposite>();
-                    var rows = violations.Values.Where(x => x is LookupMatchesViolationInformation)
-                            .Cast<LookupMatchesViolationInformation>()
-                            .SelectMany(x => x.CandidateRows);
-                    fullSampler.Build(rows);
-                    tableHelper = new LookupTableHelperMarkdown(rows, metadata, fullSampler);
-                }
-                else
-                {
-                    var rows = violations.Values.Where(x => x is LookupExistsViolationInformation)
-                            .Cast<LookupExistsViolationInformation>()
-                            .SelectMany(x => x.CandidateRows);
-                    sampler.Build(rows);
-                    tableHelper = new StandardTableHelperMarkdown(rows, metadata, sampler);
-                }
-                var tableContainer = new MarkdownContainer();
-                tableHelper.Render(tableContainer);
-                container.Append(tableContainer);
-            }
-            return container;
         }
 
         protected virtual IEnumerable<IColumnDefinition> BuildMetadata(ColumnMappingCollection mappings, ColumnRole role, Func<ColumnMapping, IColumnIdentifier> identify)
@@ -90,7 +55,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             }
         }
 
-        private string GetExplanationText(LookupViolationCollection violations, RowViolationState state)
+        protected string GetExplanationText(LookupViolationCollection violations, RowViolationState state)
         {
             string Pluralize(int x) => x > 1 ? "s" : string.Empty;
             string Verbalize(int x) => x > 1 ? "are" : "is";
@@ -112,6 +77,18 @@ namespace NBi.Framework.FailureMessage.Markdown
             var countRow = violations.Where(x => x.Value.State == state).Sum(x => x.Value.Rows.Count());
             return GetText(count, countRow);
         }
-        
+
+        public override string RenderMessage()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine(RenderPredicate());
+            sb.AppendLine();
+            sb.AppendLine(RenderReference());
+            sb.AppendLine();
+            sb.AppendLine(RenderCandidate());
+            sb.AppendLine();
+            sb.AppendLine(RenderAnalysis());
+            return sb.ToString();
+        }
     }
 }

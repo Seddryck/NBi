@@ -27,12 +27,12 @@ namespace NBi.Framework.FailureMessage.Common
         {
             var metadata = BuildMetadata(keyMappings, ColumnRole.Key, x => x.ReferenceColumn)
                 .Union(BuildMetadata(valueMappings, ColumnRole.Value, x => x.ReferenceColumn));
-            reference = RenderStandardTable(referenceRows, metadata, Samplers["reference"], "Reference");
+            RenderStandardTable(referenceRows, metadata, Samplers["reference"], "Reference", reference);
 
             metadata = BuildMetadata(keyMappings, ColumnRole.Key, x => x.CandidateColumn)
                 .Union(BuildMetadata(valueMappings, ColumnRole.Value, x => x.CandidateColumn));
-            candidate = RenderStandardTable(candidateRows, metadata, Samplers["candidate"], "Candidate");
-            analysis = RenderAnalysis(violations, metadata, Samplers["analysis"], keyMappings, valueMappings);
+            RenderStandardTable(candidateRows, metadata, Samplers["candidate"], "Candidate", candidate);
+            RenderAnalysis(violations, metadata, Samplers["analysis"], keyMappings, valueMappings, analysis);
         }
 
         private IEnumerable<ColumnMetadata> BuildMetadata(ColumnMappingCollection mappings, ColumnRole role, Func<ColumnMapping, IColumnIdentifier> identify)
@@ -46,26 +46,15 @@ namespace NBi.Framework.FailureMessage.Common
                 };
         }
 
-        protected abstract T RenderStandardTable(IEnumerable<DataRow> rows, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, string title);
+        protected abstract void RenderStandardTable(IEnumerable<DataRow> rows, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, string title, T writer);
 
-        protected abstract T RenderAnalysis(LookupViolationCollection violations, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings);
+        protected abstract void RenderAnalysis(LookupViolationCollection violations, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings, T writer);
 
         public abstract string RenderReference();
         public abstract string RenderCandidate();
         public abstract string RenderAnalysis();
         public virtual string RenderPredicate() => "Some references are missing and violate referential integrity";
 
-        public virtual string RenderMessage()
-        {
-            var sb = new StringBuilder();
-            sb.AppendLine(RenderPredicate());
-            sb.AppendLine();
-            sb.AppendLine(RenderReference());
-            sb.AppendLine();
-            sb.AppendLine(RenderCandidate());
-            sb.AppendLine();
-            sb.AppendLine(RenderAnalysis());
-            return sb.ToString();
-        }
+        public abstract string RenderMessage();
     }
 }

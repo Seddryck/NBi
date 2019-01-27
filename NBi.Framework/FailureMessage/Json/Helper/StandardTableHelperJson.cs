@@ -31,8 +31,7 @@ namespace NBi.Framework.FailureMessage.Json.Helper
             writer.WriteStartArray();
             for (int i = 0; i < row.Table.Columns.Count; i++)
             {
-                var displayValue = RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i], columnTypes.ElementAt(i));
-                writer.WriteValue(displayValue);
+                RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i], columnTypes.ElementAt(i), writer);
             }
             writer.WriteEndArray();
         }

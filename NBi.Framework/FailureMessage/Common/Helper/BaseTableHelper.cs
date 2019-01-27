@@ -26,13 +26,6 @@ namespace NBi.Framework.FailureMessage.Common.Helper
 
         public abstract void Render(U writer);
 
-        protected virtual string RenderCell(object value, ColumnType columnType)
-        {
-            var factory = new PresenterFactory();
-            var formatter = factory.Instantiate(columnType);
-            return formatter.Execute(value);
-        }
-
         protected internal virtual IEnumerable<ExtendedMetadata> ExtendMetadata(DataTable table, IEnumerable<ColumnMetadata> existingDefinitions)
         {
             var metadataDico = new Dictionary<DataColumn, ColumnMetadata>();

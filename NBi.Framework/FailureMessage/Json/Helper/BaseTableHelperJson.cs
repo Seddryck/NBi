@@ -30,7 +30,7 @@ namespace NBi.Framework.FailureMessage.Json.Helper
             writer.WriteStartObject();
             writer.WritePropertyName("total-rows");
             writer.WriteValue(rows.Count());
-            if (rows.Count() > 0)
+            if (Sampler.GetResult().Count() > 0)
                 RenderNonEmptyTable(writer);
             writer.WriteEndObject();
         }
@@ -93,6 +93,13 @@ namespace NBi.Framework.FailureMessage.Json.Helper
                 writer.WriteEndObject();
             }
             writer.WriteEndArray(); //columns
+        }
+
+        protected virtual void RenderCell(object value, ColumnType columnType, JsonWriter writer)
+        {
+            var factory = new PresenterFactory();
+            var formatter = factory.Instantiate(columnType);
+            writer.WriteValue(formatter.Execute(value));
         }
     }
 }

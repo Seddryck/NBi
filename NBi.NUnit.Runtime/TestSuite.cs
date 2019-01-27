@@ -21,7 +21,7 @@ using System.Collections.ObjectModel;
 using Ninject;
 using NBi.Core.Injection;
 using NBi.Core.Configuration.Extension;
-using NBi.Core.Scalar.Caster;
+using NBi.Core.Scalar.Casting;
 using NBi.Core.Variable.Instantiation;
 
 namespace NBi.NUnit.Runtime

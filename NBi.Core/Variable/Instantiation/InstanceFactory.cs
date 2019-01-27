@@ -20,7 +20,7 @@ namespace NBi.Core.Variable.Instantiation
             }
         }
 
-        private IEnumerable<Instance> Instantiate(string variableName, ISequenceResolver<object> resolver)
+        private IEnumerable<Instance> Instantiate(string variableName, ISequenceResolver resolver)
         {
             foreach (var obj in resolver.Execute())
             {

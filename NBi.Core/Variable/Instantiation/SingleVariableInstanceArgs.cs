@@ -10,6 +10,6 @@ namespace NBi.Core.Variable.Instantiation
     public class SingleVariableInstanceArgs : IInstanceArgs
     {
         public string Name { get; set; }
-        public ISequenceResolver<object> Resolver { get; set; }
+        public ISequenceResolver Resolver { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using NBi.Core.Scalar.Caster;
+﻿using NBi.Core.Scalar.Casting;
 using System;
 using System.Collections.Generic;
 using System.Data;

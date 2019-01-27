@@ -61,6 +61,53 @@
       </no-rows>
     </assert>
   </test>
+  <test name="Instances are defined through a single variable based on a predefined list" uid="0004">
+    <instance-settling>
+      <local-variable name="department" type="text">
+        <item>Production</item>
+        <item>Sales</item>
+      </local-variable>
+    </instance-settling>
+    <system-under-test>
+      <result-set>
+        <query>
+          <parameter name="@dept">@department</parameter>
+          select
+          NationalIdNumber, h.[DepartmentID]as DepartmentID, d.Name as DepartmentName
+          from
+          [HumanResources].[Employee] e
+          inner join [HumanResources].[EmployeeDepartmentHistory]
+          h on e.BusinessEntityId = h.BusinessEntityId
+          inner join [HumanResources].[Department] d on
+          h.DepartmentId = d.DepartmentId
+          where d.Name=@dept;
+        </query>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <row-count>
+        <more-than>10</more-than>
+      </row-count>
+    </assert>
+  </test>
+  <test name="Instances are defined through a single variable based on a predefined list of dateTime" uid="0004">
+    <instance-settling>
+      <local-variable name="firstDayOfMonth" type="dateTime">
+        <item>2016-01-01</item>
+        <item>2016-02-01</item>
+      </local-variable>
+    </instance-settling>
+    <system-under-test>
+      <resultSet file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#0">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
   <!--<test name="Instances are defined through multiple variables" uid="0010">
     <instances>
       <combination>

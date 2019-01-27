@@ -55,15 +55,22 @@ namespace NBi.NUnit.Builder.Helper
                 var argsBuilder = new SequenceResolverArgsBuilder(serviceLocator);
                 argsBuilder.Setup(settings);
                 argsBuilder.Setup(globalVariables);
-                argsBuilder.Setup(variable.SentinelLoop);
                 argsBuilder.Setup(variable.Type);
+
+                if (variable.SentinelLoop != null)
+                    argsBuilder.Setup(variable.SentinelLoop);
+                else if (variable.Items != null)
+                    argsBuilder.Setup(variable.Items);
+                else
+                    throw new ArgumentOutOfRangeException();
+
                 argsBuilder.Build();
                 var factory = new SequenceResolverFactory(serviceLocator);
 
                 args = new SingleVariableInstanceArgs()
                 {
                     Name = variable.Name,
-                    Resolver = factory.Instantiate<object>(argsBuilder.GetArgs())
+                    Resolver = factory.Instantiate(variable.Type, argsBuilder.GetArgs())
                 };
             }
         }
